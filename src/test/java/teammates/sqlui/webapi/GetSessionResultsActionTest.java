@@ -701,4 +701,50 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
         verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), googleId);
     }
+
+    private String[] buildParams(Intent intent) {
+        return new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.INTENT, intent.name(),
+        };
+    }
+
+    private String[] buildParamsWithCourse(Intent intent, String courseId) {
+        return new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INTENT, intent.name(),
+        };
+    }
+
+    private String[] buildParamsWithPreview(Intent intent, String courseId, String previewEmail) {
+        return new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INTENT, intent.name(),
+                Const.ParamsNames.PREVIEWAS, previewEmail,
+        };
+    }
+
+    private String[] buildParamsWithPreviewAndModerated(
+            Intent intent, String courseId, String previewEmail, String moderatedPersonEmail) {
+
+        return new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INTENT, intent.name(),
+                Const.ParamsNames.PREVIEWAS, previewEmail,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedPersonEmail,
+        };
+    }
+
+    private String[] buildParamsWithModerated(Intent intent, String courseId, String moderatedPersonEmail) {
+        return new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INTENT, intent.name(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedPersonEmail,
+        };
+    }
 }
