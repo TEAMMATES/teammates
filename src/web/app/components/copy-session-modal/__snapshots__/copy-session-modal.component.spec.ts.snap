@@ -50,19 +50,10 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
             class="form-control ng-untouched ng-pristine ng-invalid"
             id="copy-session-name"
             maxlength="64"
+            pattern=".*\\S+.*"
             required=""
             type="text"
           />
-          <div
-            class="invalid-field"
-            hidden=""
-          >
-            <i
-              aria-hidden="true"
-              class="fa fa-exclamation-circle"
-            />
-             The field "Name for copied session" should not be empty. 
-          </div>
           <span>
             64 characters left
           </span>
@@ -140,19 +131,10 @@ exports[`CopySessionModalComponent should snap with some session and courses can
             class="form-control ng-untouched ng-pristine ng-invalid"
             id="copy-session-name"
             maxlength="64"
+            pattern=".*\\S+.*"
             required=""
             type="text"
           />
-          <div
-            class="invalid-field"
-            hidden=""
-          >
-            <i
-              aria-hidden="true"
-              class="fa fa-exclamation-circle"
-            />
-             The field "Name for copied session" should not be empty. 
-          </div>
           <span>
             52 characters left
           </span>
