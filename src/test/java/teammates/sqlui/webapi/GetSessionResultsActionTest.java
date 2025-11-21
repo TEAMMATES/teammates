@@ -330,7 +330,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_notLoggedInUser_cannotAccess() {
+    void testGetSessionResult_notLoggedInUser_cannotAccess() {
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
                 .thenReturn(session);
 
@@ -340,7 +340,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_instructorResultIntentUnpublishedSessionWithPreviewAs_canAccess() {
+    void testGetSessionResult_instructorResultIntentUnpublishedSessionWithPreviewAs_canAccess() {
         loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
 
@@ -358,7 +358,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_instructorResultIntentUnpublishedSessionNoPreviewAs_cannotAccess() {
+    void testGetSessionResult_instructorResultIntentUnpublishedSessionNoPreviewAs_cannotAccess() {
         session.setResultsVisibleFromTime(Instant.MAX);
         assertFalse(session.isPublished());
 
@@ -368,7 +368,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_instructorResultIntentPublishedSessionNoPreviewAs_canAccess() {
+    void testGetSessionResult_instructorResultIntentPublishedSessionNoPreviewAs_canAccess() {
         assertTrue(session.isPublished());
 
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
@@ -377,7 +377,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_instructorResultIntentPublishedSessionWithPreviewAs_canAccess() {
+    void testGetSessionResult_instructorResultIntentPublishedSessionWithPreviewAs_canAccess() {
         loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
         assertTrue(session.isPublished());
@@ -393,7 +393,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_fullDetailIntent_canAccess() {
+    void testGetSessionResult_fullDetailIntent_canAccess() {
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
                 .thenReturn(session);
 
@@ -401,7 +401,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_studentResultIntentHisPublishedSession_canAccess() {
+    void testGetSessionResult_studentResultIntentHisPublishedSession_canAccess() {
         session.setSessionVisibleFromTime(Instant.now());
         assertTrue(session.isPublished());
 
@@ -417,7 +417,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testSpecificAccessControl_studentResultIntentNotHisPublishedSession_cannotAccess() {
+    void testGetSessionResult_studentResultIntentNotHisPublishedSession_cannotAccess() {
         session.setSessionVisibleFromTime(Instant.now());
         assertTrue(session.isPublished());
 
@@ -428,7 +428,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_studentResultIntentHisPublishedSessionWithPreviewAs_cannotAccess() {
+    void testGetSessionResult_studentResultIntentHisPublishedSessionWithPreviewAs_cannotAccess() {
         Student student = getTypicalStudent();
 
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
@@ -442,7 +442,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_studentResultIntentUnpublishedSessionNoPreviewAs_cannotAccess() {
+    void testGetSessionResult_studentResultIntentUnpublishedSessionNoPreviewAs_cannotAccess() {
         session.setResultsVisibleFromTime(Instant.MAX);
         assertFalse(session.isPublished());
 
@@ -453,7 +453,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_studentResultIntentUnpublishedSessionWithPreviewAs_cannotAccess() {
+    void testGetSessionResult_studentResultIntentUnpublishedSessionWithPreviewAs_cannotAccess() {
         Student student = getTypicalStudent();
         session.setResultsVisibleFromTime(Instant.MAX);
         assertFalse(session.isPublished());
@@ -469,7 +469,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testCheckSpecificAccessControl_invalidIntent_invalidHttpParameterException() {
+    void testGetSessionResult_invalidIntent_invalidHttpParameterException() {
         loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
 
@@ -483,7 +483,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testSpecificAccessControl_studentPreviewAsInstructor_cannotAccess() {
+    void testGetSessionResult_studentPreviewAsInstructor_cannotAccess() {
         Instructor instructor = getTypicalInstructor();
 
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
@@ -497,7 +497,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testSpecificAccessControl_instructorPreviewAsStudentValidParams_canAccess() {
+    void testGetSessionResult_instructorPreviewAsStudentValidParams_canAccess() {
         loginAsInstructor(googleId);
         Student student = getTypicalStudent();
 
@@ -523,7 +523,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testSpecificAccessControl_instructorPreviewAsStudentInvalidParams_cannotAccess() {
+    void testGetSessionResult_instructorPreviewAsStudentInvalidParams_cannotAccess() {
         loginAsInstructor(googleId);
 
         String[] params = buildParams(STUDENT_RESULT);
@@ -539,7 +539,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     }
 
     @Test
-    void testSpecificAccessControl_instructorWithNoPermissions_cannotAccess() {
+    void testGetSessionResult_instructorWithNoPermissions_cannotAccess() {
         loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
         instructor.setPrivileges(new InstructorPrivileges());
@@ -558,14 +558,6 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         return new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.INTENT, intent.name(),
-        };
-    }
-
-    private String[] buildParamsWithCourse(Intent intent, String courseId) {
-        return new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INTENT, intent.name(),
         };
     }
