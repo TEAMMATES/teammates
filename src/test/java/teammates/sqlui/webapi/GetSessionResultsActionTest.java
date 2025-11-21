@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -401,115 +402,70 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     @Test
     void testCheckSpecificAccessControl_studentResultIntentHisPublishedSession_canAccess() {
-        loginAsStudent(googleId);
         session.setSessionVisibleFromTime(Instant.now());
         assertTrue(session.isPublished());
-        Student student = getTypicalStudent();
 
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
-        };
-        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-        when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(student);
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
+                .thenReturn(session);
 
-        verifyCanAccess(params);
-        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
-        verify(mockLogic, times(1)).getStudentByGoogleId(session.getCourseId(), googleId);
+        Student sameCourseStudent = getTypicalStudent();
+        sameCourseStudent.setCourse(course);
+        when(mockLogic.getStudentByGoogleId(eq(session.getCourseId()), any()))
+                .thenReturn(sameCourseStudent);
+
+        verifyStudentsOfTheSameCourseCanAccess(course, buildParams(STUDENT_RESULT));
     }
 
     @Test
     void testSpecificAccessControl_studentResultIntentNotHisPublishedSession_cannotAccess() {
-        loginAsStudent(googleId);
         session.setSessionVisibleFromTime(Instant.now());
         assertTrue(session.isPublished());
-        Student anotherStudent = getTypicalStudent();
-        anotherStudent.setCourse(new Course("another-course-id", "another-course-name", "UTC", "another-institute"));
 
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, "another-course-id",
-                Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
-        };
-        when(mockLogic.getFeedbackSession(session.getName(), "another-course-id")).thenReturn(session);
-        when(mockLogic.getStudentByGoogleId("another-course-id", googleId)).thenReturn(anotherStudent);
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
+                .thenReturn(session);
 
-        verifyCannotAccess(params);
-
-        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), "another-course-id");
-        verify(mockLogic, times(1)).getStudentByGoogleId("another-course-id", googleId);
-
+        verifyStudentsOfOtherCoursesCannotAccess(course, buildParams(STUDENT_RESULT));
     }
 
     @Test
     void testCheckSpecificAccessControl_studentResultIntentHisPublishedSessionWithPreviewAs_cannotAccess() {
-        loginAsStudent(googleId);
-        session.setSessionVisibleFromTime(Instant.now());
-        assertTrue(session.isPublished());
         Student student = getTypicalStudent();
 
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
-                Const.ParamsNames.PREVIEWAS, student.getEmail(),
-        };
-        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-        when(mockLogic.getStudentForEmail(session.getCourseId(), student.getEmail())).thenReturn(student);
-        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(null);
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
+                .thenReturn(session);
+        when(mockLogic.getStudentForEmail(course.getId(), student.getEmail()))
+                .thenReturn(student);
 
-        verifyCannotAccess(params);
-        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
-        verify(mockLogic, times(1)).getStudentForEmail(session.getCourseId(), student.getEmail());
-        verify(mockLogic, times(1)).getInstructorByGoogleId(session.getCourseId(), googleId);
+        String[] params = buildParamsWithPreview(
+                STUDENT_RESULT, session.getCourseId(), student.getEmail());
+        verifyStudentsCannotAccess(params);
     }
 
     @Test
     void testCheckSpecificAccessControl_studentResultIntentUnpublishedSessionNoPreviewAs_cannotAccess() {
-        loginAsStudent(googleId);
         session.setResultsVisibleFromTime(Instant.MAX);
         assertFalse(session.isPublished());
-        Student student = getTypicalStudent();
 
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
-        };
-        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-        when(mockLogic.getStudentForEmail(session.getCourseId(), student.getEmail())).thenReturn(student);
-        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(null);
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
+                .thenReturn(session);
 
-        verifyCannotAccess(params);
-
-        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
-        verify(mockLogic, never()).getStudentForEmail(session.getCourseId(), student.getEmail());
-        verify(mockLogic, never()).getInstructorByGoogleId(session.getCourseId(), googleId);
+        verifyStudentsCannotAccess(buildParams(STUDENT_RESULT));
     }
 
     @Test
     void testCheckSpecificAccessControl_studentResultIntentUnpublishedSessionWithPreviewAs_cannotAccess() {
-        loginAsStudent(googleId);
         Student student = getTypicalStudent();
         session.setResultsVisibleFromTime(Instant.MAX);
         assertFalse(session.isPublished());
 
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.INTENT, STUDENT_RESULT.name(),
-                Const.ParamsNames.PREVIEWAS, student.getEmail(),
-        };
-        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-        when(mockLogic.getStudentForEmail(session.getCourseId(), student.getEmail())).thenReturn(student);
-        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(null);
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
+                .thenReturn(session);
+        when(mockLogic.getStudentForEmail(course.getId(), student.getEmail()))
+                .thenReturn(student);
 
-        verifyCannotAccess(params);
-
-        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
-        verify(mockLogic, times(1)).getStudentForEmail(session.getCourseId(), student.getEmail());
-        verify(mockLogic, times(1)).getInstructorByGoogleId(session.getCourseId(), googleId);
+        String[] params = buildParamsWithPreview(
+                STUDENT_RESULT, session.getCourseId(), student.getEmail());
+        verifyStudentsCannotAccess(params);
     }
 
     @Test
@@ -528,24 +484,16 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     @Test
     void testSpecificAccessControl_studentPreviewAsInstructor_cannotAccess() {
-        loginAsStudent(googleId);
+        Instructor instructor = getTypicalInstructor();
 
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.INTENT, INSTRUCTOR_RESULT.name(),
-                Const.ParamsNames.PREVIEWAS, getTypicalInstructor().getEmail(),
-        };
-        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-        when(mockLogic.getInstructorForEmail(session.getCourseId(), getTypicalInstructor().getEmail()))
-                .thenReturn(getTypicalInstructor());
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(null);
+        when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
+                .thenReturn(session);
+        when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail()))
+                .thenReturn(instructor);
 
-        verifyCannotAccess(params);
-
-        verify(mockLogic, times(1)).getInstructorByGoogleId(session.getCourseId(), googleId);
-        verify(mockLogic, times(1)).getFeedbackSession(session.getName(), session.getCourseId());
-        verify(mockLogic, times(1)).getInstructorForEmail(session.getCourseId(), getTypicalInstructor().getEmail());
+        String[] params = buildParamsWithPreview(
+                INSTRUCTOR_RESULT, session.getCourseId(), instructor.getEmail());
+        verifyStudentsCannotAccess(params);
     }
 
     @Test
