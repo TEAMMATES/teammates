@@ -24,6 +24,7 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -202,6 +203,11 @@ public class BaseTestCase {
                 false,
                 false,
                 false);
+    }
+
+    protected FeedbackSessionAttributes getTypicalFeedbackSessionAttributes()
+    {
+       return null;
     }
 
     protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {
