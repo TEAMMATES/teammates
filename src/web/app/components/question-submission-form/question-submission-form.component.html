@@ -71,7 +71,7 @@
               </div>
               <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
                 <div class="col position-relative">
-                  <input id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}" 
+                  <input id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}"
                          type="text"
                          class="form-control fw-bold"
                          style="padding-right: 2rem;"
@@ -85,8 +85,8 @@
                          [editable]="false"
                          [disabled]="isFormsDisabled"
                          [attr.aria-label]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i"
-                         placeholder="Type to search or click to see all recipients..." />
-                  <span class="position-absolute top-50 translate-middle-y text-secondary" 
+                         placeholder="" />
+                  <span class="position-absolute top-50 translate-middle-y text-secondary"
                         style="right: 1.5rem; pointer-events: none;">
                     <i class="fas fa-chevron-down"></i>
                   </span>

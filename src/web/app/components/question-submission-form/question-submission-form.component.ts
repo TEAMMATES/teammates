@@ -553,7 +553,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   /**
    * Typeahead search function for recipient selection.
    * Returns an Observable that performs substring filtering on recipient names.
-   * Shows all matching results without artificial limits - browsers handle this efficiently.
    */
   searchRecipients: OperatorFunction<string, readonly FeedbackResponseRecipient[]> = (text$: Observable<string>) =>
     text$.pipe(
@@ -568,9 +567,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
               (recipient: FeedbackResponseRecipient) => !this.isRecipientSelected(recipient)
             );
         
-        // Return all filtered results - no artificial limits
-        // Modern browsers can efficiently render hundreds of dropdown options
-        // Users can narrow results by typing more characters if needed
+        // Return all filtered results
         return this.getFilteredRecipients(term, availableRecipients);
       })
     );
@@ -621,7 +618,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   /**
    * Shows all available recipients when the input is clicked or focused.
-   * This allows users to see the dropdown without typing.
+   * Allows users to see the dropdown without typing.
    */
   showAllRecipients(event: any): void {
     const input = event.target;
