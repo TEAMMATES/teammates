@@ -1,4 +1,6 @@
 import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Observable, OperatorFunction } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -512,6 +514,127 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
 
     return recipient.recipientName;
+  }
+
+  /**
+   * Performs case-insensitive substring filtering for recipient search.
+   * @param query The search query entered by the user
+   * @param optionText The full display text of the option
+   * @returns true if query is a substring of optionText (case-insensitive), false otherwise
+   */
+  substringFilter(query: string, optionText: string): boolean {
+    if (!query || query.trim() === '') {
+      return true; // Show all options when query is empty
+    }
+    
+    const normalizedQuery = query.toLowerCase().trim();
+    const normalizedOption = optionText.toLowerCase();
+    
+    return normalizedOption.includes(normalizedQuery);
+  }
+
+  /**
+   * Gets filtered recipient list based on search query.
+   * @param query The search query entered by the user
+   * @param recipients The full list of recipients
+   * @returns Filtered list of recipients matching the query
+   */
+  getFilteredRecipients(query: string, recipients: FeedbackResponseRecipient[]): FeedbackResponseRecipient[] {
+    if (!query || query.trim() === '') {
+      return recipients;
+    }
+
+    return recipients.filter((recipient: FeedbackResponseRecipient) => {
+      const optionLabel = this.getSelectionOptionLabel(recipient);
+      return this.substringFilter(query, optionLabel);
+    });
+  }
+
+  /**
+   * Typeahead search function for recipient selection.
+   * Returns an Observable that performs substring filtering on recipient names.
+   * Shows all matching results without artificial limits - browsers handle this efficiently.
+   */
+  searchRecipients: OperatorFunction<string, readonly FeedbackResponseRecipient[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map((term: string) => {
+        // If term is empty (click/focus to show all), always show all recipients
+        // Otherwise, for contribution questions, show all recipients (including already selected)
+        // For other question types in FLEXIBLE_RECIPIENT mode, filter out already-selected recipients
+        const availableRecipients = term.trim() === '' || this.model.questionType === FeedbackQuestionType.CONTRIB
+          ? this.model.recipientList
+          : this.model.recipientList.filter(
+              (recipient: FeedbackResponseRecipient) => !this.isRecipientSelected(recipient)
+            );
+        
+        // Return all filtered results - no artificial limits
+        // Modern browsers can efficiently render hundreds of dropdown options
+        // Users can narrow results by typing more characters if needed
+        return this.getFilteredRecipients(term, availableRecipients);
+      })
+    );
+
+  /**
+   * Formats the recipient for display in the typeahead dropdown.
+   */
+  formatRecipientResult = (recipient: FeedbackResponseRecipient): string => {
+    return this.getSelectionOptionLabel(recipient);
+  };
+
+  /**
+   * Formats the recipient for display in the input field after selection.
+   */
+  formatRecipientInput = (recipient: FeedbackResponseRecipient): string => {
+    return recipient.recipientName;
+  };
+
+  /**
+   * Handles recipient selection from the typeahead.
+   */
+  onRecipientSelect(event: any, index: number): void {
+    const selectedRecipient: FeedbackResponseRecipient = event.item;
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', selectedRecipient.recipientIdentifier);
+  }
+
+  /**
+   * Handles recipient change from ngModelChange event.
+   */
+  onRecipientChange(recipient: FeedbackResponseRecipient | null, index: number): void {
+    if (recipient && recipient.recipientIdentifier) {
+      this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', recipient.recipientIdentifier);
+    }
+  }
+
+  /**
+   * Gets recipient object by identifier for display.
+   * Returns null if identifier is empty or undefined (no selection yet).
+   */
+  getRecipientByIdentifier(identifier: string): FeedbackResponseRecipient | null {
+    if (!identifier || identifier.trim() === '') {
+      return null;
+    }
+    return this.model.recipientList.find(
+      (r: FeedbackResponseRecipient) => r.recipientIdentifier === identifier
+    ) || null;
+  }
+
+  /**
+   * Shows all available recipients when the input is clicked or focused.
+   * This allows users to see the dropdown without typing.
+   */
+  showAllRecipients(event: any): void {
+    const input = event.target;
+    // Clear the input temporarily to trigger showing all results
+    const currentValue = input.value;
+    input.value = '';
+    // Dispatch input event to trigger typeahead
+    const inputEvent = new Event('input', { bubbles: true });
+    input.dispatchEvent(inputEvent);
+    // Restore the value after a brief delay
+    setTimeout(() => {
+      input.value = currentValue;
+    }, 0);
   }
 
   toggleSectionTeam(event: Event): void {

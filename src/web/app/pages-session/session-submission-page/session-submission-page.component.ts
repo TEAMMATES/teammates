@@ -884,20 +884,33 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
                   this.originalQuestionSubmissionForms.forEach((originalModel: QuestionSubmissionFormModel) => {
                     if (originalModel.feedbackQuestionId === questionSubmissionFormModel.feedbackQuestionId) {
-                      originalModel.recipientSubmissionForms.forEach((originalRecipientSubmissionFormModel:
-                        FeedbackResponseRecipientSubmissionFormModel) => {
-                          if (responsesMap[originalRecipientSubmissionFormModel.recipientIdentifier]) {
-                            const correspondingResp: FeedbackResponse =
-                                responsesMap[originalRecipientSubmissionFormModel.recipientIdentifier];
-                            originalRecipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
-                            originalRecipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
-                            originalRecipientSubmissionFormModel.recipientIdentifier =
-                              correspondingResp.recipientIdentifier;
-                          } else {
-                            originalRecipientSubmissionFormModel.responseId = '';
-                            originalRecipientSubmissionFormModel.commentByGiver = undefined;
-                          }
-                        });
+                      // For FLEXIBLE_RECIPIENT mode, update by index position instead of matching by recipientIdentifier
+                      // because the identifier changes when user selects a different recipient
+                      if (this.getQuestionSubmissionFormModeInDefaultView(originalModel) 
+                          === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
+                        originalModel.recipientSubmissionForms = questionSubmissionFormModel.recipientSubmissionForms
+                          .map((form: FeedbackResponseRecipientSubmissionFormModel) => ({
+                            ...form,
+                            responseDetails: { ...form.responseDetails },
+                            commentByGiver: form.commentByGiver ? { ...form.commentByGiver } : undefined,
+                          }));
+                      } else {
+                        // For FIXED_RECIPIENT mode, update by matching recipientIdentifier
+                        originalModel.recipientSubmissionForms.forEach((originalRecipientSubmissionFormModel:
+                          FeedbackResponseRecipientSubmissionFormModel) => {
+                            if (responsesMap[originalRecipientSubmissionFormModel.recipientIdentifier]) {
+                              const correspondingResp: FeedbackResponse =
+                                  responsesMap[originalRecipientSubmissionFormModel.recipientIdentifier];
+                              originalRecipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
+                              originalRecipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
+                              originalRecipientSubmissionFormModel.recipientIdentifier =
+                                correspondingResp.recipientIdentifier;
+                            } else {
+                              originalRecipientSubmissionFormModel.responseId = '';
+                              originalRecipientSubmissionFormModel.commentByGiver = undefined;
+                            }
+                          });
+                      }
                     }
 
                   });

@@ -70,15 +70,27 @@
                 <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
               </div>
               <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-                <select id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}" class="form-control form-select fw-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
-                        (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
-                        [disabled]="isFormsDisabled"
-                        [attr.aria-label]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i">
-                  <option value=""></option>
-                  <ng-container *ngFor="let recipient of model.recipientList">
-                    <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ getSelectionOptionLabel(recipient) }}</option>
-                  </ng-container>
-                </select>
+                <div class="col position-relative">
+                  <input id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}" 
+                         type="text"
+                         class="form-control fw-bold"
+                         style="padding-right: 2rem;"
+                         [ngModel]="getRecipientByIdentifier(recipientSubmissionFormModel.recipientIdentifier)"
+                         (ngModelChange)="onRecipientChange($event, i)"
+                         [ngbTypeahead]="searchRecipients"
+                         [resultFormatter]="formatRecipientResult"
+                         [inputFormatter]="formatRecipientInput"
+                         (click)="showAllRecipients($event)"
+                         (focus)="showAllRecipients($event)"
+                         [editable]="false"
+                         [disabled]="isFormsDisabled"
+                         [attr.aria-label]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i"
+                         placeholder="Type to search or click to see all recipients..." />
+                  <span class="position-absolute top-50 translate-middle-y text-secondary" 
+                        style="right: 1.5rem; pointer-events: none;">
+                    <i class="fas fa-chevron-down"></i>
+                  </span>
+                </div>
                 <div class="col-auto text-start">
                   ({{ model.recipientType | recipientTypeName: model.giverType }})
                 </div>
