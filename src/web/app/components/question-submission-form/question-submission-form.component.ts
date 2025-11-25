@@ -558,10 +558,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     text$.pipe(
       debounceTime(200),
       map((term: string) => {
-        // If term is empty (click/focus to show all), always show all recipients
-        // Otherwise, for contribution questions, show all recipients (including already selected)
-        // For other question types in FLEXIBLE_RECIPIENT mode, filter out already-selected recipients
-        const availableRecipients = term.trim() === '' || this.model.questionType === FeedbackQuestionType.CONTRIB
+        // For contribution questions, show all recipients (including already selected)
+        // For other question types, filter out already-selected recipients to prevent duplicates
+        const availableRecipients = this.model.questionType === FeedbackQuestionType.CONTRIB
           ? this.model.recipientList
           : this.model.recipientList.filter(
               (recipient: FeedbackResponseRecipient) => !this.isRecipientSelected(recipient)
