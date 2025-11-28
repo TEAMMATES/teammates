@@ -588,7 +588,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   /**
    * Handles recipient selection from the typeahead.
    */
-  onRecipientSelect(event: any, index: number): void {
+  onRecipientSelect(event: { item: FeedbackResponseRecipient }, index: number): void {
     const selectedRecipient: FeedbackResponseRecipient = event.item;
     this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', selectedRecipient.recipientIdentifier);
   }
@@ -619,8 +619,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Shows all available recipients when the input is clicked or focused.
    * Allows users to see the dropdown without typing.
    */
-  showAllRecipients(event: any): void {
-    const input = event.target;
+  showAllRecipients(event: Event): void {
+    const input = event.target as HTMLInputElement;
     // Clear the input temporarily to trigger showing all results
     const currentValue = input.value;
     input.value = '';
