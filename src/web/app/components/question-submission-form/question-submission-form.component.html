@@ -71,7 +71,8 @@
               </div>
               <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
                 <div class="col position-relative">
-                  <input id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}"
+                  <input #recipientInput
+                         id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}"
                          type="text"
                          class="form-control fw-bold"
                          style="padding-right: 2rem;"
@@ -80,11 +81,13 @@
                          [ngbTypeahead]="searchRecipients"
                          [resultFormatter]="formatRecipientResult"
                          [inputFormatter]="formatRecipientInput"
+                         (selectItem)="onRecipientSelect($event, i)"
                          (click)="showAllRecipients($event)"
                          (focus)="showAllRecipients($event)"
                          [editable]="false"
                          [disabled]="isFormsDisabled"
                          [attr.aria-label]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i"
+                         [attr.data-recipient-id]="recipientSubmissionFormModel.recipientIdentifier"
                          placeholder="" />
                   <span class="position-absolute top-50 translate-middle-y text-secondary"
                         style="right: 1.5rem; pointer-events: none;">

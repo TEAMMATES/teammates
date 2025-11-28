@@ -1,4 +1,6 @@
-import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component, DoCheck, ElementRef, EventEmitter, Input, Output, ViewChild, ViewChildren, QueryList,
+} from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import {
@@ -136,6 +138,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @ViewChild(ConstsumRecipientsQuestionConstraintComponent)
   private constsumRecipientQuesitonConstraint!: ConstsumRecipientsQuestionConstraintComponent;
 
+  @ViewChildren('recipientInput')
+  private recipientInputs!: QueryList<ElementRef<HTMLInputElement>>;
+
   model: QuestionSubmissionFormModel = {
     isLoading: false,
     isLoaded: false,
@@ -237,6 +242,29 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.isSaved = true;
     this.hasResponseChanged = false;
     clearTimeout(this.autosaveTimeout);
+
+    // Force clear input fields after model reset
+    setTimeout(() => {
+      this.clearRecipientInputsIfEmpty();
+    }, 0);
+  }
+
+  /**
+   * Clears recipient input fields if their identifiers are empty.
+   * This ensures the display is properly cleared after reset.
+   */
+  private clearRecipientInputsIfEmpty(): void {
+    if (!this.recipientInputs) {
+      return;
+    }
+
+    this.recipientInputs.forEach((inputRef: ElementRef<HTMLInputElement>, index: number) => {
+      const identifier = this.model.recipientSubmissionForms[index]?.recipientIdentifier;
+      if (!identifier || identifier.trim() === '') {
+        // Manually clear the input value if identifier is empty
+        inputRef.nativeElement.value = '';
+      }
+    });
   }
 
   toggleQuestionTab(): void {
@@ -583,8 +611,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   /**
    * Formats the recipient for display in the input field after selection.
    */
-  formatRecipientInput = (recipient: FeedbackResponseRecipient): string => {
-    return recipient.recipientName;
+  formatRecipientInput = (recipient: FeedbackResponseRecipient | null): string => {
+    return recipient ? recipient.recipientName : '';
   };
 
   /**
@@ -598,10 +626,15 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   /**
    * Handles recipient change from ngModelChange event.
    */
-  onRecipientChange(recipient: FeedbackResponseRecipient | null, index: number): void {
-    if (recipient && recipient.recipientIdentifier) {
+  onRecipientChange(recipient: FeedbackResponseRecipient | null | string, index: number): void {
+    if (recipient && typeof recipient === 'object' && recipient.recipientIdentifier) {
       this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', recipient.recipientIdentifier);
+    } else if (!recipient || (typeof recipient === 'string' && recipient.trim() === '')) {
+      // Only clear identifier when input is actually empty (not when user is typing)
+      this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', '');
     }
+    // Note: If user types random text (string with content), we don't update the model
+    // This allows the input to show the typed text temporarily until a valid selection is made or field is cleared
   }
 
   /**
