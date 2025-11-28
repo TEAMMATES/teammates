@@ -518,6 +518,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   /**
    * Performs case-insensitive substring filtering for recipient search.
+   *
    * @param query The search query entered by the user
    * @param optionText The full display text of the option
    * @returns true if query is a substring of optionText (case-insensitive), false otherwise
@@ -526,15 +527,16 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (!query || query.trim() === '') {
       return true; // Show all options when query is empty
     }
-    
+
     const normalizedQuery = query.toLowerCase().trim();
     const normalizedOption = optionText.toLowerCase();
-    
+
     return normalizedOption.includes(normalizedQuery);
   }
 
   /**
    * Gets filtered recipient list based on search query.
+   *
    * @param query The search query entered by the user
    * @param recipients The full list of recipients
    * @returns Filtered list of recipients matching the query
@@ -563,12 +565,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         const availableRecipients = this.model.questionType === FeedbackQuestionType.CONTRIB
           ? this.model.recipientList
           : this.model.recipientList.filter(
-              (recipient: FeedbackResponseRecipient) => !this.isRecipientSelected(recipient)
+              (recipient: FeedbackResponseRecipient) => !this.isRecipientSelected(recipient),
             );
-        
+
         // Return all filtered results
         return this.getFilteredRecipients(term, availableRecipients);
-      })
+      }),
     );
 
   /**
@@ -611,7 +613,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       return null;
     }
     return this.model.recipientList.find(
-      (r: FeedbackResponseRecipient) => r.recipientIdentifier === identifier
+      (r: FeedbackResponseRecipient) => r.recipientIdentifier === identifier,
     ) || null;
   }
 

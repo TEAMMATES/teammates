@@ -884,9 +884,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
                   this.originalQuestionSubmissionForms.forEach((originalModel: QuestionSubmissionFormModel) => {
                     if (originalModel.feedbackQuestionId === questionSubmissionFormModel.feedbackQuestionId) {
-                      // For FLEXIBLE_RECIPIENT mode, update by index position instead of matching by recipientIdentifier
-                      // because the identifier changes when user selects a different recipient
-                      if (this.getQuestionSubmissionFormModeInDefaultView(originalModel) 
+                      // For FLEXIBLE_RECIPIENT mode, update by index position instead of matching
+                      // by recipientIdentifier because the identifier changes when user selects a different recipient
+                      if (this.getQuestionSubmissionFormModeInDefaultView(originalModel)
                           === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
                         originalModel.recipientSubmissionForms = questionSubmissionFormModel.recipientSubmissionForms
                           .map((form: FeedbackResponseRecipientSubmissionFormModel) => ({
