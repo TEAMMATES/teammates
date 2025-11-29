@@ -1,8 +1,8 @@
 import {
   Component, DoCheck, ElementRef, EventEmitter, Input, Output, ViewChild, ViewChildren, QueryList,
 } from '@angular/core';
-import { Observable, OperatorFunction } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { Observable, OperatorFunction, Subject, merge } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -580,26 +580,61 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     });
   }
 
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>();
+  activeTypeaheadIndex: number = -1;
+
+  // Cache for search functions to avoid recreating them on every change detection
+  private searchRecipientsMap = new Map<number, OperatorFunction<string, readonly FeedbackResponseRecipient[]>>();
+
   /**
-   * Typeahead search function for recipient selection.
+   * Typeahead search function factory for recipient selection.
    * Returns an Observable that performs substring filtering on recipient names.
    */
-  searchRecipients: OperatorFunction<string, readonly FeedbackResponseRecipient[]> = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      map((term: string) => {
-        // For contribution questions, show all recipients (including already selected)
-        // For other question types, filter out already-selected recipients to prevent duplicates
-        const availableRecipients = this.model.questionType === FeedbackQuestionType.CONTRIB
-          ? this.model.recipientList
-          : this.model.recipientList.filter(
-              (recipient: FeedbackResponseRecipient) => !this.isRecipientSelected(recipient),
-            );
-
-        // Return all filtered results
-        return this.getFilteredRecipients(term, availableRecipients);
-      }),
-    );
+  getSearchRecipients(index: number): OperatorFunction<string, readonly FeedbackResponseRecipient[]> {
+    if (!this.searchRecipientsMap.has(index)) {
+      const searchFn: OperatorFunction<string, readonly FeedbackResponseRecipient[]> = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+        
+        // Only trigger for this specific input index
+        const clicksOrFocus$ = merge(this.focus$, this.click$).pipe(
+          map(term => ({ term, activeIndex: this.activeTypeaheadIndex })),
+          // Filter events that don't belong to this input
+          // We check activeTypeaheadIndex to ensure we only respond when THIS input is the active one
+          filter(({ activeIndex }) => activeIndex === index),
+          map(() => ''), // Force empty string to show all options on click/focus
+        );
+    
+        return merge(debouncedText$, clicksOrFocus$).pipe(
+          distinctUntilChanged(),
+          map((term: string) => {
+            // For contribution questions, show all recipients (including already selected)
+            if (this.model.questionType === FeedbackQuestionType.CONTRIB) {
+              return this.getFilteredRecipients(term, this.model.recipientList);
+            }
+    
+            // For other question types, filter out already-selected recipients to prevent duplicates
+            // But allow the currently selected recipient in the active input to remain visible
+            const availableRecipients = this.model.recipientList.filter((recipient: FeedbackResponseRecipient) => {
+              const isSelected = this.isRecipientSelected(recipient);
+              if (!isSelected) {
+                return true;
+              }
+              // If selected, check if it is the one currently selected in this specific input
+              // Use the captured index to be safe and explicit
+              const currentForm = this.model.recipientSubmissionForms[index];
+              return currentForm && currentForm.recipientIdentifier === recipient.recipientIdentifier;
+            });
+    
+            // Return all filtered results
+            return this.getFilteredRecipients(term, availableRecipients);
+          }),
+        );
+      };
+      this.searchRecipientsMap.set(index, searchFn);
+    }
+    return this.searchRecipientsMap.get(index)!;
+  }
 
   /**
    * Formats the recipient for display in the typeahead dropdown.
@@ -650,23 +685,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     ) || null;
   }
 
-  /**
-   * Shows all available recipients when the input is clicked or focused.
-   * Allows users to see the dropdown without typing.
-   */
-  showAllRecipients(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    // Clear the input temporarily to trigger showing all results
-    const currentValue = input.value;
-    input.value = '';
-    // Dispatch input event to trigger typeahead
-    const inputEvent = new Event('input', { bubbles: true });
-    input.dispatchEvent(inputEvent);
-    // Restore the value after a brief delay
-    setTimeout(() => {
-      input.value = currentValue;
-    }, 0);
-  }
+
 
   toggleSectionTeam(event: Event): void {
     const checkbox: HTMLInputElement = event.target as HTMLInputElement;
