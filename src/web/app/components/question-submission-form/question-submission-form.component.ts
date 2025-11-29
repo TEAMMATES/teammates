@@ -647,7 +647,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Formats the recipient for display in the input field after selection.
    */
   formatRecipientInput = (recipient: FeedbackResponseRecipient | null): string => {
-    return recipient ? recipient.recipientName : '';
+    return recipient ? this.getSelectionOptionLabel(recipient) : '';
   };
 
   /**
