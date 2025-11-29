@@ -595,16 +595,16 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     if (!this.searchRecipientsMap.has(index)) {
       const searchFn: OperatorFunction<string, readonly FeedbackResponseRecipient[]> = (text$: Observable<string>) => {
         const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
-        
+
         // Only trigger for this specific input index
         const clicksOrFocus$ = merge(this.focus$, this.click$).pipe(
-          map(term => ({ term, activeIndex: this.activeTypeaheadIndex })),
+          map((term) => ({ term, activeIndex: this.activeTypeaheadIndex })),
           // Filter events that don't belong to this input
           // We check activeTypeaheadIndex to ensure we only respond when THIS input is the active one
           filter(({ activeIndex }) => activeIndex === index),
           map(() => ''), // Force empty string to show all options on click/focus
         );
-    
+
         return merge(debouncedText$, clicksOrFocus$).pipe(
           distinctUntilChanged(),
           map((term: string) => {
@@ -612,7 +612,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
             if (this.model.questionType === FeedbackQuestionType.CONTRIB) {
               return this.getFilteredRecipients(term, this.model.recipientList);
             }
-    
+
             // For other question types, filter out already-selected recipients to prevent duplicates
             // But allow the currently selected recipient in the active input to remain visible
             const availableRecipients = this.model.recipientList.filter((recipient: FeedbackResponseRecipient) => {
@@ -625,7 +625,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
               const currentForm = this.model.recipientSubmissionForms[index];
               return currentForm && currentForm.recipientIdentifier === recipient.recipientIdentifier;
             });
-    
+
             // Return all filtered results
             return this.getFilteredRecipients(term, availableRecipients);
           }),
@@ -684,8 +684,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       (r: FeedbackResponseRecipient) => r.recipientIdentifier === identifier,
     ) || null;
   }
-
-
 
   toggleSectionTeam(event: Event): void {
     const checkbox: HTMLInputElement = event.target as HTMLInputElement;
