@@ -81,20 +81,21 @@ public class FeedbackSubmitPage extends AppPage {
         List<WebElement> recipientDropdowns = getQuestionForm(qnNumber)
                 .findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
         assertEquals(numRecipients, recipientDropdowns.size());
-        
+
         // Click the first dropdown to trigger the typeahead and load options
         WebElement firstDropdown = recipientDropdowns.get(0);
         firstDropdown.click();
-        
+
         // Wait for typeahead options to appear
         waitForElementPresence(By.cssSelector("ngb-typeahead-window"));
-        
+
         // Get all options from the typeahead window
-        List<WebElement> recipients = browser.driver.findElements(By.cssSelector("ngb-typeahead-window button.dropdown-item"));
-        
+        List<WebElement> recipients = browser.driver.findElements(
+                By.cssSelector("ngb-typeahead-window button.dropdown-item"));
+
         // Verify the number of options matches expected recipient names
         assertEquals(recipientNames.size(), recipients.size());
-        
+
         Collections.sort(recipientNames);
         // Verify each option text matches expected names
         // Note: Typeahead options might not be sorted, so we collect texts and sort them for comparison
@@ -106,11 +107,11 @@ public class FeedbackSubmitPage extends AppPage {
             uiRecipientNames.add(option.getText());
         }
         Collections.sort(uiRecipientNames);
-        
+
         for (int i = 0; i < recipientNames.size(); i++) {
             assertEquals(recipientNames.get(i), uiRecipientNames.get(i));
         }
-        
+
         // Close the dropdown by clicking elsewhere (e.g. the question header)
         getQuestionForm(qnNumber).click();
     }
@@ -745,11 +746,28 @@ public class FeedbackSubmitPage extends AppPage {
             List<WebElement> recipientDropdowns =
                     questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
             for (int i = 0; i < recipientDropdowns.size(); i++) {
-                String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
-                if (dropdownText.isEmpty()) {
-                    selectDropdownOptionByText(recipientDropdowns.get(i), recipient);
+                WebElement input = recipientDropdowns.get(i);
+                String inputValue = input.getAttribute("value");
+                if (inputValue.isEmpty()) {
+                    input.click();
+                    waitForElementPresence(By.cssSelector("ngb-typeahead-window"));
+                    List<WebElement> options = browser.driver.findElements(
+                            By.cssSelector("ngb-typeahead-window button.dropdown-item"));
+                    boolean found = false;
+                    for (WebElement option : options) {
+                        if (option.getText().equals(recipient)) {
+                            option.click();
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        input.sendKeys(recipient);
+                        waitForElementPresence(By.cssSelector("ngb-typeahead-window"));
+                        browser.driver.findElement(By.cssSelector("ngb-typeahead-window button.dropdown-item")).click();
+                    }
                     return i;
-                } else if (dropdownText.equals(recipient)) {
+                } else if (inputValue.equals(recipient)) {
                     return i;
                 }
             }
