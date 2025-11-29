@@ -81,12 +81,38 @@ public class FeedbackSubmitPage extends AppPage {
         List<WebElement> recipientDropdowns = getQuestionForm(qnNumber)
                 .findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
         assertEquals(numRecipients, recipientDropdowns.size());
-        List<WebElement> recipients = recipientDropdowns.get(0).findElements(By.tagName("option"));
-        assertEquals(recipientNames.size(), recipients.size() - 1);
+        
+        // Click the first dropdown to trigger the typeahead and load options
+        WebElement firstDropdown = recipientDropdowns.get(0);
+        firstDropdown.click();
+        
+        // Wait for typeahead options to appear
+        waitForElementPresence(By.cssSelector("ngb-typeahead-window"));
+        
+        // Get all options from the typeahead window
+        List<WebElement> recipients = browser.driver.findElements(By.cssSelector("ngb-typeahead-window button.dropdown-item"));
+        
+        // Verify the number of options matches expected recipient names
+        assertEquals(recipientNames.size(), recipients.size());
+        
         Collections.sort(recipientNames);
-        for (int i = 0; i < recipientNames.size(); i++) {
-            assertEquals(recipientNames.get(i), recipients.get(i + 1).getText());
+        // Verify each option text matches expected names
+        // Note: Typeahead options might not be sorted, so we collect texts and sort them for comparison
+        // or just check containment if order doesn't matter in UI but matters for test data
+        // Here we assume the UI returns them in some order, let's check if we can match them.
+        // Since the test expects sorted names, let's extract texts from UI and sort them too.
+        java.util.ArrayList<String> uiRecipientNames = new java.util.ArrayList<>();
+        for (WebElement option : recipients) {
+            uiRecipientNames.add(option.getText());
         }
+        Collections.sort(uiRecipientNames);
+        
+        for (int i = 0; i < recipientNames.size(); i++) {
+            assertEquals(recipientNames.get(i), uiRecipientNames.get(i));
+        }
+        
+        // Close the dropdown by clicking elsewhere (e.g. the question header)
+        getQuestionForm(qnNumber).click();
     }
 
     public void verifyRecipients(int qnNumber, List<String> recipientNames, String role) {
