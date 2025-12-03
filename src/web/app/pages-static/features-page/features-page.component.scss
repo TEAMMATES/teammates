@@ -6,6 +6,26 @@ img {
 .inner-content {
   margin: 0 20px;
 }
+// Alexa: Mini Table of Contents Styles
+.features-toc {
+  margin: 20px 0 30px;
+}
+
+.features-toc ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.features-toc a {
+  text-decoration: none;
+}
+
+.features-toc a:hover {
+  text-decoration: underline;
+}
 
 @media (width <= 991px) {
   img {
@@ -16,4 +36,5 @@ img {
   .inner-content {
     margin: 0;
   }
+
 }
