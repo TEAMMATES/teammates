@@ -13,10 +13,17 @@ export class StudentHelpPageComponent {
 
   readonly supportEmail: string = environment.supportEmail;
 
+  // Alexa: Smoothly scroll to an anchor on the same page
   scroll(anchor: string): void {
+    if (anchor === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     const el = document.getElementById(anchor);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 }
+

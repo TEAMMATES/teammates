@@ -4,9 +4,9 @@
 </h1>
 
 <div class="row">
-
+    <!-- Main content column -->
     <div class="main-body col-lg-10">
-        <!-- Getting Started section (target for sidebar link) -->
+        <!-- Alexa: Getting Started section; target for sidebar link -->
         <div id="getting-started">
             <h4 class="color-blue">
                 Getting Started
@@ -34,7 +34,7 @@
 
         <hr>
 
-        <!-- FAQ section (target for sidebar link) -->
+        <!-- Alexa: FAQ section; target for sidebar link -->
         <div id="faq">
             <h4 class="color-blue">
                 Frequently Asked Questions
@@ -103,22 +103,26 @@
         </div>
     </div>
 
-    <!-- Alexa: Browse by topic sidebar -->
+    <!-- Alexa: Browse by topic-->
     <div class="side-nav container-fluid col-lg-2">
         <p><b>Browse by topic:</b></p>
 
         <ul class="nav nav-pills flex-column">
             <li class="nav-item">
-                <a href="#" (click)="scroll('getting-started')">Getting Started</a>
+                <a href="#" (click)="scroll('getting-started'); $event.preventDefault()">
+                    Getting Started
+                </a>
             </li>
             <li class="nav-item">
-                <a href="#" (click)="scroll('faq')">FAQ</a>
+                <a href="#" (click)="scroll('faq'); $event.preventDefault()">
+                    FAQ
+                </a>
             </li>
         </ul>
 
         <ul class="nav nav-pills flex-column mt-3">
             <li class="nav-item">
-                <a href="#" (click)="scroll('top')">
+                <a href="#" (click)="scroll('top'); $event.preventDefault()">
                     Back to Top <i class="fas fa-arrow-up"></i>
                 </a>
             </li>
