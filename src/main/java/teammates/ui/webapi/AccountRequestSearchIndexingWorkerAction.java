@@ -25,25 +25,13 @@ public class AccountRequestSearchIndexingWorkerAction extends AdminOnlyAction {
         }
 
         AccountRequest accRequest = monitorDatabaseOperation(
-            "getAccountRequest", () -> sqlLogic.getAccountRequest(accountRequestId)
-        );
+                "getAccountRequest", () -> sqlLogic.getAccountRequest(accountRequestId));
 
         try {
-            monitorDatabaseOperationVoid(
-                "putAccountRequestDocument", () -> {
-                    try {
-                        sqlLogic.putAccountRequestDocument(accRequest);
-                    } catch (SearchServiceException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            );
-        } catch (RuntimeException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof SearchServiceException) {
-                return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);
-            }
-            throw e;
+            monitorDatabaseOperationVoidWithException(
+                    "putAccountRequestDocument", () -> sqlLogic.putAccountRequestDocument(accRequest));
+        } catch (SearchServiceException e) {
+            return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);
         }
 
         return new JsonResult("Successful");

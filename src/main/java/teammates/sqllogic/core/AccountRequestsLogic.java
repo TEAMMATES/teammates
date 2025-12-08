@@ -54,7 +54,8 @@ public final class AccountRequestsLogic {
     /**
      * Creates an account request.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException, EntityAlreadyExistsException {
+    public AccountRequest createAccountRequest(AccountRequest accountRequest)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         return accountRequestDb.createAccountRequest(accountRequest);
     }
 
@@ -146,7 +147,8 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Creates/resets the account request with the given id such that it is not registered.
+     * Creates/resets the account request with the given id such that it is not
+     * registered.
      */
     public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -154,7 +156,7 @@ public final class AccountRequestsLogic {
 
         if (accountRequest == null) {
             throw new EntityDoesNotExistException("Failed to reset since AccountRequest with "
-                + "the given id cannot be found.");
+                    + "the given id cannot be found.");
         }
         accountRequest.setRegisteredAt(null);
 
@@ -164,7 +166,10 @@ public final class AccountRequestsLogic {
     /**
      * Deletes account request associated with the {@code id}.
      *
-     * <p>Fails silently if no account requests with the given id to delete can be found.</p>
+     * <p>
+     * Fails silently if no account requests with the given id to delete can be
+     * found.
+     * </p>
      *
      */
     public void deleteAccountRequest(UUID id) {

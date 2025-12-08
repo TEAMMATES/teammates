@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import static teammates.common.util.FieldValidator.REGEX_EMAIL;
-
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +8,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
+import teammates.common.util.FieldValidator;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
 
 /**
@@ -32,7 +30,7 @@ public class SessionLinksRecoveryAction extends Action {
     public JsonResult execute() {
         String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
-        if (!StringHelper.isMatching(recoveryEmailAddress, REGEX_EMAIL)) {
+        if (!FieldValidator.isValidEmailAddress(recoveryEmailAddress)) {
             throw new InvalidHttpParameterException("Invalid email address: " + recoveryEmailAddress);
         }
 
