@@ -1,11 +1,9 @@
 package teammates.ui.webapi;
 
-import static teammates.common.util.FieldValidator.REGEX_EMAIL;
-
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
+import teammates.common.util.FieldValidator;
 import teammates.ui.output.SendLoginEmailResponseData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -31,7 +29,7 @@ public class SendLoginEmailAction extends Action {
         }
 
         String userEmail = getNonNullRequestParamValue(Const.ParamsNames.USER_EMAIL);
-        if (!StringHelper.isMatching(userEmail, REGEX_EMAIL)) {
+        if (!FieldValidator.isValidEmailAddress(userEmail)) {
             throw new InvalidHttpParameterException("Invalid email address: " + userEmail);
         }
 

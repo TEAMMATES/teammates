@@ -21,7 +21,8 @@ import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
 
 /**
- * Allows any component of the application to log messages at appropriate levels.
+ * Allows any component of the application to log messages at appropriate
+ * levels.
  */
 @SuppressWarnings("PMD.MoreThanOneLogger") // class is designed as a facade for two different loggers
 public final class Logger {
@@ -89,11 +90,13 @@ public final class Logger {
         payload.put("message", message);
         payload.put("severity", LogSeverity.INFO);
 
-        Map<String, Object> detailsSpecificPayload =
-                JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+        Map<String, Object> detailsSpecificPayload = JsonUtils.fromJson(JsonUtils.toCompactJson(details),
+                new TypeToken<Map<String, Object>>() {
+                }.getType());
         payload.putAll(detailsSpecificPayload);
 
-        // Need to use println as the logger is disabled when the instance is shutting down
+        // Need to use println as the logger is disabled when the instance is shutting
+        // down
         System.out.println(JsonUtils.toCompactJson(payload));
     }
 
@@ -108,7 +111,7 @@ public final class Logger {
      * Logs an HTTP request.
      */
     public void request(HttpServletRequest request, int statusCode, String message,
-                        RequestLogUser userInfo, String requestBody, String actionClass) {
+            RequestLogUser userInfo, String requestBody, String actionClass) {
         long timeElapsed = RequestTracer.getTimeElapsedMillis();
         String method = request.getMethod();
         String requestUrl = request.getRequestURI();
@@ -147,8 +150,9 @@ public final class Logger {
                     + JsonUtils.toCompactJson(details);
         } else {
             Map<String, Object> payload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
-            Map<String, Object> detailsSpecificPayload =
-                    JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+            Map<String, Object> detailsSpecificPayload = JsonUtils.fromJson(JsonUtils.toCompactJson(details),
+                    new TypeToken<Map<String, Object>>() {
+                    }.getType());
             payload.putAll(detailsSpecificPayload);
 
             logMessage = JsonUtils.toCompactJson(payload);
@@ -230,17 +234,20 @@ public final class Logger {
             details.setLoggerSourceLocation(loggerSourceLocation);
         }
 
-        Map<String, Object> detailsSpecificPayload =
-                JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+        Map<String, Object> detailsSpecificPayload = JsonUtils.fromJson(JsonUtils.toCompactJson(details),
+                new TypeToken<Map<String, Object>>() {
+                }.getType());
         payload.putAll(detailsSpecificPayload);
 
         return JsonUtils.toCompactJson(payload);
     }
 
     /**
-     * Returns the first stack trace for the throwable that originates from an internal class
+     * Returns the first stack trace for the throwable that originates from an
+     * internal class
      * (i.e. package name starting with teammates).
-     * If no such stack trace is found, return the first element of the stack trace list.
+     * If no such stack trace is found, return the first element of the stack trace
+     * list.
      */
     private StackTraceElement getFirstInternalStackTrace(Throwable t) {
         StackTraceElement[] stackTraces = t.getStackTrace();
@@ -338,9 +345,9 @@ public final class Logger {
     /**
      * Logs a performance metric.
      *
-     * @param operation Name of the operation
+     * @param operation  Name of the operation
      * @param durationMs Duration in milliseconds
-     * @param metrics Additional metrics to log
+     * @param metrics    Additional metrics to log
      */
     public void performance(String operation, long durationMs, Map<String, Object> metrics) {
         Map<String, Object> payload = new HashMap<>();
@@ -359,6 +366,5 @@ public final class Logger {
             standardLog.info(JsonUtils.toCompactJson(logPayload));
         }
     }
-
 
 }

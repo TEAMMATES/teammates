@@ -2,15 +2,14 @@ package teammates.ui.servlets;
 
 import java.io.IOException;
 
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import org.apache.http.HttpStatus;
 import org.hibernate.HibernateException;
 
 import com.google.cloud.datastore.DatastoreException;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.util.HibernateUtil;
@@ -128,7 +127,7 @@ public class WebApiServlet extends HttpServlet {
             ActionResult result = action.executeWithMonitoring();
             HibernateUtil.commitTransaction();
             return result;
-        } catch (Exception e) {
+        } catch (InvalidOperationException | InvalidHttpRequestBodyException | UnauthorizedAccessException e) {
             HibernateUtil.rollbackTransaction();
             throw e;
         }
@@ -142,18 +141,24 @@ public class WebApiServlet extends HttpServlet {
         return action.executeWithMonitoring();
     }
 
-    private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)
+    private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e,
+            int statusCode)
             throws IOException {
-        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
+        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any
+        // user-sent X-AppEngine-QueueName headers.
+        // Reference:
+        // https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
         boolean isRequestFromAppEngineQueue = req.getHeader("X-AppEngine-QueueName") != null;
 
         if (isRequestFromAppEngineQueue) {
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
 
-            // Response status is not set to 4XX to 5XX to prevent Cloud Tasks retry mechanism because
-            // if the cause of the exception is improper request URL, no amount of retry is going to help.
-            // The action will be inaccurately marked as "success", but the severe log can be used
+            // Response status is not set to 4XX to 5XX to prevent Cloud Tasks retry
+            // mechanism because
+            // if the cause of the exception is improper request URL, no amount of retry is
+            // going to help.
+            // The action will be inaccurately marked as "success", but the severe log can
+            // be used
             // to trace the origin of the problem.
             throwError(resp, HttpStatus.SC_ACCEPTED, e.getMessage());
         } else {
