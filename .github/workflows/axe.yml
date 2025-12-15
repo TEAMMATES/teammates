@@ -17,6 +17,7 @@ on:
       - 'src/client/**'
       # E2E/axe harness and helpers
       - 'src/e2e/java/teammates/e2e/cases/axe/**'
+  workflow_dispatch:
 jobs:
   axe-testing:
     runs-on: ubuntu-latest

@@ -18,6 +18,7 @@ on:
       - 'src/e2e/java/teammates/e2e/cases/sql/**'
   schedule:
     - cron: "0 0 * * *" #end of every day
+  workflow_dispatch:
 jobs:
   E2E-sql-testing:
     runs-on: ubuntu-latest
