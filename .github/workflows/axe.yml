@@ -9,6 +9,14 @@ on:
     branches:
       - master
       - release
+    # Only run when files relevant to frontend and web are changed
+    paths:
+      # UI/front-end or view-related changes
+      - 'src/web/**'
+      - 'src/main/webapp/**'
+      - 'src/client/**'
+      # E2E/axe harness and helpers
+      - 'src/e2e/java/teammates/e2e/cases/axe/**'
 jobs:
   axe-testing:
     runs-on: ubuntu-latest
