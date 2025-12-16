@@ -52,18 +52,18 @@ describe('EmailLogDetailsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [EmailLogDetailsComponent],
     }).compileComponents();
+    fixture = TestBed.createComponent(EmailLogDetailsComponent);
+    component = fixture.componentInstance;
   }));
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
   describe('input log is an email sent log', () => {
     beforeEach(() => {
-      fixture = TestBed.createComponent(EmailLogDetailsComponent);
-      component = fixture.componentInstance;
       fixture.componentRef.setInput('log', baseExpectedLogValue);
       fixture.detectChanges();
-    });
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
     });
 
     it('should set the input log as log value', () => {
@@ -86,14 +86,8 @@ describe('EmailLogDetailsComponent', () => {
     };
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(EmailLogDetailsComponent);
-      component = fixture.componentInstance;
       fixture.componentRef.setInput('log', expectedLogValue);
       fixture.detectChanges();
-    });
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
     });
 
     it('should not update any component attributes except logValue', () => {

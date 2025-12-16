@@ -91,18 +91,18 @@ describe('ExceptionLogDetailsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ExceptionLogDetailsComponent],
     }).compileComponents();
+    fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
+    component = fixture.componentInstance;
   }));
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
   describe('input log is a valid exception log', () => {
     beforeEach(() => {
-      fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
-      component = fixture.componentInstance;
       fixture.componentRef.setInput('log', baseExpectedLogValue);
       fixture.detectChanges();
-    });
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
     });
 
     it('should have a properly formatted stack trace string', () => {
@@ -126,8 +126,6 @@ describe('ExceptionLogDetailsComponent', () => {
     };
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
-      component = fixture.componentInstance;
       fixture.componentRef.setInput('log', expectedLogValue);
       fixture.detectChanges();
     });
@@ -150,8 +148,6 @@ describe('ExceptionLogDetailsComponent', () => {
     };
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
-      component = fixture.componentInstance;
       fixture.componentRef.setInput('log', logEntryWithMissingExceptionClass);
       fixture.detectChanges();
     });
@@ -176,8 +172,6 @@ describe('ExceptionLogDetailsComponent', () => {
     };
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
-      component = fixture.componentInstance;
       fixture.componentRef.setInput('log', logEntryWithMissingExceptionMessage);
       fixture.detectChanges();
     });

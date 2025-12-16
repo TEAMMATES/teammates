@@ -75,18 +75,18 @@ describe('RequestLogDetailsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [RequestLogDetailsComponent],
     }).compileComponents();
+    fixture = TestBed.createComponent(RequestLogDetailsComponent);
+    component = fixture.componentInstance;
   }));
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
   describe('input log is a request log with JSON-formatted body', () => {
     beforeEach(() => {
-      fixture = TestBed.createComponent(RequestLogDetailsComponent);
-      component = fixture.componentInstance;
       fixture.componentRef.setInput('log', baseExpectedLogValue);
       fixture.detectChanges();
-    });
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
     });
 
     it('should set the input log as log value', () => {
@@ -119,14 +119,8 @@ describe('RequestLogDetailsComponent', () => {
     }
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(RequestLogDetailsComponent);
-      component = fixture.componentInstance;
       fixture.componentRef.setInput('log', expectedLogValue);
       fixture.detectChanges();
-    });
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
     });
 
     it('should move user info from the input log to the component attributes', () => {
@@ -146,14 +140,8 @@ describe('RequestLogDetailsComponent', () => {
     }
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(RequestLogDetailsComponent);
-      component = fixture.componentInstance;
       fixture.componentRef.setInput('log', nonRequestLog);
       fixture.detectChanges();
-    });
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
     });
 
     it('should not update any component attributes except logValue', () => {
