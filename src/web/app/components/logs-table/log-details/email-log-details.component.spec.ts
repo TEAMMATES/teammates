@@ -60,7 +60,7 @@ describe('EmailLogDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set logValue from the input log', () => {
+  it('should set log value from the input log', () => {
     fixture.componentRef.setInput('log', baseExpectedLogValue);
     fixture.detectChanges();
 
@@ -75,7 +75,7 @@ describe('EmailLogDetailsComponent', () => {
 
     it('should extract email details', () => {
       expect(component.details).toEqual(baseExpectedLogDetails);
-      expect(component.emailContent).toEqual(baseExpectedEmailContent);
+      expect(component.emailContent).toBe(baseExpectedEmailContent);
     });
   });
 

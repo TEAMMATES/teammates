@@ -106,12 +106,12 @@ describe('ExceptionLogDetailsComponent', () => {
     });
 
     it('should have a properly formatted stack trace string', () => {
-      expect(component.exceptionStackTrace).toEqual(
+      expect(component.exceptionStackTrace).toBe(
         baseExpectedExceptionStackTraceString,
       );
     });
 
-    it('should remove exception classes, messages, and stack traces from log details', () => {
+    it('should extract exception details', () => {
       expect(component.details).toEqual(baseExpectedLogDetails);
     });
   });
@@ -130,8 +130,7 @@ describe('ExceptionLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should not update any component attributes except logValue', () => {
-      expect(component.logValue).toEqual(expectedLogValue);
+    it('should not extract exception details', () => {
       expect(component.details).toBeUndefined();
       expect(component.exceptionStackTrace).toBeUndefined();
     });
@@ -152,11 +151,11 @@ describe('ExceptionLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should have an empty exceptionStackTrace', () => {
+    it('should have an empty exception stack trace', () => {
       expect(component.exceptionStackTrace).toBe('');
     });
 
-    it('should not remove exception details from the log details', () => {
+    it('should preserve exception details in the log details', () => {
       expect(component.details).toEqual(expectedLogDetail);
     });
   });

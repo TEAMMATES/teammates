@@ -83,7 +83,7 @@ describe('RequestLogDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set the input log as log value', () => {
+  it('should set log value from the input log', () => {
     fixture.componentRef.setInput('log', baseExpectedLogValue);
     fixture.detectChanges();
 
@@ -127,7 +127,7 @@ describe('RequestLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should extract user info but ignore non-JSON request body', () => {
+    it('should extract user info but ignore request body', () => {
       expect(component.details).toEqual(expectedLogDetails);
       expect(component.userInfo).toEqual(baseExpectedUserInfo);
       expect(component.requestBody).toBeUndefined();
@@ -148,7 +148,7 @@ describe('RequestLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should not extract request details', () => {
+    it('should not extract request-related details', () => {
       expect(component.details).toBeUndefined();
       expect(component.userInfo).toBeUndefined();
       expect(component.requestBody).toBeUndefined();

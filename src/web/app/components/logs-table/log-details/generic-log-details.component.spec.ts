@@ -39,18 +39,18 @@ describe('GenericLogDetailsComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(GenericLogDetailsComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('log', expectedLogValue);
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set the input log as log value', () => {
+  it('should set log value from the input log', () => {
     expect(component.logValue).toEqual(expectedLogValue);
   });
 });
