@@ -77,14 +77,13 @@ describe('RequestLogDetailsComponent', () => {
     }).compileComponents();
   }));
 
-  describe('input log entry is a request log with JSON-formatted body', () => {
-    beforeEach(waitForAsync(() => {
+  describe('input log is a request log with JSON-formatted body', () => {
+    beforeEach(() => {
       fixture = TestBed.createComponent(RequestLogDetailsComponent);
       component = fixture.componentInstance;
       fixture.componentRef.setInput('log', baseExpectedLogValue);
       fixture.detectChanges();
-      fixture.whenStable();
-    }));
+    });
 
     it('should create', () => {
       expect(component).toBeTruthy();
@@ -105,41 +104,7 @@ describe('RequestLogDetailsComponent', () => {
     });
   });
 
-  describe('input log entry is not a request log', () => {
-    let component: RequestLogDetailsComponent;
-    let fixture: ComponentFixture<RequestLogDetailsComponent>;
-    const nonRequestLog: GeneralLogEntry = {
-      ...baseExpectedLogValue,
-      details: {
-        ...baseInitialLogDetails,
-        event: LogEvent.DEFAULT_LOG,
-      }
-    }
-
-    beforeEach(waitForAsync(() => {
-      fixture = TestBed.createComponent(RequestLogDetailsComponent);
-      component = fixture.componentInstance;
-      fixture.componentRef.setInput('log', nonRequestLog);
-      fixture.detectChanges();
-      fixture.whenStable();
-    }));
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
-
-    it('should not update any component attributes except logValue', () => {
-      expect(component.logValue).toEqual(nonRequestLog);
-      expect(component.details).toBeUndefined();
-      expect(component.userInfo).toBeUndefined();
-      expect(component.requestBody).toBeUndefined();
-    });
-  });
-
-  describe('input log entry is a request log with non-JSON request body', () => {
-    let component: RequestLogDetailsComponent;
-    let fixture: ComponentFixture<RequestLogDetailsComponent>;
-
+  describe('input log is a request log with non-JSON request body', () => {
     const initialLogDetails = {
       ...baseInitialLogDetails,
       requestBody: 'This is a request body that is not in a JSON format.',
@@ -153,13 +118,12 @@ describe('RequestLogDetailsComponent', () => {
       details: initialLogDetails,
     }
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(() => {
       fixture = TestBed.createComponent(RequestLogDetailsComponent);
       component = fixture.componentInstance;
       fixture.componentRef.setInput('log', expectedLogValue);
       fixture.detectChanges();
-      fixture.whenStable();
-    }));
+    });
 
     it('should create', () => {
       expect(component).toBeTruthy();
@@ -171,4 +135,33 @@ describe('RequestLogDetailsComponent', () => {
       expect(component.requestBody).toBeUndefined();
     });
   });
+
+  describe('input log is not a request log', () => {
+    const nonRequestLog: GeneralLogEntry = {
+      ...baseExpectedLogValue,
+      details: {
+        ...baseInitialLogDetails,
+        event: LogEvent.DEFAULT_LOG,
+      }
+    }
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(RequestLogDetailsComponent);
+      component = fixture.componentInstance;
+      fixture.componentRef.setInput('log', nonRequestLog);
+      fixture.detectChanges();
+    });
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should not update any component attributes except logValue', () => {
+      expect(component.logValue).toEqual(nonRequestLog);
+      expect(component.details).toBeUndefined();
+      expect(component.userInfo).toBeUndefined();
+      expect(component.requestBody).toBeUndefined();
+    });
+  });
+
 });

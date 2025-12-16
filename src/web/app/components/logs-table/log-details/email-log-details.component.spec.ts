@@ -54,24 +54,52 @@ describe('EmailLogDetailsComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(waitForAsync(() => {
-    fixture = TestBed.createComponent(EmailLogDetailsComponent);
-    component = fixture.componentInstance;
-    fixture.componentRef.setInput('log', baseExpectedLogValue);
-    fixture.detectChanges();
-    fixture.whenStable();
-  }));
+  describe('input log is an email sent log', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(EmailLogDetailsComponent);
+      component = fixture.componentInstance;
+      fixture.componentRef.setInput('log', baseExpectedLogValue);
+      fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should set the input log as log value', () => {
+      expect(component.logValue).toEqual(baseExpectedLogValue);
+    });
+
+    it('should move email content from log details to the component attribute', () => {
+      expect(component.details).toEqual(baseExpectedLogDetails);
+      expect(component.emailContent).toEqual(baseExpectedEmailContent);
+    });
   });
 
-  it('should set the input log as log value', () => {
-    expect(component.logValue).toEqual(baseExpectedLogValue);
-  });
+  describe('input log is not an email sent log', () => {
+    const expectedLogValue: GeneralLogEntry = {
+      ...baseExpectedLogValue,
+      details: {
+        event: LogEvent.DEFAULT_LOG,
+        message: 'Test default log detail message',
+      }
+    };
 
-  it('should move email content from log details to the component attribute', () => {
-    expect(component.details).toEqual(baseExpectedLogDetails);
-    expect(component.emailContent).toEqual(baseExpectedEmailContent);
+    beforeEach(() => {
+      fixture = TestBed.createComponent(EmailLogDetailsComponent);
+      component = fixture.componentInstance;
+      fixture.componentRef.setInput('log', expectedLogValue);
+      fixture.detectChanges();
+    });
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should not update any component attributes except logValue', () => {
+      expect(component.logValue).toEqual(expectedLogValue);
+      expect(component.emailContent).toBeUndefined();
+      expect(component.details).toBeUndefined();
+    });
   });
 });

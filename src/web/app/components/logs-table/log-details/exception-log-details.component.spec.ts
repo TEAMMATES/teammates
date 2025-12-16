@@ -94,13 +94,12 @@ describe('ExceptionLogDetailsComponent', () => {
   }));
 
   describe('input log is a valid exception log', () => {
-    beforeEach(waitForAsync(() => {
+    beforeEach(() => {
       fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
       component = fixture.componentInstance;
       fixture.componentRef.setInput('log', baseExpectedLogValue);
       fixture.detectChanges();
-      fixture.whenStable();
-    }));
+    });
 
     it('should create', () => {
       expect(component).toBeTruthy();
@@ -126,13 +125,12 @@ describe('ExceptionLogDetailsComponent', () => {
       }
     };
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(() => {
       fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
       component = fixture.componentInstance;
       fixture.componentRef.setInput('log', expectedLogValue);
       fixture.detectChanges();
-      fixture.whenStable();
-    }));
+    });
 
     it('should not update any component attributes except logValue', () => {
       expect(component.logValue).toEqual(expectedLogValue);
@@ -151,13 +149,12 @@ describe('ExceptionLogDetailsComponent', () => {
       details: expectedLogDetail,
     };
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(() => {
       fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
       component = fixture.componentInstance;
       fixture.componentRef.setInput('log', logEntryWithMissingExceptionClass);
       fixture.detectChanges();
-      fixture.whenStable();
-    }));
+    });
 
     it('should have an empty exceptionStackTrace', () => {
       expect(component.exceptionStackTrace).toBe('');
@@ -178,13 +175,12 @@ describe('ExceptionLogDetailsComponent', () => {
       details: expectedLogDetail,
     };
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(() => {
       fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
       component = fixture.componentInstance;
       fixture.componentRef.setInput('log', logEntryWithMissingExceptionMessage);
       fixture.detectChanges();
-      fixture.whenStable();
-    }));
+    });
 
     it('should have an empty exceptionStackTrace', () => {
       expect(component.exceptionStackTrace).toBe('');
