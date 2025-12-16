@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { ExceptionLogDetailsComponent } from './exception-log-details.component';
 import {
   ExceptionLogDetails,
@@ -12,7 +11,7 @@ describe('ExceptionLogDetailsComponent', () => {
   let component: ExceptionLogDetailsComponent;
   let fixture: ComponentFixture<ExceptionLogDetailsComponent>;
 
-  const initialLogDetails: ExceptionLogDetails = {
+  const baseInitialLogDetails: ExceptionLogDetails = {
     event: LogEvent.EXCEPTION_LOG,
     message: 'Test exception log details message.',
     exceptionClass: 'MockException',
@@ -49,13 +48,13 @@ describe('ExceptionLogDetailsComponent', () => {
       function: 'handleException',
     },
   };
-  const expectedLogDetails = {
-    ...initialLogDetails,
+  const baseExpectedLogDetails = {
+    ...baseInitialLogDetails,
     exceptionClasses: undefined,
     exceptionMessages: undefined,
     exceptionStackTraces: undefined,
   };
-  const expectedLogValue: GeneralLogEntry = {
+  const baseExpectedLogValue: GeneralLogEntry = {
     severity: LogSeverity.DEFAULT,
     trace: '0123456789abcdef',
     insertId: '0123456789abcdef',
@@ -72,9 +71,9 @@ describe('ExceptionLogDetailsComponent', () => {
     },
     timestamp: 1000,
     message: 'Test exception log message',
-    details: initialLogDetails,
+    details: baseInitialLogDetails,
   };
-  const expectedExceptionStackTraceString =
+  const baseExpectedExceptionStackTraceString =
     'com.mock.MockException: Mock exception message'
     + '\r\n        at com.mock.Mock.run(Mock.java:5)'
     + '\r\n        at com.mock.Mock.tryRun(Mock.java:10)'
@@ -94,25 +93,105 @@ describe('ExceptionLogDetailsComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(waitForAsync(() => {
-    fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
-    component = fixture.componentInstance;
-    fixture.componentRef.setInput('log', expectedLogValue);
-    fixture.detectChanges();
-    fixture.whenStable();
-  }));
+  describe('input log is a valid exception log', () => {
+    beforeEach(waitForAsync(() => {
+      fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
+      component = fixture.componentInstance;
+      fixture.componentRef.setInput('log', baseExpectedLogValue);
+      fixture.detectChanges();
+      fixture.whenStable();
+    }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should have a properly formatted stack trace string', () => {
+      expect(component.exceptionStackTrace).toEqual(
+        baseExpectedExceptionStackTraceString,
+      );
+    });
+
+    it('should remove exception classes, messages, and stack traces from log details', () => {
+      expect(component.details).toEqual(baseExpectedLogDetails);
+    });
   });
 
-  it('should have a properly formatted stack trace string', () => {
-    expect(component.exceptionStackTrace).toEqual(
-      expectedExceptionStackTraceString,
-    );
+  describe('input log is not an exception log', () => {
+    const expectedLogValue: GeneralLogEntry = {
+      ...baseExpectedLogValue,
+      details: {
+        event: LogEvent.DEFAULT_LOG,
+        message: 'Test default log details message',
+      }
+    };
+
+    beforeEach(waitForAsync(() => {
+      fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
+      component = fixture.componentInstance;
+      fixture.componentRef.setInput('log', expectedLogValue);
+      fixture.detectChanges();
+      fixture.whenStable();
+    }));
+
+    it('should not update any component attributes except logValue', () => {
+      expect(component.logValue).toEqual(expectedLogValue);
+      expect(component.details).toBeUndefined();
+      expect(component.exceptionStackTrace).toBeUndefined();
+    });
   });
 
-  it('should remove exception classes, messages, and stack traces from log details', () => {
-    expect(component.details).toEqual(expectedLogDetails);
+  describe('input log is an invalid exception log with wrong number of exception classes', () => {
+    const expectedLogDetail: ExceptionLogDetails = {
+        ...baseInitialLogDetails,
+        exceptionClasses: baseInitialLogDetails.exceptionClasses.slice(1),
+    };
+    const logEntryWithMissingExceptionClass: GeneralLogEntry = {
+      ...baseExpectedLogValue,
+      details: expectedLogDetail,
+    };
+
+    beforeEach(waitForAsync(() => {
+      fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
+      component = fixture.componentInstance;
+      fixture.componentRef.setInput('log', logEntryWithMissingExceptionClass);
+      fixture.detectChanges();
+      fixture.whenStable();
+    }));
+
+    it('should have an empty exceptionStackTrace', () => {
+      expect(component.exceptionStackTrace).toBe('');
+    });
+
+    it('should not remove exception details from the log details', () => {
+      expect(component.details).toEqual(expectedLogDetail);
+    });
+  });
+
+  describe('input log is an invalid exception log with wrong number of exception messages', () => {
+    const expectedLogDetail: ExceptionLogDetails = {
+        ...baseInitialLogDetails,
+        exceptionMessages: baseInitialLogDetails.exceptionMessages!.slice(1),
+    };
+    const logEntryWithMissingExceptionMessage: GeneralLogEntry = {
+      ...baseExpectedLogValue,
+      details: expectedLogDetail,
+    };
+
+    beforeEach(waitForAsync(() => {
+      fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
+      component = fixture.componentInstance;
+      fixture.componentRef.setInput('log', logEntryWithMissingExceptionMessage);
+      fixture.detectChanges();
+      fixture.whenStable();
+    }));
+
+    it('should have an empty exceptionStackTrace', () => {
+      expect(component.exceptionStackTrace).toBe('');
+    });
+
+    it('should not remove exception details from the log details', () => {
+      expect(component.details).toEqual(expectedLogDetail);
+    });
   });
 });
