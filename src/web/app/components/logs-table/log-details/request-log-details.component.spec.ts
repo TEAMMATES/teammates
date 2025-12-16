@@ -83,21 +83,25 @@ describe('RequestLogDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should set the input log as log value', () => {
+    fixture.componentRef.setInput('log', baseExpectedLogValue);
+    fixture.detectChanges();
+
+    expect(component.logValue).toEqual(baseExpectedLogValue);
+  });
+
+
   describe('input log is a request log with JSON-formatted body', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('log', baseExpectedLogValue);
       fixture.detectChanges();
     });
 
-    it('should set the input log as log value', () => {
-      expect(component.logValue).toEqual(baseExpectedLogValue);
-    });
-
-    it('should parse request body of JSON format', () => {
+    it('should parse JSON request body', () => {
       expect(component.requestBody).toEqual(baseExpectedRequestBodyObject);
     });
 
-    it('should move user info and request body from the input log to the component attributes', () => {
+    it('should extract request details', () => {
       expect(component.details).toEqual(baseExpectedLogDetails);
       expect(component.userInfo).toEqual(baseExpectedUserInfo);
       expect(component.requestBody).toEqual(baseExpectedRequestBodyObject);
@@ -123,7 +127,7 @@ describe('RequestLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should move user info from the input log to the component attributes', () => {
+    it('should extract user info but ignore non-JSON request body', () => {
       expect(component.details).toEqual(expectedLogDetails);
       expect(component.userInfo).toEqual(baseExpectedUserInfo);
       expect(component.requestBody).toBeUndefined();
@@ -134,8 +138,8 @@ describe('RequestLogDetailsComponent', () => {
     const nonRequestLog: GeneralLogEntry = {
       ...baseExpectedLogValue,
       details: {
-        ...baseInitialLogDetails,
         event: LogEvent.DEFAULT_LOG,
+        message: 'Test default log detail message'
       }
     }
 
@@ -144,8 +148,7 @@ describe('RequestLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should not update any component attributes except logValue', () => {
-      expect(component.logValue).toEqual(nonRequestLog);
+    it('should not extract request details', () => {
       expect(component.details).toBeUndefined();
       expect(component.userInfo).toBeUndefined();
       expect(component.requestBody).toBeUndefined();
