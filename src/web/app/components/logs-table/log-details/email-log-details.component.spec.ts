@@ -60,17 +60,20 @@ describe('EmailLogDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should set logValue from the input log', () => {
+    fixture.componentRef.setInput('log', baseExpectedLogValue);
+    fixture.detectChanges();
+
+    expect(component.logValue).toEqual(baseExpectedLogValue);
+  });
+
   describe('input log is an email sent log', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('log', baseExpectedLogValue);
       fixture.detectChanges();
     });
 
-    it('should set the input log as log value', () => {
-      expect(component.logValue).toEqual(baseExpectedLogValue);
-    });
-
-    it('should move email content from log details to the component attribute', () => {
+    it('should extract email details', () => {
       expect(component.details).toEqual(baseExpectedLogDetails);
       expect(component.emailContent).toEqual(baseExpectedEmailContent);
     });
@@ -90,8 +93,7 @@ describe('EmailLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should not update any component attributes except logValue', () => {
-      expect(component.logValue).toEqual(expectedLogValue);
+    it('should not extract email details', () => {
       expect(component.emailContent).toBeUndefined();
       expect(component.details).toBeUndefined();
     });
