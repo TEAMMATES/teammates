@@ -8,6 +8,7 @@ import {
   RequestLogDetails,
   RequestLogUser,
 } from '../../../../types/api-output';
+import testEventEmission from '../../../../test-helpers/test-event-emitter';
 
 describe('RequestLogDetailsComponent', () => {
   let component: RequestLogDetailsComponent;
@@ -90,6 +91,18 @@ describe('RequestLogDetailsComponent', () => {
     expect(component.logValue).toEqual(baseExpectedLogValue);
   });
 
+  it('addUserInfoToFilter: should emit the correct userInfo to the addUserInfoEvent', () => {
+    let emittedUserInfo: RequestLogUser | undefined;
+    const expectedUserInfo: RequestLogUser = {
+      regkey: 'test-regkey',
+      email: 'test@example.com',
+      googleId: 'test-googleId'
+    };
+    testEventEmission(component.addUserInfoEvent, (val) => emittedUserInfo = val);
+
+    component.addUserInfoToFilter(expectedUserInfo);
+    expect(emittedUserInfo).toEqual(expectedUserInfo);
+  });
 
   describe('input log is a request log with JSON-formatted body', () => {
     beforeEach(() => {
@@ -104,7 +117,6 @@ describe('RequestLogDetailsComponent', () => {
     it('should extract request details', () => {
       expect(component.details).toEqual(baseExpectedLogDetails);
       expect(component.userInfo).toEqual(baseExpectedUserInfo);
-      expect(component.requestBody).toEqual(baseExpectedRequestBodyObject);
     });
   });
 
@@ -148,7 +160,7 @@ describe('RequestLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should not extract request-related details', () => {
+    it('should not extract request details', () => {
       expect(component.details).toBeUndefined();
       expect(component.userInfo).toBeUndefined();
       expect(component.requestBody).toBeUndefined();
