@@ -17,7 +17,7 @@ import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Course;
 
 /**
- * Represents the "Courses" page for Instructors (SQL Version).
+ * Represents the "Courses" page for Instructors.
  */
 public class InstructorCoursesPageSql extends AppPage {
 
@@ -74,6 +74,7 @@ public class InstructorCoursesPageSql extends AppPage {
 
     public void verifyActiveCoursesDetails(Course[] courses) {
         String[][] courseDetails = getCourseDetails(courses);
+        // use verifyTableBodyValues as active courses are sorted
         verifyTableBodyValues(getActiveCoursesTable(), courseDetails);
     }
 
@@ -91,6 +92,7 @@ public class InstructorCoursesPageSql extends AppPage {
         this.waitUntilAnimationFinish();
         String[][] courseDetails = getCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
+            // use verifyTableRowValues as archive courses are not sorted
             verifyTableRowValues(getArchivedTableRow(courses[i].getId()), courseDetails[i]);
         }
     }
@@ -100,15 +102,18 @@ public class InstructorCoursesPageSql extends AppPage {
         this.waitUntilAnimationFinish();
         String[][] courseDetails = getDeletedCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
+            // use verifyTableRowValues as deleted courses are not sorted
             verifyTableRowValues(getDeletedTableRow(courses[i].getId()), courseDetails[i]);
         }
     }
 
     public void verifyNotModifiable(String courseId) {
+        // verify enroll button is disabled
         int courseRowNumber = getRowNumberOfCourse(courseId);
         assertTrue(isElementPresent(By.id("btn-enroll-disabled-" + courseRowNumber)));
         assertFalse(isElementPresent(By.id("btn-enroll-" + courseRowNumber)));
 
+        // verify delete button is disabled
         click(getOtherActionsButton(courseId));
         assertTrue(isElementPresent(By.id("btn-soft-delete-disabled-" + courseRowNumber)));
         assertFalse(isElementPresent(By.id("btn-soft-delete-" + courseRowNumber)));
