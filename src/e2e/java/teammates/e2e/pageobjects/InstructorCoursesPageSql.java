@@ -1,8 +1,8 @@
 package teammates.e2e.pageobjects;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -13,8 +13,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-import teammates.storage.entity.Course;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.Course;
 
 /**
  * Represents the "Courses" page for Instructors (SQL Version).
@@ -79,15 +79,11 @@ public class InstructorCoursesPageSql extends AppPage {
 
     public void verifyActiveCourseStatistics(Course course, String numSections, String numTeams,
                                              String numStudents, String numUnregistered) {
-        // UPDATED: Using getUniqueId()
-        showStatistics(course.getUniqueId());
-
-        // UPDATED: Using getUniqueId()
-        String[] courseDetail = { course.getUniqueId(), course.getName(),
+        showStatistics(course.getId());
+        String[] courseDetail = { course.getId(), course.getName(),
                 TimeHelper.formatInstant(course.getCreatedAt(), course.getTimeZone(), "d MMM yyyy"),
                 numSections, numTeams, numStudents, numUnregistered };
-
-        verifyTableRowValues(getActiveTableRow(course.getUniqueId()), courseDetail);
+        verifyTableRowValues(getActiveTableRow(course.getId()), courseDetail);
     }
 
     public void verifyArchivedCoursesDetails(Course[] courses) {
@@ -95,8 +91,7 @@ public class InstructorCoursesPageSql extends AppPage {
         this.waitUntilAnimationFinish();
         String[][] courseDetails = getCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
-            // UPDATED: Using getUniqueId()
-            verifyTableRowValues(getArchivedTableRow(courses[i].getUniqueId()), courseDetails[i]);
+            verifyTableRowValues(getArchivedTableRow(courses[i].getId()), courseDetails[i]);
         }
     }
 
@@ -105,8 +100,7 @@ public class InstructorCoursesPageSql extends AppPage {
         this.waitUntilAnimationFinish();
         String[][] courseDetails = getDeletedCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
-            // UPDATED: Using getUniqueId()
-            verifyTableRowValues(getDeletedTableRow(courses[i].getUniqueId()), courseDetails[i]);
+            verifyTableRowValues(getDeletedTableRow(courses[i].getId()), courseDetails[i]);
         }
     }
 
@@ -136,8 +130,7 @@ public class InstructorCoursesPageSql extends AppPage {
     public void addCourse(Course newCourse) {
         click(addCourseButton);
 
-        // UPDATED: Using getUniqueId()
-        fillTextBox(courseIdTextBox, newCourse.getUniqueId());
+        fillTextBox(courseIdTextBox, newCourse.getId());
         fillTextBox(courseNameTextBox, newCourse.getName());
         selectCourseInstitute(newCourse.getInstitute());
         selectNewTimeZone(newCourse.getTimeZone());
@@ -168,8 +161,7 @@ public class InstructorCoursesPageSql extends AppPage {
         click(getCopyButton(courseId));
         waitForPageToLoad();
 
-        // UPDATED: Using getUniqueId()
-        fillTextBox(copyCourseIdTextBox, newCourse.getUniqueId());
+        fillTextBox(copyCourseIdTextBox, newCourse.getId());
         fillTextBox(copyCourseNameTextBox, newCourse.getName());
         selectCopyTimeZone(newCourse.getTimeZone());
         click(copyCourseButton);
@@ -265,8 +257,7 @@ public class InstructorCoursesPageSql extends AppPage {
     private String[][] getCourseDetails(Course[] courses) {
         String[][] courseDetails = new String[courses.length][3];
         for (int i = 0; i < courses.length; i++) {
-            // UPDATED: Using getUniqueId()
-            String[] courseDetail = { courses[i].getUniqueId(), courses[i].getName(),
+            String[] courseDetail = { courses[i].getId(), courses[i].getName(),
                     getDateString(courses[i].getCreatedAt()) };
             courseDetails[i] = courseDetail;
         }
@@ -280,8 +271,7 @@ public class InstructorCoursesPageSql extends AppPage {
     private String[][] getDeletedCourseDetails(Course[] courses) {
         String[][] courseDetails = new String[courses.length][4];
         for (int i = 0; i < courses.length; i++) {
-            // UPDATED: Using getUniqueId()
-            String[] courseDetail = {courses[i].getUniqueId(), courses[i].getName(),
+            String[] courseDetail = {courses[i].getId(), courses[i].getName(),
                     getDateString(courses[i].getCreatedAt()), getDateString(courses[i].getDeletedAt()) };
             courseDetails[i] = courseDetail;
         }
