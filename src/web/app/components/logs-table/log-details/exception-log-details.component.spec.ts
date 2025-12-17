@@ -99,6 +99,14 @@ describe('ExceptionLogDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should set log value from the input log', () => {
+    fixture.componentRef.setInput('log', baseExpectedLogValue);
+    fixture.detectChanges();
+
+    expect(component.logValue).toEqual(baseExpectedLogValue);
+  });
+
+
   describe('input log is a valid exception log', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('log', baseExpectedLogValue);
