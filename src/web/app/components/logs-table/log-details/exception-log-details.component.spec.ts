@@ -106,7 +106,6 @@ describe('ExceptionLogDetailsComponent', () => {
     expect(component.logValue).toEqual(baseExpectedLogValue);
   });
 
-
   describe('input log is a valid exception log', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('log', baseExpectedLogValue);
@@ -130,7 +129,7 @@ describe('ExceptionLogDetailsComponent', () => {
       details: {
         event: LogEvent.DEFAULT_LOG,
         message: 'Test default log details message',
-      }
+      },
     };
 
     beforeEach(() => {
@@ -146,8 +145,8 @@ describe('ExceptionLogDetailsComponent', () => {
 
   describe('input log is an invalid exception log with wrong number of exception classes', () => {
     const expectedLogDetail: ExceptionLogDetails = {
-        ...baseInitialLogDetails,
-        exceptionClasses: baseInitialLogDetails.exceptionClasses.slice(1),
+      ...baseInitialLogDetails,
+      exceptionClasses: baseInitialLogDetails.exceptionClasses.slice(1),
     };
     const logEntryWithMissingExceptionClass: GeneralLogEntry = {
       ...baseExpectedLogValue,
@@ -170,8 +169,8 @@ describe('ExceptionLogDetailsComponent', () => {
 
   describe('input log is an invalid exception log with wrong number of exception messages', () => {
     const expectedLogDetail: ExceptionLogDetails = {
-        ...baseInitialLogDetails,
-        exceptionMessages: baseInitialLogDetails.exceptionMessages!.slice(1),
+      ...baseInitialLogDetails,
+      exceptionMessages: baseInitialLogDetails.exceptionMessages!.slice(1),
     };
     const logEntryWithMissingExceptionMessage: GeneralLogEntry = {
       ...baseExpectedLogValue,

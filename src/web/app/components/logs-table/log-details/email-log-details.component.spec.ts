@@ -85,7 +85,7 @@ describe('EmailLogDetailsComponent', () => {
       details: {
         event: LogEvent.DEFAULT_LOG,
         message: 'Test default log detail message',
-      }
+      },
     };
 
     beforeEach(() => {

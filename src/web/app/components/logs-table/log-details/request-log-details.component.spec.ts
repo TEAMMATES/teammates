@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RequestLogDetailsComponent } from './request-log-details.component';
+import testEventEmission from '../../../../test-helpers/test-event-emitter';
 import {
   GeneralLogEntry,
   LogEvent,
@@ -8,7 +9,6 @@ import {
   RequestLogDetails,
   RequestLogUser,
 } from '../../../../types/api-output';
-import testEventEmission from '../../../../test-helpers/test-event-emitter';
 
 describe('RequestLogDetailsComponent', () => {
   let component: RequestLogDetailsComponent;
@@ -18,7 +18,9 @@ describe('RequestLogDetailsComponent', () => {
     testParamOne: 'testParamOneValue',
     testParamTwo: 'testParamTwoValue',
   });
-  const baseExpectedRequestBodyObject = JSON.parse(baseExpectedRequestBodyString);
+  const baseExpectedRequestBodyObject = JSON.parse(
+    baseExpectedRequestBodyString,
+  );
   const baseExpectedUserInfo: RequestLogUser = {
     regkey: 'test_regkey',
     email: 'test_email@gmail.com',
@@ -96,9 +98,11 @@ describe('RequestLogDetailsComponent', () => {
     const expectedUserInfo: RequestLogUser = {
       regkey: 'test-regkey',
       email: 'test@example.com',
-      googleId: 'test-googleId'
+      googleId: 'test-googleId',
     };
-    testEventEmission(component.addUserInfoEvent, (val) => emittedUserInfo = val);
+    testEventEmission(
+      component.addUserInfoEvent, (val) => { emittedUserInfo = val; },
+    );
 
     component.addUserInfoToFilter(expectedUserInfo);
     expect(emittedUserInfo).toEqual(expectedUserInfo);
@@ -124,15 +128,15 @@ describe('RequestLogDetailsComponent', () => {
     const initialLogDetails = {
       ...baseInitialLogDetails,
       requestBody: 'This is a request body that is not in a JSON format.',
-    }
+    };
     const expectedLogDetails: RequestLogDetails = {
       ...initialLogDetails,
       userInfo: undefined,
-    }
+    };
     const expectedLogValue: GeneralLogEntry = {
       ...baseExpectedLogValue,
       details: initialLogDetails,
-    }
+    };
 
     beforeEach(() => {
       fixture.componentRef.setInput('log', expectedLogValue);
@@ -151,9 +155,9 @@ describe('RequestLogDetailsComponent', () => {
       ...baseExpectedLogValue,
       details: {
         event: LogEvent.DEFAULT_LOG,
-        message: 'Test default log detail message'
-      }
-    }
+        message: 'Test default log detail message',
+      },
+    };
 
     beforeEach(() => {
       fixture.componentRef.setInput('log', nonRequestLog);
@@ -166,5 +170,4 @@ describe('RequestLogDetailsComponent', () => {
       expect(component.requestBody).toBeUndefined();
     });
   });
-
 });
