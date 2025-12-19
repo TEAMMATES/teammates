@@ -1172,6 +1172,7 @@ public final class FeedbackResponsesLogic {
             newResponses.forEach(this::addNewResponse);
         }
 
+        @SuppressWarnings("PMD.UnusedPrivateMethod")
         private void addNewResponse(FeedbackResponseAttributes newResponse) {
             if (responseIds.contains(newResponse.getId())) {
                 return;

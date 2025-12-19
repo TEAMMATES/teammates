@@ -157,10 +157,7 @@ public final class InstructorsLogic {
      * Gets all instructors of a course.
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
-        List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
-        InstructorAttributes.sortByName(instructorReturnList);
-
-        return instructorReturnList;
+        return instructorsDb.getInstructorsForCourse(courseId);
     }
 
     /**

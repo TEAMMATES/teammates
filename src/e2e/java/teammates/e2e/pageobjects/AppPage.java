@@ -136,7 +136,9 @@ public abstract class AppPage {
             return page;
         } catch (InvocationTargetException e) {
             if (e.getCause() instanceof IllegalStateException) {
-                throw (IllegalStateException) e.getCause();
+                IllegalStateException cause = (IllegalStateException) e.getCause();
+                cause.initCause(e);
+                throw cause;
             }
             throw new RuntimeException(e);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {

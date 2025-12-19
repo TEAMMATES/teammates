@@ -360,6 +360,7 @@ public final class DataBundleLogic {
         return makeQuestionKey(sessionKey, String.valueOf(questionNumber));
     }
 
+    @SuppressWarnings("PMD.UnusedPrivateMethod")
     private String makeQuestionKey(String sessionKey, String questionNumber) {
         return sessionKey + "%" + questionNumber;
     }

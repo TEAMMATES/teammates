@@ -527,7 +527,9 @@ public final class UsersDb extends EntitiesDb {
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
         Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
 
-        cr.select(instructorRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+        cr.select(instructorRoot)
+                .where(cb.equal(accountsJoin.get("googleId"), googleId))
+                .orderBy(cb.asc(instructorRoot.get("name")));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -549,7 +551,8 @@ public final class UsersDb extends EntitiesDb {
         cr.select(studentRoot)
                 .where(cb.and(
                         cb.equal(courseJoin.get("id"), courseId),
-                        cb.equal(sectionJoin.get("name"), sectionName)));
+                        cb.equal(sectionJoin.get("name"), sectionName)))
+                .orderBy(cb.asc(studentRoot.get("name")));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -570,7 +573,8 @@ public final class UsersDb extends EntitiesDb {
         cr.select(studentRoot)
                 .where(cb.and(
                         cb.equal(courseJoin.get("id"), courseId),
-                        cb.equal(teamsJoin.get("name"), teamName)));
+                        cb.equal(teamsJoin.get("name"), teamName)))
+                .orderBy(cb.asc(studentRoot.get("name")));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

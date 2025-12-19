@@ -827,6 +827,7 @@ public final class FieldValidator {
                 TIME_BEFORE_OR_EQUAL_ERROR_MESSAGE);
     }
 
+    @SuppressWarnings("PMD.UnusedPrivateMethod")
     private static String getInvalidityInfoForFirstTimeComparedToSecondTime(Instant earlierTime, Instant laterTime,
             String entityName, String earlierTimeFieldName, String laterTimeFieldName,
             BiPredicate<Instant, Instant> validityChecker,

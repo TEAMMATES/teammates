@@ -622,6 +622,7 @@ public final class FeedbackSessionsLogic {
                 deadlines -> deadlines.remove(emailAddress));
     }
 
+    @SuppressWarnings("PMD.UnusedPrivateMethod")
     private void updateFeedbackSessionsDeadlinesForUser(String courseId, String emailAddress, boolean isInstructor,
             Consumer<Map<String, Instant>> deadlinesUpdater) {
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getFeedbackSessionsForCourse(courseId);
