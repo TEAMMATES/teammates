@@ -436,16 +436,15 @@ public final class InstructorsLogic {
 
     /**
      * Checks if there is an existing instructor with the given email
-     * in any course under that belongs to the specified institute.
+     * in any course that belongs to the specified institute.
      */
-    public boolean isExistingInstructorWithEmailInInstitute(String email, String institute) {
+    public boolean existsInstructorWithEmailInInstitute(String email, String institute) {
         assert email != null;
         assert institute != null;
 
         List<InstructorAttributes> instructors = getInstructorsForEmail(email);
         for (InstructorAttributes instructor : instructors) {
-            if (instructor.getEmail().equals(email)
-                    && institute.equals(coursesLogic.getCourseInstitute(instructor.getCourseId()))) {
+            if (institute.equals(coursesLogic.getCourseInstitute(instructor.getCourseId()))) {
                 return true;
             }
         }

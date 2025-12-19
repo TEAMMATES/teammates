@@ -313,12 +313,12 @@ public class Logic {
      *
      * @return true if exists, false otherwise.
      */
-    public boolean isInstructorWithEmailInInstitute(String email, String institute) {
+    public boolean existsInstructorWithEmailInInstitute(String email, String institute) {
 
         assert email != null;
         assert institute != null;
 
-        return instructorsLogic.isExistingInstructorWithEmailInInstitute(email, institute);
+        return instructorsLogic.existsInstructorWithEmailInInstitute(email, institute);
     }
 
     /**

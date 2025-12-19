@@ -259,7 +259,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
     /**
      * Returns the typical course attributes.
-     * This is a placeholder method because getTypicalCourse is not compatible, using the newer sql
+     * This is a placeholder method because getTypicalCourse is not compatible, as it uses the newer SQL
      * while the test requires the old non-sql version of Course and CourseAttributes.
      */
     private CourseAttributes getTypicalCourseAttributes() {
