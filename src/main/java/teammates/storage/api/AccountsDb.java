@@ -47,7 +47,10 @@ public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     public List<AccountAttributes> getAccountsForEmail(String email) {
         assert email != null;
 
-        List<Account> accounts = load().filter("email =", email).list();
+        List<Account> accounts = load()
+                .filter("email =", email)
+                .order("name")
+                .list();
 
         return makeAttributes(accounts);
     }

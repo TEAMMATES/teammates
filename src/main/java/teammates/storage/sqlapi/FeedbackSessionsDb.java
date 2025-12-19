@@ -226,7 +226,9 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         Root<FeedbackSession> root = cq.from(FeedbackSession.class);
         Join<FeedbackSession, Course> courseJoin = root.join("course");
 
-        cq.select(root).where(cb.equal(courseJoin.get("id"), courseId));
+        cq.select(root)
+                .where(cb.equal(courseJoin.get("id"), courseId))
+                .orderBy(cb.asc(root.get("name")));
 
         return HibernateUtil.createQuery(cq).getResultList();
     }

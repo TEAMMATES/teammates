@@ -130,9 +130,11 @@ public final class UsersDb extends EntitiesDb {
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
 
-        cr.select(instructorRoot).where(cb.and(
-                cb.equal(instructorRoot.get("courseId"), courseId),
-                cb.equal(instructorRoot.get("isDisplayedToStudents"), true)));
+        cr.select(instructorRoot)
+                .where(cb.and(
+                        cb.equal(instructorRoot.get("courseId"), courseId),
+                        cb.equal(instructorRoot.get("isDisplayedToStudents"), true)))
+                .orderBy(cb.asc(instructorRoot.get("name")));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -193,7 +195,9 @@ public final class UsersDb extends EntitiesDb {
         Root<Student> studentRoot = cr.from(Student.class);
         Join<Student, Account> accountsJoin = studentRoot.join("account");
 
-        cr.select(studentRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+        cr.select(studentRoot)
+                .where(cb.equal(accountsJoin.get("googleId"), googleId))
+                .orderBy(cb.asc(studentRoot.get("name")));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -210,9 +214,11 @@ public final class UsersDb extends EntitiesDb {
 
         Join<Student, Team> teamsJoin = studentRoot.join("team");
 
-        cr.select(studentRoot).where(cb.and(
-                cb.equal(studentRoot.get("courseId"), courseId),
-                cb.equal(teamsJoin.get("name"), teamName)));
+        cr.select(studentRoot)
+                .where(cb.and(
+                        cb.equal(studentRoot.get("courseId"), courseId),
+                        cb.equal(teamsJoin.get("name"), teamName)))
+                .orderBy(cb.asc(studentRoot.get("name")));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -226,7 +232,9 @@ public final class UsersDb extends EntitiesDb {
         Root<User> usersRoot = usersCr.from(User.class);
         Join<User, Account> accountsJoin = usersRoot.join("account");
 
-        usersCr.select(usersRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+        usersCr.select(usersRoot)
+                .where(cb.equal(accountsJoin.get("googleId"), googleId))
+                .orderBy(cb.asc(usersRoot.get("name")));
 
         return HibernateUtil.createQuery(usersCr).getResultList();
     }
@@ -240,7 +248,9 @@ public final class UsersDb extends EntitiesDb {
         Root<Instructor> instructorsRoot = instructorsCr.from(Instructor.class);
         Join<Instructor, Account> accountsJoin = instructorsRoot.join("account");
 
-        instructorsCr.select(instructorsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+        instructorsCr.select(instructorsRoot)
+                .where(cb.equal(accountsJoin.get("googleId"), googleId))
+                .orderBy(cb.asc(instructorsRoot.get("name")));
 
         return HibernateUtil.createQuery(instructorsCr).getResultList();
     }
@@ -254,7 +264,9 @@ public final class UsersDb extends EntitiesDb {
         Root<Student> studentsRoot = studentsCr.from(Student.class);
         Join<Student, Account> accountsJoin = studentsRoot.join("account");
 
-        studentsCr.select(studentsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+        studentsCr.select(studentsRoot)
+                .where(cb.equal(accountsJoin.get("googleId"), googleId))
+                .orderBy(cb.asc(studentsRoot.get("name")));
 
         return HibernateUtil.createQuery(studentsCr).getResultList();
     }
@@ -363,7 +375,9 @@ public final class UsersDb extends EntitiesDb {
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> root = cr.from(Instructor.class);
 
-        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+        cr.select(root)
+                .where(cb.equal(root.get("courseId"), courseId))
+                .orderBy(cb.asc(root.get("name")));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -378,7 +392,9 @@ public final class UsersDb extends EntitiesDb {
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> root = cr.from(Student.class);
 
-        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
+        cr.select(root)
+                .where(cb.equal(root.get("courseId"), courseId))
+                .orderBy(cb.asc(root.get("name")));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

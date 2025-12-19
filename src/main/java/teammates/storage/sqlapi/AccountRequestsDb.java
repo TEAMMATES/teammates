@@ -85,7 +85,8 @@ public final class AccountRequestsDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root);
+        cr.select(root)
+                .orderBy(cb.desc(root.get("createdAt")));
 
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultList();
@@ -125,8 +126,10 @@ public final class AccountRequestsDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.and(cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
-                cb.lessThanOrEqualTo(root.get("createdAt"), endTime)));
+        cr.select(root)
+                .where(cb.and(cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
+                        cb.lessThanOrEqualTo(root.get("createdAt"), endTime)))
+                .orderBy(cb.desc(root.get("createdAt")));
 
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultList();

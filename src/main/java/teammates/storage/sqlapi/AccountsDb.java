@@ -61,7 +61,9 @@ public final class AccountsDb extends EntitiesDb {
         CriteriaQuery<Account> cr = cb.createQuery(Account.class);
         Root<Account> accountRoot = cr.from(Account.class);
 
-        cr.select(accountRoot).where(cb.equal(accountRoot.get("email"), email));
+        cr.select(accountRoot)
+                .where(cb.equal(accountRoot.get("email"), email))
+                .orderBy(cb.asc(accountRoot.get("name")));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

@@ -367,6 +367,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         return load()
                 .filter("courseId =", courseId)
                 .filter("isDisplayedToStudents =", true)
+                .order("name")
                 .list();
     }
 
@@ -398,7 +399,9 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId) {
-        return getInstructorsForGoogleIdQuery(googleId).list();
+        return getInstructorsForGoogleIdQuery(googleId)
+                .order("name")
+                .list();
     }
 
     /**
@@ -409,13 +412,17 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         if (omitArchived) {
             return getInstructorsForGoogleIdQuery(googleId)
                     .filter("isArchived =", false)
+                    .order("name")
                     .list();
         }
         return getInstructorEntitiesForGoogleId(googleId);
     }
 
     private List<Instructor> getInstructorEntitiesForCourse(String courseId) {
-        return load().filter("courseId =", courseId).list();
+        return load()
+                .filter("courseId =", courseId)
+                .order("name")
+                .list();
     }
 
     @Override

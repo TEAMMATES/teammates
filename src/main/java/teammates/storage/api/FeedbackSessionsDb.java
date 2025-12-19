@@ -341,7 +341,10 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
-        return load().filter("courseId =", courseId).list();
+        return load()
+                .filter("courseId =", courseId)
+                .order("feedbackSessionName")
+                .list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourseStartingAfter(String courseId, Instant after) {

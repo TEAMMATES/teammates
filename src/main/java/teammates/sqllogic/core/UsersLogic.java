@@ -329,10 +329,7 @@ public final class UsersLogic {
      * Gets a list of instructors for the specified course.
      */
     public List<Instructor> getInstructorsForCourse(String courseId) {
-        List<Instructor> instructorReturnList = usersDb.getInstructorsForCourse(courseId);
-        sortByName(instructorReturnList);
-
-        return instructorReturnList;
+        return usersDb.getInstructorsForCourse(courseId);
     }
 
     /**
@@ -534,10 +531,7 @@ public final class UsersLogic {
      * Gets a list of students for the specified course.
      */
     public List<Student> getStudentsForCourse(String courseId) {
-        List<Student> studentReturnList = usersDb.getStudentsForCourse(courseId);
-        sortByName(studentReturnList);
-
-        return studentReturnList;
+        return usersDb.getStudentsForCourse(courseId);
     }
 
     /**

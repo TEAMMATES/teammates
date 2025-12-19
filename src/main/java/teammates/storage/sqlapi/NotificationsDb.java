@@ -80,7 +80,8 @@ public final class NotificationsDb extends EntitiesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
         Root<Notification> root = cq.from(Notification.class);
-        CriteriaQuery<Notification> all = cq.select(root);
+        CriteriaQuery<Notification> all = cq.select(root)
+                .orderBy(cb.desc(root.get("startTime")));
         TypedQuery<Notification> allQuery = HibernateUtil.createQuery(all);
         return allQuery.getResultList();
     }
