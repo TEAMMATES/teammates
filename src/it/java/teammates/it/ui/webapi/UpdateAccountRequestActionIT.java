@@ -114,7 +114,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals(comments, data.getComments());
         verifyNumberOfEmailsSent(0);
 
-        ______TS("only student account under the same institute with same email exists");
+        ______TS("email with existing student account (only) under same institute should approve successfully");
         Account studentAccount = logic.createAccountWithTransaction(getTypicalStudentAccount());
         teammates.storage.sqlentity.Course studentCourse = getTypicalStudentCourse();
 
