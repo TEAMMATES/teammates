@@ -20,6 +20,7 @@ import teammates.logic.api.Logic;
 import teammates.storage.entity.Course;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -112,6 +113,33 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals(AccountRequestStatus.REGISTERED, data.getStatus());
         assertEquals(comments, data.getComments());
         verifyNumberOfEmailsSent(0);
+
+        ______TS("only student account under the same institute with same email exists");
+        Account studentAccount = logic.createAccountWithTransaction(getTypicalStudentAccount());
+        teammates.storage.sqlentity.Course studentCourse = getTypicalStudentCourse();
+
+        HibernateUtil.beginTransaction();
+        logic.createCourse(studentCourse);
+        Student student = new Student(studentCourse, studentAccount.getName(), studentAccount.getEmail(), "");
+        logic.createStudent(student);
+        student.setAccount(studentAccount);
+        HibernateUtil.commitTransaction();
+
+        accountRequest = logic.createAccountRequestWithTransaction(studentAccount.getName(), studentAccount.getEmail(),
+                studentCourse.getInstitute(), AccountRequestStatus.PENDING, "I want to become an instructor");
+        requestBody = new AccountRequestUpdateRequest(accountRequest.getName(), accountRequest.getEmail(),
+                accountRequest.getInstitute(), AccountRequestStatus.APPROVED, accountRequest.getComments());
+        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
+
+        action = getAction(requestBody, params);
+        result = getJsonResult(action, 200);
+        data = (AccountRequestData) result.getOutput();
+
+        assertEquals(accountRequest.getName(), data.getName());
+        assertEquals(accountRequest.getEmail(), data.getEmail());
+        assertEquals(accountRequest.getInstitute(), data.getInstitute());
+        assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
+        verifyNumberOfEmailsSent(1);
 
         ______TS("email with existing instructor account under same institute throws exception");
         Account account = logic.createAccountWithTransaction(getTypicalAccount());
@@ -269,6 +297,21 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         return CourseAttributes.valueOf(course);
     }
 
+    /**
+     * Returns the typical student account.
+     */
+    private Account getTypicalStudentAccount() {
+        return new Account("student-google-id", "Student Name", "existing-student@test.com");
+    }
+
+    /**
+     * Returns the typical student course.
+     */
+    private teammates.storage.sqlentity.Course getTypicalStudentCourse() {
+        return new teammates.storage.sqlentity.Course(
+                "student-course-id", "Student Course", Const.DEFAULT_TIME_ZONE, "Student Institute");
+    }
+
     @Override
     @Test
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
@@ -279,16 +322,28 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @AfterMethod
     protected void tearDown() {
         HibernateUtil.beginTransaction();
-        List<AccountRequest> accountRequests = logic.getAllAccountRequests();
-        for (AccountRequest ar : accountRequests) {
-            logic.deleteAccountRequest(ar.getId());
+        try {
+            List<AccountRequest> accountRequests = logic.getAllAccountRequests();
+            for (AccountRequest ar : accountRequests) {
+                logic.deleteAccountRequest(ar.getId());
+            }
+
+            // Clean up the course and instructor accounts created during the test
+            CourseAttributes courseAttributes = getTypicalCourseAttributes();
+            Logic.inst().deleteCourseCascade(courseAttributes.getId());
+
+            logic.deleteAccount(getTypicalAccount().getGoogleId());
+
+            // Clean up the student account first (this deletes the student entity),
+            // then delete the course to avoid null team assertion in cascade delete
+            logic.deleteAccountCascade(getTypicalStudentAccount().getGoogleId());
+            teammates.storage.sqlentity.Course studentCourse = getTypicalStudentCourse();
+            logic.deleteCourseCascade(studentCourse.getId());
+
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            HibernateUtil.rollbackTransaction();
+            throw e;
         }
-
-        // Clean up the course and instructor accounts created during the test
-        CourseAttributes courseAttributes = getTypicalCourseAttributes();
-        Logic.inst().deleteCourseCascade(courseAttributes.getId());
-
-        logic.deleteAccount(getTypicalAccount().getGoogleId());
-        HibernateUtil.commitTransaction();
     }
 }
