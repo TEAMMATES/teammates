@@ -501,7 +501,7 @@ public final class UsersDb extends EntitiesDb {
     }
 
     /**
-     * Gets list of students by email.
+     * Gets the list of students by email.
      */
     public List<Student> getAllStudentsForEmail(String email) {
         assert email != null;
