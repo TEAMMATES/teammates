@@ -88,7 +88,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             if (student == null) {
-                throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
+                throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity.");
             }
             feedbackSession = feedbackSession.getCopyForUser(student.getEmail());
             verifySessionOpenExceptForModeration(feedbackSession, student);
@@ -98,7 +98,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             if (instructor == null) {
-                throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
+                throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity.");
             }
             feedbackSession = feedbackSession.getCopyForUser(instructor.getEmail());
             verifySessionOpenExceptForModeration(feedbackSession, instructor);
@@ -106,7 +106,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             break;
         case INSTRUCTOR_RESULT:
         case STUDENT_RESULT:
-            throw new InvalidHttpParameterException("Invalid intent for this action");
+            throw new InvalidHttpParameterException("Invalid intent for this action.");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
