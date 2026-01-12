@@ -390,6 +390,8 @@ public final class FeedbackResponsesLogic {
         Map<String, Boolean> responseGiverVisibilityTable = new HashMap<>();
         Map<String, Boolean> responseRecipientVisibilityTable = new HashMap<>();
         Map<Long, Boolean> commentVisibilityTable = new HashMap<>();
+        // Performance optimization: Cache visibility check results
+        Map<String, Boolean> nameVisibilityCache = new HashMap<>();
 
         // build response
         for (FeedbackResponseAttributes response : allResponses) {
@@ -421,11 +423,24 @@ public final class FeedbackResponsesLogic {
             // if there are viewable responses, the corresponding question becomes related
             relatedQuestionsMap.put(response.getFeedbackQuestionId(), correspondingQuestion);
             relatedResponsesMap.put(response.getId(), response);
-            // generate giver/recipient name visibility table
-            responseGiverVisibilityTable.put(response.getId(),
-                    isNameVisibleToUser(correspondingQuestion, response, userEmail, isInstructor, true, roster));
-            responseRecipientVisibilityTable.put(response.getId(),
-                    isNameVisibleToUser(correspondingQuestion, response, userEmail, isInstructor, false, roster));
+            // generate giver/recipient name visibility table with caching
+            String qnId = correspondingQuestion.getId();
+            String giverKey = qnId + "|" + response.getGiver() + "|" + response.getRecipient() + "|true";
+            String recipientKey = qnId + "|" + response.getGiver() + "|" + response.getRecipient() + "|false";
+            Boolean giverVisible = nameVisibilityCache.get(giverKey);
+            if (giverVisible == null) {
+                giverVisible = isNameVisibleToUser(correspondingQuestion, response,
+                        userEmail, isInstructor, true, roster);
+                nameVisibilityCache.put(giverKey, giverVisible);
+            }
+            responseGiverVisibilityTable.put(response.getId(), giverVisible);
+            Boolean recipientVisible = nameVisibilityCache.get(recipientKey);
+            if (recipientVisible == null) {
+                recipientVisible = isNameVisibleToUser(correspondingQuestion, response,
+                        userEmail, isInstructor, false, roster);
+                nameVisibilityCache.put(recipientKey, recipientVisible);
+            }
+            responseRecipientVisibilityTable.put(response.getId(), recipientVisible);
         }
         RequestTracer.checkRemainingTime();
 
