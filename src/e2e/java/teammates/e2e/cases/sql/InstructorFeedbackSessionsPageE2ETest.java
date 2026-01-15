@@ -24,7 +24,6 @@ import teammates.storage.sqlentity.Student;
 import teammates.test.ThreadHelper;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
-import teammates.ui.output.SessionVisibleSetting;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSIONS_PAGE}.
