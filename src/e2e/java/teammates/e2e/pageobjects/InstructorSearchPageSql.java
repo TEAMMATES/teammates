@@ -1,0 +1,163 @@
+package teammates.e2e.pageobjects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.List;
+import java.util.Map;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import teammates.common.util.StringHelper;
+import teammates.test.ThreadHelper;
+
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Student;
+
+/**
+ * Represents the instructor search page.
+ */
+public class InstructorSearchPageSql extends AppPage {
+
+    @FindBy(id = "search-keyword")
+    private WebElement searchKeyword;
+
+    @FindBy(id = "btn-search")
+    private WebElement searchButton;
+
+    public InstructorSearchPageSql(Browser browser) {
+        super(browser);
+    }
+
+    @Override
+    protected boolean containsExpectedPageContents() {
+        return getPageTitle().contains("Search");
+    }
+
+    public void search(String searchTerm) {
+        searchKeyword.clear();
+        searchKeyword.sendKeys(searchTerm);
+        if (StringHelper.isEmpty(searchTerm)) {
+            verifyUnclickable(searchButton);
+            return;
+        }
+        click(searchButton);
+        WebElement loadingContainer = null;
+        try {
+            loadingContainer = waitForElementPresence(By.className("loading-container"));
+        } catch (TimeoutException e) {
+            // loading has finished before this block is reached
+        }
+        if (loadingContainer != null) {
+            waitForElementStaleness(loadingContainer);
+        }
+    }
+
+    private List<WebElement> getStudentCoursesResult() {
+        return browser.driver.findElements(By.className("student-course-table"));
+    }
+
+    private String createHeaderText(Course course) {
+        return "[" + course.getId() + "]";
+    }
+
+    public void verifyStudentDetails(Map<String, Course> courses, Map<String, Student[]> students) {
+        List<WebElement> studentCoursesResult = getStudentCoursesResult();
+        assertEquals(students.size(), courses.size());
+        assertEquals(students.size(), studentCoursesResult.size());
+
+        students.forEach((courseId, studentsForCourse) -> verifyStudentDetails(courses.get(courseId), studentsForCourse));
+    }
+
+    public void verifyStudentDetails(Course course, Student[] students) {
+        WebElement targetCourse = getStudentTableForHeader(course);
+        if (targetCourse == null) {
+            fail("Course with ID " + course.getId() + " is not found");
+            return;
+        }
+
+        WebElement studentList = targetCourse.findElement(By.tagName("table"));
+        verifyTableBodyValues(studentList, getExpectedStudentValues(students));
+    }
+
+    private WebElement getStudentTableForHeader(Course course) {
+        String targetHeader = createHeaderText(course);
+        List<WebElement> studentCoursesResult = getStudentCoursesResult();
+
+        return studentCoursesResult.stream().filter(studentCourse -> {
+            String courseHeader = studentCourse.findElement(By.className("card-header")).getText();
+            return targetHeader.equals(courseHeader);
+        }).findFirst().orElse(null);
+    }
+
+    private String[][] getExpectedStudentValues(Student[] students) {
+        String[][] expected = new String[students.length][5];
+        for (int i = 0; i < students.length; i++) {
+            Student student = students[i];
+            expected[i][0] = student.getSectionName();
+            expected[i][1] = student.getTeamName();
+            expected[i][2] = student.getName();
+            expected[i][3] = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
+            expected[i][4] = student.getEmail();
+        }
+        return expected;
+    }
+
+    public void deleteStudent(Course course, String studentEmail) {
+        clickAndConfirm(getDeleteButton(course, studentEmail));
+        waitUntilAnimationFinish();
+    }
+
+    private WebElement getDeleteButton(Course course, String studentEmail) {
+        WebElement studentRow = getStudentRow(course, studentEmail);
+        return studentRow.findElement(By.cssSelector("[id^='btn-delete-']"));
+    }
+
+    private WebElement getStudentRow(Course course, String studentEmail) {
+        WebElement targetCourse = getStudentTableForHeader(course);
+        if (targetCourse == null) {
+            fail("Course with ID " + course.getId() + " is not found");
+            return null;
+        }
+
+        List<WebElement> studentRows = targetCourse.findElements(By.cssSelector("tbody tr"));
+        for (WebElement studentRow : studentRows) {
+            List<WebElement> studentCells = studentRow.findElements(By.tagName("td"));
+            if (studentCells.get(4).getText().equals(studentEmail)) {
+                return studentRow;
+            }
+        }
+        return null;
+    }
+
+    public InstructorCourseStudentDetailsViewPageSql clickViewStudent(Course course, String studentEmail) {
+        WebElement studentRow = getStudentRow(course, studentEmail);
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
+        click(viewButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(InstructorCourseStudentDetailsViewPageSql.class);
+    }
+
+    public InstructorCourseStudentDetailsEditPageSql clickEditStudent(Course course, String studentEmail) {
+        WebElement studentRow = getStudentRow(course, studentEmail);
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
+        click(viewButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(InstructorCourseStudentDetailsEditPageSql.class);
+    }
+
+    public InstructorStudentRecordsPageSql clickViewAllRecords(Course course, String studentEmail) {
+        WebElement studentRow = getStudentRow(course, studentEmail);
+        WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
+        click(viewButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(InstructorStudentRecordsPageSql.class);
+    }
+
+}
