@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -26,7 +27,9 @@ import teammates.common.util.SanitizationHelper;
  * Represents a Section.
  */
 @Entity
-@Table(name = "Sections")
+@Table(name = "Sections", uniqueConstraints = {
+        @UniqueConstraint(name = "Unique name and courseId", columnNames = { "courseId", "name" })
+})
 public class Section extends BaseEntity {
     @Id
     private UUID id;
