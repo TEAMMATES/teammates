@@ -582,7 +582,10 @@ public final class UsersLogic {
      * Gets all students of a team.
      */
     public List<Student> getStudentsForTeam(String teamName, String courseId) {
-        return usersDb.getStudentsForTeam(teamName, courseId);
+        List<Student> studentReturnList = usersDb.getStudentsForTeam(teamName, courseId);
+        sortByName(studentReturnList);
+
+        return studentReturnList;
     }
 
     /**
