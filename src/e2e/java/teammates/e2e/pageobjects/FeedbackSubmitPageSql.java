@@ -14,24 +14,23 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
+import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
+import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
+import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
+import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
+import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
+import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
+import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
+import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -144,36 +143,36 @@ public class FeedbackSubmitPageSql extends AppPage {
         assertEquals(numComments, 0);
     }
 
-    public void verifyTextQuestion(int qnNumber, FeedbackTextQuestionDetails questionDetails) {
+    public void verifyTextQuestion(int qnNumber, FeedbackTextQuestion question) {
         String recommendedLengthText = getQuestionForm(qnNumber).findElement(By.id("recommended-length")).getText();
         assertEquals(recommendedLengthText, "Recommended length for the answer: "
-                + questionDetails.getRecommendedLength() + " words");
+                + question.getFeedbackQuestionDetails().getRecommendedLength() + " words");
     }
 
     public void fillTextResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackTextResponseDetails responseDetails =
-                (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
-        writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), responseDetails.getAnswer());
+        FeedbackTextResponse responseEntity = (FeedbackTextResponse) response;
+        String answer = responseEntity.getAnswer().getAnswer();
+        writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), answer);
     }
 
-    public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackTextResponseDetails responseDetails =
-                (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
-        int responseLength = responseDetails.getAnswer().split(" ").length;
-        assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), responseDetails.getAnswer());
+        public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackTextResponse responseEntity = (FeedbackTextResponse) response;
+        String answer = responseEntity.getAnswer().getAnswer();
+        int responseLength = answer.split(" ").length;
+        assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), answer);
         assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
-                + " words");
-    }
+            + " words");
+        }
 
-    public void verifyMcqQuestion(int qnNumber, String recipient, FeedbackMcqQuestionDetails questionDetails) {
-        List<String> mcqChoices = questionDetails.getMcqChoices();
+    public void verifyMcqQuestion(int qnNumber, String recipient, FeedbackMcqQuestion question) {
+        List<String> mcqChoices = question.getFeedbackQuestionDetails().getMcqChoices();
         List<WebElement> optionTexts = getMcqOptions(qnNumber, recipient);
 
         for (int i = 0; i < mcqChoices.size(); i++) {
             assertEquals(mcqChoices.get(i), optionTexts.get(i).getText());
         }
 
-        if (questionDetails.isOtherEnabled()) {
+        if (question.getFeedbackQuestionDetails().isOtherEnabled()) {
             assertEquals("Other", getMcqSection(qnNumber, recipient).findElement(By.id("other-option")).getText());
         }
     }
@@ -186,7 +185,8 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void fillMcqResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        FeedbackMcqResponse respEntity = (FeedbackMcqResponse) response;
+        var responseDetails = respEntity.getAnswer();
         if (responseDetails.isOther()) {
             markOptionAsSelected(getMcqOtherOptionRadioBtn(qnNumber, recipient));
             fillTextBox(getMcqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
@@ -202,7 +202,8 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void verifyMcqResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        FeedbackMcqResponse respEntity = (FeedbackMcqResponse) response;
+        var responseDetails = respEntity.getAnswer();
         if (responseDetails.isOther()) {
             assertTrue(getMcqOtherOptionRadioBtn(qnNumber, recipient).isSelected());
             assertEquals(getMcqOtherOptionTextbox(qnNumber, recipient).getAttribute("value"),
@@ -220,33 +221,33 @@ public class FeedbackSubmitPageSql extends AppPage {
         }
     }
 
-    public void verifyMsqQuestion(int qnNumber, String recipient, FeedbackMsqQuestionDetails questionDetails) {
-        List<String> msqChoices = questionDetails.getMsqChoices();
-        if (questionDetails.isOtherEnabled()) {
+    public void verifyMsqQuestion(int qnNumber, String recipient, FeedbackMsqQuestion question) {
+        List<String> msqChoices = new java.util.ArrayList<>(question.getFeedbackQuestionDetails().getMsqChoices());
+        if (question.getFeedbackQuestionDetails().isOtherEnabled()) {
             msqChoices.add("Other");
         }
-        if (questionDetails.getMinSelectableChoices() == Const.POINTS_NO_VALUE) {
+        if (question.getFeedbackQuestionDetails().getMinSelectableChoices() == Const.POINTS_NO_VALUE) {
             msqChoices.add("None of the above");
         }
         List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
         for (int i = 0; i < msqChoices.size(); i++) {
             assertEquals(msqChoices.get(i), optionTexts.get(i).getText());
         }
-        verifyMsqSelectableOptionsMessage(qnNumber, questionDetails);
+        verifyMsqSelectableOptionsMessage(qnNumber, question);
     }
 
-    private void verifyMsqSelectableOptionsMessage(int qnNumber, FeedbackMsqQuestionDetails questionDetails) {
-        if (questionDetails.getMinSelectableChoices() != Const.POINTS_NO_VALUE) {
+    private void verifyMsqSelectableOptionsMessage(int qnNumber, FeedbackMsqQuestion question) {
+        if (question.getFeedbackQuestionDetails().getMinSelectableChoices() != Const.POINTS_NO_VALUE) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
-                    "Choose at least " + questionDetails.getMinSelectableChoices() + " options.");
+                    "Choose at least " + question.getFeedbackQuestionDetails().getMinSelectableChoices() + " options.");
         }
-        if (questionDetails.getMaxSelectableChoices() != Const.POINTS_NO_VALUE) {
+        if (question.getFeedbackQuestionDetails().getMaxSelectableChoices() != Const.POINTS_NO_VALUE) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
-                    "Choose no more than " + questionDetails.getMaxSelectableChoices() + " options.");
+                    "Choose no more than " + question.getFeedbackQuestionDetails().getMaxSelectableChoices() + " options.");
         }
     }
 
-    public void verifyGeneratedMsqQuestion(int qnNumber, String recipient, FeedbackMsqQuestionDetails questionDetails,
+    public void verifyGeneratedMsqQuestion(int qnNumber, String recipient, FeedbackMsqQuestion questionDetails,
                                            List<String> options) {
         List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
         for (int i = 0; i < options.size(); i++) {
@@ -256,7 +257,8 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void fillMsqResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        FeedbackMsqResponse respEntity = (FeedbackMsqResponse) response;
+        var responseDetails = respEntity.getAnswer();
         List<String> answers = responseDetails.getAnswers();
         if (answers.get(0).isEmpty()) {
             answers.add("None of the above");
@@ -277,7 +279,8 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void verifyMsqResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        FeedbackMsqResponse respEntity = (FeedbackMsqResponse) response;
+        var responseDetails = respEntity.getAnswer();
         List<String> answers = responseDetails.getAnswers();
         if (answers.get(0).isEmpty()) {
             answers.add("None of the above");
@@ -300,11 +303,11 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void verifyNumScaleQuestion(int qnNumber, String recipient,
-                                       FeedbackNumericalScaleQuestionDetails questionDetails) {
-        double step = questionDetails.getStep();
+                                       FeedbackNumericalScaleQuestion question) {
+        double step = question.getFeedbackQuestionDetails().getStep();
         double twoSteps = 2 * step;
-        double min = questionDetails.getMinScale();
-        double max = questionDetails.getMaxScale();
+        double min = question.getFeedbackQuestionDetails().getMinScale();
+        double max = question.getFeedbackQuestionDetails().getMaxScale();
         String possibleValues = String.format("Possible values: [%s, %s, %s, ..., %s, %s, %s]",
                 getDoubleString(min), getDoubleString(min + step), getDoubleString(min + twoSteps),
                 getDoubleString(max - twoSteps), getDoubleString(max - step), getDoubleString(max));
@@ -313,38 +316,39 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void fillNumScaleResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackNumericalScaleResponseDetails responseDetails =
-                (FeedbackNumericalScaleResponseDetails) response.getFeedbackResponseDetailsCopy();
-        fillTextBox(getNumScaleInput(qnNumber, recipient), Double.toString(responseDetails.getAnswer()));
+        FeedbackNumericalScaleResponse respEntity = (FeedbackNumericalScaleResponse) response;
+        double ans = respEntity.getAnswer().getAnswer();
+        fillTextBox(getNumScaleInput(qnNumber, recipient), Double.toString(ans));
     }
 
-    public void verifyNumScaleResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackNumericalScaleResponseDetails responseDetails =
-                (FeedbackNumericalScaleResponseDetails) response.getFeedbackResponseDetailsCopy();
+        public void verifyNumScaleResponse(int qnNumber, String recipient, FeedbackResponse response) {
+        FeedbackNumericalScaleResponse respEntity = (FeedbackNumericalScaleResponse) response;
+        double ans = respEntity.getAnswer().getAnswer();
         assertEquals(getNumScaleInput(qnNumber, recipient).getAttribute("value"),
-                getDoubleString(responseDetails.getAnswer()));
-    }
+            getDoubleString(ans));
+        }
 
     public void verifyConstSumQuestion(int qnNumber, String recipient,
-                                       FeedbackConstantSumQuestionDetails questionDetails) {
-        if (!questionDetails.isDistributeToRecipients()) {
-            List<String> constSumOptions = questionDetails.getConstSumOptions();
+                                       FeedbackConstantSumQuestion question) {
+        var details = question.getFeedbackQuestionDetails();
+        if (!details.isDistributeToRecipients()) {
+            List<String> constSumOptions = details.getConstSumOptions();
             List<WebElement> optionTexts = getConstSumOptions(qnNumber, recipient);
             for (int i = 0; i < constSumOptions.size(); i++) {
                 assertEquals(constSumOptions.get(i), optionTexts.get(i).getText());
             }
         }
 
-        int totalPoints = questionDetails.getPoints();
-        if (questionDetails.isPointsPerOption()) {
-            totalPoints *= questionDetails.getNumOfConstSumOptions();
+        int totalPoints = details.getPoints();
+        if (details.isPointsPerOption()) {
+            totalPoints *= details.getNumOfConstSumOptions();
         }
         assertEquals(getQuestionForm(qnNumber).findElement(By.id("total-points-message")).getText(),
                 "Total points distributed should add up to " + totalPoints + ".");
 
-        if (questionDetails.isForceUnevenDistribution()) {
-            String entityType = questionDetails.isDistributeToRecipients() ? "recipient" : "option";
-            if ("All options".equals(questionDetails.getDistributePointsFor())) {
+        if (details.isForceUnevenDistribution()) {
+            String entityType = details.isDistributeToRecipients() ? "recipient" : "option";
+            if ("All options".equals(details.getDistributePointsFor())) {
                 assertEquals(getQuestionForm(qnNumber).findElement(By.id("all-uneven-message")).getText(),
                         "Every " + entityType + " should be allocated different number of points.");
             } else {
@@ -355,9 +359,8 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void fillConstSumOptionResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackConstantSumResponseDetails responseDetails =
-                (FeedbackConstantSumResponseDetails) response.getFeedbackResponseDetailsCopy();
-        List<Integer> answers = responseDetails.getAnswers();
+        FeedbackConstantSumResponse respEntity = (FeedbackConstantSumResponse) response;
+        List<Integer> answers = respEntity.getAnswer().getAnswers();
         List<WebElement> constSumInputs = getConstSumInputs(qnNumber, recipient);
         for (int i = 0; i < answers.size(); i++) {
             fillTextBox(constSumInputs.get(i), Integer.toString(answers.get(i)));
@@ -365,9 +368,8 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void verifyConstSumOptionResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackConstantSumResponseDetails responseDetails =
-                (FeedbackConstantSumResponseDetails) response.getFeedbackResponseDetailsCopy();
-        List<Integer> answers = responseDetails.getAnswers();
+        FeedbackConstantSumResponse respEntity = (FeedbackConstantSumResponse) response;
+        List<Integer> answers = respEntity.getAnswer().getAnswers();
         List<WebElement> constSumInputs = getConstSumInputs(qnNumber, recipient);
         for (int i = 0; i < answers.size(); i++) {
             assertEquals(constSumInputs.get(i).getAttribute("value"), Integer.toString(answers.get(i)));
@@ -377,54 +379,51 @@ public class FeedbackSubmitPageSql extends AppPage {
     public void fillConstSumRecipientResponse(int qnNumber, List<FeedbackResponse> responses) {
         List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
-            FeedbackConstantSumResponseDetails response =
-                    (FeedbackConstantSumResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
-            fillTextBox(recipientInputs.get(i), Integer.toString(response.getAnswers().get(0)));
+            FeedbackConstantSumResponse respEntity = (FeedbackConstantSumResponse) responses.get(i);
+            fillTextBox(recipientInputs.get(i), Integer.toString(respEntity.getAnswer().getAnswers().get(0)));
         }
     }
 
     public void verifyConstSumRecipientResponse(int qnNumber, List<FeedbackResponse> responses) {
         List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
-            FeedbackConstantSumResponseDetails response =
-                    (FeedbackConstantSumResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
+            FeedbackConstantSumResponse respEntity = (FeedbackConstantSumResponse) responses.get(i);
             assertEquals(recipientInputs.get(i).getAttribute("value"),
-                    Integer.toString(response.getAnswers().get(0)));
+                    Integer.toString(respEntity.getAnswer().getAnswers().get(0)));
         }
     }
 
-    public void verifyContributionQuestion(int qnNumber, FeedbackContributionQuestionDetails questionDetails) {
+    public void verifyContributionQuestion(int qnNumber, FeedbackContributionQuestion question) {
         try {
             selectDropdownOptionByText(getContributionDropdowns(qnNumber).get(0), "Not Sure");
-            assertTrue(questionDetails.isNotSureAllowed());
-            assertFalse(questionDetails.isZeroSum());
+            assertTrue(question.getFeedbackQuestionDetails().isNotSureAllowed());
+            assertFalse(question.getFeedbackQuestionDetails().isZeroSum());
         } catch (NoSuchElementException e) {
-            assertFalse(questionDetails.isNotSureAllowed());
+            assertFalse(question.getFeedbackQuestionDetails().isNotSureAllowed());
         }
     }
 
     public void fillContributionResponse(int qnNumber, List<FeedbackResponse> responses) {
         List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
-            FeedbackContributionResponseDetails response =
-                    (FeedbackContributionResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
-            selectDropdownOptionByText(dropdowns.get(i), getContributionString(response.getAnswer()));
+            FeedbackContributionResponse respEntity = (FeedbackContributionResponse) responses.get(i);
+            selectDropdownOptionByText(dropdowns.get(i), getContributionString(respEntity.getAnswer().getAnswer()));
         }
     }
 
     public void verifyContributionResponse(int qnNumber, List<FeedbackResponse> responses) {
         List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
-            FeedbackContributionResponseDetails response =
-                    (FeedbackContributionResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
-            assertEquals(getSelectedDropdownOptionText(dropdowns.get(i)), getContributionString(response.getAnswer()));
+            FeedbackContributionResponse respEntity = (FeedbackContributionResponse) responses.get(i);
+            assertEquals(getSelectedDropdownOptionText(dropdowns.get(i)), getContributionString(respEntity.getAnswer().getAnswer()));
         }
     }
 
-    public void verifyRubricQuestion(int qnNumber, String recipient, FeedbackRubricQuestionDetails questionDetails) {
-        List<String> choices = questionDetails.getRubricChoices();
-        List<String> subQuestions = questionDetails.getRubricSubQuestions();
-        List<List<String>> descriptions = questionDetails.getRubricDescriptions();
+    public void verifyRubricQuestion(int qnNumber, String recipient, FeedbackRubricQuestion question) {
+        var details = question.getFeedbackQuestionDetails();
+        List<String> choices = details.getRubricChoices();
+        List<String> subQuestions = details.getRubricSubQuestions();
+        List<List<String>> descriptions = details.getRubricDescriptions();
 
         String[][] expectedTableData = new String[subQuestions.size()][choices.size()];
         String[][] expectedTableRowHeader = new String[1][choices.size()];
@@ -449,46 +448,53 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void fillRubricResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackRubricResponseDetails responseDetails =
-                (FeedbackRubricResponseDetails) response.getFeedbackResponseDetailsCopy();
-        List<Integer> answers = responseDetails.getAnswer();
+        FeedbackRubricResponse respEntity = (FeedbackRubricResponse) response;
+        List<Integer> answers = respEntity.getAnswer().getAnswer();
         for (int i = 0; i < answers.size(); i++) {
             click(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)));
         }
     }
 
     public void verifyRubricResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackRubricResponseDetails responseDetails =
-                (FeedbackRubricResponseDetails) response.getFeedbackResponseDetailsCopy();
-        List<Integer> answers = responseDetails.getAnswer();
+        FeedbackRubricResponse respEntity = (FeedbackRubricResponse) response;
+        List<Integer> answers = respEntity.getAnswer().getAnswer();
         for (int i = 0; i < answers.size(); i++) {
             assertTrue(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)).isSelected());
         }
     }
 
-    public void verifyRankQuestion(int qnNumber, String recipient, FeedbackRankQuestionDetails questionDetails) {
-        if (questionDetails.getMaxOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
-            assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
-                    "Rank no more than " + questionDetails.getMaxOptionsToBeRanked() + " options.");
-        }
-        if (questionDetails.getMinOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
-            assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
-                    "Rank at least " + questionDetails.getMinOptionsToBeRanked() + " options.");
-        }
-        if (questionDetails instanceof FeedbackRankOptionsQuestionDetails) {
-            FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
-            List<String> options = optionDetails.getOptions();
+    public void verifyRankQuestion(int qnNumber, String recipient, FeedbackQuestion question) {
+        if (question instanceof FeedbackRankOptionsQuestion) {
+            var details = ((FeedbackRankOptionsQuestion) question).getFeedbackQuestionDetails();
+            if (details.getMaxOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
+                assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
+                        "Rank no more than " + details.getMaxOptionsToBeRanked() + " options.");
+            }
+            if (details.getMinOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
+                assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
+                        "Rank at least " + details.getMinOptionsToBeRanked() + " options.");
+            }
+            List<String> options = details.getOptions();
             List<WebElement> optionTexts = getRankOptions(qnNumber, recipient);
             for (int i = 0; i < options.size(); i++) {
                 assertEquals(options.get(i), optionTexts.get(i).getText());
+            }
+        } else if (question instanceof teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion) {
+            var details = ((teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion) question).getFeedbackQuestionDetails();
+            if (details.getMaxOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
+                assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
+                        "Rank no more than " + details.getMaxOptionsToBeRanked() + " options.");
+            }
+            if (details.getMinOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
+                assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
+                        "Rank at least " + details.getMinOptionsToBeRanked() + " options.");
             }
         }
     }
 
     public void fillRankOptionResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackRankOptionsResponseDetails responseDetails =
-                (FeedbackRankOptionsResponseDetails) response.getFeedbackResponseDetailsCopy();
-        List<Integer> answers = responseDetails.getAnswers();
+        FeedbackRankOptionsResponse respEntity = (FeedbackRankOptionsResponse) response;
+        List<Integer> answers = respEntity.getAnswer().getAnswers();
         for (int i = 0; i < answers.size(); i++) {
             if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
                 selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i), "");
@@ -500,9 +506,8 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void verifyRankOptionResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackRankOptionsResponseDetails responseDetails =
-                (FeedbackRankOptionsResponseDetails) response.getFeedbackResponseDetailsCopy();
-        List<Integer> answers = responseDetails.getAnswers();
+        FeedbackRankOptionsResponse respEntity = (FeedbackRankOptionsResponse) response;
+        List<Integer> answers = respEntity.getAnswer().getAnswers();
         for (int i = 0; i < answers.size(); i++) {
             if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
                 assertEquals(getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)),
@@ -517,12 +522,12 @@ public class FeedbackSubmitPageSql extends AppPage {
     public void fillRankRecipientResponse(int qnNumber, List<FeedbackResponse> responses) {
         List<WebElement> recipientDropdowns = getRankRecipientDropdowns(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
-            FeedbackRankRecipientsResponseDetails response =
-                    (FeedbackRankRecipientsResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
-            if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+            FeedbackRankRecipientsResponse respEntity = (FeedbackRankRecipientsResponse) responses.get(i);
+            int answer = respEntity.getAnswer().getAnswer();
+            if (answer == Const.POINTS_NOT_SUBMITTED) {
                 selectDropdownOptionByText(recipientDropdowns.get(i), "");
             } else {
-                selectDropdownOptionByText(recipientDropdowns.get(i), Integer.toString(response.getAnswer()));
+                selectDropdownOptionByText(recipientDropdowns.get(i), Integer.toString(answer));
             }
         }
     }
@@ -530,13 +535,13 @@ public class FeedbackSubmitPageSql extends AppPage {
     public void verifyRankRecipientResponse(int qnNumber, List<FeedbackResponse> responses) {
         List<WebElement> recipientDropdowns = getRankRecipientDropdowns(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
-            FeedbackRankRecipientsResponseDetails response =
-                    (FeedbackRankRecipientsResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
-            if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+            FeedbackRankRecipientsResponse respEntity = (FeedbackRankRecipientsResponse) responses.get(i);
+            int answer = respEntity.getAnswer().getAnswer();
+            if (answer == Const.POINTS_NOT_SUBMITTED) {
                 assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)), "");
             } else {
                 assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)),
-                        Integer.toString(response.getAnswer()));
+                        Integer.toString(answer));
             }
         }
     }
