@@ -12,6 +12,7 @@ import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
@@ -93,7 +94,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         feedbackSubmitPage.verifyMcqQuestion(1, "",
-                (FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy());
+                (FeedbackMcqQuestion) question);
 
         ______TS("verify question with generated options");
         feedbackSubmitPage.verifyGeneratedMcqQuestion(3, "", getGeneratedStudentOptions());
