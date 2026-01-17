@@ -1,6 +1,7 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
@@ -32,7 +33,6 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
-import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
 import teammates.ui.webapi.EntityNotFoundException;
@@ -91,6 +91,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         recipientInstructor1.setCourse(stubCourse);
 
         reset(mockLogic);
+
+        when(mockLogic.getDeadlineForUser(any(FeedbackSession.class), any(Student.class)))
+                .thenAnswer(invocation -> ((FeedbackSession) invocation.getArgument(0)).getEndTime());
+        when(mockLogic.getDeadlineForUser(any(FeedbackSession.class), any(Instructor.class)))
+                .thenAnswer(invocation -> ((FeedbackSession) invocation.getArgument(0)).getEndTime());
     }
 
     @Test
@@ -462,7 +467,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         FeedbackTextQuestionDetails mockDetails = mock(FeedbackTextQuestionDetails.class);
         when(mockQuestion.getQuestionDetailsCopy()).thenReturn(mockDetails);
-        when(mockDetails.validateResponsesDetails(any(), any())).thenReturn(List.of("Validation error"));
+        when(mockDetails.validateResponsesDetails(any(), anyInt())).thenReturn(List.of("Validation error"));
 
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(mockQuestion);
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
@@ -782,6 +787,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
+        when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
+                .thenReturn(stubFeedbackSession.getEndTime());
 
         stubFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
 
@@ -804,6 +811,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
+        when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
+                .thenReturn(stubFeedbackSession.getEndTime());
 
         stubFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
 
@@ -827,6 +836,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
+        when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
+                .thenReturn(stubFeedbackSession.getEndTime());
 
         stubFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
 
@@ -887,12 +898,16 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     @Test
     void testSpecificAccessControl_typicalStudentAccess_canAccess() {
         loginAsStudent(stubStudent.getGoogleId());
-        stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
+        stubFeedbackSession.setSessionVisibleFromTime(Instant.now().minus(Duration.ofDays(2)));
+        stubFeedbackSession.setStartTime(Instant.now().minus(Duration.ofDays(1)));
+        stubFeedbackSession.setEndTime(Instant.now().plus(Duration.ofDays(1)));
 
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
+        when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
+                .thenReturn(stubFeedbackSession.getEndTime());
 
         stubFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
 
@@ -907,12 +922,17 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     @Test
     void testSpecificAccessControl_typicalInstructorAccess_canAccess() {
         loginAsInstructor(stubInstructor.getGoogleId());
+        stubFeedbackSession.setSessionVisibleFromTime(Instant.now().minus(Duration.ofDays(2)));
+        stubFeedbackSession.setStartTime(Instant.now().minus(Duration.ofDays(1)));
+        stubFeedbackSession.setEndTime(Instant.now().plus(Duration.ofDays(1)));
 
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
                 .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
+        when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubInstructor))
+                .thenReturn(stubFeedbackSession.getEndTime());
 
         stubFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
 
@@ -954,11 +974,15 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     void testSpecificAccessControl_adminMasqueradeAsStudent_canAccess() {
         loginAsAdmin();
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
+        stubFeedbackSession.setStartTime(Instant.now().minus(Duration.ofDays(1)));
+        stubFeedbackSession.setEndTime(Instant.now().plus(Duration.ofDays(1)));
 
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
+        when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
+                .thenReturn(stubFeedbackSession.getEndTime());
 
         stubFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
 
