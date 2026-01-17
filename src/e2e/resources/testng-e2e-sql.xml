@@ -23,6 +23,7 @@
             <class name="teammates.e2e.cases.sql.FeedbackRankRecipientQuestionE2ETest" />
             <class name="teammates.e2e.cases.sql.FeedbackResultsPageE2ETest" />
             <class name="teammates.e2e.cases.sql.FeedbackRubricQuestionE2ETest" />
+            <class name="teammates.e2e.cases.sql.FeedbackSubmitPageE2ETest" />
             <class name="teammates.e2e.cases.sql.FeedbackTextQuestionE2ETest" />
             <class name="teammates.e2e.cases.sql.InstructorCourseDetailsPageE2ETest" />
             <class name="teammates.e2e.cases.sql.InstructorCourseEditPageE2ETest" />
