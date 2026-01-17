@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LogsHistogramComponent } from './logs-histogram.component';
 
-fdescribe('LogsHistogramComponent', () => {
+describe('LogsHistogramComponent', () => {
   let component: LogsHistogramComponent;
   let fixture: ComponentFixture<LogsHistogramComponent>;
 
