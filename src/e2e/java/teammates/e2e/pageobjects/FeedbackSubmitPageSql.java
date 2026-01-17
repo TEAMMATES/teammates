@@ -20,6 +20,7 @@ import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
 import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
 import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
 import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
 import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
 import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
@@ -479,8 +480,8 @@ public class FeedbackSubmitPageSql extends AppPage {
             for (int i = 0; i < options.size(); i++) {
                 assertEquals(options.get(i), optionTexts.get(i).getText());
             }
-        } else if (question instanceof teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion) {
-            var details = ((teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion) question).getFeedbackQuestionDetails();
+        } else if (question instanceof FeedbackRankRecipientsQuestion) {
+            var details = ((FeedbackRankRecipientsQuestion) question).getFeedbackQuestionDetails();
             if (details.getMaxOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
                 assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
                         "Rank no more than " + details.getMaxOptionsToBeRanked() + " options.");

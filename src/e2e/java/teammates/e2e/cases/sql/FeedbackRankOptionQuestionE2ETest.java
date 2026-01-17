@@ -94,8 +94,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         Student receiver = testData.students.get("benny.tmms@FRankOptQn.CS2104");
-        feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(),
-                (FeedbackRankQuestionDetails) question.getQuestionDetailsCopy());
+        feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(), question);
 
         ______TS("submit response");
         FeedbackResponse response = getResponse(question, receiver, Arrays.asList(2, 1, 3,

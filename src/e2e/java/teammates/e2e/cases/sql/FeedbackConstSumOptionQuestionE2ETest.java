@@ -12,6 +12,7 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Team;
+import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
@@ -94,8 +95,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
 
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
-        feedbackSubmitPage.verifyConstSumQuestion(1, "",
-                (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+        feedbackSubmitPage.verifyConstSumQuestion(1, "", (FeedbackConstantSumQuestion) question);
 
         ______TS("submit response");
         FeedbackResponse response = getResponse(question, Arrays.asList(50, 20, 30));

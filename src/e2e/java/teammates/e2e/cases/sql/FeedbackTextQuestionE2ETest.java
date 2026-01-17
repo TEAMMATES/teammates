@@ -9,6 +9,7 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
@@ -79,7 +80,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         Instructor receiver = testData.instructors.get("instructor");
         question.setQuestionNumber(1);
-        feedbackSubmitPage.verifyTextQuestion(1, (FeedbackTextQuestionDetails) question.getQuestionDetailsCopy());
+        feedbackSubmitPage.verifyTextQuestion(1, (FeedbackTextQuestion) question);
 
         ______TS("submit response");
         FeedbackResponse response = getResponse(question, receiver, "<p>This is the response for qn 1</p>");

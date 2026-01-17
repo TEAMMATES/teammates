@@ -9,6 +9,7 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
@@ -89,8 +90,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         Student receiver = testData.students.get("benny.tmms@FNumScaleQn.CS2104");
-        feedbackSubmitPage.verifyNumScaleQuestion(1, receiver.getTeamName(),
-                (FeedbackNumericalScaleQuestionDetails) question.getQuestionDetailsCopy());
+        feedbackSubmitPage.verifyNumScaleQuestion(1, receiver.getTeamName(), (FeedbackNumericalScaleQuestion) question);
 
         ______TS("submit response");
         FeedbackResponse response = getResponse(question, receiver, 5.4);

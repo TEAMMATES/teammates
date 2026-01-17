@@ -34,9 +34,9 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/FeedbackSubmitPageE2ETest_SqlEntities.json"));
+        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/FeedbackSubmitPageE2ETestSql.json"));
         testData.feedbackSessions.get("Grace Period Session").setEndTime(Instant.now());
-        student = testData.students.get("Alice");
+        student = testData.students.get("alice.tmms@FSubmit.CS2104");
         student.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
 

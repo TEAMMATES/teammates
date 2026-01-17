@@ -92,8 +92,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         Instructor receiver = testData.instructors.get("instructor");
         Instructor receiver2 = testData.instructors.get("instructor2");
-        feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(),
-                (FeedbackRankQuestionDetails) question.getQuestionDetailsCopy());
+        feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(), question);
 
         ______TS("submit response");
         FeedbackResponse response = getResponse(question, receiver, 1);

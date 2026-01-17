@@ -15,6 +15,7 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
@@ -95,13 +96,11 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         Student receiver = testData.students.get("benny.tmms@FMsqQn.CS2104");
-        feedbackSubmitPage.verifyMsqQuestion(1, receiver.getName(),
-                (FeedbackMsqQuestionDetails) question.getQuestionDetailsCopy());
+        feedbackSubmitPage.verifyMsqQuestion(1, receiver.getName(), (FeedbackMsqQuestion) question);
 
         ______TS("verify loaded question with generated options");
         FeedbackQuestion generatedQn = testData.feedbackQuestions.get("qn1ForSecondSession");
-        feedbackSubmitPage.verifyGeneratedMsqQuestion(3, "",
-                (FeedbackMsqQuestionDetails) generatedQn.getQuestionDetailsCopy(), getGeneratedTeams());
+        feedbackSubmitPage.verifyGeneratedMsqQuestion(3, "", (FeedbackMsqQuestion) generatedQn, getGeneratedTeams());
 
         ______TS("submit response");
         List<String> answers = Arrays.asList("Leadership", "This is the other response.");
