@@ -227,11 +227,11 @@
       "name": "First Session",
       "creatorEmail": "FSubmit.instr@gmail.tmt",
       "instructions": "Instructions for first session",
-      "createdAtTimestamp": "2012-04-01T20:19:00Z",
-      "startTime": "2012-04-01T13:40:00Z",
-      "endTime": "2025-05-01T00:00:00Z",
-      "sessionVisibleFromTime": "2012-04-01T13:40:00Z",
-      "resultsVisibleFromTime": "2025-05-02T00:00:00Z",
+      "createdAt": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T16:00:00Z",
+      "endTime": "2026-04-30T16:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T16:00:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "isOpeningSoonEmailSent": true,
@@ -253,11 +253,11 @@
       "name": "Grace Period Session",
       "creatorEmail": "FSubmit.instr@gmail.tmt",
       "instructions": "This going to be a grace period session",
-      "createdAtTimestamp": "2012-04-01T20:19:00Z",
-      "startTime": "2012-04-01T13:40:00Z",
-      "endTime": "2025-05-01T00:00:00Z",
-      "sessionVisibleFromTime": "2012-04-01T13:40:00Z",
-      "resultsVisibleFromTime": "2025-05-02T00:00:00Z",
+      "createdAt": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T16:00:00Z",
+      "endTime": "2026-04-30T16:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T16:00:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "isOpeningSoonEmailSent": true,
@@ -279,11 +279,11 @@
       "name": "Closed Session",
       "creatorEmail": "FSubmit.instr@gmail.tmt",
       "instructions": "This going to be a closed session",
-      "createdAtTimestamp": "2012-04-01T20:19:00Z",
-      "startTime": "2012-04-02T13:40:00Z",
-      "endTime": "2012-04-22T00:00:00Z",
-      "sessionVisibleFromTime": "2012-04-01T13:40:00Z",
-      "resultsVisibleFromTime": "2025-05-02T00:00:00Z",
+      "createdAt": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T16:00:00Z",
+      "endTime": "2012-04-30T16:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T16:00:00Z",
       "timeZone": "Asia/Singapore",
       "gracePeriod": 20,
       "isOpenedEmailSent": false,
@@ -452,7 +452,11 @@
     "response1": {
       "id": "00000000-0000-4000-8000-000000000701",
       "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000601"
+        "id": "00000000-0000-4000-8000-000000000601",
+        "questionDetails": {
+          "questionType": "TEXT",
+          "questionText": "Rate 3 other students' products"
+        }
       },
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
