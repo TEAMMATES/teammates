@@ -4,6 +4,7 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
@@ -116,6 +117,7 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         } else if (expected instanceof FeedbackResponseComment) {
             FeedbackResponseComment expectedFeedbackResponseComment = (FeedbackResponseComment) expected;
             FeedbackResponseCommentData actualComment = (FeedbackResponseCommentData) actual;
+            System.out.println("[BaseTCWithSqlDBAccess] Actual FeedbackResponseComment entity: " + JsonUtils.toJson(actual));
             assertEquals(expectedFeedbackResponseComment.getGiver(), actualComment.getCommentGiver());
             assertEquals(expectedFeedbackResponseComment.getCommentText(), actualComment.getCommentText());
             assertEquals(expectedFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion(),
@@ -227,6 +229,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             return getFeedbackQuestion((FeedbackQuestion) entity);
         } else if (entity instanceof FeedbackResponse) {
             return getFeedbackResponse((FeedbackResponse) entity);
+        } else if (entity instanceof FeedbackResponseComment) {
+            return getFeedbackResponseComment((FeedbackResponseComment) entity);
         } else if (entity instanceof FeedbackSession) {
             return getFeedbackSession((FeedbackSession) entity);
         } else if (entity instanceof Instructor) {
@@ -247,6 +251,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     protected abstract FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq);
 
     protected abstract FeedbackResponseData getFeedbackResponse(FeedbackResponse fr);
+
+    protected abstract FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc);
 
     protected abstract FeedbackSessionData getFeedbackSession(FeedbackSession fs);
 
