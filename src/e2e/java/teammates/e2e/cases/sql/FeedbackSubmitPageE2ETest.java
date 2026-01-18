@@ -1,12 +1,12 @@
 package teammates.e2e.cases.sql;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.util.*;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -16,8 +16,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.common.util.AppUrl;
-import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.util.TestProperties;
 
@@ -98,7 +96,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         AppUrl gracePeriodSessionUrl = getStudentSubmitPageUrl(student, gracePeriodSession);
         submitPage = getNewPageInstance(gracePeriodSessionUrl, FeedbackSubmitPageSql.class);
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1InGracePeriodSession");
-        String questionId = question.getId().toString();
+        String questionId = getFeedbackQuestion(question).getFeedbackQuestionId();
         String recipient = "Team 2";
         FeedbackResponse response = getMcqResponse(question, recipient, false, "UI");
         submitPage.fillMcqResponse(1, recipient, response);
@@ -109,8 +107,9 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         response = getMcqResponse(question, recipient, false, "Algo");
         submitPage.fillMcqResponse(1, recipient, response);
+
         FeedbackQuestion question2 = testData.feedbackQuestions.get("qn2InGracePeriodSession");
-        String question2Id = question2.getId().toString();
+        String question2Id = getFeedbackQuestion(question2).getFeedbackQuestionId();
         FeedbackResponse response2 = getMcqResponse(question2, recipient, false, "Teammates Test");
         submitPage.fillMcqResponse(2, recipient, response2);
 
@@ -121,12 +120,19 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("add comment");
         String responseId = getFeedbackResponse(response).getFeedbackResponseId();
+
+        System.out.println("[FeedbackSubmitPageE2ETest] response: " + JsonUtils.toJson(response));
+        response.setId(UUID.fromString(responseId));
+        System.out.println("[FeedbackSubmitPageE2ETest] response: " + JsonUtils.toJson(response));
+
         int qnToComment = 1;
         String comment = "<p>new comment</p>";
         submitPage.addComment(qnToComment, recipient, comment);
         submitPage.clickSubmitAllQuestionsButton();
+
         verifyPresentInDatabase(response2);
 
+        System.out.println("Response ID: " + responseId);
         submitPage.verifyComment(qnToComment, recipient, comment);
         verifyPresentInDatabase(getFeedbackResponseComment(response, comment));
 
@@ -143,7 +149,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         submitPage.verifyStatusMessage("Your comment has been deleted!");
         submitPage.verifyNoCommentPresent(qnToComment, recipient);
-        assertNull(BACKDOOR.getFeedbackResponseComment(responseId));
+        verifyAbsentInDatabase(getFeedbackResponseComment(response, comment));
 
         ______TS("preview as instructor");
         logout();
@@ -235,13 +241,12 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         } else {
             details.setAnswer(answer);
         }
-        return FeedbackResponse.makeResponse(question, student.getEmail(), student.getSection(), recipient, null, details);
+        return FeedbackResponse.makeResponse(question, student.getEmail(), student.getSection(), recipient, student.getSection(), details);
     }
 
     private FeedbackResponseComment getFeedbackResponseComment(FeedbackResponse response, String comment) {
         return new FeedbackResponseComment(response, student.getEmail(),
                 FeedbackParticipantType.STUDENTS, student.getSection(), student.getSection(), comment,
-                false,  true, null, null, null);
+                true,  true, Collections.emptyList(), Collections.emptyList(), student.getEmail());
     }
 }
-
