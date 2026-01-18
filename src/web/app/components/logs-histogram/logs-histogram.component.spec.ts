@@ -35,8 +35,8 @@ describe('LogsHistogramComponent', () => {
   it('should not call drawBars on ngOnChanges when chart does not exist', () => {
     const drawBarsSpy = jest
       .spyOn(component as any, 'drawBars');
+    (component as any).chart = null;
 
-    component['chart'] = null;
     component.ngOnChanges();
 
     expect(drawBarsSpy).not.toHaveBeenCalled();
