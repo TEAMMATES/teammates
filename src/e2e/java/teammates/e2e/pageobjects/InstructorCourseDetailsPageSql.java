@@ -161,31 +161,31 @@ public class InstructorCourseDetailsPageSql extends AppPage {
         return null;
     }
 
-    public InstructorCourseStudentDetailsViewPage clickViewStudent(String studentEmailAddress) {
+    public InstructorCourseStudentDetailsViewPageSql clickViewStudent(String studentEmailAddress) {
         WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(InstructorCourseStudentDetailsViewPage.class);
+        return changePageType(InstructorCourseStudentDetailsViewPageSql.class);
     }
 
-    public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentEmailAddress) {
+    public InstructorCourseStudentDetailsEditPageSql clickEditStudent(String studentEmailAddress) {
         WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(InstructorCourseStudentDetailsEditPage.class);
+        return changePageType(InstructorCourseStudentDetailsEditPageSql.class);
     }
 
-    public InstructorStudentRecordsPage clickViewAllRecords(String studentEmailAddress) {
+    public InstructorStudentRecordsPageSql clickViewAllRecords(String studentEmailAddress) {
         WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(InstructorStudentRecordsPage.class);
+        return changePageType(InstructorStudentRecordsPageSql.class);
     }
 
 }
