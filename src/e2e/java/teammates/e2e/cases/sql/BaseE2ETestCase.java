@@ -14,6 +14,7 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.DevServerLoginPage;
@@ -25,6 +26,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -36,6 +38,7 @@ import teammates.ui.output.AccountData;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackResponseData;
+import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
 import teammates.ui.output.InstructorData;
@@ -299,6 +302,16 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
     @Override
     protected FeedbackResponseData getFeedbackResponse(FeedbackResponse fr) {
         return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
+    }
+
+    FeedbackResponseCommentData getFeedbackResponseComment(String feedbackResponseId) {
+        return BACKDOOR.getFeedbackResponseCommentData(feedbackResponseId);
+    }
+
+    @Override
+    protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
+        System.out.println(JsonUtils.toJson(frc.getFeedbackResponse()));
+        return getFeedbackResponseComment(frc.getFeedbackResponse().getId().toString());
     }
 
     FeedbackSessionData getFeedbackSession(String courseId, String feedbackSessionName) {
