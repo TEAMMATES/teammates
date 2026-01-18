@@ -66,7 +66,7 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void verifyNumQuestions(int expected) {
-        assertEquals(browser.driver.findElements(By.cssSelector("[id^='question-submission-form-qn-']")).size(), expected);
+        assertEquals(expected, browser.driver.findElements(By.cssSelector("[id^='question-submission-form-qn-']")).size());
     }
 
     public void verifyQuestionDetails(int qnNumber, FeedbackQuestion feedbackQuestion) {
