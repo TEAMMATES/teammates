@@ -1,12 +1,17 @@
 package teammates.e2e.cases.sql;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.*;
+import teammates.common.util.AppUrl;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
