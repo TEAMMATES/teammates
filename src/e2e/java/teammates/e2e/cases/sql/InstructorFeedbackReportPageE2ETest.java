@@ -65,7 +65,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(
+        testData = doRemoveAndRestoreDataBundle(
                 loadSqlDataBundle("/InstructorFeedbackReportPageE2ETestSql.json"));
         studentToEmail = testData.students.get("IFRep.emily@CS2103");
         studentToEmail.setEmail(TestProperties.TEST_EMAIL);

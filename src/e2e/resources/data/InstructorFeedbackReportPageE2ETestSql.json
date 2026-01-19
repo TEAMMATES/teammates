@@ -49,6 +49,7 @@
 			"email": "IFRep.fred.g@gmail.tmt"
 		}
 	},
+	"accountRequests": {},
 	"courses": {
 		"tm.e2e.IFRep.CS2104": {
 			"id": "tm.e2e.IFRep.CS2104",
@@ -393,7 +394,10 @@
 			"recipient": "IFRep.benny.c@gmail.tmt",
 			"giverSection": { "id": "00000000-0000-4000-8000-000000000101" },
 			"recipientSection": { "id": "00000000-0000-4000-8000-000000000101" },
-			"feedbackQuestion": { "id": "00000000-0000-4000-8000-000000000802" },
+			"feedbackQuestion": { 
+				"id": "00000000-0000-4000-8000-000000000802", 
+				"questionDetails": { "questionType": "MCQ" }
+			},
 			"answer": { "questionType": "MCQ", "answer": "", "isOther": true, "otherFieldContent": "Answer from Alice." }
 		},
 		"qn2response2": {
@@ -402,7 +406,10 @@
 			"recipient": "IFRep.charlie.d@gmail.tmt",
 			"giverSection": { "id": "00000000-0000-4000-8000-000000000101" },
 			"recipientSection": { "id": "00000000-0000-4000-8000-000000000102" },
-			"feedbackQuestion": { "id": "00000000-0000-4000-8000-000000000802" },
+			"feedbackQuestion": { 
+				"id": "00000000-0000-4000-8000-000000000802", 
+				"questionDetails": { "questionType": "MCQ" } 
+			},
 			"answer": { "questionType": "MCQ", "answer": "Algo", "isOther": false, "otherFieldContent": "" }
 		},
 		"qn2response3": {
@@ -411,7 +418,10 @@
 			"recipient": "IFRep.alice.b@gmail.tmt",
 			"giverSection": { "id": "00000000-0000-4000-8000-000000000102" },
 			"recipientSection": { "id": "00000000-0000-4000-8000-000000000101" },
-			"feedbackQuestion": { "id": "00000000-0000-4000-8000-000000000802" },
+			"feedbackQuestion": { 
+				"id": "00000000-0000-4000-8000-000000000802", 
+				"questionDetails": { "questionType": "MCQ" } 
+			},
 			"answer": { "questionType": "MCQ", "answer": "UI", "isOther": false, "otherFieldContent": "" }
 		},
 		"qn2response4": {
@@ -420,7 +430,10 @@
 			"recipient": "IFRep.danny.e@gmail.tmt",
 			"giverSection": { "id": "00000000-0000-4000-8000-000000000102" },
 			"recipientSection": { "id": "00000000-0000-4000-8000-000000000103" },
-			"feedbackQuestion": { "id": "00000000-0000-4000-8000-000000000802" },
+			"feedbackQuestion": { 
+				"id": "00000000-0000-4000-8000-000000000802", 
+				"questionDetails": { "questionType": "MCQ" } 
+			},
 			"answer": { "questionType": "MCQ", "answer": "", "isOther": true, "otherFieldContent": "Answer from Charlie." }
 		},
 		"qn3response1": {
@@ -429,7 +442,10 @@
 			"recipient": "%GENERAL%",
 			"giverSection": { "id": "00000000-0000-4000-8000-000000000101" },
 			"recipientSection": { "id": "00000000-0000-4000-8000-000000000101" },
-			"feedbackQuestion": { "id": "00000000-0000-4000-8000-000000000803" },
+			"feedbackQuestion": { 
+				"id": "00000000-0000-4000-8000-000000000803", 
+				"questionDetails": { "questionType": "MSQ" } 
+			},
 			"answer": {
 				"questionType": "MSQ",
 				"answers": ["Benny Charles (Team 1)", "Danny Engrid (Team 2)"],
@@ -443,7 +459,10 @@
 			"recipient": "IFRep.emily.f@gmail.tmt",
 			"giverSection": { "id": "00000000-0000-4000-8000-000000000104" },
 			"recipientSection": { "id": "00000000-0000-4000-8000-000000000104" },
-			"feedbackQuestion": { "id": "00000000-0000-4000-8000-000000000804" },
+			"feedbackQuestion": { 
+				"id": "00000000-0000-4000-8000-000000000804",
+				"questionDetails": { "questionType": "MCQ" }
+			},
 			"answer": { "questionType": "MCQ", "answer": "UI", "isOther": false, "otherFieldContent": "" }
 		}
 	},
@@ -454,7 +473,18 @@
 			"giverType": "INSTRUCTORS",
 			"giverSection": { "id": "00000000-0000-4000-8000-000000000103" },
 			"recipientSection": { "id": "00000000-0000-4000-8000-000000000101" },
-			"feedbackResponse": { "id": "00000000-0000-4000-8000-000000000903" },
+			"feedbackResponse": { 
+				"id": "00000000-0000-4000-8000-000000000903",
+				"giver": "IFRep.alice.b@gmail.tmt",
+					"recipient": "IFRep.benny.c@gmail.tmt",
+					"giverSection": { "id": "00000000-0000-4000-8000-000000000101" },
+					"recipientSection": { "id": "00000000-0000-4000-8000-000000000101" },
+					"feedbackQuestion": { 
+						"id": "00000000-0000-4000-8000-000000000802", 
+						"questionDetails": { "questionType": "MCQ" }
+					},
+				"answer": { "questionType": "MCQ", "answer": "", "isOther": true, "otherFieldContent": "Answer from Alice." }
+			},
 			"commentText": "Instructor first comment to Alice",
 			"isVisibilityFollowingFeedbackQuestion": false,
 			"isCommentFromFeedbackParticipant": false,
@@ -468,7 +498,18 @@
 			"giverType": "INSTRUCTORS",
 			"giverSection": { "id": "00000000-0000-4000-8000-000000000103" },
 			"recipientSection": { "id": "00000000-0000-4000-8000-000000000101" },
-			"feedbackResponse": { "id": "00000000-0000-4000-8000-000000000903" },
+			"feedbackResponse": { 
+				"id": "00000000-0000-4000-8000-000000000903",
+				"giver": "IFRep.alice.b@gmail.tmt",
+					"recipient": "IFRep.benny.c@gmail.tmt",
+					"giverSection": { "id": "00000000-0000-4000-8000-000000000101" },
+					"recipientSection": { "id": "00000000-0000-4000-8000-000000000101" },
+					"feedbackQuestion": { 
+						"id": "00000000-0000-4000-8000-000000000802", 
+						"questionDetails": { "questionType": "MCQ" }
+					},
+				"answer": { "questionType": "MCQ", "answer": "", "isOther": true, "otherFieldContent": "Answer from Alice." }
+			},
 			"commentText": "Instructor second comment to Alice",
 			"isVisibilityFollowingFeedbackQuestion": false,
 			"isCommentFromFeedbackParticipant": false,
@@ -482,7 +523,23 @@
 			"giverType": "STUDENTS",
 			"giverSection": { "id": "00000000-0000-4000-8000-000000000102" },
 			"recipientSection": { "id": "00000000-0000-4000-8000-000000000101" },
-			"feedbackResponse": { "id": "00000000-0000-4000-8000-000000000907" },
+			"feedbackResponse": { 
+				"id": "00000000-0000-4000-8000-000000000907",
+				"giver": "IFRep.alice.b@gmail.tmt",
+				"recipient": "%GENERAL%",
+				"giverSection": { "id": "00000000-0000-4000-8000-000000000101" },
+				"recipientSection": { "id": "00000000-0000-4000-8000-000000000101" },
+				"feedbackQuestion": { 
+					"id": "00000000-0000-4000-8000-000000000803", 
+					"questionDetails": { "questionType": "MSQ" } 
+				},
+				"answer": {
+					"questionType": "MSQ",
+					"answers": ["Benny Charles (Team 1)", "Danny Engrid (Team 2)"],
+					"isOther": false,
+					"otherFieldContent": ""
+				} 
+			},
 			"commentText": "Charlie comment to alice",
 			"isVisibilityFollowingFeedbackQuestion": true,
 			"isCommentFromFeedbackParticipant": true,
@@ -491,6 +548,8 @@
 			"createdAt": "2026-03-02T23:59:00Z"
 		}
 	},
+	"deadlineExtensions": {},
+	"feedbackSessionLogs": {},
 	"notifications": {},
 	"readNotifications": {}
 }
