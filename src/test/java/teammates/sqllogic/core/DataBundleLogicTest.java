@@ -35,12 +35,6 @@ public class DataBundleLogicTest extends BaseTestCase {
     private AccountsLogic accountsLogic;
     private AccountRequestsLogic accountRequestsLogic;
     private CoursesLogic coursesLogic;
-    private DeadlineExtensionsLogic deadlineExtensionsLogic;
-    private FeedbackSessionsLogic fsLogic;
-    private FeedbackSessionLogsLogic fslLogic;
-    private FeedbackQuestionsLogic fqLogic;
-    private FeedbackResponsesLogic frLogic;
-    private FeedbackResponseCommentsLogic frcLogic;
     private NotificationsLogic notificationsLogic;
     private UsersLogic usersLogic;
 
@@ -49,12 +43,12 @@ public class DataBundleLogicTest extends BaseTestCase {
         accountsLogic = mock(AccountsLogic.class);
         accountRequestsLogic = mock(AccountRequestsLogic.class);
         coursesLogic = mock(CoursesLogic.class);
-        deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
-        fsLogic = mock(FeedbackSessionsLogic.class);
-        fslLogic = mock(FeedbackSessionLogsLogic.class);
-        fqLogic = mock(FeedbackQuestionsLogic.class);
-        frLogic = mock(FeedbackResponsesLogic.class);
-        frcLogic = mock(FeedbackResponseCommentsLogic.class);
+        DeadlineExtensionsLogic deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
+        FeedbackSessionsLogic fsLogic = mock(FeedbackSessionsLogic.class);
+        FeedbackSessionLogsLogic fslLogic = mock(FeedbackSessionLogsLogic.class);
+        FeedbackQuestionsLogic fqLogic = mock(FeedbackQuestionsLogic.class);
+        FeedbackResponsesLogic frLogic = mock(FeedbackResponsesLogic.class);
+        FeedbackResponseCommentsLogic frcLogic = mock(FeedbackResponseCommentsLogic.class);
         notificationsLogic = mock(NotificationsLogic.class);
         usersLogic = mock(UsersLogic.class);
 

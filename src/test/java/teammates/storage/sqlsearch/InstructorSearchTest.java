@@ -17,7 +17,6 @@ import org.testng.annotations.Test;
 import teammates.common.exception.SearchServiceException;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlsearch.InstructorSearchManager;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCase;
 

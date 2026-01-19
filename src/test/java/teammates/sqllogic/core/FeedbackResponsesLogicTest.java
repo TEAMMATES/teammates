@@ -30,16 +30,13 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
     private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
     private FeedbackResponsesDb frDb;
-    private UsersLogic usersLogic;
-    private FeedbackQuestionsLogic fqLogic;
-    private FeedbackResponseCommentsLogic frcLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         frDb = mock(FeedbackResponsesDb.class);
-        usersLogic = mock(UsersLogic.class);
-        fqLogic = mock(FeedbackQuestionsLogic.class);
-        frcLogic = mock(FeedbackResponseCommentsLogic.class);
+        UsersLogic usersLogic = mock(UsersLogic.class);
+        FeedbackQuestionsLogic fqLogic = mock(FeedbackQuestionsLogic.class);
+        FeedbackResponseCommentsLogic frcLogic = mock(FeedbackResponseCommentsLogic.class);
         frLogic.initLogicDependencies(frDb, usersLogic, fqLogic, frcLogic);
     }
 
@@ -318,7 +315,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testHasGiverRespondedForSession_withQuestions_hasResponded_returnsTrue() {
+    public void testHasGiverRespondedForSession_hasResponded() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
@@ -333,7 +330,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testHasGiverRespondedForSession_withQuestions_hasNotResponded_returnsFalse() {
+    public void testHasGiverRespondedForSession_hasNotResponded() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);

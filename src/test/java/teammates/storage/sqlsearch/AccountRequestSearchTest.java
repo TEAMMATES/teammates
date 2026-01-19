@@ -17,7 +17,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.SearchServiceException;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlsearch.AccountRequestSearchManager;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCase;
 
