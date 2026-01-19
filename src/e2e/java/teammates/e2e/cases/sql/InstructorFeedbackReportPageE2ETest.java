@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorFeedbackResultsPage;
+import teammates.e2e.pageobjects.InstructorFeedbackResultsPageSql;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -35,7 +35,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     private Collection<Student> students;
 
     private AppUrl resultsUrl;
-    private InstructorFeedbackResultsPage resultsPage;
+    private InstructorFeedbackResultsPageSql resultsPage;
 
     // Maps to organise responses
     private Map<FeedbackQuestion, List<FeedbackResponse>> questionToResponses;
@@ -120,7 +120,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testQuestionView() {
         logout();
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("Question view: no missing responses");
         resultsPage.includeMissingResponses(false);
@@ -159,7 +159,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testGrqView() {
         logout();
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("GRQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -194,7 +194,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testRgqView() {
         logout();
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("RGQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -230,7 +230,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testGqrView() {
         logout();
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("GQR view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -264,7 +264,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         ______TS("GQR view: hide statistics");
         resultsPage.includeStatistics(false);
         for (String giver : qn2GiverResponses.keySet()) {
-            resultsPage.verifyGqrViewStatsHidden(qn2, giver, instructorAttrs, studentAttrs, isGroupedByTeam);
+            resultsPage.verifyGqrViewStatsHidden(qn2, giver, instructors, students, isGroupedByTeam);
         }
 
         ______TS("GQR view: verify comments");
@@ -274,7 +274,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testRqgView() {
         logout();
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("RQG view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -324,10 +324,10 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getName());
-        resultsPage = loginToPage(url, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(url, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("verify loaded session details");
-        resultsPage.verifySessionDetails(toFsa(feedbackSession));
+        resultsPage.verifySessionDetails(feedbackSession);
 
         ______TS("unpublish results");
         resultsPage.unpublishSessionResults();
@@ -359,8 +359,8 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         verifyDownloadedFile(fileName, expectedContent);
 
         ______TS("verify no response panel details");
-        List<StudentAttributes> notResponded = getNotRespondedStudents(course.getId());
-        notResponded.sort(Comparator.comparing(StudentAttributes::getName).reversed());
+        List<Student> notResponded = getNotRespondedStudents(course.getId());
+        notResponded.sort(Comparator.comparing(Student::getName).reversed());
         resultsPage.sortNoResponseByName();
         resultsPage.verifyNoResponsePanelDetails(notResponded);
 
@@ -391,7 +391,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
                 .collect(Collectors.toList());
     }
 
-    private List<StudentAttributes> getNotRespondedStudents(String courseId) {
+    private List<Student> getNotRespondedStudents(String courseId) {
         Set<String> responders = testData.feedbackResponses.values().stream()
                 .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourse().getId().equals(courseId))
                 .map(FeedbackResponse::getGiver)
@@ -399,7 +399,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         return testData.students.values().stream()
                 .filter(s -> !responders.contains(s.getEmail()) && s.getCourse().getId().equals(courseId))
-                .map(StudentAttributes::valueOf)
                 .collect(Collectors.toList());
     }
 
@@ -430,10 +429,10 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getTeamNameDto(String participantEmail) {
-        return studentAttrs.stream()
+        return students.stream()
                 .filter(s -> s.getEmail().equals(participantEmail))
                 .findFirst()
-                .map(StudentAttributes::getTeam)
+                .map(Student::getTeamName)
                 .orElse(null);
     }
 
