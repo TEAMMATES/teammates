@@ -1,8 +1,7 @@
 package teammates.e2e.cases.sql;
 
-import org.testng.annotations.Test;
-
 import org.postgresql.util.PSQLException;
+import org.testng.annotations.Test;
 
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.util.Const;
@@ -28,7 +27,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
         testAssertionError();
         testNullPointerException();
         testDeadlineExceededException();
-        testPSQLException();
+        testPsqlException();
         testUnauthorizedAccessException();
         testInvalidHttpParameterException();
         testEntityNotFoundException();
@@ -76,7 +75,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     }
 
-    private void testPSQLException() {
+    private void testPsqlException() {
 
         ______TS("PSQLException testing");
 
