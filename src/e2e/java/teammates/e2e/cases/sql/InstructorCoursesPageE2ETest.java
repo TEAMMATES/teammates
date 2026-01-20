@@ -38,9 +38,9 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         putDocuments(testData);
 
         courses[0] = testData.courses.get("ICs.CS1101");
-        courses[1] = testData.courses.get("ICs.CS2104");
+        courses[1] = testData.courses.get("ICs.CS1231");
+        courses[3] = testData.courses.get("ICs.CS2104");
         courses[2] = testData.courses.get("ICs.CS2105");
-        courses[3] = testData.courses.get("ICs.CS1231");
         FeedbackSession session = testData.feedbackSessions.get("ICs.session");
         Instructor instructor = testData.instructors.get("ICs.instructor.CS1231");
 
@@ -50,6 +50,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
             "Asia/Singapore",
             "TEAMMATES Test Institute 1"
         );
+        newCourse.setCreatedAt(Instant.now());
 
         copyCourse = new Course(
             "tm.e2e.ICs.CS5000",
@@ -57,6 +58,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
             "Asia/Singapore",
             "TEAMMATES Test Institute 1"
         );
+        copyCourse.setCreatedAt(Instant.now());
+
 
         copyCourse2 = new Course(
             "tm.e2e.ICs.CS6000",
@@ -64,6 +67,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
             "Asia/Singapore",
             "TEAMMATES Test Institute 1"
         );
+        copyCourse2.setCreatedAt(Instant.now());
 
         copySession = new FeedbackSession(
             "Second Session",
@@ -133,7 +137,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNotModifiable(courses[0].getId());
 
         ______TS("add new course");
-        Course[] activeCoursesWithNewCourse = { courses[0], courses[3], newCourse };
+        Course[] activeCoursesWithNewCourse = { courses[0], courses[1], courses[3], newCourse };
         coursesPage.addCourse(newCourse);
 
         coursesPage.verifyStatusMessage("The course has been added.");
@@ -143,7 +147,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("copy course with session of modified timings");
         Course[] activeCoursesWithCopyCourse = { courses[0], courses[1], courses[3], newCourse, copyCourse };
-        coursesPage.copyCourse(courses[3].getId(), copyCourse);
+        coursesPage.copyCourse(courses[1].getId(), copyCourse);
 
         coursesPage.waitForConfirmationModalAndClickOk();
         coursesPage.sortByCourseId();
@@ -197,7 +201,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("restore all");
         // Only courses[2] is in recycle bin at this point
-        Course[] activeCoursesWithRestored = { courses[0], courses[1], courses[2], courses[3], copyCourse, copyCourse2 };
+        Course[] activeCoursesWithRestored = { courses[0], courses[1], courses[3], courses[2], copyCourse, copyCourse2 };
         coursesPage.restoreAllCourses();
 
         coursesPage.verifyStatusMessage("All courses have been restored.");
