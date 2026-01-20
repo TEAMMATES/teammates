@@ -14,7 +14,7 @@ import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code EntitiesDb}.
+ * SUT: {@link EntitiesDb}.
  */
 public class EntitiesDbTest extends BaseTestCase {
 
