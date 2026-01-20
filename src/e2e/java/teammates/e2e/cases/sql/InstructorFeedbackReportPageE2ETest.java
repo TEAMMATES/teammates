@@ -25,6 +25,9 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.test.ThreadHelper;
 
+/**
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_REPORT_PAGE}.
+ */
 public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
     private Instructor instructor;
@@ -104,8 +107,16 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         Student noResponseStudent = testData.students.get("IFRep.benny@CS2104");
         Student teammate = testData.students.get("IFRep.alice@CS2104");
         missingResponse = getMissingResponse(qn2.getQuestionNumber(), noResponseStudent, teammate);
-        qn2GiverResponsesWithMissing = addMissingResponseToMap(qn2GiverResponses, missingResponse, noResponseStudent.getEmail());
-        qn2RecipientResponsesWithMissing = addMissingResponseToMap(qn2RecipientResponses, missingResponse, teammate.getEmail());
+        qn2GiverResponsesWithMissing = addMissingResponseToMap(
+            qn2GiverResponses,
+            missingResponse,
+            noResponseStudent.getEmail()
+        );
+        qn2RecipientResponsesWithMissing = addMissingResponseToMap(
+            qn2RecipientResponses,
+            missingResponse,
+            teammate.getEmail()
+        );
 
         responseWithComment = testData.feedbackResponses.get("qn2response1");
         FeedbackResponseComment sqlComment = testData.feedbackResponseComments.get("qn2Comment2");
@@ -355,7 +366,8 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
                 "Session Name," + feedbackSession.getName(),
                 "Question 1,What part of the product did this teammate contribute most to?",
                 "Participants who have not responded to any question",
-                String.format("%s,%s,%s", studentToEmail.getTeamName(), studentToEmail.getName(), studentToEmail.getEmail()));
+                String.format("%s,%s,%s", studentToEmail.getTeamName(),
+                studentToEmail.getName(), studentToEmail.getEmail()));
         verifyDownloadedFile(fileName, expectedContent);
 
         ______TS("verify no response panel details");
@@ -428,14 +440,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
                 .orElse(null);
     }
 
-    private String getTeamNameDto(String participantEmail) {
-        return students.stream()
-                .filter(s -> s.getEmail().equals(participantEmail))
-                .findFirst()
-                .map(Student::getTeamName)
-                .orElse(null);
-    }
-
     private Map<String, List<FeedbackResponse>> getResponsesByTeam(FeedbackQuestion question, boolean isGiver) {
         Map<String, List<FeedbackResponse>> userToResponses = isGiver
                 ? questionToGiverToResponses.get(question)
@@ -477,8 +481,8 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
     private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses, String sec) {
         return responses.stream()
-                .filter(r -> (r.getGiverSection() != null && sec.equals(r.getGiverSection().getName()))
-                        || (r.getRecipientSection() != null && sec.equals(r.getRecipientSection().getName())))
+                .filter(r -> r.getGiverSection() != null && sec.equals(r.getGiverSection().getName())
+                        || r.getRecipientSection() != null && sec.equals(r.getRecipientSection().getName()))
                 .collect(Collectors.toList());
     }
 
@@ -578,5 +582,4 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
             questionToGiverToResponses.put(question, giverToResponse);
         }
     }
-  
 }
