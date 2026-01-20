@@ -100,7 +100,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         assertEquals(feedbackSession.getCourseId(), courseId.getText());
         assertEquals(feedbackSession.getName(), sessionName.getText());
         assertEquals(getSessionDurationString(feedbackSession), sessionDuration.getText());
-        assertEquals(getDateString(feedbackSession.getResultsVisibleFromTime(), Const.DEFAULT_TIME_ZONE),
+        assertEquals(getDateString(feedbackSession.getResultsVisibleFromTime(), feedbackSession.getCourse().getTimeZone()),
                 resultVisibleDate.getText());
     }
 
@@ -792,8 +792,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     }
 
     private String getSessionDurationString(FeedbackSession feedbackSession) {
-        return getDateString(feedbackSession.getStartTime(), Const.DEFAULT_TIME_ZONE) + "   to\n"
-                + getDateString(feedbackSession.getEndTime(), Const.DEFAULT_TIME_ZONE);
+        return getDateString(feedbackSession.getStartTime(), feedbackSession.getCourse().getTimeZone()) + "   to\n"
+                + getDateString(feedbackSession.getEndTime(), feedbackSession.getCourse().getTimeZone());
     }
 
     private String getDateString(Instant date, String timeZone) {

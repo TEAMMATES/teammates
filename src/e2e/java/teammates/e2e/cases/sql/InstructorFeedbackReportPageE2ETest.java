@@ -499,7 +499,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
                                         Map<String, List<FeedbackResponse>> giverToResponses,
                                         boolean isGroupedByTeam) {
         for (Map.Entry<String, List<FeedbackResponse>> entry : giverToResponses.entrySet()) {
-            // TODO: migrate resultsPage to sql version.
+
             resultsPage.verifyGqrViewResponses(question, entry.getValue(), isGroupedByTeam,
                     instructors, students);
         }
