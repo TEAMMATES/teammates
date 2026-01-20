@@ -18,7 +18,6 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSES_PAGE}.
@@ -59,7 +58,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
             "TEAMMATES Test Institute 1"
         );
         copyCourse.setCreatedAt(Instant.now());
-
 
         copyCourse2 = new Course(
             "tm.e2e.ICs.CS6000",
