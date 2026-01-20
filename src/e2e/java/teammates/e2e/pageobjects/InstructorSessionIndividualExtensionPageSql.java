@@ -212,13 +212,15 @@ public class InstructorSessionIndividualExtensionPageSql extends AppPage {
         click(extendDeadlinesButton);
 
         Instant extendedDeadline = session.getEndTime().plus(Duration.ofDays(1));
-        extendedDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedDeadline, session.getCourse().getTimeZone(), false);
+        extendedDeadline = TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedDeadline,
+                session.getCourse().getTimeZone(), false);
         click(waitForElementPresence(By.id("extend-deadline-to")));
 
         // set time
         WebElement timePicker = browser.driver.findElement(By.id("submission-end-time"));
         WebElement timePickerDropdown = timePicker.findElement(By.tagName("select"));
-        selectDropdownOptionByText(timePickerDropdown, getTimeString(extendedDeadline, session.getCourse().getTimeZone()));
+        selectDropdownOptionByText(timePickerDropdown,
+                getTimeString(extendedDeadline, session.getCourse().getTimeZone()));
 
         // set date
         WebElement datePicker = browser.driver.findElement(By.id("submission-end-date"));

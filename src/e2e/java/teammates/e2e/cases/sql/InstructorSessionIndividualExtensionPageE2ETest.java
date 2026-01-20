@@ -50,7 +50,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
     @Test
     @Override
     public void testAll() {
-        InstructorSessionIndividualExtensionPageSql individualExtensionPage = loginToInstructorSessionIndividualExtensionPage();
+        InstructorSessionIndividualExtensionPageSql individualExtensionPage =
+                loginToInstructorSessionIndividualExtensionPage();
 
         individualExtensionPage.waitForPageToLoad(true);
 
@@ -168,7 +169,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
             Map<String, Long> updatedInstructorDeadlines, Instant extendedDeadline) {
         for (var student : students) {
             String email = student.getEmail();
-            DeadlineExtensionAttributes extension = BACKDOOR.getDeadlineExtension(course.getId(), feedbackSession.getName(), email, false);
+            DeadlineExtensionAttributes extension =
+                    BACKDOOR.getDeadlineExtension(course.getId(), feedbackSession.getName(), email, false);
             if (updatedStudentDeadlines.containsKey(email)) {
                 assertEquals(updatedStudentDeadlines.get(email).longValue(), extension.getEndTime().toEpochMilli());
                 assertEquals(extendedDeadline.toEpochMilli(), extension.getEndTime().toEpochMilli());
@@ -179,7 +181,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         for (var instructor : instructors) {
             String email = instructor.getEmail();
-            DeadlineExtensionAttributes extension = BACKDOOR.getDeadlineExtension(course.getId(), feedbackSession.getName(), email, true);
+            DeadlineExtensionAttributes extension =
+                    BACKDOOR.getDeadlineExtension(course.getId(), feedbackSession.getName(), email, true);
             if (updatedInstructorDeadlines.containsKey(email)) {
                 assertEquals(updatedInstructorDeadlines.get(email).longValue(), extension.getEndTime().toEpochMilli());
                 assertEquals(extendedDeadline.toEpochMilli(), extension.getEndTime().toEpochMilli());
