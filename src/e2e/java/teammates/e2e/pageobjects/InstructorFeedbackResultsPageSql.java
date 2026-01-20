@@ -1082,7 +1082,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         String sectionName;
         if (type.equals(FeedbackParticipantType.TEAMS)) {
             sectionName = students.stream()
-                    .filter(student -> student.getTeam().equals(participant))
+                    .filter(student -> student.getTeam().getName().equals(participant))
                     .findFirst()
                     .map(Student::getSectionName)
                     .orElse(null);
