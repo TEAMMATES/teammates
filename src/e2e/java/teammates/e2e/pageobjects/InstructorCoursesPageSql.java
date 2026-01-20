@@ -78,7 +78,7 @@ public class InstructorCoursesPageSql extends AppPage {
                                              String numStudents, String numUnregistered) {
         showStatistics(course.getId());
         String[] courseDetail = { course.getId(), course.getName(),
-                TimeHelper.formatInstant(course.getCreatedAt(), course.getTimeZone(), "d MMM yyyy"),
+                getDateString(course.getCreatedAt()),
                 numSections, numTeams, numStudents, numUnregistered };
         verifyTableRowValues(getActiveTableRow(course.getId()), courseDetail);
     }
