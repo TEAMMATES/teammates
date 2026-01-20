@@ -1,5 +1,6 @@
 package teammates.e2e.cases.sql;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorFeedbackResultsPageSql;
@@ -24,6 +26,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.test.ThreadHelper;
+import teammates.ui.output.FeedbackSessionData;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_REPORT_PAGE}.
@@ -75,7 +78,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         instructor = testData.instructors.get("IFRep.instr.CS2104");
         FeedbackSession fileSession = testData.feedbackSessions.get("Open Session 2");
-        fileName = "/" + fileSession.getCourse().getId() + "_" + fileSession.getName() + "_result.csv";
+        fileName = "/" + fileSession.getCourseId() + "_" + fileSession.getName() + "_result.csv";
 
         instructors = testData.instructors.values();
         students = testData.students.values();
@@ -338,6 +341,12 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         resultsPage = loginToPage(url, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("verify loaded session details");
+        // Sync resultsVisibleFromTime from database as it may differ from JSON test data
+        FeedbackSessionData actualSession = getFeedbackSession(course.getId(), feedbackSession.getName());
+        if (actualSession.getResultVisibleFromTimestamp() != null) {
+            feedbackSession.setResultsVisibleFromTime(
+                    Instant.ofEpochMilli(actualSession.getResultVisibleFromTimestamp()));
+        }
         resultsPage.verifySessionDetails(feedbackSession);
 
         ______TS("unpublish results");
@@ -450,7 +459,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
             String user = entry.getKey();
             String team = getTeamNameSql(user);
             List<FeedbackResponse> responses = entry.getValue();
-
             teamResponses.computeIfAbsent(team, k -> new ArrayList<>()).addAll(responses);
         }
         return teamResponses;
@@ -487,16 +495,18 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private FeedbackResponse getMissingResponse(int qnNum, Student giver, Student recipient) {
-        // Represent a missing response by only tracking giver/recipient and question number through ID
-        // We will convert this to a minimal FeedbackResponseAttributes later
-        return FeedbackResponse.makeResponse(
+        // Represent a missing response by only tracking giver/recipient and question number
+        // The feedbackQuestion is set to null so that isMissingResponse() returns true
+        FeedbackResponse missingResp = FeedbackResponse.makeResponse(
                 testData.feedbackQuestions.values().stream()
                         .filter(q -> q.getQuestionNumber() == qnNum)
                         .findFirst().orElseThrow(),
                 giver.getEmail(), giver.getSection(), recipient.getEmail(), recipient.getSection(),
-                // Use a TEXT empty response to stand-in; page object treats missing by null session name later
-                new teammates.common.datatransfer.questions.FeedbackTextResponseDetails("")
+                new FeedbackTextResponseDetails("")
         );
+        // Set feedbackQuestion to null so isMissingResponse() in page object returns true
+        missingResp.setFeedbackQuestion(null);
+        return missingResp;
     }
 
     private void verifyGqrViewResponses(FeedbackQuestion question,
