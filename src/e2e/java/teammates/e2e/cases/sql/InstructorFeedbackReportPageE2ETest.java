@@ -17,7 +17,6 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorFeedbackResultsPageSql;
-import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -71,10 +70,9 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = doRemoveAndRestoreDataBundle(
+        testData = removeAndRestoreDataBundle(
                 loadSqlDataBundle("/InstructorFeedbackReportPageE2ETestSql.json"));
         studentToEmail = testData.students.get("IFRep.emily@CS2103");
-        studentToEmail.setEmail(TestProperties.TEST_EMAIL);
 
         instructor = testData.instructors.get("IFRep.instr.CS2104");
         FeedbackSession fileSession = testData.feedbackSessions.get("Open Session 2");

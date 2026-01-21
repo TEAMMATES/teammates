@@ -71,11 +71,13 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackReportPageE2ETest.json");
         studentToEmail = testData.students.get("Emily");
-        studentToEmail.setEmail(TestProperties.TEST_EMAIL);
 
         instructor = testData.instructors.get("tm.e2e.IFRep.instr");
         FeedbackSessionAttributes fileSession = testData.feedbackSessions.get("Open Session 2");
         fileName = "/" + fileSession.getCourseId() + "_" + fileSession.getFeedbackSessionName() + "_result.csv";
+
+        sqlTestData = removeAndRestoreSqlDataBundle(
+                loadSqlDataBundle("/InstructorFeedbackReportPageE2ETest_SqlEntities.json"));
 
         instructors = testData.instructors.values();
         students = testData.students.values();
