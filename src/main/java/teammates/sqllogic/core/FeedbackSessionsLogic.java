@@ -107,6 +107,13 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets all soft-deleted feedback sessions of a course.
+     */
+    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
+        return fsDb.getSoftDeletedFeedbackSessionsForCourse(courseId);
+    }
+
+    /**
      * Gets all feedback sessions of a course started after time, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
