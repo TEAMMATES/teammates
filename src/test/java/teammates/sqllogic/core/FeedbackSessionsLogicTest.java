@@ -28,7 +28,7 @@ import teammates.test.BaseTestCase;
  */
 public class FeedbackSessionsLogicTest extends BaseTestCase {
 
-    private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     private FeedbackSessionsDb fsDb;
     private CoursesLogic coursesLogic;
@@ -261,6 +261,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         session.setFeedbackQuestions(new ArrayList<>());
         Student student = getTypicalStudent();
+        student.setTeam(getTypicalTeam());
 
         when(fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackQuestions())).thenReturn(false);
 
