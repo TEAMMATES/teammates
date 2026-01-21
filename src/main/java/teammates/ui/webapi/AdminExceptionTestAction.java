@@ -50,7 +50,7 @@ public class AdminExceptionTestAction extends Action {
                     Code.DEADLINE_EXCEEDED.name());
         }
         if (error.equals(PSQLException.class.getSimpleName())) {
-            throw new RuntimeException(
+            throw new RuntimeException("PSQLException testing",
                     new PSQLException("PsqlException testing", PSQLState.CONNECTION_FAILURE));
         }
         if (error.equals(InvalidHttpParameterException.class.getSimpleName())) {
