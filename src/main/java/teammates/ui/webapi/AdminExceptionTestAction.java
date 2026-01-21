@@ -32,7 +32,8 @@ public class AdminExceptionTestAction extends Action {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
+    @SuppressWarnings({"PMD.AvoidThrowingNullPointerException", "PMD.AvoidThrowingRawExceptionTypes"})
+    // deliberately done for testing
     public JsonResult execute() {
         String error = getNonNullRequestParamValue(Const.ParamsNames.ERROR);
         if (error.equals(AssertionError.class.getSimpleName())) {
@@ -48,10 +49,9 @@ public class AdminExceptionTestAction extends Action {
             throw new DatastoreException(Code.DEADLINE_EXCEEDED_VALUE, "DatastoreException testing",
                     Code.DEADLINE_EXCEEDED.name());
         }
-        if (error.equals (PSQLException.class.getSimpleName())) {
+        if (error.equals(PSQLException.class.getSimpleName())) {
             throw new RuntimeException(
-                new PSQLException("PsqlException testing", PSQLState.CONNECTION_FAILURE)
-            );
+                    new PSQLException("PsqlException testing", PSQLState.CONNECTION_FAILURE));
         }
         if (error.equals(InvalidHttpParameterException.class.getSimpleName())) {
             throw new InvalidHttpParameterException("InvalidHttpParameterException testing");
