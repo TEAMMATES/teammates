@@ -49,7 +49,7 @@ public class CreateFeedbackResponseCommentActionIT extends BaseActionIT<CreateFe
         loginAsStudent(student.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(fr.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };
 
         FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest(
@@ -75,7 +75,7 @@ public class CreateFeedbackResponseCommentActionIT extends BaseActionIT<CreateFe
 
         String[] submissionParamsStudentToStudents = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(fr.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };
 
         ______TS("students access own response to give comments");
