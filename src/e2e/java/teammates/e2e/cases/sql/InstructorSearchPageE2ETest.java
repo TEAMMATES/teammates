@@ -59,12 +59,12 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         Course course2 = testData.courses.get("typicalCourse2");
 
         Student[] studentsInCourse1 = {
-        testData.students.get("student2InCourse1"),
-        testData.students.get("student2.2InCourse1"),
+                testData.students.get("student2.2InCourse1"),
+                testData.students.get("student2InCourse1"),
         };
         Student[] studentsInCourse2 = {
-                testData.students.get("student2InCourse2"),
                 testData.students.get("student2.2InCourse2"),
+                testData.students.get("student2InCourse2"),
         };
 
         Map<String, Student[]> courseIdToStudents = new HashMap<>();

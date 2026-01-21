@@ -99,7 +99,7 @@ public class InstructorSearchPageSql extends AppPage {
             expected[i][0] = student.getSectionName();
             expected[i][1] = student.getTeamName();
             expected[i][2] = student.getName();
-            expected[i][3] = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
+            expected[i][3] = (student.getGoogleId() == null || student.getGoogleId().isEmpty()) ? "Yet to Join" : "Joined";
             expected[i][4] = student.getEmail();
         }
         return expected;

@@ -117,12 +117,7 @@ public class InstructorCourseDetailsPageSql extends AppPage {
             expected[i][0] = student.getSectionName();
             expected[i][1] = student.getTeamName();
             expected[i][2] = student.getName();
-            String googleId = student.getGoogleId();
-            if (googleId == null || googleId.isEmpty()) {
-                expected[i][3] = "Yet to Join";
-            } else {
-                expected[i][3] = "Joined";
-            }
+            expected[i][3] = (student.getGoogleId() == null || student.getGoogleId().isEmpty()) ? "Yet to Join" : "Joined";
             expected[i][4] = student.getEmail();
         }
         return expected;
