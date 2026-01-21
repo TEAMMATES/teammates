@@ -38,8 +38,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         courses[0] = testData.courses.get("ICs.CS1101");
         courses[1] = testData.courses.get("ICs.CS1231");
-        courses[3] = testData.courses.get("ICs.CS2104");
-        courses[2] = testData.courses.get("ICs.CS2105");
+        courses[2] = testData.courses.get("ICs.CS2104");
+        courses[3] = testData.courses.get("ICs.CS2105");
         FeedbackSession session = testData.feedbackSessions.get("ICs.session");
         Instructor instructor = testData.instructors.get("ICs.instructor.CS1231");
 
@@ -122,8 +122,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         InstructorCoursesPageSql coursesPage = loginToPage(url, InstructorCoursesPageSql.class, instructorId);
 
         ______TS("verify loaded data");
-        Course[] activeCourses = { courses[0], courses[1], courses[3] };
-        Course[] deletedCourses = { courses[2] };
+        Course[] activeCourses = { courses[0], courses[1], courses[2] };
+        Course[] deletedCourses = { courses[3] };
 
         coursesPage.verifyActiveCoursesDetails(activeCourses);
         coursesPage.verifyDeletedCoursesDetails(deletedCourses);
@@ -135,7 +135,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNotModifiable(courses[0].getId());
 
         ______TS("add new course");
-        Course[] activeCoursesWithNewCourse = { courses[0], courses[1], courses[3], newCourse };
+        Course[] activeCoursesWithNewCourse = { courses[0], courses[1], courses[2], newCourse };
         coursesPage.addCourse(newCourse);
 
         coursesPage.verifyStatusMessage("The course has been added.");
@@ -144,7 +144,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(newCourse);
 
         ______TS("copy course with session of modified timings");
-        Course[] activeCoursesWithCopyCourse = { courses[0], courses[1], courses[3], newCourse, copyCourse };
+        Course[] activeCoursesWithCopyCourse = { courses[0], courses[1], courses[2], newCourse, copyCourse };
         coursesPage.copyCourse(courses[1].getId(), copyCourse);
 
         coursesPage.waitForConfirmationModalAndClickOk();
@@ -154,7 +154,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(copySession);
 
         ______TS("copy course with session of same timings");
-        Course[] activeCoursesWithCopyCourse2 = { courses[0], courses[1], courses[3], newCourse, copyCourse, copyCourse2 };
+        Course[] activeCoursesWithCopyCourse2 = { courses[0], courses[1], courses[2], newCourse, copyCourse, copyCourse2 };
         coursesPage.copyCourse(copyCourse.getId(), copyCourse2);
         coursesPage.verifyStatusMessage("The course has been added.");
         coursesPage.sortByCourseId();
@@ -164,7 +164,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("move active course to recycle bin");
         newCourse.setDeletedAt(Instant.now());
-        Course[] deletedCoursesWithNewCourse = { newCourse, courses[2] };
+        Course[] deletedCoursesWithNewCourse = { newCourse, courses[3] };
         coursesPage.moveCourseToRecycleBin(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been deleted. "
@@ -176,7 +176,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         ______TS("restore active course");
         newCourse.setDeletedAt(null);
         Course[] activeCoursesWithNewCourseSortedByCreationDate =
-                { copyCourse2, copyCourse, newCourse, courses[0], courses[1], courses[3] };
+                { copyCourse2, copyCourse, newCourse, courses[0], courses[1], courses[2] };
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
@@ -199,7 +199,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("restore all");
         // Only courses[2] is in recycle bin at this point
-        Course[] activeCoursesWithRestored = { courses[0], courses[1], courses[3], courses[2], copyCourse, copyCourse2 };
+        Course[] activeCoursesWithRestored = { courses[0], courses[1], courses[2], courses[3], copyCourse, copyCourse2 };
         coursesPage.restoreAllCourses();
 
         coursesPage.verifyStatusMessage("All courses have been restored.");
