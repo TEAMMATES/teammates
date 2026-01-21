@@ -117,12 +117,7 @@ public class InstructorCourseDetailsPageSql extends AppPage {
             expected[i][0] = student.getSectionName();
             expected[i][1] = student.getTeamName();
             expected[i][2] = student.getName();
-            String googleId = student.getGoogleId();
-            if (googleId == null || googleId.isEmpty()) {
-                expected[i][3] = "Yet to Join";
-            } else {
-                expected[i][3] = "Joined";
-            }
+            expected[i][3] = (student.getGoogleId() == null || student.getGoogleId().isEmpty()) ? "Yet to Join" : "Joined";
             expected[i][4] = student.getEmail();
         }
         return expected;
@@ -161,31 +156,31 @@ public class InstructorCourseDetailsPageSql extends AppPage {
         return null;
     }
 
-    public InstructorCourseStudentDetailsViewPage clickViewStudent(String studentEmailAddress) {
+    public InstructorCourseStudentDetailsViewPageSql clickViewStudent(String studentEmailAddress) {
         WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(InstructorCourseStudentDetailsViewPage.class);
+        return changePageType(InstructorCourseStudentDetailsViewPageSql.class);
     }
 
-    public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentEmailAddress) {
+    public InstructorCourseStudentDetailsEditPageSql clickEditStudent(String studentEmailAddress) {
         WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(InstructorCourseStudentDetailsEditPage.class);
+        return changePageType(InstructorCourseStudentDetailsEditPageSql.class);
     }
 
-    public InstructorStudentRecordsPage clickViewAllRecords(String studentEmailAddress) {
+    public InstructorStudentRecordsPageSql clickViewAllRecords(String studentEmailAddress) {
         WebElement studentRow = getStudentRow(studentEmailAddress);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(InstructorStudentRecordsPage.class);
+        return changePageType(InstructorStudentRecordsPageSql.class);
     }
 
 }
