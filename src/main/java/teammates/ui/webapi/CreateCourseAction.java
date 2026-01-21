@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -21,6 +22,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Create a new course for an instructor.
  */
 public class CreateCourseAction extends Action {
+    boolean useDatastore; // TODO: Remove once migration is complete
 
     @Override
     AuthType getMinAuthLevel() {
@@ -35,6 +37,7 @@ public class CreateCourseAction extends Action {
 
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
+        useDatastore = checkCreateCoursePermissionDatastore(institute);
         boolean canCreateCourse = checkCreateCoursePermissionSql(institute)
                 || checkCreateCoursePermissionDatastore(institute);
 
@@ -79,6 +82,31 @@ public class CreateCourseAction extends Action {
         String courseName = courseCreateRequest.getCourseName();
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         Course course = new Course(courseId, courseName, timeZone, institute);
+
+        // TODO: Remove datastore course creation logic once migration is complete. This is to satisfy datastore E2E tests.
+        if (useDatastore) {
+            CourseAttributes courseAttributes =
+                    CourseAttributes.builder(courseId)
+                            .withName(courseName)
+                            .withTimezone(timeZone)
+                            .withInstitute(institute)
+                            .build();
+            try {
+                logic.createCourseAndInstructor(userInfo.getId(), courseAttributes);
+
+                InstructorAttributes instructorCreatedForCourse = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+                taskQueuer.scheduleInstructorForSearchIndexing(instructorCreatedForCourse.getCourseId(),
+                        instructorCreatedForCourse.getEmail());
+            } catch (EntityAlreadyExistsException e) {
+                throw new InvalidOperationException("The course ID " + courseAttributes.getId()
+                        + " has been used by another course, possibly by some other user."
+                        + " Please try again with a different course ID.", e);
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpRequestBodyException(e);
+            }
+
+            return new JsonResult(new CourseData(logic.getCourse(courseId)));
+        }
 
         try {
             Course createdCourse = sqlLogic.createCourse(course);
