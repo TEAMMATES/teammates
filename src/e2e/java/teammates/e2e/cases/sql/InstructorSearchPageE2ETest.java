@@ -25,7 +25,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         if (!TestProperties.INCLUDE_SEARCH_TESTS) {
             return;
         }
-        testData = doRemoveAndRestoreDataBundle(
+        testData = removeAndRestoreDataBundle(
                 loadSqlDataBundle("/InstructorSearchPageE2ETestSql.json"));
         putDocuments(testData);
     }
