@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.UUID;
-
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -10,10 +8,8 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -36,40 +32,25 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackResponseIdParam = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        ParsedFeedbackResponseId parsedId = parseFeedbackResponseId(feedbackResponseIdParam);
 
         FeedbackResponseAttributes feedbackResponseAttributes = null;
         FeedbackResponse feedbackResponse = null;
         String courseId;
 
-        // Check if feedbackResponseIdParam is a UUID first
-        try {
-            UUID feedbackResponseSqlId = getUuidFromString(
-                    Const.ParamsNames.FEEDBACK_RESPONSE_ID,
-                    feedbackResponseIdParam  // Use raw parameter directly
-            );
-            feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseSqlId);
-
+        if (parsedId.isSql) {
+            feedbackResponse = sqlLogic.getFeedbackResponse(parsedId.sqlId);
             if (feedbackResponse == null) {
                 throw new EntityNotFoundException("The feedback response does not exist.");
             }
             courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
-
-        } catch (InvalidHttpParameterException e) {
-            // Not a valid UUID, so check if it is an encrypted datastore ID
-            try {
-                String decryptedId = StringHelper.decrypt(feedbackResponseIdParam);
-                feedbackResponseAttributes = logic.getFeedbackResponse(decryptedId);
-
-                if (feedbackResponseAttributes == null) {
-                    throw new EntityNotFoundException("The feedback response does not exist.");
-                }
-                courseId = feedbackResponseAttributes.getCourseId();
-
-            } catch (InvalidParametersException ipe) {
-                throw new InvalidHttpParameterException(ipe);
+        } else {
+            feedbackResponseAttributes = logic.getFeedbackResponse(parsedId.datastoreId);
+            if (feedbackResponseAttributes == null) {
+                throw new EntityNotFoundException("The feedback response does not exist.");
             }
+            courseId = feedbackResponseAttributes.getCourseId();
         }
-
 
         if (!isCourseMigrated(courseId)) {
             FeedbackSessionAttributes feedbackSession =
@@ -127,54 +108,36 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
     @Override
     public JsonResult execute() {
         String feedbackResponseIdParam = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        ParsedFeedbackResponseId parsedId = parseFeedbackResponseId(feedbackResponseIdParam);
 
         FeedbackResponseAttributes response = null;
         FeedbackResponse feedbackResponse = null;
         String courseId;
-        String feedbackResponseId = null;  // For datastore path
-        UUID feedbackResponseSqlId = null;
 
-        // TRY SQL FIRST (UUID doesn't need decryption)
-        try {
-            feedbackResponseSqlId = getUuidFromString(
-                    Const.ParamsNames.FEEDBACK_RESPONSE_ID,
-                    feedbackResponseIdParam
-            );
-            feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseSqlId);
-            System.out.println("Trying to get feedback response via SQL with ID: " + feedbackResponseSqlId);
-            if (feedbackResponse != null) {
-                courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
-                feedbackResponseId = feedbackResponseIdParam;  // Use raw UUID string
-            } else {
+        if (parsedId.isSql) {
+            feedbackResponse = sqlLogic.getFeedbackResponse(parsedId.sqlId);
+            if (feedbackResponse == null) {
                 throw new EntityNotFoundException("The feedback response does not exist.");
             }
-
-        } catch (InvalidHttpParameterException e) {
-            // Not a valid UUID, so try datastore with decryption
-            try {
-                feedbackResponseId = StringHelper.decrypt(feedbackResponseIdParam);
-                response = logic.getFeedbackResponse(feedbackResponseId);
-
-                if (response == null) {
-                    throw new EntityNotFoundException("The feedback response does not exist.");
-                }
-                courseId = response.getCourseId();
-
-            } catch (InvalidParametersException ipe) {
-                throw new InvalidHttpParameterException(ipe);
+            courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
+        } else {
+            response = logic.getFeedbackResponse(parsedId.datastoreId);
+            if (response == null) {
+                throw new EntityNotFoundException("The feedback response does not exist.");
             }
+            courseId = response.getCourseId();
         }
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        if (!isCourseMigrated(courseId) && feedbackResponseSqlId == null) {
+        if (!isCourseMigrated(courseId) && !parsedId.isSql) {
             switch (intent) {
             case STUDENT_SUBMISSION:
             case INSTRUCTOR_SUBMISSION:
                 FeedbackResponseCommentAttributes comment =
-                        logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+                        logic.getFeedbackResponseCommentForResponseFromParticipant(parsedId.datastoreId);
                 if (comment == null) {
-                    FeedbackResponseAttributes fr = logic.getFeedbackResponse(feedbackResponseId);
+                    FeedbackResponseAttributes fr = logic.getFeedbackResponse(parsedId.datastoreId);
                     if (fr == null) {
                         throw new EntityNotFoundException("The feedback response does not exist.");
                     }
@@ -192,9 +155,9 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
             HibernateUtil.flushSession();
             HibernateUtil.clearSession();
             FeedbackResponseComment comment =
-                    sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseSqlId);
+                    sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(parsedId.sqlId);
             if (comment == null) {
-                FeedbackResponse fr = sqlLogic.getFeedbackResponse(feedbackResponseSqlId);
+                FeedbackResponse fr = sqlLogic.getFeedbackResponse(parsedId.sqlId);
                 if (fr == null) {
                     throw new EntityNotFoundException("The feedback response does not exist.");
                 }
