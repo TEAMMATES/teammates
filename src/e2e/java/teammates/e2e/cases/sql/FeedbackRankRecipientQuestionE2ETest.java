@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.util.Const;

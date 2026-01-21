@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;

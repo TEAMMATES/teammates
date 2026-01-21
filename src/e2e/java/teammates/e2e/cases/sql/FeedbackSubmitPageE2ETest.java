@@ -9,20 +9,20 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.util.AppUrl;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
+import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
+import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
-import teammates.e2e.util.TestProperties;
 
 /**
  * SUT: {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}.
@@ -54,8 +54,8 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
-            .withCourseId(openSession.getCourseId())
-            .withSessionName(openSession.getName());
+                .withCourseId(openSession.getCourseId())
+                .withSessionName(openSession.getName());
         FeedbackSubmitPageSql submitPage = loginToPage(url, FeedbackSubmitPageSql.class, instructor.getGoogleId());
 
         ______TS("verify loaded session data");
@@ -114,7 +114,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         submitPage.fillMcqResponse(1, recipient, response);
 
         FeedbackQuestion question2 = testData.feedbackQuestions.get("qn2InGracePeriodSession");
-        String question2Id = getFeedbackQuestion(question2).getFeedbackQuestionId();
         FeedbackResponse response2 = getMcqResponse(question2, recipient, false, "Teammates Test");
         submitPage.fillMcqResponse(2, recipient, response2);
 
@@ -246,12 +245,13 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         } else {
             details.setAnswer(answer);
         }
-        return FeedbackResponse.makeResponse(question, student.getEmail(), student.getSection(), recipient, student.getSection(), details);
+        return FeedbackResponse.makeResponse(question, student.getEmail(), student.getSection(),
+                recipient, student.getSection(), details);
     }
 
     private FeedbackResponseComment getFeedbackResponseComment(FeedbackResponse response, String comment) {
         return new FeedbackResponseComment(response, student.getEmail(),
                 FeedbackParticipantType.STUDENTS, student.getSection(), student.getSection(), comment,
-                true,  true, Collections.emptyList(), Collections.emptyList(), student.getEmail());
+                true, true, Collections.emptyList(), Collections.emptyList(), student.getEmail());
     }
 }

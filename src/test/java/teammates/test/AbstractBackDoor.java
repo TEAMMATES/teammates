@@ -807,7 +807,6 @@ public abstract class AbstractBackDoor {
      */
     public FeedbackResponseCommentData getFeedbackResponseCommentData(String feedbackResponseId) {
         Map<String, String> params = new HashMap<>();
-        System.out.println("[AbstractBackDoor] Getting feedback response comment for feedbackResponseId: " + feedbackResponseId);
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSE_COMMENT, params);
@@ -817,7 +816,6 @@ public abstract class AbstractBackDoor {
 
         return JsonUtils.fromJson(response.responseBody, FeedbackResponseCommentData.class);
     }
-
 
     /**
      * Get feedback response comment from database.

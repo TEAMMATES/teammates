@@ -14,6 +14,11 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.Const;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
 import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
 import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
@@ -32,11 +37,6 @@ import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
 import teammates.storage.sqlentity.responses.FeedbackTextResponse;
-import teammates.common.util.Const;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * Represents the feedback submission page of the website.
@@ -156,14 +156,13 @@ public class FeedbackSubmitPageSql extends AppPage {
         writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), answer);
     }
 
-        public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponse response) {
+    public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponse response) {
         FeedbackTextResponse responseEntity = (FeedbackTextResponse) response;
         String answer = responseEntity.getAnswer().getAnswer();
         int responseLength = answer.split(" ").length;
         assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), answer);
-        assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
-            + " words");
-        }
+        assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength + " words");
+    }
 
     public void verifyMcqQuestion(int qnNumber, String recipient, FeedbackMcqQuestion question) {
         List<String> mcqChoices = question.getFeedbackQuestionDetails().getMcqChoices();
@@ -322,12 +321,11 @@ public class FeedbackSubmitPageSql extends AppPage {
         fillTextBox(getNumScaleInput(qnNumber, recipient), Double.toString(ans));
     }
 
-        public void verifyNumScaleResponse(int qnNumber, String recipient, FeedbackResponse response) {
+    public void verifyNumScaleResponse(int qnNumber, String recipient, FeedbackResponse response) {
         FeedbackNumericalScaleResponse respEntity = (FeedbackNumericalScaleResponse) response;
         double ans = respEntity.getAnswer().getAnswer();
-        assertEquals(getNumScaleInput(qnNumber, recipient).getAttribute("value"),
-            getDoubleString(ans));
-        }
+        assertEquals(getNumScaleInput(qnNumber, recipient).getAttribute("value"), getDoubleString(ans));
+    }
 
     public void verifyConstSumQuestion(int qnNumber, String recipient,
                                        FeedbackConstantSumQuestion question) {
@@ -416,7 +414,8 @@ public class FeedbackSubmitPageSql extends AppPage {
         List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
         for (int i = 0; i < responses.size(); i++) {
             FeedbackContributionResponse respEntity = (FeedbackContributionResponse) responses.get(i);
-            assertEquals(getSelectedDropdownOptionText(dropdowns.get(i)), getContributionString(respEntity.getAnswer().getAnswer()));
+            assertEquals(getSelectedDropdownOptionText(dropdowns.get(i)),
+                    getContributionString(respEntity.getAnswer().getAnswer()));
         }
     }
 
