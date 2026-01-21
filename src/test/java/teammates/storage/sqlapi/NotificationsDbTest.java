@@ -20,7 +20,7 @@ import teammates.storage.sqlentity.Notification;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code NotificationsDb}.
+ * SUT: {@link NotificationsDb}.
  */
 public class NotificationsDbTest extends BaseTestCase {
 

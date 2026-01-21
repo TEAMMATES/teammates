@@ -15,7 +15,7 @@ import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code FeedbackSessionLogsDb}.
+ * SUT: {@link FeedbackSessionLogsDb}.
  */
 public class FeedbackSessionLogsDbTest extends BaseTestCase {
 
