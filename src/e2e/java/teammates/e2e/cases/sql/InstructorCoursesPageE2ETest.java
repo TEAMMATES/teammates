@@ -187,7 +187,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         assertFalse(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("permanently delete course");
-        // Move newCourse back to recycle bin for deletion test
         coursesPage.moveCourseToRecycleBin(newCourse.getId());
         newCourse.setDeletedAt(Instant.now());
         coursesPage.deleteCourse(newCourse.getId());
@@ -198,7 +197,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyAbsentInDatabase(newCourse);
 
         ______TS("restore all");
-        // Only courses[2] is in recycle bin at this point
         Course[] activeCoursesWithRestored = { courses[0], courses[1], courses[2], courses[3], copyCourse, copyCourse2 };
         coursesPage.restoreAllCourses();
 
@@ -207,7 +205,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithRestored);
         coursesPage.verifyNumDeletedCourses(0);
-        assertFalse(BACKDOOR.isCourseInRecycleBin(courses[2].getId()));
+        assertFalse(BACKDOOR.isCourseInRecycleBin(courses[3].getId()));
 
         ______TS("permanently delete all");
         coursesPage.moveCourseToRecycleBin(courses[1].getId());
