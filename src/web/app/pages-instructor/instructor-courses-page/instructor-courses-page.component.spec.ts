@@ -577,6 +577,8 @@ describe('InstructorCoursesPageComponent', () => {
   it('should snap when new course form is expanded', () => {
     component.isAddNewCourseFormExpanded = true;
     component.isLoadingActiveCourses = false;
+    component.isLoadingArchivedCourses = false;
+    component.isLoadingSoftDeletedCourses = false;
     // Mock the timezone service to prevent unexpected changes in time zones over time, such as daylight savings time
     const timezones: Record<string, number> = {
       Jamaica: -5 * 60,
