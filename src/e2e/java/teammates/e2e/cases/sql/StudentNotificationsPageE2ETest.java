@@ -55,7 +55,7 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.verifyNotShownNotifications(notShownNotifications);
         notificationsPage.verifyShownNotifications(shownNotifications, readNotificationsIds);
 
-        ______TS("mark notification as read");
+        ______TS("mark notification as read.");
         Notification notificationToMarkAsRead = testData.notifications.get("notification2");
         notificationsPage.markNotificationAsRead(notificationToMarkAsRead);
         notificationsPage.verifyStatusMessage("Notification marked as read.");
