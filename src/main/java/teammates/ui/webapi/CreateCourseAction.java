@@ -72,29 +72,29 @@ public class CreateCourseAction extends Action {
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
         courseCreateRequest.setCourseId(courseCreateRequest.getCourseId().trim());
 
-        String timeZone = courseCreateRequest.getTimeZone();
-        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(timeZone);
+        String newCourseTimeZone = courseCreateRequest.getTimeZone();
+        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(newCourseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
             throw new InvalidHttpRequestBodyException(timeZoneErrorMessage);
         }
 
-        String courseId = courseCreateRequest.getCourseId();
-        String courseName = courseCreateRequest.getCourseName();
+        String newCourseId = courseCreateRequest.getCourseId();
+        String newCourseName = courseCreateRequest.getCourseName();
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-        Course course = new Course(courseId, courseName, timeZone, institute);
+        Course course = new Course(newCourseId, newCourseName, newCourseTimeZone, institute);
 
         // TODO: Remove datastore course creation logic once migration is complete. This is to satisfy datastore E2E tests.
         if (useDatastore) {
             CourseAttributes courseAttributes =
-                    CourseAttributes.builder(courseId)
-                            .withName(courseName)
-                            .withTimezone(timeZone)
+                    CourseAttributes.builder(newCourseId)
+                            .withName(newCourseName)
+                            .withTimezone(newCourseTimeZone)
                             .withInstitute(institute)
                             .build();
             try {
                 logic.createCourseAndInstructor(userInfo.getId(), courseAttributes);
 
-                InstructorAttributes instructorCreatedForCourse = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+                InstructorAttributes instructorCreatedForCourse = logic.getInstructorForGoogleId(newCourseId, userInfo.getId());
                 taskQueuer.scheduleInstructorForSearchIndexing(instructorCreatedForCourse.getCourseId(),
                         instructorCreatedForCourse.getEmail());
             } catch (EntityAlreadyExistsException e) {
@@ -105,7 +105,7 @@ public class CreateCourseAction extends Action {
                 throw new InvalidHttpRequestBodyException(e);
             }
 
-            return new JsonResult(new CourseData(logic.getCourse(courseId)));
+            return new JsonResult(new CourseData(logic.getCourse(newCourseId)));
         }
 
         try {
@@ -121,7 +121,7 @@ public class CreateCourseAction extends Action {
             return new JsonResult(new CourseData(createdCourse));
 
         } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException("The course ID " + courseId
+            throw new InvalidOperationException("The course ID " + newCourseId
                     + " has been used by another course, possibly by some other user."
                     + " Please try again with a different course ID.", e);
         } catch (InvalidParametersException e) {
