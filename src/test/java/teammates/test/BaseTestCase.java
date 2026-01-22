@@ -193,7 +193,7 @@ public class BaseTestCase {
         return new FeedbackSession("test-feedbacksession",
                 course,
                 "test@teammates.tmt",
-                "test-instructions",
+                "<p>test-instructions</p>",
                 startTime,
                 endTime,
                 startTime,

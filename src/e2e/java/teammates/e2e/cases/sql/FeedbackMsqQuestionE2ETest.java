@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPage;
+import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -90,7 +90,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void testSubmitPage() {
-        FeedbackSubmitPage feedbackSubmitPage = loginToFeedbackSubmitPage();
+        FeedbackSubmitPageSql feedbackSubmitPage = loginToFeedbackSubmitPage();
 
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
