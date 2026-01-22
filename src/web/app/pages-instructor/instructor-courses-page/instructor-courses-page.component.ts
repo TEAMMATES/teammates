@@ -93,7 +93,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   numberOfSessionsCopied: number = 0;
 
   modifiedSessions: Record<string, TweakedTimestampData> = {};
-  
+
   get isLoadingCourses(): boolean {
     return this.isLoadingActiveCourses || this.isLoadingArchivedCourses || this.isLoadingSoftDeletedCourses;
   }
