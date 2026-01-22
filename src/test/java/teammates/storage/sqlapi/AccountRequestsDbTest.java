@@ -26,7 +26,7 @@ import teammates.storage.sqlsearch.AccountRequestSearchManager;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code AccountRequestDb}.
+ * SUT: {@link AccountRequestDb}.
  */
 public class AccountRequestsDbTest extends BaseTestCase {
 

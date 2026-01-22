@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
-import teammates.e2e.pageobjects.FeedbackSubmitPage;
+import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -105,7 +105,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void testSubmitPage() {
-        FeedbackSubmitPage feedbackSubmitPage = loginToFeedbackSubmitPage();
+        FeedbackSubmitPageSql feedbackSubmitPage = loginToFeedbackSubmitPage();
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         question.setQuestionNumber(1);
         ______TS("verify loaded question");
