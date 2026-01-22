@@ -437,6 +437,8 @@ describe('InstructorCoursesPageComponent', () => {
   it('should show add course form and disable button when clicking on add new course', () => {
     component.activeCourses = [courseModelCS3282];
     component.isLoadingActiveCourses = false;
+    component.isLoadingArchivedCourses = false;
+    component.isLoadingSoftDeletedCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-add-course');

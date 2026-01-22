@@ -4,7 +4,7 @@
   </button>
 </div>
 
-<div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded && !isLoadingActiveCourses" @collapseAnim>
+<div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded && !isLoadingCourses" @collapseAnim>
   <tm-course-edit-form [formMode]="CourseEditFormMode.ADD" [(formModel)]="courseFormModel"
     [resetFormEvent]="resetCourseForm" (closeFormEvent)="isAddNewCourseFormExpanded = false"
     (createNewCourseEvent)="createNewCourse()" (copyCourseEvent)="createCopiedCourse($event)">
