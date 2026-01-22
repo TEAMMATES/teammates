@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import {
@@ -17,7 +17,8 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
   styleUrls: ['./constsum-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails> {
+    extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>
+    implements OnChanges {
 
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
@@ -25,6 +26,12 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
 
   constructor(private statusMessageService: StatusMessageService) {
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
+  }
+
+  @Input() questionNumber: number = 0;
+  pointsRadioGroupName: string = '';
+  ngOnChanges(): void {
+    this.pointsRadioGroupName = `constsum-options-${this.questionNumber}`;
   }
 
   get hasMaxPoint(): boolean {
