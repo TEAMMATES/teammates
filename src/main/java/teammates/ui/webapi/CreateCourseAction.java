@@ -3,15 +3,12 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.CourseData;
@@ -94,7 +91,8 @@ public class CreateCourseAction extends Action {
             try {
                 logic.createCourseAndInstructor(userInfo.getId(), courseAttributes);
 
-                InstructorAttributes instructorCreatedForCourse = logic.getInstructorForGoogleId(newCourseId, userInfo.getId());
+                InstructorAttributes instructorCreatedForCourse =
+                        logic.getInstructorForGoogleId(newCourseId, userInfo.getId());
                 taskQueuer.scheduleInstructorForSearchIndexing(instructorCreatedForCourse.getCourseId(),
                         instructorCreatedForCourse.getEmail());
             } catch (EntityAlreadyExistsException e) {
@@ -109,15 +107,14 @@ public class CreateCourseAction extends Action {
         }
 
         try {
-            Course createdCourse = sqlLogic.createCourse(course);
-            Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
-            Instructor instructor = getInstructor(account, createdCourse);
+            sqlLogic.createCourseAndInstructor(userInfo.getId(), course);
 
-            Instructor createdInstructor = sqlLogic.createInstructor(instructor);
+            Instructor createdInstructor = sqlLogic.getInstructorByGoogleId(newCourseId, userInfo.getId());
             taskQueuer.scheduleInstructorForSearchIndexing(
                     createdInstructor.getCourseId(),
                     createdInstructor.getEmail());
 
+            Course createdCourse = sqlLogic.getCourse(newCourseId);
             return new JsonResult(new CourseData(createdCourse));
 
         } catch (EntityAlreadyExistsException e) {
@@ -127,23 +124,5 @@ public class CreateCourseAction extends Action {
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }
-    }
-
-    private static Instructor getInstructor(Account account, Course createdCourse) {
-        String instructorName = account.getName();
-        String instructorEmail = account.getEmail();
-        InstructorPrivileges privileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        Instructor instructor = new Instructor(
-                createdCourse,
-                instructorName,
-                instructorEmail,
-                true, // isDisplayedToStudents
-                instructorName, // displayName
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                privileges
-        );
-        instructor.setAccount(account);
-        return instructor;
     }
 }
