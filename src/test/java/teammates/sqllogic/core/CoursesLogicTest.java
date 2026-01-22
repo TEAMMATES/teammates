@@ -44,7 +44,8 @@ public class CoursesLogicTest extends BaseTestCase {
         coursesDb = mock(CoursesDb.class);
         fsLogic = mock(FeedbackSessionsLogic.class);
         usersLogic = mock(UsersLogic.class);
-        coursesLogic.initLogicDependencies(coursesDb, fsLogic, usersLogic);
+        AccountsLogic accountsLogic = mock(AccountsLogic.class);
+        coursesLogic.initLogicDependencies(coursesDb, fsLogic, usersLogic, accountsLogic);
     }
 
     @Test

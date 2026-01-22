@@ -365,6 +365,21 @@ public class Logic {
     }
 
     /**
+     * Creates a course and an associated instructor for the course.
+     *
+     * <br/>Preconditions: <br/>
+     * * {@code instructorGoogleId} already has an account and instructor privileges.
+     * @param instructorGoogleId the Google ID of the instructor creating the course.
+     * @param course the course to create.
+     * @throws InvalidParametersException if the course is not valid.
+     * @throws EntityAlreadyExistsException if the course already exists.
+     */
+    public void createCourseAndInstructor(String instructorGoogleId, Course course)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        coursesLogic.createCourseAndInstructor(instructorGoogleId, course);
+    }
+
+    /**
      * Deletes a course by course id.
      * @param courseId of course.
      */
