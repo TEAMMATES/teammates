@@ -198,6 +198,7 @@
       "headings": {
         "e2e-testing": "E2E Testing",
         "what-is-e2e-testing": "What is E2E Testing?",
+        "prerequisites-for-local-testing": "Prerequisites for Local Testing",
         "running-e2e-tests": "Running E2E tests",
         "configuring-browsers-for-e2e-testing": "Configuring browsers for E2E Testing",
         "running-the-tests": "Running the tests",
@@ -206,7 +207,8 @@
         "page-object-pattern": "Page Object Pattern",
         "creating-page-objects": "Creating Page Objects",
         "things-to-avoid-when-writing-e2e-tests": "Things to avoid when writing E2E tests",
-        "faq": "FAQ"
+        "faq": "FAQ",
+        "troubleshooting": "Troubleshooting"
       },
       "headingKeywords": {}
     },
