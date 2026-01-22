@@ -72,7 +72,7 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
         UsageStatistics statsObject = statsObjects.get(0);
         assertEquals(collectionTimePeriod, statsObject.getTimePeriod());
 
-                assertEquals(startTime, statsObject.getStartTime());
+        assertEquals(startTime, statsObject.getStartTime());
 
     }
 }
