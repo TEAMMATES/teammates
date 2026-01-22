@@ -22,7 +22,7 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = loadSqlDataBundle("/StudentNotificationsPageE2ETestSql.json");
-        removeAndRestoreDataBundle(testData);
+        testData = removeAndRestoreDataBundle(testData);
     }
 
     @Test
