@@ -23,7 +23,7 @@ import teammates.storage.sqlentity.Team;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code CoursesDb}.
+ * SUT: {@link CoursesDb}.
  */
 public class CoursesDbTest extends BaseTestCase {
 

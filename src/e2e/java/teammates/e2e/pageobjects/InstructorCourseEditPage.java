@@ -664,6 +664,3 @@ public class InstructorCourseEditPage extends AppPage {
         return -1;
     }
 }
-
-
-

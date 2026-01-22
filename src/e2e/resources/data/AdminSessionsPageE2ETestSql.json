@@ -1,0 +1,129 @@
+{
+  "accounts": {
+    "instructor1OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.ASess.instr1",
+      "name": "Instructor1 of Course1",
+      "email": "ASess.instructor1@gmail.tmt",
+      "readNotifications": {}
+    }
+  },
+  "courses": {
+    "typicalCourse1": {
+      "id": "tm.e2e.ASess.idOfTypicalCourse1",
+      "name": "Typical Course 1",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Asia/Singapore"
+    }
+  },
+  "instructors": {
+    "instructor1OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000000501",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "course": {
+        "id": "tm.e2e.ASess.idOfTypicalCourse1"
+      },
+      "name": "Instructor1 of Course1",
+      "email": "ASess.instructor1@gmail.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "feedbackSessions": {
+    "session1InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000701",
+      "course": {
+        "id": "tm.e2e.ASess.idOfTypicalCourse1"
+      },
+      "name": "Open feedback session",
+      "creatorEmail": "ASess.instructor1@gmail.tmt",
+      "instructions": "Please fill in the following questions.",
+      "createdAt": "2012-03-20T23:59:00Z",
+      "startTime": "2012-03-28T22:00:00Z",
+      "endTime": "2012-05-01T22:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
+      "resultsVisibleFromTime": "2012-05-01T22:00:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "isOpeningSoonEmailSent": true,
+      "isOpenedEmailSent": true,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
+    },
+    "session2InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000702",
+      "course": {
+        "id": "tm.e2e.ASess.idOfTypicalCourse1"
+      },
+      "name": "Awaiting feedback session",
+      "creatorEmail": "ASess.instructor1@gmail.tmt",
+      "instructions": "Please fill in the following questions.",
+      "createdAt": "2012-03-20T23:59:00Z",
+      "startTime": "2012-03-28T22:00:00Z",
+      "endTime": "2012-05-01T22:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
+      "resultsVisibleFromTime": "2012-05-01T22:00:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "isOpeningSoonEmailSent": true,
+      "isOpenedEmailSent": true,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
+    },
+    "session3InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000703",
+      "course": {
+        "id": "tm.e2e.ASess.idOfTypicalCourse1"
+      },
+      "name": "Future feedback session",
+      "creatorEmail": "ASess.instructor1@gmail.tmt",
+      "instructions": "Please fill in the following questions.",
+      "createdAt": "2012-03-20T23:59:00Z",
+      "startTime": "2012-03-28T22:00:00Z",
+      "endTime": "2012-05-01T22:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
+      "resultsVisibleFromTime": "2012-05-01T22:00:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "isOpeningSoonEmailSent": true,
+      "isOpenedEmailSent": true,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
+    }
+  }
+}
