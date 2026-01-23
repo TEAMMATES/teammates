@@ -9,8 +9,16 @@ on:
     branches:
       - master
       - release
+    # Only run when files relevant to E2E SQL tests are changed
+    paths:
+      # App code and templates that affect data flows
+      - 'src/main/java/**'
+      - 'src/main/resources/**'
+      # E2E SQL harness/tests
+      - 'src/e2e/java/teammates/e2e/cases/sql/**'
   schedule:
     - cron: "0 0 * * *" #end of every day
+  workflow_dispatch:
 jobs:
   E2E-sql-testing:
     runs-on: ubuntu-latest

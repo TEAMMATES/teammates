@@ -9,8 +9,19 @@ on:
     branches:
       - master
       - release
+    # Only run when files relevant to E2E tests are changed
+    paths:
+      # App code and templates that affect e2e user flows
+      - 'src/web/**'
+      - 'src/main/webapp/**'
+      - 'src/main/java/**'
+      - 'src/main/resources/**'
+      - 'src/client/**'
+      # E2E harness/tests
+      - 'src/e2e/**'
   schedule:
     - cron: "0 0 * * *" #end of every day
+  workflow_dispatch:
 jobs:
   E2E-testing:
     runs-on: ubuntu-latest
