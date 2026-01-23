@@ -72,12 +72,7 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
         UsageStatistics statsObject = statsObjects.get(0);
         assertEquals(collectionTimePeriod, statsObject.getTimePeriod());
 
-        // Note that there is a slim possibility that this assertion may fail, if the hour has changed
-        // between when the stats was gathered and the line where Instant.now is called.
-        // However, as the execution happens in milliseconds precision, the risk is too small to justify
-        // the additional code needed to handle this case.
-        Instant pastHour = TimeHelper.getInstantNearestHourBefore(Instant.now()).minus(1, ChronoUnit.HOURS);
-        assertEquals(pastHour, statsObject.getStartTime());
+        assertEquals(startTime, statsObject.getStartTime());
 
     }
 }

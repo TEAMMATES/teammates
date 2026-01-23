@@ -14,7 +14,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code UsageStatisticsDb}.
+ * SUT: {@link UsageStatisticsDb}.
  */
 public class UsageStatisticsDbTest extends BaseTestCase {
 
