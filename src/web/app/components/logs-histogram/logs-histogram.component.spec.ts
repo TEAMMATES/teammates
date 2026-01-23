@@ -57,4 +57,41 @@ describe('LogsHistogramComponent', () => {
 
     expect(drawBarsSpy).toHaveBeenCalled();
   });
+
+  it('should render one bar per log entry', () => {
+    component.data = [
+      {sourceLocation: {file: 'A', function: 'f1', line: 10}, numberOfTimes: 1},
+      {sourceLocation: {file: 'B', function: 'f2', line: 20}, numberOfTimes: 3},
+    ];
+    
+    component.ngOnInit();
+
+    const bars = fixture.nativeElement.querySelectorAll('.bar');
+    expect(bars.length).toBe(2);
+  });
+
+  it('should set xScale domain based on file and function', () => {
+    component.data = [
+      { sourceLocation: { file: 'A', function: 'f1', line: 10 }, numberOfTimes: 1 },
+      { sourceLocation: { file: 'B', function: 'f2', line: 20 }, numberOfTimes: 3 },
+    ];
+
+    component.ngOnInit();
+
+    const domain = component['xScale'].domain();
+    expect(domain).toEqual(['Af1', 'Bf2']);
+  });
+
+  it('should set yScale max to the highest numberOfTimes', () => {
+    component.data = [
+      { sourceLocation: { file: 'A', function: 'f1', line: 1 }, numberOfTimes: 5 },
+      { sourceLocation: { file: 'B', function: 'f2', line: 2 }, numberOfTimes: 10 },
+    ];
+
+    component.ngOnInit();
+
+    const domain = component['yScale'].domain();
+    expect(domain).toEqual([0, 10]);
+  });
+
 });
