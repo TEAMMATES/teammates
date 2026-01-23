@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -38,9 +37,10 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
         CalculateUsageStatisticsAction action = getAction();
         action.execute();
 
-        List<UsageStatisticsAttributes> statsObjects = logic.getUsageStatisticsForTimeRange(
-                TimeHelper.getInstantDaysOffsetBeforeNow(1L),
-                TimeHelper.getInstantDaysOffsetFromNow(1L));
+        Instant startTime = TimeHelper.getInstantDaysOffsetBeforeNow(1L);
+        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(1L);
+
+        List<UsageStatisticsAttributes> statsObjects = logic.getUsageStatisticsForTimeRange(startTime, endTime);
 
         // Only check that there is a stats object created.
         // Everything else is not predictable.
@@ -49,12 +49,7 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
         UsageStatisticsAttributes statsObject = statsObjects.get(0);
         assertEquals(CalculateUsageStatisticsAction.COLLECTION_TIME_PERIOD, statsObject.getTimePeriod());
 
-        // Note that there is a slim possibility that this assertion may fail, if the hour has changed
-        // between when the stats was gathered and the line where Instant.now is called.
-        // However, as the execution happens in milliseconds precision, the risk is too small to justify
-        // the additional code needed to handle this case.
-        Instant pastHour = TimeHelper.getInstantNearestHourBefore(Instant.now()).minus(1, ChronoUnit.HOURS);
-        assertEquals(pastHour, statsObject.getStartTime());
+        assertEquals(startTime, statsObject.getStartTime());
 
     }
 

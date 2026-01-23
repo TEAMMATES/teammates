@@ -17,7 +17,7 @@ import teammates.storage.sqlentity.Section;
 @Entity
 public class FeedbackNumericalScaleResponse extends FeedbackResponse {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = FeedbackNumericalScaleResponseDetailsConverter.class)
     private FeedbackNumericalScaleResponseDetails answer;
 
