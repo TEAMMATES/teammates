@@ -275,8 +275,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     @AfterClass
     public void classTeardown() {
-        for (AccountRequest request : testData.accountRequests.values()) {
-            BACKDOOR.deleteAccountRequest(request.getId());
+        if (testData != null) {
+            for (AccountRequest request : testData.accountRequests.values()) {
+                BACKDOOR.deleteAccountRequest(request.getId());
+            }
         }
     }
 }
