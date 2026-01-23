@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
+import teammates.e2e.pageobjects.InstructorStudentRecordsPageSql;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 
@@ -36,8 +36,8 @@ public class InstructorStudentRecordsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(courseId)
                 .withStudentEmail(studentEmail);
 
-        InstructorStudentRecordsPage recordsPage =
-                loginToPage(recordsPageUrl, InstructorStudentRecordsPage.class, instructorId);
+        InstructorStudentRecordsPageSql recordsPage =
+                loginToPage(recordsPageUrl, InstructorStudentRecordsPageSql.class, instructorId);
 
         recordsPage.verifyStudentDetails(student);
     }

@@ -27,7 +27,7 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
     @Nullable
     private Long customResponseVisibleTimestamp;
 
-    private boolean isClosingEmailEnabled;
+    private boolean isClosingSoonEmailEnabled;
     private boolean isPublishedEmailEnabled;
 
     public String getInstructions() {
@@ -76,8 +76,8 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         }
     }
 
-    public boolean isClosingEmailEnabled() {
-        return isClosingEmailEnabled;
+    public boolean isClosingSoonEmailEnabled() {
+        return isClosingSoonEmailEnabled;
     }
 
     public boolean isPublishedEmailEnabled() {
@@ -116,8 +116,8 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         this.customResponseVisibleTimestamp = customResponseVisibleTimestamp;
     }
 
-    public void setClosingEmailEnabled(boolean closingEmailEnabled) {
-        isClosingEmailEnabled = closingEmailEnabled;
+    public void setClosingSoonEmailEnabled(boolean closingSoonEmailEnabled) {
+        isClosingSoonEmailEnabled = closingSoonEmailEnabled;
     }
 
     public void setPublishedEmailEnabled(boolean publishedEmailEnabled) {

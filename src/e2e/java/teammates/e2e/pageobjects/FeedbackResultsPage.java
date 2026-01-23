@@ -84,9 +84,10 @@ public class FeedbackResultsPage extends AppPage {
         }
     }
 
-    public void verifyResponseDetails(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> givenResponses,
-                                      List<FeedbackResponseAttributes> otherResponses,
-                                      Set<String> visibleGivers, Set<String> visibleRecipients) {
+    public void verifyResponseDetails(FeedbackQuestionAttributes question,
+            List<FeedbackResponseAttributes> givenResponses,
+            List<FeedbackResponseAttributes> otherResponses,
+            Set<String> visibleGivers, Set<String> visibleRecipients) {
         if (!hasDisplayedResponses(question)) {
             return;
         }
@@ -118,7 +119,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     public void verifyRubricStatistics(int questionNum, String[][] expectedStats,
-                                       String[][] expectedStatsExcludingSelf) {
+            String[][] expectedStatsExcludingSelf) {
         WebElement excludeSelfCheckbox = getRubricExcludeSelfCheckbox(questionNum);
         markOptionAsUnselected(excludeSelfCheckbox);
         verifyTableBodyValues(getRubricStatistics(questionNum), expectedStats);
@@ -192,23 +193,25 @@ public class FeedbackResultsPage extends AppPage {
         return !question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.CONTRIB);
     }
 
-    private void verifyGivenResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> givenResponses) {
+    private void verifyGivenResponses(FeedbackQuestionAttributes question,
+            List<FeedbackResponseAttributes> givenResponses) {
         for (FeedbackResponseAttributes response : givenResponses) {
             WebElement responseField = getGivenResponseField(question.getQuestionNumber(), response.getRecipient());
             assertTrue(isResponseEqual(question, responseField, response));
         }
     }
 
-    private void verifyOtherResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> otherResponses,
-                                      Set<String> visibleGivers, Set<String> visibleRecipients) {
+    private void verifyOtherResponses(FeedbackQuestionAttributes question,
+            List<FeedbackResponseAttributes> otherResponses,
+            Set<String> visibleGivers, Set<String> visibleRecipients) {
         Set<String> recipients = getRecipients(otherResponses);
         for (String recipient : recipients) {
             List<FeedbackResponseAttributes> expectedResponses = otherResponses.stream()
                     .filter(r -> r.getRecipient().equals(recipient)
-                        && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                        || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)
-                        || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                        || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)))
+                            && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                                    || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)
+                                    || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                                    || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)))
                     .collect(Collectors.toList());
 
             verifyResponseForRecipient(question, recipient, expectedResponses, visibleGivers, visibleRecipients);
@@ -220,8 +223,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private void verifyResponseForRecipient(FeedbackQuestionAttributes question, String recipient,
-                                            List<FeedbackResponseAttributes> otherResponses,
-                                            Set<String> visibleGivers, Set<String> visibleRecipients) {
+            List<FeedbackResponseAttributes> otherResponses,
+            Set<String> visibleGivers, Set<String> visibleRecipients) {
         List<WebElement> responseViews = getAllResponseViews(question.getQuestionNumber());
         for (FeedbackResponseAttributes response : otherResponses) {
             boolean isRecipientVisible = visibleRecipients.contains(response.getGiver())
@@ -248,8 +251,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private void verifyAnonymousResponseView(FeedbackQuestionAttributes question,
-                                             List<FeedbackResponseAttributes> expectedResponses,
-                                             boolean isGiverVisible) {
+            List<FeedbackResponseAttributes> expectedResponses,
+            boolean isGiverVisible) {
         List<WebElement> anonymousViews = getAllResponseViews(question.getQuestionNumber()).stream()
                 .filter(v -> isAnonymous(v.findElement(By.className("response-recipient")).getText()))
                 .collect(Collectors.toList());
@@ -281,7 +284,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private boolean isResponseEqual(FeedbackQuestionAttributes question, WebElement responseField,
-                                    FeedbackResponseAttributes response) {
+            FeedbackResponseAttributes response) {
         if (question.getQuestionType().equals(FeedbackQuestionType.RUBRIC)) {
             return isRubricResponseEqual(responseField, response);
         } else {
@@ -290,7 +293,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private boolean isRubricResponseEqual(WebElement responseField, FeedbackResponseAttributes response) {
-        FeedbackRubricResponseDetails responseDetails = (FeedbackRubricResponseDetails) response.getResponseDetailsCopy();
+        FeedbackRubricResponseDetails responseDetails = (FeedbackRubricResponseDetails) response
+                .getResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswer();
         for (int i = 0; i < answers.size(); i++) {
             WebElement rubricTableBody = responseField.findElement(By.className("rubric-answers"));
@@ -308,11 +312,12 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private boolean isAnyAnonymousResponseEqual(FeedbackQuestionAttributes question, WebElement responseView,
-                                                FeedbackResponseAttributes response) {
+            FeedbackResponseAttributes response) {
         List<WebElement> giverNames = responseView.findElements(By.className("response-giver"));
         List<WebElement> responseFields = getAllResponseFields(responseView);
         for (int i = 0; i < giverNames.size(); i++) {
-            if (isAnonymous(giverNames.get(i).getText()) && isResponseEqual(question, responseFields.get(i), response)) {
+            if (isAnonymous(giverNames.get(i).getText())
+                    && isResponseEqual(question, responseFields.get(i), response)) {
                 return true;
             }
         }
@@ -375,7 +380,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String appendMultiChoiceInfo(String info, FeedbackParticipantType generateOptionsFor, List<String> choices,
-                                         boolean isOtherEnabled) {
+            boolean isOtherEnabled) {
         StringBuilder additionalInfo = new StringBuilder(info);
         if (generateOptionsFor.equals(FeedbackParticipantType.NONE)) {
             additionalInfo = appendOptions(additionalInfo, choices);
@@ -452,8 +457,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private void showAdditionalInfo(int qnNumber) {
-        WebElement additionalInfoLink =
-                getQuestionResponsesSection(qnNumber).findElement(By.className("additional-info-button"));
+        WebElement additionalInfoLink = getQuestionResponsesSection(qnNumber)
+                .findElement(By.className("additional-info-button"));
         if ("[more]".equals(additionalInfoLink.getText())) {
             click(additionalInfoLink);
             waitUntilAnimationFinish();
@@ -496,9 +501,11 @@ public class FeedbackResultsPage extends AppPage {
         case RANK_RECIPIENTS:
             return "Rank (recipients) question";
         case CONSTSUM_OPTIONS:
-            return getConstSumOptionsAddInfo((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+            return getConstSumOptionsAddInfo(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
         case CONSTSUM_RECIPIENTS:
-            return getConstSumRecipientsAddInfo((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+            return getConstSumRecipientsAddInfo(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
         default:
             throw new AssertionError("Unknown question type: " + question.getQuestionType());
         }
@@ -517,7 +524,8 @@ public class FeedbackResultsPage extends AppPage {
             return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRankOptionsResponseDetails) response);
         case CONSTSUM:
-            return getConstSumOptionsAnsString((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
+            return getConstSumOptionsAnsString(
+                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackConstantSumResponseDetails) response);
         case RUBRIC:
         case CONTRIB:
@@ -528,7 +536,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getRankOptionsAnsString(FeedbackRankOptionsQuestionDetails question,
-                                           FeedbackRankOptionsResponseDetails responseDetails) {
+            FeedbackRankOptionsResponseDetails responseDetails) {
         List<String> options = question.getOptions();
         List<Integer> answers = responseDetails.getAnswers();
         List<String> answerStrings = new ArrayList<>();
@@ -539,7 +547,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getConstSumOptionsAnsString(FeedbackConstantSumQuestionDetails question,
-                                               FeedbackConstantSumResponseDetails responseDetails) {
+            FeedbackConstantSumResponseDetails responseDetails) {
         if (question.isDistributeToRecipients()) {
             return responseDetails.getAnswerString();
         }
@@ -612,8 +620,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private int getRecipientIndex(int questionNum, String recipient) {
-        List<WebElement> recipients =
-                getQuestionResponsesSection(questionNum).findElements(By.className("response-recipient"));
+        List<WebElement> recipients = getQuestionResponsesSection(questionNum)
+                .findElements(By.className("response-recipient"));
         for (int i = 0; i < recipients.size(); i++) {
             if (recipients.get(i).getText().split("To: ")[1].equals(recipient)) {
                 return i;

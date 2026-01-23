@@ -52,19 +52,34 @@
             <td class="align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center gap-2">
                 <div>
-                  <a id="edit-account-request-{{i}}" (click)="$event.stopPropagation(); editAccountRequest(accountRequest);">
+                  <button
+                    id="edit-account-request-{{i}}"
+                    type="button"
+                    class="btn btn-link p-0"
+                    (click)="$event.stopPropagation(); editAccountRequest(accountRequest);"
+                    aria-label="Edit account request">
                     <i class="fa-solid fa-pen"></i>
-                  </a>
+                  </button>
                 </div>
               <div class="ngb-tooltip-class" [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'" placement="top">
-                <a id="delete-account-request-{{i}}" (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)">
+                <button
+                  id="delete-account-request-{{i}}"
+                  type="button"
+                  class="btn btn-link p-0"
+                  (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)"
+                  aria-label="Delete account request">
                   <i class="fa-solid fa-trash"></i>
-                </a>
+                </button>
               </div>
               <div>
-                <a id="view-account-request-{{i}}" (click)="$event.stopPropagation(); viewAccountRequest(accountRequest)">
+                <button
+                  id="view-account-request-{{i}}"
+                  type="button"
+                  class="btn btn-link p-0"
+                  (click)="$event.stopPropagation(); viewAccountRequest(accountRequest)"
+                  aria-label="View account request">
                     <i class="fa-solid fa-eye"></i>
-                </a>
+                </button>
               </div>
               <button id="approve-account-request-{{i}}" class="btn btn-success" [disabled]="!accountRequest.status || accountRequest.status === 'APPROVED' || accountRequest.status === 'REGISTERED' || isApprovingAccount[i]" (click)="$event.stopPropagation(); approveAccountRequest(accountRequest, i)"> <tm-ajax-loading *ngIf="isApprovingAccount[i]"></tm-ajax-loading>Approve</button>
               <span ngbDropdown container="body">

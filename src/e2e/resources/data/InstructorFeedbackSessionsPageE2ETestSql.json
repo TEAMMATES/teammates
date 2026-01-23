@@ -1,0 +1,326 @@
+{
+  "accounts": {
+    "IFSessionPage.alice": {
+      "id": "00000001-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.sql.IFSessionPage.alice.tmms",
+      "name": "Alice Betsy",
+      "email": "alice.b.tmms@gmail.tmt"
+    },
+    "IFSessionPage.benny": {
+      "id": "00000001-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.sql.IFSessionPage.benny.tmms",
+      "name": "Benny Charles",
+      "email": "benny.tmms@gmail.tmt"
+    },
+    "IFSessionPage.charlie": {
+      "id": "00000001-0000-4000-8000-000000000003",
+      "googleId": "tm.e2e.sql.IFSessionPage.charlie.tmms",
+      "name": "Charlie Davis",
+      "email": "charlie.tmms@gmail.tmt"
+    },
+    "IFSessionPage.danny": {
+      "id": "00000001-0000-4000-8000-000000000004",
+      "googleId": "tm.e2e.sql.IFSessionPage.danny.tmms",
+      "name": "Danny Engrid",
+      "email": "IFSessionPage.danny.tmms@gmail.tmt"
+    },
+    "IFSessionPage.emma": {
+      "id": "00000001-0000-4000-8000-000000000005",
+      "googleId": "tm.e2e.sql.IFSessionPage.emma.tmms",
+      "name": "Emma Farrell",
+      "email": "IFSessionPage.emma.tmms@gmail.tmt"
+    },
+    "IFSessionPage.instr1": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.sql.IFSessionPage.instr1",
+      "name": "Instructor 1",
+      "email": "IFSessionPage.instr@gmail.tmt"
+    }
+  },
+  "accountRequests": {},
+  "courses": {
+    "IFSessionPage.CS2104": {
+      "id": "tm.e2e.sql.CS2104",
+      "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "UTC"
+    },
+    "IFSessionPage.CS1101": {
+      "id": "tm.e2e.sql.CS1101",
+      "name": "Programming Methodology",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Africa/Johannesburg"
+    }
+  },
+  "sections": {
+    "IFSessionPage.CS2104": {
+      "id": "00000000-0011-4000-8000-000000000001",
+      "course": {
+        "id": "tm.e2e.sql.CS2104"
+      },
+      "name": "Section A"
+    },
+    "IFSessionPage.CS1101": {
+      "id": "00000000-0011-4000-8000-000000000002",
+      "course": {
+        "id": "tm.e2e.sql.CS1101"
+      },
+      "name": "None"
+    }
+  },
+  "teams": {
+    "IFSessionPage.CS2104-SectionA-Team1": {
+      "id": "00000000-0111-4000-8000-000000000001",
+      "section": {
+        "id": "00000000-0011-4000-8000-000000000001"
+      },
+      "name": "Team 1"
+    },
+    "IFSessionPage.CS1101-None-Team2": {
+      "id": "00000000-0111-4000-8000-000000000002",
+      "section": {
+        "id": "00000000-0011-4000-8000-000000000002"
+      },
+      "name": "Team 2"
+    },
+    "IFSessionPage.CS2104-SectionA-Team2": {
+      "id": "00000000-0111-4000-8000-000000000003",
+      "section": {
+        "id": "00000000-0011-4000-8000-000000000001"
+      },
+      "name": "Team 2"
+    }
+  },
+  "deadlineExtensions": {},
+  "instructors": {
+    "IFSessionPage.instr1": {
+      "id": "00000000-0000-4000-8000-000000000501",
+      "course": {
+        "id": "tm.e2e.sql.CS2104"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Instructor 1",
+      "email": "IFSessionPage.instr@gmail.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": false,
+      "displayName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "IFSessionPage.instr2": {
+      "id": "00000000-0000-4000-8000-000000000502",
+      "course": {
+        "id": "tm.e2e.sql.CS1101"
+      },
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "name": "Instructor 2",
+      "email": "IFSessionPage.instr2@gmail.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": false,
+      "displayName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "IFSessionPage.alice": {
+      "id": "00000001-0000-4000-8000-000000000501",
+      "account": {
+        "id": "00000001-0000-4000-8000-000000000001"
+      },
+      "course": {
+        "id": "tm.e2e.sql.CS2104"
+      },
+      "team": {
+        "id": "00000000-0111-4000-8000-000000000001"
+      },
+      "email": "alice.b.tmms@gmail.tmt",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy"
+    },
+    "IFSessionPage.benny": {
+      "id": "00000001-0000-4000-8000-000000000502",
+      "account": {
+        "id": "00000001-0000-4000-8000-000000000002"
+      },
+      "course": {
+        "id": "tm.e2e.sql.CS2104"
+      },
+      "team": {
+        "id": "00000000-0111-4000-8000-000000000001"
+      },
+      "email": "benny.tmms@gmail.tmt",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles"
+    },
+    "IFSessionPage.charlie": {
+      "id": "00000001-0000-4000-8000-000000000503",
+      "account": {
+        "id": "00000001-0000-4000-8000-000000000003"
+      },
+      "course": {
+        "id": "tm.e2e.sql.CS2104"
+      },
+      "team": {
+        "id": "00000000-0111-4000-8000-000000000003"
+      },
+      "email": "charlie.tmms@gmail.tmt",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis"
+    },
+    "IFSessionPage.danny": {
+      "id": "00000001-0000-4000-8000-000000000504",
+      "account": {
+        "id": "00000001-0000-4000-8000-000000000004"
+      },
+      "course": {
+        "id": "tm.e2e.sql.CS1101"
+      },
+      "team": {
+        "id": "00000000-0111-4000-8000-000000000002"
+      },
+      "email": "IFSessionPage.danny.tmms@gmail.tmt",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid"
+    },
+    "IFSessionPage.emma": {
+      "id": "00000001-0000-4000-8000-000000000505",
+      "account": {
+        "id": "00000001-0000-4000-8000-000000000005"
+      },
+      "course": {
+        "id": "tm.e2e.sql.CS1101"
+      },
+      "team": {
+        "id": "00000000-0111-4000-8000-000000000002"
+      },
+      "email": "IFSessionPage.emma.tmms@gmail.tmt",
+      "name": "Emma Farrell",
+      "comments": "This student's name is Emma Farrell"
+    }
+  },
+  "feedbackSessions": {
+    "openSession": {
+      "creatorEmail": "IFSessionPage.instr@gmail.tmt",
+      "instructions": "<p>Instructions for first session</p>",
+      "createdAt": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2026-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
+      "timeZone": "UTC",
+      "gracePeriod": 10,
+      "isOpenedEmailSent": false,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {},
+      "id": "00000000-0000-4000-8000-000000000701",
+      "course": {
+        "id": "tm.e2e.sql.CS2104"
+      },
+      "name": "First Session"
+    },
+    "closedSession": {
+      "creatorEmail": "IFSessionPage.instr2@gmail.tmt",
+      "instructions": "<p>Instructions for first session</p>",
+      "createdAt": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2016-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+      "resultsVisibleFromTime": "2016-05-01T22:00:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "isOpenedEmailSent": false,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {},
+      "id": "00000000-0000-4000-8000-000000000702",
+      "course": {
+        "id": "tm.e2e.sql.CS1101"
+      },
+      "name": "Second Session"
+    }
+  },
+  "feedbackQuestions": {
+    "qn1-secondSession": {
+      "id": "00000000-0000-4000-8000-000000000801",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000702"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What did this instructor do well?",
+        "recommendedLength": 1000
+      },
+      "description": "<p>Testing description for first session</p>",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
+    },
+    "qn1-firstSession": {
+      "id": "00000000-0000-4000-8000-000000000802",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What did this instructor do well?",
+        "recommendedLength": 1000
+      },
+      "description": "<p>Testing description for first session</p>",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
+    }
+  },
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "notifications": {},
+  "readNotifications": {}
+}

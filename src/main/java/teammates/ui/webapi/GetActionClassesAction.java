@@ -8,7 +8,7 @@ import teammates.ui.output.ActionClasses;
 /**
  * Retrieves a list of action class names.
  */
-class GetActionClassesAction extends Action {
+public class GetActionClassesAction extends Action {
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;

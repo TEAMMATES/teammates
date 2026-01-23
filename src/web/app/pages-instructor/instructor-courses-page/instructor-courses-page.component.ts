@@ -94,6 +94,10 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   modifiedSessions: Record<string, TweakedTimestampData> = {};
 
+  get isLoadingCourses(): boolean {
+    return this.isLoadingActiveCourses || this.isLoadingArchivedCourses || this.isLoadingSoftDeletedCourses;
+  }
+
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
@@ -602,7 +606,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       responseVisibleSetting: copiedResponseVisibleSetting,
       customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
 
-      isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
+      isClosingSoonEmailEnabled: fromFeedbackSession.isClosingSoonEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
     };
   }

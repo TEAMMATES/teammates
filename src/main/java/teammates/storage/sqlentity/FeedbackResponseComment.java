@@ -72,7 +72,6 @@ public class FeedbackResponseComment extends BaseEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    @Column(nullable = false)
     private String lastEditorEmail;
 
     protected FeedbackResponseComment() {

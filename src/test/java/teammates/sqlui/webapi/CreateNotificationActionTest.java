@@ -23,7 +23,6 @@ import teammates.ui.webapi.CreateNotificationAction;
  * SUT: {@link CreateNotificationAction}.
  */
 public class CreateNotificationActionTest extends BaseActionTest<CreateNotificationAction> {
-    private static final String GOOGLE_ID = "user-googleId";
     private static final String INVALID_TITLE = "";
     NotificationCreateRequest testReq;
     private Notification testNotification;
@@ -81,28 +80,8 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     }
 
     @Test
-    void testSpecificAccessControl_admin_canAccess() {
-        verifyCanAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_instructor_cannotAccess() {
-        logoutUser();
-        loginAsInstructor(GOOGLE_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_student_cannotAccess() {
-        logoutUser();
-        loginAsStudent(GOOGLE_ID);
-        verifyCannotAccess();
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-        verifyCannotAccess();
+    void testAccessControl() throws Exception {
+        verifyOnlyAdminsCanAccess();
     }
 
     @Test
@@ -173,7 +152,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         when(mockLogic.createNotification(any())).thenThrow(new InvalidParametersException("Invalid title"));
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
 
-        assertEquals("Invalid title", ex.getMessage());
+        assertEquals("Notification title cannot be empty", ex.getMessage());
     }
 
     private NotificationCreateRequest getTypicalCreateRequest() {
