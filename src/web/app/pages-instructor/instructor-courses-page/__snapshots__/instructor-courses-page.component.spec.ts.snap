@@ -337,6 +337,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   <div>
     <button
       class="btn btn-success"
+      disabled=""
       id="btn-add-course"
     >
       <i
@@ -1121,6 +1122,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   <div>
     <button
       class="btn btn-success"
+      disabled=""
       id="btn-add-course"
     >
       <i
@@ -1696,6 +1698,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   <div>
     <button
       class="btn btn-success"
+      disabled=""
       id="btn-add-course"
     >
       <i
