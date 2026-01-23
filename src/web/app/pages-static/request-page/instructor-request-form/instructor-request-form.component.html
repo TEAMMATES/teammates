@@ -91,7 +91,8 @@
       class="invalid-feedback">
       Email address must be shorter than {{EMAIL_MAX_LENGTH}} characters. (Current: {{email.value?.length}})
     </div>
-    <div *ngIf="email.errors?.['pattern']" role="alert" aria-describedby="email-label" tabindex="0"
+    <!-- This div is modified to catch both 'pattern' and 'email' errors -->
+    <div *ngIf="(email.errors?.['pattern'] || email.errors?.['email']) && !email.errors?.['required']" role="alert" aria-describedby="email-label" tabindex="0"
       class="invalid-feedback">
       Please enter a valid email address.
     </div>
@@ -134,3 +135,4 @@
     {{isLoading ? "Submitting..." : "Submit"}}
   </button>
 </form>
+
