@@ -44,7 +44,8 @@ public class CoursesLogicTest extends BaseTestCase {
         coursesDb = mock(CoursesDb.class);
         fsLogic = mock(FeedbackSessionsLogic.class);
         usersLogic = mock(UsersLogic.class);
-        coursesLogic.initLogicDependencies(coursesDb, fsLogic, usersLogic);
+        AccountsLogic accountsLogic = mock(AccountsLogic.class);
+        coursesLogic.initLogicDependencies(coursesDb, fsLogic, usersLogic, accountsLogic);
     }
 
     @Test
@@ -187,14 +188,23 @@ public class CoursesLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         List<Instructor> instructors = new ArrayList<>();
         List<FeedbackSession> feedbackSessions = new ArrayList<>();
+        List<FeedbackSession> softDeletedFeedbackSessions = new ArrayList<>();
 
         FeedbackSession fs = new FeedbackSession("test-fs", course, "test@email.com",
                 "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
                 false, false, false);
         feedbackSessions.add(fs);
+
+        FeedbackSession softDeletedFs = new FeedbackSession("soft-deleted-fs", course, "test@email.com",
+                "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
+                false, false, false);
+        softDeletedFs.setDeletedAt(Instant.now());
+        softDeletedFeedbackSessions.add(softDeletedFs);
         instructors.add(getTypicalInstructor());
 
         when(fsLogic.getFeedbackSessionsForCourse(course.getId())).thenReturn(feedbackSessions);
+        when(fsLogic.getSoftDeletedFeedbackSessionsForCourse(course.getId()))
+                .thenReturn(softDeletedFeedbackSessions);
         when(usersLogic.getInstructorsForCourse(course.getId())).thenReturn(instructors);
         when(coursesDb.getCourse(course.getId())).thenReturn(course);
 
@@ -204,7 +214,9 @@ public class CoursesLogicTest extends BaseTestCase {
         verify(usersLogic, times(1)).getInstructorsForCourse(course.getId());
         verify(usersLogic, times(1)).deleteInstructorCascade(course.getId(), instructors.get(0).getEmail());
         verify(fsLogic, times(1)).deleteFeedbackSessionCascade(fs.getName(), course.getId());
+        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(softDeletedFs.getName(), course.getId());
         verify(fsLogic, times(1)).getFeedbackSessionsForCourse(course.getId());
+        verify(fsLogic, times(1)).getSoftDeletedFeedbackSessionsForCourse(course.getId());
         verify(coursesDb, times(1)).deleteCourse(course);
         verify(coursesDb, times(1)).deleteSectionsByCourseId(course.getId());
     }

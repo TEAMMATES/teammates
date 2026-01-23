@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -22,7 +23,9 @@ import teammates.common.util.FieldValidator;
  * Represents a Team.
  */
 @Entity
-@Table(name = "Teams")
+@Table(name = "Teams", uniqueConstraints = {
+        @UniqueConstraint(name = "Unique name and sectionId", columnNames = { "sectionId", "name" })
+})
 public class Team extends BaseEntity {
     @Id
     private UUID id;

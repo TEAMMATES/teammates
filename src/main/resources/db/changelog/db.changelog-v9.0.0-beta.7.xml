@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+   <changeSet author="DhiraPT (generated)" id="1768555251328-2">
+      <addUniqueConstraint columnNames="course_id, name"
+                            constraintName="Unique name and courseId"
+                            tableName="sections"/>
+   </changeSet>
+   <changeSet author="DhiraPT (generated)" id="1768555251328-3">
+      <addUniqueConstraint columnNames="section_id, name"
+                            constraintName="Unique name and sectionId"
+                            tableName="teams"/>
+   </changeSet>
+   <changeSet author="DhiraPT (generated)" id="1768555251328-1">
+      <modifyDataType columnName="answer"
+                       newDataType="clob"
+                       tableName="feedback_responses"/>
+   </changeSet>
+</databaseChangeLog>
