@@ -1,0 +1,619 @@
+{
+  "accounts": {},
+  "accountRequests": {},
+  "courses": {
+    "tm.e2e.IFRep.CS2104": {
+      "id": "tm.e2e.IFRep.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "Asia/Singapore",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "tm.e2e.IFRep.CS2103": {
+      "id": "tm.e2e.IFRep.CS2103",
+      "name": "Software Engineering",
+      "timeZone": "Asia/Singapore",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "sections": {
+    "tm.e2e.IFRep.CS2104-SectionA": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2104"
+      },
+      "name": "Section A"
+    },
+    "tm.e2e.IFRep.CS2104-SectionB": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2104"
+      },
+      "name": "Section B"
+    },
+    "tm.e2e.IFRep.CS2104-None": {
+      "id": "00000000-0000-4000-8000-000000000203",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2104"
+      },
+      "name": "None"
+    },
+    "tm.e2e.IFRep.CS2103-None": {
+      "id": "00000000-0000-4000-8000-000000000204",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2103"
+      },
+      "name": "None"
+    }
+  },
+  "teams": {
+    "tm.e2e.IFRep.CS2104-SectionA-Team1": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "name": "Team 1"
+    },
+    "tm.e2e.IFRep.CS2104-SectionB-Team2": {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "name": "Team 2"
+    },
+    "tm.e2e.IFRep.CS2104-None-Team3": {
+      "id": "00000000-0000-4000-8000-000000000303",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "name": "Team 3"
+    },
+    "tm.e2e.IFRep.CS2103-None-Team1": {
+      "id": "00000000-0000-4000-8000-000000000304",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000204"
+      },
+      "name": "Team 1"
+    }
+  },
+  "deadlineExtensions": {},
+  "instructors": {
+    "tm.e2e.IFRep.instr": {
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000501",
+      "courseId": "tm.e2e.IFRep.CS2104",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2104"
+      },
+      "name": "Teammates Test 1",
+      "email": "IFRep.instr1@gmail.tmt",
+      "regKey": "F133886AD16F917FCB24A7EB3215B1534B0D5DC5598F61ACBCA5B1EE665D7E412B7FA8528E15A557050A920EEAAC405EE69FE65F70D3B6E7E0261F6B8638DA2E"
+    },
+    "tm.e2e.IFRep.instr2": {
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000502",
+      "courseId": "tm.e2e.IFRep.CS2104",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2104"
+      },
+      "name": "Teammates Test 2",
+      "email": "IFRep.instr2@gmail.tmt",
+      "regKey": "E7B14E4C356FA2189883CBE9404AA55D4B0D5DC5598F61ACBCA5B1EE665D7E41995BFF85618ED777796CE6B29D90D2A2FB9A109441BBC8B1C91BDA33D646489C"
+    },
+    "CS2103.instr": {
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "privileges": {
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canViewStudentInSections": true,
+          "canViewSessionInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      },
+      "id": "00000000-0000-4000-8000-000000000503",
+      "courseId": "tm.e2e.IFRep.CS2103",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2103"
+      },
+      "name": "Teammates Test 1",
+      "email": "IFRep.instr1@gmail.tmt",
+      "regKey": "F133886AD16F917FCB24A7EB3215B1534B0D5DC5598F61ACBCA5B1EE665D7E41697C468B0B1DCD666D04126FAEBF333DB0E8B3EDD5C55D78FBAC3DA9F42FEAF9"
+    }
+  },
+  "students": {
+    "Alice": {
+      "comments": "This student's name is Alice Betsy",
+      "id": "00000000-0000-4000-8000-000000000601",
+      "courseId": "tm.e2e.IFRep.CS2104",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2104"
+      },
+      "name": "Alice Betsy",
+      "email": "IFRep.alice.b@gmail.tmt",
+      "regKey": "F8E0390598ADB8CC11A248727B5E9E1CF82EAF2530D7F60599B47E2A5B030C401757913870F9DC07A6907019FBE9AD06FDB7DD1355DCA08F7C09D16956D855A2"
+    },
+    "Benny": {
+      "comments": "This student's name is Benny Charles",
+      "id": "00000000-0000-4000-8000-000000000602",
+      "courseId": "tm.e2e.IFRep.CS2104",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2104"
+      },
+      "name": "Benny Charles",
+      "email": "IFRep.benny.c@gmail.tmt",
+      "regKey": "BB8A7FEB287F4C9F9D044CADD1C98F3CF82EAF2530D7F60599B47E2A5B030C405A8B7592E2DE032D2749108C8F207A83268BCBA44430B23366C0DBEA5C78B6D1"
+    },
+    "Charlie": {
+      "comments": "This student's name is Charlie Davis",
+      "id": "00000000-0000-4000-8000-000000000603",
+      "courseId": "tm.e2e.IFRep.CS2104",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2104"
+      },
+      "name": "Charlie Davis",
+      "email": "IFRep.charlie.d@gmail.tmt",
+      "regKey": "84E71207486E262D62216B4817804234B7AA0A1C7C430FE89D40650DDE12E77D55F74A15976B5709394BC204526AE882220A6B6AA9B1A7D4CFD3BC1859C83252"
+    },
+    "Danny": {
+      "comments": "This student's name is Danny Engrid",
+      "id": "00000000-0000-4000-8000-000000000604",
+      "courseId": "tm.e2e.IFRep.CS2104",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2104"
+      },
+      "name": "Danny Engrid",
+      "email": "IFRep.danny.e@gmail.tmt",
+      "regKey": "77CFFE3AD464536220FD5F77A7FC0F5FF82EAF2530D7F60599B47E2A5B030C40891ADBA4B3DC5C2C08E23B3957B542F96F72C045E33200A7DABF301D4977B8D9"
+    },
+    "Emily": {
+      "comments": "This student's name is Emily",
+      "id": "00000000-0000-4000-8000-000000000605",
+      "courseId": "tm.e2e.IFRep.CS2103",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2103"
+      },
+      "name": "Emily F.",
+      "email": "IFRep.emily.f@gmail.tmt",
+      "regKey": "E2D0518C51D64E4B6B5FE7024A3E202AF82EAF2530D7F60599B47E2A5B030C40FDBB7B6E399F64D91B09262CDA303B1EFD8140C394EDED336441EB9E17A5BAED"
+    },
+    "Fred": {
+      "comments": "This student's name is Fred",
+      "id": "00000000-0000-4000-8000-000000000606",
+      "courseId": "tm.e2e.IFRep.CS2103",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2103"
+      },
+      "name": "Fred G.",
+      "email": "IFRep.fred.g@gmail.tmt",
+      "regKey": "0B202F365856B448BAAA49F37E1E46D34B0D5DC5598F61ACBCA5B1EE665D7E41440DB830CBC46DF37812399474B55FE4824E3CF26907C80B2C9CDE4E12E9676D"
+    }
+  },
+  "feedbackSessions": {
+    "Open Session": {
+      "id": "00000000-0000-4000-8000-000000000701",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2104"
+      },
+      "name": "First Session",
+      "creatorEmail": "IFRep.instr1@gmail.tmt",
+      "instructions": "Instructions for first session",
+      "startTime": "2012-04-01T16:00:00Z",
+      "endTime": "2026-04-30T16:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
+      "resultsVisibleFromTime": "2012-05-01T16:00:00Z",
+      "gracePeriod": 10,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": false,
+      "isOpenedEmailSent": false,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "createdAt": "2012-04-01T23:59:00Z"
+    },
+    "Open Session 2": {
+      "id": "00000000-0000-4000-8000-000000000702",
+      "course": {
+        "id": "tm.e2e.IFRep.CS2103"
+      },
+      "name": "First Session",
+      "creatorEmail": "IFRep.instr1@gmail.tmt",
+      "instructions": "Instructions for first session",
+      "startTime": "2012-04-01T16:00:00Z",
+      "endTime": "2026-04-30T16:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
+      "resultsVisibleFromTime": "2012-05-01T16:00:00Z",
+      "gracePeriod": 10,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "isOpeningSoonEmailSent": false,
+      "isOpenedEmailSent": false,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "createdAt": "2012-04-01T23:59:00Z"
+    }
+  },
+  "feedbackQuestions": {
+    "qn1": {
+      "questionDetails": {
+        "shouldAllowRichText": true,
+        "questionType": "TEXT",
+        "questionText": "How can this student improve?"
+      },
+      "id": "00000000-0000-4000-8000-000000000801",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionNumber": 1,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "STUDENTS",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn2": {
+      "questionDetails": {
+        "hasAssignedWeights": true,
+        "mcqWeights": [
+          1.0,
+          2.0
+        ],
+        "mcqOtherWeight": 3.0,
+        "mcqChoices": [
+          "UI",
+          "Algo"
+        ],
+        "otherEnabled": true,
+        "questionDropdownEnabled": false,
+        "generateOptionsFor": "NONE",
+        "questionType": "MCQ",
+        "questionText": "What part of the product did this teammate contribute most to?"
+      },
+      "id": "00000000-0000-4000-8000-000000000802",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionNumber": 2,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn3": {
+      "questionDetails": {
+        "msqChoices": [],
+        "otherEnabled": false,
+        "hasAssignedWeights": false,
+        "msqWeights": [],
+        "msqOtherWeight": 0.0,
+        "generateOptionsFor": "STUDENTS",
+        "maxSelectableChoices": -2147483648,
+        "minSelectableChoices": -2147483648,
+        "questionType": "MSQ",
+        "questionText": "Which students would you recommend to be a tutor?"
+      },
+      "id": "00000000-0000-4000-8000-000000000803",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000701"
+      },
+      "questionNumber": 3,
+      "giverType": "STUDENTS",
+      "recipientType": "NONE",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ]
+    },
+    "c2qn1": {
+      "questionDetails": {
+        "hasAssignedWeights": true,
+        "mcqWeights": [
+          1.0,
+          2.0
+        ],
+        "mcqOtherWeight": 3.0,
+        "mcqChoices": [
+          "UI",
+          "Algo"
+        ],
+        "otherEnabled": true,
+        "questionDropdownEnabled": false,
+        "generateOptionsFor": "NONE",
+        "questionType": "MCQ",
+        "questionText": "What part of the product did this teammate contribute most to?"
+      },
+      "id": "00000000-0000-4000-8000-000000000804",
+      "feedbackSession": {
+        "id": "00000000-0000-4000-8000-000000000702"
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ]
+    }
+  },
+  "feedbackResponses": {
+    "qn1response1": {
+      "answer": {
+        "answer": "Instructor response to Alice.",
+        "questionType": "TEXT"
+      },
+      "id": "00000000-0000-4000-8000-000000000901",
+      "giver": "IFRep.instr1@gmail.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "recipient": "IFRep.alice.b@gmail.tmt",
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      }
+    },
+    "qn1response2": {
+      "answer": {
+        "answer": "Instructor response to Charlie.",
+        "questionType": "TEXT"
+      },
+      "id": "00000000-0000-4000-8000-000000000902",
+      "giver": "IFRep.instr1@gmail.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "recipient": "IFRep.charlie.d@gmail.tmt",
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      }
+    },
+    "qn2response1": {
+      "answer": {
+        "answer": "",
+        "isOther": true,
+        "otherFieldContent": "Answer from Alice.",
+        "questionType": "MCQ"
+      },
+      "id": "00000000-0000-4000-8000-000000000903",
+      "giver": "IFRep.alice.b@gmail.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "recipient": "IFRep.benny.c@gmail.tmt",
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      }
+    },
+    "qn2response2": {
+      "answer": {
+        "answer": "Algo",
+        "isOther": false,
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      },
+      "id": "00000000-0000-4000-8000-000000000904",
+      "giver": "IFRep.alice.b@gmail.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "recipient": "IFRep.charlie.d@gmail.tmt",
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      }
+    },
+    "qn2response3": {
+      "answer": {
+        "answer": "UI",
+        "isOther": false,
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      },
+      "id": "00000000-0000-4000-8000-000000000905",
+      "giver": "IFRep.charlie.d@gmail.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "recipient": "IFRep.alice.b@gmail.tmt",
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      }
+    },
+    "qn2response4": {
+      "answer": {
+        "answer": "",
+        "isOther": true,
+        "otherFieldContent": "Answer from Charlie.",
+        "questionType": "MCQ"
+      },
+      "id": "00000000-0000-4000-8000-000000000906",
+      "giver": "IFRep.charlie.d@gmail.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "recipient": "IFRep.danny.e@gmail.tmt",
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      }
+    },
+    "qn3response1": {
+      "answer": {
+        "answers": [
+          "Benny Charles (Team 1)",
+          "Danny Engrid (Team 2)"
+        ],
+        "isOther": false,
+        "otherFieldContent": "",
+        "questionType": "MSQ"
+      },
+      "id": "00000000-0000-4000-8000-000000000907",
+      "giver": "IFRep.alice.b@gmail.tmt",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "recipient": "%GENERAL%",
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      }
+    },
+    "c2qn1response1": {
+      "answer": {
+        "answer": "UI",
+        "isOther": false,
+        "otherFieldContent": "",
+        "questionType": "MCQ"
+      },
+      "id": "00000000-0000-4000-8000-000000000908",
+      "giver": "IFRep.fred.g@gmail.tmt",
+      "recipient": "IFRep.emily.f@gmail.tmt"
+    }
+  },
+  "feedbackResponseComments": {
+    "qn2Comment1": {
+      "id": 0,
+      "giver": "IFRep.instr1@gmail.tmt",
+      "giverType": "INSTRUCTORS",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "commentText": "Instructor first comment to Alice",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "showCommentTo": [
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS"
+      ],
+      "createdAt": "2026-02-02T23:59:00Z"
+    },
+    "qn2Comment2": {
+      "id": 1,
+      "giver": "IFRep.instr1@gmail.tmt",
+      "giverType": "INSTRUCTORS",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "commentText": "Instructor second comment to Alice",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "showCommentTo": [
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS"
+      ],
+      "lastEditorEmail": "IFRep.instr1@gmail.tmt",
+      "createdAt": "2026-03-01T23:59:00Z"
+    },
+    "qn3Comment1": {
+      "id": 2,
+      "giver": "IFRep.charlie.d@gmail.tmt",
+      "giverType": "STUDENTS",
+      "giverSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000203"
+      },
+      "commentText": "Charlie comment to alice",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "createdAt": "2026-03-02T23:59:00Z"
+    }
+  },
+  "feedbackSessionLogs": {},
+  "notifications": {},
+  "readNotifications": {}
+}
