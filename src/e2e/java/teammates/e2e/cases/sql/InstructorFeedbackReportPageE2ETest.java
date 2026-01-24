@@ -360,7 +360,8 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
                 "Session Name," + feedbackSession.getName(),
                 "Question 1,What part of the product did this teammate contribute most to?",
                 "Participants who have not responded to any question",
-                String.format("%s,%s,%s", studentToEmail.getTeamName(), studentToEmail.getName(), studentToEmail.getEmail()));
+                String.format("%s,%s,%s", studentToEmail.getTeamName(), studentToEmail.getName(),
+                        studentToEmail.getEmail()));
         verifyDownloadedFile(fileName, expectedContent);
 
         ______TS("verify no response panel details");
@@ -389,7 +390,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
             actual = getFeedbackSession(feedbackSession.getCourseId(),
                     feedbackSession.getName());
         }
-        assertEquals(actual.getPublishStatus(), state);
+        assertEquals(state, isFeedbackSessionPublished(actual.getPublishStatus()));
     }
 
     private List<FeedbackQuestion> getQuestionsByCourse(String courseId) {

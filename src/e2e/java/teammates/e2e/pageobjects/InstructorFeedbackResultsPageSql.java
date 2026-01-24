@@ -99,7 +99,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         assertEquals(feedbackSession.getCourseId(), courseId.getText());
         assertEquals(feedbackSession.getName(), sessionName.getText());
         assertEquals(getSessionDurationString(feedbackSession, course), sessionDuration.getText());
-        assertEquals(getDateString(feedbackSession.getResultsVisibleFromTime(), course.getTimeZone()), resultVisibleDate.getText());
+        assertEquals(getDateString(feedbackSession.getResultsVisibleFromTime(), course.getTimeZone()),
+                resultVisibleDate.getText());
     }
 
     public void unpublishSessionResults() {
@@ -113,7 +114,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
             clickAndConfirm(publishButton);
         }
     }
-    
+
     public void downloadResults() {
         click(downloadButton);
     }
@@ -125,13 +126,12 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
 
     public void verifyNoResponsePanelDetails(List<Student> noResponseStudents) {
         verifyTableBodyValues(getNoResponseTable(),
-        getExpectedNoResponseDetails(noResponseStudents));
+                getExpectedNoResponseDetails(noResponseStudents));
     }
 
     public void remindAllNonResponders() {
         click(remindAllButton);
-        click(waitForElementPresence(By.id
-        ("btn-confirm-send-reminder")));
+        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
     }
 
     public void includeGroupingByTeam(boolean isIncluded) {
@@ -359,7 +359,6 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                 isGroupedByTeam, isGiver);
         verifyStatistics(panelWithStats, question, responses, instructors, students);
     }
-
 
     private void verifyStatistics(WebElement questionPanel, FeedbackQuestion question,
                                   List<FeedbackResponse> responses,
@@ -1085,7 +1084,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         String sectionName;
         if (type.equals(FeedbackParticipantType.TEAMS)) {
             sectionName = students.stream()
-                    .filter(student -> student.getTeam().equals(participant))
+                    .filter(student -> student.getTeam().getName().equals(participant))
                     .findFirst()
                     .map(Student::getSectionName)
                     .orElse(null);
