@@ -164,7 +164,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
     }
 
     private void verifyDeadlineExtensionsPresentOrAbsent(Map<String, Long> updatedStudentDeadlines,
-                                                         Map<String, Long> updatedInstructorDeadlines, Instant extendedDeadline) {
+                                                         Map<String, Long> updatedInstructorDeadlines,
+                                                         Instant extendedDeadline) {
         for (var student : students) {
             String email = student.getEmail();
             if (updatedStudentDeadlines.containsKey(email)) {
