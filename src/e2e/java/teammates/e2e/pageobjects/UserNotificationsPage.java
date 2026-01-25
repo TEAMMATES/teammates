@@ -125,7 +125,6 @@ public class UserNotificationsPage extends AppPage {
             click(cardHeader);
             waitForPageToLoad();
         } else {
-            System.out.print("Chevron class: " + chevronClass + " for " + notification.getTitle() + "\n");
             assertTrue(chevronClass.contains("fa-chevron-up"));
         }
 
