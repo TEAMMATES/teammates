@@ -21,7 +21,7 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code FeedbackResponseCommentsDb}.
+ * SUT: {@link FeedbackResponseCommentsDb}.
  */
 
 public class FeedbackResponseCommentsDbTest extends BaseTestCase {
