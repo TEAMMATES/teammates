@@ -242,7 +242,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, "d1f292da-951c-4f6f-9c90-10d114867867",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, "00000000-0000-4000-8000-000000000001",
         };
         when(mockLogic.getFeedbackResponse(any())).thenReturn(null);
 
