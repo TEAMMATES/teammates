@@ -32,15 +32,7 @@ import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
-import teammates.ui.output.AccountData;
-import teammates.ui.output.CourseData;
-import teammates.ui.output.FeedbackQuestionData;
-import teammates.ui.output.FeedbackResponseData;
-import teammates.ui.output.FeedbackSessionData;
-import teammates.ui.output.FeedbackSessionPublishStatus;
-import teammates.ui.output.InstructorData;
-import teammates.ui.output.NotificationData;
-import teammates.ui.output.StudentData;
+import teammates.ui.output.*;
 
 /**
  * Base class for all browser tests.
@@ -378,5 +370,13 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
      */
     protected String getKeyForStudent(Student student) {
         return getStudent(student).getKey();
+    }
+
+    /**
+     * Gets deadline extension data from the database.
+     */
+    protected DeadlineExtensionData getDeadlineExtension(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        return BACKDOOR.getDeadlineExtensionData(courseId, feedbackSessionName, userEmail, isInstructor);
     }
 }

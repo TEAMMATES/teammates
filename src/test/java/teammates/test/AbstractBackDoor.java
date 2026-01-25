@@ -930,6 +930,25 @@ public abstract class AbstractBackDoor {
     }
 
     /**
+     * Gets deadline extension data from the database.
+     */
+    public DeadlineExtensionData getDeadlineExtensionData(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(Const.ParamsNames.USER_EMAIL, userEmail);
+        params.put(Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(isInstructor));
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.DEADLINE_EXTENSION, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        return JsonUtils.fromJson(response.responseBody, DeadlineExtensionData.class);
+    }
+
+    /**
      * Gets a deadline extension from the database.
      */
     public DeadlineExtensionAttributes getDeadlineExtension(
