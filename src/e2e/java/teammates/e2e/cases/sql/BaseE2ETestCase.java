@@ -32,7 +32,16 @@ import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
-import teammates.ui.output.*;
+import teammates.ui.output.AccountData;
+import teammates.ui.output.CourseData;
+import teammates.ui.output.DeadlineExtensionData;
+import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackResponseData;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionPublishStatus;
+import teammates.ui.output.InstructorData;
+import teammates.ui.output.NotificationData;
+import teammates.ui.output.StudentData;
 
 /**
  * Base class for all browser tests.
