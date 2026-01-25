@@ -48,7 +48,7 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
         ReadNotification[] readNotifications = testData.readNotifications.values().toArray(ReadNotification[]::new);
 
         Set<String> readNotificationsIds = Stream.of(readNotifications)
-                .map(readNotification -> readNotification.getId().toString())
+                .map(readNotification -> readNotification.getNotification().getId().toString())
                 .collect(Collectors.toSet());
 
         notificationsPage.verifyNotShownNotifications(notShownNotifications);
