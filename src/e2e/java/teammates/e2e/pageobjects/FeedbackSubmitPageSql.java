@@ -66,7 +66,7 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void verifyNumQuestions(int expected) {
-        assertEquals(expected, browser.driver.findElements(By.cssSelector("[id^='question-submission-form-qn-']")).size());
+        assertEquals(browser.driver.findElements(By.cssSelector("[id^='question-submission-form-qn-']")).size(), expected);
     }
 
     public void verifyQuestionDetails(int qnNumber, FeedbackQuestion feedbackQuestion) {
@@ -161,7 +161,8 @@ public class FeedbackSubmitPageSql extends AppPage {
                 (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
         int responseLength = responseDetails.getAnswer().split(" ").length;
         assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), responseDetails.getAnswer());
-        assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength + " words");
+        assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
+                + " words");
     }
 
     public void verifyMcqQuestion(int qnNumber, String recipient, FeedbackMcqQuestionDetails questionDetails) {
@@ -185,8 +186,7 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void fillMcqResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackMcqResponseDetails responseDetails =
-                (FeedbackMcqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getFeedbackResponseDetailsCopy();
         if (responseDetails.isOther()) {
             markOptionAsSelected(getMcqOtherOptionRadioBtn(qnNumber, recipient));
             fillTextBox(getMcqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
@@ -202,8 +202,7 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void verifyMcqResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackMcqResponseDetails responseDetails =
-                (FeedbackMcqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getFeedbackResponseDetailsCopy();
         if (responseDetails.isOther()) {
             assertTrue(getMcqOtherOptionRadioBtn(qnNumber, recipient).isSelected());
             assertEquals(getMcqOtherOptionTextbox(qnNumber, recipient).getAttribute("value"),
@@ -257,8 +256,7 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void fillMsqResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackMsqResponseDetails responseDetails =
-                (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
         List<String> answers = responseDetails.getAnswers();
         if (answers.get(0).isEmpty()) {
             answers.add("None of the above");
@@ -279,8 +277,7 @@ public class FeedbackSubmitPageSql extends AppPage {
     }
 
     public void verifyMsqResponse(int qnNumber, String recipient, FeedbackResponse response) {
-        FeedbackMsqResponseDetails responseDetails =
-                (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
+        FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getFeedbackResponseDetailsCopy();
         List<String> answers = responseDetails.getAnswers();
         if (answers.get(0).isEmpty()) {
             answers.add("None of the above");

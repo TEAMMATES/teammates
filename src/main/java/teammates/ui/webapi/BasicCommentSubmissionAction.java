@@ -102,6 +102,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      * @throws InvalidHttpParameterException if the parameter is neither a valid UUID nor encrypted ID
      */
     protected ParsedFeedbackResponseId parseFeedbackResponseId(String feedbackResponseIdParam) {
+        // TODO: Remove this method when migration is complete
         try {
             UUID sqlId = getUuidFromString(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseIdParam);
             return ParsedFeedbackResponseId.forSql(sqlId);
@@ -121,6 +122,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      * Container for parsed feedback response ID, supporting both SQL and Datastore formats.
      */
     protected static final class ParsedFeedbackResponseId {
+        // TODO: Remove this helper class when migration is complete
         final UUID sqlId;
         final String datastoreId;
         final boolean isSql;
