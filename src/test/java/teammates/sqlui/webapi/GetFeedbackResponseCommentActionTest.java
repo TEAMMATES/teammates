@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -108,14 +107,14 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
         };
         verifyHttpParameterFailure(submissionParams);
 
         loginAsStudent(studentInCourse1.getGoogleId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
         };
         verifyHttpParameterFailure(submissionParams);
     }
@@ -126,7 +125,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
         };
 
         FeedbackResponseComment expectedComment = commentForQ1Response1;
@@ -144,7 +143,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ2.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ2.getId().toString(),
         };
 
         FeedbackResponseComment expectedComment = commentForQ2Response1;
@@ -162,7 +161,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
         };
 
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ1);
@@ -179,7 +178,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
         };
 
         when(mockLogic.getFeedbackResponse(any())).thenReturn(null);
@@ -194,7 +193,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsStudent(studentInCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
         };
 
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
@@ -206,7 +205,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsInstructor(instructorOfCourse1.getGoogleId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ2.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ2.getId().toString(),
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ2);
@@ -220,7 +219,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsStudent(studentInCourse1.getGoogleId());
         String[] studentInvalidIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
         };
 
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
@@ -231,7 +230,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsInstructor(instructorOfCourse1.getGoogleId());
         String[] instructorInvalidIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
         };
 
         verifyHttpParameterFailureAcl(instructorInvalidIntentParams);
@@ -243,7 +242,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("responseIdOfNonExistingResponse"),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, "d1f292da-951c-4f6f-9c90-10d114867867",
         };
         when(mockLogic.getFeedbackResponse(any())).thenReturn(null);
 
@@ -257,7 +256,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsInstructor(instructorOfCourse2.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ2.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ2.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, instructorOfCourse2.getEmail(),
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
@@ -270,7 +269,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsStudent(studentInCourse2.getGoogleId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseForQ1.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, studentInCourse2.getEmail(),
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);

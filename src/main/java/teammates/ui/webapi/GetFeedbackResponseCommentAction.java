@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -152,8 +151,6 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         switch (intent) {
         case STUDENT_SUBMISSION:
         case INSTRUCTOR_SUBMISSION:
-            HibernateUtil.flushSession();
-            HibernateUtil.clearSession();
             FeedbackResponseComment comment =
                     sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(parsedId.sqlId);
             if (comment == null) {
