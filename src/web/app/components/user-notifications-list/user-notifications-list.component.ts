@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { finalize, switchMap, tap } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -66,39 +66,39 @@ export class UserNotificationsListComponent implements OnInit {
     this.isLoadingNotifications = true;
 
     this.notificationService.getReadNotifications()
-      .subscribe({
-        next: (readNotifications: ReadNotifications) => {
+      .pipe(
+        tap((readNotifications: ReadNotifications) => {
           this.readNotifications = new Set(readNotifications.readNotifications);
-          this.notificationService.getAllNotificationsForTargetUser(this.userType)
-            .pipe(finalize(() => { this.isLoadingNotifications = false; }))
-            .subscribe({
-              next: (notifications: Notifications) => {
-                notifications.notifications.forEach((notification: Notification) => {
-                  this.notificationTabs.push({
-                    notification,
-                    hasTabExpanded: !this.readNotifications.has(notification.notificationId),
-                    isRead: this.readNotifications.has(notification.notificationId),
-                    startDate: this.timezoneService.formatToString(
-                        notification.startTimestamp, this.timezone, this.DATE_FORMAT,
-                    ),
-                    endDate: this.timezoneService.formatToString(
-                        notification.endTimestamp, this.timezone, this.DATE_FORMAT,
-                    ),
-                  });
-                });
-                this.sortNotificationsBy(this.notificationsSortBy);
-              },
-              error: (resp: ErrorMessageOutput) => {
-                this.hasLoadingFailed = true;
-                this.statusMessageService.showErrorToast(resp.error.message);
-              },
-            });
+        }),
+        switchMap(() => this.notificationService.getAllNotificationsForTargetUser(this.userType)),
+        finalize(() => { this.isLoadingNotifications = false; }),
+      )
+      .subscribe({
+        next: (notifications: Notifications) => {
+          this.notificationTabs = notifications.notifications.map(
+            (notification: Notification) => this.createNotificationTab(notification),
+          );
+          this.sortNotificationsBy(this.notificationsSortBy);
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
+  }
+
+  private createNotificationTab(notification: Notification): NotificationTab {
+    return {
+      notification,
+      hasTabExpanded: !this.readNotifications.has(notification.notificationId),
+      isRead: this.readNotifications.has(notification.notificationId),
+      startDate: this.timezoneService.formatToString(
+        notification.startTimestamp, this.timezone, this.DATE_FORMAT,
+      ),
+      endDate: this.timezoneService.formatToString(
+        notification.endTimestamp, this.timezone, this.DATE_FORMAT,
+      ),
+    };
   }
 
   toggleCard(notificationTab: NotificationTab): void {
