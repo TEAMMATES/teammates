@@ -13,7 +13,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
 import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
@@ -124,10 +123,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("add comment");
         String responseId = getFeedbackResponse(response).getFeedbackResponseId();
-
-        System.out.println("[FeedbackSubmitPageE2ETest] response: " + JsonUtils.toJson(response));
         response.setId(UUID.fromString(responseId));
-        System.out.println("[FeedbackSubmitPageE2ETest] response: " + JsonUtils.toJson(response));
 
         int qnToComment = 1;
         String comment = "<p>new comment</p>";
@@ -136,7 +132,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         verifyPresentInDatabase(response2);
 
-        System.out.println("Response ID: " + responseId);
         submitPage.verifyComment(qnToComment, recipient, comment);
         verifyPresentInDatabase(getFeedbackResponseComment(response, comment));
 
