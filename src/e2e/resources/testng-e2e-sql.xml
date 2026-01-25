@@ -43,6 +43,7 @@
             <class name="teammates.e2e.cases.sql.StudentCourseDetailsPageE2ETest" />
             <class name="teammates.e2e.cases.sql.StudentCourseJoinConfirmationPageE2ETest" />
             <class name="teammates.e2e.cases.sql.StudentHomePageE2ETest" />
+            <class name="teammates.e2e.cases.sql.SystemErrorEmailReportE2ETest" />
         </classes>
     </test>
 </suite>
