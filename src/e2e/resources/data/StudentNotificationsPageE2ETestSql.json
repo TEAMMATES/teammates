@@ -98,7 +98,7 @@
       "style": "WARNING",
       "targetUser": "GENERAL",
       "title": "SNotifs.notification4",
-      "message": "<p>This notification has been read by the user</p>",
+      "message": "<p>This notification has been read by the user.</p>",
       "shown": true
     },
     "expiredNotification1": {

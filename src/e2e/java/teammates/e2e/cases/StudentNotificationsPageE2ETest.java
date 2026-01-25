@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentNotificationsPage;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 import teammates.ui.output.AccountData;
 
 /**
@@ -46,9 +47,7 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
                 sqlTestData.notifications.get("notification4"),
         };
 
-        Notification[] readNotifications = {
-                sqlTestData.notifications.get("notification4"),
-        };
+        ReadNotification[] readNotifications = sqlTestData.readNotifications.values().toArray(ReadNotification[]::new);
 
         Set<String> readNotificationsIds = Stream.of(readNotifications)
                 .map(readNotification -> readNotification.getId().toString())
