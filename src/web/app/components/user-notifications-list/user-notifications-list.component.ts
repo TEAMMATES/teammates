@@ -69,31 +69,30 @@ export class UserNotificationsListComponent implements OnInit {
       .subscribe({
         next: (readNotifications: ReadNotifications) => {
           this.readNotifications = new Set(readNotifications.readNotifications);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.hasLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-
-    this.notificationService.getAllNotificationsForTargetUser(this.userType)
-      .pipe(finalize(() => { this.isLoadingNotifications = false; }))
-      .subscribe({
-        next: (notifications: Notifications) => {
-          notifications.notifications.forEach((notification: Notification) => {
-            this.notificationTabs.push({
-              notification,
-              hasTabExpanded: !this.readNotifications.has(notification.notificationId),
-              isRead: this.readNotifications.has(notification.notificationId),
-              startDate: this.timezoneService.formatToString(
-                  notification.startTimestamp, this.timezone, this.DATE_FORMAT,
-              ),
-              endDate: this.timezoneService.formatToString(
-                  notification.endTimestamp, this.timezone, this.DATE_FORMAT,
-              ),
+          this.notificationService.getAllNotificationsForTargetUser(this.userType)
+            .pipe(finalize(() => { this.isLoadingNotifications = false; }))
+            .subscribe({
+              next: (notifications: Notifications) => {
+                notifications.notifications.forEach((notification: Notification) => {
+                  this.notificationTabs.push({
+                    notification,
+                    hasTabExpanded: !this.readNotifications.has(notification.notificationId),
+                    isRead: this.readNotifications.has(notification.notificationId),
+                    startDate: this.timezoneService.formatToString(
+                        notification.startTimestamp, this.timezone, this.DATE_FORMAT,
+                    ),
+                    endDate: this.timezoneService.formatToString(
+                        notification.endTimestamp, this.timezone, this.DATE_FORMAT,
+                    ),
+                  });
+                });
+                this.sortNotificationsBy(this.notificationsSortBy);
+              },
+              error: (resp: ErrorMessageOutput) => {
+                this.hasLoadingFailed = true;
+                this.statusMessageService.showErrorToast(resp.error.message);
+              },
             });
-          });
-          this.sortNotificationsBy(this.notificationsSortBy);
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasLoadingFailed = true;
