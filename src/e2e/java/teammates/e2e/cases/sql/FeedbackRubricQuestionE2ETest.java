@@ -110,7 +110,8 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         question.setQuestionNumber(1);
         ______TS("verify loaded question");
         Student receiver = testData.students.get("benny.tmms@FRubricQn.CS2104");
-        feedbackSubmitPage.verifyRubricQuestion(1, receiver.getName(), (FeedbackRubricQuestion) question);
+        feedbackSubmitPage.verifyRubricQuestion(1, receiver.getName(),
+                (FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         // Student giver = testData.students.get("

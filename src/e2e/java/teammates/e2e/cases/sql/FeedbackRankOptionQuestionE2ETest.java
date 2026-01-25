@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
@@ -93,7 +94,8 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         Student receiver = testData.students.get("benny.tmms@FRankOptQn.CS2104");
-        feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(), question);
+        feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(),
+                (FeedbackRankQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         FeedbackResponse response = getResponse(question, receiver, Arrays.asList(2, 1, 3,

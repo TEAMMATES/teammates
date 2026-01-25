@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.util.Const;
@@ -91,7 +92,8 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         Instructor receiver = testData.instructors.get("instructor");
         Instructor receiver2 = testData.instructors.get("instructor2");
-        feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(), question);
+        feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(),
+                (FeedbackRankQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         FeedbackResponse response = getResponse(question, receiver, 1);
