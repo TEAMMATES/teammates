@@ -1,6 +1,5 @@
 package teammates.e2e.cases.sql;
 
-import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -8,7 +7,6 @@ import java.util.stream.Stream;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentNotificationsPage;
@@ -37,13 +35,16 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
                 account.getGoogleId());
 
         ______TS("verify that only active notifications with correct target user are shown");
-        Notification[] notShownNotifications = testData.notifications.values().stream()
-                .filter(notification -> !shouldBeShown(notification))
-                .toArray(Notification[]::new);
+        Notification[] notShownNotifications = {
+                testData.notifications.get("notification3"),
+                testData.notifications.get("expiredNotification1"),
+        };
 
-        Notification[] shownNotifications = testData.notifications.values().stream()
-                .filter(notification -> shouldBeShown(notification))
-                .toArray(Notification[]::new);
+        Notification[] shownNotifications = {
+                testData.notifications.get("notification1"),
+                testData.notifications.get("notification2"),
+                testData.notifications.get("notification4"),
+        };
 
         ReadNotification[] readNotifications = testData.readNotifications.values().toArray(ReadNotification[]::new);
 
@@ -65,23 +66,6 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("notification banner is not visible");
         assertFalse(notificationsPage.isBannerVisible());
-    }
-
-    private boolean shouldBeShown(Notification notification) {
-        return isTargetedToStudents(notification.getTargetUser()) && !isExpired(notification);
-    }
-
-    private boolean isExpired(Notification notification) {
-        Instant now = Instant.now();
-        Instant endTime = notification.getEndTime();
-        if (endTime == null) {
-            return false;
-        }
-        return endTime.isBefore(now);
-    }
-
-    private boolean isTargetedToStudents(NotificationTargetUser targetUser) {
-        return targetUser == NotificationTargetUser.STUDENT || targetUser == NotificationTargetUser.GENERAL;
     }
 
     @AfterClass
