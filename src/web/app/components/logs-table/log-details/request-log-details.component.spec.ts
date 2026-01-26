@@ -90,7 +90,7 @@ describe('RequestLogDetailsComponent', () => {
     );
 
     component.addUserInfoToFilter(expectedUserInfo);
-    expect(emittedUserInfo).toEqual(expectedUserInfo);
+    expect(emittedUserInfo).toBe(expectedUserInfo);
   });
 
   describe('input log is a request log with JSON-formatted body', () => {
@@ -99,13 +99,12 @@ describe('RequestLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should parse JSON request body', () => {
-      expect(component.requestBody).toEqual(baseExpectedRequestBodyObject);
-    });
-
-    it('should extract request details', () => {
+    it('should extract user info', () => {
       expect(component.details.userInfo).toBeUndefined();
       expect(component.userInfo).toEqual(baseExpectedUserInfo);
+    });
+
+    it('should extract request body', () => {
       expect(component.details.requestBody).toBeUndefined();
       expect(component.requestBody).toEqual(baseExpectedRequestBodyObject);
     });
@@ -128,7 +127,7 @@ describe('RequestLogDetailsComponent', () => {
 
     it('should extract user info but ignore request body', () => {
       expect(component.details.userInfo).toBeUndefined();
-      expect(component.userInfo).toEqual(baseExpectedUserInfo);
+      expect(component.userInfo).toEqual(initialLogDetails.userInfo);
       expect(component.details.requestBody).toBe(initialLogDetails.requestBody);
       expect(component.requestBody).toBeUndefined();
     });
