@@ -99,6 +99,12 @@ describe('RequestLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
+    it('should store basic request details', () => {
+      expect(component.details.event).toBe(LogEvent.REQUEST_LOG);
+      expect(component.details.requestUrl).toBe(baseInitialLogDetails.requestUrl);
+      expect(component.details.responseStatus).toBe(baseInitialLogDetails.responseStatus);
+    });
+
     it('should extract user info', () => {
       expect(component.details.userInfo).toBeUndefined();
       expect(component.userInfo).toEqual(baseExpectedUserInfo);
@@ -128,6 +134,7 @@ describe('RequestLogDetailsComponent', () => {
     it('should extract user info but ignore request body', () => {
       expect(component.details.userInfo).toBeUndefined();
       expect(component.userInfo).toEqual(initialLogDetails.userInfo);
+
       expect(component.details.requestBody).toBe(initialLogDetails.requestBody);
       expect(component.requestBody).toBeUndefined();
     });

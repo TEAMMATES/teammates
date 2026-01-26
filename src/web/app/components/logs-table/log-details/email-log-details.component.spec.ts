@@ -58,9 +58,15 @@ describe('EmailLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should extract email details', () => {
-      expect(component.details.emailContent).toBeUndefined();
+    it('should extract email content from details', () => {
       expect(component.emailContent).toBe(baseExpectedEmailContent);
+      expect(component.details.emailContent).toBeUndefined();
+    });
+
+    it('should store email details other than email content', () => {
+      expect(component.details.event).toBe(LogEvent.EMAIL_SENT);
+      expect(component.details.emailSubject).toBe(baseInitialLogDetails.emailSubject);
+      expect(component.details.emailType).toBe(EmailType.LOGIN);
     });
   });
 

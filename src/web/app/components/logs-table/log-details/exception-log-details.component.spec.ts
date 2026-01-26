@@ -97,17 +97,24 @@ describe('ExceptionLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
+    it('should store basic exception details', () => {
+      expect(component.details.event).toBe(LogEvent.EXCEPTION_LOG);
+      expect(component.details.exceptionClass).toBe('MockException');
+      expect(component.details.message).toBe(baseInitialLogDetails.message);
+    });
+
     it('should have a properly formatted stack trace string', () => {
       expect(component.exceptionStackTrace).toBe(
         baseExpectedExceptionStackTraceString,
       );
     });
 
-    it('should extract exception details', () => {
+    it('should remove exception classes, messages, and stack traces from details', () => {
       expect(component.details.exceptionClasses).toBeUndefined();
       expect(component.details.exceptionMessages).toBeUndefined();
       expect(component.details.exceptionStackTraces).toBeUndefined();
     });
+
   });
 
   describe('input log is not an exception log', () => {
@@ -145,11 +152,11 @@ describe('ExceptionLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should have an empty exception stack trace', () => {
+    it('should have an empty exception stack trace string', () => {
       expect(component.exceptionStackTrace).toBe('');
     });
 
-    it('should preserve exception details in the log details', () => {
+    it('should preserve all exception details in the log details', () => {
       expect(component.details.exceptionClasses).toEqual(expectedLogDetails.exceptionClasses);
       expect(component.details.exceptionMessages).toEqual(expectedLogDetails.exceptionMessages);
       expect(component.details.exceptionStackTraces).toEqual(expectedLogDetails.exceptionStackTraces);
@@ -171,11 +178,11 @@ describe('ExceptionLogDetailsComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should have an empty exceptionStackTrace', () => {
+    it('should have an empty exception stack trace string', () => {
       expect(component.exceptionStackTrace).toBe('');
     });
 
-    it('should not remove exception details from the log details', () => {
+    it('should preserve all exception details in the log details', () => {
       expect(component.details.exceptionClasses).toEqual(expectedLogDetails.exceptionClasses);
       expect(component.details.exceptionMessages).toEqual(expectedLogDetails.exceptionMessages);
       expect(component.details.exceptionStackTraces).toEqual(expectedLogDetails.exceptionStackTraces);
