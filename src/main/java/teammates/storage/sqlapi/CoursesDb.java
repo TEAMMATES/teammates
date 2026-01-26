@@ -62,6 +62,7 @@ public final class CoursesDb extends EntitiesDb {
         }
 
         persist(course);
+        HibernateUtil.flushSession();
         return course;
     }
 
