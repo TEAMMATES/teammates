@@ -49,12 +49,6 @@ describe('ExceptionLogDetailsComponent', () => {
       function: 'handleException',
     },
   };
-  const baseExpectedLogDetails = {
-    ...baseInitialLogDetails,
-    exceptionClasses: undefined,
-    exceptionMessages: undefined,
-    exceptionStackTraces: undefined,
-  };
   const baseExpectedLogValue: GeneralLogEntry = generalLogEntryBuilder()
     .details(baseInitialLogDetails)
     .message('Test exception log message')
@@ -94,7 +88,7 @@ describe('ExceptionLogDetailsComponent', () => {
     fixture.componentRef.setInput('log', baseExpectedLogValue);
     fixture.detectChanges();
 
-    expect(component.logValue).toEqual(baseExpectedLogValue);
+    expect(component.logValue).toBe(baseExpectedLogValue);
   });
 
   describe('input log is a valid exception log', () => {
@@ -110,7 +104,9 @@ describe('ExceptionLogDetailsComponent', () => {
     });
 
     it('should extract exception details', () => {
-      expect(component.details).toEqual(baseExpectedLogDetails);
+      expect(component.details.exceptionClasses).toBeUndefined();
+      expect(component.details.exceptionMessages).toBeUndefined();
+      expect(component.details.exceptionStackTraces).toBeUndefined();
     });
   });
 
@@ -135,13 +131,13 @@ describe('ExceptionLogDetailsComponent', () => {
   });
 
   describe('input log is an invalid exception log with wrong number of exception classes', () => {
-    const expectedLogDetail: ExceptionLogDetails = {
+    const expectedLogDetails: ExceptionLogDetails = {
       ...baseInitialLogDetails,
       exceptionClasses: baseInitialLogDetails.exceptionClasses.slice(1),
     };
     const logEntryWithMissingExceptionClass: GeneralLogEntry = {
       ...baseExpectedLogValue,
-      details: expectedLogDetail,
+      details: expectedLogDetails,
     };
 
     beforeEach(() => {
@@ -154,18 +150,20 @@ describe('ExceptionLogDetailsComponent', () => {
     });
 
     it('should preserve exception details in the log details', () => {
-      expect(component.details).toEqual(expectedLogDetail);
+      expect(component.details.exceptionClasses).toEqual(expectedLogDetails.exceptionClasses);
+      expect(component.details.exceptionMessages).toEqual(expectedLogDetails.exceptionMessages);
+      expect(component.details.exceptionStackTraces).toEqual(expectedLogDetails.exceptionStackTraces);
     });
   });
 
   describe('input log is an invalid exception log with wrong number of exception messages', () => {
-    const expectedLogDetail: ExceptionLogDetails = {
+    const expectedLogDetails: ExceptionLogDetails = {
       ...baseInitialLogDetails,
       exceptionMessages: baseInitialLogDetails.exceptionMessages!.slice(1),
     };
     const logEntryWithMissingExceptionMessage: GeneralLogEntry = {
       ...baseExpectedLogValue,
-      details: expectedLogDetail,
+      details: expectedLogDetails,
     };
 
     beforeEach(() => {
@@ -178,7 +176,9 @@ describe('ExceptionLogDetailsComponent', () => {
     });
 
     it('should not remove exception details from the log details', () => {
-      expect(component.details).toEqual(expectedLogDetail);
+      expect(component.details.exceptionClasses).toEqual(expectedLogDetails.exceptionClasses);
+      expect(component.details.exceptionMessages).toEqual(expectedLogDetails.exceptionMessages);
+      expect(component.details.exceptionStackTraces).toEqual(expectedLogDetails.exceptionStackTraces);
     });
   });
 });

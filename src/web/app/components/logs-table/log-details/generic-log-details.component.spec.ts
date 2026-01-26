@@ -26,6 +26,6 @@ describe('GenericLogDetailsComponent', () => {
   });
 
   it('should set log value from the input log', () => {
-    expect(component.logValue).toEqual(expectedLogValue);
+    expect(component.logValue).toBe(expectedLogValue);
   });
 });

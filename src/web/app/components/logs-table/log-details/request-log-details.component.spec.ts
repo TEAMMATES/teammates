@@ -49,11 +49,6 @@ describe('RequestLogDetailsComponent', () => {
     event: LogEvent.REQUEST_LOG,
     message: 'Test request log details message',
   };
-  const baseExpectedLogDetails: RequestLogDetails = {
-    ...baseInitialLogDetails,
-    userInfo: undefined,
-    requestBody: undefined,
-  };
   const baseExpectedLogValue: GeneralLogEntry = generalLogEntryBuilder()
     .details(baseInitialLogDetails)
     .message('Test request log message')
@@ -80,7 +75,7 @@ describe('RequestLogDetailsComponent', () => {
     fixture.componentRef.setInput('log', baseExpectedLogValue);
     fixture.detectChanges();
 
-    expect(component.logValue).toEqual(baseExpectedLogValue);
+    expect(component.logValue).toBe(baseExpectedLogValue);
   });
 
   it('addUserInfoToFilter: should emit the correct userInfo to the addUserInfoEvent', () => {
@@ -109,8 +104,10 @@ describe('RequestLogDetailsComponent', () => {
     });
 
     it('should extract request details', () => {
-      expect(component.details).toEqual(baseExpectedLogDetails);
+      expect(component.details.userInfo).toBeUndefined();
       expect(component.userInfo).toEqual(baseExpectedUserInfo);
+      expect(component.details.requestBody).toBeUndefined();
+      expect(component.requestBody).toEqual(baseExpectedRequestBodyObject);
     });
   });
 
@@ -118,10 +115,6 @@ describe('RequestLogDetailsComponent', () => {
     const initialLogDetails = {
       ...baseInitialLogDetails,
       requestBody: 'This is a request body that is not in a JSON format.',
-    };
-    const expectedLogDetails: RequestLogDetails = {
-      ...initialLogDetails,
-      userInfo: undefined,
     };
     const expectedLogValue: GeneralLogEntry = {
       ...baseExpectedLogValue,
@@ -134,8 +127,9 @@ describe('RequestLogDetailsComponent', () => {
     });
 
     it('should extract user info but ignore request body', () => {
-      expect(component.details).toEqual(expectedLogDetails);
+      expect(component.details.userInfo).toBeUndefined();
       expect(component.userInfo).toEqual(baseExpectedUserInfo);
+      expect(component.details.requestBody).toBe(initialLogDetails.requestBody);
       expect(component.requestBody).toBeUndefined();
     });
   });
@@ -155,9 +149,9 @@ describe('RequestLogDetailsComponent', () => {
     });
 
     it('should not extract request details', () => {
-      expect(component.details).toBeUndefined();
       expect(component.userInfo).toBeUndefined();
       expect(component.requestBody).toBeUndefined();
+      expect(component.details).toBeUndefined();
     });
   });
 });

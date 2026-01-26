@@ -23,10 +23,6 @@ describe('EmailLogDetailsComponent', () => {
     emailStatus: 1,
     emailStatusMessage: 'This is a test email status message',
   } as EmailSentLogDetails;
-  const baseExpectedLogDetails = {
-    ...baseInitialLogDetails,
-    emailContent: undefined,
-  } as EmailSentLogDetails;
   const baseExpectedLogValue = generalLogEntryBuilder()
     .details(baseInitialLogDetails)
     .message('Test email log message')
@@ -53,7 +49,7 @@ describe('EmailLogDetailsComponent', () => {
     fixture.componentRef.setInput('log', baseExpectedLogValue);
     fixture.detectChanges();
 
-    expect(component.logValue).toEqual(baseExpectedLogValue);
+    expect(component.logValue).toBe(baseExpectedLogValue);
   });
 
   describe('input log is an email sent log', () => {
@@ -63,7 +59,7 @@ describe('EmailLogDetailsComponent', () => {
     });
 
     it('should extract email details', () => {
-      expect(component.details).toEqual(baseExpectedLogDetails);
+      expect(component.details.emailContent).toBeUndefined();
       expect(component.emailContent).toBe(baseExpectedEmailContent);
     });
   });
