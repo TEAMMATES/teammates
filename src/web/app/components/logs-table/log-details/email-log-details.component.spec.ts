@@ -5,7 +5,7 @@ import { generalLogEntryBuilder } from '../../../../test-helpers/log-test-helper
 import {
   EmailSentLogDetails,
   EmailType, GeneralLogEntry,
-  LogEvent
+  LogEvent,
 } from '../../../../types/api-output';
 
 describe('EmailLogDetailsComponent', () => {
@@ -75,7 +75,7 @@ describe('EmailLogDetailsComponent', () => {
         event: LogEvent.DEFAULT_LOG,
         message: 'Test default log detail message',
       },
-    }
+    };
 
     beforeEach(() => {
       fixture.componentRef.setInput('log', expectedLogValue);

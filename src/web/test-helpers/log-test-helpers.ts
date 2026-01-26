@@ -21,7 +21,8 @@ import { GeneralLogEntry, LogEvent, LogSeverity } from '../types/api-output';
  *   .sourceLocation({ file: 'com.mock.Mock', line: 100, function: 'handleException' })
  *   .build();
  */
-export const generalLogEntryBuilder = () => createBuilder<Required<GeneralLogEntry>>({
+export const generalLogEntryBuilder: () => ReturnType<typeof createBuilder<Required<GeneralLogEntry>>> =
+    () => createBuilder<Required<GeneralLogEntry>>({
   severity: LogSeverity.DEFAULT,
   trace: '0123456789abcdef',
   insertId: '0123456789abcdef',
