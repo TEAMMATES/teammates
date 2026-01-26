@@ -4,13 +4,11 @@ import { GeneralLogEntry, LogEvent, LogSeverity } from '../types/api-output';
 type GeneralLogEntryBuilder = ReturnType<typeof createBuilder<Required<GeneralLogEntry>>>;
 
 /**
- * A factory function for creating GeneralLogEntryBuilder, which can be used to create a
- * GeneralLogEntry objects in tests with sensible defaults.
+ * A factory function for creating a GeneralLogEntryBuilder. The builder can
+ * then be used to create a GeneralLogEntry objects with sensible defauls, which
+ * can then be customized as needed.
  *
- * This builder provides common default values for log entries and can be customized
- * per test using the fluent API.
- *
- * @returns A generic log entry builder object.
+ * @returns A GeneralLogEntryBuilder object.
  * @example
  * // Basic usage with custom details and message
  * const logEntry = generalLogEntryBuilder
