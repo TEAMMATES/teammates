@@ -11,6 +11,7 @@ on:
       - release
   schedule:
     - cron: "0 0 * * *" #end of every day
+  workflow_dispatch:
 jobs:
   E2E-testing:
     runs-on: ubuntu-latest
