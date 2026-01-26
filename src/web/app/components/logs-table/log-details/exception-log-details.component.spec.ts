@@ -14,7 +14,7 @@ describe('ExceptionLogDetailsComponent', () => {
 
   const baseInitialLogDetails: ExceptionLogDetails = {
     event: LogEvent.EXCEPTION_LOG,
-    message: 'Test exception log details message.',
+    message: 'Test exception log details message',
     exceptionClass: 'MockException',
     exceptionClasses: [
       'com.mock.MockException',
