@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EmailLogDetailsComponent } from './email-log-details.component';
+import { generalLogEntryBuilder } from '../../../../test-helpers/log-test-helpers';
 import {
   EmailSentLogDetails,
-  EmailType,
-  GeneralLogEntry,
-  LogEvent,
-  LogSeverity,
+  EmailType, GeneralLogEntry,
+  LogEvent
 } from '../../../../types/api-output';
 
 describe('EmailLogDetailsComponent', () => {
@@ -28,25 +27,15 @@ describe('EmailLogDetailsComponent', () => {
     ...baseInitialLogDetails,
     emailContent: undefined,
   } as EmailSentLogDetails;
-  const baseExpectedLogValue: GeneralLogEntry = {
-    severity: LogSeverity.DEFAULT,
-    trace: '0123456789abcdef',
-    insertId: '0123456789abcdef',
-    resourceIdentifier: {
-      module_id: 'mock',
-      version_id: '1-0-0',
-      project_id: 'mock-project',
-      zone: 'mock-zone-1',
-    },
-    sourceLocation: {
+  const baseExpectedLogValue = generalLogEntryBuilder()
+    .details(baseInitialLogDetails)
+    .message('Test email log message')
+    .sourceLocation({
       file: 'com.mock.Mock',
       line: 100,
       function: 'handleEmail',
-    },
-    timestamp: 1000,
-    message: 'Test email log message',
-    details: baseInitialLogDetails,
-  };
+    })
+    .build();
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -86,7 +75,7 @@ describe('EmailLogDetailsComponent', () => {
         event: LogEvent.DEFAULT_LOG,
         message: 'Test default log detail message',
       },
-    };
+    }
 
     beforeEach(() => {
       fixture.componentRef.setInput('log', expectedLogValue);

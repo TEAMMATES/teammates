@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+
 import { ExceptionLogDetailsComponent } from './exception-log-details.component';
+import { generalLogEntryBuilder } from '../../../../test-helpers/log-test-helpers';
 import {
   ExceptionLogDetails,
   GeneralLogEntry,
   LogEvent,
-  LogSeverity,
 } from '../../../../types/api-output';
 
 describe('ExceptionLogDetailsComponent', () => {
@@ -54,25 +55,15 @@ describe('ExceptionLogDetailsComponent', () => {
     exceptionMessages: undefined,
     exceptionStackTraces: undefined,
   };
-  const baseExpectedLogValue: GeneralLogEntry = {
-    severity: LogSeverity.DEFAULT,
-    trace: '0123456789abcdef',
-    insertId: '0123456789abcdef',
-    resourceIdentifier: {
-      module_id: 'mock',
-      version_id: '1-0-0',
-      project_id: 'mock-project',
-      zone: 'mock-zone-1',
-    },
-    sourceLocation: {
+  const baseExpectedLogValue: GeneralLogEntry = generalLogEntryBuilder()
+    .details(baseInitialLogDetails)
+    .message('Test exception log message')
+    .sourceLocation({
       file: 'com.mock.Mock',
       line: 100,
       function: 'run',
-    },
-    timestamp: 1000,
-    message: 'Test exception log message',
-    details: baseInitialLogDetails,
-  };
+    })
+    .build();
   const baseExpectedExceptionStackTraceString =
     'com.mock.MockException: Mock exception message'
     + '\r\n        at com.mock.Mock.run(Mock.java:5)'

@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RequestLogDetailsComponent } from './request-log-details.component';
+import { generalLogEntryBuilder } from '../../../../test-helpers/log-test-helpers';
 import testEventEmission from '../../../../test-helpers/test-event-emitter';
 import {
   GeneralLogEntry,
   LogEvent,
-  LogSeverity,
   RequestLogDetails,
   RequestLogUser,
 } from '../../../../types/api-output';
@@ -54,25 +54,15 @@ describe('RequestLogDetailsComponent', () => {
     userInfo: undefined,
     requestBody: undefined,
   };
-  const baseExpectedLogValue: GeneralLogEntry = {
-    severity: LogSeverity.DEFAULT,
-    trace: '0123456789abcdef',
-    insertId: '0123456789abcdef',
-    resourceIdentifier: {
-      module_id: 'mock',
-      version_id: '1-0-0',
-      project_id: 'mock-project',
-      zone: 'mock-zone-1',
-    },
-    sourceLocation: {
+  const baseExpectedLogValue: GeneralLogEntry = generalLogEntryBuilder()
+    .details(baseInitialLogDetails)
+    .message('Test request log message')
+    .sourceLocation({
       file: 'teammates.mock.servlets.MockApiServlet',
       line: 100,
       function: 'invokeMockServlet',
-    },
-    timestamp: 1000,
-    message: 'Test request log message',
-    details: baseInitialLogDetails,
-  };
+    })
+    .build();
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
