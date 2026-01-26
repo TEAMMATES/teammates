@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { finalize, switchMap, tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -45,7 +46,6 @@ export class UserNotificationsListComponent implements OnInit {
 
   notificationTabs: NotificationTab[] = [];
   notificationsSortBy: SortBy = SortBy.NONE;
-  readNotifications: Set<string> = new Set();
 
   isLoadingNotifications: boolean = false;
   hasLoadingFailed: boolean = false;
@@ -65,18 +65,16 @@ export class UserNotificationsListComponent implements OnInit {
     this.hasLoadingFailed = false;
     this.isLoadingNotifications = true;
 
-    this.notificationService.getReadNotifications()
-      .pipe(
-        tap((readNotifications: ReadNotifications) => {
-          this.readNotifications = new Set(readNotifications.readNotifications);
-        }),
-        switchMap(() => this.notificationService.getAllNotificationsForTargetUser(this.userType)),
-        finalize(() => { this.isLoadingNotifications = false; }),
-      )
+    forkJoin({
+      readNotifications: this.notificationService.getReadNotifications(),
+      notifications: this.notificationService.getAllNotificationsForTargetUser(this.userType),
+    })
+      .pipe(finalize(() => { this.isLoadingNotifications = false; }))
       .subscribe({
-        next: (notifications: Notifications) => {
-          this.notificationTabs = notifications.notifications.map(
-            (notification: Notification) => this.createNotificationTab(notification),
+        next: (result: { readNotifications: ReadNotifications; notifications: Notifications }) => {
+          const readNotificationsSet: Set<string> = new Set(result.readNotifications.readNotifications);
+          this.notificationTabs = result.notifications.notifications.map(
+            (notification: Notification) => this.createNotificationTab(notification, readNotificationsSet),
           );
           this.sortNotificationsBy(this.notificationsSortBy);
         },
@@ -87,11 +85,12 @@ export class UserNotificationsListComponent implements OnInit {
       });
   }
 
-  private createNotificationTab(notification: Notification): NotificationTab {
+  private createNotificationTab(notification: Notification, readNotifications: Set<string>): NotificationTab {
+    const isRead: boolean = readNotifications.has(notification.notificationId);
     return {
       notification,
-      hasTabExpanded: !this.readNotifications.has(notification.notificationId),
-      isRead: this.readNotifications.has(notification.notificationId),
+      hasTabExpanded: !isRead,
+      isRead,
       startDate: this.timezoneService.formatToString(
         notification.startTimestamp, this.timezone, this.DATE_FORMAT,
       ),
@@ -112,8 +111,7 @@ export class UserNotificationsListComponent implements OnInit {
       endTimestamp: notification.endTimestamp,
     })
       .subscribe({
-        next: (readNotifications: ReadNotifications) => {
-          this.readNotifications = new Set(readNotifications.readNotifications);
+        next: () => {
           notificationTab.isRead = true;
           this.statusMessageService.showSuccessToast('Notification marked as read.');
           notificationTab.hasTabExpanded = false;
