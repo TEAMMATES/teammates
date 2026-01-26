@@ -71,10 +71,12 @@ export class UserNotificationsListComponent implements OnInit {
     })
       .pipe(finalize(() => { this.isLoadingNotifications = false; }))
       .subscribe({
-        next: (result: { readNotifications: ReadNotifications; notifications: Notifications }) => {
-          const readNotificationsSet: Set<string> = new Set(result.readNotifications.readNotifications);
-          this.notificationTabs = result.notifications.notifications.map(
-            (notification: Notification) => this.createNotificationTab(notification, readNotificationsSet),
+        next: ({ readNotifications, notifications }: {
+          readNotifications: ReadNotifications, notifications: Notifications,
+        }) => {
+          const readNotificationsSet: Set<string> = new Set(readNotifications.readNotifications);
+          this.notificationTabs = notifications.notifications.map(
+            (notification) => this.createNotificationTab(notification, readNotificationsSet),
           );
           this.sortNotificationsBy(this.notificationsSortBy);
         },
