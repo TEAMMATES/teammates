@@ -38,7 +38,9 @@
         "SNotifications.student": {
             "googleId": "tm.e2e.NotifBanner.student",
             "email": "NotifBanner.student@gmail.tmt",
-            "course": "tm.e2e.NotifBanner.course1",
+            "course": {
+                "id": "tm.e2e.NotifBanner.course1"
+            },
             "name": "Amy Betsy</option></td></div>'\"",
             "comments": "This student's name is Amy Betsy</option></td></div>'\"",
             "team": "Team 1</td></div>'\"",
