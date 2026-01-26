@@ -40,6 +40,8 @@ export class CopyCourseModalComponent implements OnInit {
 
   isCopyFromOtherSession: boolean = false;
   newCourseIdIsConflicting: boolean = false;
+  courseIdEmptyError: boolean = false;
+  courseNameEmptyError: boolean = false;
   institutes: string[] = [];
   timezones: Timezone[] = [];
   newTimezone: string = '';
@@ -68,15 +70,19 @@ export class CopyCourseModalComponent implements OnInit {
       this.newCourseInstitute = this.institutes[0];
     }
     this.newTimezone = this.timezoneService.guessTimezone();
+
+    this.courseIdEmptyError = false;
+    this.courseNameEmptyError = false;
   }
 
   /**
    * Fires the copy event.
    */
   copy(): void {
-    if (!this.newCourseId || !this.newCourseName) {
-      this.statusMessageService.showErrorToast(
-          'Please make sure you have filled in both Course ID and Name before adding the course!');
+    this.courseIdEmptyError = !this.newCourseId;
+    this.courseNameEmptyError = !this.newCourseName;
+
+    if (this.courseIdEmptyError || this.courseNameEmptyError) {
       return;
     }
 
@@ -99,6 +105,16 @@ export class CopyCourseModalComponent implements OnInit {
     };
 
     this.activeModal.close(result);
+  }
+  /**
+    * Real time check user input, triggered by ngModelChange
+    */
+  onCourseIdChange(value: string): void {
+    this.courseIdEmptyError = !value.trim();
+   }
+
+  onCourseNameChange(value: string): void {
+    this.courseNameEmptyError = !value.trim();
   }
 
   /**
