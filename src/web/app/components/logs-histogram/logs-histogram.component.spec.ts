@@ -63,7 +63,7 @@ describe('LogsHistogramComponent', () => {
       { sourceLocation: { file: 'A', function: 'f1', line: 10 }, numberOfTimes: 1 },
       { sourceLocation: { file: 'B', function: 'f2', line: 20 }, numberOfTimes: 3 },
     ];
-    
+
     component.ngOnInit();
 
     const bars = fixture.nativeElement.querySelectorAll('.bar');
