@@ -13,16 +13,22 @@
       </div>
       <div class="form-group">
         <label>Course ID:</label>
-        <input [class.invalid]="newCourseIdIsConflicting" id="copy-course-id" type="text" class="form-control" placeholder="e.g. CS3215-2013Semester1"
-          [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH" (focus)="this.newCourseIdIsConflicting = false">
-        <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
+        <input [class.invalid]="newCourseIdIsConflicting" id="copy-course-id" name="courseId" type="text" class="form-control" placeholder="e.g. CS3215-2013Semester1"
+          #courseId="ngModel" [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH" (focus)="this.newCourseIdIsConflicting = false" required>
+          <div [hidden]="courseId.valid || (courseId.pristine && courseId.untouched)" class="invalid-field">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            The field Course ID should not be empty.
+          </div>
+          <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
       </div>
       <div class="form-group">
         <label>Course Name:</label>
-        <input id="copy-course-name" class="form-control" type="text" placeholder="e.g. Software Engineering" [(ngModel)]="newCourseName"
-          [maxlength]="COURSE_NAME_MAX_LENGTH"/>
-        <span>{{ COURSE_NAME_MAX_LENGTH - newCourseName.length }} characters left</span>
-      </div>
+        <input id="copy-course-name" name="courseName" class="form-control" type="text" placeholder="e.g. Software Engineering" [(ngModel)]="newCourseName"
+          [maxlength]="COURSE_NAME_MAX_LENGTH" #courseName="ngModel" required/>
+          <div [hidden]="courseName.valid || (courseName.pristine && courseName.untouched)" class="invalid-field">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            The field Course Name should not be empty.
+          </div>
       <div class="form-group">
         <label class="ngb-tooltip-class">
           <span ngbTooltip="Note that you can only create a new course under an institute in which you are already a course co-owner.">

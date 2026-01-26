@@ -27,10 +27,17 @@ export class CopySessionModalComponent {
 
   constructor(public activeModal: NgbActiveModal) {}
 
+  isWhitespaceOnly(input: string): boolean {
+    return !input || input.trim().length === 0;
+  }
+
   /**
    * Fires the copy event.
    */
   copy(): void {
+    if (this.isWhitespaceOnly(this.newFeedbackSessionName)) {
+      return; // Prevent closing the modal if input is invalid
+    }
     this.activeModal.close({
       newFeedbackSessionName: this.newFeedbackSessionName,
       sessionToCopyCourseId: this.sessionToCopyCourseId,
