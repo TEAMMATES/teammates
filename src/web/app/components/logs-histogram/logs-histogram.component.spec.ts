@@ -60,8 +60,8 @@ describe('LogsHistogramComponent', () => {
 
   it('should render one bar per log entry', () => {
     component.data = [
-      {sourceLocation: {file: 'A', function: 'f1', line: 10}, numberOfTimes: 1},
-      {sourceLocation: {file: 'B', function: 'f2', line: 20}, numberOfTimes: 3},
+      { sourceLocation: { file: 'A', function: 'f1', line: 10 }, numberOfTimes: 1 },
+      { sourceLocation: { file: 'B', function: 'f2', line: 20 }, numberOfTimes: 3 },
     ];
     
     component.ngOnInit();
@@ -78,7 +78,7 @@ describe('LogsHistogramComponent', () => {
 
     component.ngOnInit();
 
-    const domain = component['xScale'].domain();
+    const domain = (component as any).xScale.domain();
     expect(domain).toEqual(['Af1', 'Bf2']);
   });
 
@@ -90,7 +90,7 @@ describe('LogsHistogramComponent', () => {
 
     component.ngOnInit();
 
-    const domain = component['yScale'].domain();
+    const domain = (component as any).yScale.domain();
     expect(domain).toEqual([0, 10]);
   });
 
