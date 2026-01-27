@@ -9,11 +9,11 @@ import {
   LogEvent,
 } from '../../../../types/api-output';
 
-type TestData = Readonly<{
+type TestData = {
   inputLogValue: GeneralLogEntry,
-  expectedLogValue: Readonly<GeneralLogEntry>,
-  expectedLogDetails: Readonly<Required<EmailSentLogDetails>>,
-}>;
+  expectedLogValue: GeneralLogEntry,
+  expectedLogDetails: Required<EmailSentLogDetails>,
+};
 
 describe('EmailLogDetailsComponent', () => {
   let component: EmailLogDetailsComponent;
@@ -46,8 +46,8 @@ describe('EmailLogDetailsComponent', () => {
   };
 
   let inputLogValue: GeneralLogEntry;
-  let expectedLogValue: Readonly<GeneralLogEntry>;
-  let expectedLogDetails: Readonly<Required<EmailSentLogDetails>>;
+  let expectedLogValue: GeneralLogEntry;
+  let expectedLogDetails: Required<EmailSentLogDetails>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

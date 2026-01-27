@@ -5,10 +5,10 @@ import { deepCopy } from '../../../../test-helpers/deep-copy';
 import { generalLogEntryBuilder } from '../../../../test-helpers/log-test-helpers';
 import { GeneralLogEntry } from '../../../../types/api-output';
 
-type TestData = Readonly<{
+type TestData = {
   inputLogValue: GeneralLogEntry,
-  expectedLogValue: Readonly<GeneralLogEntry>,
-}>;
+  expectedLogValue: GeneralLogEntry,
+};
 
 describe('GenericLogDetailsComponent', () => {
   let component: GenericLogDetailsComponent;
@@ -22,7 +22,7 @@ describe('GenericLogDetailsComponent', () => {
   };
 
   let inputLogValue: GeneralLogEntry;
-  let expectedLogValue: Readonly<GeneralLogEntry>;
+  let expectedLogValue: GeneralLogEntry;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({

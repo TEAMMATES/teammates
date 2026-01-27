@@ -9,13 +9,13 @@ import {
   LogEvent,
 } from '../../../../types/api-output';
 
-type TestData = Readonly<{
+type TestData = {
   inputLogValue: GeneralLogEntry,
   inputLogDetails: Required<ExceptionLogDetails>,
-  expectedLogValue: Readonly<GeneralLogEntry>,
-  expectedLogDetails: Readonly<Required<ExceptionLogDetails>>,
+  expectedLogValue: GeneralLogEntry,
+  expectedLogDetails: Required<ExceptionLogDetails>,
   expectedExceptionStackTraceString: string,
-}>;
+};
 
 describe('ExceptionLogDetailsComponent', () => {
   let component: ExceptionLogDetailsComponent;
@@ -95,8 +95,8 @@ describe('ExceptionLogDetailsComponent', () => {
 
   let inputLogValue: GeneralLogEntry;
   let inputLogDetails: Required<ExceptionLogDetails>;
-  let expectedLogValue: Readonly<GeneralLogEntry>;
-  let expectedLogDetails: Readonly<Required<ExceptionLogDetails>>;
+  let expectedLogValue: GeneralLogEntry;
+  let expectedLogDetails: Required<ExceptionLogDetails>;
   let expectedExceptionStackTraceString: string;
 
   beforeEach(waitForAsync(() => {
@@ -169,7 +169,7 @@ describe('ExceptionLogDetailsComponent', () => {
   });
 
   describe('input log is an invalid exception log with wrong number of exception classes', () => {
-    let expectedInvalidLogDetails: Readonly<ExceptionLogDetails>;
+    let expectedInvalidLogDetails: ExceptionLogDetails;
 
     beforeEach(() => {
       inputLogDetails = {
@@ -197,7 +197,7 @@ describe('ExceptionLogDetailsComponent', () => {
   });
 
   describe('input log is an invalid exception log with wrong number of exception messages', () => {
-    let expectedInvalidLogDetails: Readonly<ExceptionLogDetails>;
+    let expectedInvalidLogDetails: ExceptionLogDetails;
 
     beforeEach(() => {
       inputLogDetails = {

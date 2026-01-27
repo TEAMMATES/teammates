@@ -11,13 +11,13 @@ import {
   RequestLogUser,
 } from '../../../../types/api-output';
 
-type TestData = Readonly<{
+type TestData = {
   inputLogValue: GeneralLogEntry,
   inputLogDetails: Required<RequestLogDetails>,
-  expectedLogValue: Readonly<GeneralLogEntry>,
-  expectedLogDetails: Readonly<Required<RequestLogDetails>>,
-  expectedRequestBodyObject: Readonly<Record<string, string>>,
-}>;
+  expectedLogValue: GeneralLogEntry,
+  expectedLogDetails: Required<RequestLogDetails>,
+  expectedRequestBodyObject: Record<string, string>,
+};
 
 describe('RequestLogDetailsComponent', () => {
   let component: RequestLogDetailsComponent;
@@ -81,9 +81,9 @@ describe('RequestLogDetailsComponent', () => {
 
   let inputLogValue: GeneralLogEntry;
   let inputLogDetails: Required<RequestLogDetails>;
-  let expectedLogValue: Readonly<GeneralLogEntry>;
-  let expectedLogDetails: Readonly<Required<RequestLogDetails>>;
-  let expectedRequestBodyObject: Readonly<Record<string, string>>;
+  let expectedLogValue: GeneralLogEntry;
+  let expectedLogDetails: Required<RequestLogDetails>;
+  let expectedRequestBodyObject: Record<string, string>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -146,7 +146,7 @@ describe('RequestLogDetailsComponent', () => {
   });
 
   describe('input log is a request log with non-JSON request body', () => {
-    let expectedNonJsonLogDetails: Readonly<RequestLogDetails>;
+    let expectedNonJsonLogDetails: RequestLogDetails;
 
     beforeEach(() => {
       inputLogDetails = {
