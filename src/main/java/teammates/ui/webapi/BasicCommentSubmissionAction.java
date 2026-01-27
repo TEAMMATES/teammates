@@ -34,7 +34,6 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
         if (comment != null) {
             throw new InvalidOperationException("Comment has already been created for the response in submission");
         }
-
     }
 
 
@@ -48,7 +47,6 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
         if (comment != null) {
             throw new InvalidOperationException("Comment has already been created for the response in submission");
         }
-
     }
 
     /**
