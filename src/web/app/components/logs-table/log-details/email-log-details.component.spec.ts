@@ -53,11 +53,13 @@ describe('EmailLogDetailsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [EmailLogDetailsComponent],
     }).compileComponents();
+  }));
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(EmailLogDetailsComponent);
     component = fixture.componentInstance;
-
     ({ inputLogValue, expectedLogValue, expectedLogDetails } = generateTestData());
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

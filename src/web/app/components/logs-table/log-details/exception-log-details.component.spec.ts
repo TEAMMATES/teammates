@@ -103,6 +103,9 @@ describe('ExceptionLogDetailsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ExceptionLogDetailsComponent],
     }).compileComponents();
+  }));
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(ExceptionLogDetailsComponent);
     component = fixture.componentInstance;
 
@@ -113,7 +116,7 @@ describe('ExceptionLogDetailsComponent', () => {
       expectedLogDetails,
       expectedExceptionStackTraceString,
     } = generateTestData());
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

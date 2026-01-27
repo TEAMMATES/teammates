@@ -89,6 +89,9 @@ describe('RequestLogDetailsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [RequestLogDetailsComponent],
     }).compileComponents();
+  }));
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(RequestLogDetailsComponent);
     component = fixture.componentInstance;
 
@@ -99,7 +102,7 @@ describe('RequestLogDetailsComponent', () => {
       expectedLogDetails,
       expectedRequestBodyObject,
     } = generateTestData());
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
