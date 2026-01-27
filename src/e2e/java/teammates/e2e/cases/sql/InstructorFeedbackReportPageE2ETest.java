@@ -77,7 +77,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         instructor = testData.instructors.get("IFRep.instr.CS2104");
         FeedbackSession fileSession = testData.feedbackSessions.get("Open Session 2");
         fileName = "/" + fileSession.getCourseId() + "_" + fileSession.getName() + "_result.csv";
-
         instructors = testData.instructors.values();
         students = testData.students.values();
     }

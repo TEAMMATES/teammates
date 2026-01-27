@@ -80,9 +80,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         FeedbackSessionAttributes fileSession = testData.feedbackSessions.get("Open Session 2");
         fileName = "/" + fileSession.getCourseId() + "_" + fileSession.getFeedbackSessionName() + "_result.csv";
 
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                loadSqlDataBundle("/InstructorFeedbackReportPageE2ETest_SqlEntities.json"));
-
         instructors = testData.instructors.values();
         students = testData.students.values();
     }
