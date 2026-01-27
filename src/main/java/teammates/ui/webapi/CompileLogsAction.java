@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +15,9 @@ import teammates.common.util.EmailWrapper;
  */
 public class CompileLogsAction extends AdminOnlyAction {
 
-    private Clock clock = Clock.systemDefaultZone();
-
-    public void setClock(Clock clock) {
-        this.clock = clock;
-    }
-
     @Override
     public JsonResult execute() {
-        Instant endTime = Instant.now(clock);
+        Instant endTime = Instant.now();
         // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
         long queryRange = 1000 * 60 * 6;
         Instant startTime = endTime.minusMillis(queryRange);

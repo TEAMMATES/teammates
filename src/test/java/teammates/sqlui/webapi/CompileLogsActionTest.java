@@ -3,9 +3,7 @@ package teammates.sqlui.webapi;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.time.Clock;
 import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.HashMap;
 
 import org.testng.annotations.Test;
@@ -24,10 +22,7 @@ import teammates.ui.webapi.CompileLogsAction;
  */
 public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
     private static final long DISTANT_TIMESTAMP = Instant.now().minusSeconds(7 * 60).toEpochMilli();
-    private static final Instant FIXED_NOW = Instant.parse("2025-01-01T00:00:00Z");
-    private static final Clock FIXED_CLOCK = Clock.fixed(FIXED_NOW, ZoneOffset.UTC);
-
-    private static final long RECENT_TIMESTAMP = FIXED_NOW.minusSeconds(30).toEpochMilli();
+    private static final long RECENT_TIMESTAMP = Instant.now().minusSeconds(30).toEpochMilli();
 
     private SourceLocation sourceLocation = new SourceLocation("file5", 5L, "func5");
 
@@ -90,7 +85,7 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
 
         // use any() since the expected argument is a response from logs query
         when(mockEmailGenerator.generateCompiledLogsEmail(any())).thenReturn(stubEmailWrapper);
-        CompileLogsAction action = getActionWithClock(FIXED_CLOCK);
+        CompileLogsAction action = getAction();
         action.execute();
 
         verifyNumberOfEmailsSent(1);

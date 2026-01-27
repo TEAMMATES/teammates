@@ -95,13 +95,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Gets an action with request body and cookie.
      */
     protected T getAction(String body, List<Cookie> cookies, String... params) {
-        return getAction(body, cookies, null, params);
-    }
-
-    /**
-     * Gets an action with request body, cookie, and clock.
-     */
-    protected T getAction(String body, List<Cookie> cookies, java.time.Clock clock, String... params) {
         mockTaskQueuer.clearTasks();
         mockEmailSender.clearEmails();
         MockHttpServletRequest req = new MockHttpServletRequest(getRequestMethod(), getActionUri());
@@ -129,21 +122,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setSqlEmailGenerator(mockSqlEmailGenerator);
             action.setEmailGenerator(mockEmailGenerator);
             action.setAuthProxy(mockAuthProxy);
-            if (clock != null && action instanceof teammates.ui.webapi.CompileLogsAction) {
-                ((teammates.ui.webapi.CompileLogsAction) action).setClock(clock);
-            }
             action.init(req);
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Gets an action with a clock.
-     */
-    protected T getActionWithClock(java.time.Clock clock, String... params) {
-        return getAction(null, null, clock, params);
     }
 
     /**
