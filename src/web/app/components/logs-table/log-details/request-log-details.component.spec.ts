@@ -152,15 +152,10 @@ describe('RequestLogDetailsComponent', () => {
     let expectedNonJsonLogDetails: RequestLogDetails;
 
     beforeEach(() => {
-      inputLogDetails = {
-        ...inputLogDetails,
-        requestBody: 'This is a request body that is not in a JSON format.',
-      };
+      inputLogDetails.requestBody = 'This is a request body that is not in a JSON format.';
+      inputLogValue.details = inputLogDetails;
       expectedNonJsonLogDetails = deepCopy(inputLogDetails);
-      inputLogValue = {
-        ...inputLogValue,
-        details: inputLogDetails,
-      };
+
       fixture.componentRef.setInput('log', inputLogValue);
       fixture.detectChanges();
     });
@@ -176,13 +171,11 @@ describe('RequestLogDetailsComponent', () => {
 
   describe('input log is not a request log', () => {
     beforeEach(() => {
-      inputLogValue = {
-        ...inputLogValue,
-        details: {
+      inputLogValue.details = {
           event: LogEvent.DEFAULT_LOG,
           message: 'Test default log details message',
-        },
-      };
+        };
+
       fixture.componentRef.setInput('log', inputLogValue);
       fixture.detectChanges();
     });

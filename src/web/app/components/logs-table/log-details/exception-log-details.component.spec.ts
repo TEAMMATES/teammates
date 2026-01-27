@@ -154,13 +154,11 @@ describe('ExceptionLogDetailsComponent', () => {
 
   describe('input log is not an exception log', () => {
     beforeEach(() => {
-      inputLogValue = {
-        ...inputLogValue,
-        details: {
+      inputLogValue.details = {
           event: LogEvent.DEFAULT_LOG,
           message: 'Test default log details message',
-        },
-      };
+        };
+
       fixture.componentRef.setInput('log', inputLogValue);
       fixture.detectChanges();
     });
@@ -175,15 +173,10 @@ describe('ExceptionLogDetailsComponent', () => {
     let expectedInvalidLogDetails: ExceptionLogDetails;
 
     beforeEach(() => {
-      inputLogDetails = {
-        ...inputLogDetails,
-        exceptionClasses: inputLogDetails.exceptionClasses.slice(1),
-      };
+      inputLogDetails.exceptionClasses = inputLogDetails.exceptionClasses.slice(1);
       expectedInvalidLogDetails = deepCopy(inputLogDetails);
-      inputLogValue = {
-        ...inputLogValue,
-        details: inputLogDetails,
-      };
+      inputLogValue.details = inputLogDetails;
+
       fixture.componentRef.setInput('log', inputLogValue);
       fixture.detectChanges();
     });
@@ -203,15 +196,10 @@ describe('ExceptionLogDetailsComponent', () => {
     let expectedInvalidLogDetails: ExceptionLogDetails;
 
     beforeEach(() => {
-      inputLogDetails = {
-        ...inputLogDetails,
-        exceptionMessages: inputLogDetails.exceptionMessages.slice(1),
-      };
+      inputLogDetails.exceptionMessages = inputLogDetails.exceptionMessages.slice(1);
       expectedInvalidLogDetails = deepCopy(inputLogDetails);
-      inputLogValue = {
-        ...inputLogValue,
-        details: inputLogDetails,
-      };
+      inputLogValue.details = inputLogDetails;
+
       fixture.componentRef.setInput('log', inputLogValue);
       fixture.detectChanges();
     });

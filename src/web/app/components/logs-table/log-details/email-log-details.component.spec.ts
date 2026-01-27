@@ -58,6 +58,7 @@ describe('EmailLogDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EmailLogDetailsComponent);
     component = fixture.componentInstance;
+
     ({ inputLogValue, expectedLogValue, expectedLogDetails } = generateTestData());
   });
 
@@ -92,13 +93,11 @@ describe('EmailLogDetailsComponent', () => {
 
   describe('input log is not an email sent log', () => {
     beforeEach(() => {
-      inputLogValue = {
-        ...inputLogValue,
-        details: {
+      inputLogValue.details = {
           event: LogEvent.DEFAULT_LOG,
           message: 'Test default log detail message',
-        },
-      };
+        };
+
       fixture.componentRef.setInput('log', inputLogValue);
       fixture.detectChanges();
     });

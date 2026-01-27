@@ -35,9 +35,6 @@ describe('GenericLogDetailsComponent', () => {
     component = fixture.componentInstance;
 
     ({ inputLogValue, expectedLogValue } = generateTestData());
-
-    fixture.componentRef.setInput('log', inputLogValue);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -45,6 +42,9 @@ describe('GenericLogDetailsComponent', () => {
   });
 
   it('should set log value from the input log', () => {
+    fixture.componentRef.setInput('log', inputLogValue);
+    fixture.detectChanges();
+
     expect(component.logValue).toEqual(expectedLogValue);
   });
 });
