@@ -1,13 +1,5 @@
 package teammates.storage.sqlsearch;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +14,13 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.mockito.ArgumentCaptor;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -126,7 +125,6 @@ public class InstructorSearchManagerTest extends BaseTestCase {
         mockDoc.addField("courseId", course.getId());
         mockDoc.addField("email", instructor.getEmail());
         mockResults.add(mockDoc);
-        mockResults.setNumFound(1);
 
         // Setup mock behavior
         when(mockClient.query(eq("instructors"), any(SolrQuery.class))).thenReturn(mockResponse);
