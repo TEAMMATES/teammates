@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -23,7 +24,6 @@ describe('AdminPageComponent', () => {
       ],
       imports: [
         NgbModule,
-        HttpClientTestingModule,
         LoaderBarModule,
         RouterModule.forRoot([]),
         StatusMessageModule,
@@ -31,6 +31,10 @@ describe('AdminPageComponent', () => {
         ToastModule,
         LoadingSpinnerModule,
         NotificationBannerModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

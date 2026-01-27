@@ -8,7 +8,8 @@ import {
  * Pipe to get Question ID from {@code QuestionsSectionQuestions}.
  */
 @Pipe({
-  name: 'questionTypeHelpPath',
+    name: 'questionTypeHelpPath',
+    standalone: false,
 })
 export class QuestionTypeHelpPathPipe implements PipeTransform {
 

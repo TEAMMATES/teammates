@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire/compat';
 import { RouterModule } from '@angular/router';
@@ -29,8 +30,11 @@ describe('PageComponent', () => {
         StatusMessageModule,
         ToastModule,
         NotificationBannerModule,
-        HttpClientTestingModule,
         AngularFireModule.initializeApp({}),
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

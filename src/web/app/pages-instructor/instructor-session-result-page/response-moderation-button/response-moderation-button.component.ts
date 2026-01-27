@@ -10,9 +10,10 @@ import {
  * Button for instructor moderating responses.
  */
 @Component({
-  selector: 'tm-response-moderation-button',
-  templateUrl: './response-moderation-button.component.html',
-  styleUrls: ['./response-moderation-button.component.scss'],
+    selector: 'tm-response-moderation-button',
+    templateUrl: './response-moderation-button.component.html',
+    styleUrls: ['./response-moderation-button.component.scss'],
+    standalone: false,
 })
 export class ResponseModerationButtonComponent {
 

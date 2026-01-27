@@ -8,10 +8,10 @@ import { InstructorHelpGettingStartedComponent } from './instructor-help-getting
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
 import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 
-@Component({ selector: 'tm-example-box', template: '' })
+@Component({ selector: 'tm-example-box', template: '', standalone: false })
 class ExampleBoxStubComponent {}
 
-@Component({ selector: 'tm-course-edit-form', template: '' })
+@Component({ selector: 'tm-course-edit-form', template: '', standalone: false })
 class CourseEditFormStubComponent {
   @Input() isDisplayOnly?: boolean;
   @Input() formMode?: CourseEditFormMode;

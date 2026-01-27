@@ -5,9 +5,10 @@ import { GeneralLogEntry, LogEvent, RequestLogDetails } from '../../../../types/
  * Request log line.
  */
 @Component({
-  selector: 'tm-request-log-line',
-  templateUrl: './request-log-line.component.html',
-  styleUrls: ['./request-log-line.component.scss', './log-line.component.scss'],
+    selector: 'tm-request-log-line',
+    templateUrl: './request-log-line.component.html',
+    styleUrls: ['./request-log-line.component.scss', './log-line.component.scss'],
+    standalone: false,
 })
 export class RequestLogLineComponent {
 

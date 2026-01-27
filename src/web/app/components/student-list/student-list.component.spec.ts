@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -58,13 +59,16 @@ describe('StudentListComponent', () => {
     TestBed.configureTestingModule({
     declarations: [StudentListComponent],
       imports: [
-        HttpClientTestingModule,
         TeammatesRouterModule,
         RouterModule.forRoot([]),
         NgbModule,
         TeammatesCommonModule,
         Pipes,
         StudentListModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

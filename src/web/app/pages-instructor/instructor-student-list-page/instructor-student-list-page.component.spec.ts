@@ -1,5 +1,5 @@
-import { HttpStatusCode } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpStatusCode, provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -80,7 +80,6 @@ describe('InstructorStudentListPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         TeammatesRouterModule,
         RouterModule.forRoot([]),
         FormsModule,
@@ -90,6 +89,8 @@ describe('InstructorStudentListPageComponent', () => {
       ],
       providers: [
         StudentService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

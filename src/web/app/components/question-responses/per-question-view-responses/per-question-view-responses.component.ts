@@ -16,9 +16,10 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
  * Component to display list of responses for one question.
  */
 @Component({
-  selector: 'tm-per-question-view-responses',
-  templateUrl: './per-question-view-responses.component.html',
-  styleUrls: ['./per-question-view-responses.component.scss'],
+    selector: 'tm-per-question-view-responses',
+    templateUrl: './per-question-view-responses.component.html',
+    styleUrls: ['./per-question-view-responses.component.scss'],
+    standalone: false,
 })
 export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 

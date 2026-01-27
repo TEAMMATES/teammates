@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { EventEmitter } from '@angular/core';
 import {
   ComponentFixture,
@@ -90,7 +91,6 @@ describe('CourseEditFormComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CourseEditFormComponent],
       imports: [
-        HttpClientTestingModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forRoot([]),
@@ -106,6 +106,8 @@ describe('CourseEditFormComponent', () => {
         { provide: StatusMessageService, useValue: spyStatusMessageService },
         { provide: CourseService, useValue: spyCourseService },
         { provide: TimezoneService, useValue: timezoneServiceStub },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
       .compileComponents();

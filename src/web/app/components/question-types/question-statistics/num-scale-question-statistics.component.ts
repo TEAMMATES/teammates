@@ -10,9 +10,10 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
  * Statistics for numerical scale questions.
  */
 @Component({
-  selector: 'tm-num-scale-question-statistics',
-  templateUrl: './num-scale-question-statistics.component.html',
-  styleUrls: ['./num-scale-question-statistics.component.scss'],
+    selector: 'tm-num-scale-question-statistics',
+    templateUrl: './num-scale-question-statistics.component.html',
+    styleUrls: ['./num-scale-question-statistics.component.scss'],
+    standalone: false,
 })
 export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatisticsCalculation
     implements OnInit, OnChanges {

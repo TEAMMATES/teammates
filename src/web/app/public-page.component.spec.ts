@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -22,7 +23,6 @@ describe('PublicPageComponent', () => {
         PublicPageComponent,
       ],
       imports: [
-        HttpClientTestingModule,
         LoaderBarModule,
         LoadingSpinnerModule,
         NgbModule,
@@ -31,6 +31,10 @@ describe('PublicPageComponent', () => {
         StatusMessageModule,
         ToastModule,
         NotificationBannerModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

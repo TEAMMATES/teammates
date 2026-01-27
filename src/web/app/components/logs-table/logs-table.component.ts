@@ -6,9 +6,10 @@ import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-out
  * A table to display logs.
  */
 @Component({
-  selector: 'tm-logs-table',
-  templateUrl: './logs-table.component.html',
-  styleUrls: ['./logs-table.component.scss'],
+    selector: 'tm-logs-table',
+    templateUrl: './logs-table.component.html',
+    styleUrls: ['./logs-table.component.scss'],
+    standalone: false,
 })
 export class LogsTableComponent {
 

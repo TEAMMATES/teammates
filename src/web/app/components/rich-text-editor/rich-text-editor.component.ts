@@ -7,9 +7,10 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
  * A rich text editor.
  */
 @Component({
-  selector: 'tm-rich-text-editor',
-  templateUrl: './rich-text-editor.component.html',
-  styleUrls: ['./rich-text-editor.component.scss'],
+    selector: 'tm-rich-text-editor',
+    templateUrl: './rich-text-editor.component.html',
+    styleUrls: ['./rich-text-editor.component.scss'],
+    standalone: false,
 })
 export class RichTextEditorComponent implements OnInit {
 

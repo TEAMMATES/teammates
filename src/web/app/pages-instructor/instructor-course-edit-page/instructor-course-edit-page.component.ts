@@ -74,10 +74,11 @@ interface InstructorEditPanelDetail {
  * Instructor course edit page.
  */
 @Component({
-  selector: 'tm-instructor-course-edit-page',
-  templateUrl: './instructor-course-edit-page.component.html',
-  styleUrls: ['./instructor-course-edit-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-course-edit-page',
+    templateUrl: './instructor-course-edit-page.component.html',
+    styleUrls: ['./instructor-course-edit-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 

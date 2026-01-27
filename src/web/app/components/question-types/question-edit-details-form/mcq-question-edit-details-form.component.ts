@@ -8,9 +8,10 @@ import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question
  * Question details edit form component for Mcq question.
  */
 @Component({
-  selector: 'tm-mcq-question-edit-details-form',
-  templateUrl: './mcq-question-edit-details-form.component.html',
-  styleUrls: ['./mcq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+    selector: 'tm-mcq-question-edit-details-form',
+    templateUrl: './mcq-question-edit-details-form.component.html',
+    styleUrls: ['./mcq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+    standalone: false,
 })
 export class McqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> {

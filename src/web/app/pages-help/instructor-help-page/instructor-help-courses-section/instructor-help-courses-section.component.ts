@@ -9,10 +9,11 @@ import { Sections } from '../sections';
  * Courses section of the Instructor Help Page
  */
 @Component({
-  selector: 'tm-instructor-help-courses-section',
-  templateUrl: './instructor-help-courses-section.component.html',
-  styleUrls: ['./instructor-help-courses-section.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-help-courses-section',
+    templateUrl: './instructor-help-courses-section.component.html',
+    styleUrls: ['./instructor-help-courses-section.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorHelpCoursesSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { StudentNotificationsPageComponent } from './student-notifications-page.component';
@@ -13,8 +14,11 @@ describe('StudentNotificationsPageComponent', () => {
       declarations: [StudentNotificationsPageComponent],
       imports: [
         RouterModule.forRoot([]),
-        HttpClientTestingModule,
         UserNotificationsListModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

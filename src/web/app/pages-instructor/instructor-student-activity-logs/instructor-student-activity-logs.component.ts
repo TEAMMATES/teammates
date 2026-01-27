@@ -72,10 +72,11 @@ interface FeedbackSessionLogModel {
  * Component for student activity and inactivity logs
  */
 @Component({
-  selector: 'tm-instructor-student-activity-logs',
-  templateUrl: './instructor-student-activity-logs.component.html',
-  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
-  styleUrls: ['./instructor-student-activity-logs.component.scss'],
+    selector: 'tm-instructor-student-activity-logs',
+    templateUrl: './instructor-student-activity-logs.component.html',
+    providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
+    styleUrls: ['./instructor-student-activity-logs.component.scss'],
+    standalone: false,
 })
 export class InstructorStudentActivityLogsComponent implements OnInit {
   LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';

@@ -12,9 +12,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Student recover session links page.
  */
 @Component({
-  selector: 'tm-session-links-recovery-page',
-  templateUrl: './session-links-recovery-page.component.html',
-  styleUrls: ['./session-links-recovery-page.component.scss'],
+    selector: 'tm-session-links-recovery-page',
+    templateUrl: './session-links-recovery-page.component.html',
+    styleUrls: ['./session-links-recovery-page.component.scss'],
+    standalone: false,
 })
 export class SessionLinksRecoveryPageComponent implements OnInit {
 

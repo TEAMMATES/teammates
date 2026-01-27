@@ -11,9 +11,10 @@ import { Sections } from '../../../pages-help/instructor-help-page/sections';
  * Question details edit form component for contribution question.
  */
 @Component({
-  selector: 'tm-contribution-question-edit-details-form',
-  templateUrl: './contribution-question-edit-details-form.component.html',
-  styleUrls: ['./contribution-question-edit-details-form.component.scss'],
+    selector: 'tm-contribution-question-edit-details-form',
+    templateUrl: './contribution-question-edit-details-form.component.html',
+    styleUrls: ['./contribution-question-edit-details-form.component.scss'],
+    standalone: false,
 })
 export class ContributionQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackContributionQuestionDetails> {

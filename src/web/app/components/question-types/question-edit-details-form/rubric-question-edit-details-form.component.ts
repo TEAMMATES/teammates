@@ -10,9 +10,10 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
  * Question details edit form component for rubric question.
  */
 @Component({
-  selector: 'tm-rubric-question-edit-details-form',
-  templateUrl: './rubric-question-edit-details-form.component.html',
-  styleUrls: ['./rubric-question-edit-details-form.component.scss'],
+    selector: 'tm-rubric-question-edit-details-form',
+    templateUrl: './rubric-question-edit-details-form.component.html',
+    styleUrls: ['./rubric-question-edit-details-form.component.scss'],
+    standalone: false,
 })
 export class RubricQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> {

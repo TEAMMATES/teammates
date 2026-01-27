@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -25,12 +26,15 @@ describe('StudentPageComponent', () => {
         LoaderBarModule,
         LoadingSpinnerModule,
         NgbModule,
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         StatusMessageModule,
         TeammatesRouterModule,
         ToastModule,
         NotificationBannerModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

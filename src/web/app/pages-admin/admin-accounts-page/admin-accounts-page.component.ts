@@ -14,9 +14,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Admin accounts page.
  */
 @Component({
-  selector: 'tm-admin-accounts-page',
-  templateUrl: './admin-accounts-page.component.html',
-  styleUrls: ['./admin-accounts-page.component.scss'],
+    selector: 'tm-admin-accounts-page',
+    templateUrl: './admin-accounts-page.component.html',
+    styleUrls: ['./admin-accounts-page.component.scss'],
+    standalone: false,
 })
 export class AdminAccountsPageComponent implements OnInit {
 

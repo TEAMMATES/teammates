@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -28,7 +29,6 @@ describe('UserJoinPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UserJoinPageComponent],
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         LoadingSpinnerModule,
       ],
@@ -47,6 +47,8 @@ describe('UserJoinPageComponent', () => {
             }),
           },
         },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
         .compileComponents();
@@ -253,7 +255,6 @@ describe('UserJoinPageComponent creating account', () => {
     TestBed.configureTestingModule({
       declarations: [UserJoinPageComponent],
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         LoadingSpinnerModule,
       ],
@@ -272,6 +273,8 @@ describe('UserJoinPageComponent creating account', () => {
             }),
           },
         },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
   }));

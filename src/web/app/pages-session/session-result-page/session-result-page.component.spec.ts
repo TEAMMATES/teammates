@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -116,7 +117,6 @@ describe('SessionResultPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         StudentViewResponsesModule,
         QuestionTextWithInfoModule,
@@ -132,6 +132,8 @@ describe('SessionResultPageComponent', () => {
         StudentService,
         FeedbackSessionsService,
         LogService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
           useValue: {

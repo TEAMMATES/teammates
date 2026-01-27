@@ -14,16 +14,15 @@ import { SortableTableHeaderColorScheme } from '../sortable-table/sortable-table
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 @Component({
-  selector: 'tm-group-buttons',
-  templateUrl: './cell-with-group-buttons.component.html',
-  standalone: true,
-  imports: [
-    CommonModule,
-    TeammatesRouterModule,
-    AjaxLoadingModule,
-    NgbDropdownModule,
-    NgbTooltipModule,
-  ],
+    selector: 'tm-group-buttons',
+    templateUrl: './cell-with-group-buttons.component.html',
+    imports: [
+        CommonModule,
+        TeammatesRouterModule,
+        AjaxLoadingModule,
+        NgbDropdownModule,
+        NgbTooltipModule,
+    ],
 })
 export class GroupButtonsComponent {
   @Input() idx: number = 0;

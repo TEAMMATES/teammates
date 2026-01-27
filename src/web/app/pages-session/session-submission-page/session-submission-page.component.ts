@@ -68,9 +68,10 @@ export enum SessionView {
  * Feedback session submission page.
  */
 @Component({
-  selector: 'tm-session-submission-page',
-  templateUrl: './session-submission-page.component.html',
-  styleUrls: ['./session-submission-page.component.scss'],
+    selector: 'tm-session-submission-page',
+    templateUrl: './session-submission-page.component.html',
+    styleUrls: ['./session-submission-page.component.scss'],
+    standalone: false,
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 

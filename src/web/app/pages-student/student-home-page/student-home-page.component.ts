@@ -43,10 +43,11 @@ interface StudentSession {
  * Student home page.
  */
 @Component({
-  selector: 'tm-student-home-page',
-  templateUrl: './student-home-page.component.html',
-  styleUrls: ['./student-home-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-student-home-page',
+    templateUrl: './student-home-page.component.html',
+    styleUrls: ['./student-home-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class StudentHomePageComponent implements OnInit {
   // enum

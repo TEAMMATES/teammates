@@ -10,9 +10,10 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
  * Statistics for constsum recipients questions.
  */
 @Component({
-  selector: 'tm-constsum-recipients-question-statistics',
-  templateUrl: './constsum-recipients-question-statistics.component.html',
-  styleUrls: ['./constsum-recipients-question-statistics.component.scss'],
+    selector: 'tm-constsum-recipients-question-statistics',
+    templateUrl: './constsum-recipients-question-statistics.component.html',
+    styleUrls: ['./constsum-recipients-question-statistics.component.scss'],
+    standalone: false,
 })
 export class ConstsumRecipientsQuestionStatisticsComponent extends ConstsumRecipientsQuestionStatisticsCalculation
     implements OnInit, OnChanges {

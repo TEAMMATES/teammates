@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -642,7 +643,6 @@ describe('SessionSubmissionPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SessionSubmissionPageComponent, SavingCompleteModalComponent],
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         NgxPageScrollCoreModule,
         TeammatesCommonModule,
@@ -654,6 +654,8 @@ describe('SessionSubmissionPageComponent', () => {
         BrowserAnimationsModule,
       ],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
           useValue: {

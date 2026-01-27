@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import moment from 'moment-timezone';
@@ -27,9 +28,12 @@ describe('SessionEditFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SessionEditFormModule,
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         TeammatesRouterModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

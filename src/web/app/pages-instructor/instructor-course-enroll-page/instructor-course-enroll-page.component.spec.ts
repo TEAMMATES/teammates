@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { registerAllModules } from 'handsontable/registry';
@@ -46,7 +47,6 @@ describe('InstructorCourseEnrollPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [InstructorCourseEnrollPageComponent],
       imports: [
-        HttpClientTestingModule,
         // HotTableModule // see comment above about why we don't import this module
         RouterModule.forRoot([]),
         NgxPageScrollCoreModule,
@@ -57,6 +57,10 @@ describe('InstructorCourseEnrollPageComponent', () => {
         LoadingSpinnerModule,
         LoadingRetryModule,
         PanelChevronModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

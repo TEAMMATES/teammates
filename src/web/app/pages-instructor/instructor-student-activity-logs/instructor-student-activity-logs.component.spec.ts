@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { of } from 'rxjs';
@@ -109,8 +110,11 @@ describe('InstructorStudentActivityLogsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         InstructorStudentActivityLogsModule,
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
   }));

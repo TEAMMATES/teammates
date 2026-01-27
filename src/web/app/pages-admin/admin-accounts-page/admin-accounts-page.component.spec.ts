@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { AdminAccountsPageComponent } from './admin-accounts-page.component';
@@ -12,9 +13,12 @@ describe('AdminAccountsPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AdminAccountsPageComponent],
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         LoadingSpinnerModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

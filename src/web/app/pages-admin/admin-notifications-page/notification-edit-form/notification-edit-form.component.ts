@@ -10,11 +10,12 @@ import { SimpleModalType } from '../../../components/simple-modal/simple-modal-t
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 
 @Component({
-  selector: 'tm-notification-edit-form',
-  templateUrl: './notification-edit-form.component.html',
-  styleUrls: ['./notification-edit-form.component.scss'],
-  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
-  animations: [collapseAnim],
+    selector: 'tm-notification-edit-form',
+    templateUrl: './notification-edit-form.component.html',
+    styleUrls: ['./notification-edit-form.component.scss'],
+    providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class NotificationEditFormComponent {
 

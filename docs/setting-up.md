@@ -50,9 +50,9 @@ These tools are necessary regardless of whether you are developing front-end or 
 If you want to develop front-end, you need to install the following:
 
 1. Install Node.js (minimum version 18).
-1. (Optional but highly recommended) Install Angular CLI version 17 globally.
+1. (Optional but highly recommended) Install Angular CLI version 19 globally.
    ```sh
-   npm install -g @angular/cli@17
+   npm install -g @angular/cli@19
    ```
    **Verification:** Run `ng --help` and you should see a list of available Angular CLI commands.
 

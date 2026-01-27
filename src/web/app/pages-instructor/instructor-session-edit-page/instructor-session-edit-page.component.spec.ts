@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -271,7 +272,6 @@ describe('InstructorSessionEditPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NgbModule,
-        HttpClientTestingModule,
         InstructorSessionEditPageModule,
         BrowserAnimationsModule,
         RouterModule.forRoot([]),
@@ -284,6 +284,8 @@ describe('InstructorSessionEditPageComponent', () => {
         InstructorService,
         NavigationService,
         StatusMessageService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

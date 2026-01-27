@@ -5,13 +5,14 @@ import { InstructorData } from '../instructor-data';
  * A single row of data of a new instructor.
  */
 @Component({
-  // The following selector code style violation of https://angular.io/guide/styleguide#style-05-02 and
-  // https://angular.io/guide/styleguide#style-05-03 seems necessary according to
-  // https://stackoverflow.com/questions/55446740/how-to-add-row-component-in-table-in-angular-7
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'tr[tm-new-instructor-data-row]',
-  templateUrl: './new-instructor-data-row.component.html',
-  styleUrls: ['./new-instructor-data-row.component.scss'],
+    // The following selector code style violation of https://angular.io/guide/styleguide#style-05-02 and
+    // https://angular.io/guide/styleguide#style-05-03 seems necessary according to
+    // https://stackoverflow.com/questions/55446740/how-to-add-row-component-in-table-in-angular-7
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: 'tr[tm-new-instructor-data-row]',
+    templateUrl: './new-instructor-data-row.component.html',
+    styleUrls: ['./new-instructor-data-row.component.scss'],
+    standalone: false,
 })
 export class NewInstructorDataRowComponent implements OnInit {
   @Input() instructor!: InstructorData;

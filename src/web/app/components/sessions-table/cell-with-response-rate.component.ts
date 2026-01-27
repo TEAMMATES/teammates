@@ -3,10 +3,9 @@ import { Component, Input } from '@angular/core';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 
 @Component({
-  selector: 'tm-response-rate',
-  templateUrl: './cell-with-response-rate.component.html',
-  imports: [AjaxLoadingModule, CommonModule],
-  standalone: true,
+    selector: 'tm-response-rate',
+    templateUrl: './cell-with-response-rate.component.html',
+    imports: [AjaxLoadingModule, CommonModule],
 })
 export class ResponseRateComponent {
   @Input() responseRate: string = '';

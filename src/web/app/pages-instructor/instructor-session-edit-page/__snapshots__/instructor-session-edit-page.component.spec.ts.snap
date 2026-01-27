@@ -6,7 +6,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef$1]}
+  changeDetectorRef={[Function ViewRef]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
@@ -97,7 +97,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef$1]}
+  changeDetectorRef={[Function ViewRef]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
@@ -188,7 +188,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef$1]}
+  changeDetectorRef={[Function ViewRef]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
@@ -282,7 +282,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef$1]}
+  changeDetectorRef={[Function ViewRef]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
@@ -373,7 +373,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef$1]}
+  changeDetectorRef={[Function ViewRef]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}
@@ -464,7 +464,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef$1]}
+  changeDetectorRef={[Function ViewRef]}
   courseId={[Function String]}
   courseName={[Function String]}
   courseService={[Function CourseService]}
@@ -3146,7 +3146,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   FeedbackSessionPublishStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef$1]}
+  changeDetectorRef={[Function ViewRef]}
   courseId="undefined"
   courseName=""
   courseService={[Function CourseService]}

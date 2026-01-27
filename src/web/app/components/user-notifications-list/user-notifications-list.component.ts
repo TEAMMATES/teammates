@@ -27,10 +27,11 @@ export interface NotificationTab {
  * Component for user notifications list.
  */
 @Component({
-  selector: 'tm-user-notifications-list',
-  templateUrl: './user-notifications-list.component.html',
-  styleUrls: ['./user-notifications-list.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-user-notifications-list',
+    templateUrl: './user-notifications-list.component.html',
+    styleUrls: ['./user-notifications-list.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class UserNotificationsListComponent implements OnInit {
 

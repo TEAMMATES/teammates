@@ -23,6 +23,8 @@ overrides:
   - airbnb-base
   - airbnb-typescript/base
   rules:
+    "@angular-eslint/prefer-standalone":
+    - off # Temporarily turn off until migration to standalone components is complete
     "@angular-eslint/component-selector":
     - error
     - prefix: tm

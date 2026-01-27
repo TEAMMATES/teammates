@@ -64,10 +64,11 @@ import { Sections } from '../sections';
  * Questions Section of the Instructor Help Page.
  */
 @Component({
-  selector: 'tm-instructor-help-questions-section',
-  templateUrl: './instructor-help-questions-section.component.html',
-  styleUrls: ['./instructor-help-questions-section.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-help-questions-section',
+    templateUrl: './instructor-help-questions-section.component.html',
+    styleUrls: ['./instructor-help-questions-section.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

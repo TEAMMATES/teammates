@@ -5,9 +5,10 @@ import { QuestionConstraintComponent } from './question-constraint.component';
  * Constraint of numerical scale question.
  */
 @Component({
-  selector: 'tm-num-scale-question-constraint',
-  templateUrl: './num-scale-question-constraint.component.html',
-  styleUrls: ['./num-scale-question-constraint.component.scss'],
+    selector: 'tm-num-scale-question-constraint',
+    templateUrl: './num-scale-question-constraint.component.html',
+    styleUrls: ['./num-scale-question-constraint.component.scss'],
+    standalone: false,
 })
 export class NumScaleQuestionConstraintComponent extends QuestionConstraintComponent<any> {
 

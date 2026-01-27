@@ -9,16 +9,15 @@ import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 @Component({
-  selector: 'tm-group-buttons',
-  templateUrl: './cell-with-actions.component.html',
-  standalone: true,
-  imports: [
-    CommonModule,
-    TeammatesRouterModule,
-    AjaxLoadingModule,
-    NgbDropdownModule,
-    NgbTooltipModule,
-  ],
+    selector: 'tm-group-buttons',
+    templateUrl: './cell-with-actions.component.html',
+    imports: [
+        CommonModule,
+        TeammatesRouterModule,
+        AjaxLoadingModule,
+        NgbDropdownModule,
+        NgbTooltipModule,
+    ],
 })
 
 export class CellWithActionsComponent {

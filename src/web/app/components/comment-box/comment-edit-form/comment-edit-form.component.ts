@@ -27,10 +27,11 @@ export interface CommentEditFormModel {
  * Comment edit form component
  */
 @Component({
-  selector: 'tm-comment-edit-form',
-  templateUrl: './comment-edit-form.component.html',
-  styleUrls: ['./comment-edit-form.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-comment-edit-form',
+    templateUrl: './comment-edit-form.component.html',
+    styleUrls: ['./comment-edit-form.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
 

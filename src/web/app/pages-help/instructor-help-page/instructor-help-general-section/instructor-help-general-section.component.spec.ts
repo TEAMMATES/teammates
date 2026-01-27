@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -24,9 +25,12 @@ describe('InstructorHelpGeneralSectionComponent', () => {
         RouterModule.forRoot([]),
         NgxPageScrollCoreModule,
         NoopAnimationsModule,
-        HttpClientTestingModule,
         PanelChevronModule,
         TeammatesRouterModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

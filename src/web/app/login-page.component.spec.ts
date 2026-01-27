@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire/compat';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +25,6 @@ describe('LoginPageComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterModule.forRoot([]),
-        HttpClientTestingModule,
         LoadingSpinnerModule,
         NgxCaptchaModule,
         AjaxLoadingModule,
@@ -33,6 +33,8 @@ describe('LoginPageComponent', () => {
       providers: [
         AuthService,
         StatusMessageService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
         .compileComponents();

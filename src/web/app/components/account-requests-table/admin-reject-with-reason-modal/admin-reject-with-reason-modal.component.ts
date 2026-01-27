@@ -10,9 +10,10 @@ import { ErrorMessageOutput } from '../../../error-message-output';
  * Modal to select reject account requests with reason.
  */
 @Component({
-  selector: 'tm-reject-with-reason-modal',
-  templateUrl: './admin-reject-with-reason-modal.component.html',
-  styleUrls: ['./admin-reject-with-reason-modal.component.scss'],
+    selector: 'tm-reject-with-reason-modal',
+    templateUrl: './admin-reject-with-reason-modal.component.html',
+    styleUrls: ['./admin-reject-with-reason-modal.component.scss'],
+    standalone: false,
 })
 
 export class RejectWithReasonModalComponent implements OnInit {

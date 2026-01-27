@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExtensionConfirmModalComponent, ExtensionModalType } from './extension-confirm-modal.component';
@@ -111,8 +112,12 @@ describe('ExtensionConfirmModalComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, ExtensionConfirmModalModule],
-        providers: [NgbActiveModal],
+        imports: [ExtensionConfirmModalModule],
+        providers: [
+          NgbActiveModal,
+          provideHttpClient(),
+          provideHttpClientTesting(),
+        ],
       }).compileComponents();
     }),
   );

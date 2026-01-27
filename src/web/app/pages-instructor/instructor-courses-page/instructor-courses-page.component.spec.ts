@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -270,7 +271,6 @@ describe('InstructorCoursesPageComponent', () => {
         CourseEditFormComponent,
       ],
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         TeammatesRouterModule,
         NgbModule,
@@ -281,6 +281,10 @@ describe('InstructorCoursesPageComponent', () => {
         PanelChevronModule,
         ProgressBarModule,
         FormsModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

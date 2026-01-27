@@ -14,9 +14,10 @@ import { Sections } from '../sections';
  * Getting Started Section for Instructors
  */
 @Component({
-  selector: 'tm-instructor-help-getting-started',
-  templateUrl: './instructor-help-getting-started.component.html',
-  styleUrls: ['./instructor-help-getting-started.component.scss'],
+    selector: 'tm-instructor-help-getting-started',
+    templateUrl: './instructor-help-getting-started.component.html',
+    styleUrls: ['./instructor-help-getting-started.component.scss'],
+    standalone: false,
 })
 export class InstructorHelpGettingStartedComponent {
 

@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -22,7 +23,6 @@ describe('InstructorStudentRecordsPageComponent', () => {
         InstructorStudentRecordsPageComponent,
       ],
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         NgbModule,
         GrqRgqViewResponsesModule,
@@ -38,6 +38,8 @@ describe('InstructorStudentRecordsPageComponent', () => {
           },
         },
         CommentsToCommentTableModelPipe,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

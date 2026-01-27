@@ -5,7 +5,8 @@ import { InstructorPermissionRole } from '../../../types/api-output';
  * Pipe to handle the transformation of an InstructorPermissionRole to a description.
  */
 @Pipe({
-  name: 'instructorRoleDescription',
+    name: 'instructorRoleDescription',
+    standalone: false,
 })
 export class InstructorRoleDescriptionPipe implements PipeTransform {
 

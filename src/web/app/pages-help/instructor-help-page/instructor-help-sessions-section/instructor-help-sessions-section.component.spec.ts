@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,7 +54,7 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         InstructorHelpPanelComponent,
       ],
       imports: [
-        CommentBoxModule, FormsModule, HttpClientTestingModule, NgbModule, ExampleBoxModule,
+        CommentBoxModule, FormsModule, NgbModule, ExampleBoxModule,
         RouterModule.forRoot([]), NgxPageScrollCoreModule, NoopAnimationsModule,
         SessionEditFormModule, SessionsRecycleBinTableModule, TeammatesRouterModule,
         InstructorSearchComponentsModule, InstructorSessionResultViewModule,
@@ -61,6 +62,10 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         FeedbackPathPanelModule, SingleStatisticsModule, StudentViewResponsesModule, ViewResultsPanelModule,
         QuestionResponsePanelModule, VisibilityPanelModule, PanelChevronModule,
         QuestionEditBriefDescriptionFormModule],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     })
     .compileComponents();
   }));

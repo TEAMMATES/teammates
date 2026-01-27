@@ -14,9 +14,10 @@ import {
  * The component that will map a generic response statistics to its specialized view component.
  */
 @Component({
-  selector: 'tm-single-statistics',
-  templateUrl: './single-statistics.component.html',
-  styleUrls: ['./single-statistics.component.scss'],
+    selector: 'tm-single-statistics',
+    templateUrl: './single-statistics.component.html',
+    styleUrls: ['./single-statistics.component.scss'],
+    standalone: false,
 })
 export class SingleStatisticsComponent implements OnInit, OnChanges {
 

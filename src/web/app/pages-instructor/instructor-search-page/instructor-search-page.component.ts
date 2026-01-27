@@ -16,9 +16,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Instructor search page.
  */
 @Component({
-  selector: 'tm-instructor-search-page',
-  templateUrl: './instructor-search-page.component.html',
-  styleUrls: ['./instructor-search-page.component.scss'],
+    selector: 'tm-instructor-search-page',
+    templateUrl: './instructor-search-page.component.html',
+    styleUrls: ['./instructor-search-page.component.scss'],
+    standalone: false,
 })
 export class InstructorSearchPageComponent {
 

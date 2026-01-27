@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -212,7 +213,6 @@ describe('QuestionResponsePanelComponent', () => {
         QuestionResponsePanelComponent,
       ],
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         SingleStatisticsModule,
         StudentViewResponsesModule,
@@ -220,7 +220,11 @@ describe('QuestionResponsePanelComponent', () => {
         LoadingSpinnerModule,
         LoadingRetryModule,
       ],
-      providers: [FeedbackSessionsService],
+      providers: [
+        FeedbackSessionsService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     })
     .compileComponents();
   }));

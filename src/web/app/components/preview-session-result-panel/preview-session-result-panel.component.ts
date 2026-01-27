@@ -8,9 +8,10 @@ import {
  * Displaying the preview session panel.
  */
 @Component({
-  selector: 'tm-preview-session-result-panel',
-  templateUrl: './preview-session-result-panel.component.html',
-  styleUrls: ['./preview-session-result-panel.component.scss'],
+    selector: 'tm-preview-session-result-panel',
+    templateUrl: './preview-session-result-panel.component.html',
+    styleUrls: ['./preview-session-result-panel.component.scss'],
+    standalone: false,
 })
 export class PreviewSessionResultPanelComponent {
 

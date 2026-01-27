@@ -5,9 +5,10 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
  * The input field to specify options to choose from.
  */
 @Component({
-  selector: 'tm-mcq-field',
-  templateUrl: './mcq-field.component.html',
-  styleUrls: ['./mcq-field.component.scss'],
+    selector: 'tm-mcq-field',
+    templateUrl: './mcq-field.component.html',
+    styleUrls: ['./mcq-field.component.scss'],
+    standalone: false,
 })
 export class McqFieldComponent {
 

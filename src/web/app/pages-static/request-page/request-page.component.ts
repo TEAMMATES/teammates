@@ -7,9 +7,10 @@ import { environment } from '../../../environments/environment';
  * Account request page.
  */
 @Component({
-  selector: 'tm-request-page',
-  templateUrl: './request-page.component.html',
-  styleUrls: ['./request-page.component.scss'],
+    selector: 'tm-request-page',
+    templateUrl: './request-page.component.html',
+    styleUrls: ['./request-page.component.scss'],
+    standalone: false,
 })
 export class RequestPageComponent {
 

@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { StudentCourseDetailsPageComponent } from './student-course-details-page.component';
@@ -46,11 +47,14 @@ describe('StudentCourseDetailsPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [StudentCourseDetailsPageComponent],
       imports: [
-        HttpClientTestingModule,
         RouterModule.forRoot([]),
         TeammatesCommonModule,
         LoadingSpinnerModule,
         LoadingRetryModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();
