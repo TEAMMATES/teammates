@@ -36,28 +36,27 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackResponseIdParam = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        ParsedFeedbackResponseId parsedId = parseFeedbackResponseId(feedbackResponseIdParam);
+        ParsedFeedbackResponseId parsedFeedbackResponseId = parseFeedbackResponseId(feedbackResponseIdParam);
 
-        FeedbackResponseAttributes response = null;
+        FeedbackResponseAttributes feedbackResponseAttr = null;
         FeedbackResponse feedbackResponse = null;
-        String courseId;
 
-        if (parsedId.isSql) {
-            feedbackResponse = sqlLogic.getFeedbackResponse(parsedId.sqlId);
-            if (feedbackResponse == null) {
-                throw new EntityNotFoundException("The feedback response does not exist.");
-            }
-            courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
+        if (parsedFeedbackResponseId.isSql) {
+            feedbackResponse = sqlLogic.getFeedbackResponse(parsedFeedbackResponseId.sqlId);
         } else {
-            response = logic.getFeedbackResponse(parsedId.datastoreId);
-            if (response == null) {
-                throw new EntityNotFoundException("The feedback response does not exist.");
-            }
-            courseId = response.getCourseId();
+            feedbackResponseAttr = logic.getFeedbackResponse(parsedFeedbackResponseId.datastoreId);
         }
 
+        if (feedbackResponse == null && feedbackResponseAttr == null) {
+            throw new EntityNotFoundException("The feedback response does not exist.");
+        }
+
+        String courseId = parsedFeedbackResponseId.isSql
+                ? feedbackResponse.getFeedbackQuestion().getCourseId()
+                : feedbackResponseAttr.getCourseId();
+
         if (!isCourseMigrated(courseId)) {
-            handleDataStoreAccessControl(courseId, response);
+            handleDataStoreAccessControl(courseId, feedbackResponseAttr);
             return;
         }
 
@@ -117,25 +116,24 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String feedbackResponseIdParam = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        ParsedFeedbackResponseId parsedId = parseFeedbackResponseId(feedbackResponseIdParam);
+        ParsedFeedbackResponseId parsedFeedbackResponseId = parseFeedbackResponseId(feedbackResponseIdParam);
 
-        FeedbackResponseAttributes response = null;
+        FeedbackResponseAttributes feedbackResponseAttr = null;
         FeedbackResponse feedbackResponse = null;
-        String courseId;
 
-        if (parsedId.isSql) {
-            feedbackResponse = sqlLogic.getFeedbackResponse(parsedId.sqlId);
-            if (feedbackResponse == null) {
-                throw new EntityNotFoundException("The feedback response does not exist.");
-            }
-            courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
+        if (parsedFeedbackResponseId.isSql) {
+            feedbackResponse = sqlLogic.getFeedbackResponse(parsedFeedbackResponseId.sqlId);
         } else {
-            response = logic.getFeedbackResponse(parsedId.datastoreId);
-            if (response == null) {
-                throw new EntityNotFoundException("The feedback response does not exist.");
-            }
-            courseId = response.getCourseId();
+            feedbackResponseAttr = logic.getFeedbackResponse(parsedFeedbackResponseId.datastoreId);
         }
+
+        if (feedbackResponse == null && feedbackResponseAttr == null) {
+            throw new EntityNotFoundException("The feedback response does not exist.");
+        }
+
+        String courseId = parsedFeedbackResponseId.isSql
+                ? feedbackResponse.getFeedbackQuestion().getCourseId()
+                : feedbackResponseAttr.getCourseId();
 
         FeedbackResponseCommentCreateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentCreateRequest.class);
 
@@ -145,7 +143,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         }
 
         if (!isCourseMigrated(courseId)) {
-            String questionId = response.getFeedbackQuestionId();
+            String questionId = feedbackResponseAttr.getFeedbackQuestionId();
             FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
             String email;
 
@@ -155,7 +153,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             FeedbackParticipantType commentGiverType;
             switch (intent) {
             case STUDENT_SUBMISSION:
-                verifyCommentNotExist(parsedId.datastoreId);
+                verifyCommentNotExist(parsedFeedbackResponseId.datastoreId);
                 StudentAttributes student = getStudentOfCourseFromRequest(courseId);
                 email = question.getGiverType() == FeedbackParticipantType.TEAMS
                         ? student.getTeam() : student.getEmail();
@@ -165,7 +163,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                         ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
                 break;
             case INSTRUCTOR_SUBMISSION:
-                verifyCommentNotExist(parsedId.datastoreId);
+                verifyCommentNotExist(parsedFeedbackResponseId.datastoreId);
                 InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
                 email = instructorAsFeedbackParticipant.getEmail();
                 isFromParticipant = true;
@@ -183,8 +181,8 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                 throw new InvalidHttpParameterException("Unknown intent " + intent);
             }
 
-            String feedbackQuestionId = response.getFeedbackQuestionId();
-            String feedbackSessionName = response.getFeedbackSessionName();
+            String feedbackQuestionId = feedbackResponseAttr.getFeedbackQuestionId();
+            String feedbackSessionName = feedbackResponseAttr.getFeedbackSessionName();
 
             FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                     .builder()
@@ -193,9 +191,9 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                     .withCommentGiver(email)
                     .withCommentText(commentText)
                     .withFeedbackQuestionId(feedbackQuestionId)
-                    .withFeedbackResponseId(parsedId.datastoreId)
-                    .withGiverSection(response.getGiverSection())
-                    .withReceiverSection(response.getRecipientSection())
+                    .withFeedbackResponseId(parsedFeedbackResponseId.datastoreId)
+                    .withGiverSection(feedbackResponseAttr.getGiverSection())
+                    .withReceiverSection(feedbackResponseAttr.getRecipientSection())
                     .withCommentFromFeedbackParticipant(isFromParticipant)
                     .withCommentGiverType(commentGiverType)
                     .withVisibilityFollowingFeedbackQuestion(isFollowingQuestionVisibility)
@@ -227,7 +225,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            verifyCommentNotExist(parsedId.sqlId);
+            verifyCommentNotExist(parsedFeedbackResponseId.sqlId);
             Student student = getSqlStudentOfCourseFromRequest(courseId);
             email = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                     ? student.getTeamName() : student.getEmail();
@@ -237,7 +235,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                     ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
             break;
         case INSTRUCTOR_SUBMISSION:
-            verifyCommentNotExist(parsedId.sqlId);
+            verifyCommentNotExist(parsedFeedbackResponseId.sqlId);
             Instructor instructorAsFeedbackParticipant = getSqlInstructorOfCourseFromRequest(courseId);
             email = instructorAsFeedbackParticipant.getEmail();
             isFromParticipant = true;

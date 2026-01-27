@@ -303,13 +303,13 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
     }
 
-    FeedbackResponseCommentData getFeedbackResponseComment(String feedbackResponseId) {
-        return BACKDOOR.getFeedbackResponseCommentData(feedbackResponseId);
+    FeedbackResponseCommentData getFeedbackResponseComment(UUID feedbackResponseId) {
+        return BACKDOOR.getFeedbackResponseCommentData(feedbackResponseId.toString());
     }
 
     @Override
     protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
-        return getFeedbackResponseComment(frc.getFeedbackResponse().getId().toString());
+        return getFeedbackResponseComment(frc.getFeedbackResponse().getId());
     }
 
     FeedbackSessionData getFeedbackSession(String courseId, String feedbackSessionName) {

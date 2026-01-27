@@ -31,32 +31,31 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackResponseIdParam = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        ParsedFeedbackResponseId parsedId = parseFeedbackResponseId(feedbackResponseIdParam);
+        ParsedFeedbackResponseId parsedFeedbackResponseId = parseFeedbackResponseId(feedbackResponseIdParam);
 
-        FeedbackResponseAttributes feedbackResponseAttributes = null;
+        FeedbackResponseAttributes feedbackResponseAttr = null;
         FeedbackResponse feedbackResponse = null;
-        String courseId;
 
-        if (parsedId.isSql) {
-            feedbackResponse = sqlLogic.getFeedbackResponse(parsedId.sqlId);
-            if (feedbackResponse == null) {
-                throw new EntityNotFoundException("The feedback response does not exist.");
-            }
-            courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
+        if (parsedFeedbackResponseId.isSql) {
+            feedbackResponse = sqlLogic.getFeedbackResponse(parsedFeedbackResponseId.sqlId);
         } else {
-            feedbackResponseAttributes = logic.getFeedbackResponse(parsedId.datastoreId);
-            if (feedbackResponseAttributes == null) {
-                throw new EntityNotFoundException("The feedback response does not exist.");
-            }
-            courseId = feedbackResponseAttributes.getCourseId();
+            feedbackResponseAttr = logic.getFeedbackResponse(parsedFeedbackResponseId.datastoreId);
         }
+
+        if (feedbackResponse == null && feedbackResponseAttr == null) {
+            throw new EntityNotFoundException("The feedback response does not exist.");
+        }
+
+        String courseId = parsedFeedbackResponseId.isSql
+                ? feedbackResponse.getFeedbackQuestion().getCourseId()
+                : feedbackResponseAttr.getCourseId();
 
         if (!isCourseMigrated(courseId)) {
             FeedbackSessionAttributes feedbackSession =
-                    getNonNullFeedbackSession(feedbackResponseAttributes.getFeedbackSessionName(),
-                    feedbackResponseAttributes.getCourseId());
+                    getNonNullFeedbackSession(feedbackResponseAttr.getFeedbackSessionName(),
+                    feedbackResponseAttr.getCourseId());
             FeedbackQuestionAttributes feedbackQuestion =
-                    logic.getFeedbackQuestion(feedbackResponseAttributes.getFeedbackQuestionId());
+                    logic.getFeedbackQuestion(feedbackResponseAttr.getFeedbackQuestionId());
 
             verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
             verifyNotPreview();
@@ -107,25 +106,24 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
     @Override
     public JsonResult execute() {
         String feedbackResponseIdParam = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        ParsedFeedbackResponseId parsedId = parseFeedbackResponseId(feedbackResponseIdParam);
+        ParsedFeedbackResponseId parsedFeedbackResponseId = parseFeedbackResponseId(feedbackResponseIdParam);
 
-        FeedbackResponseAttributes response = null;
+        FeedbackResponseAttributes feedbackResponseAttr = null;
         FeedbackResponse feedbackResponse = null;
-        String courseId;
 
-        if (parsedId.isSql) {
-            feedbackResponse = sqlLogic.getFeedbackResponse(parsedId.sqlId);
-            if (feedbackResponse == null) {
-                throw new EntityNotFoundException("The feedback response does not exist.");
-            }
-            courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
+        if (parsedFeedbackResponseId.isSql) {
+            feedbackResponse = sqlLogic.getFeedbackResponse(parsedFeedbackResponseId.sqlId);
         } else {
-            response = logic.getFeedbackResponse(parsedId.datastoreId);
-            if (response == null) {
-                throw new EntityNotFoundException("The feedback response does not exist.");
-            }
-            courseId = response.getCourseId();
+            feedbackResponseAttr = logic.getFeedbackResponse(parsedFeedbackResponseId.datastoreId);
         }
+
+        if (feedbackResponse == null && feedbackResponseAttr == null) {
+            throw new EntityNotFoundException("The feedback response does not exist.");
+        }
+
+        String courseId = parsedFeedbackResponseId.isSql
+                ? feedbackResponse.getFeedbackQuestion().getCourseId()
+                : feedbackResponseAttr.getCourseId();
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
@@ -134,9 +132,9 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
             case STUDENT_SUBMISSION:
             case INSTRUCTOR_SUBMISSION:
                 FeedbackResponseCommentAttributes comment =
-                        logic.getFeedbackResponseCommentForResponseFromParticipant(parsedId.datastoreId);
+                        logic.getFeedbackResponseCommentForResponseFromParticipant(parsedFeedbackResponseId.datastoreId);
                 if (comment == null) {
-                    FeedbackResponseAttributes fr = logic.getFeedbackResponse(parsedId.datastoreId);
+                    FeedbackResponseAttributes fr = logic.getFeedbackResponse(parsedFeedbackResponseId.datastoreId);
                     if (fr == null) {
                         throw new EntityNotFoundException("The feedback response does not exist.");
                     }
@@ -152,9 +150,9 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         case STUDENT_SUBMISSION:
         case INSTRUCTOR_SUBMISSION:
             FeedbackResponseComment comment =
-                    sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(parsedId.sqlId);
+                    sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(parsedFeedbackResponseId.sqlId);
             if (comment == null) {
-                FeedbackResponse fr = sqlLogic.getFeedbackResponse(parsedId.sqlId);
+                FeedbackResponse fr = sqlLogic.getFeedbackResponse(parsedFeedbackResponseId.sqlId);
                 if (fr == null) {
                     throw new EntityNotFoundException("The feedback response does not exist.");
                 }
