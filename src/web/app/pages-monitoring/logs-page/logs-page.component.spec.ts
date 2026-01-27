@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
@@ -21,7 +21,7 @@ describe('LogsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule, LogsPageModule, HttpClientTestingModule, RouterTestingModule],
+      imports: [NgbModule, LogsPageModule, HttpClientTestingModule, RouterModule.forRoot([])],
     })
     .compileComponents();
   }));

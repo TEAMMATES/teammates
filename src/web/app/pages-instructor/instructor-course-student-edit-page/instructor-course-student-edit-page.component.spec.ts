@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { InstructorCourseStudentEditPageComponent } from './instructor-course-student-edit-page.component';
 import { JoinState } from '../../../types/api-output';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -15,7 +15,7 @@ describe('InstructorCourseStudentEditPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [InstructorCourseStudentEditPageComponent],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         ReactiveFormsModule,
         HttpClientTestingModule,
         LoadingSpinnerModule,

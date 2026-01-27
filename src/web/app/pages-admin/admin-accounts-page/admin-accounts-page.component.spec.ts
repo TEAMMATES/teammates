@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { AdminAccountsPageComponent } from './admin-accounts-page.component';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 
@@ -13,7 +13,7 @@ describe('AdminAccountsPageComponent', () => {
       declarations: [AdminAccountsPageComponent],
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         LoadingSpinnerModule,
       ],
     })

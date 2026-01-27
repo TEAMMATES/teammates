@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire/compat';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
@@ -24,7 +24,7 @@ describe('PageComponent', () => {
         NgbModule,
         LoaderBarModule,
         LoadingSpinnerModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         TeammatesRouterModule,
         StatusMessageModule,
         ToastModule,

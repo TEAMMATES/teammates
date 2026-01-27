@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import moment from 'moment-timezone';
 import SpyInstance = jest.SpyInstance;
 import { SessionEditFormMode } from './session-edit-form-model';
@@ -28,7 +28,7 @@ describe('SessionEditFormComponent', () => {
       imports: [
         SessionEditFormModule,
         HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         TeammatesRouterModule,
       ],
     })

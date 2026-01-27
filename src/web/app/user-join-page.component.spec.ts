@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
@@ -30,7 +29,7 @@ describe('UserJoinPageComponent', () => {
       declarations: [UserJoinPageComponent],
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         LoadingSpinnerModule,
       ],
       providers: [
@@ -255,7 +254,7 @@ describe('UserJoinPageComponent creating account', () => {
       declarations: [UserJoinPageComponent],
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         LoadingSpinnerModule,
       ],
       providers: [

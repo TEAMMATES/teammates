@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -14,7 +14,7 @@ describe('ContributionQuestionStatisticsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NgbTooltipModule, DynamicModule, RouterTestingModule, TeammatesRouterModule],
+      imports: [NgbTooltipModule, DynamicModule, RouterModule.forRoot([]), TeammatesRouterModule],
       declarations: [
         ContributionQuestionStatisticsComponent,
         ContributionComponent,

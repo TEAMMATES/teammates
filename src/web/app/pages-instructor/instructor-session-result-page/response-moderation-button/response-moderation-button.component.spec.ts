@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { ResponseModerationButtonComponent } from './response-moderation-button.component';
 import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 
@@ -10,7 +10,7 @@ describe('ResponseModerationButtonComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ResponseModerationButtonComponent],
-      imports: [RouterTestingModule.withRoutes([]), TeammatesRouterModule],
+      imports: [RouterModule.forRoot([]), TeammatesRouterModule],
     })
     .compileComponents();
   }));

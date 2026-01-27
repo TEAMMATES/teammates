@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 
 import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
 import { SessionsTableComponent } from './sessions-table.component';
@@ -21,7 +21,7 @@ describe('SessionsTableComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SessionsTableModule, HttpClientTestingModule, RouterTestingModule, TeammatesRouterModule],
+      imports: [SessionsTableModule, HttpClientTestingModule, RouterModule.forRoot([]), TeammatesRouterModule],
     })
     .compileComponents();
   }));

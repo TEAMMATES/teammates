@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { InstructorHelpQuestionsSectionComponent } from './instructor-help-questions-section.component';
@@ -31,7 +31,7 @@ describe('InstructorHelpQuestionsSectionComponent', () => {
         InstructorHelpPanelComponent,
       ],
       imports: [
-        InstructorSessionResultViewModule, NgbModule, RouterTestingModule, HttpClientTestingModule,
+        InstructorSessionResultViewModule, NgbModule, RouterModule.forRoot([]), HttpClientTestingModule,
         NgxPageScrollCoreModule, NoopAnimationsModule, ExampleBoxModule, TeammatesRouterModule,
         QuestionEditFormModule, QuestionStatisticsModule, QuestionSubmissionFormModule, PanelChevronModule,
       ],

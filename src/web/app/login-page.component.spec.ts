@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire/compat';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
@@ -23,7 +23,7 @@ describe('LoginPageComponent', () => {
       declarations: [LoginPageComponent],
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         HttpClientTestingModule,
         LoadingSpinnerModule,
         NgxCaptchaModule,

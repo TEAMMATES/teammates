@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
@@ -274,7 +274,7 @@ describe('InstructorSessionEditPageComponent', () => {
         HttpClientTestingModule,
         InstructorSessionEditPageModule,
         BrowserAnimationsModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         CourseService,

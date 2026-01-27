@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NavigationService } from './navigation.service';
 
 describe('NavigationService', () => {
@@ -8,7 +8,7 @@ describe('NavigationService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterModule.forRoot([])],
     });
     service = TestBed.inject(NavigationService);
   });

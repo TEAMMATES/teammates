@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { PageScrollService, NGXPS_CONFIG } from 'ngx-page-scroll-core';
 import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
@@ -29,7 +29,7 @@ describe('InstructorHelpGettingStartedComponent', () => {
         CourseEditFormStubComponent,
       ],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         TeammatesRouterModule,
       ],
       providers: [

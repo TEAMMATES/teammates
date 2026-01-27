@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { StudentNotificationsPageComponent } from './student-notifications-page.component';
 import { UserNotificationsListModule } from '../../components/user-notifications-list/user-notifications-list.module';
 
@@ -12,7 +12,7 @@ describe('StudentNotificationsPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [StudentNotificationsPageComponent],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         HttpClientTestingModule,
         UserNotificationsListModule,
       ],

@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StudentPageComponent } from './student-page.component';
 import { LoaderBarModule } from '../components/loader-bar/loader-bar.module';
@@ -26,7 +26,7 @@ describe('StudentPageComponent', () => {
         LoadingSpinnerModule,
         NgbModule,
         HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         StatusMessageModule,
         TeammatesRouterModule,
         ToastModule,
