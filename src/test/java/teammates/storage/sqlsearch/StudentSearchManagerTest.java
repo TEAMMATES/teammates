@@ -1,11 +1,10 @@
 package teammates.storage.sqlsearch;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Method;
@@ -206,7 +205,7 @@ public class StudentSearchManagerTest extends BaseTestCase {
         // Verify: Should return empty list without querying Solr
         assertNotNull(results);
         assertEquals(results.size(), 0);
-        verify(mockClient, never()).query(anyString(), any(SolrQuery.class));
+        verifyNoInteractions(mockClient);
     }
 
     @Test
