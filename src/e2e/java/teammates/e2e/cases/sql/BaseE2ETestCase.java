@@ -14,7 +14,6 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.DevServerLoginPage;
@@ -310,7 +309,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
 
     @Override
     protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
-        System.out.println(JsonUtils.toJson(frc.getFeedbackResponse()));
         return getFeedbackResponseComment(frc.getFeedbackResponse().getId().toString());
     }
 

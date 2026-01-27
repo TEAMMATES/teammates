@@ -129,7 +129,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        if (!isCourseMigrated(courseId) && !parsedId.isSql) {
+        if (!isCourseMigrated(courseId)) {
             switch (intent) {
             case STUDENT_SUBMISSION:
             case INSTRUCTOR_SUBMISSION:

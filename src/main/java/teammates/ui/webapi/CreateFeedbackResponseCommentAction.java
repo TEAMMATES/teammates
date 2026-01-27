@@ -224,9 +224,10 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         boolean isFromParticipant;
         boolean isFollowingQuestionVisibility;
         FeedbackParticipantType commentGiverType;
+
         switch (intent) {
         case STUDENT_SUBMISSION:
-            verifyCommentNotExist(feedbackResponseIdParam);
+            verifyCommentNotExist(parsedId.sqlId);
             Student student = getSqlStudentOfCourseFromRequest(courseId);
             email = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                     ? student.getTeamName() : student.getEmail();
@@ -236,7 +237,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                     ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
             break;
         case INSTRUCTOR_SUBMISSION:
-            verifyCommentNotExist(feedbackResponseIdParam);
+            verifyCommentNotExist(parsedId.sqlId);
             Instructor instructorAsFeedbackParticipant = getSqlInstructorOfCourseFromRequest(courseId);
             email = instructorAsFeedbackParticipant.getEmail();
             isFromParticipant = true;

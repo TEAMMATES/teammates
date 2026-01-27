@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 
@@ -24,7 +25,21 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
     static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
 
     /**
-     * Validates comment doesn't exist of corresponding response.
+     * Validates comment of corresponding response doesn't exist in SQL DB.
+     */
+    void verifyCommentNotExist(UUID feedbackResponseId) throws InvalidOperationException {
+        FeedbackResponseComment comment =
+                sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+
+        if (comment != null) {
+            throw new InvalidOperationException("Comment has already been created for the response in submission");
+        }
+
+    }
+
+
+    /**
+     * Validates comment of corresponding response doesn't exist in datastore.
      */
     void verifyCommentNotExist(String feedbackResponseId) throws InvalidOperationException {
         FeedbackResponseCommentAttributes comment =
