@@ -66,6 +66,9 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
+
+        when(mockLogic.verifyInstructorsExistInCourse(any(), any())).thenReturn(true);
+        when(mockLogic.verifyStudentsExistInCourse(any(), any())).thenReturn(true);
     }
 
     @Test
