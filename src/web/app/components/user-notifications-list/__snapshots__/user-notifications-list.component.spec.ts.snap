@@ -10,7 +10,6 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
-  readNotifications={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   tableComparatorService={[Function TableComparatorService]}
   timezone={[Function String]}
@@ -143,7 +142,6 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
-  readNotifications={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   tableComparatorService={[Function TableComparatorService]}
   timezone={[Function String]}
@@ -189,7 +187,6 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
-  readNotifications={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   tableComparatorService={[Function TableComparatorService]}
   timezone={[Function String]}
@@ -370,7 +367,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy={[Function Number]}
-  readNotifications={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   tableComparatorService={[Function TableComparatorService]}
   timezone={[Function String]}
@@ -552,7 +548,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy={[Function Number]}
-  readNotifications={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   tableComparatorService={[Function TableComparatorService]}
   timezone={[Function String]}
@@ -734,7 +729,6 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
-  readNotifications={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   tableComparatorService={[Function TableComparatorService]}
   timezone={[Function String]}
@@ -781,7 +775,6 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
-  readNotifications={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   tableComparatorService={[Function TableComparatorService]}
   timezone={[Function String]}
