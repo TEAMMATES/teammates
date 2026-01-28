@@ -53,7 +53,7 @@
       "email": "NotifBanner.instructor@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
+      "displayName": "Instructor",
       "privileges": {
         "courseLevel": {
           "canViewStudentInSections": true,
