@@ -1,6 +1,8 @@
 package teammates.sqllogic.core;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -37,6 +39,7 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
     public void testGetUsageStatisticsForTimeRange_statisticsExist_success() {
         Instant startTime = Instant.parse("2024-01-01T00:00:00Z");
         Instant endTime = Instant.parse("2024-01-02T00:00:00Z");
+        assertTrue(startTime.isBefore(endTime));
 
         UsageStatistics stats1 = new UsageStatistics(
                 startTime, 1, 100, 10, 50, 5, 2, 20, 30);
@@ -48,9 +51,16 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
 
         List<UsageStatistics> result = usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
 
+        assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals(stats1, result.get(0));
         assertEquals(stats2, result.get(1));
+        assertEquals(100, result.get(0).getNumResponses());
+        assertEquals(150, result.get(1).getNumResponses());
+        assertEquals(10, result.get(0).getNumCourses());
+        assertEquals(15, result.get(1).getNumCourses());
+        assertEquals(50, result.get(0).getNumStudents());
+        assertEquals(60, result.get(1).getNumStudents());
         verify(usageStatisticsDb, times(1)).getUsageStatisticsForTimeRange(startTime, endTime);
     }
 
@@ -80,18 +90,27 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
 
         List<UsageStatistics> result = usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
 
+        assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(100, result.get(0).getNumResponses());
-        assertEquals(10, result.get(0).getNumCourses());
-        assertEquals(50, result.get(0).getNumStudents());
-        assertEquals(5, result.get(0).getNumInstructors());
-        assertEquals(2, result.get(0).getNumAccountRequests());
+        UsageStatistics resultStat = result.get(0);
+        assertEquals(stats, resultStat);
+        assertEquals(startTime, resultStat.getStartTime());
+        assertEquals(1, resultStat.getTimePeriod());
+        assertEquals(100, resultStat.getNumResponses());
+        assertEquals(10, resultStat.getNumCourses());
+        assertEquals(50, resultStat.getNumStudents());
+        assertEquals(5, resultStat.getNumInstructors());
+        assertEquals(2, resultStat.getNumAccountRequests());
+        assertEquals(20, resultStat.getNumEmails());
+        assertEquals(30, resultStat.getNumSubmissions());
+        assertNotNull(resultStat.getId());
     }
 
     @Test
     public void testGetUsageStatisticsForTimeRange_wideTimeRange_success() {
         Instant startTime = Instant.parse("2020-01-01T00:00:00Z");
         Instant endTime = Instant.parse("2024-12-31T23:59:59Z");
+        assertTrue(startTime.isBefore(endTime));
 
         UsageStatistics stats = new UsageStatistics(
                 Instant.parse("2022-06-15T00:00:00Z"), 1, 500, 50, 200, 25, 10, 100, 150);
@@ -101,8 +120,30 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
 
         List<UsageStatistics> result = usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
 
+        assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(500, result.get(0).getNumResponses());
+        UsageStatistics resultStat = result.get(0);
+        assertEquals(500, resultStat.getNumResponses());
+        assertEquals(50, resultStat.getNumCourses());
+        assertEquals(200, resultStat.getNumStudents());
+        assertEquals(25, resultStat.getNumInstructors());
+        assertEquals(10, resultStat.getNumAccountRequests());
+        assertEquals(100, resultStat.getNumEmails());
+        assertEquals(150, resultStat.getNumSubmissions());
+        verify(usageStatisticsDb, times(1)).getUsageStatisticsForTimeRange(startTime, endTime);
+    }
+
+    @Test
+    public void testGetUsageStatisticsForTimeRange_invalidTimeRange_throwsException() {
+        Instant startTime = Instant.parse("2024-01-02T00:00:00Z");
+        Instant endTime = Instant.parse("2024-01-01T00:00:00Z");
+        assertTrue(startTime.isAfter(endTime));
+
+        // Should throw AssertionError due to assertion in the method
+        assertThrows(AssertionError.class, () -> {
+            usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
+        });
+        verify(usageStatisticsDb, never()).getUsageStatisticsForTimeRange(any(), any());
     }
 
     // ==================== CALCULATE Tests ====================
@@ -111,6 +152,7 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
     public void testCalculateEntitiesStatisticsForTimeRange_returnsStatistics() {
         Instant startTime = Instant.parse("2024-01-01T00:00:00Z");
         Instant endTime = Instant.parse("2024-01-02T00:00:00Z");
+        assertTrue(startTime.isBefore(endTime));
 
         UsageStatistics result = usageStatisticsLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
 
@@ -123,6 +165,21 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
         assertEquals(0, result.getNumStudents());
         assertEquals(0, result.getNumInstructors());
         assertEquals(0, result.getNumAccountRequests());
+        assertEquals(0, result.getNumEmails());
+        assertEquals(0, result.getNumSubmissions());
+        assertNotNull(result.getId());
+    }
+
+    @Test
+    public void testCalculateEntitiesStatisticsForTimeRange_invalidTimeRange_throwsException() {
+        Instant startTime = Instant.parse("2024-01-02T00:00:00Z");
+        Instant endTime = Instant.parse("2024-01-01T00:00:00Z");
+        assertTrue(startTime.isAfter(endTime));
+
+        // Should throw AssertionError due to assertion in the method
+        assertThrows(AssertionError.class, () -> {
+            usageStatisticsLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
+        });
     }
 
     @Test
@@ -159,7 +216,18 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
 
         UsageStatistics result = usageStatisticsLogic.createUsageStatistics(stats);
 
+        assertNotNull(result);
         assertEquals(stats, result);
+        assertEquals(stats.getId(), result.getId());
+        assertEquals(startTime, result.getStartTime());
+        assertEquals(1, result.getTimePeriod());
+        assertEquals(100, result.getNumResponses());
+        assertEquals(10, result.getNumCourses());
+        assertEquals(50, result.getNumStudents());
+        assertEquals(5, result.getNumInstructors());
+        assertEquals(2, result.getNumAccountRequests());
+        assertEquals(20, result.getNumEmails());
+        assertEquals(30, result.getNumSubmissions());
         verify(usageStatisticsDb, times(1)).createUsageStatistics(stats);
     }
 
@@ -173,7 +241,10 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
 
         UsageStatistics result = usageStatisticsLogic.createUsageStatistics(stats);
 
+        assertNotNull(result);
         assertEquals(stats, result);
+        assertEquals(startTime, result.getStartTime());
+        assertEquals(1, result.getTimePeriod());
         assertEquals(0, result.getNumResponses());
         assertEquals(0, result.getNumCourses());
         assertEquals(0, result.getNumStudents());
