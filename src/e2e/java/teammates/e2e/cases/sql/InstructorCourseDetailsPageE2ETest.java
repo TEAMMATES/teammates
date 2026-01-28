@@ -10,9 +10,9 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCourseDetailsPageSql;
-import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
-import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
-import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPageSql;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPageSql;
+import teammates.e2e.pageobjects.InstructorStudentRecordsPageSql;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
@@ -66,19 +66,19 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("link: view student details page");
         Student studentToView = testData.students.get("benny.tmms@ICDet.CS2104");
-        InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
+        InstructorCourseStudentDetailsViewPageSql studentDetailsViewPage =
                 detailsPage.clickViewStudent(studentToView.getEmail());
         studentDetailsViewPage.verifyIsCorrectPage(course.getId(), studentToView.getEmail());
         studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: edit student details page");
-        InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
+        InstructorCourseStudentDetailsEditPageSql studentDetailsEditPage =
                 detailsPage.clickEditStudent(studentToView.getEmail());
         studentDetailsEditPage.verifyIsCorrectPage(course.getId(), studentToView.getEmail());
         studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: view all records page");
-        InstructorStudentRecordsPage studentRecordsPage =
+        InstructorStudentRecordsPageSql studentRecordsPage =
                 detailsPage.clickViewAllRecords(studentToView.getEmail());
         studentRecordsPage.verifyIsCorrectPage(course.getId(), studentToView.getName());
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();

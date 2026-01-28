@@ -1076,7 +1076,7 @@
       },
       "answer": {
         "questionType": "TEXT",
-        "answer": "Student 1 self feedback."
+        "answer": "Student 1 self feedback. This is a very long feedback response intended to test the database capacity. It should exceed the 255 character limit commonly associated with VARCHAR columns. By including a large amount of text, we can verify if the system correctly handles extended feedback without truncation or errors. This is particularly important for text-based questions where users might provide detailed qualitative data. Let's make sure it's well over 255 characters to be absolutely certain."
       }
     },
     "response2ForQ1": {
