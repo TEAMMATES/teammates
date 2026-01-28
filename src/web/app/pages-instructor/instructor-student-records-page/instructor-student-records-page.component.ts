@@ -75,13 +75,8 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
         this.courseId = queryParams.courseid;
         this.studentEmail = queryParams.studentemail;
 
+        this.loadInstructor();
         this.loadStudentResults();
-        this.instructorService.getInstructor({
-          courseId: queryParams.courseid,
-          intent: Intent.FULL_DETAIL,
-        }).subscribe((instructor: Instructor) => {
-          this.currInstructorName = instructor.name;
-        });
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -89,10 +84,19 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     });
   }
 
+  loadInstructor(): void {
+    this.instructorService.getInstructor({
+      courseId: this.courseId,
+      intent: Intent.FULL_DETAIL,
+    }).subscribe((instructor: Instructor) => {
+      this.currInstructorName = instructor.name;
+    });
+  }
+
   /**
    * Loads the student's records based on the given course ID and email.
    */
-  loadStudentRecords(): Observable<ErrorMessageOutput | Student> {
+  loadStudentRecords(): Observable<Student> {
     this.hasStudentLoadingFailed = false;
     this.isStudentLoading = true;
     return this.studentService.getStudent(
@@ -131,16 +135,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     }).pipe(
         mergeMap(({ feedbackSessions }) => feedbackSessions),
         mergeMap((feedbackSession: FeedbackSession) => {
-          return this.feedbackSessionsService.getFeedbackSessionResults({
-            courseId: this.courseId,
-            feedbackSessionName: feedbackSession.feedbackSessionName,
-            groupBySection: this.studentSection,
-            intent: Intent.FULL_DETAIL,
-          }).pipe(
+          return this.getFeedbackSessionResults(feedbackSession.feedbackSessionName).pipe(
               map((results: SessionResults) => {
-                  // sort questions by question number
-                  results.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
-                    a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+                  this.sortQuestionsByNumber(results.questions);
                   return { results, feedbackSession };
               }),
           );
@@ -159,6 +156,20 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
         },
         complete: () => this.sortFeedbackSessions(),
     });
+  }
+
+  private getFeedbackSessionResults(feedbackSessionName: string): Observable<SessionResults> {
+    return this.feedbackSessionsService.getFeedbackSessionResults({
+      courseId: this.courseId,
+      feedbackSessionName: feedbackSessionName,
+      groupBySection: this.studentSection,
+      intent: Intent.FULL_DETAIL,
+    })
+  }
+
+  private sortQuestionsByNumber(questions: QuestionOutput[]): void {
+    questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+      a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
   }
 
   private createSessionTab(results: SessionResults, feedbackSession: FeedbackSession): SessionTab {
