@@ -2,6 +2,8 @@ root: true
 
 ignorePatterns:
 - projects/**/*
+- src/main/resources/**/*.html # Do not apply ESLint rules to email templates
+- src/test/resources/**/*.html
 
 plugins:
 - deprecation
@@ -25,6 +27,10 @@ overrides:
   rules:
     "@angular-eslint/prefer-standalone":
     - off # Temporarily turn off until migration to standalone components is complete
+    "@angular-eslint/prefer-inject":
+    - off # Temporarily turn off until migration to inject function is complete
+    "deprecation/deprecation":
+    - warn # Temporarily change to warn until we have migrated away from angular animations api
     "@angular-eslint/component-selector":
     - error
     - prefix: tm
@@ -110,8 +116,6 @@ overrides:
             requireLast: true
     "@typescript-eslint/no-explicit-any":
     - off
-    "deprecation/deprecation":
-    - error
     arrow-body-style:
     - off
     class-methods-use-this:

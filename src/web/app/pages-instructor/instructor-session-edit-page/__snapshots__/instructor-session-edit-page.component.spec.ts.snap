@@ -34,7 +34,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function _NgbModal]}
@@ -125,7 +125,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function _NgbModal]}
@@ -216,7 +216,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function _NgbModal]}
@@ -310,7 +310,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function _NgbModal]}
@@ -401,7 +401,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   isLoadingFeedbackSession={[Function Boolean]}
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function _NgbModal]}
@@ -492,7 +492,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   isLoadingFeedbackSession="false"
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function _NgbModal]}
@@ -3174,7 +3174,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   isLoadingFeedbackSession="false"
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   navigationService={[Function NavigationService]}
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function _NgbModal]}
