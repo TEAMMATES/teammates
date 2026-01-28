@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, throwError } from 'rxjs';
 import { catchError, finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -106,7 +106,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       catchError((resp: ErrorMessageOutput) => {
         this.hasStudentLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
-        return of(resp);
+        return throwError(() => resp);
       }),
       finalize(() => { this.isStudentLoading = false; }),
     );
@@ -116,18 +116,18 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Loads feedback sessions based on the given course ID.
    */
   loadFeedbackSessions(): Observable<FeedbackSession[]> {
-    this.sessionTabs = [];
-    this.hasStudentResultsLoadingFailed = false;
-    this.isStudentResultsLoading = true;
     return this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
-      map((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions)
-    )
+      map((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
+    );
   }
 
   loadStudentResults(): void {
+    this.sessionTabs = [];
+    this.hasStudentResultsLoadingFailed = false;
+    this.isStudentResultsLoading = true;
     forkJoin({
       student: this.loadStudentRecords(),
-      feedbackSessions: this.loadFeedbackSessions()
+      feedbackSessions: this.loadFeedbackSessions(),
     }).pipe(
         mergeMap(({ feedbackSessions }) => feedbackSessions),
         mergeMap((feedbackSession: FeedbackSession) => {
@@ -143,7 +143,8 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
                     a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
                   return { results, feedbackSession };
               }),
-          )}),
+          );
+        }),
         finalize(() => {
           this.isStudentResultsLoading = false;
         }),
@@ -184,65 +185,6 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       isCollapsed: false,
     };
   }
-
-  // /**
-  //  * Loads the student's feedback session results based on the given course ID and student name.
-  //  */
-  // loadStudentResults(): void {
-  //   this.sessionTabs = [];
-  //   this.hasStudentResultsLoadingFailed = false;
-  //   this.isStudentResultsLoading = true;
-  //   this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
-  //       mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
-  //       mergeMap((feedbackSession: FeedbackSession) => {
-  //         return this.feedbackSessionsService.getFeedbackSessionResults({
-  //           courseId: this.courseId,
-  //           feedbackSessionName: feedbackSession.feedbackSessionName,
-  //           groupBySection: this.studentSection,
-  //           intent: Intent.FULL_DETAIL,
-  //         }).pipe(map((results: SessionResults) => {
-  //           // sort questions by question number
-  //           results.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
-  //               a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-  //           return { results, feedbackSession };
-  //         }));
-  //       }),
-  //       finalize(() => {
-  //         this.isStudentResultsLoading = false;
-  //       }),
-  //   ).subscribe({
-  //     next: ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
-  //       const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
-  //       giverQuestions.forEach((questions: QuestionOutput) => {
-  //         questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
-  //             !response.isMissingResponse && response.giverEmail === this.studentEmail);
-  //       });
-  //       const responsesGivenByStudent: QuestionOutput[] =
-  //           giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
-  //
-  //       const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
-  //       recipientQuestions.forEach((questions: QuestionOutput) => {
-  //         questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
-  //             !response.isMissingResponse && response.recipientEmail === this.studentEmail);
-  //       });
-  //       const responsesReceivedByStudent: QuestionOutput[] =
-  //           recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
-  //
-  //       this.sessionTabs.push({
-  //         feedbackSession,
-  //         responsesGivenByStudent,
-  //         responsesReceivedByStudent,
-  //         isCollapsed: false,
-  //       });
-  //       results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
-  //     },
-  //     error: (errorMessageOutput: ErrorMessageOutput) => {
-  //       this.hasStudentResultsLoadingFailed = true;
-  //       this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
-  //     },
-  //     complete: () => this.sortFeedbackSessions(),
-  //   });
-  // }
 
   /**
    * Preprocesses the comments from instructor.
