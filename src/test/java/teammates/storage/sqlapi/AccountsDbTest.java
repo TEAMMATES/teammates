@@ -18,7 +18,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code AccountsDb}.
+ * SUT: {@link AccountsDb}.
  */
 public class AccountsDbTest extends BaseTestCase {
 

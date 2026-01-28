@@ -40,6 +40,8 @@ export class CopyCourseModalComponent implements OnInit {
 
   isCopyFromOtherSession: boolean = false;
   newCourseIdIsConflicting: boolean = false;
+  newCourseIdTouched: boolean = false;
+  newCourseNameTouched: boolean = false;
   institutes: string[] = [];
   timezones: Timezone[] = [];
   newTimezone: string = '';
