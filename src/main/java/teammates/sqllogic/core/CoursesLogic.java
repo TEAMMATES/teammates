@@ -7,10 +7,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.storage.sqlapi.CoursesDb;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -34,6 +38,8 @@ public final class CoursesLogic {
 
     private UsersLogic usersLogic;
 
+    private AccountsLogic accountsLogic;
+
     private CoursesLogic() {
         // prevent initialization
     }
@@ -42,10 +48,12 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic, UsersLogic usersLogic) {
+    void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic, UsersLogic usersLogic,
+                               AccountsLogic accountsLogic) {
         this.coursesDb = coursesDb;
         this.fsLogic = fsLogic;
         this.usersLogic = usersLogic;
+        this.accountsLogic = accountsLogic;
     }
 
     /**
@@ -58,6 +66,42 @@ public final class CoursesLogic {
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesDb.createCourse(course);
+    }
+
+    /**
+     * Creates a course and an associated instructor for the course.
+     *
+     * <br/>Preconditions: <br/>
+     * * {@code instructorGoogleId} already has an account and instructor privileges.
+     */
+    public void createCourseAndInstructor(String instructorGoogleId, Course courseToCreate)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+
+        Account courseCreator = accountsLogic.getAccountForGoogleId(instructorGoogleId);
+        assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorGoogleId;
+
+        try {
+            Course createdCourse = createCourse(courseToCreate);
+
+            // Create the initial instructor for the course
+            InstructorPrivileges privileges = new InstructorPrivileges(
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            Instructor instructor = new Instructor(
+                    createdCourse,
+                    courseCreator.getName(),
+                    courseCreator.getEmail(),
+                    false,
+                    courseCreator.getName(),
+                    InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                    privileges);
+            instructor.setAccount(courseCreator);
+
+            usersLogic.createInstructor(instructor);
+        } catch (Exception e) {
+            String errorMessage = "Unexpected exception while trying to create instructor for a new course "
+                                  + System.lineSeparator() + courseToCreate.toString();
+            assert false : errorMessage;
+        }
     }
 
     /**
@@ -125,6 +169,11 @@ public final class CoursesLogic {
         usersLogic.deleteStudentsInCourseCascade(courseId);
         List<FeedbackSession> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
         feedbackSessions.forEach(feedbackSession -> {
+            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
+        });
+
+        List<FeedbackSession> softDeletedFeedbackSessions = fsLogic.getSoftDeletedFeedbackSessionsForCourse(courseId);
+        softDeletedFeedbackSessions.forEach(feedbackSession -> {
             fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
         });
         coursesDb.deleteSectionsByCourseId(courseId);
