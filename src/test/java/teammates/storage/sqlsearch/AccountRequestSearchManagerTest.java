@@ -214,8 +214,7 @@ public class AccountRequestSearchManagerTest extends BaseTestCase {
     }
 
     private AccountRequest createTestAccountRequest(String email, String institute, String name) {
-        AccountRequest accountRequest = new AccountRequest(email, name, institute,
+        return new AccountRequest(email, name, institute,
                 teammates.common.datatransfer.AccountRequestStatus.PENDING, "");
-        return accountRequest;
     }
 }
