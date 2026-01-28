@@ -4,15 +4,13 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.NotifBanner.instructor",
       "name": "Teammates Test Instructor",
-      "email": "NotifBanner.instructor@gmail.tmt",
-      "readNotifications": {}
+      "email": "NotifBanner.instructor@gmail.tmt"
     },
     "NotifBanner.student": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tm.e2e.NotifBanner.student",
       "name": "Teammates Test Student",
-      "email": "NotifBanner.student@gmail.tmt",
-      "readNotifications": {}
+      "email": "NotifBanner.student@gmail.tmt"
     }
   },
   "accountRequests": {},
