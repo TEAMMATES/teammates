@@ -176,6 +176,9 @@ public class Browser {
             profile.setPreference("browser.download.dir", downloadPath);
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
+            if (!firefoxPath.isEmpty()) {
+                options = options.setBinary(firefoxPath);
+            }
             if (TestProperties.isDevServer()) {
                 options.addArguments("-private");
             }
