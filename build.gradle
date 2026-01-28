@@ -582,9 +582,7 @@ task unitTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        events "passed", "failed", "skipped"
-        exceptionFormat "full"
-        showStackTraces true
+        events "passed"
     }
 }
 
@@ -602,9 +600,7 @@ task integrationTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        events "passed", "failed", "skipped"
-        exceptionFormat "full"
-        showStackTraces true
+        events "passed"
     }
 }
 
