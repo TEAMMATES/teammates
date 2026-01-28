@@ -582,7 +582,7 @@ task unitTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        events "passed"
+        events "passed", "failed"
     }
 }
 
