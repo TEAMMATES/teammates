@@ -163,8 +163,9 @@ public class StudentSearchManagerTest extends BaseTestCase {
         Student student = createTestStudent(course, "student@example.com", "Test Student", "Team 1", "Section 1");
 
         Instructor instructor = createTestInstructor(course);
-        // Make instructor have view student privilege
-        instructor.getPrivileges().getCourseLevelPrivileges().setCanViewStudentInSections(true);
+        // Make instructor have view student privilege (updatePrivilege mutates stored state;
+        // getCourseLevelPrivileges() returns a copy, so setting on the copy has no effect)
+        instructor.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
 
         // Create mock Solr response
         QueryResponse mockResponse = mock(QueryResponse.class);

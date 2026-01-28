@@ -88,10 +88,10 @@ public class InstructorSearchManagerTest extends BaseTestCase {
         method.setAccessible(true);
         method.invoke(searchManager, instructors);
 
-        // Verify sorted by: courseId, role, name, email
+        // Verify sorted by: courseId, role, name, email (names: "One" < "Three" < "Two")
         assertEquals(instructors.get(0), instructor1);
-        assertEquals(instructors.get(1), instructor2);
-        assertEquals(instructors.get(2), instructor3);
+        assertEquals(instructors.get(1), instructor3);
+        assertEquals(instructors.get(2), instructor2);
     }
 
     @Test
