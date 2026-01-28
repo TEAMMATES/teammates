@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { finalize, map, mergeMap } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -74,7 +75,6 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
         this.courseId = queryParams.courseid;
         this.studentEmail = queryParams.studentemail;
 
-        this.loadStudentRecords();
         this.loadStudentResults();
         this.instructorService.getInstructor({
           courseId: queryParams.courseid,
@@ -92,84 +92,157 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   /**
    * Loads the student's records based on the given course ID and email.
    */
-  loadStudentRecords(): void {
+  loadStudentRecords(): Observable<ErrorMessageOutput | Student> {
     this.hasStudentLoadingFailed = false;
     this.isStudentLoading = true;
-    this.studentService.getStudent(
+    return this.studentService.getStudent(
         this.courseId, this.studentEmail,
-    ).pipe(finalize(() => {
-      this.isStudentLoading = false;
-    })).subscribe({
-      next: (resp: Student) => {
+    ).pipe(
+      tap((resp: Student) => {
         this.studentName = resp.name;
         this.studentTeam = resp.teamName;
         this.studentSection = resp.sectionName;
-      },
-      error: (resp: ErrorMessageOutput) => {
+      }),
+      catchError((resp: ErrorMessageOutput) => {
         this.hasStudentLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+        return of(resp);
+      }),
+      finalize(() => { this.isStudentLoading = false; }),
+    );
   }
 
   /**
-   * Loads the student's feedback session results based on the given course ID and student name.
+   * Loads feedback sessions based on the given course ID.
    */
-  loadStudentResults(): void {
+  loadFeedbackSessions(): Observable<FeedbackSession[]> {
     this.sessionTabs = [];
     this.hasStudentResultsLoadingFailed = false;
     this.isStudentResultsLoading = true;
-    this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
-        mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
+    return this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
+      map((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions)
+    )
+  }
+
+  loadStudentResults(): void {
+    forkJoin({
+      student: this.loadStudentRecords(),
+      feedbackSessions: this.loadFeedbackSessions()
+    }).pipe(
+        mergeMap(({ feedbackSessions }) => feedbackSessions),
         mergeMap((feedbackSession: FeedbackSession) => {
           return this.feedbackSessionsService.getFeedbackSessionResults({
             courseId: this.courseId,
             feedbackSessionName: feedbackSession.feedbackSessionName,
             groupBySection: this.studentSection,
             intent: Intent.FULL_DETAIL,
-          }).pipe(map((results: SessionResults) => {
-            // sort questions by question number
-            results.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
-                a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-            return { results, feedbackSession };
-          }));
-        }),
+          }).pipe(
+              map((results: SessionResults) => {
+                  // sort questions by question number
+                  results.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+                    a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+                  return { results, feedbackSession };
+              }),
+          )}),
         finalize(() => {
           this.isStudentResultsLoading = false;
         }),
     ).subscribe({
-      next: ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
-        const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
-        giverQuestions.forEach((questions: QuestionOutput) => {
-          questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
-              !response.isMissingResponse && response.giverEmail === this.studentEmail);
-        });
-        const responsesGivenByStudent: QuestionOutput[] =
-            giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
-
-        const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
-        recipientQuestions.forEach((questions: QuestionOutput) => {
-          questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
-              !response.isMissingResponse && response.recipientEmail === this.studentEmail);
-        });
-        const responsesReceivedByStudent: QuestionOutput[] =
-            recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
-
-        this.sessionTabs.push({
-          feedbackSession,
-          responsesGivenByStudent,
-          responsesReceivedByStudent,
-          isCollapsed: false,
-        });
-        results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
-      },
-      error: (errorMessageOutput: ErrorMessageOutput) => {
-        this.hasStudentResultsLoadingFailed = true;
-        this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
-      },
-      complete: () => this.sortFeedbackSessions(),
+        next: ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
+          this.sessionTabs.push(this.createSessionTab(results, feedbackSession));
+          results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
+        },
+        error: (errorMessageOutput: ErrorMessageOutput) => {
+          this.hasStudentResultsLoadingFailed = true;
+          this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
+        },
+        complete: () => this.sortFeedbackSessions(),
     });
   }
+
+  private createSessionTab(results: SessionResults, feedbackSession: FeedbackSession): SessionTab {
+    const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
+    giverQuestions.forEach((questions: QuestionOutput) => {
+      questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
+        !response.isMissingResponse && response.giverEmail === this.studentEmail);
+    });
+    const responsesGivenByStudent: QuestionOutput[] =
+      giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+
+    const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
+    recipientQuestions.forEach((questions: QuestionOutput) => {
+      questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
+        !response.isMissingResponse && response.recipientEmail === this.studentEmail);
+    });
+    const responsesReceivedByStudent: QuestionOutput[] =
+      recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+
+    return {
+      feedbackSession,
+      responsesGivenByStudent,
+      responsesReceivedByStudent,
+      isCollapsed: false,
+    };
+  }
+
+  // /**
+  //  * Loads the student's feedback session results based on the given course ID and student name.
+  //  */
+  // loadStudentResults(): void {
+  //   this.sessionTabs = [];
+  //   this.hasStudentResultsLoadingFailed = false;
+  //   this.isStudentResultsLoading = true;
+  //   this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
+  //       mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
+  //       mergeMap((feedbackSession: FeedbackSession) => {
+  //         return this.feedbackSessionsService.getFeedbackSessionResults({
+  //           courseId: this.courseId,
+  //           feedbackSessionName: feedbackSession.feedbackSessionName,
+  //           groupBySection: this.studentSection,
+  //           intent: Intent.FULL_DETAIL,
+  //         }).pipe(map((results: SessionResults) => {
+  //           // sort questions by question number
+  //           results.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+  //               a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+  //           return { results, feedbackSession };
+  //         }));
+  //       }),
+  //       finalize(() => {
+  //         this.isStudentResultsLoading = false;
+  //       }),
+  //   ).subscribe({
+  //     next: ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
+  //       const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
+  //       giverQuestions.forEach((questions: QuestionOutput) => {
+  //         questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
+  //             !response.isMissingResponse && response.giverEmail === this.studentEmail);
+  //       });
+  //       const responsesGivenByStudent: QuestionOutput[] =
+  //           giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+  //
+  //       const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
+  //       recipientQuestions.forEach((questions: QuestionOutput) => {
+  //         questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
+  //             !response.isMissingResponse && response.recipientEmail === this.studentEmail);
+  //       });
+  //       const responsesReceivedByStudent: QuestionOutput[] =
+  //           recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+  //
+  //       this.sessionTabs.push({
+  //         feedbackSession,
+  //         responsesGivenByStudent,
+  //         responsesReceivedByStudent,
+  //         isCollapsed: false,
+  //       });
+  //       results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
+  //     },
+  //     error: (errorMessageOutput: ErrorMessageOutput) => {
+  //       this.hasStudentResultsLoadingFailed = true;
+  //       this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
+  //     },
+  //     complete: () => this.sortFeedbackSessions(),
+  //   });
+  // }
 
   /**
    * Preprocesses the comments from instructor.
