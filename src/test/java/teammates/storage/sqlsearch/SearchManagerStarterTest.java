@@ -12,7 +12,12 @@ import teammates.test.BaseTestCase;
 
 /**
  * SUT: {@link SearchManagerStarter}.
+ *
+ * <p>These tests mutate static factory state (save/restore via reflection). They are
+ * excluded from the main component suite (group {@code sqlsearchFactory}) and run in a
+ * separate, non-parallel suite so they cannot affect other tests.
  */
+@Test(groups = "sqlsearchFactory")
 public class SearchManagerStarterTest extends BaseTestCase {
 
     private SearchManagerStarter starter;
@@ -44,7 +49,6 @@ public class SearchManagerStarterTest extends BaseTestCase {
     @BeforeMethod
     public void setUp() {
         starter = new SearchManagerStarter();
-        // Save original instances
         originalAccountRequestManager = SearchManagerFactory.getAccountRequestSearchManager();
         originalInstructorManager = SearchManagerFactory.getInstructorSearchManager();
         originalStudentManager = SearchManagerFactory.getStudentSearchManager();
@@ -52,7 +56,6 @@ public class SearchManagerStarterTest extends BaseTestCase {
 
     @AfterMethod
     public void tearDown() {
-        // Restore original instances
         if (originalAccountRequestManager != null) {
             try {
                 setAccountRequestManager(originalAccountRequestManager);
@@ -78,7 +81,6 @@ public class SearchManagerStarterTest extends BaseTestCase {
 
     @Test
     public void testContextInitialized_registersAllSearchManagers() {
-        // Clear existing registrations
         try {
             setAccountRequestManager(null);
             setInstructorManager(null);
@@ -86,11 +88,8 @@ public class SearchManagerStarterTest extends BaseTestCase {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
         ServletContextEvent event = mock(ServletContextEvent.class);
         starter.contextInitialized(event);
-
-        // Verify all managers are registered
         assertNotNull(SearchManagerFactory.getAccountRequestSearchManager());
         assertNotNull(SearchManagerFactory.getInstructorSearchManager());
         assertNotNull(SearchManagerFactory.getStudentSearchManager());
@@ -98,7 +97,6 @@ public class SearchManagerStarterTest extends BaseTestCase {
 
     @Test
     public void testContextInitialized_usesConfigSearchServiceHost() {
-        // Clear existing registrations
         try {
             setAccountRequestManager(null);
             setInstructorManager(null);
@@ -106,33 +104,16 @@ public class SearchManagerStarterTest extends BaseTestCase {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
         ServletContextEvent event = mock(ServletContextEvent.class);
         starter.contextInitialized(event);
-
-        // Verify managers are created with Config.SEARCH_SERVICE_HOST
-        AccountRequestSearchManager accountRequestManager =
-                SearchManagerFactory.getAccountRequestSearchManager();
-        InstructorSearchManager instructorManager =
-                SearchManagerFactory.getInstructorSearchManager();
-        StudentSearchManager studentManager =
-                SearchManagerFactory.getStudentSearchManager();
-
-        assertNotNull(accountRequestManager);
-        assertNotNull(instructorManager);
-        assertNotNull(studentManager);
-
-        // Note: We can't directly verify the host used, but we can verify the managers are created
-        // The actual host value comes from Config.SEARCH_SERVICE_HOST
+        assertNotNull(SearchManagerFactory.getAccountRequestSearchManager());
+        assertNotNull(SearchManagerFactory.getInstructorSearchManager());
+        assertNotNull(SearchManagerFactory.getStudentSearchManager());
     }
 
     @Test
     public void testContextDestroyed_doesNothing() {
         ServletContextEvent event = mock(ServletContextEvent.class);
-
-        // Should not throw exception
         starter.contextDestroyed(event);
-
-        // No verification needed as method does nothing
     }
 }

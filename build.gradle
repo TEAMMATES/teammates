@@ -582,7 +582,9 @@ task unitTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        events "passed", "failed"
+        events "passed", "failed", "skipped"
+        exceptionFormat "full"
+        showStackTraces true
     }
 }
 
@@ -600,14 +602,36 @@ task integrationTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        events "passed"
+        events "passed", "failed", "skipped"
+        exceptionFormat "full"
+        showStackTraces true
+    }
+}
+
+task unitTestsSqlsearchFactory(type: Test) {
+    description "Runs SearchManagerFactory and SearchManagerStarter tests in a separate, non-parallel suite."
+    group "Test"
+    useTestNG()
+    options.suites "src/test/resources/testng-sqlsearch-factory.xml"
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.required = false
+    reports.junitXml.required = false
+    jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterTest afterTestClosure
+    afterSuite checkTestNgFailureClosure
+    testLogging {
+        events "passed", "failed", "skipped"
+        exceptionFormat "full"
+        showStackTraces true
     }
 }
 
 task componentTests(type: Test) {
     description "Runs the full unit and integration test suite."
     group "Test"
-    dependsOn unitTests, integrationTests
+    dependsOn unitTests, integrationTests, unitTestsSqlsearchFactory
 }
 
 task e2eTests {

@@ -38,11 +38,16 @@ import teammates.test.BaseTestCase;
 public class InstructorSearchManagerTest extends BaseTestCase {
 
     private InstructorSearchManager searchManager;
+    private CoursesDb mockCoursesDb;
+    private UsersDb mockUsersDb;
 
     @BeforeMethod
     public void setUp() {
-        // Create manager with empty host (no Solr client) for testing methods that don't need Solr
-        searchManager = new InstructorSearchManager("", false);
+        // Use mocked DBs to avoid CoursesDb.inst() / UsersDb.inst() before DB is ready in full suite
+        mockCoursesDb = mock(CoursesDb.class);
+        mockUsersDb = mock(UsersDb.class);
+        when(mockCoursesDb.getCourse(anyString())).thenReturn(null);
+        searchManager = new InstructorSearchManager(null, mockCoursesDb, mockUsersDb, false);
     }
 
     @Test
