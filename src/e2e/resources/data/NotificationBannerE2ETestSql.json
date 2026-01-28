@@ -51,7 +51,7 @@
       },
       "name": "Teammates Test Instructor",
       "email": "NotifBanner.instructor@gmail.tmt",
-      "role": "Co-owner",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "privileges": {
