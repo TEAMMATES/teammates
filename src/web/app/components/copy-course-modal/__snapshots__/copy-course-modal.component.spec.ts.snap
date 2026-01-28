@@ -13,8 +13,10 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
   isCopyFromOtherSession={[Function Boolean]}
   newCourseId=""
   newCourseIdIsConflicting="false"
+  newCourseIdTouched="false"
   newCourseInstitute=""
   newCourseName=""
+  newCourseNameTouched="false"
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
@@ -70,6 +72,16 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
           <span>
             64 characters left
           </span>
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course ID should not be empty. 
+          </div>
         </div>
         <div
           class="form-group"
@@ -87,6 +99,16 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
           <span>
             80 characters left
           </span>
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course Name should not be empty. 
+          </div>
         </div>
         <div
           class="form-group"
@@ -205,8 +227,10 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
   isCopyFromOtherSession="false"
   newCourseId=""
   newCourseIdIsConflicting="false"
+  newCourseIdTouched="false"
   newCourseInstitute=""
   newCourseName=""
+  newCourseNameTouched="false"
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
@@ -267,6 +291,16 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
           <span>
             64 characters left
           </span>
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course ID should not be empty. 
+          </div>
         </div>
         <div
           class="form-group"
@@ -284,6 +318,16 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
           <span>
             80 characters left
           </span>
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course Name should not be empty. 
+          </div>
         </div>
         <div
           class="form-group"
@@ -386,8 +430,10 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
   isCopyFromOtherSession="false"
   newCourseId={[Function String]}
   newCourseIdIsConflicting="false"
+  newCourseIdTouched="false"
   newCourseInstitute=""
   newCourseName=""
+  newCourseNameTouched="false"
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
@@ -448,6 +494,16 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
           <span>
             58 characters left
           </span>
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course ID should not be empty. 
+          </div>
         </div>
         <div
           class="form-group"
@@ -465,6 +521,16 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
           <span>
             80 characters left
           </span>
+          <div
+            class="invalid-field"
+            hidden=""
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-exclamation-circle"
+            />
+             The field Course Name should not be empty. 
+          </div>
         </div>
         <div
           class="form-group"
