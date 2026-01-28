@@ -1,7 +1,6 @@
 package teammates.sqlui.webapi;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -67,8 +66,8 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
 
-        when(mockLogic.verifyInstructorsExistInCourse(any(), any())).thenReturn(true);
-        when(mockLogic.verifyStudentsExistInCourse(any(), any())).thenReturn(true);
+        when(mockLogic.verifyInstructorsExistInCourse(anyString(), anyList())).thenReturn(true);
+        when(mockLogic.verifyStudentsExistInCourse(anyString(), anyList())).thenReturn(true);
     }
 
     @Test
