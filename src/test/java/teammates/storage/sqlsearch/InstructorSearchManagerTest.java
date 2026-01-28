@@ -38,14 +38,12 @@ import teammates.test.BaseTestCase;
 public class InstructorSearchManagerTest extends BaseTestCase {
 
     private InstructorSearchManager searchManager;
-    private CoursesDb mockCoursesDb;
-    private UsersDb mockUsersDb;
 
     @BeforeMethod
     public void setUp() {
         // Use mocked DBs to avoid CoursesDb.inst() / UsersDb.inst() before DB is ready in full suite
-        mockCoursesDb = mock(CoursesDb.class);
-        mockUsersDb = mock(UsersDb.class);
+        CoursesDb mockCoursesDb = mock(CoursesDb.class);
+        UsersDb mockUsersDb = mock(UsersDb.class);
         when(mockCoursesDb.getCourse(anyString())).thenReturn(null);
         searchManager = new InstructorSearchManager(null, mockCoursesDb, mockUsersDb, false);
     }
