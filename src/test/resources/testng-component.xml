@@ -11,6 +11,7 @@
             <package name="teammates.storage.api" />
             <package name="teammates.storage.sqlapi" />
             <package name="teammates.storage.search" />
+            <package name="teammates.storage.sqlsearch" />
             <package name="teammates.logic.api" />
             <package name="teammates.logic.sqlapi" />
             <package name="teammates.logic.core" />
