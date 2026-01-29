@@ -25,6 +25,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -36,6 +37,7 @@ import teammates.ui.output.AccountData;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
@@ -300,6 +302,15 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
     @Override
     protected FeedbackResponseData getFeedbackResponse(FeedbackResponse fr) {
         return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
+    }
+
+    FeedbackResponseCommentData getFeedbackResponseComment(UUID feedbackResponseId) {
+        return BACKDOOR.getFeedbackResponseCommentData(feedbackResponseId.toString());
+    }
+
+    @Override
+    protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
+        return getFeedbackResponseComment(frc.getFeedbackResponse().getId());
     }
 
     FeedbackSessionData getFeedbackSession(String courseId, String feedbackSessionName) {
