@@ -35,6 +35,7 @@ import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.CourseData;
+import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
@@ -389,5 +390,13 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
      */
     protected String getKeyForStudent(Student student) {
         return getStudent(student).getKey();
+    }
+
+    /**
+     * Gets deadline extension data from the database.
+     */
+    protected DeadlineExtensionData getDeadlineExtension(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        return BACKDOOR.getDeadlineExtensionData(courseId, feedbackSessionName, userEmail, isInstructor);
     }
 }
