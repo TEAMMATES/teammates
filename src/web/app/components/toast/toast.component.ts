@@ -5,9 +5,10 @@ import { Toast } from './toast';
  * Displays status messages as toasts.
  */
 @Component({
-  selector: 'tm-toast',
-  templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.scss'],
+    selector: 'tm-toast',
+    templateUrl: './toast.component.html',
+    styleUrls: ['./toast.component.scss'],
+    standalone: false,
 })
 export class ToastComponent implements OnChanges {
 

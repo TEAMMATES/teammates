@@ -8,9 +8,10 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
  * Constraints of Msq question.
  */
 @Component({
-  selector: 'tm-msq-question-constraint',
-  templateUrl: './msq-question-constraint.component.html',
-  styleUrls: ['./msq-question-constraint.component.scss'],
+    selector: 'tm-msq-question-constraint',
+    templateUrl: './msq-question-constraint.component.html',
+    styleUrls: ['./msq-question-constraint.component.scss'],
+    standalone: false,
 })
 export class MsqQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackMsqQuestionDetails> {
 

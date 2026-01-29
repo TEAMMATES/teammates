@@ -1,9 +1,9 @@
-import { HttpStatusCode } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpStatusCode, provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { throwError } from 'rxjs';
 import { CourseTab, InstructorStudentListPageComponent } from './instructor-student-list-page.component';
 import { InstructorStudentListPageModule } from './instructor-student-list-page.module';
@@ -80,9 +80,8 @@ describe('InstructorStudentListPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         TeammatesRouterModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         FormsModule,
         InstructorStudentListPageModule,
         PanelChevronModule,
@@ -90,6 +89,8 @@ describe('InstructorStudentListPageComponent', () => {
       ],
       providers: [
         StudentService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

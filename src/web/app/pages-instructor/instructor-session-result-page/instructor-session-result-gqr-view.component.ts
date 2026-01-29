@@ -8,10 +8,11 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
  * Instructor sessions results page GQR view.
  */
 @Component({
-  selector: 'tm-instructor-session-result-gqr-view',
-  templateUrl: './instructor-session-result-gqr-view.component.html',
-  styleUrls: ['./instructor-session-result-gqr-view.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-session-result-gqr-view',
+    templateUrl: './instructor-session-result-gqr-view.component.html',
+    styleUrls: ['./instructor-session-result-gqr-view.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorSessionResultGqrViewComponent extends InstructorSessionResultView {
 

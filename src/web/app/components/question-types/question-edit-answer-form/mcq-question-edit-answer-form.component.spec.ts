@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { FeedbackMcqQuestionDetails } from 'src/web/types/api-output';
@@ -78,7 +78,7 @@ describe('McqQuestionEditAnswerFormComponent', () => {
     });
   });
 
-  it('should call change function upon selecting a dropdown option', fakeAsync(() => {
+  it('should call change function upon selecting a dropdown option', () => {
     const SELECTED_SELECT_INDEX = 1;
 
     component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
@@ -92,10 +92,9 @@ describe('McqQuestionEditAnswerFormComponent', () => {
 
     select.value = select.options[SELECTED_SELECT_INDEX].value;
     select.dispatchEvent(new Event('change'));
-    tick();
 
     expect(component.updateSelectedMcqDropdownOption).toHaveBeenCalledTimes(1);
-  }));
+  });
 
   it('should update answer selection upon selecting a dropdown option', () => {
     // Works for both select and mcqChoices as select first option is disabled

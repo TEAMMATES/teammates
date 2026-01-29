@@ -10,9 +10,10 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
  * Statistics for rank options questions.
  */
 @Component({
-  selector: 'tm-rank-options-question-statistics',
-  templateUrl: './rank-options-question-statistics.component.html',
-  styleUrls: ['./rank-options-question-statistics.component.scss'],
+    selector: 'tm-rank-options-question-statistics',
+    templateUrl: './rank-options-question-statistics.component.html',
+    styleUrls: ['./rank-options-question-statistics.component.scss'],
+    standalone: false,
 })
 export class RankOptionsQuestionStatisticsComponent extends RankOptionsQuestionStatisticsCalculation
     implements OnInit, OnChanges {

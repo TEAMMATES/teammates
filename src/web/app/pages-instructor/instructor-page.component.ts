@@ -8,8 +8,9 @@ import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
  * Base skeleton for instructor pages.
  */
 @Component({
-  selector: 'tm-instructor-page',
-  templateUrl: './instructor-page.component.html',
+    selector: 'tm-instructor-page',
+    templateUrl: './instructor-page.component.html',
+    standalone: false,
 })
 export class InstructorPageComponent implements OnInit {
 

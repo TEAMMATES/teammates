@@ -39,9 +39,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Send reminders to respondents modal.
  */
 @Component({
-  selector: 'tm-instructor-session-individual-extension-page',
-  templateUrl: './instructor-session-individual-extension-page.component.html',
-  styleUrls: ['./instructor-session-individual-extension-page.component.scss'],
+    selector: 'tm-instructor-session-individual-extension-page',
+    templateUrl: './instructor-session-individual-extension-page.component.html',
+    styleUrls: ['./instructor-session-individual-extension-page.component.scss'],
+    standalone: false,
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {
   feedbackSessionDetails: FeedbackSessionBasicRequest = {

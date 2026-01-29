@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -37,12 +38,13 @@ describe('CommentRowComponent', () => {
       imports: [
         FormsModule,
         TeammatesCommonModule,
-        HttpClientTestingModule,
         NgbModule,
         RichTextEditorModule,
       ],
       providers: [
         { provide: FeedbackResponseCommentService, useValue: spyCommentService },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

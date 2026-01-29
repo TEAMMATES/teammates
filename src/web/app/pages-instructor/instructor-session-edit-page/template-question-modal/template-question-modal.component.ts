@@ -18,9 +18,10 @@ interface TemplateQuestionModel {
  * Template question adding modal.
  */
 @Component({
-  templateUrl: './template-question-modal.component.html',
-  styleUrls: ['./template-question-modal.component.scss'],
-  animations: [collapseAnim],
+    templateUrl: './template-question-modal.component.html',
+    styleUrls: ['./template-question-modal.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class TemplateQuestionModalComponent {
 

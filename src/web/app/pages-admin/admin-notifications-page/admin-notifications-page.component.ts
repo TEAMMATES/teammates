@@ -20,10 +20,11 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 @Component({
-  selector: 'tm-admin-notifications-page',
-  templateUrl: './admin-notifications-page.component.html',
-  styleUrls: ['./admin-notifications-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-admin-notifications-page',
+    templateUrl: './admin-notifications-page.component.html',
+    styleUrls: ['./admin-notifications-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class AdminNotificationsPageComponent implements OnInit {
 

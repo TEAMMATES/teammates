@@ -19,10 +19,11 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
  * Component to display list of responses in GRQ/RGQ view.
  */
 @Component({
-  selector: 'tm-grq-rgq-view-responses',
-  templateUrl: './grq-rgq-view-responses.component.html',
-  styleUrls: ['./grq-rgq-view-responses.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-grq-rgq-view-responses',
+    templateUrl: './grq-rgq-view-responses.component.html',
+    styleUrls: ['./grq-rgq-view-responses.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 

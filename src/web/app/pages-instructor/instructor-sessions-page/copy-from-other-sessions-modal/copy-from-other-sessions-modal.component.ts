@@ -7,9 +7,10 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../../types/field-valida
  * Modal for creating new feedback session by copying from other feedback sessions.
  */
 @Component({
-  selector: 'tm-copy-from-other-sessions-modal',
-  templateUrl: './copy-from-other-sessions-modal.component.html',
-  styleUrls: ['./copy-from-other-sessions-modal.component.scss'],
+    selector: 'tm-copy-from-other-sessions-modal',
+    templateUrl: './copy-from-other-sessions-modal.component.html',
+    styleUrls: ['./copy-from-other-sessions-modal.component.scss'],
+    standalone: false,
 })
 export class CopyFromOtherSessionsModalComponent {
 

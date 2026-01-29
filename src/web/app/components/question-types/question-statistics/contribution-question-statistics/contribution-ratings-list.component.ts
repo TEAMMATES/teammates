@@ -5,9 +5,10 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../../types/feedback-
  * Display array of ratings in a line
  */
 @Component({
-  selector: 'tm-contribution-ratings-list',
-  templateUrl: './contribution-ratings-list.component.html',
-  styleUrls: ['./contribution-ratings-list.component.scss'],
+    selector: 'tm-contribution-ratings-list',
+    templateUrl: './contribution-ratings-list.component.html',
+    styleUrls: ['./contribution-ratings-list.component.scss'],
+    standalone: false,
 })
 export class ContributionRatingsListComponent {
 

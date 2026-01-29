@@ -5,9 +5,10 @@ import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } fr
  * Time picker with fixed time to pick.
  */
 @Component({
-  selector: 'tm-timepicker',
-  templateUrl: './timepicker.component.html',
-  styleUrls: ['./timepicker.component.scss'],
+    selector: 'tm-timepicker',
+    templateUrl: './timepicker.component.html',
+    styleUrls: ['./timepicker.component.scss'],
+    standalone: false,
 })
 export class TimepickerComponent {
   @Input()

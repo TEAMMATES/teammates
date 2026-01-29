@@ -6,7 +6,8 @@ import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
  * Pipe to handle the display of {@code FeedbackSessionSubmissionStatus}.
  */
 @Pipe({
-  name: 'submissionStatusName',
+    name: 'submissionStatusName',
+    standalone: false,
 })
 export class SubmissionStatusNamePipe implements PipeTransform {
 

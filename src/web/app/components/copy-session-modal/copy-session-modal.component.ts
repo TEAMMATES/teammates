@@ -7,9 +7,10 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator
  * Copy current session modal.
  */
 @Component({
-  selector: 'tm-copy-session-modal',
-  templateUrl: './copy-session-modal.component.html',
-  styleUrls: ['./copy-session-modal.component.scss'],
+    selector: 'tm-copy-session-modal',
+    templateUrl: './copy-session-modal.component.html',
+    styleUrls: ['./copy-session-modal.component.scss'],
+    standalone: false,
 })
 export class CopySessionModalComponent {
 

@@ -7,9 +7,10 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
  * Additional info for constsum options questions.
  */
 @Component({
-  selector: 'tm-constsum-options-question-additional-info',
-  templateUrl: './constsum-options-question-additional-info.component.html',
-  styleUrls: ['./constsum-options-question-additional-info.component.scss'],
+    selector: 'tm-constsum-options-question-additional-info',
+    templateUrl: './constsum-options-question-additional-info.component.html',
+    styleUrls: ['./constsum-options-question-additional-info.component.scss'],
+    standalone: false,
 })
 export class ConstsumOptionsQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackConstantSumQuestionDetails> {

@@ -23,9 +23,10 @@ export enum ExtensionModalType {
 }
 
 @Component({
-  selector: 'tm-extension-confirm-modal',
-  templateUrl: './extension-confirm-modal.component.html',
-  styleUrls: ['./extension-confirm-modal.component.scss'],
+    selector: 'tm-extension-confirm-modal',
+    templateUrl: './extension-confirm-modal.component.html',
+    styleUrls: ['./extension-confirm-modal.component.scss'],
+    standalone: false,
 })
 export class ExtensionConfirmModalComponent implements OnInit {
   @Input()

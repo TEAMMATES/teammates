@@ -8,9 +8,10 @@ import { AuthInfo } from '../../types/api-output';
  * Base skeleton for maintainer pages.
  */
 @Component({
-  selector: 'tm-maintainer-page',
-  templateUrl: './maintainer-page.component.html',
-  styleUrls: ['./maintainer-page.component.scss'],
+    selector: 'tm-maintainer-page',
+    templateUrl: './maintainer-page.component.html',
+    styleUrls: ['./maintainer-page.component.scss'],
+    standalone: false,
 })
 export class MaintainerPageComponent implements OnInit {
 

@@ -5,7 +5,8 @@ import { TimezoneService } from '../../../services/timezone.service';
  * Pipe to handle the display of a timestamp in detail.
  */
 @Pipe({
-  name: 'formatDateDetail',
+    name: 'formatDateDetail',
+    standalone: false,
 })
 export class FormatDateDetailPipe implements PipeTransform {
 
