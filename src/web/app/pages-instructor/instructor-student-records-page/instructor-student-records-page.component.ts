@@ -130,7 +130,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       student: this.loadStudentRecords(),
       feedbackSessions: this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
     }).pipe(
-      mergeMap(({ feedbackSessions }: { student: Student, feedbackSessions: FeedbackSessions }) => {
+      mergeMap(({ feedbackSessions }: { feedbackSessions: FeedbackSessions }) => {
         return feedbackSessions.feedbackSessions;
       }),
       mergeMap((feedbackSession: FeedbackSession) => {
