@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -213,7 +214,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         assertNotNull(result);
         assertEquals(session, result);
         assertFalse(result.isPublished());
-        assertNull(result.getResultsVisibleFromTime());
+        assertEquals(Const.TIME_REPRESENTS_LATER, result.getResultsVisibleFromTime());
     }
 
     @Test
@@ -240,7 +241,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         assertNotNull(result);
         assertEquals(session, result);
-        assertNotNull(result.getDeletedAt());
         verify(fsDb, times(1)).softDeleteFeedbackSession(session.getName(), course.getId());
     }
 

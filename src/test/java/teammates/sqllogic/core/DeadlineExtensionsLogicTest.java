@@ -53,7 +53,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         Student student = getTypicalStudent();
         UUID studentId = UUID.randomUUID();
         student.setId(studentId);
-        Instant extendedDeadline = Instant.now().plusSeconds(86400);
+        Instant extendedDeadline = sessionEndTime.plusSeconds(86400);
         assertTrue("Extended deadline should be after session end time",
                 extendedDeadline.isAfter(sessionEndTime));
 
