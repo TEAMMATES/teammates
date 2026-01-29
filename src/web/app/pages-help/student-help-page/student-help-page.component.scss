@@ -1,3 +1,13 @@
 li {
-  margin: 15px 0;
+  margin: 18px 0;
+}
+#getting-started{
+  scroll-margin-top: 57px;
+}
+
+/* Make "Browse by topic" stick to the side while scrolling */
+.side-nav {
+  position: sticky;   // stick within the viewport
+  top: 100px;         // distance from the top (tune this if needed)
+  align-self: flex-start;  // so it doesn't stretch vertically
 }

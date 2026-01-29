@@ -7,6 +7,7 @@ img {
   margin: 0 20px;
 }
 
+/* Alexa: Responsive tweaks for mobile */
 @media (width <= 991px) {
   img {
     margin: 0;
@@ -17,3 +18,36 @@ img {
     margin: 0;
   }
 }
+
+/* Alexa: Styles for the mini table-of-contents */
+.features-toc {
+  margin: 20px 0 30px;
+}
+
+.features-toc ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.features-toc a {
+  text-decoration: none;
+}
+
+.features-toc a:hover {
+  text-decoration: underline;
+}
+
+/* Alexa: make anchor scroll stop a bit lower so headings aren't hidden */
+.feature-section {
+  scroll-margin-top: 70px;  // adjust to match header height
+}
+
+@media (width <= 991px) {
+  .feature-section {
+    scroll-margin-top: 55px; //
+  }
+}
+

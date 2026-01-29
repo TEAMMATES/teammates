@@ -8,4 +8,16 @@ import { Component } from '@angular/core';
   templateUrl: './features-page.component.html',
   styleUrls: ['./features-page.component.scss'],
 })
-export class FeaturesPageComponent {}
+export class FeaturesPageComponent {
+
+  /**
+   * Alexa: Jump to a section
+   */
+  scroll(anchor: string): void {
+    const el: HTMLElement | null = document.getElementById(anchor);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+}
+
