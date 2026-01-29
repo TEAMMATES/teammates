@@ -10,11 +10,22 @@
     <div class="col-12">
       <div class="form-group">
         <label><b>Name for copied session*</b></label>
-        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH"
-               required #newSessionName="ngModel">
-        <div [hidden]="newSessionName.valid || (newSessionName.pristine && newSessionName.untouched)" class="invalid-field">
+        <input id="copy-session-name" type="text" class="form-control" 
+               [(ngModel)]="newFeedbackSessionName" 
+               [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH"
+               required 
+               pattern=".*\S+.*"
+               #newSessionName="ngModel">
+        <div *ngIf="newSessionName.invalid && (newSessionName.dirty || newSessionName.touched)" 
+             class="invalid-field">
+          <div *ngIf="newSessionName.errors?.['required']">
             <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
             The field "Name for copied session" should not be empty.
+          </div>
+          <div *ngIf="newSessionName.errors?.['pattern']">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            The field "Name for copied session" should not be only whitespace.
+          </div>
         </div>
         <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
       </div>
@@ -35,5 +46,5 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
   <button id="btn-confirm-copy-course" type="button" class="btn btn-primary" (click)="copy()"
-          [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1">Copy</button>
+          [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1 || newSessionName.invalid">Copy</button>
 </div>
