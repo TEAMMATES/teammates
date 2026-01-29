@@ -6,9 +6,10 @@ import { DateFormat } from '../../../types/datetime-const';
  * Datepicker with today button component
  */
 @Component({
-  selector: 'tm-datepicker',
-  templateUrl: './datepicker.component.html',
-  styleUrls: ['./datepicker.component.scss'],
+    selector: 'tm-datepicker',
+    templateUrl: './datepicker.component.html',
+    styleUrls: ['./datepicker.component.scss'],
+    standalone: false,
 })
 export class DatepickerComponent {
 

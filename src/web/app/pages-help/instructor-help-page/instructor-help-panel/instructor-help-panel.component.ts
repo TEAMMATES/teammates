@@ -6,10 +6,11 @@ import { NavigationService } from '../../../../services/navigation.service';
  * A standalone panel for instructor help page content.
  */
 @Component({
-  selector: 'tm-instructor-help-panel',
-  templateUrl: './instructor-help-panel.component.html',
-  styleUrls: ['./instructor-help-panel.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-help-panel',
+    templateUrl: './instructor-help-panel.component.html',
+    styleUrls: ['./instructor-help-panel.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorHelpPanelComponent {
 

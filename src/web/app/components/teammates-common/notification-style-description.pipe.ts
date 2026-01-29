@@ -19,7 +19,8 @@ const descriptionMapping: Record<NotificationStyle, string> = {
  * Pipe to handle the transformation of an NotificationStyle to a string description.
  */
 @Pipe({
-  name: 'notificationStyleDescription',
+    name: 'notificationStyleDescription',
+    standalone: false,
 })
 export class NotificationStyleDescriptionPipe implements PipeTransform {
 

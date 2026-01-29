@@ -14,9 +14,10 @@ import {
  * The constsum question options submission form for a recipient.
  */
 @Component({
-  selector: 'tm-constsum-options-question-edit-answer-form',
-  templateUrl: './constsum-options-question-edit-answer-form.component.html',
-  styleUrls: ['./constsum-options-question-edit-answer-form.component.scss'],
+    selector: 'tm-constsum-options-question-edit-answer-form',
+    templateUrl: './constsum-options-question-edit-answer-form.component.html',
+    styleUrls: ['./constsum-options-question-edit-answer-form.component.scss'],
+    standalone: false,
 })
 export class ConstsumOptionsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {

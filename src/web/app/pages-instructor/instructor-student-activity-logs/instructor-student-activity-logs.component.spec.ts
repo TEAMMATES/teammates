@@ -1,6 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { InstructorStudentActivityLogsComponent } from './instructor-student-activity-logs.component';
@@ -109,8 +110,11 @@ describe('InstructorStudentActivityLogsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         InstructorStudentActivityLogsModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
   }));

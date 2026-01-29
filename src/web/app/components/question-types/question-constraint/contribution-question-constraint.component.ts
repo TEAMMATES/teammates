@@ -14,9 +14,10 @@ import {
  * Constraint of contribution question.
  */
 @Component({
-  selector: 'tm-contribution-question-constraint',
-  templateUrl: './contribution-question-constraint.component.html',
-  styleUrls: ['./contribution-question-constraint.component.scss'],
+    selector: 'tm-contribution-question-constraint',
+    templateUrl: './contribution-question-constraint.component.html',
+    styleUrls: ['./contribution-question-constraint.component.scss'],
+    standalone: false,
 })
 export class ContributionQuestionConstraintComponent
   extends QuestionConstraintComponent<FeedbackContributionQuestionDetails> {

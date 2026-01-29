@@ -10,9 +10,10 @@ import {
  * Send reminders to respondents modal.
  */
 @Component({
-  selector: 'tm-send-reminders-to-respondents-modal',
-  templateUrl: './send-reminders-to-respondents-modal.component.html',
-  styleUrls: ['./send-reminders-to-respondents-modal.component.scss'],
+    selector: 'tm-send-reminders-to-respondents-modal',
+    templateUrl: './send-reminders-to-respondents-modal.component.html',
+    styleUrls: ['./send-reminders-to-respondents-modal.component.scss'],
+    standalone: false,
 })
 export class SendRemindersToRespondentsModalComponent {
 

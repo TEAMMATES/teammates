@@ -1,7 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { FeedbackQuestionModel, SessionResultPageComponent } from './session-result-page.component';
@@ -117,8 +117,7 @@ describe('SessionResultPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         StudentViewResponsesModule,
         QuestionTextWithInfoModule,
         QuestionResponsePanelModule,
@@ -133,6 +132,8 @@ describe('SessionResultPageComponent', () => {
         StudentService,
         FeedbackSessionsService,
         LogService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
           useValue: {

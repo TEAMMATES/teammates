@@ -6,7 +6,8 @@ import { CommentOutput } from '../../../types/api-output';
  * Transforms comment to comment row model.
  */
 @Pipe({
-  name: 'commentToCommentRowModel',
+    name: 'commentToCommentRowModel',
+    standalone: false,
 })
 export class CommentToCommentRowModelPipe implements PipeTransform {
 

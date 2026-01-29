@@ -16,9 +16,10 @@ export interface SearchStudentsListRowTable {
  * Table to show student results, grouped by courses
  */
 @Component({
-  selector: 'tm-student-result-table',
-  templateUrl: './student-result-table.component.html',
-  styleUrls: ['./student-result-table.component.scss'],
+    selector: 'tm-student-result-table',
+    templateUrl: './student-result-table.component.html',
+    styleUrls: ['./student-result-table.component.scss'],
+    standalone: false,
 })
 export class StudentResultTableComponent {
 

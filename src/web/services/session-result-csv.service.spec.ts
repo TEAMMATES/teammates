@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { SessionResultCsvService } from './session-result-csv.service';
 import {
@@ -46,9 +47,8 @@ describe('SessionResultCsvService', () => {
     TestBed.configureTestingModule({
       providers: [
         SectionTypeDescriptionPipe,
-      ],
-      imports: [
-        HttpClientTestingModule,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     });
   });

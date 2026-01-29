@@ -13,9 +13,10 @@ import { SendLoginEmailResponse } from '../types/api-output';
  * Login page component.
  */
 @Component({
-  selector: 'tm-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss'],
+    selector: 'tm-login-page',
+    templateUrl: './login-page.component.html',
+    styleUrls: ['./login-page.component.scss'],
+    standalone: false,
 })
 export class LoginPageComponent implements OnInit {
 

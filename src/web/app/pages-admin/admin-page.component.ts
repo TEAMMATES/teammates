@@ -8,8 +8,9 @@ import { AuthInfo } from '../../types/api-output';
  * Base skeleton for admin pages.
  */
 @Component({
-  selector: 'tm-admin-page',
-  templateUrl: './admin-page.component.html',
+    selector: 'tm-admin-page',
+    templateUrl: './admin-page.component.html',
+    standalone: false,
 })
 export class AdminPageComponent implements OnInit {
 

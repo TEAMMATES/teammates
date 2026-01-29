@@ -8,10 +8,11 @@ import { Sections } from '../sections';
  * General Section of the Instructor Help Page.
  */
 @Component({
-  selector: 'tm-instructor-help-general-section',
-  templateUrl: './instructor-help-general-section.component.html',
-  styleUrls: ['./instructor-help-general-section.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-help-general-section',
+    templateUrl: './instructor-help-general-section.component.html',
+    styleUrls: ['./instructor-help-general-section.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorHelpGeneralSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

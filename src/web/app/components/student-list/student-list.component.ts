@@ -29,9 +29,10 @@ export interface StudentListRowModel {
  * A table displaying a list of students from a course, with buttons to view/edit/delete students etc.
  */
 @Component({
-  selector: 'tm-student-list',
-  templateUrl: './student-list.component.html',
-  styleUrls: ['./student-list.component.scss'],
+    selector: 'tm-student-list',
+    templateUrl: './student-list.component.html',
+    styleUrls: ['./student-list.component.scss'],
+    standalone: false,
 })
 export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';

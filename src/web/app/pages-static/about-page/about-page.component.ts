@@ -5,9 +5,10 @@ import { default as developers } from '../../../data/developers.json';
  * About page.
  */
 @Component({
-  selector: 'tm-about-page',
-  templateUrl: './about-page.component.html',
-  styleUrls: ['./about-page.component.scss'],
+    selector: 'tm-about-page',
+    templateUrl: './about-page.component.html',
+    styleUrls: ['./about-page.component.scss'],
+    standalone: false,
 })
 export class AboutPageComponent implements OnInit {
 

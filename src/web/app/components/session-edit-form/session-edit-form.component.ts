@@ -28,11 +28,12 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
  * Form to Add/Edit feedback sessions.
  */
 @Component({
-  selector: 'tm-session-edit-form',
-  templateUrl: './session-edit-form.component.html',
-  styleUrls: ['./session-edit-form.component.scss'],
-  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
-  animations: [collapseAnim],
+    selector: 'tm-session-edit-form',
+    templateUrl: './session-edit-form.component.html',
+    styleUrls: ['./session-edit-form.component.scss'],
+    providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class SessionEditFormComponent {
 

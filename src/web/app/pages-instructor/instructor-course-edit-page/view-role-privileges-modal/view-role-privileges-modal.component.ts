@@ -6,9 +6,10 @@ import { InstructorPermissionRole, InstructorPermissionSet } from '../../../../t
  * View privileges of a role modal.
  */
 @Component({
-  selector: 'tm-view-role-privileges-model',
-  templateUrl: './view-role-privileges-modal.component.html',
-  styleUrls: ['./view-role-privileges-modal.component.scss'],
+    selector: 'tm-view-role-privileges-model',
+    templateUrl: './view-role-privileges-modal.component.html',
+    styleUrls: ['./view-role-privileges-modal.component.scss'],
+    standalone: false,
 })
 export class ViewRolePrivilegesModalComponent {
 

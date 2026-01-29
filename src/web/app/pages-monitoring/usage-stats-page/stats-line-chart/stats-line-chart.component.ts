@@ -8,9 +8,10 @@ import { DataPoint } from '../usage-statistics-page.component';
  * Adapted from: https://medium.com/weekly-webtips/build-a-simple-line-chart-with-d3-js-in-angular-ccd06e328bff
  */
 @Component({
-  selector: 'tm-stats-line-chart',
-  templateUrl: './stats-line-chart.component.html',
-  styleUrls: ['./stats-line-chart.component.scss'],
+    selector: 'tm-stats-line-chart',
+    templateUrl: './stats-line-chart.component.html',
+    styleUrls: ['./stats-line-chart.component.scss'],
+    standalone: false,
 })
 export class StatsLineChartComponent implements OnChanges {
 

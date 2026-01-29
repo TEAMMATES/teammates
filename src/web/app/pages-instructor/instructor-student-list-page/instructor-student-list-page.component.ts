@@ -40,10 +40,11 @@ export interface CourseTab {
  * Instructor student list page.
  */
 @Component({
-  selector: 'tm-instructor-student-list-page',
-  templateUrl: './instructor-student-list-page.component.html',
-  styleUrls: ['./instructor-student-list-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-student-list-page',
+    templateUrl: './instructor-student-list-page.component.html',
+    styleUrls: ['./instructor-student-list-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorStudentListPageComponent implements OnInit {
 

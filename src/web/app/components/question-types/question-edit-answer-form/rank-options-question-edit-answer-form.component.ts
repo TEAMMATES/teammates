@@ -11,9 +11,10 @@ import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/f
  * The Rank options question submission form for a recipient.
  */
 @Component({
-  selector: 'tm-rank-options-question-edit-answer-form',
-  templateUrl: './rank-options-question-edit-answer-form.component.html',
-  styleUrls: ['./rank-options-question-edit-answer-form.component.scss'],
+    selector: 'tm-rank-options-question-edit-answer-form',
+    templateUrl: './rank-options-question-edit-answer-form.component.html',
+    styleUrls: ['./rank-options-question-edit-answer-form.component.scss'],
+    standalone: false,
 })
 export class RankOptionsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails> {

@@ -4,7 +4,8 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Pipe to strip off HTML tags from text.
  */
 @Pipe({
-  name: 'stripHtmlTags',
+    name: 'stripHtmlTags',
+    standalone: false,
 })
 export class StripHtmlTagsPipe implements PipeTransform {
 

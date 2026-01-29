@@ -11,9 +11,10 @@ import { DEFAULT_MCQ_QUESTION_DETAILS, DEFAULT_MCQ_RESPONSE_DETAILS } from '../.
  * The Mcq question submission form for a recipient.
  */
 @Component({
-  selector: 'tm-mcq-question-edit-answer-form',
-  templateUrl: './mcq-question-edit-answer-form.component.html',
-  styleUrls: ['./mcq-question-edit-answer-form.component.scss'],
+    selector: 'tm-mcq-question-edit-answer-form',
+    templateUrl: './mcq-question-edit-answer-form.component.html',
+    styleUrls: ['./mcq-question-edit-answer-form.component.scss'],
+    standalone: false,
 })
 export class McqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>

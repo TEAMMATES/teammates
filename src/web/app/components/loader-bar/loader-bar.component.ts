@@ -5,9 +5,10 @@ import { LoadingBarService } from '../../../services/loading-bar.service';
  * Loading progress bar for ajax requests.
  */
 @Component({
-  selector: 'tm-loader-bar',
-  templateUrl: './loader-bar.component.html',
-  styleUrls: ['./loader-bar.component.scss'],
+    selector: 'tm-loader-bar',
+    templateUrl: './loader-bar.component.html',
+    styleUrls: ['./loader-bar.component.scss'],
+    standalone: false,
 })
 export class LoaderBarComponent implements OnInit {
 

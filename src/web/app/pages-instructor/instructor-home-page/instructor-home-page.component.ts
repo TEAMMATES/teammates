@@ -61,10 +61,11 @@ export interface CourseTabModel {
  * Instructor home page.
  */
 @Component({
-  selector: 'tm-instructor-home-page',
-  templateUrl: './instructor-home-page.component.html',
-  styleUrls: ['./instructor-home-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-home-page',
+    templateUrl: './instructor-home-page.component.html',
+    styleUrls: ['./instructor-home-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {
 

@@ -10,9 +10,10 @@ import {
  * Constant sum question response.
  */
 @Component({
-  selector: 'tm-constsum-question-response',
-  templateUrl: './constsum-question-response.component.html',
-  styleUrls: ['./constsum-question-response.component.scss'],
+    selector: 'tm-constsum-question-response',
+    templateUrl: './constsum-question-response.component.html',
+    styleUrls: ['./constsum-question-response.component.scss'],
+    standalone: false,
 })
 export class ConstsumQuestionResponseComponent
     extends QuestionResponse<FeedbackConstantSumResponseDetails, FeedbackConstantSumQuestionDetails>

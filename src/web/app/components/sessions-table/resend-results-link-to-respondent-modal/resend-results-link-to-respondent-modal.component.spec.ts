@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +10,7 @@ import { StudentListInfoTableRowModel, InstructorListInfoTableRowModel }
   from '../respondent-list-info-table/respondent-list-info-table-model';
 import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
 
-@Component({ selector: 'tm-ajax-preload', template: '' })
+@Component({ selector: 'tm-ajax-preload', template: '', standalone: false })
 class AjaxPreloadComponent {}
 
 describe('ResendResultsLinkToRespondentModalComponent', () => {
@@ -40,10 +41,13 @@ describe('ResendResultsLinkToRespondentModalComponent', () => {
         RespondentListInfoTableComponent,
       ],
       imports: [
-        HttpClientTestingModule,
         FormsModule,
       ],
-      providers: [NgbActiveModal],
+      providers: [
+        NgbActiveModal,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     })
     .compileComponents();
   }));

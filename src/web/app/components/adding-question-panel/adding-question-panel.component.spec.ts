@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddingQuestionPanelComponent } from './adding-question-panel.component';
 import { FeedbackQuestionType } from '../../../types/api-output';
@@ -20,7 +20,7 @@ describe('AddingQuestionPanelComponent', () => {
       ],
       imports: [
         AjaxLoadingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         NgbDropdownModule,
         TeammatesCommonModule,
         TeammatesRouterModule,

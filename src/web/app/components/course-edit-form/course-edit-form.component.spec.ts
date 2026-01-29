@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { EventEmitter } from '@angular/core';
 import {
   ComponentFixture,
@@ -7,7 +8,7 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, Observable } from 'rxjs';
 
@@ -90,10 +91,9 @@ describe('CourseEditFormComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CourseEditFormComponent],
       imports: [
-        HttpClientTestingModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         NgbModule,
         AjaxLoadingModule,
         CommonModule,
@@ -106,6 +106,8 @@ describe('CourseEditFormComponent', () => {
         { provide: StatusMessageService, useValue: spyStatusMessageService },
         { provide: CourseService, useValue: spyCourseService },
         { provide: TimezoneService, useValue: timezoneServiceStub },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
       .compileComponents();

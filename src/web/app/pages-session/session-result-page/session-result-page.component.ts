@@ -51,9 +51,10 @@ export interface FeedbackQuestionModel {
  * Feedback session result page.
  */
 @Component({
-  selector: 'tm-session-result-page',
-  templateUrl: './session-result-page.component.html',
-  styleUrls: ['./session-result-page.component.scss'],
+    selector: 'tm-session-result-page',
+    templateUrl: './session-result-page.component.html',
+    styleUrls: ['./session-result-page.component.scss'],
+    standalone: false,
 })
 export class SessionResultPageComponent implements OnInit {
 

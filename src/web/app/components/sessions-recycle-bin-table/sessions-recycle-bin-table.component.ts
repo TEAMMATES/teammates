@@ -14,10 +14,11 @@ export interface RecycleBinFeedbackSessionRowModel {
  * A table to display a list of deleted feedback sessions
  */
 @Component({
-  selector: 'tm-sessions-recycle-bin-table',
-  templateUrl: './sessions-recycle-bin-table.component.html',
-  styleUrls: ['./sessions-recycle-bin-table.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-sessions-recycle-bin-table',
+    templateUrl: './sessions-recycle-bin-table.component.html',
+    styleUrls: ['./sessions-recycle-bin-table.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class SessionsRecycleBinTableComponent {
 

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { QuestionTextWithInfoComponent } from './question-text-with-info.component';
 import {
   FeedbackMcqQuestionDetails,
@@ -22,7 +22,7 @@ describe('QuestionTextWithInfoComponent', () => {
     TestBed.configureTestingModule({
       declarations: [QuestionTextWithInfoComponent],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         QuestionAdditionalInfoModule,
         TeammatesRouterModule,
       ],

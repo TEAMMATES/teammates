@@ -5,9 +5,10 @@ import { EmailSentLogDetails, GeneralLogEntry, LogEvent } from '../../../../type
  * Additional details for email sent logs.
  */
 @Component({
-  selector: 'tm-email-log-details',
-  templateUrl: './email-log-details.component.html',
-  styleUrls: ['./email-log-details.component.scss', './log-details.component.scss'],
+    selector: 'tm-email-log-details',
+    templateUrl: './email-log-details.component.html',
+    styleUrls: ['./email-log-details.component.scss', './log-details.component.scss'],
+    standalone: false,
 })
 export class EmailLogDetailsComponent {
 

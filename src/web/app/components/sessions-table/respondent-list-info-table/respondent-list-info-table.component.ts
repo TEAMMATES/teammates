@@ -7,9 +7,10 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
  * Student list for users to make selection.
  */
 @Component({
-  selector: 'tm-respondent-list-info-table',
-  templateUrl: './respondent-list-info-table.component.html',
-  styleUrls: ['./respondent-list-info-table.component.scss'],
+    selector: 'tm-respondent-list-info-table',
+    templateUrl: './respondent-list-info-table.component.html',
+    styleUrls: ['./respondent-list-info-table.component.scss'],
+    standalone: false,
 })
 export class RespondentListInfoTableComponent {
 

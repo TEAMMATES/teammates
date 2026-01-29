@@ -18,10 +18,11 @@ import { Sections } from '../sections';
  * Students Section of the Instructor Help Page.
  */
 @Component({
-  selector: 'tm-instructor-help-students-section',
-  templateUrl: './instructor-help-students-section.component.html',
-  styleUrls: ['./instructor-help-students-section.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-help-students-section',
+    templateUrl: './instructor-help-students-section.component.html',
+    styleUrls: ['./instructor-help-students-section.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
