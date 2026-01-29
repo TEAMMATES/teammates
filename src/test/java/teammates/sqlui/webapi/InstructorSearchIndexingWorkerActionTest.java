@@ -115,33 +115,8 @@ public class InstructorSearchIndexingWorkerActionTest extends BaseActionTest<Ins
     }
 
     @Test
-    void testAccessControl_onlyAdminCanAccess() {
-
-        ______TS("Non-logged-in users cannot access");
-
-        logoutUser();
-        verifyCannotAccess();
-
-        ______TS("Non-registered users cannot access");
-
-        loginAsUnregistered("unregistered user");
-        verifyCannotAccess();
-
-        ______TS("Students cannot access");
-
-        loginAsStudent(getTypicalStudent().getGoogleId());
-        verifyCannotAccess();
-
-        ______TS("Instructors cannot access");
-
-        loginAsInstructor(getTypicalInstructor().getGoogleId());
-        verifyCannotAccess();
-
-        ______TS("Admin can access");
-
-        loginAsAdmin();
-        verifyCanAccess();
-
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
     }
 
 }

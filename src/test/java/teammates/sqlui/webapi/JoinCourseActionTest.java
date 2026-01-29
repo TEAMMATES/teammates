@@ -234,28 +234,8 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     }
 
     @Test
-    void testSpecificAccessControl_loggedIn_canAccess() {
-        loginAsUnregistered("unreg-user");
+    void testAccessControl() {
         String[] params = {};
-        verifyCanAccess(params);
-
-        logoutUser();
-        loginAsAdmin();
-        verifyCanAccess(params);
-
-        logoutUser();
-        loginAsInstructor("instructor");
-        verifyCanAccess(params);
-
-        logoutUser();
-        loginAsStudent("student");
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_loggedOut_cannotAccess() {
-        logoutUser();
-        String[] params = {};
-        verifyCannotAccess(params);
+        verifyAnyLoggedInUserCanAccess(params);
     }
 }
