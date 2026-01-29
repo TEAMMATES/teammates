@@ -11,9 +11,10 @@ import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
  * Feedback response in student results page view.
  */
 @Component({
-  selector: 'tm-student-view-responses',
-  templateUrl: './student-view-responses.component.html',
-  styleUrls: ['./student-view-responses.component.scss'],
+    selector: 'tm-student-view-responses',
+    templateUrl: './student-view-responses.component.html',
+    styleUrls: ['./student-view-responses.component.scss'],
+    standalone: false,
 })
 export class StudentViewResponsesComponent implements OnInit {
   // enum

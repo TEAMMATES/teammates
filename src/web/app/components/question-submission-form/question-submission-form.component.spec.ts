@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -286,7 +287,6 @@ describe('QuestionSubmissionFormComponent', () => {
         RecipientTypeNamePipe,
       ],
       imports: [
-        HttpClientTestingModule,
         TeammatesCommonModule,
         VisibilityMessagesModule,
         QuestionInstructionModule,
@@ -300,6 +300,10 @@ describe('QuestionSubmissionFormComponent', () => {
         AjaxLoadingModule,
         BrowserAnimationsModule,
         PanelChevronModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

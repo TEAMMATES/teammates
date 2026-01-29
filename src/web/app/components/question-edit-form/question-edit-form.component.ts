@@ -40,10 +40,11 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
  * The question edit form component.
  */
 @Component({
-  selector: 'tm-question-edit-form',
-  templateUrl: './question-edit-form.component.html',
-  styleUrls: ['./question-edit-form.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-question-edit-form',
+    templateUrl: './question-edit-form.component.html',
+    styleUrls: ['./question-edit-form.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class QuestionEditFormComponent {
 

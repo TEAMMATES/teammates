@@ -4,9 +4,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
  * Retry button for when loading fails.
  */
 @Component({
-  selector: 'tm-loading-retry',
-  templateUrl: './loading-retry.component.html',
-  styleUrls: ['./loading-retry.component.scss'],
+    selector: 'tm-loading-retry',
+    templateUrl: './loading-retry.component.html',
+    styleUrls: ['./loading-retry.component.scss'],
+    standalone: false,
 })
 export class LoadingRetryComponent {
 

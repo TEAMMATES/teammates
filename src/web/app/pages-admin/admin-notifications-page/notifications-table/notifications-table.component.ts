@@ -6,9 +6,10 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 
 @Component({
-  selector: 'tm-notifications-table',
-  templateUrl: './notifications-table.component.html',
-  styleUrls: ['./notifications-table.component.scss'],
+    selector: 'tm-notifications-table',
+    templateUrl: './notifications-table.component.html',
+    styleUrls: ['./notifications-table.component.scss'],
+    standalone: false,
 })
 export class NotificationsTableComponent {
   SortBy = SortBy;

@@ -9,9 +9,10 @@ import { CommentTableModel } from '../comment-table/comment-table.component';
  * Modal for the comments table.
  */
 @Component({
-  selector: 'tm-comment-table-modal',
-  templateUrl: './comment-table-modal.component.html',
-  styleUrls: ['./comment-table-modal.component.scss'],
+    selector: 'tm-comment-table-modal',
+    templateUrl: './comment-table-modal.component.html',
+    styleUrls: ['./comment-table-modal.component.scss'],
+    standalone: false,
 })
 export class CommentTableModalComponent implements OnChanges {
 

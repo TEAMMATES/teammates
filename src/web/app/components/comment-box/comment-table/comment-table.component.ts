@@ -21,10 +21,11 @@ export interface CommentTableModel {
  * Component for the comments table.
  */
 @Component({
-  selector: 'tm-comment-table',
-  templateUrl: './comment-table.component.html',
-  styleUrls: ['./comment-table.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-comment-table',
+    templateUrl: './comment-table.component.html',
+    styleUrls: ['./comment-table.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class CommentTableComponent {
 

@@ -5,7 +5,8 @@ import { NotificationStyle } from '../../../types/api-output';
  * Pipe to handle the transformation of an NotificationStyle to a css class.
  */
 @Pipe({
-  name: 'notificationStyleClass',
+    name: 'notificationStyleClass',
+    standalone: false,
 })
 export class NotificationStyleClassPipe implements PipeTransform {
 

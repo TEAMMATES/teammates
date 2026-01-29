@@ -6,8 +6,9 @@ import { Component } from '@angular/core';
  * Users will be redirected to this page if they attempt to navigate to an unknown page of the application.
  */
 @Component({
-  selector: 'tm-page-not-found',
-  templateUrl: './page-not-found.component.html',
-  styleUrls: ['./page-not-found.component.scss'],
+    selector: 'tm-page-not-found',
+    templateUrl: './page-not-found.component.html',
+    styleUrls: ['./page-not-found.component.scss'],
+    standalone: false,
 })
 export class PageNotFoundComponent {}

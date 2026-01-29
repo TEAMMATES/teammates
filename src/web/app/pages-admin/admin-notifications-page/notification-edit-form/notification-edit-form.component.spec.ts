@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import moment from 'moment-timezone';
 import SpyInstance = jest.SpyInstance;
@@ -41,11 +42,12 @@ describe('NotificationEditFormComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         AdminNotificationsPageModule,
-        HttpClientTestingModule,
       ],
       providers: [
         TimezoneService,
         SimpleModalService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

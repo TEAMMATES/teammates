@@ -79,9 +79,10 @@ import {
  * Instructor feedback session edit page.
  */
 @Component({
-  selector: 'tm-instructor-session-edit-page',
-  templateUrl: './instructor-session-edit-page.component.html',
-  styleUrls: ['./instructor-session-edit-page.component.scss'],
+    selector: 'tm-instructor-session-edit-page',
+    templateUrl: './instructor-session-edit-page.component.html',
+    styleUrls: ['./instructor-session-edit-page.component.scss'],
+    standalone: false,
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
 

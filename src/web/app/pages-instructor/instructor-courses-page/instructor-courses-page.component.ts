@@ -49,10 +49,11 @@ interface CourseModel {
  * Instructor courses list page.
  */
 @Component({
-  selector: 'tm-instructor-courses-page',
-  templateUrl: './instructor-courses-page.component.html',
-  styleUrls: ['./instructor-courses-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-courses-page',
+    templateUrl: './instructor-courses-page.component.html',
+    styleUrls: ['./instructor-courses-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorCoursesPageComponent implements OnInit {
 

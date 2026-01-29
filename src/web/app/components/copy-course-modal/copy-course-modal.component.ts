@@ -17,9 +17,10 @@ const zeroPad: (num: number) => string = (num: number) => String(num).padStart(2
  * Copy course modal.
  */
 @Component({
-  selector: 'tm-copy-course-modal',
-  templateUrl: './copy-course-modal.component.html',
-  styleUrls: ['./copy-course-modal.component.scss'],
+    selector: 'tm-copy-course-modal',
+    templateUrl: './copy-course-modal.component.html',
+    styleUrls: ['./copy-course-modal.component.scss'],
+    standalone: false,
 })
 export class CopyCourseModalComponent implements OnInit {
 

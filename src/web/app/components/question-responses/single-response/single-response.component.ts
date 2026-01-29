@@ -9,9 +9,10 @@ import {
  * The component that will map a generic response to its specialized response view component.
  */
 @Component({
-  selector: 'tm-single-response',
-  templateUrl: './single-response.component.html',
-  styleUrls: ['./single-response.component.scss'],
+    selector: 'tm-single-response',
+    templateUrl: './single-response.component.html',
+    styleUrls: ['./single-response.component.scss'],
+    standalone: false,
 })
 export class SingleResponseComponent {
 

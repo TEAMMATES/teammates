@@ -20,9 +20,10 @@ import {
  * Contribution question response.
  */
 @Component({
-  selector: 'tm-contribution-question-response',
-  templateUrl: './contribution-question-response.component.html',
-  styleUrls: ['./contribution-question-response.component.scss'],
+    selector: 'tm-contribution-question-response',
+    templateUrl: './contribution-question-response.component.html',
+    styleUrls: ['./contribution-question-response.component.scss'],
+    standalone: false,
 })
 export class ContributionQuestionResponseComponent
     extends QuestionResponse<FeedbackContributionResponseDetails, FeedbackContributionQuestionDetails>

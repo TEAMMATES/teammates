@@ -2,16 +2,16 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { PageScrollService, NGXPS_CONFIG } from 'ngx-page-scroll-core';
 import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
 import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 
-@Component({ selector: 'tm-example-box', template: '' })
+@Component({ selector: 'tm-example-box', template: '', standalone: false })
 class ExampleBoxStubComponent {}
 
-@Component({ selector: 'tm-course-edit-form', template: '' })
+@Component({ selector: 'tm-course-edit-form', template: '', standalone: false })
 class CourseEditFormStubComponent {
   @Input() isDisplayOnly?: boolean;
   @Input() formMode?: CourseEditFormMode;
@@ -29,7 +29,7 @@ describe('InstructorHelpGettingStartedComponent', () => {
         CourseEditFormStubComponent,
       ],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         TeammatesRouterModule,
       ],
       providers: [

@@ -17,9 +17,10 @@ import {
  * The contribution question submission form for a recipient.
  */
 @Component({
-  selector: 'tm-contribution-question-edit-answer-form',
-  templateUrl: './contribution-question-edit-answer-form.component.html',
-  styleUrls: ['./contribution-question-edit-answer-form.component.scss'],
+    selector: 'tm-contribution-question-edit-answer-form',
+    templateUrl: './contribution-question-edit-answer-form.component.html',
+    styleUrls: ['./contribution-question-edit-answer-form.component.scss'],
+    standalone: false,
 })
 export class ContributionQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent

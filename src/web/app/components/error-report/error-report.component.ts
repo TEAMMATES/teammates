@@ -10,9 +10,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Error report component.
  */
 @Component({
-  selector: 'tm-error-report',
-  templateUrl: './error-report.component.html',
-  styleUrls: ['./error-report.component.scss'],
+    selector: 'tm-error-report',
+    templateUrl: './error-report.component.html',
+    styleUrls: ['./error-report.component.scss'],
+    standalone: false,
 })
 export class ErrorReportComponent implements OnInit {
 

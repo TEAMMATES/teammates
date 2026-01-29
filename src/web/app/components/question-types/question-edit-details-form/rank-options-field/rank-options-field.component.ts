@@ -5,9 +5,10 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
  * The input field to specify options to choose from.
  */
 @Component({
-  selector: 'tm-rank-options-field',
-  templateUrl: './rank-options-field.component.html',
-  styleUrls: ['./rank-options-field.component.scss'],
+    selector: 'tm-rank-options-field',
+    templateUrl: './rank-options-field.component.html',
+    styleUrls: ['./rank-options-field.component.scss'],
+    standalone: false,
 })
 export class RankOptionsFieldComponent {
 

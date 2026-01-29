@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -148,11 +149,12 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
         LoadingSpinnerModule,
         LoadingRetryModule,
         AjaxLoadingModule,
-        HttpClientTestingModule,
       ],
       providers: [
         NgbActiveModal,
         InstructorService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

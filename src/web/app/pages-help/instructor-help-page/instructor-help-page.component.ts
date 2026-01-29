@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewChild, DOCUMENT } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import {
@@ -26,9 +25,10 @@ import { environment } from '../../../environments/environment';
  * Instructor help page.
  */
 @Component({
-  selector: 'tm-instructor-help-page',
-  templateUrl: './instructor-help-page.component.html',
-  styleUrls: ['./instructor-help-page.component.scss'],
+    selector: 'tm-instructor-help-page',
+    templateUrl: './instructor-help-page.component.html',
+    styleUrls: ['./instructor-help-page.component.scss'],
+    standalone: false,
 })
 export class InstructorHelpPageComponent implements AfterViewInit {
   // enum

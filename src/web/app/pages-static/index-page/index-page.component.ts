@@ -5,9 +5,10 @@ import { default as index } from '../../../data/index.json';
  * Index page.
  */
 @Component({
-  selector: 'tm-index-page',
-  templateUrl: './index-page.component.html',
-  styleUrls: ['./index-page.component.scss'],
+    selector: 'tm-index-page',
+    templateUrl: './index-page.component.html',
+    styleUrls: ['./index-page.component.scss'],
+    standalone: false,
 })
 export class IndexPageComponent implements OnInit {
 

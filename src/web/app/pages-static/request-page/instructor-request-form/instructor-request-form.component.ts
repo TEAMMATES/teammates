@@ -9,9 +9,10 @@ import { FormValidator } from '../../../../types/form-validator';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 @Component({
-  selector: 'tm-instructor-request-form',
-  templateUrl: './instructor-request-form.component.html',
-  styleUrls: ['./instructor-request-form.component.scss'],
+    selector: 'tm-instructor-request-form',
+    templateUrl: './instructor-request-form.component.html',
+    styleUrls: ['./instructor-request-form.component.scss'],
+    standalone: false,
 })
 export class InstructorRequestFormComponent {
 

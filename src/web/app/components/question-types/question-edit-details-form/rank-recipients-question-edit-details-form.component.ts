@@ -10,9 +10,10 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
  * Question details edit form component for Rank Recipients question.
  */
 @Component({
-  selector: 'tm-rank-recipients-question-edit-details-form',
-  templateUrl: './rank-recipients-question-edit-details-form.component.html',
-  styleUrls: ['./rank-recipients-question-edit-details-form.component.scss'],
+    selector: 'tm-rank-recipients-question-edit-details-form',
+    templateUrl: './rank-recipients-question-edit-details-form.component.html',
+    styleUrls: ['./rank-recipients-question-edit-details-form.component.scss'],
+    standalone: false,
 })
 export class RankRecipientsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRankRecipientsQuestionDetails> {

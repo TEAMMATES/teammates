@@ -13,9 +13,10 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
  * Statistics for rubric questions.
  */
 @Component({
-  selector: 'tm-rubric-question-statistics',
-  templateUrl: './rubric-question-statistics.component.html',
-  styleUrls: ['./rubric-question-statistics.component.scss'],
+    selector: 'tm-rubric-question-statistics',
+    templateUrl: './rubric-question-statistics.component.html',
+    styleUrls: ['./rubric-question-statistics.component.scss'],
+    standalone: false,
 })
 export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsCalculation
     implements OnChanges {

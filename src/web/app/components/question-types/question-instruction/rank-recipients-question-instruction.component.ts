@@ -9,9 +9,10 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
  * Instructions for Rank recipients question.
  */
 @Component({
-  selector: 'tm-rank-recipients-question-instruction',
-  templateUrl: './rank-recipients-question-instruction.component.html',
-  styleUrls: ['./rank-recipients-question-instruction.component.scss'],
+    selector: 'tm-rank-recipients-question-instruction',
+    templateUrl: './rank-recipients-question-instruction.component.html',
+    styleUrls: ['./rank-recipients-question-instruction.component.scss'],
+    standalone: false,
 })
 export class RankRecipientsQuestionInstructionComponent {
 

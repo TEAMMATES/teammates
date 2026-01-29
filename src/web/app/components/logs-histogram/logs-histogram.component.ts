@@ -6,9 +6,10 @@ import { LogsHistogramDataModel } from './logs-histogram-model';
  * Histogram for displaying logs frequency.
  */
 @Component({
-  selector: 'tm-logs-histogram',
-  templateUrl: './logs-histogram.component.html',
-  styleUrls: ['./logs-histogram.component.scss'],
+    selector: 'tm-logs-histogram',
+    templateUrl: './logs-histogram.component.html',
+    styleUrls: ['./logs-histogram.component.scss'],
+    standalone: false,
 })
 export class LogsHistogramComponent implements OnInit, OnChanges {
 

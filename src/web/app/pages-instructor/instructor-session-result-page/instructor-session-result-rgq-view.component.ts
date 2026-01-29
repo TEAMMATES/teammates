@@ -8,10 +8,11 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
  * Instructor sessions results page RGQ view.
  */
 @Component({
-  selector: 'tm-instructor-session-result-rgq-view',
-  templateUrl: './instructor-session-result-rgq-view.component.html',
-  styleUrls: ['./instructor-session-result-rgq-view.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-session-result-rgq-view',
+    templateUrl: './instructor-session-result-rgq-view.component.html',
+    styleUrls: ['./instructor-session-result-rgq-view.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorSessionResultRgqViewComponent extends InstructorSessionResultView {
 

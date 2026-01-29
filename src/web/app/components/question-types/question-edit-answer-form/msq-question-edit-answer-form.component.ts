@@ -11,9 +11,10 @@ import { MSQ_ANSWER_NONE_OF_THE_ABOVE, NO_VALUE } from '../../../../types/feedba
  * The Msq question submission form for a recipient.
  */
 @Component({
-  selector: 'tm-msq-question-edit-answer-form',
-  templateUrl: './msq-question-edit-answer-form.component.html',
-  styleUrls: ['./msq-question-edit-answer-form.component.scss'],
+    selector: 'tm-msq-question-edit-answer-form',
+    templateUrl: './msq-question-edit-answer-form.component.html',
+    styleUrls: ['./msq-question-edit-answer-form.component.scss'],
+    standalone: false,
 })
 export class MsqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>

@@ -5,9 +5,10 @@ import { GeneralLogEntry, LogEvent, RequestLogDetails, RequestLogUser } from '..
  * Additional details for request logs.
  */
 @Component({
-  selector: 'tm-request-log-details',
-  templateUrl: './request-log-details.component.html',
-  styleUrls: ['./request-log-details.component.scss', './log-details.component.scss'],
+    selector: 'tm-request-log-details',
+    templateUrl: './request-log-details.component.html',
+    styleUrls: ['./request-log-details.component.scss', './log-details.component.scss'],
+    standalone: false,
 })
 export class RequestLogDetailsComponent {
 

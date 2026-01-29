@@ -9,10 +9,11 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
  * Banner used to display notifications to the user.
  */
 @Component({
-  selector: 'tm-notification-banner',
-  templateUrl: './notification-banner.component.html',
-  styleUrls: ['./notification-banner.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-notification-banner',
+    templateUrl: './notification-banner.component.html',
+    styleUrls: ['./notification-banner.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class NotificationBannerComponent implements OnInit, OnChanges {
 

@@ -45,9 +45,10 @@ export interface DataPoint {
  * Usage statistics page.
  */
 @Component({
-  selector: 'tm-usage-statistics-page',
-  templateUrl: './usage-statistics-page.component.html',
-  styleUrls: ['./usage-statistics-page.component.scss'],
+    selector: 'tm-usage-statistics-page',
+    templateUrl: './usage-statistics-page.component.html',
+    styleUrls: ['./usage-statistics-page.component.scss'],
+    standalone: false,
 })
 export class UsageStatisticsPageComponent implements OnInit {
 

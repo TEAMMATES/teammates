@@ -14,9 +14,10 @@ import {
  * The text question submission form for a recipient.
  */
 @Component({
-  selector: 'tm-text-question-edit-answer-form',
-  templateUrl: './text-question-edit-answer-form.component.html',
-  styleUrls: ['./text-question-edit-answer-form.component.scss'],
+    selector: 'tm-text-question-edit-answer-form',
+    templateUrl: './text-question-edit-answer-form.component.html',
+    styleUrls: ['./text-question-edit-answer-form.component.scss'],
+    standalone: false,
 })
 export class TextQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent

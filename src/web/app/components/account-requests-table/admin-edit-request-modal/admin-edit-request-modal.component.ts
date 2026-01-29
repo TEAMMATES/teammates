@@ -6,9 +6,10 @@ import { EditRequestModalComponentResult } from './admin-edit-request-modal-mode
  * Modal to select reject account requests with reason.
  */
 @Component({
-  selector: 'tm-edit-request-modal',
-  templateUrl: './admin-edit-request-modal.component.html',
-  styleUrls: ['./admin-edit-request-modal.component.scss'],
+    selector: 'tm-edit-request-modal',
+    templateUrl: './admin-edit-request-modal.component.html',
+    styleUrls: ['./admin-edit-request-modal.component.scss'],
+    standalone: false,
 })
 
 export class EditRequestModalComponent {

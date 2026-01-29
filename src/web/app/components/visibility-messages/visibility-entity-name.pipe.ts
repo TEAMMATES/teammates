@@ -9,7 +9,8 @@ import {
  * Pipe to handle the display of {@code FeedbackVisibilityType} in visibility message.
  */
 @Pipe({
-  name: 'visibilityEntityName',
+    name: 'visibilityEntityName',
+    standalone: false,
 })
 export class VisibilityEntityNamePipe implements PipeTransform {
 

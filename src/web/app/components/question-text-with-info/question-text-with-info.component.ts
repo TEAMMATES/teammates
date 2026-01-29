@@ -5,9 +5,10 @@ import { FeedbackQuestionDetails, FeedbackQuestionType } from '../../../types/ap
  * Question text with toggle-able additional info.
  */
 @Component({
-  selector: 'tm-question-text-with-info',
-  templateUrl: './question-text-with-info.component.html',
-  styleUrls: ['./question-text-with-info.component.scss'],
+    selector: 'tm-question-text-with-info',
+    templateUrl: './question-text-with-info.component.html',
+    styleUrls: ['./question-text-with-info.component.scss'],
+    standalone: false,
 })
 export class QuestionTextWithInfoComponent {
 

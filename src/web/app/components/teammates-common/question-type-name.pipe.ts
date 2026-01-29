@@ -5,7 +5,8 @@ import { FeedbackQuestionType } from '../../../types/api-output';
  * Pipe to handle the display of {@code FeedbackQuestionType}.
  */
 @Pipe({
-  name: 'questionTypeName',
+    name: 'questionTypeName',
+    standalone: false,
 })
 export class QuestionTypeNamePipe implements PipeTransform {
 

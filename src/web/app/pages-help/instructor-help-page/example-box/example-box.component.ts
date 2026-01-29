@@ -16,9 +16,10 @@ export class DisabledNgbModal {
  * Surround the component with an example box and disable some functionalities
  */
 @Component({
-  selector: 'tm-example-box',
-  templateUrl: './example-box.component.html',
-  styleUrls: ['./example-box.component.scss'],
-  providers: [{ provide: NgbModal, useClass: DisabledNgbModal }],
+    selector: 'tm-example-box',
+    templateUrl: './example-box.component.html',
+    styleUrls: ['./example-box.component.scss'],
+    providers: [{ provide: NgbModal, useClass: DisabledNgbModal }],
+    standalone: false,
 })
 export class ExampleBoxComponent {}

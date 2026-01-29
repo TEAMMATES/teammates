@@ -49,10 +49,11 @@ const DESCENDING_ORDER: string = 'desc';
  * Admin and maintainer logs page.
  */
 @Component({
-  selector: 'tm-logs-page',
-  templateUrl: './logs-page.component.html',
-  styleUrls: ['./logs-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-logs-page',
+    templateUrl: './logs-page.component.html',
+    styleUrls: ['./logs-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;

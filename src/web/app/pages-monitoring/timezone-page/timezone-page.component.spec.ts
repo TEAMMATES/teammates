@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TimezonePageComponent } from './timezone-page.component';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -11,8 +12,11 @@ describe('TimezonePageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [TimezonePageComponent],
       imports: [
-        HttpClientTestingModule,
         LoadingSpinnerModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();
