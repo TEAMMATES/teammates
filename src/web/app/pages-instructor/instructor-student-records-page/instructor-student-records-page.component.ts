@@ -75,7 +75,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
         this.courseId = queryParams.courseid;
         this.studentEmail = queryParams.studentemail;
 
-        this.loadInstructor();
+        this.loadInstructorRecords();
         this.loadStudentResults();
       },
       error: (resp: ErrorMessageOutput) => {
@@ -84,7 +84,10 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     });
   }
 
-  loadInstructor(): void {
+  /**
+   * Loads the instructor's records based on the given course ID.
+   */
+  loadInstructorRecords(): void {
     this.instructorService.getInstructor({
       courseId: this.courseId,
       intent: Intent.FULL_DETAIL,
@@ -117,54 +120,54 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   }
 
   /**
-   * Loads feedback sessions based on the given course ID.
+   * Loads the student's feedback session results.
    */
-  loadFeedbackSessions(): Observable<FeedbackSession[]> {
-    return this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
-      map((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
-    );
-  }
-
   loadStudentResults(): void {
     this.sessionTabs = [];
     this.hasStudentResultsLoadingFailed = false;
     this.isStudentResultsLoading = true;
     forkJoin({
       student: this.loadStudentRecords(),
-      feedbackSessions: this.loadFeedbackSessions(),
+      feedbackSessions: this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
     }).pipe(
-        mergeMap(({ feedbackSessions }) => feedbackSessions),
-        mergeMap((feedbackSession: FeedbackSession) => {
-          return this.getFeedbackSessionResults(feedbackSession.feedbackSessionName).pipe(
-              map((results: SessionResults) => {
-                  this.sortQuestionsByNumber(results.questions);
-                  return { results, feedbackSession };
-              }),
-          );
-        }),
-        finalize(() => {
-          this.isStudentResultsLoading = false;
-        }),
+      mergeMap(({ feedbackSessions }: { student: Student, feedbackSessions: FeedbackSessions }) => {
+        return feedbackSessions.feedbackSessions;
+      }),
+      mergeMap((feedbackSession: FeedbackSession) => {
+        return this.getFeedbackSessionResults(feedbackSession.feedbackSessionName).pipe(
+            map((results: SessionResults) => {
+                this.sortQuestionsByNumber(results.questions);
+                return { results, feedbackSession };
+            }),
+        );
+      }),
+      finalize(() => {
+        this.isStudentResultsLoading = false;
+      }),
     ).subscribe({
-        next: ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
-          this.sessionTabs.push(this.createSessionTab(results, feedbackSession));
-          results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
-        },
-        error: (errorMessageOutput: ErrorMessageOutput) => {
-          this.hasStudentResultsLoadingFailed = true;
-          this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
-        },
-        complete: () => this.sortFeedbackSessions(),
+      next: ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
+        this.sessionTabs.push(this.createSessionTab(results, feedbackSession));
+        results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
+      },
+      error: (errorMessageOutput: ErrorMessageOutput) => {
+        this.hasStudentResultsLoadingFailed = true;
+        this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
+      },
+      complete: () => this.sortFeedbackSessions(),
     });
   }
 
+  /**
+   * Fetches the full detail result of a feedback session in the current course
+   * with the given feedback session name, grouped by the current student's section.
+   */
   private getFeedbackSessionResults(feedbackSessionName: string): Observable<SessionResults> {
     return this.feedbackSessionsService.getFeedbackSessionResults({
       courseId: this.courseId,
-      feedbackSessionName: feedbackSessionName,
+      feedbackSessionName,
       groupBySection: this.studentSection,
       intent: Intent.FULL_DETAIL,
-    })
+    });
   }
 
   private sortQuestionsByNumber(questions: QuestionOutput[]): void {
