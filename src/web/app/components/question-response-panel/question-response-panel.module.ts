@@ -22,8 +22,6 @@ import { QuestionTextWithInfoModule } from '../question-text-with-info/question-
     InViewportModule,
     LoadingSpinnerModule,
     LoadingRetryModule,
-  ],
-  declarations: [
     QuestionResponsePanelComponent,
   ],
   exports: [

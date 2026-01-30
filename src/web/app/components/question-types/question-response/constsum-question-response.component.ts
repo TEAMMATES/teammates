@@ -5,15 +5,20 @@ import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
 
 /**
  * Constant sum question response.
  */
 @Component({
-    selector: 'tm-constsum-question-response',
-    templateUrl: './constsum-question-response.component.html',
-    styleUrls: ['./constsum-question-response.component.scss'],
-    standalone: false,
+  selector: 'tm-constsum-question-response',
+  templateUrl: './constsum-question-response.component.html',
+  styleUrls: ['./constsum-question-response.component.scss'],
+  imports: [
+    NgIf,
+    NgFor,
+    KeyValuePipe,
+  ],
 })
 export class ConstsumQuestionResponseComponent
     extends QuestionResponse<FeedbackConstantSumResponseDetails, FeedbackConstantSumQuestionDetails>

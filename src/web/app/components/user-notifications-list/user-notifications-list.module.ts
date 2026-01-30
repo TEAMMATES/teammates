@@ -16,8 +16,6 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
     PanelChevronModule,
     LoadingSpinnerModule,
     LoadingRetryModule,
-  ],
-  declarations: [
     UserNotificationsListComponent,
   ],
   exports: [

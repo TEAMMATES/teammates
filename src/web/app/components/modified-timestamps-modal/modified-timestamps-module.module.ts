@@ -6,11 +6,9 @@ import { ModifiedTimestampModalComponent } from './modified-timestamps-modal.com
  * Module for instructor home page.
  */
 @NgModule({
-  declarations: [
-    ModifiedTimestampModalComponent,
-  ],
   imports: [
     CommonModule,
+    ModifiedTimestampModalComponent,
   ],
   exports: [
     ModifiedTimestampModalComponent,

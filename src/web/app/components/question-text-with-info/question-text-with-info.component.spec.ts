@@ -9,10 +9,6 @@ import {
   FeedbackQuestionType,
   FeedbackTextQuestionDetails,
 } from '../../../types/api-output';
-import {
-  QuestionAdditionalInfoModule,
-} from '../question-types/question-additional-info/question-additional-info.module';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 describe('QuestionTextWithInfoComponent', () => {
   let component: QuestionTextWithInfoComponent;
@@ -20,11 +16,8 @@ describe('QuestionTextWithInfoComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [QuestionTextWithInfoComponent],
       imports: [
         RouterModule.forRoot([]),
-        QuestionAdditionalInfoModule,
-        TeammatesRouterModule,
       ],
     })
     .compileComponents();

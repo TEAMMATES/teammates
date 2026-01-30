@@ -6,15 +6,16 @@ import {
 import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
+import { NgIf } from '@angular/common';
 
 /**
  * Instruction of constsum options question.
  */
 @Component({
-    selector: 'tm-constsum-options-question-instruction',
-    templateUrl: './constsum-options-question-instruction.component.html',
-    styleUrls: ['./constsum-options-question-instruction.component.scss'],
-    standalone: false,
+  selector: 'tm-constsum-options-question-instruction',
+  templateUrl: './constsum-options-question-instruction.component.html',
+  styleUrls: ['./constsum-options-question-instruction.component.scss'],
+  imports: [NgIf],
 })
 export class ConstsumOptionsQuestionInstructionComponent {
 

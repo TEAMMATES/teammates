@@ -6,15 +6,21 @@ import {
 } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS, DEFAULT_MSQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 import { MSQ_ANSWER_NONE_OF_THE_ABOVE, NO_VALUE } from '../../../../types/feedback-response-details';
+import { NgFor, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 /**
  * The Msq question submission form for a recipient.
  */
 @Component({
-    selector: 'tm-msq-question-edit-answer-form',
-    templateUrl: './msq-question-edit-answer-form.component.html',
-    styleUrls: ['./msq-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-msq-question-edit-answer-form',
+  templateUrl: './msq-question-edit-answer-form.component.html',
+  styleUrls: ['./msq-question-edit-answer-form.component.scss'],
+  imports: [
+    NgFor,
+    NgIf,
+    FormsModule,
+  ],
 })
 export class MsqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>

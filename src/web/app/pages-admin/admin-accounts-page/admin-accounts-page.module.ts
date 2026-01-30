@@ -15,9 +15,6 @@ const routes: Routes = [
  * Module for admin accounts page.
  */
 @NgModule({
-  declarations: [
-    AdminAccountsPageComponent,
-  ],
   exports: [
     AdminAccountsPageComponent,
   ],
@@ -25,6 +22,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
+    AdminAccountsPageComponent,
   ],
 })
 export class AdminAccountsPageModule { }

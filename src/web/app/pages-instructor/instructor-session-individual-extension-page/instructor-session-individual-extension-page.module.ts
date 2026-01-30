@@ -33,8 +33,6 @@ const routes: Routes = [
     TimepickerModule,
     LoadingRetryModule,
     ExtensionConfirmModalModule,
-  ],
-  declarations: [
     InstructorSessionIndividualExtensionPageComponent,
     IndividualExtensionDateModalComponent,
   ],

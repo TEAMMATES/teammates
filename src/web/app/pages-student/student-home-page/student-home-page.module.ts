@@ -24,7 +24,6 @@ const routes: Routes = [
  * Module for student home page.
  */
 @NgModule({
-  declarations: [StudentHomePageComponent],
   exports: [StudentHomePageComponent],
   imports: [
     CommonModule,
@@ -37,6 +36,7 @@ const routes: Routes = [
     TeammatesRouterModule,
     NgbCollapseModule,
     PanelChevronModule,
+    StudentHomePageComponent,
   ],
 })
 export class StudentHomePageModule { }

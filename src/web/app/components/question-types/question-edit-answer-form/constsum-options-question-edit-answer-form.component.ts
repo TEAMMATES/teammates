@@ -9,15 +9,23 @@ import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
+import { NgFor, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.directive';
 
 /**
  * The constsum question options submission form for a recipient.
  */
 @Component({
-    selector: 'tm-constsum-options-question-edit-answer-form',
-    templateUrl: './constsum-options-question-edit-answer-form.component.html',
-    styleUrls: ['./constsum-options-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-constsum-options-question-edit-answer-form',
+  templateUrl: './constsum-options-question-edit-answer-form.component.html',
+  styleUrls: ['./constsum-options-question-edit-answer-form.component.scss'],
+  imports: [
+    NgFor,
+    FormsModule,
+    WheelDisablerDirective,
+    NgIf,
+  ],
 })
 export class ConstsumOptionsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {

@@ -8,8 +8,6 @@ import { AjaxPreloadComponent } from './ajax-preload.component';
 @NgModule({
   imports: [
     CommonModule,
-  ],
-  declarations: [
     AjaxPreloadComponent,
   ],
   exports: [

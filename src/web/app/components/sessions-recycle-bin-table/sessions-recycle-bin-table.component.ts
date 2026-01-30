@@ -2,6 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackSession } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { collapseAnim } from '../teammates-common/collapse-anim';
+import { NgIf, NgFor } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
+import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
+import { RecycleBinTableFormatDatePipe } from './recycle-bin-table-format-date.pipe';
 
 /**
  * Model for a row of recycle bin feedback session
@@ -14,11 +20,19 @@ export interface RecycleBinFeedbackSessionRowModel {
  * A table to display a list of deleted feedback sessions
  */
 @Component({
-    selector: 'tm-sessions-recycle-bin-table',
-    templateUrl: './sessions-recycle-bin-table.component.html',
-    styleUrls: ['./sessions-recycle-bin-table.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-sessions-recycle-bin-table',
+  templateUrl: './sessions-recycle-bin-table.component.html',
+  styleUrls: ['./sessions-recycle-bin-table.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    NgbTooltip,
+    PanelChevronComponent,
+    NgFor,
+    AjaxLoadingComponent,
+    FormatDateDetailPipe,
+    RecycleBinTableFormatDatePipe,
+  ],
 })
 export class SessionsRecycleBinTableComponent {
 

@@ -16,7 +16,6 @@ import { SingleStatisticsModule } from '../single-statistics/single-statistics.m
  * Module for component to display list of responses in GQR/RQG view.
  */
 @NgModule({
-  declarations: [GqrRqgViewResponsesComponent],
   exports: [GqrRqgViewResponsesComponent],
   imports: [
     CommonModule,
@@ -27,6 +26,7 @@ import { SingleStatisticsModule } from '../single-statistics/single-statistics.m
     TeammatesCommonModule,
     NgbCollapseModule,
     PanelChevronModule,
+    GqrRqgViewResponsesComponent,
   ],
 })
 export class GqrRqgViewResponsesModule { }

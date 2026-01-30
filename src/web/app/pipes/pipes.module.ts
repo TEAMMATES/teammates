@@ -9,13 +9,11 @@ import { SubmissionStatusPipe } from './session-submission-status.pipe';
  * Module for common pipes.
  */
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
     ResponseStatusPipe,
     SubmissionStatusPipe,
     SearchTermsHighlighterPipe,
-  ],
-  imports: [
-    CommonModule,
   ],
   exports: [
     ResponseStatusPipe,
@@ -23,5 +21,4 @@ import { SubmissionStatusPipe } from './session-submission-status.pipe';
     SearchTermsHighlighterPipe,
   ],
 })
-
 export class Pipes {}

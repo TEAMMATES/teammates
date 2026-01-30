@@ -4,12 +4,27 @@ import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { Notification } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
+import { NgClass, NgIf, NgFor } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
+import { FormatDateBriefPipe } from '../../../components/teammates-common/format-date-brief.pipe';
+import { NotificationStyleDescriptionPipe } from '../../../components/teammates-common/notification-style-description.pipe';
+import { NotificationStyleClassPipe } from '../../../components/teammates-common/notification-style-class.pipe';
 
 @Component({
-    selector: 'tm-notifications-table',
-    templateUrl: './notifications-table.component.html',
-    styleUrls: ['./notifications-table.component.scss'],
-    standalone: false,
+  selector: 'tm-notifications-table',
+  templateUrl: './notifications-table.component.html',
+  styleUrls: ['./notifications-table.component.scss'],
+  imports: [
+    NgClass,
+    NgIf,
+    NgFor,
+    NgbTooltip,
+    FormatDateDetailPipe,
+    FormatDateBriefPipe,
+    NotificationStyleDescriptionPipe,
+    NotificationStyleClassPipe,
+  ],
 })
 export class NotificationsTableComponent {
   SortBy = SortBy;

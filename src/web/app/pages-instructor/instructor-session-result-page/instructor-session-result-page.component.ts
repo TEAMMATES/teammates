@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
@@ -44,6 +44,18 @@ import {
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { NgIf } from '@angular/common';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
+import { ViewResultsPanelComponent } from '../../components/view-results-panel/view-results-panel.component';
+import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
+import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
+import { InstructorSessionResultRgqViewComponent } from './instructor-session-result-rgq-view.component';
+import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
+import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
+import { PreviewSessionResultPanelComponent } from '../../components/preview-session-result-panel/preview-session-result-panel.component';
 
 /**
  * Per section view tab model.
@@ -74,10 +86,25 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
  * Instructor feedback session result page.
  */
 @Component({
-    selector: 'tm-instructor-session-result-page',
-    templateUrl: './instructor-session-result-page.component.html',
-    styleUrls: ['./instructor-session-result-page.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-session-result-page',
+  templateUrl: './instructor-session-result-page.component.html',
+  styleUrls: ['./instructor-session-result-page.component.scss'],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgIf,
+    TeammatesRouterDirective,
+    NgbTooltip,
+    AjaxLoadingComponent,
+    ViewResultsPanelComponent,
+    InstructorSessionResultQuestionViewComponent,
+    InstructorSessionResultGrqViewComponent,
+    InstructorSessionResultRgqViewComponent,
+    InstructorSessionResultGqrViewComponent,
+    InstructorSessionResultRqgViewComponent,
+    InstructorSessionNoResponsePanelComponent,
+    PreviewSessionResultPanelComponent,
+  ],
 })
 export class InstructorSessionResultPageComponent extends InstructorCommentsComponent implements OnInit {
 

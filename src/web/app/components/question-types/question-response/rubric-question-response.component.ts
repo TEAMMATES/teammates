@@ -8,6 +8,7 @@ import {
   DEFAULT_RUBRIC_QUESTION_DETAILS,
   DEFAULT_RUBRIC_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
+import { NgIf, NgFor } from '@angular/common';
 
 /**
  * Rubric question response.
@@ -16,7 +17,7 @@ import {
     selector: 'tm-rubric-question-response',
     templateUrl: './rubric-question-response.component.html',
     styleUrls: ['./rubric-question-response.component.scss'],
-    standalone: false,
+    imports: [NgIf, NgFor],
 })
 export class RubricQuestionResponseComponent
     extends QuestionResponse<FeedbackRubricResponseDetails, FeedbackRubricQuestionDetails>

@@ -18,9 +18,6 @@ const routes: Routes = [
  * Module for login page.
  */
 @NgModule({
-  declarations: [
-    LoginPageComponent,
-  ],
   exports: [
     LoginPageComponent,
   ],
@@ -31,6 +28,7 @@ const routes: Routes = [
     NgxCaptchaModule,
     ReactiveFormsModule,
     AjaxLoadingModule,
+    LoginPageComponent,
   ],
 })
 export class LoginPageModule {}

@@ -11,7 +11,6 @@ import { DataPoint } from '../usage-statistics-page.component';
     selector: 'tm-stats-line-chart',
     templateUrl: './stats-line-chart.component.html',
     styleUrls: ['./stats-line-chart.component.scss'],
-    standalone: false,
 })
 export class StatsLineChartComponent implements OnChanges {
 

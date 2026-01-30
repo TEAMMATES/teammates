@@ -9,6 +9,7 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../types/feedback-res
 import {
   FeedbackResponseRecipientSubmissionFormModel,
 } from '../../question-submission-form/question-submission-form-model';
+import { NgIf } from '@angular/common';
 
 /**
  * Constraint of contribution question.
@@ -17,7 +18,7 @@ import {
     selector: 'tm-contribution-question-constraint',
     templateUrl: './contribution-question-constraint.component.html',
     styleUrls: ['./contribution-question-constraint.component.scss'],
-    standalone: false,
+    imports: [NgIf],
 })
 export class ContributionQuestionConstraintComponent
   extends QuestionConstraintComponent<FeedbackContributionQuestionDetails> {

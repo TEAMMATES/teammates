@@ -12,8 +12,6 @@ import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.modul
     CommonModule,
     RichTextEditorModule,
     FormsModule,
-  ],
-  declarations: [
     QuestionEditBriefDescriptionFormComponent,
   ],
   exports: [

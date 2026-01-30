@@ -7,8 +7,7 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
  * Module for banner used to display notifications to the user.
  */
 @NgModule({
-  declarations: [NotificationBannerComponent],
   exports: [NotificationBannerComponent],
-  imports: [CommonModule, TeammatesCommonModule],
+  imports: [CommonModule, TeammatesCommonModule, NotificationBannerComponent],
 })
 export class NotificationBannerModule { }

@@ -9,8 +9,6 @@ import { VisibilityEntityNamePipe } from './visibility-entity-name.pipe';
 @NgModule({
   imports: [
     CommonModule,
-  ],
-  declarations: [
     VisibilityEntityNamePipe,
     VisibilityCapabilityPipe,
   ],

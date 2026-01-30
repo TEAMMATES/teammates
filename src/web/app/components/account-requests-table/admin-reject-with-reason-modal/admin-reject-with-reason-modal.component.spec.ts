@@ -53,8 +53,6 @@ describe('RejectWithReasonModal', () => {
       ],
       providers: [
         NgbActiveModal,
-        SearchService,
-        StatusMessageService,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

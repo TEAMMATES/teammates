@@ -28,9 +28,6 @@ const routes: Routes = [
  * Module for instructor sessions result page.
  */
 @NgModule({
-  declarations: [
-    InstructorSessionResultPageComponent,
-  ],
   exports: [
     InstructorSessionResultPageComponent,
   ],
@@ -49,6 +46,7 @@ const routes: Routes = [
     ViewResultsPanelModule,
     SectionTypeDescriptionModule,
     PreviewSessionResultPanelModule,
+    InstructorSessionResultPageComponent,
   ],
 })
 export class InstructorSessionResultPageModule { }

@@ -6,6 +6,9 @@ import {
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
+import { NgFor, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { QuestionEditFormComponent } from '../../../components/question-edit-form/question-edit-form.component';
 
 interface TemplateQuestionModel {
   description: string;
@@ -18,10 +21,15 @@ interface TemplateQuestionModel {
  * Template question adding modal.
  */
 @Component({
-    templateUrl: './template-question-modal.component.html',
-    styleUrls: ['./template-question-modal.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  templateUrl: './template-question-modal.component.html',
+  styleUrls: ['./template-question-modal.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgFor,
+    FormsModule,
+    NgIf,
+    QuestionEditFormComponent,
+  ],
 })
 export class TemplateQuestionModalComponent {
 

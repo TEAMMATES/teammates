@@ -15,11 +15,6 @@ import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.modul
  * Module for account requests table.
  */
 @NgModule({
-  declarations: [
-    AccountRequestTableComponent,
-    EditRequestModalComponent,
-    RejectWithReasonModalComponent,
-  ],
   exports: [
     AccountRequestTableComponent,
   ],
@@ -31,6 +26,9 @@ import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.modul
     Pipes,
     RichTextEditorModule,
     AjaxLoadingModule,
+    AccountRequestTableComponent,
+    EditRequestModalComponent,
+    RejectWithReasonModalComponent,
   ],
 })
 export class AccountRequestTableModule { }

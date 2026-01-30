@@ -8,12 +8,12 @@ import { SingleResponseModule } from '../single-response/single-response.module'
  * Module for feedback response in student results page view.
  */
 @NgModule({
-  declarations: [StudentViewResponsesComponent],
   exports: [StudentViewResponsesComponent],
   imports: [
     CommonModule,
     SingleResponseModule,
     CommentBoxModule,
+    StudentViewResponsesComponent,
   ],
 })
 export class StudentViewResponsesModule { }

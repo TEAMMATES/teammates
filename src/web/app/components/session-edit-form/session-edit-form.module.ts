@@ -24,8 +24,6 @@ import { TimepickerModule } from '../timepicker/timepicker.module';
     TeammatesRouterModule,
     DatepickerModule,
     TimepickerModule,
-  ],
-  declarations: [
     SessionEditFormComponent,
   ],
   exports: [

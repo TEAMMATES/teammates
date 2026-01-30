@@ -1,22 +1,32 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleAuthProvider } from '@angular/fire/auth';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReCaptcha2Component } from 'ngx-captcha';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReCaptcha2Component, NgxCaptchaModule } from 'ngx-captcha';
 import { finalize } from 'rxjs/operators';
 import { ErrorMessageOutput } from './error-message-output';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
 import { SendLoginEmailResponse } from '../types/api-output';
+import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
+import { NgIf } from '@angular/common';
+import { AjaxLoadingComponent } from './components/ajax-loading/ajax-loading.component';
 
 /**
  * Login page component.
  */
 @Component({
-    selector: 'tm-login-page',
-    templateUrl: './login-page.component.html',
-    styleUrls: ['./login-page.component.scss'],
-    standalone: false,
+  selector: 'tm-login-page',
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.scss'],
+  imports: [
+    LoadingSpinnerDirective,
+    NgIf,
+    AjaxLoadingComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxCaptchaModule,
+  ],
 })
 export class LoginPageComponent implements OnInit {
 

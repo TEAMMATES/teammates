@@ -31,14 +31,6 @@ import { TeammatesRouterModule } from '../../components/teammates-router/teammat
  * Module for different view components of instructor session results page.
  */
 @NgModule({
-  declarations: [
-    InstructorSessionResultQuestionViewComponent,
-    InstructorSessionResultRgqViewComponent,
-    InstructorSessionResultGrqViewComponent,
-    InstructorSessionResultRqgViewComponent,
-    InstructorSessionResultGqrViewComponent,
-    InstructorSessionNoResponsePanelComponent,
-  ],
   exports: [
     InstructorSessionResultQuestionViewComponent,
     InstructorSessionResultRgqViewComponent,
@@ -62,6 +54,12 @@ import { TeammatesRouterModule } from '../../components/teammates-router/teammat
     PanelChevronModule,
     TeammatesRouterModule,
     LoadingRetryModule,
+    InstructorSessionResultQuestionViewComponent,
+    InstructorSessionResultRgqViewComponent,
+    InstructorSessionResultGrqViewComponent,
+    InstructorSessionResultRqgViewComponent,
+    InstructorSessionResultGqrViewComponent,
+    InstructorSessionNoResponsePanelComponent,
   ],
   providers: [
     CommentToCommentRowModelPipe,

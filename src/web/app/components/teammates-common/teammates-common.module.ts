@@ -40,8 +40,6 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
     NgbPopoverModule,
     NgbTooltipModule,
     TeammatesRouterModule,
-  ],
-  declarations: [
     EnumToArrayPipe,
     SubmissionStatusNamePipe,
     SubmissionStatusTooltipPipe,

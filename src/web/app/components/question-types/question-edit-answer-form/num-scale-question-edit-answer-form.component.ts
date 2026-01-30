@@ -10,15 +10,22 @@ import {
   DEFAULT_NUMSCALE_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
+import { FormsModule } from '@angular/forms';
+import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.directive';
+import { NgIf } from '@angular/common';
 
 /**
  * The numerical scale question submission form for a recipient.
  */
 @Component({
-    selector: 'tm-num-scale-question-edit-answer-form',
-    templateUrl: './num-scale-question-edit-answer-form.component.html',
-    styleUrls: ['./num-scale-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-num-scale-question-edit-answer-form',
+  templateUrl: './num-scale-question-edit-answer-form.component.html',
+  styleUrls: ['./num-scale-question-edit-answer-form.component.scss'],
+  imports: [
+    FormsModule,
+    WheelDisablerDirective,
+    NgIf,
+  ],
 })
 export class NumScaleQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackNumericalScaleQuestionDetails,

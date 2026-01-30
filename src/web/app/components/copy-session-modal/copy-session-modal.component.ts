@@ -2,15 +2,22 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Course } from '../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { FormsModule } from '@angular/forms';
+import { NgFor, NgClass, NgIf } from '@angular/common';
 
 /**
  * Copy current session modal.
  */
 @Component({
-    selector: 'tm-copy-session-modal',
-    templateUrl: './copy-session-modal.component.html',
-    styleUrls: ['./copy-session-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-copy-session-modal',
+  templateUrl: './copy-session-modal.component.html',
+  styleUrls: ['./copy-session-modal.component.scss'],
+  imports: [
+    FormsModule,
+    NgFor,
+    NgClass,
+    NgIf,
+  ],
 })
 export class CopySessionModalComponent {
 

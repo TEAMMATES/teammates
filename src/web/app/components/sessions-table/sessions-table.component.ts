@@ -17,17 +17,13 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import {
-  ColumnData,
-  SortableEvent,
-  SortableTableCellData,
-  SortableTableHeaderColorScheme,
-} from '../sortable-table/sortable-table.component';
+import { ColumnData, SortableEvent, SortableTableCellData, SortableTableHeaderColorScheme, SortableTableComponent } from '../sortable-table/sortable-table.component';
 import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
+import { NgIf } from '@angular/common';
 
 export type MutateEvent = {
   idx: number,
@@ -44,7 +40,7 @@ export type Index = number;
     selector: 'tm-sessions-table',
     templateUrl: './sessions-table.component.html',
     styleUrls: ['./sessions-table.component.scss'],
-    standalone: false,
+    imports: [NgIf, SortableTableComponent],
 })
 export class SessionsTableComponent implements OnInit {
   // enum

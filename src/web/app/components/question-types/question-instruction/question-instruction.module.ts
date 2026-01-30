@@ -12,15 +12,6 @@ import { TextQuestionInstructionComponent } from './text-question-instruction.co
  * Module for all different types of question instructions.
  */
 @NgModule({
-  declarations: [
-    ContributionQuestionInstructionComponent,
-    NumScaleQuestionInstructionComponent,
-    TextQuestionInstructionComponent,
-    RankOptionsQuestionInstructionComponent,
-    RankRecipientsQuestionInstructionComponent,
-    ConstsumOptionsQuestionInstructionComponent,
-    ConstsumRecipientsQuestionInstructionComponent,
-  ],
   exports: [
     ContributionQuestionInstructionComponent,
     NumScaleQuestionInstructionComponent,
@@ -32,6 +23,13 @@ import { TextQuestionInstructionComponent } from './text-question-instruction.co
   ],
   imports: [
     CommonModule,
+    ContributionQuestionInstructionComponent,
+    NumScaleQuestionInstructionComponent,
+    TextQuestionInstructionComponent,
+    RankOptionsQuestionInstructionComponent,
+    RankRecipientsQuestionInstructionComponent,
+    ConstsumOptionsQuestionInstructionComponent,
+    ConstsumRecipientsQuestionInstructionComponent,
   ],
 })
 export class QuestionInstructionModule { }

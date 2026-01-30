@@ -4,15 +4,13 @@ import { CourseRelatedInfoComponent } from './course-related-info.component';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 @NgModule({
-  declarations: [
-    CourseRelatedInfoComponent,
-  ],
   exports: [
     CourseRelatedInfoComponent,
   ],
   imports: [
     CommonModule,
     TeammatesRouterModule,
+    CourseRelatedInfoComponent,
   ],
 })
 export class CourseRelatedInfoModule { }

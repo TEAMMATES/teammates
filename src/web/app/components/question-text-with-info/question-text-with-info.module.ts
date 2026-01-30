@@ -12,9 +12,6 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
  * Module for question text with toggle-able additional info.
  */
 @NgModule({
-  declarations: [
-    QuestionTextWithInfoComponent,
-  ],
   exports: [
     QuestionTextWithInfoComponent,
   ],
@@ -23,6 +20,7 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
     QuestionAdditionalInfoModule,
     NgbTooltipModule,
     TeammatesRouterModule,
+    QuestionTextWithInfoComponent,
   ],
 })
 export class QuestionTextWithInfoModule { }

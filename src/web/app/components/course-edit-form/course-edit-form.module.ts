@@ -8,9 +8,6 @@ import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 @NgModule({
-  declarations: [
-    CourseEditFormComponent,
-  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,6 +15,7 @@ import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module'
     NgbTooltipModule,
     LoadingRetryModule,
     LoadingSpinnerModule,
+    CourseEditFormComponent,
   ],
   exports: [
     CourseEditFormComponent,

@@ -8,13 +8,11 @@ import { CopyCourseModalComponent } from './copy-course-modal.component';
  * Module for copy current course modal.
  */
 @NgModule({
-  declarations: [
-    CopyCourseModalComponent,
-  ],
   imports: [
     CommonModule,
     FormsModule,
     NgbTooltipModule,
+    CopyCourseModalComponent,
   ],
   exports: [
     CopyCourseModalComponent,

@@ -9,14 +9,12 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
  * Module for confirming deadline extensions.
  */
 @NgModule({
-  declarations: [
-    ExtensionConfirmModalComponent,
-  ],
   imports: [
     CommonModule,
     FormsModule,
     TeammatesCommonModule,
     SortableTableModule,
+    ExtensionConfirmModalComponent,
   ],
   exports: [
     ExtensionConfirmModalComponent,

@@ -1,19 +1,13 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { AdminHomePageComponent } from './admin-home-page.component';
 import { InstructorData } from './instructor-data';
-import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
 import { AccountService } from '../../../services/account.service';
 import { LinkService } from '../../../services/link.service';
-import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequestStatus } from '../../../types/api-output';
-import { AccountRequestTableModule } from '../../components/account-requests-table/account-request-table.module';
-import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
 describe('AdminHomePageComponent', () => {
@@ -24,22 +18,11 @@ describe('AdminHomePageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AdminHomePageComponent,
-        NewInstructorDataRowComponent,
-      ],
       imports: [
-        FormsModule,
-        LoadingSpinnerModule,
-        AccountRequestTableModule,
-        AjaxLoadingModule,
         RouterModule.forRoot([]),
       ],
       providers: [
-        AccountService,
         FormatDateDetailPipe,
-        StatusMessageService,
-        LinkService,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

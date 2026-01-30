@@ -25,9 +25,6 @@ const routes: Routes = [
  * Module for instructor course enroll page.
  */
 @NgModule({
-  declarations: [
-    InstructorCourseEnrollPageComponent,
-  ],
   exports: [
     InstructorCourseEnrollPageComponent,
   ],
@@ -42,6 +39,7 @@ const routes: Routes = [
     ProgressBarModule,
     LoadingSpinnerModule,
     PanelChevronModule,
+    InstructorCourseEnrollPageComponent,
   ],
 })
 export class InstructorCourseEnrollPageModule { }

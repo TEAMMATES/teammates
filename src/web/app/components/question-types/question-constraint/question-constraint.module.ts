@@ -11,14 +11,6 @@ import { TextQuestionConstraintComponent } from './text-question-constraint.comp
  * Module for all different types of question constraints.
  */
 @NgModule({
-  declarations: [
-    ContributionQuestionConstraintComponent,
-    NumScaleQuestionConstraintComponent,
-    TextQuestionConstraintComponent,
-    MsqQuestionConstraintComponent,
-    RankRecipientsQuestionConstraintComponent,
-    ConstsumRecipientsQuestionConstraintComponent,
-  ],
   exports: [
     ContributionQuestionConstraintComponent,
     NumScaleQuestionConstraintComponent,
@@ -29,6 +21,12 @@ import { TextQuestionConstraintComponent } from './text-question-constraint.comp
   ],
   imports: [
     CommonModule,
+    ContributionQuestionConstraintComponent,
+    NumScaleQuestionConstraintComponent,
+    TextQuestionConstraintComponent,
+    MsqQuestionConstraintComponent,
+    RankRecipientsQuestionConstraintComponent,
+    ConstsumRecipientsQuestionConstraintComponent,
   ],
 })
 export class QuestionConstraintModule { }

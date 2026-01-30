@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -14,15 +14,25 @@ import { StudentUpdateRequest } from '../../../types/api-request';
 import { FormValidator } from '../../../types/form-validator';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { NgIf, NgClass } from '@angular/common';
 
 /**
  * Instructor course student edit page.
  */
 @Component({
-    selector: 'tm-instructor-course-student-edit-page',
-    templateUrl: './instructor-course-student-edit-page.component.html',
-    styleUrls: ['./instructor-course-student-edit-page.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-course-student-edit-page',
+  templateUrl: './instructor-course-student-edit-page.component.html',
+  styleUrls: ['./instructor-course-student-edit-page.component.scss'],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgClass,
+  ],
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 

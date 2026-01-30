@@ -5,15 +5,22 @@ import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
 } from '../respondent-list-info-table/respondent-list-info-table-model';
+import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
 
 /**
  * Send reminders to respondents modal.
  */
 @Component({
-    selector: 'tm-send-reminders-to-respondents-modal',
-    templateUrl: './send-reminders-to-respondents-modal.component.html',
-    styleUrls: ['./send-reminders-to-respondents-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-send-reminders-to-respondents-modal',
+  templateUrl: './send-reminders-to-respondents-modal.component.html',
+  styleUrls: ['./send-reminders-to-respondents-modal.component.scss'],
+  imports: [
+    NgIf,
+    FormsModule,
+    RespondentListInfoTableComponent,
+  ],
 })
 export class SendRemindersToRespondentsModalComponent {
 

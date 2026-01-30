@@ -142,18 +142,7 @@ if (environment.maintenance) {
  * Root module.
  */
 @NgModule({
-  declarations: [
-    AppComponent,
-    PageComponent,
-    ClickOutsideDirective,
-    PublicPageComponent,
-    StaticPageComponent,
-    StudentPageComponent,
-    InstructorPageComponent,
-    AdminPageComponent,
-    MaintenancePageComponent,
-    MaintainerPageComponent,
-  ],
+  declarations: [AppComponent],
   bootstrap: [AppComponent],
   imports: [
     SimpleModalModule,
@@ -166,9 +155,9 @@ if (environment.maintenance) {
     LoaderBarModule,
     NotificationBannerModule,
     NgxPageScrollCoreModule.forRoot(),
-    ServiceWorkerModule.register('ngsw-worker.js', {
+    ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
-      registrationStrategy: 'registerImmediately',
+      registrationStrategy: "registerImmediately",
     }),
     LoadingSpinnerModule,
     TeammatesRouterModule,
@@ -176,9 +165,20 @@ if (environment.maintenance) {
     NgbDatepickerModule,
     SessionEditFormModule,
     environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
-        ? AngularFireModule.initializeApp(environment.firebaseConfig) : [],
+      ? AngularFireModule.initializeApp(environment.firebaseConfig)
+      : [],
     environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
-        ? AngularFireAuthModule : [],
+      ? AngularFireAuthModule
+      : [],
+    PageComponent,
+    ClickOutsideDirective,
+    PublicPageComponent,
+    StaticPageComponent,
+    StudentPageComponent,
+    InstructorPageComponent,
+    AdminPageComponent,
+    MaintenancePageComponent,
+    MaintainerPageComponent,
   ],
   providers: [
     customUrlSerializerProvider,

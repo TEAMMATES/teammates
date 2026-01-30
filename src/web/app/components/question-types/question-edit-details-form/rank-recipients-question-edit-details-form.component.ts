@@ -5,15 +5,16 @@ import {
 } from '../../../../types/api-output';
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
+import { FormsModule } from '@angular/forms';
 
 /**
  * Question details edit form component for Rank Recipients question.
  */
 @Component({
-    selector: 'tm-rank-recipients-question-edit-details-form',
-    templateUrl: './rank-recipients-question-edit-details-form.component.html',
-    styleUrls: ['./rank-recipients-question-edit-details-form.component.scss'],
-    standalone: false,
+  selector: 'tm-rank-recipients-question-edit-details-form',
+  templateUrl: './rank-recipients-question-edit-details-form.component.html',
+  styleUrls: ['./rank-recipients-question-edit-details-form.component.scss'],
+  imports: [FormsModule],
 })
 export class RankRecipientsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRankRecipientsQuestionDetails> {

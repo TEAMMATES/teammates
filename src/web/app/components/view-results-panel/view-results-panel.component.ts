@@ -16,15 +16,28 @@ import {
 import {
   InstructorSessionResultViewType,
 } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { SectionTypeDescriptionPipe } from '../../pages-instructor/instructor-session-result-page/section-type-description.pipe';
+import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 
 /**
  * Displaying the view results panel.
  */
 @Component({
-    selector: 'tm-view-results-panel',
-    templateUrl: './view-results-panel.component.html',
-    styleUrls: ['./view-results-panel.component.scss'],
-    standalone: false,
+  selector: 'tm-view-results-panel',
+  templateUrl: './view-results-panel.component.html',
+  styleUrls: ['./view-results-panel.component.scss'],
+  imports: [
+    NgIf,
+    NgbTooltip,
+    FormsModule,
+    NgFor,
+    KeyValuePipe,
+    SectionTypeDescriptionPipe,
+    EnumToArrayPipe,
+  ],
 })
 export class ViewResultsPanelComponent {
 

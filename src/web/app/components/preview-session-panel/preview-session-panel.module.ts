@@ -14,8 +14,6 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
     FormsModule,
     NgbTooltipModule,
     TeammatesRouterModule,
-  ],
-  declarations: [
     PreviewSessionPanelComponent,
   ],
   exports: [

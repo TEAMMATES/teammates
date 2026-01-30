@@ -20,10 +20,6 @@ const routes: Routes = [
  * Module for admin home page.
  */
 @NgModule({
-  declarations: [
-    AdminHomePageComponent,
-    NewInstructorDataRowComponent,
-  ],
   exports: [
     AdminHomePageComponent,
   ],
@@ -34,6 +30,8 @@ const routes: Routes = [
     AccountRequestTableModule,
     AjaxLoadingModule,
     LoadingSpinnerModule,
+    AdminHomePageComponent,
+    NewInstructorDataRowComponent,
   ],
   providers: [
     FormatDateDetailPipe,

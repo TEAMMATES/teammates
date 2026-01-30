@@ -20,7 +20,13 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
  * Module for comments table
  */
 @NgModule({
-  declarations: [
+  imports: [
+    TeammatesCommonModule,
+    CommonModule,
+    SingleResponseModule,
+    RichTextEditorModule,
+    NgbTooltipModule,
+    FormsModule,
     CommentEditFormComponent,
     CommentRowComponent,
     CommentTableModalComponent,
@@ -31,14 +37,6 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
     CommentVisibilityTypesJointNamePipe,
     CommentToCommentRowModelPipe,
     CommentsToCommentTableModelPipe,
-  ],
-  imports: [
-    TeammatesCommonModule,
-    CommonModule,
-    SingleResponseModule,
-    RichTextEditorModule,
-    NgbTooltipModule,
-    FormsModule,
   ],
   exports: [
     CommentEditFormComponent,

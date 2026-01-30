@@ -32,8 +32,6 @@ const routes: Routes = [
     LoadingSpinnerModule,
     LoadingRetryModule,
     QuestionResponsePanelModule,
-  ],
-  declarations: [
     SessionResultPageComponent,
   ],
   exports: [

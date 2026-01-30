@@ -74,15 +74,33 @@ import {
   InstructorExtensionTableColumnModel,
   StudentExtensionTableColumnModel,
 } from '../instructor-session-individual-extension-page/extension-table-column-model';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { SessionEditFormComponent } from '../../components/session-edit-form/session-edit-form.component';
+import { NgIf, NgFor } from '@angular/common';
+import { QuestionEditFormComponent } from '../../components/question-edit-form/question-edit-form.component';
+import { AddingQuestionPanelComponent } from '../../components/adding-question-panel/adding-question-panel.component';
+import { PreviewSessionPanelComponent } from '../../components/preview-session-panel/preview-session-panel.component';
+import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 
 /**
  * Instructor feedback session edit page.
  */
 @Component({
-    selector: 'tm-instructor-session-edit-page',
-    templateUrl: './instructor-session-edit-page.component.html',
-    styleUrls: ['./instructor-session-edit-page.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-session-edit-page',
+  templateUrl: './instructor-session-edit-page.component.html',
+  styleUrls: ['./instructor-session-edit-page.component.scss'],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    SessionEditFormComponent,
+    NgIf,
+    NgFor,
+    QuestionEditFormComponent,
+    AddingQuestionPanelComponent,
+    PreviewSessionPanelComponent,
+    ModifiedTimestampModalComponent,
+  ],
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
 

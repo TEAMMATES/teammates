@@ -1,12 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section.component';
-import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
-import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
-import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 
 describe('InstructorHelpCoursesSectionComponent', () => {
   let component: InstructorHelpCoursesSectionComponent;
@@ -14,12 +10,11 @@ describe('InstructorHelpCoursesSectionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorHelpCoursesSectionComponent,
-        InstructorHelpPanelComponent,
+      imports: [
+        RouterModule.forRoot([]),
+        NoopAnimationsModule,
+        NgxPageScrollCoreModule
       ],
-      imports: [NgbModule, RouterModule.forRoot([]), NgxPageScrollCoreModule,
-        NoopAnimationsModule, PanelChevronModule, TeammatesRouterModule],
     })
     .compileComponents();
   }));

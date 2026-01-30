@@ -18,10 +18,6 @@ const routes: Routes = [
  * Module for usage statistics page.
  */
 @NgModule({
-  declarations: [
-    UsageStatisticsPageComponent,
-    StatsLineChartComponent,
-  ],
   exports: [
     UsageStatisticsPageComponent,
   ],
@@ -32,6 +28,8 @@ const routes: Routes = [
     NgbTimepickerModule,
     FormsModule,
     LoadingSpinnerModule,
+    UsageStatisticsPageComponent,
+    StatsLineChartComponent,
   ],
 })
 export class UsageStatisticsPageModule { }

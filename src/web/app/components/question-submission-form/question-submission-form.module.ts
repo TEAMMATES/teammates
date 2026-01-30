@@ -35,8 +35,6 @@ import { VisibilityMessagesModule } from '../visibility-messages/visibility-mess
     LoadingSpinnerModule,
     AjaxLoadingModule,
     PanelChevronModule,
-  ],
-  declarations: [
     QuestionSubmissionFormComponent,
     RecipientTypeNamePipe,
   ],

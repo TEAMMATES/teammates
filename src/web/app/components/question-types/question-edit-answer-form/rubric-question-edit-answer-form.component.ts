@@ -9,15 +9,16 @@ import {
 } from '../../../../types/default-question-structs';
 import { RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../types/feedback-response-details';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
+import { NgFor, NgClass } from '@angular/common';
 
 /**
  * The rubric question submission form for a recipient.
  */
 @Component({
-    selector: 'tm-rubric-question-edit-answer-form',
-    templateUrl: './rubric-question-edit-answer-form.component.html',
-    styleUrls: ['./rubric-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-rubric-question-edit-answer-form',
+  templateUrl: './rubric-question-edit-answer-form.component.html',
+  styleUrls: ['./rubric-question-edit-answer-form.component.scss'],
+  imports: [NgFor, NgClass],
 })
 export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent
     <FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails> {

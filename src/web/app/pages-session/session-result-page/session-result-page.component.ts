@@ -31,6 +31,10 @@ import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { NgIf } from '@angular/common';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { QuestionResponsePanelComponent } from '../../components/question-response-panel/question-response-panel.component';
 
 export interface FeedbackQuestionModel {
   feedbackQuestion: FeedbackQuestion;
@@ -51,10 +55,15 @@ export interface FeedbackQuestionModel {
  * Feedback session result page.
  */
 @Component({
-    selector: 'tm-session-result-page',
-    templateUrl: './session-result-page.component.html',
-    styleUrls: ['./session-result-page.component.scss'],
-    standalone: false,
+  selector: 'tm-session-result-page',
+  templateUrl: './session-result-page.component.html',
+  styleUrls: ['./session-result-page.component.scss'],
+  imports: [
+    NgIf,
+    LoadingSpinnerDirective,
+    LoadingRetryComponent,
+    QuestionResponsePanelComponent,
+  ],
 })
 export class SessionResultPageComponent implements OnInit {
 

@@ -8,11 +8,11 @@ import { DatepickerComponent } from './datepicker.component';
  * Datepicker with today button module.
  */
 @NgModule({
-  declarations: [DatepickerComponent],
   imports: [
     CommonModule,
     FormsModule,
     NgbDatepickerModule,
+    DatepickerComponent,
   ],
   exports: [
     DatepickerComponent,

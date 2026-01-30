@@ -29,6 +29,12 @@ import { LogsHistogramDataModel } from '../../components/logs-histogram/logs-his
 import { LogsTableRowModel } from '../../components/logs-table/logs-table-model';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { LogsTableComponent } from '../../components/logs-table/logs-table.component';
+import { LogsHistogramComponent } from '../../components/logs-histogram/logs-histogram.component';
 
 /**
  * Model for searching of logs.
@@ -49,11 +55,21 @@ const DESCENDING_ORDER: string = 'desc';
  * Admin and maintainer logs page.
  */
 @Component({
-    selector: 'tm-logs-page',
-    templateUrl: './logs-page.component.html',
-    styleUrls: ['./logs-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-logs-page',
+  templateUrl: './logs-page.component.html',
+  styleUrls: ['./logs-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    LoadingSpinnerDirective,
+    NgbInputDatepicker,
+    FormsModule,
+    NgbTimepicker,
+    NgFor,
+    NgClass,
+    LogsTableComponent,
+    LogsHistogramComponent,
+  ],
 })
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;

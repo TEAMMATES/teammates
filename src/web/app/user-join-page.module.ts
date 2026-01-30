@@ -15,9 +15,6 @@ const routes: Routes = [
  * Module for user join page.
  */
 @NgModule({
-  declarations: [
-    UserJoinPageComponent,
-  ],
   exports: [
     UserJoinPageComponent,
   ],
@@ -25,6 +22,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
+    UserJoinPageComponent,
   ],
 })
 export class UserJoinPageModule { }

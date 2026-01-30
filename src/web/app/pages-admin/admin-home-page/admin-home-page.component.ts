@@ -10,15 +10,27 @@ import { AccountRequest, AccountRequests } from '../../../types/api-output';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { FormsModule } from '@angular/forms';
+import { NgIf, NgFor } from '@angular/common';
+import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
+import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
 
 /**
  * Admin home page.
  */
 @Component({
-    selector: 'tm-admin-home-page',
-    templateUrl: './admin-home-page.component.html',
-    styleUrls: ['./admin-home-page.component.scss'],
-    standalone: false,
+  selector: 'tm-admin-home-page',
+  templateUrl: './admin-home-page.component.html',
+  styleUrls: ['./admin-home-page.component.scss'],
+  imports: [
+    FormsModule,
+    NgIf,
+    NgFor,
+    NewInstructorDataRowComponent,
+    AjaxLoadingComponent,
+    AccountRequestTableComponent,
+  ],
 })
 export class AdminHomePageComponent implements OnInit {
 

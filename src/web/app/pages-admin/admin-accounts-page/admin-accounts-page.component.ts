@@ -9,15 +9,21 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Account, Course, Courses } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { NgIf, NgFor } from '@angular/common';
 
 /**
  * Admin accounts page.
  */
 @Component({
-    selector: 'tm-admin-accounts-page',
-    templateUrl: './admin-accounts-page.component.html',
-    styleUrls: ['./admin-accounts-page.component.scss'],
-    standalone: false,
+  selector: 'tm-admin-accounts-page',
+  templateUrl: './admin-accounts-page.component.html',
+  styleUrls: ['./admin-accounts-page.component.scss'],
+  imports: [
+    LoadingSpinnerDirective,
+    NgIf,
+    NgFor,
+  ],
 })
 export class AdminAccountsPageComponent implements OnInit {
 

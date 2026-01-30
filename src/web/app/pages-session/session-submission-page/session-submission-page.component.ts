@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, OnInit, DOCUMENT } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
@@ -52,6 +52,14 @@ import {
 } from '../../components/question-submission-form/question-submission-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { FormsModule } from '@angular/forms';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { QuestionSubmissionFormComponent } from '../../components/question-submission-form/question-submission-form.component';
+import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
+import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -67,10 +75,23 @@ export enum SessionView {
  * Feedback session submission page.
  */
 @Component({
-    selector: 'tm-session-submission-page',
-    templateUrl: './session-submission-page.component.html',
-    styleUrls: ['./session-submission-page.component.scss'],
-    standalone: false,
+  selector: 'tm-session-submission-page',
+  templateUrl: './session-submission-page.component.html',
+  styleUrls: ['./session-submission-page.component.scss'],
+  imports: [
+    NgIf,
+    LoadingSpinnerDirective,
+    NgFor,
+    FormsModule,
+    LoadingRetryComponent,
+    QuestionSubmissionFormComponent,
+    DestroyableDirective,
+    InViewportDirective,
+    NgbTooltip,
+    AjaxLoadingComponent,
+    SafeHtmlPipe,
+    KeyValuePipe,
+  ],
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 

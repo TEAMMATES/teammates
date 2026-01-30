@@ -7,11 +7,11 @@ import { QuestionStatisticsModule } from '../../question-types/question-statisti
  * Module for the single statistics component.
  */
 @NgModule({
-  declarations: [SingleStatisticsComponent],
   exports: [SingleStatisticsComponent],
   imports: [
     CommonModule,
     QuestionStatisticsModule,
+    SingleStatisticsComponent,
   ],
 })
 export class SingleStatisticsModule { }

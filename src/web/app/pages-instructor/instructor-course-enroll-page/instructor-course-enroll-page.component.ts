@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit, DOCUMENT } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HotTableRegisterer } from '@handsontable/angular';
+import { HotTableRegisterer, HotTableModule } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { DetailedSettings } from 'handsontable/plugins/contextMenu';
 import { PageScrollService } from 'ngx-page-scroll-core';
@@ -18,6 +18,14 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { StatusMessage } from '../../components/status-message/status-message';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { NgIf, NgClass, NgFor } from '@angular/common';
+import { StatusMessageComponent } from '../../components/status-message/status-message.component';
+import { AjaxPreloadComponent } from '../../components/ajax-preload/ajax-preload.component';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 
 interface EnrollResultPanel {
   status: EnrollStatus;
@@ -29,11 +37,23 @@ interface EnrollResultPanel {
  * Instructor course enroll page.
  */
 @Component({
-    selector: 'tm-instructor-course-enroll-page',
-    templateUrl: './instructor-course-enroll-page.component.html',
-    styleUrls: ['./instructor-course-enroll-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-course-enroll-page',
+  templateUrl: './instructor-course-enroll-page.component.html',
+  styleUrls: ['./instructor-course-enroll-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    LoadingSpinnerDirective,
+    LoadingRetryComponent,
+    NgIf,
+    StatusMessageComponent,
+    AjaxPreloadComponent,
+    PanelChevronComponent,
+    HotTableModule,
+    NgClass,
+    ProgressBarComponent,
+    AjaxLoadingComponent,
+    NgFor,
+  ],
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {
   GENERAL_ERROR_MESSAGE: string = `You may check that: "Section" and "Comment" are optional while "Team", "Name",

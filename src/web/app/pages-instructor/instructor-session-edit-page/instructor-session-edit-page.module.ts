@@ -56,8 +56,6 @@ const routes: Routes = [
     PanelChevronModule,
     ExtensionConfirmModalModule,
     ModifiedTimestampModalModule,
-  ],
-  declarations: [
     InstructorSessionEditPageComponent,
     TemplateQuestionModalComponent,
     CopyQuestionsFromOtherSessionsModalComponent,

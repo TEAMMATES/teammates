@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 
 import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
 import { SessionsTableComponent } from './sessions-table.component';
-import { SessionsTableModule } from './sessions-table.module';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -14,7 +13,12 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
+import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
+import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
+import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
+import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
+import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 
 describe('SessionsTableComponent', () => {
   let component: SessionsTableComponent;
@@ -22,10 +26,16 @@ describe('SessionsTableComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SessionsTableModule, RouterModule.forRoot([]), TeammatesRouterModule],
+      imports: [RouterModule.forRoot([])],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
+        PublishStatusTooltipPipe,
+        PublishStatusNamePipe,
+        SubmissionStatusTooltipPipe,
+        SubmissionStatusNamePipe,
+        FormatDateBriefPipe,
+        FormatDateDetailPipe,
       ],
     })
     .compileComponents();

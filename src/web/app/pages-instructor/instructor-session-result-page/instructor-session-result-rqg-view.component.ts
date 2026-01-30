@@ -3,16 +3,29 @@ import { SectionTabModel } from './instructor-session-result-page.component';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { NgFor, NgIf, KeyValuePipe } from '@angular/common';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { GqrRqgViewResponsesComponent } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.component';
 
 /**
  * Instructor sessions results page RQG view.
  */
 @Component({
-    selector: 'tm-instructor-session-result-rqg-view',
-    templateUrl: './instructor-session-result-rqg-view.component.html',
-    styleUrls: ['./instructor-session-result-rqg-view.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-session-result-rqg-view',
+  templateUrl: './instructor-session-result-rqg-view.component.html',
+  styleUrls: ['./instructor-session-result-rqg-view.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgFor,
+    PanelChevronComponent,
+    NgIf,
+    LoadingSpinnerDirective,
+    LoadingRetryComponent,
+    GqrRqgViewResponsesComponent,
+    KeyValuePipe,
+  ],
 })
 export class InstructorSessionResultRqgViewComponent extends InstructorSessionResultView {
 

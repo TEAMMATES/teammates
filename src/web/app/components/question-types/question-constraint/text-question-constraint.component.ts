@@ -8,7 +8,6 @@ import { QuestionConstraintComponent } from './question-constraint.component';
     selector: 'tm-text-question-constraint',
     templateUrl: './text-question-constraint.component.html',
     styleUrls: ['./text-question-constraint.component.scss'],
-    standalone: false,
 })
 export class TextQuestionConstraintComponent extends QuestionConstraintComponent<any> {
 

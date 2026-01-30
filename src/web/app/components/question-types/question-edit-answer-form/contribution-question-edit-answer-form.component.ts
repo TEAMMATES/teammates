@@ -12,15 +12,24 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
+import { FormsModule } from '@angular/forms';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { ContributionPointDescriptionPipe } from './contribution-point-description.pipe';
 
 /**
  * The contribution question submission form for a recipient.
  */
 @Component({
-    selector: 'tm-contribution-question-edit-answer-form',
-    templateUrl: './contribution-question-edit-answer-form.component.html',
-    styleUrls: ['./contribution-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-contribution-question-edit-answer-form',
+  templateUrl: './contribution-question-edit-answer-form.component.html',
+  styleUrls: ['./contribution-question-edit-answer-form.component.scss'],
+  imports: [
+    FormsModule,
+    NgClass,
+    NgFor,
+    NgIf,
+    ContributionPointDescriptionPipe,
+  ],
 })
 export class ContributionQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent

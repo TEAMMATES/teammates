@@ -1,16 +1,8 @@
-import { Location } from '@angular/common';
-import {
-  Component,
-  Directive,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  Output,
-} from '@angular/core';
+import { Location, NgStyle, NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { Component, Directive, ElementRef, EventEmitter, HostListener, Input, Output, forwardRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NgbModal, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
@@ -19,6 +11,11 @@ import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
 import { NotificationTargetUser } from '../types/api-output';
 import { Toast } from './components/toast/toast';
+import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
+import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
+import { ToastComponent } from './components/toast/toast.component';
+import { NotificationBannerComponent } from './components/notification-banner/notification-banner.component';
+import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -26,10 +23,25 @@ const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation Syste
  * Base skeleton for all pages.
  */
 @Component({
-    selector: 'tm-page',
-    templateUrl: './page.component.html',
-    styleUrls: ['./page.component.scss'],
-    standalone: false,
+  selector: 'tm-page',
+  templateUrl: './page.component.html',
+  styleUrls: ['./page.component.scss'],
+  imports: [
+    forwardRef(() => ClickOutsideDirective),
+    TeammatesRouterDirective,
+    NgStyle,
+    NgIf,
+    NgFor,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    LoaderBarComponent,
+    ToastComponent,
+    NotificationBannerComponent,
+    LoadingSpinnerDirective,
+    RouterOutlet,
+    AsyncPipe,
+  ],
 })
 export class PageComponent {
 
@@ -164,10 +176,7 @@ export class PageComponent {
 /**
  * Directive to emit an event if a click occurred outside the element.
  */
-@Directive({
-    selector: '[tmClickOutside]',
-    standalone: false,
-})
+@Directive({ selector: '[tmClickOutside]', })
 export class ClickOutsideDirective {
   @Output() tmClickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 

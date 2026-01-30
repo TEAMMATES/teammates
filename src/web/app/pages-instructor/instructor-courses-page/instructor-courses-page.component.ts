@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -37,6 +37,15 @@ import {
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { CourseEditFormComponent } from '../../components/course-edit-form/course-edit-form.component';
+import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 
 interface CourseModel {
   course: Course;
@@ -49,11 +58,27 @@ interface CourseModel {
  * Instructor courses list page.
  */
 @Component({
-    selector: 'tm-instructor-courses-page',
-    templateUrl: './instructor-courses-page.component.html',
-    styleUrls: ['./instructor-courses-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-courses-page',
+  templateUrl: './instructor-courses-page.component.html',
+  styleUrls: ['./instructor-courses-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    CourseEditFormComponent,
+    ProgressBarComponent,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    AjaxLoadingComponent,
+    NgFor,
+    NgbTooltip,
+    TeammatesRouterDirective,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    PanelChevronComponent,
+    ModifiedTimestampModalComponent,
+    DatePipe,
+  ],
 })
 export class InstructorCoursesPageComponent implements OnInit {
 

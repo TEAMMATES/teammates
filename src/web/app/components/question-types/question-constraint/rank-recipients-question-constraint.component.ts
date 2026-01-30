@@ -9,6 +9,7 @@ import {
   NO_VALUE,
   RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
 } from '../../../../types/feedback-response-details';
+import { NgIf } from '@angular/common';
 
 /**
  * Constraint of rank recipients question.
@@ -17,7 +18,7 @@ import {
     selector: 'tm-rank-recipients-question-constraint',
     templateUrl: './rank-recipients-question-constraint.component.html',
     styleUrls: ['./rank-recipients-question-constraint.component.scss'],
-    standalone: false,
+    imports: [NgIf],
 })
 export class RankRecipientsQuestionConstraintComponent
     extends QuestionConstraintComponent<FeedbackRankRecipientsQuestionDetails> {

@@ -6,10 +6,7 @@ import { CommentOutput } from '../../../types/api-output';
 /**
  * Transforms comments to readonly comment table model.
  */
-@Pipe({
-    name: 'commentsToCommentTableModel',
-    standalone: false,
-})
+@Pipe({ name: 'commentsToCommentTableModel', })
 export class CommentsToCommentTableModelPipe implements PipeTransform {
   constructor(private commentToCommentRowModel: CommentToCommentRowModelPipe) {
   }

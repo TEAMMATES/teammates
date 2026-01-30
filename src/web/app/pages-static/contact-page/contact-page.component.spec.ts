@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ContactPageComponent } from './contact-page.component';
+import { RouterModule } from '@angular/router';
 
 describe('ContactPageComponent', () => {
   let component: ContactPageComponent;
@@ -7,7 +8,7 @@ describe('ContactPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ContactPageComponent],
+      imports: [RouterModule.forRoot([])],
     })
     .compileComponents();
   }));

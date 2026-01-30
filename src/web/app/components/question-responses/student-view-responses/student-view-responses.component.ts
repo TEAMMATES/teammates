@@ -6,15 +6,30 @@ import {
   ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { SingleResponseComponent } from '../single-response/single-response.component';
+import { CommentRowComponent } from '../../comment-box/comment-row/comment-row.component';
+import { CommentTableComponent } from '../../comment-box/comment-table/comment-table.component';
+import { CommentToCommentRowModelPipe } from '../../comment-box/comment-to-comment-row-model.pipe';
+import { CommentsToCommentTableModelPipe } from '../../comment-box/comments-to-comment-table-model.pipe';
 
 /**
  * Feedback response in student results page view.
  */
 @Component({
-    selector: 'tm-student-view-responses',
-    templateUrl: './student-view-responses.component.html',
-    styleUrls: ['./student-view-responses.component.scss'],
-    standalone: false,
+  selector: 'tm-student-view-responses',
+  templateUrl: './student-view-responses.component.html',
+  styleUrls: ['./student-view-responses.component.scss'],
+  imports: [
+    NgClass,
+    NgFor,
+    SingleResponseComponent,
+    NgIf,
+    CommentRowComponent,
+    CommentTableComponent,
+    CommentToCommentRowModelPipe,
+    CommentsToCommentTableModelPipe,
+  ],
 })
 export class StudentViewResponsesComponent implements OnInit {
   // enum

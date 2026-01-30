@@ -20,16 +20,27 @@ import {
   ReminderResponseModel,
 } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 
 /**
  * Instructor sessions results page No Response Panel.
  */
 @Component({
-    selector: 'tm-instructor-session-no-response-panel',
-    templateUrl: './instructor-session-no-response-panel.component.html',
-    styleUrls: ['./instructor-session-no-response-panel.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-session-no-response-panel',
+  templateUrl: './instructor-session-no-response-panel.component.html',
+  styleUrls: ['./instructor-session-no-response-panel.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    TeammatesRouterDirective,
+    NgTemplateOutlet,
+    PanelChevronComponent,
+    LoadingSpinnerDirective,
+    NgFor,
+  ],
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
 

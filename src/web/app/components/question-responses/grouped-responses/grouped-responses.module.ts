@@ -15,7 +15,6 @@ import { SingleResponseModule } from '../single-response/single-response.module'
  * Module for a list of responses grouped in GRQ/RGQ mode.
  */
 @NgModule({
-  declarations: [GroupedResponsesComponent],
   exports: [GroupedResponsesComponent],
   imports: [
     CommonModule,
@@ -25,6 +24,7 @@ import { SingleResponseModule } from '../single-response/single-response.module'
     CommentBoxModule,
     TeammatesCommonModule,
     NgbTooltipModule,
+    GroupedResponsesComponent,
   ],
 })
 export class GroupedResponsesModule { }

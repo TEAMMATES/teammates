@@ -10,22 +10,29 @@ import {
 } from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
 import { Sections } from '../../../../pages-help/instructor-help-page/sections';
 import { SimpleModalType } from '../../../simple-modal/simple-modal-type';
-import {
-  ColumnData,
-  SortableTableCellData,
-} from '../../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../../sortable-table/sortable-table.component';
 import {
   ContributionQuestionStatisticsCalculation,
 } from '../question-statistics-calculation/contribution-question-statistics-calculation';
+import { NgIf, NgFor } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { TeammatesRouterDirective } from '../../../teammates-router/teammates-router.directive';
 
 /**
  * Statistics for contribution questions.
  */
 @Component({
-    selector: 'tm-contribution-question-statistics',
-    templateUrl: './contribution-question-statistics.component.html',
-    styleUrls: ['./contribution-question-statistics.component.scss'],
-    standalone: false,
+  selector: 'tm-contribution-question-statistics',
+  templateUrl: './contribution-question-statistics.component.html',
+  styleUrls: ['./contribution-question-statistics.component.scss'],
+  imports: [
+    NgIf,
+    NgbTooltip,
+    ContributionComponent,
+    NgFor,
+    TeammatesRouterDirective,
+    SortableTableComponent,
+  ],
 })
 export class ContributionQuestionStatisticsComponent
   extends ContributionQuestionStatisticsCalculation

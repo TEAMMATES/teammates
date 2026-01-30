@@ -23,6 +23,11 @@ import { CommentsToCommentTableModelPipe } from '../../components/comment-box/co
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { NgFor, NgIf } from '@angular/common';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import { GrqRgqViewResponsesComponent } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
 
 interface SessionTab {
   isCollapsed: boolean;
@@ -35,11 +40,18 @@ interface SessionTab {
  * Instructor student records page.
  */
 @Component({
-    selector: 'tm-instructor-student-records-page',
-    templateUrl: './instructor-student-records-page.component.html',
-    styleUrls: ['./instructor-student-records-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-student-records-page',
+  templateUrl: './instructor-student-records-page.component.html',
+  styleUrls: ['./instructor-student-records-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgFor,
+    PanelChevronComponent,
+    NgIf,
+    GrqRgqViewResponsesComponent,
+  ],
 })
 export class InstructorStudentRecordsPageComponent extends InstructorCommentsComponent implements OnInit {
 

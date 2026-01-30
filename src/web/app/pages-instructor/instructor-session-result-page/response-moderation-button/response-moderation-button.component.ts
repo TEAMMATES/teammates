@@ -5,15 +5,17 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { NgClass } from '@angular/common';
 
 /**
  * Button for instructor moderating responses.
  */
 @Component({
-    selector: 'tm-response-moderation-button',
-    templateUrl: './response-moderation-button.component.html',
-    styleUrls: ['./response-moderation-button.component.scss'],
-    standalone: false,
+  selector: 'tm-response-moderation-button',
+  templateUrl: './response-moderation-button.component.html',
+  styleUrls: ['./response-moderation-button.component.scss'],
+  imports: [TeammatesRouterDirective, NgClass],
 })
 export class ResponseModerationButtonComponent {
 

@@ -9,15 +9,23 @@ import {
   DEFAULT_TEXT_QUESTION_DETAILS,
   DEFAULT_TEXT_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
+import { NgIf, NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 
 /**
  * The text question submission form for a recipient.
  */
 @Component({
-    selector: 'tm-text-question-edit-answer-form',
-    templateUrl: './text-question-edit-answer-form.component.html',
-    styleUrls: ['./text-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-text-question-edit-answer-form',
+  templateUrl: './text-question-edit-answer-form.component.html',
+  styleUrls: ['./text-question-edit-answer-form.component.scss'],
+  imports: [
+    NgIf,
+    FormsModule,
+    RichTextEditorComponent,
+    NgClass,
+  ],
 })
 export class TextQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent

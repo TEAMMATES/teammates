@@ -9,8 +9,6 @@ import { SectionTypeDescriptionPipe } from './section-type-description.pipe';
 @NgModule({
   imports: [
     CommonModule,
-  ],
-  declarations: [
     SectionTypeDescriptionPipe,
   ],
   exports: [

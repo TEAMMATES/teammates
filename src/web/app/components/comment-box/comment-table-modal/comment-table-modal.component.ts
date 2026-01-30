@@ -3,16 +3,17 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
-import { CommentTableModel } from '../comment-table/comment-table.component';
+import { CommentTableModel, CommentTableComponent } from '../comment-table/comment-table.component';
+import { NgIf } from '@angular/common';
 
 /**
  * Modal for the comments table.
  */
 @Component({
-    selector: 'tm-comment-table-modal',
-    templateUrl: './comment-table-modal.component.html',
-    styleUrls: ['./comment-table-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-comment-table-modal',
+  templateUrl: './comment-table-modal.component.html',
+  styleUrls: ['./comment-table-modal.component.scss'],
+  imports: [NgIf, CommentTableComponent],
 })
 export class CommentTableModalComponent implements OnChanges {
 

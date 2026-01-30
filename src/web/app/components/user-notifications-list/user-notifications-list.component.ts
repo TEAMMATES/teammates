@@ -14,6 +14,11 @@ import {
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { collapseAnim } from '../teammates-common/collapse-anim';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { LoadingRetryComponent } from '../loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
+import { NotificationStyleClassPipe } from '../teammates-common/notification-style-class.pipe';
 
 export interface NotificationTab {
   notification: Notification;
@@ -27,11 +32,19 @@ export interface NotificationTab {
  * Component for user notifications list.
  */
 @Component({
-    selector: 'tm-user-notifications-list',
-    templateUrl: './user-notifications-list.component.html',
-    styleUrls: ['./user-notifications-list.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-user-notifications-list',
+  templateUrl: './user-notifications-list.component.html',
+  styleUrls: ['./user-notifications-list.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgFor,
+    NgClass,
+    PanelChevronComponent,
+    NotificationStyleClassPipe,
+  ],
 })
 export class UserNotificationsListComponent implements OnInit {
 

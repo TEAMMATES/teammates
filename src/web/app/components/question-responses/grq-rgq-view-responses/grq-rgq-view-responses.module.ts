@@ -14,7 +14,6 @@ import { GroupedResponsesModule } from '../grouped-responses/grouped-responses.m
  * Module for component to display list of responses in GRQ/RGQ view.
  */
 @NgModule({
-  declarations: [GrqRgqViewResponsesComponent],
   exports: [GrqRgqViewResponsesComponent],
   imports: [
     CommonModule,
@@ -23,6 +22,7 @@ import { GroupedResponsesModule } from '../grouped-responses/grouped-responses.m
     TeammatesCommonModule,
     NgbCollapseModule,
     PanelChevronModule,
+    GrqRgqViewResponsesComponent,
   ],
 })
 export class GrqRgqViewResponsesModule { }

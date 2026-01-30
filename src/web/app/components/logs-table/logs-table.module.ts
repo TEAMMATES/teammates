@@ -9,8 +9,7 @@ import { LogsTableComponent } from './logs-table.component';
  * Module for displaying logs in table.
  */
 @NgModule({
-  declarations: [LogsTableComponent],
-  imports: [CommonModule, NgbTooltipModule, LogLineModule, LogDetailsModule],
+  imports: [CommonModule, NgbTooltipModule, LogLineModule, LogDetailsModule, LogsTableComponent],
   exports: [LogsTableComponent],
 })
 export class LogsTableModule { }

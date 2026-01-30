@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { PreviewSessionPanelComponent } from './preview-session-panel.component';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 describe('PreviewSessionPanelComponent', () => {
   let component: PreviewSessionPanelComponent;
@@ -11,14 +8,8 @@ describe('PreviewSessionPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PreviewSessionPanelComponent,
-      ],
       imports: [
-        FormsModule,
         RouterModule.forRoot([]),
-        NgbTooltipModule,
-        TeammatesRouterModule,
       ],
     })
     .compileComponents();

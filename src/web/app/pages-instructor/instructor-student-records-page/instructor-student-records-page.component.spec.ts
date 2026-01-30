@@ -2,16 +2,10 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { InstructorStudentRecordsPageComponent } from './instructor-student-records-page.component';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
-import {
-  GrqRgqViewResponsesModule,
-} from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
+import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 
 describe('InstructorStudentRecordsPageComponent', () => {
   let component: InstructorStudentRecordsPageComponent;
@@ -19,16 +13,8 @@ describe('InstructorStudentRecordsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorStudentRecordsPageComponent,
-      ],
       imports: [
         RouterModule.forRoot([]),
-        NgbModule,
-        GrqRgqViewResponsesModule,
-        LoadingSpinnerModule,
-        LoadingRetryModule,
-        PanelChevronModule,
       ],
       providers: [
         {
@@ -37,6 +23,7 @@ describe('InstructorStudentRecordsPageComponent', () => {
             queryParams: of({ courseid: 'su1337', studentemail: 'punk@punk.com' }),
           },
         },
+        CommentToCommentRowModelPipe,
         CommentsToCommentTableModelPipe,
         provideHttpClient(),
         provideHttpClientTesting(),

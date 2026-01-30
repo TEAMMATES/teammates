@@ -10,10 +10,7 @@ import { LoadingSpinnerComponent } from './loading-spinner.component';
 /**
  * Directive for loading spinner component
  */
-@Directive({
-    selector: '[tmIsLoading]',
-    standalone: false,
-})
+@Directive({ selector: '[tmIsLoading]', })
 export class LoadingSpinnerDirective {
   loadingComponent: ComponentRef<LoadingSpinnerComponent>;
 

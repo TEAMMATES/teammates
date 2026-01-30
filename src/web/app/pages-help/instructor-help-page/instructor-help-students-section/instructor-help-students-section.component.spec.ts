@@ -3,18 +3,8 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { InstructorHelpStudentsSectionComponent } from './instructor-help-students-section.component';
-import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
-import {
-  InstructorCourseStudentEditFormModule,
-} from '../../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-form.module';
-import {
-  InstructorSearchComponentsModule,
-} from '../../../pages-instructor/instructor-search-page/instructor-search-components.module';
-import { ExampleBoxModule } from '../example-box/example-box.module';
-import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 
 describe('InstructorHelpStudentsSectionComponent', () => {
   let component: InstructorHelpStudentsSectionComponent;
@@ -22,19 +12,10 @@ describe('InstructorHelpStudentsSectionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorHelpStudentsSectionComponent,
-        InstructorHelpPanelComponent,
-      ],
       imports: [
-        NgbModule,
         RouterModule.forRoot([]),
         NgxPageScrollCoreModule,
         NoopAnimationsModule,
-        ExampleBoxModule,
-        InstructorSearchComponentsModule,
-        InstructorCourseStudentEditFormModule,
-        PanelChevronModule,
       ],
       providers: [
         provideHttpClient(),

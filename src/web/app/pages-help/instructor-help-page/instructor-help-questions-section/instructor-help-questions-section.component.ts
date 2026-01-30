@@ -59,16 +59,33 @@ import {
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
+import { NgIf } from '@angular/common';
+import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
+import { ExampleBoxComponent } from '../example-box/example-box.component';
+import { QuestionEditFormComponent } from '../../../components/question-edit-form/question-edit-form.component';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { InstructorSessionResultQuestionViewComponent } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-question-view.component';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { QuestionSubmissionFormComponent } from '../../../components/question-submission-form/question-submission-form.component';
 
 /**
  * Questions Section of the Instructor Help Page.
  */
 @Component({
-    selector: 'tm-instructor-help-questions-section',
-    templateUrl: './instructor-help-questions-section.component.html',
-    styleUrls: ['./instructor-help-questions-section.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-help-questions-section',
+  templateUrl: './instructor-help-questions-section.component.html',
+  styleUrls: ['./instructor-help-questions-section.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    InstructorHelpPanelComponent,
+    ExampleBoxComponent,
+    QuestionEditFormComponent,
+    TeammatesRouterDirective,
+    InstructorSessionResultQuestionViewComponent,
+    NgbTooltip,
+    QuestionSubmissionFormComponent,
+  ],
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

@@ -25,18 +25,6 @@ import { TeammatesRouterModule } from '../../teammates-router/teammates-router.m
  * Module for all different types of question statistics.
  */
 @NgModule({
-  declarations: [
-    ContributionQuestionStatisticsComponent,
-    TextQuestionStatisticsComponent,
-    McqQuestionStatisticsComponent,
-    MsqQuestionStatisticsComponent,
-    NumScaleQuestionStatisticsComponent,
-    RubricQuestionStatisticsComponent,
-    RankOptionsQuestionStatisticsComponent,
-    RankRecipientsQuestionStatisticsComponent,
-    ConstsumOptionsQuestionStatisticsComponent,
-    ConstsumRecipientsQuestionStatisticsComponent,
-  ],
   exports: [
     TextQuestionStatisticsComponent,
     McqQuestionStatisticsComponent,
@@ -57,6 +45,16 @@ import { TeammatesRouterModule } from '../../teammates-router/teammates-router.m
     RouterModule,
     ContributionQuestionStatisticsModule,
     TeammatesRouterModule,
+    ContributionQuestionStatisticsComponent,
+    TextQuestionStatisticsComponent,
+    McqQuestionStatisticsComponent,
+    MsqQuestionStatisticsComponent,
+    NumScaleQuestionStatisticsComponent,
+    RubricQuestionStatisticsComponent,
+    RankOptionsQuestionStatisticsComponent,
+    RankRecipientsQuestionStatisticsComponent,
+    ConstsumOptionsQuestionStatisticsComponent,
+    ConstsumRecipientsQuestionStatisticsComponent,
   ],
 })
 export class QuestionStatisticsModule { }

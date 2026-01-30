@@ -15,17 +15,6 @@ import { TeammatesCommonModule } from '../../teammates-common/teammates-common.m
  * Module for all different types of question responses.
  */
 @NgModule({
-  declarations: [
-    ContributionQuestionResponseComponent,
-    TextQuestionResponseComponent,
-    NumScaleQuestionResponseComponent,
-    McqQuestionResponseComponent,
-    MsqQuestionResponseComponent,
-    RubricQuestionResponseComponent,
-    ConstsumQuestionResponseComponent,
-    RankOptionsQuestionResponseComponent,
-    RankRecipientsQuestionResponseComponent,
-  ],
   exports: [
     ContributionQuestionResponseComponent,
     TextQuestionResponseComponent,
@@ -40,6 +29,15 @@ import { TeammatesCommonModule } from '../../teammates-common/teammates-common.m
   imports: [
     CommonModule,
     TeammatesCommonModule,
+    ContributionQuestionResponseComponent,
+    TextQuestionResponseComponent,
+    NumScaleQuestionResponseComponent,
+    McqQuestionResponseComponent,
+    MsqQuestionResponseComponent,
+    RubricQuestionResponseComponent,
+    ConstsumQuestionResponseComponent,
+    RankOptionsQuestionResponseComponent,
+    RankRecipientsQuestionResponseComponent,
   ],
 })
 export class QuestionResponseModule { }

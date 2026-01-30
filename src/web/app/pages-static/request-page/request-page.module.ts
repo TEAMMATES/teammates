@@ -19,10 +19,6 @@ const routes: Routes = [
  * Module for request page.
  */
 @NgModule({
-  declarations: [
-    RequestPageComponent,
-    InstructorRequestFormComponent,
-  ],
   exports: [
     RequestPageComponent,
   ],
@@ -33,6 +29,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgbAlertModule,
     NgxCaptchaModule,
+    RequestPageComponent,
+    InstructorRequestFormComponent,
   ],
 })
 export class RequestPageModule { }

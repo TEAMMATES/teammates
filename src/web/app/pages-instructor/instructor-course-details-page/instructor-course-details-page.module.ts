@@ -21,9 +21,6 @@ const routes: Routes = [
  * Module for instructor course details page.
  */
 @NgModule({
-  declarations: [
-    InstructorCourseDetailsPageComponent,
-  ],
   exports: [
     InstructorCourseDetailsPageComponent,
   ],
@@ -37,6 +34,7 @@ const routes: Routes = [
     AjaxLoadingModule,
     LoadingRetryModule,
     TeammatesRouterModule,
+    InstructorCourseDetailsPageComponent,
   ],
 })
 export class InstructorCourseDetailsPageModule { }

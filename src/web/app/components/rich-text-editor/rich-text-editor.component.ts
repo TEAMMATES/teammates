@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TINYMCE_BASE_URL } from './tinymce';
+import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
+import { NgIf, NgClass } from '@angular/common';
+import { EditorComponent } from '@tinymce/tinymce-angular';
+import { FormsModule } from '@angular/forms';
 
 const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
 
@@ -7,10 +11,17 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
  * A rich text editor.
  */
 @Component({
-    selector: 'tm-rich-text-editor',
-    templateUrl: './rich-text-editor.component.html',
-    styleUrls: ['./rich-text-editor.component.scss'],
-    standalone: false,
+  selector: 'tm-rich-text-editor',
+  templateUrl: './rich-text-editor.component.html',
+  styleUrls: ['./rich-text-editor.component.scss'],
+  imports: [
+    DestroyableDirective,
+    InViewportDirective,
+    NgIf,
+    EditorComponent,
+    NgClass,
+    FormsModule,
+  ],
 })
 export class RichTextEditorComponent implements OnInit {
 

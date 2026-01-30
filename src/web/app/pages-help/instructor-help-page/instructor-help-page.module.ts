@@ -100,8 +100,6 @@ const routes: Routes = [
     QuestionResponsePanelModule,
     QuestionEditBriefDescriptionFormModule,
     CourseRelatedInfoModule,
-  ],
-  declarations: [
     InstructorHelpPageComponent,
     InstructorHelpPanelComponent,
     InstructorHelpStudentsSectionComponent,

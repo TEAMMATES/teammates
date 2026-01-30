@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 import { DateTimeService } from '../../../services/datetime.service';
@@ -23,17 +23,39 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator
 import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
+import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.component';
+import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { TimepickerComponent } from '../timepicker/timepicker.component';
+import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
+import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 
 /**
  * Form to Add/Edit feedback sessions.
  */
 @Component({
-    selector: 'tm-session-edit-form',
-    templateUrl: './session-edit-form.component.html',
-    styleUrls: ['./session-edit-form.component.scss'],
-    providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-session-edit-form',
+  templateUrl: './session-edit-form.component.html',
+  styleUrls: ['./session-edit-form.component.scss'],
+  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    FormsModule,
+    NgFor,
+    TeammatesRouterDirective,
+    AjaxLoadingComponent,
+    NgbTooltip,
+    NgClass,
+    RichTextEditorComponent,
+    DatepickerComponent,
+    TimepickerComponent,
+    SubmissionStatusNamePipe,
+    PublishStatusNamePipe,
+  ],
 })
 export class SessionEditFormComponent {
 

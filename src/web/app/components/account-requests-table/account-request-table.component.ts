@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal/admin-edit-request-modal-model';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
@@ -17,16 +17,28 @@ import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
+import { NgIf, NgFor } from '@angular/common';
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
+import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 
 /**
  * Account requests table component.
  */
 @Component({
-    selector: 'tm-account-request-table',
-    templateUrl: './account-request-table.component.html',
-    styleUrls: ['./account-request-table.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-account-request-table',
+  templateUrl: './account-request-table.component.html',
+  styleUrls: ['./account-request-table.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    NgFor,
+    NgbTooltip,
+    AjaxLoadingComponent,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    SearchTermsHighlighterPipe,
+  ],
 })
 
 export class AccountRequestTableComponent {

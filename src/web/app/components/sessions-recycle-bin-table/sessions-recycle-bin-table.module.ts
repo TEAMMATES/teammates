@@ -14,13 +14,13 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
  * Module for deleted sessions table.
  */
 @NgModule({
-  declarations: [SessionsRecycleBinTableComponent, RecycleBinTableFormatDatePipe],
   imports: [
     AjaxLoadingModule,
     CommonModule,
     NgbTooltipModule,
     TeammatesCommonModule,
     PanelChevronModule,
+    SessionsRecycleBinTableComponent, RecycleBinTableFormatDatePipe,
   ],
   exports: [SessionsRecycleBinTableComponent],
 })

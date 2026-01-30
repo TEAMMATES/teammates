@@ -7,10 +7,10 @@ import { LoaderBarComponent } from './loader-bar.component';
  * Loading progress bar module.
  */
 @NgModule({
-  declarations: [LoaderBarComponent],
   imports: [
     NgbProgressbarModule,
     CommonModule,
+    LoaderBarComponent,
   ],
   exports: [
     LoaderBarComponent,

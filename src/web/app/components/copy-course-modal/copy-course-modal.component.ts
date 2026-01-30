@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CopyCourseModalResult } from './copy-course-modal-model';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { Course, FeedbackSession } from '../../../types/api-output';
 import { COURSE_ID_MAX_LENGTH, COURSE_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { NgIf, NgFor } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface Timezone {
   id: string;
@@ -17,10 +19,15 @@ const zeroPad: (num: number) => string = (num: number) => String(num).padStart(2
  * Copy course modal.
  */
 @Component({
-    selector: 'tm-copy-course-modal',
-    templateUrl: './copy-course-modal.component.html',
-    styleUrls: ['./copy-course-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-copy-course-modal',
+  templateUrl: './copy-course-modal.component.html',
+  styleUrls: ['./copy-course-modal.component.scss'],
+  imports: [
+    NgIf,
+    FormsModule,
+    NgbTooltip,
+    NgFor,
+  ],
 })
 export class CopyCourseModalComponent implements OnInit {
 

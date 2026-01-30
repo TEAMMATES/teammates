@@ -4,6 +4,7 @@ import {
   DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
+import { NgIf } from '@angular/common';
 
 /**
  * Instructions for Rank recipients question.
@@ -12,7 +13,7 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
     selector: 'tm-rank-recipients-question-instruction',
     templateUrl: './rank-recipients-question-instruction.component.html',
     styleUrls: ['./rank-recipients-question-instruction.component.scss'],
-    standalone: false,
+    imports: [NgIf],
 })
 export class RankRecipientsQuestionInstructionComponent {
 

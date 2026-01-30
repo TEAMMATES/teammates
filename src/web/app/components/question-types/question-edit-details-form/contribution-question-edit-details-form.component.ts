@@ -6,15 +6,24 @@ import {
   QuestionsSectionQuestions,
 } from '../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
 import { Sections } from '../../../pages-help/instructor-help-page/sections';
+import { FormsModule } from '@angular/forms';
+import { TeammatesRouterDirective } from '../../teammates-router/teammates-router.directive';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgClass } from '@angular/common';
 
 /**
  * Question details edit form component for contribution question.
  */
 @Component({
-    selector: 'tm-contribution-question-edit-details-form',
-    templateUrl: './contribution-question-edit-details-form.component.html',
-    styleUrls: ['./contribution-question-edit-details-form.component.scss'],
-    standalone: false,
+  selector: 'tm-contribution-question-edit-details-form',
+  templateUrl: './contribution-question-edit-details-form.component.html',
+  styleUrls: ['./contribution-question-edit-details-form.component.scss'],
+  imports: [
+    FormsModule,
+    TeammatesRouterDirective,
+    NgbTooltip,
+    NgClass,
+  ],
 })
 export class ContributionQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackContributionQuestionDetails> {

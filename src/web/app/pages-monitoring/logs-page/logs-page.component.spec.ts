@@ -2,11 +2,9 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { LogsPageComponent } from './logs-page.component';
-import { LogsPageModule } from './logs-page.module';
 import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -22,7 +20,7 @@ describe('LogsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule, LogsPageModule, RouterModule.forRoot([])],
+      imports: [RouterModule.forRoot([])],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),

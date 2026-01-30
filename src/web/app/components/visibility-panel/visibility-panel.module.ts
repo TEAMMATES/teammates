@@ -18,13 +18,10 @@ import { VisibilityMessagesModule } from '../visibility-messages/visibility-mess
     NgbTooltipModule,
     TeammatesCommonModule,
     VisibilityMessagesModule,
-  ],
-  declarations: [
     VisibilityPanelComponent,
   ],
   exports: [
     VisibilityPanelComponent,
   ],
 })
-
 export class VisibilityPanelModule { }

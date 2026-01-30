@@ -9,15 +9,21 @@ import {
 import {
   QuestionSubmissionFormModel,
 } from '../../../components/question-submission-form/question-submission-form-model';
+import { NgClass, NgIf, NgFor, KeyValuePipe } from '@angular/common';
 
 /**
  * Modal to inform the completion of the saving process
  */
 @Component({
-    selector: 'tm-saving-complete-modal',
-    templateUrl: './saving-complete-modal.component.html',
-    styleUrls: ['./saving-complete-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-saving-complete-modal',
+  templateUrl: './saving-complete-modal.component.html',
+  styleUrls: ['./saving-complete-modal.component.scss'],
+  imports: [
+    NgClass,
+    NgIf,
+    NgFor,
+    KeyValuePipe,
+  ],
 })
 export class SavingCompleteModalComponent {
 

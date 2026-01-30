@@ -45,7 +45,7 @@ import {
   SessionsTableColumn,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
-import { Index, MutateEvent } from '../../components/sessions-table/sessions-table.component';
+import { Index, MutateEvent, SessionsTableComponent } from '../../components/sessions-table/sessions-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import {
   SortableEvent,
@@ -54,6 +54,13 @@ import {
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
+import { NgIf } from '@angular/common';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { SessionEditFormComponent } from '../../components/session-edit-form/session-edit-form.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { SessionsRecycleBinTableComponent } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 
 interface RecycleBinFeedbackSessionRowModel {
   feedbackSession: FeedbackSession;
@@ -62,11 +69,20 @@ interface RecycleBinFeedbackSessionRowModel {
  * Instructor feedback sessions list page.
  */
 @Component({
-    selector: 'tm-instructor-sessions-page',
-    templateUrl: './instructor-sessions-page.component.html',
-    styleUrls: ['./instructor-sessions-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-sessions-page',
+  templateUrl: './instructor-sessions-page.component.html',
+  styleUrls: ['./instructor-sessions-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    TeammatesRouterDirective,
+    SessionEditFormComponent,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    SessionsTableComponent,
+    SessionsRecycleBinTableComponent,
+    ModifiedTimestampModalComponent,
+  ],
 })
 export class InstructorSessionsPageComponent extends InstructorSessionModalPageComponent implements OnInit {
 

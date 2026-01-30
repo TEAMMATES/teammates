@@ -6,11 +6,10 @@ import { TeammatesRouterDirective } from './teammates-router.directive';
  * Module for routing supporting masquerade mode
  */
 @NgModule({
-  declarations: [TeammatesRouterDirective],
   imports: [
     CommonModule,
+    TeammatesRouterDirective,
   ],
   exports: [TeammatesRouterDirective],
-
 })
 export class TeammatesRouterModule { }

@@ -17,9 +17,6 @@ const routes: Routes = [
  * Module for instructor search page.
  */
 @NgModule({
-  declarations: [
-    InstructorSearchPageComponent,
-  ],
   exports: [
     InstructorSearchPageComponent,
   ],
@@ -29,6 +26,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
     Pipes,
+    InstructorSearchPageComponent,
   ],
 })
 export class InstructorSearchPageModule { }

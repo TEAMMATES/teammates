@@ -2,15 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { TimezoneService } from '../../../services/timezone.service';
 import { TimeZones } from '../../../types/api-output';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { NgFor, KeyValuePipe } from '@angular/common';
 
 /**
  * Timezone listing page for admin use.
  */
 @Component({
-    selector: 'tm-timezone-page',
-    templateUrl: './timezone-page.component.html',
-    styleUrls: ['./timezone-page.component.scss'],
-    standalone: false,
+  selector: 'tm-timezone-page',
+  templateUrl: './timezone-page.component.html',
+  styleUrls: ['./timezone-page.component.scss'],
+  imports: [
+    LoadingSpinnerDirective,
+    NgFor,
+    KeyValuePipe,
+  ],
 })
 export class TimezonePageComponent implements OnInit {
 

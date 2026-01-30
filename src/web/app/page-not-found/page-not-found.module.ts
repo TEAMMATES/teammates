@@ -10,8 +10,6 @@ import { TeammatesRouterModule } from '../components/teammates-router/teammates-
   imports: [
     CommonModule,
     TeammatesRouterModule,
-  ],
-  declarations: [
     PageNotFoundComponent,
   ],
   exports: [

@@ -11,6 +11,11 @@ import {
   Milliseconds,
 } from '../../../types/datetime-const';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { StatsLineChartComponent } from './stats-line-chart/stats-line-chart.component';
 
 export enum StatisticsType {
   NUM_RESPONSES,
@@ -45,10 +50,17 @@ export interface DataPoint {
  * Usage statistics page.
  */
 @Component({
-    selector: 'tm-usage-statistics-page',
-    templateUrl: './usage-statistics-page.component.html',
-    styleUrls: ['./usage-statistics-page.component.scss'],
-    standalone: false,
+  selector: 'tm-usage-statistics-page',
+  templateUrl: './usage-statistics-page.component.html',
+  styleUrls: ['./usage-statistics-page.component.scss'],
+  imports: [
+    NgbInputDatepicker,
+    FormsModule,
+    NgbTimepicker,
+    NgIf,
+    LoadingSpinnerDirective,
+    StatsLineChartComponent,
+  ],
 })
 export class UsageStatisticsPageComponent implements OnInit {
 

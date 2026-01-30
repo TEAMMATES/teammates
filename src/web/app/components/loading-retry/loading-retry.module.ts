@@ -6,9 +6,9 @@ import { LoadingRetryComponent } from './loading-retry.component';
  * Module for the retry button
  */
 @NgModule({
-  declarations: [LoadingRetryComponent],
   imports: [
     CommonModule,
+    LoadingRetryComponent,
   ],
   exports: [LoadingRetryComponent],
 })

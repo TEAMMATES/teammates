@@ -7,13 +7,13 @@ import { ToastComponent } from './toast.component';
  * Module for toasts.
  */
 @NgModule({
-  declarations: [ToastComponent],
   exports: [
     ToastComponent,
   ],
   imports: [
     CommonModule,
     NgbToastModule,
+    ToastComponent,
   ],
 })
 export class ToastModule { }

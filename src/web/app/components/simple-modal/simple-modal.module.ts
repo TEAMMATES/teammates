@@ -8,12 +8,12 @@ import { ProgressBarModule } from '../progress-bar/progress-bar.module';
  * Module for the modal component
  */
 @NgModule({
-  declarations: [SimpleModalComponent],
   exports: [SimpleModalComponent],
   imports: [
     CommonModule,
     ProgressBarModule,
     NgbModule,
+    SimpleModalComponent,
   ],
 })
 

@@ -8,11 +8,9 @@ import { StatusMessageComponent } from './status-message.component';
 @NgModule({
   imports: [
     CommonModule,
-  ],
-  exports: [
     StatusMessageComponent,
   ],
-  declarations: [
+  exports: [
     StatusMessageComponent,
   ],
 })

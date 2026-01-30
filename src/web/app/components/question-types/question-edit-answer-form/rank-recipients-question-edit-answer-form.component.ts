@@ -8,15 +8,17 @@ import {
   DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS, DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
+import { FormsModule } from '@angular/forms';
+import { NgFor } from '@angular/common';
 
 /**
  * The Rank recipients question submission form for a recipient.
  */
 @Component({
-    selector: 'tm-rank-recipients-question-edit-answer-form',
-    templateUrl: './rank-recipients-question-edit-answer-form.component.html',
-    styleUrls: ['./rank-recipients-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-rank-recipients-question-edit-answer-form',
+  templateUrl: './rank-recipients-question-edit-answer-form.component.html',
+  styleUrls: ['./rank-recipients-question-edit-answer-form.component.scss'],
+  imports: [FormsModule, NgFor],
 })
 export class RankRecipientsQuestionEditAnswerFormComponent
     extends

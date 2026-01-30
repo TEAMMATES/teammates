@@ -3,15 +3,17 @@ import {
   CONTRIBUTION_POINT_NOT_INITIALIZED,
   CONTRIBUTION_POINT_NOT_SUBMITTED,
 } from '../../../../../types/feedback-response-details';
+import { NgIf } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Displays a contribution value relative to baseline of 100.
  */
 @Component({
-    selector: 'tm-contribution',
-    templateUrl: './contribution.component.html',
-    styleUrls: ['./contribution.component.scss'],
-    standalone: false,
+  selector: 'tm-contribution',
+  templateUrl: './contribution.component.html',
+  styleUrls: ['./contribution.component.scss'],
+  imports: [NgIf, NgbTooltip],
 })
 export class ContributionComponent {
 

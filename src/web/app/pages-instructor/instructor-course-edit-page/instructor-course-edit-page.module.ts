@@ -31,13 +31,6 @@ const routes: Routes = [
  * Module for instructor course edit page component.
  */
 @NgModule({
-  declarations: [
-    InstructorCourseEditPageComponent,
-    InstructorEditPanelComponent,
-    ViewRolePrivilegesModalComponent,
-    CustomPrivilegeSettingPanelComponent,
-    CopyInstructorsFromOtherCoursesModalComponent,
-  ],
   exports: [
     InstructorCourseEditPageComponent,
   ],
@@ -53,6 +46,11 @@ const routes: Routes = [
     TeammatesRouterModule,
     PanelChevronModule,
     CourseEditFormModule,
+    InstructorCourseEditPageComponent,
+    InstructorEditPanelComponent,
+    ViewRolePrivilegesModalComponent,
+    CustomPrivilegeSettingPanelComponent,
+    CopyInstructorsFromOtherCoursesModalComponent,
   ],
 })
 export class InstructorCourseEditPageModule { }

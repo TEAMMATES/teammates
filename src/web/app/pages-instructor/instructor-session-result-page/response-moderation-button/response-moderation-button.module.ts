@@ -8,12 +8,10 @@ import { TeammatesRouterModule } from '../../../components/teammates-router/team
  * Module for moderating response button.
  */
 @NgModule({
-  declarations: [
-    ResponseModerationButtonComponent,
-  ],
   imports: [
     CommonModule,
     TeammatesRouterModule,
+    ResponseModerationButtonComponent,
   ],
   exports: [
     ResponseModerationButtonComponent,

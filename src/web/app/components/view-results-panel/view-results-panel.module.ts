@@ -19,8 +19,6 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
     FormsModule,
     SectionTypeDescriptionModule,
     TeammatesCommonModule,
-  ],
-  declarations: [
     ViewResultsPanelComponent,
   ],
   exports: [

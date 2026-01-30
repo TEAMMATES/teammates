@@ -37,8 +37,6 @@ const routes: Routes = [
     LoadingSpinnerModule,
     LoadingRetryModule,
     InViewportModule,
-  ],
-  declarations: [
     SavingCompleteModalComponent,
     SessionSubmissionPageComponent,
   ],

@@ -6,8 +6,7 @@ import { ExampleBoxComponent } from './example-box.component';
  * Module for example boxes used in help page.
  */
 @NgModule({
-  declarations: [ExampleBoxComponent],
   exports: [ExampleBoxComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, ExampleBoxComponent],
 })
 export class ExampleBoxModule { }

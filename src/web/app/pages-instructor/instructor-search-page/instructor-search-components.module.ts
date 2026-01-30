@@ -12,10 +12,6 @@ import { Pipes } from '../../pipes/pipes.module';
  * Module for different components used in instructor search page.
  */
 @NgModule({
-  declarations: [
-    InstructorSearchBarComponent,
-    StudentResultTableComponent,
-  ],
   exports: [
     InstructorSearchBarComponent,
     StudentResultTableComponent,
@@ -27,6 +23,8 @@ import { Pipes } from '../../pipes/pipes.module';
     CommentBoxModule,
     SingleResponseModule,
     Pipes,
+    InstructorSearchBarComponent,
+    StudentResultTableComponent,
   ],
 })
 export class InstructorSearchComponentsModule { }

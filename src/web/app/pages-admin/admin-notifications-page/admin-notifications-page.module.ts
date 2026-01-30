@@ -25,11 +25,6 @@ const routes: Routes = [
  * Module for admin notifications page.
  */
 @NgModule({
-  declarations: [
-    AdminNotificationsPageComponent,
-    NotificationsTableComponent,
-    NotificationEditFormComponent,
-  ],
   exports: [
     AdminNotificationsPageComponent,
   ],
@@ -45,6 +40,9 @@ const routes: Routes = [
     NgbTooltipModule,
     TeammatesCommonModule,
     TimepickerModule,
+    AdminNotificationsPageComponent,
+    NotificationsTableComponent,
+    NotificationEditFormComponent,
   ],
 })
 export class AdminNotificationsPageModule { }

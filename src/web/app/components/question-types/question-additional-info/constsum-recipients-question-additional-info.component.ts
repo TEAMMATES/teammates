@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { QuestionAdditionalInfo } from './question-additional-info';
 import { FeedbackConstantSumQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { NgIf } from '@angular/common';
 
 /**
  * Additional info for constsum recipients questions.
@@ -10,7 +11,7 @@ import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/
     selector: 'tm-constsum-recipients-question-additional-info',
     templateUrl: './constsum-recipients-question-additional-info.component.html',
     styleUrls: ['./constsum-recipients-question-additional-info.component.scss'],
-    standalone: false,
+    imports: [NgIf],
 })
 export class ConstsumRecipientsQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackConstantSumQuestionDetails> {

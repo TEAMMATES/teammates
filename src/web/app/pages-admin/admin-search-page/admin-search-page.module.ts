@@ -21,9 +21,6 @@ const routes: Routes = [
  * Module for admin search page.
  */
 @NgModule({
-  declarations: [
-    AdminSearchPageComponent,
-  ],
   exports: [
     AdminSearchPageComponent,
   ],
@@ -35,6 +32,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     Pipes,
     AjaxLoadingModule,
+    AdminSearchPageComponent,
   ],
 })
 export class AdminSearchPageModule { }

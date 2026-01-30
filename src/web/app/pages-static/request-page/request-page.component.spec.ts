@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RequestPageComponent } from './request-page.component';
+import { RouterModule } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('RequestPageComponent', () => {
   let component: RequestPageComponent;
@@ -7,7 +10,11 @@ describe('RequestPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [RequestPageComponent],
+      imports: [RouterModule.forRoot([])],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ]
     })
     .compileComponents();
   }));

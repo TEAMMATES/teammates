@@ -9,12 +9,7 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import {
-    ColumnData,
-    SortableEvent,
-    SortableTableCellData,
-    SortableTableHeaderColorScheme,
-} from '../sortable-table/sortable-table.component';
+import { ColumnData, SortableEvent, SortableTableCellData, SortableTableHeaderColorScheme, SortableTableComponent } from '../sortable-table/sortable-table.component';
 
 /**
  * Model of row of student data containing details about a student and their section.
@@ -32,7 +27,7 @@ export interface StudentListRowModel {
     selector: 'tm-student-list',
     templateUrl: './student-list.component.html',
     styleUrls: ['./student-list.component.scss'],
-    standalone: false,
+    imports: [SortableTableComponent],
 })
 export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';

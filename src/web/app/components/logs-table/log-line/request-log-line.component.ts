@@ -1,14 +1,20 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GeneralLogEntry, LogEvent, RequestLogDetails } from '../../../../types/api-output';
+import { NgClass, NgIf } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Request log line.
  */
 @Component({
-    selector: 'tm-request-log-line',
-    templateUrl: './request-log-line.component.html',
-    styleUrls: ['./request-log-line.component.scss', './log-line.component.scss'],
-    standalone: false,
+  selector: 'tm-request-log-line',
+  templateUrl: './request-log-line.component.html',
+  styleUrls: ['./request-log-line.component.scss', './log-line.component.scss'],
+  imports: [
+    NgClass,
+    NgIf,
+    NgbTooltip,
+  ],
 })
 export class RequestLogLineComponent {
 

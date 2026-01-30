@@ -20,15 +20,27 @@ import {
 import { StudentsSectionQuestions } from './instructor-help-students-section/students-section-questions';
 import { Sections } from './sections';
 import { environment } from '../../../environments/environment';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 /**
  * Instructor help page.
  */
 @Component({
-    selector: 'tm-instructor-help-page',
-    templateUrl: './instructor-help-page.component.html',
-    styleUrls: ['./instructor-help-page.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-help-page',
+  templateUrl: './instructor-help-page.component.html',
+  styleUrls: ['./instructor-help-page.component.scss'],
+  imports: [
+    TeammatesRouterDirective,
+    FormsModule,
+    NgIf,
+    InstructorHelpStudentsSectionComponent,
+    InstructorHelpCoursesSectionComponent,
+    InstructorHelpSessionsSectionComponent,
+    InstructorHelpQuestionsSectionComponent,
+    InstructorHelpGeneralSectionComponent,
+  ],
 })
 export class InstructorHelpPageComponent implements AfterViewInit {
   // enum

@@ -4,20 +4,16 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { StudentListComponent, StudentListRowModel } from './student-list.component';
-import { StudentListModule } from './student-list.module';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createBuilder, studentBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { JoinState } from '../../../types/api-output';
-import { Pipes } from '../../pipes/pipes.module';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 
 describe('StudentListComponent', () => {
   let component: StudentListComponent;
@@ -57,16 +53,11 @@ describe('StudentListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [StudentListComponent],
       imports: [
-        TeammatesRouterModule,
         RouterModule.forRoot([]),
-        NgbModule,
-        TeammatesCommonModule,
-        Pipes,
-        StudentListModule,
       ],
       providers: [
+        SearchTermsHighlighterPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

@@ -24,8 +24,6 @@ const routes: Routes = [
     NgxCaptchaModule,
     RouterModule.forChild(routes),
     AjaxLoadingModule,
-  ],
-  declarations: [
     SessionLinksRecoveryPageComponent,
   ],
   exports: [

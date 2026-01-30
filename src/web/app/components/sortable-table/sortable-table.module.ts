@@ -11,12 +11,12 @@ import {
  * Module for displaying data in a sortable table
  */
 @NgModule({
-  declarations: [SortableTableComponent],
   imports: [
     CommonModule,
     NgbTooltipModule,
     ContributionQuestionStatisticsModule,
     DynamicModule,
+    SortableTableComponent,
   ],
   exports: [
     SortableTableComponent,

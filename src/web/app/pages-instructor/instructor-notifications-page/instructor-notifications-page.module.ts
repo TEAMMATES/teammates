@@ -19,8 +19,6 @@ const routes: Routes = [
     CommonModule,
     UserNotificationsListModule,
     RouterModule.forChild(routes),
-  ],
-  declarations: [
     InstructorNotificationsPageComponent,
   ],
   exports: [

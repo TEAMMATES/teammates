@@ -5,7 +5,6 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { UserJoinPageComponent } from './user-join-page.component';
 import { AccountService } from '../services/account.service';
@@ -27,17 +26,10 @@ describe('UserJoinPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UserJoinPageComponent],
       imports: [
         RouterModule.forRoot([]),
-        LoadingSpinnerModule,
       ],
       providers: [
-        NavigationService,
-        CourseService,
-        AuthService,
-        SimpleModalService,
-        AccountService,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -251,19 +243,11 @@ describe('UserJoinPageComponent creating account', () => {
   let timezoneService: TimezoneService;
 
   beforeEach((() => {
-    TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      declarations: [UserJoinPageComponent],
       imports: [
         RouterModule.forRoot([]),
-        LoadingSpinnerModule,
       ],
       providers: [
-        NavigationService,
-        CourseService,
-        AuthService,
-        AccountService,
-        TimezoneService,
         {
           provide: ActivatedRoute,
           useValue: {

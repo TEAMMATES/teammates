@@ -15,8 +15,6 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
     FormsModule,
     NgbDropdownModule,
     TeammatesCommonModule,
-  ],
-  declarations: [
     FeedbackPathPanelComponent,
   ],
   exports: [

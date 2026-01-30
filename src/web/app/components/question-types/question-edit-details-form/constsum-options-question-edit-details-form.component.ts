@@ -1,4 +1,4 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { Component, Input, OnChanges } from '@angular/core';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -7,15 +7,27 @@ import {
   FeedbackConstantSumQuestionDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { NgFor } from '@angular/common';
+import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Question details edit form component for constsum options question.
  */
 @Component({
-    selector: 'tm-constsum-options-question-edit-details-form',
-    templateUrl: './constsum-options-question-edit-details-form.component.html',
-    styleUrls: ['./constsum-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
-    standalone: false,
+  selector: 'tm-constsum-options-question-edit-details-form',
+  templateUrl: './constsum-options-question-edit-details-form.component.html',
+  styleUrls: ['./constsum-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+  imports: [
+    CdkDropList,
+    NgFor,
+    CdkDrag,
+    CdkDragHandle,
+    ConstsumOptionsFieldComponent,
+    FormsModule,
+    NgbTooltip,
+  ],
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>

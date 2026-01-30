@@ -4,10 +4,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 /**
  * Pipe to handle the display of feedback session start and end time in brief.
  */
-@Pipe({
-    name: 'formatDateBrief',
-    standalone: false,
-})
+@Pipe({ name: 'formatDateBrief', })
 export class FormatDateBriefPipe implements PipeTransform {
 
   constructor(private timezoneService: TimezoneService) {}

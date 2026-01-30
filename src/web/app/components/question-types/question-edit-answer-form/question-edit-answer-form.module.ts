@@ -22,19 +22,6 @@ import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module'
  * Module for all different types of question edit answer forms.
  */
 @NgModule({
-  declarations: [
-    ContributionQuestionEditAnswerFormComponent,
-    TextQuestionEditAnswerFormComponent,
-    McqQuestionEditAnswerFormComponent,
-    NumScaleQuestionEditAnswerFormComponent,
-    ContributionPointDescriptionPipe,
-    MsqQuestionEditAnswerFormComponent,
-    RankOptionsQuestionEditAnswerFormComponent,
-    RankRecipientsQuestionEditAnswerFormComponent,
-    RubricQuestionEditAnswerFormComponent,
-    ConstsumOptionsQuestionEditAnswerFormComponent,
-    ConstsumRecipientsQuestionEditAnswerFormComponent,
-  ],
   exports: [
     ContributionQuestionEditAnswerFormComponent,
     TextQuestionEditAnswerFormComponent,
@@ -54,6 +41,17 @@ import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module'
     RichTextEditorModule,
     TeammatesCommonModule,
     WheelDisablerModule,
+    ContributionQuestionEditAnswerFormComponent,
+    TextQuestionEditAnswerFormComponent,
+    McqQuestionEditAnswerFormComponent,
+    NumScaleQuestionEditAnswerFormComponent,
+    ContributionPointDescriptionPipe,
+    MsqQuestionEditAnswerFormComponent,
+    RankOptionsQuestionEditAnswerFormComponent,
+    RankRecipientsQuestionEditAnswerFormComponent,
+    RubricQuestionEditAnswerFormComponent,
+    ConstsumOptionsQuestionEditAnswerFormComponent,
+    ConstsumRecipientsQuestionEditAnswerFormComponent,
   ],
 })
 export class QuestionEditAnswerFormModule { }

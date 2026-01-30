@@ -11,6 +11,7 @@ import {
 import {
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
 } from '../../../../types/feedback-response-details';
+import { NgFor } from '@angular/common';
 
 /**
  * Rank options question response.
@@ -19,7 +20,7 @@ import {
     selector: 'tm-rank-options-question-response',
     templateUrl: './rank-options-question-response.component.html',
     styleUrls: ['./rank-options-question-response.component.scss'],
-    standalone: false,
+    imports: [NgFor],
 })
 export class RankOptionsQuestionResponseComponent
     extends QuestionResponse<FeedbackRankOptionsResponseDetails, FeedbackRankOptionsQuestionDetails>

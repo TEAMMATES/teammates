@@ -1,27 +1,11 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import {
   InstructorCourseStudentDetailsPageComponent,
 } from './instructor-course-student-details-page.component';
-import { JoinState, Student } from '../../../types/api-output';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-
-@Component({ selector: 'tm-course-related-info', template: '', standalone: false })
-class CourseRelatedInfoStubComponent {
-  @Input() student: Student = {
-    email: '',
-    courseId: '',
-    name: '',
-    comments: '',
-    teamName: '',
-    sectionName: '',
-    joinState: JoinState.JOINED,
-  };
-}
+import { JoinState } from '../../../types/api-output';
 
 describe('InstructorCourseStudentDetailsPageComponent', () => {
   let component: InstructorCourseStudentDetailsPageComponent;
@@ -29,14 +13,8 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorCourseStudentDetailsPageComponent,
-        CourseRelatedInfoStubComponent,
-      ],
       imports: [
         RouterModule.forRoot([]),
-        LoadingSpinnerModule,
-        LoadingRetryModule,
       ],
       providers: [
         provideHttpClient(),

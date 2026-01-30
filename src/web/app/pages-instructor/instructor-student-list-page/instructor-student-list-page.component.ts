@@ -16,9 +16,14 @@ import {
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
-import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { NgIf, NgFor } from '@angular/common';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 
 interface StudentIndexedData {
   [key: string]: Student[];
@@ -40,11 +45,19 @@ export interface CourseTab {
  * Instructor student list page.
  */
 @Component({
-    selector: 'tm-instructor-student-list-page',
-    templateUrl: './instructor-student-list-page.component.html',
-    styleUrls: ['./instructor-student-list-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-student-list-page',
+  templateUrl: './instructor-student-list-page.component.html',
+  styleUrls: ['./instructor-student-list-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    TeammatesRouterDirective,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgIf,
+    NgFor,
+    PanelChevronComponent,
+    StudentListComponent,
+  ],
 })
 export class InstructorStudentListPageComponent implements OnInit {
 

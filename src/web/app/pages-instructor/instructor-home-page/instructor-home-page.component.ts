@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -31,7 +31,7 @@ import {
   SessionsTableColumn,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
-import { Index, MutateEvent } from '../../components/sessions-table/sessions-table.component';
+import { Index, MutateEvent, SessionsTableComponent } from '../../components/sessions-table/sessions-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import {
   SortableEvent,
@@ -40,6 +40,13 @@ import {
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
+import { NgIf, NgFor } from '@angular/common';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 
 /**
  * Data model for the course tab.
@@ -61,11 +68,25 @@ export interface CourseTabModel {
  * Instructor home page.
  */
 @Component({
-    selector: 'tm-instructor-home-page',
-    templateUrl: './instructor-home-page.component.html',
-    styleUrls: ['./instructor-home-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-home-page',
+  templateUrl: './instructor-home-page.component.html',
+  styleUrls: ['./instructor-home-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    LoadingSpinnerDirective,
+    TeammatesRouterDirective,
+    ProgressBarComponent,
+    LoadingRetryComponent,
+    NgFor,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbTooltip,
+    PanelChevronComponent,
+    SessionsTableComponent,
+    ModifiedTimestampModalComponent,
+  ],
 })
 export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {
 

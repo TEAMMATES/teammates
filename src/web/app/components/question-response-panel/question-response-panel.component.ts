@@ -14,15 +14,32 @@ import {
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/session-result-page.component';
+import { NgFor, NgIf } from '@angular/common';
+import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
+import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
+import { LoadingRetryComponent } from '../loading-retry/loading-retry.component';
+import { QuestionTextWithInfoComponent } from '../question-text-with-info/question-text-with-info.component';
+import { SingleStatisticsComponent } from '../question-responses/single-statistics/single-statistics.component';
+import { StudentViewResponsesComponent } from '../question-responses/student-view-responses/student-view-responses.component';
 
 /**
  * Displaying the question response panel.
  */
 @Component({
-    selector: 'tm-question-response-panel',
-    templateUrl: './question-response-panel.component.html',
-    styleUrls: ['./question-response-panel.component.scss'],
-    standalone: false,
+  selector: 'tm-question-response-panel',
+  templateUrl: './question-response-panel.component.html',
+  styleUrls: ['./question-response-panel.component.scss'],
+  imports: [
+    NgFor,
+    DestroyableDirective,
+    InViewportDirective,
+    LoadingSpinnerDirective,
+    LoadingRetryComponent,
+    NgIf,
+    QuestionTextWithInfoComponent,
+    SingleStatisticsComponent,
+    StudentViewResponsesComponent,
+  ],
 })
 export class QuestionResponsePanelComponent {
 

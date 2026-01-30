@@ -10,12 +10,12 @@ import { TINYMCE_BASE_URL } from './tinymce';
  * Module for a rich text editor.
  */
 @NgModule({
-  declarations: [RichTextEditorComponent],
   imports: [
     CommonModule,
     FormsModule,
     EditorModule,
     InViewportModule,
+    RichTextEditorComponent,
   ],
   exports: [
     RichTextEditorComponent,

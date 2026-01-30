@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { of } from 'rxjs';
 import { CourseTabModel, InstructorHomePageComponent } from './instructor-home-page.component';
-import { InstructorHomePageModule } from './instructor-home-page.module';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -22,7 +21,12 @@ import {
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
+import { FormatDateBriefPipe } from '../../components/teammates-common/format-date-brief.pipe';
+import { PublishStatusNamePipe } from '../../components/teammates-common/publish-status-name.pipe';
+import { PublishStatusTooltipPipe } from '../../components/sessions-table/publish-status-tooltip.pipe';
+import { SubmissionStatusTooltipPipe } from '../../components/teammates-common/submission-status-tooltip.pipe';
+import { SubmissionStatusNamePipe } from '../../components/teammates-common/submission-status-name.pipe';
 
 const testInstructorPrivilege: InstructorPermissionSet = {
   canModifyCourse: true,
@@ -137,12 +141,16 @@ describe('InstructorHomePageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        InstructorHomePageModule,
         RouterModule.forRoot([]),
-        TeammatesRouterModule,
         BrowserAnimationsModule,
       ],
       providers: [
+        SubmissionStatusNamePipe,
+        SubmissionStatusTooltipPipe,
+        PublishStatusTooltipPipe,
+        PublishStatusNamePipe,
+        FormatDateBriefPipe,
+        FormatDateDetailPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

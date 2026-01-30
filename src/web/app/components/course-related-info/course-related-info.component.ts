@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Student } from '../../../types/api-output';
+import { NgIf } from '@angular/common';
+import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 
 /**
  * A simple table to show course-related information about a student
@@ -8,7 +10,7 @@ import { Student } from '../../../types/api-output';
     selector: 'tm-course-related-info',
     templateUrl: './course-related-info.component.html',
     styleUrls: ['./course-related-info.component.scss'],
-    standalone: false,
+    imports: [NgIf, TeammatesRouterDirective],
 })
 export class CourseRelatedInfoComponent {
 

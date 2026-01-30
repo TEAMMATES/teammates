@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StudentHelpPageComponent } from './student-help-page.component';
+import { RouterModule } from '@angular/router';
 
 describe('StudentHelpPageComponent', () => {
   let component: StudentHelpPageComponent;
@@ -7,7 +8,9 @@ describe('StudentHelpPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StudentHelpPageComponent],
+      imports: [
+        RouterModule.forRoot([]),
+      ]
     })
     .compileComponents();
   }));

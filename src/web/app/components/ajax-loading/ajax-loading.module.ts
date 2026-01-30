@@ -8,8 +8,6 @@ import { AjaxLoadingComponent } from './ajax-loading.component';
 @NgModule({
   imports: [
     CommonModule,
-  ],
-  declarations: [
     AjaxLoadingComponent,
   ],
   exports: [

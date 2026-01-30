@@ -17,8 +17,6 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
     NgbDropdownModule,
     TeammatesCommonModule,
     TeammatesRouterModule,
-  ],
-  declarations: [
     AddingQuestionPanelComponent,
   ],
   exports: [

@@ -5,15 +5,17 @@ import { ErrorReportService } from '../../../services/error-report.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorReportRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 /**
  * Error report component.
  */
 @Component({
-    selector: 'tm-error-report',
-    templateUrl: './error-report.component.html',
-    styleUrls: ['./error-report.component.scss'],
-    standalone: false,
+  selector: 'tm-error-report',
+  templateUrl: './error-report.component.html',
+  styleUrls: ['./error-report.component.scss'],
+  imports: [NgIf, FormsModule],
 })
 export class ErrorReportComponent implements OnInit {
 

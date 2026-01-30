@@ -20,7 +20,6 @@ const routes: Routes = [
  * Module for student activity logs page
  */
 @NgModule({
-  declarations: [InstructorStudentActivityLogsComponent],
   exports: [InstructorStudentActivityLogsComponent],
   imports: [
     CommonModule,
@@ -32,6 +31,7 @@ const routes: Routes = [
     PanelChevronModule,
     SortableTableModule,
     TimepickerModule,
+    InstructorStudentActivityLogsComponent,
   ],
 })
 export class InstructorStudentActivityLogsModule { }

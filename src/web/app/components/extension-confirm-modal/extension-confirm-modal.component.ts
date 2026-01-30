@@ -7,14 +7,11 @@ import {
   StudentExtensionTableColumnModel,
   InstructorExtensionTableColumnModel,
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
-import {
-     ColumnData,
-     SortableEvent,
-     SortableTableCellData,
-     SortableTableHeaderColorScheme,
- } from '../sortable-table/sortable-table.component';
+import { ColumnData, SortableEvent, SortableTableCellData, SortableTableHeaderColorScheme, SortableTableComponent } from '../sortable-table/sortable-table.component';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { InstructorRoleNamePipe } from '../teammates-common/instructor-role-name.pipe';
+import { NgClass, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 export enum ExtensionModalType {
   EXTEND,
@@ -23,10 +20,16 @@ export enum ExtensionModalType {
 }
 
 @Component({
-    selector: 'tm-extension-confirm-modal',
-    templateUrl: './extension-confirm-modal.component.html',
-    styleUrls: ['./extension-confirm-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-extension-confirm-modal',
+  templateUrl: './extension-confirm-modal.component.html',
+  styleUrls: ['./extension-confirm-modal.component.scss'],
+  imports: [
+    NgClass,
+    NgIf,
+    SortableTableComponent,
+    FormsModule,
+    FormatDateDetailPipe,
+  ],
 })
 export class ExtensionConfirmModalComponent implements OnInit {
   @Input()

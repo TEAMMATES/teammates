@@ -19,8 +19,6 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     TeammatesRouterModule,
-  ],
-  declarations: [
     StudentHelpPageComponent,
   ],
   exports: [

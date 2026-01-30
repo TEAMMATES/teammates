@@ -12,6 +12,12 @@ import {
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
+import { NgIf, NgFor, NgTemplateOutlet, KeyValuePipe } from '@angular/common';
+import { PanelChevronComponent } from '../../panel-chevron/panel-chevron.component';
+import { QuestionTextWithInfoComponent } from '../../question-text-with-info/question-text-with-info.component';
+import { SingleStatisticsComponent } from '../single-statistics/single-statistics.component';
+import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
+import { PerQuestionViewResponsesComponent } from '../per-question-view-responses/per-question-view-responses.component';
 
 interface QuestionTab {
   questionOutput: QuestionOutput;
@@ -23,11 +29,21 @@ interface QuestionTab {
  * Component to display list of responses in GQR/RQG view.
  */
 @Component({
-    selector: 'tm-gqr-rqg-view-responses',
-    templateUrl: './gqr-rqg-view-responses.component.html',
-    styleUrls: ['./gqr-rqg-view-responses.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-gqr-rqg-view-responses',
+  templateUrl: './gqr-rqg-view-responses.component.html',
+  styleUrls: ['./gqr-rqg-view-responses.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    NgFor,
+    PanelChevronComponent,
+    QuestionTextWithInfoComponent,
+    SingleStatisticsComponent,
+    NgTemplateOutlet,
+    ResponseModerationButtonComponent,
+    PerQuestionViewResponsesComponent,
+    KeyValuePipe,
+  ],
 })
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 

@@ -6,15 +6,16 @@ import {
 import {
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
+import { NgIf } from '@angular/common';
 
 /**
  * Instruction of constsum recipients question.
  */
 @Component({
-    selector: 'tm-constsum-recipients-question-instruction',
-    templateUrl: './constsum-recipients-question-instruction.component.html',
-    styleUrls: ['./constsum-recipients-question-instruction.component.scss'],
-    standalone: false,
+  selector: 'tm-constsum-recipients-question-instruction',
+  templateUrl: './constsum-recipients-question-instruction.component.html',
+  styleUrls: ['./constsum-recipients-question-instruction.component.scss'],
+  imports: [NgIf],
 })
 export class ConstsumRecipientsQuestionInstructionComponent {
 

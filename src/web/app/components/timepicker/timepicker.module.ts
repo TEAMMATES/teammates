@@ -7,11 +7,11 @@ import { TimepickerComponent } from './timepicker.component';
  * Timepicker module.
  */
 @NgModule({
-  declarations: [TimepickerComponent],
   exports: [TimepickerComponent],
   imports: [
     CommonModule,
     FormsModule,
+    TimepickerComponent,
   ],
 })
 export class TimepickerModule { }

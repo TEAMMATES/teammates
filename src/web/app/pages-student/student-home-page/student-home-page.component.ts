@@ -21,6 +21,13 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 
 interface StudentCourse {
   course: Course;
@@ -43,11 +50,21 @@ interface StudentSession {
  * Student home page.
  */
 @Component({
-    selector: 'tm-student-home-page',
-    templateUrl: './student-home-page.component.html',
-    styleUrls: ['./student-home-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-student-home-page',
+  templateUrl: './student-home-page.component.html',
+  styleUrls: ['./student-home-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgIf,
+    TeammatesRouterDirective,
+    NgFor,
+    PanelChevronComponent,
+    NgbTooltip,
+    NgClass,
+    ResponseStatusPipe,
+  ],
 })
 export class StudentHomePageComponent implements OnInit {
   // enum

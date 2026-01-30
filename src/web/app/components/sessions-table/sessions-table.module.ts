@@ -31,13 +31,6 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
  * Module for sessions table.
  */
 @NgModule({
-  declarations: [
-    PublishStatusTooltipPipe,
-    SessionsTableComponent,
-    ResendResultsLinkToRespondentModalComponent,
-    SendRemindersToRespondentsModalComponent,
-    RespondentListInfoTableComponent,
-  ],
   exports: [SessionsTableComponent, RespondentListInfoTableComponent],
   imports: [
     CommonModule,
@@ -51,6 +44,11 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
     RouterModule,
     TeammatesRouterModule,
     SortableTableModule,
+    PublishStatusTooltipPipe,
+    SessionsTableComponent,
+    ResendResultsLinkToRespondentModalComponent,
+    SendRemindersToRespondentsModalComponent,
+    RespondentListInfoTableComponent,
   ],
   providers: [
     FormatDateDetailPipe,

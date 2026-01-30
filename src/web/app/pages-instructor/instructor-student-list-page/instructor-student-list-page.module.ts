@@ -21,9 +21,6 @@ const routes: Routes = [
  * Module for instructor student list page.
  */
 @NgModule({
-  declarations: [
-    InstructorStudentListPageComponent,
-  ],
   exports: [
     InstructorStudentListPageComponent,
   ],
@@ -37,6 +34,7 @@ const routes: Routes = [
     LoadingRetryModule,
     PanelChevronModule,
     TeammatesRouterModule,
+    InstructorStudentListPageComponent,
   ],
 })
 export class InstructorStudentListPageModule { }

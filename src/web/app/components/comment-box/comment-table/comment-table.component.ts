@@ -3,8 +3,9 @@ import {
   FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
-import { CommentRowModel } from '../comment-row/comment-row.component';
+import { CommentRowModel, CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
+import { NgIf, NgFor } from '@angular/common';
 
 /**
  * Model for CommentTableComponent.
@@ -21,11 +22,15 @@ export interface CommentTableModel {
  * Component for the comments table.
  */
 @Component({
-    selector: 'tm-comment-table',
-    templateUrl: './comment-table.component.html',
-    styleUrls: ['./comment-table.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-comment-table',
+  templateUrl: './comment-table.component.html',
+  styleUrls: ['./comment-table.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    NgFor,
+    CommentRowComponent,
+  ],
 })
 export class CommentTableComponent {
 

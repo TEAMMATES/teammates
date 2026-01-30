@@ -5,13 +5,13 @@ import { RouterModule } from '@angular/router';
 import { of } from 'rxjs';
 
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
-import { InstructorSearchPageModule } from './instructor-search-page.module';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
 import { HttpRequestService } from '../../../services/http-request.service';
 import createSpyFromClass from '../../../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../../../types/api-const';
 import { InstructorPermissionSet, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 
 describe('InstructorSearchPageComponent', () => {
   let component: InstructorSearchPageComponent;
@@ -71,9 +71,9 @@ describe('InstructorSearchPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
-        InstructorSearchPageModule,
       ],
       providers: [
+        SearchTermsHighlighterPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

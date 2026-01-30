@@ -30,8 +30,6 @@ const routes: Routes = [
     NgbDatepickerModule,
     NgbTimepickerModule,
     LogsHistogramModule,
-  ],
-  declarations: [
     LogsPageComponent,
   ],
   exports: [

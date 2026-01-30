@@ -8,9 +8,6 @@ import SpyInstance = jest.SpyInstance;
 import {
   InstructorSessionIndividualExtensionPageComponent,
 } from './instructor-session-individual-extension-page.component';
-import {
-  InstructorSessionIndividualExtensionPageModule,
-} from './instructor-session-individual-extension-page.module';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -127,12 +124,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterModule, InstructorSessionIndividualExtensionPageModule],
+        imports: [RouterModule],
         providers: [
-          StudentService,
-          CourseService,
-          TimezoneService,
-          FeedbackSessionsService,
           {
             provide: ActivatedRoute,
             useValue: {

@@ -8,15 +8,29 @@ import { FeedbackQuestion, FeedbackQuestions } from '../../../../types/api-outpu
 import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../../error-message-output';
+import { NgFor, NgIf } from '@angular/common';
+import { PanelChevronComponent } from '../../../components/panel-chevron/panel-chevron.component';
+import { LoadingRetryComponent } from '../../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../../components/loading-spinner/loading-spinner.directive';
+import { FormsModule } from '@angular/forms';
+import { QuestionTypeNamePipe } from '../../../components/teammates-common/question-type-name.pipe';
 
 /**
  * Modal to select questions to copy from other sessions.
  */
 @Component({
-    selector: 'tm-copy-questions-from-other-sessions-modal',
-    templateUrl: './copy-questions-from-other-sessions-modal.component.html',
-    styleUrls: ['./copy-questions-from-other-sessions-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-copy-questions-from-other-sessions-modal',
+  templateUrl: './copy-questions-from-other-sessions-modal.component.html',
+  styleUrls: ['./copy-questions-from-other-sessions-modal.component.scss'],
+  imports: [
+    NgFor,
+    PanelChevronComponent,
+    NgIf,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    FormsModule,
+    QuestionTypeNamePipe,
+  ],
 })
 export class CopyQuestionsFromOtherSessionsModalComponent {
 

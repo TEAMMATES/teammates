@@ -7,15 +7,13 @@ import { QuestionResponseModule } from '../../question-types/question-response/q
  * Module for single response component.
  */
 @NgModule({
-  declarations: [
-    SingleResponseComponent,
-  ],
   exports: [
     SingleResponseComponent,
   ],
   imports: [
     CommonModule,
     QuestionResponseModule,
+    SingleResponseComponent,
   ],
 })
 export class SingleResponseModule { }

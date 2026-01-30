@@ -3,6 +3,7 @@ import { QuestionConstraintComponent } from './question-constraint.component';
 import { FeedbackMsqQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
+import { NgIf } from '@angular/common';
 
 /**
  * Constraints of Msq question.
@@ -11,7 +12,7 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
     selector: 'tm-msq-question-constraint',
     templateUrl: './msq-question-constraint.component.html',
     styleUrls: ['./msq-question-constraint.component.scss'],
-    standalone: false,
+    imports: [NgIf],
 })
 export class MsqQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackMsqQuestionDetails> {
 

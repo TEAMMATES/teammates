@@ -27,7 +27,7 @@ import {
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { SessionView } from '../../pages-session/session-submission-page/session-submission-page.component';
-import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import { CommentRowModel, CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import { ConstsumRecipientsQuestionConstraintComponent }
   from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
@@ -36,16 +36,85 @@ import { ContributionQuestionConstraintComponent }
 import { RankRecipientsQuestionConstraintComponent }
   from '../question-types/question-constraint/rank-recipients-question-constraint.component';
 import { collapseAnim } from '../teammates-common/collapse-anim';
+import { NgClass, NgIf, NgFor } from '@angular/common';
+import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
+import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
+import { ContributionQuestionInstructionComponent } from '../question-types/question-instruction/contribution-question-instruction.component';
+import { TextQuestionInstructionComponent } from '../question-types/question-instruction/text-question-instruction.component';
+import { NumScaleQuestionInstructionComponent } from '../question-types/question-instruction/num-scale-question-instruction.component';
+import { TextQuestionConstraintComponent } from '../question-types/question-constraint/text-question-constraint.component';
+import { NumScaleQuestionConstraintComponent } from '../question-types/question-constraint/num-scale-question-constraint.component';
+import { RankOptionsQuestionInstructionComponent } from '../question-types/question-instruction/rank-options-question-instruction.component';
+import { MsqQuestionConstraintComponent } from '../question-types/question-constraint/msq-question-constraint.component';
+import { RankRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/rank-recipients-question-instruction.component';
+import { ConstsumOptionsQuestionInstructionComponent } from '../question-types/question-instruction/constsum-options-question-instruction.component';
+import { ConstsumRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/constsum-recipients-question-instruction.component';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { ContributionQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/contribution-question-edit-answer-form.component';
+import { TextQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/text-question-edit-answer-form.component';
+import { RankOptionsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rank-options-question-edit-answer-form.component';
+import { RankRecipientsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rank-recipients-question-edit-answer-form.component';
+import { NumScaleQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/num-scale-question-edit-answer-form.component';
+import { McqQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/mcq-question-edit-answer-form.component';
+import { MsqQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/msq-question-edit-answer-form.component';
+import { RubricQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rubric-question-edit-answer-form.component';
+import { ConstsumOptionsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/constsum-options-question-edit-answer-form.component';
+import { ConstsumRecipientsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/constsum-recipients-question-edit-answer-form.component';
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
+import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
+import { SafeHtmlPipe } from '../teammates-common/safe-html.pipe';
+import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
+import { VisibilityCapabilityPipe } from '../visibility-messages/visibility-capability.pipe';
+import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 
 /**
  * The question submission form for a question.
  */
 @Component({
-    selector: 'tm-question-submission-form',
-    templateUrl: './question-submission-form.component.html',
-    styleUrls: ['./question-submission-form.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-question-submission-form',
+  templateUrl: './question-submission-form.component.html',
+  styleUrls: ['./question-submission-form.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgClass,
+    PanelChevronComponent,
+    NgIf,
+    LoadingSpinnerDirective,
+    NgFor,
+    ContributionQuestionInstructionComponent,
+    TextQuestionInstructionComponent,
+    NumScaleQuestionInstructionComponent,
+    TextQuestionConstraintComponent,
+    NumScaleQuestionConstraintComponent,
+    RankOptionsQuestionInstructionComponent,
+    MsqQuestionConstraintComponent,
+    RankRecipientsQuestionInstructionComponent,
+    ConstsumOptionsQuestionInstructionComponent,
+    ConstsumRecipientsQuestionInstructionComponent,
+    NgbTooltip,
+    FormsModule,
+    ContributionQuestionEditAnswerFormComponent,
+    TextQuestionEditAnswerFormComponent,
+    RankOptionsQuestionEditAnswerFormComponent,
+    RankRecipientsQuestionEditAnswerFormComponent,
+    NumScaleQuestionEditAnswerFormComponent,
+    McqQuestionEditAnswerFormComponent,
+    MsqQuestionEditAnswerFormComponent,
+    RubricQuestionEditAnswerFormComponent,
+    ConstsumOptionsQuestionEditAnswerFormComponent,
+    ConstsumRecipientsQuestionEditAnswerFormComponent,
+    CommentRowComponent,
+    ContributionQuestionConstraintComponent,
+    RankRecipientsQuestionConstraintComponent,
+    ConstsumRecipientsQuestionConstraintComponent,
+    AjaxLoadingComponent,
+    EnumToArrayPipe,
+    SafeHtmlPipe,
+    VisibilityEntityNamePipe,
+    VisibilityCapabilityPipe,
+    RecipientTypeNamePipe,
+  ],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {
 

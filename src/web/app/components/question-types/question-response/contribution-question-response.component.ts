@@ -15,15 +15,16 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
+import { NgIf } from '@angular/common';
 
 /**
  * Contribution question response.
  */
 @Component({
-    selector: 'tm-contribution-question-response',
-    templateUrl: './contribution-question-response.component.html',
-    styleUrls: ['./contribution-question-response.component.scss'],
-    standalone: false,
+  selector: 'tm-contribution-question-response',
+  templateUrl: './contribution-question-response.component.html',
+  styleUrls: ['./contribution-question-response.component.scss'],
+  imports: [NgIf],
 })
 export class ContributionQuestionResponseComponent
     extends QuestionResponse<FeedbackContributionResponseDetails, FeedbackContributionQuestionDetails>

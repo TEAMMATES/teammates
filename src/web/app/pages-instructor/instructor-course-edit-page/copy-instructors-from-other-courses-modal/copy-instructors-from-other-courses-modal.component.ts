@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
 import { InstructorService } from '../../../../services/instructor.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -8,15 +8,33 @@ import { Instructor, InstructorPermissionRole, Instructors } from '../../../../t
 import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../../error-message-output';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { PanelChevronComponent } from '../../../components/panel-chevron/panel-chevron.component';
+import { LoadingRetryComponent } from '../../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../../components/loading-spinner/loading-spinner.directive';
+import { FormsModule } from '@angular/forms';
+import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
+import { InstructorRoleNamePipe } from '../../../components/teammates-common/instructor-role-name.pipe';
 
 /**
  * Modal to select instructors to copy from other courses.
  */
 @Component({
-    selector: 'tm-copy-instructors-from-other-courses-modal',
-    templateUrl: './copy-instructors-from-other-courses-modal.component.html',
-    styleUrls: ['./copy-instructors-from-other-courses-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-copy-instructors-from-other-courses-modal',
+  templateUrl: './copy-instructors-from-other-courses-modal.component.html',
+  styleUrls: ['./copy-instructors-from-other-courses-modal.component.scss'],
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    PanelChevronComponent,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgbTooltip,
+    FormsModule,
+    AjaxLoadingComponent,
+    InstructorRoleNamePipe,
+  ],
 })
 export class CopyInstructorsFromOtherCoursesModalComponent {
 

@@ -7,15 +7,17 @@ import {
 import {
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Question details edit form component for constsum recipients question.
  */
 @Component({
-    selector: 'tm-constsum-recipients-question-edit-details-form',
-    templateUrl: './constsum-recipients-question-edit-details-form.component.html',
-    styleUrls: ['./constsum-recipients-question-edit-details-form.component.scss'],
-    standalone: false,
+  selector: 'tm-constsum-recipients-question-edit-details-form',
+  templateUrl: './constsum-recipients-question-edit-details-form.component.html',
+  styleUrls: ['./constsum-recipients-question-edit-details-form.component.scss'],
+  imports: [FormsModule, NgbTooltip],
 })
 export class ConstsumRecipientsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>

@@ -3,15 +3,16 @@ import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
+import { NgIf } from '@angular/common';
 
 /**
  * Instruction of contribution question.
  */
 @Component({
-    selector: 'tm-contribution-question-instruction',
-    templateUrl: './contribution-question-instruction.component.html',
-    styleUrls: ['./contribution-question-instruction.component.scss'],
-    standalone: false,
+  selector: 'tm-contribution-question-instruction',
+  templateUrl: './contribution-question-instruction.component.html',
+  styleUrls: ['./contribution-question-instruction.component.scss'],
+  imports: [NgIf],
 })
 export class ContributionQuestionInstructionComponent {
 

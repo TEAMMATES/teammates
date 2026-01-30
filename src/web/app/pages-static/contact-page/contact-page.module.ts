@@ -14,15 +14,13 @@ const routes: Routes = [
  * Module for contact page.
  */
 @NgModule({
-  declarations: [
-    ContactPageComponent,
-  ],
   exports: [
     ContactPageComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    ContactPageComponent,
   ],
 })
 export class ContactPageModule { }

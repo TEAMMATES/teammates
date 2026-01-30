@@ -11,6 +11,7 @@ import {
 import {
   FeedbackResponseRecipientSubmissionFormModel,
 } from '../../question-submission-form/question-submission-form-model';
+import { NgIf } from '@angular/common';
 
 /**
  * Constraint of constsum recipients question.
@@ -19,7 +20,7 @@ import {
     selector: 'tm-constsum-recipients-question-constraint',
     templateUrl: './constsum-recipients-question-constraint.component.html',
     styleUrls: ['./constsum-recipients-question-constraint.component.scss'],
-    standalone: false,
+    imports: [NgIf],
 })
 export class ConstsumRecipientsQuestionConstraintComponent
     extends QuestionConstraintComponent<FeedbackConstantSumQuestionDetails> {

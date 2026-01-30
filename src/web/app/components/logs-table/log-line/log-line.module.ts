@@ -9,14 +9,12 @@ import { RequestLogLineComponent } from './request-log-line.component';
  * Module for log lines.
  */
 @NgModule({
-  declarations: [
-    ExceptionLogLineComponent,
-    GenericLogLineComponent,
-    RequestLogLineComponent,
-  ],
   imports: [
     CommonModule,
     NgbTooltipModule,
+    ExceptionLogLineComponent,
+    GenericLogLineComponent,
+    RequestLogLineComponent,
   ],
   exports: [
     ExceptionLogLineComponent,

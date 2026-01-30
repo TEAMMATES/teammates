@@ -15,9 +15,6 @@ const routes: Routes = [
  * Module for admin timezone page.
  */
 @NgModule({
-  declarations: [
-    TimezonePageComponent,
-  ],
   exports: [
     TimezonePageComponent,
   ],
@@ -25,6 +22,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
+    TimezonePageComponent,
   ],
 })
 export class TimezonePageModule { }

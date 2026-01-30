@@ -29,23 +29,6 @@ import { TeammatesRouterModule } from '../../teammates-router/teammates-router.m
  * Module for all different types of question edit details forms.
  */
 @NgModule({
-  declarations: [
-    ContributionQuestionEditDetailsFormComponent,
-    McqFieldComponent,
-    McqQuestionEditDetailsFormComponent,
-    MsqFieldComponent,
-    MsqQuestionEditDetailsFormComponent,
-    NumScaleQuestionEditDetailsFormComponent,
-    RankOptionsFieldComponent,
-    RankOptionsQuestionEditDetailsFormComponent,
-    RankRecipientsQuestionEditDetailsFormComponent,
-    TextQuestionEditDetailsFormComponent,
-    WeightFieldComponent,
-    RubricQuestionEditDetailsFormComponent,
-    ConstsumOptionsQuestionEditDetailsFormComponent,
-    ConstsumOptionsFieldComponent,
-    ConstsumRecipientsQuestionEditDetailsFormComponent,
-  ],
   exports: [
     ContributionQuestionEditDetailsFormComponent,
     McqFieldComponent,
@@ -69,6 +52,21 @@ import { TeammatesRouterModule } from '../../teammates-router/teammates-router.m
     NgbTooltipModule,
     TeammatesCommonModule,
     TeammatesRouterModule,
+    ContributionQuestionEditDetailsFormComponent,
+    McqFieldComponent,
+    McqQuestionEditDetailsFormComponent,
+    MsqFieldComponent,
+    MsqQuestionEditDetailsFormComponent,
+    NumScaleQuestionEditDetailsFormComponent,
+    RankOptionsFieldComponent,
+    RankOptionsQuestionEditDetailsFormComponent,
+    RankRecipientsQuestionEditDetailsFormComponent,
+    TextQuestionEditDetailsFormComponent,
+    WeightFieldComponent,
+    RubricQuestionEditDetailsFormComponent,
+    ConstsumOptionsQuestionEditDetailsFormComponent,
+    ConstsumOptionsFieldComponent,
+    ConstsumRecipientsQuestionEditDetailsFormComponent,
   ],
 })
 export class QuestionEditDetailsFormModule { }

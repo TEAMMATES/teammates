@@ -18,18 +18,6 @@ import { TeammatesCommonModule } from '../../teammates-common/teammates-common.m
  * Module for all additional info components for all different question types.
  */
 @NgModule({
-  declarations: [
-    ContributionQuestionAdditionalInfoComponent,
-    TextQuestionAdditionalInfoComponent,
-    NumScaleQuestionAdditionalInfoComponent,
-    MsqQuestionAdditionalInfoComponent,
-    McqQuestionAdditionalInfoComponent,
-    RubricQuestionAdditionalInfoComponent,
-    RankOptionsQuestionAdditionalInfoComponent,
-    RankRecipientsQuestionAdditionalInfoComponent,
-    ConstsumOptionsQuestionAdditionalInfoComponent,
-    ConstsumRecipientsQuestionAdditionalInfoComponent,
-  ],
   exports: [
     ContributionQuestionAdditionalInfoComponent,
     TextQuestionAdditionalInfoComponent,
@@ -45,6 +33,16 @@ import { TeammatesCommonModule } from '../../teammates-common/teammates-common.m
   imports: [
     CommonModule,
     TeammatesCommonModule,
+    ContributionQuestionAdditionalInfoComponent,
+    TextQuestionAdditionalInfoComponent,
+    NumScaleQuestionAdditionalInfoComponent,
+    MsqQuestionAdditionalInfoComponent,
+    McqQuestionAdditionalInfoComponent,
+    RubricQuestionAdditionalInfoComponent,
+    RankOptionsQuestionAdditionalInfoComponent,
+    RankRecipientsQuestionAdditionalInfoComponent,
+    ConstsumOptionsQuestionAdditionalInfoComponent,
+    ConstsumRecipientsQuestionAdditionalInfoComponent,
   ],
 })
 export class QuestionAdditionalInfoModule { }

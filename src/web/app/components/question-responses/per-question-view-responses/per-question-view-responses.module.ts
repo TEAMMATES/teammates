@@ -15,9 +15,6 @@ import { SingleResponseModule } from '../single-response/single-response.module'
  * Module for component to display list of responses for one question.
  */
 @NgModule({
-  declarations: [
-    PerQuestionViewResponsesComponent,
-  ],
   exports: [
     PerQuestionViewResponsesComponent,
   ],
@@ -31,6 +28,7 @@ import { SingleResponseModule } from '../single-response/single-response.module'
     RouterModule,
     SingleResponseModule,
     ResponseModerationButtonModule,
+    PerQuestionViewResponsesComponent,
   ],
 })
 export class PerQuestionViewResponsesModule { }

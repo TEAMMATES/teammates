@@ -19,7 +19,6 @@ const routes: Routes = [
  * Module for instructor help (getting started) page.
  */
 @NgModule({
-  declarations: [InstructorHelpGettingStartedComponent],
   exports: [InstructorHelpGettingStartedComponent],
   imports: [
     CommonModule,
@@ -27,6 +26,7 @@ const routes: Routes = [
     ExampleBoxModule,
     TeammatesRouterModule,
     CourseEditFormModule,
+    InstructorHelpGettingStartedComponent,
   ],
 })
 export class InstructorHelpGettingStartedPageModule { }

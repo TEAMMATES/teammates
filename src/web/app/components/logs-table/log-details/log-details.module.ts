@@ -10,12 +10,6 @@ import { RequestLogDetailsComponent } from './request-log-details.component';
  * Module for additional log details.
  */
 @NgModule({
-  declarations: [
-    EmailLogDetailsComponent,
-    ExceptionLogDetailsComponent,
-    GenericLogDetailsComponent,
-    RequestLogDetailsComponent,
-  ],
   exports: [
     EmailLogDetailsComponent,
     ExceptionLogDetailsComponent,
@@ -25,6 +19,10 @@ import { RequestLogDetailsComponent } from './request-log-details.component';
   imports: [
     CommonModule,
     NgbTooltipModule,
+    EmailLogDetailsComponent,
+    ExceptionLogDetailsComponent,
+    GenericLogDetailsComponent,
+    RequestLogDetailsComponent,
   ],
 })
 export class LogDetailsModule { }

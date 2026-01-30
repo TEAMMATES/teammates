@@ -15,9 +15,6 @@ const routes: Routes = [
  * Module for index page.
  */
 @NgModule({
-  declarations: [
-    IndexPageComponent,
-  ],
   exports: [
     IndexPageComponent,
   ],
@@ -25,6 +22,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     TeammatesRouterModule,
+    IndexPageComponent,
   ],
 })
 export class IndexPageModule { }

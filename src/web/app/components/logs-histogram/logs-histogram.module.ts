@@ -6,8 +6,7 @@ import { LogsHistogramComponent } from './logs-histogram.component';
  * Module for displaying logs in histogram.
  */
 @NgModule({
-  declarations: [LogsHistogramComponent],
-  imports: [CommonModule],
-  exports: [LogsHistogramComponent],
+    imports: [CommonModule, LogsHistogramComponent],
+    exports: [LogsHistogramComponent],
 })
 export class LogsHistogramModule { }

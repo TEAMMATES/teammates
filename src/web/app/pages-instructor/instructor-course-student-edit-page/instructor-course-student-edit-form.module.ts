@@ -9,9 +9,6 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
  * Module for course student edit form.
  */
 @NgModule({
-  declarations: [
-    InstructorCourseStudentEditPageComponent,
-  ],
   exports: [
     InstructorCourseStudentEditPageComponent,
   ],
@@ -20,6 +17,7 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
     ReactiveFormsModule,
     LoadingSpinnerModule,
     LoadingRetryModule,
+    InstructorCourseStudentEditPageComponent,
   ],
 })
 export class InstructorCourseStudentEditFormModule { }

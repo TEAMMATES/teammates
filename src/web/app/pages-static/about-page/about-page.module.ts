@@ -15,9 +15,6 @@ const routes: Routes = [
  * Module for about page.
  */
 @NgModule({
-  declarations: [
-    AboutPageComponent,
-  ],
   exports: [
     AboutPageComponent,
   ],
@@ -25,6 +22,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     TeammatesRouterModule,
+    AboutPageComponent,
   ],
 })
 export class AboutPageModule { }

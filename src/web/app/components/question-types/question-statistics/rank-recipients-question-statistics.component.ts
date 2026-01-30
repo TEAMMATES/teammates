@@ -4,16 +4,17 @@ import {
 } from './question-statistics-calculation/rank-recipients-question-statistics-calculation';
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../sortable-table/sortable-table.component';
+import { NgIf } from '@angular/common';
 
 /**
  * Statistics for rank recipients questions.
  */
 @Component({
-    selector: 'tm-rank-recipients-question-statistics',
-    templateUrl: './rank-recipients-question-statistics.component.html',
-    styleUrls: ['./rank-recipients-question-statistics.component.scss'],
-    standalone: false,
+  selector: 'tm-rank-recipients-question-statistics',
+  templateUrl: './rank-recipients-question-statistics.component.html',
+  styleUrls: ['./rank-recipients-question-statistics.component.scss'],
+  imports: [NgIf, SortableTableComponent],
 })
 export class RankRecipientsQuestionStatisticsComponent extends RankRecipientsQuestionStatisticsCalculation
     implements OnInit, OnChanges {

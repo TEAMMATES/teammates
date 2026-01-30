@@ -11,6 +11,11 @@ import {
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
+import { NgIf, NgFor } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
+import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
+import { CommentVisibilityControlNamePipe, CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe } from '../comment-visibility-setting.pipe';
 
 /**
  * Model for comment edit form.
@@ -27,11 +32,20 @@ export interface CommentEditFormModel {
  * Comment edit form component
  */
 @Component({
-    selector: 'tm-comment-edit-form',
-    templateUrl: './comment-edit-form.component.html',
-    styleUrls: ['./comment-edit-form.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-comment-edit-form',
+  templateUrl: './comment-edit-form.component.html',
+  styleUrls: ['./comment-edit-form.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    NgFor,
+    NgbTooltip,
+    RichTextEditorComponent,
+    EnumToArrayPipe,
+    CommentVisibilityControlNamePipe,
+    CommentVisibilityTypeDescriptionPipe,
+    CommentVisibilityTypeNamePipe,
+  ],
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
 

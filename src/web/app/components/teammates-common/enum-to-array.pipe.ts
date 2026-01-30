@@ -5,10 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  *
  * <p>Assumes the enum is string in runtime.
  */
-@Pipe({
-    name: 'enumToArray',
-    standalone: false,
-})
+@Pipe({ name: 'enumToArray', })
 export class EnumToArrayPipe implements PipeTransform {
 
   /**

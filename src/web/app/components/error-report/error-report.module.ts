@@ -10,8 +10,8 @@ import { ErrorReportComponent } from './error-report.component';
   imports: [
     CommonModule,
     FormsModule,
+    ErrorReportComponent,
   ],
   exports: [ErrorReportComponent],
-  declarations: [ErrorReportComponent],
 })
 export class ErrorReportModule { }

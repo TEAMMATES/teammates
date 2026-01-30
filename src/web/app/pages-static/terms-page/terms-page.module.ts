@@ -14,15 +14,13 @@ const routes: Routes = [
  * Module for terms page.
  */
 @NgModule({
-  declarations: [
-    TermsPageComponent,
-  ],
   exports: [
     TermsPageComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    TermsPageComponent,
   ],
 })
 export class TermsPageModule { }

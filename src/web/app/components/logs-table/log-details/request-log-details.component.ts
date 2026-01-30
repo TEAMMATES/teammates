@@ -1,14 +1,20 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GeneralLogEntry, LogEvent, RequestLogDetails, RequestLogUser } from '../../../../types/api-output';
+import { NgIf, JsonPipe } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Additional details for request logs.
  */
 @Component({
-    selector: 'tm-request-log-details',
-    templateUrl: './request-log-details.component.html',
-    styleUrls: ['./request-log-details.component.scss', './log-details.component.scss'],
-    standalone: false,
+  selector: 'tm-request-log-details',
+  templateUrl: './request-log-details.component.html',
+  styleUrls: ['./request-log-details.component.scss', './log-details.component.scss'],
+  imports: [
+    NgIf,
+    NgbTooltip,
+    JsonPipe,
+  ],
 })
 export class RequestLogDetailsComponent {
 

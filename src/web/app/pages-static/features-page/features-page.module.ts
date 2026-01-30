@@ -15,9 +15,6 @@ const routes: Routes = [
  * Module for features page.
  */
 @NgModule({
-  declarations: [
-    FeaturesPageComponent,
-  ],
   exports: [
     FeaturesPageComponent,
   ],
@@ -25,6 +22,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     TeammatesRouterModule,
+    FeaturesPageComponent,
   ],
 })
 export class FeaturesPageModule { }

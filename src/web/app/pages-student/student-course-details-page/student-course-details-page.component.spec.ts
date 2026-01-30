@@ -5,9 +5,6 @@ import { RouterModule } from '@angular/router';
 import { StudentCourseDetailsPageComponent } from './student-course-details-page.component';
 import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 
 const student: Student = {
   courseId: '1.1.c-demo2',
@@ -45,12 +42,8 @@ describe('StudentCourseDetailsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StudentCourseDetailsPageComponent],
       imports: [
         RouterModule.forRoot([]),
-        TeammatesCommonModule,
-        LoadingSpinnerModule,
-        LoadingRetryModule,
       ],
       providers: [
         provideHttpClient(),

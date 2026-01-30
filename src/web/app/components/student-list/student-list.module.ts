@@ -14,10 +14,6 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
  * Module for student list table component.
  */
 @NgModule({
-  declarations: [
-    JoinStatePipe,
-    StudentListComponent,
-  ],
   exports: [
     StudentListComponent,
   ],
@@ -29,9 +25,11 @@ import { TeammatesRouterModule } from '../teammates-router/teammates-router.modu
     TeammatesRouterModule,
     Pipes,
     SortableTableModule,
+    JoinStatePipe,
+    StudentListComponent,
   ],
-    providers: [
-        SearchTermsHighlighterPipe,
-    ],
+  providers: [
+    SearchTermsHighlighterPipe,
+  ],
 })
 export class StudentListModule { }

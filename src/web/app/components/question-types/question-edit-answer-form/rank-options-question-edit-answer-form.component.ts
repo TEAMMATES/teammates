@@ -6,15 +6,21 @@ import {
   DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
+import { NgFor, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 /**
  * The Rank options question submission form for a recipient.
  */
 @Component({
-    selector: 'tm-rank-options-question-edit-answer-form',
-    templateUrl: './rank-options-question-edit-answer-form.component.html',
-    styleUrls: ['./rank-options-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-rank-options-question-edit-answer-form',
+  templateUrl: './rank-options-question-edit-answer-form.component.html',
+  styleUrls: ['./rank-options-question-edit-answer-form.component.scss'],
+  imports: [
+    NgFor,
+    FormsModule,
+    NgIf,
+  ],
 })
 export class RankOptionsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails> {

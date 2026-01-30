@@ -7,7 +7,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
-import { InstructorSessionsPageModule } from './instructor-sessions-page.module';
 import {
   SessionPermanentDeletionConfirmModalComponent,
 } from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
@@ -140,7 +139,6 @@ describe('InstructorSessionsPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
-        InstructorSessionsPageModule,
         BrowserAnimationsModule,
       ],
       providers: [

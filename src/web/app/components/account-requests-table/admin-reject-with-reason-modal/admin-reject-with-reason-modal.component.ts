@@ -5,15 +5,16 @@ import { environment } from '../../../../environments/environment';
 import { AdminSearchResult, InstructorAccountSearchResult, SearchService } from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../../error-message-output';
+import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 
 /**
  * Modal to select reject account requests with reason.
  */
 @Component({
-    selector: 'tm-reject-with-reason-modal',
-    templateUrl: './admin-reject-with-reason-modal.component.html',
-    styleUrls: ['./admin-reject-with-reason-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-reject-with-reason-modal',
+  templateUrl: './admin-reject-with-reason-modal.component.html',
+  styleUrls: ['./admin-reject-with-reason-modal.component.scss'],
+  imports: [RichTextEditorComponent],
 })
 
 export class RejectWithReasonModalComponent implements OnInit {

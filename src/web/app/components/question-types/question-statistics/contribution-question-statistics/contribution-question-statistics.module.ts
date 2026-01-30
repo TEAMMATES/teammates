@@ -8,10 +8,10 @@ import { ContributionComponent } from './contribution.component';
  * Module for contribution question statistics
  */
 @NgModule({
-  declarations: [ContributionComponent, ContributionRatingsListComponent],
   imports: [
     CommonModule,
     NgbTooltipModule,
+    ContributionComponent, ContributionRatingsListComponent,
   ],
   exports: [
     ContributionComponent, ContributionRatingsListComponent,

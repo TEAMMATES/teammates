@@ -1,17 +1,34 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { FeedbackMcqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { FormsModule } from '@angular/forms';
+import { NgIf, NgFor } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { McqFieldComponent } from './mcq-field/mcq-field.component';
+import { WeightFieldComponent } from './weight-field/weight-field.component';
+import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pipe';
 
 /**
  * Question details edit form component for Mcq question.
  */
 @Component({
-    selector: 'tm-mcq-question-edit-details-form',
-    templateUrl: './mcq-question-edit-details-form.component.html',
-    styleUrls: ['./mcq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
-    standalone: false,
+  selector: 'tm-mcq-question-edit-details-form',
+  templateUrl: './mcq-question-edit-details-form.component.html',
+  styleUrls: ['./mcq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+  imports: [
+    FormsModule,
+    NgIf,
+    NgbTooltip,
+    CdkDropList,
+    NgFor,
+    CdkDrag,
+    CdkDragHandle,
+    McqFieldComponent,
+    WeightFieldComponent,
+    GeneratedChoicePipe,
+  ],
 })
 export class McqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> {

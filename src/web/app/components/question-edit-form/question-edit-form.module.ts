@@ -35,8 +35,6 @@ import { VisibilityPanelModule } from '../visibility-panel/visibility-panel.modu
     PanelChevronModule,
     FeedbackPathPanelModule,
     VisibilityPanelModule,
-  ],
-  declarations: [
     QuestionEditFormComponent,
   ],
   exports: [

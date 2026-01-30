@@ -18,9 +18,6 @@ const routes: Routes = [
  * Module for admin sessions page.
  */
 @NgModule({
-  declarations: [
-    AdminSessionsPageComponent,
-  ],
   exports: [
     AdminSessionsPageComponent,
   ],
@@ -32,6 +29,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
     PanelChevronModule,
+    AdminSessionsPageComponent,
   ],
 })
 export class AdminSessionsPageModule { }

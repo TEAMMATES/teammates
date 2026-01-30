@@ -6,8 +6,7 @@ import { PanelChevronComponent } from './panel-chevron.component';
  * Module for chevron icon used in panel headers.
  */
 @NgModule({
-  declarations: [PanelChevronComponent],
   exports: [PanelChevronComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, PanelChevronComponent],
 })
 export class PanelChevronModule { }

@@ -11,15 +11,23 @@ import {
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { NgIf, NgFor } from '@angular/common';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 
 /**
  * Student course details page.
  */
 @Component({
-    selector: 'tm-student-course-details-page',
-    templateUrl: './student-course-details-page.component.html',
-    styleUrls: ['./student-course-details-page.component.scss'],
-    standalone: false,
+  selector: 'tm-student-course-details-page',
+  templateUrl: './student-course-details-page.component.html',
+  styleUrls: ['./student-course-details-page.component.scss'],
+  imports: [
+    NgIf,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgFor,
+  ],
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
   // enum

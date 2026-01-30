@@ -23,9 +23,6 @@ const routes: Routes = [
  * Module for instructor student records page.
  */
 @NgModule({
-  declarations: [
-    InstructorStudentRecordsPageComponent,
-  ],
   exports: [
     InstructorStudentRecordsPageComponent,
   ],
@@ -37,6 +34,7 @@ const routes: Routes = [
     LoadingSpinnerModule,
     LoadingRetryModule,
     PanelChevronModule,
+    InstructorStudentRecordsPageComponent,
   ],
   providers: [
     CommentToCommentRowModelPipe,
