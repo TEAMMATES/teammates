@@ -73,7 +73,9 @@ export class InstructorHelpPageComponent implements AfterViewInit {
         }
       }
     });
-    this.scrollTo(target);
+    if (target) {
+      this.scrollTo(target);
+    }
   }
 
   expandQuestionTab(): void {
