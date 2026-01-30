@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin, Observable, throwError } from 'rxjs';
-import { catchError, finalize, map, mergeMap, tap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -143,10 +143,6 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
         this.studentName = resp.name;
         this.studentTeam = resp.teamName;
         this.studentSection = resp.sectionName;
-      }),
-      catchError((resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        return throwError(() => resp);
       }),
     );
   }
