@@ -5,8 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminHomePageComponent } from './admin-home-page.component';
 import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
 import { AccountRequestTableModule } from '../../components/account-requests-table/account-request-table.module';
-import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+
+
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
 const routes: Routes = [
@@ -28,11 +28,9 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes),
     AccountRequestTableModule,
-    AjaxLoadingModule,
-    LoadingSpinnerModule,
     AdminHomePageComponent,
     NewInstructorDataRowComponent,
-  ],
+],
   providers: [
     FormatDateDetailPipe,
   ],

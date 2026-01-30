@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Intent } from '../../types/api-request';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
-import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
+
 
 const routes: Routes = [
   {
@@ -69,8 +69,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    PageNotFoundModule,
     RouterModule.forChild(routes),
-  ],
+],
 })
 export class StudentPagesModule {}

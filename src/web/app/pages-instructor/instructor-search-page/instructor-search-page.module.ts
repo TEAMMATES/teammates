@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InstructorSearchComponentsModule } from './instructor-search-components.module';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { Pipes } from '../../pipes/pipes.module';
+
+
 
 const routes: Routes = [
   {
@@ -24,9 +24,7 @@ const routes: Routes = [
     CommonModule,
     InstructorSearchComponentsModule,
     RouterModule.forChild(routes),
-    LoadingSpinnerModule,
-    Pipes,
     InstructorSearchPageComponent,
-  ],
+],
 })
 export class InstructorSearchPageModule { }

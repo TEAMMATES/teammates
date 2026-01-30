@@ -7,8 +7,8 @@ import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit
 import {
   RejectWithReasonModalComponent,
 } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
-import { Pipes } from '../../pipes/pipes.module';
-import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+
+
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 
 /**
@@ -23,12 +23,10 @@ import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.modul
     FormsModule,
     NgbTooltipModule,
     NgbDropdownModule,
-    Pipes,
     RichTextEditorModule,
-    AjaxLoadingModule,
     AccountRequestTableComponent,
     EditRequestModalComponent,
     RejectWithReasonModalComponent,
-  ],
+],
 })
 export class AccountRequestTableModule { }

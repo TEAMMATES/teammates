@@ -15,8 +15,8 @@ import { RankRecipientsQuestionEditAnswerFormComponent } from './rank-recipients
 import { RubricQuestionEditAnswerFormComponent } from './rubric-question-edit-answer-form.component';
 import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer-form.component';
 import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
-import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module';
+
+
 
 /**
  * Module for all different types of question edit answer forms.
@@ -39,8 +39,6 @@ import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module'
     CommonModule,
     FormsModule,
     RichTextEditorModule,
-    TeammatesCommonModule,
-    WheelDisablerModule,
     ContributionQuestionEditAnswerFormComponent,
     TextQuestionEditAnswerFormComponent,
     McqQuestionEditAnswerFormComponent,
@@ -52,6 +50,6 @@ import { WheelDisablerModule } from '../../wheel-disabler/wheel-disabler.module'
     RubricQuestionEditAnswerFormComponent,
     ConstsumOptionsQuestionEditAnswerFormComponent,
     ConstsumRecipientsQuestionEditAnswerFormComponent,
-  ],
+],
 })
 export class QuestionEditAnswerFormModule { }

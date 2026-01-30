@@ -13,18 +13,14 @@ import {
 import {
   SessionsPermanentDeletionConfirmModalComponent,
 } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import {
-  ModifiedTimestampModalModule,
-} from '../../components/modified-timestamps-modal/modified-timestamps-module.module';
+
+
+
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
-import {
-  SessionsRecycleBinTableModule,
-} from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
+
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
-import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
-import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
+
+
 
 const routes: Routes = [
   {
@@ -41,19 +37,13 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SessionEditFormModule,
-    TeammatesCommonModule,
     FormsModule,
     SessionsTableModule,
-    SessionsRecycleBinTableModule,
     RouterModule.forChild(routes),
-    LoadingSpinnerModule,
-    LoadingRetryModule,
-    TeammatesRouterModule,
-    ModifiedTimestampModalModule,
     InstructorSessionsPageComponent,
     CopyFromOtherSessionsModalComponent,
     SessionPermanentDeletionConfirmModalComponent,
     SessionsPermanentDeletionConfirmModalComponent,
-  ],
+],
 })
 export class InstructorSessionsPageModule { }

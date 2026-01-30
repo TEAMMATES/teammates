@@ -10,14 +10,14 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgbDatepickerModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { AppComponent } from './app.component';
-import { ErrorReportModule } from './components/error-report/error-report.module';
-import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
-import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
-import { NotificationBannerModule } from './components/notification-banner/notification-banner.module';
+
+
+
+
 import { SessionEditFormModule } from './components/session-edit-form/session-edit-form.module';
-import { SimpleModalModule } from './components/simple-modal/simple-modal.module';
-import { TeammatesRouterModule } from './components/teammates-router/teammates-router.module';
-import { ToastModule } from './components/toast/toast.module';
+
+
+
 import { CustomUrlSerializer } from './custom-url-serializer';
 import { MaintenancePageComponent } from './maintenance-page.component';
 import { ClickOutsideDirective, PageComponent } from './page.component';
@@ -145,31 +145,24 @@ if (environment.maintenance) {
   declarations: [AppComponent],
   bootstrap: [AppComponent],
   imports: [
-    SimpleModalModule,
     BrowserModule,
     BrowserAnimationsModule,
     NgbDropdownModule,
     RouterModule.forRoot(routes, {}),
-    ErrorReportModule,
-    ToastModule,
-    LoaderBarModule,
-    NotificationBannerModule,
     NgxPageScrollCoreModule.forRoot(),
     ServiceWorkerModule.register("ngsw-worker.js", {
-      enabled: environment.production,
-      registrationStrategy: "registerImmediately",
+        enabled: environment.production,
+        registrationStrategy: "registerImmediately",
     }),
-    LoadingSpinnerModule,
-    TeammatesRouterModule,
     FormsModule,
     NgbDatepickerModule,
     SessionEditFormModule,
     environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
-      ? AngularFireModule.initializeApp(environment.firebaseConfig)
-      : [],
+        ? AngularFireModule.initializeApp(environment.firebaseConfig)
+        : [],
     environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
-      ? AngularFireAuthModule
-      : [],
+        ? AngularFireAuthModule
+        : [],
     PageComponent,
     ClickOutsideDirective,
     PublicPageComponent,
@@ -179,7 +172,7 @@ if (environment.maintenance) {
     AdminPageComponent,
     MaintenancePageComponent,
     MaintainerPageComponent,
-  ],
+],
   providers: [
     customUrlSerializerProvider,
     provideHttpClient(withInterceptorsFromDi()),

@@ -11,9 +11,9 @@ import { InstructorSessionResultRgqViewComponent } from './instructor-session-re
 import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
+
+
+
 import {
   GqrRqgViewResponsesModule,
 } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
@@ -23,9 +23,9 @@ import {
 import {
   PerQuestionViewResponsesModule,
 } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
-import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
-import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
-import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
+
+
+
 
 /**
  * Module for different view components of instructor session results page.
@@ -45,22 +45,16 @@ import { TeammatesRouterModule } from '../../components/teammates-router/teammat
     NgbCollapseModule,
     NgbTooltipModule,
     RouterModule,
-    QuestionTextWithInfoModule,
     PerQuestionViewResponsesModule,
     GqrRqgViewResponsesModule,
     GrqRgqViewResponsesModule,
-    SingleStatisticsModule,
-    LoadingSpinnerModule,
-    PanelChevronModule,
-    TeammatesRouterModule,
-    LoadingRetryModule,
     InstructorSessionResultQuestionViewComponent,
     InstructorSessionResultRgqViewComponent,
     InstructorSessionResultGrqViewComponent,
     InstructorSessionResultRqgViewComponent,
     InstructorSessionResultGqrViewComponent,
     InstructorSessionNoResponsePanelComponent,
-  ],
+],
   providers: [
     CommentToCommentRowModelPipe,
     CommentsToCommentTableModelPipe,

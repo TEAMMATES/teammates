@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminSessionsPageComponent } from './admin-sessions-page.component';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
+
+
 
 const routes: Routes = [
   {
@@ -27,9 +27,7 @@ const routes: Routes = [
     NgbDatepickerModule,
     NgbTimepickerModule,
     RouterModule.forChild(routes),
-    LoadingSpinnerModule,
-    PanelChevronModule,
     AdminSessionsPageComponent,
-  ],
+],
 })
 export class AdminSessionsPageModule { }

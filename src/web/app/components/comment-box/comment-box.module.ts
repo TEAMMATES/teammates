@@ -12,18 +12,16 @@ import {
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
 } from './comment-visibility-setting.pipe';
 import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-model.pipe';
-import { SingleResponseModule } from '../question-responses/single-response/single-response.module';
+
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
-import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
+
 
 /**
  * Module for comments table
  */
 @NgModule({
   imports: [
-    TeammatesCommonModule,
     CommonModule,
-    SingleResponseModule,
     RichTextEditorModule,
     NgbTooltipModule,
     FormsModule,
@@ -37,7 +35,7 @@ import { TeammatesCommonModule } from '../teammates-common/teammates-common.modu
     CommentVisibilityTypesJointNamePipe,
     CommentToCommentRowModelPipe,
     CommentsToCommentTableModelPipe,
-  ],
+],
   exports: [
     CommentEditFormComponent,
     CommentRowComponent,
