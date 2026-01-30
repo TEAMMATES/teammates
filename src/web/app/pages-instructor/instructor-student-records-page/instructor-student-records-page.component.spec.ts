@@ -62,7 +62,6 @@ describe('InstructorStudentRecordsPageComponent', () => {
   it('should snap with populated fields', () => {
     component.studentName = 'Not John Doe';
     component.courseId = 'su1337';
-    component.isStudentLoading = false;
     component.isStudentResultsLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -72,7 +71,6 @@ describe('InstructorStudentRecordsPageComponent', () => {
     component.studentName = 'John Doe';
     component.courseId = 'CS1111';
     component.isStudentResultsLoading = true;
-    component.isStudentLoading = false;
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

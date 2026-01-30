@@ -51,9 +51,6 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   studentSection: string = '';
 
   sessionTabs: SessionTab[] = [];
-
-  isStudentLoading: boolean = false;
-  hasStudentLoadingFailed: boolean = false;
   isStudentResultsLoading: boolean = false;
   hasStudentResultsLoadingFailed: boolean = false;
 
@@ -97,30 +94,8 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   }
 
   /**
-   * Loads the student's records based on the given course ID and email.
-   */
-  loadStudentRecords(): Observable<Student> {
-    this.hasStudentLoadingFailed = false;
-    this.isStudentLoading = true;
-    return this.studentService.getStudent(
-        this.courseId, this.studentEmail,
-    ).pipe(
-      tap((resp: Student) => {
-        this.studentName = resp.name;
-        this.studentTeam = resp.teamName;
-        this.studentSection = resp.sectionName;
-      }),
-      catchError((resp: ErrorMessageOutput) => {
-        this.hasStudentLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-        return throwError(() => resp);
-      }),
-      finalize(() => { this.isStudentLoading = false; }),
-    );
-  }
-
-  /**
-   * Loads the student's feedback session results.
+   * Loads the student's feedback session results based on the given course ID and student name.
+   * Fetches student records and feedback sessions in parallel, then loads results for each session.
    */
   loadStudentResults(): void {
     this.sessionTabs = [];
@@ -130,20 +105,20 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       student: this.loadStudentRecords(),
       feedbackSessions: this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
     }).pipe(
-      mergeMap(({ feedbackSessions }: { feedbackSessions: FeedbackSessions }) => {
-        return feedbackSessions.feedbackSessions;
-      }),
-      mergeMap((feedbackSession: FeedbackSession) => {
-        return this.getFeedbackSessionResults(feedbackSession.feedbackSessionName).pipe(
-            map((results: SessionResults) => {
-                this.sortQuestionsByNumber(results.questions);
-                return { results, feedbackSession };
-            }),
-        );
-      }),
-      finalize(() => {
-        this.isStudentResultsLoading = false;
-      }),
+        mergeMap(({ feedbackSessions }: { feedbackSessions: FeedbackSessions }) => {
+          return feedbackSessions.feedbackSessions;
+        }),
+        mergeMap((feedbackSession: FeedbackSession) => {
+          return this.getFeedbackSessionResults(feedbackSession.feedbackSessionName).pipe(
+              map((results: SessionResults) => {
+                  this.sortQuestionsByNumber(results.questions);
+                  return { results, feedbackSession };
+              }),
+          );
+        }),
+        finalize(() => {
+          this.isStudentResultsLoading = false;
+        }),
     ).subscribe({
       next: ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
         this.sessionTabs.push(this.createSessionTab(results, feedbackSession));
@@ -155,6 +130,25 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       },
       complete: () => this.sortFeedbackSessions(),
     });
+  }
+
+  /**
+   * Loads the student's records based on the given course ID and email.
+   */
+  private loadStudentRecords(): Observable<Student> {
+    return this.studentService.getStudent(
+      this.courseId, this.studentEmail,
+    ).pipe(
+      tap((resp: Student) => {
+        this.studentName = resp.name;
+        this.studentTeam = resp.teamName;
+        this.studentSection = resp.sectionName;
+      }),
+      catchError((resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+        return throwError(() => resp);
+      }),
+    );
   }
 
   /**
