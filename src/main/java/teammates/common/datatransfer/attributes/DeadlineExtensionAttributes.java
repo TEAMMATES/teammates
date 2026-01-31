@@ -24,6 +24,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
     private Instant endTime;
     private transient Instant createdAt;
     private transient Instant updatedAt;
+    private transient Instant deletedAt;
 
     private DeadlineExtensionAttributes(String courseId,
             String feedbackSessionName, String userEmail, boolean isInstructor) {
@@ -35,6 +36,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
         this.endTime = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         this.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        this.deletedAt = null;
     }
 
     /**
@@ -51,6 +53,7 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
         deadlineExtensionAttributes.endTime = deadlineExtension.getEndTime();
         deadlineExtensionAttributes.createdAt = deadlineExtension.getCreatedAt();
         deadlineExtensionAttributes.updatedAt = deadlineExtension.getUpdatedAt();
+        deadlineExtensionAttributes.deletedAt = deadlineExtension.getDeletedAt();
 
         return deadlineExtensionAttributes;
     }
@@ -119,6 +122,18 @@ public final class DeadlineExtensionAttributes extends EntityAttributes<Deadline
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 
     @Override

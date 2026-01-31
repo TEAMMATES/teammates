@@ -184,7 +184,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      * (without admin rights or student rights).
      */
     protected void loginAsInstructor(String userId) {
-        UserInfo user = mockUserProvision.loginUser(userId);
+        UserInfo user = mockUserProvision.loginAsInstructor(userId);
         assertFalse(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -195,7 +195,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudent(String userId) {
-        UserInfo user = mockUserProvision.loginUser(userId);
+        UserInfo user = mockUserProvision.loginAsStudent(userId);
         assertTrue(user.isStudent);
         assertFalse(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -206,7 +206,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      * (without admin rights).
      */
     protected void loginAsStudentInstructor(String userId) {
-        UserInfo user = mockUserProvision.loginUser(userId);
+        UserInfo user = mockUserProvision.loginAsStudentInstructor(userId);
         assertTrue(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -216,7 +216,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      * Logs in the user to the test environment as a maintainer.
      */
     protected void loginAsMaintainer() {
-        UserInfo user = mockUserProvision.loginUser(Config.APP_MAINTAINERS.get(0));
+        UserInfo user = mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
         assertTrue(user.isMaintainer);
     }
 

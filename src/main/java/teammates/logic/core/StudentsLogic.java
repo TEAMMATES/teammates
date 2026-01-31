@@ -15,7 +15,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
-import teammates.common.util.RequestTracer;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -42,6 +41,7 @@ public final class StudentsLogic {
     private FeedbackResponsesLogic frLogic;
     private FeedbackSessionsLogic fsLogic;
     private DeadlineExtensionsLogic deLogic;
+    private DeletionService deletionService;
 
     private StudentsLogic() {
         // prevent initialization
@@ -55,6 +55,7 @@ public final class StudentsLogic {
         frLogic = FeedbackResponsesLogic.inst();
         fsLogic = FeedbackSessionsLogic.inst();
         deLogic = DeadlineExtensionsLogic.inst();
+        deletionService = DeletionService.inst();
     }
 
     /**
@@ -421,11 +422,7 @@ public final class StudentsLogic {
      * associated responses, deadline extensions, and comments.
      */
     public void deleteStudentsInCourseCascade(String courseId, int batchSize) {
-        var studentsInCourse = getStudentsForCourse(courseId, batchSize);
-        for (var student : studentsInCourse) {
-            RequestTracer.checkRemainingTime();
-            deleteStudentCascade(courseId, student.getEmail());
-        }
+        deletionService.deleteStudentsInCourseCascade(courseId, batchSize);
     }
 
     /**
@@ -434,25 +431,7 @@ public final class StudentsLogic {
      * <p>Fails silently if the student does not exist.
      */
     public void deleteStudentCascade(String courseId, String studentEmail) {
-        StudentAttributes student = getStudentForEmail(courseId, studentEmail);
-        if (student == null) {
-            return;
-        }
-
-        frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail);
-        if (studentsDb.getStudentCountForTeam(student.getTeam(), student.getCourse()) == 1) {
-            // the student is the only student in the team, delete responses related to the team
-            frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(student.getCourse(), student.getTeam());
-        }
-        studentsDb.deleteStudent(courseId, studentEmail);
-        fsLogic.deleteFeedbackSessionsDeadlinesForStudent(courseId, studentEmail);
-        deLogic.deleteDeadlineExtensions(courseId, studentEmail, false);
-
-        updateStudentResponsesAfterDeletion(courseId);
-    }
-
-    private void updateStudentResponsesAfterDeletion(String courseId) {
-        frLogic.updateFeedbackResponsesForDeletingStudent(courseId);
+        deletionService.deleteStudentCascade(courseId, studentEmail);
     }
 
     /**
@@ -460,20 +439,14 @@ public final class StudentsLogic {
      * its associated feedback responses, deadline extensions and comments.
      */
     public void deleteStudentsForGoogleIdCascade(String googleId) {
-        List<StudentAttributes> students = getStudentsForGoogleId(googleId);
-
-        // Cascade delete students
-        for (StudentAttributes student : students) {
-            deleteStudentCascade(student.getCourse(), student.getEmail());
-        }
+        deletionService.deleteStudentsForGoogleIdCascade(googleId);
     }
 
     /**
      * Deletes students using {@link AttributesDeletionQuery}.
      */
     public void deleteStudents(AttributesDeletionQuery query) {
-        studentsDb.deleteStudents(query);
-        updateStudentResponsesAfterDeletion(query.getCourseId());
+        deletionService.deleteStudents(query);
     }
 
     /**
@@ -486,7 +459,7 @@ public final class StudentsLogic {
     }
 
     private boolean isInEnrollList(StudentAttributes student,
-            List<StudentAttributes> studentInfoList) {
+                                   List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
             if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
                 return true;

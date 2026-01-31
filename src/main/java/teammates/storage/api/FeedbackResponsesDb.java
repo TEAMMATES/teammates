@@ -314,6 +314,26 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
     }
 
     /**
+     * Gets the count of feedback responses for a course using {@link AttributesDeletionQuery}.
+     */
+    public int getFeedbackResponsesCountForCourse(AttributesDeletionQuery query) {
+        assert query != null;
+
+        Query<FeedbackResponse> entities = load().project();
+        if (query.isCourseIdPresent()) {
+            entities = entities.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entities = entities.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+        if (query.isQuestionIdPresent()) {
+            entities = entities.filter("feedbackQuestionId =", query.getQuestionId());
+        }
+
+        return entities.count();
+    }
+
+    /**
      * Returns true if there are existing responses in any feedback session in the course.
      */
     public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {
@@ -407,6 +427,39 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
                 .list();
+    }
+
+    /**
+     * Soft-deletes a feedback response by its given corresponding ID.
+     * @return Soft-deletion time of the feedback response.
+     */
+    public Instant softDeleteFeedbackResponse(String feedbackResponseId) throws EntityDoesNotExistException {
+        assert feedbackResponseId != null;
+        FeedbackResponse feedbackResponseEntity = getFeedbackResponseEntity(feedbackResponseId);
+
+        if (feedbackResponseEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        feedbackResponseEntity.setDeletedAt(Instant.now());
+        saveEntity(feedbackResponseEntity);
+
+        return feedbackResponseEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted feedback response by its given corresponding ID.
+     */
+    public void restoreDeletedFeedbackResponse(String feedbackResponseId) throws EntityDoesNotExistException {
+        assert feedbackResponseId != null;
+        FeedbackResponse feedbackResponseEntity = getFeedbackResponseEntity(feedbackResponseId);
+
+        if (feedbackResponseEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        feedbackResponseEntity.setDeletedAt(null);
+        saveEntity(feedbackResponseEntity);
     }
 
     @Override

@@ -39,6 +39,7 @@ public final class InstructorsLogic {
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackSessionsLogic fsLogic;
     private DeadlineExtensionsLogic deLogic;
+    private DeletionService deletionService;
 
     private InstructorsLogic() {
         // prevent initialization
@@ -54,6 +55,7 @@ public final class InstructorsLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
         fsLogic = FeedbackSessionsLogic.inst();
         deLogic = DeadlineExtensionsLogic.inst();
+        deletionService = DeletionService.inst();
     }
 
     /**
@@ -316,15 +318,7 @@ public final class InstructorsLogic {
      * <p>Fails silently if the student does not exist.
      */
     public void deleteInstructorCascade(String courseId, String email) {
-        InstructorAttributes instructorAttributes = getInstructorForEmail(courseId, email);
-        if (instructorAttributes == null) {
-            return;
-        }
-
-        frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, email);
-        instructorsDb.deleteInstructor(courseId, email);
-        fsLogic.deleteFeedbackSessionsDeadlinesForInstructor(courseId, email);
-        deLogic.deleteDeadlineExtensions(courseId, email, true);
+        deletionService.deleteInstructorCascade(courseId, email);
     }
 
     /**
@@ -332,12 +326,7 @@ public final class InstructorsLogic {
      * deadline extensions and comments.
      */
     public void deleteInstructorsForGoogleIdCascade(String googleId) {
-        List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId, false);
-
-        // cascade delete instructors
-        for (InstructorAttributes instructor : instructors) {
-            deleteInstructorCascade(instructor.getCourseId(), instructor.getEmail());
-        }
+        deletionService.deleteInstructorsForGoogleIdCascade(googleId);
     }
 
     /**

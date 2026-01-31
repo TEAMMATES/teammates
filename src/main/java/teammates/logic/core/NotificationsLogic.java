@@ -18,6 +18,8 @@ public final class NotificationsLogic {
 
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
 
+    private DeletionService deletionService;
+
     private NotificationsLogic() {
         // prevent initialization
     }
@@ -27,7 +29,7 @@ public final class NotificationsLogic {
     }
 
     void initLogicDependencies() {
-        // No dependency to other logic class
+        deletionService = DeletionService.inst();
     }
 
     /**
@@ -85,7 +87,7 @@ public final class NotificationsLogic {
      * <p>Fails silently if the notification doesn't exist.</p>
      */
     public void deleteNotification(String notificationId) {
-        notificationsDb.deleteNotification(notificationId);
+        deletionService.deleteNotification(notificationId);
     }
 
     /**

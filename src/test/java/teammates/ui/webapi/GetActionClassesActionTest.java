@@ -91,6 +91,10 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 RejectAccountRequestAction.class,
                 GetAccountAction.class,
                 GetAccountsAction.class,
+                PreviewAccountDeletionAction.class,
+                PreviewCourseDeletionAction.class,
+                PreviewInstructorDeletionAction.class,
+                PreviewStudentDeletionAction.class,
                 FeedbackSessionPublishedRemindersAction.class,
                 QueryLogsAction.class,
                 SessionLinksRecoveryAction.class,
@@ -145,6 +149,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 PutSqlDataBundleAction.class,
                 DeleteSqlDataBundleAction.class,
                 UpdateFeedbackSessionLogsAction.class
+
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)

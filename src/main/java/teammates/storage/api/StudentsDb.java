@@ -477,4 +477,39 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
                 .count();
     }
 
+    /**
+     * Soft-deletes a student by its given corresponding ID.
+     * @return Soft-deletion time of the student.
+     */
+    public Instant softDeleteStudent(String courseID, String email) throws EntityDoesNotExistException {
+        assert courseID != null;
+        assert email != null;
+        CourseStudent studentEntity = getCourseStudentEntityForEmail(courseID, email);
+
+        if (studentEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        studentEntity.setDeletedAt(Instant.now());
+        saveEntity(studentEntity);
+
+        return studentEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted student by its given corresponding ID.
+     */
+    public void restoreDeletedStudent(String courseID, String email) throws EntityDoesNotExistException {
+        assert courseID != null;
+        assert email != null;
+        CourseStudent studentEntity = getCourseStudentEntityForEmail(courseID, email);
+
+        if (studentEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        studentEntity.setDeletedAt(null);
+        saveEntity(studentEntity);
+    }
+
 }

@@ -91,6 +91,10 @@ import teammates.ui.webapi.InstructorSearchIndexingWorkerAction;
 import teammates.ui.webapi.JoinCourseAction;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.MarkNotificationAsReadAction;
+import teammates.ui.webapi.PreviewAccountDeletionAction;
+import teammates.ui.webapi.PreviewCourseDeletionAction;
+import teammates.ui.webapi.PreviewInstructorDeletionAction;
+import teammates.ui.webapi.PreviewStudentDeletionAction;
 import teammates.ui.webapi.PublishFeedbackSessionAction;
 import teammates.ui.webapi.PutDataBundleAction;
 import teammates.ui.webapi.PutDataBundleDocumentsAction;
@@ -208,6 +212,10 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 RejectAccountRequestAction.class,
                 GetAccountAction.class,
                 GetAccountsAction.class,
+                PreviewAccountDeletionAction.class,
+                PreviewCourseDeletionAction.class,
+                PreviewInstructorDeletionAction.class,
+                PreviewStudentDeletionAction.class,
                 FeedbackSessionPublishedRemindersAction.class,
                 QueryLogsAction.class,
                 SessionLinksRecoveryAction.class,
@@ -262,6 +270,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 PutSqlDataBundleAction.class,
                 DeleteSqlDataBundleAction.class,
                 UpdateFeedbackSessionLogsAction.class
+
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)

@@ -28,6 +28,7 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
     private transient String key;
     private transient Instant createdAt;
     private transient Instant updatedAt;
+    private transient Instant deletedAt;
 
     private StudentAttributes(String courseId, String email) {
         this.course = courseId;
@@ -37,6 +38,7 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
         this.section = Const.DEFAULT_SECTION;
         this.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
         this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        this.deletedAt = null;
     }
 
     /**
@@ -59,6 +61,9 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
         if (student.getUpdatedAt() != null) {
             studentAttributes.updatedAt = student.getUpdatedAt();
+        }
+        if (student.getDeletedAt() != null) {
+            studentAttributes.deletedAt = student.getDeletedAt();
         }
 
         return studentAttributes;
@@ -85,6 +90,9 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
         if (student.getUpdatedAt() != null) {
             studentAttributes.updatedAt = student.getUpdatedAt();
         }
+        if (student.getDeletedAt() != null) {
+            studentAttributes.deletedAt = student.getDeletedAt();
+        }
 
         return studentAttributes;
     }
@@ -110,6 +118,7 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
         studentAttributes.key = key;
         studentAttributes.createdAt = createdAt;
         studentAttributes.updatedAt = updatedAt;
+        studentAttributes.deletedAt = deletedAt;
 
         return studentAttributes;
     }
@@ -299,6 +308,18 @@ public final class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 
     /**

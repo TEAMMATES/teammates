@@ -30,6 +30,7 @@ public final class NotificationAttributes extends EntityAttributes<Notification>
     // createdAt is not transient as it is used for the frontend to sort by creation datetime.
     private Instant createdAt;
     private transient Instant updatedAt;
+    private Instant deletedAt;
 
     private NotificationAttributes(String notificationId) {
         this.notificationId = notificationId;
@@ -49,6 +50,7 @@ public final class NotificationAttributes extends EntityAttributes<Notification>
         notificationAttributes.message = n.getMessage();
         notificationAttributes.createdAt = n.getCreatedAt();
         notificationAttributes.updatedAt = n.getUpdatedAt();
+        notificationAttributes.deletedAt = n.getDeletedAt();
         notificationAttributes.shown = n.isShown();
 
         return notificationAttributes;
@@ -75,6 +77,7 @@ public final class NotificationAttributes extends EntityAttributes<Notification>
         notificationAttributes.message = this.message;
         notificationAttributes.createdAt = this.createdAt;
         notificationAttributes.updatedAt = this.updatedAt;
+        notificationAttributes.deletedAt = this.deletedAt;
         notificationAttributes.shown = this.shown;
 
         return notificationAttributes;
@@ -162,6 +165,18 @@ public final class NotificationAttributes extends EntityAttributes<Notification>
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 
     /**

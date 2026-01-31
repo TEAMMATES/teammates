@@ -19,6 +19,8 @@ public final class AccountRequestsLogic {
 
     private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
 
+    private DeletionService deletionService;
+
     private AccountRequestsLogic() {
         // prevent initialization
     }
@@ -28,7 +30,7 @@ public final class AccountRequestsLogic {
     }
 
     void initLogicDependencies() {
-        // No dependency to other logic class
+        deletionService = DeletionService.inst();
     }
 
     /**
@@ -61,7 +63,7 @@ public final class AccountRequestsLogic {
      * <p>Fails silently if the account request doesn't exist.</p>
      */
     public void deleteAccountRequest(String email, String institute) {
-        accountRequestsDb.deleteAccountRequest(email, institute);
+        deletionService.deleteAccountRequest(email, institute);
     }
 
     /**

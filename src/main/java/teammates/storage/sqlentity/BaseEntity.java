@@ -26,9 +26,17 @@ import teammates.common.util.JsonUtils;
 @MappedSuperclass
 public abstract class BaseEntity {
 
+    /**
+     * Instant created.
+     */
     @CreationTimestamp
     @Column(updatable = false)
-    private Instant createdAt;
+    protected Instant createdAt;
+
+    /**
+     * Instant deleted.
+     */
+    protected Instant deletedAt;
 
     BaseEntity() {
         // instantiate as child classes
@@ -69,8 +77,16 @@ public abstract class BaseEntity {
         return createdAt;
     }
 
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     /**

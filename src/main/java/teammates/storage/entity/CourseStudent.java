@@ -33,6 +33,9 @@ public class CourseStudent extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant updatedAt;
 
+    @Translate(InstantTranslatorFactory.class)
+    private Instant deletedAt;
+
     private transient String registrationKey;
 
     /**
@@ -71,6 +74,7 @@ public class CourseStudent extends BaseEntity {
         setSectionName(sectionName);
 
         setCreatedAt(Instant.now());
+        setDeletedAt(null);
 
         this.id = generateId(getEmail(), getCourseId());
         setRegistrationKey(generateRegistrationKey());
@@ -101,6 +105,14 @@ public class CourseStudent extends BaseEntity {
 
     public void setLastUpdate(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     public String getUniqueId() {

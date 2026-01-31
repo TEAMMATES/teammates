@@ -658,4 +658,26 @@ public class FeedbackQuestionsDbTest extends BaseTestCaseWithLocalDatabaseAccess
         }
     }
 
+    @Test
+    public void testSoftDeleteFeedbackQuestions() throws Exception {
+        FeedbackQuestionAttributes fq = getNewFeedbackQuestionAttributes();
+
+        // remove possibly conflicting entity from the database
+        deleteFeedbackQuestion(fq);
+
+        fqDb.createEntity(fq);
+        verifyPresentInDatabase(fq);
+
+        ______TS("Success: soft delete an existing feedback question");
+        fqDb.softDeleteFeedbackQuestion(fq.getFeedbackQuestionId());
+        FeedbackQuestionAttributes deleted = fqDb.getFeedbackQuestion(fq.getFeedbackQuestionId());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted feedback question");
+        fqDb.restoreDeletedFeedbackQuestion(deleted.getFeedbackQuestionId());
+        FeedbackQuestionAttributes restored = fqDb.getFeedbackQuestion(deleted.getFeedbackQuestionId());
+        assertFalse(restored.isDeleted());
+    }
+
 }

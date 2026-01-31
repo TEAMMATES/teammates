@@ -36,6 +36,7 @@ public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackR
     private String recipientSection;
     private transient Instant createdAt;
     private transient Instant updatedAt;
+    private transient Instant deletedAt;
     private transient String feedbackResponseId;
 
     private FeedbackResponseAttributes(String feedbackQuestionId, String giver, String recipient) {
@@ -59,6 +60,7 @@ public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackR
         this.recipientSection = copy.recipientSection;
         this.createdAt = copy.createdAt;
         this.updatedAt = copy.updatedAt;
+        this.deletedAt = copy.deletedAt;
         this.responseDetails = copy.getResponseDetailsCopy();
     }
 
@@ -82,6 +84,7 @@ public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackR
         fra.responseDetails = deserializeResponseFromSerializedString(fr.getAnswer(), fr.getFeedbackQuestionType());
         fra.createdAt = fr.getCreatedAt();
         fra.updatedAt = fr.getUpdatedAt();
+        fra.deletedAt = fr.getDeletedAt();
 
         return fra;
     }
@@ -104,6 +107,18 @@ public final class FeedbackResponseAttributes extends EntityAttributes<FeedbackR
 
     public Instant getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 
     public String getFeedbackSessionName() {

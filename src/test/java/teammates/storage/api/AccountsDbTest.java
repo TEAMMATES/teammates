@@ -197,4 +197,27 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         return accountsDb.putEntity(a);
     }
 
+    @Test
+    public void testSoftDeleteAccount() throws Exception {
+        AccountAttributes a = createNewAccount("valid.googleId");
+
+        accountsDb.putEntity(a);
+
+        ______TS("Success: soft delete an existing account");
+        accountsDb.softDeleteAccount(a.getGoogleId());
+        AccountAttributes deleted = accountsDb.getAccount(a.getGoogleId());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted account");
+        accountsDb.restoreDeletedAccount(deleted.getGoogleId());
+        AccountAttributes restored = accountsDb.getAccount(deleted.getGoogleId());
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> accountsDb.deleteAccount(null));
+
+    }
+
 }

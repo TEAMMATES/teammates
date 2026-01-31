@@ -45,6 +45,7 @@ public final class FeedbackQuestionsLogic {
     private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
 
     private CoursesLogic coursesLogic;
+    private DeletionService deletionService;
     private FeedbackResponsesLogic frLogic;
     private FeedbackSessionsLogic fsLogic;
     private InstructorsLogic instructorsLogic;
@@ -60,6 +61,7 @@ public final class FeedbackQuestionsLogic {
 
     void initLogicDependencies() {
         coursesLogic = CoursesLogic.inst();
+        deletionService = DeletionService.inst();
         frLogic = FeedbackResponsesLogic.inst();
         fsLogic = FeedbackSessionsLogic.inst();
         instructorsLogic = InstructorsLogic.inst();
@@ -766,37 +768,20 @@ public final class FeedbackQuestionsLogic {
      * <p>Silently fail if question does not exist.
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
-        FeedbackQuestionAttributes questionToDelete =
-                        getFeedbackQuestion(feedbackQuestionId);
-
-        if (questionToDelete == null) {
-            return; // Silently fail if question does not exist.
-        }
-
-        // cascade delete responses for question.
-        frLogic.deleteFeedbackResponsesForQuestionCascade(questionToDelete.getId());
-
-        List<FeedbackQuestionAttributes> questionsToShiftQnNumber =
-                getFeedbackQuestionsForSession(questionToDelete.getFeedbackSessionName(), questionToDelete.getCourseId());
-
-        // delete question
-        fqDb.deleteFeedbackQuestion(feedbackQuestionId);
-
-        // adjust question numbers
-        if (questionToDelete.getQuestionNumber() < questionsToShiftQnNumber.size()) {
-            shiftQuestionNumbersDown(questionToDelete.getQuestionNumber(), questionsToShiftQnNumber);
-        }
+        deletionService.deleteFeedbackQuestionCascade(feedbackQuestionId);
     }
 
     /**
      * Deletes questions using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackQuestions(AttributesDeletionQuery query) {
-        fqDb.deleteFeedbackQuestions(query);
+        deletionService.deleteFeedbackQuestions(query);
     }
 
-    // Shifts all question numbers after questionNumberToShiftFrom down by one.
-    private void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
+    /**
+     * Shifts all question numbers after questionNumberToShiftFrom down by one.
+     */
+    public void shiftQuestionNumbersDown(int questionNumberToShiftFrom,
             List<FeedbackQuestionAttributes> questionsToShift) {
         for (FeedbackQuestionAttributes question : questionsToShift) {
             if (question.getQuestionNumber() > questionNumberToShiftFrom) {

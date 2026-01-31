@@ -44,6 +44,9 @@ public class Notification extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant updatedAt;
 
+    @Translate(InstantTranslatorFactory.class)
+    private Instant deletedAt;
+
     @SuppressWarnings("unused")
     private Notification() {
         // required by Objectify
@@ -93,6 +96,7 @@ public class Notification extends BaseEntity {
             this.setCreatedAt(createdAt);
         }
         this.setUpdatedAt(updatedAt);
+        this.setDeletedAt(null);
         this.notificationId = notificationId;
         this.shown = shown;
 
@@ -177,6 +181,14 @@ public class Notification extends BaseEntity {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     /**

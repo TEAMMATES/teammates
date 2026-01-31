@@ -31,6 +31,7 @@ public final class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQ
     private List<FeedbackParticipantType> showRecipientNameTo;
     private transient Instant createdAt;
     private transient Instant updatedAt;
+    private transient Instant deletedAt;
     private transient String feedbackQuestionId;
 
     private FeedbackQuestionAttributes() {
@@ -71,6 +72,7 @@ public final class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQ
         }
         faq.createdAt = fq.getCreatedAt();
         faq.updatedAt = fq.getUpdatedAt();
+        faq.deletedAt = fq.getDeletedAt();
         faq.feedbackQuestionId = fq.getId();
 
         return faq;
@@ -82,6 +84,18 @@ public final class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQ
 
     public Instant getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 
     public String getId() {

@@ -245,6 +245,7 @@ public class ArchitectureTest {
                     .and().doNotHaveSimpleName(logicClassName)
                     .and().doNotHaveSimpleName(logicClassName + TEST_FILE_SUFFIX)
                     .and().doNotHaveSimpleName("DataBundleLogic")
+                    .and().doNotHaveSimpleName("DeletionService")
                     .should()
                     .accessClassesThat(new DescribedPredicate<>("") {
                         @Override

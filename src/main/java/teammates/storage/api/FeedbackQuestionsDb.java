@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.time.Instant;
 import java.util.List;
 
 import com.googlecode.objectify.cmd.LoadType;
@@ -175,6 +176,23 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
     }
 
     /**
+     * Gets the count of feedback questions for a course using {@link AttributesDeletionQuery}.
+     */
+    public int getFeedbackQuestionsCountForCourse(AttributesDeletionQuery query) {
+        assert query != null;
+
+        Query<FeedbackQuestion> entities = load().project();
+        if (query.isCourseIdPresent()) {
+            entities = entities.filter("courseId =", query.getCourseId());
+        }
+        if (query.isFeedbackSessionNamePresent()) {
+            entities = entities.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        }
+
+        return entities.count();
+    }
+
+    /**
      * Gets a question entity if its string key can be decoded.
      */
     private FeedbackQuestion getFeedbackQuestionEntity(String feedbackQuestionId) {
@@ -246,5 +264,38 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
         assert entity != null;
 
         return FeedbackQuestionAttributes.valueOf(entity);
+    }
+
+    /**
+     * Soft-deletes a feedback question by its given corresponding ID.
+     * @return Soft-deletion time of the feedback question.
+     */
+    public Instant softDeleteFeedbackQuestion(String feedbackQuestionId) throws EntityDoesNotExistException {
+        assert feedbackQuestionId != null;
+        FeedbackQuestion feedbackQuestionEntity = getFeedbackQuestionEntity(feedbackQuestionId);
+
+        if (feedbackQuestionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        feedbackQuestionEntity.setDeletedAt(Instant.now());
+        saveEntity(feedbackQuestionEntity);
+
+        return feedbackQuestionEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted feedback question by its given corresponding ID.
+     */
+    public void restoreDeletedFeedbackQuestion(String feedbackQuestionId) throws EntityDoesNotExistException {
+        assert feedbackQuestionId != null;
+        FeedbackQuestion feedbackQuestionEntity = getFeedbackQuestionEntity(feedbackQuestionId);
+
+        if (feedbackQuestionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        feedbackQuestionEntity.setDeletedAt(null);
+        saveEntity(feedbackQuestionEntity);
     }
 }

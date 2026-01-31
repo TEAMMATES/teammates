@@ -33,6 +33,8 @@ public class AccountRequest extends BaseEntity {
 
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
+    @Translate(InstantTranslatorFactory.class)
+    private Instant deletedAt;
 
     @SuppressWarnings("unused")
     private AccountRequest() {
@@ -46,6 +48,7 @@ public class AccountRequest extends BaseEntity {
         this.setId(generateId(email, institute));
         this.setRegistrationKey(generateRegistrationKey());
         this.setCreatedAt(Instant.now());
+        this.setDeletedAt(null);
         this.setRegisteredAt(null);
     }
 
@@ -103,6 +106,14 @@ public class AccountRequest extends BaseEntity {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     /**

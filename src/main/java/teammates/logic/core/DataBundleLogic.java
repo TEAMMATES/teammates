@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -59,12 +58,18 @@ public final class DataBundleLogic {
     private final FeedbackResponseCommentsDb fcDb = FeedbackResponseCommentsDb.inst();
     private final NotificationsDb nfDb = NotificationsDb.inst();
 
+    private DeletionService deletionService;
+
     private DataBundleLogic() {
         // prevent initialization
     }
 
     public static DataBundleLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        deletionService = DeletionService.inst();
     }
 
     /**
@@ -374,13 +379,13 @@ public final class DataBundleLogic {
         deleteCourses(dataBundle.courses.values());
 
         dataBundle.accounts.values().forEach(account -> {
-            accountsDb.deleteAccount(account.getGoogleId());
+            deletionService.deleteAccount(account.getGoogleId());
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
-            accountRequestsDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+            deletionService.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
         });
         dataBundle.notifications.values().forEach(notification -> {
-            nfDb.deleteNotification(notification.getNotificationId());
+            deletionService.deleteNotification(notification.getNotificationId());
         });
     }
 
@@ -391,18 +396,7 @@ public final class DataBundleLogic {
         }
         if (!courseIds.isEmpty()) {
             courseIds.forEach(courseId -> {
-                AttributesDeletionQuery query = AttributesDeletionQuery.builder()
-                        .withCourseId(courseId)
-                        .build();
-                fcDb.deleteFeedbackResponseComments(query);
-                frDb.deleteFeedbackResponses(query);
-                fqDb.deleteFeedbackQuestions(query);
-                fbDb.deleteFeedbackSessions(query);
-                studentsDb.deleteStudents(query);
-                instructorsDb.deleteInstructors(query);
-                deadlineExtensionsDb.deleteDeadlineExtensions(query);
-
-                coursesDb.deleteCourse(courseId);
+                deletionService.deleteCourseCascade(courseId);
             });
         }
     }

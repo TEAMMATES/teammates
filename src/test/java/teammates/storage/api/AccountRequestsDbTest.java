@@ -169,4 +169,31 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 () -> accountRequestsDb.getAccountRequest(null, null));
     }
 
+    @Test
+    public void testSoftDeleteAccountRequest() throws Exception {
+        AccountRequest accountRequest = new AccountRequest("valid5@test.com",
+                "Test account Name", "TEAMMATES Test Institute 1");
+        accountRequest.setRegistrationKey("5-123456");
+
+        accountRequestsDb.saveEntity(accountRequest);
+
+        ______TS("Success: soft delete an existing account request");
+        accountRequestsDb.softDeleteAccountRequest(accountRequest.getId());
+        AccountRequestAttributes deleted =
+                accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted account request");
+        accountRequestsDb.restoreDeletedAccountRequest(accountRequest.getId());
+        AccountRequestAttributes restored =
+                accountRequestsDb.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> accountRequestsDb.deleteAccountRequest(null, null));
+
+    }
+
 }

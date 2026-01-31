@@ -81,6 +81,9 @@ public class FeedbackResponseComment extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant lastEditedAt;
 
+    @Translate(InstantTranslatorFactory.class)
+    private Instant deletedAt;
+
     @SuppressWarnings("unused")
     private FeedbackResponseComment() {
         // required by Objectify
@@ -99,6 +102,7 @@ public class FeedbackResponseComment extends BaseEntity {
         this.commentGiverType = commentGiverType;
         this.feedbackResponseId = feedbackResponseId;
         this.createdAt = createdAt;
+        this.setDeletedAt(null);
         this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
@@ -255,6 +259,14 @@ public class FeedbackResponseComment extends BaseEntity {
 
     public void setLastEditedAt(Instant lastEditedAt) {
         this.lastEditedAt = lastEditedAt;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     public boolean getIsCommentFromFeedbackParticipant() {

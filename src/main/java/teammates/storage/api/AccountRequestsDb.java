@@ -174,4 +174,37 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
                 .count();
     }
 
+    /**
+     * Soft-deletes an account request by its given corresponding ID.
+     * @return Soft-deletion time of the account request.
+     */
+    public Instant softDeleteAccountRequest(String id) throws EntityDoesNotExistException {
+        assert id != null;
+        AccountRequest accountRequestEntity = getAccountRequestEntity(id);
+
+        if (accountRequestEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        accountRequestEntity.setDeletedAt(Instant.now());
+        saveEntity(accountRequestEntity);
+
+        return accountRequestEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted account request by its given corresponding ID.
+     */
+    public void restoreDeletedAccountRequest(String id) throws EntityDoesNotExistException {
+        assert id != null;
+        AccountRequest accountRequestEntity = getAccountRequestEntity(id);
+
+        if (accountRequestEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        accountRequestEntity.setDeletedAt(null);
+        saveEntity(accountRequestEntity);
+    }
+
 }

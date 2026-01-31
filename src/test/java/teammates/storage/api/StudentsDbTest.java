@@ -458,4 +458,35 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 && otherStudent.getSection().equals(student.getSection());
     }
 
+    @Test
+    public void testSoftDeleteStudent() throws Exception {
+        StudentAttributes s = StudentAttributes
+                .builder("valid-course", "soft@delete.com")
+                .withName("valid student 3")
+                .withComment("")
+                .withTeamName("valid team name")
+                .withSectionName("valid section name")
+                .withGoogleId("")
+                .build();
+
+        studentsDb.createEntity(s);
+        verifyPresentInDatabase(s);
+
+        ______TS("Success: soft delete an existing student");
+        studentsDb.softDeleteStudent(s.getCourse(), s.getEmail());
+        StudentAttributes deleted = studentsDb.getStudentForEmail(s.getCourse(), s.getEmail());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted student");
+        studentsDb.restoreDeletedStudent(deleted.getCourse(), deleted.getEmail());
+        StudentAttributes restored = studentsDb.getStudentForEmail(deleted.getCourse(), deleted.getEmail());
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> studentsDb.deleteStudent(null, null));
+
+    }
+
 }

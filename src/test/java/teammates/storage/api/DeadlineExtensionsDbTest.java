@@ -431,4 +431,38 @@ public class DeadlineExtensionsDbTest extends BaseTestCaseWithLocalDatabaseAcces
             assertFalse(deadlineExtension.getSentClosingSoonEmail());
         }
     }
+
+    @Test
+    public void testSoftDeleteDeadlineExtension() throws Exception {
+        String validCourseId = VALID_COURSE_ID + "-soft-delete-";
+        DeadlineExtension deadlineExtension = new DeadlineExtension(
+                validCourseId, VALID_FEEDBACK_SESSION_NAME, VALID_USER_EMAIL,
+                false, true, Const.TIME_REPRESENTS_NOW);
+
+        deadlineExtensionsDb.saveEntity(deadlineExtension);
+
+        ______TS("Success: soft delete an existing deadline extension");
+        deadlineExtensionsDb.softDeleteDeadlineExtension(deadlineExtension.getId());
+        DeadlineExtensionAttributes deleted = deadlineExtensionsDb.getDeadlineExtension(
+                deadlineExtension.getCourseId(),
+                deadlineExtension.getFeedbackSessionName(),
+                deadlineExtension.getUserEmail(),
+                deadlineExtension.getIsInstructor());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted deadline extension");
+        deadlineExtensionsDb.restoreDeletedDeadlineExtension(deadlineExtension.getId());
+        DeadlineExtensionAttributes restored = deadlineExtensionsDb.getDeadlineExtension(
+                deadlineExtension.getCourseId(),
+                deadlineExtension.getFeedbackSessionName(),
+                deadlineExtension.getUserEmail(),
+                deadlineExtension.getIsInstructor());
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> deadlineExtensionsDb.deleteDeadlineExtensions(null));
+
+    }
 }

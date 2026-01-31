@@ -781,4 +781,31 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
         }
     }
 
+    @Test
+    public void testSoftDeleteFeedbackResponse() throws Exception {
+        FeedbackResponseAttributes fra = getNewFeedbackResponseAttributes();
+
+        // remove possibly conflicting entity from the database
+        deleteResponse(fra);
+
+        frDb.createEntity(fra);
+        verifyPresentInDatabase(fra);
+
+        ______TS("Success: soft delete an existing feedback response");
+        frDb.softDeleteFeedbackResponse(fra.getId());
+        FeedbackResponseAttributes deleted = frDb.getFeedbackResponse(fra.getId());
+
+        assertTrue(deleted.isDeleted());
+
+        ______TS("Success: restore soft deleted feedback response");
+        frDb.restoreDeletedFeedbackResponse(deleted.getId());
+        FeedbackResponseAttributes restored = frDb.getFeedbackResponse(deleted.getId());
+
+        assertFalse(restored.isDeleted());
+
+        ______TS("null parameter");
+
+        assertThrows(AssertionError.class, () -> frDb.deleteFeedbackResponse(null));
+
+    }
 }

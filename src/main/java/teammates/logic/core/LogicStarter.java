@@ -19,6 +19,10 @@ public class LogicStarter implements ServletContextListener {
         AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
         AccountsLogic accountsLogic = AccountsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
+        DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+        DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
+        DeletionService deletionService = DeletionService.inst();
+        DeletionPreviewService deletionPreviewService = DeletionPreviewService.inst();
         FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
         FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
         FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
@@ -31,6 +35,10 @@ public class LogicStarter implements ServletContextListener {
         accountRequestsLogic.initLogicDependencies();
         accountsLogic.initLogicDependencies();
         coursesLogic.initLogicDependencies();
+        dataBundleLogic.initLogicDependencies();
+        deadlineExtensionsLogic.initLogicDependencies();
+        deletionService.initLogicDependencies();
+        deletionPreviewService.initLogicDependencies();
         fqLogic.initLogicDependencies();
         frLogic.initLogicDependencies();
         frcLogic.initLogicDependencies();

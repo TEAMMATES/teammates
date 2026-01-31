@@ -175,6 +175,25 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension, De
         deleteEntity(entitiesToDelete.keys().list());
     }
 
+    /**
+     * Gets the count of deadline extensions for a course using {@link AttributesDeletionQuery}.
+     */
+    public int getDeadlineExtensionsCountForCourse(AttributesDeletionQuery query) {
+        assert query != null;
+        assert verifyValidDeletionQuery(query);
+
+        Query<DeadlineExtension> entities = load().project().filter("courseId =", query.getCourseId());
+
+        if (query.isFeedbackSessionNamePresent()) {
+            entities = entities.filter("feedbackSessionName =", query.getFeedbackSessionName());
+        } else if (query.isUserEmailPresent() && query.isIsInstructorPresent()) {
+            entities = entities.filter("userEmail =", query.getUserEmail());
+            entities = entities.filter("isInstructor =", query.getIsInstructor());
+        }
+
+        return entities.count();
+    }
+
     private boolean verifyValidDeletionQuery(AttributesDeletionQuery query) {
         if (!query.isCourseIdPresent()) {
             return false;
@@ -224,6 +243,39 @@ public final class DeadlineExtensionsDb extends EntitiesDb<DeadlineExtension, De
         assert entity != null;
 
         return DeadlineExtensionAttributes.valueOf(entity);
+    }
+
+    /**
+     * Soft-deletes a deadline extension by its given corresponding ID.
+     * @return Soft-deletion time of the deadline extension.
+     */
+    public Instant softDeleteDeadlineExtension(String id) throws EntityDoesNotExistException {
+        assert id != null;
+        DeadlineExtension deadlineExtensionEntity = getDeadlineExtensionEntity(id);
+
+        if (deadlineExtensionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        deadlineExtensionEntity.setDeletedAt(Instant.now());
+        saveEntity(deadlineExtensionEntity);
+
+        return deadlineExtensionEntity.getDeletedAt();
+    }
+
+    /**
+     * Restores a soft-deleted deadline extension by its given corresponding ID.
+     */
+    public void restoreDeletedDeadlineExtension(String id) throws EntityDoesNotExistException {
+        assert id != null;
+        DeadlineExtension deadlineExtensionEntity = getDeadlineExtensionEntity(id);
+
+        if (deadlineExtensionEntity == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
+
+        deadlineExtensionEntity.setDeletedAt(null);
+        saveEntity(deadlineExtensionEntity);
     }
 
 }
