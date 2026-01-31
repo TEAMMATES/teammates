@@ -106,27 +106,8 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     }
 
     @Test
-    void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
+    void testAccessControl() {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-
-        Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", null, new InstructorPrivileges());
-
-        loginAsInstructor(googleId);
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructorWithPermission_canAccess() {
-        Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, true);
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
@@ -135,23 +116,11 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
-
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
         };
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_notInstructor_cannotAccess() {
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, "course-id",
-        };
-        loginAsStudent(googleId);
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(course,
+                Const.InstructorPermissions.CAN_MODIFY_COURSE, params);
     }
 }
