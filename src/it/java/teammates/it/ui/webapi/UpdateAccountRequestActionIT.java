@@ -17,8 +17,8 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
 import teammates.logic.api.Logic;
-import teammates.storage.entity.Course;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.AccountRequestData;
@@ -116,7 +116,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ______TS("email with existing student account (only) under same institute should approve successfully");
         Account studentAccount = logic.createAccountWithTransaction(getTypicalStudentAccount());
-        teammates.storage.sqlentity.Course studentCourse = getTypicalStudentCourse();
+        Course studentCourse = getTypicalStudentCourse();
 
         HibernateUtil.beginTransaction();
         logic.createCourse(studentCourse);
@@ -291,7 +291,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
      * while the test requires the old non-sql version of Course and CourseAttributes.
      */
     private CourseAttributes getTypicalCourseAttributes() {
-        Course course = new Course("test-course-id", "test-course-name",
+        teammates.storage.entity.Course course = new teammates.storage.entity.Course("test-course-id", "test-course-name",
                                 Const.DEFAULT_TIME_ZONE, "test-institute",
                                 Instant.now(), Instant.now(), false);
         return CourseAttributes.valueOf(course);
@@ -308,7 +308,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
      * Returns the typical student course.
      */
     private teammates.storage.sqlentity.Course getTypicalStudentCourse() {
-        return new teammates.storage.sqlentity.Course(
+        return new Course(
                 "student-course-id", "Student Course", Const.DEFAULT_TIME_ZONE, "Student Institute");
     }
 
@@ -337,7 +337,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
             // Clean up the student account first (this deletes the student entity),
             // then delete the course to avoid null team assertion in cascade delete
             logic.deleteAccountCascade(getTypicalStudentAccount().getGoogleId());
-            teammates.storage.sqlentity.Course studentCourse = getTypicalStudentCourse();
+            Course studentCourse = getTypicalStudentCourse();
             logic.deleteCourseCascade(studentCourse.getId());
 
             HibernateUtil.commitTransaction();

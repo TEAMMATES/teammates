@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -443,12 +445,17 @@ public final class InstructorsLogic {
         assert institute != null;
 
         List<InstructorAttributes> instructors = getInstructorsForEmail(email);
-        for (InstructorAttributes instructor : instructors) {
-            if (institute.equals(coursesLogic.getCourseInstitute(instructor.getCourseId()))) {
-                return true;
-            }
+        if (instructors.isEmpty()) {
+            return false;
         }
-        return false;
+
+        List<String> courseIds = instructors.stream()
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
+
+        List<CourseAttributes> courses = coursesLogic.getCourses(courseIds);
+        return courses.stream()
+                .anyMatch(course -> institute.equals(course.getInstitute()));
     }
 
     /**
