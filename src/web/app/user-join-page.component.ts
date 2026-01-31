@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +15,6 @@ import { SimpleModalService } from '../services/simple-modal.service';
 import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
-import { NgIf } from '@angular/common';
 
 /**
  * User join page component.

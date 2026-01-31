@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentRowMode } from './comment-row.mode';
@@ -12,11 +13,10 @@ import {
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
-import { CommentEditFormModel, CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
-import { NgIf } from '@angular/common';
+import { FormatDateBriefPipe } from '../../teammates-common/format-date-brief.pipe';
 import { FormatDateDetailPipe } from '../../teammates-common/format-date-detail.pipe';
 import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
-import { FormatDateBriefPipe } from '../../teammates-common/format-date-brief.pipe';
+import { CommentEditFormModel, CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
 import { CommentVisibilityTypesJointNamePipe } from '../comment-visibility-setting.pipe';
 
 /**

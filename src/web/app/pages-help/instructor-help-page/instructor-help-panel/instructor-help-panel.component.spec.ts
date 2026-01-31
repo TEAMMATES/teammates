@@ -11,7 +11,7 @@ describe('InstructorHelpPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
       ],
     })
     .compileComponents();

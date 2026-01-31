@@ -1,6 +1,6 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { default as developers } from '../../../data/developers.json';
-import { NgFor, NgIf } from '@angular/common';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 
 /**

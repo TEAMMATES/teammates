@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import SpyInstance = jest.SpyInstance;
 import { CommentTableModalComponent } from './comment-table-modal.component';
-import { CommentTableModel } from '../comment-table/comment-table.component';
+import { CommentTableModel } from '../comment-table/comment-table.model';
 
 describe('CommentTableModalComponent', () => {
   let component: CommentTableModalComponent;

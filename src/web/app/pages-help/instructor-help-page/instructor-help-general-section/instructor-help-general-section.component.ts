@@ -1,11 +1,11 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { GeneralSectionQuestions } from './general-section-questions';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
-import { NgIf } from '@angular/common';
-import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
-import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 
 /**
  * General Section of the Instructor Help Page.

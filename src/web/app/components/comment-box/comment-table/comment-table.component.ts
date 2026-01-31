@@ -1,24 +1,14 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommentTableModel } from './comment-table.model';
 import {
   FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { CommentRowModel, CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
-import { NgIf, NgFor } from '@angular/common';
 import { CommentToCommentRowModelPipe } from '../comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-model.pipe';
-
-/**
- * Model for CommentTableComponent.
- */
-export interface CommentTableModel {
-  commentRows: CommentRowModel[];
-  newCommentRow: CommentRowModel;
-
-  isAddingNewComment: boolean;
-  isReadOnly: boolean;
-}
 
 /**
  * Component for the comments table.

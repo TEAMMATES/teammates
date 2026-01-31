@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -37,9 +38,18 @@ import {
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import {
+  ModifiedTimestampModalComponent,
+} from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 import {
   SessionEditFormMode,
 } from '../../components/session-edit-form/session-edit-form-model';
+import { SessionEditFormComponent } from '../../components/session-edit-form/session-edit-form.component';
+import {
+  SessionsRecycleBinTableComponent,
+} from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -52,15 +62,9 @@ import {
   SortableTableHeaderColorScheme,
 } from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
-import { NgIf } from '@angular/common';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
-import { SessionEditFormComponent } from '../../components/session-edit-form/session-edit-form.component';
-import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
-import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { SessionsRecycleBinTableComponent } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
-import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 
 interface RecycleBinFeedbackSessionRowModel {
   feedbackSession: FeedbackSession;

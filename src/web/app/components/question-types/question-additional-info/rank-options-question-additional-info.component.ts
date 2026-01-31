@@ -1,8 +1,8 @@
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionAdditionalInfo } from './question-additional-info';
 import { FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { NgFor } from '@angular/common';
 
 /**
  * Additional info for rank options questions.

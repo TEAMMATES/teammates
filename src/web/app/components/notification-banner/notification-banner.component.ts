@@ -1,10 +1,10 @@
+import { NgIf, NgClass } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, Notifications, NotificationTargetUser } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { collapseAnim } from '../teammates-common/collapse-anim';
-import { NgIf, NgClass } from '@angular/common';
 import { NotificationStyleClassPipe } from '../teammates-common/notification-style-class.pipe';
 
 /**

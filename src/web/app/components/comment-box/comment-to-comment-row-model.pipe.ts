@@ -5,7 +5,7 @@ import { CommentOutput } from '../../../types/api-output';
 /**
  * Transforms comment to comment row model.
  */
-@Pipe({ name: 'commentToCommentRowModel', })
+@Pipe({ name: 'commentToCommentRowModel' })
 export class CommentToCommentRowModelPipe implements PipeTransform {
 
   transform(comment: CommentOutput, timezone?: string): CommentRowModel {

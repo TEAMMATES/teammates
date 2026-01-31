@@ -24,7 +24,6 @@ describe('ContributionQuestionConstraintComponent', () => {
     questionType: FeedbackQuestionType.CONTRIB,
   });
 
-
   beforeEach(() => {
     fixture = TestBed.createComponent(ContributionQuestionConstraintComponent);
     component = fixture.componentInstance;

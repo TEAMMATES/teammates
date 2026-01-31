@@ -1,6 +1,6 @@
+import { NgIf, JsonPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ExceptionLogDetails, GeneralLogEntry, LogEvent } from '../../../../types/api-output';
-import { NgIf, JsonPipe } from '@angular/common';
 
 /**
  * Additional details for exception logs.

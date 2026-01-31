@@ -1,5 +1,7 @@
+import { NgIf, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 
+import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackTextQuestionDetails,
@@ -9,8 +11,6 @@ import {
   DEFAULT_TEXT_QUESTION_DETAILS,
   DEFAULT_TEXT_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { NgIf, NgClass } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 
 /**

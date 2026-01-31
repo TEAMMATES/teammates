@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FeaturesPageComponent } from './features-page.component';
 import { RouterModule } from '@angular/router';
+import { FeaturesPageComponent } from './features-page.component';
 
 describe('FeaturesPageComponent', () => {
   let component: FeaturesPageComponent;

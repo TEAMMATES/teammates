@@ -1,4 +1,6 @@
+import { NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackRankRecipientsQuestionDetails,
@@ -8,8 +10,6 @@ import {
   DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS, DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
-import { FormsModule } from '@angular/forms';
-import { NgFor } from '@angular/common';
 
 /**
  * The Rank recipients question submission form for a recipient.

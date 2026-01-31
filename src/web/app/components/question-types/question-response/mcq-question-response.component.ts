@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -8,7 +9,6 @@ import {
   DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { NgIf } from '@angular/common';
 import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
 
 /**

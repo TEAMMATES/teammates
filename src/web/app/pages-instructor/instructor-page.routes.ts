@@ -1,6 +1,6 @@
 import { type Routes } from '@angular/router';
-import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { Intent } from 'src/web/types/api-request';
+import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {

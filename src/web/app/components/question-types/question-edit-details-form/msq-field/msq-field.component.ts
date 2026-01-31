@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { StatusMessageService } from '../../../../../services/status-message.service';
 import { FormsModule } from '@angular/forms';
+import { StatusMessageService } from '../../../../../services/status-message.service';
 
 /**
  * The input field to specify options to choose from.

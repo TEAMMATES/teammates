@@ -1,4 +1,7 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { SectionTabModel } from 'src/web/app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
+import { FeedbackQuestionModel } from 'src/web/app/pages-session/session-result-page/feedback-question.model';
 import {
   EXAMPLE_COMMENT_EDIT_FORM_MODEL,
   EXAMPLE_COURSE_CANDIDATES,
@@ -24,41 +27,48 @@ import {
   ResponseOutput,
   Student,
 } from '../../../../types/api-output';
-import { CommentEditFormModel, CommentEditFormComponent } from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
+import { AddingQuestionPanelComponent } from '../../../components/adding-question-panel/adding-question-panel.component';
+import {
+  CommentEditFormModel,
+  CommentEditFormComponent,
+} from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
 import { CommentRowMode } from '../../../components/comment-box/comment-row/comment-row.mode';
-import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
+import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
+import { FeedbackPathPanelComponent } from '../../../components/feedback-path-panel/feedback-path-panel.component';
+import { PreviewSessionPanelComponent } from '../../../components/preview-session-panel/preview-session-panel.component';
+import {
+  QuestionEditBriefDescriptionFormComponent,
+} from '../../../components/question-edit-brief-description-form/question-edit-brief-description-form.component';
+import { QuestionResponsePanelComponent } from '../../../components/question-response-panel/question-response-panel.component';
 import {
   SessionEditFormMode,
   SessionEditFormModel,
 } from '../../../components/session-edit-form/session-edit-form-model';
-import { RecycleBinFeedbackSessionRowModel, SessionsRecycleBinTableComponent } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
-import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
+import { SessionEditFormComponent } from '../../../components/session-edit-form/session-edit-form.component';
 import {
-  SectionTabModel,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+  RecycleBinFeedbackSessionRowModel,
+  SessionsRecycleBinTableComponent,
+} from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { ViewResultsPanelComponent } from '../../../components/view-results-panel/view-results-panel.component';
+import { VisibilityPanelComponent } from '../../../components/visibility-panel/visibility-panel.component';
+import {
+  InstructorSessionNoResponsePanelComponent,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-no-response-panel.component';
+import {
+  InstructorSessionResultGrqViewComponent,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-grq-view.component';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import {
   InstructorSessionResultViewType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
-import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/session-result-page.component';
+import { ExampleBoxComponent } from '../example-box/example-box.component';
+import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
-import { NgIf } from '@angular/common';
-import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
-import { ExampleBoxComponent } from '../example-box/example-box.component';
-import { SessionEditFormComponent } from '../../../components/session-edit-form/session-edit-form.component';
-import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
-import { AddingQuestionPanelComponent } from '../../../components/adding-question-panel/adding-question-panel.component';
-import { FeedbackPathPanelComponent } from '../../../components/feedback-path-panel/feedback-path-panel.component';
-import { VisibilityPanelComponent } from '../../../components/visibility-panel/visibility-panel.component';
-import { QuestionEditBriefDescriptionFormComponent } from '../../../components/question-edit-brief-description-form/question-edit-brief-description-form.component';
-import { PreviewSessionPanelComponent } from '../../../components/preview-session-panel/preview-session-panel.component';
-import { ViewResultsPanelComponent } from '../../../components/view-results-panel/view-results-panel.component';
-import { InstructorSessionResultGrqViewComponent } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-grq-view.component';
-import { InstructorSessionNoResponsePanelComponent } from '../../../pages-instructor/instructor-session-result-page/instructor-session-no-response-panel.component';
-import { QuestionResponsePanelComponent } from '../../../components/question-response-panel/question-response-panel.component';
 
 /**
  * Sessions Section of the Instructor Help Page.

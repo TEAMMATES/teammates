@@ -36,7 +36,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
-import { SessionView } from '../../pages-session/session-submission-page/session-submission-page.component';
+import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 
 const formResponse1: FeedbackResponseRecipientSubmissionFormModel = {

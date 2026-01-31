@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { GeneralLogEntry, LogEvent, RequestLogDetails } from '../../../../types/api-output';
 import { NgClass, NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { GeneralLogEntry, LogEvent, RequestLogDetails } from '../../../../types/api-output';
 
 /**
  * Request log line.

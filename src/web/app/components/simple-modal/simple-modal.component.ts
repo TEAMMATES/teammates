@@ -1,7 +1,7 @@
+import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from './simple-modal-type';
-import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 
 /**

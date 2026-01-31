@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 /**
  * Chevron icon used in panel headers.

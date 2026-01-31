@@ -1,3 +1,4 @@
+import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -11,7 +12,6 @@ import {
 import {
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
 } from '../../../../types/feedback-response-details';
-import { NgFor } from '@angular/common';
 
 /**
  * Rank options question response.

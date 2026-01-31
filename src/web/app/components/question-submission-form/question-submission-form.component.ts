@@ -1,4 +1,7 @@
+import { NgClass, NgIf, NgFor } from '@angular/common';
 import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -6,6 +9,7 @@ import {
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from './question-submission-form-model';
+import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -26,47 +30,43 @@ import {
 } from '../../../types/api-output';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
 import { VisibilityControl } from '../../../types/visibility-control';
-import { SessionView } from '../../pages-session/session-submission-page/session-view';
+import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { CommentRowModel, CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
+import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
 import { ConstsumRecipientsQuestionConstraintComponent }
   from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
 import { ContributionQuestionConstraintComponent }
   from '../question-types/question-constraint/contribution-question-constraint.component';
+import { MsqQuestionConstraintComponent } from '../question-types/question-constraint/msq-question-constraint.component';
+import { NumScaleQuestionConstraintComponent } from '../question-types/question-constraint/num-scale-question-constraint.component';
 import { RankRecipientsQuestionConstraintComponent }
   from '../question-types/question-constraint/rank-recipients-question-constraint.component';
-import { collapseAnim } from '../teammates-common/collapse-anim';
-import { NgClass, NgIf, NgFor } from '@angular/common';
-import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
-import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
-import { ContributionQuestionInstructionComponent } from '../question-types/question-instruction/contribution-question-instruction.component';
-import { TextQuestionInstructionComponent } from '../question-types/question-instruction/text-question-instruction.component';
-import { NumScaleQuestionInstructionComponent } from '../question-types/question-instruction/num-scale-question-instruction.component';
 import { TextQuestionConstraintComponent } from '../question-types/question-constraint/text-question-constraint.component';
-import { NumScaleQuestionConstraintComponent } from '../question-types/question-constraint/num-scale-question-constraint.component';
-import { RankOptionsQuestionInstructionComponent } from '../question-types/question-instruction/rank-options-question-instruction.component';
-import { MsqQuestionConstraintComponent } from '../question-types/question-constraint/msq-question-constraint.component';
-import { RankRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/rank-recipients-question-instruction.component';
-import { ConstsumOptionsQuestionInstructionComponent } from '../question-types/question-instruction/constsum-options-question-instruction.component';
-import { ConstsumRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/constsum-recipients-question-instruction.component';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
-import { ContributionQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/contribution-question-edit-answer-form.component';
-import { TextQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/text-question-edit-answer-form.component';
-import { RankOptionsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rank-options-question-edit-answer-form.component';
-import { RankRecipientsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rank-recipients-question-edit-answer-form.component';
-import { NumScaleQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/num-scale-question-edit-answer-form.component';
-import { McqQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/mcq-question-edit-answer-form.component';
-import { MsqQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/msq-question-edit-answer-form.component';
-import { RubricQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rubric-question-edit-answer-form.component';
 import { ConstsumOptionsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/constsum-options-question-edit-answer-form.component';
 import { ConstsumRecipientsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/constsum-recipients-question-edit-answer-form.component';
-import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
+import { ContributionQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/contribution-question-edit-answer-form.component';
+import { McqQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/mcq-question-edit-answer-form.component';
+import { MsqQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/msq-question-edit-answer-form.component';
+import { NumScaleQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/num-scale-question-edit-answer-form.component';
+import { RankOptionsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rank-options-question-edit-answer-form.component';
+import { RankRecipientsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rank-recipients-question-edit-answer-form.component';
+import { RubricQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rubric-question-edit-answer-form.component';
+import { TextQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/text-question-edit-answer-form.component';
+import { ConstsumOptionsQuestionInstructionComponent } from '../question-types/question-instruction/constsum-options-question-instruction.component';
+import { ConstsumRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/constsum-recipients-question-instruction.component';
+import { ContributionQuestionInstructionComponent } from '../question-types/question-instruction/contribution-question-instruction.component';
+import { NumScaleQuestionInstructionComponent } from '../question-types/question-instruction/num-scale-question-instruction.component';
+import { RankOptionsQuestionInstructionComponent } from '../question-types/question-instruction/rank-options-question-instruction.component';
+import { RankRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/rank-recipients-question-instruction.component';
+import { TextQuestionInstructionComponent } from '../question-types/question-instruction/text-question-instruction.component';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 import { SafeHtmlPipe } from '../teammates-common/safe-html.pipe';
-import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
 import { VisibilityCapabilityPipe } from '../visibility-messages/visibility-capability.pipe';
-import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
+import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
 
 /**
  * The question submission form for a question.

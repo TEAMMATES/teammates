@@ -1,15 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LogsTableRowModel } from './logs-table-model';
-import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-output';
 import { NgIf, NgFor, NgClass, JsonPipe } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { RequestLogLineComponent } from './log-line/request-log-line.component';
-import { ExceptionLogLineComponent } from './log-line/exception-log-line.component';
-import { GenericLogLineComponent } from './log-line/generic-log-line.component';
-import { RequestLogDetailsComponent } from './log-details/request-log-details.component';
 import { EmailLogDetailsComponent } from './log-details/email-log-details.component';
 import { ExceptionLogDetailsComponent } from './log-details/exception-log-details.component';
 import { GenericLogDetailsComponent } from './log-details/generic-log-details.component';
+import { RequestLogDetailsComponent } from './log-details/request-log-details.component';
+import { ExceptionLogLineComponent } from './log-line/exception-log-line.component';
+import { GenericLogLineComponent } from './log-line/generic-log-line.component';
+import { RequestLogLineComponent } from './log-line/request-log-line.component';
+import { LogsTableRowModel } from './logs-table-model';
+import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-output';
 
 /**
  * A table to display logs.

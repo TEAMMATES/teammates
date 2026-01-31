@@ -1,6 +1,6 @@
+import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Student } from '../../../types/api-output';
-import { NgIf } from '@angular/common';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 
 /**

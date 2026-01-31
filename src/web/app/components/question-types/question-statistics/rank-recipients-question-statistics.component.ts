@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   RankRecipientsQuestionStatisticsCalculation,
@@ -5,7 +6,6 @@ import {
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../sortable-table/sortable-table.component';
-import { NgIf } from '@angular/common';
 
 /**
  * Statistics for rank recipients questions.

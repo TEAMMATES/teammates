@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -9,7 +10,6 @@ import {
   DEFAULT_MSQ_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { MSQ_ANSWER_NONE_OF_THE_ABOVE } from '../../../../types/feedback-response-details';
-import { NgIf, NgFor } from '@angular/common';
 
 /**
  * MSQ question response.

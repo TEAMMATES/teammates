@@ -1,10 +1,10 @@
+import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   CONTRIBUTION_POINT_NOT_INITIALIZED,
   CONTRIBUTION_POINT_NOT_SUBMITTED,
 } from '../../../../../types/feedback-response-details';
-import { NgIf } from '@angular/common';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Displays a contribution value relative to baseline of 100.

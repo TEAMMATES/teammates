@@ -1,4 +1,7 @@
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackParticipantType,
   FeedbackQuestionType,
@@ -6,9 +9,6 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
-import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe, RecipientTypeSimplifiedDescriptionPipe } from '../teammates-common/feedback-path.pipe';
 
 /**

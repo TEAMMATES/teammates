@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GroupedResponsesComponent } from './grouped-responses.component';
 
-
 describe('GroupedResponsesComponent', () => {
   let component: GroupedResponsesComponent;
   let fixture: ComponentFixture<GroupedResponsesComponent>;

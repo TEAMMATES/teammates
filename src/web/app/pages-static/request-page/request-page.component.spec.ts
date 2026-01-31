@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RequestPageComponent } from './request-page.component';
-import { RouterModule } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { RequestPageComponent } from './request-page.component';
 
 describe('RequestPageComponent', () => {
   let component: RequestPageComponent;
@@ -14,7 +14,7 @@ describe('RequestPageComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-      ]
+      ],
     })
     .compileComponents();
   }));

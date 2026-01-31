@@ -4,7 +4,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 /**
  * Pipe to handle the display of a time in recycle bin table.
  */
-@Pipe({ name: 'recycleBinTableFormatDate', })
+@Pipe({ name: 'recycleBinTableFormatDate' })
 export class RecycleBinTableFormatDatePipe implements PipeTransform {
 
   constructor(private timezoneService: TimezoneService) {}

@@ -1,4 +1,10 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
+import { DataPoint } from './data-point.model';
+import { StatsLineChartComponent } from './stats-line-chart/stats-line-chart.component';
+
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { UsageStatisticsService } from '../../../services/usage-statistics.service';
@@ -10,12 +16,8 @@ import {
   getDefaultTimeFormat,
   Milliseconds,
 } from '../../../types/datetime-const';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { StatsLineChartComponent } from './stats-line-chart/stats-line-chart.component';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 export enum StatisticsType {
   NUM_RESPONSES,
@@ -39,11 +41,6 @@ interface FormQueryModel {
   toTime: TimeFormat;
   dataType: StatisticsType;
   aggregationType: AggregationType;
-}
-
-export interface DataPoint {
-  value: number;
-  date: string;
 }
 
 /**

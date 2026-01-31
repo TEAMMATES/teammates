@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section.component';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section.component';
 
 describe('InstructorHelpCoursesSectionComponent', () => {
   let component: InstructorHelpCoursesSectionComponent;
@@ -13,7 +13,7 @@ describe('InstructorHelpCoursesSectionComponent', () => {
       imports: [
         RouterModule.forRoot([]),
         NoopAnimationsModule,
-        NgxPageScrollCoreModule
+        NgxPageScrollCoreModule,
       ],
     })
     .compileComponents();

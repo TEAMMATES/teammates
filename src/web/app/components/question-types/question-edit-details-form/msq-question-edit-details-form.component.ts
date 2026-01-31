@@ -1,17 +1,17 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { NgIf, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { MsqFieldComponent } from './msq-field/msq-field.component';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
+import { WeightFieldComponent } from './weight-field/weight-field.component';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
 } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
-import { NgIf, NgFor } from '@angular/common';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
-import { MsqFieldComponent } from './msq-field/msq-field.component';
-import { WeightFieldComponent } from './weight-field/weight-field.component';
 import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pipe';
 
 /**

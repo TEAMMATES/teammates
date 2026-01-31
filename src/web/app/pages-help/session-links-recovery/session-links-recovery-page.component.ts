@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReCaptcha2Component, NgxCaptchaModule } from 'ngx-captcha';
@@ -6,9 +7,8 @@ import { environment } from '../../../environments/environment';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { SessionLinksRecoveryResponse } from '../../../types/api-output';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { NgIf } from '@angular/common';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Student recover session links page.

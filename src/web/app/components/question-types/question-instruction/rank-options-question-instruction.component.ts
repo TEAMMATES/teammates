@@ -1,8 +1,8 @@
+import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
-import { NgIf } from '@angular/common';
 
 /**
  * Instructions for Rank options question.

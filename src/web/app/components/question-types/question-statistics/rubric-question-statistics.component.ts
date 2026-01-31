@@ -1,4 +1,7 @@
+import { NgIf } from '@angular/common';
 import { Component, OnChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   PerRecipientStats,
   RubricQuestionStatisticsCalculation,
@@ -7,10 +10,11 @@ import { StringHelper } from '../../../../services/string-helper';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../sortable-table/sortable-table.component';
-import { NgIf } from '@angular/common';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for rubric questions.

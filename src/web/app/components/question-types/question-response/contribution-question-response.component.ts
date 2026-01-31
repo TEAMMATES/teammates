@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -15,7 +16,6 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
-import { NgIf } from '@angular/common';
 
 /**
  * Contribution question response.

@@ -1,4 +1,6 @@
+import { NgFor, NgClass, NgIf, KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -25,13 +27,15 @@ import {
 } from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
 import { DatePickerFormatter } from '../../components/datepicker/datepicker-formatter';
-import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../components/sortable-table/sortable-table.component';
-import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { FormsModule } from '@angular/forms';
-import { NgFor, NgClass, NgIf, KeyValuePipe } from '@angular/common';
-import { TimepickerComponent } from '../../components/timepicker/timepicker.component';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../components/sortable-table/sortable-table.component';
+import { TimepickerComponent } from '../../components/timepicker/timepicker.component';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Model for searching of logs

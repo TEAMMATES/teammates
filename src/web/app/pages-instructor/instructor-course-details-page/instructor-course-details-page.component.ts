@@ -1,3 +1,4 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -23,16 +24,15 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
 import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
-import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { NgFor, NgIf } from '@angular/common';
-import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { InstructorRoleNamePipe } from '../../components/teammates-common/instructor-role-name.pipe';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface CourseDetailsBundle {
   course: Course;

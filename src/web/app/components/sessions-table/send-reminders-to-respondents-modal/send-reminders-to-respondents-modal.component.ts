@@ -1,12 +1,12 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderResponseModel } from './send-reminders-to-respondents-model';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
 } from '../respondent-list-info-table/respondent-list-info-table-model';
-import { NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
 
 /**

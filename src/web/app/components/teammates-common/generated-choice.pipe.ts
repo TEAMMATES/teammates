@@ -4,7 +4,7 @@ import { FeedbackParticipantType } from '../../../types/api-output';
 /**
  * Transforms {@link FeedbackParticipantType} to a description for generated MCQ/MSQ choices.
  */
-@Pipe({ name: 'generatedChoice', })
+@Pipe({ name: 'generatedChoice' })
 export class GeneratedChoicePipe implements PipeTransform {
 
   transform(type: FeedbackParticipantType): string {

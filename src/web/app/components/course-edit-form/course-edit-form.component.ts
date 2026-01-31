@@ -1,3 +1,4 @@
+import { NgClass, NgIf, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { UntypedFormGroup, FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -15,10 +16,9 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { Course, FeedbackSessions } from '../../../types/api-output';
 import { FormValidator } from '../../../types/form-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { CopyCourseModalResult } from '../copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
-import { NgClass, NgIf, NgFor } from '@angular/common';
-import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 
 const formatTwoDigits = (n: number): string => {
   if (n < 10) {

@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
@@ -15,11 +16,10 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../types/api-output';
 import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
-import { NgIf, NgFor } from '@angular/common';
-import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
-import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 
 /**
  * Account requests table component.

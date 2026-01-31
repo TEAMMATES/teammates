@@ -1,5 +1,7 @@
+import { NgClass, NgIf, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommonVisibilitySetting } from '../../../services/feedback-questions.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
@@ -11,12 +13,14 @@ import {
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
-import { NgClass, NgIf, NgFor } from '@angular/common';
-import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
-import { VisibilityControlNamePipe, VisibilityTypeDescriptionPipe, VisibilityTypeNamePipe } from '../teammates-common/visibility-setting.pipe';
-import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
+import {
+  VisibilityControlNamePipe,
+  VisibilityTypeDescriptionPipe,
+  VisibilityTypeNamePipe,
+} from '../teammates-common/visibility-setting.pipe';
 import { VisibilityCapabilityPipe } from '../visibility-messages/visibility-capability.pipe';
+import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
 
 /**
  * Displaying the visibility panel.

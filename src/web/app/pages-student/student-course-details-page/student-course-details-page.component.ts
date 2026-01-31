@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -10,10 +11,9 @@ import {
   Course, Instructor, Instructors, JoinState, Student, Students,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { NgIf, NgFor } from '@angular/common';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Student course details page.

@@ -1,9 +1,9 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
 import { FeedbackMsqQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
-import { NgIf } from '@angular/common';
 
 /**
  * Constraints of Msq question.

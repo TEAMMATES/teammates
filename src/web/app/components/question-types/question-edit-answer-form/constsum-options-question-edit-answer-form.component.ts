@@ -1,4 +1,6 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackConstantSumDistributePointsType,
@@ -9,8 +11,6 @@ import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { NgFor, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.directive';
 
 /**

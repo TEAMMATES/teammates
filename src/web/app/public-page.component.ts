@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PageComponent } from './page.component';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
-import { PageComponent } from './page.component';
 
 /**
  * Component for publicly available pages.

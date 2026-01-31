@@ -1,3 +1,4 @@
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -13,11 +14,10 @@ import {
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { collapseAnim } from '../teammates-common/collapse-anim';
-import { NgIf, NgFor, NgClass } from '@angular/common';
 import { LoadingRetryComponent } from '../loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import { NotificationStyleClassPipe } from '../teammates-common/notification-style-class.pipe';
 
 export interface NotificationTab {

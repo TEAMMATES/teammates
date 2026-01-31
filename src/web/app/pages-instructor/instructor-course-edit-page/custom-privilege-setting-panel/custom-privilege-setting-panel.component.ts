@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { InstructorPermissionSet } from '../../../../types/api-output';
-import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { InstructorPermissionSet } from '../../../../types/api-output';
 
 /**
  * Instructor overall permission of a course.

@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
@@ -63,7 +64,6 @@ import {
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 
 describe('SessionSubmissionPageComponent', () => {
   const deepCopy: <T>(obj: T) => T = <T>(obj: T) => JSON.parse(JSON.stringify(obj));

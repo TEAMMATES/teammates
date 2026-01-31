@@ -1,6 +1,14 @@
+import { NgIf, NgFor, DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  NgbModalRef,
+  NgbTooltip,
+  NgbDropdown,
+  NgbDropdownToggle,
+  NgbDropdownMenu,
+} from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -27,6 +35,7 @@ import {
 } from '../../../types/api-output';
 import { FeedbackSessionCreateRequest } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
 import {
@@ -34,18 +43,18 @@ import {
   CourseEditFormMode,
   DEFAULT_COURSE_ADD_FORM_MODEL,
 } from '../../components/course-edit-form/course-edit-form-model';
-import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { NgIf, NgFor, DatePipe } from '@angular/common';
 import { CourseEditFormComponent } from '../../components/course-edit-form/course-edit-form.component';
-import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import {
+  ModifiedTimestampModalComponent,
+} from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
-import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
+import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface CourseModel {
   course: Course;

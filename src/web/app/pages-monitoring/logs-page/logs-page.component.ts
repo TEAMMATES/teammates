@@ -1,5 +1,8 @@
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import { EMPTY } from 'rxjs';
 import { expand, finalize, reduce, tap } from 'rxjs/operators';
 import { DateTimeService } from '../../../services/datetime.service';
@@ -25,16 +28,13 @@ import {
   Hours,
   Milliseconds,
 } from '../../../types/datetime-const';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { LogsHistogramDataModel } from '../../components/logs-histogram/logs-histogram-model';
+import { LogsHistogramComponent } from '../../components/logs-histogram/logs-histogram.component';
 import { LogsTableRowModel } from '../../components/logs-table/logs-table-model';
+import { LogsTableComponent } from '../../components/logs-table/logs-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { NgIf, NgFor, NgClass } from '@angular/common';
-import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
-import { LogsTableComponent } from '../../components/logs-table/logs-table.component';
-import { LogsHistogramComponent } from '../../components/logs-histogram/logs-histogram.component';
 
 /**
  * Model for searching of logs.

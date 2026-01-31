@@ -3,14 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../../environments/environment';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
+import { CourseEditFormComponent } from '../../../components/course-edit-form/course-edit-form.component';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { CoursesSectionQuestions } from '../instructor-help-courses-section/courses-section-questions';
 import { QuestionsSectionQuestions } from '../instructor-help-questions-section/questions-section-questions';
 import { SessionsSectionQuestions } from '../instructor-help-sessions-section/sessions-section-questions';
 import { StudentsSectionQuestions } from '../instructor-help-students-section/students-section-questions';
 import { Sections } from '../sections';
-import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
-import { ExampleBoxComponent } from '../example-box/example-box.component';
-import { CourseEditFormComponent } from '../../../components/course-edit-form/course-edit-form.component';
 
 /**
  * Getting Started Section for Instructors

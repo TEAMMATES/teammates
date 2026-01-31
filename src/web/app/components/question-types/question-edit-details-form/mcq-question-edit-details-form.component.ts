@@ -1,13 +1,13 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
-import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
-import { FeedbackMcqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
-import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { FormsModule } from '@angular/forms';
 import { NgIf, NgFor } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
+import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
+import { FeedbackMcqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
+import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pipe';
 
 /**

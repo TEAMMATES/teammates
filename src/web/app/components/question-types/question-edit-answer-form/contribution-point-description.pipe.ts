@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 /**
  * Pipe to handle the display of a contribution question answer.
  */
-@Pipe({ name: 'contributionPointDescription', })
+@Pipe({ name: 'contributionPointDescription' })
 export class ContributionPointDescriptionPipe implements PipeTransform {
 
   /**

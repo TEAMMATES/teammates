@@ -1,5 +1,13 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NgbModal, NgbModalRef, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  NgbModalRef,
+  NgbDropdown,
+  NgbDropdownToggle,
+  NgbDropdownMenu,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -26,6 +34,13 @@ import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import {
+  ModifiedTimestampModalComponent,
+} from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -38,15 +53,9 @@ import {
   SortableTableHeaderColorScheme,
 } from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
-import { NgIf, NgFor } from '@angular/common';
-import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
-import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
-import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
-import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
-import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 
 /**
  * Data model for the course tab.

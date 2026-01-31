@@ -1,3 +1,4 @@
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
@@ -5,7 +6,6 @@ import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
 
 /**
  * Constant sum question response.

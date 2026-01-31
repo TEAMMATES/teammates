@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TimezoneService } from '../../../services/timezone.service';
 import { NotificationTargetUser } from '../../../types/api-output';
-import { UserNotificationsListComponent } from '../../components/user-notifications-list/user-notifications-list.component';
+import {
+  UserNotificationsListComponent,
+} from '../../components/user-notifications-list/user-notifications-list.component';
 
 /**
  * Component for instructor notifications page.

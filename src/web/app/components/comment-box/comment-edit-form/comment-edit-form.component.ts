@@ -1,4 +1,6 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { StringHelper } from '../../../../services/string-helper';
@@ -9,12 +11,10 @@ import {
   ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
-import { collapseAnim } from '../../teammates-common/collapse-anim';
-import { CommentRowMode } from '../comment-row/comment-row.mode';
-import { NgIf, NgFor } from '@angular/common';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
+import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
+import { CommentRowMode } from '../comment-row/comment-row.mode';
 import { CommentVisibilityControlNamePipe, CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe } from '../comment-visibility-setting.pipe';
 
 /**

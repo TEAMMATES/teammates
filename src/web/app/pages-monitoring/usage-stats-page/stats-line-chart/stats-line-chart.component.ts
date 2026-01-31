@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3';
-import { DataPoint } from '../usage-statistics-page.component';
+import { DataPoint } from '../data-point.model';
 
 /**
  * Line chart for the statistics.

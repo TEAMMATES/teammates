@@ -1,11 +1,15 @@
+import { NgIf } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   NumScaleQuestionStatisticsCalculation,
 } from './question-statistics-calculation/num-scale-question-statistics-calculation';
 import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../sortable-table/sortable-table.component';
-import { NgIf } from '@angular/common';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for numerical scale questions.

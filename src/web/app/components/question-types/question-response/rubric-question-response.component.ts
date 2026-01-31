@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -8,7 +9,6 @@ import {
   DEFAULT_RUBRIC_QUESTION_DETAILS,
   DEFAULT_RUBRIC_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { NgIf, NgFor } from '@angular/common';
 
 /**
  * Rubric question response.

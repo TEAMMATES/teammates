@@ -1,12 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FeedbackQuestionType } from '../../../types/api-output';
-import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { NgFor, NgIf } from '@angular/common';
-import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackQuestionType } from '../../../types/api-output';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
-import { QuestionTypeNamePipe } from '../teammates-common/question-type-name.pipe';
 import { QuestionTypeHelpPathPipe } from '../teammates-common/question-type-help-path.pipe';
+import { QuestionTypeNamePipe } from '../teammates-common/question-type-name.pipe';
+import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 
 /**
  * Displaying the adding questions panel.

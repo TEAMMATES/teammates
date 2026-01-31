@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   FeedbackSession, FeedbackSessionPublishStatus,
@@ -6,7 +7,6 @@ import {
   SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
-import { NgClass } from '@angular/common';
 
 /**
  * Button for instructor moderating responses.

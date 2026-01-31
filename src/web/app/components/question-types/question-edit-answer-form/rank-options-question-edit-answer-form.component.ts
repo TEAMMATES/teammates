@@ -1,4 +1,6 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
 import {
@@ -6,8 +8,6 @@ import {
   DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
-import { NgFor, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 /**
  * The Rank options question submission form for a recipient.

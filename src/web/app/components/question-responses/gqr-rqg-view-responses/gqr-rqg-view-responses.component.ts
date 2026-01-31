@@ -1,3 +1,4 @@
+import { NgIf, NgFor, NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
@@ -10,14 +11,13 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { collapseAnim } from '../../teammates-common/collapse-anim';
-import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
-import { NgIf, NgFor, NgTemplateOutlet, KeyValuePipe } from '@angular/common';
+import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
 import { PanelChevronComponent } from '../../panel-chevron/panel-chevron.component';
 import { QuestionTextWithInfoComponent } from '../../question-text-with-info/question-text-with-info.component';
-import { SingleStatisticsComponent } from '../single-statistics/single-statistics.component';
-import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
+import { collapseAnim } from '../../teammates-common/collapse-anim';
+import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 import { PerQuestionViewResponsesComponent } from '../per-question-view-responses/per-question-view-responses.component';
+import { SingleStatisticsComponent } from '../single-statistics/single-statistics.component';
 
 interface QuestionTab {
   questionOutput: QuestionOutput;

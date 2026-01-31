@@ -14,7 +14,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-request';
 import { CommentRowModel } from '../../comment-box/comment-row/comment-row.component';
-import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
+import { CommentTableModel } from '../../comment-box/comment-table/comment-table.model';
 
 describe('PerQuestionViewResponsesComponent', () => {
   let component: PerQuestionViewResponsesComponent;

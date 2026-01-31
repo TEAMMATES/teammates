@@ -1,12 +1,12 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
+import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
 import { FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
-import { NgFor } from '@angular/common';
-import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
-import { FormsModule } from '@angular/forms';
 
 /**
  * Question details edit form component for Rank Options question.

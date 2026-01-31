@@ -4,7 +4,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ResendResultsLinkToRespondentModalComponent } from './resend-results-link-to-respondent-modal.component';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
-import { StudentListInfoTableRowModel, InstructorListInfoTableRowModel } from '../respondent-list-info-table/respondent-list-info-table-model';
+import {
+  StudentListInfoTableRowModel,
+  InstructorListInfoTableRowModel,
+} from '../respondent-list-info-table/respondent-list-info-table-model';
 
 describe('ResendResultsLinkToRespondentModalComponent', () => {
   let component: ResendResultsLinkToRespondentModalComponent;

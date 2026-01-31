@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IndexPageComponent } from './index-page.component';
 import { RouterModule } from '@angular/router';
+import { IndexPageComponent } from './index-page.component';
 
 describe('IndexPageComponent', () => {
   let component: IndexPageComponent;

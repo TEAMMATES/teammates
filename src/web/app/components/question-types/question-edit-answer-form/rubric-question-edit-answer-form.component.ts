@@ -1,3 +1,4 @@
+import { NgFor, NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
@@ -9,7 +10,6 @@ import {
 } from '../../../../types/default-question-structs';
 import { RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../types/feedback-response-details';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
-import { NgFor, NgClass } from '@angular/common';
 
 /**
  * The rubric question submission form for a recipient.

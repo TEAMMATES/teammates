@@ -10,10 +10,10 @@ import {
   FeedbackSessionSubmissionStatus,
 } from '../../../types/api-output';
 
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SortableTableHeaderColorScheme } from '../sortable-table/sortable-table.component';
 
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
-import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 
 @Component({
     selector: 'tm-group-buttons',
@@ -23,7 +23,7 @@ import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
     TeammatesRouterDirective,
     AjaxLoadingComponent,
     NgbDropdownModule,
-    NgbTooltipModule
+    NgbTooltipModule,
 ],
 })
 export class GroupButtonsComponent {

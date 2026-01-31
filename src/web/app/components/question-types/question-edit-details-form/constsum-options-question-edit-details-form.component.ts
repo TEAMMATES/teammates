@@ -1,5 +1,9 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { NgFor } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import {
@@ -7,10 +11,6 @@ import {
   FeedbackConstantSumQuestionDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { NgFor } from '@angular/common';
-import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
-import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Question details edit form component for constsum options question.

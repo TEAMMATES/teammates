@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { TermsPageComponent } from './terms-page.component';
 import { RouterModule } from '@angular/router';
+import { TermsPageComponent } from './terms-page.component';
 
 describe('TermsPageComponent', () => {
   let component: TermsPageComponent;
@@ -8,7 +8,7 @@ describe('TermsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])]
+      imports: [RouterModule.forRoot([])],
     })
     .compileComponents();
   }));

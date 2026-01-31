@@ -1,3 +1,4 @@
+import { NgClass, NgIf, NgFor, KeyValuePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
@@ -9,7 +10,6 @@ import {
 import {
   QuestionSubmissionFormModel,
 } from '../../../components/question-submission-form/question-submission-form-model';
-import { NgClass, NgIf, NgFor, KeyValuePipe } from '@angular/common';
 
 /**
  * Modal to inform the completion of the saving process

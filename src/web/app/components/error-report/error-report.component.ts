@@ -1,12 +1,12 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
 import { ErrorReportService } from '../../../services/error-report.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorReportRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 /**
  * Error report component.

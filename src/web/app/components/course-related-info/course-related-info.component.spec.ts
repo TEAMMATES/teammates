@@ -10,7 +10,7 @@ describe('CourseRelatedInfoComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterModule.forRoot([])
+        RouterModule.forRoot([]),
       ],
     })
     .compileComponents();

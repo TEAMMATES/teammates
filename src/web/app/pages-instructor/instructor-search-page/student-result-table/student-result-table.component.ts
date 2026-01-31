@@ -1,9 +1,9 @@
+import { NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { JoinStatePipe } from '../../../components/student-list/join-state.pipe';
 import { StudentListRowModel, StudentListComponent } from '../../../components/student-list/student-list.component';
-import { NgFor } from '@angular/common';
 import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highlighter.pipe';
 
 /**

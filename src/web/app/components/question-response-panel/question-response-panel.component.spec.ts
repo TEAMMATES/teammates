@@ -20,7 +20,7 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackQuestionModel } from '../../pages-session/session-result-page/session-result-page.component';
+import { FeedbackQuestionModel } from '../../pages-session/session-result-page/feedback-question.model';
 
 describe('QuestionResponsePanelComponent', () => {
 

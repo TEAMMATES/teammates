@@ -1,6 +1,6 @@
+import { NgIf, JsonPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { GeneralLogEntry } from '../../../../types/api-output';
-import { NgIf, JsonPipe } from '@angular/common';
 
 /**
  * Additional details for generic logs, i.e. logs that do not need specific displaying logic.

@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TINYMCE_BASE_URL } from './tinymce';
-import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { NgIf, NgClass } from '@angular/common';
-import { EditorComponent } from '@tinymce/tinymce-angular';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { EditorComponent } from '@tinymce/tinymce-angular';
+import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
+import { TINYMCE_BASE_URL } from './tinymce';
 
 const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
 

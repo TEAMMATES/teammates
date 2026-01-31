@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ContactPageComponent } from './contact-page.component';
 import { RouterModule } from '@angular/router';
+import { ContactPageComponent } from './contact-page.component';
 
 describe('ContactPageComponent', () => {
   let component: ContactPageComponent;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProgressBarService } from '../../../services/progress-bar.service';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 
 /**
  * Progress bar used to show download progress.

@@ -1,14 +1,14 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Student } from '../../../types/api-output';
-import { ErrorMessageOutput } from '../../error-message-output';
+import { CourseRelatedInfoComponent } from '../../components/course-related-info/course-related-info.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { NgIf } from '@angular/common';
-import { CourseRelatedInfoComponent } from '../../components/course-related-info/course-related-info.component';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Instructor course student details page.

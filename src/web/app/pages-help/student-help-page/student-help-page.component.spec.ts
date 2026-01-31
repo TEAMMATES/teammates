@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { StudentHelpPageComponent } from './student-help-page.component';
 import { RouterModule } from '@angular/router';
+import { StudentHelpPageComponent } from './student-help-page.component';
 
 describe('StudentHelpPageComponent', () => {
   let component: StudentHelpPageComponent;
@@ -10,7 +10,7 @@ describe('StudentHelpPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
-      ]
+      ],
     })
     .compileComponents();
   }));

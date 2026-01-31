@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
 import {
@@ -11,7 +12,6 @@ import {
 import {
   FeedbackResponseRecipientSubmissionFormModel,
 } from '../../question-submission-form/question-submission-form-model';
-import { NgIf } from '@angular/common';
 
 /**
  * Constraint of constsum recipients question.

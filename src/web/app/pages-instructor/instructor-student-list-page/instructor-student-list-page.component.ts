@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
@@ -15,15 +16,14 @@ import {
   Students,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
 import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
-import { ErrorMessageOutput } from '../../error-message-output';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
-import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
-import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { NgIf, NgFor } from '@angular/common';
-import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentIndexedData {
   [key: string]: Student[];

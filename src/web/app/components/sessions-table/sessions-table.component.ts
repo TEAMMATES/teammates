@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { GroupButtonsComponent } from './cell-with-group-buttons.component';
@@ -17,13 +18,18 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { ColumnData, SortableEvent, SortableTableCellData, SortableTableHeaderColorScheme, SortableTableComponent } from '../sortable-table/sortable-table.component';
+import {
+  ColumnData,
+  SortableEvent,
+  SortableTableCellData,
+  SortableTableHeaderColorScheme,
+  SortableTableComponent,
+} from '../sortable-table/sortable-table.component';
 import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
-import { NgIf } from '@angular/common';
 
 export type MutateEvent = {
   idx: number,

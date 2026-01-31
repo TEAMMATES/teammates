@@ -1,8 +1,8 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionAdditionalInfo } from './question-additional-info';
 import { FeedbackConstantSumQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { NgIf } from '@angular/common';
 
 /**
  * Additional info for constsum recipients questions.

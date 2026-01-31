@@ -1,6 +1,6 @@
+import { NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { StatusMessage } from './status-message';
-import { NgFor } from '@angular/common';
 
 /**
  * List of status messages.

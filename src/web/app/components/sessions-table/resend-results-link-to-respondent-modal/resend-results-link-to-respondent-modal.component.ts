@@ -1,10 +1,10 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
 } from '../respondent-list-info-table/respondent-list-info-table-model';
-import { NgIf } from '@angular/common';
 import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
 
 /**

@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   FeedbackConstantSumDistributePointsType,
@@ -6,7 +7,6 @@ import {
 import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
-import { NgIf } from '@angular/common';
 
 /**
  * Instruction of constsum options question.

@@ -1,3 +1,4 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   FeedbackParticipantType,
@@ -5,13 +6,12 @@ import {
   FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting,
   ResponseOutput,
 } from '../../../../types/api-output';
-import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
-import { NgClass, NgFor, NgIf } from '@angular/common';
-import { SingleResponseComponent } from '../single-response/single-response.component';
 import { CommentRowComponent } from '../../comment-box/comment-row/comment-row.component';
+import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
 import { CommentTableComponent } from '../../comment-box/comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from '../../comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../comment-box/comments-to-comment-table-model.pipe';
+import { SingleResponseComponent } from '../single-response/single-response.component';
 
 /**
  * Feedback response in student results page view.

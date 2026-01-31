@@ -7,7 +7,7 @@ import {
 /**
  * Pipe to get Question ID from {@code QuestionsSectionQuestions}.
  */
-@Pipe({ name: 'questionTypeHelpPath', })
+@Pipe({ name: 'questionTypeHelpPath' })
 export class QuestionTypeHelpPathPipe implements PipeTransform {
 
   transform(type: FeedbackQuestionType): string | Error {

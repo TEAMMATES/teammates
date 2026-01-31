@@ -1,4 +1,6 @@
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
 import { InstructorService } from '../../../../services/instructor.service';
@@ -7,14 +9,12 @@ import { TableComparatorService } from '../../../../services/table-comparator.se
 import { Instructor, InstructorPermissionRole, Instructors } from '../../../../types/api-output';
 import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
-import { ErrorMessageOutput } from '../../../error-message-output';
-import { NgIf, NgFor, NgClass } from '@angular/common';
-import { PanelChevronComponent } from '../../../components/panel-chevron/panel-chevron.component';
+import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
 import { LoadingRetryComponent } from '../../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../../components/loading-spinner/loading-spinner.directive';
-import { FormsModule } from '@angular/forms';
-import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
+import { PanelChevronComponent } from '../../../components/panel-chevron/panel-chevron.component';
 import { InstructorRoleNamePipe } from '../../../components/teammates-common/instructor-role-name.pipe';
+import { ErrorMessageOutput } from '../../../error-message-output';
 
 /**
  * Modal to select instructors to copy from other courses.

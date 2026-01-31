@@ -1,12 +1,12 @@
+import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   Instructor,
   Student,
 } from '../../../types/api-output';
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Displaying the preview session panel.

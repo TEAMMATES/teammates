@@ -1,13 +1,13 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 
+import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS, DEFAULT_MCQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
-import { NgIf, NgFor } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
 
 /**

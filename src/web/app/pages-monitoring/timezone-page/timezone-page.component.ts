@@ -1,9 +1,9 @@
+import { NgFor, KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { TimezoneService } from '../../../services/timezone.service';
 import { TimeZones } from '../../../types/api-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { NgFor, KeyValuePipe } from '@angular/common';
 
 /**
  * Timezone listing page for admin use.

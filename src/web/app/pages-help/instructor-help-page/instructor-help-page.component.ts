@@ -1,4 +1,6 @@
+import { NgIf } from '@angular/common';
 import { AfterViewInit, Component, Inject, ViewChild, DOCUMENT } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import {
@@ -21,8 +23,6 @@ import { StudentsSectionQuestions } from './instructor-help-students-section/stu
 import { Sections } from './sections';
 import { environment } from '../../../environments/environment';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
-import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
 
 /**
  * Instructor help page.

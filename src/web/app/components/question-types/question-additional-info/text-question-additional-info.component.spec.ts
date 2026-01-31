@@ -6,7 +6,6 @@ describe('TextQuestionAdditionalInfoComponent', () => {
   let component: TextQuestionAdditionalInfoComponent;
   let fixture: ComponentFixture<TextQuestionAdditionalInfoComponent>;
 
-
   beforeEach(() => {
     fixture = TestBed.createComponent(TextQuestionAdditionalInfoComponent);
     component = fixture.componentInstance;

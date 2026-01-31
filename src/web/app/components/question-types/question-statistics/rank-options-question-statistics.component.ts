@@ -1,11 +1,15 @@
+import { NgIf } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   RankOptionsQuestionStatisticsCalculation,
 } from './question-statistics-calculation/rank-options-question-statistics-calculation';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../sortable-table/sortable-table.component';
-import { NgIf } from '@angular/common';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for rank options questions.

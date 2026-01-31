@@ -1,6 +1,6 @@
+import { NgIf, NgFor, NgClass, KeyValuePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TweakedTimestampData } from '../../pages-instructor/instructor-session-base-page.component';
-import { NgIf, NgFor, NgClass, KeyValuePipe } from '@angular/common';
 
 @Component({
   selector: 'tm-modified-timestamps-modal',

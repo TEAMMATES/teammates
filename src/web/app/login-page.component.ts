@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleAuthProvider } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,9 +9,8 @@ import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
 import { SendLoginEmailResponse } from '../types/api-output';
-import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
-import { NgIf } from '@angular/common';
 import { AjaxLoadingComponent } from './components/ajax-loading/ajax-loading.component';
+import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 
 /**
  * Login page component.

@@ -1,4 +1,6 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
 import { SimpleModalService } from '../../../../../services/simple-modal.service';
@@ -10,13 +12,15 @@ import {
 } from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
 import { Sections } from '../../../../pages-help/instructor-help-page/sections';
 import { SimpleModalType } from '../../../simple-modal/simple-modal-type';
-import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../../sortable-table/sortable-table.component';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../../sortable-table/sortable-table.component';
+import { TeammatesRouterDirective } from '../../../teammates-router/teammates-router.directive';
 import {
   ContributionQuestionStatisticsCalculation,
 } from '../question-statistics-calculation/contribution-question-statistics-calculation';
-import { NgIf, NgFor } from '@angular/common';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { TeammatesRouterDirective } from '../../../teammates-router/teammates-router.directive';
 
 /**
  * Statistics for contribution questions.

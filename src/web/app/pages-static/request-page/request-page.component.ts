@@ -1,10 +1,10 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { InstructorRequestFormModel } from './instructor-request-form/instructor-request-form-model';
-import { environment } from '../../../environments/environment';
-import { NgIf } from '@angular/common';
-import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { InstructorRequestFormComponent } from './instructor-request-form/instructor-request-form.component';
+import { environment } from '../../../environments/environment';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 
 /**
  * Account request page.

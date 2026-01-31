@@ -1,3 +1,4 @@
+import { NgIf, NgClass, NgFor } from '@angular/common';
 import { Component, Inject, Input, OnInit, DOCUMENT } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HotTableRegisterer, HotTableModule } from '@handsontable/angular';
@@ -14,18 +15,17 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { EnrollStudents, HasResponses, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentEnrollRequest, StudentsEnrollRequest } from '../../../types/api-request';
-import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { StatusMessage } from '../../components/status-message/status-message';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
-import { NgIf, NgClass, NgFor } from '@angular/common';
-import { StatusMessageComponent } from '../../components/status-message/status-message.component';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { AjaxPreloadComponent } from '../../components/ajax-preload/ajax-preload.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
-import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { StatusMessage } from '../../components/status-message/status-message';
+import { StatusMessageComponent } from '../../components/status-message/status-message.component';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface EnrollResultPanel {
   status: EnrollStatus;

@@ -1,4 +1,6 @@
+import { NgClass, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -10,8 +12,6 @@ import {
 import { ColumnData, SortableEvent, SortableTableCellData, SortableTableHeaderColorScheme, SortableTableComponent } from '../sortable-table/sortable-table.component';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { InstructorRoleNamePipe } from '../teammates-common/instructor-role-name.pipe';
-import { NgClass, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 export enum ExtensionModalType {
   EXTEND,

@@ -10,14 +10,37 @@ import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
 import { NotificationTargetUser } from '../types/api-output';
-import { Toast } from './components/toast/toast';
-import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
 import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
-import { ToastComponent } from './components/toast/toast.component';
-import { NotificationBannerComponent } from './components/notification-banner/notification-banner.component';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
+import { NotificationBannerComponent } from './components/notification-banner/notification-banner.component';
+import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
+import { Toast } from './components/toast/toast';
+import { ToastComponent } from './components/toast/toast.component';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
+
+/**
+ * Directive to emit an event if a click occurred outside the element.
+ */
+@Directive({ selector: '[tmClickOutside]' })
+export class ClickOutsideDirective {
+  @Output() tmClickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  constructor(private elementRef: ElementRef) {}
+
+  /**
+   * Method to execute when any part of the document is clicked.
+   */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const targetElement: HTMLElement = event.target as HTMLElement;
+
+    // Check if the click was outside the element
+    if (targetElement && !this.elementRef.nativeElement.contains(targetElement)) {
+      this.tmClickOutside.emit(event);
+    }
+  }
+}
 
 /**
  * Base skeleton for all pages.
@@ -169,29 +192,6 @@ export class PageComponent {
       });
     } else {
       window.location.href = this.logoutUrl;
-    }
-  }
-}
-
-/**
- * Directive to emit an event if a click occurred outside the element.
- */
-@Directive({ selector: '[tmClickOutside]', })
-export class ClickOutsideDirective {
-  @Output() tmClickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
-
-  constructor(private elementRef: ElementRef) {}
-
-  /**
-   * Method to execute when any part of the document is clicked.
-   */
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    const targetElement: HTMLElement = event.target as HTMLElement;
-
-    // Check if the click was outside the element
-    if (targetElement && !this.elementRef.nativeElement.contains(targetElement)) {
-      this.tmClickOutside.emit(event);
     }
   }
 }

@@ -1,13 +1,15 @@
+import { NgFor, NgIf, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { SectionTabModel } from './instructor-session-result-page.component';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
-import { NgFor, NgIf, KeyValuePipe } from '@angular/common';
-import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
-import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { SectionTabModel } from './instructor-session-tab.model';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
-import { GqrRqgViewResponsesComponent } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import {
+  GqrRqgViewResponsesComponent,
+} from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.component';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
  * Instructor sessions results page GQR view.

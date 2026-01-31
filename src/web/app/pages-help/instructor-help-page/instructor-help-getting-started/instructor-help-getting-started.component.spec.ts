@@ -1,11 +1,11 @@
 import { DOCUMENT } from '@angular/common';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { PageScrollService, NGXPS_CONFIG } from 'ngx-page-scroll-core';
 import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('InstructorHelpGettingStartedComponent', () => {
   let component: InstructorHelpGettingStartedComponent;

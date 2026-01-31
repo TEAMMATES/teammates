@@ -1,4 +1,6 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -12,14 +14,12 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
-import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { collapseAnim } from '../teammates-common/collapse-anim';
-import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
-import { NgIf, NgFor } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
+import { FeedbackPathPanelComponent } from '../feedback-path-panel/feedback-path-panel.component';
+import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
 import { QuestionEditBriefDescriptionFormComponent } from '../question-edit-brief-description-form/question-edit-brief-description-form.component';
-import { TextQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/text-question-edit-details-form.component';
+import { ConstsumOptionsQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/constsum-options-question-edit-details-form.component';
+import { ConstsumRecipientsQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/constsum-recipients-question-edit-details-form.component';
 import { ContributionQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/contribution-question-edit-details-form.component';
 import { McqQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/mcq-question-edit-details-form.component';
 import { MsqQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/msq-question-edit-details-form.component';
@@ -27,11 +27,11 @@ import { NumScaleQuestionEditDetailsFormComponent } from '../question-types/ques
 import { RankOptionsQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/rank-options-question-edit-details-form.component';
 import { RankRecipientsQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/rank-recipients-question-edit-details-form.component';
 import { RubricQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/rubric-question-edit-details-form.component';
-import { ConstsumOptionsQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/constsum-options-question-edit-details-form.component';
-import { ConstsumRecipientsQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/constsum-recipients-question-edit-details-form.component';
-import { FeedbackPathPanelComponent } from '../feedback-path-panel/feedback-path-panel.component';
-import { VisibilityPanelComponent } from '../visibility-panel/visibility-panel.component';
+import { TextQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/text-question-edit-details-form.component';
+import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import { QuestionTypeNamePipe } from '../teammates-common/question-type-name.pipe';
+import { VisibilityPanelComponent } from '../visibility-panel/visibility-panel.component';
 
 const FEEDBACK_PATH_PROPERTIES: Set<string> = new Set<string>([
   'giverType',

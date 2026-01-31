@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { FeedbackTextQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
 
 /**
  * Question details edit form component for text question.

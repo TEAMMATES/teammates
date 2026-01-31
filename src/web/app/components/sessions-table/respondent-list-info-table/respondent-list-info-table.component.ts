@@ -1,9 +1,9 @@
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from './respondent-list-info-table-model';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
-import { NgIf, NgFor, NgClass } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 /**
  * Student list for users to make selection.

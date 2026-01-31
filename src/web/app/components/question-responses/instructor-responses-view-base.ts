@@ -5,7 +5,7 @@ import {
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
-import { CommentTableModel } from '../comment-box/comment-table/comment-table.component';
+import { CommentTableModel } from '../comment-box/comment-table/comment-table.model';
 
 /**
  * Abstract component for instructor related views.

@@ -1,5 +1,8 @@
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -8,18 +11,17 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import {
-  SectionTabModel,
-} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
-import {
   InstructorSessionResultSectionType,
 } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import {
   InstructorSessionResultViewType,
 } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms';
-import { SectionTypeDescriptionPipe } from '../../pages-instructor/instructor-session-result-page/section-type-description.pipe';
+import {
+  SectionTabModel,
+} from '../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
+import {
+  SectionTypeDescriptionPipe,
+} from '../../pages-instructor/instructor-session-result-page/section-type-description.pipe';
 import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 
 /**

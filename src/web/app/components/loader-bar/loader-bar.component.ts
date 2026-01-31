@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { LoadingBarService } from '../../../services/loading-bar.service';
 import { NgIf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingBarService } from '../../../services/loading-bar.service';
 
 /**
  * Loading progress bar for ajax requests.
