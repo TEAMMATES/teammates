@@ -3,11 +3,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --configuration production",
-    "analyze": "webpack-bundle-analyzer src/web/dist/stats.json",
+    "build:stats": "ng build --configuration production --stats-json",
     "test": "ng test --watch",
     "coverage": "rimraf coverage && ng test --coverage",
     "lint:ts": "ng lint --cache --eslint-config static-analysis/teammates-eslint.yml",
-    "lint:css:syntax": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" \"src/web/**/*.html\" --ignore-pattern \"src/web/dist/*.css\" --cache --config static-analysis/teammates-stylelint.yml",
+    "lint:css:syntax": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" \"src/web/**/*.html\" --ignore-pattern \"src/web/dist/**/*.css\" --cache --config static-analysis/teammates-stylelint.yml",
     "lint:css:styles": "prettier --print-width=120 --single-quote=true \"src/web/**/*.css\" \"src/web/**/*.scss\"",
     "lint:windows:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/web/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.properties\" \"*.yml\" \"*.json\" \"*.gradle\" \"static-analysis/*.*ml\" \".gitattributes\"",
     "lint:nix:spaces": "lintspaces -n -t -d spaces -l 1 --matchdotfiles $(git diff --name-only --diff-filter=ACMRTUXB origin/master HEAD | grep -E \"src/(main|web)/.*.html|src/.*.(xml|json|properties)|*.(yml|json|gradle)|static-analysis/*.*ml|.gitattributes\") || :",
@@ -51,12 +51,12 @@
   },
   "devDependencies": {
     "@angular-builders/jest": "^20.0.0",
-    "@angular-devkit/build-angular": "^20.3.15",
     "@angular-eslint/builder": "^20.7.0",
     "@angular-eslint/eslint-plugin": "^20.7.0",
     "@angular-eslint/eslint-plugin-template": "^20.7.0",
     "@angular-eslint/schematics": "^20.7.0",
     "@angular-eslint/template-parser": "^20.7.0",
+    "@angular/build": "^20.3.15",
     "@angular/cli": "^20.3.15",
     "@angular/compiler-cli": "^20.3.16",
     "@types/d3": "^7.4.3",
@@ -82,7 +82,6 @@
     "run-script-os": "^1.1.6",
     "stylelint": "^16.26.1",
     "stylelint-config-standard-scss": "^13.1.0",
-    "typescript": "~5.8.3",
-    "webpack-bundle-analyzer": "^4.10.2"
+    "typescript": "~5.8.3"
   }
 }
