@@ -33,6 +33,7 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
     @BeforeMethod
     public void baseClassSetup() {
+        // Access control: only admin can access this action
         loginAsAdmin();
     }
 
@@ -41,37 +42,38 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
         Notification testNotification = getTypicalNotificationWithId();
         NotificationData expected = new NotificationData(testNotification);
 
-        String[] requestParams = new String[] {
-                Const.ParamsNames.NOTIFICATION_ID, String.valueOf(testNotification.getId()),
-        };
-
+        // Stub the logic layer
         when(mockLogic.getNotification(testNotification.getId())).thenReturn(testNotification);
 
-        GetNotificationAction action = getAction(requestParams);
+        GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID,
+                String.valueOf(testNotification.getId()));
+
+        // Execute and get result
         JsonResult jsonResult = getJsonResult(action);
 
-        NotificationData output = (NotificationData) jsonResult.getOutput();
-        verifyNotificationEquals(expected, output);
+        // Verify output
+        verifyNotificationEquals(expected, (NotificationData) jsonResult.getOutput());
 
-        reset(mockLogic);
+        reset(mockLogic); // Clean up
     }
 
     @Test
     protected void testExecute_nonExistentNotification_shouldThrowError() {
         GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID, UUID.randomUUID().toString());
-        EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
 
-        assertEquals("Notification does not exist.", enfe.getMessage());
+        // TestNG assertThrows usage
+        EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
+        assertEquals(enfe.getMessage(), "Notification does not exist.");
     }
 
     @Test
     protected void testExecute_notificationIdIsNull_shouldThrowError() {
-        GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID, null, new String[] {});
+        GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID, (String) null);
         InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action::execute);
-
-        assertEquals("The [notificationid] HTTP parameter is null.", ihpe.getMessage());
+        assertEquals(ihpe.getMessage(), "The [notificationid] HTTP parameter is null.");
     }
 
+    // Helper method to verify output
     private void verifyNotificationEquals(NotificationData expected, NotificationData actual) {
         assertEquals(expected.getNotificationId(), actual.getNotificationId());
         assertEquals(expected.getStyle(), actual.getStyle());

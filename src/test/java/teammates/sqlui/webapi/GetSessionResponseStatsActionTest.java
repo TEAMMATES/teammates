@@ -45,56 +45,39 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Test
     void testExecute_invalidParams_throwsInvalidHttpParameterException() {
-        String[] params1 = {
+        verifyHttpParameterFailure(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
-                Const.ParamsNames.COURSE_ID, null,
-        };
-        verifyHttpParameterFailure(params1);
+                Const.ParamsNames.COURSE_ID, null
+        );
 
-        String[] params2 = {
+        verifyHttpParameterFailure(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, null,
-        };
-        verifyHttpParameterFailure(params2);
+                Const.ParamsNames.COURSE_ID, null
+        );
 
-        String[] params3 = {
+        verifyHttpParameterFailure(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-        };
-        verifyHttpParameterFailure(params3);
+                Const.ParamsNames.COURSE_ID, stubCourse.getId()
+        );
 
-        String[] params4 = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
+        verifyHttpParameterFailure(
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName()
+        );
 
-        };
-        verifyHttpParameterFailure(params4);
+        verifyHttpParameterFailure(
+                Const.ParamsNames.COURSE_ID, stubCourse.getId()
+        );
 
-        String[] params5 = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-        };
-        verifyHttpParameterFailure(params5);
-
-        String[] params6 = {};
-        verifyHttpParameterFailure(params6);
+        verifyHttpParameterFailure();
     }
 
     @Test
     void testExecute_instructorAccessOwnStats_getStats() {
         loginAsInstructor(stubInstructor.getGoogleId());
 
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-        };
-        when(mockLogic.getExpectedTotalSubmission(stubFeedbackSession))
-                .thenReturn(stubFeedbackSessionStatsData.getExpectedTotal());
-        when(mockLogic.getActualTotalSubmission(stubFeedbackSession))
-                .thenReturn(stubFeedbackSessionStatsData.getSubmittedTotal());
-        when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubCourse.getId()))
-                .thenReturn(stubFeedbackSession);
+        mockInstructorAndSession(stubCourse.getId(), stubInstructor, stubFeedbackSession, stubFeedbackSessionStatsData);
+        FeedbackSessionStatsData output = executeAction(stubFeedbackSession.getName(), stubCourse.getId());
 
-        GetSessionResponseStatsAction action = getAction(params);
-        FeedbackSessionStatsData output = (FeedbackSessionStatsData) getJsonResult(action).getOutput();
         assertEquals(stubFeedbackSessionStatsData.getSubmittedTotal(), output.getSubmittedTotal());
         assertEquals(stubFeedbackSessionStatsData.getExpectedTotal(), output.getExpectedTotal());
     }
@@ -103,59 +86,48 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
     void testExecute_nonExistentFeedbackSession_throwsEntityDoesNotExistException() {
         loginAsInstructor(stubInstructor.getGoogleId());
 
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "nonexistentFeedbackSession",
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-        };
-        when(mockLogic.getFeedbackSession("nonexistentFeedbackSession", stubCourse.getId())).thenReturn(null);
-        verifyEntityNotFound(params);
+        verifyEntityNotFound(
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent-feedback-session",
+                Const.ParamsNames.COURSE_ID, stubCourse.getId()
+        );
     }
 
     @Test
     void testExecute_nonExistentCourse_throwsEntityDoesNotExistException() {
         loginAsInstructor(stubInstructor.getGoogleId());
 
-        String[] params = {
+        verifyEntityNotFound(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, "nonexistentCourse",
-        };
-        when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), "nonexistentCourse")).thenReturn(null);
-        verifyEntityNotFound(params);
+                Const.ParamsNames.COURSE_ID, "non-existent-course"
+        );
     }
 
     @Test
     void testSpecificAccessControl_invalidParams_cannotAccess() {
-        String[] params1 = {
+        verifyCannotAccess(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
-                Const.ParamsNames.COURSE_ID, null,
-        };
-        verifyCannotAccess(params1);
+                Const.ParamsNames.COURSE_ID, null
+        );
 
-        String[] params2 = {
+        verifyCannotAccess(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, null,
-        };
-        verifyCannotAccess(params2);
+                Const.ParamsNames.COURSE_ID, null
+        );
 
-        String[] params3 = {
+        verifyCannotAccess(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-        };
-        verifyCannotAccess(params3);
+                Const.ParamsNames.COURSE_ID, stubCourse.getId()
+        );
 
-        String[] params4 = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
+        verifyCannotAccess(
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName()
+        );
 
-        };
-        verifyCannotAccess(params4);
+        verifyCannotAccess(
+                Const.ParamsNames.COURSE_ID, stubCourse.getId()
+        );
 
-        String[] params5 = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-        };
-        verifyCannotAccess(params5);
-
-        String[] params6 = {};
-        verifyCannotAccess(params6);
+        verifyCannotAccess();
     }
 
     @Test
@@ -169,15 +141,12 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
     void testSpecificAccessControl_instructorValidParamsOwnCourse_canAccess() {
         loginAsInstructor(stubInstructor.getGoogleId());
 
-        String[] params = {
+        mockInstructorAndSession(stubCourse.getId(), stubInstructor, stubFeedbackSession, stubFeedbackSessionStatsData);
+        executeAction(stubFeedbackSession.getName(), stubCourse.getId());
+        verifyCanAccess(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-        };
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
-                .thenReturn(stubInstructor);
-        when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubCourse.getId()))
-                .thenReturn(stubFeedbackSession);
-        verifyCanAccess(params);
+                Const.ParamsNames.COURSE_ID, stubCourse.getId()
+        );
     }
 
     @Test
@@ -192,6 +161,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
                 .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), "non-existent-course"))
                 .thenReturn(null);
+
         verifyEntityNotFoundAcl(params);
     }
 
@@ -207,6 +177,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
                 .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession("non-existent-feedback-session", stubCourse.getId()))
                 .thenReturn(null);
+
         verifyEntityNotFoundAcl(params);
     }
 
@@ -222,6 +193,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
                 .thenReturn(null);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubCourse.getId()))
                 .thenReturn(stubFeedbackSession);
+
         verifyCannotAccess(params);
     }
 
@@ -242,9 +214,31 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
         Instructor anotherInstructor = getTypicalInstructor();
         anotherInstructor.setAccount(getTypicalAccount());
         anotherInstructor.setCourse(
-                new Course("another-course", "Another Course", Const.DEFAULT_TIME_ZONE, "teammates"));
+                new Course("another-course", "Another Course", Const.DEFAULT_TIME_ZONE, "teammates")
+        );
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
                 .thenReturn(anotherInstructor);
         verifyCannotAccess(params);
+    }
+
+    private FeedbackSessionStatsData executeAction(String feedbackSessionName, String courseId) {
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, courseId
+        };
+        GetSessionResponseStatsAction action = getAction(params);
+        return (FeedbackSessionStatsData) getJsonResult(action).getOutput();
+    }
+
+    private void mockInstructorAndSession(String courseId, Instructor instructor, FeedbackSession session,
+                                          FeedbackSessionStatsData statsData) {
+        when(mockLogic.getInstructorByGoogleId(courseId, instructor.getGoogleId()))
+                .thenReturn(instructor);
+        when(mockLogic.getFeedbackSession(session.getName(), courseId))
+                .thenReturn(session);
+        when(mockLogic.getExpectedTotalSubmission(session))
+                .thenReturn(statsData.getExpectedTotal());
+        when(mockLogic.getActualTotalSubmission(session))
+                .thenReturn(statsData.getSubmittedTotal());
     }
 }

@@ -36,25 +36,32 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
     @Test
     protected void testExecute_getReadNotificationsAsInstructor_shouldSucceed() {
         Instructor instructor = getTypicalInstructor();
-        List<Notification> testNotifications = new ArrayList<>();
 
-        loginAsInstructor(instructor.getGoogleId());
-        for (int i = 0; i < READ_NOTIFICATION_COUNT; i++) {
-            testNotifications.add(getTypicalNotificationWithId());
-        }
+        List<UUID> testNotificationIds = createTestNotifications(READ_NOTIFICATION_COUNT);
 
-        List<UUID> testNotificationIds = testNotifications.stream().map(Notification::getId).collect(Collectors.toList());
         when(mockLogic.getReadNotificationsId(instructor.getGoogleId())).thenReturn(testNotificationIds);
 
+        ReadNotificationsData data = action();
+        verification(data, testNotificationIds);
+
+    }
+    private List<UUID> createTestNotifications(int count) {
+        List<UUID> testNotificationIds = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            testNotificationIds.add(UUID.randomUUID());
+        }
+        return testNotificationIds;
+    }
+    private ReadNotificationsData action() {
         GetReadNotificationsAction action = getAction();
         JsonResult jsonResult = getJsonResult(action);
+        return (ReadNotificationsData) jsonResult.getOutput();
+    }
 
-        ReadNotificationsData output = (ReadNotificationsData) jsonResult.getOutput();
-
-        List<String> readNotificationsData = output.getReadNotifications();
-
-        readNotificationsData.forEach(notificationId ->
-                assertTrue(testNotificationIds.contains(UUID.fromString(notificationId))));
+    private void verification(ReadNotificationsData in, List<UUID> ids) {
+        List<String> readNotificationsData = in.getReadNotifications();
+        readNotificationsData.forEach(notificationId -> assertTrue(ids.contains(UUID.fromString(notificationId))));
         assertEquals(READ_NOTIFICATION_COUNT, readNotificationsData.size());
     }
+
 }
