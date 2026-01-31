@@ -7,9 +7,10 @@ import { TimeZones } from '../../../types/api-output';
  * Timezone listing page for admin use.
  */
 @Component({
-  selector: 'tm-timezone-page',
-  templateUrl: './timezone-page.component.html',
-  styleUrls: ['./timezone-page.component.scss'],
+    selector: 'tm-timezone-page',
+    templateUrl: './timezone-page.component.html',
+    styleUrls: ['./timezone-page.component.scss'],
+    standalone: false,
 })
 export class TimezonePageComponent implements OnInit {
 

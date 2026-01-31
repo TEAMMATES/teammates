@@ -13,9 +13,10 @@ import { RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback
  * The Rank recipients question submission form for a recipient.
  */
 @Component({
-  selector: 'tm-rank-recipients-question-edit-answer-form',
-  templateUrl: './rank-recipients-question-edit-answer-form.component.html',
-  styleUrls: ['./rank-recipients-question-edit-answer-form.component.scss'],
+    selector: 'tm-rank-recipients-question-edit-answer-form',
+    templateUrl: './rank-recipients-question-edit-answer-form.component.html',
+    styleUrls: ['./rank-recipients-question-edit-answer-form.component.scss'],
+    standalone: false,
 })
 export class RankRecipientsQuestionEditAnswerFormComponent
     extends

@@ -8,9 +8,10 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
  * Instruction of contribution question.
  */
 @Component({
-  selector: 'tm-contribution-question-instruction',
-  templateUrl: './contribution-question-instruction.component.html',
-  styleUrls: ['./contribution-question-instruction.component.scss'],
+    selector: 'tm-contribution-question-instruction',
+    templateUrl: './contribution-question-instruction.component.html',
+    styleUrls: ['./contribution-question-instruction.component.scss'],
+    standalone: false,
 })
 export class ContributionQuestionInstructionComponent {
 

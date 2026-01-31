@@ -16,9 +16,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Student course details page.
  */
 @Component({
-  selector: 'tm-student-course-details-page',
-  templateUrl: './student-course-details-page.component.html',
-  styleUrls: ['./student-course-details-page.component.scss'],
+    selector: 'tm-student-course-details-page',
+    templateUrl: './student-course-details-page.component.html',
+    styleUrls: ['./student-course-details-page.component.scss'],
+    standalone: false,
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
   // enum

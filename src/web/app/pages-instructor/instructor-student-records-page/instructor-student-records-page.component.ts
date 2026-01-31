@@ -35,10 +35,11 @@ interface SessionTab {
  * Instructor student records page.
  */
 @Component({
-  selector: 'tm-instructor-student-records-page',
-  templateUrl: './instructor-student-records-page.component.html',
-  styleUrls: ['./instructor-student-records-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-student-records-page',
+    templateUrl: './instructor-student-records-page.component.html',
+    styleUrls: ['./instructor-student-records-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorStudentRecordsPageComponent extends InstructorCommentsComponent implements OnInit {
 

@@ -41,9 +41,10 @@ export type Index = number;
  * A table to display a list of feedback sessions.
  */
 @Component({
-  selector: 'tm-sessions-table',
-  templateUrl: './sessions-table.component.html',
-  styleUrls: ['./sessions-table.component.scss'],
+    selector: 'tm-sessions-table',
+    templateUrl: './sessions-table.component.html',
+    styleUrls: ['./sessions-table.component.scss'],
+    standalone: false,
 })
 export class SessionsTableComponent implements OnInit {
   // enum

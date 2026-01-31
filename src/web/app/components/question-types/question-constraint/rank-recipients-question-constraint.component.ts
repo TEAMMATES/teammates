@@ -14,9 +14,10 @@ import {
  * Constraint of rank recipients question.
  */
 @Component({
-  selector: 'tm-rank-recipients-question-constraint',
-  templateUrl: './rank-recipients-question-constraint.component.html',
-  styleUrls: ['./rank-recipients-question-constraint.component.scss'],
+    selector: 'tm-rank-recipients-question-constraint',
+    templateUrl: './rank-recipients-question-constraint.component.html',
+    styleUrls: ['./rank-recipients-question-constraint.component.scss'],
+    standalone: false,
 })
 export class RankRecipientsQuestionConstraintComponent
     extends QuestionConstraintComponent<FeedbackRankRecipientsQuestionDetails> {

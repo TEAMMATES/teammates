@@ -22,10 +22,11 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
  * Account requests table component.
  */
 @Component({
-  selector: 'tm-account-request-table',
-  templateUrl: './account-request-table.component.html',
-  styleUrls: ['./account-request-table.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-account-request-table',
+    templateUrl: './account-request-table.component.html',
+    styleUrls: ['./account-request-table.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 
 export class AccountRequestTableComponent {

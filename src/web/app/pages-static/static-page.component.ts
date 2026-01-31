@@ -7,8 +7,9 @@ import { AuthInfo } from '../../types/api-output';
  * Base skeleton for static pages.
  */
 @Component({
-  selector: 'tm-static-page',
-  templateUrl: './static-page.component.html',
+    selector: 'tm-static-page',
+    templateUrl: './static-page.component.html',
+    standalone: false,
 })
 export class StaticPageComponent implements OnInit {
 

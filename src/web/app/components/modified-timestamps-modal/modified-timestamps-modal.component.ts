@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { TweakedTimestampData } from '../../pages-instructor/instructor-session-base-page.component';
 
 @Component({
-  selector: 'tm-modified-timestamps-modal',
-  templateUrl: './modified-timestamps-modal.component.html',
-  styleUrls: ['./modified-timestamps-modal.component.scss'],
+    selector: 'tm-modified-timestamps-modal',
+    templateUrl: './modified-timestamps-modal.component.html',
+    styleUrls: ['./modified-timestamps-modal.component.scss'],
+    standalone: false,
 })
 export class ModifiedTimestampModalComponent {
   @Input()

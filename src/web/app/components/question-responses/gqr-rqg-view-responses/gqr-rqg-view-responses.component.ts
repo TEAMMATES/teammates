@@ -23,10 +23,11 @@ interface QuestionTab {
  * Component to display list of responses in GQR/RQG view.
  */
 @Component({
-  selector: 'tm-gqr-rqg-view-responses',
-  templateUrl: './gqr-rqg-view-responses.component.html',
-  styleUrls: ['./gqr-rqg-view-responses.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-gqr-rqg-view-responses',
+    templateUrl: './gqr-rqg-view-responses.component.html',
+    styleUrls: ['./gqr-rqg-view-responses.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 

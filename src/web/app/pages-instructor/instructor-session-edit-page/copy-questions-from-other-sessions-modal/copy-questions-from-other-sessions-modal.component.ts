@@ -13,9 +13,10 @@ import { ErrorMessageOutput } from '../../../error-message-output';
  * Modal to select questions to copy from other sessions.
  */
 @Component({
-  selector: 'tm-copy-questions-from-other-sessions-modal',
-  templateUrl: './copy-questions-from-other-sessions-modal.component.html',
-  styleUrls: ['./copy-questions-from-other-sessions-modal.component.scss'],
+    selector: 'tm-copy-questions-from-other-sessions-modal',
+    templateUrl: './copy-questions-from-other-sessions-modal.component.html',
+    styleUrls: ['./copy-questions-from-other-sessions-modal.component.scss'],
+    standalone: false,
 })
 export class CopyQuestionsFromOtherSessionsModalComponent {
 

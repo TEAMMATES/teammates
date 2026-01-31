@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, DOCUMENT } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
@@ -30,10 +29,11 @@ interface EnrollResultPanel {
  * Instructor course enroll page.
  */
 @Component({
-  selector: 'tm-instructor-course-enroll-page',
-  templateUrl: './instructor-course-enroll-page.component.html',
-  styleUrls: ['./instructor-course-enroll-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-course-enroll-page',
+    templateUrl: './instructor-course-enroll-page.component.html',
+    styleUrls: ['./instructor-course-enroll-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {
   GENERAL_ERROR_MESSAGE: string = `You may check that: "Section" and "Comment" are optional while "Team", "Name",

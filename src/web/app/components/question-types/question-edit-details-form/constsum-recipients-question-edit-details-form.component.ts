@@ -12,9 +12,10 @@ import {
  * Question details edit form component for constsum recipients question.
  */
 @Component({
-  selector: 'tm-constsum-recipients-question-edit-details-form',
-  templateUrl: './constsum-recipients-question-edit-details-form.component.html',
-  styleUrls: ['./constsum-recipients-question-edit-details-form.component.scss'],
+    selector: 'tm-constsum-recipients-question-edit-details-form',
+    templateUrl: './constsum-recipients-question-edit-details-form.component.html',
+    styleUrls: ['./constsum-recipients-question-edit-details-form.component.scss'],
+    standalone: false,
 })
 export class ConstsumRecipientsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>

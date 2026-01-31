@@ -1,8 +1,9 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { StudentListComponent, StudentListRowModel } from './student-list.component';
@@ -58,13 +59,16 @@ describe('StudentListComponent', () => {
     TestBed.configureTestingModule({
     declarations: [StudentListComponent],
       imports: [
-        HttpClientTestingModule,
         TeammatesRouterModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         NgbModule,
         TeammatesCommonModule,
         Pipes,
         StudentListModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

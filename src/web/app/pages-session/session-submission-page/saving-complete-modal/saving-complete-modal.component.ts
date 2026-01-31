@@ -14,9 +14,10 @@ import {
  * Modal to inform the completion of the saving process
  */
 @Component({
-  selector: 'tm-saving-complete-modal',
-  templateUrl: './saving-complete-modal.component.html',
-  styleUrls: ['./saving-complete-modal.component.scss'],
+    selector: 'tm-saving-complete-modal',
+    templateUrl: './saving-complete-modal.component.html',
+    styleUrls: ['./saving-complete-modal.component.scss'],
+    standalone: false,
 })
 export class SavingCompleteModalComponent {
 

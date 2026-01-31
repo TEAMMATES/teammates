@@ -9,10 +9,11 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
  * Instructor sessions results page question view.
  */
 @Component({
-  selector: 'tm-instructor-session-result-question-view',
-  templateUrl: './instructor-session-result-question-view.component.html',
-  styleUrls: ['./instructor-session-result-question-view.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-session-result-question-view',
+    templateUrl: './instructor-session-result-question-view.component.html',
+    styleUrls: ['./instructor-session-result-question-view.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorSessionResultQuestionViewComponent
     extends InstructorSessionResultView implements OnInit, OnChanges {

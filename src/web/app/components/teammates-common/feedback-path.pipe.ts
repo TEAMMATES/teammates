@@ -5,7 +5,8 @@ import { FeedbackParticipantType } from '../../../types/api-output';
  * Pipe to handle the display of {@link FeedbackParticipantType} from giver's perspective.
  */
 @Pipe({
-  name: 'giverTypeDescription',
+    name: 'giverTypeDescription',
+    standalone: false,
 })
 export class GiverTypeDescriptionPipe implements PipeTransform {
 
@@ -33,7 +34,8 @@ export class GiverTypeDescriptionPipe implements PipeTransform {
  * Pipe to handle the display of {@link FeedbackParticipantType} from recipient's perspective.
  */
 @Pipe({
-  name: 'recipientTypeDescription',
+    name: 'recipientTypeDescription',
+    standalone: false,
 })
 export class RecipientTypeDescriptionPipe implements PipeTransform {
 
@@ -77,7 +79,8 @@ export class RecipientTypeDescriptionPipe implements PipeTransform {
  * Pipe to handle the simplified display of {@link FeedbackParticipantType} from recipient's perspective.
  */
 @Pipe({
-  name: 'recipientTypeSimplifiedDescription',
+    name: 'recipientTypeSimplifiedDescription',
+    standalone: false,
 })
 export class RecipientTypeSimplifiedDescriptionPipe implements PipeTransform {
 

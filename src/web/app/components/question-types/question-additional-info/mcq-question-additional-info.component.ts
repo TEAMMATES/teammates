@@ -10,9 +10,10 @@ import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question
  * Additional info for MCQ questions.
  */
 @Component({
-  selector: 'tm-mcq-question-additional-info',
-  templateUrl: './mcq-question-additional-info.component.html',
-  styleUrls: ['./mcq-question-additional-info.component.scss'],
+    selector: 'tm-mcq-question-additional-info',
+    templateUrl: './mcq-question-additional-info.component.html',
+    styleUrls: ['./mcq-question-additional-info.component.scss'],
+    standalone: false,
 })
 export class McqQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackMcqQuestionDetails> {
 

@@ -10,9 +10,10 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
  * Statistics for constsum options questions.
  */
 @Component({
-  selector: 'tm-constsum-options-question-statistics',
-  templateUrl: './constsum-options-question-statistics.component.html',
-  styleUrls: ['./constsum-options-question-statistics.component.scss'],
+    selector: 'tm-constsum-options-question-statistics',
+    templateUrl: './constsum-options-question-statistics.component.html',
+    styleUrls: ['./constsum-options-question-statistics.component.scss'],
+    standalone: false,
 })
 export class ConstsumOptionsQuestionStatisticsComponent
     extends ConstsumOptionsQuestionStatisticsCalculation

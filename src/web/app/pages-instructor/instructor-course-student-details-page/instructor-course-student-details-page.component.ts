@@ -10,9 +10,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Instructor course student details page.
  */
 @Component({
-  selector: 'tm-instructor-course-student-details-page',
-  templateUrl: './instructor-course-student-details-page.component.html',
-  styleUrls: ['./instructor-course-student-details-page.component.scss'],
+    selector: 'tm-instructor-course-student-details-page',
+    templateUrl: './instructor-course-student-details-page.component.html',
+    styleUrls: ['./instructor-course-student-details-page.component.scss'],
+    standalone: false,
 })
 export class InstructorCourseStudentDetailsPageComponent implements OnInit {
 

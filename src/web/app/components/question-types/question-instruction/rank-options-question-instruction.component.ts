@@ -7,9 +7,10 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
  * Instructions for Rank options question.
  */
 @Component({
-  selector: 'tm-rank-options-question-instruction',
-  templateUrl: './rank-options-question-instruction.component.html',
-  styleUrls: ['./rank-options-question-instruction.component.scss'],
+    selector: 'tm-rank-options-question-instruction',
+    templateUrl: './rank-options-question-instruction.component.html',
+    styleUrls: ['./rank-options-question-instruction.component.scss'],
+    standalone: false,
 })
 export class RankOptionsQuestionInstructionComponent {
 

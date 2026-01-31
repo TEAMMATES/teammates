@@ -6,9 +6,10 @@ import { NotificationTargetUser } from '../../../types/api-output';
  * Component for instructor notifications page.
  */
 @Component({
-  selector: 'tm-instructor-notifications-page',
-  templateUrl: './instructor-notifications-page.component.html',
-  styleUrls: ['./instructor-notifications-page.component.scss'],
+    selector: 'tm-instructor-notifications-page',
+    templateUrl: './instructor-notifications-page.component.html',
+    styleUrls: ['./instructor-notifications-page.component.scss'],
+    standalone: false,
 })
 export class InstructorNotificationsPageComponent implements OnInit {
 

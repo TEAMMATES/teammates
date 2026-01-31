@@ -13,9 +13,10 @@ import { ErrorMessageOutput } from '../../../error-message-output';
  * Modal to select instructors to copy from other courses.
  */
 @Component({
-  selector: 'tm-copy-instructors-from-other-courses-modal',
-  templateUrl: './copy-instructors-from-other-courses-modal.component.html',
-  styleUrls: ['./copy-instructors-from-other-courses-modal.component.scss'],
+    selector: 'tm-copy-instructors-from-other-courses-modal',
+    templateUrl: './copy-instructors-from-other-courses-modal.component.html',
+    styleUrls: ['./copy-instructors-from-other-courses-modal.component.scss'],
+    standalone: false,
 })
 export class CopyInstructorsFromOtherCoursesModalComponent {
 

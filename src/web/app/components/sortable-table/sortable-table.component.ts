@@ -62,9 +62,10 @@ export interface SortableTableCellData {
  * Remember to register new dynamic components using the withComponents method under sortable-table-module
  */
 @Component({
-  selector: 'tm-sortable-table',
-  templateUrl: './sortable-table.component.html',
-  styleUrls: ['./sortable-table.component.scss'],
+    selector: 'tm-sortable-table',
+    templateUrl: './sortable-table.component.html',
+    styleUrls: ['./sortable-table.component.scss'],
+    standalone: false,
 })
 export class SortableTableComponent implements OnInit, OnChanges {
 

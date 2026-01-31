@@ -7,8 +7,9 @@ import { AuthService } from '../services/auth.service';
  * Component for publicly available pages.
  */
 @Component({
-  selector: 'tm-public-page',
-  template: '<tm-page [isValidUser]="true" [hideAuthInfo]="true"></tm-page>',
+    selector: 'tm-public-page',
+    template: '<tm-page [isValidUser]="true" [hideAuthInfo]="true"></tm-page>',
+    standalone: false,
 })
 export class PublicPageComponent {
   constructor(private route: ActivatedRoute,

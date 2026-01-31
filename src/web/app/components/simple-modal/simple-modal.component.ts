@@ -6,9 +6,10 @@ import { SimpleModalType } from './simple-modal-type';
  * A component to display contents of confirmation modals.
  */
 @Component({
-  selector: 'tm-confirmation-modal',
-  templateUrl: './simple-modal.component.html',
-  styleUrls: ['./simple-modal.component.scss'],
+    selector: 'tm-confirmation-modal',
+    templateUrl: './simple-modal.component.html',
+    styleUrls: ['./simple-modal.component.scss'],
+    standalone: false,
 })
 export class SimpleModalComponent {
 

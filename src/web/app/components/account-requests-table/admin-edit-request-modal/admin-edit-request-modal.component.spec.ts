@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditRequestModalComponent } from './admin-edit-request-modal.component';
@@ -10,10 +11,12 @@ describe('RejectWithReasonModal', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [
-        HttpClientTestingModule,
+      imports: [],
+      providers: [
+        NgbActiveModal,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
-      providers: [NgbActiveModal],
     })
     .compileComponents();
   }));

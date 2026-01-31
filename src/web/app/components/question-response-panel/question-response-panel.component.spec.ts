@@ -1,6 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
@@ -212,15 +213,18 @@ describe('QuestionResponsePanelComponent', () => {
         QuestionResponsePanelComponent,
       ],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         SingleStatisticsModule,
         StudentViewResponsesModule,
         QuestionTextWithInfoModule,
         LoadingSpinnerModule,
         LoadingRetryModule,
       ],
-      providers: [FeedbackSessionsService],
+      providers: [
+        FeedbackSessionsService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     })
     .compileComponents();
   }));

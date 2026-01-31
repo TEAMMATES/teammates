@@ -4,7 +4,8 @@ import { Directive, HostListener } from '@angular/core';
  * Directive for loading spinner component
  */
 @Directive({
-  selector: '[tmDisableWheel]',
+    selector: '[tmDisableWheel]',
+    standalone: false,
 })
 export class WheelDisablerDirective {
 

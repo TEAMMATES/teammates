@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SessionsRecycleBinTableComponent } from './sessions-recycle-bin-table.component';
 import { SessionsRecycleBinTableModule } from './sessions-recycle-bin-table.module';
@@ -9,7 +10,11 @@ describe('SessionsRecycleBinTableComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SessionsRecycleBinTableModule, HttpClientTestingModule],
+      imports: [SessionsRecycleBinTableModule],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     })
     .compileComponents();
   }));

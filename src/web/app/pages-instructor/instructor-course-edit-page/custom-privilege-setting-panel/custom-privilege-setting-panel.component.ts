@@ -31,9 +31,10 @@ export interface InstructorSessionLevelPermission {
  * Panel for custom privilege of an instructor.
  */
 @Component({
-  selector: 'tm-custom-privilege-setting-panel',
-  templateUrl: './custom-privilege-setting-panel.component.html',
-  styleUrls: ['./custom-privilege-setting-panel.component.scss'],
+    selector: 'tm-custom-privilege-setting-panel',
+    templateUrl: './custom-privilege-setting-panel.component.html',
+    styleUrls: ['./custom-privilege-setting-panel.component.scss'],
+    standalone: false,
 })
 export class CustomPrivilegeSettingPanelComponent {
 

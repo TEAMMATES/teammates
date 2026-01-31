@@ -16,9 +16,10 @@ import {
  * Constraint of constsum recipients question.
  */
 @Component({
-  selector: 'tm-constsum-recipients-question-constraint',
-  templateUrl: './constsum-recipients-question-constraint.component.html',
-  styleUrls: ['./constsum-recipients-question-constraint.component.scss'],
+    selector: 'tm-constsum-recipients-question-constraint',
+    templateUrl: './constsum-recipients-question-constraint.component.html',
+    styleUrls: ['./constsum-recipients-question-constraint.component.scss'],
+    standalone: false,
 })
 export class ConstsumRecipientsQuestionConstraintComponent
     extends QuestionConstraintComponent<FeedbackConstantSumQuestionDetails> {

@@ -74,9 +74,10 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
  * Instructor feedback session result page.
  */
 @Component({
-  selector: 'tm-instructor-session-result-page',
-  templateUrl: './instructor-session-result-page.component.html',
-  styleUrls: ['./instructor-session-result-page.component.scss'],
+    selector: 'tm-instructor-session-result-page',
+    templateUrl: './instructor-session-result-page.component.html',
+    styleUrls: ['./instructor-session-result-page.component.scss'],
+    standalone: false,
 })
 export class InstructorSessionResultPageComponent extends InstructorCommentsComponent implements OnInit {
 

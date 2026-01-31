@@ -12,9 +12,10 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
  * Question details edit form component for constsum options question.
  */
 @Component({
-  selector: 'tm-constsum-options-question-edit-details-form',
-  templateUrl: './constsum-options-question-edit-details-form.component.html',
-  styleUrls: ['./constsum-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+    selector: 'tm-constsum-options-question-edit-details-form',
+    templateUrl: './constsum-options-question-edit-details-form.component.html',
+    styleUrls: ['./constsum-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+    standalone: false,
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>

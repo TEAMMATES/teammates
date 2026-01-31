@@ -7,9 +7,10 @@ import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-quest
  * Additional info for rubric questions.
  */
 @Component({
-  selector: 'tm-rubric-question-additional-info',
-  templateUrl: './rubric-question-additional-info.component.html',
-  styleUrls: ['./rubric-question-additional-info.component.scss'],
+    selector: 'tm-rubric-question-additional-info',
+    templateUrl: './rubric-question-additional-info.component.html',
+    styleUrls: ['./rubric-question-additional-info.component.scss'],
+    standalone: false,
 })
 export class RubricQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackRubricQuestionDetails> {
 

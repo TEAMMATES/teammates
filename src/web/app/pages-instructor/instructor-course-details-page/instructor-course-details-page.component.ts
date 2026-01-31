@@ -41,9 +41,10 @@ interface StudentIndexedData {
  * Instructor course details page.
  */
 @Component({
-  selector: 'tm-instructor-course-details-page',
-  templateUrl: './instructor-course-details-page.component.html',
-  styleUrls: ['./instructor-course-details-page.component.scss'],
+    selector: 'tm-instructor-course-details-page',
+    templateUrl: './instructor-course-details-page.component.html',
+    styleUrls: ['./instructor-course-details-page.component.scss'],
+    standalone: false,
 })
 export class InstructorCourseDetailsPageComponent implements OnInit {
 

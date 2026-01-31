@@ -52,10 +52,11 @@ import { Sections } from '../sections';
  * Sessions Section of the Instructor Help Page.
  */
 @Component({
-  selector: 'tm-instructor-help-sessions-section',
-  templateUrl: './instructor-help-sessions-section.component.html',
-  styleUrls: ['./instructor-help-sessions-section.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-help-sessions-section',
+    templateUrl: './instructor-help-sessions-section.component.html',
+    styleUrls: ['./instructor-help-sessions-section.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
