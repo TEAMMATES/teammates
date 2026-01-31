@@ -18,8 +18,8 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
 import teammates.logic.api.Logic;
 import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestUpdateRequest;
@@ -307,7 +307,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     /**
      * Returns the typical student course.
      */
-    private teammates.storage.sqlentity.Course getTypicalStudentCourse() {
+    private Course getTypicalStudentCourse() {
         return new Course(
                 "student-course-id", "Student Course", Const.DEFAULT_TIME_ZONE, "Student Institute");
     }
