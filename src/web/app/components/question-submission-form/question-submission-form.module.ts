@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionSubmissionFormComponent } from './question-submission-form.component';
 import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
@@ -26,6 +26,7 @@ import { VisibilityMessagesModule } from '../visibility-messages/visibility-mess
     TeammatesCommonModule,
     VisibilityMessagesModule,
     NgbTooltipModule,
+    NgbTypeaheadModule,
     FormsModule,
     RichTextEditorModule,
     QuestionConstraintModule,

@@ -1,4 +1,8 @@
-import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component, DoCheck, ElementRef, EventEmitter, Input, Output, ViewChild, ViewChildren, QueryList,
+} from '@angular/core';
+import { Observable, OperatorFunction, Subject, merge } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -135,6 +139,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @ViewChild(ConstsumRecipientsQuestionConstraintComponent)
   private constsumRecipientQuesitonConstraint!: ConstsumRecipientsQuestionConstraintComponent;
 
+  @ViewChildren('recipientInput')
+  private recipientInputs!: QueryList<ElementRef<HTMLInputElement>>;
+
   model: QuestionSubmissionFormModel = {
     isLoading: false,
     isLoaded: false,
@@ -236,6 +243,29 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.isSaved = true;
     this.hasResponseChanged = false;
     clearTimeout(this.autosaveTimeout);
+
+    // Force clear input fields after model reset
+    setTimeout(() => {
+      this.clearRecipientInputsIfEmpty();
+    }, 0);
+  }
+
+  /**
+   * Clears recipient input fields if their identifiers are empty.
+   * This ensures the display is properly cleared after reset.
+   */
+  private clearRecipientInputsIfEmpty(): void {
+    if (!this.recipientInputs) {
+      return;
+    }
+
+    this.recipientInputs.forEach((inputRef: ElementRef<HTMLInputElement>, index: number) => {
+      const identifier = this.model.recipientSubmissionForms[index]?.recipientIdentifier;
+      if (!identifier || identifier.trim() === '') {
+        // Manually clear the input value if identifier is empty
+        inputRef.nativeElement.value = '';
+      }
+    });
   }
 
   toggleQuestionTab(): void {
@@ -513,6 +543,147 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
 
     return recipient.recipientName;
+  }
+
+  /**
+   * Performs case-insensitive substring filtering for recipient search.
+   *
+   * @param query The search query entered by the user
+   * @param optionText The full display text of the option
+   * @returns true if query is a substring of optionText (case-insensitive), false otherwise
+   */
+  substringFilter(query: string, optionText: string): boolean {
+    if (!query || query.trim() === '') {
+      return true; // Show all options when query is empty
+    }
+
+    const normalizedQuery = query.toLowerCase().trim();
+    const normalizedOption = optionText.toLowerCase();
+
+    return normalizedOption.includes(normalizedQuery);
+  }
+
+  /**
+   * Gets filtered recipient list based on search query.
+   *
+   * @param query The search query entered by the user
+   * @param recipients The full list of recipients
+   * @returns Filtered list of recipients matching the query
+   */
+  getFilteredRecipients(query: string, recipients: FeedbackResponseRecipient[]): FeedbackResponseRecipient[] {
+    if (!query || query.trim() === '') {
+      return recipients;
+    }
+
+    return recipients.filter((recipient: FeedbackResponseRecipient) => {
+      const optionLabel = this.getSelectionOptionLabel(recipient);
+      return this.substringFilter(query, optionLabel);
+    });
+  }
+
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>();
+  activeTypeaheadIndex: number = -1;
+
+  // Cache for search functions to avoid recreating them on every change detection
+  private searchRecipientsMap = new Map<number, OperatorFunction<string, readonly FeedbackResponseRecipient[]>>();
+
+  /**
+   * Typeahead search function factory for recipient selection.
+   * Returns an Observable that performs substring filtering on recipient names.
+   */
+  getSearchRecipients(index: number): OperatorFunction<string, readonly FeedbackResponseRecipient[]> {
+    if (!this.searchRecipientsMap.has(index)) {
+      const searchFn: OperatorFunction<string, readonly FeedbackResponseRecipient[]> = (text$: Observable<string>) => {
+        const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+
+        // Only trigger for this specific input index
+        const clicksOrFocus$ = merge(this.focus$, this.click$).pipe(
+          map((term) => ({ term, activeIndex: this.activeTypeaheadIndex })),
+          // Filter events that don't belong to this input
+          // We check activeTypeaheadIndex to ensure we only respond when THIS input is the active one
+          filter(({ activeIndex }) => activeIndex === index),
+          map(() => ''), // Force empty string to show all options on click/focus
+        );
+
+        return merge(debouncedText$, clicksOrFocus$).pipe(
+          distinctUntilChanged(),
+          map((term: string) => {
+            // For contribution questions, show all recipients (including already selected)
+            if (this.model.questionType === FeedbackQuestionType.CONTRIB) {
+              return this.getFilteredRecipients(term, this.model.recipientList);
+            }
+
+            // For other question types, filter out already-selected recipients to prevent duplicates
+            // But allow the currently selected recipient in the active input to remain visible
+            const availableRecipients = this.model.recipientList.filter((recipient: FeedbackResponseRecipient) => {
+              const isSelected = this.isRecipientSelected(recipient);
+              if (!isSelected) {
+                return true;
+              }
+              // If selected, check if it is the one currently selected in this specific input
+              // Use the captured index to be safe and explicit
+              const currentForm = this.model.recipientSubmissionForms[index];
+              return currentForm && currentForm.recipientIdentifier === recipient.recipientIdentifier;
+            });
+
+            // Return all filtered results
+            return this.getFilteredRecipients(term, availableRecipients);
+          }),
+        );
+      };
+      this.searchRecipientsMap.set(index, searchFn);
+    }
+    return this.searchRecipientsMap.get(index)!;
+  }
+
+  /**
+   * Formats the recipient for display in the typeahead dropdown.
+   */
+  formatRecipientResult = (recipient: FeedbackResponseRecipient): string => {
+    return this.getSelectionOptionLabel(recipient);
+  };
+
+  /**
+   * Formats the recipient for display in the input field after selection.
+   */
+  formatRecipientInput = (recipient: FeedbackResponseRecipient | null): string => {
+    return recipient ? this.getSelectionOptionLabel(recipient) : '';
+  };
+
+  /**
+   * Handles recipient selection from the typeahead.
+   */
+  onRecipientSelect(event: { item: FeedbackResponseRecipient }, index: number): void {
+    const selectedRecipient: FeedbackResponseRecipient = event.item;
+    this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', selectedRecipient.recipientIdentifier);
+  }
+
+  /**
+   * Handles recipient change from ngModelChange event.
+   */
+  onRecipientChange(recipient: FeedbackResponseRecipient | null | string, index: number): void {
+    if (recipient && typeof recipient === 'object' && recipient.recipientIdentifier) {
+      this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', recipient.recipientIdentifier);
+    } else if (!recipient || (typeof recipient === 'string' && recipient.trim() === '')) {
+      // Only clear identifier when input is actually empty (not when user is typing)
+      this.triggerRecipientSubmissionFormChange(index, 'recipientIdentifier', '');
+    }
+    // Note: If user types random text (string with content), we don't update the model
+    // This allows the input to show the typed text temporarily until a valid selection is made or field is cleared
+  }
+
+  /**
+   * Gets recipient object by identifier for display.
+   * Returns null if identifier is empty or undefined (no selection yet).
+   */
+  getRecipientByIdentifier(identifier: string): FeedbackResponseRecipient | null {
+    if (!identifier || identifier.trim() === '') {
+      return null;
+    }
+    return this.model.recipientList.find(
+      (r: FeedbackResponseRecipient) => r.recipientIdentifier === identifier,
+    ) || null;
   }
 
   toggleSectionTeam(event: Event): void {
