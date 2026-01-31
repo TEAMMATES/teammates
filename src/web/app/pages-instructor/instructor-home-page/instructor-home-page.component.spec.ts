@@ -21,12 +21,6 @@ import {
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
-import { FormatDateBriefPipe } from '../../components/teammates-common/format-date-brief.pipe';
-import { PublishStatusNamePipe } from '../../components/teammates-common/publish-status-name.pipe';
-import { PublishStatusTooltipPipe } from '../../components/sessions-table/publish-status-tooltip.pipe';
-import { SubmissionStatusTooltipPipe } from '../../components/teammates-common/submission-status-tooltip.pipe';
-import { SubmissionStatusNamePipe } from '../../components/teammates-common/submission-status-name.pipe';
 
 const testInstructorPrivilege: InstructorPermissionSet = {
   canModifyCourse: true,
@@ -145,12 +139,6 @@ describe('InstructorHomePageComponent', () => {
         BrowserAnimationsModule,
       ],
       providers: [
-        SubmissionStatusNamePipe,
-        SubmissionStatusTooltipPipe,
-        PublishStatusTooltipPipe,
-        PublishStatusNamePipe,
-        FormatDateBriefPipe,
-        FormatDateDetailPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

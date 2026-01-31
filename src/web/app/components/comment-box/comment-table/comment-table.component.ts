@@ -6,6 +6,8 @@ import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { CommentRowModel, CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import { NgIf, NgFor } from '@angular/common';
+import { CommentToCommentRowModelPipe } from '../comment-to-comment-row-model.pipe';
+import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-model.pipe';
 
 /**
  * Model for CommentTableComponent.
@@ -30,6 +32,10 @@ export interface CommentTableModel {
     NgIf,
     NgFor,
     CommentRowComponent,
+  ],
+  providers: [
+    CommentToCommentRowModelPipe,
+    CommentsToCommentTableModelPipe,
   ],
 })
 export class CommentTableComponent {

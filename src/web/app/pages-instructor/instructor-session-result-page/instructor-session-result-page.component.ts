@@ -105,6 +105,10 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     InstructorSessionNoResponsePanelComponent,
     PreviewSessionResultPanelComponent,
   ],
+  providers: [
+    CommentsToCommentTableModelPipe,
+    CommentToCommentRowModelPipe,
+  ]
 })
 export class InstructorSessionResultPageComponent extends InstructorCommentsComponent implements OnInit {
 

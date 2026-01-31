@@ -31,6 +31,7 @@ import { AccountRequestTableComponent } from '../../components/account-requests-
     AjaxLoadingComponent,
     AccountRequestTableComponent,
   ],
+  providers: [FormatDateDetailPipe],
 })
 export class AdminHomePageComponent implements OnInit {
 

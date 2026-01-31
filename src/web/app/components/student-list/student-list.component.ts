@@ -28,6 +28,7 @@ export interface StudentListRowModel {
     templateUrl: './student-list.component.html',
     styleUrls: ['./student-list.component.scss'],
     imports: [SortableTableComponent],
+    providers: [SearchTermsHighlighterPipe],
 })
 export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';

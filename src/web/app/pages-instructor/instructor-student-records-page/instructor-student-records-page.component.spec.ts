@@ -4,8 +4,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { of } from 'rxjs';
 import { InstructorStudentRecordsPageComponent } from './instructor-student-records-page.component';
-import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
-import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 
 describe('InstructorStudentRecordsPageComponent', () => {
   let component: InstructorStudentRecordsPageComponent;
@@ -23,8 +21,6 @@ describe('InstructorStudentRecordsPageComponent', () => {
             queryParams: of({ courseid: 'su1337', studentemail: 'punk@punk.com' }),
           },
         },
-        CommentToCommentRowModelPipe,
-        CommentsToCommentTableModelPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

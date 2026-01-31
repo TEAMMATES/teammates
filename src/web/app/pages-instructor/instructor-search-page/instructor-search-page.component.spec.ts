@@ -11,7 +11,6 @@ import createSpyFromClass from '../../../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../../../types/api-const';
 import { InstructorPermissionSet, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
-import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 
 describe('InstructorSearchPageComponent', () => {
   let component: InstructorSearchPageComponent;
@@ -73,7 +72,6 @@ describe('InstructorSearchPageComponent', () => {
         RouterModule.forRoot([]),
       ],
       providers: [
-        SearchTermsHighlighterPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

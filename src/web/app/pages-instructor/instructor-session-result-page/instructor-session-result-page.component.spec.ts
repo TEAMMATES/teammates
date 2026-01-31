@@ -3,8 +3,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { InstructorSessionResultPageComponent } from './instructor-session-result-page.component';
-import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
-import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 
 describe('InstructorSessionResultPageComponent', () => {
   let component: InstructorSessionResultPageComponent;
@@ -16,8 +14,6 @@ describe('InstructorSessionResultPageComponent', () => {
         RouterModule.forRoot([]),
       ],
       providers: [
-        CommentsToCommentTableModelPipe,
-        CommentToCommentRowModelPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

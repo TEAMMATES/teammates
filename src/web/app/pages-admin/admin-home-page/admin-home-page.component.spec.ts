@@ -8,7 +8,6 @@ import { InstructorData } from './instructor-data';
 import { AccountService } from '../../../services/account.service';
 import { LinkService } from '../../../services/link.service';
 import { AccountRequestStatus } from '../../../types/api-output';
-import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
 describe('AdminHomePageComponent', () => {
   let component: AdminHomePageComponent;
@@ -22,7 +21,6 @@ describe('AdminHomePageComponent', () => {
         RouterModule.forRoot([]),
       ],
       providers: [
-        FormatDateDetailPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

@@ -52,6 +52,10 @@ interface SessionTab {
     NgIf,
     GrqRgqViewResponsesComponent,
   ],
+  providers: [
+    CommentsToCommentTableModelPipe,
+    CommentToCommentRowModelPipe,
+  ]
 })
 export class InstructorStudentRecordsPageComponent extends InstructorCommentsComponent implements OnInit {
 

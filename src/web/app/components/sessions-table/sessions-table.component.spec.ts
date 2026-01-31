@@ -13,12 +13,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
-import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
-import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
-import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
-import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
-import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 
 describe('SessionsTableComponent', () => {
   let component: SessionsTableComponent;
@@ -30,12 +24,6 @@ describe('SessionsTableComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        PublishStatusTooltipPipe,
-        PublishStatusNamePipe,
-        SubmissionStatusTooltipPipe,
-        SubmissionStatusNamePipe,
-        FormatDateBriefPipe,
-        FormatDateDetailPipe,
       ],
     })
     .compileComponents();

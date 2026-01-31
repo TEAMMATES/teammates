@@ -41,6 +41,14 @@ export type Index = number;
     templateUrl: './sessions-table.component.html',
     styleUrls: ['./sessions-table.component.scss'],
     imports: [NgIf, SortableTableComponent],
+    providers: [
+      FormatDateDetailPipe,
+      FormatDateBriefPipe,
+      PublishStatusNamePipe,
+      PublishStatusTooltipPipe,
+      SubmissionStatusNamePipe,
+      SubmissionStatusTooltipPipe,
+    ],
 })
 export class SessionsTableComponent implements OnInit {
   // enum

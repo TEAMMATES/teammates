@@ -12,7 +12,6 @@ import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
-import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 
 const course: Course = {
   courseId: 'CS101',
@@ -58,7 +57,6 @@ describe('InstructorCourseDetailsPageComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        SearchTermsHighlighterPipe,
       ],
     })
     .compileComponents();

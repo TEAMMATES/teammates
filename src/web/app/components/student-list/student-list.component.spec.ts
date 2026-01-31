@@ -13,7 +13,6 @@ import { createBuilder, studentBuilder } from '../../../test-helpers/generic-bui
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { JoinState } from '../../../types/api-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 
 describe('StudentListComponent', () => {
   let component: StudentListComponent;
@@ -57,7 +56,6 @@ describe('StudentListComponent', () => {
         RouterModule.forRoot([]),
       ],
       providers: [
-        SearchTermsHighlighterPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

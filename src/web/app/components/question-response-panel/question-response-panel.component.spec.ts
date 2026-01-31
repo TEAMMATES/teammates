@@ -21,7 +21,6 @@ import {
 import { Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/session-result-page.component';
-import { CommentToCommentRowModelPipe } from '../comment-box/comment-to-comment-row-model.pipe';
 
 describe('QuestionResponsePanelComponent', () => {
 
@@ -207,7 +206,6 @@ describe('QuestionResponsePanelComponent', () => {
         RouterModule.forRoot([]),
       ],
       providers: [
-        CommentToCommentRowModelPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
