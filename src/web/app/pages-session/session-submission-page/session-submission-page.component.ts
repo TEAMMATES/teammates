@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, DOCUMENT } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
@@ -68,9 +67,10 @@ export enum SessionView {
  * Feedback session submission page.
  */
 @Component({
-  selector: 'tm-session-submission-page',
-  templateUrl: './session-submission-page.component.html',
-  styleUrls: ['./session-submission-page.component.scss'],
+    selector: 'tm-session-submission-page',
+    templateUrl: './session-submission-page.component.html',
+    styleUrls: ['./session-submission-page.component.scss'],
+    standalone: false,
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 

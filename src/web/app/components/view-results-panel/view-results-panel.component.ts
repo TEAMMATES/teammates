@@ -21,9 +21,10 @@ import {
  * Displaying the view results panel.
  */
 @Component({
-  selector: 'tm-view-results-panel',
-  templateUrl: './view-results-panel.component.html',
-  styleUrls: ['./view-results-panel.component.scss'],
+    selector: 'tm-view-results-panel',
+    templateUrl: './view-results-panel.component.html',
+    styleUrls: ['./view-results-panel.component.scss'],
+    standalone: false,
 })
 export class ViewResultsPanelComponent {
 

@@ -13,9 +13,10 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
  * A list of responses grouped in GRQ/RGQ mode.
  */
 @Component({
-  selector: 'tm-grouped-responses',
-  templateUrl: './grouped-responses.component.html',
-  styleUrls: ['./grouped-responses.component.scss'],
+    selector: 'tm-grouped-responses',
+    templateUrl: './grouped-responses.component.html',
+    styleUrls: ['./grouped-responses.component.scss'],
+    standalone: false,
 })
 export class GroupedResponsesComponent extends InstructorResponsesViewBase implements OnInit {
 

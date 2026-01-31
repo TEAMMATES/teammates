@@ -29,10 +29,11 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Admin search page.
  */
 @Component({
-  selector: 'tm-admin-search-page',
-  templateUrl: './admin-search-page.component.html',
-  styleUrls: ['./admin-search-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-admin-search-page',
+    templateUrl: './admin-search-page.component.html',
+    styleUrls: ['./admin-search-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class AdminSearchPageComponent {
 

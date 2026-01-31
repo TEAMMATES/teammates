@@ -5,9 +5,10 @@ import { environment } from '../../../environments/environment';
  * Contact page.
  */
 @Component({
-  selector: 'tm-contact-page',
-  templateUrl: './contact-page.component.html',
-  styleUrls: ['./contact-page.component.scss'],
+    selector: 'tm-contact-page',
+    templateUrl: './contact-page.component.html',
+    styleUrls: ['./contact-page.component.scss'],
+    standalone: false,
 })
 export class ContactPageComponent {
 

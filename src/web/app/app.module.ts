@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule, Provider } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -154,11 +154,11 @@ if (environment.maintenance) {
     MaintenancePageComponent,
     MaintainerPageComponent,
   ],
+  bootstrap: [AppComponent],
   imports: [
     SimpleModalModule,
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     NgbDropdownModule,
     RouterModule.forRoot(routes, {}),
     ErrorReportModule,
@@ -180,7 +180,9 @@ if (environment.maintenance) {
     environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
         ? AngularFireAuthModule : [],
   ],
-  providers: [customUrlSerializerProvider],
-  bootstrap: [AppComponent],
+  providers: [
+    customUrlSerializerProvider,
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
 })
 export class AppModule {}

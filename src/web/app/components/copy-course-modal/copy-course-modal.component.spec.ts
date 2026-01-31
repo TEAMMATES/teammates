@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -27,10 +28,15 @@ describe('CopyCourseModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CopyCourseModalComponent],
       imports: [
-        HttpClientTestingModule,
         FormsModule,
       ],
-      providers: [NgbActiveModal, TimezoneService, StatusMessageService],
+      providers: [
+        NgbActiveModal,
+        TimezoneService,
+        StatusMessageService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     })
     .compileComponents();
   }));

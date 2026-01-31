@@ -6,7 +6,8 @@ import { CommentVisibilityControl } from '../../../types/comment-visibility-cont
  * Pipe to handle the simple display of {@link CommentVisibilityControl}.
  */
 @Pipe({
-  name: 'commentVisibilityControlName',
+    name: 'commentVisibilityControlName',
+    standalone: false,
 })
 export class CommentVisibilityControlNamePipe implements PipeTransform {
   /**
@@ -29,7 +30,8 @@ export class CommentVisibilityControlNamePipe implements PipeTransform {
  * comment visibility control.
  */
 @Pipe({
-  name: 'commentVisibilityTypeDescription',
+    name: 'commentVisibilityTypeDescription',
+    standalone: false,
 })
 export class CommentVisibilityTypeDescriptionPipe implements PipeTransform {
   /**
@@ -59,7 +61,8 @@ export class CommentVisibilityTypeDescriptionPipe implements PipeTransform {
  * Pipe to handle the simple display of {@link CommentVisibilityType}.
  */
 @Pipe({
-  name: 'commentVisibilityTypeName',
+    name: 'commentVisibilityTypeName',
+    standalone: false,
 })
 export class CommentVisibilityTypeNamePipe implements PipeTransform {
   /**
@@ -89,7 +92,8 @@ export class CommentVisibilityTypeNamePipe implements PipeTransform {
  * Pipe to handle join display of list of {@link CommentVisibilityType}.
  */
 @Pipe({
-  name: 'commentVisibilityTypesJointName',
+    name: 'commentVisibilityTypesJointName',
+    standalone: false,
 })
 export class CommentVisibilityTypesJointNamePipe implements PipeTransform {
   /**

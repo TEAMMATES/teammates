@@ -5,9 +5,10 @@ import { GeneralLogEntry } from '../../../../types/api-output';
  * Generic log line, i.e. log lines that do not need specific displaying logic.
  */
 @Component({
-  selector: 'tm-generic-log-line',
-  templateUrl: './generic-log-line.component.html',
-  styleUrls: ['./generic-log-line.component.scss'],
+    selector: 'tm-generic-log-line',
+    templateUrl: './generic-log-line.component.html',
+    styleUrls: ['./generic-log-line.component.scss'],
+    standalone: false,
 })
 export class GenericLogLineComponent {
 

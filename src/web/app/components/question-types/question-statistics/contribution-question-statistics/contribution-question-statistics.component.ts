@@ -22,9 +22,10 @@ import {
  * Statistics for contribution questions.
  */
 @Component({
-  selector: 'tm-contribution-question-statistics',
-  templateUrl: './contribution-question-statistics.component.html',
-  styleUrls: ['./contribution-question-statistics.component.scss'],
+    selector: 'tm-contribution-question-statistics',
+    templateUrl: './contribution-question-statistics.component.html',
+    styleUrls: ['./contribution-question-statistics.component.scss'],
+    standalone: false,
 })
 export class ContributionQuestionStatisticsComponent
   extends ContributionQuestionStatisticsCalculation

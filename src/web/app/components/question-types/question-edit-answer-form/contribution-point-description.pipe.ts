@@ -4,7 +4,8 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Pipe to handle the display of a contribution question answer.
  */
 @Pipe({
-  name: 'contributionPointDescription',
+    name: 'contributionPointDescription',
+    standalone: false,
 })
 export class ContributionPointDescriptionPipe implements PipeTransform {
 

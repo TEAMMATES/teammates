@@ -5,9 +5,10 @@ import { ExceptionLogDetails, GeneralLogEntry, LogEvent } from '../../../../type
  * Exception log line.
  */
 @Component({
-  selector: 'tm-exception-log-line',
-  templateUrl: './exception-log-line.component.html',
-  styleUrls: ['./exception-log-line.component.scss', './log-line.component.scss'],
+    selector: 'tm-exception-log-line',
+    templateUrl: './exception-log-line.component.html',
+    styleUrls: ['./exception-log-line.component.scss', './log-line.component.scss'],
+    standalone: false,
 })
 export class ExceptionLogLineComponent {
 

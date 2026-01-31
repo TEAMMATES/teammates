@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GrqRgqViewResponsesComponent } from './grq-rgq-view-responses.component';
@@ -20,9 +21,12 @@ describe('GrqRgqViewResponsesComponent', () => {
         GroupedResponsesModule,
         ResponseModerationButtonModule,
         TeammatesCommonModule,
-        HttpClientTestingModule,
         NgbModule,
         PanelChevronModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

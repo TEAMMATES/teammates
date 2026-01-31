@@ -9,9 +9,10 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
  * Question details edit form component for Rank Options question.
  */
 @Component({
-  selector: 'tm-rank-options-question-edit-details-form',
-  templateUrl: './rank-options-question-edit-details-form.component.html',
-  styleUrls: ['./rank-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+    selector: 'tm-rank-options-question-edit-details-form',
+    templateUrl: './rank-options-question-edit-details-form.component.html',
+    styleUrls: ['./rank-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+    standalone: false,
 })
 export class RankOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRankOptionsQuestionDetails> {

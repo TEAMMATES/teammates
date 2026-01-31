@@ -4,9 +4,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
  * Question brief and description edit form component.
  */
 @Component({
-  selector: 'tm-question-edit-brief-description-form',
-  templateUrl: './question-edit-brief-description-form.component.html',
-  styleUrls: ['./question-edit-brief-description-form.component.scss'],
+    selector: 'tm-question-edit-brief-description-form',
+    templateUrl: './question-edit-brief-description-form.component.html',
+    styleUrls: ['./question-edit-brief-description-form.component.scss'],
+    standalone: false,
 })
 export class QuestionEditBriefDescriptionFormComponent {
 

@@ -4,9 +4,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
  * The input field to specify weights for Mcq/Msq options.
  */
 @Component({
-  selector: 'tm-weight-field',
-  templateUrl: './weight-field.component.html',
-  styleUrls: ['./weight-field.component.scss'],
+    selector: 'tm-weight-field',
+    templateUrl: './weight-field.component.html',
+    styleUrls: ['./weight-field.component.scss'],
+    standalone: false,
 })
 export class WeightFieldComponent {
 

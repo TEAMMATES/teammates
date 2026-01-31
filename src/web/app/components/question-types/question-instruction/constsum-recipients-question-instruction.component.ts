@@ -11,9 +11,10 @@ import {
  * Instruction of constsum recipients question.
  */
 @Component({
-  selector: 'tm-constsum-recipients-question-instruction',
-  templateUrl: './constsum-recipients-question-instruction.component.html',
-  styleUrls: ['./constsum-recipients-question-instruction.component.scss'],
+    selector: 'tm-constsum-recipients-question-instruction',
+    templateUrl: './constsum-recipients-question-instruction.component.html',
+    styleUrls: ['./constsum-recipients-question-instruction.component.scss'],
+    standalone: false,
 })
 export class ConstsumRecipientsQuestionInstructionComponent {
 

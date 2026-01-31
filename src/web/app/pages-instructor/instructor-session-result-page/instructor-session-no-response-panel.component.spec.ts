@@ -1,7 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -17,12 +17,15 @@ describe('InstructorSessionNoResponsePanelComponent', () => {
       declarations: [InstructorSessionNoResponsePanelComponent],
       imports: [
         RouterModule,
-        HttpClientTestingModule,
         NgbModule,
         PanelChevronModule,
         LoadingSpinnerModule,
         TeammatesRouterModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

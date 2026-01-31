@@ -5,9 +5,10 @@ import { StatusMessage } from './status-message';
  * List of status messages.
  */
 @Component({
-  selector: 'tm-status-message',
-  templateUrl: './status-message.component.html',
-  styleUrls: ['./status-message.component.scss'],
+    selector: 'tm-status-message',
+    templateUrl: './status-message.component.html',
+    styleUrls: ['./status-message.component.scss'],
+    standalone: false,
 })
 export class StatusMessageComponent {
 

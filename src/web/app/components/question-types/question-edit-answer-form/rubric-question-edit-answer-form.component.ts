@@ -14,9 +14,10 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
  * The rubric question submission form for a recipient.
  */
 @Component({
-  selector: 'tm-rubric-question-edit-answer-form',
-  templateUrl: './rubric-question-edit-answer-form.component.html',
-  styleUrls: ['./rubric-question-edit-answer-form.component.scss'],
+    selector: 'tm-rubric-question-edit-answer-form',
+    templateUrl: './rubric-question-edit-answer-form.component.html',
+    styleUrls: ['./rubric-question-edit-answer-form.component.scss'],
+    standalone: false,
 })
 export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent
     <FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails> {

@@ -10,9 +10,10 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
  * Statistics for rank recipients questions.
  */
 @Component({
-  selector: 'tm-rank-recipients-question-statistics',
-  templateUrl: './rank-recipients-question-statistics.component.html',
-  styleUrls: ['./rank-recipients-question-statistics.component.scss'],
+    selector: 'tm-rank-recipients-question-statistics',
+    templateUrl: './rank-recipients-question-statistics.component.html',
+    styleUrls: ['./rank-recipients-question-statistics.component.scss'],
+    standalone: false,
 })
 export class RankRecipientsQuestionStatisticsComponent extends RankRecipientsQuestionStatisticsCalculation
     implements OnInit, OnChanges {

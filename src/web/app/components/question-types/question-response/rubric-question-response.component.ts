@@ -13,9 +13,10 @@ import {
  * Rubric question response.
  */
 @Component({
-  selector: 'tm-rubric-question-response',
-  templateUrl: './rubric-question-response.component.html',
-  styleUrls: ['./rubric-question-response.component.scss'],
+    selector: 'tm-rubric-question-response',
+    templateUrl: './rubric-question-response.component.html',
+    styleUrls: ['./rubric-question-response.component.scss'],
+    standalone: false,
 })
 export class RubricQuestionResponseComponent
     extends QuestionResponse<FeedbackRubricResponseDetails, FeedbackRubricQuestionDetails>

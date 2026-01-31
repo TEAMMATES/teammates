@@ -11,9 +11,10 @@ export interface SearchParams {
  * Search bar on instructor search page
  */
 @Component({
-  selector: 'tm-instructor-search-bar',
-  templateUrl: './instructor-search-bar.component.html',
-  styleUrls: ['./instructor-search-bar.component.scss'],
+    selector: 'tm-instructor-search-bar',
+    templateUrl: './instructor-search-bar.component.html',
+    styleUrls: ['./instructor-search-bar.component.scss'],
+    standalone: false,
 })
 export class InstructorSearchBarComponent {
 

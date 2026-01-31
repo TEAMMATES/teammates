@@ -11,9 +11,10 @@ import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-
  * Displaying the feedback path panel.
  */
 @Component({
-  selector: 'tm-feedback-path-panel',
-  templateUrl: './feedback-path-panel.component.html',
-  styleUrls: ['./feedback-path-panel.component.scss'],
+    selector: 'tm-feedback-path-panel',
+    templateUrl: './feedback-path-panel.component.html',
+    styleUrls: ['./feedback-path-panel.component.scss'],
+    standalone: false,
 })
 export class FeedbackPathPanelComponent {
 

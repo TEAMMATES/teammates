@@ -1,7 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { AdminHomePageComponent } from './admin-home-page.component';
 import { InstructorData } from './instructor-data';
@@ -29,17 +30,18 @@ describe('AdminHomePageComponent', () => {
       ],
       imports: [
         FormsModule,
-        HttpClientTestingModule,
         LoadingSpinnerModule,
         AccountRequestTableModule,
         AjaxLoadingModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         AccountService,
         FormatDateDetailPipe,
         StatusMessageService,
         LinkService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

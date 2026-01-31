@@ -19,9 +19,10 @@ import { FeedbackQuestionModel } from '../../pages-session/session-result-page/s
  * Displaying the question response panel.
  */
 @Component({
-  selector: 'tm-question-response-panel',
-  templateUrl: './question-response-panel.component.html',
-  styleUrls: ['./question-response-panel.component.scss'],
+    selector: 'tm-question-response-panel',
+    templateUrl: './question-response-panel.component.html',
+    styleUrls: ['./question-response-panel.component.scss'],
+    standalone: false,
 })
 export class QuestionResponsePanelComponent {
 

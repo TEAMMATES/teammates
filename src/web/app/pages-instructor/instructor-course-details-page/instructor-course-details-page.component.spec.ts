@@ -1,6 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
@@ -54,11 +55,14 @@ describe('InstructorCourseDetailsPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         TeammatesCommonModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         InstructorCourseDetailsPageModule,
         SimpleModalModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

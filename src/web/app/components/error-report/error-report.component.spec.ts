@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,9 +17,13 @@ describe('ErrorReportComponent', () => {
       declarations: [ErrorReportComponent],
       imports: [
         FormsModule,
-        HttpClientTestingModule,
       ],
-      providers: [HttpRequestService, NgbActiveModal],
+      providers: [
+        HttpRequestService,
+        NgbActiveModal,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     })
     .compileComponents();
   }));

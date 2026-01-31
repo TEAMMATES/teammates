@@ -13,9 +13,10 @@ import {
  * MCQ question response.
  */
 @Component({
-  selector: 'tm-mcq-question-response',
-  templateUrl: './mcq-question-response.component.html',
-  styleUrls: ['./mcq-question-response.component.scss'],
+    selector: 'tm-mcq-question-response',
+    templateUrl: './mcq-question-response.component.html',
+    styleUrls: ['./mcq-question-response.component.scss'],
+    standalone: false,
 })
 export class McqQuestionResponseComponent
     extends QuestionResponse<FeedbackMcqResponseDetails, FeedbackMcqQuestionDetails> {

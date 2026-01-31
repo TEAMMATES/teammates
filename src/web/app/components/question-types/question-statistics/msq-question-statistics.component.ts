@@ -10,9 +10,10 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
  * Statistics for MSQ questions.
  */
 @Component({
-  selector: 'tm-msq-question-statistics',
-  templateUrl: './msq-question-statistics.component.html',
-  styleUrls: ['./msq-question-statistics.component.scss'],
+    selector: 'tm-msq-question-statistics',
+    templateUrl: './msq-question-statistics.component.html',
+    styleUrls: ['./msq-question-statistics.component.scss'],
+    standalone: false,
 })
 export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalculation implements OnInit, OnChanges {
 

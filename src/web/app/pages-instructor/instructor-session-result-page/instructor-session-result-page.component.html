@@ -69,7 +69,7 @@
   <div *tmIsLoading="!isSectionsLoaded || !isQuestionsLoaded">
     <div class="top-padded offset-md-10 margin-vertical-20px">
       <button id="btn-expand-all" class="btn expand-btn btn-light" (click)="toggleExpandAllHandler()">
-        {{this.isExpandAll ? "Collapse": "Expand"}} All
+        {{isExpandAll ? "Collapse": "Expand"}} All
       </button>
     </div>
     <tm-instructor-session-result-question-view *ngIf="viewType === InstructorSessionResultViewType.QUESTION" [questions]="questionsModel"

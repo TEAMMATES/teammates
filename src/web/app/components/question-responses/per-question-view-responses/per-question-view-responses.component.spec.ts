@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import {
@@ -36,10 +37,13 @@ describe('PerQuestionViewResponsesComponent', () => {
         SingleResponseModule,
         CommentBoxModule,
         TeammatesCommonModule,
-        HttpClientTestingModule,
         RichTextEditorModule,
         RouterModule,
         ResponseModerationButtonModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
       .compileComponents();

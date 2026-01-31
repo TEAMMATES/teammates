@@ -5,9 +5,10 @@ import { FeedbackQuestionType } from '../../../types/api-output';
  * Displaying the adding questions panel.
  */
 @Component({
-  selector: 'tm-adding-question-panel',
-  templateUrl: './adding-question-panel.component.html',
-  styleUrls: ['./adding-question-panel.component.scss'],
+    selector: 'tm-adding-question-panel',
+    templateUrl: './adding-question-panel.component.html',
+    styleUrls: ['./adding-question-panel.component.scss'],
+    standalone: false,
 })
 export class AddingQuestionPanelComponent {
 

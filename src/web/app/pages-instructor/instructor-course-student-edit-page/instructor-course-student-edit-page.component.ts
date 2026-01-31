@@ -19,9 +19,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Instructor course student edit page.
  */
 @Component({
-  selector: 'tm-instructor-course-student-edit-page',
-  templateUrl: './instructor-course-student-edit-page.component.html',
-  styleUrls: ['./instructor-course-student-edit-page.component.scss'],
+    selector: 'tm-instructor-course-student-edit-page',
+    templateUrl: './instructor-course-student-edit-page.component.html',
+    styleUrls: ['./instructor-course-student-edit-page.component.scss'],
+    standalone: false,
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 

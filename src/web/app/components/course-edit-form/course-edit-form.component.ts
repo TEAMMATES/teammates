@@ -29,9 +29,10 @@ const formatTwoDigits = (n: number): string => {
  * Course edit form component.
  */
 @Component({
-  selector: 'tm-course-edit-form',
-  templateUrl: './course-edit-form.component.html',
-  styleUrls: ['./course-edit-form.component.scss'],
+    selector: 'tm-course-edit-form',
+    templateUrl: './course-edit-form.component.html',
+    styleUrls: ['./course-edit-form.component.scss'],
+    standalone: false,
 })
 export class CourseEditFormComponent implements OnInit, OnDestroy {
 

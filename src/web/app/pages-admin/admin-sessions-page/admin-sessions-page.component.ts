@@ -20,10 +20,11 @@ interface OngoingSessionModel {
  * Admin sessions page.
  */
 @Component({
-  selector: 'tm-admin-sessions-page',
-  templateUrl: './admin-sessions-page.component.html',
-  styleUrls: ['./admin-sessions-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-admin-sessions-page',
+    templateUrl: './admin-sessions-page.component.html',
+    styleUrls: ['./admin-sessions-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class AdminSessionsPageComponent implements OnInit {
 

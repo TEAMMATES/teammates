@@ -41,10 +41,11 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
  * The question submission form for a question.
  */
 @Component({
-  selector: 'tm-question-submission-form',
-  templateUrl: './question-submission-form.component.html',
-  styleUrls: ['./question-submission-form.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-question-submission-form',
+    templateUrl: './question-submission-form.component.html',
+    styleUrls: ['./question-submission-form.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class QuestionSubmissionFormComponent implements DoCheck {
 

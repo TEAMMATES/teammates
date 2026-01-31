@@ -42,9 +42,10 @@ export enum EditMode {
  * Edit instructor panel.
  */
 @Component({
-  selector: 'tm-instructor-edit-panel',
-  templateUrl: './instructor-edit-panel.component.html',
-  styleUrls: ['./instructor-edit-panel.component.scss'],
+    selector: 'tm-instructor-edit-panel',
+    templateUrl: './instructor-edit-panel.component.html',
+    styleUrls: ['./instructor-edit-panel.component.scss'],
+    standalone: false,
 })
 export class InstructorEditPanelComponent {
 

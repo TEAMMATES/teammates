@@ -5,8 +5,9 @@ import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
  * Root application page.
  */
 @Component({
-  selector: 'tm-root',
-  template: '<router-outlet></router-outlet>',
+    selector: 'tm-root',
+    template: '<router-outlet></router-outlet>',
+    standalone: false,
 })
 export class AppComponent {
   constructor(tooltipConfig: NgbTooltipConfig) {
