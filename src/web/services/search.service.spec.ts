@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { HttpRequestService } from './http-request.service';
 import {
   AccountRequestSearchResult,
@@ -199,9 +199,9 @@ describe('SearchService', () => {
   beforeEach(() => {
     spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

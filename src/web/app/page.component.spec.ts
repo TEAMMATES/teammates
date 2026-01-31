@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { PageComponent } from './page.component';
 
 describe('PageComponent', () => {
@@ -10,10 +10,8 @@ describe('PageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-      ],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

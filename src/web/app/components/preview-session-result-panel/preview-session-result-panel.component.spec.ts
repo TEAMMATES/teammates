@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { PreviewSessionResultPanelComponent } from './preview-session-result-panel.component';
 
 describe('PreviewSessionPanelComponent', () => {
@@ -8,9 +8,7 @@ describe('PreviewSessionPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-      ],
+      providers: [provideRouter([])],
     })
     .compileComponents();
   }));

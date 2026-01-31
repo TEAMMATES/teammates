@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { AddingQuestionPanelComponent } from './adding-question-panel.component';
 import { FeedbackQuestionType } from '../../../types/api-output';
 
@@ -11,9 +11,7 @@ describe('AddingQuestionPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-      ],
+      providers: [provideRouter([])],
     })
     .compileComponents();
   }));

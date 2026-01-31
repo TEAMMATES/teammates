@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { InstructorHelpPanelComponent } from './instructor-help-panel.component';
 
 describe('InstructorHelpPanelComponent', () => {
@@ -11,7 +11,9 @@ describe('InstructorHelpPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
-        RouterModule.forRoot([]),
+      ],
+      providers: [
+        provideRouter([]),
       ],
     })
     .compileComponents();

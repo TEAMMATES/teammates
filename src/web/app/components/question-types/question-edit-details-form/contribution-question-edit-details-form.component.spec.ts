@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { ContributionQuestionEditDetailsFormComponent } from './contribution-question-edit-details-form.component';
 
 describe('ContributionQuestionEditDetailsFormComponent', () => {
@@ -8,9 +8,7 @@ describe('ContributionQuestionEditDetailsFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-      ],
+      providers: [provideRouter([])],
     })
     .compileComponents();
   }));

@@ -2,7 +2,7 @@ import { HttpStatusCode, provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { throwError } from 'rxjs';
 import { CourseTab, InstructorStudentListPageComponent } from './instructor-student-list-page.component';
 import { StudentService } from '../../../services/student.service';
@@ -76,10 +76,10 @@ describe('InstructorStudentListPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterModule.forRoot([]),
         BrowserAnimationsModule,
       ],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

@@ -3,7 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { PageScrollService, NGXPS_CONFIG } from 'ngx-page-scroll-core';
 import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
 
@@ -13,9 +13,6 @@ describe('InstructorHelpGettingStartedComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-      ],
       providers: [
         {
           provide: DomSanitizer,
@@ -27,6 +24,7 @@ describe('InstructorHelpGettingStartedComponent', () => {
         { provide: DOCUMENT, useValue: document },
         PageScrollService,
         { provide: NGXPS_CONFIG, useValue: {} },
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

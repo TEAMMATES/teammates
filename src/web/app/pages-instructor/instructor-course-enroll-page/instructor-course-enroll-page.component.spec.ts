@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { registerAllModules } from 'handsontable/registry';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { InstructorCourseEnrollPageComponent } from './instructor-course-enroll-page.component';
@@ -15,10 +15,10 @@ describe('InstructorCourseEnrollPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterModule.forRoot([]),
         NgxPageScrollCoreModule,
       ],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

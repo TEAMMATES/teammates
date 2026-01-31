@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { Observable, first } from 'rxjs';
 import { AccountRequest } from 'src/web/types/api-output';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
@@ -55,8 +55,10 @@ describe('InstructorRequestFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
-      providers: [{ provide: AccountService, useValue: accountServiceStub }],
+      providers: [
+        { provide: AccountService, useValue: accountServiceStub },
+        provideRouter([]),
+      ],
     })
     .compileComponents();
   }));

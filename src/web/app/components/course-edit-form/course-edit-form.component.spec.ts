@@ -6,7 +6,7 @@ import {
   TestBed,
   waitForAsync,
 } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Observable } from 'rxjs';
 
@@ -84,13 +84,11 @@ describe('CourseEditFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([]),
-      ],
       providers: [
         { provide: StatusMessageService, useValue: spyStatusMessageService },
         { provide: CourseService, useValue: spyCourseService },
         { provide: TimezoneService, useValue: timezoneServiceStub },
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { IndexPageComponent } from './index-page.component';
 
 describe('IndexPageComponent', () => {
@@ -8,7 +8,7 @@ describe('IndexPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
+      providers: [provideRouter([])],
     })
     .compileComponents();
   }));
