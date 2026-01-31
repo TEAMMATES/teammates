@@ -615,16 +615,16 @@ public abstract class AbstractBackDoor {
 
         sessionAttributes.setCreatedTime(Instant.ofEpochMilli(sessionData.getCreatedAtTimestamp()));
 
-        if (sessionData.getSessionVisibleSetting().equals(SessionVisibleSetting.AT_OPEN)) {
+        if (sessionData.getSessionVisibleSetting() == SessionVisibleSetting.AT_OPEN) {
             sessionAttributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         } else {
             sessionAttributes.setSessionVisibleFromTime(Instant.ofEpochMilli(
                     sessionData.getCustomSessionVisibleTimestamp()));
         }
 
-        if (sessionData.getResponseVisibleSetting().equals(ResponseVisibleSetting.AT_VISIBLE)) {
+        if (sessionData.getResponseVisibleSetting() == ResponseVisibleSetting.AT_VISIBLE) {
             sessionAttributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        } else if (sessionData.getResponseVisibleSetting().equals(ResponseVisibleSetting.LATER)) {
+        } else if (sessionData.getResponseVisibleSetting() == ResponseVisibleSetting.LATER) {
             sessionAttributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         } else {
             sessionAttributes.setResultsVisibleFromTime(Instant.ofEpochMilli(
@@ -720,7 +720,7 @@ public abstract class AbstractBackDoor {
                 .withGiverType(question.getGiverType())
                 .withRecipientType(question.getRecipientType())
                 .withNumberOfEntitiesToGiveFeedbackTo(question.getNumberOfEntitiesToGiveFeedbackToSetting()
-                        .equals(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED)
+                        == NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED
                         ? Const.MAX_POSSIBLE_RECIPIENTS
                         : question.getCustomNumberOfEntitiesToGiveFeedbackTo())
                 .withShowResponsesTo(convertToFeedbackParticipantType(question.getShowResponsesTo()))

@@ -8,9 +8,9 @@ apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 apply plugin: "org.liquibase.gradle"
 
-def checkstyleVersion = "10.15.0"
-def pmdVersion = "7.0.0"
-def spotbugsVersion = "4.8.4"
+def checkstyleVersion = "13.1.0"
+def pmdVersion = "7.21.0"
+def spotbugsVersion = "4.9.8"
 def jacocoVersion = "0.8.12"
 
 buildscript {
@@ -22,7 +22,7 @@ buildscript {
     }
     dependencies {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:2.8.0"
-        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.12"
+        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:6.4.8"
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:3.2.1263") {
             exclude group: "org.gradle"
         }

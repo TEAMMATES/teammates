@@ -84,13 +84,13 @@ public final class FeedbackResponsesLogic {
             return true;
         }
         boolean isStudentRecipientType =
-                   question.getRecipientType().equals(FeedbackParticipantType.STUDENTS)
-                || question.getRecipientType().equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)
-                || question.getRecipientType().equals(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION)
-                || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
-                || question.getRecipientType().equals(FeedbackParticipantType.GIVER)
-                   && question.getGiverType().equals(FeedbackParticipantType.STUDENTS);
+                   question.getRecipientType() == FeedbackParticipantType.STUDENTS
+                || question.getRecipientType() == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
+                || question.getRecipientType() == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION
+                || question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS
+                || question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF
+                || question.getRecipientType() == FeedbackParticipantType.GIVER
+                   && question.getGiverType() == FeedbackParticipantType.STUDENTS;
 
         if ((isStudentRecipientType || question.getRecipientType().isTeam())
                 && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
@@ -340,14 +340,14 @@ public final class FeedbackResponsesLogic {
     /**
      * Makes the rankings by one giver in the response to a 'rank recipient question' consistent, after deleting a
      * student.
+     *
      * <p>
      *     Fails silently if the question type is not 'rank recipient question'.
      * </p>
      */
     private void makeRankRecipientQuestionResponsesConsistent(
             FeedbackQuestion question, SqlCourseRoster roster) {
-        assert question.getQuestionDetailsCopy().getQuestionType()
-                .equals(FeedbackQuestionType.RANK_RECIPIENTS);
+        assert question.getQuestionDetailsCopy().getQuestionType() == FeedbackQuestionType.RANK_RECIPIENTS;
 
         FeedbackParticipantType giverType = question.getGiverType();
         List<FeedbackResponse> responses = new ArrayList<>();
@@ -461,6 +461,7 @@ public final class FeedbackResponsesLogic {
 
     /**
      * Updates responses for a student when his team changes.
+     *
      * <p>
      *     This is done by deleting responses that are no longer relevant to him in his new team.
      * </p>
@@ -1001,7 +1002,6 @@ public final class FeedbackResponsesLogic {
         }
         return isVisibleResponse;
     }
-
 
     /**
      * Gets all responses for a session.

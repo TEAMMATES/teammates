@@ -12,26 +12,28 @@
     <rule ref="category/java/bestpractices.xml">
         <!-- May consider enforcing -->
         <exclude name="ArrayIsStoredDirectly"/>
+        <exclude name="ExhaustiveSwitchHasDefault"/>
+        <exclude name="ImplicitFunctionalInterface"/>
         <exclude name="MethodReturnsInternalArray"/>
 
         <!-- Not worth the benefit -->
         <exclude name="AccessorClassGeneration"/>
         <exclude name="AccessorMethodGeneration"/>
         <exclude name="GuardLogStatement"/>
-        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
-        <exclude name="JUnitTestContainsTooManyAsserts"/>
-        <exclude name="JUnitTestsShouldIncludeAssert"/>
+        <exclude name="UnitTestAssertionsShouldIncludeMessage"/>
+        <exclude name="UnitTestContainsTooManyAsserts"/>
+        <exclude name="UnitTestShouldIncludeAssert"/>
+        <exclude name="UnitTestShouldUseAfterAnnotation"/>
+        <exclude name="UnitTestShouldUseBeforeAnnotation"/>
+        <exclude name="UnitTestShouldUseTestAnnotation"/>
         <exclude name="LooseCoupling" />
         <exclude name="UseVarargs"/>
 
         <!-- Not relevant as we use TestNG -->
         <exclude name="JUnit4SuitesShouldUseSuiteAnnotation"/>
-        <exclude name="JUnit4TestShouldUseAfterAnnotation"/>
-        <exclude name="JUnit4TestShouldUseBeforeAnnotation"/>
-        <exclude name="JUnit4TestShouldUseTestAnnotation"/>
 
         <!-- Handled by CheckStyle -->
-        <exclude name="DefaultLabelNotLastInSwitchStmt"/>
+        <exclude name="DefaultLabelNotLastInSwitch"/>
         <exclude name="OneDeclarationPerLine"/>
 
         <!-- Enforced for production code only -->
@@ -64,14 +66,15 @@
     <rule ref="category/java/codestyle.xml/UnnecessaryCast"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryConstructor"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName"/>
-    <rule ref="category/java/codestyle.xml/UnnecessaryLocalBeforeReturn"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryReturn"/>
     <rule ref="category/java/codestyle.xml/UnnecessarySemicolon"/>
     <rule ref="category/java/codestyle.xml/UseDiamondOperator"/>
     <rule ref="category/java/codestyle.xml/UselessQualifiedThis"/>
+    <rule ref="category/java/codestyle.xml/VariableCanBeInlined"/>
 
     <rule ref="category/java/design.xml">
         <!-- Metrics-related rules; not to be enforced in the near future -->
+        <exclude name="AvoidDeeplyNestedIfStmts"/>
         <exclude name="CognitiveComplexity"/>
         <exclude name="CouplingBetweenObjects"/>
         <exclude name="CyclomaticComplexity"/>
@@ -89,10 +92,8 @@
         <exclude name="ImmutableField"/>
         <exclude name="LawOfDemeter"/>
         <exclude name="LoosePackageCoupling"/>
+        <exclude name="PublicMemberInNonPublicType"/>
         <exclude name="UseObjectForClearerAPI"/>
-
-        <!-- Some are needed as safety net -->
-        <exclude name="AvoidCatchingGenericException"/>
 
         <!-- Enforced for production code only -->
         <exclude name="AvoidThrowingRawExceptionTypes"/>
@@ -114,6 +115,9 @@
         <exclude name="AvoidFieldNameMatchingTypeName"/>
         <exclude name="AvoidFieldNameMatchingMethodName"/>
         <exclude name="CloseResource"/>
+
+        <!-- Some are needed as safety net -->
+        <exclude name="AvoidCatchingGenericException"/>
 
         <!-- Enforced for production code only -->
         <exclude name="AvoidAccessibilityAlteration"/>
@@ -171,6 +175,9 @@
     </rule>
 
     <rule ref="category/java/multithreading.xml">
+        <!-- Only applicable when we start using virtual threads -->
+        <exclude name="AvoidSynchronizedStatement"/>
+
         <!-- Not applicable -->
         <exclude name="DoNotUseThreads"/>
 

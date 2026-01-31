@@ -80,7 +80,7 @@ public class FeedbackResultsPageSql extends AppPage {
 
     public void verifyQuestionDetails(int questionNum, FeedbackQuestion question) {
         assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionNum));
-        if (!question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.TEXT)) {
+        if (question.getQuestionDetailsCopy().getQuestionType() != FeedbackQuestionType.TEXT) {
             assertEquals(getAdditionalInfoString(question), getAdditionalInfo(questionNum));
         }
     }
@@ -191,7 +191,7 @@ public class FeedbackResultsPageSql extends AppPage {
     }
 
     private boolean hasDisplayedResponses(FeedbackQuestion question) {
-        return !question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.CONTRIB);
+        return question.getQuestionDetailsCopy().getQuestionType() != FeedbackQuestionType.CONTRIB;
     }
 
     private void verifyGivenResponses(FeedbackQuestion question,
@@ -286,7 +286,7 @@ public class FeedbackResultsPageSql extends AppPage {
 
     private boolean isResponseEqual(FeedbackQuestion question, WebElement responseField,
             FeedbackResponse response) {
-        if (question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.RUBRIC)) {
+        if (question.getQuestionDetailsCopy().getQuestionType() == FeedbackQuestionType.RUBRIC) {
             return isRubricResponseEqual(responseField, response);
         } else {
             return getAnswerString(question, response.getFeedbackResponseDetailsCopy()).equals(responseField.getText());
@@ -383,7 +383,7 @@ public class FeedbackResultsPageSql extends AppPage {
     private String appendMultiChoiceInfo(String info, FeedbackParticipantType generateOptionsFor, List<String> choices,
             boolean isOtherEnabled) {
         StringBuilder additionalInfo = new StringBuilder(info);
-        if (generateOptionsFor.equals(FeedbackParticipantType.NONE)) {
+        if (generateOptionsFor == FeedbackParticipantType.NONE) {
             additionalInfo = appendOptions(additionalInfo, choices);
             if (isOtherEnabled) {
                 additionalInfo.append(TestProperties.LINE_SEPARATOR).append("Other");

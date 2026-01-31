@@ -92,49 +92,49 @@ public abstract class FeedbackResponse extends BaseEntity {
         switch (responseDetails.getQuestionType()) {
         case TEXT:
             feedbackResponse = new FeedbackTextResponse(
-                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case MCQ:
             feedbackResponse = new FeedbackMcqResponse(
-                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case MSQ:
             feedbackResponse = new FeedbackMsqResponse(
-                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case NUMSCALE:
             feedbackResponse = new FeedbackNumericalScaleResponse(
-                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case CONSTSUM:
         case CONSTSUM_OPTIONS:
         case CONSTSUM_RECIPIENTS:
             feedbackResponse = new FeedbackConstantSumResponse(
-                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case CONTRIB:
             feedbackResponse = new FeedbackContributionResponse(
-                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case RUBRIC:
             feedbackResponse = new FeedbackRubricResponse(
-                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case RANK_OPTIONS:
             feedbackResponse = new FeedbackRankOptionsResponse(
-                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case RANK_RECIPIENTS:
             feedbackResponse = new FeedbackRankRecipientsResponse(
-                feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         }
