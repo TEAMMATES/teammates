@@ -26,7 +26,7 @@ import {
 } from '../../../types/api-output';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
 import { VisibilityControl } from '../../../types/visibility-control';
-import { SessionView } from '../../pages-session/session-submission-page/session-submission-page.component';
+import { SessionView } from '../../pages-session/session-submission-page/session-view';
 import { CommentRowModel, CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import { ConstsumRecipientsQuestionConstraintComponent }

@@ -60,15 +60,10 @@ import { QuestionSubmissionFormComponent } from '../../components/question-submi
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
+import { SessionView } from './session-view';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
-}
-
-// To export out
-export enum SessionView {
-  DEFAULT = 'Question',
-  GROUP_RECIPIENTS = 'Recipient',
 }
 
 /**
