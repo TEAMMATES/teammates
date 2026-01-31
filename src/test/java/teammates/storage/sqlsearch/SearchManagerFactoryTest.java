@@ -2,6 +2,8 @@ package teammates.storage.sqlsearch;
 
 import static org.mockito.Mockito.mock;
 
+import java.lang.reflect.Field;
+
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -18,7 +20,6 @@ import teammates.test.BaseTestCase;
  * excluded from the main component suite (group {@code sqlsearchFactory}) and run in a
  * separate, non-parallel suite so they cannot affect other tests.
  */
-@Test(groups = "sqlsearchFactory")
 public class SearchManagerFactoryTest extends BaseTestCase {
 
     private AccountRequestSearchManager originalAccountRequestManager;
@@ -37,25 +38,26 @@ public class SearchManagerFactoryTest extends BaseTestCase {
         return new StudentSearchManager(null, mock(CoursesDb.class), mock(UsersDb.class), false);
     }
 
-    private void setAccountRequestManager(AccountRequestSearchManager manager) throws Exception {
-        java.lang.reflect.Field field =
-                SearchManagerFactory.class.getDeclaredField("accountRequestInstance");
-        field.setAccessible(true);
-        field.set(null, manager);
+    private void setFactoryField(String fieldName, Object value) {
+        try {
+            Field field = SearchManagerFactory.class.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(null, value);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void setInstructorManager(InstructorSearchManager manager) throws Exception {
-        java.lang.reflect.Field field =
-                SearchManagerFactory.class.getDeclaredField("instructorInstance");
-        field.setAccessible(true);
-        field.set(null, manager);
+    private void setAccountRequestManager(AccountRequestSearchManager manager) {
+        setFactoryField("accountRequestInstance", manager);
     }
 
-    private void setStudentManager(StudentSearchManager manager) throws Exception {
-        java.lang.reflect.Field field =
-                SearchManagerFactory.class.getDeclaredField("studentInstance");
-        field.setAccessible(true);
-        field.set(null, manager);
+    private void setInstructorManager(InstructorSearchManager manager) {
+        setFactoryField("instructorInstance", manager);
+    }
+
+    private void setStudentManager(StudentSearchManager manager) {
+        setFactoryField("studentInstance", manager);
     }
 
     @BeforeMethod
@@ -68,36 +70,20 @@ public class SearchManagerFactoryTest extends BaseTestCase {
     @AfterMethod
     public void tearDown() {
         if (originalAccountRequestManager != null) {
-            try {
-                setAccountRequestManager(originalAccountRequestManager);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            setAccountRequestManager(originalAccountRequestManager);
         }
         if (originalInstructorManager != null) {
-            try {
-                setInstructorManager(originalInstructorManager);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            setInstructorManager(originalInstructorManager);
         }
         if (originalStudentManager != null) {
-            try {
-                setStudentManager(originalStudentManager);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            setStudentManager(originalStudentManager);
         }
     }
 
     @Test
     public void testRegisterAccountRequestSearchManager_registersInstance() {
         AccountRequestSearchManager manager = createAccountRequestManager();
-        try {
-            setAccountRequestManager(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setAccountRequestManager(null);
         SearchManagerFactory.registerAccountRequestSearchManager(manager);
         assertEquals(SearchManagerFactory.getAccountRequestSearchManager(), manager);
     }
@@ -106,11 +92,7 @@ public class SearchManagerFactoryTest extends BaseTestCase {
     public void testRegisterAccountRequestSearchManager_doesNotOverwriteExisting() {
         AccountRequestSearchManager firstManager = createAccountRequestManager();
         AccountRequestSearchManager secondManager = createAccountRequestManager();
-        try {
-            setAccountRequestManager(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setAccountRequestManager(null);
         SearchManagerFactory.registerAccountRequestSearchManager(firstManager);
         SearchManagerFactory.registerAccountRequestSearchManager(secondManager);
         assertEquals(SearchManagerFactory.getAccountRequestSearchManager(), firstManager);
@@ -120,23 +102,15 @@ public class SearchManagerFactoryTest extends BaseTestCase {
     public void testSetAccountRequestSearchManager_overwritesExisting() {
         AccountRequestSearchManager firstManager = createAccountRequestManager();
         AccountRequestSearchManager secondManager = createAccountRequestManager();
-        try {
-            setAccountRequestManager(firstManager);
-            setAccountRequestManager(secondManager);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setAccountRequestManager(firstManager);
+        setAccountRequestManager(secondManager);
         assertEquals(SearchManagerFactory.getAccountRequestSearchManager(), secondManager);
     }
 
     @Test
     public void testRegisterInstructorSearchManager_registersInstance() {
         InstructorSearchManager manager = createInstructorManager();
-        try {
-            setInstructorManager(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setInstructorManager(null);
         SearchManagerFactory.registerInstructorSearchManager(manager);
         assertEquals(SearchManagerFactory.getInstructorSearchManager(), manager);
     }
@@ -145,11 +119,7 @@ public class SearchManagerFactoryTest extends BaseTestCase {
     public void testRegisterInstructorSearchManager_doesNotOverwriteExisting() {
         InstructorSearchManager firstManager = createInstructorManager();
         InstructorSearchManager secondManager = createInstructorManager();
-        try {
-            setInstructorManager(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setInstructorManager(null);
         SearchManagerFactory.registerInstructorSearchManager(firstManager);
         SearchManagerFactory.registerInstructorSearchManager(secondManager);
         assertEquals(SearchManagerFactory.getInstructorSearchManager(), firstManager);
@@ -159,23 +129,15 @@ public class SearchManagerFactoryTest extends BaseTestCase {
     public void testSetInstructorSearchManager_overwritesExisting() {
         InstructorSearchManager firstManager = createInstructorManager();
         InstructorSearchManager secondManager = createInstructorManager();
-        try {
-            setInstructorManager(firstManager);
-            setInstructorManager(secondManager);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setInstructorManager(firstManager);
+        setInstructorManager(secondManager);
         assertEquals(SearchManagerFactory.getInstructorSearchManager(), secondManager);
     }
 
     @Test
     public void testRegisterStudentSearchManager_registersInstance() {
         StudentSearchManager manager = createStudentManager();
-        try {
-            setStudentManager(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setStudentManager(null);
         SearchManagerFactory.registerStudentSearchManager(manager);
         assertEquals(SearchManagerFactory.getStudentSearchManager(), manager);
     }
@@ -184,11 +146,7 @@ public class SearchManagerFactoryTest extends BaseTestCase {
     public void testRegisterStudentSearchManager_doesNotOverwriteExisting() {
         StudentSearchManager firstManager = createStudentManager();
         StudentSearchManager secondManager = createStudentManager();
-        try {
-            setStudentManager(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setStudentManager(null);
         SearchManagerFactory.registerStudentSearchManager(firstManager);
         SearchManagerFactory.registerStudentSearchManager(secondManager);
         assertEquals(SearchManagerFactory.getStudentSearchManager(), firstManager);
@@ -198,42 +156,26 @@ public class SearchManagerFactoryTest extends BaseTestCase {
     public void testSetStudentSearchManager_overwritesExisting() {
         StudentSearchManager firstManager = createStudentManager();
         StudentSearchManager secondManager = createStudentManager();
-        try {
-            setStudentManager(firstManager);
-            setStudentManager(secondManager);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setStudentManager(firstManager);
+        setStudentManager(secondManager);
         assertEquals(SearchManagerFactory.getStudentSearchManager(), secondManager);
     }
 
     @Test
     public void testGetAccountRequestSearchManager_whenNotRegistered_returnsNull() {
-        try {
-            setAccountRequestManager(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setAccountRequestManager(null);
         assertNull(SearchManagerFactory.getAccountRequestSearchManager());
     }
 
     @Test
     public void testGetInstructorSearchManager_whenNotRegistered_returnsNull() {
-        try {
-            setInstructorManager(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setInstructorManager(null);
         assertNull(SearchManagerFactory.getInstructorSearchManager());
     }
 
     @Test
     public void testGetStudentSearchManager_whenNotRegistered_returnsNull() {
-        try {
-            setStudentManager(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        setStudentManager(null);
         assertNull(SearchManagerFactory.getStudentSearchManager());
     }
 }

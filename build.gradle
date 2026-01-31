@@ -604,30 +604,10 @@ task integrationTests(type: Test) {
     }
 }
 
-task unitTestsSqlsearchFactory(type: Test) {
-    description "Runs SearchManagerFactory and SearchManagerStarter tests in a separate, non-parallel suite."
-    group "Test"
-    useTestNG()
-    options.suites "src/test/resources/testng-sqlsearch-factory.xml"
-    options.useDefaultListeners = true
-    ignoreFailures false
-    maxHeapSize = "1g"
-    reports.html.required = false
-    reports.junitXml.required = false
-    jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed", "failed", "skipped"
-        exceptionFormat "full"
-        showStackTraces true
-    }
-}
-
 task componentTests(type: Test) {
     description "Runs the full unit and integration test suite."
     group "Test"
-    dependsOn unitTests, integrationTests, unitTestsSqlsearchFactory
+    dependsOn unitTests, integrationTests
 }
 
 task e2eTests {

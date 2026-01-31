@@ -8,7 +8,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -54,23 +53,17 @@ public class StudentSearchManagerTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCollectionName_returnsCorrectCollectionName() throws Exception {
-        // Use reflection to test protected method
-        Method method = StudentSearchManager.class.getDeclaredMethod("getCollectionName");
-        method.setAccessible(true);
-        String collectionName = (String) method.invoke(searchManager);
+    public void testGetCollectionName_returnsCorrectCollectionName() {
+        String collectionName = searchManager.getCollectionName();
         assertEquals(collectionName, "students");
     }
 
     @Test
-    public void testCreateDocument_createsCorrectDocumentType() throws Exception {
+    public void testCreateDocument_createsCorrectDocumentType() {
         Course course = createTestCourse();
         Student student = createTestStudent(course);
 
-        // Use reflection to access protected method
-        Method method = StudentSearchManager.class.getDeclaredMethod("createDocument", Student.class);
-        method.setAccessible(true);
-        StudentSearchDocument document = (StudentSearchDocument) method.invoke(searchManager, student);
+        StudentSearchDocument document = searchManager.createDocument(student);
 
         assertNotNull(document);
         // Verify it's the correct type by checking its fields
@@ -80,7 +73,7 @@ public class StudentSearchManagerTest extends BaseTestCase {
     }
 
     @Test
-    public void testSortResult_sortsCorrectly() throws Exception {
+    public void testSortResult_sortsCorrectly() {
         Course course = createTestCourse();
         Student student1 = createTestStudent(course, "student1@example.com", "Student One", "Team A", "Section 1");
         Student student2 = createTestStudent(course, "student2@example.com", "Student Two", "Team B", "Section 1");
@@ -88,10 +81,7 @@ public class StudentSearchManagerTest extends BaseTestCase {
 
         List<Student> students = new ArrayList<>(Arrays.asList(student3, student1, student2));
 
-        // Use reflection to access protected method
-        Method method = StudentSearchManager.class.getDeclaredMethod("sortResult", List.class);
-        method.setAccessible(true);
-        method.invoke(searchManager, students);
+        searchManager.sortResult(students);
 
         // Verify sorted by: courseId, section, team, name, email
         assertEquals(students.get(0), student1); // Section 1, Team A, Student One
@@ -100,14 +90,9 @@ public class StudentSearchManagerTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetBasicQuery_buildsQueryCorrectly() throws Exception {
-        // Use reflection to access package-private method
-        Method method = StudentSearchManager.class.getSuperclass()
-                .getDeclaredMethod("getBasicQuery", String.class);
-        method.setAccessible(true);
-
+    public void testGetBasicQuery_buildsQueryCorrectly() {
         String queryString = "test query";
-        SolrQuery query = (SolrQuery) method.invoke(searchManager, queryString);
+        SolrQuery query = searchManager.getBasicQuery(queryString);
 
         assertNotNull(query);
         assertEquals((int) query.getStart(), 0);
@@ -143,11 +128,9 @@ public class StudentSearchManagerTest extends BaseTestCase {
         // Execute
         List<Student> results = managerWithMock.searchStudents("student", null);
 
-        // Verify
         assertNotNull(results);
         assertEquals(results.size(), 1);
         assertEquals(results.get(0), student);
-        assertEquals(results.get(0).getEmail(), "student@example.com");
     }
 
     @Test

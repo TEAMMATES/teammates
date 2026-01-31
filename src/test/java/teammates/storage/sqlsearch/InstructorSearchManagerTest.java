@@ -1,6 +1,7 @@
 package teammates.storage.sqlsearch;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -8,7 +9,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -49,23 +49,17 @@ public class InstructorSearchManagerTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCollectionName_returnsCorrectCollectionName() throws Exception {
-        // Use reflection to test protected method
-        Method method = InstructorSearchManager.class.getDeclaredMethod("getCollectionName");
-        method.setAccessible(true);
-        String collectionName = (String) method.invoke(searchManager);
+    public void testGetCollectionName_returnsCorrectCollectionName() {
+        String collectionName = searchManager.getCollectionName();
         assertEquals(collectionName, "instructors");
     }
 
     @Test
-    public void testCreateDocument_createsCorrectDocumentType() throws Exception {
+    public void testCreateDocument_createsCorrectDocumentType() {
         Course course = createTestCourse();
         Instructor instructor = createTestInstructor(course);
 
-        // Use reflection to access protected method
-        Method method = InstructorSearchManager.class.getDeclaredMethod("createDocument", Instructor.class);
-        method.setAccessible(true);
-        InstructorSearchDocument document = (InstructorSearchDocument) method.invoke(searchManager, instructor);
+        InstructorSearchDocument document = searchManager.createDocument(instructor);
 
         assertNotNull(document);
         // Verify it's the correct type by checking its fields
@@ -75,7 +69,7 @@ public class InstructorSearchManagerTest extends BaseTestCase {
     }
 
     @Test
-    public void testSortResult_sortsCorrectly() throws Exception {
+    public void testSortResult_sortsCorrectly() {
         Course course = createTestCourse();
         Instructor instructor1 = createTestInstructor(course, "inst1@example.com", "Instructor One");
         Instructor instructor2 = createTestInstructor(course, "inst2@example.com", "Instructor Two");
@@ -83,10 +77,7 @@ public class InstructorSearchManagerTest extends BaseTestCase {
 
         List<Instructor> instructors = new ArrayList<>(Arrays.asList(instructor3, instructor1, instructor2));
 
-        // Use reflection to access protected method
-        Method method = InstructorSearchManager.class.getDeclaredMethod("sortResult", List.class);
-        method.setAccessible(true);
-        method.invoke(searchManager, instructors);
+        searchManager.sortResult(instructors);
 
         // Verify sorted by: courseId, role, name, email (names: "One" < "Three" < "Two")
         assertEquals(instructors.get(0), instructor1);
@@ -95,14 +86,9 @@ public class InstructorSearchManagerTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetBasicQuery_buildsQueryCorrectly() throws Exception {
-        // Use reflection to access package-private method on base class
-        Method method = InstructorSearchManager.class.getSuperclass()
-                .getDeclaredMethod("getBasicQuery", String.class);
-        method.setAccessible(true);
-
+    public void testGetBasicQuery_buildsQueryCorrectly() {
         String queryString = "test query";
-        SolrQuery query = (SolrQuery) method.invoke(searchManager, queryString);
+        SolrQuery query = searchManager.getBasicQuery(queryString);
 
         assertNotNull(query);
         assertEquals((int) query.getStart(), 0);
@@ -138,11 +124,9 @@ public class InstructorSearchManagerTest extends BaseTestCase {
         // Execute
         List<Instructor> results = managerWithMock.searchInstructors("instructor");
 
-        // Verify
         assertNotNull(results);
         assertEquals(results.size(), 1);
         assertEquals(results.get(0), instructor);
-        assertEquals(results.get(0).getEmail(), instructor.getEmail());
     }
 
     @Test
@@ -209,7 +193,7 @@ public class InstructorSearchManagerTest extends BaseTestCase {
 
         managerWithMock.deleteDocuments(new ArrayList<>());
 
-        verify(mockClient, never()).deleteById(anyString(), any(List.class));
+        verify(mockClient, never()).deleteById(anyString(), anyList());
         verify(mockClient, never()).commit(anyString());
     }
 
