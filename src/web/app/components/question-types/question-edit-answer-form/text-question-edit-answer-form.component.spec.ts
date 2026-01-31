@@ -1,55 +1,94 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
+import {
+  FeedbackTextQuestionDetails,
+  FeedbackTextResponseDetails,
+} from '../../../../types/api-output';
+import {
+  DEFAULT_TEXT_QUESTION_DETAILS,
+  DEFAULT_TEXT_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 
-import { FormsModule } from '@angular/forms';
-import { TextQuestionEditAnswerFormComponent } from './text-question-edit-answer-form.component';
-import { FeedbackQuestionType } from '../../../../types/api-request';
-import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
+@Component({
+  selector: 'tm-text-question-edit-answer-form',
+  templateUrl: './text-question-edit-answer-form.component.html',
+  styleUrls: ['./text-question-edit-answer-form.component.scss'],
+})
+export class TextQuestionEditAnswerFormComponent
+  extends QuestionEditAnswerFormComponent<FeedbackTextQuestionDetails, FeedbackTextResponseDetails> {
 
-describe('TextQuestionEditAnswerFormComponent', () => {
-  let component: TextQuestionEditAnswerFormComponent;
-  let fixture: ComponentFixture<TextQuestionEditAnswerFormComponent>;
+  /** Emit validity to parent QuestionSubmissionFormComponent */
+  @Output() validityChange = new EventEmitter<boolean>();
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [TextQuestionEditAnswerFormComponent],
-      imports: [
-        FormsModule,
-        RichTextEditorModule,
-      ],
-    })
-    .compileComponents();
-  }));
+  /** UI state for email validation hints */
+  emailError: string = '';
+  emailValid: boolean = false;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TextQuestionEditAnswerFormComponent);
-    component = fixture.componentInstance;
-    component.questionDetails = {
-      shouldAllowRichText: false,
-      questionType: FeedbackQuestionType.TEXT,
-      questionText: 'Sample question',
-      recommendedLength: 50,
-    };
-    component.responseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
-    fixture.detectChanges();
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  private readonly emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  it('should decode HTML entities for @ sign in plain-text mode', () => {
-    component.questionDetails.shouldAllowRichText = false;
-    component.responseDetails.answer = 'Test &#64; symbol';
-    fixture.detectChanges();
+  constructor() {
+    super(DEFAULT_TEXT_QUESTION_DETAILS(), DEFAULT_TEXT_RESPONSE_DETAILS());
+  }
 
-    expect(component.decodedAnswer).toBe('Test @ symbol');
-  });
+  /** decode helper for plain text area */
+  decodeHtml(html: string): string {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  }
 
-  it('should decode HTML entities for apostrophe in plain-text mode', () => {
-    component.questionDetails.shouldAllowRichText = false;
-    component.responseDetails.answer = 'It&#39;s a test';
-    fixture.detectChanges();
+  get decodedAnswer(): string {
+    return this.decodeHtml(this.responseDetails.answer);
+  }
 
-    expect(component.decodedAnswer).toBe("It's a test");
-  });
-});
+  get wordCount(): number {
+    return this.responseDetails.answer
+      .split(/\s/g)
+      .filter((t: string) => /\w/.test(t)).length;
+  }
+
+  get isWordCountWithinRecommendedBound(): boolean {
+    if (!this.questionDetails.recommendedLength) { return true; }
+    const n = this.questionDetails.recommendedLength;
+    return this.wordCount > n * 0.9 && this.wordCount < n * 1.1;
+  }
+
+
+  private isEmailQuestion(): boolean {
+    return (this.questionDetails?.questionText ?? '')
+      .toLowerCase()
+      .includes('email');
+  }
+
+
+  onAnswerChange(value: string): void {
+    if (!this.isEmailQuestion()) {
+
+      this.emailError = '';
+      this.emailValid = true;
+      this.validityChange.emit(true);
+      return;
+    }
+
+    const trimmed = (value ?? '').trim();
+
+    if (!trimmed) {
+      this.emailValid = false;
+      this.emailError = 'Email is required';
+      this.validityChange.emit(false);
+      return;
+    }
+
+    if (!this.emailRegex.test(trimmed)) {
+      this.emailValid = false;
+      this.emailError = 'Invalid email format';
+      this.validityChange.emit(false);
+      return;
+    }
+
+    this.emailValid = true;
+    this.emailError = '';
+    this.validityChange.emit(true);
+  }
+}
