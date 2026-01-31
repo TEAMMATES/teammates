@@ -155,7 +155,7 @@ const routes: Routes = [
   {
     path: 'getting-started',
     loadComponent: () => import('../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component')
-      .then((m: any) => m.InstructorHelpGettingStartedPageComponent),
+      .then((m: any) => m.InstructorHelpGettingStartedComponent),
     data: {
       instructorHelpPath: '/web/instructor/help',
     },
