@@ -18,12 +18,15 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "src/web/dist",
+            "outputPath": {
+              "base": "src/web/dist"
+            },
             "index": "src/web/index.html",
-            "main": "src/web/main.ts",
-            "polyfills": "src/web/polyfills.ts",
+            "polyfills": [
+              "src/web/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "allowedCommonJsDependencies": [
               "moment-timezone"
@@ -35,7 +38,8 @@
             ],
             "styles": [
               "src/web/styles.scss"
-            ]
+            ],
+            "browser": "src/web/main.ts"
           },
           "configurations": {
             "production": {
@@ -59,8 +63,7 @@
               },
               "outputHashing": "all",
               "subresourceIntegrity": true,
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json",
+              "serviceWorker": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",
@@ -75,9 +78,7 @@
               ]
             },
             "development": {
-              "vendorChunk": true,
               "extractLicenses": false,
-              "buildOptimizer": false,
               "sourceMap": true,
               "optimization": false,
               "namedChunks": true
@@ -86,7 +87,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "teammates:build:production"
@@ -98,7 +99,7 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "teammates:build"
           }
