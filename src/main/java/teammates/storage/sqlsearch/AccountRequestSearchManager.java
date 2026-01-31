@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 
@@ -18,10 +19,44 @@ import teammates.storage.sqlentity.AccountRequest;
  */
 public class AccountRequestSearchManager extends SearchManager<AccountRequest> {
 
-    private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
+    private final AccountRequestsDb accountRequestsDb;
 
+    /**
+     * Creates an AccountRequestSearchManager with the given Solr client and AccountRequestsDb.
+     * This constructor allows dependency injection for testing purposes.
+     *
+     * @param client the Solr client to use (can be null or a mock)
+     * @param accountRequestsDb the AccountRequestsDb to use (can be a mock)
+     * @param isResetAllowed whether reset operations are allowed
+     */
+    public AccountRequestSearchManager(HttpSolrClient client, AccountRequestsDb accountRequestsDb,
+            boolean isResetAllowed) {
+        super(client, isResetAllowed);
+        this.accountRequestsDb = accountRequestsDb;
+    }
+
+    /**
+     * Creates an AccountRequestSearchManager with the given Solr client.
+     * This constructor allows dependency injection for testing purposes.
+     *
+     * @param client the Solr client to use (can be null or a mock)
+     * @param isResetAllowed whether reset operations are allowed
+     */
+    public AccountRequestSearchManager(HttpSolrClient client, boolean isResetAllowed) {
+        super(client, isResetAllowed);
+        this.accountRequestsDb = AccountRequestsDb.inst();
+    }
+
+    /**
+     * Creates an AccountRequestSearchManager with the given search service host.
+     * This constructor maintains backward compatibility.
+     *
+     * @param searchServiceHost the Solr service host URL
+     * @param isResetAllowed whether reset operations are allowed
+     */
     public AccountRequestSearchManager(String searchServiceHost, boolean isResetAllowed) {
         super(searchServiceHost, isResetAllowed);
+        this.accountRequestsDb = AccountRequestsDb.inst();
     }
 
     @Override
