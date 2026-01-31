@@ -11,7 +11,7 @@ apply plugin: "org.liquibase.gradle"
 def checkstyleVersion = "13.1.0"
 def pmdVersion = "7.21.0"
 def spotbugsVersion = "4.9.8"
-def jacocoVersion = "0.8.12"
+def jacocoVersion = "0.8.14"
 
 buildscript {
     repositories {
@@ -21,12 +21,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.8.0"
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.8.6"
         classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:6.4.8"
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:3.2.1263") {
             exclude group: "org.gradle"
         }
-        classpath "com.google.guava:guava:33.1.0-jre"
+        classpath "com.google.guava:guava:33.5.0-jre"
         classpath "org.liquibase:liquibase-gradle-plugin:2.2.1"
     }
 }
@@ -49,7 +49,7 @@ repositories {
 }
 
 def objectify = "com.googlecode.objectify:objectify:6.0.7"
-def testng = "org.testng:testng:7.10.1"
+def testng = "org.testng:testng:7.12.0"
 
 dependencies {
     staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
@@ -59,19 +59,19 @@ dependencies {
 
     annotationProcessor(objectify)
 
-    implementation("com.google.auth:google-auth-library-oauth2-http:1.23.0")
-    implementation(platform("com.google.cloud:google-cloud-bom:0.218.0"))
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.42.1")
+    implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
     implementation("com.google.cloud:google-cloud-datastore")
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.google.firebase:firebase-admin:9.2.0")
-    implementation("com.google.guava:guava:33.1.0-jre")
+    implementation("com.google.guava:guava:33.5.0-jre")
     implementation(objectify)
-    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20240325.1")
+    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20260102.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:5.2.5")
-    implementation("com.sendgrid:sendgrid-java:4.10.2")
+    implementation("com.sendgrid:sendgrid-java:4.10.3")
     implementation("com.sun.jersey:jersey-client:1.19.4")
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
@@ -81,34 +81,34 @@ dependencies {
     implementation("org.eclipse.jetty:jetty-server")
     implementation("org.eclipse.jetty:jetty-webapp")
     implementation("org.eclipse.jetty:jetty-annotations")
-    implementation("org.jsoup:jsoup:1.17.2")
+    implementation("org.jsoup:jsoup:1.22.1")
     implementation("org.hibernate.orm:hibernate-core:6.4.4.Final")
-    implementation("org.postgresql:postgresql:42.7.3")
+    implementation("org.postgresql:postgresql:42.7.9")
     implementation("org.hibernate:hibernate-hikaricp:6.4.4.Final")
 
     testAnnotationProcessor(testng)
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testImplementation("org.seleniumhq.selenium:selenium-java:4.19.1")
-    testImplementation("com.deque.html.axe-core:selenium:4.9.0")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.40.0")
+    testImplementation("com.deque.html.axe-core:selenium:4.11.0")
     testImplementation(testng)
-    testImplementation("org.testcontainers:postgresql:1.19.7")
+    testImplementation("org.testcontainers:postgresql:1.21.4")
     testImplementation("org.liquibase:liquibase-core:4.27.0")
-    testImplementation("org.mockito:mockito-core:5.11.0")
+    testImplementation("org.mockito:mockito-core:5.21.0")
     // For supporting authorization code flow locally
-    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.35.0")
+    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.39.0")
     // For using Gmail API
-    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20231218-2.0.0")
+    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20260112-2.0.0")
     // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.6.2") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.6.3") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.6.2") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.6.3") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
-    liquibaseRuntime("info.picocli:picocli:4.7.5")
+    liquibaseRuntime("info.picocli:picocli:4.7.7")
     liquibaseRuntime(sourceSets.main.output)
 }
 
