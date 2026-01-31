@@ -15,7 +15,7 @@ import teammates.ui.servlets.DevServerLoginServlet;
 /**
  * Entrypoint to the system.
  *
- * @see <a href="https://github.com/GoogleCloudPlatform/java-docs-samples/blob/master/appengine-java11/appengine-simple-jetty-main/src/main/java/com/example/appengine/demo/jettymain/Main.java">https://github.com/GoogleCloudPlatform/java-docs-samples/blob/master/appengine-java11/appengine-simple-jetty-main/src/main/java/com/example/appengine/demo/jettymain/Main.java</a>
+ * @see <a href="https://github.com/GoogleCloudPlatform/java-docs-samples/blob/main/appengine-java11/appengine-simple-jetty-main/src/main/java/com/example/appengine/jetty/Main.java">https://github.com/GoogleCloudPlatform/java-docs-samples/blob/main/appengine-java11/appengine-simple-jetty-main/src/main/java/com/example/appengine/jetty/Main.java</a>
  */
 // CHECKSTYLE.OFF:UncommentedMain this is the entrypoint class
 public final class Application {
