@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 /**
  * Parameters inputted by user to be used in search
@@ -11,10 +12,10 @@ export interface SearchParams {
  * Search bar on instructor search page
  */
 @Component({
-    selector: 'tm-instructor-search-bar',
-    templateUrl: './instructor-search-bar.component.html',
-    styleUrls: ['./instructor-search-bar.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-search-bar',
+  templateUrl: './instructor-search-bar.component.html',
+  styleUrls: ['./instructor-search-bar.component.scss'],
+  imports: [FormsModule],
 })
 export class InstructorSearchBarComponent {
 

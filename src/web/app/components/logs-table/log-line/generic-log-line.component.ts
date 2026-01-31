@@ -8,7 +8,6 @@ import { GeneralLogEntry } from '../../../../types/api-output';
     selector: 'tm-generic-log-line',
     templateUrl: './generic-log-line.component.html',
     styleUrls: ['./generic-log-line.component.scss'],
-    standalone: false,
 })
 export class GenericLogLineComponent {
 

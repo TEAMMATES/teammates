@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConstsumRecipientsQuestionConstraintComponent } from './constsum-recipients-question-constraint.component';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
@@ -17,13 +17,6 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
     isValid: true,
     responseDetails: { questionType: FeedbackQuestionType.CONSTSUM },
   });
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ConstsumRecipientsQuestionConstraintComponent],
-    })
-      .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConstsumRecipientsQuestionConstraintComponent);

@@ -1,15 +1,22 @@
+import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from './simple-modal-type';
+import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 
 /**
  * A component to display contents of confirmation modals.
  */
 @Component({
-    selector: 'tm-confirmation-modal',
-    templateUrl: './simple-modal.component.html',
-    styleUrls: ['./simple-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-confirmation-modal',
+  templateUrl: './simple-modal.component.html',
+  styleUrls: ['./simple-modal.component.scss'],
+  imports: [
+    NgClass,
+    NgIf,
+    NgTemplateOutlet,
+    ProgressBarComponent,
+  ],
 })
 export class SimpleModalComponent {
 

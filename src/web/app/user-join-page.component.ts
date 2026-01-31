@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,6 +14,7 @@ import { NavigationService } from '../services/navigation.service';
 import { SimpleModalService } from '../services/simple-modal.service';
 import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
+import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 
 /**
  * User join page component.
@@ -21,7 +23,7 @@ import { AuthInfo, JoinStatus } from '../types/api-output';
     selector: 'tm-user-join-page',
     templateUrl: './user-join-page.component.html',
     styleUrls: ['./user-join-page.component.scss'],
-    standalone: false,
+    imports: [LoadingSpinnerDirective, NgIf],
 })
 export class UserJoinPageComponent implements OnInit {
 

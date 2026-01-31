@@ -1,22 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Response } from './question-statistics';
 import { RankOptionsQuestionStatisticsComponent } from './rank-options-question-statistics.component';
 import ResponseTestData from './test-data/rankOptionQuestionResponses.json';
 import { FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
-import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 
 describe('RankOptionsQuestionStatisticsComponent', () => {
   let component: RankOptionsQuestionStatisticsComponent;
   let fixture: ComponentFixture<RankOptionsQuestionStatisticsComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [RankOptionsQuestionStatisticsComponent],
-      imports: [SortableTableModule],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RankOptionsQuestionStatisticsComponent);

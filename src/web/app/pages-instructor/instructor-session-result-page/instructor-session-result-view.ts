@@ -8,7 +8,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
+import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
 
 /**
  * Abstract component for all different view type components of instructor sessions result page.

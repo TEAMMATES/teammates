@@ -1,6 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from './respondent-list-info-table-model';
 import { RespondentListInfoTableComponent } from './respondent-list-info-table.component';
@@ -80,15 +79,6 @@ describe('StudentListInfoTableComponent', () => {
   const selectInstructorTableHeaderCheckBox = (): DebugElement => {
     return selectTableHeaderCheckBox('#instructor-list-table');
   };
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [RespondentListInfoTableComponent],
-      imports: [FormsModule],
-      providers: [TableComparatorService],
-    })
-      .compileComponents();
-  }));
 
   beforeEach(() => {
     TestBed.inject(TableComparatorService);

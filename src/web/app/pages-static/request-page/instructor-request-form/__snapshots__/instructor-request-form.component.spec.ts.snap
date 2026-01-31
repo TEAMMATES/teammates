@@ -192,6 +192,7 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
     <a
       aria-label="Cancel button"
       class="btn btn-danger me-3"
+      href="/web/front/home"
       tmrouterlink="/web/front/home"
       type="button"
     >

@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.component';
 
 /**
  * Question brief and description edit form component.
  */
 @Component({
-    selector: 'tm-question-edit-brief-description-form',
-    templateUrl: './question-edit-brief-description-form.component.html',
-    styleUrls: ['./question-edit-brief-description-form.component.scss'],
-    standalone: false,
+  selector: 'tm-question-edit-brief-description-form',
+  templateUrl: './question-edit-brief-description-form.component.html',
+  styleUrls: ['./question-edit-brief-description-form.component.scss'],
+  imports: [FormsModule, RichTextEditorComponent],
 })
 export class QuestionEditBriefDescriptionFormComponent {
 

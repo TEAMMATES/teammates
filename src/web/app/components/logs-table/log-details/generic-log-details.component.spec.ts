@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenericLogDetailsComponent } from './generic-log-details.component';
 import { deepCopy } from '../../../../test-helpers/deep-copy';
@@ -23,12 +23,6 @@ describe('GenericLogDetailsComponent', () => {
 
   let inputLogValue: GeneralLogEntry;
   let expectedLogValue: GeneralLogEntry;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [GenericLogDetailsComponent],
-    }).compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GenericLogDetailsComponent);

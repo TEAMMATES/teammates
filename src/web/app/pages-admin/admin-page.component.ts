@@ -3,14 +3,15 @@ import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { NavigationService } from '../../services/navigation.service';
 import { AuthInfo } from '../../types/api-output';
+import { PageComponent } from '../page.component';
 
 /**
  * Base skeleton for admin pages.
  */
 @Component({
-    selector: 'tm-admin-page',
-    templateUrl: './admin-page.component.html',
-    standalone: false,
+  selector: 'tm-admin-page',
+  templateUrl: './admin-page.component.html',
+  imports: [PageComponent],
 })
 export class AdminPageComponent implements OnInit {
 

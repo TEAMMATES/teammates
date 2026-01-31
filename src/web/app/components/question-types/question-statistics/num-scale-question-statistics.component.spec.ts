@@ -1,22 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NumScaleQuestionStatisticsComponent } from './num-scale-question-statistics.component';
 import { Response } from './question-statistics';
 import ResponseTestData from './test-data/numScaleQuestionResponses.json';
 import { FeedbackNumericalScaleResponseDetails } from '../../../../types/api-output';
-import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 
 describe('NumScaleQuestionStatisticsComponent', () => {
   let component: NumScaleQuestionStatisticsComponent;
   let fixture: ComponentFixture<NumScaleQuestionStatisticsComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [NumScaleQuestionStatisticsComponent],
-      imports: [SortableTableModule],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NumScaleQuestionStatisticsComponent);

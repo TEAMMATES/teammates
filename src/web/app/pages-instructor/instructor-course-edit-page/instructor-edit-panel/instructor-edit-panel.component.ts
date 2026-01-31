@@ -1,7 +1,14 @@
+import { NgIf, NgClass, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorPermissionRole, InstructorPermissionSet, JoinState } from '../../../../types/api-output';
+import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
+import { EnumToArrayPipe } from '../../../components/teammates-common/enum-to-array.pipe';
+import { InstructorRoleDescriptionPipe } from '../../../components/teammates-common/instructor-role-description.pipe';
 import {
   InstructorOverallPermission,
+  CustomPrivilegeSettingPanelComponent,
 } from '../custom-privilege-setting-panel/custom-privilege-setting-panel.component';
 
 /**
@@ -42,10 +49,20 @@ export enum EditMode {
  * Edit instructor panel.
  */
 @Component({
-    selector: 'tm-instructor-edit-panel',
-    templateUrl: './instructor-edit-panel.component.html',
-    styleUrls: ['./instructor-edit-panel.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-edit-panel',
+  templateUrl: './instructor-edit-panel.component.html',
+  styleUrls: ['./instructor-edit-panel.component.scss'],
+  imports: [
+    NgIf,
+    NgbTooltip,
+    NgClass,
+    FormsModule,
+    NgFor,
+    CustomPrivilegeSettingPanelComponent,
+    AjaxLoadingComponent,
+    EnumToArrayPipe,
+    InstructorRoleDescriptionPipe,
+  ],
 })
 export class InstructorEditPanelComponent {
 

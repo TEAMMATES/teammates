@@ -3,14 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
+import { PageComponent } from '../page.component';
 
 /**
  * Base skeleton for instructor pages.
  */
 @Component({
-    selector: 'tm-instructor-page',
-    templateUrl: './instructor-page.component.html',
-    standalone: false,
+  selector: 'tm-instructor-page',
+  templateUrl: './instructor-page.component.html',
+  imports: [PageComponent],
 })
 export class InstructorPageComponent implements OnInit {
 

@@ -1,14 +1,20 @@
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, TemplateRef } from '@angular/core';
+import { NgbToast } from '@ng-bootstrap/ng-bootstrap';
 import { Toast } from './toast';
 
 /**
  * Displays status messages as toasts.
  */
 @Component({
-    selector: 'tm-toast',
-    templateUrl: './toast.component.html',
-    styleUrls: ['./toast.component.scss'],
-    standalone: false,
+  selector: 'tm-toast',
+  templateUrl: './toast.component.html',
+  styleUrls: ['./toast.component.scss'],
+  imports: [
+    NgIf,
+    NgbToast,
+    NgTemplateOutlet,
+  ],
 })
 export class ToastComponent implements OnChanges {
 

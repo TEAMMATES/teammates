@@ -9,7 +9,6 @@ import { EditRequestModalComponentResult } from './admin-edit-request-modal-mode
     selector: 'tm-edit-request-modal',
     templateUrl: './admin-edit-request-modal.component.html',
     styleUrls: ['./admin-edit-request-modal.component.scss'],
-    standalone: false,
 })
 
 export class EditRequestModalComponent {

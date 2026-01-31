@@ -1,5 +1,8 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
+import { NgFor, NgClass, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
@@ -10,10 +13,16 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
  * Question details edit form component for rubric question.
  */
 @Component({
-    selector: 'tm-rubric-question-edit-details-form',
-    templateUrl: './rubric-question-edit-details-form.component.html',
-    styleUrls: ['./rubric-question-edit-details-form.component.scss'],
-    standalone: false,
+  selector: 'tm-rubric-question-edit-details-form',
+  templateUrl: './rubric-question-edit-details-form.component.html',
+  styleUrls: ['./rubric-question-edit-details-form.component.scss'],
+  imports: [
+    NgbTooltip,
+    FormsModule,
+    NgFor,
+    NgClass,
+    NgIf,
+  ],
 })
 export class RubricQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> {

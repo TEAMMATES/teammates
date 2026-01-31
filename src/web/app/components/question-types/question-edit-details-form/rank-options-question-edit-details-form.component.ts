@@ -1,6 +1,9 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
+import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
 import { FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
@@ -9,10 +12,17 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
  * Question details edit form component for Rank Options question.
  */
 @Component({
-    selector: 'tm-rank-options-question-edit-details-form',
-    templateUrl: './rank-options-question-edit-details-form.component.html',
-    styleUrls: ['./rank-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
-    standalone: false,
+  selector: 'tm-rank-options-question-edit-details-form',
+  templateUrl: './rank-options-question-edit-details-form.component.html',
+  styleUrls: ['./rank-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+  imports: [
+    CdkDropList,
+    NgFor,
+    CdkDrag,
+    CdkDragHandle,
+    RankOptionsFieldComponent,
+    FormsModule,
+  ],
 })
 export class RankOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRankOptionsQuestionDetails> {

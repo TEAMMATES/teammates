@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExceptionLogDetailsComponent } from './exception-log-details.component';
 import { deepCopy } from '../../../../test-helpers/deep-copy';
@@ -98,12 +98,6 @@ describe('ExceptionLogDetailsComponent', () => {
   let expectedLogValue: GeneralLogEntry;
   let expectedLogDetails: Required<ExceptionLogDetails>;
   let expectedExceptionStackTraceString: string;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ExceptionLogDetailsComponent],
-    }).compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExceptionLogDetailsComponent);

@@ -1,22 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { McqQuestionStatisticsComponent } from './mcq-question-statistics.component';
 import { Response } from './question-statistics';
 import ResponseTestData from './test-data/mcqQuestionResponses.json';
 import { FeedbackMcqResponseDetails } from '../../../../types/api-output';
-import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 
 describe('McqQuestionStatisticsComponent', () => {
   let component: McqQuestionStatisticsComponent;
   let fixture: ComponentFixture<McqQuestionStatisticsComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [McqQuestionStatisticsComponent],
-      imports: [SortableTableModule],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(McqQuestionStatisticsComponent);

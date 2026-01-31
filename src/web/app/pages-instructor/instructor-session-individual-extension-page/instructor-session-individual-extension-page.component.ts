@@ -1,4 +1,6 @@
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
@@ -33,16 +35,29 @@ import {
   ExtensionConfirmModalComponent,
   ExtensionModalType,
 } from '../../components/extension-confirm-modal/extension-confirm-modal.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
+import { InstructorRoleNamePipe } from '../../components/teammates-common/instructor-role-name.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Send reminders to respondents modal.
  */
 @Component({
-    selector: 'tm-instructor-session-individual-extension-page',
-    templateUrl: './instructor-session-individual-extension-page.component.html',
-    styleUrls: ['./instructor-session-individual-extension-page.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-session-individual-extension-page',
+  templateUrl: './instructor-session-individual-extension-page.component.html',
+  styleUrls: ['./instructor-session-individual-extension-page.component.scss'],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgIf,
+    FormsModule,
+    NgFor,
+    NgClass,
+    FormatDateDetailPipe,
+    InstructorRoleNamePipe,
+  ],
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {
   feedbackSessionDetails: FeedbackSessionBasicRequest = {

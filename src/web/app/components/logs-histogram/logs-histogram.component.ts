@@ -9,7 +9,6 @@ import { LogsHistogramDataModel } from './logs-histogram-model';
     selector: 'tm-logs-histogram',
     templateUrl: './logs-histogram.component.html',
     styleUrls: ['./logs-histogram.component.scss'],
-    standalone: false,
 })
 export class LogsHistogramComponent implements OnInit, OnChanges {
 

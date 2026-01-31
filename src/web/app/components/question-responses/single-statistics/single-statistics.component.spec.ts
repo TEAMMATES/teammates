@@ -2,7 +2,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SingleStatisticsComponent } from './single-statistics.component';
-import { QuestionStatisticsModule } from '../../question-types/question-statistics/question-statistics.module';
 
 describe('SingleStatisticsComponent', () => {
   let component: SingleStatisticsComponent;
@@ -10,8 +9,6 @@ describe('SingleStatisticsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SingleStatisticsComponent],
-      imports: [QuestionStatisticsModule],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),

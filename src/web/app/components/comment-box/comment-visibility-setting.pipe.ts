@@ -5,10 +5,7 @@ import { CommentVisibilityControl } from '../../../types/comment-visibility-cont
 /**
  * Pipe to handle the simple display of {@link CommentVisibilityControl}.
  */
-@Pipe({
-    name: 'commentVisibilityControlName',
-    standalone: false,
-})
+@Pipe({ name: 'commentVisibilityControlName' })
 export class CommentVisibilityControlNamePipe implements PipeTransform {
   /**
    * Transforms {@code type} to a simple name.
@@ -29,10 +26,7 @@ export class CommentVisibilityControlNamePipe implements PipeTransform {
  * Pipe to handle the detailed display of {@link CommentVisibilityType} in the context of
  * comment visibility control.
  */
-@Pipe({
-    name: 'commentVisibilityTypeDescription',
-    standalone: false,
-})
+@Pipe({ name: 'commentVisibilityTypeDescription' })
 export class CommentVisibilityTypeDescriptionPipe implements PipeTransform {
   /**
    * Transforms {@code type} to a detailed description.
@@ -60,10 +54,7 @@ export class CommentVisibilityTypeDescriptionPipe implements PipeTransform {
 /**
  * Pipe to handle the simple display of {@link CommentVisibilityType}.
  */
-@Pipe({
-    name: 'commentVisibilityTypeName',
-    standalone: false,
-})
+@Pipe({ name: 'commentVisibilityTypeName' })
 export class CommentVisibilityTypeNamePipe implements PipeTransform {
   /**
    * Transforms {@code type} to a simple name.
@@ -91,10 +82,7 @@ export class CommentVisibilityTypeNamePipe implements PipeTransform {
 /**
  * Pipe to handle join display of list of {@link CommentVisibilityType}.
  */
-@Pipe({
-    name: 'commentVisibilityTypesJointName',
-    standalone: false,
-})
+@Pipe({ name: 'commentVisibilityTypesJointName' })
 export class CommentVisibilityTypesJointNamePipe implements PipeTransform {
   /**
    * Transforms {@code types} to a joint name.

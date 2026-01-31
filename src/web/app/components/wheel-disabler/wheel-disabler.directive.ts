@@ -3,10 +3,7 @@ import { Directive, HostListener } from '@angular/core';
 /**
  * Directive for loading spinner component
  */
-@Directive({
-    selector: '[tmDisableWheel]',
-    standalone: false,
-})
+@Directive({ selector: '[tmDisableWheel]' })
 export class WheelDisablerDirective {
 
   @HostListener('wheel', ['$event'])

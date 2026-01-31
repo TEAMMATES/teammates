@@ -1,4 +1,6 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackSessionTabModel, QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
@@ -7,16 +9,28 @@ import { TableComparatorService } from '../../../../services/table-comparator.se
 import { FeedbackQuestion, FeedbackQuestions } from '../../../../types/api-output';
 import { Intent } from '../../../../types/api-request';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
+import { LoadingRetryComponent } from '../../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../../components/loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../../../components/panel-chevron/panel-chevron.component';
+import { QuestionTypeNamePipe } from '../../../components/teammates-common/question-type-name.pipe';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 /**
  * Modal to select questions to copy from other sessions.
  */
 @Component({
-    selector: 'tm-copy-questions-from-other-sessions-modal',
-    templateUrl: './copy-questions-from-other-sessions-modal.component.html',
-    styleUrls: ['./copy-questions-from-other-sessions-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-copy-questions-from-other-sessions-modal',
+  templateUrl: './copy-questions-from-other-sessions-modal.component.html',
+  styleUrls: ['./copy-questions-from-other-sessions-modal.component.scss'],
+  imports: [
+    NgFor,
+    PanelChevronComponent,
+    NgIf,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    FormsModule,
+    QuestionTypeNamePipe,
+  ],
 })
 export class CopyQuestionsFromOtherSessionsModalComponent {
 

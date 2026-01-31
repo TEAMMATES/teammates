@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomPrivilegeSettingPanelComponent } from './custom-privilege-setting-panel.component';
 
@@ -10,11 +9,7 @@ describe('CustomPrivilegeSettingPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CustomPrivilegeSettingPanelComponent],
       providers: [NgbActiveModal],
-      imports: [
-        FormsModule,
-      ],
     })
     .compileComponents();
   }));

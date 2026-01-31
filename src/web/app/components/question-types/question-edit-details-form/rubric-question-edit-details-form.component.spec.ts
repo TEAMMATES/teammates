@@ -1,12 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormsModule } from '@angular/forms';
 import { RubricQuestionEditDetailsFormComponent } from './rubric-question-edit-details-form.component';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import { FeedbackQuestionType, FeedbackRubricQuestionDetails } from '../../../../types/api-output';
-import { SimpleModalModule } from '../../simple-modal/simple-modal.module';
 
 describe('RubricQuestionEditDetailsFormComponent', () => {
   let component: RubricQuestionEditDetailsFormComponent;
@@ -24,22 +22,6 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
     rubricSubQuestions: [],
     rubricDescriptions: [],
   });
-
-  // const feedbackRubricResponseDetailsBuilder = createBuilder<FeedbackRubricResponseDetails>({
-  //   questionType: FeedbackQuestionType.RUBRIC,
-  //   answer: [],
-  // });
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        SimpleModalModule,
-      ],
-      declarations: [RubricQuestionEditDetailsFormComponent],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RubricQuestionEditDetailsFormComponent);

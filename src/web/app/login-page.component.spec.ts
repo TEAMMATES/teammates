@@ -1,14 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AngularFireModule } from '@angular/fire/compat';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { NgxCaptchaModule } from 'ngx-captcha';
+import { provideRouter } from '@angular/router';
 import { throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { AjaxLoadingModule } from './components/ajax-loading/ajax-loading.module';
-import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { LoginPageComponent } from './login-page.component';
 import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
@@ -21,18 +16,8 @@ describe('LoginPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginPageComponent],
-      imports: [
-        ReactiveFormsModule,
-        RouterModule.forRoot([]),
-        LoadingSpinnerModule,
-        NgxCaptchaModule,
-        AjaxLoadingModule,
-        AngularFireModule.initializeApp({}),
-      ],
       providers: [
-        AuthService,
-        StatusMessageService,
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

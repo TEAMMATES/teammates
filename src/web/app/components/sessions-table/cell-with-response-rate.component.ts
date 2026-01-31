@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 
 @Component({
     selector: 'tm-response-rate',
     templateUrl: './cell-with-response-rate.component.html',
-    imports: [AjaxLoadingModule, CommonModule],
+    imports: [AjaxLoadingComponent, CommonModule],
 })
 export class ResponseRateComponent {
   @Input() responseRate: string = '';

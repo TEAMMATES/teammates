@@ -5,7 +5,7 @@ import { FeedbackResponseComment } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
 import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CommentRowModel } from '../components/comment-box/comment-row/comment-row.component';
-import { CommentTableModel } from '../components/comment-box/comment-table/comment-table.component';
+import { CommentTableModel } from '../components/comment-box/comment-table/comment-table.model';
 import { CommentToCommentRowModelPipe } from '../components/comment-box/comment-to-comment-row-model.pipe';
 import { ErrorMessageOutput } from '../error-message-output';
 

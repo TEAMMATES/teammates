@@ -4,10 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 /**
  * Pipe to handle the display of raw HTML.
  */
-@Pipe({
-    name: 'safeHtml',
-    standalone: false,
-})
+@Pipe({ name: 'safeHtml' })
 export class SafeHtmlPipe implements PipeTransform {
 
   constructor(private domSanitizer: DomSanitizer) {}

@@ -1,20 +1,28 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 
+import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS, DEFAULT_MCQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
 
 /**
  * The Mcq question submission form for a recipient.
  */
 @Component({
-    selector: 'tm-mcq-question-edit-answer-form',
-    templateUrl: './mcq-question-edit-answer-form.component.html',
-    styleUrls: ['./mcq-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-mcq-question-edit-answer-form',
+  templateUrl: './mcq-question-edit-answer-form.component.html',
+  styleUrls: ['./mcq-question-edit-answer-form.component.scss'],
+  imports: [
+    NgIf,
+    NgFor,
+    FormsModule,
+    SafeHtmlPipe,
+  ],
 })
 export class McqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>

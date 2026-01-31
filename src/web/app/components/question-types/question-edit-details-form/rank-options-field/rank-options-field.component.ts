@@ -1,14 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { StatusMessageService } from '../../../../../services/status-message.service';
 
 /**
  * The input field to specify options to choose from.
  */
 @Component({
-    selector: 'tm-rank-options-field',
-    templateUrl: './rank-options-field.component.html',
-    styleUrls: ['./rank-options-field.component.scss'],
-    standalone: false,
+  selector: 'tm-rank-options-field',
+  templateUrl: './rank-options-field.component.html',
+  styleUrls: ['./rank-options-field.component.scss'],
+  imports: [FormsModule],
 })
 export class RankOptionsFieldComponent {
 

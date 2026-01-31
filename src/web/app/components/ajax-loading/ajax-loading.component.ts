@@ -7,7 +7,6 @@ import { Component, Input } from '@angular/core';
     selector: 'tm-ajax-loading',
     templateUrl: './ajax-loading.component.html',
     styleUrls: ['./ajax-loading.component.scss'],
-    standalone: false,
 })
 export class AjaxLoadingComponent {
 

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 
 /**
  * Progress bar used to show download progress.
  */
 @Component({
-    selector: 'tm-progress-bar',
-    templateUrl: './progress-bar.component.html',
-    standalone: false,
+  selector: 'tm-progress-bar',
+  templateUrl: './progress-bar.component.html',
+  imports: [NgbProgressbar],
 })
 export class ProgressBarComponent implements OnInit {
 

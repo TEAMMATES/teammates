@@ -10,10 +10,11 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import {
-    ColumnData,
-    SortableEvent,
-    SortableTableCellData,
-    SortableTableHeaderColorScheme,
+  ColumnData,
+  SortableEvent,
+  SortableTableCellData,
+  SortableTableHeaderColorScheme,
+  SortableTableComponent,
 } from '../sortable-table/sortable-table.component';
 
 /**
@@ -32,7 +33,8 @@ export interface StudentListRowModel {
     selector: 'tm-student-list',
     templateUrl: './student-list.component.html',
     styleUrls: ['./student-list.component.scss'],
-    standalone: false,
+    imports: [SortableTableComponent],
+    providers: [SearchTermsHighlighterPipe],
 })
 export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';

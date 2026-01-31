@@ -29,11 +29,6 @@ describe('ModifiedTimestampModalComponent', () => {
   };
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ModifiedTimestampModalComponent],
-    })
-    .compileComponents();
-
     fixture = TestBed.createComponent(ModifiedTimestampModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

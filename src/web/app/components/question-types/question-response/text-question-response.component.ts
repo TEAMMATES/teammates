@@ -16,7 +16,6 @@ import {
     selector: 'tm-text-question-response',
     templateUrl: './text-question-response.component.html',
     styleUrls: ['./text-question-response.component.scss'],
-    standalone: false,
 })
 export class TextQuestionResponseComponent
     extends QuestionResponse<FeedbackTextResponseDetails, FeedbackTextQuestionDetails> {

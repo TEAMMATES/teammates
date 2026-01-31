@@ -1,9 +1,11 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
 } from '../respondent-list-info-table/respondent-list-info-table-model';
+import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
 
 /**
  * Re-send results link to students modal.
@@ -12,7 +14,7 @@ import {
     selector: 'tm-resend-results-link-to-respondent-modal',
     templateUrl: './resend-results-link-to-respondent-modal.component.html',
     styleUrls: ['./resend-results-link-to-respondent-modal.component.scss'],
-    standalone: false,
+    imports: [NgIf, RespondentListInfoTableComponent],
 })
 export class ResendResultsLinkToRespondentModalComponent {
 

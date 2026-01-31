@@ -1,4 +1,6 @@
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from './respondent-list-info-table-model';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
@@ -7,10 +9,15 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
  * Student list for users to make selection.
  */
 @Component({
-    selector: 'tm-respondent-list-info-table',
-    templateUrl: './respondent-list-info-table.component.html',
-    styleUrls: ['./respondent-list-info-table.component.scss'],
-    standalone: false,
+  selector: 'tm-respondent-list-info-table',
+  templateUrl: './respondent-list-info-table.component.html',
+  styleUrls: ['./respondent-list-info-table.component.scss'],
+  imports: [
+    NgIf,
+    FormsModule,
+    NgFor,
+    NgClass,
+  ],
 })
 export class RespondentListInfoTableComponent {
 

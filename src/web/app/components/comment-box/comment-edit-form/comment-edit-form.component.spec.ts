@@ -1,8 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentEditFormComponent } from './comment-edit-form.component';
 import {
   CommentOutput,
@@ -10,13 +8,6 @@ import {
   FeedbackResponseDetails,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
-import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
-import {
-  CommentVisibilityControlNamePipe,
-  CommentVisibilityTypeDescriptionPipe,
-  CommentVisibilityTypeNamePipe,
-} from '../comment-visibility-setting.pipe';
 
 describe('CommentEditFormComponent', () => {
   let component: CommentEditFormComponent;
@@ -24,18 +15,6 @@ describe('CommentEditFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CommentEditFormComponent,
-        CommentVisibilityControlNamePipe,
-        CommentVisibilityTypeDescriptionPipe,
-        CommentVisibilityTypeNamePipe,
-      ],
-      imports: [
-        FormsModule,
-        NgbModule,
-        TeammatesCommonModule,
-        RichTextEditorModule,
-      ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),

@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
+import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.directive';
 
 /**
  * The constsum question recipients submission form for a recipient.
  */
 @Component({
-    selector: 'tm-constsum-recipients-question-edit-answer-form',
-    templateUrl: './constsum-recipients-question-edit-answer-form.component.html',
-    styleUrls: ['./constsum-recipients-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-constsum-recipients-question-edit-answer-form',
+  templateUrl: './constsum-recipients-question-edit-answer-form.component.html',
+  styleUrls: ['./constsum-recipients-question-edit-answer-form.component.scss'],
+  imports: [FormsModule, WheelDisablerDirective],
 })
 export class ConstsumRecipientsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {

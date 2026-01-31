@@ -7,6 +7,5 @@ import { Component } from '@angular/core';
     selector: 'tm-maintenance-page',
     templateUrl: './maintenance-page.component.html',
     styleUrls: ['./maintenance-page.component.scss'],
-    standalone: false,
 })
 export class MaintenancePageComponent {}

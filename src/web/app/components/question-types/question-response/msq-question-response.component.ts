@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -14,10 +15,10 @@ import { MSQ_ANSWER_NONE_OF_THE_ABOVE } from '../../../../types/feedback-respons
  * MSQ question response.
  */
 @Component({
-    selector: 'tm-msq-question-response',
-    templateUrl: './msq-question-response.component.html',
-    styleUrls: ['./msq-question-response.component.scss'],
-    standalone: false,
+  selector: 'tm-msq-question-response',
+  templateUrl: './msq-question-response.component.html',
+  styleUrls: ['./msq-question-response.component.scss'],
+  imports: [NgIf, NgFor],
 })
 export class MsqQuestionResponseComponent
     extends QuestionResponse<FeedbackMsqResponseDetails, FeedbackMsqQuestionDetails> {

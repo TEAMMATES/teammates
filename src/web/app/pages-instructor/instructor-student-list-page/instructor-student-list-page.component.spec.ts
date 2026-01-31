@@ -1,17 +1,13 @@
 import { HttpStatusCode, provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { throwError } from 'rxjs';
 import { CourseTab, InstructorStudentListPageComponent } from './instructor-student-list-page.component';
-import { InstructorStudentListPageModule } from './instructor-student-list-page.module';
 import { StudentService } from '../../../services/student.service';
 import { Course } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
-import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 
 describe('InstructorStudentListPageComponent', () => {
   let component: InstructorStudentListPageComponent;
@@ -80,15 +76,10 @@ describe('InstructorStudentListPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        TeammatesRouterModule,
-        RouterModule.forRoot([]),
-        FormsModule,
-        InstructorStudentListPageModule,
-        PanelChevronModule,
         BrowserAnimationsModule,
       ],
       providers: [
-        StudentService,
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

@@ -1,14 +1,19 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
-import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
-import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
+import { SearchParams, InstructorSearchBarComponent } from './instructor-search-bar/instructor-search-bar.component';
+import {
+  SearchStudentsListRowTable,
+  StudentResultTableComponent,
+} from './student-result-table/student-result-table.component';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ApiConst } from '../../../types/api-const';
 import { InstructorPermissionSet, InstructorPrivilege, Student } from '../../../types/api-output';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -16,10 +21,15 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Instructor search page.
  */
 @Component({
-    selector: 'tm-instructor-search-page',
-    templateUrl: './instructor-search-page.component.html',
-    styleUrls: ['./instructor-search-page.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-search-page',
+  templateUrl: './instructor-search-page.component.html',
+  styleUrls: ['./instructor-search-page.component.scss'],
+  imports: [
+    InstructorSearchBarComponent,
+    LoadingSpinnerDirective,
+    NgIf,
+    StudentResultTableComponent,
+  ],
 })
 export class InstructorSearchPageComponent {
 

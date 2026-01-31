@@ -136,6 +136,7 @@ overrides:
       ignoreUrls: true
       ignoreComments: false
       ignoreRegExpLiterals: true
+      ignoreStrings: true
       ignorePattern: "^\\} from '.*';"
     no-console:
     - error

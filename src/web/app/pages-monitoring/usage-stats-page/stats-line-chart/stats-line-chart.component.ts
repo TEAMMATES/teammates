@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3';
-import { DataPoint } from '../usage-statistics-page.component';
+import { DataPoint } from '../data-point.model';
 
 /**
  * Line chart for the statistics.
@@ -11,7 +11,6 @@ import { DataPoint } from '../usage-statistics-page.component';
     selector: 'tm-stats-line-chart',
     templateUrl: './stats-line-chart.component.html',
     styleUrls: ['./stats-line-chart.component.scss'],
-    standalone: false,
 })
 export class StatsLineChartComponent implements OnChanges {
 

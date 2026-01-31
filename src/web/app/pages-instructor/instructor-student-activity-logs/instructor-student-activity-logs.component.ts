@@ -1,6 +1,8 @@
+import { NgFor, NgClass, NgIf, KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -25,7 +27,14 @@ import {
 } from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
 import { DatePickerFormatter } from '../../components/datepicker/datepicker-formatter';
-import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../components/sortable-table/sortable-table.component';
+import { TimepickerComponent } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -72,11 +81,22 @@ interface FeedbackSessionLogModel {
  * Component for student activity and inactivity logs
  */
 @Component({
-    selector: 'tm-instructor-student-activity-logs',
-    templateUrl: './instructor-student-activity-logs.component.html',
-    providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
-    styleUrls: ['./instructor-student-activity-logs.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-student-activity-logs',
+  templateUrl: './instructor-student-activity-logs.component.html',
+  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
+  styleUrls: ['./instructor-student-activity-logs.component.scss'],
+  imports: [
+    LoadingSpinnerDirective,
+    FormsModule,
+    NgFor,
+    NgbInputDatepicker,
+    TimepickerComponent,
+    NgClass,
+    PanelChevronComponent,
+    NgIf,
+    SortableTableComponent,
+    KeyValuePipe,
+  ],
 })
 export class InstructorStudentActivityLogsComponent implements OnInit {
   LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';

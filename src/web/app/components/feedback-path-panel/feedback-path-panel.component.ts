@@ -1,4 +1,7 @@
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackParticipantType,
   FeedbackQuestionType,
@@ -6,15 +9,27 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
+import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe, RecipientTypeSimplifiedDescriptionPipe } from '../teammates-common/feedback-path.pipe';
 
 /**
  * Displaying the feedback path panel.
  */
 @Component({
-    selector: 'tm-feedback-path-panel',
-    templateUrl: './feedback-path-panel.component.html',
-    styleUrls: ['./feedback-path-panel.component.scss'],
-    standalone: false,
+  selector: 'tm-feedback-path-panel',
+  templateUrl: './feedback-path-panel.component.html',
+  styleUrls: ['./feedback-path-panel.component.scss'],
+  imports: [
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgIf,
+    NgbDropdownMenu,
+    NgFor,
+    FormsModule,
+    KeyValuePipe,
+    GiverTypeDescriptionPipe,
+    RecipientTypeDescriptionPipe,
+    RecipientTypeSimplifiedDescriptionPipe,
+  ],
 })
 export class FeedbackPathPanelComponent {
 

@@ -5,7 +5,6 @@ import { NotificationsTableRowModel } from './notifications-table-model';
 import { NotificationsTableComponent } from './notifications-table.component';
 import { NotificationStyle, NotificationTargetUser } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
-import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
 
 const notificationTableRowModel1: NotificationsTableRowModel = {
   isHighlighted: true,
@@ -43,9 +42,6 @@ describe('NotificationsTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        AdminNotificationsPageModule,
-      ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),

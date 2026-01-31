@@ -10,7 +10,6 @@ describe('SavingCompleteModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SavingCompleteModalComponent],
       providers: [
         NgbActiveModal,
         provideHttpClient(),

@@ -1,3 +1,4 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, map, mergeMap } from 'rxjs/operators';
@@ -20,6 +21,12 @@ import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import {
+  GrqRgqViewResponsesComponent,
+} from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
@@ -35,11 +42,22 @@ interface SessionTab {
  * Instructor student records page.
  */
 @Component({
-    selector: 'tm-instructor-student-records-page',
-    templateUrl: './instructor-student-records-page.component.html',
-    styleUrls: ['./instructor-student-records-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-student-records-page',
+  templateUrl: './instructor-student-records-page.component.html',
+  styleUrls: ['./instructor-student-records-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgFor,
+    PanelChevronComponent,
+    NgIf,
+    GrqRgqViewResponsesComponent,
+  ],
+  providers: [
+    CommentsToCommentTableModelPipe,
+    CommentToCommentRowModelPipe,
+  ],
 })
 export class InstructorStudentRecordsPageComponent extends InstructorCommentsComponent implements OnInit {
 

@@ -1,20 +1,11 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
 import { default as responses } from './test-data/constsumOptionQuestionResponses.json';
-import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 
 describe('ConstsumOptionsQuestionStatisticsComponent', () => {
   let component: ConstsumOptionsQuestionStatisticsComponent;
   let fixture: ComponentFixture<ConstsumOptionsQuestionStatisticsComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ConstsumOptionsQuestionStatisticsComponent],
-      imports: [SortableTableModule],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConstsumOptionsQuestionStatisticsComponent);

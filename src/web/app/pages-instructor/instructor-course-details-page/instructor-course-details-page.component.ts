@@ -1,3 +1,4 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -23,9 +24,14 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
-import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
+import { InstructorRoleNamePipe } from '../../components/teammates-common/instructor-role-name.pipe';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface CourseDetailsBundle {
@@ -41,10 +47,19 @@ interface StudentIndexedData {
  * Instructor course details page.
  */
 @Component({
-    selector: 'tm-instructor-course-details-page',
-    templateUrl: './instructor-course-details-page.component.html',
-    styleUrls: ['./instructor-course-details-page.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-course-details-page',
+  templateUrl: './instructor-course-details-page.component.html',
+  styleUrls: ['./instructor-course-details-page.component.scss'],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgFor,
+    NgIf,
+    AjaxLoadingComponent,
+    TeammatesRouterDirective,
+    StudentListComponent,
+    InstructorRoleNamePipe,
+  ],
 })
 export class InstructorCourseDetailsPageComponent implements OnInit {
 

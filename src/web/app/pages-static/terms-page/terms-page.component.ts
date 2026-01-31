@@ -7,6 +7,5 @@ import { Component } from '@angular/core';
     selector: 'tm-terms-page',
     templateUrl: './terms-page.component.html',
     styleUrls: ['./terms-page.component.scss'],
-    standalone: false,
 })
 export class TermsPageComponent {}

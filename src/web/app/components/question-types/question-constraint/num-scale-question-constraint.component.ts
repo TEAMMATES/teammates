@@ -8,7 +8,6 @@ import { QuestionConstraintComponent } from './question-constraint.component';
     selector: 'tm-num-scale-question-constraint',
     templateUrl: './num-scale-question-constraint.component.html',
     styleUrls: ['./num-scale-question-constraint.component.scss'],
-    standalone: false,
 })
 export class NumScaleQuestionConstraintComponent extends QuestionConstraintComponent<any> {
 

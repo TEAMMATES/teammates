@@ -1,14 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { StatusMessageService } from '../../../../../services/status-message.service';
 
 /**
  * The input field to specify options to choose from.
  */
 @Component({
-    selector: 'tm-msq-field',
-    templateUrl: './msq-field.component.html',
-    styleUrls: ['./msq-field.component.scss'],
-    standalone: false,
+  selector: 'tm-msq-field',
+  templateUrl: './msq-field.component.html',
+  styleUrls: ['./msq-field.component.scss'],
+  imports: [FormsModule],
 })
 export class MsqFieldComponent {
 

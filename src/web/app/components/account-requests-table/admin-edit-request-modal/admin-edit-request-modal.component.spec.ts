@@ -10,8 +10,6 @@ describe('RejectWithReasonModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [],
-      imports: [],
       providers: [
         NgbActiveModal,
         provideHttpClient(),

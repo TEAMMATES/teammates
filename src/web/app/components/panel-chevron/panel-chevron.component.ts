@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 /**
@@ -6,10 +7,10 @@ import { Component, Input } from '@angular/core';
  * Note that this icon is optimized for usage in panel headers and may not be suitable in other conditions.
  */
 @Component({
-    selector: 'tm-panel-chevron',
-    templateUrl: './panel-chevron.component.html',
-    styleUrls: ['./panel-chevron.component.scss'],
-    standalone: false,
+  selector: 'tm-panel-chevron',
+  templateUrl: './panel-chevron.component.html',
+  styleUrls: ['./panel-chevron.component.scss'],
+  imports: [NgIf],
 })
 export class PanelChevronComponent {
 

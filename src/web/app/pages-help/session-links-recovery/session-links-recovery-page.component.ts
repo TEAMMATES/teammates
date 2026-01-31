@@ -1,21 +1,29 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ReCaptcha2Component } from 'ngx-captcha';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReCaptcha2Component, NgxCaptchaModule } from 'ngx-captcha';
 import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { SessionLinksRecoveryResponse } from '../../../types/api-output';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Student recover session links page.
  */
 @Component({
-    selector: 'tm-session-links-recovery-page',
-    templateUrl: './session-links-recovery-page.component.html',
-    styleUrls: ['./session-links-recovery-page.component.scss'],
-    standalone: false,
+  selector: 'tm-session-links-recovery-page',
+  templateUrl: './session-links-recovery-page.component.html',
+  styleUrls: ['./session-links-recovery-page.component.scss'],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    NgxCaptchaModule,
+    AjaxLoadingComponent,
+  ],
 })
 export class SessionLinksRecoveryPageComponent implements OnInit {
 

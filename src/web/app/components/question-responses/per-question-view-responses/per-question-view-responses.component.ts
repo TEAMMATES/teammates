@@ -1,3 +1,4 @@
+import { NgIf, NgClass, NgFor } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
@@ -10,16 +11,28 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
+import { CommentTableModalComponent } from '../../comment-box/comment-table-modal/comment-table-modal.component';
+import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
+import { SingleResponseComponent } from '../single-response/single-response.component';
 
 /**
  * Component to display list of responses for one question.
  */
 @Component({
-    selector: 'tm-per-question-view-responses',
-    templateUrl: './per-question-view-responses.component.html',
-    styleUrls: ['./per-question-view-responses.component.scss'],
-    standalone: false,
+  selector: 'tm-per-question-view-responses',
+  templateUrl: './per-question-view-responses.component.html',
+  styleUrls: ['./per-question-view-responses.component.scss'],
+  imports: [
+    NgIf,
+    NgClass,
+    NgFor,
+    SingleResponseComponent,
+    ResponseModerationButtonComponent,
+    CommentTableModalComponent,
+    SafeHtmlPipe,
+  ],
 })
 export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
