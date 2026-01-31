@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .top-padded {
   margin-top: 20px;
 }
@@ -11,5 +13,5 @@
 }
 
 .background-color-warning {
-  background-color: lighten(#fff3cd, 5%);
+  background-color: color.adjust(#fff3cd, $lightness: 5%);
 }

@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+@use 'sass:color';
+
 // Required to use ngx-page-scroll service https://github.com/TEAMMATES/teammates/pull/12224#issuecomment-1480350769.
 html {
   scroll-behavior: auto !important;
@@ -156,15 +158,15 @@ h6,
   }
 
   .btn-primary {
-    background-color: darken(#007bff, 5%); // 5% darker than primary
+    background-color: color.adjust(#007bff, $lightness: -5%); // 5% darker than primary
   }
 
   .btn-secondary {
-    background-color: darken(#6c757d, 10%); // 10% darker than secondary
+    background-color: color.adjust(#6c757d, $lightness: -10%); // 10% darker than secondary
   }
 
   .btn-info {
-    background-color: darken(#0dcaf0, 3%); // 3% darker than info
+    background-color: color.adjust(#0dcaf0, $lightness: -3%); // 3% darker than info
   }
 }
 
