@@ -16,9 +16,10 @@ import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-
  * Displaying the visibility panel.
  */
 @Component({
-  selector: 'tm-visibility-panel',
-  templateUrl: './visibility-panel.component.html',
-  styleUrls: ['./visibility-panel.component.scss'],
+    selector: 'tm-visibility-panel',
+    templateUrl: './visibility-panel.component.html',
+    styleUrls: ['./visibility-panel.component.scss'],
+    standalone: false,
 })
 export class VisibilityPanelComponent {
 

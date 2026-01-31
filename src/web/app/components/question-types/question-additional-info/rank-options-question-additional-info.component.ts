@@ -7,9 +7,10 @@ import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default
  * Additional info for rank options questions.
  */
 @Component({
-  selector: 'tm-rank-options-question-additional-info',
-  templateUrl: './rank-options-question-additional-info.component.html',
-  styleUrls: ['./rank-options-question-additional-info.component.scss'],
+    selector: 'tm-rank-options-question-additional-info',
+    templateUrl: './rank-options-question-additional-info.component.html',
+    styleUrls: ['./rank-options-question-additional-info.component.scss'],
+    standalone: false,
 })
 export class RankOptionsQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackRankOptionsQuestionDetails> {

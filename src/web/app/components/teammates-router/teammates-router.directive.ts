@@ -7,7 +7,8 @@ import { MasqueradeModeService } from '../../../services/masquerade-mode.service
  * Router link that preserves masquerade mode
  */
 @Directive({
-  selector: 'a[tmRouterLink]',
+    selector: 'a[tmRouterLink]',
+    standalone: false,
 })
 export class TeammatesRouterDirective extends RouterLink {
   private queryParamsInternal: { [k: string]: any } = {};

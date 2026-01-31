@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { CourseRelatedInfoComponent } from './course-related-info.component';
 import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
@@ -11,7 +11,7 @@ describe('CourseRelatedInfoComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CourseRelatedInfoComponent],
-      imports: [RouterTestingModule, TeammatesRouterModule],
+      imports: [RouterModule.forRoot([]), TeammatesRouterModule],
     })
     .compileComponents();
   }));

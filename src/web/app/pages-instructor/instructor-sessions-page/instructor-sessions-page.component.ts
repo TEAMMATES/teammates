@@ -62,10 +62,11 @@ interface RecycleBinFeedbackSessionRowModel {
  * Instructor feedback sessions list page.
  */
 @Component({
-  selector: 'tm-instructor-sessions-page',
-  templateUrl: './instructor-sessions-page.component.html',
-  styleUrls: ['./instructor-sessions-page.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-sessions-page',
+    templateUrl: './instructor-sessions-page.component.html',
+    styleUrls: ['./instructor-sessions-page.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorSessionsPageComponent extends InstructorSessionModalPageComponent implements OnInit {
 

@@ -5,7 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
  * Pipe to handle the display of raw HTML.
  */
 @Pipe({
-  name: 'safeHtml',
+    name: 'safeHtml',
+    standalone: false,
 })
 export class SafeHtmlPipe implements PipeTransform {
 

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -26,10 +27,11 @@ export interface NotificationTab {
  * Component for user notifications list.
  */
 @Component({
-  selector: 'tm-user-notifications-list',
-  templateUrl: './user-notifications-list.component.html',
-  styleUrls: ['./user-notifications-list.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-user-notifications-list',
+    templateUrl: './user-notifications-list.component.html',
+    styleUrls: ['./user-notifications-list.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class UserNotificationsListComponent implements OnInit {
 
@@ -45,7 +47,6 @@ export class UserNotificationsListComponent implements OnInit {
 
   notificationTabs: NotificationTab[] = [];
   notificationsSortBy: SortBy = SortBy.NONE;
-  readNotifications: Set<string> = new Set();
 
   isLoadingNotifications: boolean = false;
   hasLoadingFailed: boolean = false;
@@ -65,34 +66,19 @@ export class UserNotificationsListComponent implements OnInit {
     this.hasLoadingFailed = false;
     this.isLoadingNotifications = true;
 
-    this.notificationService.getReadNotifications()
-      .subscribe({
-        next: (readNotifications: ReadNotifications) => {
-          this.readNotifications = new Set(readNotifications.readNotifications);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.hasLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-
-    this.notificationService.getAllNotificationsForTargetUser(this.userType)
+    forkJoin({
+      readNotifications: this.notificationService.getReadNotifications(),
+      notifications: this.notificationService.getAllNotificationsForTargetUser(this.userType),
+    })
       .pipe(finalize(() => { this.isLoadingNotifications = false; }))
       .subscribe({
-        next: (notifications: Notifications) => {
-          notifications.notifications.forEach((notification: Notification) => {
-            this.notificationTabs.push({
-              notification,
-              hasTabExpanded: !this.readNotifications.has(notification.notificationId),
-              isRead: this.readNotifications.has(notification.notificationId),
-              startDate: this.timezoneService.formatToString(
-                  notification.startTimestamp, this.timezone, this.DATE_FORMAT,
-              ),
-              endDate: this.timezoneService.formatToString(
-                  notification.endTimestamp, this.timezone, this.DATE_FORMAT,
-              ),
-            });
-          });
+        next: ({ readNotifications, notifications }: {
+          readNotifications: ReadNotifications, notifications: Notifications,
+        }) => {
+          const readNotificationsSet: Set<string> = new Set(readNotifications.readNotifications);
+          this.notificationTabs = notifications.notifications.map(
+            (notification) => this.createNotificationTab(notification, readNotificationsSet),
+          );
           this.sortNotificationsBy(this.notificationsSortBy);
         },
         error: (resp: ErrorMessageOutput) => {
@@ -100,6 +86,21 @@ export class UserNotificationsListComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
+  }
+
+  private createNotificationTab(notification: Notification, readNotifications: Set<string>): NotificationTab {
+    const isRead: boolean = readNotifications.has(notification.notificationId);
+    return {
+      notification,
+      hasTabExpanded: !isRead,
+      isRead,
+      startDate: this.timezoneService.formatToString(
+        notification.startTimestamp, this.timezone, this.DATE_FORMAT,
+      ),
+      endDate: this.timezoneService.formatToString(
+        notification.endTimestamp, this.timezone, this.DATE_FORMAT,
+      ),
+    };
   }
 
   toggleCard(notificationTab: NotificationTab): void {
@@ -113,8 +114,7 @@ export class UserNotificationsListComponent implements OnInit {
       endTimestamp: notification.endTimestamp,
     })
       .subscribe({
-        next: (readNotifications: ReadNotifications) => {
-          this.readNotifications = new Set(readNotifications.readNotifications);
+        next: () => {
           notificationTab.isRead = true;
           this.statusMessageService.showSuccessToast('Notification marked as read.');
           notificationTab.hasTabExpanded = false;

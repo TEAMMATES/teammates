@@ -11,9 +11,10 @@ import {
  * Instruction of constsum options question.
  */
 @Component({
-  selector: 'tm-constsum-options-question-instruction',
-  templateUrl: './constsum-options-question-instruction.component.html',
-  styleUrls: ['./constsum-options-question-instruction.component.scss'],
+    selector: 'tm-constsum-options-question-instruction',
+    templateUrl: './constsum-options-question-instruction.component.html',
+    styleUrls: ['./constsum-options-question-instruction.component.scss'],
+    standalone: false,
 })
 export class ConstsumOptionsQuestionInstructionComponent {
 

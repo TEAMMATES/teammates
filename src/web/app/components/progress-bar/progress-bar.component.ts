@@ -5,8 +5,9 @@ import { ProgressBarService } from '../../../services/progress-bar.service';
  * Progress bar used to show download progress.
  */
 @Component({
-  selector: 'tm-progress-bar',
-  templateUrl: './progress-bar.component.html',
+    selector: 'tm-progress-bar',
+    templateUrl: './progress-bar.component.html',
+    standalone: false,
 })
 export class ProgressBarComponent implements OnInit {
 

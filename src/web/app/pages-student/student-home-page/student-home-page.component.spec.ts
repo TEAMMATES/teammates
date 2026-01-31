@@ -1,7 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { StudentHomePageComponent } from './student-home-page.component';
@@ -298,9 +299,8 @@ describe('StudentHomePageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [StudentHomePageComponent, ResponseStatusPipe, SubmissionStatusPipe],
       imports: [
-        HttpClientTestingModule,
         NgbModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         TeammatesCommonModule,
         LoadingSpinnerModule,
         LoadingRetryModule,
@@ -308,6 +308,10 @@ describe('StudentHomePageComponent', () => {
         NgbCollapseModule,
         BrowserAnimationsModule,
         PanelChevronModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
   }));

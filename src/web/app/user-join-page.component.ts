@@ -18,9 +18,10 @@ import { AuthInfo, JoinStatus } from '../types/api-output';
  * User join page component.
  */
 @Component({
-  selector: 'tm-user-join-page',
-  templateUrl: './user-join-page.component.html',
-  styleUrls: ['./user-join-page.component.scss'],
+    selector: 'tm-user-join-page',
+    templateUrl: './user-join-page.component.html',
+    styleUrls: ['./user-join-page.component.scss'],
+    standalone: false,
 })
 export class UserJoinPageComponent implements OnInit {
 

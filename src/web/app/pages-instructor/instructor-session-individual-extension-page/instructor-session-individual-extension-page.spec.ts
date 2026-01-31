@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -126,7 +127,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, RouterModule, InstructorSessionIndividualExtensionPageModule],
+        imports: [RouterModule, InstructorSessionIndividualExtensionPageModule],
         providers: [
           StudentService,
           CourseService,
@@ -142,6 +143,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
               }),
             },
           },
+          provideHttpClient(),
+          provideHttpClientTesting(),
         ],
       }).compileComponents();
     }),

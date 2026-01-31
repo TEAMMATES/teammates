@@ -8,9 +8,10 @@ import {
  * Displays a contribution value relative to baseline of 100.
  */
 @Component({
-  selector: 'tm-contribution',
-  templateUrl: './contribution.component.html',
-  styleUrls: ['./contribution.component.scss'],
+    selector: 'tm-contribution',
+    templateUrl: './contribution.component.html',
+    styleUrls: ['./contribution.component.scss'],
+    standalone: false,
 })
 export class ContributionComponent {
 

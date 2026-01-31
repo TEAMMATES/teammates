@@ -39,9 +39,10 @@ export interface CommentRowModel {
  * Comment row component to be used in a comment table
  */
 @Component({
-  selector: 'tm-comment-row',
-  templateUrl: './comment-row.component.html',
-  styleUrls: ['./comment-row.component.scss'],
+    selector: 'tm-comment-row',
+    templateUrl: './comment-row.component.html',
+    styleUrls: ['./comment-row.component.scss'],
+    standalone: false,
 })
 export class CommentRowComponent implements OnChanges {
 

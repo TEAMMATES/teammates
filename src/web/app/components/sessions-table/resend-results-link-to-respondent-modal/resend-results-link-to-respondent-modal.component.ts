@@ -9,9 +9,10 @@ import {
  * Re-send results link to students modal.
  */
 @Component({
-  selector: 'tm-resend-results-link-to-respondent-modal',
-  templateUrl: './resend-results-link-to-respondent-modal.component.html',
-  styleUrls: ['./resend-results-link-to-respondent-modal.component.scss'],
+    selector: 'tm-resend-results-link-to-respondent-modal',
+    templateUrl: './resend-results-link-to-respondent-modal.component.html',
+    styleUrls: ['./resend-results-link-to-respondent-modal.component.scss'],
+    standalone: false,
 })
 export class ResendResultsLinkToRespondentModalComponent {
 

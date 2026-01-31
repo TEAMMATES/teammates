@@ -7,9 +7,10 @@ import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-que
  * Question details edit form component for numerical scale question.
  */
 @Component({
-  selector: 'tm-num-scale-question-edit-details-form',
-  templateUrl: './num-scale-question-edit-details-form.component.html',
-  styleUrls: ['./num-scale-question-edit-details-form.component.scss'],
+    selector: 'tm-num-scale-question-edit-details-form',
+    templateUrl: './num-scale-question-edit-details-form.component.html',
+    styleUrls: ['./num-scale-question-edit-details-form.component.scss'],
+    standalone: false,
 })
 export class NumScaleQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackNumericalScaleQuestionDetails> {

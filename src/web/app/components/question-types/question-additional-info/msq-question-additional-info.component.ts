@@ -10,9 +10,10 @@ import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question
  * Additional info for MSQ questions.
  */
 @Component({
-  selector: 'tm-msq-question-additional-info',
-  templateUrl: './msq-question-additional-info.component.html',
-  styleUrls: ['./msq-question-additional-info.component.scss'],
+    selector: 'tm-msq-question-additional-info',
+    templateUrl: './msq-question-additional-info.component.html',
+    styleUrls: ['./msq-question-additional-info.component.scss'],
+    standalone: false,
 })
 export class MsqQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackMsqQuestionDetails> {
 

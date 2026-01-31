@@ -25,9 +25,10 @@ enum DateTime {
 }
 
 @Component({
-  selector: 'tm-individual-extension-date-modal',
-  templateUrl: './individual-extension-date-modal.component.html',
-  styleUrls: ['./individual-extension-date-modal.component.scss'],
+    selector: 'tm-individual-extension-date-modal',
+    templateUrl: './individual-extension-date-modal.component.html',
+    styleUrls: ['./individual-extension-date-modal.component.scss'],
+    standalone: false,
 })
 export class IndividualExtensionDateModalComponent {
   @Input()

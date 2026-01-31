@@ -12,9 +12,10 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
  * Question details edit form component for Msq question.
  */
 @Component({
-  selector: 'tm-msq-question-edit-details-form',
-  templateUrl: './msq-question-edit-details-form.component.html',
-  styleUrls: ['./msq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+    selector: 'tm-msq-question-edit-details-form',
+    templateUrl: './msq-question-edit-details-form.component.html',
+    styleUrls: ['./msq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+    standalone: false,
 })
 export class MsqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMsqQuestionDetails> {

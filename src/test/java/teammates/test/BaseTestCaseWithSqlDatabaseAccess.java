@@ -227,6 +227,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             return getFeedbackQuestion((FeedbackQuestion) entity);
         } else if (entity instanceof FeedbackResponse) {
             return getFeedbackResponse((FeedbackResponse) entity);
+        } else if (entity instanceof FeedbackResponseComment) {
+            return getFeedbackResponseComment((FeedbackResponseComment) entity);
         } else if (entity instanceof FeedbackSession) {
             return getFeedbackSession((FeedbackSession) entity);
         } else if (entity instanceof Instructor) {
@@ -247,6 +249,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     protected abstract FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq);
 
     protected abstract FeedbackResponseData getFeedbackResponse(FeedbackResponse fr);
+
+    protected abstract FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc);
 
     protected abstract FeedbackSessionData getFeedbackSession(FeedbackSession fs);
 

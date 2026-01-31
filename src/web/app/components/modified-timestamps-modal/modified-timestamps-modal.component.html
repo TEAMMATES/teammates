@@ -1,6 +1,6 @@
 <p *ngIf="coursesOfModifiedSession.length !== 0">
   The feedback session has been copied to all courses. However, changes are made to some session timings as the
-  existing timings are no longer valid in these courses: {{ this.coursesOfModifiedSession.join(', ') }}.
+  existing timings are no longer valid in these courses: {{ coursesOfModifiedSession.join(', ') }}.
   The changes are as follows:
 </p>
 <p *ngIf="coursesOfModifiedSession.length === 0">

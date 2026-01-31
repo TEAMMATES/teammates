@@ -16,9 +16,10 @@ import {
  * Rank options question response.
  */
 @Component({
-  selector: 'tm-rank-options-question-response',
-  templateUrl: './rank-options-question-response.component.html',
-  styleUrls: ['./rank-options-question-response.component.scss'],
+    selector: 'tm-rank-options-question-response',
+    templateUrl: './rank-options-question-response.component.html',
+    styleUrls: ['./rank-options-question-response.component.scss'],
+    standalone: false,
 })
 export class RankOptionsQuestionResponseComponent
     extends QuestionResponse<FeedbackRankOptionsResponseDetails, FeedbackRankOptionsQuestionDetails>

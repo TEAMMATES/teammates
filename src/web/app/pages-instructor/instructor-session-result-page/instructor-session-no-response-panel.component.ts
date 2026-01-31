@@ -25,10 +25,11 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
  * Instructor sessions results page No Response Panel.
  */
 @Component({
-  selector: 'tm-instructor-session-no-response-panel',
-  templateUrl: './instructor-session-no-response-panel.component.html',
-  styleUrls: ['./instructor-session-no-response-panel.component.scss'],
-  animations: [collapseAnim],
+    selector: 'tm-instructor-session-no-response-panel',
+    templateUrl: './instructor-session-no-response-panel.component.html',
+    styleUrls: ['./instructor-session-no-response-panel.component.scss'],
+    animations: [collapseAnim],
+    standalone: false,
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
 

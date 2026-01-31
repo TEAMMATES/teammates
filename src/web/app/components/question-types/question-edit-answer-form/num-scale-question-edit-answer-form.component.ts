@@ -15,9 +15,10 @@ import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback
  * The numerical scale question submission form for a recipient.
  */
 @Component({
-  selector: 'tm-num-scale-question-edit-answer-form',
-  templateUrl: './num-scale-question-edit-answer-form.component.html',
-  styleUrls: ['./num-scale-question-edit-answer-form.component.scss'],
+    selector: 'tm-num-scale-question-edit-answer-form',
+    templateUrl: './num-scale-question-edit-answer-form.component.html',
+    styleUrls: ['./num-scale-question-edit-answer-form.component.scss'],
+    standalone: false,
 })
 export class NumScaleQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackNumericalScaleQuestionDetails,
