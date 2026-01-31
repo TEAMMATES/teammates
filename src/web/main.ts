@@ -2,7 +2,7 @@ import { Provider, importProvidersFrom } from '@angular/core';
 import { UrlSerializer, provideRouter } from '@angular/router';
 import { CustomUrlSerializer } from './app/custom-url-serializer';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { bootstrapApplication, provideProtractorTestingSupport } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { NgbDropdownModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from './environments/environment';
@@ -23,7 +23,6 @@ const customUrlSerializerProvider: Provider = {
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
-      BrowserModule,
       NgbDropdownModule,
       NgxPageScrollCoreModule.forRoot(),
       ServiceWorkerModule.register("ngsw-worker.js", {
@@ -41,6 +40,7 @@ bootstrapApplication(AppComponent, {
     customUrlSerializerProvider,
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
+    provideProtractorTestingSupport(),
     provideRouter(routes),
   ]
 }).catch((err: any) => console.error(err));
