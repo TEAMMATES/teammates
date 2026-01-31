@@ -114,16 +114,20 @@ public class InstructorCourseEnrollPage extends AppPage {
         int numTables = 0;
         List<WebElement> tables = resultsPanel.findElements(By.tagName("table"));
         if (expectedErrorStudents != null) {
-            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedErrorStudents));
+            verifyTableBodyValues(tables.get(numTables), getEnrollmentData(expectedErrorStudents));
+            numTables++;
         }
         if (expectedNewStudents != null) {
-            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedNewStudents));
+            verifyTableBodyValues(tables.get(numTables), getEnrollmentData(expectedNewStudents));
+            numTables++;
         }
         if (expectedModifiedStudents != null) {
-            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedModifiedStudents));
+            verifyTableBodyValues(tables.get(numTables), getEnrollmentData(expectedModifiedStudents));
+            numTables++;
         }
         if (expectedModifiedWithoutChangeStudents != null) {
-            verifyTableBodyValues(tables.get(numTables++), getEnrollmentData(expectedModifiedWithoutChangeStudents));
+            verifyTableBodyValues(tables.get(numTables), getEnrollmentData(expectedModifiedWithoutChangeStudents));
+            numTables++;
         }
         if (expectedUnmodifiedStudents != null) {
             verifyTableBodyValues(tables.get(numTables), getEnrollmentData(expectedUnmodifiedStudents));

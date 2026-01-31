@@ -87,8 +87,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         // Responses require deletion if sub-questions change
         return this.rubricSubQuestions.size() != newRubricDetails.rubricSubQuestions.size()
-            || !this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions)
-            || !newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions);
+                || !this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions)
+                || !newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions);
     }
 
     @Override

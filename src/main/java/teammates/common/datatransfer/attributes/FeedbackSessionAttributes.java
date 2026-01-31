@@ -245,6 +245,7 @@ public final class FeedbackSessionAttributes extends EntityAttributes<FeedbackSe
 
     /**
      * Finds the point in time when the session is considered closed, excluding the grace period.
+     *
      * <p>This varies depending on who is looking at the session:</p>
      * <ul>
      *     <li>For instructors looking at the session in full detail, this is when the end time is reached.</li>
@@ -288,8 +289,8 @@ public final class FeedbackSessionAttributes extends EntityAttributes<FeedbackSe
         // is open for only 24 hours.
         // Hence we do not send a reminder e-mail for feedback session.
         return now.isAfter(startTime)
-               && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
-               && difference.compareTo(Duration.ofHours(hours)) < 0;
+                && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
+                && difference.compareTo(Duration.ofHours(hours)) < 0;
     }
 
     /**
@@ -402,25 +403,25 @@ public final class FeedbackSessionAttributes extends EntityAttributes<FeedbackSe
     @Override
     public String toString() {
         return "FeedbackSessionAttributes [feedbackSessionName="
-               + feedbackSessionName + ", courseId=" + courseId
-               + ", creatorEmail=" + creatorEmail + ", instructions=" + instructions
-               + ", createdTime=" + createdTime + ", deletedTime=" + deletedTime
-               + ", startTime=" + startTime
-               + ", endTime=" + endTime + ", sessionVisibleFromTime="
-               + sessionVisibleFromTime + ", resultsVisibleFromTime="
-               + resultsVisibleFromTime + ", timeZone=" + timeZone
-               + ", gracePeriod=" + getGracePeriodMinutes() + "min"
-               + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
-               + ", sentOpenedEmail=" + sentOpenedEmail
-               + ", sentClosingSoonEmail=" + sentClosingSoonEmail
-               + ", sentClosedEmail=" + sentClosedEmail
-               + ", sentPublishedEmail=" + sentPublishedEmail
-               + ", isOpenedEmailEnabled=" + isOpenedEmailEnabled
-               + ", isClosingSoonEmailEnabled=" + isClosingSoonEmailEnabled
-               + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
-               + ", studentDeadlines=" + new TreeMap<>(studentDeadlines)
-               + ", instructorDeadlines=" + new TreeMap<>(instructorDeadlines)
-               + "]";
+                + feedbackSessionName + ", courseId=" + courseId
+                + ", creatorEmail=" + creatorEmail + ", instructions=" + instructions
+                + ", createdTime=" + createdTime + ", deletedTime=" + deletedTime
+                + ", startTime=" + startTime
+                + ", endTime=" + endTime + ", sessionVisibleFromTime="
+                + sessionVisibleFromTime + ", resultsVisibleFromTime="
+                + resultsVisibleFromTime + ", timeZone=" + timeZone
+                + ", gracePeriod=" + getGracePeriodMinutes() + "min"
+                + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
+                + ", sentOpenedEmail=" + sentOpenedEmail
+                + ", sentClosingSoonEmail=" + sentClosingSoonEmail
+                + ", sentClosedEmail=" + sentClosedEmail
+                + ", sentPublishedEmail=" + sentPublishedEmail
+                + ", isOpenedEmailEnabled=" + isOpenedEmailEnabled
+                + ", isClosingSoonEmailEnabled=" + isClosingSoonEmailEnabled
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
+                + ", studentDeadlines=" + new TreeMap<>(studentDeadlines)
+                + ", instructorDeadlines=" + new TreeMap<>(instructorDeadlines)
+                + "]";
     }
 
     @Override

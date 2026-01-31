@@ -65,10 +65,8 @@ public class StudentSearchTest extends BaseSearchTest {
         ______TS("success: search for students; query string matches some students; results restricted "
                  + "based on instructor's privilege");
 
-        List<InstructorAttributes> ins1OfCourse1 = Arrays.asList(
-                new InstructorAttributes[] { dataBundle.instructors.get("instructor1OfCourse1") });
-        List<InstructorAttributes> ins1OfCourse2 = Arrays.asList(
-                new InstructorAttributes[] { dataBundle.instructors.get("instructor1OfCourse2") });
+        List<InstructorAttributes> ins1OfCourse1 = Arrays.asList(dataBundle.instructors.get("instructor1OfCourse1"));
+        List<InstructorAttributes> ins1OfCourse2 = Arrays.asList(dataBundle.instructors.get("instructor1OfCourse2"));
 
         studentList = studentsDb.search("student1", ins1OfCourse1);
 

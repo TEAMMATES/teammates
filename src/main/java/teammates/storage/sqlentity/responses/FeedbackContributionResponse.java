@@ -50,7 +50,7 @@ public class FeedbackContributionResponse extends FeedbackResponse {
     @Override
     public String toString() {
         return "FeedbackContributionResponse [id=" + super.getId()
-            + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
+                + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
 
     /**

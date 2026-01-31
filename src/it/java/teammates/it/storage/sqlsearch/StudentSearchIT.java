@@ -101,10 +101,8 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: search for students; query string matches some students; results restricted "
                  + "based on instructor's privilege");
 
-        List<Instructor> ins1OfCourse1 = Arrays.asList(
-                new Instructor[] { ins1InCourse1 });
-        List<Instructor> ins1OfCourse4 = Arrays.asList(
-                new Instructor[] { ins1InCourse4 });
+        List<Instructor> ins1OfCourse1 = Arrays.asList(ins1InCourse1);
+        List<Instructor> ins1OfCourse4 = Arrays.asList(ins1InCourse4);
         List<Student> studentList = usersDb.searchStudents("student1", ins1OfCourse1);
 
         verifySearchResults(studentList, stu1InCourse1);

@@ -830,6 +830,7 @@ public final class FeedbackResponsesLogic {
     /**
      * Makes the rankings by one giver in the response to a 'rank recipient question' consistent, after deleting a
      * student.
+     *
      * <p>
      *     Fails silently if the question type is not 'rank recipient question'.
      * </p>
@@ -931,7 +932,7 @@ public final class FeedbackResponsesLogic {
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
         return question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS
-               || question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+                || question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
     /**

@@ -50,7 +50,7 @@ public class FeedbackRubricResponse extends FeedbackResponse {
     @Override
     public String toString() {
         return "FeedbackRubricResponse [id=" + super.getId()
-            + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
+                + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
 
     /**
