@@ -70,9 +70,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       next: (queryParams: any) => {
         this.courseId = queryParams.courseid;
         this.studentEmail = queryParams.studentemail;
-        
-        this.loadInstructorRecords();
-        this.loadStudentResults();
+
+        this.loadInstructorRecords(this.courseId);
+        this.loadStudentResults(this.courseId, this.studentEmail);
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -83,9 +83,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   /**
    * Loads the instructor's records based on the given course ID.
    */
-  loadInstructorRecords(): void {
+  loadInstructorRecords(courseId: string): void {
     this.instructorService.getInstructor({
-      courseId: this.courseId,
+      courseId: courseId,
       intent: Intent.FULL_DETAIL,
     }).subscribe((instructor: Instructor) => {
       this.currInstructorName = instructor.name;
@@ -93,17 +93,17 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   }
 
   /**
-   * Loads the student's feedback session results based on the given course ID and student name.
+   * Loads the student's feedback session results based on the given course ID and student email.
    * Fetches student records and feedback sessions in parallel, then loads results for each session.
    */
-  loadStudentResults(): void {
+  loadStudentResults(courseId: string, studentEmail: string): void {
     this.sessionTabs = [];
     this.hasStudentResultsLoadingFailed = false;
     this.isStudentResultsLoading = true;
 
     combineLatest({
       feedbackSession: this.getFeedbackSessions(this.courseId),
-      student: this.loadStudentRecords(),
+      student: this.loadStudentRecords(courseId, studentEmail),
     }).pipe(
         mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession, student: Student }) => {
           return this.getFeedbackSessionResults(feedbackSession, student);
@@ -127,9 +127,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   /**
    * Loads the student's records based on the given course ID and email.
    */
-  private loadStudentRecords(): Observable<Student> {
+  private loadStudentRecords(courseId: string, studentEmail: string): Observable<Student> {
     return this.studentService.getStudent(
-      this.courseId, this.studentEmail,
+      courseId, studentEmail,
     ).pipe(
       tap((resp: Student) => {
         this.studentName = resp.name;
