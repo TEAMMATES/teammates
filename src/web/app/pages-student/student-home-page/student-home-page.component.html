@@ -53,7 +53,7 @@
             }
             <tm-loading-retry [shouldShowRetry]="studentCourse.hasFeedbackSessionsLoadingFailed"
               [message]="'Failed to load feedback sessions for the course'"
-              (retryEvent)="loadFeedbackSessionsForCourse(studentCourse.courseId)">
+              (retryEvent)="loadFeedbackSessionsForCourse(studentCourse.course.courseId)">
               <div class="table-responsive" *tmIsLoading="studentCourse.isFeedbackSessionsLoading">
                 @if (studentCourse.isTabExpanded) {
                   <div @collapseAnim>

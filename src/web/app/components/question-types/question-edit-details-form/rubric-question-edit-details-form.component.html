@@ -15,7 +15,7 @@
           <td>
             <div>Choices <i class="fas fa-arrow-right"></i></div>
           </td>
-          @for (rubricChoice of model.rubricChoices; track trackByIndex(j, rubricChoice); let j = $index) {
+          @for (rubricChoice of model.rubricChoices; track $index; let j = $index) {
             <th [ngClass]="{'highlight-deletion': j === columnToHighlight}" scope="col">
               <input type="text" class="form-control fw-bold" [disabled]="!isEditable"
                 [ngModel]="rubricChoice" (ngModelChange)="triggerRubricChoiceChange($event, j)">
@@ -24,7 +24,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (rubricDescriptionRow of model.rubricDescriptions; track trackByIndex(i, rubricDescriptionRow); let i = $index) {
+        @for (rubricDescriptionRow of model.rubricDescriptions; track $index; let i = $index) {
           <tr [ngClass]="{'highlight-deletion': i === rowToHighlight}">
             <th scope="row" [attr.aria-label]="model.rubricSubQuestions[i]" class="row-header">
               <div class="input-group">
@@ -47,7 +47,7 @@
                 (ngModelChange)="triggerRubricSubQuestionChange($event, i)" rows="3" [disabled]="!isEditable"></textarea>
               </div>
             </th>
-            @for (rubricDescriptionCell of rubricDescriptionRow; track trackByIndex(j, rubricDescriptionCell); let j = $index) {
+            @for (rubricDescriptionCell of rubricDescriptionRow; track $index; let j = $index) {
               <td [ngClass]="{'highlight-deletion': j === columnToHighlight}">
                 <textarea class="form-control" [ngModel]="rubricDescriptionCell"
                 (ngModelChange)="triggerRubricDescriptionChange($event, i, j)" rows="3" [disabled]="!isEditable"></textarea>

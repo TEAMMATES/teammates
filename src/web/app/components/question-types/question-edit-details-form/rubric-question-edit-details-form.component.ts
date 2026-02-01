@@ -73,13 +73,6 @@ export class RubricQuestionEditDetailsFormComponent
   }
 
   /**
-   * Tracks by index.
-   */
-  trackByIndex(index: number): string {
-    return index.toString();
-  }
-
-  /**
    * Adds a new sub question.
    */
   addNewSubQuestion(): void {

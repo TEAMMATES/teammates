@@ -20,7 +20,7 @@
     @if (!isGeneratedOptionsEnabled) {
       <div class="row">
         <div id="options-section" cdkDropList (cdkDropListDropped)="onMsqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-          @for (num of model.msqChoices; track trackMsqOption(i, num); let i = $index) {
+          @for (num of model.msqChoices; track $index; let i = $index) {
             <div class="margin-top-22px d-flex" cdkDrag cdkDragLockAxis="y">
               <div cdkDragHandle aria-hidden="true">
                 <span class="btn input-group-addon">&#8597; </span>
@@ -80,7 +80,7 @@
       <select id="generate-dropdown" class="form-control form-select" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
         [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)" aria-label="Generate Option List Dropdown">
         @for (option of PARTICIPANT_TYPES; track option) {
-          <option [value]="option">{{ option | generatedChoice }}</option>
+          <option [ngValue]="option">{{ option | generatedChoice }}</option>
         }
       </select>
       <br>

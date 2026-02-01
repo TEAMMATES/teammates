@@ -402,15 +402,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   /**
-   * Tracks submission form for each recipient by the index in the array.
-   *
-   * @see https://angular.io/api/common/NgForOf#properties
-   */
-  trackRecipientSubmissionFormByFn(index: number): any {
-    return index;
-  }
-
-  /**
    * Gets recipient name in {@code FIXED_RECIPIENT} mode.
    */
   getRecipientName(recipientIdentifier: string): string {

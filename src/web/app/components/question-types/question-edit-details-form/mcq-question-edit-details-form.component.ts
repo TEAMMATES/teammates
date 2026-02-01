@@ -31,7 +31,7 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
 export class McqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> {
 
-  readonly PARTICIPANT_TYPES: string[] = [
+  readonly PARTICIPANT_TYPES: FeedbackParticipantType[] = [
     FeedbackParticipantType.STUDENTS,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
     FeedbackParticipantType.TEAMS,
@@ -39,7 +39,7 @@ export class McqQuestionEditDetailsFormComponent
     FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
     FeedbackParticipantType.OWN_TEAM_MEMBERS,
     FeedbackParticipantType.INSTRUCTORS,
-  ];
+  ] as const;
 
   // Used to store and restore user input when user toggles generate option
   storageModel: FeedbackMcqQuestionDetails = {
@@ -117,20 +117,6 @@ export class McqQuestionEditDetailsFormComponent
     const newWeights: number[] = this.model.mcqWeights.slice();
     newWeights[index] = event;
     this.triggerModelChange('mcqWeights', newWeights);
-  }
-
-  /**
-   * Tracks the Mcq option by index.
-   */
-  trackMcqOption(index: number): string {
-    return index.toString();
-  }
-
-  /**
-   * Tracks the Mcq weight by index.
-   */
-  trackMcqWeight(index: number): string {
-    return index.toString();
   }
 
   /**

@@ -34,8 +34,8 @@
           </div>
           <div class="col-md-auto text-md-start">
             <select id="notification-style" class="form-control form-select" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
-              @for (style of NotificationStyle | keyvalue; track style) {
-                <option [ngValue]="style.value">{{ style.key | notificationStyleDescription }}</option>
+              @for (style of notificationStyles; track style) {
+                <option [ngValue]="style">{{ style | notificationStyleDescription }}</option>
               }
             </select>
           </div>

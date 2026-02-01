@@ -13,6 +13,11 @@ import {
   RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
 } from '../../../../types/feedback-response-details';
 
+interface OptionWithRank {
+  rank: number;
+  option: string;
+}
+
 /**
  * Rank options question response.
  */
@@ -25,14 +30,14 @@ export class RankOptionsQuestionResponseComponent
     extends QuestionResponse<FeedbackRankOptionsResponseDetails, FeedbackRankOptionsQuestionDetails>
     implements OnInit {
 
-  orderedAnswer: string[] = [];
+  orderedAnswer: OptionWithRank[] = [];
 
   constructor() {
     super(DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS(), DEFAULT_RANK_OPTIONS_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {
-    let arrayOfRanks: any[][] = [];
+    let arrayOfRanks: OptionWithRank[][] = [];
     for (let i: number = 0; i < this.questionDetails.options.length; i += 1) {
       const rank: number = this.responseDetails.answers[i];
       if (rank === RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {

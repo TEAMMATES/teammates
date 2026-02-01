@@ -8,7 +8,7 @@
   }
 
   <ul class="list-group list-group-flush" >
-    @for (comment of model.commentRows; track trackByIndex(i, comment); let i = $index) {
+    @for (comment of model.commentRows; track $index; let i = $index) {
       <li class="list-group-item">
         @if (comment.originalComment) {
           <tm-comment-row

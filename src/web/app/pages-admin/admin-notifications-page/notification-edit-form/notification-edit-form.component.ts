@@ -41,10 +41,11 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
 export class NotificationEditFormComponent {
 
   NotificationEditFormMode = NotificationEditFormMode;
-  NotificationStyle = NotificationStyle;
   NotificationTargetUser = NotificationTargetUser;
 
   NOTIFICATION_TITLE_MAX_LENGTH = ApiConst.NOTIFICATION_TITLE_MAX_LENGTH;
+
+  notificationStyles = Object.values(NotificationStyle)
 
   @Input()
   guessTimezone = 'UTC';

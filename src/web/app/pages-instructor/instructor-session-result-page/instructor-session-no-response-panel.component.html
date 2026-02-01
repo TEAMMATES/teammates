@@ -12,8 +12,7 @@
             <ng-container *ngTemplateOutlet="extendDeadlineBtn"></ng-container>
           </a>
         } @else {
-          <button type="button" class="btn btn-secondary btn-sm button"
-            [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">
+          <button type="button" class="btn btn-secondary btn-sm button">
             Extend Deadline for All
           </button>
         }

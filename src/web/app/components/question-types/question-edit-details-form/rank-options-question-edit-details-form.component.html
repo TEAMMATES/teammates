@@ -2,7 +2,7 @@
   <div class="col-md-6">
     <div class="row">
       <div id="options-section" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-        @for (num of model.options; track trackRankOption(i, num); let i = $index) {
+        @for (num of model.options; track $index; let i = $index) {
           <div class="mb-3 d-flex" cdkDrag cdkDragLockAxis="y">
             <div cdkDragHandle aria-hidden="true">
               <span class="btn input-group-addon">&#8597; </span>

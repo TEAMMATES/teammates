@@ -81,13 +81,6 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
   }
 
   /**
-   * Tracks the Constsum option by index.
-   */
-  trackConstsumOption(index: number): string {
-    return index.toString();
-  }
-
-  /**
    * Deletes a Constsum option.
    */
   onConstsumOptionDeleted(event: number): void {

@@ -86,13 +86,13 @@
                           <td class="text-break">{{ recycleBinFeedbackSessionRowModel.feedbackSession.courseId }}</td>
                           <td class="text-break">{{ recycleBinFeedbackSessionRowModel.feedbackSession.feedbackSessionName }}</td>
                           <td>
-                            <span class="ngb-tooltip-class" [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
-                              {{ recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
+                            <span class="ngb-tooltip-class" [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp ? (recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone) : '-'" container="body">
+                              {{ recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp ? (recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone) : '-' }}
                             </span>
                           </td>
                           <td>
-                            <span class="ngb-tooltip-class" [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
-                              {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
+                            <span class="ngb-tooltip-class" [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp ? (recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone) : '-'" container="body">
+                              {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp ? (recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone) : '-' }}
                             </span>
                           </td>
                           <td class="text-center actions-cell">

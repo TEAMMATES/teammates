@@ -35,7 +35,7 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
 export class MsqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMsqQuestionDetails> {
 
-  readonly PARTICIPANT_TYPES: string[] = [
+  readonly PARTICIPANT_TYPES: FeedbackParticipantType[] = [
     FeedbackParticipantType.STUDENTS,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
     FeedbackParticipantType.TEAMS,
@@ -43,7 +43,7 @@ export class MsqQuestionEditDetailsFormComponent
     FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
     FeedbackParticipantType.OWN_TEAM_MEMBERS,
     FeedbackParticipantType.INSTRUCTORS,
-  ];
+  ] as const;
 
   // Used to store and restore user input when user toggles generate option
   storageModel: FeedbackMsqQuestionDetails = {
