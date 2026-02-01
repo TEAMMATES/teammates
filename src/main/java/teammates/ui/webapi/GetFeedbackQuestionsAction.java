@@ -2,10 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -32,9 +28,8 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        if (isCourseMigrated(courseId)) {
-            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
-            switch (intent) {
+        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        switch (intent) {
             case STUDENT_SUBMISSION:
                 Student student = getSqlStudentOfCourseFromRequest(courseId);
                 checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
@@ -42,7 +37,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             case FULL_DETAIL:
                 gateKeeper.verifyLoggedInUserPrivileges(userInfo);
                 gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
-                                                feedbackSession);
+                        feedbackSession);
                 break;
             case INSTRUCTOR_SUBMISSION:
                 Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
@@ -58,33 +53,6 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
                 break;
             default:
                 throw new InvalidHttpParameterException("Unknown intent " + intent);
-            }
-        } else {
-            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-            switch (intent) {
-            case STUDENT_SUBMISSION:
-                StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-                checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
-                break;
-            case FULL_DETAIL:
-                gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-                gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
-                break;
-            case INSTRUCTOR_SUBMISSION:
-                InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-                checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
-                break;
-            case INSTRUCTOR_RESULT:
-                instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-                checkAccessControlForInstructorFeedbackResult(instructorAttributes, feedbackSession);
-                break;
-            case STUDENT_RESULT:
-                studentAttributes = getStudentOfCourseFromRequest(courseId);
-                checkAccessControlForStudentFeedbackResult(studentAttributes, feedbackSession);
-                break;
-            default:
-                throw new InvalidHttpParameterException("Unknown intent " + intent);
-            }
         }
     }
 
@@ -94,73 +62,29 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        if (!isCourseMigrated(courseId)) {
-            List<FeedbackQuestionAttributes> questions;
-            switch (intent) {
-            case STUDENT_SUBMISSION:
-                questions = logic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
-                StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-                questions.forEach(question ->
-                        logic.populateFieldsToGenerateInQuestion(question,
-                                studentAttributes.getEmail(), studentAttributes.getTeam()));
-                break;
-            case INSTRUCTOR_SUBMISSION:
-                InstructorAttributes instructor = getInstructorOfCourseFromRequest(courseId);
-                questions = logic.getFeedbackQuestionsForInstructors(feedbackSessionName, courseId, instructor.getEmail());
-                questions.forEach(question ->
-                        logic.populateFieldsToGenerateInQuestion(question,
-                                instructor.getEmail(), null));
-                break;
-            case FULL_DETAIL:
-            case INSTRUCTOR_RESULT:
-            case STUDENT_RESULT:
-                questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-                break;
-            default:
-                throw new InvalidHttpParameterException("Unknown intent " + intent);
-            }
-
-            String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-            if (!StringHelper.isEmpty(moderatedPerson)) {
-                // filter out unmodifiable questions
-                questions.removeIf(question -> !canInstructorSeeQuestion(question));
-            }
-
-            FeedbackQuestionsData response = new FeedbackQuestionsData(questions);
-            response.normalizeQuestionNumber();
-            if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
-                for (FeedbackQuestionData questionData : response.getQuestions()) {
-                    questionData.hideInformationForStudent();
-                }
-            }
-            return new JsonResult(response);
-        }
-
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
 
         List<FeedbackQuestion> questions;
         switch (intent) {
-        case STUDENT_SUBMISSION:
-            questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
-            questions.forEach(question ->
-                    sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
-                            student.getEmail(), student.getTeamName()));
-            break;
-        case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
-            questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
-            questions.forEach(question ->
-                    sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
-                            instructor.getEmail(), null));
-            break;
-        case FULL_DETAIL:
-        case INSTRUCTOR_RESULT:
-        case STUDENT_RESULT:
-            questions = sqlLogic.getFeedbackQuestionsForSession(feedbackSession);
-            break;
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+            case STUDENT_SUBMISSION:
+                questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
+                Student student = getSqlStudentOfCourseFromRequest(courseId);
+                questions.forEach(question -> sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
+                        student.getEmail(), student.getTeamName()));
+                break;
+            case INSTRUCTOR_SUBMISSION:
+                Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+                questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
+                questions.forEach(question -> sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
+                        instructor.getEmail(), null));
+                break;
+            case FULL_DETAIL:
+            case INSTRUCTOR_RESULT:
+            case STUDENT_RESULT:
+                questions = sqlLogic.getFeedbackQuestionsForSession(feedbackSession);
+                break;
+            default:
+                throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
