@@ -319,7 +319,7 @@ task explodeWar(type: Sync) {
 task copyDistToExplodedWar {
     doLast {
         copy {
-            from "src/web/dist"
+            from "src/web/dist/browser"
             into explodeWar.destinationDir
         }
         copy {
@@ -383,7 +383,7 @@ task copyExplodedWarToStagedApp {
 task copyDistToStagedApp {
     doLast {
         copy {
-            from "src/web/dist"
+            from "src/web/dist/browser"
             into "${buildDir}/staged-app/dist"
         }
     }
