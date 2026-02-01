@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('./admin-home-page/admin-home-page.component')
-      .then(m => m.AdminHomePageComponent),
+      .then((m) => m.AdminHomePageComponent),
     data: {
       pageTitle: 'Add New Instructor',
     },
@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: 'accounts',
     loadComponent: () => import('./admin-accounts-page/admin-accounts-page.component')
-      .then(m => m.AdminAccountsPageComponent),
+      .then((m) => m.AdminAccountsPageComponent),
     data: {
       pageTitle: 'Account Details',
     },
@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'search',
     loadComponent: () => import('./admin-search-page/admin-search-page.component')
-      .then(m => m.AdminSearchPageComponent),
+      .then((m) => m.AdminSearchPageComponent),
     data: {
       pageTitle: 'Admin Search',
     },
@@ -29,7 +29,7 @@ const routes: Routes = [
   {
     path: 'sessions',
     loadComponent: () => import('./admin-sessions-page/admin-sessions-page.component')
-      .then(m => m.AdminSessionsPageComponent),
+      .then((m) => m.AdminSessionsPageComponent),
     data: {
       pageTitle: 'Ongoing Sessions',
     },
@@ -37,12 +37,12 @@ const routes: Routes = [
   {
     path: 'timezone',
     loadComponent: () => import('../pages-monitoring/timezone-page/timezone-page.component')
-      .then(m => m.TimezonePageComponent),
+      .then((m) => m.TimezonePageComponent),
   },
   {
     path: 'notifications',
     loadComponent: () => import('./admin-notifications-page/admin-notifications-page.component')
-      .then(m => m.AdminNotificationsPageComponent),
+      .then((m) => m.AdminNotificationsPageComponent),
   },
   {
     path: 'logs',
@@ -50,12 +50,12 @@ const routes: Routes = [
       isAdmin: true,
     },
     loadComponent: () => import('../pages-monitoring/logs-page/logs-page.component')
-      .then(m => m.LogsPageComponent),
+      .then((m) => m.LogsPageComponent),
   },
   {
     path: 'stats',
     loadComponent: () => import('../pages-monitoring/usage-stats-page/usage-statistics-page.component')
-      .then(m => m.UsageStatisticsPageComponent),
+      .then((m) => m.UsageStatisticsPageComponent),
     data: {
       pageTitle: 'Usage Statistics',
     },

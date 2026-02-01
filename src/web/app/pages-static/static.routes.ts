@@ -4,27 +4,27 @@ import { PageNotFoundComponent } from '../page-not-found/page-not-found.componen
 const routes: Routes = [
   {
     path: 'home',
-    loadComponent: () => import('./index-page/index-page.component').then(m => m.IndexPageComponent),
+    loadComponent: () => import('./index-page/index-page.component').then((m) => m.IndexPageComponent),
   },
   {
     path: 'request',
-    loadComponent: () => import('./request-page/request-page.component').then(m => m.RequestPageComponent),
+    loadComponent: () => import('./request-page/request-page.component').then((m) => m.RequestPageComponent),
   },
   {
     path: 'features',
-    loadComponent: () => import('./features-page/features-page.component').then(m => m.FeaturesPageComponent),
+    loadComponent: () => import('./features-page/features-page.component').then((m) => m.FeaturesPageComponent),
   },
   {
     path: 'about',
-    loadComponent: () => import('./about-page/about-page.component').then(m => m.AboutPageComponent),
+    loadComponent: () => import('./about-page/about-page.component').then((m) => m.AboutPageComponent),
   },
   {
     path: 'contact',
-    loadComponent: () => import('./contact-page/contact-page.component').then(m => m.ContactPageComponent),
+    loadComponent: () => import('./contact-page/contact-page.component').then((m) => m.ContactPageComponent),
   },
   {
     path: 'terms',
-    loadComponent: () => import('./terms-page/terms-page.component').then(m => m.TermsPageComponent),
+    loadComponent: () => import('./terms-page/terms-page.component').then((m) => m.TermsPageComponent),
   },
   {
     path: 'help',
@@ -32,12 +32,12 @@ const routes: Routes = [
       {
         path: 'student',
         loadComponent: () =>
-          import('../pages-help/student-help-page/student-help-page.component').then(m => m.StudentHelpPageComponent),
+          import('../pages-help/student-help-page/student-help-page.component').then((m) => m.StudentHelpPageComponent),
       },
       {
         path: 'instructor',
         loadComponent: () =>
-          import('../pages-help/instructor-help-page/instructor-help-page.component').then(m => m.InstructorHelpPageComponent),
+          import('../pages-help/instructor-help-page/instructor-help-page.component').then((m) => m.InstructorHelpPageComponent),
         data: {
           instructorGettingStartedPath: '/web/front/help/getting-started',
         },
@@ -45,7 +45,7 @@ const routes: Routes = [
       {
         path: 'getting-started',
         loadComponent: () =>
-          import('../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component').then(m => m.InstructorHelpGettingStartedComponent),
+          import('../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component').then((m) => m.InstructorHelpGettingStartedComponent),
         data: {
           instructorHelpPath: '/web/front/help/instructor',
         },
@@ -53,7 +53,7 @@ const routes: Routes = [
       {
         path: 'session-links-recovery',
         loadComponent: () =>
-          import('../pages-help/session-links-recovery/session-links-recovery-page.component').then(m => m.SessionLinksRecoveryPageComponent),
+          import('../pages-help/session-links-recovery/session-links-recovery-page.component').then((m) => m.SessionLinksRecoveryPageComponent),
       },
     ],
   },

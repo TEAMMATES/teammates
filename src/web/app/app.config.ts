@@ -1,37 +1,37 @@
 import {
   provideHttpClient,
   withInterceptorsFromDi,
-} from "@angular/common/http";
+} from '@angular/common/http';
 import {
   ApplicationConfig,
   importProvidersFrom,
-} from "@angular/core";
-import { AngularFireModule } from "@angular/fire/compat";
-import { AngularFireAuthModule } from "@angular/fire/compat/auth";
-import { FormsModule } from "@angular/forms";
+} from '@angular/core';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { FormsModule } from '@angular/forms';
 import {
   provideProtractorTestingSupport,
-} from "@angular/platform-browser";
-import { provideAnimations } from "@angular/platform-browser/animations";
-import { provideRouter } from "@angular/router";
-import { ServiceWorkerModule } from "@angular/service-worker";
+} from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import {
   NgbDropdownModule,
   NgbDatepickerModule,
-} from "@ng-bootstrap/ng-bootstrap";
-import { NgxPageScrollCoreModule } from "ngx-page-scroll-core";
-import { environment } from "../environments/environment";
-import { customUrlSerializerProvider } from "./providers/custom-url-serializer";
-import routes from "./app.routes";
+} from '@ng-bootstrap/ng-bootstrap';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import routes from './app.routes';
+import { environment } from '../environments/environment';
+import { customUrlSerializerProvider } from './providers/custom-url-serializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
       NgbDropdownModule,
       NgxPageScrollCoreModule.forRoot(),
-      ServiceWorkerModule.register("ngsw-worker.js", {
+      ServiceWorkerModule.register('ngsw-worker.js', {
         enabled: environment.production,
-        registrationStrategy: "registerImmediately",
+        registrationStrategy: 'registerImmediately',
       }),
       FormsModule,
       NgbDatepickerModule,

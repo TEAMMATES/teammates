@@ -22,7 +22,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./user-join-page.component').then(m => m.UserJoinPageComponent),
+            loadComponent: () => import('./user-join-page.component').then((m) => m.UserJoinPageComponent),
           },
         ],
       },
@@ -32,7 +32,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./login-page.component').then(m => m.LoginPageComponent),
+            loadComponent: () => import('./login-page.component').then((m) => m.LoginPageComponent),
           },
         ],
       },
@@ -43,7 +43,7 @@ const routes: Routes = [
           {
             path: 'result',
             loadComponent: () => import('./pages-session/session-result-page/session-result-page.component')
-              .then(m => m.SessionResultPageComponent),
+              .then((m) => m.SessionResultPageComponent),
             data: {
               intent: Intent.STUDENT_RESULT,
             },
@@ -51,7 +51,7 @@ const routes: Routes = [
           {
             path: 'submission',
             loadComponent: () => import('./pages-session/session-submission-page/session-submission-page.component')
-              .then(m => m.SessionSubmissionPageComponent),
+              .then((m) => m.SessionSubmissionPageComponent),
             data: {
               pageTitle: 'Submit Feedback',
               intent: Intent.STUDENT_SUBMISSION,
