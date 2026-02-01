@@ -20,7 +20,6 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.AuthProxy;
-import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
@@ -45,7 +44,6 @@ public abstract class Action {
     Logic sqlLogic = Logic.inst();
     UserProvision userProvision = UserProvision.inst();
     GateKeeper gateKeeper = GateKeeper.inst();
-    EmailGenerator emailGenerator = EmailGenerator.inst();
     SqlEmailGenerator sqlEmailGenerator = SqlEmailGenerator.inst();
     TaskQueuer taskQueuer = TaskQueuer.inst();
     EmailSender emailSender = EmailSender.inst();
@@ -123,11 +121,6 @@ public abstract class Action {
     public void setSqlEmailGenerator(SqlEmailGenerator sqlEmailGenerator) {
         this.sqlEmailGenerator = sqlEmailGenerator;
     }
-
-    public void setEmailGenerator(EmailGenerator emailGenerator) {
-        this.emailGenerator = emailGenerator;
-    }
-
     /**
      * Returns true if course has been migrated or does not exist in the datastore.
      */
