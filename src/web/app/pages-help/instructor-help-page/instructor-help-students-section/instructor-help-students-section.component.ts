@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import {
   EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,

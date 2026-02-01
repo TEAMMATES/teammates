@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionTabModel } from 'src/web/app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';

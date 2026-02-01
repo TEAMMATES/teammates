@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionDetails, FeedbackQuestionType } from '../../../types/api-output';
 import { ConstsumOptionsQuestionAdditionalInfoComponent } from '../question-types/question-additional-info/constsum-options-question-additional-info.component';

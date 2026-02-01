@@ -1,4 +1,3 @@
-
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
   NgbModal,

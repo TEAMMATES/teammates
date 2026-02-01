@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';

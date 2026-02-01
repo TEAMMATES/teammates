@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { QuestionAdditionalInfo } from './question-additional-info';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';

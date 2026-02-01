@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { StatusMessage } from './status-message';
 

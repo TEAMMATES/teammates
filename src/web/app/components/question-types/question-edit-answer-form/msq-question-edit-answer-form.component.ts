@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';

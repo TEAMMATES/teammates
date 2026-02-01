@@ -45,7 +45,7 @@ export class NotificationEditFormComponent {
 
   NOTIFICATION_TITLE_MAX_LENGTH = ApiConst.NOTIFICATION_TITLE_MAX_LENGTH;
 
-  notificationStyles = Object.values(NotificationStyle)
+  notificationStyles = Object.values(NotificationStyle);
 
   @Input()
   guessTimezone = 'UTC';

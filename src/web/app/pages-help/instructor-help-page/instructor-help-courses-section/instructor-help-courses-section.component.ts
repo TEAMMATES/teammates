@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CoursesSectionQuestions } from './courses-section-questions';
 import { environment } from '../../../../environments/environment';

@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { GeneralSectionQuestions } from './general-section-questions';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';

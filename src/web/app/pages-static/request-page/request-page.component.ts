@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { InstructorRequestFormModel } from './instructor-request-form/instructor-request-form-model';

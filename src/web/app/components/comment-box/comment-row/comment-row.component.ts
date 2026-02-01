@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentRowMode } from './comment-row.mode';

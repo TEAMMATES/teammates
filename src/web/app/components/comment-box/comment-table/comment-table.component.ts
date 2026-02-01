@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentTableModel } from './comment-table.model';
 import {

@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
 import { InstructorSessionResultView } from './instructor-session-result-view';

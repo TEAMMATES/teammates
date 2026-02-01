@@ -1,4 +1,3 @@
-
 import { AfterViewInit, Component, Inject, ViewChild, DOCUMENT } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
