@@ -72,8 +72,8 @@ public class CreateFeedbackSessionAction extends Action {
         }
         Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 createRequest.getSessionVisibleFromTime(), timeZone, true);
-        String visibilityStartAndSessionStartTimeError = FieldValidator
-                .getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
+        String visibilityStartAndSessionStartTimeError =
+                FieldValidator.getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
         if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
             throw new InvalidHttpRequestBodyException("Invalid session visible time: "
                     + visibilityStartAndSessionStartTimeError);
@@ -93,7 +93,8 @@ public class CreateFeedbackSessionAction extends Action {
                 createRequest.getGracePeriod(),
                 true,
                 createRequest.isClosingSoonEmailEnabled(),
-                createRequest.isPublishedEmailEnabled());
+                createRequest.isPublishedEmailEnabled()
+        );
 
         try {
             feedbackSession = sqlLogic.createFeedbackSession(feedbackSession);
