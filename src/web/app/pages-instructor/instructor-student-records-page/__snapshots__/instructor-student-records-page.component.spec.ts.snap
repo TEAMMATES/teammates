@@ -16,7 +16,6 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
   studentName={[Function String]}
-  studentSection=""
   studentService={[Function StudentService]}
   studentTeam=""
   tableComparatorService={[Function TableComparatorService]}
@@ -68,7 +67,6 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
   studentName=""
-  studentSection=""
   studentService={[Function StudentService]}
   studentTeam=""
   tableComparatorService={[Function TableComparatorService]}
@@ -120,7 +118,6 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
   studentName={[Function String]}
-  studentSection=""
   studentService={[Function StudentService]}
   studentTeam=""
   tableComparatorService={[Function TableComparatorService]}

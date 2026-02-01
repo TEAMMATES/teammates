@@ -48,7 +48,6 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   studentName: string = '';
   studentEmail: string = '';
   studentTeam: string = '';
-  studentSection: string = '';
 
   sessionTabs: SessionTab[] = [];
   isStudentResultsLoading: boolean = false;
@@ -71,7 +70,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       next: (queryParams: any) => {
         this.courseId = queryParams.courseid;
         this.studentEmail = queryParams.studentemail;
-
+        
         this.loadInstructorRecords();
         this.loadStudentResults();
       },
@@ -103,18 +102,18 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     this.isStudentResultsLoading = true;
 
     combineLatest({
-      student: this.loadStudentRecords(),
       feedbackSession: this.getFeedbackSessions(this.courseId),
+      student: this.loadStudentRecords(),
     }).pipe(
-        mergeMap(({ student, feedbackSession }: { student: Student, feedbackSession: FeedbackSession }) => {
-          return this.getFeedbackSessionResults(feedbackSession, student.sectionName);
+        mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession, student: Student }) => {
+          return this.getFeedbackSessionResults(feedbackSession, student);
         }),
         finalize(() => {
           this.isStudentResultsLoading = false;
         }),
     ).subscribe({
-      next: ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
-        this.sessionTabs.push(this.createSessionTab(results, feedbackSession));
+      next: ({ feedbackSession, results }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
+        this.sessionTabs.push(this.createSessionTab(feedbackSession, results));
         results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
       },
       error: (errorMessageOutput: ErrorMessageOutput) => {
@@ -135,7 +134,6 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       tap((resp: Student) => {
         this.studentName = resp.name;
         this.studentTeam = resp.teamName;
-        this.studentSection = resp.sectionName;
       }),
     );
   }
@@ -151,15 +149,15 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
 
   /**
    * Fetches the full detail result of the given feedback session in the current course
-   * grouped by the given section.
+   * grouped by the student's section.
    */
-  private getFeedbackSessionResults(feedbackSession: FeedbackSession, groupBySection: string): 
+  private getFeedbackSessionResults(feedbackSession: FeedbackSession, student: Student): 
       Observable<{ results: SessionResults, feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
         .getFeedbackSessionResults({
           courseId: this.courseId,
           feedbackSessionName: feedbackSession.feedbackSessionName,
-          groupBySection,
+          groupBySection: student.sectionName,
           intent: Intent.FULL_DETAIL,
         })
         .pipe(
@@ -175,7 +173,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
   }
 
-  private createSessionTab(results: SessionResults, feedbackSession: FeedbackSession): SessionTab {
+  private createSessionTab(feedbackSession: FeedbackSession, results: SessionResults): SessionTab {
     const giverQuestions: QuestionOutput[]  = structuredClone(results.questions);
     giverQuestions.forEach((questions: QuestionOutput) => {
       questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
