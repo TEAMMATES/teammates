@@ -20,7 +20,7 @@ public class BinFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         gateKeeper.verifyAccessible(
                 sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
                 feedbackSession,
@@ -39,5 +39,4 @@ public class BinFeedbackSessionAction extends Action {
             throw new EntityNotFoundException(e);
         }
     }
-
 }
