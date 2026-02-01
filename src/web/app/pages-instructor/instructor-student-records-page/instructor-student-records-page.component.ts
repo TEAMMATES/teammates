@@ -166,7 +166,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   }
 
   private createSessionTab(results: SessionResults, feedbackSession: FeedbackSession): SessionTab {
-    const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
+    const giverQuestions: QuestionOutput[]  = structuredClone(results.questions);
     giverQuestions.forEach((questions: QuestionOutput) => {
       questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
         !response.isMissingResponse && response.giverEmail === this.studentEmail);
@@ -174,7 +174,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     const responsesGivenByStudent: QuestionOutput[] =
       giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
 
-    const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
+    const recipientQuestions: QuestionOutput[] = structuredClone(results.questions);
     recipientQuestions.forEach((questions: QuestionOutput) => {
       questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
         !response.isMissingResponse && response.recipientEmail === this.studentEmail);
