@@ -142,7 +142,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
         <tbody>
           <tr>
             <td>
-              Season 7 Review
+               Season 7 Review 
             </td>
             <td>
               <ndc-dynamic />
@@ -332,7 +332,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
           </tr>
           <tr>
             <td>
-              Season 8 Review
+               Season 8 Review 
             </td>
             <td>
               <ndc-dynamic />
@@ -380,7 +380,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 <div
                   class="response-rate-1"
                 >
-                   8 / 9
+                   8 / 9 
                 </div>
               </tm-response-rate>
             </td>
@@ -663,10 +663,10 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
         <tbody>
           <tr>
             <td>
-              GOT
+               GOT 
             </td>
             <td>
-              Season 8 Review
+               Season 8 Review 
             </td>
             <td>
               <ndc-dynamic />
@@ -694,7 +694,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 <div
                   class="response-rate-0"
                 >
-                   8 / 9
+                   8 / 9 
                 </div>
               </tm-response-rate>
             </td>
@@ -830,10 +830,10 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
           </tr>
           <tr>
             <td>
-              GOT
+               GOT 
             </td>
             <td>
-              Season 7 Review
+               Season 7 Review 
             </td>
             <td>
               <ndc-dynamic />

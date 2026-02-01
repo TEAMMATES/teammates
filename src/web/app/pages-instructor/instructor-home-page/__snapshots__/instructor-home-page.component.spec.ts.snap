@@ -695,7 +695,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       <tbody>
                         <tr>
                           <td>
-                            First Session
+                             First Session 
                           </td>
                           <td>
                             <ndc-dynamic />
@@ -743,7 +743,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               <div
                                 class="response-rate-0"
                               >
-                                 0 / 6
+                                 0 / 6 
                               </div>
                             </tm-response-rate>
                           </td>
@@ -1272,7 +1272,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <tbody>
                         <tr>
                           <td>
-                            Second Session
+                             Second Session 
                           </td>
                           <td>
                             <ndc-dynamic />
@@ -1320,7 +1320,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <div
                                 class="response-rate-0"
                               >
-                                 5 / 6
+                                 5 / 6 
                               </div>
                             </tm-response-rate>
                           </td>
@@ -1457,7 +1457,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         </tr>
                         <tr>
                           <td>
-                            First Session
+                             First Session 
                           </td>
                           <td>
                             <ndc-dynamic />
@@ -1505,7 +1505,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <div
                                 class="response-rate-1"
                               >
-                                 0 / 6
+                                 0 / 6 
                               </div>
                             </tm-response-rate>
                           </td>

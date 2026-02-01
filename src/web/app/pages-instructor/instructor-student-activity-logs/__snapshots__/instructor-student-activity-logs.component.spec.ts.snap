@@ -1454,22 +1454,22 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                   <tbody>
                     <tr>
                       <td>
-                        15 January 2021
+                         15 January 2021 
                       </td>
                       <td>
-                        Doe John
+                         Doe John 
                       </td>
                       <td>
-                        Viewed the submission page
+                         Viewed the submission page 
                       </td>
                       <td>
-                        doejohn@email.com
+                         doejohn@email.com 
                       </td>
                       <td>
-                        section 1
+                         section 1 
                       </td>
                       <td>
-                        team 1
+                         team 1 
                       </td>
                     </tr>
                   </tbody>

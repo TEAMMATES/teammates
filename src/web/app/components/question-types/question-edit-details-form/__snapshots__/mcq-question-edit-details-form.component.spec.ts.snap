@@ -122,37 +122,37 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
         id="generate-dropdown"
       >
         <option
-          value="STUDENTS"
+          value="0: STUDENTS"
         >
           students
         </option>
         <option
-          value="STUDENTS_EXCLUDING_SELF"
+          value="1: STUDENTS_EXCLUDING_SELF"
         >
           students (excluding self)
         </option>
         <option
-          value="TEAMS"
+          value="2: TEAMS"
         >
           teams
         </option>
         <option
-          value="TEAMS_EXCLUDING_SELF"
+          value="3: TEAMS_EXCLUDING_SELF"
         >
           teams (excluding own team)
         </option>
         <option
-          value="OWN_TEAM_MEMBERS_INCLUDING_SELF"
+          value="4: OWN_TEAM_MEMBERS_INCLUDING_SELF"
         >
           team members
         </option>
         <option
-          value="OWN_TEAM_MEMBERS"
+          value="5: OWN_TEAM_MEMBERS"
         >
           team members (excluding self)
         </option>
         <option
-          value="INSTRUCTORS"
+          value="6: INSTRUCTORS"
         >
           instructors
         </option>
@@ -284,37 +284,37 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
         id="generate-dropdown"
       >
         <option
-          value="STUDENTS"
+          value="0: STUDENTS"
         >
           students
         </option>
         <option
-          value="STUDENTS_EXCLUDING_SELF"
+          value="1: STUDENTS_EXCLUDING_SELF"
         >
           students (excluding self)
         </option>
         <option
-          value="TEAMS"
+          value="2: TEAMS"
         >
           teams
         </option>
         <option
-          value="TEAMS_EXCLUDING_SELF"
+          value="3: TEAMS_EXCLUDING_SELF"
         >
           teams (excluding own team)
         </option>
         <option
-          value="OWN_TEAM_MEMBERS_INCLUDING_SELF"
+          value="4: OWN_TEAM_MEMBERS_INCLUDING_SELF"
         >
           team members
         </option>
         <option
-          value="OWN_TEAM_MEMBERS"
+          value="5: OWN_TEAM_MEMBERS"
         >
           team members (excluding self)
         </option>
         <option
-          value="INSTRUCTORS"
+          value="6: INSTRUCTORS"
         >
           instructors
         </option>
@@ -446,37 +446,37 @@ exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. 
         id="generate-dropdown"
       >
         <option
-          value="STUDENTS"
+          value="0: STUDENTS"
         >
           students
         </option>
         <option
-          value="STUDENTS_EXCLUDING_SELF"
+          value="1: STUDENTS_EXCLUDING_SELF"
         >
           students (excluding self)
         </option>
         <option
-          value="TEAMS"
+          value="2: TEAMS"
         >
           teams
         </option>
         <option
-          value="TEAMS_EXCLUDING_SELF"
+          value="3: TEAMS_EXCLUDING_SELF"
         >
           teams (excluding own team)
         </option>
         <option
-          value="OWN_TEAM_MEMBERS_INCLUDING_SELF"
+          value="4: OWN_TEAM_MEMBERS_INCLUDING_SELF"
         >
           team members
         </option>
         <option
-          value="OWN_TEAM_MEMBERS"
+          value="5: OWN_TEAM_MEMBERS"
         >
           team members (excluding self)
         </option>
         <option
-          value="INSTRUCTORS"
+          value="6: INSTRUCTORS"
         >
           instructors
         </option>

@@ -4,7 +4,6 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
 <tm-notification-edit-form
   NOTIFICATION_TITLE_MAX_LENGTH={[Function Number]}
   NotificationEditFormMode={[Function Object]}
-  NotificationStyle={[Function Object]}
   NotificationTargetUser={[Function Object]}
   addNewNotificationEvent={[Function EventEmitter_]}
   cancelEditingNotificationEvent={[Function EventEmitter_]}
@@ -14,6 +13,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
   guessTimezone={[Function String]}
   model={[Function Object]}
   modelChange={[Function EventEmitter_]}
+  notificationStyles={[Function Array]}
   simpleModalService={[Function SimpleModalService]}
 >
   <div
@@ -97,44 +97,44 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                 id="notification-style"
               >
                 <option
-                  value="0: DANGER"
-                >
-                  Danger (red)
-                </option>
-                <option
-                  value="1: DARK"
-                >
-                  Dark
-                </option>
-                <option
-                  value="2: INFO"
-                >
-                  Info (cyan)
-                </option>
-                <option
-                  value="3: LIGHT"
-                >
-                  Light
-                </option>
-                <option
-                  value="4: PRIMARY"
+                  value="0: PRIMARY"
                 >
                   Primary (blue)
                 </option>
                 <option
-                  value="5: SECONDARY"
+                  value="1: SECONDARY"
                 >
                   Secondary (grey)
                 </option>
                 <option
-                  value="6: SUCCESS"
+                  value="2: SUCCESS"
                 >
                   Success (green)
                 </option>
                 <option
-                  value="7: WARNING"
+                  value="3: DANGER"
+                >
+                  Danger (red)
+                </option>
+                <option
+                  value="4: WARNING"
                 >
                   Warning (yellow)
+                </option>
+                <option
+                  value="5: INFO"
+                >
+                  Info (cyan)
+                </option>
+                <option
+                  value="6: LIGHT"
+                >
+                  Light
+                </option>
+                <option
+                  value="7: DARK"
+                >
+                  Dark
                 </option>
               </select>
             </div>
@@ -640,7 +640,6 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
 <tm-notification-edit-form
   NOTIFICATION_TITLE_MAX_LENGTH={[Function Number]}
   NotificationEditFormMode={[Function Object]}
-  NotificationStyle={[Function Object]}
   NotificationTargetUser={[Function Object]}
   addNewNotificationEvent={[Function EventEmitter_]}
   cancelEditingNotificationEvent={[Function EventEmitter_]}
@@ -650,6 +649,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
   guessTimezone={[Function String]}
   model={[Function Object]}
   modelChange={[Function EventEmitter_]}
+  notificationStyles={[Function Array]}
   simpleModalService={[Function SimpleModalService]}
 >
   <div
@@ -733,44 +733,44 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                 id="notification-style"
               >
                 <option
-                  value="0: DANGER"
-                >
-                  Danger (red)
-                </option>
-                <option
-                  value="1: DARK"
-                >
-                  Dark
-                </option>
-                <option
-                  value="2: INFO"
-                >
-                  Info (cyan)
-                </option>
-                <option
-                  value="3: LIGHT"
-                >
-                  Light
-                </option>
-                <option
-                  value="4: PRIMARY"
+                  value="0: PRIMARY"
                 >
                   Primary (blue)
                 </option>
                 <option
-                  value="5: SECONDARY"
+                  value="1: SECONDARY"
                 >
                   Secondary (grey)
                 </option>
                 <option
-                  value="6: SUCCESS"
+                  value="2: SUCCESS"
                 >
                   Success (green)
                 </option>
                 <option
-                  value="7: WARNING"
+                  value="3: DANGER"
+                >
+                  Danger (red)
+                </option>
+                <option
+                  value="4: WARNING"
                 >
                   Warning (yellow)
+                </option>
+                <option
+                  value="5: INFO"
+                >
+                  Info (cyan)
+                </option>
+                <option
+                  value="6: LIGHT"
+                >
+                  Light
+                </option>
+                <option
+                  value="7: DARK"
+                >
+                  Dark
                 </option>
               </select>
             </div>
@@ -1276,7 +1276,6 @@ exports[`NotificationEditFormComponent should snap with notification that has be
 <tm-notification-edit-form
   NOTIFICATION_TITLE_MAX_LENGTH={[Function Number]}
   NotificationEditFormMode={[Function Object]}
-  NotificationStyle={[Function Object]}
   NotificationTargetUser={[Function Object]}
   addNewNotificationEvent={[Function EventEmitter_]}
   cancelEditingNotificationEvent={[Function EventEmitter_]}
@@ -1286,6 +1285,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
   guessTimezone={[Function String]}
   model={[Function Object]}
   modelChange={[Function EventEmitter_]}
+  notificationStyles={[Function Array]}
   simpleModalService={[Function SimpleModalService]}
 >
   <div
@@ -1386,44 +1386,44 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                 id="notification-style"
               >
                 <option
-                  value="0: DANGER"
-                >
-                  Danger (red)
-                </option>
-                <option
-                  value="1: DARK"
-                >
-                  Dark
-                </option>
-                <option
-                  value="2: INFO"
-                >
-                  Info (cyan)
-                </option>
-                <option
-                  value="3: LIGHT"
-                >
-                  Light
-                </option>
-                <option
-                  value="4: PRIMARY"
+                  value="0: PRIMARY"
                 >
                   Primary (blue)
                 </option>
                 <option
-                  value="5: SECONDARY"
+                  value="1: SECONDARY"
                 >
                   Secondary (grey)
                 </option>
                 <option
-                  value="6: SUCCESS"
+                  value="2: SUCCESS"
                 >
                   Success (green)
                 </option>
                 <option
-                  value="7: WARNING"
+                  value="3: DANGER"
+                >
+                  Danger (red)
+                </option>
+                <option
+                  value="4: WARNING"
                 >
                   Warning (yellow)
+                </option>
+                <option
+                  value="5: INFO"
+                >
+                  Info (cyan)
+                </option>
+                <option
+                  value="6: LIGHT"
+                >
+                  Light
+                </option>
+                <option
+                  value="7: DARK"
+                >
+                  Dark
                 </option>
               </select>
             </div>
