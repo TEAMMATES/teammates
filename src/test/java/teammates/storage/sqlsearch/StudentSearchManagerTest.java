@@ -45,7 +45,6 @@ public class StudentSearchManagerTest extends BaseTestCase {
 
     @BeforeMethod
     public void setUp() {
-        // Use mocked DBs to avoid CoursesDb.inst() / UsersDb.inst() before DB is ready in full suite
         CoursesDb mockCoursesDb = mock(CoursesDb.class);
         UsersDb mockUsersDb = mock(UsersDb.class);
         when(mockCoursesDb.getCourse(anyString())).thenReturn(null);
@@ -66,7 +65,6 @@ public class StudentSearchManagerTest extends BaseTestCase {
         StudentSearchDocument document = searchManager.createDocument(student);
 
         assertNotNull(document);
-        // Verify it's the correct type by checking its fields
         var fields = document.getSearchableFields();
         assertEquals(fields.get("email"), student.getEmail());
         assertEquals(fields.get("courseId"), student.getCourseId());
@@ -83,10 +81,9 @@ public class StudentSearchManagerTest extends BaseTestCase {
 
         searchManager.sortResult(students);
 
-        // Verify sorted by: courseId, section, team, name, email
-        assertEquals(students.get(0), student1); // Section 1, Team A, Student One
-        assertEquals(students.get(1), student2); // Section 1, Team B, Student Two
-        assertEquals(students.get(2), student3); // Section 2, Team A, Student Three
+        assertEquals(students.get(0), student1);
+        assertEquals(students.get(1), student2);
+        assertEquals(students.get(2), student3);
     }
 
     @Test
@@ -101,18 +98,15 @@ public class StudentSearchManagerTest extends BaseTestCase {
 
     @Test
     public void testSearchStudents_withMockedSolrClient_returnsResults() throws Exception {
-        // Setup: Create mocks for Solr client and databases
         HttpSolrClient mockClient = mock(HttpSolrClient.class);
         CoursesDb mockCoursesDb = mock(CoursesDb.class);
         UsersDb mockStudentsDb = mock(UsersDb.class);
         StudentSearchManager managerWithMock =
                 new StudentSearchManager(mockClient, mockCoursesDb, mockStudentsDb, false);
 
-        // Create test data
         Course course = createTestCourse();
         Student student = createTestStudent(course, "student@example.com", "Test Student", "Team 1", "Section 1");
 
-        // Create mock Solr response
         QueryResponse mockResponse = mock(QueryResponse.class);
         SolrDocumentList mockResults = new SolrDocumentList();
         SolrDocument mockDoc = new SolrDocument();
@@ -120,12 +114,10 @@ public class StudentSearchManagerTest extends BaseTestCase {
         mockDoc.addField("email", "student@example.com");
         mockResults.add(mockDoc);
 
-        // Setup mock behavior
         when(mockClient.query(eq("students"), any(SolrQuery.class))).thenReturn(mockResponse);
         when(mockResponse.getResults()).thenReturn(mockResults);
         when(mockStudentsDb.getStudentForEmail(course.getId(), "student@example.com")).thenReturn(student);
 
-        // Execute
         List<Student> results = managerWithMock.searchStudents("student", null);
 
         assertNotNull(results);
@@ -135,7 +127,6 @@ public class StudentSearchManagerTest extends BaseTestCase {
 
     @Test
     public void testSearchStudents_withInstructorFilter_appliesFilter() throws Exception {
-        // Setup
         HttpSolrClient mockClient = mock(HttpSolrClient.class);
         CoursesDb mockCoursesDb = mock(CoursesDb.class);
         UsersDb mockStudentsDb = mock(UsersDb.class);
@@ -146,11 +137,8 @@ public class StudentSearchManagerTest extends BaseTestCase {
         Student student = createTestStudent(course, "student@example.com", "Test Student", "Team 1", "Section 1");
 
         Instructor instructor = createTestInstructor(course);
-        // Make instructor have view student privilege (updatePrivilege mutates stored state;
-        // getCourseLevelPrivileges() returns a copy, so setting on the copy has no effect)
         instructor.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
 
-        // Create mock Solr response
         QueryResponse mockResponse = mock(QueryResponse.class);
         SolrDocumentList mockResults = new SolrDocumentList();
         SolrDocument mockDoc = new SolrDocument();
@@ -158,22 +146,18 @@ public class StudentSearchManagerTest extends BaseTestCase {
         mockDoc.addField("email", "student@example.com");
         mockResults.add(mockDoc);
 
-        // Setup mock behavior
         when(mockClient.query(eq("students"), any(SolrQuery.class))).thenReturn(mockResponse);
         when(mockResponse.getResults()).thenReturn(mockResults);
         when(mockStudentsDb.getStudentForEmail(course.getId(), "student@example.com")).thenReturn(student);
 
-        // Execute with instructor filter
         List<Student> results = managerWithMock.searchStudents("student", Arrays.asList(instructor));
 
-        // Verify: Filter query should be added
         verify(mockClient).query(eq("students"), any(SolrQuery.class));
         assertNotNull(results);
     }
 
     @Test
     public void testSearchStudents_withNoViewPrivilege_returnsEmpty() throws Exception {
-        // Setup
         HttpSolrClient mockClient = mock(HttpSolrClient.class);
         CoursesDb mockCoursesDb = mock(CoursesDb.class);
         UsersDb mockStudentsDb = mock(UsersDb.class);
@@ -182,13 +166,10 @@ public class StudentSearchManagerTest extends BaseTestCase {
 
         Course course = createTestCourse();
         Instructor instructor = createTestInstructor(course);
-        // Instructor does NOT have view student privilege
         instructor.getPrivileges().getCourseLevelPrivileges().setCanViewStudentInSections(false);
 
-        // Execute
         List<Student> results = managerWithMock.searchStudents("student", Arrays.asList(instructor));
 
-        // Verify: Should return empty list without querying Solr
         assertNotNull(results);
         assertEquals(results.size(), 0);
         verifyNoInteractions(mockClient);
@@ -196,7 +177,6 @@ public class StudentSearchManagerTest extends BaseTestCase {
 
     @Test
     public void testPutDocument_withMockedClient_success() throws Exception {
-        // Setup
         HttpSolrClient mockClient = mock(HttpSolrClient.class);
         CoursesDb mockCoursesDb = mock(CoursesDb.class);
         UsersDb mockUsersDb = mock(UsersDb.class);
@@ -206,25 +186,20 @@ public class StudentSearchManagerTest extends BaseTestCase {
         Course course = createTestCourse();
         Student student = createTestStudent(course);
 
-        // Mock CoursesDb to return the course when getCourse is called
         when(mockCoursesDb.getCourse(course.getId())).thenReturn(course);
 
-        // Execute
         managerWithMock.putDocument(student);
 
-        // Verify: Capture the collection argument
         @SuppressWarnings("unchecked")
         ArgumentCaptor<Collection<SolrInputDocument>> collectionCaptor =
                 ArgumentCaptor.forClass(Collection.class);
         verify(mockClient).add(eq("students"), collectionCaptor.capture());
         verify(mockClient).commit(eq("students"));
 
-        // Verify the collection contains exactly one document
         Collection<SolrInputDocument> capturedCollection = collectionCaptor.getValue();
         assertNotNull(capturedCollection);
         assertEquals(capturedCollection.size(), 1);
 
-        // Verify the document content
         SolrInputDocument document = capturedCollection.iterator().next();
         assertNotNull(document);
         assertEquals(document.getFieldValue("id"), student.getId());
@@ -235,7 +210,6 @@ public class StudentSearchManagerTest extends BaseTestCase {
 
     @Test
     public void testDeleteDocuments_withMockedClient_success() throws Exception {
-        // Setup
         HttpSolrClient mockClient = mock(HttpSolrClient.class);
         StudentSearchManager managerWithMock = new StudentSearchManager(mockClient, false);
 
@@ -243,15 +217,12 @@ public class StudentSearchManagerTest extends BaseTestCase {
         UUID id2 = UUID.randomUUID();
         List<String> keys = Arrays.asList(id1.toString(), id2.toString());
 
-        // Execute
         managerWithMock.deleteDocuments(keys);
 
-        // Verify: Method was called with correct collection name
         verify(mockClient).deleteById("students", keys);
         verify(mockClient).commit("students");
     }
 
-    // Helper methods to create test entities
     private Course createTestCourse() {
         return new Course("test-course", "Test Course", "UTC", "Test Institute");
     }

@@ -16,9 +16,8 @@ import teammates.test.BaseTestCase;
 /**
  * SUT: {@link SearchManagerFactory}.
  *
- * <p>These tests mutate static factory state (save/restore via reflection). They are
- * excluded from the main component suite (group {@code sqlsearchFactory}) and run in a
- * separate, non-parallel suite so they cannot affect other tests.
+ * <p>These tests mutate static factory state (save/restore via reflection) and run with
+ * the component suite. Tear-down restores the original factory state after each test.
  */
 public class SearchManagerFactoryTest extends BaseTestCase {
 
