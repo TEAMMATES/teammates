@@ -10,7 +10,6 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.UsageStatistics;
@@ -24,8 +23,6 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
             TimeHelper.getInstantNearestHourBefore(Instant.now()).minus(1, ChronoUnit.HOURS);
     private final UsageStatistics testUsageStatistics =
             getTypicalUsageStatistics(startTime);
-    private final UsageStatisticsAttributes testUsageStatisticsAttributes =
-            getTypicalUsageStatisticsAttributes(startTime);
     private final int collectionTimePeriod = testUsageStatistics.getTimePeriod();
 
     @Override
@@ -53,8 +50,6 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
     public void testExecute_normalCase_shouldSucceed() {
         when(mockLogic.calculateEntitiesStatisticsForTimeRange(isA(Instant.class), isA(Instant.class)))
                 .thenReturn(testUsageStatistics);
-        when(mockDatastoreLogic.calculateEntitiesStatisticsForTimeRange(isA(Instant.class), isA(Instant.class)))
-                .thenReturn(testUsageStatisticsAttributes);
         when(mockLogic.getUsageStatisticsForTimeRange(isA(Instant.class), isA(Instant.class)))
                 .thenReturn(List.of(testUsageStatistics));
 
