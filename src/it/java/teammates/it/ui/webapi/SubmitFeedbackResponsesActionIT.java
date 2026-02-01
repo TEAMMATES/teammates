@@ -614,7 +614,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         ______TS("Failure: invalid http parameters");
         loginInstructor("instructor1OfCourse1");
 
-        verifyHttpParameterFailure(new String[] {});
+        verifyHttpParameterFailure();
 
         ______TS("Failure: not feedback question parameter specified");
         String[] submissionParams = new String[] {Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString()};

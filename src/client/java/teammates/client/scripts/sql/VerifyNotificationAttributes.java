@@ -7,7 +7,6 @@ import teammates.storage.entity.Notification;
 /**
  * Class for verifying notification attributes.
  */
-@SuppressWarnings("PMD")
 public class VerifyNotificationAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Notification, teammates.storage.sqlentity.Notification> {
 

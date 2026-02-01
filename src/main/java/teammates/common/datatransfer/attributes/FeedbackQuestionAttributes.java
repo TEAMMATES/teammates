@@ -130,16 +130,16 @@ public final class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQ
     @Override
     public String toString() {
         return "FeedbackQuestionAttributes [feedbackSessionName="
-               + feedbackSessionName + ", courseId=" + courseId
-               + ", questionText="
-               + getSerializedQuestionDetails() + ", questionDescription=" + questionDescription
-               + ", questionNumber=" + questionNumber
-               + ", questionType=" + getQuestionType() + ", giverType=" + giverType
-               + ", recipientType=" + recipientType
-               + ", numberOfEntitiesToGiveFeedbackTo="
-               + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
-               + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
-               + ", showRecipientNameTo=" + showRecipientNameTo + "]";
+                + feedbackSessionName + ", courseId=" + courseId
+                + ", questionText="
+                + getSerializedQuestionDetails() + ", questionDescription=" + questionDescription
+                + ", questionNumber=" + questionNumber
+                + ", questionType=" + getQuestionType() + ", giverType=" + giverType
+                + ", recipientType=" + recipientType
+                + ", numberOfEntitiesToGiveFeedbackTo="
+                + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
+                + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
+                + ", showRecipientNameTo=" + showRecipientNameTo + "]";
     }
 
     @Override

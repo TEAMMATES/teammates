@@ -69,7 +69,7 @@ public class UserInfoCookie {
      */
     public boolean isValid() {
         return StringHelper.isCorrectSignature(userId, verificationCode)
-            && Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
+                && Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
     }
 
 }

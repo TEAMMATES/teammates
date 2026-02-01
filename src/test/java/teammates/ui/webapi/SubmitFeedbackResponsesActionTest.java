@@ -711,7 +711,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     public void testExecute_noHttpParameters_shouldFail() {
         loginInstructor("instructor2OfCourse1");
 
-        verifyHttpParameterFailure(new String[] {});
+        verifyHttpParameterFailure();
     }
 
     @Test

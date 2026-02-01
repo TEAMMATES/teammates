@@ -256,11 +256,11 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
 
                     InstructorCreateRequest instructorCreateRequest =
                             new InstructorCreateRequest(
-                                INSTRUCTOR_ID,
-                                INSTRUCTOR_NAME,
-                                UPDATE_INSTRUCTOR_EMAIL,
-                                "Co-owner",
-                                "Co-owner", true);
+                                    INSTRUCTOR_ID,
+                                    INSTRUCTOR_NAME,
+                                    UPDATE_INSTRUCTOR_EMAIL,
+                                    "Co-owner",
+                                    "Co-owner", true);
 
                     String updateData = sanitizeForCsv(JsonUtils.toJson(instructorCreateRequest));
                     csvRow.add(updateData);

@@ -23,7 +23,6 @@ public class NotificationsLogicTest extends BaseLogicTest {
     private NotificationAttributes n;
     private final NotificationsDb notifDb = NotificationsDb.inst();
     private final NotificationsLogic notifLogic = NotificationsLogic.inst();
-    @SuppressWarnings("PMD.FinalFieldCouldBeStatic")
     private final Map<String, NotificationAttributes> typicalNotifications = getTypicalDataBundle().notifications;
 
     @Override

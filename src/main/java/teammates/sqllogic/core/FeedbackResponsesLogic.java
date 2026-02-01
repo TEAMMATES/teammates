@@ -340,6 +340,7 @@ public final class FeedbackResponsesLogic {
     /**
      * Makes the rankings by one giver in the response to a 'rank recipient question' consistent, after deleting a
      * student.
+     *
      * <p>
      *     Fails silently if the question type is not 'rank recipient question'.
      * </p>
@@ -461,6 +462,7 @@ public final class FeedbackResponsesLogic {
 
     /**
      * Updates responses for a student when his team changes.
+     *
      * <p>
      *     This is done by deleting responses that are no longer relevant to him in his new team.
      * </p>
@@ -1001,7 +1003,6 @@ public final class FeedbackResponsesLogic {
         }
         return isVisibleResponse;
     }
-
 
     /**
      * Gets all responses for a session.

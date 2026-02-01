@@ -353,6 +353,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
+    @SuppressWarnings("PMD.IdenticalConditionalBranches") // TODO find out why!
     private void checkAccessControlForPreview(FeedbackSessionAttributes feedbackSession, boolean isInstructor)
             throws UnauthorizedAccessException {
         gateKeeper.verifyLoggedInUserPrivileges(userInfo);
@@ -367,6 +368,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
+    @SuppressWarnings("PMD.IdenticalConditionalBranches") // TODO find out why!
     private void checkAccessControlForPreview(FeedbackSession feedbackSession, boolean isInstructor)
             throws UnauthorizedAccessException {
         gateKeeper.verifyLoggedInUserPrivileges(userInfo);

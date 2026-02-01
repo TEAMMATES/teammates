@@ -151,6 +151,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     @Override
+    @SuppressWarnings("PMD.RelianceOnDefaultCharset")
     @SuppressFBWarnings("DM_DEFAULT_ENCODING")
     public PrintWriter getWriter() {
         return new PrintWriter(System.out);

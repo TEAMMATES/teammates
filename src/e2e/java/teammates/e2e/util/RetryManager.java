@@ -31,7 +31,6 @@ public final class RetryManager {
      * @throws MaximumRetriesExceededException if maximum retries are exceeded.
      */
     @SafeVarargs
-    @SuppressWarnings("PMD.AvoidCatchingThrowable") // allow users to catch specific errors e.g. AssertionError
     public final void runUntilNoRecognizedException(
             Retryable task, Class<? extends Throwable>... recognizedExceptionTypes)
             throws MaximumRetriesExceededException {

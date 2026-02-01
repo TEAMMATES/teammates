@@ -573,8 +573,8 @@ public class FeedbackSession extends BaseEntity {
         // is open for only 24 hours.
         // Hence we do not send a reminder e-mail for feedback session.
         return now.isAfter(startTime)
-               && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
-               && difference.compareTo(Duration.ofHours(hours)) < 0;
+                && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
+                && difference.compareTo(Duration.ofHours(hours)) < 0;
     }
 
     /**
