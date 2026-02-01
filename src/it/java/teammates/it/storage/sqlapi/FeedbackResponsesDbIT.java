@@ -323,7 +323,9 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Match both giver and recipient section 2 in session 1");
         fetchType = FeedbackResultFetchType.BOTH;
         expected = List.of(
-                testDataBundle.feedbackResponses.get("response4ForQ1")
+                testDataBundle.feedbackResponses.get("response4ForQ1"),
+                testDataBundle.feedbackResponses.get("response3ForQ1"),
+                testDataBundle.feedbackResponses.get("response3ForQ2")
         );
         actual = frDb.getFeedbackResponsesForSessionInSection(session1, course.getId(),
                 section2.getName(), fetchType);
@@ -388,7 +390,8 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("Match both giver and recipient section 2 for Q1");
         fetchType = FeedbackResultFetchType.BOTH;
         expected = List.of(
-                testDataBundle.feedbackResponses.get("response4ForQ1")
+                testDataBundle.feedbackResponses.get("response4ForQ1"),
+                testDataBundle.feedbackResponses.get("response3ForQ1")
         );
         actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(), section2.getName(), fetchType);
         assertListResponsesEqual(expected, actual);
