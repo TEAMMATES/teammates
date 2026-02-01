@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('./instructor-home-page/instructor-home-page.component')
-      .then((m: any) => m.InstructorHomePageComponent),
+      .then(m => m.InstructorHomePageComponent),
   },
   {
     path: 'courses',
@@ -17,12 +17,12 @@ const routes: Routes = [
           pageTitle: 'Courses',
         },
         loadComponent: () => import('./instructor-courses-page/instructor-courses-page.component')
-          .then((m: any) => m.InstructorCoursesPageComponent),
+          .then(m => m.InstructorCoursesPageComponent),
       },
       {
         path: 'edit',
         loadComponent: () => import('./instructor-course-edit-page/instructor-course-edit-page.component')
-          .then((m: any) => m.InstructorCourseEditPageComponent),
+          .then(m => m.InstructorCourseEditPageComponent),
         data: {
           pageTitle: 'Edit Course Details',
         },
@@ -30,17 +30,17 @@ const routes: Routes = [
       {
         path: 'details',
         loadComponent: () => import('./instructor-course-details-page/instructor-course-details-page.component')
-          .then((m: any) => m.InstructorCourseDetailsPageComponent),
+          .then(m => m.InstructorCourseDetailsPageComponent),
       },
       {
         path: 'enroll',
         loadComponent: () => import('./instructor-course-enroll-page/instructor-course-enroll-page.component')
-          .then((m: any) => m.InstructorCourseEnrollPageComponent),
+          .then(m => m.InstructorCourseEnrollPageComponent),
       },
       {
         path: 'student-activity-logs',
         loadComponent: () => import('./instructor-student-activity-logs/instructor-student-activity-logs.component')
-          .then((m: any) => m.InstructorStudentActivityLogsComponent),
+          .then(m => m.InstructorStudentActivityLogsComponent),
       },
       {
         path: 'student',
@@ -49,13 +49,13 @@ const routes: Routes = [
             path: 'details',
             loadComponent: () =>
               import('./instructor-course-student-details-page/instructor-course-student-details-page.component')
-                .then((m: any) => m.InstructorCourseStudentDetailsPageComponent),
+                .then(m => m.InstructorCourseStudentDetailsPageComponent),
           },
           {
             path: 'edit',
             loadComponent: () =>
               import('./instructor-course-student-edit-page/instructor-course-student-edit-page.component')
-                .then((m: any) => m.InstructorCourseStudentEditPageComponent),
+                .then(m => m.InstructorCourseStudentEditPageComponent),
             data: {
               pageTitle: 'Edit Student Details',
             },
@@ -70,7 +70,7 @@ const routes: Routes = [
       {
         path: '',
         loadComponent: () => import('./instructor-sessions-page/instructor-sessions-page.component')
-          .then((m: any) => m.InstructorSessionsPageComponent),
+          .then(m => m.InstructorSessionsPageComponent),
         data: {
           pageTitle: 'Feedback Sessions',
         },
@@ -79,7 +79,7 @@ const routes: Routes = [
         path: 'individual-extension',
         loadComponent: () =>
           import('./instructor-session-individual-extension-page/instructor-session-individual-extension-page.component')
-            .then((m: any) => m.InstructorSessionIndividualExtensionPageComponent),
+            .then(m => m.InstructorSessionIndividualExtensionPageComponent),
         data: {
           pageTitle: 'Individual Deadline Extensions',
         },
@@ -87,7 +87,7 @@ const routes: Routes = [
       {
         path: 'edit',
         loadComponent: () => import('./instructor-session-edit-page/instructor-session-edit-page.component')
-          .then((m: any) => m.InstructorSessionEditPageComponent),
+          .then(m => m.InstructorSessionEditPageComponent),
         data: {
           pageTitle: 'Edit Feedback Session',
         },
@@ -95,7 +95,7 @@ const routes: Routes = [
       {
         path: 'submission',
         loadComponent: () => import('../pages-session/session-submission-page/session-submission-page.component')
-          .then((m: any) => m.SessionSubmissionPageComponent),
+          .then(m => m.SessionSubmissionPageComponent),
         data: {
           pageTitle: 'Submit Feedback',
           intent: Intent.INSTRUCTOR_SUBMISSION,
@@ -104,7 +104,7 @@ const routes: Routes = [
       {
         path: 'result',
         loadComponent: () => import('../pages-session/session-result-page/session-result-page.component')
-          .then((m: any) => m.SessionResultPageComponent),
+          .then(m => m.SessionResultPageComponent),
         data: {
           intent: Intent.INSTRUCTOR_RESULT,
         },
@@ -112,7 +112,7 @@ const routes: Routes = [
       {
         path: 'report',
         loadComponent: () => import('./instructor-session-result-page/instructor-session-result-page.component')
-          .then((m: any) => m.InstructorSessionResultPageComponent),
+          .then(m => m.InstructorSessionResultPageComponent),
       },
     ],
   },
@@ -122,19 +122,19 @@ const routes: Routes = [
       {
         path: '',
         loadComponent: () => import('./instructor-student-list-page/instructor-student-list-page.component')
-          .then((m: any) => m.InstructorStudentListPageComponent),
+          .then(m => m.InstructorStudentListPageComponent),
       },
       {
         path: 'records',
         loadComponent: () => import('./instructor-student-records-page/instructor-student-records-page.component')
-          .then((m: any) => m.InstructorStudentRecordsPageComponent),
+          .then(m => m.InstructorStudentRecordsPageComponent),
       },
     ],
   },
   {
     path: 'search',
     loadComponent: () => import('./instructor-search-page/instructor-search-page.component')
-      .then((m: any) => m.InstructorSearchPageComponent),
+      .then(m => m.InstructorSearchPageComponent),
     data: {
       pageTitle: 'Search Students',
     },
@@ -142,12 +142,12 @@ const routes: Routes = [
   {
     path: 'notifications',
     loadComponent: () => import('./instructor-notifications-page/instructor-notifications-page.component')
-      .then((m: any) => m.InstructorNotificationsPageComponent),
+      .then(m => m.InstructorNotificationsPageComponent),
   },
   {
     path: 'help',
     loadComponent: () => import('../pages-help/instructor-help-page/instructor-help-page.component')
-      .then((m: any) => m.InstructorHelpPageComponent),
+      .then(m => m.InstructorHelpPageComponent),
     data: {
       instructorGettingStartedPath: '/web/instructor/getting-started',
     },
@@ -155,7 +155,7 @@ const routes: Routes = [
   {
     path: 'getting-started',
     loadComponent: () => import('../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component')
-      .then((m: any) => m.InstructorHelpGettingStartedComponent),
+      .then(m => m.InstructorHelpGettingStartedComponent),
     data: {
       instructorHelpPath: '/web/instructor/help',
     },

@@ -8,17 +8,17 @@ const routes: Routes = [
       isAdmin: false,
     },
     loadComponent: () => import('../pages-monitoring/logs-page/logs-page.component')
-        .then((m: any) => m.LogsPageComponent),
+        .then(m => m.LogsPageComponent),
   },
   {
     path: 'timezone',
     loadComponent: () => import('../pages-monitoring/timezone-page/timezone-page.component')
-        .then((m: any) => m.TimezonePageComponent),
+        .then(m => m.TimezonePageComponent),
   },
   {
     path: 'stats',
     loadComponent: () => import('../pages-monitoring/usage-stats-page/usage-statistics-page.component')
-        .then((m: any) => m.UsageStatisticsPageComponent),
+        .then(m => m.UsageStatisticsPageComponent),
     data: {
       pageTitle: 'Usage Statistics',
     },

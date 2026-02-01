@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('./student-home-page/student-home-page.component')
-      .then((m: any) => m.StudentHomePageComponent),
+      .then(m => m.StudentHomePageComponent),
     data: {
       pageTitle: 'Student Home',
     },
@@ -14,7 +14,7 @@ const routes: Routes = [
   {
     path: 'course',
     loadComponent: () => import('./student-course-details-page/student-course-details-page.component')
-      .then((m: any) => m.StudentCourseDetailsPageComponent),
+      .then(m => m.StudentCourseDetailsPageComponent),
   },
   {
     path: 'sessions',
@@ -22,7 +22,7 @@ const routes: Routes = [
       {
         path: 'result',
         loadComponent: () => import('../pages-session/session-result-page/session-result-page.component')
-          .then((m: any) => m.SessionResultPageComponent),
+          .then(m => m.SessionResultPageComponent),
         data: {
           intent: Intent.STUDENT_RESULT,
         },
@@ -30,7 +30,7 @@ const routes: Routes = [
       {
         path: 'submission',
         loadComponent: () => import('../pages-session/session-submission-page/session-submission-page.component')
-          .then((m: any) => m.SessionSubmissionPageComponent),
+          .then(m => m.SessionSubmissionPageComponent),
         data: {
           pageTitle: 'Submit Feedback',
           intent: Intent.STUDENT_SUBMISSION,
@@ -41,12 +41,12 @@ const routes: Routes = [
   {
     path: 'notifications',
     loadComponent: () => import('./student-notifications-page/student-notifications-page.component')
-      .then((m: any) => m.StudentNotificationsPageComponent),
+      .then(m => m.StudentNotificationsPageComponent),
   },
   {
     path: 'help',
     loadComponent: () => import('../pages-help/student-help-page/student-help-page.component')
-      .then((m: any) => m.StudentHelpPageComponent),
+      .then(m => m.StudentHelpPageComponent),
   },
   {
     path: '',
