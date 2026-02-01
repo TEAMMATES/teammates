@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   RankOptionsQuestionStatisticsCalculation,
@@ -18,7 +18,7 @@ import {
   selector: 'tm-rank-options-question-statistics',
   templateUrl: './rank-options-question-statistics.component.html',
   styleUrls: ['./rank-options-question-statistics.component.scss'],
-  imports: [NgIf, SortableTableComponent],
+  imports: [SortableTableComponent],
 })
 export class RankOptionsQuestionStatisticsComponent extends RankOptionsQuestionStatisticsCalculation
     implements OnInit, OnChanges {

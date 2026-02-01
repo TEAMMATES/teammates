@@ -1,4 +1,4 @@
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
@@ -21,9 +21,7 @@ import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe, RecipientTypeSi
   imports: [
     NgbDropdown,
     NgbDropdownToggle,
-    NgIf,
     NgbDropdownMenu,
-    NgFor,
     FormsModule,
     KeyValuePipe,
     GiverTypeDescriptionPipe,

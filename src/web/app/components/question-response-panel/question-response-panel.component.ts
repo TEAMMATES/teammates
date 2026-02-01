@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component, Input } from '@angular/core';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -30,12 +30,10 @@ import { QuestionTextWithInfoComponent } from '../question-text-with-info/questi
   templateUrl: './question-response-panel.component.html',
   styleUrls: ['./question-response-panel.component.scss'],
   imports: [
-    NgFor,
     DestroyableDirective,
     InViewportDirective,
     LoadingSpinnerDirective,
     LoadingRetryComponent,
-    NgIf,
     QuestionTextWithInfoComponent,
     SingleStatisticsComponent,
     StudentViewResponsesComponent,

@@ -36,28 +36,32 @@
       </div>
     </div>
     <p> Select students or instructors from the lists and click the <b>Extend / Edit</b> or <b>Delete</b> buttons at
-      the bottom of the page to update their feedback session deadline. </p>
-  </div>
+  the bottom of the page to update their feedback session deadline. </p>
+</div>
 </tm-loading-retry>
 
 <tm-loading-retry [shouldShowRetry]="hasLoadedAllStudentsFailed" [message]="'Failed to load all students'"
   (retryEvent)="loadFeedbackSessionAndIndividuals()">
   <div *tmIsLoading="isLoadingAllStudents">
-    <div *ngIf="studentsOfCourse.length > 0" class="form-check">
-      <input id="select-not-submitted-student-btn" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitStudentsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedStudentsHandler($event)"/>
-      <label for="select-not-submitted-student-btn" class="form-check-label">Select all students not yet submitted</label>
-    </div>
-    </div>
+    @if (studentsOfCourse.length > 0) {
+      <div class="form-check">
+        <input id="select-not-submitted-student-btn" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitStudentsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedStudentsHandler($event)"/>
+        <label for="select-not-submitted-student-btn" class="form-check-label">Select all students not yet submitted</label>
+      </div>
+    }
+  </div>
 </tm-loading-retry>
 
 <tm-loading-retry [shouldShowRetry]="hasLoadedAllInstructorsFailed" [message]="'Failed to load all instructors'"
   (retryEvent)="loadFeedbackSessionAndIndividuals()">
   <div *tmIsLoading="isLoadingAllInstructors">
-    <div *ngIf="instructorsOfCourse.length > 0" class="form-check">
-      <input id="select-not-submitted-instructor-btn" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitInstructorsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedInstructorsHandler($event)"/>
-      <label for="select-not-submitted-instructor-btn" class="form-check-label">Select all instructors not yet submitted</label>
-    </div>
-    </div>
+    @if (instructorsOfCourse.length > 0) {
+      <div class="form-check">
+        <input id="select-not-submitted-instructor-btn" class="form-check-input" type="checkbox" [ngModel]="isAllYetToSubmitInstructorsSelected" (ngModelChange)="changeSelectionStatusForAllYetSubmittedInstructorsHandler($event)"/>
+        <label for="select-not-submitted-instructor-btn" class="form-check-label">Select all instructors not yet submitted</label>
+      </div>
+    }
+  </div>
 </tm-loading-retry>
 
 <tm-loading-retry [shouldShowRetry]="hasLoadedAllStudentsFailed" [message]="'Failed to load students'"
@@ -77,10 +81,14 @@
                 Section
                 <span class="fa-stack" aria-hidden="true">
                   <i class="fas fa-sort"></i>
-                  <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.DESC"
+                  @if (sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.DESC) {
+                    <i
                     class="fas fa-sort-down"></i>
-                  <i *ngIf="sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.ASC"
+                  }
+                  @if (sortStudentsBy === SortBy.SECTION_NAME && sortStudentOrder === SortOrder.ASC) {
+                    <i
                     class="fas fa-sort-up"></i>
+                  }
                 </span>
               </button>
             </th>
@@ -89,10 +97,14 @@
                 Team
                 <span class="fa-stack" aria-hidden="true">
                   <i class="fas fa-sort"></i>
-                  <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.DESC"
+                  @if (sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.DESC) {
+                    <i
                     class="fas fa-sort-down"></i>
-                  <i *ngIf="sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.ASC"
+                  }
+                  @if (sortStudentsBy === SortBy.TEAM_NAME && sortStudentOrder === SortOrder.ASC) {
+                    <i
                     class="fas fa-sort-up"></i>
+                  }
                 </span>
               </button>
             </th>
@@ -101,10 +113,14 @@
                 Name
                 <span class="fa-stack" aria-hidden="true">
                   <i class="fas fa-sort"></i>
-                  <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.DESC"
+                  @if (sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.DESC) {
+                    <i
                     class="fas fa-sort-down"></i>
-                  <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.ASC"
+                  }
+                  @if (sortStudentsBy === SortBy.RESPONDENT_NAME && sortStudentOrder === SortOrder.ASC) {
+                    <i
                     class="fas fa-sort-up"></i>
+                  }
                 </span>
               </button>
             </th>
@@ -113,10 +129,14 @@
                 Email
                 <span class="fa-stack">
                   <i class="fas fa-sort"></i>
-                  <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.DESC"
+                  @if (sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.DESC) {
+                    <i
                     class="fas fa-sort-down"></i>
-                  <i *ngIf="sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.ASC"
+                  }
+                  @if (sortStudentsBy === SortBy.RESPONDENT_EMAIL && sortStudentOrder === SortOrder.ASC) {
+                    <i
                     class="fas fa-sort-up"></i>
+                  }
                 </span>
               </button>
             </th>
@@ -125,27 +145,33 @@
                 Current Deadline
                 <span class="fa-stack" aria-hidden="true">
                   <i class="fas fa-sort"></i>
-                  <i *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.DESC"
+                  @if (sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.DESC) {
+                    <i
                     class="fas fa-sort-down"></i>
-                  <i *ngIf="sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.ASC"
+                  }
+                  @if (sortStudentsBy === SortBy.SESSION_END_DATE && sortStudentOrder === SortOrder.ASC) {
+                    <i
                     class="fas fa-sort-up"></i>
+                  }
                 </span>
               </button>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let student of studentsOfCourse; index as i" id="student-row-{{ i }}" (click)="selectStudent(i)"
-            [ngClass]="{ 'table-warning': student.hasExtension === true }">
-            <td class="align-center">
-              <input type="checkbox" id="student-checkbox-{{ i }}" [checked]="student.isSelected" [attr.aria-label]="getAriaLabel(student)" />
-            </td>
-            <td>{{ student.sectionName }}</td>
-            <td>{{ student.teamName }}</td>
-            <td>{{ student.name }}</td>
-            <td>{{ student.email }}</td>
-            <td>{{ student.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
-          </tr>
+          @for (student of studentsOfCourse; track student; let i = $index) {
+            <tr id="student-row-{{ i }}" (click)="selectStudent(i)"
+              [ngClass]="{ 'table-warning': student.hasExtension === true }">
+              <td class="align-center">
+                <input type="checkbox" id="student-checkbox-{{ i }}" [checked]="student.isSelected" [attr.aria-label]="getAriaLabel(student)" />
+              </td>
+              <td>{{ student.sectionName }}</td>
+              <td>{{ student.teamName }}</td>
+              <td>{{ student.name }}</td>
+              <td>{{ student.email }}</td>
+              <td>{{ student.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>
@@ -154,92 +180,110 @@
 
 <br>
 
-<tm-loading-retry [shouldShowRetry]="hasLoadedAllInstructorsFailed" [message]="'Failed to load instructors'"
-  (retryEvent)="loadFeedbackSessionAndIndividuals()">
-  <div *tmIsLoading="isLoadingAllInstructors">
-    <h1>Instructors</h1>
-    <div class="table-responsive">
-      <table id="instructor-list-table" class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th (click)="selectAllInstructors()">
-              <input type="checkbox" id="select-all-instructor-btn" [checked]="isAllInstructorsSelected"/>
-              <label for="select-all-instructor-btn">&nbsp;Select all</label>
-            </th>
-            <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.RESPONDENT_NAME)" [attr.aria-sort]="getAriaSortInstructor(SortBy.RESPONDENT_NAME)">
-              <button>
-                Name
-                <span class="fa-stack" aria-hidden="true">
-                  <i class="fas fa-sort"></i>
-                  <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_NAME && sortInstructorOrder === SortOrder.DESC"
-                    class="fas fa-sort-down"></i>
-                  <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_NAME && sortInstructorOrder === SortOrder.ASC"
-                    class="fas fa-sort-up"></i>
-                </span>
-              </button>
-            </th>
-            <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.RESPONDENT_EMAIL)" [attr.aria-sort]="getAriaSortInstructor(SortBy.RESPONDENT_EMAIL)">
-              <button>
-                Email
-                <span class="fa-stack" aria-hidden="true">
-                  <i class="fas fa-sort"></i>
-                  <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_EMAIL && sortInstructorOrder === SortOrder.DESC"
-                    class="fas fa-sort-down"></i>
-                  <i *ngIf="sortInstructorsBy === SortBy.RESPONDENT_EMAIL && sortInstructorOrder === SortOrder.ASC"
-                    class="fas fa-sort-up"></i>
-                </span>
-              </button>
-            </th>
-            <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.INSTRUCTOR_PERMISSION_ROLE)" [attr.aria-sort]="getAriaSortInstructor(SortBy.INSTRUCTOR_PERMISSION_ROLE)">
-              <button>
-                Role
-                <span class="fa-stack" aria-hidden="true">
-                  <i class="fas fa-sort"></i>
-                  <i *ngIf="sortInstructorsBy === SortBy.INSTRUCTOR_PERMISSION_ROLE && sortInstructorOrder === SortOrder.DESC"
-                    class="fas fa-sort-down"></i>
-                  <i *ngIf="sortInstructorsBy === SortBy.INSTRUCTOR_PERMISSION_ROLE && sortInstructorOrder === SortOrder.ASC"
-                    class="fas fa-sort-up"></i>
-                </span>
-              </button>
-            </th>
-            <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.SESSION_END_DATE)" [attr.aria-sort]="getAriaSortInstructor(SortBy.SESSION_END_DATE)">
-              <button>
-                Current Deadline
-                <span class="fa-stack" aria-hidden="true">
-                  <i class="fas fa-sort"></i>
-                  <i *ngIf="sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.DESC"
-                    class="fas fa-sort-down"></i>
-                  <i *ngIf="sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.ASC"
-                    class="fas fa-sort-up"></i>
-                </span>
-              </button>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let instructor of instructorsOfCourse; index as i" id="instructor-row-{{ i }}" (click)="selectIntructor(i)"
-            [ngClass]="{ 'table-warning': instructor.hasExtension === true }">
-            <td class="align-center">
-              <input type="checkbox" id="instructor-checkbox-{{ i }}" [checked]="instructor.isSelected" [attr.aria-label]="getAriaLabel(instructor)" />
-            </td>
-            <td>{{ instructor.name }}</td>
-            <td>{{ instructor.email }}</td>
-            <td>{{ instructor.role | instructorRoleName }}</td>
-            <td>{{ instructor.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
-          </tr>
-        </tbody>
-      </table>
+  <tm-loading-retry [shouldShowRetry]="hasLoadedAllInstructorsFailed" [message]="'Failed to load instructors'"
+    (retryEvent)="loadFeedbackSessionAndIndividuals()">
+    <div *tmIsLoading="isLoadingAllInstructors">
+      <h1>Instructors</h1>
+      <div class="table-responsive">
+        <table id="instructor-list-table" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th (click)="selectAllInstructors()">
+                <input type="checkbox" id="select-all-instructor-btn" [checked]="isAllInstructorsSelected"/>
+                <label for="select-all-instructor-btn">&nbsp;Select all</label>
+              </th>
+              <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.RESPONDENT_NAME)" [attr.aria-sort]="getAriaSortInstructor(SortBy.RESPONDENT_NAME)">
+                <button>
+                  Name
+                  <span class="fa-stack" aria-hidden="true">
+                    <i class="fas fa-sort"></i>
+                    @if (sortInstructorsBy === SortBy.RESPONDENT_NAME && sortInstructorOrder === SortOrder.DESC) {
+                      <i
+                      class="fas fa-sort-down"></i>
+                    }
+                    @if (sortInstructorsBy === SortBy.RESPONDENT_NAME && sortInstructorOrder === SortOrder.ASC) {
+                      <i
+                      class="fas fa-sort-up"></i>
+                    }
+                  </span>
+                </button>
+              </th>
+              <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.RESPONDENT_EMAIL)" [attr.aria-sort]="getAriaSortInstructor(SortBy.RESPONDENT_EMAIL)">
+                <button>
+                  Email
+                  <span class="fa-stack" aria-hidden="true">
+                    <i class="fas fa-sort"></i>
+                    @if (sortInstructorsBy === SortBy.RESPONDENT_EMAIL && sortInstructorOrder === SortOrder.DESC) {
+                      <i
+                      class="fas fa-sort-down"></i>
+                    }
+                    @if (sortInstructorsBy === SortBy.RESPONDENT_EMAIL && sortInstructorOrder === SortOrder.ASC) {
+                      <i
+                      class="fas fa-sort-up"></i>
+                    }
+                  </span>
+                </button>
+              </th>
+              <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.INSTRUCTOR_PERMISSION_ROLE)" [attr.aria-sort]="getAriaSortInstructor(SortBy.INSTRUCTOR_PERMISSION_ROLE)">
+                <button>
+                  Role
+                  <span class="fa-stack" aria-hidden="true">
+                    <i class="fas fa-sort"></i>
+                    @if (sortInstructorsBy === SortBy.INSTRUCTOR_PERMISSION_ROLE && sortInstructorOrder === SortOrder.DESC) {
+                      <i
+                      class="fas fa-sort-down"></i>
+                    }
+                    @if (sortInstructorsBy === SortBy.INSTRUCTOR_PERMISSION_ROLE && sortInstructorOrder === SortOrder.ASC) {
+                      <i
+                      class="fas fa-sort-up"></i>
+                    }
+                  </span>
+                </button>
+              </th>
+              <th class="sortable-header" (click)="sortInstructorsColumnsBy(SortBy.SESSION_END_DATE)" [attr.aria-sort]="getAriaSortInstructor(SortBy.SESSION_END_DATE)">
+                <button>
+                  Current Deadline
+                  <span class="fa-stack" aria-hidden="true">
+                    <i class="fas fa-sort"></i>
+                    @if (sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.DESC) {
+                      <i
+                      class="fas fa-sort-down"></i>
+                    }
+                    @if (sortInstructorsBy === SortBy.SESSION_END_DATE && sortInstructorOrder === SortOrder.ASC) {
+                      <i
+                      class="fas fa-sort-up"></i>
+                    }
+                  </span>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (instructor of instructorsOfCourse; track instructor; let i = $index) {
+              <tr id="instructor-row-{{ i }}" (click)="selectIntructor(i)"
+                [ngClass]="{ 'table-warning': instructor.hasExtension === true }">
+                <td class="align-center">
+                  <input type="checkbox" id="instructor-checkbox-{{ i }}" [checked]="instructor.isSelected" [attr.aria-label]="getAriaLabel(instructor)" />
+                </td>
+                <td>{{ instructor.name }}</td>
+                <td>{{ instructor.email }}</td>
+                <td>{{ instructor.role | instructorRoleName }}</td>
+                <td>{{ instructor.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-</tm-loading-retry>
-<br>
-<div class="align-row-right">
-  <div>
-    <button type="button" id="extend-btn" class="btn btn-success" (click)="onExtend()"
-      [disabled]="!hasSelected()">Extend / Edit</button>
-  </div>
-  <div>
-    <button type="button" id="delete-btn" class="btn btn-danger" (click)="onDelete()"
-      [disabled]="!hasSelectedValidForDeletion()">Delete</button>
-  </div>
-</div>
+  </tm-loading-retry>
+  <br>
+    <div class="align-row-right">
+      <div>
+        <button type="button" id="extend-btn" class="btn btn-success" (click)="onExtend()"
+        [disabled]="!hasSelected()">Extend / Edit</button>
+      </div>
+      <div>
+        <button type="button" id="delete-btn" class="btn btn-danger" (click)="onDelete()"
+        [disabled]="!hasSelectedValidForDeletion()">Delete</button>
+      </div>
+    </div>

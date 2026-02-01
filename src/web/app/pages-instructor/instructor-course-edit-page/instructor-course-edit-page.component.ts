@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -93,9 +93,7 @@ interface InstructorEditPanelDetail {
     LoadingSpinnerDirective,
     CourseEditFormComponent,
     TeammatesRouterDirective,
-    NgFor,
     InstructorEditPanelComponent,
-    NgIf,
     AjaxLoadingComponent,
   ],
 })

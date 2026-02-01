@@ -1,24 +1,34 @@
-<div class="row" *ngIf="questionDetails.isZeroSum && !isAllFormsNotAnswered">
-  <div class="col-12">
-    <p *ngIf="isInsufficientContributionsDistributed || isContributionsOverAllocated" class="text-danger">
-      <span class="fa fa-times"></span>
-      Current total <code>{{ currentTotalString }}</code> does not match the expected total <code>{{ expectedTotalString }}</code>.
-      <span *ngIf="isInsufficientContributionsDistributed">
-        Please distribute the remaining contributions.
-      </span>
-      <span *ngIf="isContributionsOverAllocated">
-        Please remove the extra contributions allocated.
-      </span>
-    </p>
-
-    <p *ngIf="isAllContributionsDistributed && !isAllFormsAnswered" class="text-danger">
-      <span class="fa fa-times"></span>
-      All contributions distributed but not all recipients are allocated a share.
-    </p>
-
-    <p *ngIf="isAllContributionsDistributed && isAllFormsAnswered" class="text-success">
-      <span class="fa fa-check"></span>
-      All contributions distributed!
-    </p>
+@if (questionDetails.isZeroSum && !isAllFormsNotAnswered) {
+  <div class="row">
+    <div class="col-12">
+      @if (isInsufficientContributionsDistributed || isContributionsOverAllocated) {
+        <p class="text-danger">
+          <span class="fa fa-times"></span>
+          Current total <code>{{ currentTotalString }}</code> does not match the expected total <code>{{ expectedTotalString }}</code>.
+          @if (isInsufficientContributionsDistributed) {
+            <span>
+              Please distribute the remaining contributions.
+            </span>
+          }
+          @if (isContributionsOverAllocated) {
+            <span>
+              Please remove the extra contributions allocated.
+            </span>
+          }
+        </p>
+      }
+      @if (isAllContributionsDistributed && !isAllFormsAnswered) {
+        <p class="text-danger">
+          <span class="fa fa-times"></span>
+          All contributions distributed but not all recipients are allocated a share.
+        </p>
+      }
+      @if (isAllContributionsDistributed && isAllFormsAnswered) {
+        <p class="text-success">
+          <span class="fa fa-check"></span>
+          All contributions distributed!
+        </p>
+      }
+    </div>
   </div>
-</div>
+}

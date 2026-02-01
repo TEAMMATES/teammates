@@ -1,10 +1,30 @@
-<tm-contribution-question-statistics *ngIf="question.questionType === FeedbackQuestionType.CONTRIB" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent" [displayContributionStats]="displayContributionStats" [statistics]="statistics"></tm-contribution-question-statistics>
-<tm-text-question-statistics *ngIf="question.questionType === FeedbackQuestionType.TEXT" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-text-question-statistics>
-<tm-constsum-options-question-statistics *ngIf="question.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-constsum-options-question-statistics>
-<tm-constsum-recipients-question-statistics *ngIf="question.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-constsum-recipients-question-statistics>
-<tm-num-scale-question-statistics *ngIf="question.questionType === FeedbackQuestionType.NUMSCALE" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-num-scale-question-statistics>
-<tm-rubric-question-statistics *ngIf="question.questionType === FeedbackQuestionType.RUBRIC" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-rubric-question-statistics>
-<tm-rank-options-question-statistics *ngIf="question.questionType === FeedbackQuestionType.RANK_OPTIONS" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-rank-options-question-statistics>
-<tm-rank-recipients-question-statistics *ngIf="question.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-rank-recipients-question-statistics>
-<tm-msq-question-statistics *ngIf="question.questionType === FeedbackQuestionType.MSQ" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-msq-question-statistics>
-<tm-mcq-question-statistics *ngIf="question.questionType === FeedbackQuestionType.MCQ" [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-mcq-question-statistics>
+@if (question.questionType === FeedbackQuestionType.CONTRIB) {
+  <tm-contribution-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent" [displayContributionStats]="displayContributionStats" [statistics]="statistics"></tm-contribution-question-statistics>
+}
+@if (question.questionType === FeedbackQuestionType.TEXT) {
+  <tm-text-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-text-question-statistics>
+}
+@if (question.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS) {
+  <tm-constsum-options-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-constsum-options-question-statistics>
+}
+@if (question.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
+  <tm-constsum-recipients-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-constsum-recipients-question-statistics>
+}
+@if (question.questionType === FeedbackQuestionType.NUMSCALE) {
+  <tm-num-scale-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-num-scale-question-statistics>
+}
+@if (question.questionType === FeedbackQuestionType.RUBRIC) {
+  <tm-rubric-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-rubric-question-statistics>
+}
+@if (question.questionType === FeedbackQuestionType.RANK_OPTIONS) {
+  <tm-rank-options-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-rank-options-question-statistics>
+}
+@if (question.questionType === FeedbackQuestionType.RANK_RECIPIENTS) {
+  <tm-rank-recipients-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-rank-recipients-question-statistics>
+}
+@if (question.questionType === FeedbackQuestionType.MSQ) {
+  <tm-msq-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-msq-question-statistics>
+}
+@if (question.questionType === FeedbackQuestionType.MCQ) {
+  <tm-mcq-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-mcq-question-statistics>
+}

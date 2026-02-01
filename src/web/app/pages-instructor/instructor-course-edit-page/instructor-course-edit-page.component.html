@@ -1,12 +1,12 @@
 <tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed" [message]="'Failed to load course'" (retryEvent)="loadCourseInfo()">
   <div *tmIsLoading="isCourseLoading">
-  <tm-course-edit-form
-    [formMode]="CourseEditFormMode.EDIT"
-    [(formModel)]="courseFormModel"
-    [resetFormEvent]="resetCourseFormEvent"
-    (deleteCourseEvent)="deleteCourse()"
-    (updateCourseEvent)="onSaveCourse()"
-  ></tm-course-edit-form>
+    <tm-course-edit-form
+      [formMode]="CourseEditFormMode.EDIT"
+      [(formModel)]="courseFormModel"
+      [resetFormEvent]="resetCourseFormEvent"
+      (deleteCourseEvent)="deleteCourse()"
+      (updateCourseEvent)="onSaveCourse()"
+    ></tm-course-edit-form>
   </div>
 </tm-loading-retry>
 <tm-loading-retry [shouldShowRetry]="hasInstructorsLoadingFailed" [message]="'Failed to load instructors of course'" (retryEvent)="loadCourseInstructors()">
@@ -17,34 +17,40 @@
     </a>
   </div>
   <div *tmIsLoading="isInstructorsLoading">
-    <ng-container *ngFor="let panelDetail of instructorDetailPanels; let i = index">
+    @for (panelDetail of instructorDetailPanels; track panelDetail; let i = $index) {
       <tm-instructor-edit-panel
-          [editMode]="EditMode.EDIT" [(instructor)]="panelDetail.editPanel" [instructorIndex]="i"
-          [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
-          (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
-          (deleteInstructor)="deleteInstructor(i)"
-          (saveInstructor)="saveInstructor(i)"
-          (cancelEditing)="cancelEditingInstructor(i)"
-          (sendRemindJoinEmail)="resendReminderEmail(i)"
-          [allSections]="this.allSections" [allSessions]="this.allSessions">
+        [editMode]="EditMode.EDIT" [(instructor)]="panelDetail.editPanel" [instructorIndex]="i"
+        [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
+        (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
+        (deleteInstructor)="deleteInstructor(i)"
+        (saveInstructor)="saveInstructor(i)"
+        (cancelEditing)="cancelEditingInstructor(i)"
+        (sendRemindJoinEmail)="resendReminderEmail(i)"
+        [allSections]="this.allSections" [allSessions]="this.allSessions">
       </tm-instructor-edit-panel>
       <br/>
-    </ng-container>
+    }
   </div>
 </tm-loading-retry>
-<div class="card-body text-center" *ngIf="!isAddingNewInstructor">
-  <button id="btn-add-instructor" class="btn btn-success mx-2 my-1" type="button" (click)="isAddingNewInstructor = true" [disabled]="isCopyingInstructor">
-    Add New Instructor
-  </button>
-  <button id="btn-copy-instructor" class="btn btn-info mx-2 my-1" type="button" (click)="copyInstructors()" [disabled]="!this.currInstructorCoursePrivilege.canModifyInstructor || isCopyingInstructor">
-    <tm-ajax-loading *ngIf="isCopyingInstructor"></tm-ajax-loading>Copy Instructors from Other Courses
-  </button>
-</div>
-<div *ngIf="isAddingNewInstructor" @collapseAnim>
-  <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
-                            [isSavingNewInstructor]="isSavingNewInstructor"
-                            [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
-                            (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
-                            (saveInstructor)="addNewInstructor()" (cancelEditing)="isAddingNewInstructor = false;"
-                            [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-instructor-edit-panel>
-</div>
+@if (!isAddingNewInstructor) {
+  <div class="card-body text-center">
+    <button id="btn-add-instructor" class="btn btn-success mx-2 my-1" type="button" (click)="isAddingNewInstructor = true" [disabled]="isCopyingInstructor">
+      Add New Instructor
+    </button>
+    <button id="btn-copy-instructor" class="btn btn-info mx-2 my-1" type="button" (click)="copyInstructors()" [disabled]="!this.currInstructorCoursePrivilege.canModifyInstructor || isCopyingInstructor">
+      @if (isCopyingInstructor) {
+        <tm-ajax-loading></tm-ajax-loading>
+        }Copy Instructors from Other Courses
+      </button>
+    </div>
+  }
+  @if (isAddingNewInstructor) {
+    <div @collapseAnim>
+      <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
+        [isSavingNewInstructor]="isSavingNewInstructor"
+        [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
+        (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
+        (saveInstructor)="addNewInstructor()" (cancelEditing)="isAddingNewInstructor = false;"
+      [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-instructor-edit-panel>
+    </div>
+  }

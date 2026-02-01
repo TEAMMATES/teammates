@@ -1,35 +1,52 @@
 <table class="table table-bordered table-striped">
   <thead>
     <tr [ngClass]="setMainTableStyle ? 'bg-primary text-white' : customHeaderStyle">
-      <th *ngFor="let column of columns" [ngClass]="{ 'sortable-header': column.sortBy }" class="{{column?.headerClass}}"
-        [ngStyle]="getAlignment(column)" (click)="column.sortBy && onClickHeader(column.header)" [attr.aria-sort]="getAriaSort(column.header)"
-      >
-        <button *ngIf="column.sortBy" class="d-lg-flex align-items-center gap-lg-1 d-inline ">
-          <span [ngClass]="{ 'ngb-tooltip-class': column.headerToolTip } " [ngbTooltip]="column.headerToolTip" container="body">{{ column.header }}</span>
-          <span class="fa-stack" aria-hidden="true">
-            <i class="fas fa-sort"></i>
-            <i *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-            <i *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-          </span>
-        </button>
-
-        <span *ngIf="!column.sortBy" [ngbTooltip]="column.headerToolTip" [ngClass]="{ 'ngb-tooltip-class': column.headerToolTip } "
-          container="body">{{ column.header }}</span>
-      </th>
+      @for (column of columns; track column) {
+        <th [ngClass]="{ 'sortable-header': column.sortBy }" class="{{column?.headerClass}}"
+          [ngStyle]="getAlignment(column)" (click)="column.sortBy && onClickHeader(column.header)" [attr.aria-sort]="getAriaSort(column.header)"
+          >
+          @if (column.sortBy) {
+            <button class="d-lg-flex align-items-center gap-lg-1 d-inline ">
+              <span [ngClass]="{ 'ngb-tooltip-class': column.headerToolTip } " [ngbTooltip]="column.headerToolTip" container="body">{{ column.header }}</span>
+              <span class="fa-stack" aria-hidden="true">
+                <i class="fas fa-sort"></i>
+                @if (column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.DESC) {
+                  <i class="fas fa-sort-down"></i>
+                }
+                @if (column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.ASC) {
+                  <i class="fas fa-sort-up"></i>
+                }
+              </span>
+            </button>
+          }
+          @if (!column.sortBy) {
+            <span [ngbTooltip]="column.headerToolTip" [ngClass]="{ 'ngb-tooltip-class': column.headerToolTip } "
+            container="body">{{ column.header }}</span>
+          }
+        </th>
+      }
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of tableRows; let idx = index">
-      <td *ngFor="let item of row;" [style]="getStyle(item)">
-        <ndc-dynamic *ngIf="item.customComponent"
-                     [ngComponentOutlet]="item.customComponent.component"
-                     [ndcDynamicInputs]="item.customComponent.componentData(idx)"
-        ></ndc-dynamic>
-        <ng-container *ngIf="!item.customComponent && item.displayValue">
-          <span [innerHTML]="item.displayValue"></span>
-        </ng-container>
-        <ng-container *ngIf="!item.customComponent && !item.displayValue">{{ item.value }}</ng-container>
-      </td>
-    </tr>
+    @for (row of tableRows; track row; let idx = $index) {
+      <tr>
+        @for (item of row; track item) {
+          <td [style]="getStyle(item)">
+            @if (item.customComponent) {
+              <ndc-dynamic
+                [ngComponentOutlet]="item.customComponent.component"
+                [ndcDynamicInputs]="item.customComponent.componentData(idx)"
+              ></ndc-dynamic>
+            }
+            @if (!item.customComponent && item.displayValue) {
+              <span [innerHTML]="item.displayValue"></span>
+            }
+            @if (!item.customComponent && !item.displayValue) {
+              {{ item.value }}
+            }
+          </td>
+        }
+      </tr>
+    }
   </tbody>
 </table>

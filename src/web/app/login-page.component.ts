@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleAuthProvider } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +21,6 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
   styleUrls: ['./login-page.component.scss'],
   imports: [
     LoadingSpinnerDirective,
-    NgIf,
     AjaxLoadingComponent,
     FormsModule,
     ReactiveFormsModule,

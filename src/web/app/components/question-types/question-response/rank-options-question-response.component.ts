@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -20,7 +20,6 @@ import {
     selector: 'tm-rank-options-question-response',
     templateUrl: './rank-options-question-response.component.html',
     styleUrls: ['./rank-options-question-response.component.scss'],
-    imports: [NgFor],
 })
 export class RankOptionsQuestionResponseComponent
     extends QuestionResponse<FeedbackRankOptionsResponseDetails, FeedbackRankOptionsQuestionDetails>

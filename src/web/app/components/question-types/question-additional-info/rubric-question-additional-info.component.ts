@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { QuestionAdditionalInfo } from './question-additional-info';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
@@ -11,7 +11,6 @@ import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-quest
     selector: 'tm-rubric-question-additional-info',
     templateUrl: './rubric-question-additional-info.component.html',
     styleUrls: ['./rubric-question-additional-info.component.scss'],
-    imports: [NgFor],
 })
 export class RubricQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackRubricQuestionDetails> {
 

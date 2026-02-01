@@ -1,4 +1,4 @@
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { AfterViewInit, Component, Inject, OnInit, DOCUMENT } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -76,9 +76,7 @@ interface FeedbackQuestionsResponse {
   templateUrl: './session-submission-page.component.html',
   styleUrls: ['./session-submission-page.component.scss'],
   imports: [
-    NgIf,
     LoadingSpinnerDirective,
-    NgFor,
     FormsModule,
     LoadingRetryComponent,
     QuestionSubmissionFormComponent,

@@ -1,4 +1,4 @@
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, TemplateRef } from '@angular/core';
 import { NgbToast } from '@ng-bootstrap/ng-bootstrap';
 import { Toast } from './toast';
@@ -11,7 +11,6 @@ import { Toast } from './toast';
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
   imports: [
-    NgIf,
     NgbToast,
     NgTemplateOutlet,
   ],

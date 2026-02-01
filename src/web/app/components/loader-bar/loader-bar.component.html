@@ -1,3 +1,5 @@
-<div class="loader-bar-visible" *ngIf="isShown">
-  <ngb-progressbar type="info" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
-</div>
+@if (isShown) {
+  <div class="loader-bar-visible">
+    <ngb-progressbar type="info" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
+  </div>
+}

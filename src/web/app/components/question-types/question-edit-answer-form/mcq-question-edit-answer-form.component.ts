@@ -1,4 +1,4 @@
-import { NgIf, NgFor } from '@angular/common';
+
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -18,8 +18,6 @@ import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
   templateUrl: './mcq-question-edit-answer-form.component.html',
   styleUrls: ['./mcq-question-edit-answer-form.component.scss'],
   imports: [
-    NgIf,
-    NgFor,
     FormsModule,
     SafeHtmlPipe,
   ],

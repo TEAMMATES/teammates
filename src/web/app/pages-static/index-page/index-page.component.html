@@ -19,10 +19,12 @@
   </div>
   <div class="col-xs-12 col-sm-8 padding-top-10px">
     <h2>Praised by Users:</h2>
-    <span *ngIf="testimonial">
-      {{ testimonial.content }}<br>
-      - {{ testimonial.author }}
-    </span>
+    @if (testimonial) {
+      <span>
+        {{ testimonial.content }}<br>
+        - {{ testimonial.author }}
+      </span>
+    }
   </div>
 </div>
 

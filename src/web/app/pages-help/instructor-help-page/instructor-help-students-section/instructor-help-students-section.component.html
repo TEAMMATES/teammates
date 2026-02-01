@@ -1,18 +1,22 @@
 <div>
   <div class="section-header d-flex align-items-center">
-    <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Students</h2>
+    @if (!key || showQuestion.length > 0) {
+      <h2 class="color-blue">Students</h2>
+    }
     <div class="ms-2 mb-1" (click)="changeBrowserUrl(Sections.students)">
       <div class="fas fa-anchor"></div>
     </div>
   </div>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(0, 4)">Student Records</h4>
+  @if (displaySubsection(0, 4)) {
+    <h4>Student Records</h4>
+  }
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_VIEW_PROFILE)"
-                            [id]="StudentsSectionQuestions.STUDENT_VIEW_PROFILE"
-                            [section]="Sections.students"
-                            headerText="How do I view a student's profile?"
-                            [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]">
+    [id]="StudentsSectionQuestions.STUDENT_VIEW_PROFILE"
+    [section]="Sections.students"
+    headerText="How do I view a student's profile?"
+    [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]">
     <p>To view the profile of Student A from Course B:</p>
     <ol>
       <li>
@@ -23,9 +27,11 @@
         <button class="btn btn-light btn-sm">View</button> button in the last column of the row corresponding to Student A. A new page will open displaying the student's profile, similar to the sample profile below.
       </li>
     </ol>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]" @collapseAnim>
-      <tm-course-related-info [student]="exampleStudentAttributes" [isDisplayOnly]="true"></tm-course-related-info>
-    </tm-example-box>
+    @if (questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]) {
+      <tm-example-box @collapseAnim>
+        <tm-course-related-info [student]="exampleStudentAttributes" [isDisplayOnly]="true"></tm-course-related-info>
+      </tm-example-box>
+    }
     <p>
       The student's profile page displays the student's details and course-related information, such as:
     </p>
@@ -46,10 +52,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_EDIT_DETAILS)"
-                            [id]="StudentsSectionQuestions.STUDENT_EDIT_DETAILS"
-                            [section]="Sections.students"
-                            headerText="How do I edit a student's details after enrolling the student?"
-                            [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]">
+    [id]="StudentsSectionQuestions.STUDENT_EDIT_DETAILS"
+    [section]="Sections.students"
+    headerText="How do I edit a student's details after enrolling the student?"
+    [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]">
     <p>
       To edit the name, section, team, contact email, or instructor comments of Student A from Course B:
     </p>
@@ -61,113 +67,123 @@
         Click the
         <button class="btn btn-light btn-sm">Edit</button> button in the last column of the row corresponding to Student A.
         <br>
-      </li>
-      <li>
-        In the new page that opens, edit the relevant fields of Student A's details. The page will look similar to the example below.
-      </li>
-      <li>
-        Click
-        <button class="btn btn-success btn-sm"><i class="fas fa-save"></i> Save Changes</button> to save your changes to Student A's details.
-      </li>
-    </ol>
-    <p>
-      Note that moving a student to a different team (i.e. changing the student's Team ID) will change the student's team in all existing sessions in the course.
-    </p>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]" @collapseAnim>
-      <tm-instructor-course-student-edit-page [isEnabled]="false"></tm-instructor-course-student-edit-page>
-    </tm-example-box>
-  </tm-instructor-help-panel>
-  <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_VIEW_RESPONSES)"
-                            [id]="StudentsSectionQuestions.STUDENT_VIEW_RESPONSES"
-                            [section]="Sections.students"
-                            headerText="How do I view all the responses a student has given and received?"
-                            [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]">
-    <p>
-      To view the responses that Student A from Course B has given and received:
-    </p>
-    <ol>
-      <li>
-        Go to the <span class="ui-text">Students</span> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
-      </li>
-      <li>
-        Click
-        <button class="btn btn-sm btn-light">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
-      </li>
-    </ol>
-  </tm-instructor-help-panel>
-  <!--Question -->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_SEARCH)"
-                            [id]="StudentsSectionQuestions.STUDENT_SEARCH"
-                            [section]="Sections.students"
-                            headerText="How do I search for a student in my course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]">
-    <p>
-      You can search for students from the <span class="ui-text">Search</span> page. Click the <span class="ui-text">Search</span> tab in the navigation bar at the top of the page. You should see a search bar similar to the one below:
-    </p>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" @collapseAnim><tm-instructor-search-bar></tm-instructor-search-bar></tm-example-box>
-    <p>
-      To search for a student:
-    </p>
-    <ol>
-      <li>
-        Type your search terms into the search bar. You can search for a student record based on:
-        <ul>
-          <li>Section name</li>
-          <li>Team name</li>
-          <li>Student name</li>
-          <li>Email</li>
-        </ul>
-      </li>
-      <li>
-        Click the
-        <button class="btn btn-primary btn-sm">Search</button> button.
-      </li>
-    </ol>
-    <p>
-      If you search for <code>alice</code>, the search results would show something like this (assuming such a student exists):
-    </p>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" @collapseAnim>
-      <tm-student-result-table [studentTables]="exampleSingleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
-    </tm-example-box>
-    <p>
-      You can search for multiple students based on the attributes mentioned above. To do so, include the terms you wish to search for in the search box separated by spaces.<br>
-      For example, if you search for <code>alice Section A Team B jack&#64;email.com</code>, the search would result in something similar to this (assuming the corresponding data exists):
-    </p>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" @collapseAnim>
-      <tm-student-result-table [studentTables]="exampleMultipleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
-    </tm-example-box>
-  </tm-instructor-help-panel>
-  <!-- Section -->
-  <h4 *ngIf="displaySubsection(4, 6)">Student Accounts</h4>
-  <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT)"
-                            [id]="StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT"
-                            [section]="Sections.students"
-                            headerText="Is it compulsory for students to use Google accounts?"
-                            [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]">
-    <p>
-      Students can submit feedback and view results without having to log in to TEAMMATES, unless they choose to link their Google account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and results.
-      However, the following non-essential features are available only to users who have joined a TEAMMATES course using a Google account:
-    </p>
-    <ol>
-      <li>
-        Creating a profile page to share more information about them (e.g., a photo) with classmates and instructors
-      </li>
-      <li>
-        Viewing all the courses/sessions in a single page, without needing to use submission links to access each
-      </li>
-    </ol>
-  </tm-instructor-help-panel>
-  <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_CHANGE_ID)"
-                            [id]="StudentsSectionQuestions.STUDENT_CHANGE_ID"
-                            [section]="Sections.students"
-                            headerText="How do I change the Google ID associated with a student?"
-                            [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID]">
-    <p>
-      At the moment, there is no way for students to update their own (or instructors to update their students') Google IDs.
-      <br> Please ask the student to <a href="mailto:{{ supportEmail }}">contact us</a> for assistance changing his/her Google ID.
-    </p>
-  </tm-instructor-help-panel>
-</div>
+        </li>
+        <li>
+          In the new page that opens, edit the relevant fields of Student A's details. The page will look similar to the example below.
+        </li>
+        <li>
+          Click
+          <button class="btn btn-success btn-sm"><i class="fas fa-save"></i> Save Changes</button> to save your changes to Student A's details.
+        </li>
+      </ol>
+      <p>
+        Note that moving a student to a different team (i.e. changing the student's Team ID) will change the student's team in all existing sessions in the course.
+      </p>
+      @if (questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]) {
+        <tm-example-box @collapseAnim>
+          <tm-instructor-course-student-edit-page [isEnabled]="false"></tm-instructor-course-student-edit-page>
+        </tm-example-box>
+      }
+    </tm-instructor-help-panel>
+    <!--Question-->
+    <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_VIEW_RESPONSES)"
+      [id]="StudentsSectionQuestions.STUDENT_VIEW_RESPONSES"
+      [section]="Sections.students"
+      headerText="How do I view all the responses a student has given and received?"
+      [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]">
+      <p>
+        To view the responses that Student A from Course B has given and received:
+      </p>
+      <ol>
+        <li>
+          Go to the <span class="ui-text">Students</span> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
+        </li>
+        <li>
+          Click
+          <button class="btn btn-sm btn-light">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
+        </li>
+      </ol>
+    </tm-instructor-help-panel>
+    <!--Question -->
+    <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_SEARCH)"
+      [id]="StudentsSectionQuestions.STUDENT_SEARCH"
+      [section]="Sections.students"
+      headerText="How do I search for a student in my course?"
+      [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]">
+      <p>
+        You can search for students from the <span class="ui-text">Search</span> page. Click the <span class="ui-text">Search</span> tab in the navigation bar at the top of the page. You should see a search bar similar to the one below:
+      </p>
+      @if (questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]) {
+        <tm-example-box @collapseAnim><tm-instructor-search-bar></tm-instructor-search-bar></tm-example-box>
+      }
+      <p>
+        To search for a student:
+      </p>
+      <ol>
+        <li>
+          Type your search terms into the search bar. You can search for a student record based on:
+          <ul>
+            <li>Section name</li>
+            <li>Team name</li>
+            <li>Student name</li>
+            <li>Email</li>
+          </ul>
+        </li>
+        <li>
+          Click the
+          <button class="btn btn-primary btn-sm">Search</button> button.
+        </li>
+      </ol>
+      <p>
+        If you search for <code>alice</code>, the search results would show something like this (assuming such a student exists):
+      </p>
+      @if (questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]) {
+        <tm-example-box @collapseAnim>
+          <tm-student-result-table [studentTables]="exampleSingleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
+        </tm-example-box>
+      }
+      <p>
+        You can search for multiple students based on the attributes mentioned above. To do so, include the terms you wish to search for in the search box separated by spaces.<br>
+        For example, if you search for <code>alice Section A Team B jack&#64;email.com</code>, the search would result in something similar to this (assuming the corresponding data exists):
+      </p>
+      @if (questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]) {
+        <tm-example-box @collapseAnim>
+          <tm-student-result-table [studentTables]="exampleMultipleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
+        </tm-example-box>
+      }
+    </tm-instructor-help-panel>
+    <!-- Section -->
+    @if (displaySubsection(4, 6)) {
+      <h4>Student Accounts</h4>
+    }
+    <!--Question-->
+    <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT)"
+      [id]="StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT"
+      [section]="Sections.students"
+      headerText="Is it compulsory for students to use Google accounts?"
+      [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]">
+      <p>
+        Students can submit feedback and view results without having to log in to TEAMMATES, unless they choose to link their Google account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and results.
+        However, the following non-essential features are available only to users who have joined a TEAMMATES course using a Google account:
+      </p>
+      <ol>
+        <li>
+          Creating a profile page to share more information about them (e.g., a photo) with classmates and instructors
+        </li>
+        <li>
+          Viewing all the courses/sessions in a single page, without needing to use submission links to access each
+        </li>
+      </ol>
+    </tm-instructor-help-panel>
+    <!--Question-->
+    <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_CHANGE_ID)"
+      [id]="StudentsSectionQuestions.STUDENT_CHANGE_ID"
+      [section]="Sections.students"
+      headerText="How do I change the Google ID associated with a student?"
+      [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID]">
+      <p>
+        At the moment, there is no way for students to update their own (or instructors to update their students') Google IDs.
+        <br> Please ask the student to <a href="mailto:{{ supportEmail }}">contact us</a> for assistance changing his/her Google ID.
+      </p>
+    </tm-instructor-help-panel>
+  </div>

@@ -1,4 +1,4 @@
-import { NgFor, NgClass, NgIf, KeyValuePipe } from '@angular/common';
+import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -88,12 +88,10 @@ interface FeedbackSessionLogModel {
   imports: [
     LoadingSpinnerDirective,
     FormsModule,
-    NgFor,
     NgbInputDatepicker,
     TimepickerComponent,
     NgClass,
     PanelChevronComponent,
-    NgIf,
     SortableTableComponent,
     KeyValuePipe,
   ],

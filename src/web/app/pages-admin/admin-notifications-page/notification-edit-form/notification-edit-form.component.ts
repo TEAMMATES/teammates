@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass, KeyValuePipe } from '@angular/common';
+import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -26,10 +26,8 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
   providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     NgbTooltip,
     FormsModule,
-    NgFor,
     NgClass,
     RichTextEditorComponent,
     DatepickerComponent,

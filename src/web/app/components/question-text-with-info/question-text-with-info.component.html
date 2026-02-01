@@ -3,20 +3,44 @@
     Question {{ questionNumber }}:
   </h2>
   <span class="question-text mx-sm-2">{{ questionDetails.questionText }}</span>
-  <button class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)">
-    [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
-  </button>
+  @if (hasAdditionalInfo(questionDetails)) {
+    <button class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()">
+      [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
+    </button>
+  }
 </span>
 
-<div class="additional-info info-font-size" *ngIf="hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded">
-  <tm-contribution-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
-  <tm-text-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.TEXT" [questionDetails]="questionDetails"></tm-text-question-additional-info>
-  <tm-mcq-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.MCQ" [questionDetails]="questionDetails"></tm-mcq-question-additional-info>
-  <tm-msq-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.MSQ" [questionDetails]="questionDetails"></tm-msq-question-additional-info>
-  <tm-rank-options-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="questionDetails"></tm-rank-options-question-additional-info>
-  <tm-rank-recipients-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
-  <tm-rubric-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RUBRIC" [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
-  <tm-constsum-options-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="questionDetails"></tm-constsum-options-question-additional-info>
-  <tm-constsum-recipients-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [questionDetails]="questionDetails"></tm-constsum-recipients-question-additional-info>
-  <tm-num-scale-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="questionDetails"></tm-num-scale-question-additional-info>
-</div>
+@if (hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded) {
+  <div class="additional-info info-font-size">
+    @if (questionDetails.questionType === FeedbackQuestionType.CONTRIB) {
+      <tm-contribution-question-additional-info [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
+    }
+    @if (questionDetails.questionType === FeedbackQuestionType.TEXT) {
+      <tm-text-question-additional-info [questionDetails]="questionDetails"></tm-text-question-additional-info>
+    }
+    @if (questionDetails.questionType === FeedbackQuestionType.MCQ) {
+      <tm-mcq-question-additional-info [questionDetails]="questionDetails"></tm-mcq-question-additional-info>
+    }
+    @if (questionDetails.questionType === FeedbackQuestionType.MSQ) {
+      <tm-msq-question-additional-info [questionDetails]="questionDetails"></tm-msq-question-additional-info>
+    }
+    @if (questionDetails.questionType === FeedbackQuestionType.RANK_OPTIONS) {
+      <tm-rank-options-question-additional-info [questionDetails]="questionDetails"></tm-rank-options-question-additional-info>
+    }
+    @if (questionDetails.questionType === FeedbackQuestionType.RANK_RECIPIENTS) {
+      <tm-rank-recipients-question-additional-info [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
+    }
+    @if (questionDetails.questionType === FeedbackQuestionType.RUBRIC) {
+      <tm-rubric-question-additional-info [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
+    }
+    @if (questionDetails.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS) {
+      <tm-constsum-options-question-additional-info [questionDetails]="questionDetails"></tm-constsum-options-question-additional-info>
+    }
+    @if (questionDetails.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
+      <tm-constsum-recipients-question-additional-info [questionDetails]="questionDetails"></tm-constsum-recipients-question-additional-info>
+    }
+    @if (questionDetails.questionType === FeedbackQuestionType.NUMSCALE) {
+      <tm-num-scale-question-additional-info [questionDetails]="questionDetails"></tm-num-scale-question-additional-info>
+    }
+  </div>
+}

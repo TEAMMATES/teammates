@@ -68,6 +68,8 @@
   </div>
 </div>
 
-<div *ngIf="hasQueried">
-  <tm-stats-line-chart *tmIsLoading="isLoading" [data]="dataToDraw" [timeRange]="timeRange" [dataName]="itemName"></tm-stats-line-chart>
-</div>
+@if (hasQueried) {
+  <div>
+    <tm-stats-line-chart *tmIsLoading="isLoading" [data]="dataToDraw" [timeRange]="timeRange" [dataName]="itemName"></tm-stats-line-chart>
+  </div>
+}

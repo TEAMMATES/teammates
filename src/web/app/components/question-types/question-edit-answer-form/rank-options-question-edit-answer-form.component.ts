@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
@@ -17,9 +17,7 @@ import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/f
   templateUrl: './rank-options-question-edit-answer-form.component.html',
   styleUrls: ['./rank-options-question-edit-answer-form.component.scss'],
   imports: [
-    NgFor,
     FormsModule,
-    NgIf,
   ],
 })
 export class RankOptionsQuestionEditAnswerFormComponent

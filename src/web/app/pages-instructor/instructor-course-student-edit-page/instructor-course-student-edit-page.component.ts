@@ -1,4 +1,4 @@
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -35,7 +35,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     NgClass,

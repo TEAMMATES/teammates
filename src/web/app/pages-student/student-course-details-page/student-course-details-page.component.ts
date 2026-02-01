@@ -1,4 +1,4 @@
-import { NgIf, NgFor } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -23,10 +23,8 @@ import { ErrorMessageOutput } from '../../error-message-output';
   templateUrl: './student-course-details-page.component.html',
   styleUrls: ['./student-course-details-page.component.scss'],
   imports: [
-    NgIf,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgFor,
   ],
 })
 export class StudentCourseDetailsPageComponent implements OnInit {

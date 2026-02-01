@@ -16,15 +16,19 @@
       </label>
       <input class="form-control" type="email" formControlName="email" maxlength="254" email="true" spellcheck="false">
     </div>
-    <div *ngIf="captchaSiteKey !== ''" class="form-group">
-      <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey" (success)="handleSuccess($event)"
-        [useGlobalDomain]="false" [size]="size" [hl]="lang" formControlName="recaptcha">
-      </ngx-recaptcha2>
-    </div>
+    @if (captchaSiteKey !== '') {
+      <div class="form-group">
+        <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey" (success)="handleSuccess($event)"
+          [useGlobalDomain]="false" [size]="size" [hl]="lang" formControlName="recaptcha">
+        </ngx-recaptcha2>
+      </div>
+    }
 
     <button class="btn btn-primary" type="submit">
-      <tm-ajax-loading *ngIf="isFormSubmitting"></tm-ajax-loading>Submit
-    </button>
+      @if (isFormSubmitting) {
+        <tm-ajax-loading></tm-ajax-loading>
+        }Submit
+      </button>
 
-  </form>
-</div>
+    </form>
+  </div>

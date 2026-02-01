@@ -1,5 +1,5 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
-import { NgFor, NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -19,9 +19,7 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
   imports: [
     NgbTooltip,
     FormsModule,
-    NgFor,
     NgClass,
-    NgIf,
   ],
 })
 export class RubricQuestionEditDetailsFormComponent

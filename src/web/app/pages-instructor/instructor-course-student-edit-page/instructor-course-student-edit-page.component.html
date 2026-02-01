@@ -1,154 +1,159 @@
 <tm-loading-retry [shouldShowRetry]="hasStudentLoadingFailed" [message]="'Failed to load student'" (retryEvent)="loadStudentEditDetails(courseId, studentEmail)">
   <div *tmIsLoading="isStudentLoading">
-    <div *ngIf="student" class="card border-primary">
-      <div class="card-body fill-plain text-sm-start">
-        <form
-          id="instructor-student-edit-form"
-          class="form form-horizontal"
-          (ngSubmit)="onSubmit( resendPastLinksModal)" [formGroup]="editForm">
-          <div class="row mb-3">
-            <label class="col-sm-2">Course ID:</label>
-            <div class="col-sm-10" id="course-id">{{ courseId }}</div>
-          </div>
-          <div class="row mb-3">
-            <label for="student-name" class="col-sm-2 col-form-label">Student Name:</label>
-            <div class="col-sm-10">
-              <input
-                class="form-control"
-                id="student-name"
-                formControlName="student-name">
-                <div
-                  *ngIf="editForm.get('student-name')!.errors
-                  && (editForm.get('student-name')!.dirty || editForm.get('student-name')!.touched)"
-                  class="invalid-field">
-                  <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                  <span [hidden]="!editForm.get('student-name')!.errors!['required']">
-                    {{ displayEmptyFieldMessage('Student Name') }}
-                  </span>
-                  <span [hidden]="!editForm.get('student-name')!.errors!['maxlength']">
-                    {{ displayExceedMaxLengthMessage('Student Name', FormValidator.STUDENT_NAME_MAX_LENGTH) }}
-                  </span>
-                </div>
+    @if (student) {
+      <div class="card border-primary">
+        <div class="card-body fill-plain text-sm-start">
+          <form
+            id="instructor-student-edit-form"
+            class="form form-horizontal"
+            (ngSubmit)="onSubmit( resendPastLinksModal)" [formGroup]="editForm">
+            <div class="row mb-3">
+              <label class="col-sm-2">Course ID:</label>
+              <div class="col-sm-10" id="course-id">{{ courseId }}</div>
             </div>
-          </div>
-          <div class="row mb-3">
-            <label for="section-name" class="col-sm-2 col-form-label">Section Name:</label>
-            <div class="col-sm-10">
-              <input
-                class="form-control"
-                id="section-name"
-                formControlName="section-name">
-              <div
-                *ngIf="editForm.get('section-name')!.errors
-                && (editForm.get('section-name')!.dirty || editForm.get('section-name')!.touched)"
-                class="invalid-field">
-                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                <span [hidden]="!editForm.get('section-name')!.errors!['required']">
-                  {{ displayEmptyFieldMessage('Section Name') }}
-                </span>
-                <span [hidden]="!editForm.get('section-name')!.errors!['maxlength']">
-                  {{ displayExceedMaxLengthMessage('Section Name', FormValidator.SECTION_NAME_MAX_LENGTH) }}
-                </span>
+            <div class="row mb-3">
+              <label for="student-name" class="col-sm-2 col-form-label">Student Name:</label>
+              <div class="col-sm-10">
+                <input
+                  class="form-control"
+                  id="student-name"
+                  formControlName="student-name">
+                @if (editForm.get('student-name')!.errors
+                  && (editForm.get('student-name')!.dirty || editForm.get('student-name')!.touched)) {
+                  <div
+                    class="invalid-field">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <span [hidden]="!editForm.get('student-name')!.errors!['required']">
+                      {{ displayEmptyFieldMessage('Student Name') }}
+                    </span>
+                    <span [hidden]="!editForm.get('student-name')!.errors!['maxlength']">
+                      {{ displayExceedMaxLengthMessage('Student Name', FormValidator.STUDENT_NAME_MAX_LENGTH) }}
+                    </span>
+                  </div>
+                }
               </div>
             </div>
-          </div>
-          <div class="row mb-3">
-            <label for="team-name" class="col-sm-2 col-form-label">Team Name:</label>
-            <div class="col-sm-10">
-              <input
-                class="form-control col-form-label"
-                name="team-name"
-                id="team-name"
-                formControlName="team-name">
-              <div
-                *ngIf="editForm.get('team-name')!.errors
-                && (editForm.get('team-name')!.dirty || editForm.get('team-name')!.touched)"
-                class="invalid-field">
-                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                <span [hidden]="!editForm.get('team-name')!.errors!['required']">
-                  {{ displayEmptyFieldMessage('Team Name') }}
-                </span>
-                <span [hidden]="!editForm.get('team-name')!.errors!['maxlength']">
-                  {{ displayExceedMaxLengthMessage('Team Name', FormValidator.TEAM_NAME_MAX_LENGTH) }}
-                </span>
+            <div class="row mb-3">
+              <label for="section-name" class="col-sm-2 col-form-label">Section Name:</label>
+              <div class="col-sm-10">
+                <input
+                  class="form-control"
+                  id="section-name"
+                  formControlName="section-name">
+                @if (editForm.get('section-name')!.errors
+                  && (editForm.get('section-name')!.dirty || editForm.get('section-name')!.touched)) {
+                  <div
+                    class="invalid-field">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <span [hidden]="!editForm.get('section-name')!.errors!['required']">
+                      {{ displayEmptyFieldMessage('Section Name') }}
+                    </span>
+                    <span [hidden]="!editForm.get('section-name')!.errors!['maxlength']">
+                      {{ displayExceedMaxLengthMessage('Section Name', FormValidator.SECTION_NAME_MAX_LENGTH) }}
+                    </span>
+                  </div>
+                }
               </div>
             </div>
-          </div>
-          <div class="row mb-3">
-            <label for="new-student-email" class="col-sm-2 col-form-label">E-mail Address:</label>
-            <div class="col-sm-10">
-              <input
-                class="form-control"
-                id="new-student-email"
-                formControlName="new-student-email">
-              <div
-                *ngIf="editForm.get('new-student-email')!.errors
-                && (editForm.get('new-student-email')!.dirty || editForm.get('new-student-email')!.touched)"
-                  class="invalid-field">
-                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                <span [hidden]="!editForm.get('new-student-email')!.errors!['required']">
-                  {{ displayEmptyFieldMessage('E-mail Address') }}
-                </span>
-                <span [hidden]="!editForm.get('new-student-email')!.errors!['maxlength']">
-                  {{ displayExceedMaxLengthMessage('E-mail Address', FormValidator.EMAIL_MAX_LENGTH) }}
-                </span>
+            <div class="row mb-3">
+              <label for="team-name" class="col-sm-2 col-form-label">Team Name:</label>
+              <div class="col-sm-10">
+                <input
+                  class="form-control col-form-label"
+                  name="team-name"
+                  id="team-name"
+                  formControlName="team-name">
+                @if (editForm.get('team-name')!.errors
+                  && (editForm.get('team-name')!.dirty || editForm.get('team-name')!.touched)) {
+                  <div
+                    class="invalid-field">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <span [hidden]="!editForm.get('team-name')!.errors!['required']">
+                      {{ displayEmptyFieldMessage('Team Name') }}
+                    </span>
+                    <span [hidden]="!editForm.get('team-name')!.errors!['maxlength']">
+                      {{ displayExceedMaxLengthMessage('Team Name', FormValidator.TEAM_NAME_MAX_LENGTH) }}
+                    </span>
+                  </div>
+                }
               </div>
             </div>
-          </div>
-          <div class="row mb-3">
-            <label for="comments" class="col-sm-2 col-form-label">Comments:</label>
-            <div class="col-sm-10">
-              <textarea
-                class="form-control"
-                rows="6"
-                id="comments"
-                formControlName="comments">
-              </textarea>
+            <div class="row mb-3">
+              <label for="new-student-email" class="col-sm-2 col-form-label">E-mail Address:</label>
+              <div class="col-sm-10">
+                <input
+                  class="form-control"
+                  id="new-student-email"
+                  formControlName="new-student-email">
+                @if (editForm.get('new-student-email')!.errors
+                  && (editForm.get('new-student-email')!.dirty || editForm.get('new-student-email')!.touched)) {
+                  <div
+                    class="invalid-field">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <span [hidden]="!editForm.get('new-student-email')!.errors!['required']">
+                      {{ displayEmptyFieldMessage('E-mail Address') }}
+                    </span>
+                    <span [hidden]="!editForm.get('new-student-email')!.errors!['maxlength']">
+                      {{ displayExceedMaxLengthMessage('E-mail Address', FormValidator.EMAIL_MAX_LENGTH) }}
+                    </span>
+                  </div>
+                }
+              </div>
             </div>
-          </div>
-          <br>
-          <div class="text-center">
-            <button class="btn btn-success"
-                    id="btn-submit"
-                    type="submit"
-                    [disabled]="!editForm.valid || isFormSaving">
-              <i [ngClass]="isFormSaving ? 'spinner-border spinner-border-sm' : 'fas fa-save'"></i>
-              Save Changes
-            </button>
-          </div>
-          <br>
-          <br>
-
-          <ng-template #resendPastLinksModal let-modal>
-            <div class="modal-header alert alert-primary alert-no-bottom">
-              <h2 class="h4 modal-title icon-primary">Resend past links to the new email?</h2>
-              <button
-                  type="button"
-                  class="btn-close"
-                  data-dismiss="modal"
-                  aria-hidden="true"
-                  (click)="modal.dismiss()"></button>
+            <div class="row mb-3">
+              <label for="comments" class="col-sm-2 col-form-label">Comments:</label>
+              <div class="col-sm-10">
+                <textarea
+                  class="form-control"
+                  rows="6"
+                  id="comments"
+                  formControlName="comments">
+                </textarea>
+              </div>
             </div>
-            <div class="modal-body">
-              Do you want to resend past session links of this course to the new email {{ editForm.get('newstudentemail')?.value }}?
+            <br>
+              <div class="text-center">
+                <button class="btn btn-success"
+                  id="btn-submit"
+                  type="submit"
+                  [disabled]="!editForm.valid || isFormSaving">
+                  <i [ngClass]="isFormSaving ? 'spinner-border spinner-border-sm' : 'fas fa-save'"></i>
+                  Save Changes
+                </button>
+              </div>
+              <br>
+                <br>
+                  <ng-template #resendPastLinksModal let-modal>
+                    <div class="modal-header alert alert-primary alert-no-bottom">
+                      <h2 class="h4 modal-title icon-primary">Resend past links to the new email?</h2>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-dismiss="modal"
+                        aria-hidden="true"
+                      (click)="modal.dismiss()"></button>
+                    </div>
+                    <div class="modal-body">
+                      Do you want to resend past session links of this course to the new email {{ editForm.get('newstudentemail')?.value }}?
+                    </div>
+                    <div class="modal-footer">
+                      <button id="btn-resend-links" type="button" class="btn btn-primary"
+                        (click)="submitEditForm(true); modal.dismiss()">
+                        Yes, save changes and resend links
+                      </button>
+                      <button type="button" class="btn btn-primary"
+                        (click)="submitEditForm(false); modal.dismiss()">
+                        No, just save the changes
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary"
+                        (click)="modal.dismiss()">
+                        Cancel
+                      </button>
+                    </div>
+                  </ng-template>
+                </form>
+              </div>
             </div>
-            <div class="modal-footer">
-              <button id="btn-resend-links" type="button" class="btn btn-primary"
-                      (click)="submitEditForm(true); modal.dismiss()">
-                Yes, save changes and resend links
-              </button>
-              <button type="button" class="btn btn-primary"
-                      (click)="submitEditForm(false); modal.dismiss()">
-                No, just save the changes
-              </button>
-              <button type="button" class="btn btn-outline-secondary"
-                      (click)="modal.dismiss()">
-                Cancel
-              </button>
-            </div>
-          </ng-template>
-        </form>
-      </div>
-    </div>
-  </div>
-</tm-loading-retry>
+          }
+        </div>
+      </tm-loading-retry>

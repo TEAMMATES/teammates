@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionType } from '../../../types/api-output';
@@ -19,8 +19,6 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
-    NgFor,
-    NgIf,
     TeammatesRouterDirective,
     AjaxLoadingComponent,
     EnumToArrayPipe,

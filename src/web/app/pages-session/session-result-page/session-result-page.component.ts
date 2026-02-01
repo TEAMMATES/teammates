@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -44,7 +44,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
   templateUrl: './session-result-page.component.html',
   styleUrls: ['./session-result-page.component.scss'],
   imports: [
-    NgIf,
     LoadingSpinnerDirective,
     LoadingRetryComponent,
     QuestionResponsePanelComponent,

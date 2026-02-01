@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { InstructorRequestFormModel } from './instructor-request-form/instructor-request-form-model';
@@ -14,7 +14,6 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   templateUrl: './request-page.component.html',
   styleUrls: ['./request-page.component.scss'],
   imports: [
-    NgIf,
     TeammatesRouterDirective,
     InstructorRequestFormComponent,
   ],

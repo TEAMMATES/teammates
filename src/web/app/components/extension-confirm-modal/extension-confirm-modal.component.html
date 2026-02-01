@@ -1,74 +1,96 @@
 <fieldset [disabled]="isSubmitting">
   <div class="modal-header" [ngClass]="{'alert-primary': isExtendModal(), 'alert-danger' : isDeleteModal() || isSessionDeleteModal()}">
-    <h5 class="modal-title" *ngIf="isExtendModal()">Confirm extension of feedback session</h5>
-    <h5 class="modal-title" *ngIf="isDeleteModal() || isSessionDeleteModal()">Confirm deletion of feedback session extensions</h5>
+    @if (isExtendModal()) {
+      <h5 class="modal-title">Confirm extension of feedback session</h5>
+    }
+    @if (isDeleteModal() || isSessionDeleteModal()) {
+      <h5 class="modal-title">Confirm deletion of feedback session extensions</h5>
+    }
     <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
   </div>
 
   <div class="modal-body">
-    <div *ngIf="isExtendModal()">
-      The new deadline of <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b> will be applied
-      to the following <b>{{ selectedStudents.length }}</b> student(s) and <b>{{ selectedInstructors.length }}</b>
-      instructor(s):
-    </div>
+    @if (isExtendModal()) {
+      <div>
+        The new deadline of <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b> will be applied
+        to the following <b>{{ selectedStudents.length }}</b> student(s) and <b>{{ selectedInstructors.length }}</b>
+        instructor(s):
+      </div>
+    }
 
-    <div *ngIf="isDeleteModal()">
-      The deadline of the following <b>{{ selectedStudents.length }}</b> student(s) and
-      <b>{{ selectedInstructors.length }}</b> instructor(s) will be reverted back to the original deadline of
-      <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
-    </div>
+    @if (isDeleteModal()) {
+      <div>
+        The deadline of the following <b>{{ selectedStudents.length }}</b> student(s) and
+        <b>{{ selectedInstructors.length }}</b> instructor(s) will be reverted back to the original deadline of
+        <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
+      </div>
+    }
 
-    <div *ngIf="isSessionDeleteModal()">
-      The extensions of the following <b>{{ selectedStudents.length }}</b> student(s) and
-      <b>{{ selectedInstructors.length }}</b> instructor(s) will be deleted, as they are before your new session end time of
-      <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
-    </div>
+    @if (isSessionDeleteModal()) {
+      <div>
+        The extensions of the following <b>{{ selectedStudents.length }}</b> student(s) and
+        <b>{{ selectedInstructors.length }}</b> instructor(s) will be deleted, as they are before your new session end time of
+        <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
+      </div>
+    }
 
-    <div *ngIf="selectedStudents.length !== 0">
-      <h1>Students</h1>
-      <tm-sortable-table
-        [columns]="studentColumnsData"
-        [rows]="studentRowsData"
-        [sortOrder]="sortStudentsBy"
-        [sortOrder]="sortStudentOrder"
-        [headerColorScheme]="headerColorScheme"
-
-        (sortEvent)="sortStudentColumnsByEventHandler($event)"
+    @if (selectedStudents.length !== 0) {
+      <div>
+        <h1>Students</h1>
+        <tm-sortable-table
+          [columns]="studentColumnsData"
+          [rows]="studentRowsData"
+          [sortOrder]="sortStudentsBy"
+          [sortOrder]="sortStudentOrder"
+          [headerColorScheme]="headerColorScheme"
+          (sortEvent)="sortStudentColumnsByEventHandler($event)"
         ></tm-sortable-table>
-    </div>
+      </div>
+    }
 
-    <div *ngIf="selectedInstructors.length !== 0">
-      <h1>Instructors</h1>
-      <tm-sortable-table
-        [columns]="instructorColumnsData"
-        [rows]="instructorRowsData"
-        [sortOrder]="sortInstructorsBy"
-        [sortOrder]="sortInstructorOrder"
-        [headerColorScheme]="headerColorScheme"
+    @if (selectedInstructors.length !== 0) {
+      <div>
+        <h1>Instructors</h1>
+        <tm-sortable-table
+          [columns]="instructorColumnsData"
+          [rows]="instructorRowsData"
+          [sortOrder]="sortInstructorsBy"
+          [sortOrder]="sortInstructorOrder"
+          [headerColorScheme]="headerColorScheme"
+          (sortEvent)="sortInstructorsColumnsByEventHandler($event)"
+        ></tm-sortable-table>
+      </div>
+    }
 
-        (sortEvent)="sortInstructorsColumnsByEventHandler($event)"
-      ></tm-sortable-table>
-    </div>
-
-    <div class="form-check" *ngIf="isDeleteModal() || isExtendModal()">
-      <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyDeadlines" id="flexCheckChecked">
-      <label class="form-check-label" for="flexCheckChecked" *ngIf="isExtendModal()">
-        Notify affected students and/or instructors by email about this extension
-      </label>
-      <label class="form-check-label" for="flexCheckChecked" *ngIf="isDeleteModal()">
-        Notify affected students and/or instructors by email about the cancellation of their extension
-      </label>
-    </div>
+    @if (isDeleteModal() || isExtendModal()) {
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyDeadlines" id="flexCheckChecked">
+        @if (isExtendModal()) {
+          <label class="form-check-label" for="flexCheckChecked">
+            Notify affected students and/or instructors by email about this extension
+          </label>
+        }
+        @if (isDeleteModal()) {
+          <label class="form-check-label" for="flexCheckChecked">
+            Notify affected students and/or instructors by email about the cancellation of their extension
+          </label>
+        }
+      </div>
+    }
 
   </div>
 
   <br>
 
-  <div class="modal-footer py-1 px-3">
-    <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
-    <button *ngIf="isExtendModal()" type="button" class="btn btn-success modal-btn-ok"
-      (click)="onConfirm()">Confirm</button>
-    <button *ngIf="isDeleteModal() || isSessionDeleteModal()" id="delete-extension-btn" type="button" class="btn btn-danger modal-btn-ok" (click)="onConfirm()">Delete
-      Extension(s)</button>
-  </div>
-</fieldset>
+    <div class="modal-footer py-1 px-3">
+      <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
+      @if (isExtendModal()) {
+        <button type="button" class="btn btn-success modal-btn-ok"
+        (click)="onConfirm()">Confirm</button>
+      }
+      @if (isDeleteModal() || isSessionDeleteModal()) {
+        <button id="delete-extension-btn" type="button" class="btn btn-danger modal-btn-ok" (click)="onConfirm()">Delete
+        Extension(s)</button>
+      }
+    </div>
+  </fieldset>

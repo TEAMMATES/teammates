@@ -1,4 +1,4 @@
-import { NgIf, NgFor } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -64,9 +64,7 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
   animations: [collapseAnim],
   imports: [
     PanelChevronComponent,
-    NgIf,
     FormsModule,
-    NgFor,
     AjaxLoadingComponent,
     NgbTooltip,
     QuestionEditBriefDescriptionFormComponent,

@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, map, mergeMap } from 'rxjs/operators';
@@ -49,9 +49,7 @@ interface SessionTab {
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgFor,
     PanelChevronComponent,
-    NgIf,
     GrqRgqViewResponsesComponent,
   ],
   providers: [

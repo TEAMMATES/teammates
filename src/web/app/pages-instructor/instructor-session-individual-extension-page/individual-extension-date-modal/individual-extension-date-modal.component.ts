@@ -1,4 +1,4 @@
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -34,8 +34,6 @@ enum DateTime {
   styleUrls: ['./individual-extension-date-modal.component.scss'],
   imports: [
     FormsModule,
-    NgIf,
-    NgFor,
     DatepickerComponent,
     TimepickerComponent,
     KeyValuePipe,

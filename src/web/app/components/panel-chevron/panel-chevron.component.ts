@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, Input } from '@angular/core';
 
 /**
@@ -10,7 +10,6 @@ import { Component, Input } from '@angular/core';
   selector: 'tm-panel-chevron',
   templateUrl: './panel-chevron.component.html',
   styleUrls: ['./panel-chevron.component.scss'],
-  imports: [NgIf],
 })
 export class PanelChevronComponent {
 

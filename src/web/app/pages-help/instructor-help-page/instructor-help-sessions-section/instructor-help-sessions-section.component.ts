@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { SectionTabModel } from 'src/web/app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { FeedbackQuestionModel } from 'src/web/app/pages-session/session-result-page/feedback-question.model';
@@ -79,7 +79,6 @@ import { Sections } from '../sections';
   styleUrls: ['./instructor-help-sessions-section.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     InstructorHelpPanelComponent,
     ExampleBoxComponent,
     SessionEditFormComponent,

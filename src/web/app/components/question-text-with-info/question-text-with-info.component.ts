@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionDetails, FeedbackQuestionType } from '../../../types/api-output';
 import { ConstsumOptionsQuestionAdditionalInfoComponent } from '../question-types/question-additional-info/constsum-options-question-additional-info.component';
@@ -20,7 +20,6 @@ import { TextQuestionAdditionalInfoComponent } from '../question-types/question-
   templateUrl: './question-text-with-info.component.html',
   styleUrls: ['./question-text-with-info.component.scss'],
   imports: [
-    NgIf,
     ContributionQuestionAdditionalInfoComponent,
     TextQuestionAdditionalInfoComponent,
     McqQuestionAdditionalInfoComponent,

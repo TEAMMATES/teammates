@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionTabModel } from 'src/web/app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
@@ -79,7 +79,6 @@ import { Sections } from '../sections';
   styleUrls: ['./instructor-help-questions-section.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     InstructorHelpPanelComponent,
     ExampleBoxComponent,
     QuestionEditFormComponent,

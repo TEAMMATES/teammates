@@ -1,4 +1,4 @@
-import { NgIf, NgFor } from '@angular/common';
+
 import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
@@ -30,10 +30,8 @@ import {
   templateUrl: './contribution-question-statistics.component.html',
   styleUrls: ['./contribution-question-statistics.component.scss'],
   imports: [
-    NgIf,
     NgbTooltip,
     ContributionComponent,
-    NgFor,
     TeammatesRouterDirective,
     SortableTableComponent,
   ],

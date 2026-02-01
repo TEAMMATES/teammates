@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CoursesSectionQuestions } from './courses-section-questions';
 import { environment } from '../../../../environments/environment';
@@ -17,7 +17,6 @@ import { Sections } from '../sections';
   styleUrls: ['./instructor-help-courses-section.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     InstructorHelpPanelComponent,
     TeammatesRouterDirective,
   ],

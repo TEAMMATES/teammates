@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { GeneralSectionQuestions } from './general-section-questions';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
@@ -16,7 +16,6 @@ import { Sections } from '../sections';
   styleUrls: ['./instructor-help-general-section.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     InstructorHelpPanelComponent,
     TeammatesRouterDirective,
   ],

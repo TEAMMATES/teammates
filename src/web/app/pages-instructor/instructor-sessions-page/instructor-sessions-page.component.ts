@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -78,7 +78,6 @@ interface RecycleBinFeedbackSessionRowModel {
   styleUrls: ['./instructor-sessions-page.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     TeammatesRouterDirective,
     SessionEditFormComponent,
     LoadingRetryComponent,

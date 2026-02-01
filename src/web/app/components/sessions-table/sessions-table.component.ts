@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { GroupButtonsComponent } from './cell-with-group-buttons.component';
@@ -46,7 +46,7 @@ export type Index = number;
     selector: 'tm-sessions-table',
     templateUrl: './sessions-table.component.html',
     styleUrls: ['./sessions-table.component.scss'],
-    imports: [NgIf, SortableTableComponent],
+    imports: [SortableTableComponent],
     providers: [
       FormatDateDetailPipe,
       FormatDateBriefPipe,

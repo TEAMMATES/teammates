@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -23,9 +23,7 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   templateUrl: './copy-questions-from-other-sessions-modal.component.html',
   styleUrls: ['./copy-questions-from-other-sessions-modal.component.scss'],
   imports: [
-    NgFor,
     PanelChevronComponent,
-    NgIf,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     FormsModule,

@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,9 +25,7 @@ interface TemplateQuestionModel {
   styleUrls: ['./template-question-modal.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgFor,
     FormsModule,
-    NgIf,
     QuestionEditFormComponent,
   ],
 })
