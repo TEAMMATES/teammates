@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -93,7 +92,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
 
         studentActivityLogsPage.waitForPageToLoad();
         studentActivityLogsPage.startSearching();
-        studentActivityLogsPage.waitForElementPresence(By.id("logs-output"));
+        studentActivityLogsPage.waitForLogsToLoad();
 
         if (!studentActivityLogsPage.getLogsOutputText().contains("First Session")) {
             try {
