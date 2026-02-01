@@ -34,7 +34,7 @@ public class GetDeadlineExtensionAction extends Action {
         boolean isInstructor = Boolean.parseBoolean(getNonNullRequestParamValue(Const.ParamsNames.IS_INSTRUCTOR));
 
         if (isCourseMigrated(courseId)) {
-            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+            FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
             User user = isInstructor
                     ? sqlLogic.getInstructorForEmail(courseId, userEmail)
                     : sqlLogic.getStudentForEmail(courseId, userEmail);
