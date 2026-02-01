@@ -1,10 +1,15 @@
+import { NgIf } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   McqQuestionStatisticsCalculation,
 } from './question-statistics-calculation/mcq-question-statistics-calculation';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for MCQ questions.
@@ -13,7 +18,7 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
     selector: 'tm-mcq-question-statistics',
     templateUrl: './mcq-question-statistics.component.html',
     styleUrls: ['./mcq-question-statistics.component.scss'],
-    standalone: false,
+    imports: [NgIf, SortableTableComponent],
 })
 export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalculation implements OnInit, OnChanges {
 

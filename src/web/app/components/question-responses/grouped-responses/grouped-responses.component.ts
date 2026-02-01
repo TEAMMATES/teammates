@@ -1,22 +1,40 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput, ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
+import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
+import { CommentRowComponent } from '../../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
-import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
+import { CommentTableComponent } from '../../comment-box/comment-table/comment-table.component';
+import { CommentTableModel } from '../../comment-box/comment-table/comment-table.model';
+import { CommentToCommentRowModelPipe } from '../../comment-box/comment-to-comment-row-model.pipe';
+import { QuestionTextWithInfoComponent } from '../../question-text-with-info/question-text-with-info.component';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
+import { SingleResponseComponent } from '../single-response/single-response.component';
 
 /**
  * A list of responses grouped in GRQ/RGQ mode.
  */
 @Component({
-    selector: 'tm-grouped-responses',
-    templateUrl: './grouped-responses.component.html',
-    styleUrls: ['./grouped-responses.component.scss'],
-    standalone: false,
+  selector: 'tm-grouped-responses',
+  templateUrl: './grouped-responses.component.html',
+  styleUrls: ['./grouped-responses.component.scss'],
+  imports: [
+    NgIf,
+    ResponseModerationButtonComponent,
+    NgFor,
+    QuestionTextWithInfoComponent,
+    SingleResponseComponent,
+    NgbTooltip,
+    CommentRowComponent,
+    CommentTableComponent,
+    CommentToCommentRowModelPipe,
+  ],
 })
 export class GroupedResponsesComponent extends InstructorResponsesViewBase implements OnInit {
 

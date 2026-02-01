@@ -1,20 +1,17 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
-import { InstructorCourseDetailsPageModule } from './instructor-course-details-page.module';
 import { CourseStatistics } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
-import { SimpleModalModule } from '../../components/simple-modal/simple-modal.module';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
-import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 
 const course: Course = {
   courseId: 'CS101',
@@ -54,13 +51,8 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TeammatesCommonModule,
-        RouterModule.forRoot([]),
-        InstructorCourseDetailsPageModule,
-        SimpleModalModule,
-      ],
       providers: [
+        provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

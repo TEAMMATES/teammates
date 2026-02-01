@@ -1,3 +1,4 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionAdditionalInfo } from './question-additional-info';
 import { FeedbackConstantSumQuestionDetails } from '../../../../types/api-output';
@@ -10,7 +11,7 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
     selector: 'tm-constsum-options-question-additional-info',
     templateUrl: './constsum-options-question-additional-info.component.html',
     styleUrls: ['./constsum-options-question-additional-info.component.scss'],
-    standalone: false,
+    imports: [NgFor, NgIf],
 })
 export class ConstsumOptionsQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackConstantSumQuestionDetails> {

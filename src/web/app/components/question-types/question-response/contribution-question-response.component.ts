@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -20,10 +21,10 @@ import {
  * Contribution question response.
  */
 @Component({
-    selector: 'tm-contribution-question-response',
-    templateUrl: './contribution-question-response.component.html',
-    styleUrls: ['./contribution-question-response.component.scss'],
-    standalone: false,
+  selector: 'tm-contribution-question-response',
+  templateUrl: './contribution-question-response.component.html',
+  styleUrls: ['./contribution-question-response.component.scss'],
+  imports: [NgIf],
 })
 export class ContributionQuestionResponseComponent
     extends QuestionResponse<FeedbackContributionResponseDetails, FeedbackContributionQuestionDetails>

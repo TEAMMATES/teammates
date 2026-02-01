@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbCalendar, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { DateFormat } from '../../../types/datetime-const';
 
@@ -6,10 +7,10 @@ import { DateFormat } from '../../../types/datetime-const';
  * Datepicker with today button component
  */
 @Component({
-    selector: 'tm-datepicker',
-    templateUrl: './datepicker.component.html',
-    styleUrls: ['./datepicker.component.scss'],
-    standalone: false,
+  selector: 'tm-datepicker',
+  templateUrl: './datepicker.component.html',
+  styleUrls: ['./datepicker.component.scss'],
+  imports: [NgbInputDatepicker, FormsModule],
 })
 export class DatepickerComponent {
 

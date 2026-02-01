@@ -1,4 +1,6 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { InstructorPermissionSet } from '../../../../types/api-output';
 
 /**
@@ -31,10 +33,14 @@ export interface InstructorSessionLevelPermission {
  * Panel for custom privilege of an instructor.
  */
 @Component({
-    selector: 'tm-custom-privilege-setting-panel',
-    templateUrl: './custom-privilege-setting-panel.component.html',
-    styleUrls: ['./custom-privilege-setting-panel.component.scss'],
-    standalone: false,
+  selector: 'tm-custom-privilege-setting-panel',
+  templateUrl: './custom-privilege-setting-panel.component.html',
+  styleUrls: ['./custom-privilege-setting-panel.component.scss'],
+  imports: [
+    FormsModule,
+    NgFor,
+    NgIf,
+  ],
 })
 export class CustomPrivilegeSettingPanelComponent {
 

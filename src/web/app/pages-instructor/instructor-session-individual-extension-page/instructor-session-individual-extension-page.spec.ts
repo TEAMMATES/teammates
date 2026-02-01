@@ -2,15 +2,12 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import {
   InstructorSessionIndividualExtensionPageComponent,
 } from './instructor-session-individual-extension-page.component';
-import {
-  InstructorSessionIndividualExtensionPageModule,
-} from './instructor-session-individual-extension-page.module';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -127,12 +124,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterModule, InstructorSessionIndividualExtensionPageModule],
         providers: [
-          StudentService,
-          CourseService,
-          TimezoneService,
-          FeedbackSessionsService,
+          provideRouter([]),
           {
             provide: ActivatedRoute,
             useValue: {

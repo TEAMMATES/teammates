@@ -1,9 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
 import { CopyInstructorsFromOtherCoursesModalComponent } from './copy-instructors-from-other-courses-modal.component';
@@ -14,11 +12,6 @@ import {
   JoinState,
 } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
-import { AjaxLoadingModule } from '../../../components/ajax-loading/ajax-loading.module';
-import { LoadingRetryModule } from '../../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../../components/loading-spinner/loading-spinner.module';
-import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
-import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
 
 describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
 
@@ -139,20 +132,8 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CopyInstructorsFromOtherCoursesModalComponent],
-      imports: [
-        CommonModule,
-        FormsModule,
-        NgbTooltipModule,
-        TeammatesCommonModule,
-        PanelChevronModule,
-        LoadingSpinnerModule,
-        LoadingRetryModule,
-        AjaxLoadingModule,
-      ],
       providers: [
         NgbActiveModal,
-        InstructorService,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

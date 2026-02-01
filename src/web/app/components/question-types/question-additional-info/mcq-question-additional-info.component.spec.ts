@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { McqQuestionAdditionalInfoComponent } from './mcq-question-additional-info.component';
 import {
@@ -6,21 +6,10 @@ import {
   FeedbackParticipantType,
   FeedbackQuestionType,
 } from '../../../../types/api-output';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 
 describe('McqQuestionAdditionalInfoComponent', () => {
   let component: McqQuestionAdditionalInfoComponent;
   let fixture: ComponentFixture<McqQuestionAdditionalInfoComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [McqQuestionAdditionalInfoComponent],
-      imports: [
-        TeammatesCommonModule,
-      ],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(McqQuestionAdditionalInfoComponent);

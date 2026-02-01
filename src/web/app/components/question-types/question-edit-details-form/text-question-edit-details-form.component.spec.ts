@@ -1,21 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormsModule } from '@angular/forms';
 import { TextQuestionEditDetailsFormComponent } from './text-question-edit-details-form.component';
 
 describe('TextQuestionEditDetailsFormComponent', () => {
   let component: TextQuestionEditDetailsFormComponent;
   let fixture: ComponentFixture<TextQuestionEditDetailsFormComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-      ],
-      declarations: [TextQuestionEditDetailsFormComponent],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TextQuestionEditDetailsFormComponent);

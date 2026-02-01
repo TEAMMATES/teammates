@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../../environments/environment';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
+import { CourseEditFormComponent } from '../../../components/course-edit-form/course-edit-form.component';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { CoursesSectionQuestions } from '../instructor-help-courses-section/courses-section-questions';
 import { QuestionsSectionQuestions } from '../instructor-help-questions-section/questions-section-questions';
 import { SessionsSectionQuestions } from '../instructor-help-sessions-section/sessions-section-questions';
@@ -13,10 +16,14 @@ import { Sections } from '../sections';
  * Getting Started Section for Instructors
  */
 @Component({
-    selector: 'tm-instructor-help-getting-started',
-    templateUrl: './instructor-help-getting-started.component.html',
-    styleUrls: ['./instructor-help-getting-started.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-help-getting-started',
+  templateUrl: './instructor-help-getting-started.component.html',
+  styleUrls: ['./instructor-help-getting-started.component.scss'],
+  imports: [
+    TeammatesRouterDirective,
+    ExampleBoxComponent,
+    CourseEditFormComponent,
+  ],
 })
 export class InstructorHelpGettingStartedComponent {
 

@@ -1,5 +1,7 @@
+import { NgIf, NgFor, NgClass, KeyValuePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
@@ -21,19 +23,32 @@ import { Email, RegenerateKey } from '../../../types/api-output';
 import {
   AccountRequestTableRowModel,
 } from '../../components/account-requests-table/account-request-table-model';
+import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 
 /**
  * Admin search page.
  */
 @Component({
-    selector: 'tm-admin-search-page',
-    templateUrl: './admin-search-page.component.html',
-    styleUrls: ['./admin-search-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-admin-search-page',
+  templateUrl: './admin-search-page.component.html',
+  styleUrls: ['./admin-search-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    FormsModule,
+    NgIf,
+    NgFor,
+    NgClass,
+    NgbTooltip,
+    AjaxLoadingComponent,
+    AccountRequestTableComponent,
+    KeyValuePipe,
+    SearchTermsHighlighterPipe,
+  ],
 })
 export class AdminSearchPageComponent {
 

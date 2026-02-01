@@ -7,6 +7,5 @@ import { Component } from '@angular/core';
     selector: 'tm-num-scale-question-instruction',
     templateUrl: './num-scale-question-instruction.component.html',
     styleUrls: ['./num-scale-question-instruction.component.scss'],
-    standalone: false,
 })
 export class NumScaleQuestionInstructionComponent {}
