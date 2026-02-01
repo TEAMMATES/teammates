@@ -26,9 +26,10 @@ public class CreateFeedbackQuestionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+
         Instructor instructorDetailForCourse = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(instructorDetailForCourse,
-                getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
+                getNonNullFeedbackSession(feedbackSessionName, courseId),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
@@ -39,7 +40,7 @@ public class CreateFeedbackQuestionAction extends Action {
         FeedbackQuestionCreateRequest request = getAndValidateRequestBody(FeedbackQuestionCreateRequest.class);
 
         FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
-                getNonNullSqlFeedbackSession(feedbackSessionName, courseId),
+                getNonNullFeedbackSession(feedbackSessionName, courseId),
                 request.getQuestionNumber(),
                 request.getQuestionDescription(),
                 request.getGiverType(),
@@ -71,5 +72,4 @@ public class CreateFeedbackQuestionAction extends Action {
             throw new InvalidOperationException(e);
         }
     }
-
 }
