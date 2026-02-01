@@ -63,14 +63,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     static final String DELETE = HttpDelete.METHOD_NAME;
 
     Logic mockLogic = mock(Logic.class);
-    teammates.logic.api.Logic mockDatastoreLogic = mock(teammates.logic.api.Logic.class);
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     teammates.logic.api.RecaptchaVerifier mockRecaptchaVerifier = mock(teammates.logic.api.RecaptchaVerifier.class);
     SqlEmailGenerator mockSqlEmailGenerator = mock(SqlEmailGenerator.class);
-    teammates.logic.api.EmailGenerator mockEmailGenerator = mock(teammates.logic.api.EmailGenerator.class);
     AuthProxy mockAuthProxy = mock(AuthProxy.class);
 
     abstract String getActionUri();
@@ -113,14 +111,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             @SuppressWarnings("unchecked")
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setLogic(mockLogic);
-            action.setLogic(mockDatastoreLogic);
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
             action.setLogsProcessor(mockLogsProcessor);
-            action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setSqlEmailGenerator(mockSqlEmailGenerator);
-            action.setEmailGenerator(mockEmailGenerator);
             action.setAuthProxy(mockAuthProxy);
             action.init(req);
             return action;
