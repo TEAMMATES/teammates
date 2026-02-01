@@ -25,7 +25,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.HibernateUtil;
@@ -34,7 +33,6 @@ import teammates.logic.core.LogicStarter;
 import teammates.sqllogic.api.Logic;
 import teammates.storage.api.OfyHelper;
 import teammates.storage.search.AccountRequestSearchManager;
-import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
 import teammates.storage.search.StudentSearchManager;
 import teammates.storage.sqlentity.Account;
@@ -77,8 +75,6 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
 
         SearchManagerFactory.registerAccountRequestSearchManager(
                 new AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        SearchManagerFactory.registerInstructorSearchManager(
-                new InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
         SearchManagerFactory.registerStudentSearchManager(
                 new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
 
@@ -105,7 +101,6 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     @AfterClass
     public void resetDbLayer() throws Exception {
         SearchManagerFactory.getAccountRequestSearchManager().resetCollections();
-        SearchManagerFactory.getInstructorSearchManager().resetCollections();
         SearchManagerFactory.getStudentSearchManager().resetCollections();
 
         LOCAL_DATASTORE_HELPER.reset();
@@ -155,13 +150,6 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     @Override
     protected FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs) {
         return logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
-    }
-
-    @Override
-    protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return instructor.getGoogleId() == null
-                ? logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail())
-                : logic.getInstructorForGoogleId(instructor.getCourseId(), instructor.getGoogleId());
     }
 
     @Override
