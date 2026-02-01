@@ -145,7 +145,7 @@
       @for (entry of recipientQuestionMap | keyvalue; track entry) {
         <div class="card px-4">
           <h2 class="my-4">{{ getRecipientName(entry.key) }}</h2>
-          @for (questionSubmissionForm of questionSubmissionForms; track trackQuestionSubmissionFormByFn(i, questionSubmissionForm); let i = $index) {
+          @for (questionSubmissionForm of questionSubmissionForms; track questionSubmissionForm.feedbackQuestionId; let i = $index) {
             @if (entry.value.has(questionSubmissionForm.questionNumber)) {
               <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
                 inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
@@ -184,7 +184,7 @@
           <h2 class="my-2 mx-2">There are no ungroupable questions</h2>
         </div>
       }
-      @for (questionSubmissionForm of questionSubmissionForms; track trackQuestionSubmissionFormByFn(i, questionSubmissionForm); let i = $index) {
+      @for (questionSubmissionForm of questionSubmissionForms; track questionSubmissionForm.feedbackQuestionId; let i = $index) {
         @if (ungroupableQuestionsSorted.includes(questionSubmissionForm.questionNumber)) {
           <tm-question-submission-form [attr.id]="questionSubmissionForm.feedbackQuestionId"
             inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
@@ -201,7 +201,7 @@
       }
     }
     @if (currentSelectedSessionView === allSessionViews.DEFAULT) {
-      @for (questionSubmissionForm of questionSubmissionForms; track trackQuestionSubmissionFormByFn(i, questionSubmissionForm); let i = $index) {
+      @for (questionSubmissionForm of questionSubmissionForms; track questionSubmissionForm.feedbackQuestionId; let i = $index) {
         <tm-question-submission-form
           [attr.id]="questionSubmissionForm.feedbackQuestionId"
           inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"

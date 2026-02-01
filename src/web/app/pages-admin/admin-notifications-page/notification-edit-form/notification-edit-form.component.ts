@@ -1,4 +1,4 @@
-import { NgClass, KeyValuePipe } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -33,7 +33,6 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
     DatepickerComponent,
     TimepickerComponent,
     AjaxLoadingComponent,
-    KeyValuePipe,
     NotificationStyleDescriptionPipe,
     NotificationStyleClassPipe,
   ],

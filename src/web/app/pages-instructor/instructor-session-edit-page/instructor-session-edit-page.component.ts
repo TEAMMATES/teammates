@@ -578,15 +578,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
-   * Tracks the question edit form by feedback question id.
-   *
-   * @see https://angular.io/api/common/NgForOf#properties
-   */
-  trackQuestionEditFormByFn(_: any, item: QuestionEditFormModel): any {
-    return item.feedbackQuestionId;
-  }
-
-  /**
    * Converts feedback question to the question edit form model.
    */
   private getQuestionEditFormModel(feedbackQuestion: FeedbackQuestion): QuestionEditFormModel {

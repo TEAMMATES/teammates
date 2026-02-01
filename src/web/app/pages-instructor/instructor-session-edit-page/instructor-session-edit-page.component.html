@@ -19,7 +19,7 @@
   }
 
   <div *tmIsLoading="isLoadingFeedbackQuestions">
-    @for (questionEditFormModel of questionEditFormModels; track trackQuestionEditFormByFn(i, questionEditFormModel); let i = $index) {
+    @for (questionEditFormModel of questionEditFormModels; track questionEditFormModel.feedbackQuestionId; let i = $index) {
       <div
         >
         <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT" [numOfQuestions]="questionEditFormModels.length"

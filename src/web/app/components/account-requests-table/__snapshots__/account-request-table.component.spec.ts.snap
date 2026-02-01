@@ -129,7 +129,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
                   class="btn btn-success"
                   id="approve-account-request-0"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -240,7 +240,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
                   class="btn btn-success"
                   id="approve-account-request-1"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -302,11 +302,9 @@ exports[`AccountRequestTableComponent should display account requests with reset
     <div
       class="card-header bg-primary text-white"
     >
-      <div>
-        <strong>
-          Account Requests Found
-        </strong>
-      </div>
+      <strong>
+        Account Requests Found
+      </strong>
       <div
         class="card-header-btn-toolbar"
       >
@@ -381,9 +379,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
-            <td
-              id="timestamp-box"
-            >
+            <td>
               Not Registered Yet
             </td>
             <td>
@@ -443,7 +439,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                   disabled=""
                   id="approve-account-request-0"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -487,7 +483,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                     disabled=""
                     id="reset-account-request-0"
                   >
-                    Reset
+                     Reset 
                   </button>
                 </div>
               </div>
@@ -511,9 +507,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
-            <td
-              id="timestamp-box"
-            >
+            <td>
               Not Registered Yet
             </td>
             <td>
@@ -573,7 +567,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                   disabled=""
                   id="approve-account-request-1"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -617,7 +611,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                     disabled=""
                     id="reset-account-request-1"
                   >
-                    Reset
+                     Reset 
                   </button>
                 </div>
               </div>
@@ -759,7 +753,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                   class="btn btn-success"
                   id="approve-account-request-0"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"

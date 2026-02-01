@@ -186,13 +186,6 @@ export class StudentListComponent implements OnInit {
   }
 
   /**
-   * Function to be passed to ngFor, so that students in the list is tracked by email
-   */
-  trackByFn(_index: number, item: StudentListRowModel): any {
-    return item.student.email;
-  }
-
-  /**
    * Open the student email reminder modal.
    */
   openRemindModal(studentModel: StudentListRowModel): void {

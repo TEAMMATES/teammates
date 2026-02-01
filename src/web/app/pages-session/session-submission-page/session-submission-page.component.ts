@@ -586,15 +586,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Tracks the question submission form by feedback question id.
-   *
-   * @see https://angular.io/api/common/NgForOf#properties
-   */
-  trackQuestionSubmissionFormByFn(_: any, item: QuestionSubmissionFormModel): any {
-    return item.feedbackQuestionId;
-  }
-
-  /**
    * Loads the feedback question recipients for the question.
    */
   loadFeedbackQuestionRecipientsForQuestion(model: QuestionSubmissionFormModel): void {
