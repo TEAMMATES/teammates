@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -37,18 +36,7 @@ public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
                 startTime.toEpochMilli(), endTime.toEpochMilli(), null);
 
         Map<UUID, Map<String, Map<UUID, Map<String, Long>>>> lastSavedTimestamps = new HashMap<>();
-        Map<String, Boolean> isCourseMigratedMap = new HashMap<>();
         for (FeedbackSessionLogEntry logEntry : logEntries) {
-
-            isCourseMigratedMap.computeIfAbsent(logEntry.getCourseId(), k -> {
-                CourseAttributes course = logic.getCourse(logEntry.getCourseId());
-                return course == null || course.isMigrated();
-            });
-
-            if (!isCourseMigratedMap.get(logEntry.getCourseId())) {
-                continue;
-            }
-
             String courseId = logEntry.getCourseId();
             UUID studentId = logEntry.getStudentId();
             UUID fbSessionId = logEntry.getFeedbackSessionId();
