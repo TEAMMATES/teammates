@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -86,12 +87,27 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentSubmissionPage.clickSubmitQuestionButton(1);
 
         logout();
-        studentActivityLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class,
-                instructor.getGoogleId());
+        studentActivityLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
+
+        studentActivityLogsPage.setLogsFromDateTime(Instant.now().minus(24, ChronoUnit.HOURS), "UTC");
+        studentActivityLogsPage.setLogsToDateTime(Instant.now().plus(1, ChronoUnit.HOURS), "UTC");
         studentActivityLogsPage.setActivityType("session access and submission");
+        studentActivityLogsPage.setSessionDropdown(feedbackSession.getName());
+
         studentActivityLogsPage.waitForPageToLoad();
         studentActivityLogsPage.startSearching();
+        studentActivityLogsPage.waitForElementPresence(By.id("logs-output"));
 
-        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackSession.getName()));
+        if (!studentActivityLogsPage.getLogsOutputText().contains("First Session")) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            studentActivityLogsPage.startSearching();
+            studentActivityLogsPage.waitForElementPresence(By.id("logs-output"));
+        }
+
+        assertTrue(studentActivityLogsPage.getLogsOutputText().contains("First Session"));
     }
 }
