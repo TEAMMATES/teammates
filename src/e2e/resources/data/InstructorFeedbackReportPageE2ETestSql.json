@@ -553,9 +553,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS"],
-      "showGiverNameTo": ["STUDENTS"],
-      "createdAt": "2026-02-02T23:59:00Z",
-      "updatedAt": "2026-02-03T23:59:00Z"
+      "showGiverNameTo": ["STUDENTS"]
     },
     "qn2Comment2": {
       "id": 1,
@@ -588,9 +586,7 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS"],
-      "showGiverNameTo": ["STUDENTS"],
-      "createdAt": "2026-03-01T23:59:00Z",
-      "updatedAt": "2026-03-02T23:59:00Z"
+      "showGiverNameTo": ["STUDENTS"]
     },
     "qn3Comment1": {
       "id": 2,
@@ -623,9 +619,7 @@
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
-      "showGiverNameTo": [],
-      "createdAt": "2026-03-02T23:59:00Z",
-      "updatedAt": "2026-03-03T23:59:00Z"
+      "showGiverNameTo": []
     }
   },
   "deadlineExtensions": {},
