@@ -106,7 +106,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       student: this.loadStudentRecords(courseId, studentEmail),
     }).pipe(
         mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession, student: Student }) => {
-          return this.getFeedbackSessionResults(feedbackSession, student);
+          return this.getFeedbackSessionResults(feedbackSession, student.sectionName);
         }),
         finalize(() => {
           this.isStudentResultsLoading = false;
@@ -114,7 +114,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     ).subscribe({
       next: ({ feedbackSession, results }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
         this.sessionTabs.push(this.createSessionTab(feedbackSession, results));
-        results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
+        results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses, feedbackSession.timeZone));
       },
       error: (errorMessageOutput: ErrorMessageOutput) => {
         this.hasStudentResultsLoadingFailed = true;
@@ -151,13 +151,13 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Fetches the full detail result of the given feedback session in the current course
    * grouped by the student's section.
    */
-  private getFeedbackSessionResults(feedbackSession: FeedbackSession, student: Student): 
+  private getFeedbackSessionResults(feedbackSession: FeedbackSession, groupBySection: string): 
       Observable<{ results: SessionResults, feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
         .getFeedbackSessionResults({
           courseId: this.courseId,
           feedbackSessionName: feedbackSession.feedbackSessionName,
-          groupBySection: student.sectionName,
+          groupBySection,
           intent: Intent.FULL_DETAIL,
         })
         .pipe(
@@ -204,8 +204,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * <p>The instructor comment will be moved to map {@code instructorCommentTableModel}. The original
    * instructor comments associated with the response will be deleted.
    */
-  preprocessComments(responses: ResponseOutput[]): void {
-    const timezone: string = this.sessionTabs[0] ? this.sessionTabs[0].feedbackSession.timeZone : '';
+  preprocessComments(responses: ResponseOutput[], timezone: string): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
           this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);
