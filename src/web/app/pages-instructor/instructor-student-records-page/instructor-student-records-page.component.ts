@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin, Observable } from 'rxjs';
+import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -101,20 +101,13 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     this.sessionTabs = [];
     this.hasStudentResultsLoadingFailed = false;
     this.isStudentResultsLoading = true;
-    forkJoin({
+
+    combineLatest({
       student: this.loadStudentRecords(),
-      feedbackSessions: this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
+      feedbackSession: this.getFeedbackSessions(this.courseId),
     }).pipe(
-        mergeMap(({ feedbackSessions }: { feedbackSessions: FeedbackSessions }) => {
-          return feedbackSessions.feedbackSessions;
-        }),
-        mergeMap((feedbackSession: FeedbackSession) => {
-          return this.getFeedbackSessionResults(feedbackSession.feedbackSessionName).pipe(
-              map((results: SessionResults) => {
-                  this.sortQuestionsByNumber(results.questions);
-                  return { results, feedbackSession };
-              }),
-          );
+        mergeMap(({ student, feedbackSession }: { student: Student, feedbackSession: FeedbackSession }) => {
+          return this.getFeedbackSessionResults(feedbackSession, student.sectionName);
         }),
         finalize(() => {
           this.isStudentResultsLoading = false;
@@ -146,18 +139,35 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       }),
     );
   }
+  
+  /**
+   * Fetches the feedback sessions for the given course ID.
+   */
+  private getFeedbackSessions(courseId: string): Observable<FeedbackSession> {
+    return this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).pipe(
+      mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
+    );
+  }
 
   /**
-   * Fetches the full detail result of a feedback session in the current course
-   * with the given feedback session name, grouped by the current student's section.
+   * Fetches the full detail result of the given feedback session in the current course
+   * grouped by the given section.
    */
-  private getFeedbackSessionResults(feedbackSessionName: string): Observable<SessionResults> {
-    return this.feedbackSessionsService.getFeedbackSessionResults({
-      courseId: this.courseId,
-      feedbackSessionName,
-      groupBySection: this.studentSection,
-      intent: Intent.FULL_DETAIL,
-    });
+  private getFeedbackSessionResults(feedbackSession: FeedbackSession, groupBySection: string): 
+      Observable<{ results: SessionResults, feedbackSession: FeedbackSession }> {
+    return this.feedbackSessionsService
+        .getFeedbackSessionResults({
+          courseId: this.courseId,
+          feedbackSessionName: feedbackSession.feedbackSessionName,
+          groupBySection,
+          intent: Intent.FULL_DETAIL,
+        })
+        .pipe(
+          map((results: SessionResults) => {
+            this.sortQuestionsByNumber(results.questions);
+            return { results, feedbackSession };
+          }),
+        );
   }
 
   private sortQuestionsByNumber(questions: QuestionOutput[]): void {
