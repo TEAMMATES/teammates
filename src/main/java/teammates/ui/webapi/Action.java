@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
-
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
@@ -58,7 +57,8 @@ public abstract class Action {
     UserInfo userInfo;
     AuthType authType;
 
-    // TODO: unregisteredStudent. Instructor, isCourseMigrated, isAccountMigrated can be removed after migration
+    // TODO: unregisteredStudent. Instructor, isCourseMigrated, isAccountMigrated
+    // can be removed after migration
     private StudentAttributes unregisteredStudent;
     private InstructorAttributes unregisteredInstructor;
     private Boolean isCourseMigrated;
@@ -151,7 +151,8 @@ public abstract class Action {
     }
 
     /**
-     * Checks if the requesting user has sufficient authority to access the resource.
+     * Checks if the requesting user has sufficient authority to access the
+     * resource.
      */
     public void checkAccessControl() throws UnauthorizedAccessException {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
@@ -211,8 +212,10 @@ public abstract class Action {
             return;
         }
 
-        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
+        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any
+        // user-sent X-AppEngine-QueueName headers.
+        // Reference:
+        // https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
         String queueNameHeader = req.getHeader("X-AppEngine-QueueName");
         boolean isRequestFromAppEngineQueue = queueNameHeader != null;
         if (isRequestFromAppEngineQueue) {
@@ -237,14 +240,16 @@ public abstract class Action {
     }
 
     /**
-     * Returns the first value for the specified parameter in the HTTP request, or null if such parameter is not found.
+     * Returns the first value for the specified parameter in the HTTP request, or
+     * null if such parameter is not found.
      */
     String getRequestParamValue(String paramName) {
         return req.getParameter(paramName);
     }
 
     /**
-     * Returns the first value for the specified parameter expected to be present in the HTTP request.
+     * Returns the first value for the specified parameter expected to be present in
+     * the HTTP request.
      */
     String getNonNullRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
@@ -255,7 +260,8 @@ public abstract class Action {
     }
 
     /**
-     * Returns the first value for the specified parameter expected to be present in the HTTP request as boolean.
+     * Returns the first value for the specified parameter expected to be present in
+     * the HTTP request as boolean.
      */
     boolean getBooleanRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
@@ -268,7 +274,8 @@ public abstract class Action {
     }
 
     /**
-     * Returns the first value for the specified parameter expected to be present in the HTTP request as long.
+     * Returns the first value for the specified parameter expected to be present in
+     * the HTTP request as long.
      */
     long getLongRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
@@ -281,7 +288,8 @@ public abstract class Action {
     }
 
     /**
-     * Returns the first value for the specified parameter expected to be present in the HTTP request as UUID.
+     * Returns the first value for the specified parameter expected to be present in
+     * the HTTP request as UUID.
      */
     UUID getUuidRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
@@ -382,22 +390,6 @@ public abstract class Action {
     /**
      * Gets the unregistered instructor by the HTTP param.
      */
-    Optional<InstructorAttributes> getUnregisteredInstructor() {
-        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
-        if (!StringHelper.isEmpty(key)) {
-            InstructorAttributes instructorAttributes = logic.getInstructorForRegistrationKey(key);
-            if (instructorAttributes == null) {
-                return Optional.empty();
-            }
-            unregisteredInstructor = instructorAttributes;
-            return Optional.of(instructorAttributes);
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * Gets the unregistered instructor by the HTTP param.
-     */
     Optional<Instructor> getUnregisteredSqlInstructor() {
         // TODO: Remove Sql from method name after migration
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
@@ -410,15 +402,6 @@ public abstract class Action {
             return Optional.of(instructor);
         }
         return Optional.empty();
-    }
-
-    InstructorAttributes getPossiblyUnregisteredInstructor(String courseId) {
-        return getUnregisteredInstructor().orElseGet(() -> {
-            if (userInfo == null) {
-                return null;
-            }
-            return logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        });
     }
 
     Instructor getPossiblyUnregisteredSqlInstructor(String courseId) {
@@ -454,16 +437,16 @@ public abstract class Action {
             privilege.setCanSubmitSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+                                    feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
             privilege.setCanViewSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                                    feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
             privilege.setCanModifySessionCommentsInSections(
                     instructor.isAllowedForPrivilege(
                             Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
-                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         }
         return privilege;
     }
@@ -474,16 +457,16 @@ public abstract class Action {
             privilege.setCanSubmitSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+                                    feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
             privilege.setCanViewSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                                    feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
             privilege.setCanModifySessionCommentsInSections(
                     instructor.isAllowedForPrivilege(
                             Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
-                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         }
         return privilege;
     }
