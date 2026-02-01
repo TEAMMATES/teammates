@@ -14,7 +14,7 @@ const routes: Routes = [
       {
         path: 'front',
         component: StaticPageComponent,
-        loadChildren: () => import('./pages-static/static-page.routes'),
+        loadChildren: () => import('./pages-static/static.routes'),
       },
       {
         path: 'join',
@@ -62,22 +62,22 @@ const routes: Routes = [
       {
         path: 'student',
         component: StudentPageComponent,
-        loadChildren: () => import('./pages-student/student-page.routes'),
+        loadChildren: () => import('./pages-student/student.routes'),
       },
       {
         path: 'instructor',
         component: InstructorPageComponent,
-        loadChildren: () => import('./pages-instructor/instructor-page.routes'),
+        loadChildren: () => import('./pages-instructor/instructor.routes'),
       },
       {
         path: 'admin',
         component: AdminPageComponent,
-        loadChildren: () => import('./pages-admin/admin-page.routes'),
+        loadChildren: () => import('./pages-admin/admin.routes'),
       },
       {
         path: 'maintainer',
         component: MaintainerPageComponent,
-        loadChildren: () => import('./pages-maintainer/maintainer-page.routes'),
+        loadChildren: () => import('./pages-maintainer/maintainer.routes'),
       },
       {
         path: '**',
