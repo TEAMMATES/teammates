@@ -32,11 +32,10 @@ public class GetDeadlineExtensionAction extends Action {
         String userEmail = getNonNullRequestParamValue(Const.ParamsNames.USER_EMAIL);
         boolean isInstructor = Boolean.parseBoolean(getNonNullRequestParamValue(Const.ParamsNames.IS_INSTRUCTOR));
 
-        FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         User user = isInstructor
                 ? sqlLogic.getInstructorForEmail(courseId, userEmail)
                 : sqlLogic.getStudentForEmail(courseId, userEmail);
-
         Instant deadlineExtensionEndTime = sqlLogic.getExtendedDeadlineForUser(feedbackSession, user);
 
         if (deadlineExtensionEndTime == null) {
