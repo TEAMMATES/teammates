@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, forkJoin, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -85,7 +85,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    */
   loadInstructorRecords(courseId: string): void {
     this.instructorService.getInstructor({
-      courseId: courseId,
+      courseId,
       intent: Intent.FULL_DETAIL,
     }).subscribe((instructor: Instructor) => {
       this.currInstructorName = instructor.name;
@@ -114,7 +114,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     ).subscribe({
       next: ({ feedbackSession, results }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
         this.sessionTabs.push(this.createSessionTab(feedbackSession, results));
-        results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses, feedbackSession.timeZone));
+        results.questions.forEach((questions: QuestionOutput) => {
+          return this.preprocessComments(questions.allResponses, feedbackSession.timeZone);
+        });
       },
       error: (errorMessageOutput: ErrorMessageOutput) => {
         this.hasStudentResultsLoadingFailed = true;
@@ -137,7 +139,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       }),
     );
   }
-  
+
   /**
    * Fetches the feedback sessions for the given course ID.
    */
@@ -151,7 +153,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Fetches the full detail result of the given feedback session in the current course
    * grouped by the student's section.
    */
-  private getFeedbackSessionResults(feedbackSession: FeedbackSession, groupBySection: string): 
+  private getFeedbackSessionResults(feedbackSession: FeedbackSession, groupBySection: string):
       Observable<{ results: SessionResults, feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
         .getFeedbackSessionResults({
@@ -174,7 +176,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   }
 
   private createSessionTab(feedbackSession: FeedbackSession, results: SessionResults): SessionTab {
-    const giverQuestions: QuestionOutput[]  = structuredClone(results.questions);
+    const giverQuestions: QuestionOutput[] = structuredClone(results.questions);
     giverQuestions.forEach((questions: QuestionOutput) => {
       questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
         !response.isMissingResponse && response.giverEmail === this.studentEmail);
