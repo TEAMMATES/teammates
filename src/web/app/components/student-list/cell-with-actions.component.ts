@@ -12,11 +12,11 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
     selector: 'tm-group-buttons',
     templateUrl: './cell-with-actions.component.html',
     imports: [
-    CommonModule,
-    TeammatesRouterDirective,
-    NgbDropdownModule,
-    NgbTooltipModule,
-],
+      CommonModule,
+      TeammatesRouterDirective,
+      NgbDropdownModule,
+      NgbTooltipModule,
+    ],
 })
 
 export class CellWithActionsComponent {
