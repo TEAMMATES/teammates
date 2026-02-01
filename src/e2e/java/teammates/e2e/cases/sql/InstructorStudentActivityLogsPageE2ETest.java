@@ -18,7 +18,6 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.ui.output.FeedbackQuestionData;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE}.
@@ -75,8 +74,6 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
                 FeedbackSubmitPageSql.class, student.getGoogleId());
 
         Student receiver = testData.students.get("benny.tmms@ISActLogs.CS2104");
-        FeedbackQuestionData question = getFeedbackQuestion(
-                course.getId(), feedbackSession.getName(), feedbackQuestion.getQuestionNumber());
 
         FeedbackTextResponseDetails details = new FeedbackTextResponseDetails("Response");
         FeedbackResponse response = FeedbackResponse.makeResponse(
