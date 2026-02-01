@@ -88,8 +88,6 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
 
         teammates.storage.search.SearchManagerFactory.registerAccountRequestSearchManager(
             new teammates.storage.search.AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        teammates.storage.search.SearchManagerFactory.registerInstructorSearchManager(
-            new teammates.storage.search.InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
         teammates.storage.search.SearchManagerFactory.registerStudentSearchManager(
             new teammates.storage.search.StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
 
