@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -30,14 +28,6 @@ public class UpdateCourseAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        if (!isCourseMigrated(courseId)) {
-            InstructorAttributes instructorAttributes = logic.getInstructorForGoogleId(courseId, userInfo.id);
-            CourseAttributes courseAttributes = logic.getCourse(courseId);
-            gateKeeper.verifyAccessible(instructorAttributes, courseAttributes,
-                    Const.InstructorPermissions.CAN_MODIFY_COURSE);
-            return;
-        }
-
         Course course = sqlLogic.getCourse(courseId);
         Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
@@ -57,10 +47,6 @@ public class UpdateCourseAction extends Action {
         String courseName = courseUpdateRequest.getCourseName();
 
         try {
-            if (!isCourseMigrated(courseId)) {
-                return updateWithDatastore(courseId, courseName, courseTimeZone);
-            }
-
             Course updatedCourse = sqlLogic.updateCourse(courseId, courseName, courseTimeZone);
 
             return new JsonResult(new CourseData(updatedCourse));
@@ -70,15 +56,5 @@ public class UpdateCourseAction extends Action {
         } catch (EntityDoesNotExistException edee) {
             throw new EntityNotFoundException(edee);
         }
-    }
-
-    private JsonResult updateWithDatastore(String courseId, String courseName, String courseTimeZone)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        CourseAttributes updatedCourseAttributes = logic.updateCourseCascade(
-                CourseAttributes.updateOptionsBuilder(courseId)
-                    .withName(courseName)
-                    .withTimezone(courseTimeZone)
-                    .build());
-        return new JsonResult(new CourseData(updatedCourseAttributes));
     }
 }
