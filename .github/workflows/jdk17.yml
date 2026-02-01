@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - V9-clean-slate-sql
 
 jobs:
   lint:
