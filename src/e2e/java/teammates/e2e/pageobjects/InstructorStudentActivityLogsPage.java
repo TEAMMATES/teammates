@@ -135,4 +135,8 @@ public class InstructorStudentActivityLogsPage extends AppPage {
     public String getLogsOutputText() {
         return logsOutput.getText();
     }
+
+    public void waitForLogsToLoad() {
+        waitForElementPresence(By.id("logs-output"));
+    }
 }

@@ -102,7 +102,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
                 e.printStackTrace();
             }
             studentActivityLogsPage.startSearching();
-            studentActivityLogsPage.waitForElementPresence(By.id("logs-output"));
+            studentActivityLogsPage.waitForLogsToLoad();
         }
 
         assertTrue(studentActivityLogsPage.getLogsOutputText().contains("First Session"));
