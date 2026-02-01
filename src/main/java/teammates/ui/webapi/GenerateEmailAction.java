@@ -19,8 +19,8 @@ public class GenerateEmailAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
         Course course = sqlLogic.getCourse(courseId);
+
         if (course == null) {
             throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
         }
@@ -42,7 +42,7 @@ public class GenerateEmailAction extends AdminOnlyAction {
             if (feedbackSessionName == null) {
                 throw new InvalidHttpParameterException("Feedback session name not specified");
             }
-            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+            FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
             email = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
                     feedbackSession, Collections.singletonList(student), new ArrayList<>(), null).get(0);
         } else {
