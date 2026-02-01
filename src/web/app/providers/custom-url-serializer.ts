@@ -1,3 +1,4 @@
+import { Provider } from '@angular/core';
 import { DefaultUrlSerializer, UrlSerializer, UrlTree } from '@angular/router';
 
 /**
@@ -14,3 +15,9 @@ export class CustomUrlSerializer implements UrlSerializer {
     return dus.serialize(tree).replace(/%2B/g, '+');
   }
 }
+
+const customUrlSerializer: CustomUrlSerializer = new CustomUrlSerializer();
+export const customUrlSerializerProvider: Provider = {
+  provide: UrlSerializer,
+  useValue: customUrlSerializer,
+};
