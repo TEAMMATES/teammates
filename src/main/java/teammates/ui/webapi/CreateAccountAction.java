@@ -10,9 +10,7 @@ import java.util.regex.Pattern;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -24,6 +22,8 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -71,18 +71,18 @@ public class CreateAccountAction extends Action {
 
         try {
             courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
-        } catch (InvalidParametersException ipe) {
+        } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
             // There should not be any invalid parameter here
-            log.severe("Unexpected error", ipe);
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            log.severe("Unexpected error", e);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+        List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
 
         assert !instructorList.isEmpty();
 
         try {
-            logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
+            sqlLogic.joinCourseForInstructor(instructorList.get(0).getRegKey(), userInfo.id);
         } catch (EntityDoesNotExistException | EntityAlreadyExistsException | InvalidParametersException e) {
             // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
             // EntityAlreadyExistsException should not be thrown as updated entities should not have
@@ -126,8 +126,9 @@ public class CreateAccountAction extends Action {
      *
      * @return the ID of demo course
      */
-    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute, String timezone)
-            throws InvalidParametersException {
+    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute,
+            String timezone)
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
 
         String courseId = generateDemoCourseId(instructorEmail);
         Instant now = Instant.now();
@@ -165,18 +166,18 @@ public class CreateAccountAction extends Action {
             dataBundleString = replaceAdjustedTimeAndTimezone(dataBundleString, timezone);
         }
 
-        DataBundle data = JsonUtils.fromJson(dataBundleString, DataBundle.class);
+        SqlDataBundle data = JsonUtils.fromJson(dataBundleString, SqlDataBundle.class);
 
-        logic.persistDataBundle(data);
+        sqlLogic.persistDataBundle(data);
 
-        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
-        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        List<Student> students = sqlLogic.getStudentsForCourse(courseId);
+        List<Instructor> instructors = sqlLogic.getInstructorsByCourse(courseId);
 
-        for (StudentAttributes student : students) {
-            taskQueuer.scheduleStudentForSearchIndexing(student.getCourse(), student.getEmail());
+        for (Student student : students) {
+            taskQueuer.scheduleStudentForSearchIndexing(student.getCourseId(), student.getEmail());
         }
 
-        for (InstructorAttributes instructor : instructors) {
+        for (Instructor instructor : instructors) {
             taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
         }
 
@@ -211,7 +212,7 @@ public class CreateAccountAction extends Action {
      */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-        while (logic.getCourse(proposedCourseId) != null) {
+        while (sqlLogic.getCourse(proposedCourseId) != null) {
             proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
         }
         return proposedCourseId;
