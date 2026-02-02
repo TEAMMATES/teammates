@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
@@ -25,16 +24,9 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
         case INSTRUCTOR_RESULT:
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            if (isCourseMigrated(courseId)) {
-                Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
-                if (instructor == null) {
-                    throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
-                }
-            } else {
-                InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-                if (instructorAttributes == null) {
-                    throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
-                }
+            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            if (instructor == null) {
+                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
             break;
         case FULL_DETAIL:
@@ -56,34 +48,6 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        if (!isCourseMigrated(courseId)) {
-            InstructorAttributes instructorAttributes;
-
-            switch (intent) {
-            case INSTRUCTOR_SUBMISSION:
-            case INSTRUCTOR_RESULT:
-                instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-                break;
-            case FULL_DETAIL:
-                instructorAttributes = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-                break;
-            default:
-                throw new InvalidHttpParameterException("Unknown intent " + intent);
-            }
-
-            if (instructorAttributes == null) {
-                throw new EntityNotFoundException("Instructor could not be found for this course");
-            }
-
-            InstructorData instructorData = new InstructorData(instructorAttributes);
-            instructorData.setInstitute(logic.getCourseInstitute(courseId));
-            if (intent == Intent.FULL_DETAIL) {
-                instructorData.setGoogleId(instructorAttributes.getGoogleId());
-            }
-
-            return new JsonResult(instructorData);
-        }
 
         Instructor instructor;
 
