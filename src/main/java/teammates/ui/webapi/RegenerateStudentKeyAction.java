@@ -40,25 +40,6 @@ public class RegenerateStudentKeyAction extends AdminOnlyAction {
         String studentEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        if (!isCourseMigrated(courseId)) {
-            StudentAttributes updatedStudent;
-            try {
-                updatedStudent = logic.regenerateStudentRegistrationKey(courseId, studentEmailAddress);
-            } catch (EntityDoesNotExistException ex) {
-                throw new EntityNotFoundException(ex);
-            } catch (EntityAlreadyExistsException ex) {
-                // No logging here as severe logging is done at the origin of the error
-                return new JsonResult(UNSUCCESSFUL_REGENERATION, HttpStatus.SC_INTERNAL_SERVER_ERROR);
-            }
-
-            boolean emailSent = sendEmail(updatedStudent);
-            String statusMessage = emailSent
-                                    ? SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT
-                                    : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
-
-            return new JsonResult(new RegenerateKeyData(statusMessage, updatedStudent.getKey()));
-        }
-
         Student updatedStudent;
         try {
             updatedStudent = sqlLogic.regenerateStudentRegistrationKey(courseId, studentEmailAddress);
