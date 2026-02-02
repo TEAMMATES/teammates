@@ -648,7 +648,7 @@ public final class FeedbackQuestionsLogic {
 
         return feedbackQuestions
                 .stream()
-                .filter(q -> q.getQuestionDetailsCopy().getQuestionType().equals(questionType))
+                .filter(q -> q.getQuestionDetailsCopy().getQuestionType() == questionType)
                 .collect(Collectors.toList());
     }
 

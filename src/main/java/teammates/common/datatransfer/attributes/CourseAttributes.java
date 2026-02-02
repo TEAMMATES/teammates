@@ -148,7 +148,7 @@ public final class CourseAttributes extends EntityAttributes<Course> implements 
     @Override
     public String toString() {
         return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
-               + " institute: " + getInstitute() + " timeZone: " + getTimeZone() + " isMigrated: " + isMigrated();
+                + " institute: " + getInstitute() + " timeZone: " + getTimeZone() + " isMigrated: " + isMigrated();
     }
 
     @Override

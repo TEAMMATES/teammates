@@ -305,13 +305,13 @@ public final class FeedbackResponsesLogic {
             return true;
         }
         boolean isStudentRecipientType =
-                   question.getRecipientType().equals(FeedbackParticipantType.STUDENTS)
-                || question.getRecipientType().equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)
-                || question.getRecipientType().equals(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION)
-                || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
-                || question.getRecipientType().equals(FeedbackParticipantType.GIVER)
-                   && question.getGiverType().equals(FeedbackParticipantType.STUDENTS);
+                   question.getRecipientType() == FeedbackParticipantType.STUDENTS
+                || question.getRecipientType() == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
+                || question.getRecipientType() == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION
+                || question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS
+                || question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF
+                || question.getRecipientType() == FeedbackParticipantType.GIVER
+                   && question.getGiverType() == FeedbackParticipantType.STUDENTS;
 
         if ((isStudentRecipientType || question.getRecipientType().isTeam())
                 && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
@@ -830,13 +830,14 @@ public final class FeedbackResponsesLogic {
     /**
      * Makes the rankings by one giver in the response to a 'rank recipient question' consistent, after deleting a
      * student.
+     *
      * <p>
      *     Fails silently if the question type is not 'rank recipient question'.
      * </p>
      */
     private void makeRankRecipientQuestionResponsesConsistent(
             FeedbackQuestionAttributes question, CourseRoster roster) {
-        if (!question.getQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS)) {
+        if (question.getQuestionType() != FeedbackQuestionType.RANK_RECIPIENTS) {
             return;
         }
 
@@ -931,7 +932,7 @@ public final class FeedbackResponsesLogic {
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
         return question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS
-               || question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+                || question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
     /**
