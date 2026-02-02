@@ -399,4 +399,15 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
             String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
         return BACKDOOR.getDeadlineExtensionData(courseId, feedbackSessionName, userEmail, isInstructor);
     }
+
+    /**
+     * Updates the feedback response comment in the database.
+     *
+     * @param commentId the ID of the comment to update
+     * @param commentText the new comment text
+     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     */
+    protected void updateFeedbackResponseComment(long commentId, String commentText, String instructorGoogleId) {
+        BACKDOOR.updateFeedbackResponseComment(commentId, commentText, instructorGoogleId);
+    }
 }
