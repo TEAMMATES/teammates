@@ -285,21 +285,6 @@ exports[`RequestPageComponent should render correctly after instructor declarati
               />
             </div>
             <br />
-            <div
-              class="form-group"
-            >
-              <ngx-recaptcha2
-                class="is-invalid ng-untouched ng-pristine ng-valid"
-                formcontrolname="recaptcha"
-              >
-                <div>
-                  <div
-                    id="ngx_captcha_id_1234"
-                  />
-                </div>
-              </ngx-recaptcha2>
-              <br />
-            </div>
             <a
               aria-label="Cancel button"
               class="btn btn-danger me-3"
