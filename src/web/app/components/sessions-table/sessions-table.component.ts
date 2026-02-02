@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { GroupButtonsComponent } from './cell-with-group-buttons.component';
@@ -22,6 +23,7 @@ import {
   SortableEvent,
   SortableTableCellData,
   SortableTableHeaderColorScheme,
+  SortableTableComponent,
 } from '../sortable-table/sortable-table.component';
 import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
@@ -44,7 +46,15 @@ export type Index = number;
     selector: 'tm-sessions-table',
     templateUrl: './sessions-table.component.html',
     styleUrls: ['./sessions-table.component.scss'],
-    standalone: false,
+    imports: [NgIf, SortableTableComponent],
+    providers: [
+      FormatDateDetailPipe,
+      FormatDateBriefPipe,
+      PublishStatusNamePipe,
+      PublishStatusTooltipPipe,
+      SubmissionStatusNamePipe,
+      SubmissionStatusTooltipPipe,
+    ],
 })
 export class SessionsTableComponent implements OnInit {
   // enum

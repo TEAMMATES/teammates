@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 /**
@@ -7,7 +8,7 @@ import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'tm-root',
     template: '<router-outlet></router-outlet>',
-    standalone: false,
+    imports: [RouterOutlet],
 })
 export class AppComponent {
   constructor(tooltipConfig: NgbTooltipConfig) {

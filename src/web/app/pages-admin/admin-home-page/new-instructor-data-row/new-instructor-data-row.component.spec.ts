@@ -1,5 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NewInstructorDataRowComponent } from './new-instructor-data-row.component';
 import testEventEmission from '../../../../test-helpers/test-event-emitter';
@@ -16,14 +15,6 @@ describe('NewInstructorDataRowComponent', () => {
   let addButtonEl: any;
   let editButtonDe: any;
   let editButtonEl: any;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [FormsModule],
-      declarations: [NewInstructorDataRowComponent],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NewInstructorDataRowComponent);

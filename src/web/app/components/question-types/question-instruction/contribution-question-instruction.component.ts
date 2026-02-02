@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
@@ -8,10 +9,10 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
  * Instruction of contribution question.
  */
 @Component({
-    selector: 'tm-contribution-question-instruction',
-    templateUrl: './contribution-question-instruction.component.html',
-    styleUrls: ['./contribution-question-instruction.component.scss'],
-    standalone: false,
+  selector: 'tm-contribution-question-instruction',
+  templateUrl: './contribution-question-instruction.component.html',
+  styleUrls: ['./contribution-question-instruction.component.scss'],
+  imports: [NgIf],
 })
 export class ContributionQuestionInstructionComponent {
 

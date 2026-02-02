@@ -1,3 +1,4 @@
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionAdditionalInfo } from './question-additional-info';
 import { FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
@@ -10,7 +11,7 @@ import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default
     selector: 'tm-rank-options-question-additional-info',
     templateUrl: './rank-options-question-additional-info.component.html',
     styleUrls: ['./rank-options-question-additional-info.component.scss'],
-    standalone: false,
+    imports: [NgFor],
 })
 export class RankOptionsQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackRankOptionsQuestionDetails> {

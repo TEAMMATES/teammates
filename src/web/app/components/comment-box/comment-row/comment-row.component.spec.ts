@@ -1,20 +1,11 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentRowComponent } from './comment-row.component';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import createSpyFromClass from '../../../../test-helpers/create-spy-from-class';
 import { CommentVisibilityType, FeedbackVisibilityType } from '../../../../types/api-output';
-import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
-import { CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
-import {
-  CommentVisibilityControlNamePipe, CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe,
-  CommentVisibilityTypesJointNamePipe,
-} from '../comment-visibility-setting.pipe';
 
 describe('CommentRowComponent', () => {
   let component: CommentRowComponent;
@@ -27,20 +18,6 @@ describe('CommentRowComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CommentRowComponent,
-        CommentEditFormComponent,
-        CommentVisibilityControlNamePipe,
-        CommentVisibilityTypeDescriptionPipe,
-        CommentVisibilityTypeNamePipe,
-        CommentVisibilityTypesJointNamePipe,
-      ],
-      imports: [
-        FormsModule,
-        TeammatesCommonModule,
-        NgbModule,
-        RichTextEditorModule,
-      ],
       providers: [
         { provide: FeedbackResponseCommentService, useValue: spyCommentService },
         provideHttpClient(),

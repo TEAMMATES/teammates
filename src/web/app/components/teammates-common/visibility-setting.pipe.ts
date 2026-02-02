@@ -5,10 +5,7 @@ import { VisibilityControl } from '../../../types/visibility-control';
 /**
  * Pipe to handle the simple display of {@link VisibilityControl}.
  */
-@Pipe({
-    name: 'visibilityControlName',
-    standalone: false,
-})
+@Pipe({ name: 'visibilityControlName' })
 export class VisibilityControlNamePipe implements PipeTransform {
 
   /**
@@ -33,10 +30,7 @@ export class VisibilityControlNamePipe implements PipeTransform {
  * Pipe to handle the detailed display of {@link FeedbackVisibilityType} in the context of
  * visibility control.
  */
-@Pipe({
-    name: 'visibilityTypeDescription',
-    standalone: false,
-})
+@Pipe({ name: 'visibilityTypeDescription' })
 export class VisibilityTypeDescriptionPipe implements PipeTransform {
 
   /**
@@ -64,10 +58,7 @@ export class VisibilityTypeDescriptionPipe implements PipeTransform {
 /**
  * Pipe to handle the simple display of {@link FeedbackVisibilityType}.
  */
-@Pipe({
-    name: 'visibilityTypeName',
-    standalone: false,
-})
+@Pipe({ name: 'visibilityTypeName' })
 export class VisibilityTypeNamePipe implements PipeTransform {
 
   /**

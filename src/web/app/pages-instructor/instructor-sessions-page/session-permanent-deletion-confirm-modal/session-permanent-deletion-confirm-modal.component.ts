@@ -8,7 +8,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     selector: 'tm-session-permanent-deletion-confirm-modal',
     templateUrl: './session-permanent-deletion-confirm-modal.component.html',
     styleUrls: ['./session-permanent-deletion-confirm-modal.component.scss'],
-    standalone: false,
 })
 export class SessionPermanentDeletionConfirmModalComponent {
 
