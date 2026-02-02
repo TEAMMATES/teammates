@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { LinkService } from './link.service';
 import { Instructor, InstructorPermissionRole, JoinState, Student } from '../types/api-output';
 
@@ -9,7 +9,7 @@ describe('Link Service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
+      providers: [provideRouter([])],
     });
     service = TestBed.inject(LinkService);
   });

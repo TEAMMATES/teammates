@@ -5,9 +5,6 @@ import { SessionResultCsvService } from './session-result-csv.service';
 import {
   InstructorSessionResultSectionType,
 } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import {
-  SectionTypeDescriptionPipe,
-} from '../app/pages-instructor/instructor-session-result-page/section-type-description.pipe';
 import { SessionResults } from '../types/api-output';
 
 /**
@@ -46,7 +43,6 @@ describe('SessionResultCsvService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SectionTypeDescriptionPipe,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

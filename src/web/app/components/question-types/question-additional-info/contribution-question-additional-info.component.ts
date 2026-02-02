@@ -10,7 +10,6 @@ import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default
     selector: 'tm-contribution-question-additional-info',
     templateUrl: './contribution-question-additional-info.component.html',
     styleUrls: ['./contribution-question-additional-info.component.scss'],
-    standalone: false,
 })
 export class ContributionQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackContributionQuestionDetails> {

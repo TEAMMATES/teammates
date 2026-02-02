@@ -1,14 +1,16 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { StatusMessageService } from '../../../../../services/status-message.service';
 
 /**
  * The input field to specify options to choose from.
  */
 @Component({
-    selector: 'tm-mcq-field',
-    templateUrl: './mcq-field.component.html',
-    styleUrls: ['./mcq-field.component.scss'],
-    standalone: false,
+  selector: 'tm-mcq-field',
+  templateUrl: './mcq-field.component.html',
+  styleUrls: ['./mcq-field.component.scss'],
+  imports: [NgIf, FormsModule],
 })
 export class McqFieldComponent {
 

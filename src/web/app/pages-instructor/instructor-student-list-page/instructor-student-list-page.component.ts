@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
@@ -15,9 +16,13 @@ import {
   Students,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
-import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentIndexedData {
@@ -40,11 +45,19 @@ export interface CourseTab {
  * Instructor student list page.
  */
 @Component({
-    selector: 'tm-instructor-student-list-page',
-    templateUrl: './instructor-student-list-page.component.html',
-    styleUrls: ['./instructor-student-list-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-student-list-page',
+  templateUrl: './instructor-student-list-page.component.html',
+  styleUrls: ['./instructor-student-list-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    TeammatesRouterDirective,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgIf,
+    NgFor,
+    PanelChevronComponent,
+    StudentListComponent,
+  ],
 })
 export class InstructorStudentListPageComponent implements OnInit {
 

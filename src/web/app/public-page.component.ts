@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PageComponent } from './page.component';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 
@@ -9,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 @Component({
     selector: 'tm-public-page',
     template: '<tm-page [isValidUser]="true" [hideAuthInfo]="true"></tm-page>',
-    standalone: false,
+    imports: [PageComponent],
 })
 export class PublicPageComponent {
   constructor(private route: ActivatedRoute,

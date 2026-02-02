@@ -1,4 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import {
   FeedbackConstantSumDistributePointsType,
@@ -12,10 +14,10 @@ import {
  * Question details edit form component for constsum recipients question.
  */
 @Component({
-    selector: 'tm-constsum-recipients-question-edit-details-form',
-    templateUrl: './constsum-recipients-question-edit-details-form.component.html',
-    styleUrls: ['./constsum-recipients-question-edit-details-form.component.scss'],
-    standalone: false,
+  selector: 'tm-constsum-recipients-question-edit-details-form',
+  templateUrl: './constsum-recipients-question-edit-details-form.component.html',
+  styleUrls: ['./constsum-recipients-question-edit-details-form.component.scss'],
+  imports: [FormsModule, NgbTooltip],
 })
 export class ConstsumRecipientsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>

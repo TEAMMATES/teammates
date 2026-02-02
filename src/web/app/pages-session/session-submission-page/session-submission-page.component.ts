@@ -1,10 +1,14 @@
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
 import { AfterViewInit, Component, Inject, OnInit, DOCUMENT } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
+import { SessionView } from './session-view.enum';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
@@ -42,35 +46,49 @@ import {
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
+import {
+  QuestionSubmissionFormComponent,
+} from '../../components/question-submission-form/question-submission-form.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
 }
 
-// To export out
-export enum SessionView {
-  DEFAULT = 'Question',
-  GROUP_RECIPIENTS = 'Recipient',
-}
-
 /**
  * Feedback session submission page.
  */
 @Component({
-    selector: 'tm-session-submission-page',
-    templateUrl: './session-submission-page.component.html',
-    styleUrls: ['./session-submission-page.component.scss'],
-    standalone: false,
+  selector: 'tm-session-submission-page',
+  templateUrl: './session-submission-page.component.html',
+  styleUrls: ['./session-submission-page.component.scss'],
+  imports: [
+    NgIf,
+    LoadingSpinnerDirective,
+    NgFor,
+    FormsModule,
+    LoadingRetryComponent,
+    QuestionSubmissionFormComponent,
+    DestroyableDirective,
+    InViewportDirective,
+    NgbTooltip,
+    AjaxLoadingComponent,
+    SafeHtmlPipe,
+    KeyValuePipe,
+  ],
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 

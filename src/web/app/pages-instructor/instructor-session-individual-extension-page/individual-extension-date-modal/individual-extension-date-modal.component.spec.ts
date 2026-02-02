@@ -9,7 +9,6 @@ import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import { Hours, Milliseconds } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
 
 describe('IndividualExtensionDateModalComponent', () => {
   const testTimeString = 'Sat, 5 Apr 2000 2:00 +08';
@@ -24,7 +23,6 @@ describe('IndividualExtensionDateModalComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [InstructorSessionIndividualExtensionPageModule],
         providers: [
           NgbActiveModal,
           provideHttpClient(),
