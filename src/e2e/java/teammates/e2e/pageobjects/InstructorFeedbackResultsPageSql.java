@@ -614,7 +614,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
             FeedbackResponse response = responses.get(i);
             expected[i][0] = getTeam(giverType, response.getGiver(), students);
             expected[i][1] = getNameAndEmail(giverType, response.getGiver(), instructors, students);
-            if (recipientType.equals(FeedbackParticipantType.NONE)) {
+            if (recipientType == FeedbackParticipantType.NONE) {
                 expected[i][2] = NO_TEAM_LABEL;
                 expected[i][3] = NO_USER_LABEL;
             } else {
@@ -636,7 +636,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                                            Collection<Student> students) {
         String[] expected = new String[3];
         FeedbackParticipantType recipientType = question.getRecipientType();
-        if (recipientType.equals(FeedbackParticipantType.NONE)) {
+        if (recipientType == FeedbackParticipantType.NONE) {
             expected[0] = NO_TEAM_LABEL;
             expected[1] = NO_USER_LABEL;
         } else {
@@ -657,7 +657,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                                            Collection<Student> students) {
         String[] expected = new String[3];
         FeedbackParticipantType giverType = question.getGiverType();
-        if (giverType.equals(FeedbackParticipantType.NONE)) {
+        if (giverType == FeedbackParticipantType.NONE) {
             expected[0] = NO_TEAM_LABEL;
             expected[1] = NO_USER_LABEL;
         } else {
@@ -1080,13 +1080,13 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
 
     private String getSection(FeedbackParticipantType type, String participant, Collection<Student> students) {
         String sectionName;
-        if (type.equals(FeedbackParticipantType.TEAMS)) {
+        if (type == FeedbackParticipantType.TEAMS) {
             sectionName = students.stream()
                     .filter(student -> student.getTeam().getName().equals(participant))
                     .findFirst()
                     .map(Student::getSectionName)
                     .orElse(null);
-        } else if (type.equals(FeedbackParticipantType.INSTRUCTORS) || type.equals(FeedbackParticipantType.NONE)) {
+        } else if (type == FeedbackParticipantType.INSTRUCTORS || type == FeedbackParticipantType.NONE) {
             sectionName = "None";
         } else {
             sectionName = students.stream()
@@ -1105,11 +1105,11 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     }
 
     private String getTeam(FeedbackParticipantType type, String participant, Collection<Student> students) {
-        if (type.equals(FeedbackParticipantType.NONE)) {
+        if (type == FeedbackParticipantType.NONE) {
             return NO_TEAM_LABEL;
-        } else if (type.equals(FeedbackParticipantType.TEAMS)) {
+        } else if (type == FeedbackParticipantType.TEAMS) {
             return participant;
-        } else if (type.equals(FeedbackParticipantType.INSTRUCTORS)) {
+        } else if (type == FeedbackParticipantType.INSTRUCTORS) {
             return "Instructors";
         }
         String teamName = students.stream()
@@ -1129,11 +1129,11 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                                    Collection<Instructor> instructors,
                                    Collection<Student> students) {
         String name;
-        if (type.equals(FeedbackParticipantType.NONE)) {
+        if (type == FeedbackParticipantType.NONE) {
             name = NO_USER_LABEL;
-        } else if (type.equals(FeedbackParticipantType.TEAMS)) {
+        } else if (type == FeedbackParticipantType.TEAMS) {
             name = participant;
-        } else if (type.equals(FeedbackParticipantType.INSTRUCTORS)) {
+        } else if (type == FeedbackParticipantType.INSTRUCTORS) {
             name = instructors.stream()
                     .filter(instructor -> instructor.getEmail().equals(participant))
                     .findFirst()
@@ -1158,11 +1158,11 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                            Collection<Instructor> instructors,
                            Collection<Student> students) {
         String name;
-        if (type.equals(FeedbackParticipantType.NONE)) {
+        if (type == FeedbackParticipantType.NONE) {
             name = NO_USER_LABEL;
-        } else if (type.equals(FeedbackParticipantType.TEAMS)) {
+        } else if (type == FeedbackParticipantType.TEAMS) {
             name = participant;
-        } else if (type.equals(FeedbackParticipantType.INSTRUCTORS)) {
+        } else if (type == FeedbackParticipantType.INSTRUCTORS) {
             name = instructors.stream()
                     .filter(instructor -> instructor.getEmail().equals(participant))
                     .findFirst()
