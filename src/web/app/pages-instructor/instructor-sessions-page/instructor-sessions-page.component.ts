@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -37,21 +38,31 @@ import {
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import {
+  ModifiedTimestampModalComponent,
+} from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 import {
   SessionEditFormMode,
 } from '../../components/session-edit-form/session-edit-form-model';
+import { SessionEditFormComponent } from '../../components/session-edit-form/session-edit-form.component';
+import {
+  SessionsRecycleBinTableComponent,
+} from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 import {
   CopySessionResult,
   SessionsTableColumn,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
-import { Index, MutateEvent } from '../../components/sessions-table/sessions-table.component';
+import { Index, MutateEvent, SessionsTableComponent } from '../../components/sessions-table/sessions-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import {
   SortableEvent,
   SortableTableHeaderColorScheme,
 } from '../../components/sortable-table/sortable-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 
@@ -66,6 +77,16 @@ interface RecycleBinFeedbackSessionRowModel {
   templateUrl: './instructor-sessions-page.component.html',
   styleUrls: ['./instructor-sessions-page.component.scss'],
   animations: [collapseAnim],
+  imports: [
+    NgIf,
+    TeammatesRouterDirective,
+    SessionEditFormComponent,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    SessionsTableComponent,
+    SessionsRecycleBinTableComponent,
+    ModifiedTimestampModalComponent,
+  ],
 })
 export class InstructorSessionsPageComponent extends InstructorSessionModalPageComponent implements OnInit {
 

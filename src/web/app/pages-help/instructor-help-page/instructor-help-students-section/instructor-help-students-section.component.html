@@ -132,7 +132,7 @@
     </tm-example-box>
     <p>
       You can search for multiple students based on the attributes mentioned above. To do so, include the terms you wish to search for in the search box separated by spaces.<br>
-      For example, if you search for <code>alice Section A Team B jack@email.com</code>, the search would result in something similar to this (assuming the corresponding data exists):
+      For example, if you search for <code>alice Section A Team B jack&#64;email.com</code>, the search would result in something similar to this (assuming the corresponding data exists):
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" @collapseAnim>
       <tm-student-result-table [studentTables]="exampleMultipleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>

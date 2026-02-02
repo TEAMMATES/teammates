@@ -4,9 +4,7 @@ import { JoinState } from '../../../types/api-output';
 /**
  * Pipe to handle the display of join state in the student list component.
  */
-@Pipe({
-  name: 'joinState',
-})
+@Pipe({ name: 'joinState' })
 export class JoinStatePipe implements PipeTransform {
 
   /**

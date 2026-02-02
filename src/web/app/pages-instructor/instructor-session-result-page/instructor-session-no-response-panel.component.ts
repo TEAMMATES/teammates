@@ -1,3 +1,4 @@
+import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -10,6 +11,8 @@ import {
   Student,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import {
   StudentListInfoTableRowModel,
 } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
@@ -20,6 +23,7 @@ import {
   ReminderResponseModel,
 } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 
 /**
  * Instructor sessions results page No Response Panel.
@@ -29,6 +33,14 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
   templateUrl: './instructor-session-no-response-panel.component.html',
   styleUrls: ['./instructor-session-no-response-panel.component.scss'],
   animations: [collapseAnim],
+  imports: [
+    NgIf,
+    TeammatesRouterDirective,
+    NgTemplateOutlet,
+    PanelChevronComponent,
+    LoadingSpinnerDirective,
+    NgFor,
+  ],
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
 

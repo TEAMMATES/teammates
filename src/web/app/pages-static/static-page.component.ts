@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { AuthInfo } from '../../types/api-output';
+import { PageComponent } from '../page.component';
 
 /**
  * Base skeleton for static pages.
@@ -9,6 +10,7 @@ import { AuthInfo } from '../../types/api-output';
 @Component({
   selector: 'tm-static-page',
   templateUrl: './static-page.component.html',
+  imports: [PageComponent],
 })
 export class StaticPageComponent implements OnInit {
 

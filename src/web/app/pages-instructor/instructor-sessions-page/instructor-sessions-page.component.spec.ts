@@ -1,12 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
-import { InstructorSessionsPageModule } from './instructor-sessions-page.module';
 import {
   SessionPermanentDeletionConfirmModalComponent,
 } from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
@@ -138,12 +138,14 @@ describe('InstructorSessionsPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        InstructorSessionsPageModule,
         BrowserAnimationsModule,
       ],
-      providers: [NgbModal],
+      providers: [
+        NgbModal,
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     })
     .compileComponents();
   }));

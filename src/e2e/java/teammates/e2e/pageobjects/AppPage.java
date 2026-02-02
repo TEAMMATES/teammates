@@ -245,6 +245,7 @@ public abstract class AppPage {
 
     public void reloadPage() {
         browser.goToUrl(browser.driver.getCurrentUrl());
+        waitUntilAnimationFinish();
         waitForPageToLoad();
     }
 

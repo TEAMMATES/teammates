@@ -1,14 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { EventEmitter } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
   waitForAsync,
 } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { provideRouter } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Observable } from 'rxjs';
 
 import {
@@ -33,10 +32,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
-import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 
 describe('CourseEditFormComponent', () => {
   let component: CourseEditFormComponent;
@@ -88,24 +84,13 @@ describe('CourseEditFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CourseEditFormComponent],
-      imports: [
-        HttpClientTestingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterTestingModule,
-        NgbModule,
-        AjaxLoadingModule,
-        CommonModule,
-        FormsModule,
-        AjaxLoadingModule,
-        LoadingRetryModule,
-        LoadingSpinnerModule,
-      ],
       providers: [
         { provide: StatusMessageService, useValue: spyStatusMessageService },
         { provide: CourseService, useValue: spyCourseService },
         { provide: TimezoneService, useValue: timezoneServiceStub },
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
       .compileComponents();

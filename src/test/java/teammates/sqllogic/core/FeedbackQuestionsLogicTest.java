@@ -192,18 +192,18 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         FeedbackQuestion fq3 = getTypicalFeedbackQuestionForSession(fs);
         FeedbackQuestion fq4 = getTypicalFeedbackQuestionForSession(fs);
 
-        List<FeedbackQuestion> questionsSelf = List.of(fq1, fq2);
+        List<FeedbackQuestion> questionsTeam = List.of(fq1, fq2);
         List<FeedbackQuestion> questionsStudent = List.of(fq3, fq4);
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4);
 
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.SELF)).thenReturn(questionsSelf);
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.TEAMS)).thenReturn(questionsTeam);
         when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.STUDENTS)).thenReturn(questionsStudent);
 
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForStudents(fs);
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
-        assertTrue(actualQuestions.containsAll(actualQuestions));
+        assertTrue(actualQuestions.containsAll(expectedQuestions));
     }
 
     @Test

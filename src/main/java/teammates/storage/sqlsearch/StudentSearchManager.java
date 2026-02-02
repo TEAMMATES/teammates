@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -22,11 +23,49 @@ import teammates.storage.sqlentity.Student;
  */
 public class StudentSearchManager extends SearchManager<Student> {
 
-    private final CoursesDb coursesDb = CoursesDb.inst();
-    private final UsersDb studentsDb = UsersDb.inst();
+    private final CoursesDb coursesDb;
+    private final UsersDb studentsDb;
 
+    /**
+     * Creates a StudentSearchManager with the given Solr client and database dependencies.
+     * This constructor allows dependency injection for testing purposes.
+     *
+     * @param client the Solr client to use (can be null or a mock)
+     * @param coursesDb the CoursesDb to use (can be a mock)
+     * @param studentsDb the UsersDb to use (can be a mock)
+     * @param isResetAllowed whether reset operations are allowed
+     */
+    public StudentSearchManager(HttpSolrClient client, CoursesDb coursesDb, UsersDb studentsDb,
+            boolean isResetAllowed) {
+        super(client, isResetAllowed);
+        this.coursesDb = coursesDb;
+        this.studentsDb = studentsDb;
+    }
+
+    /**
+     * Creates a StudentSearchManager with the given Solr client.
+     * This constructor allows dependency injection for testing purposes.
+     *
+     * @param client the Solr client to use (can be null or a mock)
+     * @param isResetAllowed whether reset operations are allowed
+     */
+    public StudentSearchManager(HttpSolrClient client, boolean isResetAllowed) {
+        super(client, isResetAllowed);
+        this.coursesDb = CoursesDb.inst();
+        this.studentsDb = UsersDb.inst();
+    }
+
+    /**
+     * Creates a StudentSearchManager with the given search service host.
+     * This constructor maintains backward compatibility.
+     *
+     * @param searchServiceHost the Solr service host URL
+     * @param isResetAllowed whether reset operations are allowed
+     */
     public StudentSearchManager(String searchServiceHost, boolean isResetAllowed) {
         super(searchServiceHost, isResetAllowed);
+        this.coursesDb = CoursesDb.inst();
+        this.studentsDb = UsersDb.inst();
     }
 
     @Override

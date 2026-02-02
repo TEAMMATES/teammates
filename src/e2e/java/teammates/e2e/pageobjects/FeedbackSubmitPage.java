@@ -602,7 +602,7 @@ public class FeedbackSubmitPage extends AppPage {
         if (questionAttributes.getShowResponsesTo().isEmpty()) {
             verifyVisibilityStringPresent(qnNumber, "No-one can see your responses");
         }
-        if (questionAttributes.getRecipientType().equals(FeedbackParticipantType.SELF)) {
+        if (questionAttributes.getRecipientType() == FeedbackParticipantType.SELF) {
             verifyVisibilityStringPresent(qnNumber, "You can see your own feedback in the results page later on.");
         }
         for (FeedbackParticipantType viewerType : questionAttributes.getShowResponsesTo()) {

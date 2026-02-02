@@ -1,8 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { InstructorNotificationsPageComponent } from './instructor-notifications-page.component';
-import { UserNotificationsListModule } from '../../components/user-notifications-list/user-notifications-list.module';
 
 describe('InstructorNotificationsPageComponent', () => {
   let component: InstructorNotificationsPageComponent;
@@ -10,11 +10,10 @@ describe('InstructorNotificationsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorNotificationsPageComponent],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        UserNotificationsListModule,
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

@@ -1,14 +1,32 @@
+import { NgClass, NgIf, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsTableHeaderColorScheme, NotificationsTableRowModel } from './notifications-table-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { Notification } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
+import { FormatDateBriefPipe } from '../../../components/teammates-common/format-date-brief.pipe';
+import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
+import { NotificationStyleClassPipe } from '../../../components/teammates-common/notification-style-class.pipe';
+import {
+  NotificationStyleDescriptionPipe,
+} from '../../../components/teammates-common/notification-style-description.pipe';
 
 @Component({
   selector: 'tm-notifications-table',
   templateUrl: './notifications-table.component.html',
   styleUrls: ['./notifications-table.component.scss'],
+  imports: [
+    NgClass,
+    NgIf,
+    NgFor,
+    NgbTooltip,
+    FormatDateDetailPipe,
+    FormatDateBriefPipe,
+    NotificationStyleDescriptionPipe,
+    NotificationStyleClassPipe,
+  ],
 })
 export class NotificationsTableComponent {
   SortBy = SortBy;

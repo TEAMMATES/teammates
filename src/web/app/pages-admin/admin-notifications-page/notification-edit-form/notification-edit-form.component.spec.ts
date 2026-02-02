@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import moment from 'moment-timezone';
 import SpyInstance = jest.SpyInstance;
@@ -10,7 +11,6 @@ import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-r
 import { NotificationStyle, NotificationTargetUser } from '../../../../types/api-output';
 import { getDefaultDateFormat, getDefaultTimeFormat } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { AdminNotificationsPageModule } from '../admin-notifications-page.module';
 
 const testNotificationEditModel: NotificationEditFormModel = {
   notificationId: 'notification1',
@@ -39,13 +39,9 @@ describe('NotificationEditFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        AdminNotificationsPageModule,
-        HttpClientTestingModule,
-      ],
       providers: [
-        TimezoneService,
-        SimpleModalService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

@@ -1,27 +1,12 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeedbackMcqQuestionDetails } from 'src/web/types/api-output';
 import { McqQuestionEditAnswerFormComponent } from './mcq-question-edit-answer-form.component';
-import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 
 describe('McqQuestionEditAnswerFormComponent', () => {
   let component: McqQuestionEditAnswerFormComponent;
   let fixture: ComponentFixture<McqQuestionEditAnswerFormComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [McqQuestionEditAnswerFormComponent],
-      imports: [
-        FormsModule,
-        RichTextEditorModule,
-        TeammatesCommonModule,
-      ],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(McqQuestionEditAnswerFormComponent);
@@ -78,7 +63,7 @@ describe('McqQuestionEditAnswerFormComponent', () => {
     });
   });
 
-  it('should call change function upon selecting a dropdown option', fakeAsync(() => {
+  it('should call change function upon selecting a dropdown option', () => {
     const SELECTED_SELECT_INDEX = 1;
 
     component.questionDetails.mcqChoices = ['Option 1', 'Option 2', 'Option 3'];
@@ -92,10 +77,9 @@ describe('McqQuestionEditAnswerFormComponent', () => {
 
     select.value = select.options[SELECTED_SELECT_INDEX].value;
     select.dispatchEvent(new Event('change'));
-    tick();
 
     expect(component.updateSelectedMcqDropdownOption).toHaveBeenCalledTimes(1);
-  }));
+  });
 
   it('should update answer selection upon selecting a dropdown option', () => {
     // Works for both select and mcqChoices as select first option is disabled

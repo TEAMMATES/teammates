@@ -65,6 +65,7 @@ public class FeedbackSessionLogEntry implements Comparable<FeedbackSessionLogEnt
     }
 
     @Override
+    @SuppressWarnings("PMD.OverrideBothEqualsAndHashCodeOnComparable")
     public int compareTo(FeedbackSessionLogEntry o) {
         return Long.compare(this.getTimestamp(), o.getTimestamp());
     }

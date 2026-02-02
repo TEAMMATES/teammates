@@ -1,7 +1,7 @@
-import { DOCUMENT } from '@angular/common';
 import {
   AfterViewInit, Directive, EventEmitter, Inject, Input, OnChanges, OnInit, Output, QueryList,
   SimpleChanges, ViewChildren,
+  DOCUMENT,
 } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';

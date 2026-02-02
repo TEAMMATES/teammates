@@ -1,8 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { StudentHomePageComponent } from './student-home-page.component';
 import { CourseService } from '../../../services/course.service';
@@ -16,13 +16,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
-import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
-import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
-import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
 
 const studentCourseA: any = {
   course: {
@@ -296,18 +289,13 @@ describe('StudentHomePageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StudentHomePageComponent, ResponseStatusPipe, SubmissionStatusPipe],
       imports: [
-        HttpClientTestingModule,
-        NgbModule,
-        RouterTestingModule,
-        TeammatesCommonModule,
-        LoadingSpinnerModule,
-        LoadingRetryModule,
-        TeammatesRouterModule,
-        NgbCollapseModule,
         BrowserAnimationsModule,
-        PanelChevronModule,
+      ],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
   }));
