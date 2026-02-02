@@ -4,9 +4,7 @@ import { VisibilityControl } from '../../../types/visibility-control';
 /**
  * Pipe to handle the display of a map of {@code VisibilityControl} in visibility message.
  */
-@Pipe({
-  name: 'visibilityCapability',
-})
+@Pipe({ name: 'visibilityCapability' })
 export class VisibilityCapabilityPipe implements PipeTransform {
 
   /**

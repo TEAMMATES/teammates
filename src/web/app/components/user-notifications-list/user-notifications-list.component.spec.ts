@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,10 +12,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { MarkNotificationAsReadRequest } from '../../../types/api-request';
 import { SortBy } from '../../../types/sort-properties';
-import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
-import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
-import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 
 describe('UserNotificationsListComponent', () => {
   let component: UserNotificationsListComponent;
@@ -66,14 +63,12 @@ describe('UserNotificationsListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UserNotificationsListComponent],
       imports: [
         BrowserAnimationsModule,
-        HttpClientTestingModule,
-        PanelChevronModule,
-        LoadingSpinnerModule,
-        LoadingRetryModule,
-        TeammatesCommonModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

@@ -803,9 +803,9 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback response comment from database.
+     * Get feedback response comment data from database.
      */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
+    public FeedbackResponseCommentData getFeedbackResponseCommentData(String feedbackResponseId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
@@ -814,8 +814,14 @@ public abstract class AbstractBackDoor {
             return null;
         }
 
-        FeedbackResponseCommentData frc = JsonUtils.fromJson(response.responseBody, FeedbackResponseCommentData.class);
+        return JsonUtils.fromJson(response.responseBody, FeedbackResponseCommentData.class);
+    }
 
+    /**
+     * Get feedback response comment from database.
+     */
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
+        FeedbackResponseCommentData frc = getFeedbackResponseCommentData(feedbackResponseId);
         if (frc == null) {
             return null;
         }
@@ -927,6 +933,25 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId.toString());
         executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
+    /**
+     * Gets deadline extension data from the database.
+     */
+    public DeadlineExtensionData getDeadlineExtensionData(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(Const.ParamsNames.USER_EMAIL, userEmail);
+        params.put(Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(isInstructor));
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.DEADLINE_EXTENSION, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        return JsonUtils.fromJson(response.responseBody, DeadlineExtensionData.class);
     }
 
     /**

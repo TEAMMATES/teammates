@@ -1,14 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
@@ -61,18 +59,11 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
-import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
-import {
-  QuestionSubmissionFormModule,
-} from '../../components/question-submission-form/question-submission-form.module';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 
 describe('SessionSubmissionPageComponent', () => {
   const deepCopy: <T>(obj: T) => T = <T>(obj: T) => JSON.parse(JSON.stringify(obj));
@@ -641,20 +632,14 @@ describe('SessionSubmissionPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SessionSubmissionPageComponent, SavingCompleteModalComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxPageScrollCoreModule,
-        TeammatesCommonModule,
-        FormsModule,
-        AjaxLoadingModule,
-        QuestionSubmissionFormModule,
-        LoadingSpinnerModule,
-        LoadingRetryModule,
         BrowserAnimationsModule,
+        NgxPageScrollCoreModule,
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
           useValue: {

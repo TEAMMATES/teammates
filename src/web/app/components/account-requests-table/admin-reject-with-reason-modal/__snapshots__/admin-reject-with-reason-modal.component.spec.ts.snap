@@ -61,7 +61,12 @@ exports[`RejectWithReasonModal should show empty title and body 1`] = `
         </div>
         <tm-rich-text-editor
           id="rejection-reason-body"
-        />
+        >
+          <div
+            inviewport=""
+          >
+          </div>
+        </tm-rich-text-editor>
       </div>
       <div
         class="modal-footer"

@@ -1,6 +1,7 @@
+import { NgClass, NgIf, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { UntypedFormGroup, FormsModule } from '@angular/forms';
+import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import {
   CourseEditFormMode,
@@ -15,6 +16,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { Course, FeedbackSessions } from '../../../types/api-output';
 import { FormValidator } from '../../../types/form-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { CopyCourseModalResult } from '../copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../copy-course-modal/copy-course-modal.component';
 
@@ -32,6 +34,14 @@ const formatTwoDigits = (n: number): string => {
   selector: 'tm-course-edit-form',
   templateUrl: './course-edit-form.component.html',
   styleUrls: ['./course-edit-form.component.scss'],
+  imports: [
+    NgClass,
+    NgIf,
+    NgbTooltip,
+    AjaxLoadingComponent,
+    FormsModule,
+    NgFor,
+  ],
 })
 export class CourseEditFormComponent implements OnInit, OnDestroy {
 

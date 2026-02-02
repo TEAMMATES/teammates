@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import {
   FeedbackRankRecipientsQuestionDetails,
@@ -13,6 +14,7 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
   selector: 'tm-rank-recipients-question-edit-details-form',
   templateUrl: './rank-recipients-question-edit-details-form.component.html',
   styleUrls: ['./rank-recipients-question-edit-details-form.component.scss'],
+  imports: [FormsModule],
 })
 export class RankRecipientsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRankRecipientsQuestionDetails> {

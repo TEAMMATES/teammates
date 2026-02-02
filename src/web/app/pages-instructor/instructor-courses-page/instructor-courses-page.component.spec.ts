@@ -1,9 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { provideRouter } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
@@ -13,13 +12,6 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
-import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
-import { CourseEditFormComponent } from '../../components/course-edit-form/course-edit-form.component';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
-import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
-import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
@@ -265,22 +257,13 @@ describe('InstructorCoursesPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorCoursesPageComponent,
-        CourseEditFormComponent,
-      ],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        TeammatesRouterModule,
-        NgbModule,
         BrowserAnimationsModule,
-        LoadingSpinnerModule,
-        AjaxLoadingModule,
-        LoadingRetryModule,
-        PanelChevronModule,
-        ProgressBarModule,
-        FormsModule,
+      ],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();
