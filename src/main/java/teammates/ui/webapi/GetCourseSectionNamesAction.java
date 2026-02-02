@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
@@ -23,16 +21,9 @@ public class GetCourseSectionNamesAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        if (!isCourseMigrated(courseId)) {
-            CourseAttributes courseAttributes = logic.getCourse(courseId);
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-            gateKeeper.verifyAccessible(instructor, courseAttributes);
-            return;
-        }
-
         Course course = sqlLogic.getCourse(courseId);
         Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+
         gateKeeper.verifyAccessible(instructor, course);
     }
 
@@ -40,11 +31,6 @@ public class GetCourseSectionNamesAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
-            if (!isCourseMigrated(courseId)) {
-                List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
-                return new JsonResult(new CourseSectionNamesData(sectionNames));
-            }
-
             List<String> sectionNames = sqlLogic.getSectionNamesForCourse(courseId);
             return new JsonResult(new CourseSectionNamesData(sectionNames));
         } catch (EntityDoesNotExistException e) {
