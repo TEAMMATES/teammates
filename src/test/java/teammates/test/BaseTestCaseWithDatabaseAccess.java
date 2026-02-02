@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.JsonUtils;
@@ -67,9 +66,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
         } else if (expected instanceof FeedbackSessionAttributes) {
             return getFeedbackSession((FeedbackSessionAttributes) expected);
-
-        } else if (expected instanceof InstructorAttributes) {
-            return getInstructor((InstructorAttributes) expected);
 
         } else if (expected instanceof StudentAttributes) {
             return getStudent((StudentAttributes) expected);
@@ -138,12 +134,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             equalizeIrrelevantData(expectedFs, actualFs);
             assertEquals(JsonUtils.toJson(expectedFs), JsonUtils.toJson(actualFs));
 
-        } else if (expected instanceof InstructorAttributes) {
-            InstructorAttributes expectedInstructor = ((InstructorAttributes) expected).getCopy();
-            InstructorAttributes actualInstructor = (InstructorAttributes) actual;
-            equalizeIrrelevantData(expectedInstructor, actualInstructor);
-            assertEquals(JsonUtils.toJson(expectedInstructor), JsonUtils.toJson(actualInstructor));
-
         } else if (expected instanceof StudentAttributes) {
             StudentAttributes expectedStudent = ((StudentAttributes) expected).getCopy();
             StudentAttributes actualStudent = (StudentAttributes) actual;
@@ -198,13 +188,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         expected.setCreatorEmail(actual.getCreatorEmail());
     }
 
-    private void equalizeIrrelevantData(InstructorAttributes expected, InstructorAttributes actual) {
-        // pretend keys match because the key is generated only before storing into database
-        if (actual.getKey() != null) {
-            expected.setKey(actual.getKey());
-        }
-    }
-
     private void equalizeIrrelevantData(StudentAttributes expected, StudentAttributes actual) {
         // For these fields, we consider null and "" equivalent.
         if (expected.getGoogleId() == null && actual.getGoogleId().isEmpty()) {
@@ -244,8 +227,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     protected abstract FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr);
 
     protected abstract FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs);
-
-    protected abstract InstructorAttributes getInstructor(InstructorAttributes instructor);
 
     protected abstract StudentAttributes getStudent(StudentAttributes student);
 
