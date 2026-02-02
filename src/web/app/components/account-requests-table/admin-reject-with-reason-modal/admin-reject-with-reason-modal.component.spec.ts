@@ -1,7 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { RejectWithReasonModalComponent } from './admin-reject-with-reason-modal.component';
@@ -47,11 +48,12 @@ describe('RejectWithReasonModal', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
+      providers: [
+        NgbActiveModal,
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
-      providers: [NgbActiveModal, SearchService, StatusMessageService],
     })
     .compileComponents();
   }));

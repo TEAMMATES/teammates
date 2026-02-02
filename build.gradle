@@ -8,25 +8,25 @@ apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 apply plugin: "org.liquibase.gradle"
 
-def checkstyleVersion = "10.15.0"
-def pmdVersion = "7.0.0"
-def spotbugsVersion = "4.8.4"
-def jacocoVersion = "0.8.12"
+def checkstyleVersion = "13.1.0"
+def pmdVersion = "7.21.0"
+def spotbugsVersion = "4.9.8"
+def jacocoVersion = "0.8.14"
 
 buildscript {
     repositories {
         mavenCentral()
         maven {
-            url "https://plugins.gradle.org/m2/"
+            url = "https://plugins.gradle.org/m2/"
         }
     }
     dependencies {
-        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.8.0"
-        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.12"
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.8.6"
+        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:6.4.8"
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:3.2.1263") {
             exclude group: "org.gradle"
         }
-        classpath "com.google.guava:guava:33.1.0-jre"
+        classpath "com.google.guava:guava:33.5.0-jre"
         classpath "org.liquibase:liquibase-gradle-plugin:2.2.1"
     }
 }
@@ -49,7 +49,7 @@ repositories {
 }
 
 def objectify = "com.googlecode.objectify:objectify:6.0.7"
-def testng = "org.testng:testng:7.10.1"
+def testng = "org.testng:testng:7.12.0"
 
 dependencies {
     staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
@@ -59,19 +59,19 @@ dependencies {
 
     annotationProcessor(objectify)
 
-    implementation("com.google.auth:google-auth-library-oauth2-http:1.23.0")
-    implementation(platform("com.google.cloud:google-cloud-bom:0.218.0"))
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.42.1")
+    implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
     implementation("com.google.cloud:google-cloud-datastore")
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.google.firebase:firebase-admin:9.2.0")
-    implementation("com.google.guava:guava:33.1.0-jre")
+    implementation("com.google.guava:guava:33.5.0-jre")
     implementation(objectify)
-    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20240325.1")
+    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20260102.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:5.2.5")
-    implementation("com.sendgrid:sendgrid-java:4.10.2")
+    implementation("com.sendgrid:sendgrid-java:4.10.3")
     implementation("com.sun.jersey:jersey-client:1.19.4")
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
@@ -81,34 +81,34 @@ dependencies {
     implementation("org.eclipse.jetty:jetty-server")
     implementation("org.eclipse.jetty:jetty-webapp")
     implementation("org.eclipse.jetty:jetty-annotations")
-    implementation("org.jsoup:jsoup:1.17.2")
+    implementation("org.jsoup:jsoup:1.22.1")
     implementation("org.hibernate.orm:hibernate-core:6.4.4.Final")
-    implementation("org.postgresql:postgresql:42.7.3")
+    implementation("org.postgresql:postgresql:42.7.9")
     implementation("org.hibernate:hibernate-hikaricp:6.4.4.Final")
 
     testAnnotationProcessor(testng)
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testImplementation("org.seleniumhq.selenium:selenium-java:4.19.1")
-    testImplementation("com.deque.html.axe-core:selenium:4.9.0")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.40.0")
+    testImplementation("com.deque.html.axe-core:selenium:4.11.0")
     testImplementation(testng)
-    testImplementation("org.testcontainers:postgresql:1.19.7")
+    testImplementation("org.testcontainers:postgresql:1.21.4")
     testImplementation("org.liquibase:liquibase-core:4.27.0")
-    testImplementation("org.mockito:mockito-core:5.11.0")
+    testImplementation("org.mockito:mockito-core:5.21.0")
     // For supporting authorization code flow locally
-    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.35.0")
+    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.39.0")
     // For using Gmail API
-    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20231218-2.0.0")
+    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20260112-2.0.0")
     // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.6.2") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.6.3") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.6.2") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.6.3") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
-    liquibaseRuntime("info.picocli:picocli:4.7.5")
+    liquibaseRuntime("info.picocli:picocli:4.7.7")
     liquibaseRuntime(sourceSets.main.output)
 }
 
@@ -241,7 +241,7 @@ task generateTypes {
 }
 
 task execScript(type: JavaExec) {
-    description "Run user defined scripts specified by project variable - userScript"
+    description = "Run user defined scripts specified by project variable - userScript"
 
     classpath = sourceSets.test.runtimeClasspath
     if (project.hasProperty("userScript")) {
@@ -252,8 +252,8 @@ task execScript(type: JavaExec) {
 // SETUP TASKS
 
 task createConfigs {
-    description "Sets up the project by obtaining necessary files and configurations points."
-    group "Setup"
+    description = "Sets up the project by obtaining necessary files and configurations points."
+    group = "Setup"
     doLast {
         def templatesToCopy = [
             "gradle.template.properties",
@@ -319,7 +319,7 @@ task explodeWar(type: Sync) {
 task copyDistToExplodedWar {
     doLast {
         copy {
-            from "src/web/dist"
+            from "src/web/dist/browser"
             into explodeWar.destinationDir
         }
         copy {
@@ -383,7 +383,7 @@ task copyExplodedWarToStagedApp {
 task copyDistToStagedApp {
     doLast {
         copy {
-            from "src/web/dist"
+            from "src/web/dist/browser"
             into "${buildDir}/staged-app/dist"
         }
     }
@@ -513,7 +513,7 @@ task architectureTest(type: Test) {
     useTestNG()
     options.suites "src/test/resources/testng-architecture.xml"
     options.useDefaultListeners = true
-    ignoreFailures false
+    ignoreFailures = false
     maxHeapSize = "1g"
     reports.html.required = false
     reports.junitXml.required = false
@@ -529,8 +529,8 @@ architectureTest.dependsOn testClasses
 architectureTest.shouldRunAfter lintMain, lintTest
 
 task lint {
-    description "Runs the entire static analysis tasks for back-end."
-    group "Static analysis"
+    description = "Runs the entire static analysis tasks for back-end."
+    group = "Static analysis"
     dependsOn lintMain, lintTest, architectureTest
 }
 
@@ -540,10 +540,12 @@ def numOfTestRetries = 4
 
 task lnpTests(type: Test) {
     systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
+    testClassesDirs = testing.suites.test.sources.output.classesDirs
+    classpath = testing.suites.test.sources.runtimeClasspath
     useTestNG()
     options.suites "src/lnp/resources/testng-lnp.xml"
     options.useDefaultListeners = true
-    ignoreFailures false
+    ignoreFailures = false
     maxHeapSize = "1g"
     reports.html.required = false
     reports.junitXml.required = false
@@ -569,12 +571,14 @@ task lnpTests(type: Test) {
 }
 
 task unitTests(type: Test) {
-    description "Runs the full unit test suite."
-    group "Test"
+    description = "Runs the full unit test suite."
+    group = "Test"
+    testClassesDirs = testing.suites.test.sources.output.classesDirs
+    classpath = testing.suites.test.sources.runtimeClasspath
     useTestNG()
     options.suites "src/test/resources/testng-component.xml"
     options.useDefaultListeners = true
-    ignoreFailures false
+    ignoreFailures = false
     maxHeapSize = "1g"
     reports.html.required = false
     reports.junitXml.required = false
@@ -587,12 +591,14 @@ task unitTests(type: Test) {
 }
 
 task integrationTests(type: Test) {
-    description "Runs the full integration test suite."
-    group "Test"
+    description = "Runs the full integration test suite."
+    group = "Test"
+    testClassesDirs = testing.suites.test.sources.output.classesDirs
+    classpath = testing.suites.test.sources.runtimeClasspath
     useTestNG()
     options.suites "src/it/resources/testng-it.xml"
     options.useDefaultListeners = true
-    ignoreFailures false
+    ignoreFailures = false
     maxHeapSize = "1g"
     reports.html.required = false
     reports.junitXml.required = false
@@ -605,14 +611,14 @@ task integrationTests(type: Test) {
 }
 
 task componentTests(type: Test) {
-    description "Runs the full unit and integration test suite."
-    group "Test"
+    description = "Runs the full unit and integration test suite."
+    group = "Test"
     dependsOn unitTests, integrationTests
 }
 
 task e2eTests {
-    description "Runs the E2E test suite and retries failed test up to ${numOfTestRetries} times."
-    group "Test"
+    description = "Runs the E2E test suite and retries failed test up to ${numOfTestRetries} times."
+    group = "Test"
 }
 
 (1..numOfTestRetries + 1).each { id ->
@@ -622,6 +628,8 @@ task e2eTests {
     def outputFileName = runUnstableTests ? "e2e-unstable-test-try-" : "e2e-test-try-"
 
     task "e2eTestTry${id}"(type: Test) {
+        testClassesDirs = testing.suites.test.sources.output.classesDirs
+        classpath = testing.suites.test.sources.runtimeClasspath
         useTestNG()
         options.suites isFirstTry
                 ? (runUnstableTests ? "src/e2e/resources/testng-unstable-e2e.xml" : "src/e2e/resources/testng-e2e.xml")
@@ -650,8 +658,8 @@ task e2eTests {
 }
 
 task e2eTestsSql {
-    description "Runs the E2E SQL test suite and retries failed test up to ${numOfTestRetries} times."
-    group "Test"
+    description = "Runs the E2E SQL test suite and retries failed test up to ${numOfTestRetries} times."
+    group = "Test"
 }
 
 (1..numOfTestRetries + 1).each { id ->
@@ -661,6 +669,8 @@ task e2eTestsSql {
     def outputFileName = runUnstableTests ? "e2e-sql-unstable-test-try-" : "e2e-sql-test-try-"
 
     task "e2eSqlTestTry${id}"(type: Test) {
+        testClassesDirs = testing.suites.test.sources.output.classesDirs
+        classpath = testing.suites.test.sources.runtimeClasspath
         useTestNG()
         options.suites isFirstTry
                 ? (runUnstableTests ? "src/e2e/resources/testng-unstable-e2e-sql.xml" : "src/e2e/resources/testng-e2e-sql.xml")
@@ -689,14 +699,16 @@ task e2eTestsSql {
 }
 
 task axeTests {
-    description "Runs the full accessibility test suite and retries failed tests once."
-    group "Test"
+    description = "Runs the full accessibility test suite and retries failed tests once."
+    group = "Test"
 }
 
 (1..2).each { id ->
     def isFirstTry = id == 1
 
     task "axeTestTry${id}"(type: Test) {
+        testClassesDirs = testing.suites.test.sources.output.classesDirs
+        classpath = testing.suites.test.sources.runtimeClasspath
         useTestNG()
         options.suites isFirstTry ? "src/e2e/resources/testng-axe.xml" : file("${buildDir}/reports/axe-test-try-${id - 1}/testng-failed.xml")
         options.outputDirectory = file("${buildDir}/reports/axe-test-try-${id}")
@@ -729,8 +741,8 @@ jacoco {
 }
 
 task jacocoReport(type: JacocoReport) {
-    description "Runs coverage session from available test run data."
-    group "Test"
+    description = "Runs coverage session from available test run data."
+    group = "Test"
     sourceDirectories.from files(sourceSets.main.java.srcDirs)
     classDirectories.from files(sourceSets.main.output)
     executionData fileTree("${buildDir}/jacoco").files

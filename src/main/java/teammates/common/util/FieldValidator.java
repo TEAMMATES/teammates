@@ -897,9 +897,9 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForCommentGiverType(FeedbackParticipantType commentGiverType) {
         assert commentGiverType != null;
-        if (!commentGiverType.equals(FeedbackParticipantType.STUDENTS)
-                   && !commentGiverType.equals(FeedbackParticipantType.INSTRUCTORS)
-                   && !commentGiverType.equals(FeedbackParticipantType.TEAMS)) {
+        if (commentGiverType != FeedbackParticipantType.STUDENTS
+                && commentGiverType != FeedbackParticipantType.INSTRUCTORS
+                && commentGiverType != FeedbackParticipantType.TEAMS) {
             return "Invalid comment giver type: " + commentGiverType;
         }
         return "";

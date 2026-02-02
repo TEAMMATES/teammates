@@ -81,7 +81,7 @@ public class LocalLoggingService implements LogService {
                     }
                 })
                 .filter(log -> queryLogsParams.getSeverity() == null
-                        || log.getSeverity().equals(queryLogsParams.getSeverity()))
+                        || log.getSeverity() == queryLogsParams.getSeverity())
                 .filter(log -> queryLogsParams.getMinSeverity() == null
                         || log.getSeverity().getSeverityLevel()
                             >= queryLogsParams.getMinSeverity().getSeverityLevel())

@@ -1,4 +1,6 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { StatusMessageService } from '../../../../../services/status-message.service';
 
 /**
@@ -8,6 +10,7 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
   selector: 'tm-mcq-field',
   templateUrl: './mcq-field.component.html',
   styleUrls: ['./mcq-field.component.scss'],
+  imports: [NgIf, FormsModule],
 })
 export class McqFieldComponent {
 

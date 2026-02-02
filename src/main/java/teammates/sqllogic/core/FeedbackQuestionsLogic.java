@@ -163,7 +163,7 @@ public final class FeedbackQuestionsLogic {
         List<FeedbackQuestion> questions = new ArrayList<>();
 
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.STUDENTS));
-        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.SELF));
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.TEAMS));
         questions.sort(null);
         return questions;
     }
@@ -648,7 +648,7 @@ public final class FeedbackQuestionsLogic {
 
         return feedbackQuestions
                 .stream()
-                .filter(q -> q.getQuestionDetailsCopy().getQuestionType().equals(questionType))
+                .filter(q -> q.getQuestionDetailsCopy().getQuestionType() == questionType)
                 .collect(Collectors.toList());
     }
 

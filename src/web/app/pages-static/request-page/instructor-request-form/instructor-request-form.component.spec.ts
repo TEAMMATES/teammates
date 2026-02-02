@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NgxCaptchaModule } from 'ngx-captcha';
+import { provideRouter } from '@angular/router';
 import { Observable, first } from 'rxjs';
+import { AccountRequest } from 'src/web/types/api-output';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
 import { AccountService } from '../../../../services/account.service';
-import { AccountCreateRequest } from '../../../../types/api-request';
+import { AccountCreateRequest, AccountRequestStatus } from '../../../../types/api-request';
 
 describe('InstructorRequestFormComponent', () => {
   let component: InstructorRequestFormComponent;
@@ -24,10 +24,19 @@ describe('InstructorRequestFormComponent', () => {
     instructorName: typicalModel.name,
     instructorInstitution: `${typicalModel.institution}, ${typicalModel.country}`,
   };
+  const typicalAccountRequest: AccountRequest = {
+    id: 'id',
+    email: typicalModel.email,
+    name: typicalModel.name,
+    institute: `${typicalModel.institution}, ${typicalModel.country}`,
+    registrationKey: 'registration-key',
+    status: AccountRequestStatus.PENDING,
+    createdAt: 0,
+  };
 
   const accountServiceStub: Partial<AccountService> = {
     createAccountRequest: () => new Observable((subscriber) => {
-        subscriber.next();
+        subscriber.next(typicalAccountRequest);
       }),
   };
 
@@ -46,9 +55,10 @@ describe('InstructorRequestFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorRequestFormComponent],
-      imports: [ReactiveFormsModule, NgxCaptchaModule],
-      providers: [{ provide: AccountService, useValue: accountServiceStub }],
+      providers: [
+        { provide: AccountService, useValue: accountServiceStub },
+        provideRouter([]),
+      ],
     })
     .compileComponents();
   }));
@@ -86,7 +96,7 @@ describe('InstructorRequestFormComponent', () => {
 
   it('should emit requestSubmissionEvent with the correct data when form is submitted', () => {
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-      new Observable((subscriber) => { subscriber.next(); }));
+      new Observable((subscriber) => { subscriber.next(typicalAccountRequest); }));
 
     // Listen for emitted value
     let actualModel: InstructorRequestFormModel | null = null;
@@ -106,7 +116,7 @@ describe('InstructorRequestFormComponent', () => {
 
   it('should send the correct request data when form is submitted', () => {
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-      new Observable((subscriber) => { subscriber.next(); }));
+      new Observable((subscriber) => { subscriber.next(typicalAccountRequest); }));
 
     fillFormWith(typicalModel);
     component.onSubmit();
@@ -117,7 +127,7 @@ describe('InstructorRequestFormComponent', () => {
 
   it('should auto-unify country when applicable', () => {
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-        new Observable((subscriber) => { subscriber.next(); }));
+        new Observable((subscriber) => { subscriber.next(typicalAccountRequest); }));
     const unitedStatesModel: InstructorRequestFormModel = {
       ...typicalModel,
       country: 'españa',

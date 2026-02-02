@@ -25,6 +25,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -34,7 +35,9 @@ import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.CourseData;
+import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
@@ -301,6 +304,15 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
     }
 
+    FeedbackResponseCommentData getFeedbackResponseComment(UUID feedbackResponseId) {
+        return BACKDOOR.getFeedbackResponseCommentData(feedbackResponseId.toString());
+    }
+
+    @Override
+    protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
+        return getFeedbackResponseComment(frc.getFeedbackResponse().getId());
+    }
+
     FeedbackSessionData getFeedbackSession(String courseId, String feedbackSessionName) {
         return BACKDOOR.getFeedbackSessionData(courseId, feedbackSessionName);
     }
@@ -378,5 +390,24 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
      */
     protected String getKeyForStudent(Student student) {
         return getStudent(student).getKey();
+    }
+
+    /**
+     * Gets deadline extension data from the database.
+     */
+    protected DeadlineExtensionData getDeadlineExtension(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        return BACKDOOR.getDeadlineExtensionData(courseId, feedbackSessionName, userEmail, isInstructor);
+    }
+
+    /**
+     * Updates the feedback response comment in the database.
+     *
+     * @param commentId the ID of the comment to update
+     * @param commentText the new comment text
+     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     */
+    protected void updateFeedbackResponseComment(long commentId, String commentText, String instructorGoogleId) {
+        BACKDOOR.updateFeedbackResponseComment(commentId, commentText, instructorGoogleId);
     }
 }

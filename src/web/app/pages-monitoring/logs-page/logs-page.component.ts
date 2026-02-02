@@ -1,5 +1,8 @@
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import { EMPTY } from 'rxjs';
 import { expand, finalize, reduce, tap } from 'rxjs/operators';
 import { DateTimeService } from '../../../services/datetime.service';
@@ -25,8 +28,11 @@ import {
   Hours,
   Milliseconds,
 } from '../../../types/datetime-const';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { LogsHistogramDataModel } from '../../components/logs-histogram/logs-histogram-model';
+import { LogsHistogramComponent } from '../../components/logs-histogram/logs-histogram.component';
 import { LogsTableRowModel } from '../../components/logs-table/logs-table-model';
+import { LogsTableComponent } from '../../components/logs-table/logs-table.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -53,6 +59,17 @@ const DESCENDING_ORDER: string = 'desc';
   templateUrl: './logs-page.component.html',
   styleUrls: ['./logs-page.component.scss'],
   animations: [collapseAnim],
+  imports: [
+    NgIf,
+    LoadingSpinnerDirective,
+    NgbInputDatepicker,
+    FormsModule,
+    NgbTimepicker,
+    NgFor,
+    NgClass,
+    LogsTableComponent,
+    LogsHistogramComponent,
+  ],
 })
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;

@@ -1,10 +1,13 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderResponseModel } from './send-reminders-to-respondents-model';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,
 } from '../respondent-list-info-table/respondent-list-info-table-model';
+import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
 
 /**
  * Send reminders to respondents modal.
@@ -13,6 +16,11 @@ import {
   selector: 'tm-send-reminders-to-respondents-modal',
   templateUrl: './send-reminders-to-respondents-modal.component.html',
   styleUrls: ['./send-reminders-to-respondents-modal.component.scss'],
+  imports: [
+    NgIf,
+    FormsModule,
+    RespondentListInfoTableComponent,
+  ],
 })
 export class SendRemindersToRespondentsModalComponent {
 

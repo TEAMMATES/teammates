@@ -1,3 +1,4 @@
+import { NgIf, JsonPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { GeneralLogEntry } from '../../../../types/api-output';
 
@@ -5,9 +6,10 @@ import { GeneralLogEntry } from '../../../../types/api-output';
  * Additional details for generic logs, i.e. logs that do not need specific displaying logic.
  */
 @Component({
-  selector: 'tm-generic-log-details',
-  templateUrl: './generic-log-details.component.html',
-  styleUrls: ['./generic-log-details.component.scss', './log-details.component.scss'],
+    selector: 'tm-generic-log-details',
+    templateUrl: './generic-log-details.component.html',
+    styleUrls: ['./generic-log-details.component.scss', './log-details.component.scss'],
+    imports: [NgIf, JsonPipe],
 })
 export class GenericLogDetailsComponent {
 

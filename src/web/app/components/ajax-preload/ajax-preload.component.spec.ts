@@ -1,19 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AjaxPreloadComponent } from './ajax-preload.component';
 
 describe('AjaxPreloadComponent', () => {
   let component: AjaxPreloadComponent;
   let fixture: ComponentFixture<AjaxPreloadComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        AjaxPreloadComponent,
-      ],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AjaxPreloadComponent);

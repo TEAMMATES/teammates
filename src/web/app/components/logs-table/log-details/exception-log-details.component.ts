@@ -1,3 +1,4 @@
+import { NgIf, JsonPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ExceptionLogDetails, GeneralLogEntry, LogEvent } from '../../../../types/api-output';
 
@@ -5,9 +6,10 @@ import { ExceptionLogDetails, GeneralLogEntry, LogEvent } from '../../../../type
  * Additional details for exception logs.
  */
 @Component({
-  selector: 'tm-exception-log-details',
-  templateUrl: './exception-log-details.component.html',
-  styleUrls: ['./exception-log-details.component.scss', './log-details.component.scss'],
+    selector: 'tm-exception-log-details',
+    templateUrl: './exception-log-details.component.html',
+    styleUrls: ['./exception-log-details.component.scss', './log-details.component.scss'],
+    imports: [NgIf, JsonPipe],
 })
 export class ExceptionLogDetailsComponent {
 

@@ -1,10 +1,9 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -13,7 +12,6 @@ import {
   QuestionSubmissionFormModel,
 } from './question-submission-form-model';
 import { QuestionSubmissionFormComponent } from './question-submission-form.component';
-import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 import { createBuilder } from '../../../test-helpers/generic-builder';
 import { mapReplacer, mapReviver } from '../../../test-helpers/json-helpers';
 import testEventEmission from '../../../test-helpers/test-event-emitter';
@@ -38,20 +36,8 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
-import { SessionView } from '../../pages-session/session-submission-page/session-submission-page.component';
-import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
-import { CommentBoxModule } from '../comment-box/comment-box.module';
+import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
-import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
-import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
-import { QuestionConstraintModule } from '../question-types/question-constraint/question-constraint.module';
-import {
-  QuestionEditAnswerFormModule,
-} from '../question-types/question-edit-answer-form/question-edit-answer-form.module';
-import { QuestionInstructionModule } from '../question-types/question-instruction/question-instruction.module';
-import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
-import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
-import { VisibilityMessagesModule } from '../visibility-messages/visibility-messages.module';
 
 const formResponse1: FeedbackResponseRecipientSubmissionFormModel = {
   responseId: 'response-id-1',
@@ -281,25 +267,12 @@ describe('QuestionSubmissionFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        QuestionSubmissionFormComponent,
-        RecipientTypeNamePipe,
-      ],
       imports: [
-        HttpClientTestingModule,
-        TeammatesCommonModule,
-        VisibilityMessagesModule,
-        QuestionInstructionModule,
-        QuestionConstraintModule,
-        QuestionEditAnswerFormModule,
-        RichTextEditorModule,
-        FormsModule,
-        CommentBoxModule,
-        NgbModule,
-        LoadingSpinnerModule,
-        AjaxLoadingModule,
         BrowserAnimationsModule,
-        PanelChevronModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

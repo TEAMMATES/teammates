@@ -12,7 +12,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     d3: '<rootDir>/node_modules/d3/dist/d3.min.js',
-    'lodash-es': 'lodash'
+    'lodash-es': 'lodash',
+    '^@handsontable/angular$': '<rootDir>/src/web/test-helpers/mock-handsontable.ts'
   },
-  globalSetup: 'jest-preset-angular/global-setup',
 };

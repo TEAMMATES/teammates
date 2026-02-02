@@ -1,4 +1,7 @@
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -6,6 +9,8 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -24,6 +29,16 @@ interface OngoingSessionModel {
   templateUrl: './admin-sessions-page.component.html',
   styleUrls: ['./admin-sessions-page.component.scss'],
   animations: [collapseAnim],
+  imports: [
+    NgIf,
+    FormsModule,
+    NgbInputDatepicker,
+    NgbTimepicker,
+    NgFor,
+    LoadingSpinnerDirective,
+    PanelChevronComponent,
+    KeyValuePipe,
+  ],
 })
 export class AdminSessionsPageComponent implements OnInit {
 

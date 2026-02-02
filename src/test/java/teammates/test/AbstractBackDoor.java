@@ -72,6 +72,7 @@ import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.output.StudentData;
+import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
 
 /**
@@ -615,16 +616,16 @@ public abstract class AbstractBackDoor {
 
         sessionAttributes.setCreatedTime(Instant.ofEpochMilli(sessionData.getCreatedAtTimestamp()));
 
-        if (sessionData.getSessionVisibleSetting().equals(SessionVisibleSetting.AT_OPEN)) {
+        if (sessionData.getSessionVisibleSetting() == SessionVisibleSetting.AT_OPEN) {
             sessionAttributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         } else {
             sessionAttributes.setSessionVisibleFromTime(Instant.ofEpochMilli(
                     sessionData.getCustomSessionVisibleTimestamp()));
         }
 
-        if (sessionData.getResponseVisibleSetting().equals(ResponseVisibleSetting.AT_VISIBLE)) {
+        if (sessionData.getResponseVisibleSetting() == ResponseVisibleSetting.AT_VISIBLE) {
             sessionAttributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        } else if (sessionData.getResponseVisibleSetting().equals(ResponseVisibleSetting.LATER)) {
+        } else if (sessionData.getResponseVisibleSetting() == ResponseVisibleSetting.LATER) {
             sessionAttributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
         } else {
             sessionAttributes.setResultsVisibleFromTime(Instant.ofEpochMilli(
@@ -720,7 +721,7 @@ public abstract class AbstractBackDoor {
                 .withGiverType(question.getGiverType())
                 .withRecipientType(question.getRecipientType())
                 .withNumberOfEntitiesToGiveFeedbackTo(question.getNumberOfEntitiesToGiveFeedbackToSetting()
-                        .equals(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED)
+                        == NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED
                         ? Const.MAX_POSSIBLE_RECIPIENTS
                         : question.getCustomNumberOfEntitiesToGiveFeedbackTo())
                 .withShowResponsesTo(convertToFeedbackParticipantType(question.getShowResponsesTo()))
@@ -803,9 +804,9 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback response comment from database.
+     * Get feedback response comment data from database.
      */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
+    public FeedbackResponseCommentData getFeedbackResponseCommentData(String feedbackResponseId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
@@ -814,8 +815,14 @@ public abstract class AbstractBackDoor {
             return null;
         }
 
-        FeedbackResponseCommentData frc = JsonUtils.fromJson(response.responseBody, FeedbackResponseCommentData.class);
+        return JsonUtils.fromJson(response.responseBody, FeedbackResponseCommentData.class);
+    }
 
+    /**
+     * Get feedback response comment from database.
+     */
+    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
+        FeedbackResponseCommentData frc = getFeedbackResponseCommentData(feedbackResponseId);
         if (frc == null) {
             return null;
         }
@@ -824,6 +831,29 @@ public abstract class AbstractBackDoor {
                 .withCommentGiver(frc.getCommentGiver())
                 .withCommentText(frc.getCommentText())
                 .build();
+    }
+
+    /**
+     * Updates a feedback response comment via the backdoor.
+     * This triggers a new updatedAt timestamp in the database.
+     *
+     * @param commentId the ID of the comment to update
+     * @param commentText the new comment text
+     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     */
+    public void updateFeedbackResponseComment(Long commentId, String commentText, String instructorGoogleId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(commentId));
+        params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
+        params.put(Const.ParamsNames.USER_ID, instructorGoogleId);
+
+        FeedbackResponseCommentUpdateRequest body = new FeedbackResponseCommentUpdateRequest(
+                commentText,
+                new ArrayList<>(),
+                new ArrayList<>()
+        );
+
+        executePutRequest(Const.ResourceURIs.RESPONSE_COMMENT, params, JsonUtils.toJson(body));
     }
 
     /**
@@ -927,6 +957,25 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId.toString());
         executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
+    /**
+     * Gets deadline extension data from the database.
+     */
+    public DeadlineExtensionData getDeadlineExtensionData(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(Const.ParamsNames.USER_EMAIL, userEmail);
+        params.put(Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(isInstructor));
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.DEADLINE_EXTENSION, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        return JsonUtils.fromJson(response.responseBody, DeadlineExtensionData.class);
     }
 
     /**

@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -13,9 +14,10 @@ import {
  * Rubric question response.
  */
 @Component({
-  selector: 'tm-rubric-question-response',
-  templateUrl: './rubric-question-response.component.html',
-  styleUrls: ['./rubric-question-response.component.scss'],
+    selector: 'tm-rubric-question-response',
+    templateUrl: './rubric-question-response.component.html',
+    styleUrls: ['./rubric-question-response.component.scss'],
+    imports: [NgIf, NgFor],
 })
 export class RubricQuestionResponseComponent
     extends QuestionResponse<FeedbackRubricResponseDetails, FeedbackRubricQuestionDetails>

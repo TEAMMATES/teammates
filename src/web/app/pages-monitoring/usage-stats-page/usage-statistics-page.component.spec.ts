@@ -1,14 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
-import { StatsLineChartComponent } from './stats-line-chart/stats-line-chart.component';
 import { AggregationType, StatisticsType, UsageStatisticsPageComponent } from './usage-statistics-page.component';
 import { UsageStatisticsService } from '../../../services/usage-statistics.service';
 import { UsageStatistics } from '../../../types/api-output';
 import { Milliseconds } from '../../../types/datetime-const';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 
 const generateData = (startTime: number, iterations: number): UsageStatistics[] => {
   const stats = [];
@@ -37,16 +34,9 @@ describe('UsageStatisticsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        UsageStatisticsPageComponent,
-        StatsLineChartComponent,
-      ],
-      imports: [
-        NgbDatepickerModule,
-        NgbTimepickerModule,
-        FormsModule,
-        HttpClientTestingModule,
-        LoadingSpinnerModule,
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

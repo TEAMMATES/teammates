@@ -81,7 +81,7 @@ public class MockLogsProcessor extends LogsProcessor {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
         if (queryLogsParams.getSeverity() != null) {
             generalLogs.forEach(entry -> {
-                if (queryLogsParams.getSeverity().equals(entry.getSeverity())
+                if (queryLogsParams.getSeverity() == entry.getSeverity()
                         && entry.getTimestamp() >= queryLogsParams.getStartTime()
                         && entry.getTimestamp() <= queryLogsParams.getEndTime()) {
                     queryResults.add(entry);
