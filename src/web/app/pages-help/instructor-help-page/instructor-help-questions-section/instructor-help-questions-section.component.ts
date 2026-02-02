@@ -1,4 +1,7 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { QuestionTabModel } from 'src/web/app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import {
   EXAMPLE_CONTRIBUTION_STATISTICS,
   EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL,
@@ -40,23 +43,30 @@ import {
   FeedbackSession,
   ResponseOutput,
 } from '../../../../types/api-output';
-import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
+import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
+import { QuestionEditFormComponent } from '../../../components/question-edit-form/question-edit-form.component';
 import {
   QuestionSubmissionFormModel,
 } from '../../../components/question-submission-form/question-submission-form-model';
+import {
+  QuestionSubmissionFormComponent,
+} from '../../../components/question-submission-form/question-submission-form.component';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import {
-  QuestionTabModel,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+  InstructorSessionResultQuestionViewComponent,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-question-view.component';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { ExampleBoxComponent } from '../example-box/example-box.component';
+import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
 
@@ -68,6 +78,16 @@ import { Sections } from '../sections';
   templateUrl: './instructor-help-questions-section.component.html',
   styleUrls: ['./instructor-help-questions-section.component.scss'],
   animations: [collapseAnim],
+  imports: [
+    NgIf,
+    InstructorHelpPanelComponent,
+    ExampleBoxComponent,
+    QuestionEditFormComponent,
+    TeammatesRouterDirective,
+    InstructorSessionResultQuestionViewComponent,
+    NgbTooltip,
+    QuestionSubmissionFormComponent,
+  ],
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

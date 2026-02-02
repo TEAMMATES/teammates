@@ -1,4 +1,6 @@
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
@@ -11,8 +13,10 @@ import {
   Hours,
   Milliseconds,
 } from '../../../../types/datetime-const';
+import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
+import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
 
 export enum RadioOptions {
   EXTEND_TO = 1,
@@ -28,6 +32,14 @@ enum DateTime {
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
   styleUrls: ['./individual-extension-date-modal.component.scss'],
+  imports: [
+    FormsModule,
+    NgIf,
+    NgFor,
+    DatepickerComponent,
+    TimepickerComponent,
+    KeyValuePipe,
+  ],
 })
 export class IndividualExtensionDateModalComponent {
   @Input()

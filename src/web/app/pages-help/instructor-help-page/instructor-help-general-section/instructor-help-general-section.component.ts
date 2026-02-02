@@ -1,6 +1,9 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { GeneralSectionQuestions } from './general-section-questions';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
+import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
 
@@ -12,6 +15,11 @@ import { Sections } from '../sections';
   templateUrl: './instructor-help-general-section.component.html',
   styleUrls: ['./instructor-help-general-section.component.scss'],
   animations: [collapseAnim],
+  imports: [
+    NgIf,
+    InstructorHelpPanelComponent,
+    TeammatesRouterDirective,
+  ],
 })
 export class InstructorHelpGeneralSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

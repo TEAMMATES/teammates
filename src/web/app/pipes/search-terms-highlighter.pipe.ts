@@ -1,8 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-    name: 'highlighter',
-})
+@Pipe({ name: 'highlighter' })
 export class SearchTermsHighlighterPipe implements PipeTransform {
 
     /**

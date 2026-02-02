@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TimezoneService } from '../../../services/timezone.service';
 import { NotificationTargetUser } from '../../../types/api-output';
+import {
+  UserNotificationsListComponent,
+} from '../../components/user-notifications-list/user-notifications-list.component';
 
 /**
  * Component for instructor notifications page.
@@ -9,6 +12,7 @@ import { NotificationTargetUser } from '../../../types/api-output';
   selector: 'tm-instructor-notifications-page',
   templateUrl: './instructor-notifications-page.component.html',
   styleUrls: ['./instructor-notifications-page.component.scss'],
+  imports: [UserNotificationsListComponent],
 })
 export class InstructorNotificationsPageComponent implements OnInit {
 

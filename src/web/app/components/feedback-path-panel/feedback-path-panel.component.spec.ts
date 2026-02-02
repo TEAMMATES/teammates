@@ -1,30 +1,13 @@
 import { EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FeedbackPathPanelComponent } from './feedback-path-panel.component';
 import { FeedbackParticipantType, NumberOfEntitiesToGiveFeedbackToSetting } from '../../../types/api-output';
-import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 
 describe('FeedbackPathPanelComponent', () => {
   let component: FeedbackPathPanelComponent;
   let fixture: ComponentFixture<FeedbackPathPanelComponent>;
   let emitSpy: jest.SpyInstance;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        FeedbackPathPanelComponent,
-      ],
-      imports: [
-        FormsModule,
-        NgbDropdownModule,
-        TeammatesCommonModule,
-      ],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FeedbackPathPanelComponent);

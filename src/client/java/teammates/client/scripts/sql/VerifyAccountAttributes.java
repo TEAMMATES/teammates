@@ -17,7 +17,6 @@ import teammates.storage.entity.Account;
 /**
  * Class for verifying account attributes.
  */
-@SuppressWarnings("PMD")
 public class VerifyAccountAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Account, teammates.storage.sqlentity.Account> {
 

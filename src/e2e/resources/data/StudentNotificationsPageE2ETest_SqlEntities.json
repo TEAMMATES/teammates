@@ -16,7 +16,7 @@
       "targetUser": "GENERAL",
       "title": "SNotifs.notification1",
       "message": "<p>This notification is shown to general users</p>",
-      "shown": false
+      "shown": true
     },
     "notification2": {
       "id": "00000000-0000-4000-8000-000000001102",
@@ -26,7 +26,7 @@
       "targetUser": "STUDENT",
       "title": "SNotifs.notification2",
       "message": "<p>This notification is shown to students only</p>",
-      "shown": false
+      "shown": true
     },
     "notification3": {
       "id": "00000000-0000-4000-8000-000000001103",
@@ -46,7 +46,7 @@
       "targetUser": "GENERAL",
       "title": "SNotifs.notification4",
       "message": "<p>This notification has been read by the user</p>",
-      "shown": false
+      "shown": true
     },
     "expiredNotification1": {
       "id": "00000000-0000-4000-8000-000000001105",

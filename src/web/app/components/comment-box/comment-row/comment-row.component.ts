@@ -1,5 +1,6 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentRowMode } from './comment-row.mode';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
@@ -12,7 +13,11 @@ import {
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
-import { CommentEditFormModel } from '../comment-edit-form/comment-edit-form.component';
+import { FormatDateBriefPipe } from '../../teammates-common/format-date-brief.pipe';
+import { FormatDateDetailPipe } from '../../teammates-common/format-date-detail.pipe';
+import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
+import { CommentEditFormModel, CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
+import { CommentVisibilityTypesJointNamePipe } from '../comment-visibility-setting.pipe';
 
 /**
  * Model for a comment row.
@@ -42,6 +47,15 @@ export interface CommentRowModel {
   selector: 'tm-comment-row',
   templateUrl: './comment-row.component.html',
   styleUrls: ['./comment-row.component.scss'],
+  imports: [
+    NgIf,
+    CommentEditFormComponent,
+    NgbTooltip,
+    FormatDateDetailPipe,
+    SafeHtmlPipe,
+    FormatDateBriefPipe,
+    CommentVisibilityTypesJointNamePipe,
+  ],
 })
 export class CommentRowComponent implements OnChanges {
 

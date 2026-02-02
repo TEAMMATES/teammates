@@ -1,11 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { UserJoinPageComponent } from './user-join-page.component';
 import { AccountService } from '../services/account.service';
@@ -27,18 +26,8 @@ describe('UserJoinPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UserJoinPageComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        LoadingSpinnerModule,
-      ],
       providers: [
-        NavigationService,
-        CourseService,
-        AuthService,
-        SimpleModalService,
-        AccountService,
+        provideRouter([]),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -48,6 +37,8 @@ describe('UserJoinPageComponent', () => {
             }),
           },
         },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
         .compileComponents();
@@ -250,20 +241,9 @@ describe('UserJoinPageComponent creating account', () => {
   let timezoneService: TimezoneService;
 
   beforeEach((() => {
-    TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      declarations: [UserJoinPageComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        LoadingSpinnerModule,
-      ],
       providers: [
-        NavigationService,
-        CourseService,
-        AuthService,
-        AccountService,
-        TimezoneService,
+        provideRouter([]),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -273,6 +253,8 @@ describe('UserJoinPageComponent creating account', () => {
             }),
           },
         },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
   }));

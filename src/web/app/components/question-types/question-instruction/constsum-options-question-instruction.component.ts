@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   FeedbackConstantSumDistributePointsType,
@@ -14,6 +15,7 @@ import {
   selector: 'tm-constsum-options-question-instruction',
   templateUrl: './constsum-options-question-instruction.component.html',
   styleUrls: ['./constsum-options-question-instruction.component.scss'],
+  imports: [NgIf],
 })
 export class ConstsumOptionsQuestionInstructionComponent {
 

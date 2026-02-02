@@ -137,7 +137,7 @@ public final class AccountAttributes extends EntityAttributes<Account> {
     @Override
     public String toString() {
         return "AccountAttributes [googleId=" + googleId + ", name=" + name
-               + ", email=" + email + "]" + ", isMigrated=" + isMigrated + "]";
+                + ", email=" + email + "]" + ", isMigrated=" + isMigrated + "]";
     }
 
     @Override

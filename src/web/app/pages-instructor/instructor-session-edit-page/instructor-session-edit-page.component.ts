@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -53,20 +54,29 @@ import { Intent } from '../../../types/api-request';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { VisibilityControl } from '../../../types/visibility-control';
+import { AddingQuestionPanelComponent } from '../../components/adding-question-panel/adding-question-panel.component';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import {
   ExtensionConfirmModalComponent,
   ExtensionModalType,
 } from '../../components/extension-confirm-modal/extension-confirm-modal.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import {
+  ModifiedTimestampModalComponent,
+} from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
+import { PreviewSessionPanelComponent } from '../../components/preview-session-panel/preview-session-panel.component';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../components/question-edit-form/question-edit-form-model';
+import { QuestionEditFormComponent } from '../../components/question-edit-form/question-edit-form.component';
 import {
   SessionEditFormMode,
   SessionEditFormModel,
 } from '../../components/session-edit-form/session-edit-form-model';
+import { SessionEditFormComponent } from '../../components/session-edit-form/session-edit-form.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
@@ -82,6 +92,17 @@ import {
   selector: 'tm-instructor-session-edit-page',
   templateUrl: './instructor-session-edit-page.component.html',
   styleUrls: ['./instructor-session-edit-page.component.scss'],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    SessionEditFormComponent,
+    NgIf,
+    NgFor,
+    QuestionEditFormComponent,
+    AddingQuestionPanelComponent,
+    PreviewSessionPanelComponent,
+    ModifiedTimestampModalComponent,
+  ],
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
 

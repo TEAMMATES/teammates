@@ -1,16 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { AdminNotificationsPageComponent } from './admin-notifications-page.component';
-import { AdminNotificationsPageModule } from './admin-notifications-page.module';
 import { NotificationEditFormModel } from './notification-edit-form/notification-edit-form-model';
 import { NotificationsTableRowModel } from './notifications-table/notifications-table-model';
 import { NotificationService } from '../../../services/notification.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
@@ -80,12 +79,11 @@ describe('AdminNotificationsPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        AdminNotificationsPageModule,
-        HttpClientTestingModule,
         BrowserAnimationsModule,
       ],
       providers: [
-        TimezoneService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

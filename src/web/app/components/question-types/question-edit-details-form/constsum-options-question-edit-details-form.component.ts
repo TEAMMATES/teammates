@@ -1,5 +1,9 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { NgFor } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import {
@@ -15,6 +19,15 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
   selector: 'tm-constsum-options-question-edit-details-form',
   templateUrl: './constsum-options-question-edit-details-form.component.html',
   styleUrls: ['./constsum-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+  imports: [
+    CdkDropList,
+    NgFor,
+    CdkDrag,
+    CdkDragHandle,
+    ConstsumOptionsFieldComponent,
+    FormsModule,
+    NgbTooltip,
+  ],
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { StatusMessageService } from '../../../../../services/status-message.service';
 
 /**
@@ -8,6 +9,7 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
   selector: 'tm-msq-field',
   templateUrl: './msq-field.component.html',
   styleUrls: ['./msq-field.component.scss'],
+  imports: [FormsModule],
 })
 export class MsqFieldComponent {
 

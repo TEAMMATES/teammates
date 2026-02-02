@@ -1,18 +1,24 @@
+import { NgIf } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   ConstsumRecipientsQuestionStatisticsCalculation,
 } from './question-statistics-calculation/constsum-recipients-question-statistics-calculation';
 import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for constsum recipients questions.
  */
 @Component({
-  selector: 'tm-constsum-recipients-question-statistics',
-  templateUrl: './constsum-recipients-question-statistics.component.html',
-  styleUrls: ['./constsum-recipients-question-statistics.component.scss'],
+    selector: 'tm-constsum-recipients-question-statistics',
+    templateUrl: './constsum-recipients-question-statistics.component.html',
+    styleUrls: ['./constsum-recipients-question-statistics.component.scss'],
+    imports: [NgIf, SortableTableComponent],
 })
 export class ConstsumRecipientsQuestionStatisticsComponent extends ConstsumRecipientsQuestionStatisticsCalculation
     implements OnInit, OnChanges {

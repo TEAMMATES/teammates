@@ -21,10 +21,16 @@ import teammates.ui.webapi.CompileLogsAction;
  * SUT: {@link CompileLogsAction}.
  */
 public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
-    private static final long DISTANT_TIMESTAMP = Instant.now().minusSeconds(7 * 60).toEpochMilli();
-    private static final long RECENT_TIMESTAMP = Instant.now().minusSeconds(30).toEpochMilli();
 
     private SourceLocation sourceLocation = new SourceLocation("file5", 5L, "func5");
+
+    private long distantTimestamp() {
+        return Instant.now().minusSeconds(7 * 60).toEpochMilli();
+    }
+
+    private long recentTimestamp() {
+        return Instant.now().minusSeconds(30).toEpochMilli();
+    }
 
     @Override
     protected String getActionUri() {
@@ -52,9 +58,9 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
     @Test
     void testExecute_noRecentErrorLogs_noEmailSent() {
         mockLogsProcessor.insertErrorLog("errorlogtrace1", "errorloginsertid1", sourceLocation,
-                DISTANT_TIMESTAMP, "Error message 1", null);
+                distantTimestamp(), "Error message 1", null);
         mockLogsProcessor.insertWarningLog("warninglogtrace1", "warningloginsertid1", sourceLocation,
-                RECENT_TIMESTAMP, "Warning message 1", null);
+                recentTimestamp(), "Warning message 1", null);
 
         CompileLogsAction action = getAction();
         action.execute();
@@ -70,7 +76,7 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
                 "errorloginsertid1",
                 new HashMap<>(),
                 sourceLocation,
-                RECENT_TIMESTAMP
+                recentTimestamp()
         );
         logEntry.setMessage("Error message 1");
         logEntry.setDetails(null);
