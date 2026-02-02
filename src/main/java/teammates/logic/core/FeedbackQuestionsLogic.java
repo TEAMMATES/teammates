@@ -136,7 +136,7 @@ public final class FeedbackQuestionsLogic {
         for (FeedbackSessionAttributes session : feedbackSessions) {
             feedbackQuestions.addAll(getFeedbackQuestionsForSession(session.getFeedbackSessionName(), courseId));
         }
-        return feedbackQuestions.stream().filter(q -> q.getQuestionType().equals(questionType)).collect(Collectors.toList());
+        return feedbackQuestions.stream().filter(q -> q.getQuestionType() == questionType).collect(Collectors.toList());
     }
 
     // TODO can be removed once we are sure that question numbers will be consistent

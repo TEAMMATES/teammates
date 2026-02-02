@@ -9,7 +9,6 @@ describe('SessionPermanentDeletionConfirmModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SessionPermanentDeletionConfirmModalComponent],
       providers: [NgbActiveModal],
     })
     .compileComponents();

@@ -27,7 +27,6 @@ public class FeedbackSession extends BaseEntity {
      *
      * @see #generateId(String, String)
      */
-    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     @SuppressFBWarnings("URF_UNREAD_FIELD")
     @Id
     private transient String feedbackSessionId;

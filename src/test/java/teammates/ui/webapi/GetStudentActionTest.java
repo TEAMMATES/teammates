@@ -40,9 +40,9 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             assertEquals(student.getComments(), studentData.getComments());
 
             if (student.isRegistered()) {
-                assertTrue(studentData.getJoinState().equals(JoinState.JOINED));
+                assertEquals(JoinState.JOINED, studentData.getJoinState());
             } else {
-                assertTrue(studentData.getJoinState().equals(JoinState.NOT_JOINED));
+                assertEquals(JoinState.NOT_JOINED, studentData.getJoinState());
             }
         } else {
             assertNull(studentData.getComments());

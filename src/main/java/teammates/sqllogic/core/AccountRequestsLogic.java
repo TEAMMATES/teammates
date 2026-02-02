@@ -95,7 +95,7 @@ public final class AccountRequestsLogic {
     /**
      * Updates an account request.
      */
-    @SuppressWarnings("PMD")
+    @SuppressWarnings("PMD.PreserveStackTrace")
     public AccountRequest updateAccountRequestWithTransaction(AccountRequest accountRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
 
@@ -153,7 +153,7 @@ public final class AccountRequestsLogic {
 
         if (accountRequest == null) {
             throw new EntityDoesNotExistException("Failed to reset since AccountRequest with "
-                + "the given id cannot be found.");
+                    + "the given id cannot be found.");
         }
         accountRequest.setRegisteredAt(null);
 

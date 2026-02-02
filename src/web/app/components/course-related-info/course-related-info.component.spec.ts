@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { CourseRelatedInfoComponent } from './course-related-info.component';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 describe('CourseRelatedInfoComponent', () => {
   let component: CourseRelatedInfoComponent;
@@ -10,8 +9,7 @@ describe('CourseRelatedInfoComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CourseRelatedInfoComponent],
-      imports: [RouterModule.forRoot([]), TeammatesRouterModule],
+      providers: [provideRouter([])],
     })
     .compileComponents();
   }));

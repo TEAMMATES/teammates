@@ -1,21 +1,44 @@
+import { NgIf, NgFor, NgClass, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { ApiConst } from '../../../../types/api-const';
 import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
 import { getDefaultTimeFormat, getDefaultDateFormat } from '../../../../types/datetime-const';
+import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
 import { DatePickerFormatter } from '../../../components/datepicker/datepicker-formatter';
+import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
+import { RichTextEditorComponent } from '../../../components/rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
+import { NotificationStyleClassPipe } from '../../../components/teammates-common/notification-style-class.pipe';
+import {
+  NotificationStyleDescriptionPipe,
+} from '../../../components/teammates-common/notification-style-description.pipe';
+import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
 
 @Component({
-    selector: 'tm-notification-edit-form',
-    templateUrl: './notification-edit-form.component.html',
-    styleUrls: ['./notification-edit-form.component.scss'],
-    providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-notification-edit-form',
+  templateUrl: './notification-edit-form.component.html',
+  styleUrls: ['./notification-edit-form.component.scss'],
+  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
+  animations: [collapseAnim],
+  imports: [
+    NgIf,
+    NgbTooltip,
+    FormsModule,
+    NgFor,
+    NgClass,
+    RichTextEditorComponent,
+    DatepickerComponent,
+    TimepickerComponent,
+    AjaxLoadingComponent,
+    KeyValuePipe,
+    NotificationStyleDescriptionPipe,
+    NotificationStyleClassPipe,
+  ],
 })
 export class NotificationEditFormComponent {
 

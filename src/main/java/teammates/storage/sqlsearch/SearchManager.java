@@ -44,6 +44,25 @@ abstract class SearchManager<T extends BaseEntity> {
     private final HttpSolrClient client;
     private final boolean isResetAllowed;
 
+    /**
+     * Creates a SearchManager with the given Solr client.
+     * This constructor allows dependency injection for testing purposes.
+     *
+     * @param client the Solr client to use (can be null or a mock)
+     * @param isResetAllowed whether reset operations are allowed
+     */
+    protected SearchManager(HttpSolrClient client, boolean isResetAllowed) {
+        this.client = client;
+        this.isResetAllowed = Config.IS_DEV_SERVER && isResetAllowed;
+    }
+
+    /**
+     * Creates a SearchManager with the given search service host.
+     * This constructor maintains backward compatibility.
+     *
+     * @param searchServiceHost the Solr service host URL
+     * @param isResetAllowed whether reset operations are allowed
+     */
     SearchManager(String searchServiceHost, boolean isResetAllowed) {
         this.isResetAllowed = Config.IS_DEV_SERVER && isResetAllowed;
 

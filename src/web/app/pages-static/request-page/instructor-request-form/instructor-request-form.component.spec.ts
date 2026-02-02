@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NgxCaptchaModule } from 'ngx-captcha';
+import { provideRouter } from '@angular/router';
 import { Observable, first } from 'rxjs';
 import { AccountRequest } from 'src/web/types/api-output';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
@@ -56,9 +55,10 @@ describe('InstructorRequestFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorRequestFormComponent],
-      imports: [ReactiveFormsModule, NgxCaptchaModule],
-      providers: [{ provide: AccountService, useValue: accountServiceStub }],
+      providers: [
+        { provide: AccountService, useValue: accountServiceStub },
+        provideRouter([]),
+      ],
     })
     .compileComponents();
   }));

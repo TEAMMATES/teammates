@@ -7,6 +7,5 @@ import { Component } from '@angular/core';
     selector: 'tm-text-question-instruction',
     templateUrl: './text-question-instruction.component.html',
     styleUrls: ['./text-question-instruction.component.scss'],
-    standalone: false,
 })
 export class TextQuestionInstructionComponent {}

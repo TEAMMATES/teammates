@@ -140,7 +140,7 @@
         </module>
         <module name="SingleLineJavadoc"/>
         <module name="JavadocVariable">
-            <property name="scope" value="protected"/>
+            <property name="accessModifiers" value="protected"/>
         </module>
         <module name="CommentsIndentation"/>
         <module name="ImportOrder">

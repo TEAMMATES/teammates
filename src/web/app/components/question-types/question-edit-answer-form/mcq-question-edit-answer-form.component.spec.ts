@@ -1,27 +1,12 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeedbackMcqQuestionDetails } from 'src/web/types/api-output';
 import { McqQuestionEditAnswerFormComponent } from './mcq-question-edit-answer-form.component';
-import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 
 describe('McqQuestionEditAnswerFormComponent', () => {
   let component: McqQuestionEditAnswerFormComponent;
   let fixture: ComponentFixture<McqQuestionEditAnswerFormComponent>;
-
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [McqQuestionEditAnswerFormComponent],
-      imports: [
-        FormsModule,
-        RichTextEditorModule,
-        TeammatesCommonModule,
-      ],
-    })
-    .compileComponents();
-  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(McqQuestionEditAnswerFormComponent);

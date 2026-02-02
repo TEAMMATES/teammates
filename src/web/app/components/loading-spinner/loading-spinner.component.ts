@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
     selector: 'tm-loading-spinner',
     templateUrl: './loading-spinner.component.html',
     styleUrls: ['./loading-spinner.component.scss'],
-    standalone: false,
 })
 export class LoadingSpinnerComponent {
   loadingMessage: string = 'Loading...';
