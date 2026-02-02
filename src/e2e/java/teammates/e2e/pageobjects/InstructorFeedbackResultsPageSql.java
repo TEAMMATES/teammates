@@ -676,7 +676,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy();
         List<String> choices = questionDetails.getMcqChoices();
         List<Double> weights = questionDetails.getMcqWeights();
-        double otherWeight = questionDetails.getMcqOtherWeight();
+        Double otherWeight = questionDetails.getMcqOtherWeight();
         boolean isOtherEnabled = questionDetails.isOtherEnabled();
         boolean hasAssignedWeights = questionDetails.isHasAssignedWeights();
 
