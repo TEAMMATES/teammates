@@ -34,6 +34,7 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.NotificationsDb;
 import teammates.storage.api.StudentsDb;
 
@@ -51,6 +52,7 @@ public final class DataBundleLogic {
     private final CoursesDb coursesDb = CoursesDb.inst();
     private final DeadlineExtensionsDb deadlineExtensionsDb = DeadlineExtensionsDb.inst();
     private final StudentsDb studentsDb = StudentsDb.inst();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
     private final FeedbackSessionsDb fbDb = FeedbackSessionsDb.inst();
     private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
     private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
@@ -108,6 +110,7 @@ public final class DataBundleLogic {
         List<AccountRequestAttributes> newAccountRequests = accountRequestsDb.putEntities(accountRequests);
 
         List<CourseAttributes> newCourses = coursesDb.putEntities(courses);
+        List<InstructorAttributes> newInstructors = instructorsDb.putEntities(instructors);
         List<StudentAttributes> newStudents = studentsDb.putEntities(students);
         List<FeedbackSessionAttributes> newFeedbackSessions = fbDb.putEntities(sessions);
         List<DeadlineExtensionAttributes> newDeadlineExtensions = deadlineExtensionsDb.putEntities(deadlineExtensions);
@@ -123,6 +126,7 @@ public final class DataBundleLogic {
         updateDataBundleValue(newAccountRequests, dataBundle.accountRequests);
         updateDataBundleValue(newCourses, dataBundle.courses);
         updateDataBundleValue(newDeadlineExtensions, dataBundle.deadlineExtensions);
+        updateDataBundleValue(newInstructors, dataBundle.instructors);
         updateDataBundleValue(newStudents, dataBundle.students);
         updateDataBundleValue(newFeedbackSessions, dataBundle.feedbackSessions);
         updateDataBundleValue(createdQuestions, dataBundle.feedbackQuestions);
@@ -166,6 +170,13 @@ public final class DataBundleLogic {
         for (StudentAttributes student : students.values()) {
             StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.getCourse(), student.getEmail());
             studentsDb.putDocument(studentInDb);
+        }
+
+        Map<String, InstructorAttributes> instructors = dataBundle.instructors;
+        for (InstructorAttributes instructor : instructors.values()) {
+            InstructorAttributes instructorInDb =
+                    instructorsDb.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
+            instructorsDb.putDocument(instructorInDb);
         }
 
         Map<String, AccountRequestAttributes> accountRequests = dataBundle.accountRequests;
@@ -388,6 +399,7 @@ public final class DataBundleLogic {
                 fqDb.deleteFeedbackQuestions(query);
                 fbDb.deleteFeedbackSessions(query);
                 studentsDb.deleteStudents(query);
+                instructorsDb.deleteInstructors(query);
                 deadlineExtensionsDb.deleteDeadlineExtensions(query);
 
                 coursesDb.deleteCourse(courseId);
