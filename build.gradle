@@ -50,6 +50,7 @@ repositories {
 
 def objectify = "com.googlecode.objectify:objectify:6.0.7"
 def testng = "org.testng:testng:7.12.0"
+def jettyVersion = "12.1.6"
 
 dependencies {
     staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
@@ -75,12 +76,17 @@ dependencies {
     implementation("com.sun.jersey:jersey-client:1.19.4")
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
-    implementation("org.apache.solr:solr-solrj:8.11.3")
-    implementation(platform("org.eclipse.jetty:jetty-bom:11.0.20"))
+    implementation("org.apache.solr:solr-solrj:8.11.3") {
+        exclude group: "org.eclipse.jetty.http2", module: "http2-client"
+        exclude group: "org.eclipse.jetty.http2", module: "http2-common"
+        exclude group: "org.eclipse.jetty.http2", module: "http2-hpack"
+        exclude group: "org.eclipse.jetty.http2", module: "http2-http-client-transport"
+    }
+    implementation(platform("org.eclipse.jetty:jetty-bom:${jettyVersion}"))
     implementation("org.eclipse.jetty:jetty-slf4j-impl")
     implementation("org.eclipse.jetty:jetty-server")
-    implementation("org.eclipse.jetty:jetty-webapp")
-    implementation("org.eclipse.jetty:jetty-annotations")
+    implementation("org.eclipse.jetty.ee11:jetty-ee11-webapp:${jettyVersion}")
+    implementation("org.eclipse.jetty.ee11:jetty-ee11-annotations:${jettyVersion}")
     implementation("org.jsoup:jsoup:1.22.1")
     implementation("org.hibernate.orm:hibernate-core:6.4.4.Final")
     implementation("org.postgresql:postgresql:42.7.9")

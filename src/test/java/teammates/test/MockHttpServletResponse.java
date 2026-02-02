@@ -47,16 +47,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     @Override
-    public String encodeUrl(String url) {
-        return null;
-    }
-
-    @Override
-    public String encodeRedirectUrl(String url) {
-        return null;
-    }
-
-    @Override
     public void sendError(int sc, String msg) {
         // not used
     }
@@ -67,7 +57,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
 
     @Override
-    public void sendRedirect(String location) {
+    public void sendRedirect(String location, int sc, boolean clearBuffer) {
         this.redirectUrl = location;
     }
 
@@ -107,11 +97,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public void setStatus(int sc) {
-        this.statusCode = sc;
-    }
-
-    @Override
-    public void setStatus(int sc, String sm) {
         this.statusCode = sc;
     }
 
