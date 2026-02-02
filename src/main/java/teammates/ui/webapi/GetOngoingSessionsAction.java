@@ -64,6 +64,7 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
         return time;
     }
 
+    @SuppressWarnings("PMD.UselessPureMethodCall") // deliberately done for validation purpose
     private void validateTimeParameters(long startTime, long endTime) {
         try {
             // test for bounds

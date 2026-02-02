@@ -2,12 +2,12 @@
 # In order to deploy to one kind of runtime, the configuration for the other kind must be completely removed/commented out.
 
 ###########################################################################
-# App Engine Standard (Java 11) configuration
-# Reference: https://cloud.google.com/appengine/docs/standard/reference/app-yaml?tab=java
+# App Engine Standard (Java 21) configuration
+# Reference: https://docs.cloud.google.com/appengine/docs/standard/reference/app-yaml?tab=java
 ###########################################################################
 
-# Run/deploy with Java 11 runtime.
-runtime: java11
+# Run/deploy with Java 21 runtime.
+runtime: java21
 
 # Command to run the application as how it would be done in command line.
 entrypoint: >
@@ -30,7 +30,7 @@ instance_class: F1
 
 handlers:
   # These are the handlers for static files. By specifying them as static files, requests pointing to these URLs will not add up to instance load.
-  # Reference: https://cloud.google.com/appengine/docs/standard/reference/app-yaml?tab=java#handlers_element
+  # Reference: https://docs.cloud.google.com/appengine/docs/standard/reference/app-yaml?tab=java#handlers_element
 
   # Assets and front-end files
   - url: /assets
@@ -79,7 +79,7 @@ handlers:
 
 # Defines policy for automatic scaling (instance class F*).
 # If the application uses instance class B*, this part is not relevant.
-# Reference: https://cloud.google.com/appengine/docs/standard/reference/app-yaml?tab=java#scaling_elements
+# Reference: https://docs.cloud.google.com/appengine/docs/standard/reference/app-yaml?tab=java#scaling_elements
 automatic_scaling:
   # max_instances: 0
   # min_instances: 0
@@ -92,13 +92,13 @@ automatic_scaling:
   target_throughput_utilization: 0.6
 
 # Enable warmup request to reduce latency when new instances are created.
-# Reference: https://cloud.google.com/appengine/docs/standard/configuring-warmup-requests?tab=java
+# Reference: https://docs.cloud.google.com/appengine/docs/standard/configuring-warmup-requests?tab=java
 inbound_services:
   - warmup
 
 ###########################################################################
 # App Engine Flexible (custom runtime) configuration
-# Reference: https://cloud.google.com/appengine/docs/flexible/custom-runtimes/configuring-your-app-with-app-yaml
+# Reference: https://docs.cloud.google.com/appengine/docs/flexible/custom-runtimes/configuring-your-app-with-app-yaml
 ###########################################################################
 
 # Defines custom runtime for App Engine flexible environment

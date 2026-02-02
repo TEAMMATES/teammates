@@ -16,6 +16,7 @@ import teammates.common.util.Logger;
 
 /**
  * Provides Firebase Admin Auth authentication services.
+ *
  * <p>The FirebaseApp instance is initialized here.</p>
  * @see <a href="https://firebase.google.com/docs/reference/admin/java/reference/com/google/firebase/auth/package-summary">Firebase Admin Auth</a>
  */
