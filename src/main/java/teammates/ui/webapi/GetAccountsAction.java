@@ -1,9 +1,8 @@
 package teammates.ui.webapi;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Account;
@@ -20,19 +19,11 @@ public class GetAccountsAction extends AdminOnlyAction {
         String email = getNonNullRequestParamValue(Const.ParamsNames.USER_EMAIL);
         email = SanitizationHelper.sanitizeEmail(email);
 
-        List<AccountAttributes> premigratedAccounts = logic.getAccountsForEmail(email);
-        List<Account> migratedAccounts = sqlLogic.getAccountsForEmail(email);
-        List<AccountData> accounts = new ArrayList<>();
+        List<Account> accounts = sqlLogic.getAccountsForEmail(email);
+        List<AccountData> accountDataList = accounts.stream()
+                .map(AccountData::new).collect(Collectors.toList());
 
-        for (AccountAttributes accountAttribute : premigratedAccounts) {
-            accounts.add(new AccountData(accountAttribute));
-        }
-
-        for (Account account : migratedAccounts) {
-            accounts.add(new AccountData(account));
-        }
-
-        return new JsonResult(new AccountsData(accounts));
+        return new JsonResult(new AccountsData(accountDataList));
     }
 
 }
