@@ -1,4 +1,4 @@
-package teammates.logic.api;
+package teammates.sqllogic.api;
 
 import java.util.HashMap;
 import java.util.List;
