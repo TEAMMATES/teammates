@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.ErrorLogEntry;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -358,14 +359,20 @@ public final class SqlEmailGenerator {
      * found, generate an email stating that there is no such student in the system. If no feedback sessions are found,
      * generate an email stating no feedback sessions found.
      */
-    public EmailWrapper generateSessionLinksRecoveryEmailForStudent(String recoveryEmailAddress) {
+    public EmailWrapper generateSessionLinksRecoveryEmailForStudent(String recoveryEmailAddress,
+            String studentNameFromDatastore, Map<CourseAttributes, StringBuilder> dataStoreLinkFragmentMap) {
+
+        // Datastore attributes should be removed once migration is completed
+        String emptyName = "";
+        boolean noDataStoreStudent = studentNameFromDatastore.equals(emptyName); // student name cannot be empty
 
         List<Student> studentsForEmail = usersLogic.getAllStudentsForEmail(recoveryEmailAddress);
 
-        if (studentsForEmail.isEmpty()) {
+        if (studentsForEmail.isEmpty() && noDataStoreStudent) {
             return generateSessionLinksRecoveryEmailForNonExistentStudent(recoveryEmailAddress);
         } else {
-            return generateSessionLinksRecoveryEmailForExistingStudent(recoveryEmailAddress, studentsForEmail);
+            return generateSessionLinksRecoveryEmailForExistingStudent(recoveryEmailAddress, studentsForEmail,
+            studentNameFromDatastore, dataStoreLinkFragmentMap);
         }
     }
 
@@ -385,8 +392,9 @@ public final class SqlEmailGenerator {
     }
 
     private EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(String recoveryEmailAddress,
-            List<Student> studentsForEmail) {
-        assert !studentsForEmail.isEmpty();
+            List<Student> studentsForEmail, String studentNameFromDatastore,
+            Map<CourseAttributes, StringBuilder> dataStoreLinkFragmentMap) {
+        assert !studentsForEmail.isEmpty() || studentNameFromDatastore != null;
         int firstStudentIdx = 0;
 
         Map<Course, StringBuilder> linkFragmentsMap = generateLinkFragmentsMap(studentsForEmail);
@@ -395,11 +403,15 @@ public final class SqlEmailGenerator {
 
         String studentName;
 
-        studentName = studentsForEmail.get(firstStudentIdx).getName();
+        if (studentsForEmail.isEmpty()) {
+            studentName = studentNameFromDatastore;
+        } else {
+            studentName = studentsForEmail.get(firstStudentIdx).getName();
+        }
 
         var recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
 
-        if (linkFragmentsMap.isEmpty()) {
+        if (linkFragmentsMap.isEmpty() && dataStoreLinkFragmentMap.isEmpty()) {
             emailBody = Templates.populateTemplate(
                     EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE,
                     "${teammateHomePageLink}", Config.getFrontEndAppUrl("/").toAbsoluteString(),
@@ -416,6 +428,14 @@ public final class SqlEmailGenerator {
                 courseFragments.append(courseBody);
             });
 
+            // To remove after migrating to postgres
+            dataStoreLinkFragmentMap.forEach((course, linksFragments) -> {
+                String courseBody = Templates.populateTemplate(
+                        EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE,
+                        "${sessionFragment}", linksFragments.toString(),
+                        "${courseName}", course.getName());
+                courseFragments.append(courseBody);
+            });
             emailBody = Templates.populateTemplate(
                     EmailTemplates.SESSION_LINKS_RECOVERY_ACCESS_LINKS,
                     "${userName}", SanitizationHelper.sanitizeForHtml(studentName),
@@ -852,6 +872,23 @@ public final class SqlEmailGenerator {
 
     private boolean isYetToJoinCourse(Instructor instructor) {
         return instructor.getAccount() == null || instructor.getAccount().getGoogleId().isEmpty();
+    }
+
+    /**
+     * Generates the login email for the given user.
+     */
+    public EmailWrapper generateLoginEmail(String userEmail, String loginLink) {
+
+        String emailBody = Templates.populateTemplate(EmailTemplates.LOGIN_EMAIL,
+                "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),
+                "${loginLink}", loginLink);
+
+        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
+        email.setBcc(Config.SUPPORT_EMAIL);
+        email.setType(EmailType.LOGIN);
+        email.setSubjectFromType();
+        email.setContent(emailBody);
+        return email;
     }
 
     /**
