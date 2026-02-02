@@ -495,7 +495,7 @@
       },
       "answer": {
         "questionType": "MSQ",
-        "answers": ["Benny Charles (Team 1)", "Danny Engrid (Team 2)"],
+        "answers": ["Benny Charles (Team 1)", "Danny Engrid (Team 3)"],
         "isOther": false,
         "otherFieldContent": ""
       }
@@ -609,7 +609,7 @@
         },
         "answer": {
           "questionType": "MSQ",
-          "answers": ["Benny Charles (Team 1)", "Danny Engrid (Team 2)"],
+          "answers": ["Benny Charles (Team 1)", "Danny Engrid (Team 3)"],
           "isOther": false,
           "otherFieldContent": ""
         }
