@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import jetbrains.datalore.plot.common.colormap.C;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
@@ -53,6 +55,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelper;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
+import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 import teammates.ui.output.DeadlineExtensionData;
@@ -72,6 +75,7 @@ import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.output.StudentData;
+import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
 
 /**
@@ -830,6 +834,29 @@ public abstract class AbstractBackDoor {
                 .withCommentGiver(frc.getCommentGiver())
                 .withCommentText(frc.getCommentText())
                 .build();
+    }
+
+    /**
+     * Updates a feedback response comment via the backdoor.
+     * This triggers a new updatedAt timestamp in the database.
+     *
+     * @param commentId the ID of the comment to update
+     * @param commentText the new comment text
+     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     */
+    public void updateFeedbackResponseComment(Long commentId, String commentText, String instructorGoogleId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(commentId));
+        params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
+        params.put(Const.ParamsNames.USER_ID, instructorGoogleId);
+
+        FeedbackResponseCommentUpdateRequest body = new FeedbackResponseCommentUpdateRequest(
+            commentText,
+            new ArrayList<>(),
+            new ArrayList<>()
+        );
+
+        executePutRequest(Const.ResourceURIs.RESPONSE_COMMENT, params, JsonUtils.toJson(body));
     }
 
     /**

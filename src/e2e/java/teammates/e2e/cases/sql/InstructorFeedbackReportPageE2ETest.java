@@ -71,10 +71,11 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadSqlDataBundle("/InstructorFeedbackReportPageE2ETestSql.json"));
-        studentToEmail = testData.students.get("IFRep.emily@CS2103");
+            loadSqlDataBundle("/InstructorFeedbackReportPageE2ETestSql.json"));
 
+        studentToEmail = testData.students.get("IFRep.emily@CS2103");
         instructor = testData.instructors.get("IFRep.instr.CS2104");
+
         FeedbackSession fileSession = testData.feedbackSessions.get("Open Session 2");
         fileName = "/" + fileSession.getCourseId() + "_" + fileSession.getName() + "_result.csv";
         instructors = testData.instructors.values();
@@ -120,6 +121,10 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         responseWithComment = testData.feedbackResponses.get("qn2response1");
         FeedbackResponseComment sqlComment = testData.feedbackResponseComments.get("qn2Comment2");
+        // Update the comment via API to ensure updatedAt differs from createdAt
+        // (The frontend only shows "edited by" when lastEditedAt !== createdAt)
+        updateFeedbackResponseComment(sqlComment.getId(), 
+                sqlComment.getCommentText() + " (edited)", instructor.getGoogleId());
         comment = sqlComment;
     }
 
