@@ -35,6 +35,10 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
 
+        if (feedbackQuestion == null) {
+            throw new EntityNotFoundException("Feedback Question not found");
+        }
+
         FeedbackSession feedbackSession =
                 getNonNullFeedbackSession(feedbackQuestion.getFeedbackSession().getName(),
                                                 feedbackQuestion.getCourseId());
@@ -67,6 +71,10 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
         feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+
+        if (feedbackQuestion == null) {
+            throw new EntityNotFoundException("Feedback Question not found");
+        }
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
