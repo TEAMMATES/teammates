@@ -6,6 +6,7 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
   commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
+  currInstructorName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
@@ -57,6 +58,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
+  currInstructorName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
@@ -108,6 +110,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
+  currInstructorName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}

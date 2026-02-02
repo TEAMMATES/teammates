@@ -7,6 +7,7 @@ import { RequestPageComponent } from './request-page.component';
 describe('RequestPageComponent', () => {
   let component: RequestPageComponent;
   let fixture: ComponentFixture<RequestPageComponent>;
+  let mathRandomSpy;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -20,9 +21,21 @@ describe('RequestPageComponent', () => {
   }));
 
   beforeEach(() => {
+    // ngx-captcha assigns random ID based on Date and Math.random
+    // Here, both of them are mocked to ensure consistent results
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-01-01T00:00:00Z'));
+    mathRandomSpy = jest.spyOn(global.Math, 'random');
+    mathRandomSpy.mockReturnValue(0.12345);
+
     fixture = TestBed.createComponent(RequestPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+    mathRandomSpy.mockRestore();
   });
 
   it('should create', () => {

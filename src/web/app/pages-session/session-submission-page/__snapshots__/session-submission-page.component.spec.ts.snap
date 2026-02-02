@@ -9,6 +9,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -170,6 +171,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -328,6 +330,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -486,6 +489,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -3889,6 +3893,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -7030,6 +7035,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
@@ -7189,6 +7195,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
   autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
