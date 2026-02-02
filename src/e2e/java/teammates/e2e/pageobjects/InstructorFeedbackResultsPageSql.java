@@ -676,7 +676,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy();
         List<String> choices = questionDetails.getMcqChoices();
         List<Double> weights = questionDetails.getMcqWeights();
-        Double otherWeight = questionDetails.getMcqOtherWeight();
+        double otherWeight = questionDetails.getMcqOtherWeight();
         boolean isOtherEnabled = questionDetails.isOtherEnabled();
         boolean hasAssignedWeights = questionDetails.isHasAssignedWeights();
 
@@ -1119,7 +1119,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                 .orElse(null);
 
         if (teamName == null) {
-            throw new RuntimeException("cannot find section name for " + participant);
+            throw new RuntimeException("cannot find team name for " + participant);
         }
 
         return teamName;
