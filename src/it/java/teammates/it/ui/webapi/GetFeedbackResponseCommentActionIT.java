@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.Student;
@@ -45,7 +44,7 @@ public class GetFeedbackResponseCommentActionIT extends BaseActionIT<GetFeedback
         FeedbackResponseComment expectedComment = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(fr.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };
 
         GetFeedbackResponseCommentAction action = getAction(params);
@@ -67,7 +66,7 @@ public class GetFeedbackResponseCommentActionIT extends BaseActionIT<GetFeedback
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(fr.getId().toString()),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };
 
         verifyCanAccess(submissionParams);

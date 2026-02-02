@@ -1,6 +1,6 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import {
   CommentOutput, FeedbackQuestion, FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails, ResponseOutput,
@@ -13,15 +13,8 @@ import {
   CommentVisibilityType, FeedbackParticipantType, FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-request';
-import {
-  ResponseModerationButtonModule,
-} from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
-import { CommentBoxModule } from '../../comment-box/comment-box.module';
 import { CommentRowModel } from '../../comment-box/comment-row/comment-row.component';
-import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
-import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
-import { SingleResponseModule } from '../single-response/single-response.module';
+import { CommentTableModel } from '../../comment-box/comment-table/comment-table.model';
 
 describe('PerQuestionViewResponsesComponent', () => {
   let component: PerQuestionViewResponsesComponent;
@@ -31,15 +24,9 @@ describe('PerQuestionViewResponsesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PerQuestionViewResponsesComponent],
-      imports: [
-        SingleResponseModule,
-        CommentBoxModule,
-        TeammatesCommonModule,
-        HttpClientTestingModule,
-        RichTextEditorModule,
-        RouterModule,
-        ResponseModerationButtonModule,
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
       .compileComponents();

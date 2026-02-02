@@ -1,18 +1,17 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import moment from 'moment-timezone';
 import SpyInstance = jest.SpyInstance;
 import { SessionEditFormMode } from './session-edit-form-model';
 import { SessionEditFormComponent } from './session-edit-form.component';
-import { SessionEditFormModule } from './session-edit-form.module';
 import { DateTimeService } from '../../../services/datetime.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/api-output';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 describe('SessionEditFormComponent', () => {
   let component: SessionEditFormComponent;
@@ -25,11 +24,10 @@ describe('SessionEditFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SessionEditFormModule,
-        HttpClientTestingModule,
-        RouterTestingModule,
-        TeammatesRouterModule,
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -8,6 +9,7 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Account, Course, Courses } from '../../../types/api-output';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -17,6 +19,11 @@ import { ErrorMessageOutput } from '../../error-message-output';
   selector: 'tm-admin-accounts-page',
   templateUrl: './admin-accounts-page.component.html',
   styleUrls: ['./admin-accounts-page.component.scss'],
+  imports: [
+    LoadingSpinnerDirective,
+    NgIf,
+    NgFor,
+  ],
 })
 export class AdminAccountsPageComponent implements OnInit {
 

@@ -1,4 +1,10 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
+import { DataPoint } from './data-point.model';
+import { StatsLineChartComponent } from './stats-line-chart/stats-line-chart.component';
+
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { UsageStatisticsService } from '../../../services/usage-statistics.service';
@@ -10,6 +16,7 @@ import {
   getDefaultTimeFormat,
   Milliseconds,
 } from '../../../types/datetime-const';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 export enum StatisticsType {
@@ -36,11 +43,6 @@ interface FormQueryModel {
   aggregationType: AggregationType;
 }
 
-export interface DataPoint {
-  value: number;
-  date: string;
-}
-
 /**
  * Usage statistics page.
  */
@@ -48,6 +50,14 @@ export interface DataPoint {
   selector: 'tm-usage-statistics-page',
   templateUrl: './usage-statistics-page.component.html',
   styleUrls: ['./usage-statistics-page.component.scss'],
+  imports: [
+    NgbInputDatepicker,
+    FormsModule,
+    NgbTimepicker,
+    NgIf,
+    LoadingSpinnerDirective,
+    StatsLineChartComponent,
+  ],
 })
 export class UsageStatisticsPageComponent implements OnInit {
 

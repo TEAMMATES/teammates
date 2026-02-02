@@ -1,8 +1,10 @@
+import { NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { JoinStatePipe } from '../../../components/student-list/join-state.pipe';
-import { StudentListRowModel } from '../../../components/student-list/student-list.component';
+import { StudentListRowModel, StudentListComponent } from '../../../components/student-list/student-list.component';
+import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highlighter.pipe';
 
 /**
  * Search result for a list of students in a course
@@ -19,6 +21,11 @@ export interface SearchStudentsListRowTable {
   selector: 'tm-student-result-table',
   templateUrl: './student-result-table.component.html',
   styleUrls: ['./student-result-table.component.scss'],
+  imports: [
+    NgFor,
+    StudentListComponent,
+    SearchTermsHighlighterPipe,
+  ],
 })
 export class StudentResultTableComponent {
 

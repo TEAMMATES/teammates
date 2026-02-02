@@ -1,10 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
 import { SessionsTableComponent } from './sessions-table.component';
-import { SessionsTableModule } from './sessions-table.module';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -13,7 +13,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 
 describe('SessionsTableComponent', () => {
   let component: SessionsTableComponent;
@@ -21,7 +20,11 @@ describe('SessionsTableComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SessionsTableModule, HttpClientTestingModule, RouterTestingModule, TeammatesRouterModule],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     })
     .compileComponents();
   }));

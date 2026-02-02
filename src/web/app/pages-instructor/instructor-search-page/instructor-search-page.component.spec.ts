@@ -1,10 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
-import { InstructorSearchPageModule } from './instructor-search-page.module';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
 import { HttpRequestService } from '../../../services/http-request.service';
 import createSpyFromClass from '../../../test-helpers/create-spy-from-class';
@@ -58,19 +58,20 @@ describe('InstructorSearchPageComponent', () => {
   beforeEach(() => {
     spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     });
   });
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        InstructorSearchPageModule,
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

@@ -1,14 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CommentTableModel } from './comment-table/comment-table.component';
+import { CommentTableModel } from './comment-table/comment-table.model';
 import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 import { CommentOutput } from '../../../types/api-output';
 
 /**
  * Transforms comments to readonly comment table model.
  */
-@Pipe({
-  name: 'commentsToCommentTableModel',
-})
+@Pipe({ name: 'commentsToCommentTableModel' })
 export class CommentsToCommentTableModelPipe implements PipeTransform {
   constructor(private commentToCommentRowModel: CommentToCommentRowModelPipe) {
   }

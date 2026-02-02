@@ -1,4 +1,7 @@
+import { NgClass, NgFor, NgStyle, NgIf, NgComponentOutlet } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, Type, EventEmitter, Output } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { DynamicComponent, ComponentOutletInjectorDirective, DynamicIoDirective } from 'ng-dynamic-component';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 
@@ -65,6 +68,17 @@ export interface SortableTableCellData {
   selector: 'tm-sortable-table',
   templateUrl: './sortable-table.component.html',
   styleUrls: ['./sortable-table.component.scss'],
+  imports: [
+    NgClass,
+    NgFor,
+    NgStyle,
+    NgIf,
+    NgbTooltip,
+    DynamicComponent,
+    NgComponentOutlet,
+    ComponentOutletInjectorDirective,
+    DynamicIoDirective,
+  ],
 })
 export class SortableTableComponent implements OnInit, OnChanges {
 

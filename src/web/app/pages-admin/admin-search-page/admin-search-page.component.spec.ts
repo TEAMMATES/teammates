@@ -1,13 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { provideRouter } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { AdminSearchPageComponent } from './admin-search-page.component';
-import { AdminSearchPageModule } from './admin-search-page.module';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -81,14 +80,13 @@ describe('AdminSearchPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        FormsModule,
-        HttpClientTestingModule,
-        NgbTooltipModule,
         BrowserAnimationsModule,
-        RouterTestingModule,
-        AdminSearchPageModule,
       ],
-      providers: [AccountService, SearchService, StatusMessageService, NgbModal],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     })
     .compileComponents();
   }));

@@ -1,5 +1,7 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { default as index } from '../../../data/index.json';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 
 /**
  * Index page.
@@ -8,6 +10,7 @@ import { default as index } from '../../../data/index.json';
   selector: 'tm-index-page',
   templateUrl: './index-page.component.html',
   styleUrls: ['./index-page.component.scss'],
+  imports: [TeammatesRouterDirective, NgIf],
 })
 export class IndexPageComponent implements OnInit {
 

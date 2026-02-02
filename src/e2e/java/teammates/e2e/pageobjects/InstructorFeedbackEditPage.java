@@ -471,15 +471,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         List<FeedbackParticipantType> possibleTypes = new ArrayList<>(Arrays.asList(FeedbackParticipantType.RECEIVER,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
-        if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
+        if (giver != FeedbackParticipantType.STUDENTS) {
             possibleTypes.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         }
-        if (!receiver.equals(FeedbackParticipantType.STUDENTS)) {
+        if (receiver != FeedbackParticipantType.STUDENTS) {
             possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         }
-        if (receiver.equals(FeedbackParticipantType.NONE)
-                || receiver.equals(FeedbackParticipantType.SELF)
-                || receiver.equals(FeedbackParticipantType.OWN_TEAM)) {
+        if (receiver == FeedbackParticipantType.NONE
+                || receiver == FeedbackParticipantType.SELF
+                || receiver == FeedbackParticipantType.OWN_TEAM) {
             possibleTypes.remove(FeedbackParticipantType.RECEIVER);
             possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         }
@@ -543,7 +543,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetailsCopy().getQuestionText());
         setQuestionDescription(questionNum, feedbackQuestion.getQuestionDescription());
         FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
-        if (!questionType.equals(FeedbackQuestionType.CONTRIB)) {
+        if (questionType != FeedbackQuestionType.CONTRIB) {
             setFeedbackPath(questionNum, feedbackQuestion);
             setQuestionVisibility(questionNum, feedbackQuestion);
         }
@@ -1133,15 +1133,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         List<FeedbackParticipantType> possibleTypes = new ArrayList<>(Arrays.asList(FeedbackParticipantType.RECEIVER,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
-        if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
+        if (giver != FeedbackParticipantType.STUDENTS) {
             possibleTypes.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         }
-        if (!receiver.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)) {
+        if (receiver != FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
             possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         }
-        if (receiver.equals(FeedbackParticipantType.NONE)
-                || receiver.equals(FeedbackParticipantType.SELF)
-                || receiver.equals(FeedbackParticipantType.OWN_TEAM)) {
+        if (receiver == FeedbackParticipantType.NONE
+                || receiver == FeedbackParticipantType.SELF
+                || receiver == FeedbackParticipantType.OWN_TEAM) {
             possibleTypes.remove(FeedbackParticipantType.RECEIVER);
             possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         }
@@ -1258,7 +1258,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private boolean verifyGeneratedOptions(int questionNum, FeedbackParticipantType participantType) {
-        if (!participantType.equals(FeedbackParticipantType.NONE)) {
+        if (participantType != FeedbackParticipantType.NONE) {
             assertTrue(getGenerateOptionsCheckbox(questionNum).isSelected());
             assertEquals(getSelectedDropdownOptionText(getGenerateOptionsDropdown(questionNum)),
                     getGeneratedOptionString(participantType));
@@ -1311,7 +1311,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private boolean inputGenerateOptions(int questionNum, FeedbackParticipantType participantType) {
-        if (!participantType.equals(FeedbackParticipantType.NONE)) {
+        if (participantType != FeedbackParticipantType.NONE) {
             markOptionAsSelected(getGenerateOptionsCheckbox(questionNum));
             selectDropdownOptionByText(getGenerateOptionsDropdown(questionNum),
                     getGeneratedOptionString(participantType));

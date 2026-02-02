@@ -1,6 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
@@ -19,14 +20,7 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackQuestionModel } from '../../pages-session/session-result-page/session-result-page.component';
-import { LoadingRetryModule } from '../loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
-import { SingleStatisticsModule } from '../question-responses/single-statistics/single-statistics.module';
-import {
-  StudentViewResponsesModule,
-} from '../question-responses/student-view-responses/student-view-responses.module';
-import { QuestionTextWithInfoModule } from '../question-text-with-info/question-text-with-info.module';
+import { FeedbackQuestionModel } from '../../pages-session/session-result-page/feedback-question.model';
 
 describe('QuestionResponsePanelComponent', () => {
 
@@ -208,19 +202,11 @@ describe('QuestionResponsePanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        QuestionResponsePanelComponent,
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        SingleStatisticsModule,
-        StudentViewResponsesModule,
-        QuestionTextWithInfoModule,
-        LoadingSpinnerModule,
-        LoadingRetryModule,
-      ],
-      providers: [FeedbackSessionsService],
     })
     .compileComponents();
   }));

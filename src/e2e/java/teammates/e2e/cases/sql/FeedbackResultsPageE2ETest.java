@@ -219,7 +219,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         if (comment.getLastEditorEmail() != null) {
             editor = getIdentifier(currentStudent, comment.getLastEditorEmail());
         }
-        if (!comment.getGiverType().equals(FeedbackParticipantType.STUDENTS)) {
+        if (comment.getGiverType() != FeedbackParticipantType.STUDENTS) {
             giver = getIdentifier(currentStudent, comment.getGiver());
         }
         resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());

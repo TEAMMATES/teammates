@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 /**
  * The input field to specify constsum options to choose from.
@@ -7,6 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'tm-constsum-options-field',
   templateUrl: './constsum-options-field.component.html',
   styleUrls: ['./constsum-options-field.component.scss'],
+  imports: [FormsModule],
 })
 export class ConstsumOptionsFieldComponent {
 
