@@ -36,7 +36,6 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
         }
     }
 
-
     /**
      * Validates comment of corresponding response doesn't exist in datastore.
      */

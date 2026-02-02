@@ -130,16 +130,16 @@ public final class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQ
     @Override
     public String toString() {
         return "FeedbackQuestionAttributes [feedbackSessionName="
-               + feedbackSessionName + ", courseId=" + courseId
-               + ", questionText="
-               + getSerializedQuestionDetails() + ", questionDescription=" + questionDescription
-               + ", questionNumber=" + questionNumber
-               + ", questionType=" + getQuestionType() + ", giverType=" + giverType
-               + ", recipientType=" + recipientType
-               + ", numberOfEntitiesToGiveFeedbackTo="
-               + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
-               + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
-               + ", showRecipientNameTo=" + showRecipientNameTo + "]";
+                + feedbackSessionName + ", courseId=" + courseId
+                + ", questionText="
+                + getSerializedQuestionDetails() + ", questionDescription=" + questionDescription
+                + ", questionNumber=" + questionNumber
+                + ", questionType=" + getQuestionType() + ", giverType=" + giverType
+                + ", recipientType=" + recipientType
+                + ", numberOfEntitiesToGiveFeedbackTo="
+                + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
+                + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
+                + ", showRecipientNameTo=" + showRecipientNameTo + "]";
     }
 
     @Override
@@ -177,8 +177,8 @@ public final class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQ
      * Does not check if any responses exist.
      */
     public boolean areResponseDeletionsRequiredForChanges(FeedbackQuestionAttributes newAttributes) {
-        if (!newAttributes.giverType.equals(this.giverType)
-                || !newAttributes.recipientType.equals(this.recipientType)) {
+        if (newAttributes.giverType != this.giverType
+                || newAttributes.recipientType != this.recipientType) {
             return true;
         }
 
