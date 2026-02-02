@@ -2,8 +2,7 @@
 <p>This page allows you to view the logs in the past {{ LOGS_RETENTION_PERIOD_IN_DAYS }} days.</p>
 @if (isTableView) {
   <button (click)="switchView()" class="btn btn-info">Switch to histogram view</button>
-}
-@if (!isTableView) {
+} @else {
   <button (click)="switchView()" class="btn btn-info">Switch to table view</button>
 }
 <hr/>
@@ -213,9 +212,7 @@
               </div>
             }
           </div>
-        }
-
-        @if (!isTableView) {
+        } @else {
           <div>
             <div id="histogram" style="height: 400px; width: 100%;" *tmIsLoading="isSearching">
               @if (histogramResult.length>0) {

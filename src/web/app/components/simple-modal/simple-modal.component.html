@@ -28,8 +28,7 @@
     <div>
       <ng-container *ngTemplateOutlet="content"></ng-container>
     </div>
-  }
-  @if (!isTemplate) {
+  } @else {
     <div [innerHTML]="content"></div>
   }
   @if (type === SimpleModalType.LOAD) {

@@ -21,11 +21,12 @@
             Options are weighted
           </label>
         </div>
-      }
-      @if (model.hasAssignedWeights && !isGeneratedOptionsEnabled) {
-        <div class="form-check float-end" aria-hidden="true">
-          Weights &#8595;
-        </div>
+
+        @if (model.hasAssignedWeights) {
+          <div class="form-check float-end" aria-hidden="true">
+            Weights &#8595;
+          </div>
+        }
       }
     </div>
     @if (!isGeneratedOptionsEnabled) {

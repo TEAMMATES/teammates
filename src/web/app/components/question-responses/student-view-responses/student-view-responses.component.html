@@ -5,7 +5,7 @@
   <div class="card-body table-responsive" style="padding: 0;">
     <table class="table">
       <tbody>
-        @for (response of responses; track response) {
+        @for (response of responses; track response.responseId) {
           <tr>
             <td class="response-giver">
               <strong>From:</strong> {{ response.giver }}

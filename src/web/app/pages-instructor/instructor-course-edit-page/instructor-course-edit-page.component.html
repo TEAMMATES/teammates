@@ -32,7 +32,16 @@
     }
   </div>
 </tm-loading-retry>
-@if (!isAddingNewInstructor) {
+@if (isAddingNewInstructor) {
+  <div @collapseAnim>
+    <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
+      [isSavingNewInstructor]="isSavingNewInstructor"
+      [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
+      (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
+      (saveInstructor)="addNewInstructor()" (cancelEditing)="isAddingNewInstructor = false;"
+      [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-instructor-edit-panel>
+  </div>
+} @else {
   <div class="card-body text-center">
     <button id="btn-add-instructor" class="btn btn-success mx-2 my-1" type="button" (click)="isAddingNewInstructor = true" [disabled]="isCopyingInstructor">
       Add New Instructor
@@ -42,15 +51,5 @@
         <tm-ajax-loading></tm-ajax-loading>
         }Copy Instructors from Other Courses
       </button>
-    </div>
-  }
-  @if (isAddingNewInstructor) {
-    <div @collapseAnim>
-      <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
-        [isSavingNewInstructor]="isSavingNewInstructor"
-        [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
-        (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
-        (saveInstructor)="addNewInstructor()" (cancelEditing)="isAddingNewInstructor = false;"
-      [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-instructor-edit-panel>
     </div>
   }

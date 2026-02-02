@@ -1,21 +1,15 @@
 @if (answer === CONTRIBUTION_POINT_NOT_SURE) {
   <span class="color-negative">Not Sure</span>
-}
-@if (answer === 0) {
+} @else if (answer === 0) {
   <span class="color-negative">0%</span>
-}
-@if (answer === CONTRIBUTION_POINT_NOT_SUBMITTED) {
+} @else if (answer === CONTRIBUTION_POINT_NOT_SUBMITTED) {
   <span class="color-neutral">N/A</span>
-}
-@if (answer === CONTRIBUTION_POINT_NOT_INITIALIZED) {
+} @else if (answer === CONTRIBUTION_POINT_NOT_INITIALIZED) {
   <span class="color-neutral"></span>
-}
-@if (answer === CONTRIBUTION_POINT_EQUAL_SHARE) {
+} @else if (answer === CONTRIBUTION_POINT_EQUAL_SHARE) {
   <span class="color-neutral">Equal Share</span>
-}
-@if (answer > CONTRIBUTION_POINT_EQUAL_SHARE) {
+} @else if (answer > CONTRIBUTION_POINT_EQUAL_SHARE) {
   <span class="color-positive">Equal Share +{{ answer - 100 }}%</span>
-}
-@if (answer < CONTRIBUTION_POINT_EQUAL_SHARE && answer > 0) {
+} @else if (answer < CONTRIBUTION_POINT_EQUAL_SHARE && answer > 0) {
   <span class="color-negative">Equal Share -{{ 100 - answer }}%</span>
 }

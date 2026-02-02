@@ -4,8 +4,7 @@
     existing timings are no longer valid in these courses: {{ coursesOfModifiedSession.join(', ') }}.
     The changes are as follows:
   </p>
-}
-@if (coursesOfModifiedSession.length === 0) {
+} @else {
   <p>
     The course has been added. However, changes are made to some session timings as the existing timings are
     no longer valid. The changes are as follows:
@@ -21,7 +20,7 @@
     </tr>
   </thead>
   <tbody>
-    @for (session of this.modifiedSessions | keyvalue; track session) {
+    @for (session of this.modifiedSessions | keyvalue; track session.key) {
       <tr
         [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.submissionStartTimestamp === session.value.newTimestamp.submissionStartTimestamp}">
         <td rowspan="4">{{ session.key }}</td>

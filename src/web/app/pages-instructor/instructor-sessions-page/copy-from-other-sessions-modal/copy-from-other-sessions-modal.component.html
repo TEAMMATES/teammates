@@ -8,7 +8,7 @@
       <div class="form-group">
         <label>Create in course</label>
         <select id="copy-course-id" class="form-control form-select" [(ngModel)]="copyToCourseId">
-          @for (course of courseCandidates; track course) {
+          @for (course of courseCandidates; track course.courseId) {
             <option
             [ngValue]="course.courseId">{{ course.courseId }}</option>
           }

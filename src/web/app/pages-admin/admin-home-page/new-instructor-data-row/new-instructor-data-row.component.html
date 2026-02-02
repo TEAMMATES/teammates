@@ -1,25 +1,22 @@
 <td>
-  @if (!isBeingEdited) {
-    <span id="instructor-{{ index }}-name">{{ instructor.name }}</span>
-  }
   @if (isBeingEdited) {
     <input class="form-control" type="text" id="instructor-{{ index }}-name-input" [(ngModel)]="editedInstructorName">
+  } @else {
+    <span id="instructor-{{ index }}-name">{{ instructor.name }}</span>
   }
 </td>
 <td>
-  @if (!isBeingEdited) {
-    <span id="instructor-{{ index }}-email">{{ instructor.email }}</span>
-  }
   @if (isBeingEdited) {
     <input class="form-control" type="text" id="instructor-{{ index }}-email-input" [(ngModel)]="editedInstructorEmail">
+  } @else {
+    <span id="instructor-{{ index }}-email">{{ instructor.email }}</span>
   }
 </td>
 <td>
-  @if (!isBeingEdited) {
-    <span id="instructor-{{ index }}-institution">{{ instructor.institution }}</span>
-  }
   @if (isBeingEdited) {
     <input class="form-control" type="text" id="instructor-{{ index }}-institution-input" [(ngModel)]="editedInstructorInstitution">
+  } @else {
+    <span id="instructor-{{ index }}-institution">{{ instructor.institution }}</span>
   }
 </td>
 <td style="width: 17%;">

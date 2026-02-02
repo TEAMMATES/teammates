@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody id="tz-java">
-        @for (tz of javaTimezones | keyvalue; track tz) {
+        @for (tz of javaTimezones | keyvalue; track tz.key) {
           <tr>
             <td>{{ tz.key }}</td>
             <td>UTC{{ tz.value > 0 ? '+' : '' }}{{ tz.value ? tz.value / 60 / 60 : '' }}</td>
@@ -30,7 +30,7 @@
         </tr>
       </thead>
       <tbody id="tz-moment">
-        @for (tz of momentTimezones | keyvalue; track tz) {
+        @for (tz of momentTimezones | keyvalue; track tz.key) {
           <tr>
             <td>{{ tz.key }}</td>
             <td>UTC{{ tz.value > 0 ? '+' : '' }}{{ tz.value ? tz.value / 60 : '' }}</td>

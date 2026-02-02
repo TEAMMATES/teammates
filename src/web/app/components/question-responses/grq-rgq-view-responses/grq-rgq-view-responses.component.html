@@ -27,10 +27,9 @@
       </div>
     }
   </div>
-}
-@if (!groupByTeam) {
+} @else {
   <div>
-    @for (userInfo of userExpanded | keyvalue; track trackByName($index, userInfo)) {
+    @for (userInfo of userExpanded | keyvalue; track userInfo.key) {
       <div>
         <ng-container
           [ngTemplateOutlet]="userTab"
@@ -89,8 +88,7 @@
                   [isLastGroupedResponses]="isLast"></tm-grouped-responses>
               </div>
             }
-          }
-          @if (!userHasRealResponses[userInfo]) {
+          } @else {
             <div id="no-responses" class="top-padded">
               <i>
                 There are no responses {{ isGrq ? 'given' : 'received' }} by this user or you may not have the permission to see the responses.

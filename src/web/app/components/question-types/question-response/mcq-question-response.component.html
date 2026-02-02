@@ -1,6 +1,5 @@
-@if (!responseDetails.isOther) {
-  <span [innerHTML]="responseDetails.answer | safeHtml"></span>
-}
 @if (responseDetails.isOther) {
   <span>{{ responseDetails.otherFieldContent }}</span>
+} @else {
+  <span [innerHTML]="responseDetails.answer | safeHtml"></span>
 }

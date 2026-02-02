@@ -1,18 +1,5 @@
 <tr [attr.aria-label]="getAriaLabel()">
   <td>
-    @if (!questionDetails.questionDropdownEnabled) {
-      <div>
-        @for (num of questionDetails.mcqChoices; track num; let i = $index) {
-          <div class="radio">
-            <label class="margin-right-15px">
-              <input type="radio" class="margin-right-15px" name="mcq-{{ id }}" [checked]="isMcqOptionSelected[i]"
-                (click)="updateSelectedMcqOption(i)" [disabled]="isDisabled">
-              <span class="option-text" id="radioOptionSpan" [innerHTML]="questionDetails.mcqChoices[i] | safeHtml"></span>
-            </label>
-          </div>
-        }
-      </div>
-    }
     @if (questionDetails.questionDropdownEnabled) {
       <div >
         {{updateParentCss(true)}}
@@ -24,6 +11,18 @@
             [selected]="isMcqOptionSelected[i]" [disabled]="isDisabled">{{ questionDetails.mcqChoices[i] }}</option>
           }
         </select>
+      </div>
+    } @else {
+      <div>
+        @for (num of questionDetails.mcqChoices; track num; let i = $index) {
+          <div class="radio">
+            <label class="margin-right-15px">
+              <input type="radio" class="margin-right-15px" name="mcq-{{ id }}" [checked]="isMcqOptionSelected[i]"
+                (click)="updateSelectedMcqOption(i)" [disabled]="isDisabled">
+              <span class="option-text" id="radioOptionSpan" [innerHTML]="questionDetails.mcqChoices[i] | safeHtml"></span>
+            </label>
+          </div>
+        }
       </div>
     }
     @if (questionDetails.otherEnabled) {

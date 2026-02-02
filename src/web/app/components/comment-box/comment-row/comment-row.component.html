@@ -23,8 +23,7 @@
             <span class="by-response-giver text-secondary">
               Comment by response giver.
             </span>
-          }
-          @if (!isFeedbackParticipantComment) {
+          } @else {
             <ng-container class="text-secondary">
               <span class="comment-giver-name">{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at </span>
               <span class="ngb-tooltip-class" style="margin-right: .25rem;" [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone!">

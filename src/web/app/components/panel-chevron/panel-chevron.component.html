@@ -1,8 +1,7 @@
 <button type="button" class="chevron btn-course btn btn-primary btn-sm" aria-label="Expand panel" [attr.aria-expanded]=isExpanded>
-  @if (!isExpanded) {
-    <i class="fas fa-chevron-down" [style.color]="chevronColor"></i>
-  }
   @if (isExpanded) {
     <i class="fas fa-chevron-up" [style.color]="chevronColor"></i>
+  } @else {
+    <i class="fas fa-chevron-down" [style.color]="chevronColor"></i>
   }
 </button>

@@ -4,8 +4,7 @@
       <div class="text-color-gray mt-2">
         @if (isStudent) {
           <strong>Summary of responses received by you</strong>
-        }
-        @if (!isStudent) {
+        } @else {
           <strong>Response Summary</strong>
         }
       </div>

@@ -134,13 +134,11 @@
           }
           @if (formMode === NotificationEditFormMode.EDIT) {
             <div>
-              @if (formMode === NotificationEditFormMode.EDIT) {
                 <button id="btn-edit-notification" type="button" class="btn btn-success" [disabled]="model.isSaving" (click)="submitFormHandler()">
                   @if (model.isSaving) {
                     <tm-ajax-loading></tm-ajax-loading>
                     }Save Changes
-                  </button>
-                }
+                </button>
               </div>
             }
           </div>

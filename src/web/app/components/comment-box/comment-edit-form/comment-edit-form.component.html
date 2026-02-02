@@ -12,13 +12,13 @@
   }
   <div class="col-6">
     <div class="float-end">
-      <span>
         @if (isVisibilityOptionEnabled) {
-          <button class="btn btn-info btn-sm" (click)="toggleVisibilityTable()">
-            <i class="fas fa-eye"></i> {{ isVisibilityTableExpanded ? "Hide" : "Show" }} Visibility Options</button>
-          }
-        </span>
-        @if (!isVisibilityOptionEnabled) {
+          <span>
+            <button class="btn btn-info btn-sm" (click)="toggleVisibilityTable()">
+              <i class="fas fa-eye"></i> {{ isVisibilityTableExpanded ? "Hide" : "Show" }} Visibility Options
+            </button>
+          </span>
+        } @else {
           <span style="margin-left: 10px;">
             @if (!shouldHideClosingButton) {
               <button type="button" class="btn-close" aria-label="Close" (click)="triggerCloseCommentBoxEvent()"></button>

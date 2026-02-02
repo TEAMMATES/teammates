@@ -1511,8 +1511,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 <div
                                   class="float-end"
                                 >
-                                  <span>
-                                  </span>
                                   <span
                                     style="margin-left: 10px;"
                                   >
@@ -4624,8 +4622,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 <div
                                   class="float-end"
                                 >
-                                  <span>
-                                  </span>
                                   <span
                                     style="margin-left: 10px;"
                                   >

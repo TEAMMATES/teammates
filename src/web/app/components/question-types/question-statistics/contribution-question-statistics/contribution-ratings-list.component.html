@@ -5,8 +5,7 @@
     }
     <tm-contribution [value]="rating"></tm-contribution>
   </span>
-}
-@if (!ratingsList.length) {
+} @empty {
   <span>
     <tm-contribution [value]="CONTRIBUTION_POINT_NOT_SUBMITTED"></tm-contribution>
   </span>

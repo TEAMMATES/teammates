@@ -14,8 +14,7 @@
       >N/A</span>
     }
   </span>
-}
-@if (!diffOnly) {
+} @else {
   <span>
     @if (value > 100) {
       <span class="positive">E +{{ value - 100 }}%</span>

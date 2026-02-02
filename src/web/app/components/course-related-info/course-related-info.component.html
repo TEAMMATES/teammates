@@ -15,8 +15,7 @@
             <a href="javascript:;">
               <span>{{student?.courseId}}</span>
             </a>
-          }
-          @if (!isDisplayOnly) {
+          } @else {
             <a tmRouterLink="/web/instructor/courses/details" [queryParams]="{courseid: student?.courseId}">
               <span>{{student?.courseId}}</span>
             </a>

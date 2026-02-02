@@ -1,7 +1,6 @@
 @if (questionDetails.distributeToRecipients) {
   <span>{{ responseDetails.answers }}</span>
-}
-@if (!questionDetails.distributeToRecipients) {
+} @else {
   <ul>
     @for (answer of optionToAnswer | keyvalue; track answer) {
       <li>{{ answer.key }}: {{ answer.value }}</li>

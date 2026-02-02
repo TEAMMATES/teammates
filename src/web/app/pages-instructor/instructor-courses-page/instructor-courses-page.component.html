@@ -99,7 +99,7 @@
                 <ng-template #loadingSpinner>
                   <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
                 </ng-template>
-                @for (course of activeCourses; track course; let i = $index) {
+                @for (course of activeCourses; track course.course.courseId; let i = $index) {
                   <tr>
                     <td id="course-id-{{ i }}" class="text-break">{{course.course.courseId}}</td>
                     <td class="text-break">{{course.course.courseName}}</td>
@@ -110,7 +110,11 @@
                       </span>
                     </td>
                     <td>
-                      @if (!courseStats[course.course.courseId]) {
+                      @if (courseStats[course.course.courseId]) {
+                        <span>
+                          {{ courseStats[course.course.courseId]['sections'] }}
+                        </span>
+                      } @else {
                         <span>
                           @if (!course.isLoadingCourseStats) {
                             <button
@@ -121,14 +125,13 @@
                           }
                         </span>
                       }
-                      @if (courseStats[course.course.courseId]) {
-                        <span>
-                          {{ courseStats[course.course.courseId]['sections'] }}
-                        </span>
-                      }
                     </td>
                     <td>
-                      @if (!courseStats[course.course.courseId]) {
+                      @if (courseStats[course.course.courseId]) {
+                        <span>
+                          {{ courseStats[course.course.courseId]['teams'] }}
+                        </span>
+                      } @else {
                         <span>
                           @if (!course.isLoadingCourseStats) {
                             <button id="show-statistics-{{ i }}"
@@ -139,32 +142,13 @@
                           }
                         </span>
                       }
-                      @if (courseStats[course.course.courseId]) {
-                        <span>
-                          {{ courseStats[course.course.courseId]['teams'] }}
-                        </span>
-                      }
                     </td>
                     <td>
-                      @if (!courseStats[course.course.courseId]) {
-                        <span>
-                          @if (!course.isLoadingCourseStats) {
-                            <button
-                              (click)="getCourseStats(i)" class="link-button" > Show
-                            </button>
-                          } @else {
-                            <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
-                          }
-                        </span>
-                      }
                       @if (courseStats[course.course.courseId]) {
                         <span>
                           {{ courseStats[course.course.courseId]['students'] }}
                         </span>
-                      }
-                    </td>
-                    <td>
-                      @if (!courseStats[course.course.courseId]) {
+                      } @else {
                         <span>
                           @if (!course.isLoadingCourseStats) {
                             <button
@@ -175,9 +159,21 @@
                           }
                         </span>
                       }
+                    </td>
+                    <td>
                       @if (courseStats[course.course.courseId]) {
                         <span>
                           {{ courseStats[course.course.courseId]['unregistered'] }}
+                        </span>
+                      } @else {
+                        <span>
+                          @if (!course.isLoadingCourseStats) {
+                            <button
+                              (click)="getCourseStats(i)" class="link-button" > Show
+                            </button>
+                          } @else {
+                            <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
+                          }
                         </span>
                       }
                     </td>
@@ -188,8 +184,7 @@
                           [queryParams]="{courseid: course.course.courseId}">
                           Enroll
                         </a>
-                      }
-                      @if (!course.canModifyStudent) {
+                      } @else {
                         <button id="btn-enroll-disabled-{{ i }}" class="btn btn-light btn-sm disabled"
                           >
                           Enroll
@@ -234,8 +229,7 @@
                               container="body">
                               Delete
                             </button>
-                          }
-                          @if (!course.canModifyCourse) {
+                          } @else {
                             <button id="btn-soft-delete-disabled-{{ i }}" class="btn btn-primary btn-sm dropdown-item disabled"
                               >
                               Delete

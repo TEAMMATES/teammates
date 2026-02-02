@@ -20,8 +20,7 @@
     <div>
       Based on the above settings, acceptable responses are: {{ possibleValues }}
     </div>
-  }
-  @if (model.step <= 0) {
+  } @else {
     <div class="text-danger">
       The step size must be a positive number!
     </div>

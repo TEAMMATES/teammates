@@ -8,18 +8,17 @@
     }
     <div class="card-header-btn-toolbar">
       @if (isInEditMode) {
-        @if (!isEditing) {
-          <button id="btn-edit-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse"
-            (click)="setIsEditing($event)">
-            <i class="fa fa-pen" aria-hidden="true"></i>
-            Edit
-          </button>
-        }
         @if (isEditing) {
           <button id="btn-cancel-course" class="btn btn-primary btn-sm" [disabled]="isSaving"
             (click)="discardChangesHandler()">
             <i class="fa fa-times" aria-hidden="true"></i>
             Cancel
+          </button>
+        } @else {
+          <button id="btn-edit-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse"
+            (click)="setIsEditing($event)">
+            <i class="fa fa-pen" aria-hidden="true"></i>
+            Edit
           </button>
         }
         <button id="btn-delete-course" class="btn btn-primary btn-sm"
@@ -32,11 +31,10 @@
       @if (isInAddMode) {
         <button id="btn-copy-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse"
           (click)="copyCourseHandler()" [disabled]="isCopying || isInstitutesArrayEmpty">
-          @if (!isCopying) {
-            <i class="fa fa-copy" aria-hidden="true"></i>
-          }
           @if (isCopying) {
             <tm-ajax-loading></tm-ajax-loading>
+          } @else {
+            <i class="fa fa-copy" aria-hidden="true"></i>
           }
           Copy from previous courses
         </button>
@@ -107,7 +105,7 @@
           <div class="input-group">
             <select id="time-zone" class="form-control form-select" name="timeZone" #timeZone="ngModel"
               [(ngModel)]="model.course.timeZone" [disabled]="isInputDisabled" required>
-              @for (timezone of model.timezones; track timezone) {
+              @for (timezone of model.timezones; track timezone.id) {
                 <option [value]="timezone.id">{{ timezone.id }} ({{
                 timezone.offset }})</option>
               }

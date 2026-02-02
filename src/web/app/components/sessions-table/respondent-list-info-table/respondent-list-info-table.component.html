@@ -181,8 +181,7 @@
               <td>
                 @if (instructorListInfoTableRowModel.hasSubmittedSession) {
                   <span>Yes</span>
-                }
-                @if (!instructorListInfoTableRowModel.hasSubmittedSession) {
+                } @else {
                   <span>No</span>
                 }
               </td>

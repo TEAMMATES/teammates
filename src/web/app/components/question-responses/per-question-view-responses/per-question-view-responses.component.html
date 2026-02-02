@@ -18,8 +18,6 @@
                 </span>
               </button>
             </th>
-          }
-          @if (showGiver) {
             <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_NAME)" [attr.aria-sort]="getAriaSort(SortBy.GIVER_NAME)">
               <button>
                 Giver
@@ -50,8 +48,6 @@
                 </span>
               </button>
             </th>
-          }
-          @if (showRecipient) {
             <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_NAME)" [attr.aria-sort]="getAriaSort(SortBy.RECIPIENT_NAME)">
               <button>
                 Recipient
@@ -77,8 +73,6 @@
           <tr [class.color-neutral]="response.isMissingResponse">
             @if (showGiver) {
               <td>{{ response.giverTeam }}</td>
-            }
-            @if (showGiver) {
               <td>
                 {{ response.giver === '-' ? 'No Specific User' : response.giver}}
                 {{response.giverEmail? " (" + response.giverEmail + ")" : ""}}
@@ -88,8 +82,6 @@
               <td>
                 {{ response.recipientTeam === '-' ? 'No Specific Team' : response.recipientTeam}}
               </td>
-            }
-            @if (showRecipient) {
               <td>
                 {{ response.recipient === '-' ? 'No Specific User' : response.recipient}}
                 {{response.recipientEmail? " (" + response.recipientEmail + ")" : ""}}
@@ -123,8 +115,7 @@
       </tbody>
     </table>
   </div>
-}
-@if (!responsesToShow.length) {
+} @else {
   <div id="no-responses">
     <i>There are no responses for this question or you may not have the permission to see the response.</i>
   </div>

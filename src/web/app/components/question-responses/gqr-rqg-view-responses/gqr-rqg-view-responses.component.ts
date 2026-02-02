@@ -21,7 +21,6 @@ import { SingleStatisticsComponent } from '../single-statistics/single-statistic
 
 interface QuestionTab {
   questionOutput: QuestionOutput;
-
   isTabExpanded: boolean;
 }
 

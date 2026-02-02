@@ -16,7 +16,7 @@
     </button>
     <ul id="feedback-path-dropdown" ngbDropdownMenu>
       <li class="dropdown-header">Common feedback path combinations</li>
-      @for (path of commonFeedbackPaths | keyvalue; track path) {
+      @for (path of commonFeedbackPaths | keyvalue; track path.key) {
         <li ngbDropdown #subMenu="ngbDropdown">
           <div class="text-wrap dropdown-item">
             <button class="dropdown-button" (click)="toggleSubMenu(path.key)">
@@ -53,7 +53,7 @@
         <div class="row">
           <div class="col-12">
             <select id="giver-type" class="form-control form-select" [ngModel]="model.giverType"  (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
-              @for (path of allowedFeedbackPaths | keyvalue; track path) {
+              @for (path of allowedFeedbackPaths | keyvalue; track path.key) {
                 <option [ngValue]="path.key">{{ path.key | giverTypeDescription }}</option>
               }
             </select>

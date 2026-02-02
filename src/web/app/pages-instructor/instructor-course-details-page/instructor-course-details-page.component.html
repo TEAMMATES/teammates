@@ -57,20 +57,18 @@
                 Remind Students to Join
               </button>
               <button id="btn-download" type="button" class="btn btn-primary btn-margin-left" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
-                @if (!isLoadingCsv) {
-                  <i class="fa fa-download"></i>
-                }
                 @if (isLoadingCsv) {
                   <tm-ajax-loading></tm-ajax-loading>
+                } @else {
+                  <i class="fa fa-download"></i>
                 }
                 Download Student List
               </button>
               <button id="btn-delete-all" type="button" class="btn btn-danger btn-margin-left" (click)="openDeleteAllStudentsConfirmationModal()" value="Delete All Students">
-                @if (!isDeleting) {
-                  <i class="fa fa-trash"></i>
-                }
                 @if (isDeleting) {
                   <tm-ajax-loading></tm-ajax-loading>
+                } @else {
+                  <i class="fa fa-trash"></i>
                 }
                 Delete All Students
               </button>

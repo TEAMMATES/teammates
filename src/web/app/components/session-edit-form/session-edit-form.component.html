@@ -14,7 +14,7 @@
             </div>
             <div class="col-12 col-sm-9 create-new-dropdown-div">
               <select id="session-type" class="form-control form-select" [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
-                @for (templateSession of templateSessions; track templateSession) {
+                @for (templateSession of templateSessions; track templateSession.name) {
                   <option [ngValue]="templateSession.name">{{ templateSession.name }}</option>
                 }
               </select>
@@ -75,7 +75,7 @@
                   @if (formMode === SessionEditFormMode.ADD) {
                     <div>
                       <select id="add-course-id" class="form-control form-select" [ngClass]="{'is-invalid': courseCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="courseIdChangeHandler($event)" [disabled]="courseCandidates.length === 0">
-                        @for (course of courseCandidates; track course) {
+                        @for (course of courseCandidates; track course.courseId) {
                           <option [ngValue]="course.courseId">{{ course.courseId }}</option>
                         }
                       </select>
@@ -114,8 +114,7 @@
                 <div class="col-md-2 text-md-end font-bold">
                   @if (formMode === SessionEditFormMode.ADD) {
                     <span class="ngb-tooltip-class" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">Session Name*</span>
-                  }
-                  @if (formMode !== SessionEditFormMode.ADD) {
+                  } @else {
                     <span>Session Name</span>
                   }
                 </div>
@@ -233,17 +232,16 @@
                     </div>
                   </div>
                   <div class="row">
-                    @if (formMode !== SessionEditFormMode.ADD) {
-                      <a class="ps-3 pt-2"
-                        tmRouterLink="/web/instructor/sessions/individual-extension"
-                        [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName, preselectnonsubmitters: false }">
-                        Individual Deadline Extensions
-                        <i class="fas fa-edit"></i>
-                      </a>
-                    }
                     @if (formMode === SessionEditFormMode.ADD) {
                       <a class="ps-3 pt-2 disabled-link ngb-tooltip-class"
                         ngbTooltip="You must save the new session before setting individual deadline extensions">
+                        Individual Deadline Extensions
+                        <i class="fas fa-edit"></i>
+                      </a>
+                    } @else {
+                      <a class="ps-3 pt-2"
+                        tmRouterLink="/web/instructor/sessions/individual-extension"
+                        [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName, preselectnonsubmitters: false }">
                         Individual Deadline Extensions
                         <i class="fas fa-edit"></i>
                       </a>
@@ -253,13 +251,6 @@
               </div>
             </div>
           </div>
-
-          @if (!model.hasVisibleSettingsPanelExpanded) {
-            <div class="margin-top-20px">
-              <span class="text-muted">Session is visible at submission opening time, responses are only visible when you publish the results.</span>
-              <button id="btn-change-visibility" type="button" class="btn btn-link" (click)="triggerModelChange('hasVisibleSettingsPanelExpanded', true)" [disabled]="!model.isEditable">[Change]</button>
-            </div>
-          }
           @if (model.hasVisibleSettingsPanelExpanded) {
             <div class="card border-primary margin-top-20px" @collapseAnim>
               <div class="card-body">
@@ -352,11 +343,10 @@
                 </div>
               </div>
             </div>
-          }
-          @if (!model.hasEmailSettingsPanelExpanded) {
-            <div>
-              <span class="text-muted">Emails are sent when session opens (within 15 minutes), 24 hrs before session closes and when results are published.</span>
-              <button id="btn-change-email" type="button" class="btn btn-link" (click)="triggerModelChange('hasEmailSettingsPanelExpanded', true)" [disabled]="!model.isEditable">[Change]</button>
+          } @else {
+            <div class="margin-top-20px">
+              <span class="text-muted">Session is visible at submission opening time, responses are only visible when you publish the results.</span>
+              <button id="btn-change-visibility" type="button" class="btn btn-link" (click)="triggerModelChange('hasVisibleSettingsPanelExpanded', true)" [disabled]="!model.isEditable">[Change]</button>
             </div>
           }
           @if (model.hasEmailSettingsPanelExpanded) {
@@ -390,6 +380,11 @@
                 </div>
               </div>
             </div>
+          } @else {
+            <div>
+              <span class="text-muted">Emails are sent when session opens (within 15 minutes), 24 hrs before session closes and when results are published.</span>
+              <button id="btn-change-email" type="button" class="btn btn-link" (click)="triggerModelChange('hasEmailSettingsPanelExpanded', true)" [disabled]="!model.isEditable">[Change]</button>
+            </div>
           }
           <div class="row margin-top-20px">
             <div class="col-12 text-center">
@@ -408,13 +403,11 @@
                 }
                 @if (formMode === SessionEditFormMode.EDIT) {
                   <div>
-                    @if (formMode === SessionEditFormMode.EDIT) {
                       <button type="button" class="btn btn-success" [disabled]="model.isSaving || !model.isEditable" (click)="submitFormHandler()">
                         @if (model.isSaving) {
                           <tm-ajax-loading></tm-ajax-loading>
                           }Save Changes
                         </button>
-                      }
                     </div>
                   }
                 </div>

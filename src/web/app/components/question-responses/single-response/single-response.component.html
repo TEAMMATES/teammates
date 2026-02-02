@@ -1,27 +1,29 @@
-@if (responseDetails.questionType === FeedbackQuestionType.CONTRIB) {
-  <tm-contribution-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails" [statistics]="statistics" [giverEmail]="giverEmail" [recipientEmail]="recipientEmail"></tm-contribution-question-response>
-}
-@if (responseDetails.questionType === FeedbackQuestionType.TEXT) {
-  <tm-text-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-text-question-response>
-}
-@if (responseDetails.questionType === FeedbackQuestionType.CONSTSUM) {
-  <tm-constsum-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-constsum-question-response>
-}
-@if (responseDetails.questionType === FeedbackQuestionType.NUMSCALE) {
-  <tm-num-scale-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-num-scale-question-response>
-}
-@if (responseDetails.questionType === FeedbackQuestionType.RUBRIC) {
-  <tm-rubric-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails" [isStudentPage]="isStudentPage"></tm-rubric-question-response>
-}
-@if (responseDetails.questionType === FeedbackQuestionType.RANK_OPTIONS) {
-  <tm-rank-options-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-options-question-response>
-}
-@if (responseDetails.questionType === FeedbackQuestionType.RANK_RECIPIENTS) {
-  <tm-rank-recipients-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-recipients-question-response>
-}
-@if (responseDetails.questionType === FeedbackQuestionType.MSQ) {
-  <tm-msq-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-msq-question-response>
-}
-@if (responseDetails.questionType === FeedbackQuestionType.MCQ) {
-  <tm-mcq-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-mcq-question-response>
+@switch (responseDetails.questionType) {
+  @case (FeedbackQuestionType.CONTRIB) {
+    <tm-contribution-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails" [statistics]="statistics" [giverEmail]="giverEmail" [recipientEmail]="recipientEmail"></tm-contribution-question-response>
+  }
+  @case (FeedbackQuestionType.TEXT) {
+    <tm-text-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-text-question-response>
+  }
+  @case (FeedbackQuestionType.CONSTSUM) {
+    <tm-constsum-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-constsum-question-response>
+  }
+  @case (FeedbackQuestionType.NUMSCALE) {
+    <tm-num-scale-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-num-scale-question-response>
+  }
+  @case (FeedbackQuestionType.RUBRIC) {
+    <tm-rubric-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails" [isStudentPage]="isStudentPage"></tm-rubric-question-response>
+  }
+  @case (FeedbackQuestionType.RANK_OPTIONS) {
+    <tm-rank-options-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-options-question-response>
+  }
+  @case (FeedbackQuestionType.RANK_RECIPIENTS) {
+    <tm-rank-recipients-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-recipients-question-response>
+  }
+  @case (FeedbackQuestionType.MSQ) {
+    <tm-msq-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-msq-question-response>
+  }
+  @case (FeedbackQuestionType.MCQ) {
+    <tm-mcq-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-mcq-question-response>
+  }
 }

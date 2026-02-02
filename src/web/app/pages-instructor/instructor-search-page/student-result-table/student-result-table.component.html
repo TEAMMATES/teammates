@@ -1,4 +1,4 @@
-@for (course of studentTables; track course) {
+@for (course of studentTables; track course.courseId) {
   <div class="card border border-light-blue mb-3 student-course-table">
     <div class="card-header alert alert-primary alert-no-bottom fw-bold text-break" [innerHtml]="'[' + course.courseId + ']' | highlighter:searchString:true"></div>
     <div class="card-body p-0">

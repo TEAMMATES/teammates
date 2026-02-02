@@ -21,19 +21,17 @@
         <button type="button" class="btn btn-light btn-sm" (click)="triggerResponseDetailsChange('answers', [])" [disabled]="isDisabled">Clear Points</button>
       </div>
     </div>
-  }
-  @if (responseDetails.answers.length !== 0) {
     <div class="row">
       <div class="col-12">
         @if (totalAnsweredPoints < totalRequiredPoints) {
           <p class="text-danger"><span class="fa fa-times"></span>
         Actual total is {{ totalAnsweredPoints }}! Distribute the remaining {{ totalRequiredPoints - totalAnsweredPoints }} points.</p>
       }
-      @if (totalAnsweredPoints > totalRequiredPoints) {
+      @else if (totalAnsweredPoints > totalRequiredPoints) {
         <p class="text-danger"><span class="fa fa-times"></span>
       Actual total is {{ totalAnsweredPoints }}! Remove the extra  {{ totalAnsweredPoints - totalRequiredPoints }} points allocated.</p>
     }
-    @if (totalAnsweredPoints === totalRequiredPoints) {
+    @else {
       <p class="text-success"><span class="fa fa-check"></span>
     All points distributed!</p>
   }

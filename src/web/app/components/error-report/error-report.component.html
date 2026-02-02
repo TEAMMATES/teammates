@@ -13,8 +13,7 @@
               Please help us troubleshoot the problem by providing us some additional details using the form below:
             </p>
           </div>
-        }
-        @if (!errorReportEnabled) {
+        } @else {
           <div>
             <p>
               We are sorry that this happened.
@@ -45,13 +44,12 @@
           <label>Content:</label>
           <textarea [(ngModel)]="content" class="form-control" placeholder="Tell us the steps you took that led you to this error page"></textarea>
         </div>
-        @if (!errorReportSubmitted) {
-          <button class="btn btn-success" (click)="sendErrorReport()" [disabled]="!sendButtonEnabled">Send Error Report</button>
-        }
         @if (errorReportSubmitted) {
           <div>
             Your error report has been recorded. We will follow up with you in due course, usually, within 24 hours.
           </div>
+        } @else {
+          <button class="btn btn-success" (click)="sendErrorReport()" [disabled]="!sendButtonEnabled">Send Error Report</button>
         }
       </div>
     }

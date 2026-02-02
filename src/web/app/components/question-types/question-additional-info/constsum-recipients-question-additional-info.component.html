@@ -2,8 +2,7 @@ Distribute points (among recipients) question
 <br>
   @if (questionDetails.pointsPerOption) {
     <span>Points per recipient:</span>
-  }
-  @if (!questionDetails.pointsPerOption) {
+  } @else {
     <span>Total points:</span>
   }
   {{ questionDetails.points }}

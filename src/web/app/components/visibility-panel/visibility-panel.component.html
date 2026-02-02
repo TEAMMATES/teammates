@@ -10,13 +10,12 @@
   </div>
   <div ngbDropdown class="margin-top-15px">
     <button id="btn-question-visibility" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable">
-      @if (!model.isUsingOtherVisibilitySetting) {
+      @if (model.isUsingOtherVisibilitySetting) {
+        <span>Custom visibility options</span>
+      } @else {
         <span>
           {{ model.commonVisibilitySettingName }}
         </span>
-      }
-      @if (model.isUsingOtherVisibilitySetting) {
-        <span>Custom visibility options</span>
       }
     </button>
     <ul id="question-visibility-dropdown" ngbDropdownMenu>
@@ -28,8 +27,6 @@
       }
       @if (isCustomFeedbackVisibilitySettingAllowed) {
         <li class="dropdown-divider" aria-hidden="true"></li>
-      }
-      @if (isCustomFeedbackVisibilitySettingAllowed) {
         <li class="text-wrap dropdown-item">
           <button class="dropdown-button" (click)="triggerCustomVisibilitySetting()">Custom visibility options...</button>
         </li>

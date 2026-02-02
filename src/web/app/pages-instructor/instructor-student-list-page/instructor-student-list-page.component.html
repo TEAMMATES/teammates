@@ -22,7 +22,7 @@
           </div>
         </div>
       }
-      @for (courseTab of courseTabList; track courseTab) {
+      @for (courseTab of courseTabList; track courseTab.course.courseId) {
         <div class="course-table">
           <div class="card">
             <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(courseTab)">

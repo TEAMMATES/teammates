@@ -16,7 +16,7 @@
           [(ngModel)]="emailOfStudentToPreview"
           aria-label="Select student to preview as"
           >
-          @for (student of studentsOfCourse; track student) {
+          @for (student of studentsOfCourse; track student.email) {
             <option [ngValue]="student.email">
               [{{ student.teamName }}] {{ student.name }}
             </option>
@@ -73,7 +73,7 @@
           [(ngModel)]="emailOfInstructorToPreview"
           aria-label="Select instructor to preview as"
           >
-          @for (instructor of instructorsCanBePreviewedAs; track instructor) {
+          @for (instructor of instructorsCanBePreviewedAs; track instructor.email) {
             <option [ngValue]="instructor.email">
               {{ instructor.name }}
             </option>

@@ -53,7 +53,7 @@
                 @if (question.responsesFromSelf.length) {
                   <div class="given-responses mt-4">
                     <strong>Your own responses (to others):</strong>
-                    @for (responseFromSelf of question.responsesFromSelf; track responseFromSelf) {
+                    @for (responseFromSelf of question.responsesFromSelf; track responseFromSelf.responseId) {
                       <div>
                         <tm-student-view-responses [responses]="[responseFromSelf]" [isSelfResponses]="true" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
                       </div>

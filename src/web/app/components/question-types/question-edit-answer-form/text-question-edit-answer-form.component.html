@@ -1,18 +1,15 @@
-@if (!questionDetails.shouldAllowRichText) {
+@if (questionDetails.shouldAllowRichText) {
+  <tm-rich-text-editor role="textbox" [attr.aria-label]="getAriaLabel()" [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
+} @else {
   <div class="plain-text-area">
     <textarea [ngModel]="decodedAnswer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [attr.aria-label]="getAriaLabel()" [disabled]="isDisabled"></textarea>
   </div>
-}
-@if (questionDetails.shouldAllowRichText) {
-  <tm-rich-text-editor role="textbox" [attr.aria-label]="getAriaLabel()" [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
 }
 <div class="margin-top-7px text-secondary text-end">
   @if (questionDetails.recommendedLength) {
     <div id="recommended-length">
       Recommended length for the answer: {{ questionDetails.recommendedLength }} words
     </div>
-  }
-  @if (questionDetails.recommendedLength) {
     <div id="response-length" [ngClass]="{'text-success': isWordCountWithinRecommendedBound }">
       Response length: {{ wordCount }} words
     </div>
