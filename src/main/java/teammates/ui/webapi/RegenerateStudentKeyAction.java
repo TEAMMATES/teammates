@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
@@ -64,17 +62,6 @@ public class RegenerateStudentKeyAction extends AdminOnlyAction {
     private boolean sendEmail(Student student) {
         EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
                 student.getCourseId(), student.getEmail(), EmailType.STUDENT_COURSE_LINKS_REGENERATED);
-        EmailSendingStatus status = emailSender.sendEmail(email);
-        return status.isSuccess();
-    }
-
-    /**
-     * Sends the regenerated course join and feedback session links to the student.
-     * @return true if the email was sent successfully, and false otherwise.
-     */
-    private boolean sendEmail(StudentAttributes student) {
-        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
-                student.getCourse(), student.getEmail(), EmailType.STUDENT_COURSE_LINKS_REGENERATED);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }
