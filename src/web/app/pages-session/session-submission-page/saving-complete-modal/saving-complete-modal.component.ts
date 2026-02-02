@@ -1,3 +1,4 @@
+import { NgClass, NgIf, NgFor, KeyValuePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
@@ -14,10 +15,15 @@ import {
  * Modal to inform the completion of the saving process
  */
 @Component({
-    selector: 'tm-saving-complete-modal',
-    templateUrl: './saving-complete-modal.component.html',
-    styleUrls: ['./saving-complete-modal.component.scss'],
-    standalone: false,
+  selector: 'tm-saving-complete-modal',
+  templateUrl: './saving-complete-modal.component.html',
+  styleUrls: ['./saving-complete-modal.component.scss'],
+  imports: [
+    NgClass,
+    NgIf,
+    NgFor,
+    KeyValuePipe,
+  ],
 })
 export class SavingCompleteModalComponent {
 

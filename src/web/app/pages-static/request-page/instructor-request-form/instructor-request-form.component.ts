@@ -1,18 +1,29 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgxCaptchaModule } from 'ngx-captcha';
 import { finalize } from 'rxjs';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
 import { FormValidator } from '../../../../types/form-validator';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 @Component({
-    selector: 'tm-instructor-request-form',
-    templateUrl: './instructor-request-form.component.html',
-    styleUrls: ['./instructor-request-form.component.scss'],
-    standalone: false,
+  selector: 'tm-instructor-request-form',
+  templateUrl: './instructor-request-form.component.html',
+  styleUrls: ['./instructor-request-form.component.scss'],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    NgxCaptchaModule,
+    NgbAlert,
+    TeammatesRouterDirective,
+  ],
 })
 export class InstructorRequestFormComponent {
 

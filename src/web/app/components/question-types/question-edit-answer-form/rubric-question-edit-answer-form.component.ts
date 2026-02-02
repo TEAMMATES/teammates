@@ -1,3 +1,4 @@
+import { NgFor, NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
@@ -14,10 +15,10 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
  * The rubric question submission form for a recipient.
  */
 @Component({
-    selector: 'tm-rubric-question-edit-answer-form',
-    templateUrl: './rubric-question-edit-answer-form.component.html',
-    styleUrls: ['./rubric-question-edit-answer-form.component.scss'],
-    standalone: false,
+  selector: 'tm-rubric-question-edit-answer-form',
+  templateUrl: './rubric-question-edit-answer-form.component.html',
+  styleUrls: ['./rubric-question-edit-answer-form.component.scss'],
+  imports: [NgFor, NgClass],
 })
 export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent
     <FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails> {

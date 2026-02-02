@@ -10,7 +10,6 @@ import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/defa
     selector: 'tm-rank-recipients-question-additional-info',
     templateUrl: './rank-recipients-question-additional-info.component.html',
     styleUrls: ['./rank-recipients-question-additional-info.component.scss'],
-    standalone: false,
 })
 export class RankRecipientsQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackRankRecipientsQuestionDetails> {

@@ -1,17 +1,29 @@
+import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   Instructor,
   Student,
 } from '../../../types/api-output';
+import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 
 /**
  * Displaying the preview session panel.
  */
 @Component({
-    selector: 'tm-preview-session-panel',
-    templateUrl: './preview-session-panel.component.html',
-    styleUrls: ['./preview-session-panel.component.scss'],
-    standalone: false,
+  selector: 'tm-preview-session-panel',
+  templateUrl: './preview-session-panel.component.html',
+  styleUrls: ['./preview-session-panel.component.scss'],
+  imports: [
+    NgClass,
+    FormsModule,
+    NgFor,
+    NgIf,
+    TeammatesRouterDirective,
+    NgbTooltip,
+    NgTemplateOutlet,
+  ],
 })
 export class PreviewSessionPanelComponent {
 

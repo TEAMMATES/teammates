@@ -1,3 +1,4 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +15,11 @@ import {
   InstructorSectionLevelPermission,
   InstructorSessionLevelPermission,
 } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
-import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
+import {
+  EditMode,
+  InstructorEditPanel,
+  InstructorEditPanelComponent,
+} from './instructor-edit-panel/instructor-edit-panel.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
@@ -51,13 +56,18 @@ import {
 } from '../../../types/default-instructor-privilege';
 import { FormValidator } from '../../../types/form-validator';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import {
   CourseEditFormMode,
   CourseEditFormModel,
   DEFAULT_COURSE_EDIT_FORM_MODEL,
 } from '../../components/course-edit-form/course-edit-form-model';
+import { CourseEditFormComponent } from '../../components/course-edit-form/course-edit-form.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   CoursesSectionQuestions,
@@ -74,11 +84,20 @@ interface InstructorEditPanelDetail {
  * Instructor course edit page.
  */
 @Component({
-    selector: 'tm-instructor-course-edit-page',
-    templateUrl: './instructor-course-edit-page.component.html',
-    styleUrls: ['./instructor-course-edit-page.component.scss'],
-    animations: [collapseAnim],
-    standalone: false,
+  selector: 'tm-instructor-course-edit-page',
+  templateUrl: './instructor-course-edit-page.component.html',
+  styleUrls: ['./instructor-course-edit-page.component.scss'],
+  animations: [collapseAnim],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    CourseEditFormComponent,
+    TeammatesRouterDirective,
+    NgFor,
+    InstructorEditPanelComponent,
+    NgIf,
+    AjaxLoadingComponent,
+  ],
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 

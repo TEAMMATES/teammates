@@ -10,7 +10,6 @@ import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-questio
     selector: 'tm-text-question-statistics',
     templateUrl: './text-question-statistics.component.html',
     styleUrls: ['./text-question-statistics.component.scss'],
-    standalone: false,
 })
 export class TextQuestionStatisticsComponent
     extends QuestionStatistics<FeedbackTextQuestionDetails, FeedbackTextResponseDetails> {

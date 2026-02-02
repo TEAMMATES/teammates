@@ -1,18 +1,13 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Component, DebugElement } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SendRemindersToRespondentsModalComponent } from './send-reminders-to-respondents-modal.component';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
 import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel }
   from '../respondent-list-info-table/respondent-list-info-table-model';
-import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
-
-@Component({ selector: 'tm-ajax-preload', template: '', standalone: false })
-class AjaxPreloadComponent {}
 
 describe('SendRemindersToRespondentsModalComponent', () => {
   let component: SendRemindersToRespondentsModalComponent;
@@ -56,14 +51,6 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SendRemindersToRespondentsModalComponent,
-        AjaxPreloadComponent,
-        RespondentListInfoTableComponent,
-      ],
-      imports: [
-        FormsModule,
-      ],
       providers: [
         NgbActiveModal,
         provideHttpClient(),
