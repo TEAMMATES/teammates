@@ -7,6 +7,8 @@ import {
   FeedbackQuestionType,
   ResponseOutput,
 } from '../../../../types/api-output';
+import { QuestionDetailsCaster } from '../../../../types/question-details-impl/question-details-caster';
+import { ResponseOutputCaster } from '../../../../types/response-details-impl/response-details-caster';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -43,6 +45,8 @@ import { TextQuestionStatisticsComponent } from '../../question-types/question-s
   ],
 })
 export class SingleStatisticsComponent implements OnInit, OnChanges {
+  readonly QuestionDetailsCaster = QuestionDetailsCaster;
+  readonly ResponseOutputCaster = ResponseOutputCaster;
 
   @Input() responses: ResponseOutput[] = [];
   @Input() question: FeedbackQuestionDetails = {

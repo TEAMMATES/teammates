@@ -85,7 +85,7 @@
                       <td>{{ instructorCandidate.instructor.name }}</td>
                       <td>{{ instructorCandidate.instructor.email }}</td>
                       <td>{{ instructorCandidate.instructor.isDisplayedToStudents ? instructorCandidate.instructor.displayedToStudentsAs : notDisplayedToStudentText }}</td>
-                      <td>{{ instructorCandidate.instructor.role  | instructorRoleName }}</td>
+                      <td>{{ instructorCandidate.instructor.role! | instructorRoleName }}</td>
                     </tr>
                   </tbody>
                 </table>

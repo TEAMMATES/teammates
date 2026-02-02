@@ -5,6 +5,8 @@ import {
   FeedbackQuestionType,
   FeedbackResponseDetails,
 } from '../../../../types/api-output';
+import { QuestionDetailsCaster } from '../../../../types/question-details-impl/question-details-caster';
+import { ResponseDetailsCaster } from '../../../../types/response-details-impl/response-details-caster';
 import { ConstsumQuestionResponseComponent } from '../../question-types/question-response/constsum-question-response.component';
 import { ContributionQuestionResponseComponent } from '../../question-types/question-response/contribution-question-response.component';
 import { McqQuestionResponseComponent } from '../../question-types/question-response/mcq-question-response.component';
@@ -36,6 +38,8 @@ import { TextQuestionResponseComponent } from '../../question-types/question-res
   ],
 })
 export class SingleResponseComponent {
+  readonly QuestionDetailsCaster = QuestionDetailsCaster;
+  readonly ResponseDetailsCaster = ResponseDetailsCaster;
 
   @Input() responseDetails: FeedbackResponseDetails = {
     questionType: FeedbackQuestionType.TEXT,

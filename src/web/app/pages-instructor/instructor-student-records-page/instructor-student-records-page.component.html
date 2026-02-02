@@ -14,7 +14,7 @@
       <div class="card-body" *ngIf="!session.isCollapsed" @collapseAnim>
         <tm-grq-rgq-view-responses *ngIf="session.responsesReceivedByStudent.length > 0"
                                    [session]="session.feedbackSession"
-                                   [responses]="session.responsesReceivedByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
+                                   [responses]="session.responsesReceivedByStudent" [groupByTeam]="false"
                                    [isGrq]="false" [instructorCommentTableModel]="instructorCommentTableModel"
                                    (saveNewCommentEvent)="saveNewComment($event, session.feedbackSession.timeZone)"
                                    (deleteCommentEvent)="deleteComment($event)"
@@ -26,7 +26,7 @@
         </div>
         <tm-grq-rgq-view-responses *ngIf="session.responsesGivenByStudent.length > 0"
                                    [session]="session.feedbackSession"
-                                   [responses]="session.responsesGivenByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
+                                   [responses]="session.responsesGivenByStudent" [groupByTeam]="false"
                                    [isGrq]="true" [instructorCommentTableModel]="instructorCommentTableModel"
                                    (saveNewCommentEvent)="saveNewComment($event, session.feedbackSession.timeZone)"
                                    (deleteCommentEvent)="deleteComment($event)"

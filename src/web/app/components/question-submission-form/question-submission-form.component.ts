@@ -29,6 +29,8 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
+import { QuestionDetailsCaster } from '../../../types/question-details-impl/question-details-caster';
+import { ResponseDetailsCaster } from '../../../types/response-details-impl/response-details-caster';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
@@ -117,6 +119,8 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
   ],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {
+  readonly QuestionDetailsCaster = QuestionDetailsCaster;
+  readonly ResponseDetailsCaster = ResponseDetailsCaster;
 
   // enum
   QuestionSubmissionFormMode: typeof QuestionSubmissionFormMode = QuestionSubmissionFormMode;

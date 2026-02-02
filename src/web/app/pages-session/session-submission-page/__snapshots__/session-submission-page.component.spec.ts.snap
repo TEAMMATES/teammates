@@ -11,6 +11,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   autoSaveDelay={[Function Number]}
   autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -173,6 +174,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   autoSaveDelay={[Function Number]}
   autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -332,6 +334,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   autoSaveDelay={[Function Number]}
   autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -491,6 +494,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   autoSaveDelay={[Function Number]}
   autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute={[Function String]}
@@ -783,6 +787,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   autoSaveDelay={[Function Number]}
   autoSaveTimeout={[Function Number]}
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -3895,6 +3900,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   autoSaveDelay={[Function Number]}
   autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -7037,6 +7043,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   autoSaveDelay={[Function Number]}
   autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -7197,6 +7204,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   autoSaveDelay={[Function Number]}
   autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
