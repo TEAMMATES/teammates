@@ -48,7 +48,7 @@ export class InstructorRequestFormComponent {
     ]),
     email: new FormControl('', [
       Validators.required,
-      Validators.email, // <<<<<<<<<<<<< THIS IS THE ONLY LINE ADDED
+      Validators.email,
       Validators.pattern(FormValidator.EMAIL_REGEX),
       Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH),
     ]),
