@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +33,6 @@ import org.apache.http.message.BasicNameValuePair;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import jetbrains.datalore.plot.common.colormap.C;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
@@ -55,7 +53,6 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelper;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
-import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 import teammates.ui.output.DeadlineExtensionData;
@@ -851,9 +848,9 @@ public abstract class AbstractBackDoor {
         params.put(Const.ParamsNames.USER_ID, instructorGoogleId);
 
         FeedbackResponseCommentUpdateRequest body = new FeedbackResponseCommentUpdateRequest(
-            commentText,
-            new ArrayList<>(),
-            new ArrayList<>()
+                commentText,
+                new ArrayList<>(),
+                new ArrayList<>()
         );
 
         executePutRequest(Const.ResourceURIs.RESPONSE_COMMENT, params, JsonUtils.toJson(body));
