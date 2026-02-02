@@ -51,7 +51,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         logoutUser();
         String nextUrl = "/web/join";
 
-        a = getAction(new String[] { "nextUrl", nextUrl });
+        a = getAction("nextUrl", nextUrl);
         r = getJsonResult(a);
 
         output = (AuthInfo) r.getOutput();
@@ -86,9 +86,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         loginAsAdmin();
 
-        a = getAction(new String[] {
-                Const.ParamsNames.USER_ID, "idOfInstructor1OfCourse1",
-        });
+        a = getAction(Const.ParamsNames.USER_ID, "idOfInstructor1OfCourse1");
         r = getJsonResult(a);
 
         output = (AuthInfo) r.getOutput();

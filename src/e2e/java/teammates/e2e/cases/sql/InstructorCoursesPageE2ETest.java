@@ -44,66 +44,66 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         Instructor instructor = testData.instructors.get("ICs.instructor.CS1231");
 
         newCourse = new Course(
-            "tm.e2e.ICs.CS4100",
-            "New Course",
-            "Asia/Singapore",
-            "TEAMMATES Test Institute 1"
+                "tm.e2e.ICs.CS4100",
+                "New Course",
+                "Asia/Singapore",
+                "TEAMMATES Test Institute 1"
         );
         newCourse.setCreatedAt(Instant.now());
 
         copyCourse = new Course(
-            "tm.e2e.ICs.CS5000",
-            "Copy Course",
-            "Asia/Singapore",
-            "TEAMMATES Test Institute 1"
+                "tm.e2e.ICs.CS5000",
+                "Copy Course",
+                "Asia/Singapore",
+                "TEAMMATES Test Institute 1"
         );
         copyCourse.setCreatedAt(Instant.now());
 
         copyCourse2 = new Course(
-            "tm.e2e.ICs.CS6000",
-            "Copy Course 2",
-            "Asia/Singapore",
-            "TEAMMATES Test Institute 1"
+                "tm.e2e.ICs.CS6000",
+                "Copy Course 2",
+                "Asia/Singapore",
+                "TEAMMATES Test Institute 1"
         );
         copyCourse2.setCreatedAt(Instant.now());
 
         copySession = new FeedbackSession(
-            "Second Session",
-            copyCourse,
-            instructor.getEmail(),
-            session.getInstructions(),
-            ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone()))
-                .plus(Duration.ofDays(2))
-                .truncatedTo(ChronoUnit.HOURS)
-                .toInstant(),
-            ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone()))
-                .plus(Duration.ofDays(7))
-                .truncatedTo(ChronoUnit.HOURS)
-                .toInstant(),
-            ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone()))
-                .minus(Duration.ofDays(28))
-                .truncatedTo(ChronoUnit.HOURS)
-                .toInstant(),
-            Const.TIME_REPRESENTS_LATER,
-            session.getGracePeriod(),
-            session.isOpenedEmailEnabled(),
-            session.isClosingSoonEmailEnabled(),
-            session.isPublishedEmailEnabled()
+                "Second Session",
+                copyCourse,
+                instructor.getEmail(),
+                session.getInstructions(),
+                ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone()))
+                    .plus(Duration.ofDays(2))
+                    .truncatedTo(ChronoUnit.HOURS)
+                    .toInstant(),
+                ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone()))
+                    .plus(Duration.ofDays(7))
+                    .truncatedTo(ChronoUnit.HOURS)
+                    .toInstant(),
+                ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone()))
+                    .minus(Duration.ofDays(28))
+                    .truncatedTo(ChronoUnit.HOURS)
+                    .toInstant(),
+                Const.TIME_REPRESENTS_LATER,
+                session.getGracePeriod(),
+                session.isOpenedEmailEnabled(),
+                session.isClosingSoonEmailEnabled(),
+                session.isPublishedEmailEnabled()
         );
 
         copySession2 = new FeedbackSession(
-            "Second Session",
-            copyCourse2,
-            instructor.getEmail(),
-            copySession.getInstructions(),
-            copySession.getStartTime(),
-            copySession.getEndTime(),
-            copySession.getSessionVisibleFromTime(),
-            copySession.getResultsVisibleFromTime(),
-            copySession.getGracePeriod(),
-            copySession.isOpenedEmailEnabled(),
-            copySession.isClosingSoonEmailEnabled(),
-            copySession.isPublishedEmailEnabled()
+                "Second Session",
+                copyCourse2,
+                instructor.getEmail(),
+                copySession.getInstructions(),
+                copySession.getStartTime(),
+                copySession.getEndTime(),
+                copySession.getSessionVisibleFromTime(),
+                copySession.getResultsVisibleFromTime(),
+                copySession.getGracePeriod(),
+                copySession.isOpenedEmailEnabled(),
+                copySession.isClosingSoonEmailEnabled(),
+                copySession.isPublishedEmailEnabled()
         );
     }
 
