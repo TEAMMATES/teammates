@@ -1,4 +1,4 @@
-package teammates.logic.api;
+package teammates.sqllogic.api;
 
 import teammates.common.exception.AuthException;
 import teammates.common.util.Config;
