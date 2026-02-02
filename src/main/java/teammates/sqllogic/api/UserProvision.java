@@ -1,4 +1,4 @@
-package teammates.logic.api;
+package teammates.sqllogic.api;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
