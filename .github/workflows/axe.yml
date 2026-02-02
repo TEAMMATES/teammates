@@ -5,14 +5,12 @@ on:
     branches:
       - master
       - release
-      - V9-clean-slate-sql
   pull_request:
     branches:
       - master
       - release
-      - V9-clean-slate-sql
   workflow_dispatch:
-  
+
 jobs:
   axe-testing:
     runs-on: ubuntu-latest
