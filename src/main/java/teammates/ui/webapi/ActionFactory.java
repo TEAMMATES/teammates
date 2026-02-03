@@ -28,9 +28,6 @@ public final class ActionFactory {
     private static final String DELETE = HttpDelete.METHOD_NAME;
 
     static {
-        map(ResourceURIs.DATABUNDLE, POST, PutDataBundleAction.class);
-        // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
-        map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
         map(ResourceURIs.SQL_DATABUNDLE, POST, PutSqlDataBundleAction.class);
         // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
         map(ResourceURIs.SQL_DATABUNDLE, PUT, DeleteSqlDataBundleAction.class);
