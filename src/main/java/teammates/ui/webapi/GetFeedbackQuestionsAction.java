@@ -30,29 +30,29 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         switch (intent) {
-            case STUDENT_SUBMISSION:
-                Student student = getSqlStudentOfCourseFromRequest(courseId);
-                checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
-                break;
-            case FULL_DETAIL:
-                gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-                gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
-                        feedbackSession);
-                break;
-            case INSTRUCTOR_SUBMISSION:
-                Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
-                checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
-                break;
-            case INSTRUCTOR_RESULT:
-                instructor = getSqlInstructorOfCourseFromRequest(courseId);
-                checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
-                break;
-            case STUDENT_RESULT:
-                student = getSqlStudentOfCourseFromRequest(courseId);
-                checkAccessControlForStudentFeedbackResult(student, feedbackSession);
-                break;
-            default:
-                throw new InvalidHttpParameterException("Unknown intent " + intent);
+        case STUDENT_SUBMISSION:
+            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
+            break;
+        case FULL_DETAIL:
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+            gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                    feedbackSession);
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
+            break;
+        case INSTRUCTOR_RESULT:
+            instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
+            break;
+        case STUDENT_RESULT:
+            student = getSqlStudentOfCourseFromRequest(courseId);
+            checkAccessControlForStudentFeedbackResult(student, feedbackSession);
+            break;
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
     }
 
@@ -66,25 +66,25 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         List<FeedbackQuestion> questions;
         switch (intent) {
-            case STUDENT_SUBMISSION:
-                questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
-                Student student = getSqlStudentOfCourseFromRequest(courseId);
-                questions.forEach(question -> sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
-                        student.getEmail(), student.getTeamName()));
-                break;
-            case INSTRUCTOR_SUBMISSION:
-                Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
-                questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
-                questions.forEach(question -> sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
-                        instructor.getEmail(), null));
-                break;
-            case FULL_DETAIL:
-            case INSTRUCTOR_RESULT:
-            case STUDENT_RESULT:
-                questions = sqlLogic.getFeedbackQuestionsForSession(feedbackSession);
-                break;
-            default:
-                throw new InvalidHttpParameterException("Unknown intent " + intent);
+        case STUDENT_SUBMISSION:
+            questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
+            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            questions.forEach(question -> sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
+                    student.getEmail(), student.getTeamName()));
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
+            questions.forEach(question -> sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
+                    instructor.getEmail(), null));
+            break;
+        case FULL_DETAIL:
+        case INSTRUCTOR_RESULT:
+        case STUDENT_RESULT:
+            questions = sqlLogic.getFeedbackQuestionsForSession(feedbackSession);
+            break;
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);

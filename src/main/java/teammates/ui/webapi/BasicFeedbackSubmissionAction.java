@@ -201,25 +201,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
-<<<<<<< HEAD
     @SuppressWarnings("PMD.IdenticalConditionalBranches") // TODO find out why!
-    private void checkAccessControlForPreview(FeedbackSessionAttributes feedbackSession, boolean isInstructor)
-            throws UnauthorizedAccessException {
-        gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-        if (isInstructor) {
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        } else {
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        }
-    }
-
-    @SuppressWarnings("PMD.IdenticalConditionalBranches") // TODO find out why!
-=======
->>>>>>> 20767b9e4c (Migrating BasicFeedbackSubmissionAction.java)
     private void checkAccessControlForPreview(FeedbackSession feedbackSession, boolean isInstructor)
             throws UnauthorizedAccessException {
         gateKeeper.verifyLoggedInUserPrivileges(userInfo);
