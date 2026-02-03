@@ -37,8 +37,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 BinFeedbackSessionAction.class,
                 GetCoursesAction.class,
                 GetRegkeyValidityAction.class,
-                PutDataBundleAction.class,
-                DeleteDataBundleAction.class,
                 CreateFeedbackSessionLogAction.class,
                 GetFeedbackSessionLogsAction.class,
                 GetInstructorPrivilegeAction.class,
