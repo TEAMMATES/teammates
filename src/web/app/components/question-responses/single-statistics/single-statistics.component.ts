@@ -7,7 +7,7 @@ import {
   FeedbackQuestionType,
   ResponseOutput,
 } from '../../../../types/api-output';
-import { QuestionDetailsCaster } from '../../../../types/question-details-impl/question-details-caster';
+import { QuestionDetailsTypeChecker } from '../../../../types/question-details-impl/question-details-caster';
 import { ResponseOutputCaster } from '../../../../types/response-details-impl/response-details-caster';
 import {
   InstructorSessionResultSectionType,
@@ -45,7 +45,7 @@ import { TextQuestionStatisticsComponent } from '../../question-types/question-s
   ],
 })
 export class SingleStatisticsComponent implements OnInit, OnChanges {
-  readonly QuestionDetailsCaster = QuestionDetailsCaster;
+  readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
   readonly ResponseOutputCaster = ResponseOutputCaster;
 
   @Input() responses: ResponseOutput[] = [];
@@ -60,8 +60,6 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
 
-  // enum
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   responsesToUse: ResponseOutput[] = [];
 
   constructor(private feedbackResponsesService: FeedbackResponsesService) { }

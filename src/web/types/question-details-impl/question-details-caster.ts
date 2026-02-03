@@ -5,46 +5,51 @@ import {
   FeedbackMsqQuestionDetails,
   FeedbackNumericalScaleQuestionDetails,
   FeedbackQuestionDetails,
+  FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankRecipientsQuestionDetails,
   FeedbackRubricQuestionDetails,
   FeedbackTextQuestionDetails,
 } from '../api-output';
 
-export class QuestionDetailsCaster {
-  static constSum(d: FeedbackQuestionDetails): FeedbackConstantSumQuestionDetails {
-    return d as FeedbackConstantSumQuestionDetails;
+export class QuestionDetailsTypeChecker {
+  static isConstSumOptions(d: FeedbackQuestionDetails): d is FeedbackConstantSumQuestionDetails {
+    return d.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS;
   }
 
-  static contrib(d: FeedbackQuestionDetails): FeedbackContributionQuestionDetails {
-    return d as FeedbackContributionQuestionDetails;
+  static isConstSumRecipients(d: FeedbackQuestionDetails): d is FeedbackConstantSumQuestionDetails {
+    return d.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS;
   }
 
-  static mcq(d: FeedbackQuestionDetails): FeedbackMcqQuestionDetails {
-    return d as FeedbackMcqQuestionDetails;
+  static isContrib(d: FeedbackQuestionDetails): d is FeedbackContributionQuestionDetails {
+    return d.questionType === FeedbackQuestionType.CONTRIB;
   }
 
-  static msq(d: FeedbackQuestionDetails): FeedbackMsqQuestionDetails {
-    return d as FeedbackMsqQuestionDetails;
+  static isMcq(d: FeedbackQuestionDetails): d is FeedbackMcqQuestionDetails {
+    return d.questionType === FeedbackQuestionType.MCQ;
   }
 
-  static numscale(d: FeedbackQuestionDetails): FeedbackNumericalScaleQuestionDetails {
-    return d as FeedbackNumericalScaleQuestionDetails;
+  static isMsq(d: FeedbackQuestionDetails): d is FeedbackMsqQuestionDetails {
+    return d.questionType === FeedbackQuestionType.MSQ;
   }
 
-  static rankOptions(d: FeedbackQuestionDetails): FeedbackRankOptionsQuestionDetails {
-    return d as FeedbackRankOptionsQuestionDetails;
+  static isNumscale(d: FeedbackQuestionDetails): d is FeedbackNumericalScaleQuestionDetails {
+    return d.questionType === FeedbackQuestionType.NUMSCALE;
   }
 
-  static rankRecipients(d: FeedbackQuestionDetails): FeedbackRankRecipientsQuestionDetails {
-    return d as FeedbackRankRecipientsQuestionDetails;
+  static isRankOptions(d: FeedbackQuestionDetails): d is FeedbackRankOptionsQuestionDetails {
+    return d.questionType === FeedbackQuestionType.RANK_OPTIONS;
   }
 
-  static rubric(d: FeedbackQuestionDetails): FeedbackRubricQuestionDetails {
-    return d as FeedbackRubricQuestionDetails;
+  static isRankRecipients(d: FeedbackQuestionDetails): d is FeedbackRankRecipientsQuestionDetails {
+    return d.questionType === FeedbackQuestionType.RANK_RECIPIENTS;
   }
 
-  static text(d: FeedbackQuestionDetails): FeedbackTextQuestionDetails {
-    return d as FeedbackTextQuestionDetails;
+  static isRubric(d: FeedbackQuestionDetails): d is FeedbackRubricQuestionDetails {
+    return d.questionType === FeedbackQuestionType.RUBRIC;
+  }
+
+  static isText(d: FeedbackQuestionDetails): d is FeedbackTextQuestionDetails {
+    return d.questionType === FeedbackQuestionType.TEXT;
   }
 }

@@ -5,6 +5,7 @@ import {
   FeedbackMcqResponseDetails,
   FeedbackMsqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
+  FeedbackQuestionType,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
   FeedbackResponseDetails,
@@ -13,41 +14,41 @@ import {
   ResponseOutput,
 } from '../api-output';
 
-export class ResponseDetailsCaster {
-  static constSum(d: FeedbackResponseDetails): FeedbackConstantSumResponseDetails {
-    return d as FeedbackConstantSumResponseDetails;
+export class ResponseDetailsTypeChecker {
+  static isConstSum(d: FeedbackResponseDetails): d is FeedbackConstantSumResponseDetails {
+    return d.questionType === FeedbackQuestionType.CONSTSUM;
   }
 
-  static contrib(d: FeedbackResponseDetails): FeedbackContributionResponseDetails {
-    return d as FeedbackContributionResponseDetails;
+  static isContrib(d: FeedbackResponseDetails): d is FeedbackContributionResponseDetails {
+    return d.questionType === FeedbackQuestionType.CONTRIB;
   }
 
-  static mcq(d: FeedbackResponseDetails): FeedbackMcqResponseDetails {
-    return d as FeedbackMcqResponseDetails;
+  static isMcq(d: FeedbackResponseDetails): d is FeedbackMcqResponseDetails {
+    return d.questionType === FeedbackQuestionType.MCQ;
   }
 
-  static msq(d: FeedbackResponseDetails): FeedbackMsqResponseDetails {
-    return d as FeedbackMsqResponseDetails;
+  static isMsq(d: FeedbackResponseDetails): d is FeedbackMsqResponseDetails {
+    return d.questionType === FeedbackQuestionType.MSQ;
   }
 
-  static numscale(d: FeedbackResponseDetails): FeedbackNumericalScaleResponseDetails {
-    return d as FeedbackNumericalScaleResponseDetails;
+  static isNumscale(d: FeedbackResponseDetails): d is FeedbackNumericalScaleResponseDetails {
+    return d.questionType === FeedbackQuestionType.NUMSCALE;
   }
 
-  static rankOptions(d: FeedbackResponseDetails): FeedbackRankOptionsResponseDetails {
-    return d as FeedbackRankOptionsResponseDetails;
+  static isRankOptions(d: FeedbackResponseDetails): d is FeedbackRankOptionsResponseDetails {
+    return d.questionType === FeedbackQuestionType.RANK_OPTIONS;
   }
 
-  static rankRecipients(d: FeedbackResponseDetails): FeedbackRankRecipientsResponseDetails {
-    return d as FeedbackRankRecipientsResponseDetails;
+  static isRankRecipients(d: FeedbackResponseDetails): d is FeedbackRankRecipientsResponseDetails {
+    return d.questionType === FeedbackQuestionType.RANK_RECIPIENTS;
   }
 
-  static rubric(d: FeedbackResponseDetails): FeedbackRubricResponseDetails {
-    return d as FeedbackRubricResponseDetails;
+  static isRubric(d: FeedbackResponseDetails): d is FeedbackRubricResponseDetails {
+    return d.questionType === FeedbackQuestionType.RUBRIC;
   }
 
-  static text(d: FeedbackResponseDetails): FeedbackTextResponseDetails {
-    return d as FeedbackTextResponseDetails;
+  static isText(d: FeedbackResponseDetails): d is FeedbackTextResponseDetails {
+    return d.questionType === FeedbackQuestionType.TEXT;
   }
 }
 

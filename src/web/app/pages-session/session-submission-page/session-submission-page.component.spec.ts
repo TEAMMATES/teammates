@@ -21,32 +21,16 @@ import { StudentService } from '../../../services/student.service';
 import {
   AuthInfo,
   CommentVisibilityType,
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
-  FeedbackContributionQuestionDetails,
-  FeedbackContributionResponseDetails,
-  FeedbackMcqQuestionDetails,
-  FeedbackMcqResponseDetails,
-  FeedbackMsqQuestionDetails,
-  FeedbackMsqResponseDetails,
-  FeedbackNumericalScaleQuestionDetails,
-  FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionRecipients,
   FeedbackQuestions,
   FeedbackQuestionType,
-  FeedbackRankOptionsQuestionDetails,
-  FeedbackRankOptionsResponseDetails,
-  FeedbackRankRecipientsQuestionDetails,
   FeedbackResponse,
   FeedbackResponseComment,
   FeedbackResponses,
-  FeedbackRubricQuestionDetails,
-  FeedbackRubricResponseDetails,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
   FeedbackVisibilityType,
   Instructor,
@@ -120,7 +104,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
@@ -141,7 +125,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
@@ -162,7 +146,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.TEXT,
-    } as FeedbackTextResponseDetails,
+    },
     isValid: true,
     commentByGiver: {
       commentEditFormModel: {
@@ -181,7 +165,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'barry-harris-answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
     isValid: true,
   };
 
@@ -191,7 +175,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'gene-harris-answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
     isValid: true,
   };
 
@@ -203,7 +187,7 @@ describe('SessionSubmissionPageComponent', () => {
       isOther: false,
       otherFieldContent: 'other field content',
       questionType: FeedbackQuestionType.MSQ,
-    } as FeedbackMsqResponseDetails,
+    },
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
@@ -223,7 +207,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answer: 5,
-    } as FeedbackNumericalScaleResponseDetails,
+      questionType: FeedbackQuestionType.NUMSCALE,
+    },
     isValid: true,
   };
 
@@ -232,7 +217,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answers: [7, 13],
-    } as FeedbackConstantSumResponseDetails,
+      questionType: FeedbackQuestionType.CONSTSUM,
+    },
     isValid: true,
   };
 
@@ -241,7 +227,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answer: 20,
-    } as FeedbackContributionResponseDetails,
+      questionType: FeedbackQuestionType.CONTRIB,
+    },
     isValid: true,
   };
 
@@ -250,7 +237,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answer: [3, 4],
-    } as FeedbackRubricResponseDetails,
+      questionType: FeedbackQuestionType.RUBRIC,
+    },
     isValid: true,
   };
 
@@ -259,7 +247,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answers: [2, 1],
-    } as FeedbackRankOptionsResponseDetails,
+      questionType: FeedbackQuestionType.RANK_OPTIONS,
+    },
     isValid: true,
   };
 
@@ -270,7 +259,8 @@ describe('SessionSubmissionPageComponent', () => {
       minOptionsToBeRanked: 1,
       maxOptionsToBeRanked: 2,
       areDuplicatesAllowed: false,
-    } as FeedbackRankRecipientsQuestionDetails,
+      questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+    },
     isValid: true,
   };
 
@@ -281,7 +271,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'barry-harris-answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
   };
 
   const testResponse2: FeedbackResponse = {
@@ -291,7 +281,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'gene-harris-answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
   };
 
   const testMcqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -304,7 +294,7 @@ describe('SessionSubmissionPageComponent', () => {
       questionType: FeedbackQuestionType.MCQ,
       questionText: 'question text',
       mcqChoices: ['choice 1', 'choice 2', 'choice 3'],
-    } as FeedbackMcqQuestionDetails,
+    },
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM,
     recipientList: [{ recipientName: 'Gene Harris', recipientIdentifier: 'gene-harris-id' }],
@@ -331,7 +321,7 @@ describe('SessionSubmissionPageComponent', () => {
       questionType: FeedbackQuestionType.MCQ,
       questionText: 'question text',
       mcqChoices: ['choice 1', 'choice 2', 'choice 3'],
-    } as FeedbackMcqQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.TEAMS,
     recipientList: [],
@@ -357,7 +347,7 @@ describe('SessionSubmissionPageComponent', () => {
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
       questionText: 'question text',
-    } as FeedbackTextQuestionDetails,
+    },
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.INSTRUCTORS,
     recipientList: [{ recipientName: 'Gene Harris', recipientIdentifier: 'gene-harris-id' }],
@@ -381,13 +371,14 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.MSQ,
     questionDetails: {
+      questionType: FeedbackQuestionType.MSQ,
       msqChoices: ['first', 'second', 'third'],
       otherEnabled: false,
       hasAssignedWeights: true,
       msqWeights: [1, 2, 3],
       maxSelectableChoices: 2,
       minSelectableChoices: 1,
-    } as FeedbackMsqQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -411,10 +402,11 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.NUMSCALE,
     questionDetails: {
+      questionType: FeedbackQuestionType.NUMSCALE,
       minScale: 1,
       maxScale: 10,
       step: 1,
-    } as FeedbackNumericalScaleQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -442,13 +434,14 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
     questionDetails: {
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       constSumOptions: ['option 1', 'option 2'],
       distributeToRecipients: true,
       pointsPerOption: true,
       forceUnevenDistribution: false,
       distributePointsFor: 'distribute points for',
       points: 20,
-    } as FeedbackConstantSumQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -476,8 +469,9 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.CONTRIB,
     questionDetails: {
+      questionType: FeedbackQuestionType.CONTRIB,
       isNotSureAllowed: false,
-    } as FeedbackContributionQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -505,12 +499,13 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.RUBRIC,
     questionDetails: {
+      questionType: FeedbackQuestionType.RUBRIC,
       hasAssignedWeights: false,
       rubricWeightsForEachCell: [[1, 2], [2, 1]],
       rubricChoices: ['choice 1', 'choice 2'],
       rubricSubQuestions: ['subquestion 1', 'subquestion 2'],
       rubricDescriptions: [['description 1', 'description 2'], ['description 3', 'description 4']],
-    } as FeedbackRubricQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -538,8 +533,9 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.RANK_OPTIONS,
     questionDetails: {
+      questionType: FeedbackQuestionType.RANK_OPTIONS,
       options: ['option 1', 'option 2'],
-    } as FeedbackRankOptionsQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -567,10 +563,11 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     questionDetails: {
+      questionType: FeedbackQuestionType.RANK_RECIPIENTS,
       minOptionsToBeRanked: 1,
       maxOptionsToBeRanked: 2,
       areDuplicatesAllowed: false,
-    } as FeedbackRankRecipientsQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
