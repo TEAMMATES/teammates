@@ -2,11 +2,6 @@ package teammates.ui.webapi;
 
 import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
-import java.util.List;
-import java.util.Map;
-
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
@@ -42,21 +37,7 @@ public class SessionLinksRecoveryAction extends Action {
                     + "the reCAPTCHA verification. Please try again."));
         }
 
-        int firstStudentIdx = 0;
-        String noStudentName = "";
-        List<StudentAttributes> studentFromDataStore = logic.getAllStudentsForEmail(recoveryEmailAddress);
-
-        Map<CourseAttributes, StringBuilder> dataStoreLinkFragmentMap =
-                emailGenerator.generateLinkFragmentsMap(studentFromDataStore);
-
-        String studentNameFromDatastore = (studentFromDataStore.isEmpty())
-                ? noStudentName
-                : studentFromDataStore.get(firstStudentIdx).getName();
-
-        EmailWrapper email = sqlEmailGenerator
-                .generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress,
-                studentNameFromDatastore, dataStoreLinkFragmentMap);
-
+        EmailWrapper email = sqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
         EmailSendingStatus status = emailSender.sendEmail(email);
 
         if (status.isSuccess()) {
