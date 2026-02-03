@@ -1,8 +1,21 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
-import { QuestionTabModel } from './instructor-session-result-page.component';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
+import { QuestionTabModel } from './instructor-session-tab.model';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
+import {
+  PerQuestionViewResponsesComponent,
+} from '../../components/question-responses/per-question-view-responses/per-question-view-responses.component';
+import {
+  SingleStatisticsComponent,
+} from '../../components/question-responses/single-statistics/single-statistics.component';
+import {
+  QuestionTextWithInfoComponent,
+} from '../../components/question-text-with-info/question-text-with-info.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
@@ -13,6 +26,16 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
   templateUrl: './instructor-session-result-question-view.component.html',
   styleUrls: ['./instructor-session-result-question-view.component.scss'],
   animations: [collapseAnim],
+  imports: [
+    NgFor,
+    QuestionTextWithInfoComponent,
+    PanelChevronComponent,
+    NgIf,
+    LoadingSpinnerDirective,
+    LoadingRetryComponent,
+    SingleStatisticsComponent,
+    PerQuestionViewResponsesComponent,
+  ],
 })
 export class InstructorSessionResultQuestionViewComponent
     extends InstructorSessionResultView implements OnInit, OnChanges {

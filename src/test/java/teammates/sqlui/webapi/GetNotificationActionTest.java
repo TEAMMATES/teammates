@@ -66,7 +66,8 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
 
     @Test
     protected void testExecute_notificationIdIsNull_shouldThrowError() {
-        GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID, null, new String[] {});
+        String[] submissionParams = new String[] { Const.ParamsNames.NOTIFICATION_ID, null };
+        GetNotificationAction action = getAction(submissionParams);
         InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action::execute);
 
         assertEquals("The [notificationid] HTTP parameter is null.", ihpe.getMessage());

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorPermissionRole, InstructorPermissionSet } from '../../../../types/api-output';
+import { InstructorRoleNamePipe } from '../../../components/teammates-common/instructor-role-name.pipe';
 
 /**
  * View privileges of a role modal.
@@ -9,6 +10,7 @@ import { InstructorPermissionRole, InstructorPermissionSet } from '../../../../t
   selector: 'tm-view-role-privileges-model',
   templateUrl: './view-role-privileges-modal.component.html',
   styleUrls: ['./view-role-privileges-modal.component.scss'],
+  imports: [InstructorRoleNamePipe],
 })
 export class ViewRolePrivilegesModalComponent {
 

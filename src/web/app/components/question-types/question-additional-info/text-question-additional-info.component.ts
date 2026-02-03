@@ -7,9 +7,9 @@ import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-questio
  * Additional info for text questions.
  */
 @Component({
-  selector: 'tm-text-question-additional-info',
-  templateUrl: './text-question-additional-info.component.html',
-  styleUrls: ['./text-question-additional-info.component.scss'],
+    selector: 'tm-text-question-additional-info',
+    templateUrl: './text-question-additional-info.component.html',
+    styleUrls: ['./text-question-additional-info.component.scss'],
 })
 export class TextQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackTextQuestionDetails> {
 

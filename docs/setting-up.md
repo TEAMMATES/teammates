@@ -44,15 +44,15 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 These tools are necessary regardless of whether you are developing front-end or back-end:
 
-1. Install Java JDK 11.
-   * Alternatively, it is possible to use JDK 17 or JDK 21, as long as newer language features are not used.
+1. Install Java JDK 21.
+   * Alternatively, it is possible to use JDK 25, as long as newer language features are not used.
 
 If you want to develop front-end, you need to install the following:
 
-1. Install Node.js (minimum version 18).
-1. (Optional but highly recommended) Install Angular CLI version 16 globally.
+1. Install Node.js (minimum version 24).
+1. (Optional but highly recommended) Install Angular CLI version 20 globally.
    ```sh
-   npm install -g @angular/cli@16
+   npm install -g @angular/cli@20
    ```
    **Verification:** Run `ng --help` and you should see a list of available Angular CLI commands.
 

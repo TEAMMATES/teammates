@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { AuthInfo } from '../../types/api-output';
+import { PageComponent } from '../page.component';
 
 /**
  * Base skeleton for maintainer pages.
@@ -11,6 +12,7 @@ import { AuthInfo } from '../../types/api-output';
   selector: 'tm-maintainer-page',
   templateUrl: './maintainer-page.component.html',
   styleUrls: ['./maintainer-page.component.scss'],
+  imports: [PageComponent],
 })
 export class MaintainerPageComponent implements OnInit {
 

@@ -1,4 +1,7 @@
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ContributionPointDescriptionPipe } from './contribution-point-description.pipe';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackContributionQuestionDetails,
@@ -20,6 +23,13 @@ import {
   selector: 'tm-contribution-question-edit-answer-form',
   templateUrl: './contribution-question-edit-answer-form.component.html',
   styleUrls: ['./contribution-question-edit-answer-form.component.scss'],
+  imports: [
+    FormsModule,
+    NgClass,
+    NgFor,
+    NgIf,
+    ContributionPointDescriptionPipe,
+  ],
 })
 export class ContributionQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent

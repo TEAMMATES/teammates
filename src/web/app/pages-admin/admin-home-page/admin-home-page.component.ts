@@ -1,4 +1,6 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { InstructorData } from './instructor-data';
@@ -8,8 +10,11 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { AccountRequest, AccountRequests } from '../../../types/api-output';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
+import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 
 /**
  * Admin home page.
@@ -18,6 +23,15 @@ import { ErrorMessageOutput } from '../../error-message-output';
   selector: 'tm-admin-home-page',
   templateUrl: './admin-home-page.component.html',
   styleUrls: ['./admin-home-page.component.scss'],
+  imports: [
+    FormsModule,
+    NgIf,
+    NgFor,
+    NewInstructorDataRowComponent,
+    AjaxLoadingComponent,
+    AccountRequestTableComponent,
+  ],
+  providers: [FormatDateDetailPipe],
 })
 export class AdminHomePageComponent implements OnInit {
 

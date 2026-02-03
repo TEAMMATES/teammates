@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
+import { PageComponent } from '../page.component';
 
 /**
  * Base skeleton for student pages.
@@ -10,6 +11,7 @@ import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
 @Component({
   selector: 'tm-student-page',
   templateUrl: './student-page.component.html',
+  imports: [PageComponent],
 })
 export class StudentPageComponent implements OnInit {
 

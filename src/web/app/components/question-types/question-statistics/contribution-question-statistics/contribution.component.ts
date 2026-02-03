@@ -1,4 +1,6 @@
+import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   CONTRIBUTION_POINT_NOT_INITIALIZED,
   CONTRIBUTION_POINT_NOT_SUBMITTED,
@@ -11,6 +13,7 @@ import {
   selector: 'tm-contribution',
   templateUrl: './contribution.component.html',
   styleUrls: ['./contribution.component.scss'],
+  imports: [NgIf, NgbTooltip],
 })
 export class ContributionComponent {
 

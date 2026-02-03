@@ -1,16 +1,13 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ResendResultsLinkToRespondentModalComponent } from './resend-results-link-to-respondent-modal.component';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
-import { StudentListInfoTableRowModel, InstructorListInfoTableRowModel }
-  from '../respondent-list-info-table/respondent-list-info-table-model';
-import { RespondentListInfoTableComponent } from '../respondent-list-info-table/respondent-list-info-table.component';
-
-@Component({ selector: 'tm-ajax-preload', template: '' })
-class AjaxPreloadComponent {}
+import {
+  StudentListInfoTableRowModel,
+  InstructorListInfoTableRowModel,
+} from '../respondent-list-info-table/respondent-list-info-table-model';
 
 describe('ResendResultsLinkToRespondentModalComponent', () => {
   let component: ResendResultsLinkToRespondentModalComponent;
@@ -34,16 +31,11 @@ describe('ResendResultsLinkToRespondentModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ResendResultsLinkToRespondentModalComponent,
-        AjaxPreloadComponent,
-        RespondentListInfoTableComponent,
+      providers: [
+        NgbActiveModal,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
-      imports: [
-        HttpClientTestingModule,
-        FormsModule,
-      ],
-      providers: [NgbActiveModal],
     })
     .compileComponents();
   }));

@@ -1,11 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { AccountRequestTableComponent } from './account-request-table.component';
-import { AccountRequestTableModule } from './account-request-table.module';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 import {
   RejectWithReasonModalComponent,
@@ -59,14 +59,12 @@ describe('AccountRequestTableComponent', () => {
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            declarations: [AccountRequestTableComponent],
             imports: [
-                AccountRequestTableModule,
-                BrowserAnimationsModule,
-                HttpClientTestingModule,
+              BrowserAnimationsModule,
             ],
             providers: [
-                AccountService, SimpleModalService,
+              provideHttpClient(),
+              provideHttpClientTesting(),
             ],
         }).compileComponents();
     }));

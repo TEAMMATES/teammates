@@ -1,3 +1,4 @@
+import { NgIf, JsonPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { EmailSentLogDetails, GeneralLogEntry, LogEvent } from '../../../../types/api-output';
 
@@ -5,9 +6,10 @@ import { EmailSentLogDetails, GeneralLogEntry, LogEvent } from '../../../../type
  * Additional details for email sent logs.
  */
 @Component({
-  selector: 'tm-email-log-details',
-  templateUrl: './email-log-details.component.html',
-  styleUrls: ['./email-log-details.component.scss', './log-details.component.scss'],
+    selector: 'tm-email-log-details',
+    templateUrl: './email-log-details.component.html',
+    styleUrls: ['./email-log-details.component.scss', './log-details.component.scss'],
+    imports: [NgIf, JsonPipe],
 })
 export class EmailLogDetailsComponent {
 

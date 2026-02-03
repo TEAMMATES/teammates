@@ -53,7 +53,6 @@ public class WebApiServlet extends HttpServlet {
         invokeServlet(req, resp);
     }
 
-    @SuppressWarnings("PMD.AvoidCatchingThrowable") // used as fallback
     private void invokeServlet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int statusCode = 0;
         Action action = null;

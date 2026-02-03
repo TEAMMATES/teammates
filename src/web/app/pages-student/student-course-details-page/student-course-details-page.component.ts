@@ -1,3 +1,4 @@
+import { NgIf, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -10,6 +11,8 @@ import {
   Course, Instructor, Instructors, JoinState, Student, Students,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -19,6 +22,12 @@ import { ErrorMessageOutput } from '../../error-message-output';
   selector: 'tm-student-course-details-page',
   templateUrl: './student-course-details-page.component.html',
   styleUrls: ['./student-course-details-page.component.scss'],
+  imports: [
+    NgIf,
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgFor,
+  ],
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
   // enum

@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { FeedbackQuestionModel, SessionResultPageComponent } from './session-result-page.component';
+import { FeedbackQuestionModel } from './feedback-question.model';
+import { SessionResultPageComponent } from './session-result-page.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -28,14 +29,6 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { QuestionResponsePanelModule } from '../../components/question-response-panel/question-response-panel.module';
-import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
-import {
-  StudentViewResponsesModule,
-} from '../../components/question-responses/student-view-responses/student-view-responses.module';
-import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 
 describe('SessionResultPageComponent', () => {
   const testFeedbackSession: FeedbackSession = {
@@ -116,23 +109,10 @@ describe('SessionResultPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        StudentViewResponsesModule,
-        QuestionTextWithInfoModule,
-        QuestionResponsePanelModule,
-        SingleStatisticsModule,
-        LoadingSpinnerModule,
-        LoadingRetryModule,
-      ],
-      declarations: [SessionResultPageComponent],
       providers: [
-        AuthService,
-        NavigationService,
-        StudentService,
-        FeedbackSessionsService,
-        LogService,
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
           useValue: {

@@ -7,9 +7,9 @@ import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default
  * Additional info for contribution questions.
  */
 @Component({
-  selector: 'tm-contribution-question-additional-info',
-  templateUrl: './contribution-question-additional-info.component.html',
-  styleUrls: ['./contribution-question-additional-info.component.scss'],
+    selector: 'tm-contribution-question-additional-info',
+    templateUrl: './contribution-question-additional-info.component.html',
+    styleUrls: ['./contribution-question-additional-info.component.scss'],
 })
 export class ContributionQuestionAdditionalInfoComponent
     extends QuestionAdditionalInfo<FeedbackContributionQuestionDetails> {
