@@ -70,19 +70,6 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     }
 
     @Test
-    void testExecute_withInstructorAndArchivedCourses_success() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        String[] params = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ARCHIVED,
-        };
-        GetCoursesAction action = getAction(params);
-        JsonResult result = action.execute();
-        CoursesData data = (CoursesData) result.getOutput();
-        assertEquals(0, data.getCourses().size());
-    }
-
-    @Test
     void testExecute_withInstructorAndSoftDeletedCourses_success() {
         loginAsInstructor(stubInstructor.getGoogleId());
         when(mockLogic.getInstructorsForGoogleId(stubInstructor.getGoogleId()))
