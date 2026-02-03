@@ -32,7 +32,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertNull(instructor.getKey());
         assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructor.getRole());
         assertEquals(Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, instructor.getDisplayedName());
-        assertFalse(instructor.isArchived());
         assertTrue(instructor.isDisplayedToStudents());
         assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
                 instructor.getPrivileges());
@@ -96,7 +95,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 .withGoogleId("valid.google.id")
                 .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
                 .withDisplayedName("instructor A")
-                .withIsArchived(false)
                 .withIsDisplayedToStudents(false)
                 .withPrivileges(
                         new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER))
@@ -107,7 +105,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertEquals("valid name", instructor.getName());
         assertEquals("valid.google.id", instructor.getGoogleId());
         assertEquals("instructor A", instructor.getDisplayedName());
-        assertFalse(instructor.isArchived());
         assertFalse(instructor.isDisplayedToStudents());
         assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, instructor.getRole());
         assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER),
@@ -127,7 +124,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
         assertEquals(instructor.getGoogleId(), instructorAttributes.getGoogleId());
         assertEquals(instructor.getCourseId(), instructorAttributes.getCourseId());
-        assertEquals(instructor.getIsArchived(), instructorAttributes.isArchived());
         assertEquals(instructor.getName(), instructorAttributes.getName());
         assertEquals(instructor.getEmail(), instructorAttributes.getEmail());
         assertEquals(instructor.getRegistrationKey(), instructorAttributes.getKey());
@@ -149,7 +145,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
         assertEquals(instructor.getGoogleId(), instructorAttributes.getGoogleId());
         assertEquals(instructor.getCourseId(), instructorAttributes.getCourseId());
-        assertEquals(instructor.getIsArchived(), instructorAttributes.isArchived());
         assertEquals(instructor.getName(), instructorAttributes.getName());
         assertEquals(instructor.getEmail(), instructorAttributes.getEmail());
         assertEquals(instructor.getRegistrationKey(), instructorAttributes.getKey());
@@ -324,7 +319,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 InstructorAttributes.updateOptionsWithEmailBuilder("courseId", "test@test.com")
                         .withName("test")
                         .withDisplayedName("Instructor")
-                        .withIsArchived(false)
                         .withPrivileges(new InstructorPrivileges(
                                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER))
                         .withIsDisplayedToStudents(false)
@@ -340,7 +334,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                         .withGoogleId("testGoogleId")
                         .withName("test2")
                         .withDisplayedName("Tutor")
-                        .withIsArchived(true)
                         .withPrivileges(new InstructorPrivileges(
                                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER))
                         .withIsDisplayedToStudents(true)
@@ -351,7 +344,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
         assertEquals("test", instructorAttributes.getName());
         assertEquals("Instructor", instructorAttributes.getDisplayedName());
-        assertFalse(instructorAttributes.isArchived());
         assertTrue(instructorAttributes.getPrivileges().hasManagerPrivileges());
         assertFalse(instructorAttributes.isDisplayedToStudents());
         assertEquals("googleId", instructorAttributes.getGoogleId());
@@ -365,7 +357,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                         .withName("test")
                         .withEmail("test@email.com")
                         .withDisplayedName("Instructor")
-                        .withIsArchived(false)
                         .withPrivileges(new InstructorPrivileges(
                                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER))
                         .withIsDisplayedToStudents(false)
@@ -380,7 +371,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                         .withGoogleId("googleId")
                         .withName("test2")
                         .withDisplayedName("Tutor")
-                        .withIsArchived(true)
                         .withPrivileges(new InstructorPrivileges(
                                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER))
                         .withIsDisplayedToStudents(true)
@@ -391,7 +381,6 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
         assertEquals("test", instructorAttributes.getName());
         assertEquals("Instructor", instructorAttributes.getDisplayedName());
-        assertFalse(instructorAttributes.isArchived());
         assertTrue(instructorAttributes.getPrivileges().hasManagerPrivileges());
         assertFalse(instructorAttributes.isDisplayedToStudents());
         assertEquals("test@email.com", instructorAttributes.getEmail());
