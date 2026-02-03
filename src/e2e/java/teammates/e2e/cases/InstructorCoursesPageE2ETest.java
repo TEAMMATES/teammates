@@ -37,9 +37,9 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorCoursesPageE2ETest_SqlEntities.json"));
 
         courses[0] = testData.courses.get("CS1101");
-        courses[1] = testData.courses.get("CS2104");
-        courses[2] = testData.courses.get("CS2105");
-        courses[3] = testData.courses.get("CS1231");
+        courses[1] = testData.courses.get("CS1231");
+        courses[2] = testData.courses.get("CS2104");
+        courses[3] = testData.courses.get("CS2105");
         FeedbackSessionAttributes session = testData.feedbackSessions.get("session");
         InstructorAttributes instructor = testData.instructors.get("instructorCS1231");
 
@@ -108,8 +108,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         InstructorCoursesPage coursesPage = loginToPage(url, InstructorCoursesPage.class, instructorId);
 
         ______TS("verify loaded data");
-        CourseAttributes[] activeCourses = { courses[1], courses[0], courses[3] };
-        CourseAttributes[] deletedCourses = { courses[2] };
+        CourseAttributes[] activeCourses = { courses[2], courses[0], courses[1] };
+        CourseAttributes[] deletedCourses = { courses[3] };
 
         coursesPage.verifyActiveCoursesDetails(activeCourses);
         coursesPage.verifyDeletedCoursesDetails(deletedCourses);
@@ -121,7 +121,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNotModifiable(courses[0].getId());
 
         ______TS("add new course");
-        CourseAttributes[] activeCoursesWithNewCourse = { courses[0], courses[3], courses[1], newCourse };
+        CourseAttributes[] activeCoursesWithNewCourse = { courses[0], courses[1], courses[2], newCourse };
         coursesPage.addCourse(newCourse);
 
         coursesPage.verifyStatusMessage("The course has been added.");
@@ -130,8 +130,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(newCourse);
 
         ______TS("copy course with session of modified timings");
-        CourseAttributes[] activeCoursesWithCopyCourse = { courses[0], courses[3], courses[1], newCourse, copyCourse };
-        coursesPage.copyCourse(courses[3].getId(), copyCourse);
+        CourseAttributes[] activeCoursesWithCopyCourse = { courses[0], courses[1], courses[2], newCourse, copyCourse };
+        coursesPage.copyCourse(courses[1].getId(), copyCourse);
 
         coursesPage.waitForConfirmationModalAndClickOk();
         coursesPage.sortByCourseId();
@@ -140,7 +140,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(copySession);
 
         ______TS("copy course with session of same timings");
-        CourseAttributes[] activeCoursesWithCopyCourse2 = { courses[0], courses[3], courses[1], newCourse, copyCourse, copyCourse2 };
+        CourseAttributes[] activeCoursesWithCopyCourse2 = { courses[0], courses[1], courses[2], newCourse, copyCourse, copyCourse2 };
         coursesPage.copyCourse(copyCourse.getId(), copyCourse2);
         coursesPage.verifyStatusMessage("The course has been added.");
         coursesPage.sortByCourseId();
@@ -150,7 +150,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("move active course to recycle bin");
         newCourse.setDeletedAt(Instant.now());
-        CourseAttributes[] deletedCoursesWithNewCourse = { newCourse, courses[2] };
+        CourseAttributes[] deletedCoursesWithNewCourse = { newCourse, courses[3] };
         coursesPage.moveCourseToRecycleBin(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been deleted. "
@@ -162,7 +162,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         ______TS("restore active course");
         newCourse.setDeletedAt(null);
         CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate =
-                { copyCourse2, copyCourse, newCourse, courses[1], courses[0], courses[3] };
+                { copyCourse2, copyCourse, newCourse, courses[2], courses[0], courses[1] };
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
@@ -183,7 +183,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("restore all");
         coursesPage.moveCourseToRecycleBin(courses[1].getId());
-        CourseAttributes[] activeCoursesWithRestored = { courses[0], courses[3], courses[1], courses[2], copyCourse, copyCourse2 };
+        CourseAttributes[] activeCoursesWithRestored = { courses[0], courses[1], courses[2], courses[3], copyCourse, copyCourse2 };
         coursesPage.restoreAllCourses();
 
         coursesPage.verifyStatusMessage("All courses have been restored.");
@@ -192,7 +192,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithRestored);
         coursesPage.verifyNumDeletedCourses(0);
         assertFalse(BACKDOOR.isCourseInRecycleBin(courses[1].getId()));
-        assertFalse(BACKDOOR.isCourseInRecycleBin(courses[2].getId()));
+        assertFalse(BACKDOOR.isCourseInRecycleBin(courses[3].getId()));
 
         ______TS("permanently delete all");
         coursesPage.moveCourseToRecycleBin(courses[1].getId());
