@@ -8,7 +8,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -47,10 +46,7 @@ public class AccountRequestSearchManagerTest extends BaseTestCase {
 
     @Test
     public void testGetCollectionName_returnsCorrectCollectionName() throws Exception {
-        // Use reflection to test protected method
-        Method method = AccountRequestSearchManager.class.getDeclaredMethod("getCollectionName");
-        method.setAccessible(true);
-        String collectionName = (String) method.invoke(searchManager);
+        String collectionName = searchManager.getCollectionName();
         assertEquals(collectionName, "accountrequests");
     }
 
@@ -58,10 +54,7 @@ public class AccountRequestSearchManagerTest extends BaseTestCase {
     public void testCreateDocument_createsCorrectDocumentType() throws Exception {
         AccountRequest accountRequest = createTestAccountRequest();
 
-        // Use reflection to access protected method
-        Method method = AccountRequestSearchManager.class.getDeclaredMethod("createDocument", AccountRequest.class);
-        method.setAccessible(true);
-        AccountRequestSearchDocument document = (AccountRequestSearchDocument) method.invoke(searchManager, accountRequest);
+        AccountRequestSearchDocument document = searchManager.createDocument(accountRequest);
 
         assertNotNull(document);
         // Verify it's the correct type by checking its fields
@@ -82,10 +75,7 @@ public class AccountRequestSearchManagerTest extends BaseTestCase {
         List<AccountRequest> accountRequests =
                 new ArrayList<>(Arrays.asList(accountRequest1, accountRequest2, accountRequest3));
 
-        // Use reflection to access protected method
-        Method method = AccountRequestSearchManager.class.getDeclaredMethod("sortResult", List.class);
-        method.setAccessible(true);
-        method.invoke(searchManager, accountRequests);
+        searchManager.sortResult(accountRequests);
 
         // Verify sorted by createdAt descending (newest first)
         assertEquals(accountRequests.get(0), accountRequest3); // Created last
@@ -95,13 +85,8 @@ public class AccountRequestSearchManagerTest extends BaseTestCase {
 
     @Test
     public void testGetBasicQuery_buildsQueryCorrectly() throws Exception {
-        // Use reflection to access package-private method on base class
-        Method method = AccountRequestSearchManager.class.getSuperclass()
-                .getDeclaredMethod("getBasicQuery", String.class);
-        method.setAccessible(true);
-
         String queryString = "test query";
-        SolrQuery query = (SolrQuery) method.invoke(searchManager, queryString);
+        SolrQuery query = searchManager.getBasicQuery(queryString);
 
         assertNotNull(query);
         assertEquals((int) query.getStart(), 0);
