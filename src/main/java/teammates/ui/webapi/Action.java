@@ -387,7 +387,7 @@ public abstract class Action {
         return Optional.empty();
     }
 
-    Instructor getPossiblyUnregisteredInstructor(String courseId) {
+    Instructor getPossiblyUnregisteredSqlInstructor(String courseId) {
         return getUnregisteredInstructor().orElseGet(() -> {
             if (userInfo == null) {
                 return null;
