@@ -25,7 +25,8 @@ public class IanaTimezonePageAxeTest extends BaseAxeTestCase {
         AppUrl url = new AppUrl(IANA_TIMEZONE_DATABASE_URL);
         IanaTimezonePage ianaPage = getNewPageInstance(url, IanaTimezonePage.class);
 
-        Results results = getAxeBuilder().analyze(ianaPage.getBrowser().getDriver());
+        // External IANA page; we cannot fix its markup. Disable rules it fails.
+        Results results = getAxeBuilder("html-has-lang", "link-in-text-block").analyze(ianaPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());
     }
 
