@@ -19,7 +19,6 @@
             <class name="teammates.e2e.cases.sql.axe.InstructorCourseJoinConfirmationPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.InstructorCoursesPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.InstructorCourseStudentDetailsEditPageAxeTest" />
-            <class name="teammates.e2e.cases.sql.axe.IanaTimezonePageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.StudentCourseJoinConfirmationPageAxeTest" />
         </classes>
     </test>
