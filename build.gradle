@@ -734,6 +734,42 @@ task axeTests {
     axeTests.dependsOn "axeTestTry${id}"
 }
 
+task axeSqlTests {
+    description = "Runs the full SQL accessibility test suite and retries failed tests once."
+    group = "Test"
+}
+
+(1..2).each { id ->
+    def isFirstTry = id == 1
+
+    task "axeSqlTestTry${id}"(type: Test) {
+        testClassesDirs = testing.suites.test.sources.output.classesDirs
+        classpath = testing.suites.test.sources.runtimeClasspath
+        useTestNG()
+        options.suites isFirstTry ? "src/e2e/resources/testng-axe-sql.xml" : file("${buildDir}/reports/axe-sql-test-try-${id - 1}/testng-failed.xml")
+        options.outputDirectory = file("${buildDir}/reports/axe-sql-test-try-${id}")
+        options.useDefaultListeners = true
+        ignoreFailures = isFirstTry
+        maxHeapSize = "1g"
+        reports.html.required = false
+        reports.junitXml.required = false
+        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+        testLogging {
+            events "passed"
+        }
+        afterTest afterTestClosure
+        if (isFirstTry) {
+            afterSuite checkTestNgFailureClosure
+        } else {
+            mustRunAfter "axeSqlTestTry${id - 1}"
+        }
+        onlyIf {
+            isFirstTry || file("${buildDir}/reports/axe-sql-test-try-${id - 1}/testng-failed.xml").exists()
+        }
+    }
+    axeSqlTests.dependsOn "axeSqlTestTry${id}"
+}
+
 // COVERAGE TASKS
 
 jacoco {
