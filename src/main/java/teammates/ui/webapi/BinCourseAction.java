@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
@@ -24,13 +23,6 @@ public class BinCourseAction extends Action {
 
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        if (!isCourseMigrated(idOfCourseToBin)) {
-            CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
-                    courseAttributes, Const.InstructorPermissions.CAN_MODIFY_COURSE);
-            return;
-        }
-
         Course course = sqlLogic.getCourse(idOfCourseToBin);
         gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToBin, userInfo.id),
                 course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
@@ -40,17 +32,10 @@ public class BinCourseAction extends Action {
     public JsonResult execute() {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
-            if (!isCourseMigrated(idOfCourseToBin)) {
-                CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
-                courseAttributes.setDeletedAt(logic.moveCourseToRecycleBin(idOfCourseToBin));
-                return new JsonResult(new CourseData(courseAttributes));
-            }
-
             Course binnedCourse = sqlLogic.moveCourseToRecycleBin(idOfCourseToBin);
             return new JsonResult(new CourseData(binnedCourse));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
     }
-
 }
