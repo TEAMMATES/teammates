@@ -38,7 +38,7 @@
           <td><span class="ngb-tooltip-class" [ngbTooltip]="visibilityType | visibilityTypeDescription" container="body">{{ visibilityType | visibilityTypeName }}</span></td>
           <td *ngFor="let visibilityControl of VisibilityControl | enumToArray" class="text-center">
             <input type="checkbox"
-                   (click)="modifyVisibilityControl($event.target.checked, visibilityType, visibilityControl)"
+                   (click)="modifyVisibilityControl(castAsInputElement($event.target).checked, visibilityType, visibilityControl)"
                    [checked]="visibilityStateMachine.isVisible(visibilityType, visibilityControl)"
                    [disabled]="!visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable"
                    [attr.aria-label]="getCheckboxAriaLabel(visibilityType, visibilityControl)">

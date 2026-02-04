@@ -1,5 +1,5 @@
 import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -42,6 +42,8 @@ enum DateTime {
   ],
 })
 export class IndividualExtensionDateModalComponent {
+  private readonly timeZoneService = inject(TimezoneService);
+
   @Input()
   numStudents: number = 0;
 
@@ -59,7 +61,6 @@ export class IndividualExtensionDateModalComponent {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private timeZoneService: TimezoneService,
     private simpleModalService: SimpleModalService,
   ) {}
 

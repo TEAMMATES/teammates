@@ -8,6 +8,7 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
   STUDENT_NAME_MAX_LENGTH={[Function Number]}
   accountService={[Function Object]}
   arf={[Function FormGroup]}
+  captchaResponse="undefined"
   captchaSiteKey=""
   comments={[Function FormControl2]}
   country={[Function FormControl2]}
