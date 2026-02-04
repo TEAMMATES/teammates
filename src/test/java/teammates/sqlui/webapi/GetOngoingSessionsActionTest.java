@@ -15,9 +15,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissionRoleNames;
 import teammates.storage.sqlentity.Account;
@@ -195,7 +192,6 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         ongoingSqlSessions.add(c2Fs1);
         ongoingSqlSessions.add(c3Fs1);
         when(mockLogic.getOngoingSessions(start, end)).thenReturn(ongoingSqlSessions);
-        when(mockDatastoreLogic.getAllOngoingSessions(start, end)).thenReturn(Collections.emptyList());
 
         long startTime = start.toEpochMilli();
         long endTime = end.toEpochMilli();
@@ -227,7 +223,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
     }
 
     @Test
-    void testExecute_ongoingSessionsInBothDatastoreAndSql_shouldGetOngoingSessionsDataCorrectly() {
+    void testExecute_ongoingSessionsInSqlOnly_shouldGetOngoingSessionsDataCorrectly() {
         // The Instant input parameters into the mock methods have a precision up to the nanoseconds, but the time
         // input parameters into the Action only have a precision up to the milliseconds. We must truncate to
         // milliseconds so that the mock methods can mock the exact time that the Action would parse, instead of
@@ -263,29 +259,6 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         ongoingSqlSessions.add(sqlC1Fs2);
         ongoingSqlSessions.add(sqlC2Fs1);
         when(mockLogic.getOngoingSessions(start, end)).thenReturn(ongoingSqlSessions);
-        when(mockDatastoreLogic.getCourseInstitute("test-id3")).thenReturn("UCL");
-        InstructorAttributes instructor4 = InstructorAttributes.builder("test-id3", "test4@test.com")
-                .withGoogleId("instructor4")
-                .build();
-        when(mockDatastoreLogic.getInstructorsForCourse("test-id3")).thenReturn(Collections.singletonList(instructor4));
-        FeedbackSessionAttributes c2Fs1 = FeedbackSessionAttributes.builder("name2-1", "test-id2")
-                .withCreatorEmail("test3@test.com")
-                .withStartTime(instantNow.minus(Duration.ofHours(12L)))
-                .withEndTime(instantNow.plus(Duration.ofHours(12L)))
-                .withSessionVisibleFromTime(instantNow.minus(Duration.ofDays(7L)))
-                .withResultsVisibleFromTime(instantNow.plus(Duration.ofDays(7L)))
-                .build();
-        FeedbackSessionAttributes c3Fs1 = FeedbackSessionAttributes.builder("name3-1", "test-id3")
-                .withCreatorEmail("test4@test.com")
-                .withStartTime(instantNow.minus(Duration.ofDays(7L)))
-                .withEndTime(instantNow.minus(Duration.ofHours(12L)))
-                .withSessionVisibleFromTime(instantNow.minus(Duration.ofDays(7L)))
-                .withResultsVisibleFromTime(instantNow.plus(Duration.ofDays(7L)))
-                .build();
-        List<FeedbackSessionAttributes> allOngoingSessions = new ArrayList<>();
-        allOngoingSessions.add(c2Fs1);
-        allOngoingSessions.add(c3Fs1);
-        when(mockDatastoreLogic.getAllOngoingSessions(start, end)).thenReturn(allOngoingSessions);
 
         long startTime = start.toEpochMilli();
         long endTime = end.toEpochMilli();
@@ -300,79 +273,14 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         JsonResult r = getJsonResult(getOngoingSessionsAction);
         OngoingSessionsData response = (OngoingSessionsData) r.getOutput();
 
-        assertEquals(3, response.getTotalOngoingSessions());
+        assertEquals(2, response.getTotalOngoingSessions());
         assertEquals(1, response.getTotalOpenSessions());
-        assertEquals(1, response.getTotalClosedSessions());
+        assertEquals(0, response.getTotalClosedSessions());
         assertEquals(1, response.getTotalAwaitingSessions());
-        assertEquals(3L, response.getTotalInstitutes());
+        assertEquals(2L, response.getTotalInstitutes());
         Map<String, List<OngoingSession>> expectedSessions = new HashMap<>();
         OngoingSession expectedOngoingC1Fs2 = new OngoingSession(sqlC1Fs2, instructor2.getGoogleId());
         expectedSessions.put("NUS", Collections.singletonList(expectedOngoingC1Fs2));
-        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(sqlC2Fs1, instructor3.getGoogleId());
-        expectedSessions.put("MIT", Collections.singletonList(expectedOngoingC2Fs1));
-        OngoingSession expectedOngoingC3Fs1 = new OngoingSession(c3Fs1, instructor4.getGoogleId());
-        expectedSessions.put("UCL", Collections.singletonList(expectedOngoingC3Fs1));
-        Map<String, List<OngoingSession>> actualSessions = response.getSessions();
-        assertEqualSessions(expectedSessions, actualSessions);
-    }
-
-    @Test
-    void testExecute_courseMigratedButAccountNotMigrated_shouldGetOngoingSessionsDataCorrectly() {
-        // The Instant input parameters into the mock methods have a precision up to the nanoseconds, but the time
-        // input parameters into the Action only have a precision up to the milliseconds. We must truncate to
-        // milliseconds so that the mock methods can mock the exact time that the Action would parse, instead of
-        // mocking a time that is off by an amount of time less than a millisecond.
-        Instant instantNow = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-        Instant start = instantNow.minus(Duration.ofDays(1L));
-        Instant end = instantNow.plus(Duration.ofDays(1L));
-        Course sqlCourse2 = new Course("test-id2", "test-name2", "UTC", "MIT");
-        when(mockLogic.getCourse(sqlCourse2.getId())).thenReturn(sqlCourse2);
-        Instructor sqlInstructor3 = new Instructor(sqlCourse2, "instructor3", "test3@test.com", false, "instructor3",
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
-        when(mockLogic.getInstructorsByCourse(sqlCourse2.getId())).thenReturn(Collections.singletonList(sqlInstructor3));
-        FeedbackSession sqlC2Fs1 = new FeedbackSession("name2-1", sqlCourse2, "test3@test.com", "test-instruction",
-                instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
-                instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
-        List<FeedbackSession> ongoingSqlSessions = Collections.singletonList(sqlC2Fs1);
-        when(mockLogic.getOngoingSessions(start, end)).thenReturn(ongoingSqlSessions);
-        CourseAttributes course2 = CourseAttributes.builder("test-id2")
-                .build();
-        when(mockDatastoreLogic.getCourse("test-id2")).thenReturn(course2);
-        InstructorAttributes instructor3 = InstructorAttributes.builder("test-id2", "test3@test.com")
-                .withGoogleId("instructor3")
-                .build();
-        when(mockDatastoreLogic.getInstructorsForCourse("test-id2")).thenReturn(Collections.singletonList(instructor3));
-        FeedbackSessionAttributes c2Fs1 = FeedbackSessionAttributes.builder("name2-1", "test-id2")
-                .withCreatorEmail("test3@test.com")
-                .withStartTime(instantNow.minus(Duration.ofHours(12L)))
-                .withEndTime(instantNow.plus(Duration.ofHours(12L)))
-                .withSessionVisibleFromTime(instantNow.minus(Duration.ofDays(7L)))
-                .withResultsVisibleFromTime(instantNow.plus(Duration.ofDays(7L)))
-                .build();
-        List<FeedbackSessionAttributes> allOngoingSessions = Collections.singletonList(c2Fs1);
-        when(mockDatastoreLogic.getAllOngoingSessions(start, end)).thenReturn(allOngoingSessions);
-
-        long startTime = start.toEpochMilli();
-        long endTime = end.toEpochMilli();
-        String startTimeString = String.valueOf(startTime);
-        String endTimeString = String.valueOf(endTime);
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, startTimeString,
-                Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, endTimeString,
-        };
-
-        GetOngoingSessionsAction getOngoingSessionsAction = getAction(params);
-        JsonResult r = getJsonResult(getOngoingSessionsAction);
-        OngoingSessionsData response = (OngoingSessionsData) r.getOutput();
-
-        assertEquals(1, response.getTotalOngoingSessions());
-        assertEquals(1, response.getTotalOpenSessions());
-        assertEquals(0, response.getTotalClosedSessions());
-        assertEquals(0, response.getTotalAwaitingSessions());
-        assertEquals(1L, response.getTotalInstitutes());
-        Map<String, List<OngoingSession>> expectedSessions = new HashMap<>();
         OngoingSession expectedOngoingC2Fs1 = new OngoingSession(sqlC2Fs1, instructor3.getGoogleId());
         expectedSessions.put("MIT", Collections.singletonList(expectedOngoingC2Fs1));
         Map<String, List<OngoingSession>> actualSessions = response.getSessions();

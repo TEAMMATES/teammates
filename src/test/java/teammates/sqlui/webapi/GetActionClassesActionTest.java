@@ -12,7 +12,6 @@ import teammates.ui.output.ActionClasses;
 import teammates.ui.webapi.AccountRequestSearchIndexingWorkerAction;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.AdminExceptionTestAction;
-import teammates.ui.webapi.ArchiveCourseAction;
 import teammates.ui.webapi.BinCourseAction;
 import teammates.ui.webapi.BinFeedbackSessionAction;
 import teammates.ui.webapi.CalculateUsageStatisticsAction;
@@ -167,7 +166,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateInstructorAction.class,
                 GetInstructorAction.class,
                 UpdateInstructorAction.class,
-                ArchiveCourseAction.class,
+                // ArchiveCourseAction.class, // TODO: Archive not supported in SQL
                 InstructorCourseJoinEmailWorkerAction.class,
                 DeleteStudentAction.class,
                 GetStudentAction.class,
