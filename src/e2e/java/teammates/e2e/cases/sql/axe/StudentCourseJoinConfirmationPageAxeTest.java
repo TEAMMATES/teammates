@@ -15,7 +15,6 @@ import teammates.storage.sqlentity.Student;
 public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
 
     private Student newStudent;
-    private String newStudentGoogleId;
 
     @Override
     protected void prepareTestData() {
@@ -23,7 +22,6 @@ public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
                 loadSqlDataBundle("/StudentCourseJoinConfirmationPageE2ETestSql.json"));
 
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
-        newStudentGoogleId = testData.accounts.get("alice.tmms").getGoogleId();
     }
 
     @Test
@@ -34,7 +32,7 @@ public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
                 .withCourseId(testData.courses.get("SCJoinConf.CS2104").getId())
                 .withEntityType(Const.EntityType.STUDENT);
         CourseJoinConfirmationPage confirmationPage = loginToPage(
-                joinLink, CourseJoinConfirmationPage.class, newStudentGoogleId);
+                joinLink, CourseJoinConfirmationPage.class, newStudent.getGoogleId());
 
         Results results = getAxeBuilder().analyze(confirmationPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

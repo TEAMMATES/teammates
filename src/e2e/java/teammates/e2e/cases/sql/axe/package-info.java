@@ -1,4 +1,4 @@
 /**
- * Contains accessibility test cases.
+ * Contains accessibility test cases for SQL-based tests.
  */
-package teammates.e2e.cases.axe;
+package teammates.e2e.cases.sql.axe;

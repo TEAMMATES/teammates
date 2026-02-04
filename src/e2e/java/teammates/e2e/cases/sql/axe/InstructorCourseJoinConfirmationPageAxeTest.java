@@ -22,7 +22,6 @@ public class InstructorCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase
                 loadSqlDataBundle("/InstructorCourseJoinConfirmationPageE2ETestSql.json"));
 
         newInstructor = testData.instructors.get("ICJoinConf.instr.CS1101");
-        newInstructor.setGoogleId("tm.e2e.ICJoinConf.instr2");
     }
 
     @Test
