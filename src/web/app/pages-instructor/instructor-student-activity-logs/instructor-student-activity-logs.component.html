@@ -96,11 +96,11 @@
       <div class="row mt-md-1 ms-md-3">
         <div class="col-12 form-check" style="margin-top: 30px;">
           <label class="form-check-label">
-            <input id="show-actions" class="form-check-input" type="checkbox" name="showActions" [checked]="formModel.showActions" (click)="triggerModelChange('showActions', $event.target.checked)">
+            <input id="show-actions" class="form-check-input" type="checkbox" name="showActions" [checked]="formModel.showActions" (click)="triggerModelChange('showActions', castAsInputElement($event.target).checked)">
             Show actions
           </label>
           <label class="form-check-label" style="margin-left: 40px;">
-            <input id="show-inactions" class="form-check-input" type="checkbox" name="showInactions" [checked]="formModel.showInactions" (click)="triggerModelChange('showInactions', $event.target.checked)">
+            <input id="show-inactions" class="form-check-input" type="checkbox" name="showInactions" [checked]="formModel.showInactions" (click)="triggerModelChange('showInactions', castAsInputElement($event.target).checked)">
             Show inactions
           </label>
         </div>

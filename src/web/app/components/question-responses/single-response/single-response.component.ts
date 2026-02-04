@@ -3,7 +3,10 @@ import {
   FeedbackQuestionDetails,
   FeedbackQuestionType,
   FeedbackResponseDetails,
+  FeedbackTextQuestionDetails,
 } from '../../../../types/api-output';
+import { QuestionDetailsTypeChecker } from '../../../../types/question-details-impl/question-details-caster';
+import { ResponseDetailsTypeChecker } from '../../../../types/response-details-impl/response-details-caster';
 import { ConstsumQuestionResponseComponent } from '../../question-types/question-response/constsum-question-response.component';
 import { ContributionQuestionResponseComponent } from '../../question-types/question-response/contribution-question-response.component';
 import { McqQuestionResponseComponent } from '../../question-types/question-response/mcq-question-response.component';
@@ -34,6 +37,8 @@ import { TextQuestionResponseComponent } from '../../question-types/question-res
   ],
 })
 export class SingleResponseComponent {
+  readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
+  readonly ResponseDetailsTypeChecker = ResponseDetailsTypeChecker;
 
   @Input() responseDetails: FeedbackResponseDetails = {
     questionType: FeedbackQuestionType.TEXT,
@@ -49,7 +54,8 @@ export class SingleResponseComponent {
   @Input() giverEmail: string = '';
   @Input() recipientEmail: string = '';
 
-  // enum
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
+  castAsTextQuestion(d: FeedbackQuestionDetails): FeedbackTextQuestionDetails {
+    return d as FeedbackTextQuestionDetails;
+  }
 
 }

@@ -110,8 +110,8 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display account requests with no reset or expand links button', () => {
         const accountRequestResults: AccountRequestTableRowModel[] = [
-            DEFAULT_ACCOUNT_REQUEST.build(),
-            DEFAULT_ACCOUNT_REQUEST.build(),
+            DEFAULT_ACCOUNT_REQUEST.id("1").build(),
+            DEFAULT_ACCOUNT_REQUEST.id("2").build(),
         ];
 
         component.accountRequests = accountRequestResults;
@@ -121,11 +121,11 @@ describe('AccountRequestTableComponent', () => {
 
       it('should display account requests with reset button and expandable links buttons',
       () => {
-        const approvedAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+        const approvedAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.id("1").build();
         approvedAccountRequestResult.status = AccountRequestStatus.APPROVED;
         approvedAccountRequestResult.registrationLink = 'registrationLink';
 
-        const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+        const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.id("2").build();
         registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
         registeredAccountRequestResult.registrationLink = 'registrationLink';
 

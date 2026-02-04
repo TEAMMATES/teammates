@@ -1,32 +1,21 @@
-@switch (question.questionType) {
-  @case (FeedbackQuestionType.CONTRIB) {
-    <tm-contribution-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent" [displayContributionStats]="displayContributionStats" [statistics]="statistics"></tm-contribution-question-statistics>
-  }
-  @case (FeedbackQuestionType.TEXT) {
-    <tm-text-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-text-question-statistics>
-  }
-  @case (FeedbackQuestionType.CONSTSUM_OPTIONS) {
-    <tm-constsum-options-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-constsum-options-question-statistics>
-  }
-  @case (FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
-    <tm-constsum-recipients-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-constsum-recipients-question-statistics>
-  }
-  @case (FeedbackQuestionType.NUMSCALE) {
-    <tm-num-scale-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-num-scale-question-statistics>
-  }
-  @case (FeedbackQuestionType.RUBRIC) {
-    <tm-rubric-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-rubric-question-statistics>
-  }
-  @case (FeedbackQuestionType.RANK_OPTIONS) {
-    <tm-rank-options-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-rank-options-question-statistics>
-  }
-  @case (FeedbackQuestionType.RANK_RECIPIENTS) {
-    <tm-rank-recipients-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-rank-recipients-question-statistics>
-  }
-  @case (FeedbackQuestionType.MSQ) {
-    <tm-msq-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-msq-question-statistics>
-  }
-  @case (FeedbackQuestionType.MCQ) {
-    <tm-mcq-question-statistics [responses]="responsesToUse" [question]="question" [recipientType]="recipientType"  [isStudent]="isStudent"></tm-mcq-question-statistics>
-  }
+@if (QuestionDetailsTypeChecker.isContrib(question)) {
+  <tm-contribution-question-statistics [responses]="ResponseOutputCaster.contrib(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent" [displayContributionStats]="displayContributionStats" [statistics]="statistics"></tm-contribution-question-statistics>
+} @else if (QuestionDetailsTypeChecker.isText(question)) {
+  <tm-text-question-statistics [responses]="ResponseOutputCaster.text(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-text-question-statistics>
+} @else if (QuestionDetailsTypeChecker.isConstSumOptions(question)) {
+  <tm-constsum-options-question-statistics [responses]="ResponseOutputCaster.constSum(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-constsum-options-question-statistics>
+} @else if (QuestionDetailsTypeChecker.isConstSumRecipients(question)) {
+  <tm-constsum-recipients-question-statistics [responses]="ResponseOutputCaster.constSum(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-constsum-recipients-question-statistics>
+} @else if (QuestionDetailsTypeChecker.isNumscale(question)) {
+  <tm-num-scale-question-statistics [responses]="ResponseOutputCaster.numscale(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-num-scale-question-statistics>
+} @else if (QuestionDetailsTypeChecker.isRubric(question)) {
+  <tm-rubric-question-statistics [responses]="ResponseOutputCaster.rubric(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-rubric-question-statistics>
+} @else if (QuestionDetailsTypeChecker.isRankOptions(question)) {
+  <tm-rank-options-question-statistics [responses]="ResponseOutputCaster.rankOptions(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-rank-options-question-statistics>
+} @else if (QuestionDetailsTypeChecker.isRankRecipients(question)) {
+  <tm-rank-recipients-question-statistics [responses]="ResponseOutputCaster.rankRecipients(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-rank-recipients-question-statistics>
+} @else if (QuestionDetailsTypeChecker.isMsq(question)) {
+  <tm-msq-question-statistics [responses]="ResponseOutputCaster.msq(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-msq-question-statistics>
+} @else if (QuestionDetailsTypeChecker.isMcq(question)) {
+  <tm-mcq-question-statistics [responses]="ResponseOutputCaster.mcq(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-mcq-question-statistics>
 }

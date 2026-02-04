@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SectionTabModel } from 'src/web/app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
-import { FeedbackQuestionModel } from 'src/web/app/pages-session/session-result-page/feedback-question.model';
 import {
   EXAMPLE_COMMENT_EDIT_FORM_MODEL,
   EXAMPLE_COURSE_CANDIDATES,
@@ -64,6 +62,8 @@ import {
 import {
   InstructorSessionResultViewType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
+import { SectionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
+import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/feedback-question.model';
 import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';

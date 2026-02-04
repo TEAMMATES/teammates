@@ -10,7 +10,7 @@ export class InstructorRoleNamePipe implements PipeTransform {
   /**
    * Transforms InstructorPermissionRole to a name.
    */
-  transform(role: InstructorPermissionRole | undefined): any {
+  transform(role: InstructorPermissionRole): any {
     switch (role) {
       case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
         return 'Co-owner';

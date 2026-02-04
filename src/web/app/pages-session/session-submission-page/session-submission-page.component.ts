@@ -46,6 +46,7 @@ import {
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
+import { castAsSelectElement } from '../../../types/event-target-caster';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
@@ -89,6 +90,7 @@ interface FeedbackQuestionsResponse {
   ],
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
+  readonly castAsSelectElement = castAsSelectElement;
 
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
@@ -1223,7 +1225,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleViewChange(selectedView: SessionView): void {
+  toggleViewChange(selectedView: string | SessionView): void {
     if (selectedView === this.currentSelectedSessionView) {
       return;
     }

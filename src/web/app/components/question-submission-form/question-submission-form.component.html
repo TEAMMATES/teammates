@@ -41,35 +41,35 @@
             }
           </ul>
         </div>
-        @if (model.questionType === FeedbackQuestionType.CONTRIB) {
+        @if (QuestionDetailsTypeChecker.isContrib(model.questionDetails)) {
           <tm-contribution-question-instruction
           [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-contribution-question-instruction>
         }
-        @if (model.questionType === FeedbackQuestionType.TEXT) {
+        @if (QuestionDetailsTypeChecker.isText(model.questionDetails)) {
           <tm-text-question-instruction></tm-text-question-instruction>
         }
-        @if (model.questionType === FeedbackQuestionType.NUMSCALE) {
+        @if (QuestionDetailsTypeChecker.isNumscale(model.questionDetails)) {
           <tm-num-scale-question-instruction></tm-num-scale-question-instruction>
         }
-        @if (model.questionType === FeedbackQuestionType.TEXT) {
+        @if (QuestionDetailsTypeChecker.isText(model.questionDetails)) {
           <tm-text-question-constraint></tm-text-question-constraint>
         }
-        @if (model.questionType === FeedbackQuestionType.NUMSCALE) {
+        @if (QuestionDetailsTypeChecker.isNumscale(model.questionDetails)) {
           <tm-num-scale-question-constraint></tm-num-scale-question-constraint>
         }
-        @if (model.questionType === FeedbackQuestionType.RANK_OPTIONS) {
+        @if (QuestionDetailsTypeChecker.isRankOptions(model.questionDetails)) {
           <tm-rank-options-question-instruction [questionDetails]="model.questionDetails"></tm-rank-options-question-instruction>
         }
-        @if (model.questionType === FeedbackQuestionType.MSQ) {
+        @if (QuestionDetailsTypeChecker.isMsq(model.questionDetails)) {
           <tm-msq-question-constraint [questionDetails]="model.questionDetails"></tm-msq-question-constraint>
         }
-        @if (model.questionType === FeedbackQuestionType.RANK_RECIPIENTS) {
+        @if (QuestionDetailsTypeChecker.isRankRecipients(model.questionDetails)) {
           <tm-rank-recipients-question-instruction [questionDetails]="model.questionDetails"></tm-rank-recipients-question-instruction>
         }
-        @if (model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS) {
+        @if (QuestionDetailsTypeChecker.isConstSumOptions(model.questionDetails)) {
           <tm-constsum-options-question-instruction [questionDetails]="model.questionDetails"></tm-constsum-options-question-instruction>
         }
-        @if (model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
+        @if (QuestionDetailsTypeChecker.isConstSumRecipients(model.questionDetails)) {
           <tm-constsum-recipients-question-instruction
           [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-constsum-recipients-question-instruction>
         }
@@ -126,7 +126,7 @@
                   </div>
                 }
                 <div class="margin-top-20px" [ngClass]="isMCQDropDownEnabled ? 'col-12' : 'col'">
-                  @if (model.questionType === FeedbackQuestionType.CONTRIB) {
+                  @if (QuestionDetailsTypeChecker.isContrib(model.questionDetails) && ResponseDetailsTypeChecker.isContrib(recipientSubmissionFormModel.responseDetails)) {
                     <tm-contribution-question-edit-answer-form [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -134,7 +134,7 @@
                       [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
                     ></tm-contribution-question-edit-answer-form>
                   }
-                  @if (model.questionType === FeedbackQuestionType.TEXT) {
+                  @if (QuestionDetailsTypeChecker.isText(model.questionDetails) && ResponseDetailsTypeChecker.isText(recipientSubmissionFormModel.responseDetails)) {
                     <tm-text-question-edit-answer-form [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -142,7 +142,7 @@
                       [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
                     ></tm-text-question-edit-answer-form>
                   }
-                  @if (model.questionType === FeedbackQuestionType.RANK_OPTIONS) {
+                  @if (QuestionDetailsTypeChecker.isRankOptions(model.questionDetails) && ResponseDetailsTypeChecker.isRankOptions(recipientSubmissionFormModel.responseDetails)) {
                     <tm-rank-options-question-edit-answer-form [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -150,7 +150,7 @@
                       [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
                     ></tm-rank-options-question-edit-answer-form>
                   }
-                  @if (model.questionType === FeedbackQuestionType.RANK_RECIPIENTS) {
+                  @if (QuestionDetailsTypeChecker.isRankRecipients(model.questionDetails) && ResponseDetailsTypeChecker.isRankRecipients(recipientSubmissionFormModel.responseDetails)) {
                     <tm-rank-recipients-question-edit-answer-form [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -158,7 +158,7 @@
                       [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
                     ></tm-rank-recipients-question-edit-answer-form>
                   }
-                  @if (model.questionType === FeedbackQuestionType.NUMSCALE) {
+                  @if (QuestionDetailsTypeChecker.isNumscale(model.questionDetails) && ResponseDetailsTypeChecker.isNumscale(recipientSubmissionFormModel.responseDetails)) {
                     <tm-num-scale-question-edit-answer-form [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -166,7 +166,7 @@
                       [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
                     ></tm-num-scale-question-edit-answer-form>
                   }
-                  @if (model.questionType === FeedbackQuestionType.MCQ) {
+                  @if (QuestionDetailsTypeChecker.isMcq(model.questionDetails) && ResponseDetailsTypeChecker.isMcq(recipientSubmissionFormModel.responseDetails)) {
                     <tm-mcq-question-edit-answer-form [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -176,7 +176,7 @@
                       [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
                     ></tm-mcq-question-edit-answer-form>
                   }
-                  @if (model.questionType === FeedbackQuestionType.MSQ) {
+                  @if (QuestionDetailsTypeChecker.isMsq(model.questionDetails) && ResponseDetailsTypeChecker.isMsq(recipientSubmissionFormModel.responseDetails)) {
                     <tm-msq-question-edit-answer-form [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -184,7 +184,7 @@
                       [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)"
                     ></tm-msq-question-edit-answer-form>
                   }
-                  @if (model.questionType === FeedbackQuestionType.RUBRIC) {
+                  @if (QuestionDetailsTypeChecker.isRubric(model.questionDetails) && ResponseDetailsTypeChecker.isRubric(recipientSubmissionFormModel.responseDetails)) {
                     <tm-rubric-question-edit-answer-form [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -193,7 +193,7 @@
                       [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)">
                     </tm-rubric-question-edit-answer-form>
                   }
-                  @if (model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS) {
+                  @if (QuestionDetailsTypeChecker.isConstSumOptions(model.questionDetails) && ResponseDetailsTypeChecker.isConstSum(recipientSubmissionFormModel.responseDetails)) {
                     <tm-constsum-options-question-edit-answer-form [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -201,7 +201,7 @@
                       [recipient]="getRecipientName(recipientSubmissionFormModel.recipientIdentifier)">
                     </tm-constsum-options-question-edit-answer-form>
                   }
-                  @if (model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
+                  @if (QuestionDetailsTypeChecker.isConstSumRecipients(model.questionDetails) && ResponseDetailsTypeChecker.isConstSum(recipientSubmissionFormModel.responseDetails)) {
                     <tm-constsum-recipients-question-edit-answer-form [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -286,21 +286,21 @@
           }
         </div>
         <div class="col-12 constraint-margins">
-          @if (model.questionType === FeedbackQuestionType.CONTRIB) {
+          @if (QuestionDetailsTypeChecker.isContrib(model.questionDetails)) {
             <tm-contribution-question-constraint
               [recipientSubmissionForms]="model.recipientSubmissionForms"
               [questionDetails]="model.questionDetails"
               (isValidEvent)="updateValidity($event)"
             ></tm-contribution-question-constraint>
           }
-          @if (model.questionType === FeedbackQuestionType.RANK_RECIPIENTS) {
+          @if (QuestionDetailsTypeChecker.isRankRecipients(model.questionDetails)) {
             <tm-rank-recipients-question-constraint
               [recipientSubmissionForms]="model.recipientSubmissionForms"
               [questionDetails]="model.questionDetails"
               (isValidEvent)="updateValidity($event)"
             ></tm-rank-recipients-question-constraint>
           }
-          @if (model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
+          @if (QuestionDetailsTypeChecker.isConstSumRecipients(model.questionDetails)) {
             <tm-constsum-recipients-question-constraint
               [recipientSubmissionForms]="model.recipientSubmissionForms"
               [questionDetails]="model.questionDetails"

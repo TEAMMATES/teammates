@@ -1,4 +1,4 @@
-import { AccountRequestStatus } from 'src/web/types/api-output';
+import { AccountRequestStatus } from '../../../types/api-output';
 
 /**
  * Model for the row entries in the account requests table.

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionDetails, FeedbackQuestionType } from '../../../types/api-output';
+import { QuestionDetailsTypeChecker } from '../../../types/question-details-impl/question-details-caster';
 import { ConstsumOptionsQuestionAdditionalInfoComponent } from '../question-types/question-additional-info/constsum-options-question-additional-info.component';
 import { ConstsumRecipientsQuestionAdditionalInfoComponent } from '../question-types/question-additional-info/constsum-recipients-question-additional-info.component';
 import { ContributionQuestionAdditionalInfoComponent } from '../question-types/question-additional-info/contribution-question-additional-info.component';
@@ -32,6 +33,7 @@ import { TextQuestionAdditionalInfoComponent } from '../question-types/question-
   ],
 })
 export class QuestionTextWithInfoComponent {
+  readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
 
   @Input() questionNumber: number = 0;
   @Input() questionDetails: FeedbackQuestionDetails = {
@@ -40,9 +42,6 @@ export class QuestionTextWithInfoComponent {
   };
 
   @Output() downloadQuestionResultEvent: EventEmitter<any> = new EventEmitter();
-
-  // enum
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
 
   additionalInfoIsExpanded: boolean = false;
 

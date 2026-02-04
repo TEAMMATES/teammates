@@ -75,7 +75,7 @@
       }
       @if (oldCourseId) {
         <div>
-          @if (courseToFeedbackSession[oldCourseId]?.length > 0) {
+          @if (courseToFeedbackSession[oldCourseId] && courseToFeedbackSession[oldCourseId].length > 0) {
             <div>
               <div class="form-check">
                 <input type="checkbox" name="copyCourseChooseSessions" class="form-check-input"

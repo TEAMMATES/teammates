@@ -51,7 +51,7 @@
                 @for (commentVisibilityControl of CommentVisibilityControl | enumToArray; track commentVisibilityControl) {
                   <td class="text-center">
                     <input type="checkbox" [checked]="visibilityStateMachine.isVisible(commentVisibilityType, commentVisibilityControl)"
-                      (click)="modifyVisibilityControl($event.target.checked, commentVisibilityType, commentVisibilityControl)">
+                      (click)="modifyVisibilityControl(castAsInputElement($event.target).checked, commentVisibilityType, commentVisibilityControl)">
                   </td>
                 }
               </tr>

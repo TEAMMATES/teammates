@@ -12,37 +12,35 @@
 
 @if (hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded) {
   <div class="additional-info info-font-size">
-    @switch (questionDetails.questionType) {
-      @case (FeedbackQuestionType.CONTRIB) {
-        <tm-contribution-question-additional-info [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
-      }
-      @case (FeedbackQuestionType.TEXT) {
-        <tm-text-question-additional-info [questionDetails]="questionDetails"></tm-text-question-additional-info>
-      }
-      @case (FeedbackQuestionType.MCQ) {
-        <tm-mcq-question-additional-info [questionDetails]="questionDetails"></tm-mcq-question-additional-info>
-      }
-      @case (FeedbackQuestionType.MSQ) {
-        <tm-msq-question-additional-info [questionDetails]="questionDetails"></tm-msq-question-additional-info>
-      }
-      @case (FeedbackQuestionType.RANK_OPTIONS) {
-        <tm-rank-options-question-additional-info [questionDetails]="questionDetails"></tm-rank-options-question-additional-info>
-      }
-      @case (FeedbackQuestionType.RANK_RECIPIENTS) {
-        <tm-rank-recipients-question-additional-info [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
-      }
-      @case (FeedbackQuestionType.RUBRIC) {
-        <tm-rubric-question-additional-info [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
-      }
-      @case (FeedbackQuestionType.CONSTSUM_OPTIONS) {
-        <tm-constsum-options-question-additional-info [questionDetails]="questionDetails"></tm-constsum-options-question-additional-info>
-      }
-      @case (FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
-        <tm-constsum-recipients-question-additional-info [questionDetails]="questionDetails"></tm-constsum-recipients-question-additional-info>
-      }
-      @case (FeedbackQuestionType.NUMSCALE) {
-        <tm-num-scale-question-additional-info [questionDetails]="questionDetails"></tm-num-scale-question-additional-info>
-      }
+    @if (QuestionDetailsTypeChecker.isContrib(questionDetails)) {
+      <tm-contribution-question-additional-info [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
+    }
+    @else if (QuestionDetailsTypeChecker.isText(questionDetails)) {
+      <tm-text-question-additional-info [questionDetails]="questionDetails"></tm-text-question-additional-info>
+    }
+    @else if (QuestionDetailsTypeChecker.isMcq(questionDetails)) {
+      <tm-mcq-question-additional-info [questionDetails]="questionDetails"></tm-mcq-question-additional-info>
+    }
+    @else if (QuestionDetailsTypeChecker.isMsq(questionDetails)) {
+      <tm-msq-question-additional-info [questionDetails]="questionDetails"></tm-msq-question-additional-info>
+    }
+    @else if (QuestionDetailsTypeChecker.isRankOptions(questionDetails)) {
+      <tm-rank-options-question-additional-info [questionDetails]="questionDetails"></tm-rank-options-question-additional-info>
+    }
+    @else if (QuestionDetailsTypeChecker.isRankRecipients(questionDetails)) {
+      <tm-rank-recipients-question-additional-info [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
+    }
+    @else if (QuestionDetailsTypeChecker.isRubric(questionDetails)) {
+      <tm-rubric-question-additional-info [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
+    }
+    @else if (QuestionDetailsTypeChecker.isConstSumOptions(questionDetails)) {
+      <tm-constsum-options-question-additional-info [questionDetails]="questionDetails"></tm-constsum-options-question-additional-info>
+    }
+    @else if (QuestionDetailsTypeChecker.isConstSumRecipients(questionDetails)) {
+      <tm-constsum-recipients-question-additional-info [questionDetails]="questionDetails"></tm-constsum-recipients-question-additional-info>
+    }
+    @else if (QuestionDetailsTypeChecker.isNumscale(questionDetails)) {
+      <tm-num-scale-question-additional-info [questionDetails]="questionDetails"></tm-num-scale-question-additional-info>
     }
   </div>
 }

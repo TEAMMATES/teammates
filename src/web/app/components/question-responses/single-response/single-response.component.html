@@ -1,29 +1,21 @@
-@switch (responseDetails.questionType) {
-  @case (FeedbackQuestionType.CONTRIB) {
-    <tm-contribution-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails" [statistics]="statistics" [giverEmail]="giverEmail" [recipientEmail]="recipientEmail"></tm-contribution-question-response>
-  }
-  @case (FeedbackQuestionType.TEXT) {
-    <tm-text-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-text-question-response>
-  }
-  @case (FeedbackQuestionType.CONSTSUM) {
-    <tm-constsum-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-constsum-question-response>
-  }
-  @case (FeedbackQuestionType.NUMSCALE) {
-    <tm-num-scale-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-num-scale-question-response>
-  }
-  @case (FeedbackQuestionType.RUBRIC) {
-    <tm-rubric-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails" [isStudentPage]="isStudentPage"></tm-rubric-question-response>
-  }
-  @case (FeedbackQuestionType.RANK_OPTIONS) {
-    <tm-rank-options-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-options-question-response>
-  }
-  @case (FeedbackQuestionType.RANK_RECIPIENTS) {
-    <tm-rank-recipients-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-recipients-question-response>
-  }
-  @case (FeedbackQuestionType.MSQ) {
-    <tm-msq-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-msq-question-response>
-  }
-  @case (FeedbackQuestionType.MCQ) {
-    <tm-mcq-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-mcq-question-response>
-  }
+@if (QuestionDetailsTypeChecker.isContrib(questionDetails) && ResponseDetailsTypeChecker.isContrib(responseDetails)) {
+  <tm-contribution-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails" [statistics]="statistics" [giverEmail]="giverEmail" [recipientEmail]="recipientEmail"></tm-contribution-question-response>
+} @else if ((QuestionDetailsTypeChecker.isConstSumOptions(questionDetails) || QuestionDetailsTypeChecker.isConstSumRecipients(questionDetails)) && ResponseDetailsTypeChecker.isConstSum(responseDetails)) {
+  <tm-constsum-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-constsum-question-response>
+} @else if (QuestionDetailsTypeChecker.isNumscale(questionDetails) && ResponseDetailsTypeChecker.isNumscale(responseDetails)) {
+  <tm-num-scale-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-num-scale-question-response>  
+} @else if (QuestionDetailsTypeChecker.isRubric(questionDetails) && ResponseDetailsTypeChecker.isRubric(responseDetails)) {
+  <tm-rubric-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails" [isStudentPage]="isStudentPage"></tm-rubric-question-response>
+} @else if (QuestionDetailsTypeChecker.isRankOptions(questionDetails) && ResponseDetailsTypeChecker.isRankOptions(responseDetails)) {
+  <tm-rank-options-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-options-question-response>
+} @else if (QuestionDetailsTypeChecker.isRankRecipients(questionDetails) && ResponseDetailsTypeChecker.isRankRecipients(responseDetails)) {
+  <tm-rank-recipients-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-recipients-question-response>
+} @else if (QuestionDetailsTypeChecker.isMsq(questionDetails) && ResponseDetailsTypeChecker.isMsq(responseDetails)) {
+  <tm-msq-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-msq-question-response>
+} @else if (QuestionDetailsTypeChecker.isMcq(questionDetails) && ResponseDetailsTypeChecker.isMcq(responseDetails)) {
+  <tm-mcq-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-mcq-question-response>
+} @else if (ResponseDetailsTypeChecker.isText(responseDetails)) {
+  <!-- For cases of "No Response", the response typing is hard-coded with feedback question type = TEXT -->
+  <!-- Thus, for responses with question type = TEXT, we (safely) skip the question type checking -->
+  <tm-text-question-response [responseDetails]="responseDetails" [questionDetails]="castAsTextQuestion(questionDetails)"></tm-text-question-response>
 }

@@ -10,7 +10,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class LoadingRetryComponent {
 
-  @Input() message: string = '';
+  @Input() message?: string;
 
   @Input() shouldShowRetry: boolean = false;
 

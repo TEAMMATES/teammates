@@ -6,7 +6,7 @@
 
 @if (isAddNewCourseFormExpanded && !isLoadingCourses) {
   <div id="add-course-section" class="course-section" @collapseAnim>
-    <tm-course-edit-form [formMode]="CourseEditFormMode.ADD" [(formModel)]="courseFormModel"
+    <tm-course-edit-form [formMode]="CourseEditFormMode.ADD" [formModel]="courseFormModel"
       [resetFormEvent]="resetCourseForm" (closeFormEvent)="isAddNewCourseFormExpanded = false"
       (createNewCourseEvent)="createNewCourse()" (copyCourseEvent)="createCopiedCourse($event)">
     </tm-course-edit-form>

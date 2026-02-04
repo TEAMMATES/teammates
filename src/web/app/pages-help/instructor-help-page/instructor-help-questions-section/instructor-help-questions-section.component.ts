@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { QuestionTabModel } from 'src/web/app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import {
   EXAMPLE_CONTRIBUTION_STATISTICS,
   EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL,
@@ -64,6 +63,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';

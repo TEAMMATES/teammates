@@ -506,6 +506,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * according to user input
    */
   addRows(numOfRows: number): void {
+    if (!numOfRows) {
+      return;
+    }
     this.hotRegisterer.getInstance(this.newStudentsHOT).alter(
         'insert_row_below', [], numOfRows);
   }

@@ -225,7 +225,6 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
    * Handles event when edits are discarded.
    */
   discardChangesHandler(): void {
-    // const editFormModel: CourseEditFormModel = this.model as CourseEditFormModel;
     if (this.editModel) {
       this.editModel.course = { ...this.editModel.originalCourse };
       this.editModel.isEditing = false;

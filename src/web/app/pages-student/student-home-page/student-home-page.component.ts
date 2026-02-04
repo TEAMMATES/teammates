@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -65,6 +65,8 @@ interface StudentSession {
   ],
 })
 export class StudentHomePageComponent implements OnInit {
+  private readonly timezoneService = inject(TimezoneService);
+
   // enum
   SortBy: typeof SortBy = SortBy;
 
@@ -97,7 +99,6 @@ export class StudentHomePageComponent implements OnInit {
     private courseService: CourseService,
     private statusMessageService: StatusMessageService,
     private feedbackSessionsService: FeedbackSessionsService,
-    private timezoneService: TimezoneService,
     private tableComparatorService: TableComparatorService) {
     this.timezoneService.getTzVersion();
   }

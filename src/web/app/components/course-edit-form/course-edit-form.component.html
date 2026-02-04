@@ -16,7 +16,7 @@
           </button>
         } @else {
           <button id="btn-edit-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse"
-            (click)="setIsEditing($event)">
+            (click)="setIsEditing(true)">
             <i class="fa fa-pen" aria-hidden="true"></i>
             Edit
           </button>
@@ -122,7 +122,7 @@
       <div class="form-group m-0">
         <div class=" col-sm-12 text-center">
           @if (isEditing) {
-            <button id="btn-save-course" class="btn btn-success" type="submit" [disabled]="form?.invalid || isSaving"
+            <button id="btn-save-course" class="btn btn-success" type="submit" [disabled]="courseForm.invalid || isSaving"
               >
               @if (isSaving) {
                 <tm-ajax-loading></tm-ajax-loading>
@@ -132,7 +132,7 @@
           }
           @if (isInAddMode) {
             <button id="btn-submit-course" class="btn btn-success" type="submit"
-              [disabled]="form?.invalid || isSaving || isInstitutesArrayEmpty">
+              [disabled]="courseForm.invalid || isSaving || isInstitutesArrayEmpty">
               @if (isSaving) {
                 <tm-ajax-loading></tm-ajax-loading>
               }

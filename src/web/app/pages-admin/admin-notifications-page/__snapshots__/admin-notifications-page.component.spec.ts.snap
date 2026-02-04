@@ -128,44 +128,44 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                     id="notification-style"
                   >
                     <option
-                      value="0: PRIMARY"
-                    >
-                      Primary (blue)
-                    </option>
-                    <option
-                      value="1: SECONDARY"
-                    >
-                      Secondary (grey)
-                    </option>
-                    <option
-                      value="2: SUCCESS"
-                    >
-                      Success (green)
-                    </option>
-                    <option
-                      value="3: DANGER"
+                      value="0: DANGER"
                     >
                       Danger (red)
                     </option>
                     <option
-                      value="4: WARNING"
+                      value="1: DARK"
                     >
-                      Warning (yellow)
+                      Dark
                     </option>
                     <option
-                      value="5: INFO"
+                      value="2: INFO"
                     >
                       Info (cyan)
                     </option>
                     <option
-                      value="6: LIGHT"
+                      value="3: LIGHT"
                     >
                       Light
                     </option>
                     <option
-                      value="7: DARK"
+                      value="4: PRIMARY"
                     >
-                      Dark
+                      Primary (blue)
+                    </option>
+                    <option
+                      value="5: SECONDARY"
+                    >
+                      Secondary (grey)
+                    </option>
+                    <option
+                      value="6: SUCCESS"
+                    >
+                      Success (green)
+                    </option>
+                    <option
+                      value="7: WARNING"
+                    >
+                      Warning (yellow)
                     </option>
                   </select>
                 </div>

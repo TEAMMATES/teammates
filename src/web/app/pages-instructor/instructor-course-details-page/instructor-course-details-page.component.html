@@ -44,7 +44,7 @@
           <div id="instructors" class="col-sm-9 text-sm-start">
             @for (instructor of instructors; track instructor) {
               <div>
-                {{instructor.role | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
+                {{instructor.role! | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
               </div>
             }
           </div>
