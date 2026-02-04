@@ -5,12 +5,6 @@
       "googleId": "tm.e2e.ICJoinConf.instr",
       "name": "Teammates Test",
       "email": "ICJoinConf.instr@gmail.tmt"
-    },
-    "ICJoinConf.instr2": {
-      "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.ICJoinConf.instr2",
-      "name": "Teammates Test 2",
-      "email": "ICJoinConf.instr2@gmail.tmt"
     }
   },
   "accountRequests": {
@@ -39,9 +33,7 @@
   "instructors": {
     "ICJoinConf.instr.CS1101": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
+      "account": {},
       "course": {
         "id": "tm.e2e.ICJoinConf.CS1101"
       },
