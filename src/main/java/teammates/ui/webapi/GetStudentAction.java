@@ -48,7 +48,7 @@ public class GetStudentAction extends Action {
                     student.getTeamName(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else if (regKey != null) {
-            getUnregisteredSqlStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
+            getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
         } else {
             if (userInfo == null || !userInfo.isStudent) {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
@@ -68,7 +68,7 @@ public class GetStudentAction extends Action {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         if (studentEmail == null) {
-            student = getPossiblyUnregisteredSqlStudent(courseId);
+            student = getPossiblyUnregisteredStudent(courseId);
         } else {
             student = sqlLogic.getStudentForEmail(courseId, studentEmail);
         }
@@ -82,9 +82,8 @@ public class GetStudentAction extends Action {
             studentData.setKey(student.getRegKey());
             studentData.setGoogleId(
                     Optional.ofNullable(student.getAccount())
-                        .map(Account::getGoogleId)
-                        .orElse("")
-            );
+                            .map(Account::getGoogleId)
+                            .orElse(""));
         }
 
         if (studentEmail == null) {
