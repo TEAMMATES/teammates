@@ -5,10 +5,11 @@ import org.testng.annotations.Test;
 import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
+import teammates.common.util.Const;
 import teammates.e2e.pageobjects.HomePage;
 
 /**
- * SUT: TEAMMATES front page (public landing page).
+ * SUT: {@link Const.WebPageURIs#FRONT_PAGE}.
  */
 public class HomePageAxeTest extends BaseAxeTestCase {
 
@@ -20,7 +21,7 @@ public class HomePageAxeTest extends BaseAxeTestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createFrontendUrl("/web/front");
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.FRONT_PAGE);
         HomePage homePage = getNewPageInstance(url, HomePage.class);
 
         // Front page does not use an h1 heading; disable page-has-heading-one for this page.
