@@ -12,6 +12,7 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.Config;
@@ -59,6 +60,7 @@ public abstract class Action {
 
     // TODO: unregisteredStudent. Instructor, isCourseMigrated, isAccountMigrated can be removed after migration
     private StudentAttributes unregisteredStudent;
+    private InstructorAttributes unregisteredInstructor;
     private Boolean isCourseMigrated;
     private Boolean isAccountMigrated;
 
@@ -181,12 +183,18 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
 
         user.setGoogleId(googleId);
-        if (unregisteredStudent == null
+        if (unregisteredStudent == null && unregisteredInstructor == null
                 && unregisteredSqlStudent == null && unregisteredSqlInstructor == null) {
             user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
         } else if (unregisteredStudent != null) {
             user.setRegkey(unregisteredStudent.getKey());
             user.setEmail(unregisteredStudent.getEmail());
+        } else if (unregisteredInstructor != null) {
+            user.setRegkey(unregisteredInstructor.getKey());
+            user.setEmail(unregisteredInstructor.getEmail());
+        } else if (unregisteredSqlStudent != null) {
+            user.setRegkey(unregisteredSqlStudent.getRegKey());
+            user.setEmail(unregisteredSqlStudent.getEmail());
         } else {
             user.setRegkey(unregisteredSqlInstructor.getRegKey());
             user.setEmail(unregisteredSqlInstructor.getEmail());
@@ -374,7 +382,24 @@ public abstract class Action {
     /**
      * Gets the unregistered instructor by the HTTP param.
      */
-    Optional<Instructor> getUnregisteredInstructor() {
+    Optional<InstructorAttributes> getUnregisteredInstructor() {
+        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
+        if (!StringHelper.isEmpty(key)) {
+            InstructorAttributes instructorAttributes = logic.getInstructorForRegistrationKey(key);
+            if (instructorAttributes == null) {
+                return Optional.empty();
+            }
+            unregisteredInstructor = instructorAttributes;
+            return Optional.of(instructorAttributes);
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the unregistered instructor by the HTTP param.
+     */
+    Optional<Instructor> getUnregisteredSqlInstructor() {
+        // TODO: Remove Sql from method name after migration
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
             Instructor instructor = sqlLogic.getInstructorByRegistrationKey(key);
@@ -387,8 +412,17 @@ public abstract class Action {
         return Optional.empty();
     }
 
-    Instructor getPossiblyUnregisteredSqlInstructor(String courseId) {
+    InstructorAttributes getPossiblyUnregisteredInstructor(String courseId) {
         return getUnregisteredInstructor().orElseGet(() -> {
+            if (userInfo == null) {
+                return null;
+            }
+            return logic.getInstructorForGoogleId(courseId, userInfo.getId());
+        });
+    }
+
+    Instructor getPossiblyUnregisteredSqlInstructor(String courseId) {
+        return getUnregisteredSqlInstructor().orElseGet(() -> {
             if (userInfo == null) {
                 return null;
             }
@@ -412,6 +446,26 @@ public abstract class Action {
             }
             return sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
         });
+    }
+
+    InstructorPermissionSet constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
+        InstructorPermissionSet privilege = instructor.getPrivileges().getCourseLevelPrivileges();
+        if (feedbackSessionName != null) {
+            privilege.setCanSubmitSessionInSections(
+                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(
+                            feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+            privilege.setCanViewSessionInSections(
+                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(
+                            feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+            privilege.setCanModifySessionCommentsInSections(
+                    instructor.isAllowedForPrivilege(
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        }
+        return privilege;
     }
 
     InstructorPermissionSet constructInstructorPrivileges(Instructor instructor, String feedbackSessionName) {
