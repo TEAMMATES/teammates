@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { NgIf, NgFor } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -19,10 +19,8 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
   styleUrls: ['./mcq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
   imports: [
     FormsModule,
-    NgIf,
     NgbTooltip,
     CdkDropList,
-    NgFor,
     CdkDrag,
     CdkDragHandle,
     McqFieldComponent,
@@ -41,7 +39,7 @@ export class McqQuestionEditDetailsFormComponent
     FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
     FeedbackParticipantType.OWN_TEAM_MEMBERS,
     FeedbackParticipantType.INSTRUCTORS,
-  ];
+  ] as const;
 
   // Used to store and restore user input when user toggles generate option
   storageModel: FeedbackMcqQuestionDetails = {
@@ -119,20 +117,6 @@ export class McqQuestionEditDetailsFormComponent
     const newWeights: number[] = this.model.mcqWeights.slice();
     newWeights[index] = event;
     this.triggerModelChange('mcqWeights', newWeights);
-  }
-
-  /**
-   * Tracks the Mcq option by index.
-   */
-  trackMcqOption(index: number): string {
-    return index.toString();
-  }
-
-  /**
-   * Tracks the Mcq weight by index.
-   */
-  trackMcqWeight(index: number): string {
-    return index.toString();
   }
 
   /**

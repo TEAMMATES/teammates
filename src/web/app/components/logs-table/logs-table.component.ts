@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass, JsonPipe } from '@angular/common';
+import { NgClass, JsonPipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { EmailLogDetailsComponent } from './log-details/email-log-details.component';
@@ -19,8 +19,6 @@ import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-out
   templateUrl: './logs-table.component.html',
   styleUrls: ['./logs-table.component.scss'],
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     NgbTooltip,
     RequestLogLineComponent,

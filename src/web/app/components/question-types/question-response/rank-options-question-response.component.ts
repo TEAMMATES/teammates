@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -25,7 +24,6 @@ interface RankOption {
     selector: 'tm-rank-options-question-response',
     templateUrl: './rank-options-question-response.component.html',
     styleUrls: ['./rank-options-question-response.component.scss'],
-    imports: [NgFor],
 })
 export class RankOptionsQuestionResponseComponent
     extends QuestionResponse<FeedbackRankOptionsResponseDetails, FeedbackRankOptionsQuestionDetails>
@@ -50,7 +48,7 @@ export class RankOptionsQuestionResponseComponent
         option: this.questionDetails.options[i],
       });
     }
-    arrayOfRanks = arrayOfRanks.filter((answer) => answer);
+    arrayOfRanks = arrayOfRanks.filter(Boolean);
     for (const answers of arrayOfRanks) {
       for (const answer of answers) {
         this.orderedAnswer.push(answer);

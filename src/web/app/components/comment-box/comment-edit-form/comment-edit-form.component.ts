@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
@@ -38,8 +37,6 @@ export interface CommentEditFormModel {
   styleUrls: ['./comment-edit-form.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
-    NgFor,
     NgbTooltip,
     RichTextEditorComponent,
     EnumToArrayPipe,

@@ -1,7 +1,7 @@
 import { animate, AnimationTriggerMetadata, style, transition, trigger } from '@angular/animations';
 
 /**
- * Directive for collapsing of *ngIf columns.
+ * Directive for collapsing of conditionally rendered columns.
  */
 export const collapseAnim: AnimationTriggerMetadata = trigger('collapseAnim', [
   transition(':leave', [

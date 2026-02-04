@@ -1,4 +1,4 @@
-import { NgClass, NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
@@ -20,8 +20,6 @@ import {
   styleUrls: ['./saving-complete-modal.component.scss'],
   imports: [
     NgClass,
-    NgIf,
-    NgFor,
     KeyValuePipe,
   ],
 })

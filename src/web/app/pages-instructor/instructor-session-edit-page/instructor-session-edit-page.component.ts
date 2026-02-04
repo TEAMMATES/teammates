@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -96,8 +95,6 @@ import {
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     SessionEditFormComponent,
-    NgIf,
-    NgFor,
     QuestionEditFormComponent,
     AddingQuestionPanelComponent,
     PreviewSessionPanelComponent,
@@ -578,15 +575,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.statusMessageService.showErrorToast(resp.error.message);
           },
         });
-  }
-
-  /**
-   * Tracks the question edit form by feedback question id.
-   *
-   * @see https://angular.io/api/common/NgForOf#properties
-   */
-  trackQuestionEditFormByFn(_: any, item: QuestionEditFormModel): any {
-    return item.feedbackQuestionId;
   }
 
   /**

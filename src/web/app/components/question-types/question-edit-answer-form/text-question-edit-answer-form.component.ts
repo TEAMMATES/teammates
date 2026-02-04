@@ -1,4 +1,4 @@
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -21,7 +21,6 @@ import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor
   templateUrl: './text-question-edit-answer-form.component.html',
   styleUrls: ['./text-question-edit-answer-form.component.scss'],
   imports: [
-    NgIf,
     FormsModule,
     RichTextEditorComponent,
     NgClass,

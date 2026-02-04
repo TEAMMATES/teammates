@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionAdditionalInfo } from './question-additional-info';
 import {
@@ -16,8 +15,6 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
   templateUrl: './msq-question-additional-info.component.html',
   styleUrls: ['./msq-question-additional-info.component.scss'],
   imports: [
-    NgIf,
-    NgFor,
     GeneratedChoicePipe,
   ],
 })

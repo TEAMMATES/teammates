@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgTemplateOutlet, KeyValuePipe } from '@angular/common';
+import { NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
@@ -21,7 +21,6 @@ import { SingleStatisticsComponent } from '../single-statistics/single-statistic
 
 interface QuestionTab {
   questionOutput: QuestionOutput;
-
   isTabExpanded: boolean;
 }
 
@@ -34,8 +33,6 @@ interface QuestionTab {
   styleUrls: ['./gqr-rqg-view-responses.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
-    NgFor,
     PanelChevronComponent,
     QuestionTextWithInfoComponent,
     SingleStatisticsComponent,

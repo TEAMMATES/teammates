@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { NgFor } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
@@ -17,7 +17,6 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
   styleUrls: ['./rank-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
   imports: [
     CdkDropList,
-    NgFor,
     CdkDrag,
     CdkDragHandle,
     RankOptionsFieldComponent,
@@ -51,13 +50,6 @@ export class RankOptionsQuestionEditDetailsFormComponent
     const newOptions: string[] = this.model.options.slice();
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
     this.triggerModelChange('options', newOptions);
-  }
-
-  /**
-   * Tracks the Rank option by index.
-   */
-  trackRankOption(index: number): string {
-    return index.toString();
   }
 
   /**

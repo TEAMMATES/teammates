@@ -1,4 +1,4 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContributionPointDescriptionPipe } from './contribution-point-description.pipe';
@@ -26,8 +26,6 @@ import {
   imports: [
     FormsModule,
     NgClass,
-    NgFor,
-    NgIf,
     ContributionPointDescriptionPipe,
   ],
 })

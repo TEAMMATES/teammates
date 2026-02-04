@@ -1,4 +1,4 @@
-import { NgIf, NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
@@ -25,9 +25,7 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
   templateUrl: './per-question-view-responses.component.html',
   styleUrls: ['./per-question-view-responses.component.scss'],
   imports: [
-    NgIf,
     NgClass,
-    NgFor,
     SingleResponseComponent,
     ResponseModerationButtonComponent,
     CommentTableModalComponent,

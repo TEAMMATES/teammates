@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, OnChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -24,7 +23,6 @@ import {
   templateUrl: './rubric-question-statistics.component.html',
   styleUrls: ['./rubric-question-statistics.component.scss'],
   imports: [
-    NgIf,
     NgbTooltip,
     FormsModule,
     SortableTableComponent,

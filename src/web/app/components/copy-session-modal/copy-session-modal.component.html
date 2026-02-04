@@ -11,29 +11,33 @@
       <div class="form-group">
         <label><b>Name for copied session*</b></label>
         <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH"
-               required #newSessionName="ngModel">
+          required #newSessionName="ngModel">
         <div [hidden]="newSessionName.valid || (newSessionName.pristine && newSessionName.untouched)" class="invalid-field">
-            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-            The field "Name for copied session" should not be empty.
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          The field "Name for copied session" should not be empty.
         </div>
         <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
       </div>
-      <div class="form-check" *ngFor="let course of courseCandidates">
-        <label class="form-check-label text-break">
-          <input type="checkbox" name="copySessionChooseCourse" class="form-check-input"
-                 [checked]="copyToCourseSet.has(course.courseId)" (click)="select(course.courseId)">
-          [<span [ngClass]="{ 'text-danger': sessionToCopyCourseId === course.courseId }">{{ course.courseId }}</span>]
-          : {{ course.courseName }}
-          <span *ngIf="sessionToCopyCourseId === course.courseId" class="text-danger">
-            {{ "{Session currently in this course}" }}
-          </span>
-        </label>
-      </div>
+      @for (course of courseCandidates; track course) {
+        <div class="form-check">
+          <label class="form-check-label text-break">
+            <input type="checkbox" name="copySessionChooseCourse" class="form-check-input"
+              [checked]="copyToCourseSet.has(course.courseId)" (click)="select(course.courseId)">
+            [<span [ngClass]="{ 'text-danger': sessionToCopyCourseId === course.courseId }">{{ course.courseId }}</span>]
+            : {{ course.courseName }}
+            @if (sessionToCopyCourseId === course.courseId) {
+              <span class="text-danger">
+                {{ "{Session currently in this course}" }}
+              </span>
+            }
+          </label>
+        </div>
+      }
     </div>
   </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
   <button id="btn-confirm-copy-course" type="button" class="btn btn-primary" (click)="copy()"
-          [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1">Copy</button>
+  [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1">Copy</button>
 </div>

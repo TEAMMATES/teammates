@@ -1,4 +1,4 @@
-import { NgIf, NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -53,11 +53,9 @@ export enum EditMode {
   templateUrl: './instructor-edit-panel.component.html',
   styleUrls: ['./instructor-edit-panel.component.scss'],
   imports: [
-    NgIf,
     NgbTooltip,
     NgClass,
     FormsModule,
-    NgFor,
     CustomPrivilegeSettingPanelComponent,
     AjaxLoadingComponent,
     EnumToArrayPipe,

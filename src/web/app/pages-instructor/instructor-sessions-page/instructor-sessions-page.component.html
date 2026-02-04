@@ -1,8 +1,10 @@
-<div class="alert alert-warning" role="alert"
-  *ngIf="!isCoursesLoading && courseCandidates.length === 0 && !hasCourseLoadingFailed">
-  You have not created any courses yet, or you have no active courses. Go <a
-    tmRouterLink="/web/instructor/courses">here</a> to create or unarchive a course.
+@if (!isCoursesLoading && courseCandidates.length === 0 && !hasCourseLoadingFailed) {
+  <div class="alert alert-warning" role="alert"
+    >
+    You have not created any courses yet, or you have no active courses. Go <a
+  tmRouterLink="/web/instructor/courses">here</a> to create or unarchive a course.
 </div>
+}
 
 <div>
   <button id="btn-add-session" class="btn btn-success" (click)="isSessionEditFormExpanded = true"
@@ -10,26 +12,30 @@
   </button>
 </div>
 
-<div id="add-session-section" class="margin-top-30px" *ngIf="isSessionEditFormExpanded && !isCoursesLoading"
-  @collapseAnim>
-  <div>
-    <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel" (modelChange)="triggerModelChange($event)"
-      [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
-      [isCopyOtherSessionLoading]="isCopyOtherSessionLoading" (addNewSessionEvent)="addNewSessionHandler()"
-      (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
+@if (isSessionEditFormExpanded && !isCoursesLoading) {
+  <div id="add-session-section" class="margin-top-30px"
+    @collapseAnim>
+    <div>
+      <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel" (modelChange)="triggerModelChange($event)"
+        [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
+        [isCopyOtherSessionLoading]="isCopyOtherSessionLoading" (addNewSessionEvent)="addNewSessionHandler()"
+        (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
       (closeEditFormEvent)="isSessionEditFormExpanded = false"></tm-session-edit-form>
+    </div>
   </div>
-</div>
+}
 
 <tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed || hasFeedbackSessionLoadingFailed"
   [message]="'Failed to load data'" (retryEvent)="retryLoadingAllData()">
   <div class="margin-top-30px">
     <div *tmIsLoading="isCoursesLoading || isMoveToRecycleBinLoading || isCopySessionLoading || isResultActionLoading"
       class="table-responsive">
-      <div class="alert alert-warning margin-top-30px" role="alert"
-        *ngIf="sessionsTableRowModels.length === 0 && !isFeedbackSessionsLoading">
-        You have not created any sessions yet. Use the form above to create a session.
-      </div>
+      @if (sessionsTableRowModels.length === 0 && !isFeedbackSessionsLoading) {
+        <div class="alert alert-warning margin-top-30px" role="alert"
+          >
+          You have not created any sessions yet. Use the form above to create a session.
+        </div>
+      }
       <tm-sessions-table
         id="sessions-table"
         *tmIsLoading="isFeedbackSessionsLoading"
@@ -48,7 +54,7 @@
         (downloadSessionResultsEvent)="downloadSessionResultEventHandler($event)"
         (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(sessionsTableRowModels[$event])"
         (sendRemindersToAllNonSubmittersEvent)="sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event], true)"
-        (sendRemindersToSelectedNonSubmittersEvent)="sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event], false)"></tm-sessions-table>
+      (sendRemindersToSelectedNonSubmittersEvent)="sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event], false)"></tm-sessions-table>
     </div>
   </div>
   <br />

@@ -1,4 +1,4 @@
-import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -34,12 +34,10 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   styleUrls: ['./instructor-session-no-response-panel.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     TeammatesRouterDirective,
     NgTemplateOutlet,
     PanelChevronComponent,
     LoadingSpinnerDirective,
-    NgFor,
   ],
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {

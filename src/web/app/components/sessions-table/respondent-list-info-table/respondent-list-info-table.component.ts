@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from './respondent-list-info-table-model';
@@ -13,9 +13,7 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
   templateUrl: './respondent-list-info-table.component.html',
   styleUrls: ['./respondent-list-info-table.component.scss'],
   imports: [
-    NgIf,
     FormsModule,
-    NgFor,
     NgClass,
   ],
 })

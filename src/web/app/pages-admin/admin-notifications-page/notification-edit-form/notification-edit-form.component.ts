@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe, NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -26,27 +26,25 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
   providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     NgbTooltip,
     FormsModule,
-    NgFor,
     NgClass,
     RichTextEditorComponent,
     DatepickerComponent,
     TimepickerComponent,
     AjaxLoadingComponent,
-    KeyValuePipe,
     NotificationStyleDescriptionPipe,
     NotificationStyleClassPipe,
+    KeyValuePipe,
   ],
 })
 export class NotificationEditFormComponent {
 
   NotificationEditFormMode = NotificationEditFormMode;
-  NotificationStyle = NotificationStyle;
   NotificationTargetUser = NotificationTargetUser;
 
   NOTIFICATION_TITLE_MAX_LENGTH = ApiConst.NOTIFICATION_TITLE_MAX_LENGTH;
+  NotificationStyle = NotificationStyle;
 
   @Input()
   guessTimezone = 'UTC';

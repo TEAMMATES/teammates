@@ -2,58 +2,93 @@
   <a tmRouterLink="/web" (click)="isCollapsed = true">
     <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]">
   </a>
-  <button class="navbar-toggler d-lg-none" type="button" (click)="toggleCollapse()" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
+  <button class="navbar-toggler d-lg-none" type="button" (click)="toggleCollapse()" [attr.aria-expanded]="!isCollapsed"
+    aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="navbar-collapse" [ngStyle]="{ display: isCollapsed ? 'none' : 'block' }">
-    <ul class="nav navbar-nav flex-nowrap me-auto" *ngIf="isValidUser">
-      <ng-template ngFor let-navItem [ngForOf]="navItems">
-        <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
-          <button class="bg-transparent btn btn-link nav-link dropdown-toggle"
-                  data-toggle="dropdown" tabindex="0" ngbDropdownToggle>{{ navItem.display }}</button>
-          <div class="dropdown-menu" ngbDropdownMenu>
-            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [tmRouterLink]="childItem.url" (click)="toggleCollapse();closeModal()">{{ childItem.display}}</a>
-          </div>
-        </li>
-        <li *ngIf="!navItem.children" class="nav-item">
-          <a class="nav-link" [tmRouterLink]="navItem.url" (click)="toggleCollapse();closeModal()">{{ navItem.display }}</a>
-        </li>
-      </ng-template>
+    @if (isValidUser) {
+    <ul class="nav navbar-nav flex-nowrap me-auto">
+      @for (navItem of navItems; track navItem) {
+      @if (navItem.children) {
+      <li class="nav-item dropdown" ngbDropdown>
+        <button class="bg-transparent btn btn-link nav-link dropdown-toggle" data-toggle="dropdown" tabindex="0"
+          ngbDropdownToggle>{{ navItem.display }}</button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          @for (childItem of navItem.children; track childItem) {
+          <a class="dropdown-item" [tmRouterLink]="childItem.url" (click)="toggleCollapse();closeModal()">{{
+            childItem.display}}</a>
+          }
+        </div>
+      </li>
+      }
+      @if (!navItem.children) {
+      <li class="nav-item">
+        <a class="nav-link" [tmRouterLink]="navItem.url" (click)="toggleCollapse();closeModal()">{{ navItem.display
+          }}</a>
+      </li>
+      }
+      }
     </ul>
-    <ul class="nav navbar-nav me-auto" *ngIf="!isValidUser"></ul>
-    <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo && !isFetchingAuthDetails">
-      <li class="nav-item dropdown" ngbDropdown placement="bottom-end" *ngIf="!user">
-        <button class="bg-transparent btn btn-link nav-link dropdown-toggle"
-           data-toggle="dropdown" tabindex="0" ngbDropdownToggle>Login</button>
+    }
+    @if (!isValidUser) {
+    <ul class="nav navbar-nav me-auto"></ul>
+    }
+    @if (!hideAuthInfo && !isFetchingAuthDetails) {
+    <ul class="nav navbar-nav pull-right">
+      @if (!user) {
+      <li class="nav-item dropdown" ngbDropdown placement="bottom-end">
+        <button class="bg-transparent btn btn-link nav-link dropdown-toggle" data-toggle="dropdown" tabindex="0"
+          ngbDropdownToggle>Login</button>
         <div class="dropdown-menu-right" ngbDropdownMenu>
           <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
           <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
         </div>
       </li>
-      <li class="nav-item dropdown" ngbDropdown placement="bottom-end" *ngIf="user">
-        <button class="bg-transparent btn btn-link nav-link dropdown-toggle"
-                data-toggle="dropdown" tabindex="0" ngbDropdownToggle>{{ user }}</button>
+      }
+      @if (user) {
+      <li class="nav-item dropdown" ngbDropdown placement="bottom-end">
+        <button class="bg-transparent btn btn-link nav-link dropdown-toggle" data-toggle="dropdown" tabindex="0"
+          ngbDropdownToggle>{{ user }}</button>
         <div class="dropdown-menu-right" ngbDropdownMenu>
-          <a class="dropdown-item" tmRouterLink="/web/student" *ngIf="isStudent" (click)="closeModal()">To student pages</a>
-          <a class="dropdown-item" tmRouterLink="/web/instructor" *ngIf="isInstructor" (click)="closeModal()">To instructor pages</a>
-          <a class="dropdown-item" tmRouterLink="/web/admin" *ngIf="isAdmin" (click)="closeModal()">To admin pages</a>
-          <a class="dropdown-item" tmRouterLink="/web/maintainer" *ngIf="isMaintainer" (click)="closeModal()">To maintainer pages</a>
-          <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin || isMaintainer"></div>
-          <a class="dropdown-item" tmRouterLink="/web/front/home" id="logout-btn" style="cursor: pointer;" (click)="logout()">Log Out</a>
+          @if (isStudent) {
+          <a class="dropdown-item" tmRouterLink="/web/student" (click)="closeModal()">To student pages</a>
+          }
+          @if (isInstructor) {
+          <a class="dropdown-item" tmRouterLink="/web/instructor" (click)="closeModal()">To instructor pages</a>
+          }
+          @if (isAdmin) {
+          <a class="dropdown-item" tmRouterLink="/web/admin" (click)="closeModal()">To admin pages</a>
+          }
+          @if (isMaintainer) {
+          <a class="dropdown-item" tmRouterLink="/web/maintainer" (click)="closeModal()">To maintainer pages</a>
+          }
+          @if (isStudent || isInstructor || isAdmin || isMaintainer) {
+          <div class="dropdown-divider"></div>
+          }
+          <a class="dropdown-item" tmRouterLink="/web/front/home" id="logout-btn" style="cursor: pointer;"
+            (click)="logout()">Log Out</a>
         </div>
       </li>
+      }
     </ul>
+    }
   </div>
 </nav>
 <tm-loader-bar></tm-loader-bar>
 <tm-toast [(toast)]="toast" aria-live="polite" aria-atomic="true"></tm-toast>
 <main id="main-content" class="container main-content">
-  <tm-notification-banner *ngIf="isStudent || isInstructor" [url]="getUrl()" [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
+  @if (isStudent || isInstructor) {
+  <tm-notification-banner [url]="getUrl()" [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
+  }
   <div *tmIsLoading="isFetchingAuthDetails">
-    <div *ngIf="isUnsupportedBrowser">
+    @if (isUnsupportedBrowser) {
+    <div>
       <div class="alert alert-danger" role="alert">
-        <i class="fas fa-exclamation-circle"></i>&nbsp;You are currently using {{ browser }}. This web browser is not officially supported by TEAMMATES.
-        In case this web browser does not display the webpage correctly, you may wish to view it in the following supported browsers:
+        <i class="fas fa-exclamation-circle"></i>&nbsp;You are currently using {{ browser }}. This web browser is not
+        officially supported by TEAMMATES.
+        In case this web browser does not display the webpage correctly, you may wish to view it in the following
+        supported browsers:
         <ol>
           <li>Chrome {{ minimumVersions['Chrome'] }}+</li>
           <li>Edge {{ minimumVersions['Edge'] }}+</li>
@@ -62,18 +97,26 @@
         </ol>
       </div>
     </div>
-    <div *ngIf="(isNetworkOnline$ | async) === false">
+    }
+    @if ((isNetworkOnline$ | async) === false) {
+    <div>
       <div class="alert alert-danger" role="alert">
         <i class="fas fa-wifi"></i>&nbsp;You are not connected to the internet.
       </div>
     </div>
-    <div *ngIf="isCookieDisabled">
+    }
+    @if (isCookieDisabled) {
+    <div>
       <div class="alert alert-danger" role="alert">
-        <i class="fas fa-ban"></i>&nbsp;You are currently not enabling cookies in your browser. TEAMMATES requires cookies in order to work effectively.
+        <i class="fas fa-ban"></i>&nbsp;You are currently not enabling cookies in your browser. TEAMMATES requires
+        cookies in order to work effectively.
       </div>
     </div>
-    <div *ngIf="!isValidUser">
-      <div *ngIf="isStudent || isInstructor || isAdmin || isMaintainer">
+    }
+    @if (!isValidUser) {
+    <div>
+      @if (isStudent || isInstructor || isAdmin || isMaintainer) {
+      <div>
         <div class="row">
           <div class="alert alert-light col-sm-4 offset-sm-4">
             <img src="assets/images/angry.png" style="float: left; height: 90px; margin: 0 10px 10px 0;">
@@ -83,20 +126,28 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!(isStudent || isInstructor || isAdmin || isMaintainer)">
+      }
+      @if (!(isStudent || isInstructor || isAdmin || isMaintainer)) {
+      <div>
         <div class="row">
           <div class="alert alert-danger col-sm-8 offset-sm-2">
             <div class="align-left">
-              <h5 style="text-align: center;"><i class="fas fa-exclamation-circle"></i>&nbsp;Ooops! Your Google account {{user}} is not known to TEAMMATES</h5>
+              <h5 style="text-align: center;"><i class="fas fa-exclamation-circle"></i>&nbsp;Ooops! Your Google account
+                {{user}} is not known to TEAMMATES</h5>
               <p style="text-align: center;">
-                To access a course on TEAMMATES, you need to wait until an instructor adds you to that course. As a confirmation, TEAMMATES will send you instructions on how to access that particular course.
+                To access a course on TEAMMATES, you need to wait until an instructor adds you to that course. As a
+                confirmation, TEAMMATES will send you instructions on how to access that particular course.
               </p>
               <hr>
               <br>
-              If you 'joined' the course in TEAMMATES using a Google account before, but cannot log in anymore, these are the possible reasons:
+              If you 'joined' the course in TEAMMATES using a Google account before, but cannot log in anymore, these
+              are the possible reasons:
               <ol>
                 <li>
-                  You used a different Google account to access TEAMMATES in the past. In that case, you need to use the same Google account to access TEAMMATES again. Log out and re-log in using the other Google account. If you don't remember which Google account you used previously, email us from the same email account to which you receive TEAMMATES emails.
+                  You used a different Google account to access TEAMMATES in the past. In that case, you need to use the
+                  same Google account to access TEAMMATES again. Log out and re-log in using the other Google account.
+                  If you don't remember which Google account you used previously, email us from the same email account
+                  to which you receive TEAMMATES emails.
                 </li>
                 <li>
                   You changed the primary email from a non-Gmail address to a Gmail address recently. In that case,
@@ -106,16 +157,23 @@
                   so that we can reconfigure your account to use the new Gmail address.
                 </li>
                 <li>
-                  You joined this course just a few seconds ago and your data may be still in the process of propagating through our servers. In that case, please try this same page in a few minutes.
+                  You joined this course just a few seconds ago and your data may be still in the process of propagating
+                  through our servers. In that case, please try this same page in a few minutes.
                 </li>
               </ol>
             </div>
           </div>
         </div>
       </div>
+      }
     </div>
-    <h1 *ngIf="pageTitle && isValidUser">{{ pageTitle }}</h1>
-    <router-outlet *ngIf="isValidUser"></router-outlet>
+    }
+    @if (pageTitle && isValidUser) {
+    <h1>{{ pageTitle }}</h1>
+    }
+    @if (isValidUser) {
+    <router-outlet></router-outlet>
+    }
   </div>
 </main>
 <footer class="footer">

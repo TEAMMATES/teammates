@@ -1,4 +1,4 @@
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -18,8 +18,6 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
   imports: [
     NgClass,
     FormsModule,
-    NgFor,
-    NgIf,
     TeammatesRouterDirective,
     NgbTooltip,
     NgTemplateOutlet,

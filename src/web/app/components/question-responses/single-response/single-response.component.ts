@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   FeedbackQuestionDetails,
@@ -26,7 +25,6 @@ import { TextQuestionResponseComponent } from '../../question-types/question-res
   templateUrl: './single-response.component.html',
   styleUrls: ['./single-response.component.scss'],
   imports: [
-    NgIf,
     ContributionQuestionResponseComponent,
     TextQuestionResponseComponent,
     ConstsumQuestionResponseComponent,

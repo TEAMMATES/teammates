@@ -1,4 +1,6 @@
 Rubric question sub-questions:
 <ul>
-  <li *ngFor="let subQuestion of questionDetails.rubricSubQuestions">{{ subQuestion }}</li>
+  @for (subQuestion of questionDetails.rubricSubQuestions; track subQuestion) {
+    <li>{{ subQuestion }}</li>
+  }
 </ul>

@@ -1,4 +1,4 @@
-import { KeyValue, NgIf, NgFor, NgTemplateOutlet, KeyValuePipe } from '@angular/common';
+import { NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
@@ -27,8 +27,6 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
   styleUrls: ['./grq-rgq-view-responses.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
-    NgFor,
     PanelChevronComponent,
     NgTemplateOutlet,
     ResponseModerationButtonComponent,
@@ -88,10 +86,6 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
 
   ngOnChanges(): void {
     this.filterResponses();
-  }
-
-  trackByName(_: number, keyVal: KeyValue<string, boolean>): string {
-    return keyVal.key;
   }
 
   private filterResponses(): void {

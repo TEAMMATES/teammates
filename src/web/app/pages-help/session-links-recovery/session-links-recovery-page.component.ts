@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReCaptcha2Component, NgxCaptchaModule } from 'ngx-captcha';
@@ -20,7 +19,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     NgxCaptchaModule,
     AjaxLoadingComponent,
   ],

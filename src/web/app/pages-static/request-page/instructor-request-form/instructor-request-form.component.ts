@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +18,6 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     NgxCaptchaModule,
     NgbAlert,
     TeammatesRouterDirective,

@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -37,10 +37,8 @@ export interface NotificationTab {
   styleUrls: ['./user-notifications-list.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgFor,
     NgClass,
     PanelChevronComponent,
     NotificationStyleClassPipe,
