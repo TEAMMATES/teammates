@@ -34,11 +34,6 @@ public class GetCourseAction extends Action {
                 return;
             }
 
-            if (Const.EntityType.STUDENT.equals(entityType)) {
-                gateKeeper.verifyAccessible(getPossiblyUnregisteredStudent(courseId), courseAttributes);
-                return;
-            }
-
             throw new UnauthorizedAccessException("Student or instructor account is required to access this resource.");
         }
 
@@ -49,7 +44,7 @@ public class GetCourseAction extends Action {
         }
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
-            gateKeeper.verifyAccessible(getPossiblyUnregisteredSqlStudent(courseId), course);
+            gateKeeper.verifyAccessible(getPossiblyUnregisteredStudent(courseId), course);
             return;
         }
 
