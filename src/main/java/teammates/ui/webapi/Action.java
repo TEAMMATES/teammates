@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
-
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
@@ -13,7 +12,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -58,8 +56,8 @@ public abstract class Action {
     UserInfo userInfo;
     AuthType authType;
 
-    // TODO: unregisteredStudent. Instructor, isCourseMigrated, isAccountMigrated can be removed after migration
-    private StudentAttributes unregisteredStudent;
+    // TODO: unregisteredStudent. Instructor, isCourseMigrated, isAccountMigrated
+    // can be removed after migration
     private InstructorAttributes unregisteredInstructor;
     private Boolean isCourseMigrated;
     private Boolean isAccountMigrated;
@@ -151,7 +149,8 @@ public abstract class Action {
     }
 
     /**
-     * Checks if the requesting user has sufficient authority to access the resource.
+     * Checks if the requesting user has sufficient authority to access the
+     * resource.
      */
     public void checkAccessControl() throws UnauthorizedAccessException {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
@@ -183,12 +182,9 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
 
         user.setGoogleId(googleId);
-        if (unregisteredStudent == null && unregisteredInstructor == null
+        if (unregisteredInstructor == null
                 && unregisteredSqlStudent == null && unregisteredSqlInstructor == null) {
             user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
-        } else if (unregisteredStudent != null) {
-            user.setRegkey(unregisteredStudent.getKey());
-            user.setEmail(unregisteredStudent.getEmail());
         } else if (unregisteredInstructor != null) {
             user.setRegkey(unregisteredInstructor.getKey());
             user.setEmail(unregisteredInstructor.getEmail());
@@ -211,8 +207,10 @@ public abstract class Action {
             return;
         }
 
-        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
+        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any
+        // user-sent X-AppEngine-QueueName headers.
+        // Reference:
+        // https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
         String queueNameHeader = req.getHeader("X-AppEngine-QueueName");
         boolean isRequestFromAppEngineQueue = queueNameHeader != null;
         if (isRequestFromAppEngineQueue) {
@@ -237,14 +235,16 @@ public abstract class Action {
     }
 
     /**
-     * Returns the first value for the specified parameter in the HTTP request, or null if such parameter is not found.
+     * Returns the first value for the specified parameter in the HTTP request, or
+     * null if such parameter is not found.
      */
     String getRequestParamValue(String paramName) {
         return req.getParameter(paramName);
     }
 
     /**
-     * Returns the first value for the specified parameter expected to be present in the HTTP request.
+     * Returns the first value for the specified parameter expected to be present in
+     * the HTTP request.
      */
     String getNonNullRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
@@ -255,7 +255,8 @@ public abstract class Action {
     }
 
     /**
-     * Returns the first value for the specified parameter expected to be present in the HTTP request as boolean.
+     * Returns the first value for the specified parameter expected to be present in
+     * the HTTP request as boolean.
      */
     boolean getBooleanRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
@@ -268,7 +269,8 @@ public abstract class Action {
     }
 
     /**
-     * Returns the first value for the specified parameter expected to be present in the HTTP request as long.
+     * Returns the first value for the specified parameter expected to be present in
+     * the HTTP request as long.
      */
     long getLongRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
@@ -281,7 +283,8 @@ public abstract class Action {
     }
 
     /**
-     * Returns the first value for the specified parameter expected to be present in the HTTP request as UUID.
+     * Returns the first value for the specified parameter expected to be present in
+     * the HTTP request as UUID.
      */
     UUID getUuidRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
@@ -349,24 +352,7 @@ public abstract class Action {
     /**
      * Gets the unregistered student by the HTTP param.
      */
-    Optional<StudentAttributes> getUnregisteredStudent() {
-        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
-        if (!StringHelper.isEmpty(key)) {
-            StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(key);
-            if (studentAttributes == null) {
-                return Optional.empty();
-            }
-            unregisteredStudent = studentAttributes;
-            return Optional.of(studentAttributes);
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * Gets the unregistered student by the HTTP param.
-     */
-    Optional<Student> getUnregisteredSqlStudent() {
-        // TODO: Remove Sql from method name after migration
+    Optional<Student> getUnregisteredStudent() {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
             Student student = sqlLogic.getStudentByRegistrationKey(key);
@@ -430,17 +416,8 @@ public abstract class Action {
         });
     }
 
-    StudentAttributes getPossiblyUnregisteredStudent(String courseId) {
+    Student getPossiblyUnregisteredStudent(String courseId) {
         return getUnregisteredStudent().orElseGet(() -> {
-            if (userInfo == null) {
-                return null;
-            }
-            return logic.getStudentForGoogleId(courseId, userInfo.getId());
-        });
-    }
-
-    Student getPossiblyUnregisteredSqlStudent(String courseId) {
-        return getUnregisteredSqlStudent().orElseGet(() -> {
             if (userInfo == null) {
                 return null;
             }
@@ -454,16 +431,16 @@ public abstract class Action {
             privilege.setCanSubmitSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+                                    feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
             privilege.setCanViewSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                                    feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
             privilege.setCanModifySessionCommentsInSections(
                     instructor.isAllowedForPrivilege(
                             Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
-                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         }
         return privilege;
     }
@@ -474,16 +451,16 @@ public abstract class Action {
             privilege.setCanSubmitSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+                                    feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
             privilege.setCanViewSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                                    feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
             privilege.setCanModifySessionCommentsInSections(
                     instructor.isAllowedForPrivilege(
                             Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
-                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         }
         return privilege;
     }
