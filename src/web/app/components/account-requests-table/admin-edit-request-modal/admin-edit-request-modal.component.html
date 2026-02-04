@@ -7,15 +7,15 @@
   <div id="reject-account-request-modal" class="modal-body">
     <div>
       <label><b>Name:</b></label>
-      <input id="request-name" type="text" class="form-control" value="{{ accountRequestName }}" (input)="accountRequestName = $event.target.value">
+      <input id="request-name" type="text" class="form-control" [value]="accountRequestName" (input)="accountRequestName = castAsInputElement($event.target).value">
     </div>
     <div>
       <label><b>Email:</b></label>
-      <input id="request-email" type="text" class="form-control" value="{{ accountRequestEmail }}" (input)="accountRequestEmail = $event.target.value">
+      <input id="request-email" type="text" class="form-control" [value]="accountRequestEmail" (input)="accountRequestEmail = castAsInputElement($event.target).value">
     </div>
     <div>
       <label><b>Institution, Country:</b></label>
-      <input id="request-institution" type="text" class="form-control" value="{{ accountRequestInstitution }}" (input)="accountRequestInstitution = $event.target.value">
+      <input id="request-institution" type="text" class="form-control" [value]="accountRequestInstitution" (input)="accountRequestInstitution = castAsInputElement($event.target).value">
     </div>
     <div class="row">
       <div class="col-12">
@@ -23,7 +23,7 @@
           <label><b>Comments:</b></label>
         </div>
         <div class="form-group">
-          <textarea id="request-comments" class="form-control" rows="5" value="{{ accountRequestComments }}" (input)="accountRequestComments = $event.target.value"></textarea>
+          <textarea id="request-comments" class="form-control" [rows]="5" [value]="accountRequestComments" (input)="accountRequestComments = castAsTextAreaElement($event.target).value"></textarea>
         </div>
   </div>
   <div class="modal-footer">
