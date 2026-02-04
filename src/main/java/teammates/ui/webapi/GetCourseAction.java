@@ -29,10 +29,6 @@ public class GetCourseAction extends Action {
 
         if (!isCourseMigrated(courseId)) {
             CourseAttributes courseAttributes = logic.getCourse(courseId);
-            if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-                gateKeeper.verifyAccessible(getPossiblyUnregisteredInstructor(courseId), courseAttributes);
-                return;
-            }
 
             if (Const.EntityType.STUDENT.equals(entityType)) {
                 gateKeeper.verifyAccessible(getPossiblyUnregisteredStudent(courseId), courseAttributes);
@@ -44,7 +40,7 @@ public class GetCourseAction extends Action {
 
         Course course = sqlLogic.getCourse(courseId);
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            gateKeeper.verifyAccessible(getPossiblyUnregisteredSqlInstructor(courseId), course);
+            gateKeeper.verifyAccessible(getPossiblyUnregisteredInstructor(courseId), course);
             return;
         }
 
@@ -72,27 +68,7 @@ public class GetCourseAction extends Action {
         CourseData output = new CourseData(course);
         String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            Instructor instructor = getPossiblyUnregisteredSqlInstructor(courseId);
-            if (instructor != null) {
-                InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
-                output.setPrivileges(privilege);
-            }
-        } else if (Const.EntityType.STUDENT.equals(entityType)) {
-            output.hideInformationForStudent();
-        }
-        return new JsonResult(output);
-    }
-
-    private JsonResult getFromDatastore(String courseId) {
-        CourseAttributes courseAttributes = logic.getCourse(courseId);
-        if (courseAttributes == null) {
-            throw new EntityNotFoundException("No course with id: " + courseId);
-        }
-
-        CourseData output = new CourseData(courseAttributes);
-        String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
-        if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            InstructorAttributes instructor = getPossiblyUnregisteredInstructor(courseId);
+            Instructor instructor = getPossiblyUnregisteredInstructor(courseId);
             if (instructor != null) {
                 InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
                 output.setPrivileges(privilege);
