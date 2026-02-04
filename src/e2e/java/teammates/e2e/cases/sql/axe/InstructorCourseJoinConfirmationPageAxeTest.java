@@ -37,7 +37,7 @@ public class InstructorCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase
                 joinLink, CourseJoinConfirmationPage.class, NEW_INSTRUCTOR_GOOGLE_ID);
 
         Results results = getAxeBuilder().analyze(confirmationPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

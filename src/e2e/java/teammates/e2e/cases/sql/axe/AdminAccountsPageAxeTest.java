@@ -26,7 +26,7 @@ public class AdminAccountsPageAxeTest extends BaseAxeTestCase {
         AdminAccountsPage accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountsPage.class);
 
         Results results = getAxeBuilder().analyze(accountsPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

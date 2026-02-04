@@ -59,8 +59,15 @@ public class AdminSessionsPageAxeTest extends BaseAxeTestCase {
         AppUrl sessionsUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_SESSIONS_PAGE);
         AdminSessionsPage sessionsPage = loginAdminToPage(sessionsUrl, AdminSessionsPage.class);
 
+        // Run axe on initial view (ongoing sessions table).
         Results results = getAxeBuilder().analyze(sessionsPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
+
+        // Run axe again with filter section expanded to cover that UI state.
+        sessionsPage.toggleSessionFilter();
+        sessionsPage.waitForSessionFilterVisibility();
+        Results resultsWithFilter = getAxeBuilder().analyze(sessionsPage.getBrowser().getDriver());
+        assertViolationFree(resultsWithFilter);
     }
 
 }

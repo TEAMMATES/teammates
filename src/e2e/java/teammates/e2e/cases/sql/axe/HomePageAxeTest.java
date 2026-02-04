@@ -26,7 +26,7 @@ public class HomePageAxeTest extends BaseAxeTestCase {
 
         // Front page does not use an h1 heading; disable page-has-heading-one for this page.
         Results results = getAxeBuilder("page-has-heading-one").analyze(homePage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

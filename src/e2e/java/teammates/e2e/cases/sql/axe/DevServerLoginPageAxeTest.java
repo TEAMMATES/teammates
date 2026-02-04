@@ -29,7 +29,7 @@ public class DevServerLoginPageAxeTest extends BaseAxeTestCase {
         Results results = getAxeBuilder(
                 "document-title", "html-has-lang", "landmark-one-main", "page-has-heading-one", "region"
         ).analyze(loginPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

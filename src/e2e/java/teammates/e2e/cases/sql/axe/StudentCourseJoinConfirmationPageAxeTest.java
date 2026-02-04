@@ -37,7 +37,7 @@ public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
                 joinLink, CourseJoinConfirmationPage.class, newStudentGoogleId);
 
         Results results = getAxeBuilder().analyze(confirmationPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

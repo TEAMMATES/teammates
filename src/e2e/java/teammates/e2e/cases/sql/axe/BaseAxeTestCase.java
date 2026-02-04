@@ -38,6 +38,14 @@ abstract class BaseAxeTestCase extends BaseE2ETestCase {
     }
 
     /**
+     * Asserts that the page has no accessibility violations.
+     * Use this in tests so failure messages clearly list violations.
+     */
+    void assertViolationFree(Results results) {
+        assertTrue("Accessibility violations: " + formatViolations(results), results.violationFree());
+    }
+
+    /**
      * Formats accessibility violations into a readable string.
      */
     static String formatViolations(Results results) {

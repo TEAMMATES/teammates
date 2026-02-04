@@ -15,7 +15,7 @@ public class AdminHomePageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/AdminHomePageE2ETest_SqlEntities.json"));
+        // not needed
     }
 
     @Test
@@ -25,7 +25,7 @@ public class AdminHomePageAxeTest extends BaseAxeTestCase {
         AdminHomePage homePage = loginAdminToPage(url, AdminHomePage.class);
 
         Results results = getAxeBuilder().analyze(homePage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

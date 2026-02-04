@@ -26,7 +26,7 @@ public class AdminTimezonePageAxeTest extends BaseAxeTestCase {
 
         // Admin timezone page content does not include an h1; disable page-has-heading-one for this page.
         Results results = getAxeBuilder("page-has-heading-one").analyze(timezonePage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

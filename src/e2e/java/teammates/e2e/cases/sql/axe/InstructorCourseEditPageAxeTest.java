@@ -27,7 +27,7 @@ public class InstructorCourseEditPageAxeTest extends BaseAxeTestCase {
                 testData.instructors.get("ICEdit.coowner.CS2104").getGoogleId());
 
         Results results = getAxeBuilder().analyze(editPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

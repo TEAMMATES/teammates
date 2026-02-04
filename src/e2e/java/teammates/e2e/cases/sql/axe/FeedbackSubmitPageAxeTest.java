@@ -29,7 +29,7 @@ public class FeedbackSubmitPageAxeTest extends BaseAxeTestCase {
                 testData.students.get("alice.tmms@FSubmit.CS2104").getGoogleId());
 
         Results results = getAxeBuilder().analyze(feedbackSubmitPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

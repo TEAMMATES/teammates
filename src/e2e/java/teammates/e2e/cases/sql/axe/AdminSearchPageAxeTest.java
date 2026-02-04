@@ -37,7 +37,7 @@ public class AdminSearchPageAxeTest extends BaseAxeTestCase {
         searchPage.clickSearchButton();
 
         Results results = getAxeBuilder().analyze(searchPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

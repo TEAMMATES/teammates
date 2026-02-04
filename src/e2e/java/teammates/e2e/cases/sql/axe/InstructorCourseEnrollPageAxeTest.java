@@ -30,7 +30,7 @@ public class InstructorCourseEnrollPageAxeTest extends BaseAxeTestCase {
         Results results = getAxeBuilder(
                 "aria-hidden-focus", "aria-required-children", "aria-required-parent"
         ).analyze(enrollPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

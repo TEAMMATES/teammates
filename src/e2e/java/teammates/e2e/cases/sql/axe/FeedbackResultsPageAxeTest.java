@@ -28,7 +28,7 @@ public class FeedbackResultsPageAxeTest extends BaseAxeTestCase {
                 testData.students.get("Alice").getGoogleId());
 
         Results results = getAxeBuilder().analyze(resultsPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }
