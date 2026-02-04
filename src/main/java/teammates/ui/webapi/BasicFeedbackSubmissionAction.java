@@ -207,21 +207,6 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
-    /**
-     * Gets the instructor involved in the submission process.
-     */
-    InstructorAttributes getInstructorOfCourseFromRequest(String courseId) {
-        String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-
-        if (!StringHelper.isEmpty(moderatedPerson)) {
-            return logic.getInstructorForEmail(courseId, moderatedPerson);
-        } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            return logic.getInstructorForEmail(courseId, previewAsPerson);
-        } else {
-            return getPossiblyUnregisteredInstructor(courseId);
-        }
-    }
 
     /**
      * Gets the instructor involved in the submission process.
@@ -235,7 +220,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return sqlLogic.getInstructorForEmail(courseId, previewAsPerson);
         } else {
-            return getPossiblyUnregisteredSqlInstructor(courseId);
+            return getPossiblyUnregisteredInstructor(courseId);
         }
     }
 
