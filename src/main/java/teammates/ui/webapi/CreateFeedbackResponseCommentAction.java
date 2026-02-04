@@ -162,6 +162,14 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                 commentGiverType = question.getGiverType() == FeedbackParticipantType.TEAMS
                         ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
                 break;
+            case INSTRUCTOR_SUBMISSION:
+                verifyCommentNotExist(parsedFeedbackResponseId.datastoreId);
+                InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
+                email = instructorAsFeedbackParticipant.getEmail();
+                isFromParticipant = true;
+                isFollowingQuestionVisibility = true;
+                commentGiverType = FeedbackParticipantType.INSTRUCTORS;
+                break;
             case INSTRUCTOR_RESULT:
                 InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
                 email = instructor.getEmail();
@@ -283,6 +291,21 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, session);
             verifyResponseOwnerShipForStudent(studentAttributes, response, question);
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
+            if (instructorAsFeedbackParticipant == null) {
+                throw new EntityNotFoundException("Instructor does not exist.");
+            }
+            session = session.getCopyForInstructor(instructorAsFeedbackParticipant.getEmail());
+
+            gateKeeper.verifyAnswerableForInstructor(question);
+            verifySessionOpenExceptForModeration(session);
+            verifyInstructorCanSeeQuestionIfInModeration(question);
+            verifyNotPreview();
+
+            checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
+            verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
