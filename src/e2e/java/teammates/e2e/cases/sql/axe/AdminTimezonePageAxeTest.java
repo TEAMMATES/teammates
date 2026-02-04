@@ -15,7 +15,7 @@ public class AdminTimezonePageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/AdminHomePageE2ETest_SqlEntities.json"));
+        // No test data needed; admin login uses dev server auth.
     }
 
     @Test

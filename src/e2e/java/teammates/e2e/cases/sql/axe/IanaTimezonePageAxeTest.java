@@ -16,7 +16,7 @@ public class IanaTimezonePageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/AdminHomePageE2ETest_SqlEntities.json"));
+        // No test data needed; external IANA page only.
     }
 
     @Test

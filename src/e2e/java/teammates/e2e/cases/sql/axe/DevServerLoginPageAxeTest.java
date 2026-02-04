@@ -15,7 +15,7 @@ public class DevServerLoginPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/AdminHomePageE2ETest_SqlEntities.json"));
+        // No test data needed; only the login page is under test.
     }
 
     @Test
