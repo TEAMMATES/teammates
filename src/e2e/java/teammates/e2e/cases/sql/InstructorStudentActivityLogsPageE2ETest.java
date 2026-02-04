@@ -94,16 +94,6 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentActivityLogsPage.startSearching();
         studentActivityLogsPage.waitForLogsToLoad();
 
-        if (!studentActivityLogsPage.getLogsOutputText().contains("First Session")) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            studentActivityLogsPage.startSearching();
-            studentActivityLogsPage.waitForLogsToLoad();
-        }
-
         assertTrue(studentActivityLogsPage.getLogsOutputText().contains("First Session"));
     }
 }
