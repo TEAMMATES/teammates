@@ -1,0 +1,151 @@
+{
+  "accounts": {
+    "instructorWithSessions": {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "googleId": "tm.e2e.ISActLogs.instructor",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt"
+    },
+    "alice": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.ISActLogs.alice.tmms",
+      "name": "Alice Betsy",
+      "email": "alice.b.tmms@gmail.tmt"
+    },
+    "benny": {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "googleId": "tm.e2e.ISActLogs.benny.tmms",
+      "name": "Benny Charles",
+      "email": "benny.tmms@gmail.tmt"
+    }
+  },
+  "courses": {
+    "course": {
+      "id": "tm.e2e.ISActLogs.CS2104",
+      "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "Africa/Johannesburg"
+    }
+  },
+  "sections": {
+    "sectionA": {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "course": { "id": "tm.e2e.ISActLogs.CS2104" },
+      "name": "None"
+    }
+  },
+  "teams": {
+    "team1": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "section": { "id": "00000000-0000-4000-8000-000000000101" },
+      "name": "Team 1"
+    }
+  },
+  "instructors": {
+    "instructor": {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "account": { "id": "00000000-0000-4000-8000-000000000001" },
+      "course": { "id": "tm.e2e.ISActLogs.CS2104" },
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@ISActLogs.CS2104": {
+      "id": "00000000-0000-4000-8000-000000000401",
+      "account": { "id": "00000000-0000-4000-8000-000000000002" },
+      "course": { "id": "tm.e2e.ISActLogs.CS2104" },
+      "team": { "id": "00000000-0000-4000-8000-000000000201" },
+      "email": "alice.b.tmms@gmail.tmt",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy"
+    },
+    "benny.tmms@ISActLogs.CS2104": {
+      "id": "00000000-0000-4000-8000-000000000402",
+      "account": { "id": "00000000-0000-4000-8000-000000000003" },
+      "course": { "id": "tm.e2e.ISActLogs.CS2104" },
+      "team": { "id": "00000000-0000-4000-8000-000000000201" },
+      "email": "benny.tmms@gmail.tmt",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles"
+    }
+  },
+  "feedbackSessions": {
+    "openSession": {
+      "id": "00000000-0000-4000-8000-000000000501",
+      "course": { "id": "tm.e2e.ISActLogs.CS2104" },
+      "name": "First Session",
+      "creatorEmail": "tmms.test@gmail.tmt",
+      "instructions": "<p>Instructions for first session</p>",
+      "createdAt": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T22:00:00Z",
+      "endTime": "2026-04-30T22:00:00Z",
+      "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
+      "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "isOpenedEmailSent": false,
+      "isClosingSoonEmailSent": false,
+      "isClosedEmailSent": false,
+      "isPublishedEmailSent": false,
+      "isOpenedEmailEnabled": true,
+      "isClosingSoonEmailEnabled": true,
+      "isPublishedEmailEnabled": true,
+      "studentDeadlines": {},
+      "instructorDeadlines": {}
+    }
+  },
+  "feedbackQuestions": {
+    "qn1": {
+      "id": "00000000-0000-4000-8000-000000000601",
+      "feedbackSession": { "id": "00000000-0000-4000-8000-000000000501" },
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Testing question text"
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numOfEntitiesToGiveFeedbackTo": 2,
+      "showResponsesTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ]
+    }
+  },
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "notifications": {},
+  "readNotifications": {}
+}
