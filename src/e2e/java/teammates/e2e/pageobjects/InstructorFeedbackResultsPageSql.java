@@ -16,12 +16,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
@@ -32,11 +26,17 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Represents the "Results" page for Instructors.
  */
-public class InstructorFeedbackResultsPage extends AppPage {
+public class InstructorFeedbackResultsPageSql extends AppPage {
     private static final String QUESTION_VIEW = "QUESTION";
     private static final String GQR_VIEW = "GQR";
     private static final String RQG_VIEW = "RQG";
@@ -85,7 +85,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "include-missing-responses")
     private WebElement missingResponsesCheckbox;
 
-    public InstructorFeedbackResultsPage(Browser browser) {
+    public InstructorFeedbackResultsPageSql(Browser browser) {
         super(browser);
     }
 
@@ -94,11 +94,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return getPageTitle().contains("Feedback Session Results");
     }
 
-    public void verifySessionDetails(FeedbackSessionAttributes feedbackSession) {
+    public void verifySessionDetails(FeedbackSession feedbackSession) {
         assertEquals(feedbackSession.getCourseId(), courseId.getText());
-        assertEquals(feedbackSession.getFeedbackSessionName(), sessionName.getText());
+        assertEquals(feedbackSession.getName(), sessionName.getText());
         assertEquals(getSessionDurationString(feedbackSession), sessionDuration.getText());
-        assertEquals(getDateString(feedbackSession.getResultsVisibleFromTime(), feedbackSession.getTimeZone()),
+        assertEquals(getDateString(feedbackSession.getResultsVisibleFromTime(), feedbackSession.getCourse().getTimeZone()),
                 resultVisibleDate.getText());
     }
 
@@ -123,7 +123,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitUntilAnimationFinish();
     }
 
-    public void verifyNoResponsePanelDetails(List<StudentAttributes> noResponseStudents) {
+    public void verifyNoResponsePanelDetails(List<Student> noResponseStudents) {
         verifyTableBodyValues(getNoResponseTable(), getExpectedNoResponseDetails(noResponseStudents));
     }
 
@@ -161,14 +161,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
         selectSectionDropdown("All");
     }
 
-    public void verifyQnViewResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses,
-                                      Collection<InstructorAttributes> instructors, Collection<StudentAttributes> students) {
+    public void verifyQnViewResponses(FeedbackQuestion question, List<FeedbackResponse> responses,
+                                      Collection<Instructor> instructors, Collection<Student> students) {
         selectViewType(QUESTION_VIEW);
 
         WebElement questionPanel = getQuestionPanel(question.getQuestionNumber());
         verifyQuestionText(questionPanel, question);
 
-        List<FeedbackResponseAttributes> responsesWithoutMissing = filterMissingResponses(responses);
+        List<FeedbackResponse> responsesWithoutMissing = filterMissingResponses(responses);
         if (responsesWithoutMissing.isEmpty()) {
             verifyNoResponsesMessage(questionPanel, true, true);
         } else {
@@ -177,9 +177,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void verifyGrqViewResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses,
-                                       boolean isGroupedByTeam, Collection<InstructorAttributes> instructors,
-                                       Collection<StudentAttributes> students) {
+    public void verifyGrqViewResponses(FeedbackQuestion question, List<FeedbackResponse> responses,
+                                       boolean isGroupedByTeam, Collection<Instructor> instructors,
+                                       Collection<Student> students) {
         selectViewType(GRQ_VIEW);
 
         // all responses should be from the same giver
@@ -189,7 +189,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         List<String> recipients = getRecipients(responses);
         for (String recipient : recipients) {
-            FeedbackResponseAttributes responseForRecipient = getResponseForRecipient(responses, recipient);
+            FeedbackResponse responseForRecipient = getResponseForRecipient(responses, recipient);
             FeedbackParticipantType recipientType = question.getRecipientType();
             String recipientTeam = getTeam(recipientType, recipient, students);
             String recipientName = getName(recipientType, recipient, instructors, students);
@@ -198,9 +198,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void verifyRgqViewResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses,
-                                       boolean isGroupedByTeam, Collection<InstructorAttributes> instructors,
-                                       Collection<StudentAttributes> students) {
+    public void verifyRgqViewResponses(FeedbackQuestion question, List<FeedbackResponse> responses,
+                                       boolean isGroupedByTeam, Collection<Instructor> instructors,
+                                       Collection<Student> students) {
         selectViewType(RGQ_VIEW);
 
         // all responses should have the same recipient
@@ -210,7 +210,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         List<String> givers = getGivers(responses);
         for (String giver : givers) {
-            FeedbackResponseAttributes responseFromGiver = getResponseFromGiver(responses, giver);
+            FeedbackResponse responseFromGiver = getResponseFromGiver(responses, giver);
             FeedbackParticipantType giverType = question.getGiverType();
             String giverTeam = getTeam(giverType, giver, students);
             String giverName = getName(giverType, giver, instructors, students);
@@ -219,9 +219,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void verifyGqrViewResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses,
-                                       boolean isGroupedByTeam, Collection<InstructorAttributes> instructors,
-                                       Collection<StudentAttributes> students) {
+    public void verifyGqrViewResponses(FeedbackQuestion question, List<FeedbackResponse> responses,
+                                       boolean isGroupedByTeam, Collection<Instructor> instructors,
+                                       Collection<Student> students) {
         selectViewType(GQR_VIEW);
 
         // all responses should be from the same giver
@@ -232,12 +232,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement questionPanel = getQuestionPanel(giverPanel, question.getQuestionNumber());
         verifyQuestionText(questionPanel, question);
 
-        List<FeedbackResponseAttributes> responsesWithoutMissing = filterMissingResponses(responses);
+        List<FeedbackResponse> responsesWithoutMissing = filterMissingResponses(responses);
 
         if (responsesWithoutMissing.isEmpty()) {
             verifyNoResponsesMessage(questionPanel, true, true);
         } else {
-            for (FeedbackResponseAttributes response : responses) {
+            for (FeedbackResponse response : responses) {
                 String[] expectedResponses = getExpectedGqrDetails(question, response, instructors, students);
                 String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient(), students);
                 String recipientNameAndEmail = getNameAndEmail(question.getRecipientType(), response.getRecipient(),
@@ -248,9 +248,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void verifyRqgViewResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses,
-                                       boolean isGroupedByTeam, Collection<InstructorAttributes> instructors,
-                                       Collection<StudentAttributes> students) {
+    public void verifyRqgViewResponses(FeedbackQuestion question, List<FeedbackResponse> responses,
+                                       boolean isGroupedByTeam, Collection<Instructor> instructors,
+                                       Collection<Student> students) {
         selectViewType(RQG_VIEW);
 
         // all responses should be from the same recipient
@@ -261,12 +261,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement questionPanel = getQuestionPanel(recipientPanel, question.getQuestionNumber());
         verifyQuestionText(questionPanel, question);
 
-        List<FeedbackResponseAttributes> responsesWithoutMissing = filterMissingResponses(responses);
+        List<FeedbackResponse> responsesWithoutMissing = filterMissingResponses(responses);
 
         if (responsesWithoutMissing.isEmpty()) {
             verifyNoResponsesMessage(questionPanel, true, true);
         } else {
-            for (FeedbackResponseAttributes response : responses) {
+            for (FeedbackResponse response : responses) {
                 String[] expectedResponses = getExpectedRqgDetails(question, response, instructors, students);
                 String giverTeam = getTeam(question.getGiverType(), response.getGiver(), students);
                 String giverNameAndEmail = getNameAndEmail(question.getGiverType(), response.getGiver(), instructors,
@@ -276,12 +276,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
-    private void verifyQuestionText(WebElement questionPanel, FeedbackQuestionAttributes question) {
+    private void verifyQuestionText(WebElement questionPanel, FeedbackQuestion question) {
         assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionPanel));
     }
 
-    private void verifyGroupedResponses(FeedbackQuestionAttributes question, WebElement userPanel, String userName,
-                                        String userTeam, FeedbackResponseAttributes response, boolean isGrq) {
+    private void verifyGroupedResponses(FeedbackQuestion question, WebElement userPanel, String userName,
+                                        String userTeam, FeedbackResponse response, boolean isGrq) {
         WebElement groupedResponses;
         try {
             groupedResponses = getGroupedResponses(userPanel, userName, userTeam, isGrq);
@@ -306,14 +306,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
             // Missing response will only be shown if this user has some real responses
             assertEquals(NO_RESPONSE_LABEL, singleResponse.getText());
         } else {
-            assertEquals(getAnswerString(question, response.getResponseDetailsCopy()), singleResponse.getText());
+            assertEquals(getAnswerString(question, response.getFeedbackResponseDetailsCopy()), singleResponse.getText());
         }
     }
 
-    public void verifyQnViewStats(FeedbackQuestionAttributes question,
-                                  List<FeedbackResponseAttributes> responses,
-                                  Collection<InstructorAttributes> instructors,
-                                  Collection<StudentAttributes> students) {
+    public void verifyQnViewStats(FeedbackQuestion question,
+                                  List<FeedbackResponse> responses,
+                                  Collection<Instructor> instructors,
+                                  Collection<Student> students) {
         selectViewType(QUESTION_VIEW);
         WebElement questionPanel = getQuestionPanel(question.getQuestionNumber());
         // re-expand question panel to reset sorting order
@@ -322,11 +322,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyStatistics(questionPanel, question, responses, instructors, students);
     }
 
-    public void verifyGqrViewStats(FeedbackQuestionAttributes question,
-                                   List<FeedbackResponseAttributes> responses,
+    public void verifyGqrViewStats(FeedbackQuestion question,
+                                   List<FeedbackResponse> responses,
                                    boolean isGroupedByTeam,
-                                   Collection<InstructorAttributes> instructors,
-                                   Collection<StudentAttributes> students) {
+                                   Collection<Instructor> instructors,
+                                   Collection<Student> students) {
         selectViewType(GQR_VIEW);
 
         String giver = responses.get(0).getGiver();
@@ -334,11 +334,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyUserViewStats(giverType, giver, question, responses, instructors, students, isGroupedByTeam, true);
     }
 
-    public void verifyRqgViewStats(FeedbackQuestionAttributes question,
-                                   List<FeedbackResponseAttributes> responses,
+    public void verifyRqgViewStats(FeedbackQuestion question,
+                                   List<FeedbackResponse> responses,
                                    boolean isGroupedByTeam,
-                                   Collection<InstructorAttributes> instructors,
-                                   Collection<StudentAttributes> students) {
+                                   Collection<Instructor> instructors,
+                                   Collection<Student> students) {
         selectViewType(RQG_VIEW);
 
         String recipient = responses.get(0).getRecipient();
@@ -347,10 +347,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void verifyUserViewStats(FeedbackParticipantType type, String user,
-                                     FeedbackQuestionAttributes question,
-                                     List<FeedbackResponseAttributes> responses,
-                                     Collection<InstructorAttributes> instructors,
-                                     Collection<StudentAttributes> students,
+                                     FeedbackQuestion question,
+                                     List<FeedbackResponse> responses,
+                                     Collection<Instructor> instructors,
+                                     Collection<Student> students,
                                      boolean isGroupedByTeam,
                                      boolean isGiver) {
         WebElement panelWithStats = getPanelWithStats(type, user, question, instructors, students,
@@ -358,11 +358,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyStatistics(panelWithStats, question, responses, instructors, students);
     }
 
-    private void verifyStatistics(WebElement questionPanel, FeedbackQuestionAttributes question,
-                                  List<FeedbackResponseAttributes> responses,
-                                  Collection<InstructorAttributes> instructors,
-                                  Collection<StudentAttributes> students) {
-        switch (question.getQuestionType()) {
+    private void verifyStatistics(WebElement questionPanel, FeedbackQuestion question,
+                                  List<FeedbackResponse> responses,
+                                  Collection<Instructor> instructors,
+                                  Collection<Student> students) {
+        switch (question.getQuestionDetailsCopy().getQuestionType()) {
         case MCQ:
             verifyMcqStatistics(questionPanel, question, responses, instructors, students);
             break;
@@ -376,15 +376,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
         case CONTRIB:
             return; // TODO: Find way to test different statistics efficiently.
         default:
-            throw new RuntimeException("Unknown question type: " + question.getQuestionType());
+            throw new RuntimeException("Unknown question type: " + question.getQuestionDetailsCopy().getQuestionType());
         }
     }
 
-    private void verifyMcqStatistics(WebElement questionPanel, FeedbackQuestionAttributes question,
-                                     List<FeedbackResponseAttributes> responses,
-                                     Collection<InstructorAttributes> instructors,
-                                     Collection<StudentAttributes> students) {
-        List<FeedbackResponseAttributes> responsesToUse = filterMissingResponses(responses);
+    private void verifyMcqStatistics(WebElement questionPanel, FeedbackQuestion question,
+                                     List<FeedbackResponse> responses,
+                                     Collection<Instructor> instructors,
+                                     Collection<Student> students) {
+        List<FeedbackResponse> responsesToUse = filterMissingResponses(responses);
         List<WebElement> statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-statistics table"));
         verifyTableBodyValues(statisticsTables.get(0), getMcqResponseSummary(question));
         // sort per recipient statistics
@@ -393,17 +393,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 instructors));
     }
 
-    public void verifyQnViewStatsHidden(FeedbackQuestionAttributes question) {
+    public void verifyQnViewStatsHidden(FeedbackQuestion question) {
         selectViewType(QUESTION_VIEW);
 
         WebElement questionPanel = getQuestionPanel(question.getQuestionNumber());
         verifyStatsHidden(questionPanel);
     }
 
-    public void verifyGqrViewStatsHidden(FeedbackQuestionAttributes question,
+    public void verifyGqrViewStatsHidden(FeedbackQuestion question,
                                          String giver,
-                                         Collection<InstructorAttributes> instructors,
-                                         Collection<StudentAttributes> students,
+                                         Collection<Instructor> instructors,
+                                         Collection<Student> students,
                                          boolean isGroupedByTeam) {
         selectViewType(GQR_VIEW);
 
@@ -413,10 +413,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyStatsHidden(panelWithStats);
     }
 
-    public void verifyRqgViewStatsHidden(FeedbackQuestionAttributes question,
+    public void verifyRqgViewStatsHidden(FeedbackQuestion question,
                                          String recipient,
-                                         Collection<InstructorAttributes> instructors,
-                                         Collection<StudentAttributes> students,
+                                         Collection<Instructor> instructors,
+                                         Collection<Student> students,
                                          boolean isGroupedByTeam) {
         selectViewType(RQG_VIEW);
 
@@ -427,9 +427,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private WebElement getPanelWithStats(FeedbackParticipantType type, String user,
-                                         FeedbackQuestionAttributes question,
-                                         Collection<InstructorAttributes> instructors,
-                                         Collection<StudentAttributes> students,
+                                         FeedbackQuestion question,
+                                         Collection<Instructor> instructors,
+                                         Collection<Student> students,
                                          boolean isGroupedByTeam,
                                          boolean isGiver) {
         String section = getSection(type, user, students);
@@ -450,9 +450,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         assertTrue(panelWithStats.findElements(By.tagName("tm-single-statistics")).isEmpty());
     }
 
-    public void verifyQnViewComment(FeedbackQuestionAttributes question, FeedbackResponseCommentAttributes comment,
-                                    FeedbackResponseAttributes response, Collection<InstructorAttributes> instructors,
-                                    Collection<StudentAttributes> students) {
+    public void verifyQnViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+                                    FeedbackResponse response, Collection<Instructor> instructors,
+                                    Collection<Student> students) {
         selectViewType(QUESTION_VIEW);
         WebElement questionPanel = getQuestionPanel(question.getQuestionNumber());
 
@@ -466,10 +466,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyResponseRowComment(responseRow, comment, instructors, students);
     }
 
-    public void verifyGqrViewComment(FeedbackQuestionAttributes question, FeedbackResponseCommentAttributes comment,
-                                     FeedbackResponseAttributes response,
-                                     Collection<InstructorAttributes> instructors,
-                                     Collection<StudentAttributes> students, boolean isGroupedByTeam) {
+    public void verifyGqrViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+                                     FeedbackResponse response,
+                                     Collection<Instructor> instructors,
+                                     Collection<Student> students, boolean isGroupedByTeam) {
         selectViewType(GQR_VIEW);
 
         FeedbackParticipantType giverType = question.getGiverType();
@@ -484,10 +484,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyResponseRowComment(responseRow, comment, instructors, students);
     }
 
-    public void verifyRqgViewComment(FeedbackQuestionAttributes question, FeedbackResponseCommentAttributes comment,
-                                     FeedbackResponseAttributes response,
-                                     Collection<InstructorAttributes> instructors,
-                                     Collection<StudentAttributes> students, boolean isGroupedByTeam) {
+    public void verifyRqgViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+                                     FeedbackResponse response,
+                                     Collection<Instructor> instructors,
+                                     Collection<Student> students, boolean isGroupedByTeam) {
         selectViewType(RQG_VIEW);
 
         FeedbackParticipantType recipientType = question.getRecipientType();
@@ -502,10 +502,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyResponseRowComment(responseRow, comment, instructors, students);
     }
 
-    public void verifyGrqViewComment(FeedbackQuestionAttributes question, FeedbackResponseCommentAttributes comment,
-                                     FeedbackResponseAttributes response,
-                                     Collection<InstructorAttributes> instructors,
-                                     Collection<StudentAttributes> students, boolean isGroupedByTeam) {
+    public void verifyGrqViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+                                     FeedbackResponse response,
+                                     Collection<Instructor> instructors,
+                                     Collection<Student> students, boolean isGroupedByTeam) {
 
         selectViewType(GRQ_VIEW);
 
@@ -520,10 +520,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment, instructors, students);
     }
 
-    public void verifyRgqViewComment(FeedbackQuestionAttributes question, FeedbackResponseCommentAttributes comment,
-                                     FeedbackResponseAttributes response,
-                                     Collection<InstructorAttributes> instructors,
-                                     Collection<StudentAttributes> students, boolean isGroupedByTeam) {
+    public void verifyRgqViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+                                     FeedbackResponse response,
+                                     Collection<Instructor> instructors,
+                                     Collection<Student> students, boolean isGroupedByTeam) {
         selectViewType(RGQ_VIEW);
 
         FeedbackParticipantType recipientType = question.getRecipientType();
@@ -538,28 +538,28 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment, instructors, students);
     }
 
-    private void verifyResponseRowComment(WebElement responseRow, FeedbackResponseCommentAttributes comment,
-                                          Collection<InstructorAttributes> instructors,
-                                          Collection<StudentAttributes> students) {
+    private void verifyResponseRowComment(WebElement responseRow, FeedbackResponseComment comment,
+                                          Collection<Instructor> instructors,
+                                          Collection<Student> students) {
         click(responseRow.findElement(By.id("btn-add-comment")));
         WebElement commentModal = waitForElementPresence(By.className("modal-body"));
 
-        String editor = getName(comment.getCommentGiverType(),
+        String editor = getName(comment.getGiverType(),
                 comment.getLastEditorEmail(), instructors, students);
-        String commentGiver = getName(comment.getCommentGiverType(), comment.getCommentGiver(),
+        String commentGiver = getName(comment.getGiverType(), comment.getGiver(),
                 instructors, students);
         verifyCommentDetails(commentModal, commentGiver, editor, comment.getCommentText(), true);
     }
 
     private void verifyGroupedResponseComment(WebElement groupedResponses, int qnNum,
-                                              FeedbackResponseCommentAttributes comment,
-                                              Collection<InstructorAttributes> instructors,
-                                              Collection<StudentAttributes> students) {
+                                              FeedbackResponseComment comment,
+                                              Collection<Instructor> instructors,
+                                              Collection<Student> students) {
         WebElement questionPanel = getQuestionPanel(groupedResponses, qnNum);
 
-        String editor = getName(comment.getCommentGiverType(), comment.getLastEditorEmail(),
+        String editor = getName(comment.getGiverType(), comment.getLastEditorEmail(),
                 instructors, students);
-        String commentGiver = getName(comment.getCommentGiverType(), comment.getCommentGiver(),
+        String commentGiver = getName(comment.getGiverType(), comment.getGiver(),
                 instructors, students);
         verifyCommentDetails(questionPanel, commentGiver, editor, comment.getCommentText(), false);
     }
@@ -590,10 +590,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     // Methods for formatting expected results
-    private String[][] getExpectedNoResponseDetails(List<StudentAttributes> noResponseStudents) {
+    private String[][] getExpectedNoResponseDetails(List<Student> noResponseStudents) {
         String[][] expectedDetails = new String[noResponseStudents.size()][2];
         for (int i = 0; i < noResponseStudents.size(); i++) {
-            expectedDetails[i][0] = noResponseStudents.get(i).getTeam();
+            expectedDetails[i][0] = noResponseStudents.get(i).getTeamName();
             expectedDetails[i][1] = String.format("%s (%s)",
                     noResponseStudents.get(i).getName(),
                     noResponseStudents.get(i).getEmail()
@@ -602,16 +602,16 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return expectedDetails;
     }
 
-    private String[][] getExpectedQnViewDetails(FeedbackQuestionAttributes question,
-                                                List<FeedbackResponseAttributes> responses,
-                                                Collection<InstructorAttributes> instructors,
-                                                Collection<StudentAttributes> students) {
+    private String[][] getExpectedQnViewDetails(FeedbackQuestion question,
+                                                List<FeedbackResponse> responses,
+                                                Collection<Instructor> instructors,
+                                                Collection<Student> students) {
         String[][] expected = new String[responses.size()][5];
         FeedbackParticipantType giverType = question.getGiverType();
         FeedbackParticipantType recipientType = question.getRecipientType();
 
         for (int i = 0; i < responses.size(); i++) {
-            FeedbackResponseAttributes response = responses.get(i);
+            FeedbackResponse response = responses.get(i);
             expected[i][0] = getTeam(giverType, response.getGiver(), students);
             expected[i][1] = getNameAndEmail(giverType, response.getGiver(), instructors, students);
             if (recipientType == FeedbackParticipantType.NONE) {
@@ -624,16 +624,16 @@ public class InstructorFeedbackResultsPage extends AppPage {
             if (isMissingResponse(response)) {
                 expected[i][4] = NO_RESPONSE_LABEL;
             } else {
-                expected[i][4] = getAnswerString(question, response.getResponseDetailsCopy());
+                expected[i][4] = getAnswerString(question, response.getFeedbackResponseDetailsCopy());
             }
         }
         return expected;
     }
 
-    private String[] getExpectedGqrDetails(FeedbackQuestionAttributes question,
-                                           FeedbackResponseAttributes response,
-                                           Collection<InstructorAttributes> instructors,
-                                           Collection<StudentAttributes> students) {
+    private String[] getExpectedGqrDetails(FeedbackQuestion question,
+                                           FeedbackResponse response,
+                                           Collection<Instructor> instructors,
+                                           Collection<Student> students) {
         String[] expected = new String[3];
         FeedbackParticipantType recipientType = question.getRecipientType();
         if (recipientType == FeedbackParticipantType.NONE) {
@@ -643,18 +643,18 @@ public class InstructorFeedbackResultsPage extends AppPage {
             expected[0] = getTeam(recipientType, response.getRecipient(), students);
             expected[1] = getNameAndEmail(recipientType, response.getRecipient(), instructors, students);
         }
-        if (response.getFeedbackSessionName() == null) {
+        if (isMissingResponse(response)) {
             expected[2] = NO_RESPONSE_LABEL;
         } else {
-            expected[2] = getAnswerString(question, response.getResponseDetailsCopy());
+            expected[2] = getAnswerString(question, response.getFeedbackResponseDetailsCopy());
         }
         return expected;
     }
 
-    private String[] getExpectedRqgDetails(FeedbackQuestionAttributes question,
-                                           FeedbackResponseAttributes response,
-                                           Collection<InstructorAttributes> instructors,
-                                           Collection<StudentAttributes> students) {
+    private String[] getExpectedRqgDetails(FeedbackQuestion question,
+                                           FeedbackResponse response,
+                                           Collection<Instructor> instructors,
+                                           Collection<Student> students) {
         String[] expected = new String[3];
         FeedbackParticipantType giverType = question.getGiverType();
         if (giverType == FeedbackParticipantType.NONE) {
@@ -664,15 +664,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
             expected[0] = getTeam(giverType, response.getGiver(), students);
             expected[1] = getNameAndEmail(giverType, response.getGiver(), instructors, students);
         }
-        if (response.getFeedbackSessionName() == null) {
+        if (isMissingResponse(response)) {
             expected[2] = NO_RESPONSE_LABEL;
         } else {
-            expected[2] = getAnswerString(question, response.getResponseDetailsCopy());
+            expected[2] = getAnswerString(question, response.getFeedbackResponseDetailsCopy());
         }
         return expected;
     }
 
-    private String[][] getMcqResponseSummary(FeedbackQuestionAttributes question) {
+    private String[][] getMcqResponseSummary(FeedbackQuestion question) {
         FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy();
         List<String> choices = questionDetails.getMcqChoices();
         List<Double> weights = questionDetails.getMcqWeights();
@@ -694,10 +694,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return expectedStatistics;
     }
 
-    private String[][] getMcqPerRecipientStatistics(FeedbackQuestionAttributes question,
-                                                    List<FeedbackResponseAttributes> responses,
-                                                    Collection<StudentAttributes> students,
-                                                    Collection<InstructorAttributes> instructors) {
+    private String[][] getMcqPerRecipientStatistics(FeedbackQuestion question,
+                                                    List<FeedbackResponse> responses,
+                                                    Collection<Student> students,
+                                                    Collection<Instructor> instructors) {
         List<String> recipients = getRecipients(responses);
         recipients.sort(Comparator.naturalOrder());
 
@@ -712,7 +712,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return expectedStatistics;
     }
 
-    private String getAnswerString(FeedbackQuestionAttributes question, FeedbackResponseDetails response) {
+    private String getAnswerString(FeedbackQuestion question, FeedbackResponseDetails response) {
         switch (response.getQuestionType()) {
         case TEXT:
         case NUMSCALE:
@@ -789,9 +789,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return (isGiver ? "From: " : "To: ") + name;
     }
 
-    private String getSessionDurationString(FeedbackSessionAttributes feedbackSession) {
-        return getDateString(feedbackSession.getStartTime(), feedbackSession.getTimeZone()) + "   to\n"
-                + getDateString(feedbackSession.getEndTime(), feedbackSession.getTimeZone());
+    private String getSessionDurationString(FeedbackSession feedbackSession) {
+        return getDateString(feedbackSession.getStartTime(), feedbackSession.getCourse().getTimeZone()) + "   to\n"
+                + getDateString(feedbackSession.getEndTime(), feedbackSession.getCourse().getTimeZone());
     }
 
     private String getDateString(Instant date, String timeZone) {
@@ -903,8 +903,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private WebElement getUserPanel(FeedbackParticipantType type, String user,
-                                    Collection<InstructorAttributes> instructors,
-                                    Collection<StudentAttributes> students,
+                                    Collection<Instructor> instructors,
+                                    Collection<Student> students,
                                     boolean isGroupedByTeam,
                                     boolean isGiver) {
         String section = getSection(type, user, students);
@@ -1045,32 +1045,32 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     // Methods for manipulating responses information
 
-    private boolean isMissingResponse(FeedbackResponseAttributes response) {
-        return response.getFeedbackSessionName() == null;
+    private boolean isMissingResponse(FeedbackResponse response) {
+        return response.getFeedbackQuestion() == null || response.getFeedbackQuestion().getFeedbackSessionName() == null;
     }
 
-    private List<FeedbackResponseAttributes> filterMissingResponses(List<FeedbackResponseAttributes> responses) {
+    private List<FeedbackResponse> filterMissingResponses(List<FeedbackResponse> responses) {
         return responses.stream()
                 .filter(r -> !isMissingResponse(r))
                 .collect(Collectors.toList());
     }
 
-    private List<String> getGivers(List<FeedbackResponseAttributes> responses) {
-        return responses.stream().map(FeedbackResponseAttributes::getGiver).collect(Collectors.toList());
+    private List<String> getGivers(List<FeedbackResponse> responses) {
+        return responses.stream().map(FeedbackResponse::getGiver).collect(Collectors.toList());
     }
 
-    private List<String> getRecipients(List<FeedbackResponseAttributes> responses) {
-        return responses.stream().map(FeedbackResponseAttributes::getRecipient).collect(Collectors.toList());
+    private List<String> getRecipients(List<FeedbackResponse> responses) {
+        return responses.stream().map(FeedbackResponse::getRecipient).collect(Collectors.toList());
     }
 
-    private FeedbackResponseAttributes getResponseFromGiver(List<FeedbackResponseAttributes> responses, String giver) {
+    private FeedbackResponse getResponseFromGiver(List<FeedbackResponse> responses, String giver) {
         return responses.stream()
                 .filter(response -> response.getGiver().equals(giver))
                 .findFirst()
                 .orElse(null);
     }
 
-    private FeedbackResponseAttributes getResponseForRecipient(List<FeedbackResponseAttributes> responses,
+    private FeedbackResponse getResponseForRecipient(List<FeedbackResponse> responses,
                                                                String recipient) {
         return responses.stream()
                 .filter(response -> response.getRecipient().equals(recipient))
@@ -1078,13 +1078,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 .orElse(null);
     }
 
-    private String getSection(FeedbackParticipantType type, String participant, Collection<StudentAttributes> students) {
+    private String getSection(FeedbackParticipantType type, String participant, Collection<Student> students) {
         String sectionName;
         if (type == FeedbackParticipantType.TEAMS) {
             sectionName = students.stream()
-                    .filter(student -> student.getTeam().equals(participant))
+                    .filter(student -> student.getTeam().getName().equals(participant))
                     .findFirst()
-                    .map(StudentAttributes::getSection)
+                    .map(Student::getSectionName)
                     .orElse(null);
         } else if (type == FeedbackParticipantType.INSTRUCTORS || type == FeedbackParticipantType.NONE) {
             sectionName = "None";
@@ -1092,7 +1092,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             sectionName = students.stream()
                     .filter(student -> student.getEmail().equals(participant))
                     .findFirst()
-                    .map(StudentAttributes::getSection)
+                    .map(Student::getSectionName)
                     .orElse(null);
         }
         if (sectionName == null) {
@@ -1104,32 +1104,30 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return sectionName;
     }
 
-    private String getTeam(FeedbackParticipantType type, String participant, Collection<StudentAttributes> students) {
+    private String getTeam(FeedbackParticipantType type, String participant, Collection<Student> students) {
         if (type == FeedbackParticipantType.NONE) {
             return NO_TEAM_LABEL;
-        }
-        if (type == FeedbackParticipantType.TEAMS) {
+        } else if (type == FeedbackParticipantType.TEAMS) {
             return participant;
-        }
-        if (type == FeedbackParticipantType.INSTRUCTORS) {
+        } else if (type == FeedbackParticipantType.INSTRUCTORS) {
             return "Instructors";
         }
         String teamName = students.stream()
                 .filter(student -> student.getEmail().equals(participant))
                 .findFirst()
-                .map(StudentAttributes::getTeam)
+                .map(Student::getTeamName)
                 .orElse(null);
 
         if (teamName == null) {
-            throw new RuntimeException("cannot find section name for " + participant);
+            throw new RuntimeException("cannot find team name for " + participant);
         }
 
         return teamName;
     }
 
     private String getName(FeedbackParticipantType type, String participant,
-                                   Collection<InstructorAttributes> instructors,
-                                   Collection<StudentAttributes> students) {
+                                   Collection<Instructor> instructors,
+                                   Collection<Student> students) {
         String name;
         if (type == FeedbackParticipantType.NONE) {
             name = NO_USER_LABEL;
@@ -1139,13 +1137,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
             name = instructors.stream()
                     .filter(instructor -> instructor.getEmail().equals(participant))
                     .findFirst()
-                    .map(InstructorAttributes::getName)
+                    .map(Instructor::getName)
                     .orElse(null);
         } else {
             name = students.stream()
                     .filter(student -> student.getEmail().equals(participant))
                     .findFirst()
-                    .map(StudentAttributes::getName)
+                    .map(Student::getName)
                     .orElse(null);
         }
 
@@ -1157,8 +1155,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private String getNameAndEmail(FeedbackParticipantType type, String participant,
-                           Collection<InstructorAttributes> instructors,
-                           Collection<StudentAttributes> students) {
+                           Collection<Instructor> instructors,
+                           Collection<Student> students) {
         String name;
         if (type == FeedbackParticipantType.NONE) {
             name = NO_USER_LABEL;

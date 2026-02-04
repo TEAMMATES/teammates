@@ -79,7 +79,7 @@ public class FeedbackResultsPage extends AppPage {
 
     public void verifyQuestionDetails(int questionNum, FeedbackQuestionAttributes question) {
         assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionNum));
-        if (!question.getQuestionType().equals(FeedbackQuestionType.TEXT)) {
+        if (question.getQuestionType() != FeedbackQuestionType.TEXT) {
             assertEquals(getAdditionalInfoString(question), getAdditionalInfo(questionNum));
         }
     }
@@ -190,7 +190,7 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private boolean hasDisplayedResponses(FeedbackQuestionAttributes question) {
-        return !question.getQuestionDetailsCopy().getQuestionType().equals(FeedbackQuestionType.CONTRIB);
+        return question.getQuestionDetailsCopy().getQuestionType() != FeedbackQuestionType.CONTRIB;
     }
 
     private void verifyGivenResponses(FeedbackQuestionAttributes question,
@@ -285,7 +285,7 @@ public class FeedbackResultsPage extends AppPage {
 
     private boolean isResponseEqual(FeedbackQuestionAttributes question, WebElement responseField,
             FeedbackResponseAttributes response) {
-        if (question.getQuestionType().equals(FeedbackQuestionType.RUBRIC)) {
+        if (question.getQuestionType() == FeedbackQuestionType.RUBRIC) {
             return isRubricResponseEqual(responseField, response);
         } else {
             return getAnswerString(question, response.getResponseDetailsCopy()).equals(responseField.getText());
@@ -382,7 +382,7 @@ public class FeedbackResultsPage extends AppPage {
     private String appendMultiChoiceInfo(String info, FeedbackParticipantType generateOptionsFor, List<String> choices,
             boolean isOtherEnabled) {
         StringBuilder additionalInfo = new StringBuilder(info);
-        if (generateOptionsFor.equals(FeedbackParticipantType.NONE)) {
+        if (generateOptionsFor == FeedbackParticipantType.NONE) {
             additionalInfo = appendOptions(additionalInfo, choices);
             if (isOtherEnabled) {
                 additionalInfo.append(TestProperties.LINE_SEPARATOR).append("Other");

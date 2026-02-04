@@ -604,7 +604,7 @@ public class FeedbackSubmitPageSql extends AppPage {
         if (feedbackQuestion.getShowResponsesTo().isEmpty()) {
             verifyVisibilityStringPresent(qnNumber, "No-one can see your responses");
         }
-        if (feedbackQuestion.getRecipientType().equals(FeedbackParticipantType.SELF)) {
+        if (feedbackQuestion.getRecipientType() == FeedbackParticipantType.SELF) {
             verifyVisibilityStringPresent(qnNumber, "You can see your own feedback in the results page later on.");
         }
         for (FeedbackParticipantType viewerType : feedbackQuestion.getShowResponsesTo()) {
