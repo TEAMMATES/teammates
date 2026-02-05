@@ -32,7 +32,6 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         AccountRequestAttributes ins1InCourse3 = dataBundle.accountRequests.get("instructor1OfCourse3");
         AccountRequestAttributes ins2InCourse3 = dataBundle.accountRequests.get("instructor2OfCourse3");
         AccountRequestAttributes insInUnregCourse = dataBundle.accountRequests.get("instructor5");
-        AccountRequestAttributes insOfArchivedCourse = dataBundle.accountRequests.get("instructorOfArchivedCourse");
         AccountRequestAttributes unregisteredInstructor1 =
                 dataBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequestAttributes unregisteredInstructor2 =
@@ -72,7 +71,7 @@ public class AccountRequestSearchTest extends BaseSearchTest {
         ______TS("success: search for account requests; account requests should be searchable by their institute");
 
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"TEAMMATES Test Institute 5\"");
-        verifySearchResults(results, insOfArchivedCourse);
+        verifySearchResults(results, insInUnregCourse);
 
         ______TS("success: search for account requests; unregistered account requests should be searchable");
 

@@ -757,7 +757,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
 
         ______TS("The course has 1 registered instructor with modifying instructor privilege");
-        courseId = "idOfArchivedCourse";
+        courseId = "idOfSingleInstructorCourse";
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         assertFalse(instructorToUpdate.getPrivileges().isAllowedForPrivilege(
