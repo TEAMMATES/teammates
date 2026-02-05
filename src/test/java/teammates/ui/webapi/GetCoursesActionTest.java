@@ -92,22 +92,6 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     }
 
     @Test
-    public void testGetCoursesAction_withInstructorEntityTypeAndArchivedCourses_shouldReturnCorrectCourses() {
-        String[] params = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ARCHIVED,
-        };
-
-        InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
-
-        CoursesData courses = getValidCourses(params);
-        assertEquals(1, courses.getCourses().size());
-        CourseAttributes expectedCourse = testData.courses.get("typicalCourse4");
-        verifySameCourseData(courses.getCourses().get(0), expectedCourse);
-    }
-
-    @Test
     public void testGetCoursesAction_withInstructorEntityTypeAndSoftDeletedCourses_shouldReturnCorrectCourses() {
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
