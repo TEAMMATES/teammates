@@ -85,8 +85,6 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         logout();
         studentActivityLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
 
-        studentActivityLogsPage.setLogsFromDateTime(Instant.now().minus(24, ChronoUnit.HOURS), "UTC");
-        studentActivityLogsPage.setLogsToDateTime(Instant.now().plus(1, ChronoUnit.HOURS), "UTC");
         studentActivityLogsPage.setActivityType("session access and submission");
         studentActivityLogsPage.setSessionDropdown(feedbackSession.getName());
 
@@ -94,6 +92,6 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentActivityLogsPage.startSearching();
         studentActivityLogsPage.waitForLogsToLoad();
 
-        assertTrue(studentActivityLogsPage.getLogsOutputText().contains("First Session"));
+        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackSession.getName()));
     }
 }
