@@ -32,6 +32,7 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.test.ThreadHelper;
 
 /**
  * Represents the "Results" page for Instructors.
@@ -838,6 +839,12 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         currentView = viewValue;
         expandAllPanels();
         waitUntilAnimationFinish();
+        // Section content loads asynchronously; wait for team panels when "group by team" is on.
+        boolean viewHasTeamPanels = GRQ_VIEW.equals(viewValue) || RGQ_VIEW.equals(viewValue)
+                || GQR_VIEW.equals(viewValue) || RQG_VIEW.equals(viewValue);
+        if (viewHasTeamPanels && groupByTeamCheckbox.isSelected()) {
+            waitForElementPresence(By.id("team-panel"));
+        }
     }
 
     private void selectSectionDropdown(String sectionName) {
@@ -883,10 +890,17 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     }
 
     private WebElement getTeamPanel(WebElement sectionPanel, String teamName) {
-        List<WebElement> teamPanels = sectionPanel.findElements(By.id("team-panel"));
-        for (WebElement teamPanel : teamPanels) {
-            if (teamPanel.getText().startsWith(teamName)) {
-                return teamPanel;
+        final int maxAttempts = 3;
+        final int waitMs = 2000;
+        for (int attempt = 0; attempt < maxAttempts; attempt++) {
+            List<WebElement> teamPanels = sectionPanel.findElements(By.id("team-panel"));
+            for (WebElement teamPanel : teamPanels) {
+                if (teamPanel.getText().startsWith(teamName)) {
+                    return teamPanel;
+                }
+            }
+            if (attempt < maxAttempts - 1) {
+                ThreadHelper.waitFor(waitMs);
             }
         }
         throw new RuntimeException("Team \"" + teamName + "\" not found");
