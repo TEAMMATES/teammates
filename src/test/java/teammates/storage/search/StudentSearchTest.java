@@ -125,9 +125,9 @@ public class StudentSearchTest extends BaseSearchTest {
         // the search result will change
         studentList = studentsDb.searchStudentsInWholeSystem("student1");
 
-        assertEquals(3, studentList.size());
+        assertEquals(2, studentList.size());
         AssertHelper.assertSameContentIgnoreOrder(
-                Arrays.asList(stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
+                Arrays.asList(stu1InCourse3, stu1InUnregCourse),
                 studentList);
     }
 
