@@ -361,7 +361,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosingSoonEmail();
 
-        assertEquals(9, fsaList.size());
+        assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosingSoonEmail());
             assertTrue(fsa.isClosingSoonEmailEnabled());
@@ -385,7 +385,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
 
-        assertEquals(9, fsaList.size());
+        assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentClosedEmail());
             assertTrue(fsa.isClosingSoonEmailEnabled());
@@ -409,7 +409,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
 
-        assertEquals(8, fsaList.size());
+        assertEquals(7, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentPublishedEmail());
             assertTrue(fsa.isPublishedEmailEnabled());
