@@ -12,6 +12,7 @@ import teammates.ui.output.ActionClasses;
 import teammates.ui.webapi.AccountRequestSearchIndexingWorkerAction;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.AdminExceptionTestAction;
+import teammates.ui.webapi.ArchiveCourseAction;
 import teammates.ui.webapi.BinCourseAction;
 import teammates.ui.webapi.BinFeedbackSessionAction;
 import teammates.ui.webapi.CalculateUsageStatisticsAction;
@@ -164,6 +165,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetFeedbackQuestionsAction.class,
                 GetOngoingSessionsAction.class,
                 AdminExceptionTestAction.class,
+                ArchiveCourseAction.class,
                 GetUserCookieAction.class,
                 RemindFeedbackSessionResultAction.class,
                 DeleteInstructorAction.class,
