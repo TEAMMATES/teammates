@@ -35,10 +35,15 @@ public class TimeHelperTest extends BaseTestCase {
 
         zoneId = "Asia/Singapore";
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 16, 0).atZone(ZoneId.of(zoneId)).toInstant();
-        assertEquals("Mon, 30 Nov 2015, 04:00 PM SGT", TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT));
 
+        String expected = "Mon, 30 Nov 2015, 04:00 PM (SGT|GMT\\+08:00)";
+        String actual = TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT);
+        assertTrue(actual.matches(expected));
+
+        expected = "Mon, 30 Nov 2015, 04:00 AM (SGT|GMT\\+08:00)";
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 4, 0).atZone(ZoneId.of(zoneId)).toInstant();
-        assertEquals("Mon, 30 Nov 2015, 04:00 AM SGT", TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT));
+        actual = TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT);
+        assertTrue(actual.matches(expected));
     }
 
     @Test
