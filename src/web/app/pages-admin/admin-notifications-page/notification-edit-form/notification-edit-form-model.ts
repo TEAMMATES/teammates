@@ -1,4 +1,4 @@
-import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
+import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-output';
 import { DateFormat, TimeFormat } from '../../../../types/datetime-const';
 
 /**

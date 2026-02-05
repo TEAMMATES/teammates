@@ -21,6 +21,7 @@ public class TestNgXmlTest extends BaseTestCase {
         String testNgXmlE2E = FileHelper.readFile("./src/e2e/resources/testng-e2e.xml");
         String testNgXmlE2ESql = FileHelper.readFile("./src/e2e/resources/testng-e2e-sql.xml");
         String testNgXmlAxe = FileHelper.readFile("./src/e2e/resources/testng-axe.xml");
+        String testNgXmlAxeSql = FileHelper.readFile("./src/e2e/resources/testng-axe-sql.xml");
 
         // <class name, package name>
         Map<String, String> testFiles = getTestFiles(testNgXmlE2E, "./src/e2e/java/teammates/e2e");
@@ -28,6 +29,8 @@ public class TestNgXmlTest extends BaseTestCase {
         testFiles.forEach((key, value) -> {
             if (Objects.equals(value, "teammates.e2e.cases.axe")) {
                 assertTrue(isTestFileIncluded(testNgXmlAxe, value, key));
+            } else if (Objects.equals(value, "teammates.e2e.cases.sql.axe")) {
+                assertTrue(isTestFileIncluded(testNgXmlAxeSql, value, key));
             } else if (Objects.equals(value, "teammates.e2e.cases.sql")) {
                 assertTrue(isTestFileIncluded(testNgXmlE2ESql, value, key));
             } else {

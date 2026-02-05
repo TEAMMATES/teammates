@@ -7,7 +7,7 @@
   </ng-template>
   <input type="text" class="form-control" ngbDatepicker readonly
          [ngModel]="date" (ngModelChange)="changeDate($event)" aria-label="Date"
-         [maxDate]="maxDate" [minDate]="minDate" #timeDp="ngbDatepicker" [disabled]="isDisabled" [footerTemplate]="footer"/>
+         [maxDate]="maxDate!" [minDate]="minDate!" #timeDp="ngbDatepicker" [disabled]="isDisabled" [footerTemplate]="footer">
   <button class="btn btn-light input-group-text" aria-label="Change date" (click)="timeDp.toggle()" type="button" [disabled]="isDisabled">
     <i class="fas fa-calendar-alt"></i>
   </button>

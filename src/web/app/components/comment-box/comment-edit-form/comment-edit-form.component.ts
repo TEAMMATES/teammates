@@ -11,6 +11,7 @@ import {
   ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
+import { castAsInputElement } from '../../../../types/event-target-caster';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
@@ -48,6 +49,7 @@ export interface CommentEditFormModel {
   ],
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
+  readonly castAsInputElement = castAsInputElement;
 
   // enum
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;

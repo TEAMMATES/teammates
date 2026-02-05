@@ -7,6 +7,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   LOG_TYPES={[Function Array]}
   STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
   SortBy={[Function Object]}
+  castAsInputElement={[Function Function]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
@@ -81,6 +82,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   LOG_TYPES={[Function Array]}
   STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
   SortBy={[Function Object]}
+  castAsInputElement={[Function Function]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
@@ -665,6 +667,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   LOG_TYPES={[Function Array]}
   STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
   SortBy={[Function Object]}
+  castAsInputElement={[Function Function]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
@@ -739,6 +742,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   LOG_TYPES={[Function Array]}
   STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
   SortBy={[Function Object]}
+  castAsInputElement={[Function Function]}
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}

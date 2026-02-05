@@ -33,7 +33,7 @@
                 <div class="form-group">
                   <div class="input-group">
                     <input class="form-control" id="start-date" placeholder="Date" name="dp1" [(ngModel)]="startDate" ngbDatepicker #dp1="ngbDatepicker">
-                    <button class="btn btn-light input-group-text" (click)="dp1.toggle()" type="button">
+                    <button class="btn btn-light input-group-text" (click)="dp1.toggle()" type="button" aria-label="Toggle start date calendar">
                       <i class="fas fa-calendar-alt"></i>
                     </button>
                   </div>
@@ -57,7 +57,7 @@
                 <div class="form-group">
                   <div class="input-group">
                     <input class="form-control" id="end-date" placeholder="Date" name="dp2" [(ngModel)]="endDate" ngbDatepicker #dp2="ngbDatepicker">
-                    <button class="btn btn-light input-group-text" (click)="dp2.toggle()" type="button">
+                    <button class="btn btn-light input-group-text" (click)="dp2.toggle()" type="button" aria-label="Toggle end date calendar">
                       <i class="fas fa-calendar-alt"></i>
                     </button>
                   </div>
@@ -77,7 +77,7 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <select id="filter-timezone" class="form-control form-select" [(ngModel)]="filterTimezone">
+              <select id="filter-timezone" class="form-control form-select" [(ngModel)]="filterTimezone" aria-label="Filter time zone">
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
             </div>
