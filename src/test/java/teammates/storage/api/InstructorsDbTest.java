@@ -460,7 +460,7 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 instructorsDb.getInstructorForGoogleId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId());
         assertEquals("testName", updatedInstructor.getName());
         assertEquals("testName", actualInstructor.getName());
-;
+
         updatedInstructor = instructorsDb.updateInstructorByGoogleId(
                 InstructorAttributes
                         .updateOptionsWithGoogleIdBuilder(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId())

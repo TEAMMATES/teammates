@@ -140,7 +140,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(copySession);
 
         ______TS("copy course with session of same timings");
-        CourseAttributes[] activeCoursesWithCopyCourse2 = { courses[0], courses[1], courses[2], newCourse, copyCourse, copyCourse2 };
+        CourseAttributes[] activeCoursesWithCopyCourse2 = { courses[0], courses[1], courses[2],
+                newCourse, copyCourse, copyCourse2 };
         coursesPage.copyCourse(copyCourse.getId(), copyCourse2);
         coursesPage.verifyStatusMessage("The course has been added.");
         coursesPage.sortByCourseId();
@@ -183,7 +184,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("restore all");
         coursesPage.moveCourseToRecycleBin(courses[1].getId());
-        CourseAttributes[] activeCoursesWithRestored = { courses[0], courses[1], courses[2], courses[3], copyCourse, copyCourse2 };
+        CourseAttributes[] activeCoursesWithRestored = { courses[0], courses[1], courses[2],
+                courses[3], copyCourse, copyCourse2 };
         coursesPage.restoreAllCourses();
 
         coursesPage.verifyStatusMessage("All courses have been restored.");
