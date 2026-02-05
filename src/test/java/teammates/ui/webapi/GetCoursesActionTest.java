@@ -84,11 +84,13 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         loginAsInstructor(instructor.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
-        assertEquals(2, courses.getCourses().size());
+        assertEquals(3, courses.getCourses().size());
         CourseAttributes expectedCourse1 = testData.courses.get("typicalCourse1");
         CourseAttributes expectedCourse2 = testData.courses.get("typicalCourse2");
+        CourseAttributes expectedCourse3 = testData.courses.get("typicalCourse4");
         verifySameCourseData(courses.getCourses().get(0), expectedCourse1);
         verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
+        verifySameCourseData(courses.getCourses().get(2), expectedCourse3);
     }
 
     @Test
@@ -116,14 +118,12 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         loginAsStudent(student.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
-        assertEquals(3, courses.getCourses().size());
+        assertEquals(2, courses.getCourses().size());
         CourseAttributes expectedCourse1 = testData.courses.get("typicalCourse1");
         CourseAttributes expectedCourse2 = testData.courses.get("typicalCourse2");
-        CourseAttributes expectedCourse3 = testData.courses.get("typicalCourse4");
 
         verifySameCourseDataStudent(courses.getCourses().get(0), expectedCourse1);
         verifySameCourseDataStudent(courses.getCourses().get(1), expectedCourse2);
-        verifySameCourseDataStudent(courses.getCourses().get(2), expectedCourse3);
     }
 
     private void verifySameCourseData(CourseData actualCourse, CourseAttributes expectedCourse) {
