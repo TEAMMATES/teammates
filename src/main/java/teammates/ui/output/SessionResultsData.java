@@ -901,12 +901,12 @@ public class SessionResultsData extends ApiOutput {
             }
 
             Builder withResponseId(String responseId) {
-                responseOutput.responseId = StringHelper.encrypt(responseId);
+                responseOutput.responseId = responseId;
                 return this;
             }
 
             Builder withResponse(FeedbackResponse response) {
-                responseOutput.responseId = StringHelper.encrypt(response.getId().toString());
+                responseOutput.responseId = response.getId().toString();
                 return this;
             }
 
