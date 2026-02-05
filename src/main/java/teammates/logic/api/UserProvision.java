@@ -4,8 +4,6 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.HibernateUtil;
-import teammates.logic.core.InstructorsLogic;
-import teammates.logic.core.StudentsLogic;
 import teammates.sqllogic.core.UsersLogic;
 
 /**
@@ -16,8 +14,6 @@ public class UserProvision {
     private static final UserProvision instance = new UserProvision();
 
     private final UsersLogic usersLogic = UsersLogic.inst();
-    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     @SuppressWarnings("PMD.UnnecessaryConstructor")
     public UserProvision() {
@@ -41,10 +37,8 @@ public class UserProvision {
 
         String userId = user.id;
         user.isAdmin = Config.APP_ADMINS.contains(userId);
-        user.isInstructor = usersLogic.isInstructorInAnyCourse(userId)
-                || instructorsLogic.isInstructorInAnyCourse(userId);
-        user.isStudent = usersLogic.isStudentInAnyCourse(userId)
-                || studentsLogic.isStudentInAnyCourse(userId);
+        user.isInstructor = usersLogic.isInstructorInAnyCourse(userId);
+        user.isStudent = usersLogic.isStudentInAnyCourse(userId);
         user.isMaintainer = Config.APP_MAINTAINERS.contains(user.getId());
         return user;
     }
@@ -77,10 +71,8 @@ public class UserProvision {
     public UserInfo getMasqueradeUser(String googleId) {
         UserInfo userInfo = new UserInfo(googleId);
         userInfo.isAdmin = false;
-        userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(googleId)
-                || instructorsLogic.isInstructorInAnyCourse(googleId);
-        userInfo.isStudent = usersLogic.isInstructorInAnyCourse(googleId)
-                || studentsLogic.isStudentInAnyCourse(googleId);
+        userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(googleId);
+        userInfo.isStudent = usersLogic.isInstructorInAnyCourse(googleId);
         userInfo.isMaintainer = Config.APP_MAINTAINERS.contains(googleId);
         return userInfo;
     }
