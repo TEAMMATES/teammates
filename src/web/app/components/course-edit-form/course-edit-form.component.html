@@ -5,7 +5,7 @@
     <div class="card-header-btn-toolbar">
       <ng-container *ngIf="isInEditMode">
         <button id="btn-edit-course" class="btn btn-primary btn-sm" [disabled]="!canModifyCourse" *ngIf="!isEditing"
-          (click)="setIsEditing($event)">
+          (click)="setIsEditing(true)">
           <i class="fa fa-pen" aria-hidden="true"></i>
           Edit
         </button>
