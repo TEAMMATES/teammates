@@ -343,7 +343,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "isArchived": true,
       "privileges": {
         "courseLevel": {
           "canViewStudentInSections": true,
