@@ -37,6 +37,8 @@ public class TimeHelperTest extends BaseTestCase {
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 16, 0).atZone(ZoneId.of(zoneId)).toInstant();
 
         // TODO: Remove this alternation once a workaround is found
+        // this alteration is required as jdk25 changes its time parsing format
+        // previously "z" is parsed as SGT now its GMT +08:00
         String expected = "Mon, 30 Nov 2015, 04:00 PM (SGT|GMT\\+08:00)";
         String actual = TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT);
         assertTrue(actual.matches(expected));
