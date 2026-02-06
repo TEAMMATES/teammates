@@ -3,8 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="generator" content="MarkBind 6.1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1"><title>TEAMMATES - Unit Testing</title> <link rel="stylesheet" href="/teammates/markbind/css/bootstrap.min.css"> <link rel="stylesheet" href="/teammates/markbind/fontawesome/css/all.min.css"> <link rel="stylesheet" href="/teammates/markbind/glyphicons/css/bootstrap-glyphicons.min.css"><link rel="stylesheet" href="/teammates/markbind/css/codeblock-light.min.css"><link rel="stylesheet" href="/teammates/markbind/css/markbind.min.css"><link rel="stylesheet" href="/teammates/plugins/codeBlockCopyButtons/codeBlockButtons.css"><link rel="stylesheet" href="/teammates/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css"><link rel="stylesheet" href="/teammates/plugins/markbind-plugin-tree/markbind-plugin-tree.css">
+    <meta name="generator" content="MarkBind 5.3.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>TEAMMATES - Unit Testing</title> <link rel="stylesheet" href="/teammates/markbind/css/bootstrap.min.css"> <link rel="stylesheet" href="/teammates/markbind/fontawesome/css/all.min.css"> <link rel="stylesheet" href="/teammates/markbind/glyphicons/css/bootstrap-glyphicons.min.css"><link rel="stylesheet" href="/teammates/markbind/css/codeblock-light.min.css"><link rel="stylesheet" href="/teammates/markbind/css/markbind.min.css"><script src="/teammates/markbind/js/polyfill.min.js"></script>
+    <script src="/teammates/markbind/js/vue.min.js"></script>
+    <script src="/teammates/markbind/js/markbind.min.js"></script>
+    <script src="unit-testing.page-vue-render.js"></script><link rel="stylesheet" href="/teammates/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css"><link rel="stylesheet" href="/teammates/plugins/markbind-plugin-tree/markbind-plugin-tree.css">
     
   <link rel="stylesheet" href="/teammates/stylesheets/main.css">
 <link rel="icon" href="/teammates/images/teammatesIcon.png"></head>
@@ -12,20 +15,22 @@
   const baseUrl = '/teammates'
 </script>
 <body  data-bs-spy="scroll" data-bs-target="#mb-page-nav" data-bs-offset="100" >
-<div id="app"><!--[--><header sticky><div data-v-26aac3dc><nav class="navbar navbar-expand-md d-print-none navbar-dark bg-primary" data-v-26aac3dc><div class="container-fluid" data-v-26aac3dc><div class="navbar-left" data-v-26aac3dc><!--[--><a href="/teammates/index.html" title="Home" class="navbar-brand"><span class="image-wrapper" caption><img src="/teammates/images/teammateslogo.png" alt="Logo" width="150" height="" loading="eager" class="img-fluid rounded"><span class="image-caption"><!--[--><!--]--></span></span> <span style="font-style:italic;font-size:small;">[dev docs]</span></a><!--]--></div><div class="navbar-default" data-v-26aac3dc><ul class="navbar-nav me-auto mt-2 mt-lg-0" data-v-26aac3dc><!--[--> <li><a href="/teammates/index.html" class="nav-link">Home</a></li> <li><a href="/teammates/contributing-doc.html" class="nav-link">Contributing</a></li> <li><a href="https://teammatesv4.appspot.com/" target="_blank" class="nav-link">Product Website <span><span aria-hidden="true" class="glyphicon glyphicon-share-alt"></span></span></a></li> <li><a href="https://github.com/TEAMMATES/teammates" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li> <!--]--></ul></div><ul class="navbar-nav navbar-right" data-v-26aac3dc><!--[--><li><form class="navbar-form"><div style="position:relative;" class="dropdown" data-v-00e26d0a><!--[--><input value="" data-bs-toggle="dropdown" type="text" class="form-control" placeholder="Search" autocomplete="off" data-v-00e26d0a><div class="form-control placeholder-div-hidden" data-v-00e26d0a>Search</div><!--]--><ul class="dropdown-menu search-dropdown-menu dropdown-menu-hidden dropdown-menu-end" data-v-00e26d0a><!--[--><!--]--></ul></div></form></li><!--]--></ul></div></nav><div style="display:none;" class="lower-navbar-container" data-v-26aac3dc><!--[--><!----><!----><!--]--></div></div></header> <div id="flex-body"><nav id="site-nav" class="fixed-header-padding" data-v-6b1b63d2><!--[--><div class="nav-component slim-scroll"><div class="site-nav-root"><!--[--><ul class="site-nav-list site-nav-list-root" data-v-6b1b63d2><!--[--><li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">About TEAMMATES 
+<div id="app" data-server-rendered="true"><header sticky=""><div data-v-73b4aa16><nav class="navbar navbar-expand-md d-print-none navbar-dark bg-primary" data-v-73b4aa16><div class="container-fluid" data-v-73b4aa16><div class="navbar-left" data-v-73b4aa16><a href="/teammates/index.html" title="Home" class="navbar-brand" data-v-73b4aa16><span caption="" class="image-wrapper"><img src="/teammates/images/teammateslogo.png" alt="Logo" width="150" class="img-fluid rounded"> <span class="image-caption"></span></span> <span style="font-style:italic;font-size:small;" data-v-73b4aa16>[dev docs]</span></a></div> <div class="navbar-default" data-v-73b4aa16><ul class="navbar-nav me-auto mt-2 mt-lg-0" data-v-73b4aa16> <li data-v-73b4aa16><a href="/teammates/index.html" class="nav-link" data-v-73b4aa16>Home</a></li> <li data-v-73b4aa16><a href="/teammates/contributing-doc.html" class="nav-link" data-v-73b4aa16>Contributing</a></li> <li data-v-73b4aa16><a href="https://teammatesv4.appspot.com/" target="_blank" class="nav-link" data-v-73b4aa16>Product Website <span data-v-73b4aa16><span aria-hidden="true" class="glyphicon glyphicon-share-alt" data-v-73b4aa16></span></span></a></li> <li data-v-73b4aa16><a href="https://github.com/TEAMMATES/teammates" target="_blank" class="nav-link" data-v-73b4aa16><span data-v-73b4aa16><span aria-hidden="true" class="fab fa-github" data-v-73b4aa16></span></span></a></li></ul></div> <ul class="navbar-nav navbar-right" data-v-73b4aa16><li data-v-73b4aa16><form class="navbar-form" data-v-73b4aa16><div class="dropdown" style="position:relative;" data-v-01e11c9b><input data-bs-toggle="dropdown" type="text" placeholder="Search" autocomplete="off" value="" class="form-control" data-v-01e11c9b> <div class="form-control placeholder-div-hidden" data-v-01e11c9b>
+      Search
+    </div> <ul class="dropdown-menu search-dropdown-menu d-none dropdown-menu-end" data-v-01e11c9b></ul></div></form></li></ul></div></nav> <div class="lower-navbar-container" style="display:none;" data-v-73b4aa16><!----> <!----></div></div></header> <div id="flex-body"><nav id="site-nav" class="fixed-header-padding" data-v-e6005420><div class="nav-component slim-scroll" data-v-e6005420><div class="site-nav-root"><ul class="site-nav-list site-nav-list-root" data-v-e6005420><li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e6005420>About TEAMMATES 
 
-<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/index.html">Introduction</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/overview.html">Overview</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">Getting Started 
+<div class="site-nav-dropdown-btn-container" data-v-e6005420><i onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();" class="site-nav-dropdown-btn-icon site-nav-rotate-icon" data-v-e6005420><span aria-hidden="true" class="glyphicon glyphicon-menu-down" data-v-e6005420></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list" data-v-e6005420><li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/index.html" data-v-e6005420>Introduction</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/overview.html" data-v-e6005420>Overview</a></div></li></ul></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e6005420>Getting Started 
 
-<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/setting-up.html">Setting Up</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/contributing-doc.html">Contributing</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">Workflow 
+<div class="site-nav-dropdown-btn-container" data-v-e6005420><i onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();" class="site-nav-dropdown-btn-icon site-nav-rotate-icon" data-v-e6005420><span aria-hidden="true" class="glyphicon glyphicon-menu-down" data-v-e6005420></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list" data-v-e6005420><li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/setting-up.html" data-v-e6005420>Setting Up</a></div></li></ul></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e6005420><a href="/teammates/contributing-doc.html" data-v-e6005420>Contributing</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e6005420>Workflow 
 
-<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/issues.html">Issues</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/process.html">Process</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/development.html">Development</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/design.html">Design</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">Best Practices 
+<div class="site-nav-dropdown-btn-container" data-v-e6005420><i onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();" class="site-nav-dropdown-btn-icon site-nav-rotate-icon" data-v-e6005420><span aria-hidden="true" class="glyphicon glyphicon-menu-down" data-v-e6005420></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list" data-v-e6005420><li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/issues.html" data-v-e6005420>Issues</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/process.html" data-v-e6005420>Process</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/development.html" data-v-e6005420>Development</a></div></li></ul></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e6005420><a href="/teammates/design.html" data-v-e6005420>Design</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e6005420>Best Practices 
 
-<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/coding.html">Coding</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/testing.html">Testing</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/data-migration.html">Data Migration</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/ui-design.html">UI Design</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/accessibility.html">Accessibility</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/mobile-friendliness.html">Mobile-Friendliness</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">How-to 
+<div class="site-nav-dropdown-btn-container" data-v-e6005420><i onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();" class="site-nav-dropdown-btn-icon site-nav-rotate-icon" data-v-e6005420><span aria-hidden="true" class="glyphicon glyphicon-menu-down" data-v-e6005420></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list" data-v-e6005420><li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/best-practices/coding.html" data-v-e6005420>Coding</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/best-practices/testing.html" data-v-e6005420>Testing</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/best-practices/data-migration.html" data-v-e6005420>Data Migration</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/best-practices/ui-design.html" data-v-e6005420>UI Design</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/best-practices/accessibility.html" data-v-e6005420>Accessibility</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/best-practices/mobile-friendliness.html" data-v-e6005420>Mobile-Friendliness</a></div></li></ul></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e6005420>How-to 
 
-<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/captcha.html">Captcha</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/documentation.html">Documentation</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/emails.html">Emails</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/unit-testing.html">Unit Testing</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/e2e-testing.html">End-to-End Testing</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/snapshot-testing.html">Snapshot Testing</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/performance-testing.html">Performance Testing</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/axe-testing.html">Accessibility Testing</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/search.html">Search</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/static-analysis.html">Static Analysis</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/troubleshooting-guide.html">Troubleshooting Guide</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/glossary.html">Glossary</a></div></li><!--]--><!--v-if--></ul><!--]--></div></div><!--]--><!--v-if--></nav> <div id="content-wrapper" class="fixed-header-padding"><div data-v-ef898034><nav aria-label="breadcrumb" class="breadcrumb-divider" data-v-ef898034><ol class="breadcrumb" data-v-ef898034><li class="notlink breadcrumb-marker" data-v-ef898034> ››   </li><!--[--><!--]--></ol></nav></div> <h1 id="unit-testing">Unit Testing<a class="fa fa-anchor" href="#unit-testing" onclick="event.stopPropagation()"></a></h1> <h2 id="what-is-unit-testing">What is Unit Testing?<a class="fa fa-anchor" href="#what-is-unit-testing" onclick="event.stopPropagation()"></a></h2> <p>Unit testing is a testing methodology where the objective is to test components in isolation.</p> <ul><li>It aims to ensure all components of the application work as expected, assuming its dependencies are working.</li> <li>This is done in TEAMMATES by using mocks to simulate a component&#39;s dependencies.</li></ul> <p>Frontend unit tests in TEAMMATES are located in <code class="hljs inline no-lang">*.spec.ts</code> files and configured in <code class="hljs inline no-lang">src/web/jest.config.js</code>.</p> <p>Backend unit tests in TEAMMATES are located in the package <code class="hljs inline no-lang">teammates.test</code> and configured in <code class="hljs inline no-lang">src/test/resources/testng-component.xml</code>.</p> <h2 id="running-unit-tests">Running Unit Tests<a class="fa fa-anchor" href="#running-unit-tests" onclick="event.stopPropagation()"></a></h2> <h3 id="frontend-tests">Frontend tests<a class="fa fa-anchor" href="#frontend-tests" onclick="event.stopPropagation()"></a></h3> <p>To run all frontend component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:</p> <pre><code class="hljs sh"><span>npm run <span class="hljs-built_in">test</span>
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+<div class="site-nav-dropdown-btn-container" data-v-e6005420><i onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();" class="site-nav-dropdown-btn-icon site-nav-rotate-icon" data-v-e6005420><span aria-hidden="true" class="glyphicon glyphicon-menu-down" data-v-e6005420></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list" data-v-e6005420><li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/captcha.html" data-v-e6005420>Captcha</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/documentation.html" data-v-e6005420>Documentation</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/emails.html" data-v-e6005420>Emails</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/unit-testing.html" data-v-e6005420>Unit Testing</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/e2e-testing.html" data-v-e6005420>End-to-End Testing</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/snapshot-testing.html" data-v-e6005420>Snapshot Testing</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/performance-testing.html" data-v-e6005420>Performance Testing</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/axe-testing.html" data-v-e6005420>Accessibility Testing</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/search.html" data-v-e6005420>Search</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e6005420><a href="/teammates/static-analysis.html" data-v-e6005420>Static Analysis</a></div></li></ul></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e6005420><a href="/teammates/troubleshooting-guide.html" data-v-e6005420>Troubleshooting Guide</a></div></li> <li data-v-e6005420><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e6005420><a href="/teammates/glossary.html" data-v-e6005420>Glossary</a></div></li> <!----></ul></div></div> <!----></nav> <div id="content-wrapper" class="fixed-header-padding"><div data-v-ef898034><nav aria-label="breadcrumb" class="breadcrumb-divider" data-v-ef898034><ol class="breadcrumb" data-v-ef898034><li class="notlink breadcrumb-marker" data-v-ef898034>
+        ››  
+      </li> </ol></nav></div> <h1 id="unit-testing">Unit Testing<a href="#unit-testing" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h1> <h2 id="what-is-unit-testing">What is Unit Testing?<a href="#what-is-unit-testing" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>Unit testing is a testing methodology where the objective is to test components in isolation.</p> <ul><li>It aims to ensure all components of the application work as expected, assuming its dependencies are working.</li> <li>This is done in TEAMMATES by using mocks to simulate a component's dependencies.</li></ul> <p>Frontend unit tests in TEAMMATES are located in <code class="hljs inline no-lang">*.spec.ts</code> files and configured in <code class="hljs inline no-lang">src/web/jest.config.js</code>.</p> <p>Backend unit tests in TEAMMATES are located in the package <code class="hljs inline no-lang">teammates.test</code> and configured in <code class="hljs inline no-lang">src/test/resources/testng-component.xml</code>.</p> <h2 id="running-unit-tests">Running Unit Tests<a href="#running-unit-tests" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <h3 id="frontend-tests">Frontend tests<a href="#frontend-tests" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>To run all frontend component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:</p> <pre><code class="hljs sh"><span>npm run <span class="hljs-built_in">test</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -40,12 +45,9 @@
     </g>
 </svg>
 
-    </div>
     </div>
     </button></div></pre><p>Most frontend component tests use <a href="/teammates/snapshot-testing.html">Snapshot Testing</a>. To update snapshots, run the following command:</p> <pre><code class="hljs sh"><span>npm run <span class="hljs-built_in">test</span>
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -60,12 +62,9 @@
     </g>
 </svg>
 
-    </div>
     </div>
     </button></div></pre><p>Followed by <code class="hljs inline no-lang">a</code> to run all the test cases. Check through the snapshots to make sure that the changes are as expected, and press <code class="hljs inline no-lang">u</code> to update them.</p> <p>To run all frontend component tests once and generate coverage data afterwards, run the following command:</p> <pre><code class="hljs sh"><span>npm run coverage
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -81,11 +80,8 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre><p>To run an individual test in a test file, change <code class="hljs inline no-lang">it</code> in the <code class="hljs inline no-lang">*.spec.ts</code> file to <code class="hljs inline no-lang">fit</code>.</p> <p>To run all tests in a test file (or all test files matching a pattern), you can use Jest&#39;s watch mode and filter by filename pattern.</p> <h3 id="backend-tests">Backend tests<a class="fa fa-anchor" href="#backend-tests" onclick="event.stopPropagation()"></a></h3> <p>To run the backend tests, ensure that a database instance and a full-text search service instance are running. Details on the backend pre-requisites can be found <a href="/teammates/development.html#pre-requisites">here</a>. The tests may take some time to complete, typically around 10 minutes.</p> <p>Backend component tests follow this configuration:</p> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Test suite</th> <th>Command</th> <th>Results can be viewed in</th></tr></thead> <tbody><tr><td>Component tests</td> <td><code class="hljs inline no-lang">./gradlew componentTests --continue</code></td> <td><code class="hljs inline no-lang">{project folder}/build/reports/tests/componentTests/index.html</code></td></tr> <tr><td>Any individual component test</td> <td><code class="hljs inline no-lang">./gradlew componentTests --tests TestClassName</code></td> <td><code class="hljs inline no-lang">{project folder}/build/reports/tests/componentTests/index.html</code></td></tr></tbody></table></div><p>You can generate the coverage data with <code class="hljs inline no-lang">jacocoReport</code> task after running tests, e.g.:</p> <pre><code class="hljs sh"><span>./gradlew componentTests jacocoReport
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+    </button></div></pre><p>To run an individual test in a test file, change <code class="hljs inline no-lang">it</code> in the <code class="hljs inline no-lang">*.spec.ts</code> file to <code class="hljs inline no-lang">fit</code>.</p> <p>To run all tests in a test file (or all test files matching a pattern), you can use Jest's watch mode and filter by filename pattern.</p> <h3 id="backend-tests">Backend tests<a href="#backend-tests" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>To run the backend tests, ensure that a database instance and a full-text search service instance are running. Details on the backend pre-requisites can be found <a href="/teammates/development.html#pre-requisites">here</a>. The tests may take some time to complete, typically around 10 minutes.</p> <p>Backend component tests follow this configuration:</p> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Test suite</th> <th>Command</th> <th>Results can be viewed in</th></tr></thead> <tbody><tr><td>Component tests</td> <td><code class="hljs inline no-lang">./gradlew componentTests --continue</code></td> <td><code class="hljs inline no-lang">{project folder}/build/reports/tests/componentTests/index.html</code></td></tr> <tr><td>Any individual component test</td> <td><code class="hljs inline no-lang">./gradlew componentTests --tests TestClassName</code></td> <td><code class="hljs inline no-lang">{project folder}/build/reports/tests/componentTests/index.html</code></td></tr></tbody></table></div><p>You can generate the coverage data with <code class="hljs inline no-lang">jacocoReport</code> task after running tests, e.g.:</p> <pre><code class="hljs sh"><span>./gradlew componentTests jacocoReport
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -101,8 +97,7 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre><p>The report can be found in the <code class="hljs inline no-lang">build/reports/jacoco/jacocoReport/</code> directory.</p> <h2 id="creating-unit-tests">Creating Unit Tests<a class="fa fa-anchor" href="#creating-unit-tests" onclick="event.stopPropagation()"></a></h2> <h3 id="general-guidelines">General guidelines<a class="fa fa-anchor" href="#general-guidelines" onclick="event.stopPropagation()"></a></h3> <h4 id="include-only-relevant-details-in-tests">Include only relevant details in tests<a class="fa fa-anchor" href="#include-only-relevant-details-in-tests" onclick="event.stopPropagation()"></a></h4> <p>When writing unit tests, reduce the amount of noise in the code to make it easier for future developers to follow.</p> <p>The code below has a lot of noise in creation of the <code class="hljs inline no-lang">studentModel</code>:</p> <pre><code class="hljs javascript"><span>it(<span class="hljs-string">&#39;displayInviteButton: should display &quot;Send Invite&quot; button when a student has not joined the course&#39;</span>, <span class="hljs-function">() =&gt;</span> {
+    </button></div></pre><p>The report can be found in the <code class="hljs inline no-lang">build/reports/jacoco/jacocoReport/</code> directory.</p> <h2 id="creating-unit-tests">Creating Unit Tests<a href="#creating-unit-tests" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <h3 id="general-guidelines">General guidelines<a href="#general-guidelines" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <h4 id="include-only-relevant-details-in-tests">Include only relevant details in tests<a href="#include-only-relevant-details-in-tests" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <p>When writing unit tests, reduce the amount of noise in the code to make it easier for future developers to follow.</p> <p>The code below has a lot of noise in creation of the <code class="hljs inline no-lang">studentModel</code>:</p> <pre><code class="hljs javascript"><span>it(<span class="hljs-string">'displayInviteButton: should display &quot;Send Invite&quot; button when a student has not joined the course'</span>, <span class="hljs-function">() =&gt;</span> {
 </span><span>  component.studentModels = [
 </span><span>    {
 </span><span>      <span class="hljs-attr">student</span>: {
@@ -120,9 +115,7 @@
 </span><span>
 </span><span>  expect(sendInviteButton).toBeTruthy();
 </span><span>});
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -138,17 +131,14 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre><p>However, what is important is only the student joinState. We should thus reduce the noise by including only the relevant details:</p> <pre><code class="hljs javascript"><span>it(<span class="hljs-string">&#39;displayInviteButton: should display &quot;Send Invite&quot; button when a student has not joined the course&#39;</span>, <span class="hljs-function">() =&gt;</span> {
+    </button></div></pre><p>However, what is important is only the student joinState. We should thus reduce the noise by including only the relevant details:</p> <pre><code class="hljs javascript"><span>it(<span class="hljs-string">'displayInviteButton: should display &quot;Send Invite&quot; button when a student has not joined the course'</span>, <span class="hljs-function">() =&gt;</span> {
 </span><span>  component.studentModels = [
 </span><span>    studentModelBuilder.joinState(JoinState.NOT_JOINED).build(),
 </span><span>  ];
 </span><span>
 </span><span>  expect(sendInviteButton).toBeTruthy();
 </span><span>});
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -164,8 +154,7 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre><p>Including only the relevant details in tests makes it easier for future developers to read and understand the purpose of the test.</p> <h4 id="favor-readability-over-uniqueness">Favor readability over uniqueness<a class="fa fa-anchor" href="#favor-readability-over-uniqueness" onclick="event.stopPropagation()"></a></h4> <p>Since tests don&#39;t have tests, it should be easy for developers to manually inspect them for correctness, even at the expense of greater code duplication.</p> <p>Take the following test for example:</p> <pre><code class="hljs java"><span><span class="hljs-meta">@BeforeMethod</span>
+    </button></div></pre><p>Including only the relevant details in tests makes it easier for future developers to read and understand the purpose of the test.</p> <h4 id="favor-readability-over-uniqueness">Favor readability over uniqueness<a href="#favor-readability-over-uniqueness" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <p>Since tests don't have tests, it should be easy for developers to manually inspect them for correctness, even at the expense of greater code duplication.</p> <p>Take the following test for example:</p> <pre><code class="hljs java"><span><span class="hljs-meta">@BeforeMethod</span>
 </span><span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
 </span><span>    users = <span class="hljs-keyword">new</span> User[]{<span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;alice&quot;</span>), <span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;bob&quot;</span>)};
 </span><span>}
@@ -183,9 +172,7 @@
 </span><span>        forum.register(user);
 </span><span>    }
 </span><span>}
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -200,7 +187,6 @@
     </g>
 </svg>
 
-    </div>
     </div>
     </button></div></pre><p>While the code reduces duplication, it is not as straightforward for a developer to follow.</p> <p>A more readable way to write this test would be:</p> <pre><code class="hljs java"><span><span class="hljs-meta">@Test</span>
 </span><span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test_register_canRegisterMultipleUsers</span><span class="hljs-params">()</span> </span>{
@@ -213,9 +199,7 @@
 </span><span>    assertTrue(forum.hasRegisteredUser(user1));
 </span><span>    assertTrue(forum.hasRegisteredUser(user2));
 </span><span>}
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -231,17 +215,14 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre><p>By choosing readability over uniqueness in writing unit tests, there is code duplication, but the test flow is easier for a reader to follow.</p> <h4 id="inline-mocks-in-test-code">Inline mocks in test code<a class="fa fa-anchor" href="#inline-mocks-in-test-code" onclick="event.stopPropagation()"></a></h4> <p>Inlining mock return values in the unit test itself improves readability:</p> <pre><code class="hljs javascript"><span>it(<span class="hljs-string">&quot;getStudentCourseJoinStatus: should return true if student has joined the course&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+    </button></div></pre><p>By choosing readability over uniqueness in writing unit tests, there is code duplication, but the test flow is easier for a reader to follow.</p> <h4 id="inline-mocks-in-test-code">Inline mocks in test code<a href="#inline-mocks-in-test-code" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <p>Inlining mock return values in the unit test itself improves readability:</p> <pre><code class="hljs javascript"><span>it(<span class="hljs-string">&quot;getStudentCourseJoinStatus: should return true if student has joined the course&quot;</span>, <span class="hljs-function">() =&gt;</span> {
 </span><span>  jest
 </span><span>    .spyOn(courseService, <span class="hljs-string">&quot;getJoinCourseStatus&quot;</span>)
 </span><span>    .mockReturnValue(<span class="hljs-keyword">of</span>({ <span class="hljs-attr">hasJoined</span>: <span class="hljs-literal">true</span> }));
 </span><span>
 </span><span>  expect(student.getJoinCourseStatus).toBeTruthy();
 </span><span>});
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -257,11 +238,8 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre><p>By injecting the values in the test right before they are used, developers are able to more easily trace the code and understand the test.</p> <h3 id="frontend-tests-2">Frontend tests<a class="fa fa-anchor" href="#frontend-tests-2" onclick="event.stopPropagation()"></a></h3> <h4 id="naming">Naming<a class="fa fa-anchor" href="#naming" onclick="event.stopPropagation()"></a></h4> <p>Unit tests for a function should follow the format:</p> <p><code class="hljs inline no-lang">&quot;&lt;function-name&gt;: should ... when/if ...&quot;</code></p> <p>Example:</p> <pre><code class="hljs javascript"><span>it(<span class="hljs-string">&quot;hasSection: should return false when there are no sections in the course&quot;</span>);
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+    </button></div></pre><p>By injecting the values in the test right before they are used, developers are able to more easily trace the code and understand the test.</p> <h3 id="frontend-tests-2">Frontend tests<a href="#frontend-tests-2" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <h4 id="naming">Naming<a href="#naming" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <p>Unit tests for a function should follow the format:</p> <p><code class="hljs inline no-lang">&quot;&lt;function-name&gt;: should ... when/if ...&quot;</code></p> <p>Example:</p> <pre><code class="hljs javascript"><span>it(<span class="hljs-string">&quot;hasSection: should return false when there are no sections in the course&quot;</span>);
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -277,8 +255,7 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre><h4 id="creating-test-data">Creating test data<a class="fa fa-anchor" href="#creating-test-data" onclick="event.stopPropagation()"></a></h4> <p>To aid with <a href="#include-only-relevant-details-in-tests">including only relevant details in tests</a>, use the builder in <code class="hljs inline no-lang">src/web/test-helpers/generic-builder.ts</code></p> <p>Usage:</p> <pre><code class="hljs javascript"><span><span class="hljs-keyword">const</span> instructorModelBuilder =
+    </button></div></pre><h4 id="creating-test-data">Creating test data<a href="#creating-test-data" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <p>To aid with <a href="#include-only-relevant-details-in-tests">including only relevant details in tests</a>, use the builder in <code class="hljs inline no-lang">src/web/test-helpers/generic-builder.ts</code></p> <p>Usage:</p> <pre><code class="hljs javascript"><span><span class="hljs-keyword">const</span> instructorModelBuilder =
 </span><span>  createBuilder &lt;
 </span><span>  InstructorListInfoTableRowModel &gt;
 </span><span>  {
@@ -297,9 +274,7 @@
 </span><span>
 </span><span>  expect(component.isAllInstructorsSelected).toBeFalsy();
 </span><span>});
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -315,24 +290,21 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre><h4 id="testing-event-emission">Testing event emission<a class="fa fa-anchor" href="#testing-event-emission" onclick="event.stopPropagation()"></a></h4> <p>In Angular, child components emit events. To test for event emissions, we&#39;ve provided a utility function in <code class="hljs inline no-lang">src/test-helpers/test-event-emitter</code></p> <p>Usage:</p> <pre><code class="hljs javascript"><span>@Output()
+    </button></div></pre><h4 id="testing-event-emission">Testing event emission<a href="#testing-event-emission" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <p>In Angular, child components emit events. To test for event emissions, we've provided a utility function in <code class="hljs inline no-lang">src/test-helpers/test-event-emitter</code></p> <p>Usage:</p> <pre><code class="hljs javascript"><span>@Output()
 </span><span><span class="hljs-attr">deleteCommentEvent</span>: EventEmitter&lt;number&gt; = <span class="hljs-keyword">new</span> EventEmitter();
 </span><span>
 </span><span>triggerDeleteCommentEvent(index: number): <span class="hljs-keyword">void</span> {
 </span><span>  <span class="hljs-built_in">this</span>.deleteCommentEvent.emit(index);
 </span><span>}
 </span><span>
-</span><span>it(<span class="hljs-string">&#39;triggerDeleteCommentEvent: should emit the correct index to deleteCommentEvent&#39;</span>, <span class="hljs-function">() =&gt;</span> {
+</span><span>it(<span class="hljs-string">'triggerDeleteCommentEvent: should emit the correct index to deleteCommentEvent'</span>, <span class="hljs-function">() =&gt;</span> {
 </span><span>  <span class="hljs-keyword">let</span> emittedIndex: number | <span class="hljs-literal">undefined</span>;
 </span><span>  testEventEmission(component.deleteCommentEvent, <span class="hljs-function">(<span class="hljs-params">index</span>) =&gt;</span> { emittedIndex = index; });
 </span><span>
 </span><span>  component.triggerDeleteCommentEvent(<span class="hljs-number">5</span>);
 </span><span>  expect(emittedIndex).toBe(<span class="hljs-number">5</span>);
 </span><span>});
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -348,13 +320,10 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre><h3 id="backend-tests-2">Backend tests<a class="fa fa-anchor" href="#backend-tests-2" onclick="event.stopPropagation()"></a></h3> <h4 id="naming-2">Naming<a class="fa fa-anchor" href="#naming-2" onclick="event.stopPropagation()"></a></h4> <p>Unit test names should follow the format: <code class="hljs inline no-lang">test&lt;functionName&gt;_&lt;scenario&gt;_&lt;outcome&gt;</code></p> <p>Examples:</p> <pre><code class="hljs java"><span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testGetComment_commentDoesNotExist_returnsNull</span><span class="hljs-params">()</span></span>
+    </button></div></pre><h3 id="backend-tests-2">Backend tests<a href="#backend-tests-2" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <h4 id="naming-2">Naming<a href="#naming-2" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <p>Unit test names should follow the format: <code class="hljs inline no-lang">test&lt;functionName&gt;_&lt;scenario&gt;_&lt;outcome&gt;</code></p> <p>Examples:</p> <pre><code class="hljs java"><span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testGetComment_commentDoesNotExist_returnsNull</span><span class="hljs-params">()</span></span>
 </span><span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testCreateComment_commentDoesNotExist_success</span><span class="hljs-params">()</span></span>
 </span><span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testCreateComment_commentAlreadyExists_throwsEntityAlreadyExistsException</span><span class="hljs-params">()</span></span>
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -370,15 +339,12 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre><h4 id="creating-test-data-2">Creating test data<a class="fa fa-anchor" href="#creating-test-data-2" onclick="event.stopPropagation()"></a></h4> <p>To aid with <a href="#include-only-relevant-details-in-tests">including only relevant details in tests</a>, use the <code class="hljs inline no-lang">getTypicalX</code> functions in <code class="hljs inline no-lang">BaseTestCase</code>, where X represents an entity.</p> <p>Example:</p> <pre><code class="hljs java"><span>Account account = getTypicalAccount();
+    </button></div></pre><h4 id="creating-test-data-2">Creating test data<a href="#creating-test-data-2" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <p>To aid with <a href="#include-only-relevant-details-in-tests">including only relevant details in tests</a>, use the <code class="hljs inline no-lang">getTypicalX</code> functions in <code class="hljs inline no-lang">BaseTestCase</code>, where X represents an entity.</p> <p>Example:</p> <pre><code class="hljs java"><span>Account account = getTypicalAccount();
 </span><span>account.setEmail(<span class="hljs-string">&quot;newemail@teammates.com&quot;</span>);
 </span><span>
 </span><span>Student student = getTypicalStudent();
 </span><span>student.setName(<span class="hljs-string">&quot;New Student Name&quot;</span>);
-</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
-    <div class="tooltip-container">
-    <span class="tooltiptext">Copy</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn">
     <div class="function-btn-body">
     
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
@@ -394,13 +360,8 @@
 </svg>
 
     </div>
-    </div>
-    </button></div></pre></div> <nav id="page-nav" class="fixed-header-padding" data-v-6b1b63d2><!--[--><div class="nav-component slim-scroll"><nav id="mb-page-nav" class="nav nav-pills flex-column my-0 small no-flex-wrap" data-v-6b1b63d2><!--[--><a class="nav-link py-1" href="#unit-testing">Unit Testing‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap"><a class="nav-link py-1" href="#what-is-unit-testing">What is Unit Testing?‎</a> <a class="nav-link py-1" href="#running-unit-tests">Running Unit Tests‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap"><a class="nav-link py-1" href="#frontend-tests">Frontend tests‎</a> <a class="nav-link py-1" href="#backend-tests">Backend tests‎</a></nav> <a class="nav-link py-1" href="#creating-unit-tests">Creating Unit Tests‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap"><a class="nav-link py-1" href="#general-guidelines">General guidelines‎</a> <a class="nav-link py-1" href="#frontend-tests-2">Frontend tests‎</a> <a class="nav-link py-1" href="#backend-tests-2">Backend tests‎</a></nav></nav><!--]--><!--v-if--></nav></div><!--]--><!--v-if--></nav></div> <footer><div class="text-center"><small>[Generated by <a href="https://markbind.org/">MarkBind 6.1.0</a> on Thu, 5 Feb 2026, 16:12:51 UTC]</small></div></footer><!--]--></div>
+    </button></div></pre></div> <nav id="page-nav" class="fixed-header-padding" data-v-e6005420><div class="nav-component slim-scroll" data-v-e6005420><nav id="mb-page-nav" class="nav nav-pills flex-column my-0 small no-flex-wrap" data-v-e6005420><a class="nav-link py-1" href="#unit-testing" data-v-e6005420>Unit Testing‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap" data-v-e6005420><a class="nav-link py-1" href="#what-is-unit-testing" data-v-e6005420>What is Unit Testing?‎</a> <a class="nav-link py-1" href="#running-unit-tests" data-v-e6005420>Running Unit Tests‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap" data-v-e6005420><a class="nav-link py-1" href="#frontend-tests" data-v-e6005420>Frontend tests‎</a> <a class="nav-link py-1" href="#backend-tests" data-v-e6005420>Backend tests‎</a></nav> <a class="nav-link py-1" href="#creating-unit-tests" data-v-e6005420>Creating Unit Tests‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap" data-v-e6005420><a class="nav-link py-1" href="#general-guidelines" data-v-e6005420>General guidelines‎</a> <a class="nav-link py-1" href="#frontend-tests-2" data-v-e6005420>Frontend tests‎</a> <a class="nav-link py-1" href="#backend-tests-2" data-v-e6005420>Backend tests‎</a></nav></nav> <!----></nav></div> <!----></nav></div> <footer><div class="text-center"><small>[Generated by <a href="https://markbind.org/">MarkBind 5.3.0</a> on Fri, 6 Feb 2026, 14:47:21 UTC]</small></div></footer></div>
 </body><script src="/teammates/markbind/js/bootstrap-utility.min.js"></script>
-<script src="/teammates/markbind/js/polyfill.min.js"></script>
-<script src="/teammates/markbind/js/vue.global.prod.min.js"></script>
-<script src="/teammates/markbind/js/markbind.min.js"></script>
-<script src="unit-testing.page-vue-render.js"></script>
 <script>
   MarkBind.setupWithSearch()
 </script>
@@ -408,8 +369,6 @@
     function copyCodeBlock(element) {
         const pre = element.parentElement.parentElement;
         const codeElement = pre.querySelector('code');
-        const copyButtonBody = element.querySelector('.function-btn-body');
-        const tooltipText = element.querySelector(".tooltiptext");
 
         // create dummy text element to select() the text field
         const textElement = document.createElement('textarea');
@@ -419,36 +378,6 @@
 
         document.execCommand('copy');
         document.body.removeChild(textElement);
-        copyButtonBody.innerHTML = `
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="2 2 22 22"
-  >
-    <path d="M 19.28125 5.28125 L 9 15.5625 L 4.71875 11.28125 L 3.28125 12.71875 L 8.28125 17.71875 
-    L 9 18.40625 L 9.71875 17.71875 L 20.71875 6.71875 Z"></path>
-  </svg>
-`;
-        console.log("Running tooltip");
-        tooltipText.innerText  = `Copied!`;
-        setTimeout(() => {
-            copyButtonBody.innerHTML = `
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="18" height="18" viewBox="0 0 18 18" version="1.1">
-    <g id="surface1">
-      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
-      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
-      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
-      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
-      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
-      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
-      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "/>
-    </g>
-</svg>
-`;
-            tooltipText.innerText  = `Copy`;
-        }, 3000);
     }
     </script>
 </html>
