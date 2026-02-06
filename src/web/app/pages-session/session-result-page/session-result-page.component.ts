@@ -395,4 +395,8 @@ export class SessionResultPageComponent implements OnInit {
       studentId: this.studentId,
     }).subscribe();
   }
+
+  protected isSessionPublished(): boolean {
+    return this.session.resultVisibleFromTimestamp !== 0;
+  }
 }
