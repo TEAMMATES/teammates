@@ -327,29 +327,6 @@
         "sessionLevel": {}
       }
     },
-    "noIn": {
-      "googleId": "idOfInstructor1OfCourse3",
-      "courseId": "idOfTypicalCourse3",
-      "name": "Instructor1 Course3",
-      "email": "instructor1@course3.tmt",
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
     "instructor4": {
       "googleId": "idOfInstructor4",
       "courseId": "idOfCourseNoEvals",
@@ -720,7 +697,6 @@
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-01-20T23:57:00Z",
       "startTime": "2013-02-02T00:00:00Z",
-      "endTime": "2013-04-29T00:00:00Z",
       "sessionVisibleFromTime": "2013-01-21T00:00:00Z",
       "resultsVisibleFromTime": "2013-04-30T00:00:00Z",
       "timeZone": "Africa/Johannesburg",
