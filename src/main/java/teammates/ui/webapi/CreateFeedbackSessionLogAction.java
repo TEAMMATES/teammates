@@ -62,7 +62,6 @@ public class CreateFeedbackSessionLogAction extends Action {
             FeedbackSessionLog feedbacksessionlog = new FeedbackSessionLog(student, feedbackSession,
                     convertedFslType, Instant.now());
 
-            // Necessary to assist local testing. For production usage, this will be a no-op.
             sqlLogic.createFeedbackSessionLog(feedbacksessionlog);
         } else {
             // Necessary to assist local testing. For production usage, this will be a no-op.
