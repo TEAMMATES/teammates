@@ -56,8 +56,8 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
 
         studentActivityLogsPage.setLogsFromDateTime(
                 Instant.now().minus(1, ChronoUnit.DAYS),
-                ZoneId.of(course.getTimeZone()).getId());
-        studentActivityLogsPage.setLogsToDateTime(Instant.now(), ZoneId.of(course.getTimeZone()).getId());
+                ZoneId.systemDefault().getId());
+        studentActivityLogsPage.setLogsToDateTime(Instant.now(), ZoneId.systemDefault().getId());
 
         assertEquals(currentLogsFromDate, studentActivityLogsPage.getLogsFromDate());
         assertEquals(currentLogsToDate, studentActivityLogsPage.getLogsToDate());
@@ -83,17 +83,13 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentSubmissionPage.clickSubmitQuestionButton(1);
 
         logout();
-        studentActivityLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
-
-        studentActivityLogsPage.setLogsFromDateTime(Instant.now().minus(24, ChronoUnit.HOURS), "UTC");
-        studentActivityLogsPage.setLogsToDateTime(Instant.now().plus(1, ChronoUnit.HOURS), "UTC");
+        studentActivityLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class,
+                instructor.getGoogleId());
         studentActivityLogsPage.setActivityType("session access and submission");
         studentActivityLogsPage.setSessionDropdown(feedbackSession.getName());
-
         studentActivityLogsPage.waitForPageToLoad();
         studentActivityLogsPage.startSearching();
-        studentActivityLogsPage.waitForLogsToLoad();
 
-        assertTrue(studentActivityLogsPage.getLogsOutputText().contains("First Session"));
+        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
     }
 }
