@@ -59,10 +59,10 @@ public class CreateFeedbackSessionLogAction extends Action {
             Student student = sqlLogic.getStudent(studentId);
             FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsId);
 
-            FeedbackSessionLog feedbacksessionlog = new FeedbackSessionLog(student, feedbackSession,
+            FeedbackSessionLog feedbackSessionLog = new FeedbackSessionLog(student, feedbackSession,
                     convertedFslType, Instant.now());
 
-            sqlLogic.createFeedbackSessionLog(feedbacksessionlog);
+            sqlLogic.createFeedbackSessionLog(feedbackSessionLog);
         } else {
             // Necessary to assist local testing. For production usage, this will be a no-op.
             logsProcessor.createFeedbackSessionLog(courseId, studentEmail, fsName, fslType);
