@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
@@ -22,77 +20,33 @@ public class ResetAccountAction extends AdminOnlyAction {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String wrongGoogleId = null;
 
-        if (isCourseMigrated(courseId)) {
-            if (studentEmail != null) {
-                Student existingStudent = sqlLogic.getStudentForEmail(courseId, studentEmail);
+        if (studentEmail != null) {
+            Student existingStudent = sqlLogic.getStudentForEmail(courseId, studentEmail);
 
-                if (existingStudent == null) {
-                    throw new EntityNotFoundException("Student does not exist.");
-                }
-
-                wrongGoogleId = existingStudent.getGoogleId();
-
-                try {
-                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, wrongGoogleId);
-                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
-                } catch (EntityDoesNotExistException e) {
-                    throw new EntityNotFoundException(e);
-                }
-            } else if (instructorEmail != null) {
-                Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
-
-                if (existingInstructor == null) {
-                    throw new EntityNotFoundException("Instructor does not exist.");
-                }
-
-                wrongGoogleId = existingInstructor.getGoogleId();
-
-                try {
-                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, wrongGoogleId);
-                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
-                } catch (EntityDoesNotExistException e) {
-                    throw new EntityNotFoundException(e);
-                }
+            if (existingStudent == null) {
+                throw new EntityNotFoundException("Student does not exist.");
             }
-        } else {
-            if (studentEmail != null) {
-                StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
-                if (existingStudent == null) {
-                    throw new EntityNotFoundException("Student does not exist.");
-                }
 
-                wrongGoogleId = existingStudent.getGoogleId();
-
-                try {
-                    logic.resetStudentGoogleId(studentEmail, courseId);
-                    taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
-                } catch (EntityDoesNotExistException e) {
-                    throw new EntityNotFoundException(e);
-                }
-            } else if (instructorEmail != null) {
-                InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
-                if (existingInstructor == null) {
-                    throw new EntityNotFoundException("Instructor does not exist.");
-                }
-
-                wrongGoogleId = existingInstructor.getGoogleId();
-
-                try {
-                    logic.resetInstructorGoogleId(instructorEmail, courseId);
-                    taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
-                } catch (EntityDoesNotExistException e) {
-                    throw new EntityNotFoundException(e);
-                }
+            try {
+                sqlLogic.resetStudentGoogleId(studentEmail, courseId, existingStudent.getGoogleId());
+                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
             }
-        }
+        } else if (instructorEmail != null) {
+            Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
 
-        if (wrongGoogleId != null
-                && !isAccountMigrated(wrongGoogleId)
-                && logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
-                && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
-            logic.deleteAccountCascade(wrongGoogleId);
+            if (existingInstructor == null) {
+                throw new EntityNotFoundException("Instructor does not exist.");
+            }
+
+            try {
+                sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, existingInstructor.getGoogleId());
+                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
+            } catch (EntityDoesNotExistException e) {
+                throw new EntityNotFoundException(e);
+            }
         }
 
         return new JsonResult("Account is successfully reset.");

@@ -86,12 +86,12 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         loginAsInstructor(typicalInstructor.getGoogleId());
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, "non-existent question id",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("No feedback question with id: non-existent question id", enfe.getMessage());
+        assertEquals("No feedback question with id: 00000000-0000-0000-0000-000000000000", enfe.getMessage());
     }
 
     @Test

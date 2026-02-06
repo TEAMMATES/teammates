@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -33,24 +31,13 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
         validateTimeParameters(startTime, endTime);
         Instant rangeStart = Instant.ofEpochMilli(startTime);
         Instant rangeEnd = Instant.ofEpochMilli(endTime);
-        List<FeedbackSession> ongoingSqlSessions = sqlLogic.getOngoingSessions(rangeStart, rangeEnd);
-        Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsSqlMap =
-                createCourseIdToFeedbackSessionsSqlMap(ongoingSqlSessions);
-        List<FeedbackSessionAttributes> allOngoingSessions = logic.getAllOngoingSessions(rangeStart, rangeEnd);
-        Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap =
-                createCourseIdToFeedbackSessionsMap(allOngoingSessions, courseIdToFeedbackSessionsSqlMap);
-        Map<String, List<OngoingSession>> instituteToFeedbackSessionsSqlMap =
-                createInstituteToFeedbackSessionsSqlMap(courseIdToFeedbackSessionsSqlMap);
+        List<FeedbackSession> ongoingSessions = sqlLogic.getOngoingSessions(rangeStart, rangeEnd);
+        Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsMap =
+                createCourseIdToFeedbackSessionsMap(ongoingSessions);
         Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap =
                 createInstituteToFeedbackSessionsMap(courseIdToFeedbackSessionsMap);
-        for (var sqlInstituteFeedbackSessionList : instituteToFeedbackSessionsSqlMap.entrySet()) {
-            String sqlInstitute = sqlInstituteFeedbackSessionList.getKey();
-            List<OngoingSession> sqlFeedbackSessions = sqlInstituteFeedbackSessionList.getValue();
-            instituteToFeedbackSessionsMap.computeIfAbsent(sqlInstitute, k -> new ArrayList<>())
-                    .addAll(sqlFeedbackSessions);
-        }
-        OngoingSessionsData output = createOutput(courseIdToFeedbackSessionsSqlMap, courseIdToFeedbackSessionsMap,
-                instituteToFeedbackSessionsMap);
+
+        OngoingSessionsData output = createOutput(courseIdToFeedbackSessionsMap, instituteToFeedbackSessionsMap);
         return new JsonResult(output);
     }
 
@@ -83,93 +70,42 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
         }
     }
 
-    private Map<String, List<FeedbackSession>> createCourseIdToFeedbackSessionsSqlMap(
-            List<FeedbackSession> ongoingSqlSessions) {
-        Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsSqlMap = new HashMap<>();
-        for (FeedbackSession fs : ongoingSqlSessions) {
+    private Map<String, List<FeedbackSession>> createCourseIdToFeedbackSessionsMap(
+            List<FeedbackSession> ongoingSessions) {
+        Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsMap = new HashMap<>();
+        for (FeedbackSession fs : ongoingSessions) {
             String courseId = fs.getCourse().getId();
-            if (!isCourseMigrated(courseId)) {
-                continue;
-            }
-            courseIdToFeedbackSessionsSqlMap.computeIfAbsent(courseId, k -> new ArrayList<>()).add(fs);
-        }
-        return courseIdToFeedbackSessionsSqlMap;
-    }
-
-    private Map<String, List<FeedbackSessionAttributes>> createCourseIdToFeedbackSessionsMap(
-            List<FeedbackSessionAttributes> allOngoingSessions,
-            Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsSqlMap) {
-        Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap = new HashMap<>();
-        for (FeedbackSessionAttributes fs : allOngoingSessions) {
-            String courseId = fs.getCourseId();
-            if (courseIdToFeedbackSessionsSqlMap.containsKey(courseId)) {
-                continue;
-            }
             courseIdToFeedbackSessionsMap.computeIfAbsent(courseId, k -> new ArrayList<>()).add(fs);
         }
         return courseIdToFeedbackSessionsMap;
     }
 
-    private Map<String, List<OngoingSession>> createInstituteToFeedbackSessionsSqlMap(
-            Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsSqlMap) {
-        Map<String, List<OngoingSession>> instituteToFeedbackSessionsSqlMap = new HashMap<>();
-        for (var courseIdFeedbackSessionList : courseIdToFeedbackSessionsSqlMap.entrySet()) {
+    private Map<String, List<OngoingSession>> createInstituteToFeedbackSessionsMap(
+            Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsMap) {
+        Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap = new HashMap<>();
+        for (var courseIdFeedbackSessionList : courseIdToFeedbackSessionsMap.entrySet()) {
             String courseId = courseIdFeedbackSessionList.getKey();
             List<FeedbackSession> feedbackSessions = courseIdFeedbackSessionList.getValue();
             List<Instructor> instructors = sqlLogic.getInstructorsByCourse(courseId);
-            String googleId = getRegisteredInstructorGoogleIdFromSqlInstructors(instructors);
+            String googleId = getRegisteredInstructorGoogleIdFromInstructors(instructors);
             String institute = sqlLogic.getCourse(courseId).getInstitute();
             List<OngoingSession> sessions = feedbackSessions.stream()
                     .map(session -> new OngoingSession(session, googleId))
                     .collect(Collectors.toList());
-            instituteToFeedbackSessionsSqlMap.computeIfAbsent(institute, k -> new ArrayList<>()).addAll(sessions);
-        }
-        return instituteToFeedbackSessionsSqlMap;
-    }
-
-    private Map<String, List<OngoingSession>> createInstituteToFeedbackSessionsMap(
-            Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap) {
-        Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap = new HashMap<>();
-        for (var courseIdFeedbackSessionList : courseIdToFeedbackSessionsMap.entrySet()) {
-            String courseId = courseIdFeedbackSessionList.getKey();
-            List<FeedbackSessionAttributes> feedbackSessions = courseIdFeedbackSessionList.getValue();
-            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-            String googleId = getRegisteredInstructorGoogleIdFromInstructors(instructors);
-
-            String institute = logic.getCourseInstitute(courseId);
-            List<OngoingSession> sessions = feedbackSessions.stream()
-                    .map(session -> new OngoingSession(session, googleId))
-                    .collect(Collectors.toList());
-
             instituteToFeedbackSessionsMap.computeIfAbsent(institute, k -> new ArrayList<>()).addAll(sessions);
         }
         return instituteToFeedbackSessionsMap;
     }
 
-    private OngoingSessionsData createOutput(Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsSqlMap,
-            Map<String, List<FeedbackSessionAttributes>> courseIdToFeedbackSessionsMap,
+    private OngoingSessionsData createOutput(Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsMap,
             Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap) {
         int totalOngoingSessions = 0;
         int totalOpenSessions = 0;
         int totalClosedSessions = 0;
         int totalAwaitingSessions = 0;
-        for (List<FeedbackSession> feedbackSessions : courseIdToFeedbackSessionsSqlMap.values()) {
+        for (List<FeedbackSession> feedbackSessions : courseIdToFeedbackSessionsMap.values()) {
             totalOngoingSessions += feedbackSessions.size();
             for (FeedbackSession fs : feedbackSessions) {
-                if (fs.isOpened()) {
-                    totalOpenSessions++;
-                }
-                if (fs.isClosed()) {
-                    totalClosedSessions++;
-                }
-                if (fs.isWaitingToOpen()) {
-                    totalAwaitingSessions++;
-                }
-            }
-        }
-        for (List<FeedbackSessionAttributes> feedbackSessions : courseIdToFeedbackSessionsMap.values()) {
-            totalOngoingSessions += feedbackSessions.size();
-            for (FeedbackSessionAttributes fs : feedbackSessions) {
                 if (fs.isOpened()) {
                     totalOpenSessions++;
                 }
@@ -194,31 +130,8 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
         return output;
     }
 
-    private String getRegisteredInstructorGoogleIdFromSqlInstructors(List<Instructor> sqlInstructors) {
-        for (Instructor sqlInstructor : sqlInstructors) {
-            if (sqlInstructor.isRegistered()) {
-                return sqlInstructor.getGoogleId();
-            }
-        }
-        // There may be an instructor who was actually registered, but their account has not been migrated yet.
-        // Thus, we must check the instructor entities of the course on datastore, if any.
-        assert !sqlInstructors.isEmpty();
-        String courseId = sqlInstructors.get(0).getCourseId();
-        // If the course only exists in SQL, then the instructors should only be in SQL as well, so we can just return.
-        if (logic.getCourse(courseId) == null) {
-            return null;
-        }
-        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        for (InstructorAttributes instructor : instructors) {
-            if (instructor.isRegistered()) {
-                return instructor.getGoogleId();
-            }
-        }
-        return null;
-    }
-
-    private String getRegisteredInstructorGoogleIdFromInstructors(List<InstructorAttributes> instructors) {
-        for (InstructorAttributes instructor : instructors) {
+    private String getRegisteredInstructorGoogleIdFromInstructors(List<Instructor> instructors) {
+        for (Instructor instructor : instructors) {
             if (instructor.isRegistered()) {
                 return instructor.getGoogleId();
             }

@@ -5,14 +5,16 @@ on:
     branches:
       - master
       - release
+      - V9-clean-slate-sql
   pull_request:
     branches:
       - master
       - release
+      - V9-clean-slate-sql
   schedule:
     - cron: "0 0 * * *" #end of every day
   workflow_dispatch:
-  
+
 jobs:
   E2E-sql-testing:
     runs-on: ubuntu-latest

@@ -37,8 +37,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 BinFeedbackSessionAction.class,
                 GetCoursesAction.class,
                 GetRegkeyValidityAction.class,
-                PutDataBundleAction.class,
-                DeleteDataBundleAction.class,
                 CreateFeedbackSessionLogAction.class,
                 GetFeedbackSessionLogsAction.class,
                 GetInstructorPrivilegeAction.class,
@@ -54,7 +52,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateInstructorAction.class,
                 GetInstructorAction.class,
                 UpdateInstructorAction.class,
-                ArchiveCourseAction.class,
+                // ArchiveCourseAction.class, // TODO: Archive not supported in SQL
                 InstructorCourseJoinEmailWorkerAction.class,
                 DeleteStudentAction.class,
                 GetStudentAction.class,

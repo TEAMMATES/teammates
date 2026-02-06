@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
 
@@ -22,14 +21,6 @@ public class DeleteStudentsAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        if (!isCourseMigrated(courseId)) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-            gateKeeper.verifyAccessible(
-                    instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
-
-            return;
-        }
-
         Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
                     instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
@@ -38,13 +29,6 @@ public class DeleteStudentsAction extends Action {
     @Override
     public JsonResult execute() {
         var courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        var limit = getNonNullRequestParamValue(Const.ParamsNames.LIMIT);
-
-        if (!isCourseMigrated(courseId)) {
-            logic.deleteStudentsInCourseCascade(courseId, Integer.parseInt(limit));
-
-            return new JsonResult("Successful");
-        }
 
         sqlLogic.deleteStudentsInCourseCascade(courseId);
 
