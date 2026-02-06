@@ -80,24 +80,24 @@ public final class CoursesLogic {
         Account courseCreator = accountsLogic.getAccountForGoogleId(instructorGoogleId);
         assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorGoogleId;
 
+        Course createdCourse = createCourse(courseToCreate);
+
+        // Create the initial instructor for the course
+        InstructorPrivileges privileges = new InstructorPrivileges(
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        Instructor instructor = new Instructor(
+                createdCourse,
+                courseCreator.getName(),
+                courseCreator.getEmail(),
+                false,
+                courseCreator.getName(),
+                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                privileges);
+        instructor.setAccount(courseCreator);
+
         try {
-            Course createdCourse = createCourse(courseToCreate);
-
-            // Create the initial instructor for the course
-            InstructorPrivileges privileges = new InstructorPrivileges(
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-            Instructor instructor = new Instructor(
-                    createdCourse,
-                    courseCreator.getName(),
-                    courseCreator.getEmail(),
-                    false,
-                    courseCreator.getName(),
-                    InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                    privileges);
-            instructor.setAccount(courseCreator);
-
             usersLogic.createInstructor(instructor);
-        } catch (Exception e) {
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             String errorMessage = "Unexpected exception while trying to create instructor for a new course "
                                   + System.lineSeparator() + courseToCreate.toString();
             assert false : errorMessage;
