@@ -36,6 +36,7 @@ public class TimeHelperTest extends BaseTestCase {
         zoneId = "Asia/Singapore";
         instant = LocalDateTime.of(2015, Month.NOVEMBER, 30, 16, 0).atZone(ZoneId.of(zoneId)).toInstant();
 
+        // TODO: Remove this alternation once a workaround is found
         String expected = "Mon, 30 Nov 2015, 04:00 PM (SGT|GMT\\+08:00)";
         String actual = TimeHelper.formatInstant(instant, zoneId, DATETIME_DISPLAY_FORMAT);
         assertTrue(actual.matches(expected));
