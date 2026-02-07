@@ -29,6 +29,7 @@ import {
   SessionVisibleSetting, Student,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
+import { Timestamps } from '../../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -290,7 +291,7 @@ export class SessionResultPageComponent implements OnInit {
       next: (feedbackSession: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
         this.session = feedbackSession;
-        this.isSessionPublished = feedbackSession.resultVisibleFromTimestamp !== 0;
+        this.isSessionPublished = feedbackSession.resultVisibleFromTimestamp !== Timestamps.TIME_REPRESENTS_LATER;
         this.feedbackSessionId = feedbackSession.feedbackSessionId;
         this.formattedSessionOpeningTime = this.timezoneService
             .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
