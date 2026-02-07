@@ -107,7 +107,7 @@ public class InstructorStudentActivityLogsPage extends AppPage {
     }
 
     public void setLogsFromDateTime(Instant instant, String timeZone) {
-        setDateTime(logsFromDatepicker, logsToTimepicker, instant, timeZone);
+        setDateTime(logsFromDatepicker, logsFromTimepicker, instant, timeZone);
     }
 
     public void setLogsToDateTime(Instant instant, String timeZone) {
@@ -130,5 +130,13 @@ public class InstructorStudentActivityLogsPage extends AppPage {
         fillDatePicker(dateBox, startInstant, timeZone);
 
         selectDropdownOptionByText(timeBox.findElement(By.tagName("select")), getTimeString(startInstant, timeZone));
+    }
+
+    public String getLogsOutputText() {
+        return logsOutput.getText();
+    }
+
+    public void waitForLogsToLoad() {
+        waitForElementPresence(By.id("logs-output"));
     }
 }
