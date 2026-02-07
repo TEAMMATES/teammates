@@ -24,7 +24,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -901,12 +900,12 @@ public class SessionResultsData extends ApiOutput {
             }
 
             Builder withResponseId(String responseId) {
-                responseOutput.responseId = StringHelper.encrypt(responseId);
+                responseOutput.responseId = responseId;
                 return this;
             }
 
             Builder withResponse(FeedbackResponse response) {
-                responseOutput.responseId = StringHelper.encrypt(response.getId().toString());
+                responseOutput.responseId = response.getId().toString();
                 return this;
             }
 
