@@ -98,7 +98,6 @@ export class SessionResultPageComponent implements OnInit {
   isFeedbackSessionResultsLoading: boolean = true;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
-  isSessionPublished: boolean = true;
 
   feedbackSessionId: string | undefined = '';
   studentId: string | undefined = '';
@@ -291,7 +290,6 @@ export class SessionResultPageComponent implements OnInit {
       next: (feedbackSession: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
         this.session = feedbackSession;
-        this.isSessionPublished = feedbackSession.resultVisibleFromTimestamp !== Timestamps.TIME_REPRESENTS_LATER;
         this.feedbackSessionId = feedbackSession.feedbackSessionId;
         this.formattedSessionOpeningTime = this.timezoneService
             .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
@@ -397,5 +395,9 @@ export class SessionResultPageComponent implements OnInit {
       feedbackSessionId: this.feedbackSessionId,
       studentId: this.studentId,
     }).subscribe();
+  }
+
+  protected isSessionPublished(): boolean {
+    return this.session.resultVisibleFromTimestamp !== Timestamps.TIME_REPRESENTS_LATER;
   }
 }
