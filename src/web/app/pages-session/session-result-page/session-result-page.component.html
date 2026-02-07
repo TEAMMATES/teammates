@@ -74,7 +74,7 @@
 </div>
 
 <div *ngIf="!isFeedbackSessionDetailsLoading && !isSessionPublished()" class="alert alert-warning" role="alert">
-  <i class="fas fa-exclamation-triangle"></i> This feedback session has not been published yet. Responses will be visible once the session is published.
+  <i class="fas fa-exclamation-triangle"></i> This feedback session result has not been published yet. Responses will only be visible once the result is published.
 </div>
 
 <tm-loading-retry *ngIf="!isFeedbackSessionDetailsLoading && isSessionPublished()"
