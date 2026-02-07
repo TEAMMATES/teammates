@@ -73,11 +73,14 @@
   </div>
 </div>
 
-<div *ngIf="!isSessionPublished()" class="alert alert-warning mt-3" role="alert">
+<div *ngIf="!isFeedbackSessionDetailsLoading && !isSessionPublished" class="alert alert-warning" role="alert">
   <i class="fas fa-exclamation-triangle"></i> This feedback session has not been published yet. Responses will be visible once the session is published.
 </div>
 
-<tm-loading-retry *ngIf="isSessionPublished()" [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed" [message]="'Failed to load results'" (retryEvent)="retryLoadingFeedbackSessionResults()">
+<tm-loading-retry *ngIf="!isFeedbackSessionDetailsLoading && isSessionPublished"
+                  [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed"
+                  [message]="'Failed to load results'"
+                  (retryEvent)="retryLoadingFeedbackSessionResults()">
   <div *tmIsLoading="isFeedbackSessionResultsLoading">
     <div *ngIf="questions.length === 0" class="mt-4">
       <div class="alert alert-primary d-flex align-items-center justify-content-center" style="background-color: #D1ECF1;" role="alert">
