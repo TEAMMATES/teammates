@@ -508,14 +508,14 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(fsLogic.isFeedbackSessionViewableToUserType(session, true));
 
         ______TS("Session without questions for students, but with visible responses");
-        session = dataBundle.feedbackSessions.get("noStudentQuestionsSessionInCourse2");
+        session = dataBundle.feedbackSessions.get("noStudentQuestionsSessionInNoQuestionsCourse");
         assertTrue(fsLogic.isFeedbackSessionViewableToUserType(session, false));
 
         session = dataBundle.feedbackSessions.get("session1InCourse2");
         assertTrue(fsLogic.isFeedbackSessionViewableToUserType(session, false));
 
         ______TS("Session without questions for instructors, but with visible responses");
-        session = dataBundle.feedbackSessions.get("noInstructorQuestionsSessionInCourse2");
+        session = dataBundle.feedbackSessions.get("session2InCourse1");
         assertTrue(fsLogic.isFeedbackSessionViewableToUserType(session, true));
 
         ______TS("empty session");
@@ -536,12 +536,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertFalse(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true));
 
         ______TS("Session without student question should not be for students to answer");
-        session = dataBundle.feedbackSessions.get("noStudentQuestionsSessionInCourse2");
+        session = dataBundle.feedbackSessions.get("noStudentQuestionsSessionInNoQuestionsCourse");
         assertFalse(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false));
         assertTrue(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true));
 
         ______TS("Session without instructor question should not be for instructors to answer");
-        session = dataBundle.feedbackSessions.get("noInstructorQuestionsSessionInCourse2");
+        session = dataBundle.feedbackSessions.get("session2InCourse1");
         assertFalse(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true));
         assertTrue(fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false));
     }

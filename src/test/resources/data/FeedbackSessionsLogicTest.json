@@ -77,6 +77,12 @@
       "name": "Student in two courses",
       "email": "student2InCourse1@gmail.tmt",
       "readNotifications": {}
+    },
+    "student1InNoQuestionsCourse": {
+      "googleId": "student1InNoQuestionsCourse",
+      "name": "Student 1 in No Questions Course",
+      "email": "student1InNoQuestionsCourse@gmail.tmt",
+      "readNotifications": {}
     }
   },
   "courses": {
@@ -116,6 +122,12 @@
     "unregisteredCourse": {
       "id": "idOfUnregisteredCourse",
       "name": "Unregistered Course",
+      "institute": "TEAMMATES Test Institute 1",
+      "timeZone": "UTC"
+    },
+    "noQuestionsCourse": {
+      "id": "idOfNoQuestionsCourse",
+      "name": "Course with no questions",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
@@ -518,6 +530,15 @@
       "comments": "",
       "team": "Team 2",
       "section": "Section 2"
+    },
+    "student1InNoQuestionsCourse": {
+      "googleId": "student1InNoQuestionsCourse",
+      "email": "student1InNoQuestionsCourse@gmail.tmt",
+      "course": "idOfNoQuestionsCourse",
+      "name": "student1 In No Questions Course",
+      "comments": "",
+      "team": "Team 1",
+      "section": "Section 1"
     }
   },
   "feedbackSessions": {
@@ -667,10 +688,10 @@
       "studentDeadlines": {},
       "instructorDeadlines": {}
     },
-    "noStudentQuestionsSessionInCourse2": {
+    "noStudentQuestionsSessionInNoQuestionsCourse": {
       "feedbackSessionName": "session without student questions",
-      "courseId": "idOfTypicalCourse2",
-      "creatorEmail": "instructor2@course2.tmt",
+      "courseId": "idOfNoQuestionsCourse",
+      "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-01-20T23:00:00Z",
       "startTime": "2013-02-20T23:00:00Z",
@@ -678,29 +699,6 @@
       "sessionVisibleFromTime": "2013-02-20T23:00:00Z",
       "resultsVisibleFromTime": "2030-04-29T23:00:00Z",
       "timeZone": "UTC",
-      "gracePeriod": 5,
-      "sentOpeningSoonEmail": true,
-      "sentOpenedEmail": true,
-      "sentClosingSoonEmail": false,
-      "sentClosedEmail": false,
-      "sentPublishedEmail": false,
-      "isOpenedEmailEnabled": true,
-      "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
-    },
-     "noInstructorQuestionsSessionInCourse2": {
-      "feedbackSessionName": "No Instructor Questions Session",
-      "courseId": "idOfTypicalCourse2",
-      "creatorEmail": "instructor2@course2.tmt",
-      "instructions": "Please please fill in the following questions.",
-      "createdTime": "2013-01-20T23:57:00Z",
-      "startTime": "2013-02-02T00:00:00Z",
-      "endTime": "2030-04-28T22:00:00Z",
-      "sessionVisibleFromTime": "2013-01-21T00:00:00Z",
-      "resultsVisibleFromTime": "2013-04-30T00:00:00Z",
-      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
       "sentOpeningSoonEmail": true,
       "sentOpenedEmail": true,
@@ -1060,9 +1058,9 @@
         "RECEIVER"
       ]
     },
-    "qn1InNoStudentQuestionsSessionInCourse2": {
+    "qn1InNoStudentQuestionsSessionInNoQuestionsCourse": {
       "feedbackSessionName": "session without student questions",
-      "courseId": "idOfTypicalCourse2",
+      "courseId": "idOfNoQuestionsCourse",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Give feedback to students"
@@ -1070,27 +1068,6 @@
       "questionNumber": 1,
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
-      "numberOfEntitiesToGiveFeedbackTo": 4,
-      "showResponsesTo": [
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER"
-      ]
-    },
-    "qn1InNoInstructorQuestionSessionInCourse2": {
-      "feedbackSessionName": "No Instructor Questions Session",
-      "courseId": "idOfTypicalCourse2",
-      "questionDetails": {
-        "questionType": "TEXT",
-        "questionText": "Student only question"
-      },
-      "questionNumber": 2,
-      "giverType": "STUDENTS",
-      "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numberOfEntitiesToGiveFeedbackTo": 4,
       "showResponsesTo": [
         "RECEIVER"
@@ -1355,6 +1332,19 @@
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from instr to Team 2.1"
+      }
+    },
+    "response1ForNVSQ1": {
+      "feedbackSessionName": "session without student questions",
+      "courseId": "idOfNoQuestionsCourse",
+      "feedbackQuestionId": "1",
+      "giver": "instructor1@course1.tmt",
+      "recipient": "student1InNoQuestionsCourse@gmail.tmt",
+      "giverSection": "None",
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from instr to student in no questions course"
       }
     }
   },
