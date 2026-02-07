@@ -230,7 +230,6 @@
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
-      "isArchived": true,
       "privileges": {
         "courseLevel": {
           "canViewStudentInSections": true,
