@@ -10,6 +10,13 @@
     }
   },
   "sections": {
+    "sectionNone": {
+        "id": "00000000-0000-4000-8000-000000000200",
+        "course": {
+          "id": "demo.course"
+        },
+        "name": "None"
+      },
     "section1": {
       "id": "00000000-0000-4000-8000-000000000201",
       "course": {
@@ -5658,7 +5665,9 @@
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "recipientSection": null,
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000200"
+      },
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
       "answer": {
@@ -5680,7 +5689,9 @@
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "recipientSection": null,
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000200"
+      },
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
       "answer": {
@@ -5730,7 +5741,9 @@
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "recipientSection": null,
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000200"
+      },
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
       "answer": {
@@ -6221,7 +6234,9 @@
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
-      "recipientSection": null,
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000200"
+      },
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
       "answer": {
@@ -6243,7 +6258,9 @@
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
-      "recipientSection": null,
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000200"
+      },
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
       "answer": {
@@ -6337,7 +6354,9 @@
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
-      "recipientSection": null,
+      "recipientSection": {
+        "id": "00000000-0000-4000-8000-000000000200"
+      },
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
       "answer": {
