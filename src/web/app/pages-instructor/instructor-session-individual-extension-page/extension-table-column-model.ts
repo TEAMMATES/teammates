@@ -1,4 +1,4 @@
-import { InstructorPermissionRole } from '../../../types/api-request';
+import { InstructorPermissionRole } from '../../../types/api-output';
 
 export interface StudentExtensionTableColumnModel {
   sectionName: string;

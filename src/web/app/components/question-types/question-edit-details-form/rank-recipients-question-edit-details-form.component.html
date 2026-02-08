@@ -15,7 +15,7 @@
     </label>
     <input id="min-options" type="number" class="form-control" aria-labelledby="rank-recipients-question-min-options-label" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
            [ngModel]="displayValueForMinOptionsToBeRanked"
-           (ngModelChange)="triggerModelChange('minOptionsToBeRanked', $event)" min="1" max="{{ maxMinOptionsValue }}">
+           (ngModelChange)="triggerModelChange('minOptionsToBeRanked', $event)" [min]="1" [max]="maxMinOptionsValue">
     <br>
     <label id="rank-recipients-question-max-options-label" class="form-check-label fw-bold">
       <input id="max-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"

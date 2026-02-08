@@ -8,6 +8,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
+  coursesSortBy="undefined"
   instructorService={[Function InstructorService]}
   isCopyingSelectedInstructors="false"
   notDisplayedToStudentText={[Function String]}
@@ -148,6 +149,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
+  coursesSortBy="undefined"
   instructorService={[Function InstructorService]}
   isCopyingSelectedInstructors="false"
   notDisplayedToStudentText={[Function String]}
@@ -411,6 +413,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
+  coursesSortBy="undefined"
   instructorService={[Function InstructorService]}
   isCopyingSelectedInstructors="false"
   notDisplayedToStudentText={[Function String]}
@@ -548,6 +551,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
+  coursesSortBy="undefined"
   instructorService={[Function InstructorService]}
   isCopyingSelectedInstructors="false"
   notDisplayedToStudentText={[Function String]}
@@ -698,6 +702,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
   activeModal={[Function NgbActiveModal]}
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
+  coursesSortBy="undefined"
   instructorService={[Function InstructorService]}
   isCopyingSelectedInstructors="false"
   notDisplayedToStudentText={[Function String]}
