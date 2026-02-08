@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InstructorCoursesPageComponent should snap when archived courses are expanded 1`] = `
+exports[`InstructorCoursesPageComponent should snap when courses are expanded 1`] = `
 <tm-instructor-courses-page
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
@@ -10,9 +10,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
-  archivedCourses={[Function Array]}
-  archivedTableSortBy={[Function Number]}
-  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -25,10 +22,8 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
-  isArchivedCourseExpanded={[Function Boolean]}
   isCopyingCourse="false"
   isLoadingActiveCourses={[Function Boolean]}
-  isLoadingArchivedCourses={[Function Boolean]}
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
@@ -83,33 +78,6 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
       </tm-loading-spinner>
     </div>
   </tm-loading-retry><div
-    class="course-section"
-  >
-    <h2
-      class="h3 text-muted"
-    >
-      <span
-        aria-hidden="true"
-        class="fa fa-file-archive"
-      />
-       Archived courses 
-    </h2>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
     class="row course-section margin-top-30px"
   >
     <div
@@ -154,9 +122,6 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
-  archivedCourses={[Function Array]}
-  archivedTableSortBy={[Function Number]}
-  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -169,10 +134,8 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
-  isArchivedCourseExpanded="false"
   isCopyingCourse="false"
   isLoadingActiveCourses={[Function Boolean]}
-  isLoadingArchivedCourses={[Function Boolean]}
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
@@ -227,33 +190,6 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
       </tm-loading-spinner>
     </div>
   </tm-loading-retry><div
-    class="course-section"
-  >
-    <h2
-      class="h3 text-muted"
-    >
-      <span
-        aria-hidden="true"
-        class="fa fa-file-archive"
-      />
-       Archived courses 
-    </h2>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
     class="row course-section margin-top-30px"
   >
     <div
@@ -298,9 +234,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
-  archivedCourses={[Function Array]}
-  archivedTableSortBy={[Function Number]}
-  archivedTableSortOrder={[Function Number]}
   canDeleteAll="false"
   canRestoreAll="false"
   copyProgressPercentage="0"
@@ -313,10 +246,8 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
-  isArchivedCourseExpanded="false"
   isCopyingCourse="false"
   isLoadingActiveCourses="false"
-  isLoadingArchivedCourses={[Function Boolean]}
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
@@ -535,15 +466,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                         <button
                           class="btn btn-primary btn-sm dropdown-item clickable"
                           container="body"
-                          id="btn-archive-0"
-                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                          placement="left"
-                        >
-                           Archive 
-                        </button>
-                        <button
-                          class="btn btn-primary btn-sm dropdown-item clickable"
-                          container="body"
                           id="btn-soft-delete-0"
                           ngbtooltip="Delete the course and its corresponding students and sessions"
                           placement="left"
@@ -634,15 +556,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                            Edit 
                         </a>
                         <button
-                          class="btn btn-primary btn-sm dropdown-item clickable"
-                          container="body"
-                          id="btn-archive-1"
-                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                          placement="left"
-                        >
-                           Archive 
-                        </button>
-                        <button
                           class="btn btn-primary btn-sm dropdown-item disabled"
                           id="btn-soft-delete-disabled-1"
                         >
@@ -659,33 +572,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       </div>
     </div>
   </tm-loading-retry><div
-    class="course-section"
-  >
-    <h2
-      class="h3 text-muted"
-    >
-      <span
-        aria-hidden="true"
-        class="fa fa-file-archive"
-      />
-       Archived courses 
-    </h2>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
     class="row course-section margin-top-30px"
   >
     <div
@@ -730,9 +616,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
-  archivedCourses={[Function Array]}
-  archivedTableSortBy={[Function Number]}
-  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -745,10 +628,8 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded={[Function Boolean]}
-  isArchivedCourseExpanded="false"
   isCopyingCourse="false"
   isLoadingActiveCourses="false"
-  isLoadingArchivedCourses="false"
   isLoadingSoftDeletedCourses="false"
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
@@ -1026,26 +907,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
       </div>
     </div>
   </tm-loading-retry><div
-    class="course-section"
-  >
-    <h2
-      class="h3 text-muted"
-    >
-      <span
-        aria-hidden="true"
-        class="fa fa-file-archive"
-      />
-       Archived courses 
-    </h2>
-    <div>
-      <div
-        class="alert alert-warning margin-top-30px"
-        role="alert"
-      >
-         There are no courses archived currently. 
-      </div>
-    </div>
-  </div><div
     class="row course-section margin-top-30px"
   >
     <div
@@ -1083,9 +944,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
-  archivedCourses={[Function Array]}
-  archivedTableSortBy={[Function Number]}
-  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -1098,10 +956,8 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
-  isArchivedCourseExpanded="false"
   isCopyingCourse="false"
   isLoadingActiveCourses="false"
-  isLoadingArchivedCourses={[Function Boolean]}
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
@@ -1320,15 +1176,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                         <button
                           class="btn btn-primary btn-sm dropdown-item clickable"
                           container="body"
-                          id="btn-archive-0"
-                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                          placement="left"
-                        >
-                           Archive 
-                        </button>
-                        <button
-                          class="btn btn-primary btn-sm dropdown-item clickable"
-                          container="body"
                           id="btn-soft-delete-0"
                           ngbtooltip="Delete the course and its corresponding students and sessions"
                           placement="left"
@@ -1419,15 +1266,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                            Edit 
                         </a>
                         <button
-                          class="btn btn-primary btn-sm dropdown-item clickable"
-                          container="body"
-                          id="btn-archive-1"
-                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                          placement="left"
-                        >
-                           Archive 
-                        </button>
-                        <button
                           class="btn btn-primary btn-sm dropdown-item disabled"
                           id="btn-soft-delete-disabled-1"
                         >
@@ -1444,33 +1282,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       </div>
     </div>
   </tm-loading-retry><div
-    class="course-section"
-  >
-    <h2
-      class="h3 text-muted"
-    >
-      <span
-        aria-hidden="true"
-        class="fa fa-file-archive"
-      />
-       Archived courses 
-    </h2>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
     class="row course-section margin-top-30px"
   >
     <div
@@ -1515,9 +1326,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
-  archivedCourses={[Function Array]}
-  archivedTableSortBy={[Function Number]}
-  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -1530,10 +1338,8 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
-  isArchivedCourseExpanded="false"
   isCopyingCourse="false"
   isLoadingActiveCourses={[Function Boolean]}
-  isLoadingArchivedCourses={[Function Boolean]}
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
@@ -1588,33 +1394,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
       </tm-loading-spinner>
     </div>
   </tm-loading-retry><div
-    class="course-section"
-  >
-    <h2
-      class="h3 text-muted"
-    >
-      <span
-        aria-hidden="true"
-        class="fa fa-file-archive"
-      />
-       Archived courses 
-    </h2>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
     class="row course-section margin-top-30px"
   >
     <div
@@ -1659,9 +1438,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
-  archivedCourses={[Function Array]}
-  archivedTableSortBy={[Function Number]}
-  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -1674,10 +1450,8 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
-  isArchivedCourseExpanded="false"
   isCopyingCourse="false"
   isLoadingActiveCourses="false"
-  isLoadingArchivedCourses={[Function Boolean]}
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
@@ -1913,15 +1687,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                         <button
                           class="btn btn-primary btn-sm dropdown-item clickable"
                           container="body"
-                          id="btn-archive-0"
-                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                          placement="left"
-                        >
-                           Archive 
-                        </button>
-                        <button
-                          class="btn btn-primary btn-sm dropdown-item clickable"
-                          container="body"
                           id="btn-soft-delete-0"
                           ngbtooltip="Delete the course and its corresponding students and sessions"
                           placement="left"
@@ -2029,15 +1794,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                            Edit 
                         </a>
                         <button
-                          class="btn btn-primary btn-sm dropdown-item clickable"
-                          container="body"
-                          id="btn-archive-1"
-                          ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                          placement="left"
-                        >
-                           Archive 
-                        </button>
-                        <button
                           class="btn btn-primary btn-sm dropdown-item disabled"
                           id="btn-soft-delete-disabled-1"
                         >
@@ -2054,33 +1810,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
       </div>
     </div>
   </tm-loading-retry><div
-    class="course-section"
-  >
-    <h2
-      class="h3 text-muted"
-    >
-      <span
-        aria-hidden="true"
-        class="fa fa-file-archive"
-      />
-       Archived courses 
-    </h2>
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
     class="row course-section margin-top-30px"
   >
     <div

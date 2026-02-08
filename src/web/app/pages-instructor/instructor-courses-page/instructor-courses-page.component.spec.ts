@@ -280,10 +280,10 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component.activeCourses.length).toEqual(3);
     expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
     expect(component.activeCourses[0].course.courseName).toEqual('Discrete Structures');
-    expect(component.activeCourses[1].course.courseId).toEqual('CS3281');
-    expect(component.activeCourses[1].course.courseName).toEqual('Thematic Systems Project I');
-    expect(component.activeCourses[2].course.courseId).toEqual('CS3282');
-    expect(component.activeCourses[2].course.courseName).toEqual('Thematic Systems Project II');
+    expect(component.activeCourses[1].course.courseId).toEqual('CS3282');
+    expect(component.activeCourses[1].course.courseName).toEqual('Thematic Systems Project II');
+    expect(component.activeCourses[2].course.courseId).toEqual('CS3281');
+    expect(component.activeCourses[2].course.courseName).toEqual('Thematic Systems Project I');
 
     expect(component.softDeletedCourses.length).toEqual(1);
     expect(component.softDeletedCourses[0].course.courseId).toEqual('ST4234');
