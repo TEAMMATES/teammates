@@ -628,7 +628,27 @@ public final class FeedbackQuestionsLogic {
      * <p>Silently fail if question does not exist.
      */
     public void deleteFeedbackQuestionCascade(UUID feedbackQuestionId) {
+        FeedbackQuestion questionToDelete = fqDb.getFeedbackQuestion(feedbackQuestionId);
+        if (questionToDelete == null) {
+            return;
+        }
+
+        int questionNumberToDelete = questionToDelete.getQuestionNumber();
+        List<FeedbackQuestion> questionsToShiftQnNumber = getFeedbackQuestionsForSession(questionToDelete.getFeedbackSession());
+
         fqDb.deleteFeedbackQuestion(feedbackQuestionId);
+
+        // Shift question numbers down for all questions after the deleted one
+        shiftQuestionNumbersDown(questionNumberToDelete, questionsToShiftQnNumber);
+    }
+
+    // Shifts all question numbers after questionNumberToShiftFrom down by one.
+    private void shiftQuestionNumbersDown(int questionNumberToShiftFrom, List<FeedbackQuestion> questionsToShift) {
+        for (FeedbackQuestion question : questionsToShift) {
+            if (question.getQuestionNumber() > questionNumberToShiftFrom) {
+                question.setQuestionNumber(question.getQuestionNumber() - 1);
+            }
+        }
     }
 
     /**
