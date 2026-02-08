@@ -89,7 +89,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
         class="col-12 text-muted"
       >
         <p>
-           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+           Note: The table above doesn't contain sessions from courses in recycle bin. To view sessions from a course in recycle bin, restore the course first. 
         </p>
       </div>
     </div>
@@ -205,7 +205,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
         class="col-12 text-muted"
       >
         <p>
-           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+           Note: The table above doesn't contain sessions from courses in recycle bin. To view sessions from a course in recycle bin, restore the course first. 
         </p>
       </div>
     </div>
@@ -377,7 +377,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
     >
       here
     </a>
-     to create or unarchive a course.
+     to create a course.
   </div><div>
     <button
       class="btn btn-success"
@@ -531,7 +531,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       <div
                         class="invalid-feedback"
                       >
-                         There is no un-archived course. 
+                         There is no course. 
                       </div>
                     </div>
                   </div>
@@ -1201,7 +1201,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     class="text-danger margin-top-20px"
                   >
                     <b>
-                      You need to have an active(unarchived) course to create a session!
+                      You need to have an active course to create a session!
                     </b>
                   </p>
                 </div>
@@ -1243,7 +1243,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
         class="col-12 text-muted"
       >
         <p>
-           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+           Note: The table above doesn't contain sessions from courses in recycle bin. To view sessions from a course in recycle bin, restore the course first. 
         </p>
       </div>
     </div>
@@ -1359,7 +1359,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
         class="col-12 text-muted"
       >
         <p>
-           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+           Note: The table above doesn't contain sessions from courses in recycle bin. To view sessions from a course in recycle bin, restore the course first. 
         </p>
       </div>
     </div>
@@ -1475,7 +1475,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
         class="col-12 text-muted"
       >
         <p>
-           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+           Note: The table above doesn't contain sessions from courses in recycle bin. To view sessions from a course in recycle bin, restore the course first. 
         </p>
       </div>
     </div>
@@ -1591,7 +1591,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
         class="col-12 text-muted"
       >
         <p>
-           Note: The table above doesn't contain sessions from archived courses and courses in recycle bin. To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first. 
+           Note: The table above doesn't contain sessions from courses in recycle bin. To view sessions from a course in recycle bin, restore the course first. 
         </p>
       </div>
     </div>

@@ -55,7 +55,7 @@
                 <option *ngFor="let course of courseCandidates" [ngValue]="course.courseId">{{ course.courseId }}</option>
               </select>
               <div class="invalid-feedback" *ngIf="courseCandidates.length === 0">
-                There is no un-archived course.
+                There is no course.
               </div>
             </div>
             <div id="edit-course-id" *ngIf="formMode === SessionEditFormMode.EDIT"> {{ model.courseId }} </div>
@@ -346,7 +346,7 @@
           <button id="btn-create-session" type="button" class="btn btn-primary" [disabled]="courseCandidates.length === 0 || model.isSaving || !model.feedbackSessionName" (click)="submitFormHandler()">
             <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Create Feedback Session
           </button>
-          <p class="text-danger margin-top-20px" *ngIf="courseCandidates.length === 0"><b>You need to have an active(unarchived) course to create a session!</b></p>
+          <p class="text-danger margin-top-20px" *ngIf="courseCandidates.length === 0"><b>You need to have an active course to create a session!</b></p>
         </div>
         <div *ngIf="formMode === SessionEditFormMode.EDIT">
           <button type="button" class="btn btn-success" [disabled]="model.isSaving || !model.isEditable" *ngIf="formMode === SessionEditFormMode.EDIT" (click)="submitFormHandler()">

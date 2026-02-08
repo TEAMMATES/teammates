@@ -8,7 +8,6 @@ export interface CourseTabModel {
   courseId: string;
   courseName: string;
   creationTimestamp: number;
-  isArchived: boolean;
 
   instructorCandidates: InstructorToCopyCandidateModel[];
   instructorCandidatesSortBy: SortBy;
