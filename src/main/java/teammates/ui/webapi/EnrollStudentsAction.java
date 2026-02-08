@@ -82,7 +82,7 @@ public class EnrollStudentsAction extends Action {
 
         for (StudentsEnrollRequest.StudentEnrollRequest enrollRequest : studentEnrollRequests) {
             RequestTracer.checkRemainingTime();
-            
+
             // Check if email already belongs to an instructor in this course
             Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, enrollRequest.getEmail());
             if (existingInstructor != null) {
