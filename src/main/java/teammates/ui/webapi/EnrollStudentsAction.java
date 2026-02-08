@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.exception.EnrollException;
@@ -74,15 +73,23 @@ public class EnrollStudentsAction extends Action {
 
         List<Student> enrolledStudents = new ArrayList<>();
         List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
-        Set<String> existingStudentsEmail;
-
-        List<Student> existingStudents = sqlLogic.getStudentsForCourse(courseId);
-        existingStudentsEmail =
-                existingStudents.stream().map(Student::getEmail).collect(Collectors.toSet());
 
         for (StudentsEnrollRequest.StudentEnrollRequest enrollRequest : studentEnrollRequests) {
             RequestTracer.checkRemainingTime();
-            if (existingStudentsEmail.contains(enrollRequest.getEmail())) {
+            
+            // Check if email already belongs to an instructor in this course
+            Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, enrollRequest.getEmail());
+            if (existingInstructor != null) {
+                failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(enrollRequest.getEmail(),
+                        "Cannot enroll student with email " + enrollRequest.getEmail() + 
+                        " as this email is already used by an instructor in course " + courseId));
+                continue;
+            }
+            
+            // Check if student exists at the time of processing this specific request
+            Student existingStudent = sqlLogic.getStudentForEmail(courseId, enrollRequest.getEmail());
+            
+            if (existingStudent != null) {
                 // The student has been enrolled in the course.
                 try {
                     Section section = sqlLogic.getSectionOrCreate(courseId, enrollRequest.getSection());
@@ -90,7 +97,7 @@ public class EnrollStudentsAction extends Action {
                     Student newStudent = new Student(
                             course, enrollRequest.getName(),
                             enrollRequest.getEmail(), enrollRequest.getComments(), team);
-                    newStudent.setId(sqlLogic.getStudentForEmail(courseId, enrollRequest.getEmail()).getId());
+                    newStudent.setId(existingStudent.getId());
                     Student updatedStudent = sqlLogic.updateStudentCascade(newStudent);
                     taskQueuer.scheduleStudentForSearchIndexing(
                             updatedStudent.getCourseId(), updatedStudent.getEmail());
