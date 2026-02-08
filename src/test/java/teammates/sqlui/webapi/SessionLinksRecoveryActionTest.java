@@ -1,22 +1,16 @@
 package teammates.sqlui.webapi;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
 import teammates.ui.webapi.InvalidHttpParameterException;
@@ -28,7 +22,6 @@ import teammates.ui.webapi.SessionLinksRecoveryAction;
  */
 public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksRecoveryAction> {
     private Student stubStudent;
-    private Course stubCourse;
     private EmailWrapper stubEmailWrapper;
 
     @Override
@@ -43,7 +36,6 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
 
     @BeforeMethod
     void setUp() {
-        stubCourse = getTypicalCourse();
         stubStudent = getTypicalStudent();
         stubEmailWrapper = new EmailWrapper();
         stubEmailWrapper.setRecipient(stubStudent.getEmail());
@@ -79,8 +71,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
         when(mockDatastoreLogic.getAllStudentsForEmail("non-existent@email.com")).thenReturn(List.of());
         when(mockLogic.getAllStudentsForEmail("non-existent@email.com")).thenReturn(List.of());
-        when(mockSqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                eq("non-existent@email.com"), eq(""), any()))
+        when(mockSqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq("non-existent@email.com")))
                 .thenReturn(stubEmailWrapper);
         mockEmailSender.setShouldFail(false);
 
@@ -104,18 +95,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         };
 
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
-        StudentAttributes studentAttr = StudentAttributes.valueOf(stubStudent);
-        List<StudentAttributes> studentList = List.of(studentAttr);
-        when(mockDatastoreLogic.getAllStudentsForEmail(stubStudent.getEmail())).thenReturn(studentList);
-
-        Map<CourseAttributes, StringBuilder> linkFragmentsMap = new HashMap<>();
-        StringBuilder linkFragment = new StringBuilder("Test link fragment");
-        CourseAttributes courseAttr = CourseAttributes.builder(stubCourse.getId()).build();
-        linkFragmentsMap.put(courseAttr, linkFragment);
-        when(mockEmailGenerator.generateLinkFragmentsMap(studentList)).thenReturn(linkFragmentsMap);
-
-        when(mockSqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                eq(stubStudent.getEmail()), eq(stubStudent.getName()), eq(linkFragmentsMap)))
+        when(mockSqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq(stubStudent.getEmail())))
                 .thenReturn(stubEmailWrapper);
         mockEmailSender.setShouldFail(false);
 
@@ -161,18 +141,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         };
 
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
-        StudentAttributes studentAttr = StudentAttributes.valueOf(stubStudent);
-        List<StudentAttributes> studentList = List.of(studentAttr);
-        when(mockDatastoreLogic.getAllStudentsForEmail(stubStudent.getEmail())).thenReturn(studentList);
-
-        Map<CourseAttributes, StringBuilder> linkFragmentsMap = new HashMap<>();
-        StringBuilder linkFragment = new StringBuilder("Test link fragment");
-        CourseAttributes courseAttr = CourseAttributes.builder(stubCourse.getId()).build();
-        linkFragmentsMap.put(courseAttr, linkFragment);
-        when(mockEmailGenerator.generateLinkFragmentsMap(studentList)).thenReturn(linkFragmentsMap);
-
-        when(mockSqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(
-                eq(stubStudent.getEmail()), eq(stubStudent.getName()), eq(linkFragmentsMap)))
+        when(mockSqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq(stubStudent.getEmail())))
                 .thenReturn(stubEmailWrapper);
         mockEmailSender.setShouldFail(true);
 

@@ -11,7 +11,6 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.RequestLogUser;
@@ -317,16 +316,7 @@ public abstract class Action {
         return requestBody != null;
     }
 
-    FeedbackSessionAttributes getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-        return feedbackSession;
-    }
-
-    // TODO: Remove Sql from method name after migration
-    FeedbackSession getNonNullSqlFeedbackSession(String feedbackSessionName, String courseId) {
+    FeedbackSession getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");

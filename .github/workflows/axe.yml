@@ -10,7 +10,7 @@ on:
       - master
       - release
   workflow_dispatch:
-  
+
 jobs:
   axe-testing:
     runs-on: ubuntu-latest

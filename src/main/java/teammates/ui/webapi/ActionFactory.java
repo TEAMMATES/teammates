@@ -28,9 +28,6 @@ public final class ActionFactory {
     private static final String DELETE = HttpDelete.METHOD_NAME;
 
     static {
-        map(ResourceURIs.DATABUNDLE, POST, PutDataBundleAction.class);
-        // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
-        map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
         map(ResourceURIs.SQL_DATABUNDLE, POST, PutSqlDataBundleAction.class);
         // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
         map(ResourceURIs.SQL_DATABUNDLE, PUT, DeleteSqlDataBundleAction.class);
@@ -59,7 +56,7 @@ public final class ActionFactory {
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
         map(ResourceURIs.COURSE, PUT, UpdateCourseAction.class);
-        map(ResourceURIs.COURSE_ARCHIVE, PUT, ArchiveCourseAction.class);
+        // map(ResourceURIs.COURSE_ARCHIVE, PUT, ArchiveCourseAction.class); // TODO: Archive not supported in SQL
         map(ResourceURIs.DEADLINE_EXTENSION, GET, GetDeadlineExtensionAction.class);
         map(ResourceURIs.BIN_COURSE, PUT, BinCourseAction.class);
         map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
