@@ -84,7 +84,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction a = getAction(accNameParams);
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
-        assertEquals(11, response.getStudents().size());
+        assertEquals(10, response.getStudents().size());
     }
 
     @Test
@@ -176,7 +176,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        assertEquals(11, response.getStudents().size());
+        assertEquals(10, response.getStudents().size());
     }
 
     @Test

@@ -35,7 +35,6 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorAttributes ins1InCourse3 = dataBundle.instructors.get("instructor1OfCourse3");
         InstructorAttributes ins2InCourse3 = dataBundle.instructors.get("instructor2OfCourse3");
         InstructorAttributes ins1InCourse4 = dataBundle.instructors.get("instructor1OfCourse4");
-        InstructorAttributes insInArchivedCourse = dataBundle.instructors.get("instructorOfArchivedCourse");
         InstructorAttributes insInUnregCourse = dataBundle.instructors.get("instructor5");
         InstructorAttributes ins1InTestingSanitizationCourse =
                 dataBundle.instructors.get("instructor1OfTestingSanitizationCourse");
@@ -62,11 +61,6 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         results = instructorsDb.searchInstructorsInWholeSystem("InStRuCtOr2");
         verifySearchResults(results, ins2InCourse1, ins2InCourse2, ins2InCourse3);
-
-        ______TS("success: search for instructors in whole system; instructors in archived courses should be included");
-
-        results = instructorsDb.searchInstructorsInWholeSystem("archived");
-        verifySearchResults(results, insInArchivedCourse);
 
         ______TS("success: search for instructors in whole system; instructors in unregistered course should be included");
 

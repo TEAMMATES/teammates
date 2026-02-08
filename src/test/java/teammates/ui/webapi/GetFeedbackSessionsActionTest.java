@@ -51,6 +51,8 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         sessionsInCourse2 = new ArrayList<>();
         sessionsInCourse2.add(typicalBundle.feedbackSessions.get("session1InCourse2"));
         sessionsInCourse2.add(typicalBundle.feedbackSessions.get("session2InCourse2"));
+        sessionsInCourse2.add(typicalBundle.feedbackSessions.get("noStudentQuestionsSessionInCourse2"));
+        sessionsInCourse2.add(typicalBundle.feedbackSessions.get("noInstructorQuestionsSessionInCourse2"));
 
         FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         session1InCourse1.setDeletedTime(Instant.now());
@@ -134,7 +136,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         GetFeedbackSessionsAction action = getAction(submissionParam);
         FeedbackSessionsData fsData = (FeedbackSessionsData) getJsonResult(action).getOutput();
 
-        assertEquals(2, fsData.getFeedbackSessions().size());
+        assertEquals(4, fsData.getFeedbackSessions().size());
         assertAllStudentSessionsMatch(fsData, sessionsInCourse2, instructor1OfCourse1.getEmail());
     }
 

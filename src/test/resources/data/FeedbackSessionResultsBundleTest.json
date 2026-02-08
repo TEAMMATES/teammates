@@ -40,7 +40,6 @@
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor1 Course1",
       "email": "instructor1@course1.tmt",
-      "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",

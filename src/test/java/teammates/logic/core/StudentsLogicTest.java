@@ -821,12 +821,12 @@ public class StudentsLogicTest extends BaseLogicTest {
     @Test
     public void testDeleteStudents_byCourseId_shouldDeleteAllStudents() {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        StudentAttributes student1InArchivedCourse = dataBundle.students.get("student1InArchivedCourse");
+        StudentAttributes student1InCourse2 = dataBundle.students.get("student1InCourse2");
         // the two are in different course
-        assertNotEquals(student1InCourse1.getCourse(), student1InArchivedCourse.getCourse());
+        assertNotEquals(student1InCourse1.getCourse(), student1InCourse2.getCourse());
 
-        assertNotNull(studentsLogic.getStudentForEmail(student1InArchivedCourse.getCourse(),
-                student1InArchivedCourse.getEmail()));
+        assertNotNull(studentsLogic.getStudentForEmail(student1InCourse2.getCourse(),
+                student1InCourse2.getEmail()));
         // there are students in the course
         assertFalse(studentsLogic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
 
@@ -838,8 +838,8 @@ public class StudentsLogicTest extends BaseLogicTest {
         // students are deleted
         assertTrue(studentsLogic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
         // students in other courses are not affected
-        assertNotNull(studentsLogic.getStudentForEmail(student1InArchivedCourse.getCourse(),
-                student1InArchivedCourse.getEmail()));
+        assertNotNull(studentsLogic.getStudentForEmail(student1InCourse2.getCourse(),
+                student1InCourse2.getEmail()));
     }
 
     @Test
