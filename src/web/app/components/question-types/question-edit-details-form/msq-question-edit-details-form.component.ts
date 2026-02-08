@@ -37,7 +37,7 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
 export class MsqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMsqQuestionDetails> {
 
-  readonly PARTICIPANT_TYPES: string[] = [
+  readonly PARTICIPANT_TYPES = [
     FeedbackParticipantType.STUDENTS,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
     FeedbackParticipantType.TEAMS,

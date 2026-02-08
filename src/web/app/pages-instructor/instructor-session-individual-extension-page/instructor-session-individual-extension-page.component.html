@@ -224,7 +224,7 @@
             </td>
             <td>{{ instructor.name }}</td>
             <td>{{ instructor.email }}</td>
-            <td>{{ instructor.role | instructorRoleName }}</td>
+            <td>{{ instructor.role! | instructorRoleName }}</td>
             <td>{{ instructor.extensionDeadline | formatDateDetail: feedbackSessionTimeZone }}</td>
           </tr>
         </tbody>

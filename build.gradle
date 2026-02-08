@@ -101,10 +101,10 @@ dependencies {
     // For using Gmail API
     testImplementation("com.google.apis:google-api-services-gmail:v1-rev20260112-2.0.0")
     // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.6.3") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.6.2") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.6.3") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.6.2") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
@@ -734,8 +734,8 @@ task axeTests {
     axeTests.dependsOn "axeTestTry${id}"
 }
 
-task axeSqlTests {
-    description = "Runs the full SQL accessibility test suite and retries failed tests once."
+task axeTestsSql {
+    description = "Runs the SQL-backed accessibility test suite and retries failed tests once."
     group = "Test"
 }
 
@@ -767,7 +767,7 @@ task axeSqlTests {
             isFirstTry || file("${buildDir}/reports/axe-sql-test-try-${id - 1}/testng-failed.xml").exists()
         }
     }
-    axeSqlTests.dependsOn "axeSqlTestTry${id}"
+    axeTestsSql.dependsOn "axeSqlTestTry${id}"
 }
 
 // COVERAGE TASKS

@@ -3,6 +3,23 @@
 <suite name="axe-tests-sql" parallel="tests" thread-count="2">
     <test name="axe-tests-sql" parallel="classes">
         <classes>
+            <class name="teammates.e2e.cases.sql.axe.AdminAccountsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.AdminHomePageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.AdminNotificationsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.AdminSearchPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.AdminSessionsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.AdminTimezonePageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.DevServerLoginPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.FeedbackResultsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.FeedbackSubmitPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.HomePageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorCourseDetailsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorCourseEditPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorCourseEnrollPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorCourseJoinConfirmationPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorCoursesPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorCourseStudentDetailsEditPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.StudentCourseJoinConfirmationPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.InstructorCourseStudentDetailsPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.InstructorFeedbackEditPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.InstructorFeedbackReportPageAxeTest" />
