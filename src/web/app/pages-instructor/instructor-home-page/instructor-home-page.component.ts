@@ -24,7 +24,6 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
-  CourseArchive,
   Courses,
   FeedbackSession,
   FeedbackSessions,
@@ -280,34 +279,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Archives the entire course from the instructor
-   */
-  archiveCourse(courseId: string): void {
-    const modalContent: string =
-        'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
-
-    const modalRef: NgbModalRef =
-        this.simpleModalService.openConfirmationModal(
-            `Archive course <strong>${courseId}</strong>?`, SimpleModalType.INFO, modalContent);
-    modalRef.result.then(() => {
-      this.courseService.changeArchiveStatus(courseId, {
-        archiveStatus: true,
-      }).subscribe({
-        next: (courseArchive: CourseArchive) => {
-          this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-            return model.course.courseId !== courseId;
-          });
-          this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived. `
-             + 'You can retrieve it from the Courses page.');
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    }, () => {});
-  }
-
-  /**
    * Deletes the entire course from the instructor
    */
   deleteCourse(courseId: string): void {
@@ -357,15 +328,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             this.statusMessageService.showErrorToast(resp.error.message);
           },
         });
-    this.courseService.getAllCoursesAsInstructor('archived').subscribe({
-      next: (resp: Courses) => {
-        this.allCoursesList.push(...resp.courses);
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.hasCoursesLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
     this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe({
       next: (resp: Courses) => {
         this.allCoursesList.push(...resp.courses);
