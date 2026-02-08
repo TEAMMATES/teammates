@@ -51,7 +51,7 @@ describe('NotificationBannerComponent', () => {
         provideHttpClientTesting(),
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -88,14 +88,11 @@ describe('NotificationBannerComponent', () => {
     expect(component.isShown).toBeFalsy();
   });
 
-  it('should close after clicking mark as read', () => {
+  it('should close after clicking mark as read if it is the last notification', () => {
     const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
-      .mockImplementation((request: MarkNotificationAsReadRequest) => {
-        expect(request.notificationId).toEqual(testNotificationOne.notificationId);
-        return of({
-          readNotifications: [request.notificationId],
-        });
-      });
+      .mockReturnValue(of({
+        readNotifications: [testNotificationOne.notificationId],
+      }));
     const messageSpy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('Notification marked as read.');
@@ -108,7 +105,30 @@ describe('NotificationBannerComponent', () => {
     button.click();
     expect(apiSpy).toHaveBeenCalledTimes(1);
     expect(messageSpy).toHaveBeenCalledTimes(1);
+    expect(component.notifications.length).toBe(0);
     expect(component.isShown).toBeFalsy();
+  });
+
+  it('should show the next notification after clicking mark as read if more exist', () => {
+    const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
+      .mockReturnValue(of({
+        readNotifications: [testNotificationOne.notificationId],
+      }));
+    component.notifications = [testNotificationOne, testNotificationTwo];
+    fixture.detectChanges();
+
+    expect(component.isShown).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('h5')).nativeElement.textContent).toContain(testNotificationOne.title);
+
+    const button = fixture.debugElement.query(By.css('#btn-mark-as-read')).nativeElement;
+    button.click();
+    fixture.detectChanges();
+
+    expect(apiSpy).toHaveBeenCalledTimes(1);
+    expect(component.notifications.length).toBe(1);
+    expect(component.notifications[0]).toEqual(testNotificationTwo);
+    expect(component.isShown).toBeTruthy();
+    expect(fixture.debugElement.query(By.css('h5')).nativeElement.textContent).toContain(testNotificationTwo.title);
   });
 
   it('should snap with no unread notifications', () => {

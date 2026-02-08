@@ -33,7 +33,7 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
   notifications: Notification[] = [];
 
   constructor(private notificationService: NotificationService,
-              private statusMessageService: StatusMessageService) { }
+    private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     if (this.notificationTargetUser !== NotificationTargetUser.GENERAL) {
@@ -63,7 +63,10 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
       .subscribe({
         next: () => {
           this.statusMessageService.showSuccessToast('Notification marked as read.');
-          this.closeNotification();
+          this.notifications = this.notifications.slice(1);
+          if (this.notifications.length === 0) {
+            this.closeNotification();
+          }
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
