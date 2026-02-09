@@ -634,7 +634,8 @@ public final class FeedbackQuestionsLogic {
         }
 
         int questionNumberToDelete = questionToDelete.getQuestionNumber();
-        List<FeedbackQuestion> questionsToShiftQnNumber = getFeedbackQuestionsForSession(questionToDelete.getFeedbackSession());
+        List<FeedbackQuestion> questionsToShiftQnNumber =
+                getFeedbackQuestionsForSession(questionToDelete.getFeedbackSession());
 
         fqDb.deleteFeedbackQuestion(feedbackQuestionId);
 
