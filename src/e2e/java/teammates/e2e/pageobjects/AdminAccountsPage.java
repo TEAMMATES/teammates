@@ -52,6 +52,8 @@ public class AdminAccountsPage extends AppPage {
     public void clickRemoveInstructorFromCourse(String courseId) {
         waitForPageToLoad();
         waitForElementVisibility(instructorTable);
+        // Wait for table to be populated with data
+        waitForElementVisibility(By.cssSelector("#instructor-table tbody tr"));
         List<WebElement> instructorRows =
                 instructorTable.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
 
@@ -73,6 +75,8 @@ public class AdminAccountsPage extends AppPage {
     public void clickRemoveStudentFromCourse(String courseId) {
         waitForPageToLoad();
         waitForElementVisibility(studentTable);
+        // Wait for table to be populated with data
+        waitForElementVisibility(By.cssSelector("#student-table tbody tr"));
         List<WebElement> studentRows =
                 studentTable.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
 
