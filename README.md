@@ -8,6 +8,15 @@
 TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
 It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
 
+## Windows Setup Note
+
+If you are using Windows, it is recommended to run Gradle commands using the `gradlew.bat` script instead of `./gradlew`.
+
+Example:
+
+gradlew.bat build
+gradlew.bat appengineRun
+
 <img src="src/web/assets/images/overview.png" width="600">
 
 This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
