@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { Course, Courses, HasResponses, JoinStatus, MessageOutput, Student } from '../types/api-output';
@@ -96,15 +95,7 @@ export class CourseService {
       user: googleId,
     };
 
-    return forkJoin([
-      this.httpRequestService.get(ResourceEndpoints.COURSES, activeCoursesParamMap),
-    ]).pipe(
-        map((vals: Courses[]) => {
-          return {
-            courses: vals[0].courses.concat(vals[1].courses),
-          };
-        }),
-    );
+    return this.httpRequestService.get(ResourceEndpoints.COURSES, activeCoursesParamMap);
   }
 
   /**

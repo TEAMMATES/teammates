@@ -1,5 +1,6 @@
 package teammates.e2e.cases.sql;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -64,5 +65,11 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         // student entities should be deleted
         verifyAbsentInDatabase(student2);
         verifyAbsentInDatabase(student3);
+    }
+
+    @AfterClass
+    public void classTeardown() {
+        // Restore test data that was deleted during the test to avoid affecting other tests
+        removeAndRestoreDataBundle(loadSqlDataBundle("/AdminAccountsPageE2ETestSql.json"));
     }
 }
