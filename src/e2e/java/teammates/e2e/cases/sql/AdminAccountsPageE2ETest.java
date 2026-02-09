@@ -64,4 +64,5 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         // student entities should be deleted
         verifyAbsentInDatabase(student2);
         verifyAbsentInDatabase(student3);
-    }}
+    }
+}
