@@ -21,6 +21,10 @@ public class LoopHelper {
      * Constructs a {@link LoopHelper} object which prints {@code message} for every {@code printCycle} iterations.
      */
     public LoopHelper(int printCycle, String message) {
+           if (printCycle <= 0) {
+        throw new IllegalArgumentException("printCycle must be greater than 0");
+    }
+
         this.printCycle = printCycle;
         this.message = message;
         count = 0;
