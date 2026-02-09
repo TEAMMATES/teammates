@@ -50,6 +50,7 @@ public class AdminAccountsPage extends AppPage {
     }
 
     public void clickRemoveInstructorFromCourse(String courseId) {
+        waitForPageToLoad();
         waitForElementVisibility(instructorTable);
         List<WebElement> instructorRows =
                 instructorTable.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
@@ -70,6 +71,7 @@ public class AdminAccountsPage extends AppPage {
     }
 
     public void clickRemoveStudentFromCourse(String courseId) {
+        waitForPageToLoad();
         waitForElementVisibility(studentTable);
         List<WebElement> studentRows =
                 studentTable.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
