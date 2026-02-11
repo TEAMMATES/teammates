@@ -84,6 +84,15 @@ public class MockUserProvision extends UserProvision {
         return loginUser(userId, false, true, false, false);
     }
 
+     /**
+     * Adds a logged-in user as an instructor.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginAsInstructorWithTransaction(String userId) {
+        return loginUserWithTransaction(userId, false, true, false, false);
+    }
+
     /**
      * Adds a logged-in user as a student.
      *
@@ -91,6 +100,15 @@ public class MockUserProvision extends UserProvision {
      */
     public UserInfo loginAsStudent(String userId) {
         return loginUser(userId, false, false, true, false);
+    }
+
+    /**
+     * Adds a logged-in user as a student.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginAsStudentWithTransaction(String userId) {
+        return loginUserWithTransaction(userId, false, false, true, false);
     }
 
     /**
@@ -103,12 +121,30 @@ public class MockUserProvision extends UserProvision {
     }
 
     /**
+     * Adds a logged-in user as a student instructor.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginAsStudentInstructorWithTransaction(String userId) {
+        return loginUserWithTransaction(userId, false, true, true, false);
+    }
+
+    /**
      * Adds a logged-in user as a maintainer.
      *
      * @return The user info after login process
      */
     public UserInfo loginAsMaintainer(String userId) {
         return loginUser(userId, false, false, false, true);
+    }
+
+    /**
+     * Adds a logged-in user as a maintainer.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginAsMaintainerWithTransaction(String userId) {
+        return loginUserWithTransaction(userId, false, false, false, true);
     }
 
     /**
