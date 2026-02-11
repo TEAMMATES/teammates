@@ -2,6 +2,7 @@ package teammates.sqllogic.api;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.util.HibernateUtil;
 
 /**
  * Allows mocking of the {@link UserProvision} API used in production.
@@ -40,12 +41,14 @@ public class MockUserProvision extends UserProvision {
     private UserInfo loginUserWithTransaction(String userId, boolean isAdmin, boolean isInstructor,
             boolean isStudent, boolean isMaintainer) {
         isLoggedIn = true;
+        HibernateUtil.beginTransaction();
         mockUser.id = userId;
         mockUser.isAdmin = isAdmin;
         mockUser.isInstructor = isInstructor;
         mockUser.isStudent = isStudent;
         mockUser.isMaintainer = isMaintainer;
-        return getCurrentUserWithTransaction(null);
+        HibernateUtil.commitTransaction();
+        return mockUser;
     }
 
     /**
