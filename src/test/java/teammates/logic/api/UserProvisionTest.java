@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.UserInfo;
@@ -14,6 +15,11 @@ import teammates.common.util.Config;
 public class UserProvisionTest extends BaseLogicTest {
 
     private static UserProvision userProvision = UserProvision.inst();
+
+    @BeforeClass
+    public void setupSqlTestData() {
+        removeAndRestoreSqlDataBundle(getTypicalSqlDataBundle());
+    }
 
     @Test
     public void testGetCurrentUser() {
