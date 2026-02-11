@@ -570,7 +570,7 @@ public class Logic {
     /**
      * Returns a {@code List} of feedback sessions in the Recycle Bin for the instructors.
      * <br>
-     * Omits sessions if the corresponding courses are archived or in Recycle Bin
+     * Omits sessions if the corresponding courses are in Recycle Bin
      */
     public List<FeedbackSession> getSoftDeletedFeedbackSessionsForInstructors(
             List<Instructor> instructorList) {

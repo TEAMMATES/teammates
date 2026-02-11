@@ -20,7 +20,7 @@ import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 
 /**
- * Gets all courses for the instructor, and filtered by active, archived and soft-deleted.
+ * Gets all courses for the instructor, and filtered by active and soft-deleted.
  * Or gets all courses for the student he belongs to.
  */
 public class GetCoursesAction extends Action {
@@ -93,19 +93,11 @@ public class GetCoursesAction extends Action {
 
         switch (courseStatus) {
         case Const.CourseStatus.ACTIVE:
-            instructors = logic.getInstructorsForGoogleId(userInfo.id, true);
+            instructors = logic.getInstructorsForGoogleId(userInfo.id);
             courses = getCourse(instructors);
 
             sqlInstructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
             sqlCourses = sqlLogic.getCoursesForInstructors(sqlInstructors);
-
-            break;
-        case Const.CourseStatus.ARCHIVED:
-            instructors = logic.getInstructorsForGoogleId(userInfo.id)
-                    .stream()
-                    .filter(InstructorAttributes::isArchived)
-                    .collect(Collectors.toList());
-            courses = getCourse(instructors);
 
             break;
         case Const.CourseStatus.SOFT_DELETED:

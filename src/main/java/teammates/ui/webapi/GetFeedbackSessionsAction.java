@@ -124,7 +124,7 @@ public class GetFeedbackSessionsAction extends Action {
                     feedbackSessions = sqlLogic.getFeedbackSessionsForInstructors(instructors);
                 }
 
-                dataStoreInstructors = logic.getInstructorsForGoogleId(userInfo.getId(), true);
+                dataStoreInstructors = logic.getInstructorsForGoogleId(userInfo.getId());
 
                 if (isInRecycleBin) {
                     feedbackSessionAttributes = logic.getSoftDeletedFeedbackSessionsListForInstructors(dataStoreInstructors);

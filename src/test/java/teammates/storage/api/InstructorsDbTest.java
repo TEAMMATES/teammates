@@ -209,7 +209,7 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         String googleId = "idOfInstructor3";
 
-        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId, false);
+        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId);
         assertEquals(2, retrieved.size());
 
         InstructorAttributes instructor1 = retrieved.get(0);
@@ -220,13 +220,13 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("Failure: instructor does not exist");
 
-        retrieved = instructorsDb.getInstructorsForGoogleId("non-exist-id", false);
+        retrieved = instructorsDb.getInstructorsForGoogleId("non-exist-id");
         assertEquals(0, retrieved.size());
 
         ______TS("Failure: null parameters");
 
         assertThrows(AssertionError.class,
-                () -> instructorsDb.getInstructorsForGoogleId(null, false));
+                () -> instructorsDb.getInstructorsForGoogleId(null));
 
     }
 
