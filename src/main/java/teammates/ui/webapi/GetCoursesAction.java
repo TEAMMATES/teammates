@@ -88,8 +88,8 @@ public class GetCoursesAction extends Action {
         List<InstructorAttributes> instructors;
         List<CourseAttributes> courses;
 
-        List<Instructor> sqlInstructors = new ArrayList<>();
-        List<Course> sqlCourses = new ArrayList<>();
+        List<Instructor> sqlInstructors;
+        List<Course> sqlCourses;
 
         switch (courseStatus) {
         case Const.CourseStatus.ACTIVE:
