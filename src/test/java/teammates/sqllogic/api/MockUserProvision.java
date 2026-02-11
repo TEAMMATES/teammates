@@ -2,7 +2,6 @@ package teammates.sqllogic.api;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
-import teammates.logic.api.UserProvision;
 
 /**
  * Allows mocking of the {@link UserProvision} API used in production.
@@ -38,6 +37,22 @@ public class MockUserProvision extends UserProvision {
         return loginUser(userId, false, false, false, false);
     }
 
+    private UserInfo loginUserWithTransaction(String userId, boolean isAdmin) {
+        isLoggedIn = true;
+        mockUser.id = userId;
+        mockUser.isAdmin = isAdmin;
+        return getCurrentUserWithTransaction(null);
+    }
+
+    /**
+     * Adds a logged-in user without admin rights.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginUserWithTransaction(String userId) {
+        return loginUserWithTransaction(userId, false);
+    }
+
     /**
      * Adds a logged-in user as an admin.
      *
@@ -45,6 +60,15 @@ public class MockUserProvision extends UserProvision {
      */
     public UserInfo loginAsAdmin(String userId) {
         return loginUser(userId, true, false, false, false);
+    }
+
+    /**
+     * Adds a logged-in user as an admin.
+     *
+     * @return The user info after login process
+     */
+    public UserInfo loginAsAdminWithTransaction(String userId) {
+        return loginUserWithTransaction(userId, true);
     }
 
     /**

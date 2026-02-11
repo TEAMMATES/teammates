@@ -30,7 +30,7 @@ import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
-import teammates.logic.api.MockUserProvision;
+import teammates.sqllogic.api.MockUserProvision;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 import teammates.test.MockHttpServletRequest;
 import teammates.ui.request.BasicRequest;
