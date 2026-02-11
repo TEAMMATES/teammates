@@ -53,7 +53,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
         ______TS("success: typical case");
         FeedbackResponse fr = testDataBundle.feedbackResponses.get("response1ForQ1");
 
-        FeedbackResponseComment expectedComment = testDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
+        FeedbackResponseComment expectedComment = testDataBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
         FeedbackResponseComment actualComment = frcDb.getFeedbackResponseCommentForResponseFromParticipant(fr.getId());
 
         assertEquals(expectedComment, actualComment);

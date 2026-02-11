@@ -1316,7 +1316,7 @@
       },
       "commentText": "Student 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
+      "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "student1@teammates.tmt"
