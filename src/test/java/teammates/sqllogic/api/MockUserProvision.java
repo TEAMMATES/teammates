@@ -84,7 +84,7 @@ public class MockUserProvision extends UserProvision {
         return loginUser(userId, false, true, false, false);
     }
 
-     /**
+    /**
      * Adds a logged-in user as an instructor.
      *
      * @return The user info after login process
