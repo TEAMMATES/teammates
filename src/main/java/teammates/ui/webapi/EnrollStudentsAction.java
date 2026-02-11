@@ -82,6 +82,16 @@ public class EnrollStudentsAction extends Action {
 
         for (StudentsEnrollRequest.StudentEnrollRequest enrollRequest : studentEnrollRequests) {
             RequestTracer.checkRemainingTime();
+
+            // Check if email already belongs to an instructor in this course
+            Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, enrollRequest.getEmail());
+            if (existingInstructor != null) {
+                failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(enrollRequest.getEmail(),
+                        "Cannot enroll student with email " + enrollRequest.getEmail()
+                        + " as this email is already used by an instructor in course " + courseId));
+                continue;
+            }
+
             if (existingStudentsEmail.contains(enrollRequest.getEmail())) {
                 // The student has been enrolled in the course.
                 try {
