@@ -45,6 +45,9 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     public void testCreateSession_sessionDoesNotExist_success()
             throws InvalidParametersException, EntityAlreadyExistsException {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
+        doReturn(null).when(feedbackSessionsDb).getFeedbackSession(feedbackSession.getId());
+        doReturn(null).when(feedbackSessionsDb).getFeedbackSession(
+                feedbackSession.getName(), feedbackSession.getCourseId());
 
         feedbackSessionsDb.createFeedbackSession(feedbackSession);
 
@@ -52,11 +55,28 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateSession_duplicateSession_throwsEntityAlreadyExistsException()
+    public void testCreateSession_duplicateSessionById_throwsEntityAlreadyExistsException()
             throws InvalidParametersException, EntityAlreadyExistsException {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         UUID uuid = feedbackSession.getId();
+
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(uuid);
+        doReturn(null).when(feedbackSessionsDb).getFeedbackSession(
+                feedbackSession.getName(), feedbackSession.getCourseId());
+
+        assertThrows(EntityAlreadyExistsException.class,
+                () -> feedbackSessionsDb.createFeedbackSession(feedbackSession));
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(feedbackSession), never());
+    }
+
+    @Test
+    public void testCreateSession_duplicateSessionByNameAndCourse_throwsEntityAlreadyExistsException()
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
+        UUID uuid = feedbackSession.getId();
+        doReturn(null).when(feedbackSessionsDb).getFeedbackSession(uuid);
+        doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(
+                feedbackSession.getName(), feedbackSession.getCourseId());
 
         assertThrows(EntityAlreadyExistsException.class,
                 () -> feedbackSessionsDb.createFeedbackSession(feedbackSession));
