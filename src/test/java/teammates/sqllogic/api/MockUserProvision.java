@@ -37,7 +37,8 @@ public class MockUserProvision extends UserProvision {
         return loginUser(userId, false, false, false, false);
     }
 
-    private UserInfo loginUserWithTransaction(String userId, boolean isAdmin, boolean isInstructor, boolean isStudent, boolean isMaintainer) {
+    private UserInfo loginUserWithTransaction(String userId, boolean isAdmin, boolean isInstructor,
+            boolean isStudent, boolean isMaintainer) {
         isLoggedIn = true;
         mockUser.id = userId;
         mockUser.isAdmin = isAdmin;
