@@ -25,7 +25,7 @@ import teammates.logic.api.EmailSender;
 import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
-import teammates.logic.api.UserProvision;
+import teammates.sqllogic.api.UserProvision;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.api.SqlEmailGenerator;
 import teammates.storage.sqlentity.FeedbackSession;
