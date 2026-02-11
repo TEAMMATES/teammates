@@ -37,10 +37,13 @@ public class MockUserProvision extends UserProvision {
         return loginUser(userId, false, false, false, false);
     }
 
-    private UserInfo loginUserWithTransaction(String userId, boolean isAdmin) {
+    private UserInfo loginUserWithTransaction(String userId, boolean isAdmin, boolean isInstructor, boolean isStudent, boolean isMaintainer) {
         isLoggedIn = true;
         mockUser.id = userId;
         mockUser.isAdmin = isAdmin;
+        mockUser.isInstructor = isInstructor;
+        mockUser.isStudent = isStudent;
+        mockUser.isMaintainer = isMaintainer;
         return getCurrentUserWithTransaction(null);
     }
 
@@ -50,7 +53,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginUserWithTransaction(String userId) {
-        return loginUserWithTransaction(userId, false);
+        return loginUserWithTransaction(userId, false, false, false, false);
     }
 
     /**
@@ -68,7 +71,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsAdminWithTransaction(String userId) {
-        return loginUserWithTransaction(userId, true);
+        return loginUserWithTransaction(userId, true, false, false, false);
     }
 
     /**
