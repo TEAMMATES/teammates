@@ -59,7 +59,6 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
             throws InvalidParametersException, EntityAlreadyExistsException {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         UUID uuid = feedbackSession.getId();
-
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(uuid);
         doReturn(null).when(feedbackSessionsDb).getFeedbackSession(
                 feedbackSession.getName(), feedbackSession.getCourseId());
