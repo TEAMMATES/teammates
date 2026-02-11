@@ -19,7 +19,23 @@
             <class name="teammates.e2e.cases.sql.axe.InstructorCourseJoinConfirmationPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.InstructorCoursesPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.InstructorCourseStudentDetailsEditPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorCourseStudentDetailsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorFeedbackEditPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorFeedbackReportPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorFeedbackSessionsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorHomePageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorNotificationsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorSearchPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorSessionIndividualExtensionPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorStudentActivityLogsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorStudentListPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.InstructorStudentRecordsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.RequestPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.StudentCourseDetailsPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.StudentCourseJoinConfirmationPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.StudentHomePageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.StudentNotificationsPageAxeTest" />
+            <class name="teammates.e2e.cases.sql.axe.UserNotificationsPageAxeTest" />
         </classes>
     </test>
 </suite>
