@@ -1,0 +1,98 @@
+{
+    "accounts": {
+        "instructor1OfCourse1": {
+            "googleId": "idOfInstructor1OfCourse1",
+            "name": "Instructor 1 of Course 1",
+            "email": "instr1@course1.tmt",
+            "id": "00000000-0000-4000-8000-000000000001"
+        },
+        "student1InCourse1": {
+            "googleId": "student1InCourse1",
+            "name": "Student 1 in course 1",
+            "email": "student1InCourse1@gmail.tmt",
+            "id": "00000000-0000-4000-8000-000000000002"
+        }
+    },
+    "accountRequests": {},
+    "courses": {
+        "typicalCourse1": {
+            "id": "idOfTypicalCourse1",
+            "name": "Typical Course 1 with 2 Evals",
+            "institute": "TEAMMATES Test Institute 1",
+            "timeZone": "Africa/Johannesburg"
+        }
+    },
+    "sections": {
+        "typicalCourse1Section1": {
+            "id": "00000000-0000-4000-8000-000000000101",
+            "course": {
+                "id": "idOfTypicalCourse1"
+            },
+            "name": "Section 1"
+        }
+    },
+    "teams": {
+        "typicalCourse1Section1Team1": {
+            "id": "00000000-0000-4000-8000-000000000201",
+            "section": {
+                "id": "00000000-0000-4000-8000-000000000101"
+            },
+            "name": "Team 1.1"
+        }
+    },
+    "deadlineExtensions": {},
+    "instructors": {
+        "instructor1OfCourse1": {
+            "name": "Instructor1 Course1",
+            "email": "instructor1@course1.tmt",
+            "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+            "isDisplayedToStudents": true,
+            "privileges": {
+                "courseLevel": {
+                    "canViewStudentInSections": true,
+                    "canSubmitSessionInSections": true,
+                    "canModifySessionCommentsInSections": true,
+                    "canModifyCourse": true,
+                    "canViewSessionInSections": true,
+                    "canModifySession": true,
+                    "canModifyStudent": true,
+                    "canModifyInstructor": true
+                },
+                "sectionLevel": {},
+                "sessionLevel": {}
+            },
+            "id": "00000000-0000-4000-8000-000000000501",
+            "course": {
+                "id": "idOfTypicalCourse1"
+            },
+            "account": {
+                "id": "00000000-0000-4000-8000-000000000001"
+            },
+            "displayName": "Instructor"
+        }
+    },
+    "students": {
+        "student1InCourse1": {
+            "name": "student1 In Course1",
+            "email": "student1InCourse1@gmail.tmt",
+            "comments": "comment for student1InCourse1",
+            "id": "00000000-0000-4000-8000-000000000601",
+            "course": {
+                "id": "idOfTypicalCourse1"
+            },
+            "team": {
+                "id": "00000000-0000-4000-8000-000000000201"
+            },
+            "account": {
+                "id": "00000000-0000-4000-8000-000000000002"
+            }
+        }
+    },
+    "feedbackSessions": {},
+    "feedbackQuestions": {},
+    "feedbackResponses": {},
+    "feedbackResponseComments": {},
+    "feedbackSessionLogs": {},
+    "notifications": {},
+    "readNotifications": {}
+}

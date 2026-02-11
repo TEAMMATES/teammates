@@ -16,9 +16,10 @@ public class UserProvisionTest extends BaseLogicTest {
 
     private static UserProvision userProvision = UserProvision.inst();
 
+    // TODO: Remove once fully migrated
     @BeforeClass
     public void setupSqlTestData() {
-        removeAndRestoreSqlDataBundle(getTypicalSqlDataBundle());
+        removeAndRestoreSqlDataBundle(loadSqlDataBundle("/UserProvisionTestSql.json"));
     }
 
     @Test
