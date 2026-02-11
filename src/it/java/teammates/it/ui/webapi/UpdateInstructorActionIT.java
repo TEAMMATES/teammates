@@ -46,7 +46,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         String courseId = instructorToEdit.getCourseId();
         String instructorDisplayName = instructorToEdit.getDisplayName();
 
-        loginAsInstructorWithTransaction(instructorId);
+        loginAsInstructor(instructorId);
 
         ______TS("Typical case: edit instructor successfully");
 
@@ -97,7 +97,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         instructorToEdit = typicalBundle.instructors.get("instructor1OfCourse3");
 
-        loginAsInstructorWithTransaction(instructorToEdit.getGoogleId());
+        loginAsInstructor(instructorToEdit.getGoogleId());
 
         reqBody = new InstructorCreateRequest(instructorToEdit.getGoogleId(), instructorToEdit.getName(),
                 instructorToEdit.getEmail(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -112,7 +112,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         ______TS("Masquerade mode: edit instructor successfully");
 
-        loginAsAdminWithTransaction();
+        loginAsAdmin();
 
         newInstructorName = "newName2";
         newInstructorEmail = "newEmail2@email.com";
