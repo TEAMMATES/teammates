@@ -1315,8 +1315,8 @@
         "id": "00000000-0000-4000-8000-000000000201"
       },
       "commentText": "Student 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "student1@teammates.tmt"
