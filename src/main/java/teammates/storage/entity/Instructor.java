@@ -36,9 +36,6 @@ public class Instructor extends BaseEntity {
     /** The foreign key to locate the Course object. */
     private String courseId;
 
-    /** Whether the associated course is archived. */
-    private boolean isArchived;
-
     /** The instructor's name used for this course. */
     private String name;
 
@@ -70,12 +67,11 @@ public class Instructor extends BaseEntity {
         // required by Objectify
     }
 
-    public Instructor(String instructorGoogleId, String courseId, boolean isArchived, String instructorName,
+    public Instructor(String instructorGoogleId, String courseId, String instructorName,
                       String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName,
                       String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
-        this.setIsArchived(isArchived);
         this.setName(instructorName);
         this.setEmail(instructorEmail);
         this.setRole(role);
@@ -127,17 +123,6 @@ public class Instructor extends BaseEntity {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
-    }
-
-    /**
-     * Gets the archived status of the instructor.
-     */
-    public boolean getIsArchived() {
-        return isArchived;
-    }
-
-    public void setIsArchived(boolean isArchived) {
-        this.isArchived = isArchived;
     }
 
     public String getName() {

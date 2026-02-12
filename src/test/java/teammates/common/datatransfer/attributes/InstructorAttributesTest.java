@@ -117,7 +117,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
     public void testValueOf_withAllFieldPopulatedInstructor_shouldGenerateAttributesCorrectly() {
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        Instructor instructor = new Instructor("valid.google.id", "valid-course-id", false,
+        Instructor instructor = new Instructor("valid.google.id", "valid-course-id",
                 "valid name", "valid@email.com", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 true, "Tutor", JsonUtils.toJson(privileges.toLegacyFormat(), InstructorPrivilegesLegacy.class));
         InstructorAttributes instructorAttributes = InstructorAttributes.valueOf(instructor);
@@ -138,7 +138,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf_withSomeFieldsPopulatedAsNull_shouldUseDefaultValues() {
-        Instructor instructor = new Instructor("valid.google.id", "valid-course-id", false,
+        Instructor instructor = new Instructor("valid.google.id", "valid-course-id",
                 "valid name", "valid@email.com", null,
                 true, null, null);
         InstructorAttributes instructorAttributes = InstructorAttributes.valueOf(instructor);

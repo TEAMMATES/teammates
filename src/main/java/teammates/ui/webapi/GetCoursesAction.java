@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 
 /**
- * Gets all courses for the instructor, and filtered by active, archived and soft-deleted.
+ * Gets all courses for the instructor, and filtered by active and soft-deleted.
  * Or gets all courses for the student he belongs to.
  */
 public class GetCoursesAction extends Action {
@@ -39,12 +38,12 @@ public class GetCoursesAction extends Action {
     public JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
-        case Const.EntityType.STUDENT:
-            return getStudentCourses();
-        case Const.EntityType.INSTRUCTOR:
-            return getInstructorCourses();
-        default:
-            throw new InvalidHttpParameterException("Error: invalid entity type");
+            case Const.EntityType.STUDENT:
+                return getStudentCourses();
+            case Const.EntityType.INSTRUCTOR:
+                return getInstructorCourses();
+            default:
+                throw new InvalidHttpParameterException("Error: invalid entity type");
         }
     }
 
@@ -65,17 +64,14 @@ public class GetCoursesAction extends Action {
         List<Course> courses;
 
         switch (courseStatus) {
-        case Const.CourseStatus.ACTIVE:
-            courses = sqlLogic.getCoursesForInstructors(instructors);
-            break;
-        case Const.CourseStatus.ARCHIVED:
-            courses = new ArrayList<>();
-            break;
-        case Const.CourseStatus.SOFT_DELETED:
-            courses = sqlLogic.getSoftDeletedCoursesForInstructors(instructors);
-            break;
-        default:
-            throw new InvalidHttpParameterException("Error: invalid course status");
+            case Const.CourseStatus.ACTIVE:
+                courses = sqlLogic.getCoursesForInstructors(instructors);
+                break;
+            case Const.CourseStatus.SOFT_DELETED:
+                courses = sqlLogic.getSoftDeletedCoursesForInstructors(instructors);
+                break;
+            default:
+                throw new InvalidHttpParameterException("Error: invalid course status");
         }
 
         Map<String, Instructor> courseIdToInstructor = new HashMap<>();
