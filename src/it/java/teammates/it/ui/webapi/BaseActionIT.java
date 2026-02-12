@@ -473,8 +473,14 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         ______TS("admin can access");
 
         loginAsAdmin();
+        mockUserProvision.setAdmin(true);      
+        mockUserProvision.setInstructor(true);  
+        mockUserProvision.setStudent(false); 
+        mockUserProvision.setMaintainer(false);
+    
         // not checking for non-masquerade mode because admin may not be an instructor
         verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
+        mockUserProvision.setInstructor(false);
     }
 
     void verifyAccessibleForAdminToMasqueradeAsInstructor(Course course, String[] submissionParams)
@@ -484,8 +490,13 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
                 "AccessibleForAdminToMasqueradeAsInstructor@teammates.tmt");
 
         loginAsAdmin();
+        mockUserProvision.setAdmin(true);      
+        mockUserProvision.setInstructor(true);  
+        mockUserProvision.setStudent(false); 
+        mockUserProvision.setMaintainer(false);
         // not checking for non-masquerade mode because admin may not be an instructor
         verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
+        mockUserProvision.setInstructor(false);
     }
 
     void verifyInaccessibleWithoutModifySessionPrivilege(Course course, String[] submissionParams)
