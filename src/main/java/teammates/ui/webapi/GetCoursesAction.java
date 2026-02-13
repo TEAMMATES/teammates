@@ -38,12 +38,12 @@ public class GetCoursesAction extends Action {
     public JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
-            case Const.EntityType.STUDENT:
-                return getStudentCourses();
-            case Const.EntityType.INSTRUCTOR:
-                return getInstructorCourses();
-            default:
-                throw new InvalidHttpParameterException("Error: invalid entity type");
+        case Const.EntityType.STUDENT:
+            return getStudentCourses();
+        case Const.EntityType.INSTRUCTOR:
+            return getInstructorCourses();
+        default:
+            throw new InvalidHttpParameterException("Error: invalid entity type");
         }
     }
 
@@ -64,14 +64,14 @@ public class GetCoursesAction extends Action {
         List<Course> courses;
 
         switch (courseStatus) {
-            case Const.CourseStatus.ACTIVE:
-                courses = sqlLogic.getCoursesForInstructors(instructors);
-                break;
-            case Const.CourseStatus.SOFT_DELETED:
-                courses = sqlLogic.getSoftDeletedCoursesForInstructors(instructors);
-                break;
-            default:
-                throw new InvalidHttpParameterException("Error: invalid course status");
+        case Const.CourseStatus.ACTIVE:
+            courses = sqlLogic.getCoursesForInstructors(instructors);
+            break;
+        case Const.CourseStatus.SOFT_DELETED:
+            courses = sqlLogic.getSoftDeletedCoursesForInstructors(instructors);
+            break;
+        default:
+            throw new InvalidHttpParameterException("Error: invalid course status");
         }
 
         Map<String, Instructor> courseIdToInstructor = new HashMap<>();
