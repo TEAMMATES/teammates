@@ -6,41 +6,51 @@ on:
 
 permissions:
   contents: read
-  id-token: write   # needed for OIDC
+  id-token: write   # required for OIDC
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    environment: staging
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      - run: npm ci
-      - run: npm run build
-      - run: ./gradlew check
+      - name: Install frontend dependencies
+        run: npm ci
 
-      # 🔐 OIDC AUTH (NO JSON KEY)
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
+      - name: Build frontend
+        run: npm run build
+
+      - name: Run backend checks
+        run: ./gradlew check
+
+      # 🔐 OIDC Authentication (no service account key)
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
         with:
           create_credentials_file: true
-          workload_identity_provider: 'projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/POOL_ID/providers/PROVIDER_ID'
-          service_account: 'SERVICE_ACCOUNT_EMAIL'
+          workload_identity_provider: >-
+            projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ vars.GCP_WIF_POOL_ID }}/providers/${{ vars.GCP_WIF_PROVIDER_ID }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
-      - uses: google-github-actions/setup-gcloud@v2
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
         with:
-            install_components: 'app-engine-java'
+          install_components: app-engine-java
 
-      - name: Deploy to App Engine
+      - name: Deploy to App Engine (Staging)
         run: ./gradlew appengineDeployAll
