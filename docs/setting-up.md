@@ -77,6 +77,19 @@ If you want to develop front-end, you need to install the following:
 
 1. If you plan on making documentation changes to the developer guide, you can **[install and set up MarkBind](documentation.md)** in order to preview your changes.
 
+### First-run checklist (common pitfalls) from yanhao
+
+Before starting the dev servers for the first time, make sure these are done in order:
+
+1. Run `./gradlew createConfigs` first.
+   This generates local config files such as `gradle.properties` required by subsequent Gradle tasks.
+
+1. Ensure tool versions are compatible.
+   Use JDK `21` (or `25`) and Node.js `24` or newer to avoid setup/runtime issues during `npm ci` and builds.
+
+1. Run `./gradlew generateTypes` before `npm run start`.
+   The front-end dev server depends on generated back-end type definitions. Missing this step can cause errors such as `Cannot find module '../api-output'`.
+
 **Q:** Can I set up the project in IDEs, e.g. Eclipse, IntelliJ?<br>
 **A:** You are welcome to; the core team have been using IntelliJ to a varying degree of success, and it is expected that any IDE that support Gradle-based Java project will work. However, IDE-based development (even with IntelliJ) is not actively supported/maintained by the team.
 
