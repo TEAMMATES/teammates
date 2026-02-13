@@ -3,11 +3,15 @@ name: Deploy TEAMMATES Staging
 on:
   push:
     branches: [ V9-clean-slate-sql ]
-  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write   # needed for OIDC
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
 
     steps:
       - uses: actions/checkout@v4
@@ -23,17 +27,20 @@ jobs:
 
       - run: npm ci
       - run: npm run build
+      - run: ./gradlew check
 
-      - name: Run tests
-        run: ./gradlew check
-
-      - uses: google-github-actions/auth@v2
+      # 🔐 OIDC AUTH (NO JSON KEY)
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: ${{ secrets.GCP_SA_KEY_JSON }}
+          create_credentials_file: true
+          workload_identity_provider: 'projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/POOL_ID/providers/PROVIDER_ID'
+          service_account: 'SERVICE_ACCOUNT_EMAIL'
 
       - uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+            install_components: 'app-engine-java'
 
       - name: Deploy to App Engine
         run: ./gradlew appengineDeployAll
