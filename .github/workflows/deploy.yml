@@ -5,10 +5,6 @@ on:
     branches: [ V9-clean-slate-sql ]
   workflow_dispatch:
 
-env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  SOLR_HOST: ${{ secrets.SOLR_INTERNAL_HOST }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -28,15 +24,16 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - run: ./gradlew check
+      - name: Run tests
+        run: ./gradlew check
 
-      # Authenticate GCP
       - uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY_JSON }}
 
       - uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: ${{ env.PROJECT_ID }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - run: ./gradlew appengineDeployAll
+      - name: Deploy to App Engine
+        run: ./gradlew appengineDeployAll
