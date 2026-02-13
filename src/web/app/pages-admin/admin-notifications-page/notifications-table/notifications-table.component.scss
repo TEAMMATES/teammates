@@ -40,3 +40,33 @@
 #notifications-table {
   min-width: 650px;
 }
+
+#notifications-table thead tr.bg-primary th {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+}
+
+#notifications-table tbody td.alert-danger {
+  background-color: var(--bs-danger) !important;
+  color: white !important;
+}
+
+#notifications-table tbody td.alert-primary {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+}
+
+#notifications-table tbody td.alert-info {
+  background-color: var(--bs-info) !important;
+  color: white !important;
+}
+
+#notifications-table tbody td.alert-success {
+  background-color: var(--bs-success) !important;
+  color: white !important;
+}
+
+#notifications-table tbody td.alert-warning {
+  background-color: var(--bs-warning) !important;
+  color: black !important;
+}
