@@ -2,7 +2,7 @@ name: Deploy TEAMMATES Staging
 
 on:
   push:
-    branches: [ staging ]
+    branches: [ V9-clean-slate-sql ]
   workflow_dispatch:
 
 env:
