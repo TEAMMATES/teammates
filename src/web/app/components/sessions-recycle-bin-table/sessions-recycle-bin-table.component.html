@@ -77,8 +77,8 @@
                 </span>
               </td>
               <td>
-                <span class="ngb-tooltip-class" [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
-                  {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
+                <span class="ngb-tooltip-class" [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp! | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
+                  {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp! | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
                 </span>
               </td>
               <td class="text-center actions-cell">

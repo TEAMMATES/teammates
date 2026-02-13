@@ -5,8 +5,11 @@ exports[`RejectWithReasonModal should show empty title and body 1`] = `
   accountRequestEmail=""
   accountRequestName=""
   activeModal={[Function NgbActiveModal]}
+  castAsInputElement={[Function Function]}
+  existingAccount={[Function Object]}
   rejectionReasonBody={[Function String]}
   rejectionReasonTitle={[Function String]}
+  searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
 >
   <div
@@ -46,7 +49,6 @@ exports[`RejectWithReasonModal should show empty title and body 1`] = `
           <input
             class="form-control"
             id="rejection-reason-title"
-            rows="5"
             type="text"
           />
         </div>
@@ -59,7 +61,12 @@ exports[`RejectWithReasonModal should show empty title and body 1`] = `
         </div>
         <tm-rich-text-editor
           id="rejection-reason-body"
-        />
+        >
+          <div
+            inviewport=""
+          >
+          </div>
+        </tm-rich-text-editor>
       </div>
       <div
         class="modal-footer"

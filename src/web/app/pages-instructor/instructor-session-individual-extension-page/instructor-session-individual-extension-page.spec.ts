@@ -1,15 +1,13 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import {
   InstructorSessionIndividualExtensionPageComponent,
 } from './instructor-session-individual-extension-page.component';
-import {
-  InstructorSessionIndividualExtensionPageModule,
-} from './instructor-session-individual-extension-page.module';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -55,7 +53,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: { 'alice@tmms.com': 1510000000000 },
@@ -126,12 +124,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, RouterModule, InstructorSessionIndividualExtensionPageModule],
         providers: [
-          StudentService,
-          CourseService,
-          TimezoneService,
-          FeedbackSessionsService,
+          provideRouter([]),
           {
             provide: ActivatedRoute,
             useValue: {
@@ -142,6 +136,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
               }),
             },
           },
+          provideHttpClient(),
+          provideHttpClientTesting(),
         ],
       }).compileComponents();
     }),

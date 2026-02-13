@@ -1,11 +1,14 @@
-import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { AfterViewInit, Component, Inject, OnInit, DOCUMENT } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
+import { SessionView } from './session-view.enum';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
@@ -43,25 +46,27 @@ import {
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
+import { castAsSelectElement } from '../../../types/event-target-caster';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
+import {
+  QuestionSubmissionFormComponent,
+} from '../../components/question-submission-form/question-submission-form.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
-}
-
-// To export out
-export enum SessionView {
-  DEFAULT = 'Question',
-  GROUP_RECIPIENTS = 'Recipient',
 }
 
 /**
@@ -71,8 +76,23 @@ export enum SessionView {
   selector: 'tm-session-submission-page',
   templateUrl: './session-submission-page.component.html',
   styleUrls: ['./session-submission-page.component.scss'],
+  imports: [
+    NgIf,
+    LoadingSpinnerDirective,
+    NgFor,
+    FormsModule,
+    LoadingRetryComponent,
+    QuestionSubmissionFormComponent,
+    DestroyableDirective,
+    InViewportDirective,
+    NgbTooltip,
+    AjaxLoadingComponent,
+    SafeHtmlPipe,
+    KeyValuePipe,
+  ],
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
+  readonly castAsSelectElement = castAsSelectElement;
 
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
@@ -103,6 +123,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   intent: Intent = Intent.STUDENT_SUBMISSION;
 
   questionSubmissionForms: QuestionSubmissionFormModel[] = [];
+  originalQuestionSubmissionForms: QuestionSubmissionFormModel[] = [];
 
   isSavingResponses: boolean = false;
   isSubmissionFormsDisabled: boolean = false;
@@ -130,7 +151,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   feedbackSessionId: string | undefined = '';
   studentId: string | undefined = '';
 
+  autoSaveTimeout: any;
+  autoSaveDelay = 100; // 0.1 second delay
+
   private backendUrl: string = environment.backendUrl;
+
+  private readonly AUTOSAVE_KEY = 'autosave';
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
@@ -150,6 +176,44 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private logService: LogService,
               @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
+  }
+
+  handleAutoSave(event: { id: string, model: QuestionSubmissionFormModel }): void {
+    // Disable autosave in preview mode
+    if (this.previewAsPerson) {
+      return;
+    }
+
+    clearTimeout(this.autoSaveTimeout);
+    this.autoSaveTimeout = setTimeout(() => {
+      const savedData = this.getLocalStorageItem(this.AUTOSAVE_KEY);
+      const clonedModel = {
+        ...event.model,
+        hasResponseChangedForRecipients: Array.from(event.model.hasResponseChangedForRecipients.entries()),
+        isTabExpandedForRecipients: Array.from(event.model.isTabExpandedForRecipients.entries()),
+      };
+      savedData[event.id] = clonedModel;
+      this.setLocalStorageItem(this.AUTOSAVE_KEY, savedData);
+    }, this.autoSaveDelay);
+  }
+
+  loadAutoSavedData(questionId: string): void {
+    // Disable loading autosaved data in preview mode
+    if (this.previewAsPerson) {
+      return;
+    }
+
+    const savedData = this.getLocalStorageItem(this.AUTOSAVE_KEY);
+    const savedModel = savedData[questionId];
+
+    if (savedModel) {
+        const index = this.questionSubmissionForms.findIndex((q) => q.feedbackQuestionId === questionId);
+        if (index !== -1) {
+            savedModel.hasResponseChangedForRecipients = new Map(savedModel.hasResponseChangedForRecipients);
+            savedModel.isTabExpandedForRecipients = new Map(savedModel.isTabExpandedForRecipients);
+            this.questionSubmissionForms[index] = savedModel;
+        }
+    }
   }
 
   ngOnInit(): void {
@@ -641,6 +705,20 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }).pipe(finalize(() => {
       model.isLoading = false;
       model.isLoaded = true;
+
+      this.originalQuestionSubmissionForms.push({
+        ...model,
+        hasResponseChangedForRecipients: new Map(model.hasResponseChangedForRecipients),
+        isTabExpandedForRecipients: new Map(model.isTabExpandedForRecipients),
+        recipientList: model.recipientList.map((recipient) => ({ ...recipient })),
+        recipientSubmissionForms: model.recipientSubmissionForms.map((form) => ({
+          ...form,
+          responseDetails: { ...form.responseDetails },
+          commentByGiver: form.commentByGiver ? { ...form.commentByGiver } : undefined,
+        })),
+        questionDetails: { ...model.questionDetails },
+      });
+
     }))
       .subscribe({
         next: (existingResponses: FeedbackResponsesResponse) => {
@@ -819,6 +897,30 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                           recipientSubmissionFormModel.commentByGiver = undefined;
                         }
                       });
+
+                  const savedData = this.getLocalStorageItem(this.AUTOSAVE_KEY);
+                  delete savedData[questionSubmissionFormModel.feedbackQuestionId];
+                  this.setLocalStorageItem(this.AUTOSAVE_KEY, savedData);
+
+                  this.originalQuestionSubmissionForms.forEach((originalModel: QuestionSubmissionFormModel) => {
+                    if (originalModel.feedbackQuestionId === questionSubmissionFormModel.feedbackQuestionId) {
+                      originalModel.recipientSubmissionForms.forEach((originalRecipientSubmissionFormModel:
+                        FeedbackResponseRecipientSubmissionFormModel) => {
+                          if (responsesMap[originalRecipientSubmissionFormModel.recipientIdentifier]) {
+                            const correspondingResp: FeedbackResponse =
+                                responsesMap[originalRecipientSubmissionFormModel.recipientIdentifier];
+                            originalRecipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
+                            originalRecipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
+                            originalRecipientSubmissionFormModel.recipientIdentifier =
+                              correspondingResp.recipientIdentifier;
+                          } else {
+                            originalRecipientSubmissionFormModel.responseId = '';
+                            originalRecipientSubmissionFormModel.commentByGiver = undefined;
+                          }
+                        });
+                    }
+
+                  });
                 }),
                 switchMap(() =>
                     forkJoin(questionSubmissionFormModel.recipientSubmissionForms
@@ -992,6 +1094,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     if (event && event.visible && !questionSubmissionForm.isLoaded && !questionSubmissionForm.isLoading) {
       questionSubmissionForm.isLoading = true;
       this.loadFeedbackQuestionRecipientsForQuestion(questionSubmissionForm);
+      this.loadAutoSavedData(questionSubmissionForm.feedbackQuestionId);
     }
   }
 
@@ -1028,6 +1131,101 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     this.saveFeedbackResponses(recipientQSForms, false, recipientId);
   }
 
+  resetResponsesForSelectedRecipientQuestions(recipientId: string,
+    questionSubmissionForms: QuestionSubmissionFormModel[]): void {
+
+    const questionsToRecipient: Set<number> | undefined = this.recipientQuestionMap.get(recipientId);
+    if (!questionsToRecipient) {
+      this.statusMessageService.showErrorToast('Failed to reset response for this recipient. '
+          + 'Please switch back to "Group by Question" view to reset responses.');
+    }
+    const recipientQSForms = questionSubmissionForms
+      .filter((questionSubmissionFormModel: QuestionSubmissionFormModel) =>
+          questionsToRecipient!.has(questionSubmissionFormModel.questionNumber));
+    this.resetFeedbackResponses(recipientQSForms, recipientId);
+  }
+
+  resetFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[], recipientId: string | null): void {
+    const savedData = this.getLocalStorageItem(this.AUTOSAVE_KEY);
+
+    questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
+      const originalSubmissionForm = this.originalQuestionSubmissionForms.find(
+        (originalModel: QuestionSubmissionFormModel) =>
+          originalModel.feedbackQuestionId === questionSubmissionFormModel.feedbackQuestionId,
+      );
+
+      if (originalSubmissionForm) {
+        if (recipientId) {
+          questionSubmissionFormModel.recipientSubmissionForms.forEach((form, index) => {
+            if (form.recipientIdentifier === recipientId) {
+              const originalForm = originalSubmissionForm.recipientSubmissionForms.find(
+                (originalRecipientForm) => originalRecipientForm.recipientIdentifier === form.recipientIdentifier,
+              );
+
+              if (originalForm) {
+                questionSubmissionFormModel.recipientSubmissionForms[index] = {
+                  ...originalForm,
+                  responseDetails: { ...originalForm.responseDetails },
+                  commentByGiver: originalForm.commentByGiver ? { ...originalForm.commentByGiver } : undefined,
+                };
+              }
+            }
+          });
+
+          questionSubmissionFormModel.hasResponseChangedForRecipients.set(
+            recipientId, originalSubmissionForm.hasResponseChangedForRecipients.get(recipientId) ?? false,
+          );
+          questionSubmissionFormModel.isTabExpandedForRecipients.set(
+            recipientId, originalSubmissionForm.isTabExpandedForRecipients.get(recipientId) ?? true,
+          );
+
+          if (savedData[questionSubmissionFormModel.feedbackQuestionId]) {
+            const recipientIndex = savedData[questionSubmissionFormModel.feedbackQuestionId].recipientSubmissionForms
+              .findIndex((form: FeedbackResponseRecipientSubmissionFormModel) =>
+                  form.recipientIdentifier === recipientId);
+
+            if (recipientIndex !== -1) {
+              savedData[questionSubmissionFormModel.feedbackQuestionId]
+                .recipientSubmissionForms.splice(recipientIndex, 1);
+            }
+
+            if (savedData[questionSubmissionFormModel.feedbackQuestionId].recipientSubmissionForms.length === 0) {
+              delete savedData[questionSubmissionFormModel.feedbackQuestionId];
+            }
+          }
+        } else {
+          Object.assign(questionSubmissionFormModel, {
+            ...originalSubmissionForm,
+            recipientSubmissionForms: originalSubmissionForm.recipientSubmissionForms
+              .map((form: FeedbackResponseRecipientSubmissionFormModel) => ({
+                ...form,
+                responseDetails: { ...form.responseDetails },
+                commentByGiver: form.commentByGiver ? { ...form.commentByGiver } : undefined,
+              })),
+            hasResponseChangedForRecipients: new Map(originalSubmissionForm.hasResponseChangedForRecipients),
+            isTabExpandedForRecipients: new Map(originalSubmissionForm.isTabExpandedForRecipients),
+            questionDetails: { ...originalSubmissionForm.questionDetails },
+          });
+
+          delete savedData[questionSubmissionFormModel.feedbackQuestionId];
+        }
+      }
+    });
+
+    this.setLocalStorageItem(this.AUTOSAVE_KEY, savedData);
+  }
+
+  hasResponseChangedForRecipient(recipientId: string,
+    questionSubmissionForms: QuestionSubmissionFormModel[]): boolean {
+    const questionsToRecipient: Set<number> | undefined = this.recipientQuestionMap.get(recipientId);
+    if (!questionsToRecipient) {
+      return false;
+    }
+    return questionSubmissionForms.some((questionSubmissionFormModel: QuestionSubmissionFormModel) =>
+      questionsToRecipient.has(questionSubmissionFormModel.questionNumber)
+      && questionSubmissionFormModel.hasResponseChangedForRecipients.get(recipientId));
+  }
+
   private addQuestionForRecipient(recipientId: string, questionId: any): void {
     if (this.recipientQuestionMap.has(recipientId)) {
       this.recipientQuestionMap.get(recipientId)!.add(questionId);
@@ -1038,7 +1236,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleViewChange(selectedView: SessionView): void {
+  toggleViewChange(selectedView: string | SessionView): void {
     if (selectedView === this.currentSelectedSessionView) {
       return;
     }
@@ -1152,5 +1350,19 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       feedbackSessionId: this.feedbackSessionId,
       studentId: this.studentId,
     }).subscribe();
+  }
+
+  /**
+   * Utility method to get item from local storage.
+   */
+  private getLocalStorageItem(key: string): any {
+    return JSON.parse(localStorage.getItem(key) || '{}');
+  }
+
+  /**
+   * Utility method to set item in local storage.
+   */
+  private setLocalStorageItem(key: string, data: any): void {
+    localStorage.setItem(key, JSON.stringify(data));
   }
 }

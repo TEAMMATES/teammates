@@ -1,5 +1,7 @@
+import { NgIf, NgFor, NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { NgbCalendar, NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 import { DateTimeService } from '../../../services/datetime.service';
@@ -20,9 +22,16 @@ import {
   getLatestTimeFormat,
 } from '../../../types/datetime-const';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
+import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
+import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
+import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
+import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
+import { TimepickerComponent } from '../timepicker/timepicker.component';
 
 /**
  * Form to Add/Edit feedback sessions.
@@ -33,6 +42,20 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
   styleUrls: ['./session-edit-form.component.scss'],
   providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   animations: [collapseAnim],
+  imports: [
+    NgIf,
+    FormsModule,
+    NgFor,
+    TeammatesRouterDirective,
+    AjaxLoadingComponent,
+    NgbTooltip,
+    NgClass,
+    RichTextEditorComponent,
+    DatepickerComponent,
+    TimepickerComponent,
+    SubmissionStatusNamePipe,
+    PublishStatusNamePipe,
+  ],
 })
 export class SessionEditFormComponent {
 
@@ -69,7 +92,7 @@ export class SessionEditFormComponent {
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
 
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
 
     templateSessionName: '',
@@ -128,10 +151,49 @@ export class SessionEditFormComponent {
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: string, data: any): void {
+    if (field === 'submissionStartDate' || field === 'submissionStartTime') {
+      this.adjustSessionVisibilityTime(data, field);
+    }
     this.modelChange.emit({
       ...this.model,
       [field]: data,
     });
+  }
+
+  /**
+   * Adjusts session visibility time to ensure it does not occur after submission opening time.
+   */
+  adjustSessionVisibilityTime(value: any, field: string): void {
+    const submissionDateTime = this.combineDateAndTime(
+      field === 'submissionStartDate' ? value : this.model.submissionStartDate,
+      field === 'submissionStartTime' ? value : this.model.submissionStartTime,
+    );
+
+    const visibilityDateTime = this.combineDateAndTime(
+      this.model.customSessionVisibleDate,
+      this.model.customSessionVisibleTime,
+    );
+
+    if (submissionDateTime.isBefore(visibilityDateTime)) {
+      if (field === 'submissionStartDate') {
+        this.model.customSessionVisibleDate = value;
+      } else {
+        this.model.customSessionVisibleTime = value;
+      }
+    }
+  }
+
+  /**
+   * Combines date and time into a single moment instance.
+   */
+  combineDateAndTime(date: DateFormat, time: TimeFormat): moment.Moment {
+    return moment.tz({
+      year: date.year,
+      month: date.month - 1,
+      day: date.day,
+      hour: time.hour,
+      minute: time.minute,
+    }, this.model.timeZone);
   }
 
   /**
@@ -148,6 +210,7 @@ export class SessionEditFormComponent {
       this.model.submissionStartTime = minTime;
     }
 
+    this.adjustSessionVisibilityTime(date, field);
     this.triggerModelChange(field, date);
   }
 
@@ -161,6 +224,37 @@ export class SessionEditFormComponent {
       // Case where minutes is not 0 since the earliest time with 0 minutes is the hour before
       time.hour += 1;
       time.minute = 0;
+    }
+  }
+
+  /**
+   * Triggers the change of the model when the submission opening time changes.
+   */
+  triggerSubmissionOpeningTimeModelChange(field: string, time: TimeFormat): void {
+    const date: DateFormat = this.model.submissionStartDate;
+    const sessionDate: DateFormat = this.model.customSessionVisibleDate;
+    const sessionTime: TimeFormat = this.model.customSessionVisibleTime;
+
+    if (DateTimeService.compareDateFormat(date, sessionDate) === 0
+        && DateTimeService.compareTimeFormat(time, sessionTime) === -1) {
+      this.configureSessionVisibleDateTime(date, time);
+    }
+
+    this.triggerModelChange(field, time);
+  }
+
+  /**
+   * Configures the session visible date and time to ensure it is not after submission opening time.
+   */
+  configureSessionVisibleDateTime(date: DateFormat, time: TimeFormat): void {
+    const sessionDate: DateFormat = this.model.customSessionVisibleDate;
+    const sessionTime: TimeFormat = this.model.customSessionVisibleTime;
+
+    if (DateTimeService.compareDateFormat(date, sessionDate) === -1) {
+      this.model.customSessionVisibleDate = date;
+    } else if (DateTimeService.compareDateFormat(date, sessionDate) === 0
+               && DateTimeService.compareTimeFormat(time, sessionTime) === -1) {
+      this.model.customSessionVisibleTime = time;
     }
   }
 

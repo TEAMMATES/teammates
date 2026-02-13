@@ -226,7 +226,6 @@ public final class TzdbResourceZoneRulesProvider extends ZoneRulesProvider {
      * Modified from {@link java.time.zone.ZoneOffsetTransition#readExternal(DataInput)}.
      */
     private static ZoneOffsetTransition zotReadExternal(DataInput in) throws IOException {
-        @SuppressWarnings("PMD.PrematureDeclaration") // DataInput needs to be read in a specific sequence
         long epochSecond = serReadEpochSec(in);
         ZoneOffset before = serReadOffset(in);
         ZoneOffset after = serReadOffset(in);

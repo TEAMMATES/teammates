@@ -4,26 +4,27 @@ import {
   NgbDropdownModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { InstructorPermissionSet } from 'src/web/types/api-request';
 import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
 } from '../../../types/api-output';
-import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { InstructorPermissionSet } from '../../../types/api-request';
+
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SortableTableHeaderColorScheme } from '../sortable-table/sortable-table.component';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+
+import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 
 @Component({
-  selector: 'tm-group-buttons',
-  templateUrl: './cell-with-group-buttons.component.html',
-  standalone: true,
-  imports: [
+    selector: 'tm-group-buttons',
+    templateUrl: './cell-with-group-buttons.component.html',
+    imports: [
     CommonModule,
-    TeammatesRouterModule,
-    AjaxLoadingModule,
+    TeammatesRouterDirective,
+    AjaxLoadingComponent,
     NgbDropdownModule,
     NgbTooltipModule,
-  ],
+],
 })
 export class GroupButtonsComponent {
   @Input() idx: number = 0;

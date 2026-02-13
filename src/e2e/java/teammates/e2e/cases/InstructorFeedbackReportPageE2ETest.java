@@ -76,7 +76,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         sqlTestData = removeAndRestoreSqlDataBundle(
                 loadSqlDataBundle("/InstructorFeedbackReportPageE2ETest_SqlEntities.json"));
-
         instructor = testData.instructors.get("tm.e2e.IFRep.instr");
         FeedbackSessionAttributes fileSession = testData.feedbackSessions.get("Open Session 2");
         fileName = "/" + fileSession.getCourseId() + "_" + fileSession.getFeedbackSessionName() + "_result.csv";
@@ -430,11 +429,13 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getTeamName(FeedbackParticipantType type, String participant, Collection<StudentAttributes> students) {
-        if (type.equals(FeedbackParticipantType.NONE)) {
+        if (type == FeedbackParticipantType.NONE) {
             return "No Specific Team";
-        } else if (type.equals(FeedbackParticipantType.TEAMS)) {
+        }
+        if (type == FeedbackParticipantType.TEAMS) {
             return participant;
-        } else if (type.equals(FeedbackParticipantType.INSTRUCTORS)) {
+        }
+        if (type == FeedbackParticipantType.INSTRUCTORS) {
             return "Instructors";
         }
         String teamName = students.stream()

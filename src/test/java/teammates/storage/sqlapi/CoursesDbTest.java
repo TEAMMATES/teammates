@@ -23,7 +23,7 @@ import teammates.storage.sqlentity.Team;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code CoursesDb}.
+ * SUT: {@link CoursesDb}.
  */
 public class CoursesDbTest extends BaseTestCase {
 
@@ -117,6 +117,7 @@ public class CoursesDbTest extends BaseTestCase {
     public void testUpdateCourse_success() throws InvalidParametersException, EntityDoesNotExistException {
         Course c = new Course("course-id", "new-course-name", null, "institute");
         doReturn(c).when(coursesDb).getCourse(anyString());
+        mockHibernateUtil.when(() -> HibernateUtil.merge(c)).thenReturn(c);
 
         coursesDb.updateCourse(c);
 

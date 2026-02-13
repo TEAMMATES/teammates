@@ -17,7 +17,7 @@ import teammates.storage.sqlentity.Section;
 @Entity
 public class FeedbackConstantSumResponse extends FeedbackResponse {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = FeedbackConstantSumResponseDetailsConverter.class)
     private FeedbackConstantSumResponseDetails answer;
 
@@ -50,7 +50,7 @@ public class FeedbackConstantSumResponse extends FeedbackResponse {
     @Override
     public String toString() {
         return "FeedbackConstantSumResponse [id=" + super.getId()
-            + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
+                + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
 
     /**

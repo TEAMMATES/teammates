@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { StatusMessageService } from '../../../../../services/status-message.service';
 
 /**
@@ -8,6 +9,7 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
   selector: 'tm-rank-options-field',
   templateUrl: './rank-options-field.component.html',
   styleUrls: ['./rank-options-field.component.scss'],
+  imports: [FormsModule],
 })
 export class RankOptionsFieldComponent {
 

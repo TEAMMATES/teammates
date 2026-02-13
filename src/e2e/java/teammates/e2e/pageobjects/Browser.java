@@ -131,7 +131,7 @@ public class Browser {
      * Visits the given URL.
      */
     public void goToUrl(String url) {
-        if (TestProperties.BROWSER.equals(TestProperties.BROWSER_CHROME)) {
+        if (TestProperties.BROWSER_CHROME.equals(TestProperties.BROWSER)) {
             // Recent chromedriver has bug in setting page load timeout, which can potentially cause infinitely long waits
             ((JavascriptExecutor) driver).executeScript("window.location.href='" + url + "'");
             return;
@@ -176,6 +176,9 @@ public class Browser {
             profile.setPreference("browser.download.dir", downloadPath);
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
+            if (!firefoxPath.isEmpty()) {
+                options = options.setBinary(firefoxPath);
+            }
             if (TestProperties.isDevServer()) {
                 options.addArguments("-private");
             }

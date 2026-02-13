@@ -1,15 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { provideRouter } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import {
   CopyQuestionsFromOtherSessionsModalComponent,
 } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
-import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -84,7 +84,7 @@ describe('InstructorSessionEditPageComponent', () => {
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},
@@ -232,7 +232,7 @@ describe('InstructorSessionEditPageComponent', () => {
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
 
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
 
     templateSessionName: '',
@@ -270,20 +270,12 @@ describe('InstructorSessionEditPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule,
-        HttpClientTestingModule,
-        InstructorSessionEditPageModule,
         BrowserAnimationsModule,
-        RouterTestingModule,
       ],
       providers: [
-        CourseService,
-        FeedbackSessionsService,
-        FeedbackQuestionsService,
-        StudentService,
-        InstructorService,
-        NavigationService,
-        StatusMessageService,
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

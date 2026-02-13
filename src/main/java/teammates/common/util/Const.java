@@ -5,8 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 
-import teammates.storage.sqlentity.Section;
-
 /**
  * Stores constants that are widely used across classes.
  * this class contains several nested classes, each containing a specific
@@ -27,7 +25,6 @@ public final class Const {
     public static final int SECTION_SIZE_LIMIT = 100;
 
     public static final String DEFAULT_SECTION = "None";
-    public static final Section DEFAULT_SQL_SECTION = null;
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
@@ -281,7 +278,7 @@ public final class Const {
         private static final String INSTRUCTOR_PAGE = URI_PREFIX + "/" + EntityType.INSTRUCTOR;
         private static final String ADMIN_PAGE = URI_PREFIX + "/" + EntityType.ADMIN;
         private static final String MAINTAINER_PAGE = URI_PREFIX + "/" + EntityType.MAINTAINER;
-        private static final String FRONT_PAGE = URI_PREFIX + "/front";
+        public static final String FRONT_PAGE = URI_PREFIX + "/front";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
@@ -406,12 +403,12 @@ public final class Const {
         public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";
         public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =
                 URI_PREFIX + "/feedbackSessionOpeningSoonReminders";
-        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS =
-                URI_PREFIX + "/feedbackSessionOpeningReminders";
+        public static final String AUTOMATED_FEEDBACK_OPENED_REMINDERS =
+                URI_PREFIX + "/feedbackSessionOpenedReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS =
                 URI_PREFIX + "/feedbackSessionClosedReminders";
-        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS =
-                URI_PREFIX + "/feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSING_SOON_REMINDERS =
+                URI_PREFIX + "/feedbackSessionClosingSoonReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS =
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
         public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =

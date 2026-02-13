@@ -1,7 +1,10 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { InstructorRequestFormModel } from './instructor-request-form/instructor-request-form-model';
+import { InstructorRequestFormComponent } from './instructor-request-form/instructor-request-form.component';
 import { environment } from '../../../environments/environment';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 
 /**
  * Account request page.
@@ -10,6 +13,11 @@ import { environment } from '../../../environments/environment';
   selector: 'tm-request-page',
   templateUrl: './request-page.component.html',
   styleUrls: ['./request-page.component.scss'],
+  imports: [
+    NgIf,
+    TeammatesRouterDirective,
+    InstructorRequestFormComponent,
+  ],
 })
 export class RequestPageComponent {
 

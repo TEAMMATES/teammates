@@ -1,9 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { provideRouter } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
@@ -13,13 +12,6 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Course, CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
-import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
-import { CourseEditFormComponent } from '../../components/course-edit-form/course-edit-form.component';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
-import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
-import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
@@ -265,22 +257,13 @@ describe('InstructorCoursesPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorCoursesPageComponent,
-        CourseEditFormComponent,
-      ],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        TeammatesRouterModule,
-        NgbModule,
         BrowserAnimationsModule,
-        LoadingSpinnerModule,
-        AjaxLoadingModule,
-        LoadingRetryModule,
-        PanelChevronModule,
-        ProgressBarModule,
-        FormsModule,
+      ],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();
@@ -437,6 +420,8 @@ describe('InstructorCoursesPageComponent', () => {
   it('should show add course form and disable button when clicking on add new course', () => {
     component.activeCourses = [courseModelCS3282];
     component.isLoadingActiveCourses = false;
+    component.isLoadingArchivedCourses = false;
+    component.isLoadingSoftDeletedCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-add-course');
@@ -575,6 +560,8 @@ describe('InstructorCoursesPageComponent', () => {
   it('should snap when new course form is expanded', () => {
     component.isAddNewCourseFormExpanded = true;
     component.isLoadingActiveCourses = false;
+    component.isLoadingArchivedCourses = false;
+    component.isLoadingSoftDeletedCourses = false;
     // Mock the timezone service to prevent unexpected changes in time zones over time, such as daylight savings time
     const timezones: Record<string, number> = {
       Jamaica: -5 * 60,

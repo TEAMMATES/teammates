@@ -1,6 +1,8 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -57,15 +59,18 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
     void setUp() throws InvalidParametersException, EntityAlreadyExistsException {
         nearestHour = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.HOURS);
         endHour = Instant.now().plus(2, java.time.temporal.ChronoUnit.HOURS)
-            .truncatedTo(java.time.temporal.ChronoUnit.HOURS);
+                .truncatedTo(java.time.temporal.ChronoUnit.HOURS);
         responseVisibleHour = Instant.now().plus(3, java.time.temporal.ChronoUnit.HOURS)
-        .truncatedTo(java.time.temporal.ChronoUnit.HOURS);
+                .truncatedTo(java.time.temporal.ChronoUnit.HOURS);
 
         course = generateCourse1();
         instructor = generateInstructor1InCourse(course);
 
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
+
+        when(mockLogic.verifyInstructorsExistInCourse(anyString(), anyList())).thenReturn(true);
+        when(mockLogic.verifyStudentsExistInCourse(anyString(), anyList())).thenReturn(true);
     }
 
     @Test
@@ -157,7 +162,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setCustomResponseVisibleTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
                 7, timeZone).toEpochMilli());
 
-        updateRequest.setClosingEmailEnabled(false);
+        updateRequest.setClosingSoonEmailEnabled(false);
         updateRequest.setPublishedEmailEnabled(false);
 
         Map<String, Long> instructorDeadlines = new HashMap<>();

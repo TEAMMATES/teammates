@@ -205,7 +205,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructor.getEmail();
-            giverSection = Const.DEFAULT_SQL_SECTION;
+            giverSection = sqlLogic.getDefaultSectionOrCreate(courseId);
             existingResponses = sqlLogic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
             sqlLogic.populateFieldsToGenerateInQuestion(feedbackQuestion,
@@ -222,7 +222,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         log.info(JsonUtils.toCompactJson(submitRequest));
 
         for (String recipient : submitRequest.getRecipients()) {
-            if (!recipientsOfTheQuestion.containsKey(recipient)) {
+            if (recipient == null || !recipientsOfTheQuestion.containsKey(recipient)) {
                 throw new InvalidOperationException(
                         "The recipient " + recipient + " is not a valid recipient of the question");
             }
@@ -361,7 +361,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         log.info(JsonUtils.toCompactJson(submitRequest));
 
         for (String recipient : submitRequest.getRecipients()) {
-            if (!recipientsOfTheQuestion.containsKey(recipient)) {
+            if (recipient == null || !recipientsOfTheQuestion.containsKey(recipient)) {
                 throw new InvalidOperationException(
                         "The recipient " + recipient + " is not a valid recipient of the question");
             }

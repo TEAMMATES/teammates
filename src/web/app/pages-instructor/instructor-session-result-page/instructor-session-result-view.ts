@@ -8,7 +8,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
+import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
 
 /**
  * Abstract component for all different view type components of instructor sessions result page.
@@ -34,7 +34,7 @@ export abstract class InstructorSessionResultView {
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},

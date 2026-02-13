@@ -1,10 +1,16 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
+import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
+import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
+import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
+import { InstructorSessionResultRgqViewComponent } from './instructor-session-result-rgq-view.component';
+import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import { CourseService } from '../../../services/course.service';
@@ -21,7 +27,6 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   CourseSectionNames,
-  FeedbackQuestion,
   FeedbackQuestions,
   FeedbackSession,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -35,38 +40,24 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import {
+  PreviewSessionResultPanelComponent,
+} from '../../components/preview-session-result-panel/preview-session-result-panel.component';
 import { QuestionStatistics } from '../../components/question-types/question-statistics/question-statistics';
 import {
   ReminderResponseModel,
 } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+import { ViewResultsPanelComponent } from '../../components/view-results-panel/view-results-panel.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
-
-/**
- * Per section view tab model.
- */
-export interface SectionTabModel {
-  questions: QuestionOutput[];
-
-  hasPopulated: boolean;
-  errorMessage?: string;
-  isTabExpanded: boolean;
-}
-
-/**
- * Per question view tab model.
- */
-export interface QuestionTabModel {
-  question: FeedbackQuestion;
-  responses: ResponseOutput[];
-  statistics: string; // TODO will define types later
-  hasPopulated: boolean;
-  errorMessage?: string;
-  isTabExpanded: boolean;
-}
+import { SectionTabModel, QuestionTabModel } from './instructor-session-tab.model';
 
 const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
 
@@ -77,6 +68,26 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
   selector: 'tm-instructor-session-result-page',
   templateUrl: './instructor-session-result-page.component.html',
   styleUrls: ['./instructor-session-result-page.component.scss'],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgIf,
+    TeammatesRouterDirective,
+    NgbTooltip,
+    AjaxLoadingComponent,
+    ViewResultsPanelComponent,
+    InstructorSessionResultQuestionViewComponent,
+    InstructorSessionResultGrqViewComponent,
+    InstructorSessionResultRgqViewComponent,
+    InstructorSessionResultGqrViewComponent,
+    InstructorSessionResultRqgViewComponent,
+    InstructorSessionNoResponsePanelComponent,
+    PreviewSessionResultPanelComponent,
+  ],
+  providers: [
+    CommentsToCommentTableModelPipe,
+    CommentToCommentRowModelPipe,
+  ],
 })
 export class InstructorSessionResultPageComponent extends InstructorCommentsComponent implements OnInit {
 
@@ -135,7 +146,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},

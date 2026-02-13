@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import org.postgresql.util.PSQLException;
+import org.postgresql.util.PSQLState;
+
 import com.google.cloud.datastore.DatastoreException;
 import com.google.rpc.Code;
 
@@ -10,7 +13,7 @@ import teammates.common.util.Const;
 /**
  * Action specifically created for testing exception handling at API servlet.
  */
-class AdminExceptionTestAction extends Action {
+public class AdminExceptionTestAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -29,7 +32,8 @@ class AdminExceptionTestAction extends Action {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
+    @SuppressWarnings({"PMD.AvoidThrowingNullPointerException", "PMD.AvoidThrowingRawExceptionTypes"})
+    // deliberately done for testing
     public JsonResult execute() {
         String error = getNonNullRequestParamValue(Const.ParamsNames.ERROR);
         if (error.equals(AssertionError.class.getSimpleName())) {
@@ -44,6 +48,10 @@ class AdminExceptionTestAction extends Action {
         if (error.equals(DatastoreException.class.getSimpleName())) {
             throw new DatastoreException(Code.DEADLINE_EXCEEDED_VALUE, "DatastoreException testing",
                     Code.DEADLINE_EXCEEDED.name());
+        }
+        if (error.equals(PSQLException.class.getSimpleName())) {
+            throw new RuntimeException("PSQLException testing",
+                    new PSQLException("PsqlException testing", PSQLState.CONNECTION_FAILURE));
         }
         if (error.equals(InvalidHttpParameterException.class.getSimpleName())) {
             throw new InvalidHttpParameterException("InvalidHttpParameterException testing");

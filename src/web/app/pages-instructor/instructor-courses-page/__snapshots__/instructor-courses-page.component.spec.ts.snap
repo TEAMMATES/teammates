@@ -32,7 +32,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -176,7 +176,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -320,7 +320,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -337,6 +337,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   <div>
     <button
       class="btn btn-success"
+      disabled=""
       id="btn-add-course"
     >
       <i
@@ -747,11 +748,11 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isArchivedCourseExpanded="false"
   isCopyingCourse="false"
   isLoadingActiveCourses="false"
-  isLoadingArchivedCourses={[Function Boolean]}
-  isLoadingSoftDeletedCourses={[Function Boolean]}
+  isLoadingArchivedCourses="false"
+  isLoadingSoftDeletedCourses="false"
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1036,21 +1037,14 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
       />
        Archived courses 
     </h2>
-    <tm-loading-spinner>
+    <div>
       <div
-        class="loading-container"
+        class="alert alert-warning margin-top-30px"
+        role="alert"
       >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
+         There are no courses archived currently. 
       </div>
-    </tm-loading-spinner>
+    </div>
   </div><div
     class="row course-section margin-top-30px"
   >
@@ -1066,21 +1060,14 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
         />
          Deleted courses 
       </h2>
-      <tm-loading-spinner>
+      <div>
         <div
-          class="loading-container"
+          class="alert alert-warning margin-top-30px"
+          role="alert"
         >
-          <div
-            class="row spinner-border text-primary"
-            role="status"
-          />
-          <div
-            class="row text-secondary"
-          >
-            Loading...
-          </div>
+           There are no courses in the bin. 
         </div>
-      </tm-loading-spinner>
+      </div>
     </div>
   </div>
 </tm-instructor-courses-page>
@@ -1118,7 +1105,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1135,6 +1122,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   <div>
     <button
       class="btn btn-success"
+      disabled=""
       id="btn-add-course"
     >
       <i
@@ -1549,7 +1537,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1693,7 +1681,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isLoadingSoftDeletedCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef2]}
+  modifiedTimestampsModal={[Function TemplateRef]}
   ngbModal={[Function _NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function ProgressBarService]}
@@ -1710,6 +1698,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   <div>
     <button
       class="btn btn-success"
+      disabled=""
       id="btn-add-course"
     >
       <i

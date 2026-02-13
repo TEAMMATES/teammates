@@ -1,4 +1,7 @@
+import { NgClass, NgIf, NgFor } from '@angular/common';
 import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -6,6 +9,7 @@ import {
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from './question-submission-form-model';
+import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -25,17 +29,46 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
+import { QuestionDetailsTypeChecker } from '../../../types/question-details-impl/question-details-caster';
+import { ResponseDetailsTypeChecker } from '../../../types/response-details-impl/response-details-caster';
 import { VisibilityControl } from '../../../types/visibility-control';
-import { SessionView } from '../../pages-session/session-submission-page/session-submission-page.component';
-import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
+import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
+import { CommentRowModel, CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
+import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
 import { ConstsumRecipientsQuestionConstraintComponent }
   from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
 import { ContributionQuestionConstraintComponent }
   from '../question-types/question-constraint/contribution-question-constraint.component';
+import { MsqQuestionConstraintComponent } from '../question-types/question-constraint/msq-question-constraint.component';
+import { NumScaleQuestionConstraintComponent } from '../question-types/question-constraint/num-scale-question-constraint.component';
 import { RankRecipientsQuestionConstraintComponent }
   from '../question-types/question-constraint/rank-recipients-question-constraint.component';
+import { TextQuestionConstraintComponent } from '../question-types/question-constraint/text-question-constraint.component';
+import { ConstsumOptionsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/constsum-options-question-edit-answer-form.component';
+import { ConstsumRecipientsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/constsum-recipients-question-edit-answer-form.component';
+import { ContributionQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/contribution-question-edit-answer-form.component';
+import { McqQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/mcq-question-edit-answer-form.component';
+import { MsqQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/msq-question-edit-answer-form.component';
+import { NumScaleQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/num-scale-question-edit-answer-form.component';
+import { RankOptionsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rank-options-question-edit-answer-form.component';
+import { RankRecipientsQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rank-recipients-question-edit-answer-form.component';
+import { RubricQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/rubric-question-edit-answer-form.component';
+import { TextQuestionEditAnswerFormComponent } from '../question-types/question-edit-answer-form/text-question-edit-answer-form.component';
+import { ConstsumOptionsQuestionInstructionComponent } from '../question-types/question-instruction/constsum-options-question-instruction.component';
+import { ConstsumRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/constsum-recipients-question-instruction.component';
+import { ContributionQuestionInstructionComponent } from '../question-types/question-instruction/contribution-question-instruction.component';
+import { NumScaleQuestionInstructionComponent } from '../question-types/question-instruction/num-scale-question-instruction.component';
+import { RankOptionsQuestionInstructionComponent } from '../question-types/question-instruction/rank-options-question-instruction.component';
+import { RankRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/rank-recipients-question-instruction.component';
+import { TextQuestionInstructionComponent } from '../question-types/question-instruction/text-question-instruction.component';
 import { collapseAnim } from '../teammates-common/collapse-anim';
+import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
+import { SafeHtmlPipe } from '../teammates-common/safe-html.pipe';
+import { VisibilityCapabilityPipe } from '../visibility-messages/visibility-capability.pipe';
+import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
 
 /**
  * The question submission form for a question.
@@ -45,12 +78,52 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
   templateUrl: './question-submission-form.component.html',
   styleUrls: ['./question-submission-form.component.scss'],
   animations: [collapseAnim],
+  imports: [
+    NgClass,
+    PanelChevronComponent,
+    NgIf,
+    LoadingSpinnerDirective,
+    NgFor,
+    ContributionQuestionInstructionComponent,
+    TextQuestionInstructionComponent,
+    NumScaleQuestionInstructionComponent,
+    TextQuestionConstraintComponent,
+    NumScaleQuestionConstraintComponent,
+    RankOptionsQuestionInstructionComponent,
+    MsqQuestionConstraintComponent,
+    RankRecipientsQuestionInstructionComponent,
+    ConstsumOptionsQuestionInstructionComponent,
+    ConstsumRecipientsQuestionInstructionComponent,
+    NgbTooltip,
+    FormsModule,
+    ContributionQuestionEditAnswerFormComponent,
+    TextQuestionEditAnswerFormComponent,
+    RankOptionsQuestionEditAnswerFormComponent,
+    RankRecipientsQuestionEditAnswerFormComponent,
+    NumScaleQuestionEditAnswerFormComponent,
+    McqQuestionEditAnswerFormComponent,
+    MsqQuestionEditAnswerFormComponent,
+    RubricQuestionEditAnswerFormComponent,
+    ConstsumOptionsQuestionEditAnswerFormComponent,
+    ConstsumRecipientsQuestionEditAnswerFormComponent,
+    CommentRowComponent,
+    ContributionQuestionConstraintComponent,
+    RankRecipientsQuestionConstraintComponent,
+    ConstsumRecipientsQuestionConstraintComponent,
+    AjaxLoadingComponent,
+    EnumToArrayPipe,
+    SafeHtmlPipe,
+    VisibilityEntityNamePipe,
+    VisibilityCapabilityPipe,
+    RecipientTypeNamePipe,
+  ],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {
+  readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
+  readonly ResponseDetailsTypeChecker = ResponseDetailsTypeChecker;
 
   // enum
   QuestionSubmissionFormMode: typeof QuestionSubmissionFormMode = QuestionSubmissionFormMode;
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
   FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
@@ -93,6 +166,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
+    this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
   }
 
   @Input()
@@ -117,6 +191,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   @Output()
   responsesSave: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
+
+  @Output()
+  autoSave: EventEmitter<{ id: string, model: QuestionSubmissionFormModel }> = new EventEmitter();
+
+  @Output()
+  resetFeedback: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter<QuestionSubmissionFormModel>();
 
   @ViewChild(ContributionQuestionConstraintComponent)
   private contributionQuestionConstraint!: ContributionQuestionConstraintComponent;
@@ -167,6 +247,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   visibilityStateMachine: VisibilityStateMachine;
   isEveryRecipientSorted: boolean = false;
+
+  autosaveTimeout: any;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
     private feedbackResponseService: FeedbackResponsesService) {
@@ -219,6 +301,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         this.isSaved = false;
       }
     });
+  }
+
+  resetForm(): void {
+    this.resetFeedback.emit(this.model);
+    this.isSaved = true;
+    this.hasResponseChanged = false;
+    clearTimeout(this.autosaveTimeout);
   }
 
   toggleQuestionTab(): void {
@@ -350,7 +439,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
     if (!this.isFormsDisabled) {
-      this.hasResponseChanged = true;
       this.isSubmitAllClickedChange.emit(false);
       this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
 
@@ -362,6 +450,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
       this.updateIsValidByQuestionConstraint();
       this.formModelChange.emit(this.model);
+
+      this.autoSave.emit({ id: this.model.feedbackQuestionId, model: this.model });
+      clearTimeout(this.autosaveTimeout);
+      this.autosaveTimeout = setTimeout(() => {
+        this.hasResponseChanged = true;
+      }, 100); // 0.1 second to prevent people from trying to immediately reset before autosave kicks in
     }
   }
 
@@ -451,6 +545,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers saving of responses for the specific question.
    */
   saveFeedbackResponses(): void {
+    clearTimeout(this.autosaveTimeout);
     this.isSaved = true;
     this.hasResponseChanged = false;
     this.model.hasResponseChangedForRecipients.forEach(

@@ -17,7 +17,7 @@ import teammates.storage.sqlentity.Section;
 @Entity
 public class FeedbackTextResponse extends FeedbackResponse {
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = FeedbackTextResponseDetailsConverter.class)
     private FeedbackTextResponseDetails answer;
 
@@ -50,7 +50,7 @@ public class FeedbackTextResponse extends FeedbackResponse {
     @Override
     public String toString() {
         return "FeedbackTextResponse [id=" + super.getId()
-            + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
+                + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
 
     /**

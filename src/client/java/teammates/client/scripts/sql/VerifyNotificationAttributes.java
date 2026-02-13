@@ -7,7 +7,6 @@ import teammates.storage.entity.Notification;
 /**
  * Class for verifying notification attributes.
  */
-@SuppressWarnings("PMD")
 public class VerifyNotificationAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Notification, teammates.storage.sqlentity.Notification> {
 
@@ -37,8 +36,8 @@ public class VerifyNotificationAttributes
             return sqlEntity.getId().equals(otherUuid)
                     && sqlEntity.getStartTime().equals(datastoreEntity.getStartTime())
                     && sqlEntity.getEndTime().equals(datastoreEntity.getEndTime())
-                    && sqlEntity.getStyle().equals(datastoreEntity.getStyle())
-                    && sqlEntity.getTargetUser().equals(datastoreEntity.getTargetUser())
+                    && sqlEntity.getStyle() == datastoreEntity.getStyle()
+                    && sqlEntity.getTargetUser() == datastoreEntity.getTargetUser()
                     && sqlEntity.getTitle().equals(datastoreEntity.getTitle())
                     && sqlEntity.getMessage().equals(datastoreEntity.getMessage())
                     && matchingCreatedAtTimestamp

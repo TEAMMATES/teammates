@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CourseService } from './course.service';
@@ -36,10 +37,12 @@ describe('StudentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
+      providers: [
+        HttpRequestService,
+        CourseService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
-      providers: [HttpRequestService, CourseService],
     });
     service = TestBed.inject(StudentService);
     spyHttpRequestService = TestBed.inject(HttpRequestService);

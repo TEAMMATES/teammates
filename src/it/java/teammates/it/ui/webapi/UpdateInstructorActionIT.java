@@ -103,9 +103,8 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
                 instructorToEdit.getEmail(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 null, false);
 
-        InvalidOperationException ioe = verifyInvalidOperation(reqBody, new String[] {
-                Const.ParamsNames.COURSE_ID, instructorToEdit.getCourseId(),
-        });
+        InvalidOperationException ioe = verifyInvalidOperation(reqBody,
+                Const.ParamsNames.COURSE_ID, instructorToEdit.getCourseId());
 
         assertEquals("At least one instructor must be displayed to students", ioe.getMessage());
 

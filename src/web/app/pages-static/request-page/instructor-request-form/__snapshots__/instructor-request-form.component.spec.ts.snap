@@ -8,6 +8,7 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
   STUDENT_NAME_MAX_LENGTH={[Function Number]}
   accountService={[Function Object]}
   arf={[Function FormGroup]}
+  captchaResponse="undefined"
   captchaSiteKey=""
   comments={[Function FormControl2]}
   country={[Function FormControl2]}
@@ -189,7 +190,17 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
       />
     </div>
     <br />
+    <a
+      aria-label="Cancel button"
+      class="btn btn-danger me-3"
+      href="/web/front/home"
+      tmrouterlink="/web/front/home"
+      type="button"
+    >
+       Cancel 
+    </a>
     <button
+      aria-label="Submit form"
       class="btn btn-primary"
       id="submit-button"
       type="submit"

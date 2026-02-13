@@ -22,6 +22,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
+import teammates.common.util.Const;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
@@ -364,6 +365,21 @@ public class Logic {
     }
 
     /**
+     * Creates a course and an associated instructor for the course.
+     *
+     * <br/>Preconditions: <br/>
+     * * {@code instructorGoogleId} already has an account and instructor privileges.
+     * @param instructorGoogleId the Google ID of the instructor creating the course.
+     * @param course the course to create.
+     * @throws InvalidParametersException if the course is not valid.
+     * @throws EntityAlreadyExistsException if the course already exists.
+     */
+    public void createCourseAndInstructor(String instructorGoogleId, Course course)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        coursesLogic.createCourseAndInstructor(instructorGoogleId, course);
+    }
+
+    /**
      * Deletes a course by course id.
      * @param courseId of course.
      */
@@ -503,10 +519,10 @@ public class Logic {
 
     /**
      * Gets a list of deadline extensions with endTime coming up soon
-     * and possibly need a closing email to be sent.
+     * and possibly need a closing soon email to be sent.
      */
-    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingEmail() {
-        return deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingEmail();
+    public List<DeadlineExtension> getDeadlineExtensionsPossiblyNeedingClosingSoonEmail() {
+        return deadlineExtensionsLogic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
     }
 
     /**
@@ -736,7 +752,7 @@ public class Logic {
     /**
      * Gets the expected number of submissions for a feedback session.
      *
-     * <br>Preconditions: <br>
+     * <br>Preconditions: <br/>
      * * All parameters are non-null.
      */
     public int getExpectedTotalSubmission(FeedbackSession fs) {
@@ -747,7 +763,7 @@ public class Logic {
     /**
      * Gets the actual number of submissions for a feedback session.
      *
-     * <br>Preconditions: <br>
+     * <br>Preconditions: <br/>
      * * All parameters are non-null.
      */
     public int getActualTotalSubmission(FeedbackSession fs) {
@@ -1090,6 +1106,14 @@ public class Logic {
     }
 
     /**
+     * Returns the default SQL section.
+     * If it does not exist, create and return it.
+     */
+    public Section getDefaultSectionOrCreate(String courseId) {
+        return getSectionOrCreate(courseId, Const.DEFAULT_SECTION);
+    }
+
+    /**
      * Gets a team by associated {@code courseId} and {@code sectionName}.
      */
     public Section getSectionOrCreate(String courseId, String sectionName) {
@@ -1160,7 +1184,7 @@ public class Logic {
     /**
      * Deletes all the students in the course cascade their associated responses, deadline extensions and comments.
      *
-     * <br/>Preconditions: <br>
+     * <br/>Preconditions: <br/>
      * Parameter is non-null.
      */
     public void deleteStudentsInCourseCascade(String courseId) {
@@ -1472,6 +1496,13 @@ public class Logic {
     }
 
     /**
+     * Gets a list of students with the specified email.
+     */
+    public List<Student> getAllStudentsForEmail(String email) {
+        return usersLogic.getAllStudentsForEmail(email);
+    }
+
+    /**
      * Gets a feedbackResponse or null if it does not exist.
      */
     public FeedbackResponse getFeedbackResponse(UUID frId) {
@@ -1671,8 +1702,8 @@ public class Logic {
     /**
      * Returns a list of feedback sessions that need an "Open" email to be sent.
      */
-    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
-        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
+    public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenedEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
     }
 
     /**
@@ -1722,6 +1753,13 @@ public class Logic {
      */
     public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs) {
         feedbackSessionLogsLogic.createFeedbackSessionLogs(feedbackSessionLogs);
+    }
+
+    /**
+     * Create feedback session log.
+     */
+    public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) {
+        feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSessionLog);
     }
 
     /**

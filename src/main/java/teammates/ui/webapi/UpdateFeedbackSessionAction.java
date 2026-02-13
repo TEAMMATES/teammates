@@ -95,14 +95,14 @@ public class UpdateFeedbackSessionAction extends Action {
             Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
             boolean hasInvalidStudentEmails = !oldStudentDeadlines.keySet()
                     .containsAll(studentDeadlines.keySet())
-                    && sqlLogic.verifyStudentsExistInCourse(courseId, new ArrayList<>(studentDeadlines.keySet()));
+                    && !sqlLogic.verifyStudentsExistInCourse(courseId, new ArrayList<>(studentDeadlines.keySet()));
             if (hasInvalidStudentEmails) {
                 throw new EntityNotFoundException("There are students which do not exist in the course.");
             }
             Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
             boolean hasInvalidInstructorEmails = !oldInstructorDeadlines.keySet()
                     .containsAll(instructorDeadlines.keySet())
-                    && sqlLogic.verifyInstructorsExistInCourse(courseId, new ArrayList<>(instructorDeadlines.keySet()));
+                    && !sqlLogic.verifyInstructorsExistInCourse(courseId, new ArrayList<>(instructorDeadlines.keySet()));
             if (hasInvalidInstructorEmails) {
                 throw new EntityNotFoundException("There are instructors which do not exist in the course.");
             }
@@ -153,7 +153,7 @@ public class UpdateFeedbackSessionAction extends Action {
             feedbackSession.setGracePeriod(updateRequest.getGracePeriod());
             feedbackSession.setSessionVisibleFromTime(sessionVisibleTime);
             feedbackSession.setResultsVisibleFromTime(resultsVisibleTime);
-            feedbackSession.setClosingEmailEnabled(updateRequest.isClosingEmailEnabled());
+            feedbackSession.setClosingSoonEmailEnabled(updateRequest.isClosingSoonEmailEnabled());
             feedbackSession.setPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled());
             feedbackSession.setDeadlineExtensions(prevDeadlineExtensions);
             try {
@@ -252,7 +252,7 @@ public class UpdateFeedbackSessionAction extends Action {
                                 .withGracePeriod(updateRequest.getGracePeriod())
                                 .withSessionVisibleFromTime(sessionVisibleTime)
                                 .withResultsVisibleFromTime(resultsVisibleTime)
-                                .withIsClosingEmailEnabled(updateRequest.isClosingEmailEnabled())
+                                .withIsClosingSoonEmailEnabled(updateRequest.isClosingSoonEmailEnabled())
                                 .withIsPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled())
                                 .withStudentDeadlines(studentDeadlines)
                                 .withInstructorDeadlines(instructorDeadlines)

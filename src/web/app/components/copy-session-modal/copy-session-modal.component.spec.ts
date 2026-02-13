@@ -1,6 +1,5 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CopySessionModalComponent } from './copy-session-modal.component';
@@ -20,15 +19,10 @@ describe('CopySessionModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CopySessionModalComponent],
-      imports: [
-        FormsModule,
-      ],
       providers: [
         NgbActiveModal,
       ],
-    })
-        .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -58,7 +52,7 @@ describe('CopySessionModalComponent', () => {
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 1554967204,
     studentDeadlines: {},

@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import SpyInstance = jest.SpyInstance;
@@ -8,7 +9,6 @@ import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import { Hours, Milliseconds } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { InstructorSessionIndividualExtensionPageModule } from '../instructor-session-individual-extension-page.module';
 
 describe('IndividualExtensionDateModalComponent', () => {
   const testTimeString = 'Sat, 5 Apr 2000 2:00 +08';
@@ -23,8 +23,11 @@ describe('IndividualExtensionDateModalComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, InstructorSessionIndividualExtensionPageModule],
-        providers: [NgbActiveModal],
+        providers: [
+          NgbActiveModal,
+          provideHttpClient(),
+          provideHttpClientTesting(),
+        ],
       }).compileComponents();
     }),
   );

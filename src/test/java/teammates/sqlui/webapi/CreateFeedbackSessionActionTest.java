@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.time.Duration;
 import java.time.Instant;
 
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -15,6 +16,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -73,62 +75,65 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
     @Test
     protected void testExecute_createFeedbackSession_success()
             throws InvalidParametersException, EntityAlreadyExistsException {
-        loginAsInstructor(instructor.getGoogleId());
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-        };
+        try (MockedStatic<HibernateUtil> mockedHibernate = Mockito.mockStatic(HibernateUtil.class)) {
+            loginAsInstructor(instructor.getGoogleId());
+            String[] params = {
+                    Const.ParamsNames.COURSE_ID, course.getId(),
+            };
 
-        FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest();
+            FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest();
 
-        CreateFeedbackSessionAction a = getAction(createRequest, params);
-        JsonResult r = getJsonResult(a);
+            CreateFeedbackSessionAction a = getAction(createRequest, params);
+            JsonResult r = getJsonResult(a);
 
-        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+            FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        FeedbackSession createdFeedbackSession = feedbackSession;
+            FeedbackSession createdFeedbackSession = feedbackSession;
 
-        Mockito.verify(mockLogic, times(1)).createFeedbackSession(isA(FeedbackSession.class));
+            Mockito.verify(mockLogic, times(1)).createFeedbackSession(isA(FeedbackSession.class));
+            mockedHibernate.verify(HibernateUtil::flushSession, times(1));
 
-        assertEquals(createdFeedbackSession.getCourse().getId(), response.getCourseId());
-        assertEquals(createdFeedbackSession.getCourse().getTimeZone(), response.getTimeZone());
-        assertEquals(createdFeedbackSession.getName(), response.getFeedbackSessionName());
+            assertEquals(createdFeedbackSession.getCourse().getId(), response.getCourseId());
+            assertEquals(createdFeedbackSession.getCourse().getTimeZone(), response.getTimeZone());
+            assertEquals(createdFeedbackSession.getName(), response.getFeedbackSessionName());
 
-        assertEquals(createdFeedbackSession.getInstructions(), response.getInstructions());
+            assertEquals(createdFeedbackSession.getInstructions(), response.getInstructions());
 
-        assertEquals(createdFeedbackSession.getStartTime().toEpochMilli(), response.getSubmissionStartTimestamp());
-        assertEquals(createdFeedbackSession.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
-        assertEquals(createdFeedbackSession.getGracePeriod().toMinutes(), response.getGracePeriod().longValue());
+            assertEquals(createdFeedbackSession.getStartTime().toEpochMilli(), response.getSubmissionStartTimestamp());
+            assertEquals(createdFeedbackSession.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
+            assertEquals(createdFeedbackSession.getGracePeriod().toMinutes(), response.getGracePeriod().longValue());
 
-        assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
-        assertEquals(createdFeedbackSession.getSessionVisibleFromTime().toEpochMilli(),
-                response.getCustomSessionVisibleTimestamp().longValue());
-        assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
-        assertEquals(createdFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
-                response.getCustomResponseVisibleTimestamp().longValue());
+            assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+            assertEquals(createdFeedbackSession.getSessionVisibleFromTime().toEpochMilli(),
+                    response.getCustomSessionVisibleTimestamp().longValue());
+            assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+            assertEquals(createdFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
+                    response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertEquals(createdFeedbackSession.isClosingEmailEnabled(), response.getIsClosingEmailEnabled());
-        assertEquals(createdFeedbackSession.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
+            assertEquals(createdFeedbackSession.isClosingSoonEmailEnabled(), response.getIsClosingSoonEmailEnabled());
+            assertEquals(createdFeedbackSession.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
 
-        assertEquals(createdFeedbackSession.getCreatedAt().toEpochMilli(), response.getCreatedAtTimestamp());
-        assertNull(createdFeedbackSession.getDeletedAt());
+            assertEquals(createdFeedbackSession.getCreatedAt().toEpochMilli(), response.getCreatedAtTimestamp());
+            assertNull(createdFeedbackSession.getDeletedAt());
 
-        assertEquals(createdFeedbackSession.getName(), response.getFeedbackSessionName());
-        assertEquals(createdFeedbackSession.getInstructions(), response.getInstructions());
-        assertEquals(nearestHour.toEpochMilli(), response.getSubmissionStartTimestamp());
-        assertEquals(endHour.toEpochMilli(), response.getSubmissionEndTimestamp());
-        assertEquals(createdFeedbackSession.getGracePeriod().toMinutes(), response.getGracePeriod().longValue());
+            assertEquals(createdFeedbackSession.getName(), response.getFeedbackSessionName());
+            assertEquals(createdFeedbackSession.getInstructions(), response.getInstructions());
+            assertEquals(nearestHour.toEpochMilli(), response.getSubmissionStartTimestamp());
+            assertEquals(endHour.toEpochMilli(), response.getSubmissionEndTimestamp());
+            assertEquals(createdFeedbackSession.getGracePeriod().toMinutes(), response.getGracePeriod().longValue());
 
-        assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
-        assertEquals(nearestHour.toEpochMilli(), response.getCustomSessionVisibleTimestamp().longValue());
+            assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+            assertEquals(nearestHour.toEpochMilli(), response.getCustomSessionVisibleTimestamp().longValue());
 
-        assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
-        assertEquals(responseVisibleHour.toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
+            assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+            assertEquals(responseVisibleHour.toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
 
-        assertFalse(response.getIsClosingEmailEnabled());
-        assertFalse(response.getIsPublishedEmailEnabled());
+            assertFalse(response.getIsClosingSoonEmailEnabled());
+            assertFalse(response.getIsPublishedEmailEnabled());
 
-        assertNotNull(response.getCreatedAtTimestamp());
-        assertNull(response.getDeletedAtTimestamp());
+            assertNotNull(response.getCreatedAtTimestamp());
+            assertNull(response.getDeletedAtTimestamp());
+        }
     }
 
     private FeedbackSessionCreateRequest getTypicalCreateRequest() {
@@ -148,7 +153,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         createRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
         createRequest.setCustomResponseVisibleTimestamp(feedbackSession.getResultsVisibleFromTime().toEpochMilli());
 
-        createRequest.setClosingEmailEnabled(feedbackSession.isClosingEmailEnabled());
+        createRequest.setClosingSoonEmailEnabled(feedbackSession.isClosingSoonEmailEnabled());
         createRequest.setPublishedEmailEnabled(feedbackSession.isPublishedEmailEnabled());
 
         return createRequest;

@@ -1,12 +1,18 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { NgIf, NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { MsqFieldComponent } from './msq-field/msq-field.component';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
+import { WeightFieldComponent } from './weight-field/weight-field.component';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
 } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
+import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pipe';
 
 /**
  * Question details edit form component for Msq question.
@@ -15,11 +21,23 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
   selector: 'tm-msq-question-edit-details-form',
   templateUrl: './msq-question-edit-details-form.component.html',
   styleUrls: ['./msq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
+  imports: [
+    NgIf,
+    NgbTooltip,
+    FormsModule,
+    CdkDropList,
+    NgFor,
+    CdkDrag,
+    CdkDragHandle,
+    MsqFieldComponent,
+    WeightFieldComponent,
+    GeneratedChoicePipe,
+  ],
 })
 export class MsqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMsqQuestionDetails> {
 
-  readonly PARTICIPANT_TYPES: string[] = [
+  readonly PARTICIPANT_TYPES = [
     FeedbackParticipantType.STUDENTS,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
     FeedbackParticipantType.TEAMS,

@@ -301,25 +301,28 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
         Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
 
-        // unless specified by fetchType, do not filter by giver/recipient section
-        Predicate giverSectionFilter = cb.isTrue(cb.literal(true));
-        Predicate recipientSectionFilter = cb.isTrue(cb.literal(true));
         Join<FeedbackResponse, Section> giverJoin = root.join("giverSection");
         Join<FeedbackResponse, Section> recipientJoin = root.join("recipientSection");
 
-        if (fetchType.shouldFetchByGiver()) {
-            giverSectionFilter = cb.equal(giverJoin.get("name"), sectionName);
-        }
-        if (fetchType.shouldFetchByReceiver()) {
-            recipientSectionFilter = cb.equal(recipientJoin.get("name"), sectionName);
+        Predicate sectionFilter;
+        if (fetchType.shouldFetchByGiver() && fetchType.shouldFetchByReceiver()) {
+            sectionFilter = cb.or(
+                cb.equal(giverJoin.get("name"), sectionName),
+                cb.equal(recipientJoin.get("name"), sectionName)
+            );
+        } else if (fetchType.shouldFetchByGiver()) {
+            sectionFilter = cb.equal(giverJoin.get("name"), sectionName);
+        } else if (fetchType.shouldFetchByReceiver()) {
+            sectionFilter = cb.equal(recipientJoin.get("name"), sectionName);
+        } else {
+            sectionFilter = cb.conjunction();
         }
 
         cq.select(root)
                 .where(cb.and(
                     cb.equal(fsJoin.get("id"), feedbackSession.getId()),
                     cb.equal(cJoin.get("id"), courseId),
-                    giverSectionFilter,
-                    recipientSectionFilter
+                    sectionFilter
                     ));
 
         return HibernateUtil.createQuery(cq).getResultList();
@@ -339,25 +342,28 @@ public final class FeedbackResponsesDb extends EntitiesDb {
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
 
-        // unless specified by fetchType, do not filter by giver/recipient section
-        Predicate giverSectionFilter = cb.isTrue(cb.literal(true));
-        Predicate recipientSectionFilter = cb.isTrue(cb.literal(true));
         Join<FeedbackResponse, Section> giverJoin = root.join("giverSection");
         Join<FeedbackResponse, Section> recipientJoin = root.join("recipientSection");
 
-        if (fetchType.shouldFetchByGiver()) {
-            giverSectionFilter = cb.equal(giverJoin.get("name"), sectionName);
-        }
-        if (fetchType.shouldFetchByReceiver()) {
-            recipientSectionFilter = cb.equal(recipientJoin.get("name"), sectionName);
+        Predicate sectionFilter;
+        if (fetchType.shouldFetchByGiver() && fetchType.shouldFetchByReceiver()) {
+            sectionFilter = cb.or(
+                cb.equal(giverJoin.get("name"), sectionName),
+                cb.equal(recipientJoin.get("name"), sectionName)
+            );
+        } else if (fetchType.shouldFetchByGiver()) {
+            sectionFilter = cb.equal(giverJoin.get("name"), sectionName);
+        } else if (fetchType.shouldFetchByReceiver()) {
+            sectionFilter = cb.equal(recipientJoin.get("name"), sectionName);
+        } else {
+            sectionFilter = cb.conjunction();
         }
 
         cq.select(root)
                 .where(cb.and(
                     cb.equal(fqJoin.get("id"), questionId),
-                    giverSectionFilter,
-                    recipientSectionFilter
-                    ));
+                    sectionFilter
+                ));
 
         return HibernateUtil.createQuery(cq).getResultList();
     }

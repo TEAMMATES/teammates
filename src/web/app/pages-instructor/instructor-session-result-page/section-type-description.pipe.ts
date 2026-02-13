@@ -4,9 +4,7 @@ import { InstructorSessionResultSectionType } from './instructor-session-result-
 /**
  * Pipe to transform {@link InstructorSessionResultSectionType} to a description.
  */
-@Pipe({
-  name: 'sectionTypeDescription',
-})
+@Pipe({ name: 'sectionTypeDescription' })
 export class SectionTypeDescriptionPipe implements PipeTransform {
 
   /**

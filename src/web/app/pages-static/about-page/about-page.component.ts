@@ -1,5 +1,7 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { default as developers } from '../../../data/developers.json';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 
 /**
  * About page.
@@ -8,6 +10,11 @@ import { default as developers } from '../../../data/developers.json';
   selector: 'tm-about-page',
   templateUrl: './about-page.component.html',
   styleUrls: ['./about-page.component.scss'],
+  imports: [
+    NgFor,
+    NgIf,
+    TeammatesRouterDirective,
+  ],
 })
 export class AboutPageComponent implements OnInit {
 

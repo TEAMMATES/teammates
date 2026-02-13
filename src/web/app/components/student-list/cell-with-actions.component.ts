@@ -4,21 +4,19 @@ import {
   NgbDropdownModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { InstructorPermissionSet } from 'src/web/types/api-request';
-import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
-import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
+import { InstructorPermissionSet } from '../../../types/api-request';
+
+import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 
 @Component({
-  selector: 'tm-group-buttons',
-  templateUrl: './cell-with-actions.component.html',
-  standalone: true,
-  imports: [
-    CommonModule,
-    TeammatesRouterModule,
-    AjaxLoadingModule,
-    NgbDropdownModule,
-    NgbTooltipModule,
-  ],
+    selector: 'tm-group-buttons',
+    templateUrl: './cell-with-actions.component.html',
+    imports: [
+      CommonModule,
+      TeammatesRouterDirective,
+      NgbDropdownModule,
+      NgbTooltipModule,
+    ],
 })
 
 export class CellWithActionsComponent {

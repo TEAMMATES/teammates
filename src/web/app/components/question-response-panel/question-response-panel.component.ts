@@ -1,4 +1,6 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
@@ -13,7 +15,12 @@ import {
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackQuestionModel } from '../../pages-session/session-result-page/session-result-page.component';
+import { FeedbackQuestionModel } from '../../pages-session/session-result-page/feedback-question.model';
+import { LoadingRetryComponent } from '../loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
+import { SingleStatisticsComponent } from '../question-responses/single-statistics/single-statistics.component';
+import { StudentViewResponsesComponent } from '../question-responses/student-view-responses/student-view-responses.component';
+import { QuestionTextWithInfoComponent } from '../question-text-with-info/question-text-with-info.component';
 
 /**
  * Displaying the question response panel.
@@ -22,6 +29,17 @@ import { FeedbackQuestionModel } from '../../pages-session/session-result-page/s
   selector: 'tm-question-response-panel',
   templateUrl: './question-response-panel.component.html',
   styleUrls: ['./question-response-panel.component.scss'],
+  imports: [
+    NgFor,
+    DestroyableDirective,
+    InViewportDirective,
+    LoadingSpinnerDirective,
+    LoadingRetryComponent,
+    NgIf,
+    QuestionTextWithInfoComponent,
+    SingleStatisticsComponent,
+    StudentViewResponsesComponent,
+  ],
 })
 export class QuestionResponsePanelComponent {
 
@@ -48,7 +66,7 @@ export class QuestionResponsePanelComponent {
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},

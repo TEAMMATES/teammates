@@ -26,7 +26,7 @@ import teammates.storage.sqlsearch.AccountRequestSearchManager;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code AccountRequestDb}.
+ * SUT: {@link AccountRequestDb}.
  */
 public class AccountRequestsDbTest extends BaseTestCase {
 
@@ -105,6 +105,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
         AccountRequest accountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         doReturn(accountRequest).when(accountRequestDb).getAccountRequest(accountRequest.getId());
+        mockHibernateUtil.when(() -> HibernateUtil.merge(accountRequest)).thenReturn(accountRequest);
 
         accountRequestDb.updateAccountRequest(accountRequest);
 

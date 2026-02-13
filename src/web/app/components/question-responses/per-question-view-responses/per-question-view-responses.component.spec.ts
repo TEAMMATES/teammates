@@ -1,6 +1,6 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import {
   CommentOutput, FeedbackQuestion, FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails, ResponseOutput,
@@ -8,19 +8,13 @@ import {
 import SpyInstance = jest.SpyInstance;
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
+import testEventEmission from '../../../../test-helpers/test-event-emitter';
 import {
   CommentVisibilityType, FeedbackParticipantType, FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-request';
-import {
-  ResponseModerationButtonModule,
-} from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
-import { CommentBoxModule } from '../../comment-box/comment-box.module';
 import { CommentRowModel } from '../../comment-box/comment-row/comment-row.component';
-import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
-import { RichTextEditorModule } from '../../rich-text-editor/rich-text-editor.module';
-import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
-import { SingleResponseModule } from '../single-response/single-response.module';
+import { CommentTableModel } from '../../comment-box/comment-table/comment-table.model';
 
 describe('PerQuestionViewResponsesComponent', () => {
   let component: PerQuestionViewResponsesComponent;
@@ -30,15 +24,9 @@ describe('PerQuestionViewResponsesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PerQuestionViewResponsesComponent],
-      imports: [
-        SingleResponseModule,
-        CommentBoxModule,
-        TeammatesCommonModule,
-        HttpClientTestingModule,
-        RichTextEditorModule,
-        RouterModule,
-        ResponseModerationButtonModule,
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
       .compileComponents();
@@ -142,5 +130,53 @@ describe('PerQuestionViewResponsesComponent', () => {
     expect(feedbackResponseSpy).toHaveBeenCalledTimes(1);
     expect(JSON.stringify(component.responsesToShow[0]))
       .toBe(JSON.stringify(responseOutput));
+  });
+
+  it('triggerDeleteCommentEvent: should emit correct responseID and index to deleteCommentEvent', () => {
+    let emittedID: string | undefined;
+    let emittedIndex: number | undefined;
+    testEventEmission(component.deleteCommentEvent, (val) => { emittedID = val.responseId; emittedIndex = val.index; });
+
+    component.triggerDeleteCommentEvent('testID', 5);
+    expect(emittedID).toBe('testID');
+    expect(emittedIndex).toBe(5);
+  });
+
+  it('triggerUpdateCommentEvent: should emit correct responseID and index to updateCommentEvent', () => {
+    let emittedID: string | undefined;
+    let emittedIndex: number | undefined;
+    testEventEmission(component.updateCommentEvent, (val) => { emittedID = val.responseId; emittedIndex = val.index; });
+
+    component.triggerUpdateCommentEvent('testID2', 6);
+    expect(emittedID).toBe('testID2');
+    expect(emittedIndex).toBe(6);
+  });
+
+  it('triggerSaveNewCommentEvent: should emit correct responseID to saveNewCommentEvent', () => {
+    let emittedID: string | undefined;
+    testEventEmission(component.saveNewCommentEvent, (responseId) => { emittedID = responseId; });
+
+    component.triggerSaveNewCommentEvent('testID3');
+    expect(emittedID).toBe('testID3');
+  });
+
+  it('triggerModelChangeForSingleResponse: should emit correct Record to instructorCommentTableModelChange', () => {
+    let emittedRecord: Record<string, CommentTableModel> | undefined;
+    testEventEmission(component.instructorCommentTableModelChange, (record) => { emittedRecord = record; });
+
+    const testRecord: Record<string, CommentTableModel> = { responseId: commentTableModel };
+
+    component.triggerModelChangeForSingleResponse('responseId', commentTableModel);
+    expect(emittedRecord).toEqual(testRecord);
+  });
+
+  it('triggerModelChange: should emit correct instructorCommentTableModel Record to triggerModelChange', () => {
+    let emittedRecord: Record<string, CommentTableModel> | undefined;
+    testEventEmission(component.instructorCommentTableModelChange, (record) => { emittedRecord = record; });
+
+    const testRecord: Record<string, CommentTableModel> = {};
+
+    component.triggerModelChange(testRecord);
+    expect(emittedRecord).toEqual(testRecord);
   });
 });

@@ -353,6 +353,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
+    @SuppressWarnings("PMD.IdenticalConditionalBranches") // TODO find out why!
     private void checkAccessControlForPreview(FeedbackSessionAttributes feedbackSession, boolean isInstructor)
             throws UnauthorizedAccessException {
         gateKeeper.verifyLoggedInUserPrivileges(userInfo);
@@ -367,6 +368,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
+    @SuppressWarnings("PMD.IdenticalConditionalBranches") // TODO find out why!
     private void checkAccessControlForPreview(FeedbackSession feedbackSession, boolean isInstructor)
             throws UnauthorizedAccessException {
         gateKeeper.verifyLoggedInUserPrivileges(userInfo);
@@ -434,35 +436,35 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             switch (giverType) {
             case INSTRUCTORS:
             case SELF:
-                return Const.DEFAULT_SQL_SECTION;
+                return sqlLogic.getDefaultSectionOrCreate(courseId);
             case TEAMS:
             case TEAMS_IN_SAME_SECTION:
                 Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-                return section == null ? Const.DEFAULT_SQL_SECTION : section;
+                return section == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : section;
             case STUDENTS:
             case STUDENTS_IN_SAME_SECTION:
                 Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-                return student == null ? Const.DEFAULT_SQL_SECTION : student.getSection();
+                return student == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : student.getSection();
             default:
                 assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
                 return null;
             }
         case INSTRUCTORS:
         case NONE:
-            return Const.DEFAULT_SQL_SECTION;
+            return sqlLogic.getDefaultSectionOrCreate(courseId);
         case TEAMS:
         case TEAMS_EXCLUDING_SELF:
         case TEAMS_IN_SAME_SECTION:
         case OWN_TEAM:
             Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-            return section == null ? Const.DEFAULT_SQL_SECTION : section;
+            return section == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : section;
         case STUDENTS:
         case STUDENTS_EXCLUDING_SELF:
         case STUDENTS_IN_SAME_SECTION:
         case OWN_TEAM_MEMBERS:
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-            return student == null ? Const.DEFAULT_SQL_SECTION : student.getSection();
+            return student == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : student.getSection();
         default:
             assert false : "Unknown recipient type " + recipientType;
             return null;

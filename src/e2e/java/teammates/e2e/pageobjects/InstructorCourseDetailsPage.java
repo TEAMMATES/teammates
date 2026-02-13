@@ -15,9 +15,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.e2e.util.TestProperties;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
 import teammates.test.ThreadHelper;
 
 /**
@@ -65,22 +62,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         assertEquals(getExpectedInstructorString(instructors), instructorsField.getText());
     }
 
-    public void verifyCourseDetails(Course course, List<Instructor> instructors, int numSections, int numTeams,
-            int numStudents) {
-        assertEquals(course.getId(), courseIdField.getText());
-        assertEquals(course.getName(), courseNameField.getText());
-        assertEquals(course.getInstitute(), courseInstituteField.getText());
-        assertEquals(Integer.toString(numSections), numSectionsField.getText());
-        assertEquals(Integer.toString(numTeams), numTeamsField.getText());
-        assertEquals(Integer.toString(numStudents), numStudentsField.getText());
-        assertEquals(getExpectedInstructorsString(instructors), instructorsField.getText());
-    }
-
     public void verifyStudentDetails(StudentAttributes[] students) {
-        verifyTableBodyValues(getStudentList(), getExpectedStudentValues(students));
-    }
-
-    public void verifyStudentDetails(List<Student> students) {
         verifyTableBodyValues(getStudentList(), getExpectedStudentValues(students));
     }
 
@@ -124,13 +106,6 @@ public class InstructorCourseDetailsPage extends AppPage {
                 .collect(Collectors.joining(TestProperties.LINE_SEPARATOR));
     }
 
-    private String getExpectedInstructorsString(List<Instructor> instructors) {
-        return instructors.stream()
-                .map(instructor -> instructor.getRole().getRoleName() + ": "
-                        + instructor.getName() + " (" + instructor.getEmail() + ")")
-                .collect(Collectors.joining(TestProperties.LINE_SEPARATOR));
-    }
-
     private WebElement getStudentList() {
         return browser.driver.findElement(By.cssSelector("#student-list table"));
     }
@@ -143,24 +118,6 @@ public class InstructorCourseDetailsPage extends AppPage {
             expected[i][1] = student.getTeam();
             expected[i][2] = student.getName();
             expected[i][3] = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
-            expected[i][4] = student.getEmail();
-        }
-        return expected;
-    }
-
-    private String[][] getExpectedStudentValues(List<Student> students) {
-        String[][] expected = new String[students.size()][5];
-        for (int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-            expected[i][0] = student.getSectionName();
-            expected[i][1] = student.getTeamName();
-            expected[i][2] = student.getName();
-            String googleId = student.getGoogleId();
-            if (googleId == null || googleId.isEmpty()) {
-                expected[i][3] = "Yet to Join";
-            } else {
-                expected[i][3] = "Joined";
-            }
             expected[i][4] = student.getEmail();
         }
         return expected;

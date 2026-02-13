@@ -124,8 +124,8 @@ public abstract class DataMigrationEntitiesBaseScriptSql<
      * affected.
      *
      * @see <a href=
-     *      "https://cloud.google.com/datastore/docs/concepts/cloud-datastore-transactions#what_can_be_done_in_a_transaction">What
-     *      can be done in a transaction</a>
+     *          "https://cloud.google.com/datastore/docs/concepts/cloud-datastore-transactions#what_can_be_done_in_a_transaction">What
+     *          can be done in a transaction</a>
      */
     protected boolean shouldUseTransaction() {
         return false;

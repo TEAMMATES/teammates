@@ -23,7 +23,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code FeedbackSessionsDb}.
+ * SUT: {@link FeedbackSessionsDb}.
  */
 
 public class FeedbackSessionsDbTest extends BaseTestCase {
@@ -106,6 +106,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     public void testUpdateFeedbackSession_success() throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(any(UUID.class));
+        mockHibernateUtil.when(() -> HibernateUtil.merge(feedbackSession)).thenReturn(feedbackSession);
 
         feedbackSessionsDb.updateFeedbackSession(feedbackSession);
 
@@ -189,6 +190,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
         String courseId = feedbackSession.getCourse().getId();
         feedbackSession.setDeletedAt(TimeHelperExtension.getInstantDaysOffsetFromNow(2));
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
+        mockHibernateUtil.when(() -> HibernateUtil.merge(feedbackSession)).thenReturn(feedbackSession);
 
         feedbackSessionsDb.restoreDeletedFeedbackSession(sessionName, courseId);
 
@@ -215,6 +217,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
         String sessionName = feedbackSession.getName();
         String courseId = feedbackSession.getCourse().getId();
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
+        mockHibernateUtil.when(() -> HibernateUtil.merge(feedbackSession)).thenReturn(feedbackSession);
 
         feedbackSessionsDb.softDeleteFeedbackSession(sessionName, courseId);
 

@@ -128,7 +128,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
             FeedbackQuestionsData response = new FeedbackQuestionsData(questions);
             response.normalizeQuestionNumber();
-            if (intent.equals(Intent.STUDENT_SUBMISSION) || intent.equals(Intent.STUDENT_RESULT)) {
+            if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
                 for (FeedbackQuestionData questionData : response.getQuestions()) {
                     questionData.hideInformationForStudent();
                 }
@@ -171,7 +171,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         FeedbackQuestionsData response = FeedbackQuestionsData.makeFeedbackQuestionsData(questions);
         response.normalizeQuestionNumber();
-        if (intent.equals(Intent.STUDENT_SUBMISSION) || intent.equals(Intent.STUDENT_RESULT)) {
+        if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
             for (FeedbackQuestionData questionData : response.getQuestions()) {
                 questionData.hideInformationForStudent();
             }

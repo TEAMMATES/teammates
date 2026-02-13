@@ -21,7 +21,7 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code FeedbackResponseCommentsDb}.
+ * SUT: {@link FeedbackResponseCommentsDb}.
  */
 
 public class FeedbackResponseCommentsDbTest extends BaseTestCase {
@@ -126,6 +126,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
         comment.setCommentText("Placeholder Text");
 
         doReturn(comment).when(feedbackResponseCommentsDb).getFeedbackResponseComment(anyLong());
+        mockHibernateUtil.when(() -> HibernateUtil.merge(comment)).thenReturn(comment);
         feedbackResponseCommentsDb.updateFeedbackResponseComment(comment);
 
         mockHibernateUtil.verify(() -> HibernateUtil.merge(comment));

@@ -24,7 +24,7 @@ import teammates.storage.sqlentity.Team;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@code UsersDb}.
+ * SUT: {@link UsersDb}.
  */
 public class UsersDbTest extends BaseTestCase {
 
@@ -144,6 +144,7 @@ public class UsersDbTest extends BaseTestCase {
         Student existingStudent = getTypicalStudent();
 
         doReturn(existingStudent).when(usersDb).getStudent(any());
+        mockHibernateUtil.when(() -> HibernateUtil.merge(existingStudent)).thenReturn(existingStudent);
 
         usersDb.updateStudent(existingStudent);
 

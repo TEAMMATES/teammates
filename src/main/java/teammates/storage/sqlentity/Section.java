@@ -28,7 +28,7 @@ import teammates.common.util.SanitizationHelper;
  */
 @Entity
 @Table(name = "Sections", uniqueConstraints = {
-    @UniqueConstraint(name = "Unique section name per course", columnNames = { "name", "courseId" }),
+        @UniqueConstraint(name = "Unique name and courseId", columnNames = { "courseId", "name" })
 })
 public class Section extends BaseEntity {
     @Id

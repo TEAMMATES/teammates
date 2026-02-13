@@ -21,17 +21,15 @@ import {
   DEFAULT_MCQ_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { CommentEditFormModel } from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
-import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
+import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
 import {
   SessionEditFormModel,
 } from '../../../components/session-edit-form/session-edit-form-model';
 import {
   RecycleBinFeedbackSessionRowModel,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
-import {
-  SectionTabModel,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
-import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/session-result-page.component';
+import { SectionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
+import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/feedback-question.model';
 
 /**
  * Structure of example session edit form model
@@ -60,7 +58,7 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
   submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
   publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
 
-  isClosingEmailEnabled: true,
+  isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
 
   templateSessionName: 'Example session',
@@ -193,7 +191,7 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
   submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
   publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-  isClosingEmailEnabled: true,
+  isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
   studentDeadlines: {},

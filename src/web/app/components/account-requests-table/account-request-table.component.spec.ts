@@ -1,11 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { AccountRequestTableComponent } from './account-request-table.component';
-import { AccountRequestTableModule } from './account-request-table.module';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 import {
   RejectWithReasonModalComponent,
@@ -59,14 +59,12 @@ describe('AccountRequestTableComponent', () => {
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            declarations: [AccountRequestTableComponent],
             imports: [
-                AccountRequestTableModule,
-                BrowserAnimationsModule,
-                HttpClientTestingModule,
+              BrowserAnimationsModule,
             ],
             providers: [
-                AccountService, SimpleModalService,
+              provideHttpClient(),
+              provideHttpClientTesting(),
             ],
         }).compileComponents();
     }));
@@ -211,9 +209,15 @@ describe('AccountRequestTableComponent', () => {
         component.searchString = 'test';
         fixture.detectChanges();
 
-        const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
-            return createMockNgbModalRef({});
-        });
+        const mockModalRef = {
+          componentInstance: {},
+          result: Promise.resolve({}),
+          dismissed: {
+            subscribe: jest.fn(),
+          },
+        };
+
+        const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef as any);
 
         jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
           joinLink: 'joinlink',
@@ -245,9 +249,15 @@ describe('AccountRequestTableComponent', () => {
         component.searchString = 'test';
         fixture.detectChanges();
 
-        const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
-          return createMockNgbModalRef({});
-        });
+        const mockModalRef = {
+          componentInstance: {},
+          result: Promise.resolve({}),
+          dismissed: {
+            subscribe: jest.fn(),
+          },
+        };
+
+        const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef as any);
 
         jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(throwError(() => ({
           error: {
@@ -318,6 +328,9 @@ describe('AccountRequestTableComponent', () => {
         const mockModalRef = {
           componentInstance: {},
           result: Promise.resolve({}),
+          dismissed: {
+            subscribe: jest.fn(),
+          },
         };
 
         const modalSpy = jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);

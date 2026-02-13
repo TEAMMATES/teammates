@@ -2,12 +2,16 @@
 
 exports[`SessionSubmissionPageComponent should snap when feedback session questions have failed to load 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -44,6 +48,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -160,12 +165,16 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -202,6 +211,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -315,12 +325,16 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 
 exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -357,6 +371,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -470,12 +485,16 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 
 exports[`SessionSubmissionPageComponent should snap with feedback session and user details 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute={[Function String]}
@@ -512,6 +531,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail={[Function String]}
   personName={[Function String]}
@@ -758,12 +778,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
+  autoSaveTimeout={[Function Number]}
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -800,6 +824,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -1237,6 +1262,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                     class="float-end"
                                   >
                                     <button
+                                      aria-label="Edit comment"
                                       class="btn-edit-comment btn btn-outline-primary btn-sm"
                                       ngbtooltip="Edit this comment"
                                       type="button"
@@ -1246,6 +1272,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                       />
                                     </button>
                                     <button
+                                      aria-label="Delete comment"
                                       class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
                                       ngbtooltip="Delete this comment"
                                       type="button"
@@ -1289,6 +1316,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 1
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 1
                   </button>
                 </div>
               </div>
@@ -1511,15 +1546,20 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 </div>
                               </tm-rich-text-editor>
                             </div>
-                            <button
-                              class="btn btn-light btn-sm float-end"
-                              type="button"
+                            <div
+                              class="d-flex justify-content-end"
                             >
-                              <i
-                                class="fas fa-times"
-                              />
-                               Cancel
-                            </button>
+                              <button
+                                aria-label="Cancel editing"
+                                class="btn btn-light btn-sm me-2"
+                                type="button"
+                              >
+                                <i
+                                  class="fas fa-times"
+                                />
+                                 Cancel 
+                              </button>
+                            </div>
                           </tm-comment-edit-form>
                         </tm-comment-row>
                       </div>
@@ -1546,6 +1586,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 3
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 3
                   </button>
                 </div>
               </div>
@@ -1927,6 +1975,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                     class="float-end"
                                   >
                                     <button
+                                      aria-label="Edit comment"
                                       class="btn-edit-comment btn btn-outline-primary btn-sm"
                                       ngbtooltip="Edit this comment"
                                       type="button"
@@ -1936,6 +1985,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                       />
                                     </button>
                                     <button
+                                      aria-label="Delete comment"
                                       class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
                                       ngbtooltip="Delete this comment"
                                       type="button"
@@ -1979,6 +2029,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 4
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 4
                   </button>
                 </div>
               </div>
@@ -2194,6 +2252,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 5
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 5
                   </button>
                 </div>
               </div>
@@ -2423,6 +2489,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 6
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 6
                   </button>
                 </div>
               </div>
@@ -2883,6 +2957,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 7
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 7
+                  </button>
                 </div>
               </div>
             </div>
@@ -3012,173 +3094,188 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="margin-top-20px col"
                   >
                     <tm-rubric-question-edit-answer-form>
-                      <table
-                        aria-label="Response for Barry Harris"
-                        class="table table-bordered desktop-view"
-                      >
-                        <thead>
-                          <tr>
-                            <td />
-                            <th
-                              scope="col"
-                            >
-                              choice 1
-                            </th>
-                            <th
-                              scope="col"
-                            >
-                              choice 2
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            class="row-answered"
+                      <div>
+                        <div>
+                          <table
+                            aria-label="Response for Barry Harris"
+                            class="table table-bordered desktop-view"
                           >
-                            <th
-                              class="fw-normal"
-                              scope="row"
-                            >
-                              subquestion 1
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                            <thead>
+                              <tr>
+                                <td />
+                                <th
+                                  scope="col"
+                                >
+                                   choice 1 
+                                </th>
+                                <th
+                                  scope="col"
+                                >
+                                   choice 2 
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                class="row-answered"
                               >
-                                 description 1 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                <th
+                                  class="fw-normal"
+                                  scope="row"
+                                >
+                                   subquestion 1 
+                                </th>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                  >
+                                     description 1 
+                                  </label>
+                                </td>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                  >
+                                     description 2 
+                                  </label>
+                                </td>
+                              </tr>
+                              <tr
+                                class="row-answered"
                               >
-                                 description 2 
-                              </label>
-                            </td>
-                          </tr>
-                          <tr
-                            class="row-answered"
-                          >
-                            <th
-                              class="fw-normal"
-                              scope="row"
-                            >
-                              subquestion 2
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                              >
-                                 description 3 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                              >
-                                 description 4 
-                              </label>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div
-                        aria-label="Response for Barry Harris"
-                        class="mobile-view"
-                      >
-                        <div
-                          class="card"
-                        >
+                                <th
+                                  class="fw-normal"
+                                  scope="row"
+                                >
+                                   subquestion 2 
+                                </th>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                  >
+                                     description 3 
+                                  </label>
+                                </td>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                  >
+                                     description 4 
+                                  </label>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                           <div
-                            class="card-header bg-light"
+                            aria-label="Response for Barry Harris"
+                            class="mobile-view"
                           >
-                             subquestion 1 
-                          </div>
-                          <div
-                            class="card-body row-answered"
-                          >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 1 
-                              </label>
+                            <div
+                              class="card"
+                            >
+                              <div
+                                class="card-header bg-light"
+                              >
+                                 subquestion 1 
+                              </div>
+                              <div
+                                class="card-body row-answered"
+                              >
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
+                                      name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
+                                      type="radio"
+                                    />
+                                     choice 1 - description 1 
+                                  </label>
+                                </div>
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
+                                      name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
+                                      type="radio"
+                                    />
+                                     choice 2 - description 2 
+                                  </label>
+                                </div>
+                              </div>
                             </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 2 
-                              </label>
+                            <div
+                              class="card"
+                            >
+                              <div
+                                class="card-header bg-light"
+                              >
+                                 subquestion 2 
+                              </div>
+                              <div
+                                class="card-body row-answered"
+                              >
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
+                                      name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
+                                      type="radio"
+                                    />
+                                     choice 1 - description 3 
+                                  </label>
+                                </div>
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
+                                      name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
+                                      type="radio"
+                                    />
+                                     choice 2 - description 4 
+                                  </label>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                         <div
-                          class="card"
+                          class="button-container"
                         >
-                          <div
-                            class="card-header bg-light"
+                          <button
+                            class="btn btn-warning"
+                            id="btn-reset"
+                            type="button"
                           >
-                             subquestion 2 
-                          </div>
-                          <div
-                            class="card-body row-answered"
-                          >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 3 
-                              </label>
-                            </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 4 
-                              </label>
-                            </div>
-                          </div>
+                             Reset Choices 
+                          </button>
                         </div>
                       </div>
                     </tm-rubric-question-edit-answer-form>
@@ -3226,6 +3323,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 8
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 8
                   </button>
                 </div>
               </div>
@@ -3509,6 +3614,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 9
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 9
+                  </button>
                 </div>
               </div>
             </div>
@@ -3741,6 +3854,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 10
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 10
+                  </button>
                 </div>
               </div>
             </div>
@@ -3770,12 +3891,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms when disabled 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -3812,6 +3937,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -4252,6 +4378,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                     class="float-end"
                                   >
                                     <button
+                                      aria-label="Edit comment"
                                       class="btn-edit-comment btn btn-outline-primary btn-sm"
                                       disabled=""
                                       ngbtooltip="Edit this comment"
@@ -4262,6 +4389,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                       />
                                     </button>
                                     <button
+                                      aria-label="Delete comment"
                                       class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
                                       disabled=""
                                       ngbtooltip="Delete this comment"
@@ -4307,6 +4435,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 1
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 1
                   </button>
                 </div>
               </div>
@@ -4525,16 +4661,21 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                 </div>
                               </tm-rich-text-editor>
                             </div>
-                            <button
-                              class="btn btn-light btn-sm float-end"
-                              disabled=""
-                              type="button"
+                            <div
+                              class="d-flex justify-content-end"
                             >
-                              <i
-                                class="fas fa-times"
-                              />
-                               Cancel
-                            </button>
+                              <button
+                                aria-label="Cancel editing"
+                                class="btn btn-light btn-sm me-2"
+                                disabled=""
+                                type="button"
+                              >
+                                <i
+                                  class="fas fa-times"
+                                />
+                                 Cancel 
+                              </button>
+                            </div>
                           </tm-comment-edit-form>
                         </tm-comment-row>
                       </div>
@@ -4562,6 +4703,13 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 3
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 3
                   </button>
                 </div>
               </div>
@@ -4946,6 +5094,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                     class="float-end"
                                   >
                                     <button
+                                      aria-label="Edit comment"
                                       class="btn-edit-comment btn btn-outline-primary btn-sm"
                                       disabled=""
                                       ngbtooltip="Edit this comment"
@@ -4956,6 +5105,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                                       />
                                     </button>
                                     <button
+                                      aria-label="Delete comment"
                                       class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
                                       disabled=""
                                       ngbtooltip="Delete this comment"
@@ -5001,6 +5151,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 4
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 4
                   </button>
                 </div>
               </div>
@@ -5218,6 +5376,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 5
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 5
                   </button>
                 </div>
               </div>
@@ -5449,6 +5615,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 6
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 6
                   </button>
                 </div>
               </div>
@@ -5911,6 +6085,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 7
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 7
+                  </button>
                 </div>
               </div>
             </div>
@@ -6040,181 +6222,197 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     class="margin-top-20px col"
                   >
                     <tm-rubric-question-edit-answer-form>
-                      <table
-                        aria-label="Response for Barry Harris"
-                        class="table table-bordered desktop-view"
-                      >
-                        <thead>
-                          <tr>
-                            <td />
-                            <th
-                              scope="col"
-                            >
-                              choice 1
-                            </th>
-                            <th
-                              scope="col"
-                            >
-                              choice 2
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            class="row-answered"
+                      <div>
+                        <div>
+                          <table
+                            aria-label="Response for Barry Harris"
+                            class="table table-bordered desktop-view"
                           >
-                            <th
-                              class="fw-normal"
-                              scope="row"
-                            >
-                              subquestion 1
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                            <thead>
+                              <tr>
+                                <td />
+                                <th
+                                  scope="col"
+                                >
+                                   choice 1 
+                                </th>
+                                <th
+                                  scope="col"
+                                >
+                                   choice 2 
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                class="row-answered"
                               >
-                                 description 1 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                <th
+                                  class="fw-normal"
+                                  scope="row"
+                                >
+                                   subquestion 1 
+                                </th>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    disabled=""
+                                    id="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row0-col0-desktop"
+                                  >
+                                     description 1 
+                                  </label>
+                                </td>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    disabled=""
+                                    id="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row0-col1-desktop"
+                                  >
+                                     description 2 
+                                  </label>
+                                </td>
+                              </tr>
+                              <tr
+                                class="row-answered"
                               >
-                                 description 2 
-                              </label>
-                            </td>
-                          </tr>
-                          <tr
-                            class="row-answered"
-                          >
-                            <th
-                              class="fw-normal"
-                              scope="row"
-                            >
-                              subquestion 2
-                            </th>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
-                              >
-                                 description 3 
-                              </label>
-                            </td>
-                            <td
-                              class="text-secondary answer-cell"
-                            >
-                              <input
-                                disabled=""
-                                id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                                type="radio"
-                              />
-                              <label
-                                for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
-                              >
-                                 description 4 
-                              </label>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div
-                        aria-label="Response for Barry Harris"
-                        class="mobile-view"
-                      >
-                        <div
-                          class="card"
-                        >
+                                <th
+                                  class="fw-normal"
+                                  scope="row"
+                                >
+                                   subquestion 2 
+                                </th>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    disabled=""
+                                    id="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row1-col0-desktop"
+                                  >
+                                     description 3 
+                                  </label>
+                                </td>
+                                <td
+                                  class="text-secondary answer-cell"
+                                >
+                                  <input
+                                    disabled=""
+                                    id="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                    name="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                    type="radio"
+                                  />
+                                  <label
+                                    for="feedback-question-id-rubricbarry-harris-id-row1-col1-desktop"
+                                  >
+                                     description 4 
+                                  </label>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                           <div
-                            class="card-header bg-light"
+                            aria-label="Response for Barry Harris"
+                            class="mobile-view"
                           >
-                             subquestion 1 
-                          </div>
-                          <div
-                            class="card-body row-answered"
-                          >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 1 
-                              </label>
+                            <div
+                              class="card"
+                            >
+                              <div
+                                class="card-header bg-light"
+                              >
+                                 subquestion 1 
+                              </div>
+                              <div
+                                class="card-body row-answered"
+                              >
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 1 - description 1 Response for Barry Harris under Criteria of subquestion 1"
+                                      disabled=""
+                                      name="feedback-question-id-rubricbarry-harris-id-row0-col0-mobile"
+                                      type="radio"
+                                    />
+                                     choice 1 - description 1 
+                                  </label>
+                                </div>
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
+                                      disabled=""
+                                      name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
+                                      type="radio"
+                                    />
+                                     choice 2 - description 2 
+                                  </label>
+                                </div>
+                              </div>
                             </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 2 Response for Barry Harris under Criteria of subquestion 1"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row0-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 2 
-                              </label>
+                            <div
+                              class="card"
+                            >
+                              <div
+                                class="card-header bg-light"
+                              >
+                                 subquestion 2 
+                              </div>
+                              <div
+                                class="card-body row-answered"
+                              >
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
+                                      disabled=""
+                                      name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
+                                      type="radio"
+                                    />
+                                     choice 1 - description 3 
+                                  </label>
+                                </div>
+                                <div>
+                                  <label>
+                                    <input
+                                      aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
+                                      disabled=""
+                                      name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
+                                      type="radio"
+                                    />
+                                     choice 2 - description 4 
+                                  </label>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                         <div
-                          class="card"
+                          class="button-container"
                         >
-                          <div
-                            class="card-header bg-light"
+                          <button
+                            class="btn btn-warning"
+                            disabled=""
+                            id="btn-reset"
+                            type="button"
                           >
-                             subquestion 2 
-                          </div>
-                          <div
-                            class="card-body row-answered"
-                          >
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 1 - description 3 Response for Barry Harris under Criteria of subquestion 2"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col0-mobile"
-                                  type="radio"
-                                />
-                                 choice 1 - description 3 
-                              </label>
-                            </div>
-                            <div>
-                              <label>
-                                <input
-                                  aria-label="choice 2 - description 4 Response for Barry Harris under Criteria of subquestion 2"
-                                  disabled=""
-                                  name="feedback-question-id-rubricbarry-harris-id-row1-col1-mobile"
-                                  type="radio"
-                                />
-                                 choice 2 - description 4 
-                              </label>
-                            </div>
-                          </div>
+                             Reset Choices 
+                          </button>
                         </div>
                       </div>
                     </tm-rubric-question-edit-answer-form>
@@ -6264,6 +6462,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                     <span>
                       Submit Response for Question 8
                     </span>
+                  </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 8
                   </button>
                 </div>
               </div>
@@ -6549,6 +6755,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 9
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 9
+                  </button>
                 </div>
               </div>
             </div>
@@ -6782,6 +6996,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       Submit Response for Question 10
                     </span>
                   </button>
+                  <button
+                    class="btn btn-warning float-end"
+                    disabled=""
+                    ngbtooltip="Reset your responses for this question to the last submitted state."
+                    type="button"
+                  >
+                    Reset Question 10
+                  </button>
                 </div>
               </div>
             </div>
@@ -6812,12 +7034,16 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with user that is logged in and using session link 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -6854,6 +7080,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
@@ -6968,12 +7195,16 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 
 exports[`SessionSubmissionPageComponent should snap with user that is not logged in and using session link 1`] = `
 <tm-session-submission-page
+  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
+  autoSaveDelay={[Function Number]}
+  autoSaveTimeout="undefined"
   backendUrl={[Function String]}
+  castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute=""
@@ -7010,6 +7241,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
+  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}

@@ -13,9 +13,9 @@ import {
  * Text question response.
  */
 @Component({
-  selector: 'tm-text-question-response',
-  templateUrl: './text-question-response.component.html',
-  styleUrls: ['./text-question-response.component.scss'],
+    selector: 'tm-text-question-response',
+    templateUrl: './text-question-response.component.html',
+    styleUrls: ['./text-question-response.component.scss'],
 })
 export class TextQuestionResponseComponent
     extends QuestionResponse<FeedbackTextResponseDetails, FeedbackTextQuestionDetails> {

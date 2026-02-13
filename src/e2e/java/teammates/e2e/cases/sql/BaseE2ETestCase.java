@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
@@ -20,17 +21,28 @@ import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
+import teammates.ui.output.AccountData;
+import teammates.ui.output.CourseData;
+import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
+import teammates.ui.output.InstructorData;
+import teammates.ui.output.NotificationData;
 import teammates.ui.output.StudentData;
 
 /**
@@ -242,6 +254,38 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         }
     }
 
+    /**
+     * Puts the documents in the database using BACKDOOR.
+     * @param dataBundle the data to be put in the database
+     * @return the result of the operation
+     */
+    protected String putDocuments(SqlDataBundle dataBundle) {
+        try {
+            return BACKDOOR.putSqlDocuments(dataBundle);
+        } catch (HttpRequestFailedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    AccountData getAccount(String googleId) {
+        return BACKDOOR.getAccountData(googleId);
+    }
+
+    @Override
+    protected AccountData getAccount(Account account) {
+        return getAccount(account.getGoogleId());
+    }
+
+    CourseData getCourse(String courseId) {
+        return BACKDOOR.getCourseData(courseId);
+    }
+
+    @Override
+    protected CourseData getCourse(Course course) {
+        return getCourse(course.getId());
+    }
+
     FeedbackQuestionData getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
         return BACKDOOR.getFeedbackQuestionData(courseId, feedbackSessionName, qnNumber);
     }
@@ -260,13 +304,13 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
     }
 
-    StudentData getStudent(String courseId, String studentEmailAddress) {
-        return BACKDOOR.getStudentData(courseId, studentEmailAddress);
+    FeedbackResponseCommentData getFeedbackResponseComment(UUID feedbackResponseId) {
+        return BACKDOOR.getFeedbackResponseCommentData(feedbackResponseId.toString());
     }
 
     @Override
-    protected StudentData getStudent(Student student) {
-        return getStudent(student.getCourseId(), student.getEmail());
+    protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
+        return getFeedbackResponseComment(frc.getFeedbackResponse().getId());
     }
 
     FeedbackSessionData getFeedbackSession(String courseId, String feedbackSessionName) {
@@ -289,17 +333,81 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         return BACKDOOR.getSoftDeletedSessionData(feedbackSessionName, instructorId);
     }
 
+    InstructorData getInstructor(String courseId, String instructorEmail) {
+        return BACKDOOR.getInstructorData(courseId, instructorEmail);
+    }
+
+    @Override
+    protected InstructorData getInstructor(Instructor instructor) {
+        return getInstructor(instructor.getCourseId(), instructor.getEmail());
+    }
+
     /**
-     * Puts the documents in the database using BACKDOOR.
-     * @param dataBundle the data to be put in the database
-     * @return the result of the operation
+     * Gets registration key for a given instructor.
      */
-    protected String putDocuments(SqlDataBundle dataBundle) {
-        try {
-            return BACKDOOR.putSqlDocuments(dataBundle);
-        } catch (HttpRequestFailedException e) {
-            e.printStackTrace();
-            return null;
-        }
+    protected String getKeyForInstructor(String courseId, String instructorEmail) {
+        return getInstructor(courseId, instructorEmail).getKey();
+    }
+
+    NotificationData getNotification(String notificationId) {
+        return BACKDOOR.getNotificationData(notificationId);
+    }
+
+    @Override
+    protected NotificationData getNotification(Notification notification) {
+        return getNotification(notification.getId().toString());
+    }
+
+    /**
+     * Deletes the notification with the given ID.
+     *
+     * @param notificationId the ID of the notification to delete
+     */
+    protected void deleteNotification(UUID notificationId) {
+        BACKDOOR.deleteNotification(notificationId);
+    }
+
+    /**
+     * Deletes the notification with the given ID.
+     *
+     * @param notificationId the ID of the notification to delete
+     */
+    protected void deleteNotification(String notificationId) {
+        BACKDOOR.deleteNotification(notificationId);
+    }
+
+    StudentData getStudent(String courseId, String studentEmailAddress) {
+        return BACKDOOR.getStudentData(courseId, studentEmailAddress);
+    }
+
+    @Override
+    protected StudentData getStudent(Student student) {
+        return getStudent(student.getCourseId(), student.getEmail());
+    }
+
+    /**
+     * Gets registration key for a given student.
+     */
+    protected String getKeyForStudent(Student student) {
+        return getStudent(student).getKey();
+    }
+
+    /**
+     * Gets deadline extension data from the database.
+     */
+    protected DeadlineExtensionData getDeadlineExtension(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        return BACKDOOR.getDeadlineExtensionData(courseId, feedbackSessionName, userEmail, isInstructor);
+    }
+
+    /**
+     * Updates the feedback response comment in the database.
+     *
+     * @param commentId the ID of the comment to update
+     * @param commentText the new comment text
+     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     */
+    protected void updateFeedbackResponseComment(long commentId, String commentText, String instructorGoogleId) {
+        BACKDOOR.updateFeedbackResponseComment(commentId, commentText, instructorGoogleId);
     }
 }

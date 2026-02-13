@@ -1,6 +1,6 @@
 <h1>Student Activity Logs For {{course.courseName}}</h1>
-<p>This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have <b>owner or manager privileges</b> for the course. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD}} days</b> before today.</p>
-<p>Please note that recent activity after <b>{{ this.lastUpdated }}</b> may <b>NOT</b> be shown as the information is updated in <b>{{ this.STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL }} minute</b> intervals.</p>
+<p>This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have <b>owner or manager privileges</b> for the course. The earliest date you can search for is <b>{{LOGS_RETENTION_PERIOD}} days</b> before today.</p>
+<p>Please note that recent activity after <b>{{ lastUpdated }}</b> may <b>NOT</b> be shown as the information is updated in <b>{{ STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL }} minute</b> intervals.</p>
 <hr/>
 
 <div *tmIsLoading="isLoading" class="card bg-form no-border">
@@ -81,7 +81,7 @@
         <div class="col-12">
           <select id="session-dropdown" class="form-control form-select col-md-12" [(ngModel)]="formModel.selectedSession">
             <option [ngValue]="{feedbackSessionName: '', sessionId: ''}"></option>
-            <option *ngFor="let session of feedbackSessions | keyvalue" [ngValue]="{feedbackSessionName: session.key, sessionId: session.value.sessionId}">
+            <option *ngFor="let session of feedbackSessions | keyvalue" [ngValue]="{feedbackSessionName: session.key, sessionId: session.value.feedbackSessionId}">
               {{session.key}}
             </option>
           </select>
@@ -90,11 +90,11 @@
       <div class="row mt-md-1 ms-md-3">
         <div class="col-12 form-check" style="margin-top: 30px;">
           <label class="form-check-label">
-            <input id="show-actions" class="form-check-input" type="checkbox" name="showActions" [checked]="formModel.showActions" (click)="triggerModelChange('showActions', $event.target.checked)">
+            <input id="show-actions" class="form-check-input" type="checkbox" name="showActions" [checked]="formModel.showActions" (click)="triggerModelChange('showActions', castAsInputElement($event.target).checked)">
             Show actions
           </label>
           <label class="form-check-label" style="margin-left: 40px;">
-            <input id="show-inactions" class="form-check-input" type="checkbox" name="showInactions" [checked]="formModel.showInactions" (click)="triggerModelChange('showInactions', $event.target.checked)">
+            <input id="show-inactions" class="form-check-input" type="checkbox" name="showInactions" [checked]="formModel.showInactions" (click)="triggerModelChange('showInactions', castAsInputElement($event.target).checked)">
             Show inactions
           </label>
         </div>

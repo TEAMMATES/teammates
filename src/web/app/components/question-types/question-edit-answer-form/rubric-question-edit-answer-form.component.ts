@@ -1,5 +1,7 @@
+import { NgFor, NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
 import {
   FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails,
 } from '../../../../types/api-output';
@@ -7,6 +9,7 @@ import {
   DEFAULT_RUBRIC_QUESTION_DETAILS, DEFAULT_RUBRIC_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../types/feedback-response-details';
+import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 
 /**
  * The rubric question submission form for a recipient.
@@ -15,6 +18,7 @@ import { RUBRIC_ANSWER_NOT_CHOSEN } from '../../../../types/feedback-response-de
   selector: 'tm-rubric-question-edit-answer-form',
   templateUrl: './rubric-question-edit-answer-form.component.html',
   styleUrls: ['./rubric-question-edit-answer-form.component.scss'],
+  imports: [NgFor, NgClass],
 })
 export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent
     <FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails> {
@@ -30,7 +34,7 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
   // constant
   readonly RUBRIC_ANSWER_NOT_CHOSEN: number = RUBRIC_ANSWER_NOT_CHOSEN;
 
-  constructor() {
+  constructor(private simpleModalService: SimpleModalService) {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS(), DEFAULT_RUBRIC_RESPONSE_DETAILS());
   }
 
@@ -70,5 +74,21 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
 
   getInputId(id: string, row: number, col: number, platform: string): string {
     return `${id}-row${row}-col${col}-${platform}`;
+  }
+
+  resetHandler(): void {
+    this.simpleModalService.openConfirmationModal(
+      'Reset choices?',
+      SimpleModalType.WARNING,
+      'Are you sure you want to reset your choices? This action cannot be reverted.',
+    ).result.then(() => {
+        this.resetRubricAnswer();
+    }, () => {});
+  }
+
+  resetRubricAnswer(): void {
+    const resetAnswer: number[] =
+        Array(this.questionDetails.rubricSubQuestions.length).fill(RUBRIC_ANSWER_NOT_CHOSEN);
+    this.triggerResponseDetailsChange('answer', resetAnswer);
   }
 }

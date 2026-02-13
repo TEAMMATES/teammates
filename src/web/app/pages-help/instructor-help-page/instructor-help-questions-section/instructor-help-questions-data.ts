@@ -30,7 +30,7 @@ import {
     DEFAULT_RUBRIC_QUESTION_DETAILS,
     DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
-import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
+import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
 import {
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
@@ -38,9 +38,7 @@ import {
   QuestionSubmissionFormModel,
 } from '../../../components/question-submission-form/question-submission-form-model';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
-import {
-    QuestionTabModel,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
 /**
  * Structure for example of essay question model
@@ -528,7 +526,7 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
   submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
   publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-  isClosingEmailEnabled: true,
+  isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
   studentDeadlines: {},

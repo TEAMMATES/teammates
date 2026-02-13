@@ -1,4 +1,7 @@
+import { NgIf } from '@angular/common';
 import { Component, OnChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   PerRecipientStats,
   RubricQuestionStatisticsCalculation,
@@ -7,7 +10,11 @@ import { StringHelper } from '../../../../services/string-helper';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for rubric questions.
@@ -16,6 +23,12 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
   selector: 'tm-rubric-question-statistics',
   templateUrl: './rubric-question-statistics.component.html',
   styleUrls: ['./rubric-question-statistics.component.scss'],
+  imports: [
+    NgIf,
+    NgbTooltip,
+    FormsModule,
+    SortableTableComponent,
+  ],
 })
 export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsCalculation
     implements OnChanges {

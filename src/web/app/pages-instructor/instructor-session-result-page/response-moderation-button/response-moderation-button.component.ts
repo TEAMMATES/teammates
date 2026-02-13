@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
   FeedbackSession, FeedbackSessionPublishStatus,
@@ -5,6 +6,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 
 /**
  * Button for instructor moderating responses.
@@ -13,6 +15,7 @@ import {
   selector: 'tm-response-moderation-button',
   templateUrl: './response-moderation-button.component.html',
   styleUrls: ['./response-moderation-button.component.scss'],
+  imports: [TeammatesRouterDirective, NgClass],
 })
 export class ResponseModerationButtonComponent {
 
@@ -29,7 +32,7 @@ export class ResponseModerationButtonComponent {
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},

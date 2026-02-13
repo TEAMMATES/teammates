@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentNotificationsPage;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 import teammates.ui.output.AccountData;
 
 /**
@@ -23,8 +24,9 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/StudentNotificationsPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
+
         sqlTestData = removeAndRestoreSqlDataBundle(
-                    loadSqlDataBundle("/StudentNotificationsPageE2ETest_SqlEntities.json"));
+                loadSqlDataBundle("/StudentNotificationsPageE2ETest_SqlEntities.json"));
     }
 
     @Test
@@ -40,18 +42,17 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
                 sqlTestData.notifications.get("notification3"),
                 sqlTestData.notifications.get("expiredNotification1"),
         };
+
         Notification[] shownNotifications = {
                 sqlTestData.notifications.get("notification1"),
                 sqlTestData.notifications.get("notification2"),
                 sqlTestData.notifications.get("notification4"),
         };
 
-        Notification[] readNotifications = {
-                sqlTestData.notifications.get("notification4"),
-        };
+        ReadNotification[] readNotifications = sqlTestData.readNotifications.values().toArray(ReadNotification[]::new);
 
         Set<String> readNotificationsIds = Stream.of(readNotifications)
-                .map(readNotification -> readNotification.getId().toString())
+                .map(readNotification -> readNotification.getNotification().getId().toString())
                 .collect(Collectors.toSet());
 
         notificationsPage.verifyNotShownNotifications(notShownNotifications);

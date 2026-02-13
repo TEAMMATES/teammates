@@ -1,6 +1,6 @@
 <ngb-toast *ngIf="toast" [delay]="toast.delay || 10000" (hidden)="removeToast()" [class]="toast.classes" [autohide]="toast.autohide">
   <ng-template [ngIf]="isTemplate()">
-    <ng-template [ngTemplateOutlet]="toast.message"></ng-template>
+    <ng-template [ngTemplateOutlet]="contentAsTemplateRef"></ng-template>
   </ng-template>
   <button type="button" class="btn-close" (click)="removeToast()"></button>
   <ng-container *ngIf="!isTemplate()">{{ toast.message }}</ng-container>

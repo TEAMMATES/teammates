@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbCalendar, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { NgbCalendar, NgbDateStruct, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { DateFormat } from '../../../types/datetime-const';
 
 /**
@@ -9,6 +10,7 @@ import { DateFormat } from '../../../types/datetime-const';
   selector: 'tm-datepicker',
   templateUrl: './datepicker.component.html',
   styleUrls: ['./datepicker.component.scss'],
+  imports: [NgbInputDatepicker, FormsModule],
 })
 export class DatepickerComponent {
 
@@ -19,10 +21,10 @@ export class DatepickerComponent {
   isDisabled: boolean = false;
 
   @Input()
-  maxDate: DateFormat | undefined;
+  maxDate?: NgbDateStruct;
 
   @Input()
-  minDate: DateFormat | undefined;
+  minDate?: NgbDateStruct;
 
   @Output()
   dateChangeCallback: EventEmitter<DateFormat> = new EventEmitter<DateFormat>();

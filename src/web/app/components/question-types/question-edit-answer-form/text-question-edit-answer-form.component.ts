@@ -1,5 +1,7 @@
+import { NgIf, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 
+import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import {
   FeedbackTextQuestionDetails,
@@ -9,6 +11,7 @@ import {
   DEFAULT_TEXT_QUESTION_DETAILS,
   DEFAULT_TEXT_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
+import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 
 /**
  * The text question submission form for a recipient.
@@ -17,6 +20,12 @@ import {
   selector: 'tm-text-question-edit-answer-form',
   templateUrl: './text-question-edit-answer-form.component.html',
   styleUrls: ['./text-question-edit-answer-form.component.scss'],
+  imports: [
+    NgIf,
+    FormsModule,
+    RichTextEditorComponent,
+    NgClass,
+  ],
 })
 export class TextQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent
@@ -24,6 +33,12 @@ export class TextQuestionEditAnswerFormComponent
 
   constructor() {
     super(DEFAULT_TEXT_QUESTION_DETAILS(), DEFAULT_TEXT_RESPONSE_DETAILS());
+  }
+
+  decodeHtml(html: string): string {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
   }
 
   get wordCount(): number {
@@ -40,5 +55,9 @@ export class TextQuestionEditAnswerFormComponent
     const lowerLimit: number = this.questionDetails.recommendedLength - this.questionDetails.recommendedLength * 0.1;
 
     return this.wordCount > lowerLimit && this.wordCount < upperLimit;
+  }
+
+  get decodedAnswer(): string {
+    return this.decodeHtml(this.responseDetails.answer);
   }
 }

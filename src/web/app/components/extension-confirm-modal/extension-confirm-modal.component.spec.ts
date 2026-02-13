@@ -1,8 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExtensionConfirmModalComponent, ExtensionModalType } from './extension-confirm-modal.component';
-import { ExtensionConfirmModalModule } from './extension-confirm-modal.module';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -27,7 +27,7 @@ describe('ExtensionConfirmModalComponent', () => {
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},
@@ -111,8 +111,11 @@ describe('ExtensionConfirmModalComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, ExtensionConfirmModalModule],
-        providers: [NgbActiveModal],
+        providers: [
+          NgbActiveModal,
+          provideHttpClient(),
+          provideHttpClientTesting(),
+        ],
       }).compileComponents();
     }),
   );

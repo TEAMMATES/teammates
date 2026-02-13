@@ -42,10 +42,10 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
         FeedbackRankOptionsQuestionDetails newRankQuestionDetails = (FeedbackRankOptionsQuestionDetails) newDetails;
 
         return this.options.size() != newRankQuestionDetails.options.size()
-            || !this.options.containsAll(newRankQuestionDetails.options)
-            || !newRankQuestionDetails.options.containsAll(this.options)
-            || this.minOptionsToBeRanked != newRankQuestionDetails.minOptionsToBeRanked
-            || this.maxOptionsToBeRanked != newRankQuestionDetails.maxOptionsToBeRanked;
+                || !this.options.containsAll(newRankQuestionDetails.options)
+                || !newRankQuestionDetails.options.containsAll(this.options)
+                || this.minOptionsToBeRanked != newRankQuestionDetails.minOptionsToBeRanked
+                || this.maxOptionsToBeRanked != newRankQuestionDetails.maxOptionsToBeRanked;
     }
 
     @Override

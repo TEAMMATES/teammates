@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
@@ -33,7 +34,7 @@ describe('FeedbackSessionsService', () => {
     gracePeriod: 1,
     sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    isClosingEmailEnabled: false,
+    isClosingSoonEmailEnabled: false,
     isPublishedEmailEnabled: false,
     studentDeadlines: {},
     instructorDeadlines: {},
@@ -42,11 +43,10 @@ describe('FeedbackSessionsService', () => {
   beforeEach(() => {
     spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(FeedbackSessionsService);
@@ -63,7 +63,7 @@ describe('FeedbackSessionsService', () => {
         responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
         submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
         publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-        isClosingEmailEnabled: false,
+        isClosingSoonEmailEnabled: false,
         isPublishedEmailEnabled: false,
         createdAtTimestamp: 0,
         studentDeadlines: {},

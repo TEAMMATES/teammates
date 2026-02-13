@@ -6,6 +6,8 @@
             <package name="teammates.e2e.util" />
         </packages>
         <classes>
+            <class name="teammates.e2e.cases.sql.InstructorStudentActivityLogsPageE2ETest" />
+            <class name="teammates.e2e.cases.sql.InstructorSearchPageE2ETest" />
         </classes>
     </test>
 </suite>

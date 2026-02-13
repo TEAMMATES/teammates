@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
@@ -17,9 +19,14 @@ import {
   HasResponses,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
+import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
 
 interface StudentCourse {
@@ -47,8 +54,21 @@ interface StudentSession {
   templateUrl: './student-home-page.component.html',
   styleUrls: ['./student-home-page.component.scss'],
   animations: [collapseAnim],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    NgIf,
+    TeammatesRouterDirective,
+    NgFor,
+    PanelChevronComponent,
+    NgbTooltip,
+    NgClass,
+    ResponseStatusPipe,
+  ],
 })
 export class StudentHomePageComponent implements OnInit {
+  private readonly timezoneService = inject(TimezoneService);
+
   // enum
   SortBy: typeof SortBy = SortBy;
 
@@ -81,7 +101,6 @@ export class StudentHomePageComponent implements OnInit {
     private courseService: CourseService,
     private statusMessageService: StatusMessageService,
     private feedbackSessionsService: FeedbackSessionsService,
-    private timezoneService: TimezoneService,
     private tableComparatorService: TableComparatorService) {
     this.timezoneService.getTzVersion();
   }
@@ -115,10 +134,6 @@ export class StudentHomePageComponent implements OnInit {
           });
 
           this.sortCoursesBy(SortBy.COURSE_CREATION_DATE);
-          this.courses.slice(0, 3).forEach((course: StudentCourse) => {
-            course.isTabExpanded = true;
-            this.loadFeedbackSessionsForCourse(course.course.courseId);
-          });
         },
         error: (e: ErrorMessageOutput) => {
           this.hasCoursesLoadingFailed = true;
@@ -306,11 +321,9 @@ export class StudentHomePageComponent implements OnInit {
     this.courses = copy;
 
     // open the first three panels
-    this.courses.forEach((course: StudentCourse, idx: number) => {
-      course.isTabExpanded = idx < 3;
-      if (idx < 3) {
-        this.loadFeedbackSessionsForCourse(course.course.courseId);
-      }
+    this.courses.slice(0, 3).forEach((course: StudentCourse) => {
+      course.isTabExpanded = true;
+      this.loadFeedbackSessionsForCourse(course.course.courseId);
     });
   }
 

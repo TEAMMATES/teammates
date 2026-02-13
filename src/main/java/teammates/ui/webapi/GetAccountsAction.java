@@ -13,7 +13,7 @@ import teammates.ui.output.AccountsData;
 /**
  * Gets all accounts with the given email.
  */
-class GetAccountsAction extends AdminOnlyAction {
+public class GetAccountsAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {

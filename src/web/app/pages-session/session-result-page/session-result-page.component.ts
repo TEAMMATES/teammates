@@ -1,8 +1,10 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
+import { FeedbackQuestionModel } from './feedback-question.model';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
@@ -23,29 +25,16 @@ import {
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   Instructor,
   RegkeyValidity,
-  ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting, Student,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
+import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { QuestionResponsePanelComponent } from '../../components/question-response-panel/question-response-panel.component';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-export interface FeedbackQuestionModel {
-  feedbackQuestion: FeedbackQuestion;
-  questionStatistics: string;
-  allResponses: ResponseOutput[];
-  responsesToSelf: ResponseOutput[];
-  responsesFromSelf: ResponseOutput[];
-  otherResponses: ResponseOutput[][];
-  isLoading: boolean;
-  isLoaded: boolean;
-  hasResponse: boolean;
-  errorMessage?: string;
-  hasResponseButNotVisibleForPreview: boolean;
-  hasCommentNotVisibleForPreview: boolean;
-}
 
 /**
  * Feedback session result page.
@@ -54,6 +43,12 @@ export interface FeedbackQuestionModel {
   selector: 'tm-session-result-page',
   templateUrl: './session-result-page.component.html',
   styleUrls: ['./session-result-page.component.scss'],
+  imports: [
+    NgIf,
+    LoadingSpinnerDirective,
+    LoadingRetryComponent,
+    QuestionResponsePanelComponent,
+  ],
 })
 export class SessionResultPageComponent implements OnInit {
 
@@ -72,7 +67,7 @@ export class SessionResultPageComponent implements OnInit {
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},

@@ -68,7 +68,7 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
         FeedbackSessionAttributes session2 = typicalBundle.feedbackSessions.get("session2InCourse1");
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(2));
         session2.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(3));
-        session2.setOpeningEmailEnabled(false);
+        session2.setOpenedEmailEnabled(false);
         logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
@@ -160,12 +160,12 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
                         .withSentOpeningSoonEmail(true)
-                        .withSentOpenEmail(true)
+                        .withSentOpenedEmail(true)
                         .withStartTime(session1.getStartTime())
                         .withEndTime(session1.getEndTime())
                         .build());
 
-        // allow session to be off the time limit to ensure that sentOpeningEmail is marked false
+        // allow session to be off the time limit to ensure that sentOpenedEmail is marked false
         session1.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(24).plusSeconds(10));
         session1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(3)); // random date in future
         logic.updateFeedbackSession(
@@ -206,7 +206,7 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
                         .withSentOpeningSoonEmail(true)
-                        .withSentOpenEmail(true)
+                        .withSentOpenedEmail(true)
                         .withStartTime(session1.getStartTime())
                         .withEndTime(session1.getEndTime())
                         .build());

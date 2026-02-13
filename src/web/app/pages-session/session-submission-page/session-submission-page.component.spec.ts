@@ -1,14 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
@@ -23,32 +21,16 @@ import { StudentService } from '../../../services/student.service';
 import {
   AuthInfo,
   CommentVisibilityType,
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
-  FeedbackContributionQuestionDetails,
-  FeedbackContributionResponseDetails,
-  FeedbackMcqQuestionDetails,
-  FeedbackMcqResponseDetails,
-  FeedbackMsqQuestionDetails,
-  FeedbackMsqResponseDetails,
-  FeedbackNumericalScaleQuestionDetails,
-  FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionRecipients,
   FeedbackQuestions,
   FeedbackQuestionType,
-  FeedbackRankOptionsQuestionDetails,
-  FeedbackRankOptionsResponseDetails,
-  FeedbackRankRecipientsQuestionDetails,
   FeedbackResponse,
   FeedbackResponseComment,
   FeedbackResponses,
-  FeedbackRubricQuestionDetails,
-  FeedbackRubricResponseDetails,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
   FeedbackVisibilityType,
   Instructor,
@@ -61,18 +43,11 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
-import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
-import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
-import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
-import {
-  QuestionSubmissionFormModule,
-} from '../../components/question-submission-form/question-submission-form.module';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 
 describe('SessionSubmissionPageComponent', () => {
   const deepCopy: <T>(obj: T) => T = <T>(obj: T) => JSON.parse(JSON.stringify(obj));
@@ -104,7 +79,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-    isClosingEmailEnabled: true,
+    isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     studentDeadlines: {},
@@ -129,7 +104,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
@@ -150,7 +125,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
@@ -171,7 +146,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.TEXT,
-    } as FeedbackTextResponseDetails,
+    },
     isValid: true,
     commentByGiver: {
       commentEditFormModel: {
@@ -190,7 +165,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'barry-harris-answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
     isValid: true,
   };
 
@@ -200,7 +175,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'gene-harris-answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
     isValid: true,
   };
 
@@ -212,7 +187,7 @@ describe('SessionSubmissionPageComponent', () => {
       isOther: false,
       otherFieldContent: 'other field content',
       questionType: FeedbackQuestionType.MSQ,
-    } as FeedbackMsqResponseDetails,
+    },
     isValid: true,
     commentByGiver: {
       originalComment: testComment,
@@ -232,7 +207,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answer: 5,
-    } as FeedbackNumericalScaleResponseDetails,
+      questionType: FeedbackQuestionType.NUMSCALE,
+    },
     isValid: true,
   };
 
@@ -241,7 +217,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answers: [7, 13],
-    } as FeedbackConstantSumResponseDetails,
+      questionType: FeedbackQuestionType.CONSTSUM,
+    },
     isValid: true,
   };
 
@@ -250,7 +227,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answer: 20,
-    } as FeedbackContributionResponseDetails,
+      questionType: FeedbackQuestionType.CONTRIB,
+    },
     isValid: true,
   };
 
@@ -259,7 +237,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answer: [3, 4],
-    } as FeedbackRubricResponseDetails,
+      questionType: FeedbackQuestionType.RUBRIC,
+    },
     isValid: true,
   };
 
@@ -268,7 +247,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answers: [2, 1],
-    } as FeedbackRankOptionsResponseDetails,
+      questionType: FeedbackQuestionType.RANK_OPTIONS,
+    },
     isValid: true,
   };
 
@@ -279,7 +259,8 @@ describe('SessionSubmissionPageComponent', () => {
       minOptionsToBeRanked: 1,
       maxOptionsToBeRanked: 2,
       areDuplicatesAllowed: false,
-    } as FeedbackRankRecipientsQuestionDetails,
+      questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+    },
     isValid: true,
   };
 
@@ -290,7 +271,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'barry-harris-answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
   };
 
   const testResponse2: FeedbackResponse = {
@@ -300,7 +281,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'gene-harris-answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
+    },
   };
 
   const testMcqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -313,7 +294,7 @@ describe('SessionSubmissionPageComponent', () => {
       questionType: FeedbackQuestionType.MCQ,
       questionText: 'question text',
       mcqChoices: ['choice 1', 'choice 2', 'choice 3'],
-    } as FeedbackMcqQuestionDetails,
+    },
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM,
     recipientList: [{ recipientName: 'Gene Harris', recipientIdentifier: 'gene-harris-id' }],
@@ -340,7 +321,7 @@ describe('SessionSubmissionPageComponent', () => {
       questionType: FeedbackQuestionType.MCQ,
       questionText: 'question text',
       mcqChoices: ['choice 1', 'choice 2', 'choice 3'],
-    } as FeedbackMcqQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.TEAMS,
     recipientList: [],
@@ -366,7 +347,7 @@ describe('SessionSubmissionPageComponent', () => {
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
       questionText: 'question text',
-    } as FeedbackTextQuestionDetails,
+    },
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.INSTRUCTORS,
     recipientList: [{ recipientName: 'Gene Harris', recipientIdentifier: 'gene-harris-id' }],
@@ -390,13 +371,14 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.MSQ,
     questionDetails: {
+      questionType: FeedbackQuestionType.MSQ,
       msqChoices: ['first', 'second', 'third'],
       otherEnabled: false,
       hasAssignedWeights: true,
       msqWeights: [1, 2, 3],
       maxSelectableChoices: 2,
       minSelectableChoices: 1,
-    } as FeedbackMsqQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -420,10 +402,11 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.NUMSCALE,
     questionDetails: {
+      questionType: FeedbackQuestionType.NUMSCALE,
       minScale: 1,
       maxScale: 10,
       step: 1,
-    } as FeedbackNumericalScaleQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -451,13 +434,14 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
     questionDetails: {
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       constSumOptions: ['option 1', 'option 2'],
       distributeToRecipients: true,
       pointsPerOption: true,
       forceUnevenDistribution: false,
       distributePointsFor: 'distribute points for',
       points: 20,
-    } as FeedbackConstantSumQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -485,8 +469,9 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.CONTRIB,
     questionDetails: {
+      questionType: FeedbackQuestionType.CONTRIB,
       isNotSureAllowed: false,
-    } as FeedbackContributionQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -514,12 +499,13 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.RUBRIC,
     questionDetails: {
+      questionType: FeedbackQuestionType.RUBRIC,
       hasAssignedWeights: false,
       rubricWeightsForEachCell: [[1, 2], [2, 1]],
       rubricChoices: ['choice 1', 'choice 2'],
       rubricSubQuestions: ['subquestion 1', 'subquestion 2'],
       rubricDescriptions: [['description 1', 'description 2'], ['description 3', 'description 4']],
-    } as FeedbackRubricQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -547,8 +533,9 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.RANK_OPTIONS,
     questionDetails: {
+      questionType: FeedbackQuestionType.RANK_OPTIONS,
       options: ['option 1', 'option 2'],
-    } as FeedbackRankOptionsQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -576,10 +563,11 @@ describe('SessionSubmissionPageComponent', () => {
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.RANK_RECIPIENTS,
     questionDetails: {
+      questionType: FeedbackQuestionType.RANK_RECIPIENTS,
       minOptionsToBeRanked: 1,
       maxOptionsToBeRanked: 2,
       areDuplicatesAllowed: false,
-    } as FeedbackRankRecipientsQuestionDetails,
+    },
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -641,20 +629,14 @@ describe('SessionSubmissionPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SessionSubmissionPageComponent, SavingCompleteModalComponent],
       imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        NgxPageScrollCoreModule,
-        TeammatesCommonModule,
-        FormsModule,
-        AjaxLoadingModule,
-        QuestionSubmissionFormModule,
-        LoadingSpinnerModule,
-        LoadingRetryModule,
         BrowserAnimationsModule,
+        NgxPageScrollCoreModule,
       ],
       providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
           useValue: {
@@ -1280,5 +1262,39 @@ describe('SessionSubmissionPageComponent', () => {
     expect(commentSpy).toHaveBeenCalledTimes(1);
     expect(commentSpy).toHaveBeenLastCalledWith(expectedId, Intent.STUDENT_SUBMISSION,
         { key: testQueryParams.key, moderatedperson: '' });
+  });
+
+  it('should autosave data to localStorage', () => {
+    const questionId = 'feedback-question-id-mcq';
+    const model: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
+    model.hasResponseChangedForRecipients = new Map<string, boolean>().set('r1', true);
+    model.isTabExpandedForRecipients = new Map<string, boolean>().set('r1', true);
+    const event = { id: questionId, model };
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+
+    jest.useFakeTimers();
+    component.handleAutoSave(event);
+    jest.advanceTimersByTime(component.autoSaveDelay);
+
+    expect(setItemSpy).toHaveBeenCalled();
+    jest.useRealTimers();
+  });
+
+  it('should load autosaved data from localStorage', () => {
+    const questionId = 'feedback-question-id-mcq';
+    const savedModel: any = deepCopy(testMcqQuestionSubmissionForm);
+    savedModel.hasResponseChangedForRecipients = Array.from(new Map<string, boolean>().set('r1', true).entries());
+    savedModel.isTabExpandedForRecipients = Array.from(new Map<string, boolean>().set('r1', true).entries());
+
+    const getItemSpy = jest.spyOn(Storage.prototype, 'getItem')
+      .mockReturnValue(JSON.stringify({ [questionId]: savedModel }));
+
+    component.questionSubmissionForms = [deepCopy(testMcqQuestionSubmissionForm)];
+
+    component.loadAutoSavedData(questionId);
+
+    expect(component.questionSubmissionForms[0].hasResponseChangedForRecipients.get('r1')).toBe(true);
+    expect(component.questionSubmissionForms[0].isTabExpandedForRecipients.get('r1')).toBe(true);
+    expect(getItemSpy).toHaveBeenCalledWith('autosave');
   });
 });

@@ -1,17 +1,20 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal-model';
+import { castAsInputElement, castAsTextAreaElement } from '../../../../types/event-target-caster';
 
 /**
  * Modal to select reject account requests with reason.
  */
 @Component({
-  selector: 'tm-edit-request-modal',
-  templateUrl: './admin-edit-request-modal.component.html',
-  styleUrls: ['./admin-edit-request-modal.component.scss'],
+    selector: 'tm-edit-request-modal',
+    templateUrl: './admin-edit-request-modal.component.html',
+    styleUrls: ['./admin-edit-request-modal.component.scss'],
 })
 
 export class EditRequestModalComponent {
+  readonly castAsInputElement = castAsInputElement;
+  readonly castAsTextAreaElement = castAsTextAreaElement;
 
   @Input()
   accountRequestName: string = '';

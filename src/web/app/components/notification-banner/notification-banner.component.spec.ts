@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,7 +10,6 @@ import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { MarkNotificationAsReadRequest } from '../../../types/api-request';
-import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 
 describe('NotificationBannerComponent', () => {
   let component: NotificationBannerComponent;
@@ -44,12 +43,12 @@ describe('NotificationBannerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [NotificationBannerComponent],
       imports: [
         BrowserAnimationsModule,
-        CommonModule,
-        TeammatesCommonModule,
-        HttpClientTestingModule,
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     })
     .compileComponents();

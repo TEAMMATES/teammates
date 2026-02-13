@@ -221,8 +221,8 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     public boolean areResponseDeletionsRequiredForChanges(FeedbackParticipantType giverType,
                                                           FeedbackParticipantType recipientType,
                                                           FeedbackQuestionDetails questionDetails) {
-        if (!giverType.equals(this.giverType)
-                || !recipientType.equals(this.recipientType)) {
+        if (giverType != this.giverType
+                || recipientType != this.recipientType) {
             return true;
         }
 
@@ -348,8 +348,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
                 + ", giverType=" + giverType + ", recipientType=" + recipientType
                 + ", numOfEntitiesToGiveFeedbackTo=" + numOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                 + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo + ", showRecipientNameTo="
-                + showRecipientNameTo + ", isClosingEmailEnabled=" + ", createdAt=" + getCreatedAt() + ", updatedAt="
-                + updatedAt + "]";
+                + showRecipientNameTo + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
     @Override

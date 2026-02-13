@@ -1,17 +1,29 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgxCaptchaModule } from 'ngx-captcha';
 import { finalize } from 'rxjs';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
 import { FormValidator } from '../../../../types/form-validator';
+import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 @Component({
   selector: 'tm-instructor-request-form',
   templateUrl: './instructor-request-form.component.html',
   styleUrls: ['./instructor-request-form.component.scss'],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    NgxCaptchaModule,
+    NgbAlert,
+    TeammatesRouterDirective,
+  ],
 })
 export class InstructorRequestFormComponent {
 
@@ -115,11 +127,88 @@ export class InstructorRequestFormComponent {
     const name = this.name.value!.trim();
     const email = this.email.value!.trim();
     const comments = this.comments.value!.trim();
+    // Country Mapping
+    const countryMapping: { [key: string]: string } = {
+      'united states': 'USA',
+      'u.s.a': 'USA',
+      'u.s.a.': 'USA',
+      us: 'USA',
+      america: 'USA',
+      'united states of america': 'USA',
 
+      'united kingdom': 'UK',
+      uk: 'UK',
+      britain: 'UK',
+      'great britain': 'UK',
+      england: 'UK',
+
+      'united arab emirates': 'UAE',
+      uae: 'UAE',
+      emirates: 'UAE',
+
+      deutschland: 'Germany',
+      germany: 'Germany',
+
+      netherlands: 'Netherlands',
+      'the netherlands': 'Netherlands',
+      nederland: 'Netherlands',
+      holland: 'Netherlands',
+
+      belgium: 'Belgium',
+      belgië: 'Belgium',
+
+      brazil: 'Brazil',
+      brasil: 'Brazil',
+
+      spain: 'Spain',
+      españa: 'Spain',
+
+      mexico: 'Mexico',
+      méxico: 'Mexico',
+
+      italy: 'Italy',
+      italia: 'Italy',
+
+      china: 'China',
+      'peoples republic of china': 'China',
+      prc: 'China',
+
+      france: 'France',
+      'republic of france': 'France',
+
+      india: 'India',
+
+      japan: 'Japan',
+
+      russia: 'Russia',
+      'russian federation': 'Russia',
+
+      'south korea': 'South Korea',
+      'republic of korea': 'South Korea',
+      korea: 'South Korea',
+
+      'north korea': 'North Korea',
+      'democratic peoples republic of korea': 'North Korea',
+
+      'south africa': 'South Africa',
+      'republic of south africa': 'South Africa',
+
+      switzerland: 'Switzerland',
+
+      turkey: 'Turkey',
+      'republic of turkey': 'Turkey',
+      'republic of türkiye': 'Turkey',
+
+      vietnam: 'Vietnam',
+      'viet nam': 'Vietnam',
+
+      malaysia: 'Malaysia',
+    };
     // Combine country and institution
     const country = this.country.value!.trim();
+    const mappedCountry = countryMapping[country.toLowerCase()] || country;
     const institution = this.institution.value!.trim();
-    const combinedInstitution = `${institution}, ${country}`;
+    const combinedInstitution = `${institution}, ${mappedCountry}`;
 
     const requestData: AccountCreateRequest = {
       instructorEmail: email,

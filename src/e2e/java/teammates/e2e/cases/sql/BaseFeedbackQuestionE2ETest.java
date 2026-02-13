@@ -2,8 +2,8 @@ package teammates.e2e.cases.sql;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPage;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
+import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -32,27 +32,27 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
 
     abstract void testSubmitPage();
 
-    InstructorFeedbackEditPage loginToFeedbackEditPage() {
+    InstructorFeedbackEditPageSql loginToFeedbackEditPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getName());
 
-        return loginToPage(url, InstructorFeedbackEditPage.class, instructor.getGoogleId());
+        return loginToPage(url, InstructorFeedbackEditPageSql.class, instructor.getGoogleId());
     }
 
-    FeedbackSubmitPage loginToFeedbackSubmitPage() {
+    FeedbackSubmitPageSql loginToFeedbackSubmitPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(student.getCourse().getId())
                 .withSessionName(feedbackSession.getName());
 
-        return loginToPage(url, FeedbackSubmitPage.class, student.getGoogleId());
+        return loginToPage(url, FeedbackSubmitPageSql.class, student.getGoogleId());
     }
 
-    FeedbackSubmitPage getFeedbackSubmitPage() {
+    FeedbackSubmitPageSql getFeedbackSubmitPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(student.getCourse().getId())
                 .withSessionName(feedbackSession.getName());
 
-        return getNewPageInstance(url, FeedbackSubmitPage.class);
+        return getNewPageInstance(url, FeedbackSubmitPageSql.class);
     }
 }

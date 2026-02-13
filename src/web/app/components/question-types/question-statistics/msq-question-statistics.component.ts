@@ -1,18 +1,20 @@
+import { NgIf } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   MsqQuestionStatisticsCalculation,
 } from './question-statistics-calculation/msq-question-statistics-calculation';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for MSQ questions.
  */
 @Component({
-  selector: 'tm-msq-question-statistics',
-  templateUrl: './msq-question-statistics.component.html',
-  styleUrls: ['./msq-question-statistics.component.scss'],
+    selector: 'tm-msq-question-statistics',
+    templateUrl: './msq-question-statistics.component.html',
+    styleUrls: ['./msq-question-statistics.component.scss'],
+    imports: [NgIf, SortableTableComponent],
 })
 export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalculation implements OnInit, OnChanges {
 
@@ -62,7 +64,7 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
       { header: 'Recipient Name', sortBy: SortBy.MSQ_RECIPIENT_NAME },
       ...Object.keys(this.weightPerOption).map((key: string) => {
         return {
-          header: `${key} [${this.weightPerOption[key]}]`,
+          header: `${key} [${(this.weightPerOption[key]).toFixed(2)}]`,
           sortBy: SortBy.MSQ_OPTION_SELECTED_TIMES,
         };
       }),
@@ -83,8 +85,8 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
             value: this.perRecipientResponses[key].responses[option],
           };
         }),
-        { value: this.perRecipientResponses[key].total },
-        { value: this.perRecipientResponses[key].average },
+        { value: (this.perRecipientResponses[key].total).toFixed(2) },
+        { value: (this.perRecipientResponses[key].average).toFixed(2) },
       ];
     });
   }

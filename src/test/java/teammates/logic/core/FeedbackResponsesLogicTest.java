@@ -351,7 +351,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private boolean areRankResponsesConsistent(List<FeedbackResponseAttributes> responses, int maxRank) {
         for (FeedbackResponseAttributes response : responses) {
-            if (!response.getFeedbackQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS)) {
+            if (response.getFeedbackQuestionType() != FeedbackQuestionType.RANK_RECIPIENTS) {
                 return false;
             }
             FeedbackRankRecipientsResponseDetails responseDetails =
@@ -381,10 +381,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         // Expects responses to rank recipient questions.
         for (FeedbackResponseAttributes r : responses) {
-            assert r.getFeedbackQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS);
+            assert r.getFeedbackQuestionType() == FeedbackQuestionType.RANK_RECIPIENTS;
         }
         for (FeedbackResponseAttributes r : modifiedResponses) {
-            assert r.getFeedbackQuestionType().equals(FeedbackQuestionType.RANK_RECIPIENTS);
+            assert r.getFeedbackQuestionType() == FeedbackQuestionType.RANK_RECIPIENTS;
         }
 
         responses.sort(Comparator.comparing(

@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FeedbackQuestionsService } from './feedback-questions.service';
 import { HttpRequestService } from './http-request.service';
@@ -13,11 +14,10 @@ describe('FeedbackQuestionsService', () => {
   beforeEach(() => {
     spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(FeedbackQuestionsService);
