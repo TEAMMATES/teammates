@@ -13,7 +13,6 @@
       "courseId": "tm.e2e.INotifs.course1",
       "name": "Teammates Instr1",
       "email": "INotifs.instr@gmail.tmt",
-      "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",

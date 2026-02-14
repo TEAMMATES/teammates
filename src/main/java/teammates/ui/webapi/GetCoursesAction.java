@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 
 /**
- * Gets all courses for the instructor, and filtered by active, archived and soft-deleted.
+ * Gets all courses for the instructor, and filtered by active and soft-deleted.
  * Or gets all courses for the student he belongs to.
  */
 public class GetCoursesAction extends Action {
@@ -67,9 +66,6 @@ public class GetCoursesAction extends Action {
         switch (courseStatus) {
         case Const.CourseStatus.ACTIVE:
             courses = sqlLogic.getCoursesForInstructors(instructors);
-            break;
-        case Const.CourseStatus.ARCHIVED:
-            courses = new ArrayList<>();
             break;
         case Const.CourseStatus.SOFT_DELETED:
             courses = sqlLogic.getSoftDeletedCoursesForInstructors(instructors);

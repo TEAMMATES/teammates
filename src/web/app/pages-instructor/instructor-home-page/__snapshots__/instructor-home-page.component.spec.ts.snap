@@ -515,14 +515,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn-archive-course btn btn-light btn-sm dropdown-item"
-                    href="/"
-                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                    tmrouterlink="./"
-                  >
-                     Archive 
-                  </a>
-                  <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS1231"
                     tmrouterlink="/web/instructor/courses/edit"
@@ -1107,14 +1099,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   class="dropdown-menu"
                   ngbdropdownmenu=""
                 >
-                  <a
-                    class="btn-archive-course btn btn-light btn-sm dropdown-item"
-                    href="/"
-                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                    tmrouterlink="./"
-                  >
-                     Archive 
-                  </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
@@ -1872,14 +1856,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   ngbdropdownmenu=""
                 >
                   <a
-                    class="btn-archive-course btn btn-light btn-sm dropdown-item"
-                    href="/"
-                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                    tmrouterlink="./"
-                  >
-                     Archive 
-                  </a>
-                  <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
                     tmrouterlink="/web/instructor/courses/edit"
@@ -2143,14 +2119,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   class="dropdown-menu"
                   ngbdropdownmenu=""
                 >
-                  <a
-                    class="btn-archive-course btn btn-light btn-sm dropdown-item"
-                    href="/"
-                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                    tmrouterlink="./"
-                  >
-                     Archive 
-                  </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
@@ -2438,14 +2406,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   class="dropdown-menu"
                   ngbdropdownmenu=""
                 >
-                  <a
-                    class="btn-archive-course btn btn-light btn-sm dropdown-item"
-                    href="/"
-                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                    tmrouterlink="./"
-                  >
-                     Archive 
-                  </a>
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS1231"
