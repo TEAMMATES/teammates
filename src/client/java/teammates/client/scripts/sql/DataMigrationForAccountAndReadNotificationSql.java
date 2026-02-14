@@ -20,8 +20,10 @@ import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
 
-// import jakarta.persistence.criteria.CriteriaDelete;
-
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
@@ -126,6 +128,26 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
      * Migrates the entity.
      */
     protected void migrateEntity(teammates.storage.entity.Account oldAccount) {
+        HibernateUtil.beginTransaction();
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<teammates.storage.sqlentity.Account> cr = cb.createQuery(
+                teammates.storage.sqlentity.Account.class);
+        Root<teammates.storage.sqlentity.Account> root = cr.from(teammates.storage.sqlentity.Account.class);
+        cr.select(root).where(cb.equal(root.get("googleId"), oldAccount.getGoogleId()));
+
+        TypedQuery<teammates.storage.sqlentity.Account> query = HibernateUtil.createQuery(cr);
+
+        boolean isEntityInDb = query.getResultList().size() != 0;
+        HibernateUtil.commitTransaction();
+
+        // In db, but somehow not set as migrated.
+        if (isEntityInDb) {
+            oldAccount.setMigrated(true);
+            entitiesOldAccountSavingBuffer.add(oldAccount);
+            return;
+        }
+
         teammates.storage.sqlentity.Account newAccount = new teammates.storage.sqlentity.Account(
                 oldAccount.getGoogleId(),
                 oldAccount.getName(),
@@ -136,7 +158,6 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         oldAccount.setMigrated(true);
         entitiesOldAccountSavingBuffer.add(oldAccount);
         migrateReadNotification(oldAccount, newAccount);
-
     }
 
     private void migrateReadNotification(teammates.storage.entity.Account oldAccount,
@@ -199,7 +220,10 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
                 log(String.format("Number Of Entity Key Scanned: %d", numberOfScannedKey.get()));
                 log(String.format("Number Of Entity affected: %d", numberOfAffectedEntities.get()));
                 log(String.format("Number Of Entity updated: %d", numberOfUpdatedEntities.get()));
+            } else {
+                flushEntitiesSavingBuffer();
             }
+            flushEntitiesSavingBuffer();
         }
 
         deleteCursorPositionFile();
