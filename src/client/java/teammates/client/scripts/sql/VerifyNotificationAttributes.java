@@ -25,6 +25,14 @@ public class VerifyNotificationAttributes
     public boolean equals(teammates.storage.sqlentity.Notification sqlEntity, Notification datastoreEntity) {
         try {
             UUID otherUuid = UUID.fromString(datastoreEntity.getNotificationId());
+            boolean matchingCreatedAtTimestamp = false;
+
+            if (sqlEntity.getCreatedAt() == null || datastoreEntity.getCreatedAt() == null) {
+                matchingCreatedAtTimestamp = sqlEntity.getCreatedAt() == datastoreEntity.getCreatedAt();
+            } else {
+                matchingCreatedAtTimestamp = sqlEntity.getCreatedAt().equals(datastoreEntity.getCreatedAt());
+            }
+
             return sqlEntity.getId().equals(otherUuid)
                     && sqlEntity.getStartTime().equals(datastoreEntity.getStartTime())
                     && sqlEntity.getEndTime().equals(datastoreEntity.getEndTime())
@@ -32,6 +40,7 @@ public class VerifyNotificationAttributes
                     && sqlEntity.getTargetUser() == datastoreEntity.getTargetUser()
                     && sqlEntity.getTitle().equals(datastoreEntity.getTitle())
                     && sqlEntity.getMessage().equals(datastoreEntity.getMessage())
+                    && matchingCreatedAtTimestamp
                     && sqlEntity.isShown() == datastoreEntity.isShown();
         } catch (IllegalArgumentException iae) {
             return false;
