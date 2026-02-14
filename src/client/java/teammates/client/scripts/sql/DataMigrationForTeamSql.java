@@ -5,21 +5,20 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Root;
+
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Root;
-
 /**
  * Data migration class for team entity.
  */
-@SuppressWarnings("PMD")
 public class DataMigrationForTeamSql extends
         DataMigrationEntitiesBaseScriptSql<Course, teammates.storage.sqlentity.Team> {
 

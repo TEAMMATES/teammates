@@ -22,9 +22,8 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.test.FileHelper;
 
-// CHECKSTYLE.ON:ImportOrder
 /**
- * Patch createdAt attribute for Notification
+ * Patch createdAt attribute for Notification.
  * Assumes that the notification was previously migrated using DataMigrationForNotificationSql.java
  */
 @SuppressWarnings("PMD")

@@ -1,19 +1,17 @@
 package teammates.client.scripts.sql;
 
 import java.io.IOException;
-
 import java.util.Optional;
+
+import com.google.cloud.datastore.Cursor;
+import com.google.cloud.datastore.QueryResults;
+import com.googlecode.objectify.cmd.Query;
 
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.test.FileHelper;
-
-
-import com.google.cloud.datastore.Cursor;
-import com.google.cloud.datastore.QueryResults;
-import com.googlecode.objectify.cmd.Query;
 
 /**
  * Deletes the "dangling" course from SQL: the course at the cursor position left by
@@ -23,22 +21,26 @@ import com.googlecode.objectify.cmd.Query;
 public class DeleteDanglingCourseScript extends DatastoreClient {
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
     private static final String COURSE_MIGRATION_SCRIPT_NAME = "DataMigrationForCourseEntitySql";
+
     public static void main(String[] args) {
         String connectionUrl = ClientProperties.SCRIPT_API_URL;
         String username = ClientProperties.SCRIPT_API_NAME;
         String password = ClientProperties.SCRIPT_API_PASSWORD;
 
         HibernateUtil.buildSessionFactory(connectionUrl, username, password);
-        
+
         DeleteDanglingCourseScript script = new DeleteDanglingCourseScript();
         script.doOperationRemotely();
     }
 
+    @Override
     protected void doOperation() {
         deleteDanglingCourse();
     }
 
-
+    /**
+     * Deletes the dangling course at the cursor position.
+     */
     private void deleteDanglingCourse() {
         Cursor cursor = readPositionOfCursorFromFile().orElse(null);
         if (cursor == null) {
@@ -77,7 +79,7 @@ public class DeleteDanglingCourseScript extends DatastoreClient {
      */
     private void deleteCourseCascade(Course oldCourse) {
         String courseId = oldCourse.getUniqueId();
-        
+
         HibernateUtil.beginTransaction();
         teammates.storage.sqlentity.Course newCourse = HibernateUtil.get(teammates.storage.sqlentity.Course.class, courseId);
         if (newCourse == null) {
@@ -107,6 +109,11 @@ public class DeleteDanglingCourseScript extends DatastoreClient {
         }
     }
 
+    /**
+     * Logs a message to console.
+     *
+     * @param logLine the line to log
+     */
     protected void log(String logLine) {
         System.out.println(String.format("%s %s", getLogPrefix(), logLine));
     }

@@ -13,7 +13,6 @@ import teammates.storage.sqlentity.Team;
 /**
  * Class for verifying team attributes.
  */
-@SuppressWarnings("PMD")
 public class VerifyTeamAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Course, teammates.storage.sqlentity.Course> {
 

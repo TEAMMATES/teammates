@@ -9,8 +9,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Converter;
 import jakarta.persistence.MappedSuperclass;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.google.common.reflect.TypeToken;
 
 import teammates.common.datatransfer.FeedbackParticipantType;

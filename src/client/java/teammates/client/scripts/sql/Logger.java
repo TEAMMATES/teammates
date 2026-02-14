@@ -8,6 +8,9 @@ import java.nio.file.StandardOpenOption;
 
 import teammates.common.util.Const;
 
+/**
+ * Logger for migration scripts that writes to both console and file.
+ */
 public class Logger {
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
     String logPrefix;

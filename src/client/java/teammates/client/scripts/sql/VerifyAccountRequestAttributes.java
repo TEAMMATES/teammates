@@ -39,17 +39,17 @@ public class VerifyAccountRequestAttributes
             }
 
             if (sqlEntity.getRegisteredAt() == null || datastoreEntity.getRegisteredAt() == null) {
-                 matchingRegisteredAtTimestamp = sqlEntity.getRegisteredAt() == datastoreEntity.getRegisteredAt();
+                matchingRegisteredAtTimestamp = sqlEntity.getRegisteredAt() == datastoreEntity.getRegisteredAt();
             } else {
-                 matchingRegisteredAtTimestamp = sqlEntity.getRegisteredAt().equals(datastoreEntity.getRegisteredAt());
+                matchingRegisteredAtTimestamp = sqlEntity.getRegisteredAt().equals(datastoreEntity.getRegisteredAt());
             }
 
             // UUID for account is not checked, as datastore ID is email%institute
             return sqlEntity.getName().equals(datastoreEntity.getName())
-                && sqlEntity.getEmail().equals(datastoreEntity.getEmail())
-                && sqlEntity.getInstitute().equals(datastoreEntity.getInstitute())
-                && matchingCreatedAtTimestamp
-                && matchingRegisteredAtTimestamp;
+                    && sqlEntity.getEmail().equals(datastoreEntity.getEmail())
+                    && sqlEntity.getInstitute().equals(datastoreEntity.getInstitute())
+                    && matchingCreatedAtTimestamp
+                    && matchingRegisteredAtTimestamp;
         } else {
             return false;
         }

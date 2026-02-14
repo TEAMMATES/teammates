@@ -6,12 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import teammates.common.util.FieldValidator;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -20,14 +14,18 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import teammates.common.util.FieldValidator;
 
 /**
  * Represents a deadline extension entity.
  */
 @Entity
 @Table(name = "DeadlineExtensions", uniqueConstraints = {
-    @UniqueConstraint(name = "Unique deadline per session and user", columnNames = { "userId", "sessionId" }),
+        @UniqueConstraint(name = "Unique deadline per session and user", columnNames = { "userId", "sessionId" }),
 })
 public class DeadlineExtension extends BaseEntity {
     @Id

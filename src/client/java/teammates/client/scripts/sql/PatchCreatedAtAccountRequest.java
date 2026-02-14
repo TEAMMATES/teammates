@@ -29,9 +29,8 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.test.FileHelper;
 
-// CHECKSTYLE.ON:ImportOrder
 /**
- * Patch createdAt attribute for Account Request
+ * Patch createdAt attribute for Account Request.
  * Assumes that the notification was previously migrated using DataMigrationForAccountRequestSql.java
  */
 @SuppressWarnings("PMD")
@@ -113,7 +112,8 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
      */
     protected void migrateEntity(teammates.storage.entity.AccountRequest oldEntity) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<teammates.storage.sqlentity.AccountRequest> cr = cb.createQuery(teammates.storage.sqlentity.AccountRequest.class);
+        CriteriaQuery<teammates.storage.sqlentity.AccountRequest> cr =
+                cb.createQuery(teammates.storage.sqlentity.AccountRequest.class);
         Root<teammates.storage.sqlentity.AccountRequest> root = cr.from(teammates.storage.sqlentity.AccountRequest.class);
         Predicate instituteMatch = cb.equal(root.get("institute"), oldEntity.getInstitute());
         Predicate emailMatch = cb.equal(root.get("email"), oldEntity.getEmail());

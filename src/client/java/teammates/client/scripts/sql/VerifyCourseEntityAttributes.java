@@ -1,12 +1,17 @@
 package teammates.client.scripts.sql;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.HashMap;
-import java.util.HashSet;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
@@ -14,10 +19,10 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
-import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.Instructor;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -25,12 +30,9 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
-
 /**
- * Class for verifying course entity attributes (course, sections, teams, students, feedback chain, instructors, deadline extensions).
+ * Class for verifying course entity attributes (course, sections, teams, students,
+ * feedback chain, instructors, deadline extensions).
  */
 @SuppressWarnings({ "PMD", "deprecation" })
 public class VerifyCourseEntityAttributes
@@ -106,8 +108,8 @@ public class VerifyCourseEntityAttributes
 
         List<Section> newSections = getNewSections(courseId);
 
-        HashSet<String> oldSectionNames = new HashSet<>();
-        HashSet<String> newSectionNames = new HashSet<>();
+        Set<String> oldSectionNames = new HashSet<>();
+        Set<String> newSectionNames = new HashSet<>();
 
         for (CourseStudent oldStudent : oldStudents) {
             String name = oldStudent.getSectionName();
@@ -120,8 +122,8 @@ public class VerifyCourseEntityAttributes
 
         boolean isSectionsCountEqual = newSectionNames.size() == oldSectionNames.size();
         if (!isSectionsCountEqual) {
-            logValidationError(String.format("Section chain - section count not equal (%d but expected %d)", newSectionNames.size(),
-                oldSectionNames.size()));
+            logValidationError(String.format("Section chain - section count not equal (%d but expected %d)",
+                    newSectionNames.size(), oldSectionNames.size()));
             return false;
         }
 
@@ -134,7 +136,7 @@ public class VerifyCourseEntityAttributes
 
     private boolean verifyTeams(String courseId) {
         log("Verifying teams");
-       // Assume that team names are unique within a section but not unique among all sections
+        // Assume that team names are unique within a section but not unique among all sections
 
         // get all datastore students related to course
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
@@ -142,14 +144,14 @@ public class VerifyCourseEntityAttributes
 
         // get all teams related to sections
         int numberOldTeams = 0;
-        Map<String, HashSet<String>> oldSectionToTeamHashSet = new HashMap<>();
+        Map<String, Set<String>> oldSectionToTeamHashSet = new HashMap<>();
         for (CourseStudent student : oldStudents) {
             String sectionName = student.getSectionName();
             sectionName = sectionName == null || sectionName.isEmpty() ? "None" : sectionName;
             String teamName = student.getTeamName();
             teamName = teamName == null || teamName.isEmpty() ? "None" : teamName;
             oldSectionToTeamHashSet.putIfAbsent(sectionName, new HashSet<>());
-            HashSet<String> teamHashSet = oldSectionToTeamHashSet.get(sectionName);
+            Set<String> teamHashSet = oldSectionToTeamHashSet.get(sectionName);
             boolean addedToSet = teamHashSet.add(teamName);
             if (addedToSet) {
                 numberOldTeams += 1;
@@ -158,11 +160,11 @@ public class VerifyCourseEntityAttributes
 
         // map team to section
         int numberNewTeams = 0;
-        Map<String, HashSet<String>> newSectionToTeamHashSet = new HashMap<>();
+        Map<String, Set<String>> newSectionToTeamHashSet = new HashMap<>();
         List<Section> newSections = getNewSections(courseId);
         for (Section newSection : newSections) {
             String sectionName = newSection.getName();
-            HashSet<String> teamHashSet = new HashSet<>();
+            Set<String> teamHashSet = new HashSet<>();
             for (Team newTeam : newSection.getTeams()) {
                 boolean addedToSet = teamHashSet.add(newTeam.getName());
                 if (addedToSet) {
@@ -174,8 +176,8 @@ public class VerifyCourseEntityAttributes
 
         boolean isTeamCountEqual = numberNewTeams == numberOldTeams;
         if (!isTeamCountEqual) {
-            logValidationError(String.format("Section chain - team count not equal (%d but expected %d)", numberNewTeams,
-                numberOldTeams));
+            logValidationError(String.format("Section chain - team count not equal (%d but expected %d)",
+                    numberNewTeams, numberOldTeams));
             return false;
         }
 
@@ -189,7 +191,7 @@ public class VerifyCourseEntityAttributes
     private boolean verifyStudents(String courseId) {
         log("Verifying students");
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
-            .list();
+                .list();
 
         Map<String, Student> studentIdToStudentMap = new HashMap<>();
 
@@ -197,7 +199,6 @@ public class VerifyCourseEntityAttributes
             // Assume that every course have students with unique emails
             studentIdToStudentMap.put(newStudent.getEmail(), newStudent);
         }
-
 
         for (CourseStudent oldStudent : oldStudents) {
             Student newStudent = studentIdToStudentMap.get(oldStudent.getEmail());
@@ -208,12 +209,11 @@ public class VerifyCourseEntityAttributes
         return true;
     }
 
-    private boolean verifyStudent(CourseStudent oldStudent,
-            Student newStudent) {
+    private boolean verifyStudent(CourseStudent oldStudent, Student newStudent) {
         if (!Objects.equals(newStudent.getGoogleId(), oldStudent.getGoogleId())) {
             logValidationError(String.format("Mismatch in google ids. Expected %s but got %s",
-                newStudent.getGoogleId(),
-                oldStudent.getGoogleId()));
+                    newStudent.getGoogleId(),
+                    oldStudent.getGoogleId()));
             return false;
         }
 
@@ -247,16 +247,19 @@ public class VerifyCourseEntityAttributes
         log("Verifying feedback chain");
         Course newCourse = getCourse(courseId);
         List<FeedbackSession> newSessions = newCourse.getFeedbackSessions();
-        List<teammates.storage.entity.FeedbackSession> oldSessions = ofy().load().type(teammates.storage.entity.FeedbackSession.class)
+        List<teammates.storage.entity.FeedbackSession> oldSessions = ofy().load()
+                .type(teammates.storage.entity.FeedbackSession.class)
                 .filter("courseId", newCourse.getId()).list();
 
         if (newSessions.size() != oldSessions.size()) {
-            logValidationError(String.format("Mismatched session counts for course id: %s. Old size: %d, New size: %d", newCourse.getId(), newSessions.size(), oldSessions.size()));
+            logValidationError(String.format("Mismatched session counts for course id: %s. Old size: %d, New size: %d",
+                    newCourse.getId(), newSessions.size(), oldSessions.size()));
             return false;
         }
 
         Map<String, teammates.storage.entity.FeedbackSession> sessionNameToOldSessionMap = oldSessions.stream()
-                .collect(Collectors.toMap(teammates.storage.entity.FeedbackSession::getFeedbackSessionName, session -> session));
+                .collect(Collectors.toMap(
+                        teammates.storage.entity.FeedbackSession::getFeedbackSessionName, session -> session));
 
         return newSessions.stream().allMatch(newSession -> {
             teammates.storage.entity.FeedbackSession oldSession = sessionNameToOldSessionMap.get(newSession.getName());
@@ -264,11 +267,13 @@ public class VerifyCourseEntityAttributes
         });
     }
 
-    private boolean verifyFeedbackSession(teammates.storage.entity.FeedbackSession oldSession, FeedbackSession newSession) {
+    private boolean verifyFeedbackSession(teammates.storage.entity.FeedbackSession oldSession,
+            FeedbackSession newSession) {
         boolean doFieldsMatch = newSession.getCourse().getId().equals(oldSession.getCourseId())
                 && newSession.getName().equals(oldSession.getFeedbackSessionName())
                 && newSession.getCreatorEmail().equals(oldSession.getCreatorEmail())
-                && newSession.getInstructions().equals(SanitizationHelper.sanitizeForRichText(oldSession.getInstructions()))
+                && newSession.getInstructions().equals(
+                        SanitizationHelper.sanitizeForRichText(oldSession.getInstructions()))
                 && newSession.getStartTime().equals(oldSession.getStartTime())
                 && newSession.getEndTime().equals(oldSession.getEndTime())
                 && newSession.getSessionVisibleFromTime().equals(oldSession.getSessionVisibleFromTime())
@@ -316,7 +321,8 @@ public class VerifyCourseEntityAttributes
                 && newQuestion.getDescription().equals(oldQuestion.getQuestionDescription())
                 && newQuestion.getGiverType().equals(oldQuestion.getGiverType())
                 && newQuestion.getRecipientType().equals(oldQuestion.getRecipientType())
-                && newQuestion.getNumOfEntitiesToGiveFeedbackTo().equals(oldQuestion.getNumberOfEntitiesToGiveFeedbackTo())
+                && newQuestion.getNumOfEntitiesToGiveFeedbackTo()
+                        .equals(oldQuestion.getNumberOfEntitiesToGiveFeedbackTo())
                 && newQuestion.getShowResponsesTo().equals(oldQuestion.getShowResponsesTo())
                 && newQuestion.getShowGiverNameTo().equals(oldQuestion.getShowGiverNameTo())
                 && newQuestion.getShowRecipientNameTo().equals(oldQuestion.getShowRecipientNameTo())
@@ -324,7 +330,8 @@ public class VerifyCourseEntityAttributes
                 && newQuestion.getCreatedAt().equals(oldQuestion.getCreatedAt());
         if (!doFieldsMatch) {
             logValidationError(String.format("Mismatched fields for question %s, session: %s, course id: %s",
-                    oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
+                    oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(),
+                    oldQuestion.getCourseId()));
             return false;
         }
 
@@ -333,9 +340,10 @@ public class VerifyCourseEntityAttributes
                 .filter("feedbackQuestionId", oldQuestion.getId()).list();
 
         if (newResponses.size() != oldResponses.size()) {
-            logValidationError(String.format("Mismatched response counts for question. New: %d, Old: %d, %s, session: %s, course id: %s",
-                    newResponses.size(), oldResponses.size(),
-                    oldQuestion.getQuestionNumber(), oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
+            logValidationError(String.format(
+                    "Mismatched response counts for question. New: %d, Old: %d, %s, session: %s, course id: %s",
+                    newResponses.size(), oldResponses.size(), oldQuestion.getQuestionNumber(),
+                    oldQuestion.getFeedbackSessionName(), oldQuestion.getCourseId()));
             return false;
         }
 
@@ -354,7 +362,8 @@ public class VerifyCourseEntityAttributes
 
     private boolean verifyFeedbackResponse(FeedbackResponse oldResponse,
             teammates.storage.sqlentity.FeedbackResponse newResponse) {
-        String newGiverCourseId = newResponse.getGiverSection() == null ? null : newResponse.getGiverSection().getCourse().getId();
+        String newGiverCourseId = newResponse.getGiverSection() == null
+                ? null : newResponse.getGiverSection().getCourse().getId();
         String newGiverSectionName = newResponse.getGiverSectionName();
         String newRecipientSectionName = newResponse.getRecipientSectionName();
         boolean allFieldsMatch = newResponse.getGiver().equals(oldResponse.getGiverEmail())
@@ -371,13 +380,15 @@ public class VerifyCourseEntityAttributes
             return false;
         }
 
-        List<teammates.storage.sqlentity.FeedbackResponseComment> newComments = newResponse.getFeedbackResponseComments();
+        List<teammates.storage.sqlentity.FeedbackResponseComment> newComments =
+                newResponse.getFeedbackResponseComments();
         List<FeedbackResponseComment> oldComments = ofy().load()
                 .type(teammates.storage.entity.FeedbackResponseComment.class)
                 .filter("feedbackResponseId", oldResponse.getId()).list();
 
         if (newComments.size() != oldComments.size()) {
-            logValidationError(String.format("Mismatched comment counts for response %s, question %s, session: %s, course id: %s",
+            logValidationError(String.format(
+                    "Mismatched comment counts for response %s, question %s, session: %s, course id: %s",
                     oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
                     oldResponse.getCourseId()));
             return false;
@@ -386,7 +397,8 @@ public class VerifyCourseEntityAttributes
         boolean allCommentFieldsMatch = oldComments.stream().allMatch(oldComment -> newComments.stream()
                 .anyMatch(newComment -> verifyFeedbackResponseComment(oldComment, newComment)));
         if (!allCommentFieldsMatch) {
-            logValidationError(String.format("Mismatched fields for comments in response %s, question %s, session: %s, course id: %s",
+            logValidationError(String.format(
+                    "Mismatched fields for comments in response %s, question %s, session: %s, course id: %s",
                     oldResponse.getId(), oldResponse.getFeedbackQuestionId(), oldResponse.getFeedbackSessionName(),
                     oldResponse.getCourseId()));
             return false;
@@ -397,9 +409,12 @@ public class VerifyCourseEntityAttributes
 
     private boolean verifyFeedbackResponseComment(FeedbackResponseComment oldComment,
             teammates.storage.sqlentity.FeedbackResponseComment newComment) {
-        String newCommentCourseId = newComment.getGiverSection() == null ? null : newComment.getGiverSection().getCourse().getId();
-        String newCommentGiverSection = newComment.getGiverSection() == null ? null : newComment.getGiverSection().getName();
-        String newCommentRecipientSection = newComment.getRecipientSection() == null ? null : newComment.getRecipientSection().getName();
+        String newCommentCourseId = newComment.getGiverSection() == null
+                ? null : newComment.getGiverSection().getCourse().getId();
+        String newCommentGiverSection = newComment.getGiverSection() == null
+                ? null : newComment.getGiverSection().getName();
+        String newCommentRecipientSection = newComment.getRecipientSection() == null
+                ? null : newComment.getRecipientSection().getName();
         return newComment.getGiver().equals(oldComment.getGiverEmail())
                 && newComment.getCommentText().equals(oldComment.getCommentText())
                 && newComment.getGiverType().equals(oldComment.getCommentGiverType())

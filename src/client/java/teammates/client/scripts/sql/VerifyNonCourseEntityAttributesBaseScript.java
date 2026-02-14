@@ -208,11 +208,20 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         HibernateUtil.commitTransaction();
     }
 
+    /**
+     * Logs a message.
+     *
+     * @param logLine the line to log
+     */
     protected void log(String logLine) {
         logger.log(logLine);
     }
 
-
+    /**
+     * Logs an error message.
+     *
+     * @param logLine the line to log
+     */
     protected void logError(String logLine) {
         logger.logError(logLine);
     }

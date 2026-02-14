@@ -18,7 +18,6 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
 import teammates.client.connector.DatastoreClient;
-import teammates.client.scripts.GenerateUsageStatisticsObjects;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationStyle;
@@ -70,7 +69,7 @@ public class SeedDb extends DatastoreClient {
     private static final int DEADLINE_EXTENSION_FREQ = 5;
 
     // chunks to divide entities. Used to determine how many entities are processed before logging
-    private static final int logStep = 5;
+    private static final int LOG_STEP = 5;
     private Random rand = new Random();
     private final LogicExtension logic = new LogicExtension();
     private Closeable closeable;
@@ -144,12 +143,12 @@ public class SeedDb extends DatastoreClient {
         assert NOTIFICATION_SIZE >= READ_NOTIFICATION_SIZE;
         log("Seeding Notifications and Account Request");
 
-        seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes); 
+        seedNotifications(notificationUuids, notificationsUuidSeen, notificationEndTimes);
         seedAccountRequests();
 
         log("Seeding courses");
         for (int i = 0; i < MAX_NUM_COURSES; i++) {
-            if (MAX_NUM_COURSES >= logStep && i % (MAX_NUM_COURSES / logStep) == 0) {
+            if (MAX_NUM_COURSES >= LOG_STEP && i % (MAX_NUM_COURSES / LOG_STEP) == 0) {
                 log(String.format("Seeded %d %% of new sets of entities",
                         (int) (100 * ((float) i / (float) MAX_NUM_COURSES))));
             }
@@ -169,7 +168,14 @@ public class SeedDb extends DatastoreClient {
         // GenerateUsageStatisticsObjects.main(args);
     }
 
-    protected void saveEntityDeferred(List<teammates.storage.entity.BaseEntity> buffer, teammates.storage.entity.BaseEntity entity) {
+    /**
+     * Adds entity to buffer and flushes when buffer is full.
+     *
+     * @param buffer the entity buffer
+     * @param entity the entity to add
+     */
+    protected void saveEntityDeferred(List<teammates.storage.entity.BaseEntity> buffer,
+            teammates.storage.entity.BaseEntity entity) {
         buffer.add(entity);
         if (buffer.size() == MAX_FLUSH_SIZE) {
             log("Flushing entities...");
@@ -177,6 +183,11 @@ public class SeedDb extends DatastoreClient {
         }
     }
 
+    /**
+     * Flushes the entity buffer to datastore.
+     *
+     * @param buffer the buffer to flush
+     */
     protected void flushEntityBuffer(List<teammates.storage.entity.BaseEntity> buffer) {
         ofy().save().entities(buffer).now();
         buffer.clear();
@@ -221,7 +232,7 @@ public class SeedDb extends DatastoreClient {
                 String studentSectionName = String.format("Course %s Section %s", courseNumber, currSection);
                 String studentRegistrationKey = String.format("Student %s in Course %s Registration Key", i,
                         courseNumber);
-                
+
                 if (rand.nextDouble() <= PERCENTAGE_STUDENTS_WITH_ACCOUNT) {
                     int googleIdNumber = courseNumber * MAX_STUDENT_PER_COURSE + i;
                     studentGoogleId = String.format("Account Google ID %s", googleIdNumber);
@@ -231,11 +242,11 @@ public class SeedDb extends DatastoreClient {
                 }
 
                 CourseStudent student = new CourseStudent(studentEmail, studentName, studentGoogleId, studentComments,
-                courseId, studentTeamName, studentSectionName);
+                        courseId, studentTeamName, studentSectionName);
                 student.setCreatedAt(getRandomInstant());
                 student.setLastUpdate(rand.nextInt(4) > 0 ? null : getRandomInstant());
                 student.setRegistrationKey(studentRegistrationKey);
-                
+
                 saveEntityDeferred(buffer, student);
 
                 if (i % DEADLINE_EXTENSION_FREQ == 0) { // every n-th student has deadline extensions
@@ -293,7 +304,7 @@ public class SeedDb extends DatastoreClient {
                 if (i % (MAX_QUESTION_PER_COURSE / MAX_FEEDBACK_SESSION_FOR_EACH_COURSE_SIZE) == 0) {
                     currSession++;
                 }
-    
+
                 String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, currSession);
                 String questionDescription = String.format("Course %s Session %s Question %s Description",
                         courseNumber, currSession, i);
@@ -311,15 +322,15 @@ public class SeedDb extends DatastoreClient {
                     giverType = FeedbackParticipantType.INSTRUCTORS;
                     recipientType = FeedbackParticipantType.STUDENTS;
                 }
-    
+
                 FeedbackQuestion feedbackQuestion = new FeedbackQuestion(feedbackSessionName, courseId,
                         questionText, questionDescription, questionNumber, feedbackQuestionType, giverType, recipientType,
                         numberOfEntitiesToGiveFeedbackTo, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
                 feedbackQuestion.setCreatedAt(getRandomInstant());
                 feedbackQuestion.setLastUpdate(getRandomInstant());
-    
+
                 listOfCreatedFeedbackQuestions.add(feedbackQuestion);
-                
+
             } catch (Exception e) {
                 log("Feedback questions " + e.toString());
             }
@@ -333,7 +344,8 @@ public class SeedDb extends DatastoreClient {
             String feedbackQuestionId = feedbackQuestion.getId();
             FeedbackQuestionType feedbackQuestionType = feedbackQuestion.getQuestionType();
             assert feedbackQuestionId != null;
-            List<teammates.storage.entity.FeedbackResponse> feedbackResponses = createFeedbackResponses(courseNumber, courseId, feedbackQuestionId, feedbackQuestionType);    
+            List<teammates.storage.entity.FeedbackResponse> feedbackResponses =
+                    createFeedbackResponses(courseNumber, courseId, feedbackQuestionId, feedbackQuestionType);
             listOfCreatedFeedbackResponses.addAll(feedbackResponses);
         }
         ofy().save().entities(listOfCreatedFeedbackResponses).now();
@@ -344,16 +356,17 @@ public class SeedDb extends DatastoreClient {
             String giverSection = feedbackResponse.getGiverSection();
             String recipientSection = feedbackResponse.getRecipientSection();
             String feedbackResponseId = feedbackResponse.getId();
-            List<teammates.storage.entity.FeedbackResponseComment> feedbackComments = createFeedbackResponseComments(courseNumber, courseId, feedbackResponse.getFeedbackQuestionId(), feedbackResponseId, giverSection,
-                    recipientSection);
+            List<teammates.storage.entity.FeedbackResponseComment> feedbackComments =
+                    createFeedbackResponseComments(courseNumber, courseId, feedbackResponse.getFeedbackQuestionId(),
+                            feedbackResponseId, giverSection, recipientSection);
             listOfCreatedFeedbackComments.addAll(feedbackComments);
         }
 
-        ofy().save().entities(listOfCreatedFeedbackComments).now();        
+        ofy().save().entities(listOfCreatedFeedbackComments).now();
     }
 
-    private List<teammates.storage.entity.FeedbackResponse> createFeedbackResponses(int courseNumber, String courseId, String feedbackQuestionId,
-            FeedbackQuestionType feedbackQuestionType){
+    private List<teammates.storage.entity.FeedbackResponse> createFeedbackResponses(int courseNumber, String courseId,
+            String feedbackQuestionId, FeedbackQuestionType feedbackQuestionType) {
         int currGiverSection = -1;
         int currRecipientSection = 0;
 
@@ -362,7 +375,7 @@ public class SeedDb extends DatastoreClient {
             try {
                 currGiverSection = (currGiverSection + 1) % MAX_SECTION_PER_COURSE;
                 currRecipientSection = (currRecipientSection + 1) % MAX_SECTION_PER_COURSE;
-    
+
                 String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, i);
                 String giverEmail = String.format("Giver Email %s", i);
                 String giverSection = String.format("Course %s Section %s", courseNumber, currGiverSection);
@@ -370,13 +383,14 @@ public class SeedDb extends DatastoreClient {
                 String recipientSection = String.format("Course %s Section %s", courseNumber, currRecipientSection);
                 String answer = new FeedbackTextResponseDetails(
                         String.format("Response %s for Question Id: %s", i, feedbackQuestionId)).getJsonString();
-    
-                teammates.storage.entity.FeedbackResponse feedbackResponse = new FeedbackResponse(feedbackSessionName, courseId, feedbackQuestionId,
+
+                teammates.storage.entity.FeedbackResponse feedbackResponse = new FeedbackResponse(
+                        feedbackSessionName, courseId, feedbackQuestionId,
                         feedbackQuestionType, giverEmail, giverSection, recipient, recipientSection, answer);
                 feedbackResponse.setCreatedAt(getRandomInstant());
-    
+
                 listOfCreatedFeedbackResponses.add(feedbackResponse);
-    
+
             } catch (Exception e) {
                 log("Feedback response " + e.toString());
             }
@@ -384,7 +398,8 @@ public class SeedDb extends DatastoreClient {
         return listOfCreatedFeedbackResponses;
     }
 
-    private List<teammates.storage.entity.FeedbackResponseComment> createFeedbackResponseComments(int courseNumber, String courseId, String feedbackQuestionId, String feedbackResponseId,
+    private List<teammates.storage.entity.FeedbackResponseComment> createFeedbackResponseComments(int courseNumber,
+            String courseId, String feedbackQuestionId, String feedbackResponseId,
             String giverSection, String receiverSection) {
         int currGiverSection = -1;
         int currRecipientSection = 0;
@@ -394,7 +409,7 @@ public class SeedDb extends DatastoreClient {
             try {
                 currGiverSection = (currGiverSection + 1) % MAX_SECTION_PER_COURSE;
                 currRecipientSection = (currRecipientSection + 1) % MAX_SECTION_PER_COURSE;
-    
+
                 String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, i);
                 String giverEmail = String.format("Giver Email %s", i);
                 FeedbackParticipantType commentGiverType = FeedbackParticipantType.STUDENTS;
@@ -402,14 +417,14 @@ public class SeedDb extends DatastoreClient {
                 String commentText = String.format("Comment %s for Response Id: %s", i, feedbackResponseId);
                 String lastEditorEmail = String.format("Last Editor Email %s", i);
                 Instant lastEditedAt = getRandomInstant();
-    
+
                 FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(courseId,
                         feedbackSessionName, feedbackQuestionId, giverEmail, commentGiverType, feedbackResponseId,
                         createdAt, commentText, giverSection, receiverSection, new ArrayList<>(), new ArrayList<>(),
                         lastEditorEmail, lastEditedAt, rand.nextBoolean(), rand.nextBoolean());
                 feedbackResponseComment.setCreatedAt(createdAt);
                 listOfCreatedFeedbackComments.add(feedbackResponseComment);
-                        
+
             } catch (Exception e) {
                 log("Feedback response " + e.toString());
             }
@@ -456,7 +471,7 @@ public class SeedDb extends DatastoreClient {
     private void seedAccountRequests() {
         List<teammates.storage.entity.BaseEntity> buffer = new ArrayList<>();
         for (int i = 0; i < MAX_ACCOUNT_REQUESTS; i++) {
-            if (MAX_ACCOUNT_REQUESTS >= logStep && i % (MAX_ACCOUNT_REQUESTS / logStep) == 0) {
+            if (MAX_ACCOUNT_REQUESTS >= LOG_STEP && i % (MAX_ACCOUNT_REQUESTS / LOG_STEP) == 0) {
                 log(String.format("Seeded %d %% of account requests",
                         (int) (100 * ((float) i / (float) MAX_ACCOUNT_REQUESTS))));
             }
@@ -511,8 +526,9 @@ public class SeedDb extends DatastoreClient {
                 ofy().save().entities(account).now();
             }
 
-            Instructor instructor = new Instructor(instructorGoogleId, courseId, rand.nextBoolean(), instructorName,
-                    instructorEmail, role, rand.nextBoolean(), displayedName, instructorPrivilegesAsText);
+            String googleIdForInstructor = instructorGoogleId != null ? instructorGoogleId : "";
+            Instructor instructor = new Instructor(googleIdForInstructor, courseId, rand.nextBoolean(), instructorName,
+                    instructorEmail, role, rand.nextBoolean(), displayedName, "");
             instructor.setCreatedAt(getRandomInstant());
             instructor.setLastUpdate(rand.nextInt(4) > 0 ? null : getRandomInstant());
             instructor.setRegistrationKey(instructorRegistrationKey);
@@ -529,7 +545,7 @@ public class SeedDb extends DatastoreClient {
         Random rand = new Random();
 
         int i = isInstructor ? 1 : 0; // matches if session's questions' giverType are students or instructors
-        for (; i < MAX_FEEDBACK_SESSION_FOR_EACH_COURSE_SIZE; i+=2) {
+        for (; i < MAX_FEEDBACK_SESSION_FOR_EACH_COURSE_SIZE; i += 2) {
             String feedbackSessionName = String.format("Course %s Feedback Session %s", courseNumber, i);
             boolean sentClosingEmail = rand.nextBoolean();
             Instant endTime = getRandomInstant();
@@ -542,7 +558,7 @@ public class SeedDb extends DatastoreClient {
             ofy().save().entities(de).now();
         }
     }
-    
+
     private void log(String logLine) {
         System.out.println(String.format("Seeding database: %s", logLine));
     }
@@ -551,10 +567,7 @@ public class SeedDb extends DatastoreClient {
      * Persists the data to database.
      */
     protected void persistData() {
-        // Persisting basic data bundle
-        DataBundle dataBundle = getTypicalDataBundle();
         try {
-            // logic.persistDataBundle(dataBundle);
             persistAdditionalData();
         } catch (Exception e) {
             e.printStackTrace();

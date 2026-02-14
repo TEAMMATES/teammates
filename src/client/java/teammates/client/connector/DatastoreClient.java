@@ -1,6 +1,5 @@
 package teammates.client.connector;
 
-import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;

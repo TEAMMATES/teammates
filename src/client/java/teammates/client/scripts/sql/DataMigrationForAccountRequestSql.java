@@ -4,9 +4,6 @@ package teammates.client.scripts.sql;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import jakarta.persistence.criteria.CriteriaDelete;
-
-import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 
 // CHECKSTYLE.ON:ImportOrder

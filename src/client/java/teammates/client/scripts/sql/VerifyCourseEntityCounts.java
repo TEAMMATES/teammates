@@ -89,7 +89,8 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
     }
 
     private void verifySectionEntities(List<CourseStudent> students) {
-        // Match migration: null/empty section name becomes "None". Key is (section, course) so same name in different courses counts separately.
+        // Match migration: null/empty section name becomes "None".
+        // Key is (section, course) so same name in different courses counts separately.
         int objectifyEntityCount = (int) students.stream()
                 .map(VerifyCourseEntityCounts::toSectionCourseKey)
                 .distinct()

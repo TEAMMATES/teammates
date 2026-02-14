@@ -24,8 +24,8 @@ public final class SectionMigrator {
      *
      * @param newCourse the SQL course (must already exist)
      * @param sectionNames distinct section names derived from CourseStudent data
-     * @param saveAction called for each created section (e.g. {@code HibernateUtil::persist} or
-     *        {@code this::saveEntityDeferred})
+     * @param saveAction called for each created section
+     *                    (e.g. {@code HibernateUtil::persist} or {@code this::saveEntityDeferred}).
      */
     public static void migrate(
             Course newCourse,

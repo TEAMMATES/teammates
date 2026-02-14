@@ -8,22 +8,22 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import com.googlecode.objectify.Objectify;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
-import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
+import com.googlecode.objectify.Objectify;
+
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.util.HibernateUtil;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion.FeedbackConstantSumQuestionDetailsConverter;
 import teammates.storage.sqlentity.questions.FeedbackContributionQuestion.FeedbackContributionQuestionDetailsConverter;
 import teammates.storage.sqlentity.questions.FeedbackMcqQuestion.FeedbackMcqQuestionDetailsConverter;
@@ -46,7 +46,6 @@ import teammates.storage.sqlentity.responses.FeedbackTextResponse.FeedbackTextRe
  * Shared migration logic for the feedback chain (FeedbackSession, FeedbackQuestion,
  * FeedbackResponse, FeedbackResponseComment). Used by {@link DataMigrationForCourseEntitySql}.
  */
-@SuppressWarnings("PMD")
 public final class FeedbackChainMigrator {
 
     private static final int MAX_LENGTH_2000 = 2000;
@@ -54,8 +53,10 @@ public final class FeedbackChainMigrator {
     private final Supplier<Objectify> ofySupplier;
 
     /**
-     * @param ofySupplier supplies the Objectify instance for Datastore reads (e.g. {@code this::ofy}
-     *        from a {@link teammates.client.connector.DatastoreClient})
+     * Creates a FeedbackChainMigrator with the given Objectify supplier.
+     *
+     * @param ofySupplier supplies the Objectify instance for Datastore reads
+     *                    (e.g. {@code this::ofy} from a {@link teammates.client.connector.DatastoreClient})
      */
     public FeedbackChainMigrator(Supplier<Objectify> ofySupplier) {
         this.ofySupplier = ofySupplier;

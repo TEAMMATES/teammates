@@ -7,7 +7,6 @@ import teammates.storage.entity.Course;
 /**
  * Class for verifying course attributes.
  */
-@SuppressWarnings("PMD")
 public class VerifyCourseAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Course, teammates.storage.sqlentity.Course> {
 

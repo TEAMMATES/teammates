@@ -12,7 +12,6 @@ import teammates.storage.sqlentity.Section;
 /**
  * Class for verifying section attributes.
  */
-@SuppressWarnings("PMD")
 public class VerifySectionAttributes
         extends VerifyNonCourseEntityAttributesBaseScript<Course, teammates.storage.sqlentity.Course> {
 
