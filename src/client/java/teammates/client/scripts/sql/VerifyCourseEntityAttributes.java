@@ -57,39 +57,16 @@ public class VerifyCourseEntityAttributes
         // Refetch course to ensure that the information is upto date
         String courseId = newCourse.getId();
         try {
-            boolean isEqual = true;
-            HibernateUtil.beginTransaction();
-            isEqual = isEqual && verifyCourse(courseId, oldCourse);
-            HibernateUtil.commitTransaction();
-            HibernateUtil.beginTransaction();
-            isEqual = isEqual && verifySections(courseId);
-            HibernateUtil.commitTransaction();
-
-            HibernateUtil.beginTransaction();
-            isEqual = isEqual && verifyTeams(courseId);
-            HibernateUtil.commitTransaction();
-
-            HibernateUtil.beginTransaction();
-            isEqual = isEqual && verifyStudents(courseId);
-            HibernateUtil.commitTransaction();
-
-            HibernateUtil.beginTransaction();
-            isEqual = isEqual && verifyFeedbackChain(courseId);
-            HibernateUtil.commitTransaction();
-
-            HibernateUtil.beginTransaction();
-            isEqual = isEqual && verifyInstructors(newCourse);
-            HibernateUtil.commitTransaction();
-
-            HibernateUtil.beginTransaction();
-            isEqual = isEqual && verifyDeadlineExtensions(newCourse);
-            HibernateUtil.commitTransaction();
-
-            return isEqual;
+            return verifyCourse(courseId, oldCourse)
+                    && verifySections(courseId)
+                    && verifyTeams(courseId)
+                    && verifyStudents(courseId)
+                    && verifyFeedbackChain(courseId)
+                    && verifyInstructors(newCourse)
+                    && verifyDeadlineExtensions(newCourse);
         } catch (IllegalArgumentException iae) {
             iae.printStackTrace();
             logValidationError("ERROR, IllegalArgumentException " + iae.getMessage());
-            HibernateUtil.commitTransaction();
             return false;
         }
     }
