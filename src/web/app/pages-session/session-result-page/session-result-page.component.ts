@@ -29,6 +29,7 @@ import {
   SessionVisibleSetting, Student,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
+import { Timestamps } from '../../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -394,5 +395,9 @@ export class SessionResultPageComponent implements OnInit {
       feedbackSessionId: this.feedbackSessionId,
       studentId: this.studentId,
     }).subscribe();
+  }
+
+  protected isSessionPublished(): boolean {
+    return this.session.resultVisibleFromTimestamp !== Timestamps.TIME_REPRESENTS_LATER;
   }
 }
