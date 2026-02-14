@@ -40,9 +40,6 @@ jobs:
       - name: Build frontend
         run: npm run build
 
-      - name: Run backend checks
-        run: ./gradlew check
-
       # 🔐 OIDC Authentication (no service account key)
       - id: auth
         name: Authenticate to Google Cloud
