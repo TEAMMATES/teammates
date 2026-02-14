@@ -126,10 +126,10 @@ public final class HibernateUtil {
                 .setProperty("hibernate.hikari.idleTimeout", "300000")
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
                 // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.
-                // .setProperty("hibernate.jdbc.batch_size", "50")
-                // .setProperty("hibernate.order_updates", "true")
-                // .setProperty("hibernate.batch_versioned_data", "true")
-                // .setProperty("hibernate.jdbc.fetch_size", "50")
+                .setProperty("hibernate.jdbc.batch_size", "50")
+                .setProperty("hibernate.order_updates", "true")
+                .setProperty("hibernate.batch_versioned_data", "true")
+                .setProperty("hibernate.jdbc.fetch_size", "50")
                 .addPackage("teammates.storage.sqlentity");
 
         if (Config.IS_DEV_SERVER) {
