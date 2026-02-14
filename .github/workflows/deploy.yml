@@ -29,7 +29,10 @@ jobs:
           node-version: '22'
 
       - name: Install frontend dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Create config files
+        run: ./gradlew createConfigs
 
       - name: Compile type definitions
         run: ./gradlew generateTypes
