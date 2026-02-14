@@ -50,10 +50,15 @@ jobs:
             projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ vars.GCP_WIF_POOL_ID }}/providers/${{ vars.GCP_WIF_PROVIDER_ID }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
-      - name: Setup gcloud
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          install_components: app-engine-java
+      - name: Configure deployment
+        run: |
+          cat > src/main/resources/build.properties << EOF
+          app.id=${{ vars.GCP_PROJECT_ID }}
+          app.version=staging-${{ github.sha }}
+          EOF
+
+      - name: Deploy to App Engine (Staging)
+        run: ./gradlew appengineDeployAll --info --stacktrace
 
       - name: Deploy to App Engine (Staging)
         run: ./gradlew appengineDeployAll
