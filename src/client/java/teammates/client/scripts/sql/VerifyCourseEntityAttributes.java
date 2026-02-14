@@ -61,7 +61,6 @@ public class VerifyCourseEntityAttributes
             HibernateUtil.beginTransaction();
             isEqual = isEqual && verifyCourse(courseId, oldCourse);
             HibernateUtil.commitTransaction();
-
             HibernateUtil.beginTransaction();
             isEqual = isEqual && verifySections(courseId);
             HibernateUtil.commitTransaction();

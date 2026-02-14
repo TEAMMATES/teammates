@@ -54,9 +54,9 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private static final int MAX_BUFFER_SIZE = 1000;
 
-    private final List<BaseEntity> entitiesSavingBuffer;
+    private List<BaseEntity> entitiesSavingBuffer;
 
-    private final Logger logger;
+    private Logger logger;
 
     // Creates the folder that will contain the stored log.
     static {
@@ -239,7 +239,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             Account associatedAccount = getAccount(googleId);
             googleIdToAccountMap.put(googleId, associatedAccount);
         }
-
         for (CourseStudent oldStudent : oldStudents) {
             Team newTeam = newSectionToTeamEntityMap
                 .get(oldStudent.getSectionName())
@@ -251,7 +250,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
             HibernateUtil.persist(newStudent);
         }
-
 
         HibernateUtil.commitTransaction();
     }
@@ -291,7 +289,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
         Student newStudent = new Student(newCourse, truncatedStudentName, oldStudent.getEmail(),
             truncatedComments, newTeam);
-
         // newStudent.setUpdatedAt(oldStudent.getUpdatedAt());
         newStudent.setRegKey(oldStudent.getRegistrationKey());
         newStudent.setCreatedAt(oldStudent.getCreatedAt());
@@ -475,7 +472,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                 }
             }
 
-
             while (currentOldCourse != null) {
                 shouldContinue = true;
                 try {
@@ -521,7 +517,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
      */
     private void deleteCourseCascade(teammates.storage.entity.Course oldCourse) {
         String courseId = oldCourse.getUniqueId();
-
         HibernateUtil.beginTransaction();
         Course newCourse = HibernateUtil.get(Course.class, courseId);
         if (newCourse == null) {

@@ -6,6 +6,21 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.util.FieldValidator;
+import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
+import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
+import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
+import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -21,19 +36,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
-
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.util.FieldValidator;
-import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
-import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
-import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
-import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
-import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
-import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
-import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
-import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
-import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 
 /**
  * Represents a feedback question.

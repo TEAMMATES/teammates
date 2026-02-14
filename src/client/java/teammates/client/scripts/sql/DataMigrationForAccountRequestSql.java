@@ -40,8 +40,7 @@ public class DataMigrationForAccountRequestSql
      */
     @Override
     protected void setMigrationCriteria() {
-        // Prepare clean db before migration
-        cleanAccountRequestInSql();
+        // No migration criteria currently needed
     }
 
     /**
@@ -82,16 +81,5 @@ public class DataMigrationForAccountRequestSql
         // institute with % as delimiter
 
         saveEntityDeferred(newEntity);
-    }
-
-    private void cleanAccountRequestInSql() {
-        HibernateUtil.beginTransaction();
-
-        CriteriaDelete<AccountRequest> cdAccountReq = HibernateUtil.getCriteriaBuilder()
-                .createCriteriaDelete(AccountRequest.class);
-        cdAccountReq.from(AccountRequest.class);
-        HibernateUtil.executeDelete(cdAccountReq);
-
-        HibernateUtil.commitTransaction();
     }
 }

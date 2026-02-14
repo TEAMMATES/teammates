@@ -138,7 +138,6 @@ public class PatchCreatedAtAccountRequest extends DatastoreClient {
         newAccountReq.setCreatedAt(oldEntity.getCreatedAt());
 
         saveEntityDeferred(newAccountReq);
-
         numberOfAffectedEntities.incrementAndGet();
         numberOfUpdatedEntities.incrementAndGet();
     }

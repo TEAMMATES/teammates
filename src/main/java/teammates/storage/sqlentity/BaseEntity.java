@@ -26,8 +26,9 @@ import teammates.common.util.JsonUtils;
 @MappedSuperclass
 public abstract class BaseEntity {
 
-    @CreationTimestamp
-    @Column(updatable = false)
+    // @CreationTimestamp
+    // @Column(updatable = false)
+    @Column(updatable = true)
     private Instant createdAt;
 
     BaseEntity() {

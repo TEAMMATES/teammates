@@ -5,6 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.SanitizationHelper;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -14,13 +22,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.SanitizationHelper;
 
 /**
  * Represents a feedback response comment.
