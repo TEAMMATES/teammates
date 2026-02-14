@@ -33,14 +33,8 @@ jobs:
 
       - name: Create config files
         run: ./gradlew createConfigs
-
-      - name: Compile type definitions
-        run: ./gradlew generateTypes
-
-      - name: Build frontend
-        run: npm run build
       
-      - name: Configure build.properties with secrets
+      - name: Configure build.properties
         env:
           APP_ID: ${{ vars.APP_ID }}
           APP_REGION: ${{ vars.APP_REGION }}
@@ -48,7 +42,6 @@ jobs:
           APP_POSTGRES_HOST: ${{ vars.APP_POSTGRES_HOST }}
           APP_POSTGRES_PORT: ${{ vars.APP_POSTGRES_PORT }}
           APP_POSTGRES_DATABASENAME: ${{ vars.APP_POSTGRES_DATABASENAME }}
-          APP_POSTGRES_USERNAME: ${{ vars.APP_POSTGRES_USERNAME }}
           APP_POSTGRES_PASSWORD: ${{ secrets.APP_POSTGRES_PASSWORD }}
           APP_PRODUCTION_GCS_BUCKETNAME: ${{ vars.APP_PRODUCTION_GCS_BUCKETNAME }}
           APP_BACKUP_KEY: ${{ secrets.APP_BACKUP_KEY }}
@@ -73,7 +66,7 @@ jobs:
           app.postgres.host=${APP_POSTGRES_HOST}
           app.postgres.port=${APP_POSTGRES_PORT}
           app.postgres.databasename=${APP_POSTGRES_DATABASENAME}
-          app.postgres.username=${APP_POSTGRES_USERNAME}
+          app.postgres.username=postgres
           app.postgres.password=${APP_POSTGRES_PASSWORD}
           
           app.production.gcs.bucketname=${APP_PRODUCTION_GCS_BUCKETNAME}
@@ -103,7 +96,13 @@ jobs:
           
           app.search.service.host=${APP_SEARCH_SERVICE_HOST}
           EOF
-    
+      
+      - name: Compile type definitions
+        run: ./gradlew generateTypes
+
+      - name: Build frontend
+        run: npm run build
+      
       # 🔐 OIDC Authentication (no service account key)
       - id: auth
         name: Authenticate to Google Cloud
