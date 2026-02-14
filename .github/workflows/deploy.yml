@@ -112,6 +112,14 @@ jobs:
           workload_identity_provider: >-
             projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ vars.GCP_WIF_POOL_ID }}/providers/${{ vars.GCP_WIF_PROVIDER_ID }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+      
+      - name: Verify Google Cloud project exists
+        run: |
+          echo "Checking project status..."
+          gcloud projects describe ${{ vars.APP_ID }} || echo "❌ Project not found or inaccessible"
+          
+          echo "Checking App Engine status..."
+          gcloud app describe --project=${{ vars.APP_ID }} || echo "❌ App Engine not accessible"
 
       - name: Configure deployment
         run: |
