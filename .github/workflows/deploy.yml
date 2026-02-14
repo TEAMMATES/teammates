@@ -39,7 +39,71 @@ jobs:
 
       - name: Build frontend
         run: npm run build
-
+      
+      - name: Configure build.properties with secrets
+        env:
+          APP_ID: ${{ vars.APP_ID }}
+          APP_REGION: ${{ vars.APP_REGION }}
+          APP_VERSION: ${{ vars.APP_VERSION }}
+          APP_POSTGRES_HOST: ${{ vars.APP_POSTGRES_HOST }}
+          APP_POSTGRES_PORT: ${{ vars.APP_POSTGRES_PORT }}
+          APP_POSTGRES_DATABASENAME: ${{ vars.APP_POSTGRES_DATABASENAME }}
+          APP_POSTGRES_USERNAME: ${{ vars.APP_POSTGRES_USERNAME }}
+          APP_POSTGRES_PASSWORD: ${{ secrets.APP_POSTGRES_PASSWORD }}
+          APP_PRODUCTION_GCS_BUCKETNAME: ${{ vars.APP_PRODUCTION_GCS_BUCKETNAME }}
+          APP_BACKUP_KEY: ${{ secrets.APP_BACKUP_KEY }}
+          APP_CAPTCHA_SECRET_KEY: ${{ secrets.APP_CAPTCHA_SECRET_KEY }}
+          APP_CSRF_KEY: ${{ secrets.APP_CSRF_KEY }}
+          APP_ENCRYPTION_KEY: ${{ secrets.APP_ENCRYPTION_KEY }}
+          APP_OAUTH2_CLIENT_ID: ${{ secrets.APP_OAUTH2_CLIENT_ID }}
+          APP_OAUTH2_CLIENT_SECRET: ${{ secrets.APP_OAUTH2_CLIENT_SECRET }}
+          APP_ADMINS: ${{ vars.APP_ADMINS }}
+          APP_CRASHREPORT_EMAIL: ${{ vars.APP_CRASHREPORT_EMAIL }}
+          APP_EMAIL_REPLYTO: ${{ vars.APP_EMAIL_REPLYTO }}
+          APP_EMAIL_SENDEREMAIL: ${{ vars.APP_EMAIL_SENDEREMAIL }}
+          APP_EMAIL_SENDERNAME: ${{ vars.APP_EMAIL_SENDERNAME }}
+          APP_MAINTAINERS: ${{ vars.APP_MAINTAINERS }}
+          APP_SEARCH_SERVICE_HOST: ${{ vars.APP_SEARCH_SERVICE_HOST }}
+        run: |
+          cat > src/main/resources/build.properties << EOF
+          app.id=${APP_ID}
+          app.region=${APP_REGION}
+          app.version=${APP_VERSION}
+          
+          app.postgres.host=${APP_POSTGRES_HOST}
+          app.postgres.port=${APP_POSTGRES_PORT}
+          app.postgres.databasename=${APP_POSTGRES_DATABASENAME}
+          app.postgres.username=${APP_POSTGRES_USERNAME}
+          app.postgres.password=${APP_POSTGRES_PASSWORD}
+          
+          app.production.gcs.bucketname=${APP_PRODUCTION_GCS_BUCKETNAME}
+          app.backup.gcs.bucketname=${APP_PRODUCTION_GCS_BUCKETNAME}
+          
+          app.enable.datastore.backup=false
+          app.maintenance=false
+          
+          app.csrf.key=${APP_CSRF_KEY}
+          app.backdoor.key=${APP_BACKUP_KEY}
+          app.encryption.key=${APP_ENCRYPTION_KEY}
+          
+          app.auth.type=googleoauth2
+          app.oauth2.client.id=${APP_OAUTH2_CLIENT_ID}
+          app.oauth2.client.secret=${APP_OAUTH2_CLIENT_SECRET}
+          
+          app.captcha.secretkey=${APP_CAPTCHA_SECRET_KEY}
+          
+          app.admins=${APP_ADMINS}
+          app.maintainers=${APP_MAINTAINERS}
+          app.crashreport.email=${APP_CRASHREPORT_EMAIL}
+          
+          app.email.senderemail=${APP_EMAIL_SENDEREMAIL}
+          app.email.sendername=${APP_EMAIL_SENDERNAME}
+          app.email.replyto=${APP_EMAIL_REPLYTO}
+          app.email.service=
+          
+          app.search.service.host=${APP_SEARCH_SERVICE_HOST}
+          EOF
+    
       # 🔐 OIDC Authentication (no service account key)
       - id: auth
         name: Authenticate to Google Cloud
