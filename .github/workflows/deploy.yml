@@ -121,5 +121,5 @@ jobs:
           echo "Checking App Engine status..."
           gcloud app describe --project=${{ vars.APP_ID }} || echo "❌ App Engine not accessible"
 
-      - name: Deploy to App Engine (Staging)
+      - name: Deploy to App Engine
         run: ./gradlew appengineDeployAll
