@@ -2,7 +2,7 @@ name: Deploy TEAMMATES Staging
 
 on:
   push:
-    branches: [ V9-clean-slate-sql-staging-cd ]
+    branches: [ V9-clean-slate-sql ]
 
 permissions:
   contents: read
