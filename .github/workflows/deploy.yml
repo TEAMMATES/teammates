@@ -129,7 +129,4 @@ jobs:
           EOF
 
       - name: Deploy to App Engine (Staging)
-        run: ./gradlew appengineDeployAll --info --stacktrace
-
-      - name: Deploy to App Engine (Staging)
         run: ./gradlew appengineDeployAll
