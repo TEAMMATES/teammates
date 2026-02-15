@@ -111,7 +111,7 @@ jobs:
           create_credentials_file: true
           workload_identity_provider: >-
             projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ vars.GCP_WIF_POOL_ID }}/providers/${{ vars.GCP_WIF_PROVIDER_ID }}
-          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+          service_account: "github-cd@teammates-staging-487205.iam.gserviceaccount.com"
       
       - name: Error Handling
         run: |
