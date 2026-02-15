@@ -113,7 +113,7 @@ jobs:
             projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ vars.GCP_WIF_POOL_ID }}/providers/${{ vars.GCP_WIF_PROVIDER_ID }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       
-      - name: Verify Google Cloud project exists
+      - name: Error Handling
         run: |
           echo "Checking project status..."
           gcloud projects describe ${{ vars.APP_ID }} || echo "❌ Project not found or inaccessible"
