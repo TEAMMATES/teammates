@@ -1,21 +1,58 @@
 name: Deploy TEAMMATES Staging
 
 on:
-  push:
-    branches: [ V9-clean-slate-sql ]
+  workflow_run:
+    workflows: ["Component Tests", "E2E Sql Tests", "Accessibility Tests (SQL)", "Build Developer Guide", "L&P Tests", "Pull Request Checker"]
+    types: [completed]
+    branches: [V9-clean-slate-sql]
 
 permissions:
   contents: read
-  id-token: write   # required for OIDC
+  actions: read    # required to check workflow run status
+  id-token: write  # required for OIDC
 
 jobs:
+  check-ci:
+    runs-on: ubuntu-latest
+    outputs:
+      all-passed: ${{ steps.check.outputs.ready }}
+    steps:
+      - name: Check all CI workflows passed
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.payload.workflow_run.head_sha;
+            const requiredWorkflows = ['Component Tests', 'E2E Sql Tests', 'Accessibility Tests (SQL)', 'Build Developer Guide', 'L&P Tests', 'Pull Request Checker'];
+            const { data: { workflow_runs } } = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head_sha: sha,
+            });
+            for (const name of requiredWorkflows) {
+              const passed = workflow_runs.some(
+                r => r.name === name && r.conclusion === 'success'
+              );
+              if (!passed) {
+                core.info(`Workflow "${name}" has not succeeded yet for ${sha}. Skipping deploy.`);
+                core.setOutput('ready', 'false');
+                return;
+              }
+            }
+            core.info('All CI workflows passed!');
+            core.setOutput('ready', 'true');
+
   deploy:
+    needs: check-ci
+    if: needs.check-ci.outputs.all-passed == 'true'
     runs-on: ubuntu-latest
     environment: staging
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -156,7 +193,7 @@ jobs:
             cloudtasks.googleapis.com \
             datastore.googleapis.com \
             serviceusage.googleapis.com \
-            --project=teammates-staging-487205          
+            --project=${{ vars.APP_ID }}       
 
       - name: Deploy to App Engine
         run: ./gradlew appengineDeployAll
