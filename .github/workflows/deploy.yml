@@ -100,7 +100,7 @@ jobs:
           APP_POSTGRES_DATABASENAME: ${{ vars.APP_POSTGRES_DATABASENAME }}
           APP_POSTGRES_PASSWORD: ${{ secrets.APP_POSTGRES_PASSWORD }}
           APP_PRODUCTION_GCS_BUCKETNAME: ${{ vars.APP_PRODUCTION_GCS_BUCKETNAME }}
-          APP_BACKUP_KEY: ${{ secrets.APP_BACKUP_KEY }}
+          APP_BACKDOOR_KEY: ${{ secrets.APP_BACKDOOR_KEY }}
           APP_CAPTCHA_SECRET_KEY: ${{ secrets.APP_CAPTCHA_SECRET_KEY }}
           APP_CSRF_KEY: ${{ secrets.APP_CSRF_KEY }}
           APP_ENCRYPTION_KEY: ${{ secrets.APP_ENCRYPTION_KEY }}
@@ -135,7 +135,7 @@ jobs:
           app.maintenance=false
           
           app.csrf.key=${APP_CSRF_KEY}
-          app.backdoor.key=${APP_BACKUP_KEY}
+          app.backdoor.key=${APP_BACKDOOR_KEY}
           app.encryption.key=${APP_ENCRYPTION_KEY}
           
           app.auth.type=googleoauth2
