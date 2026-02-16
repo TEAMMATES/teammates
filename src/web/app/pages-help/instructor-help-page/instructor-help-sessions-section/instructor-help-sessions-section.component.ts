@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import {
   EXAMPLE_COMMENT_EDIT_FORM_MODEL,
@@ -93,7 +92,7 @@ import { Sections } from '../sections';
     InstructorSessionNoResponsePanelComponent,
     QuestionResponsePanelComponent,
     CommentEditFormComponent,
-    SessionsRecycleBinTableComponent
+    SessionsRecycleBinTableComponent,
 ],
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {

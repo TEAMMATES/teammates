@@ -14,7 +14,7 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator
   styleUrls: ['./copy-session-modal.component.scss'],
   imports: [
     FormsModule,
-    NgClass
+    NgClass,
 ],
 })
 export class CopySessionModalComponent {

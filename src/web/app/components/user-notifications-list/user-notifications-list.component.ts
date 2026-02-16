@@ -41,7 +41,7 @@ export interface NotificationTab {
     LoadingSpinnerDirective,
     NgClass,
     PanelChevronComponent,
-    NotificationStyleClassPipe
+    NotificationStyleClassPipe,
 ],
 })
 export class UserNotificationsListComponent implements OnInit {

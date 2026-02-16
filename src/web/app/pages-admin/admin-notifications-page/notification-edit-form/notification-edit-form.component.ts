@@ -35,7 +35,7 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
     AjaxLoadingComponent,
     KeyValuePipe,
     NotificationStyleDescriptionPipe,
-    NotificationStyleClassPipe
+    NotificationStyleClassPipe,
 ],
 })
 export class NotificationEditFormComponent {

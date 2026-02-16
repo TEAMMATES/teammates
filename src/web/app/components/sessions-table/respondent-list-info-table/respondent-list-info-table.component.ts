@@ -14,7 +14,7 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
   styleUrls: ['./respondent-list-info-table.component.scss'],
   imports: [
     FormsModule,
-    NgClass
+    NgClass,
 ],
 })
 export class RespondentListInfoTableComponent {

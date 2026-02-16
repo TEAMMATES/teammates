@@ -31,7 +31,7 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
     NgTemplateOutlet,
     ResponseModerationButtonComponent,
     GroupedResponsesComponent,
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {

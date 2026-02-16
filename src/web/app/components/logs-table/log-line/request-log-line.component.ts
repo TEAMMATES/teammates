@@ -12,7 +12,7 @@ import { GeneralLogEntry, LogEvent, RequestLogDetails } from '../../../../types/
   styleUrls: ['./request-log-line.component.scss', './log-line.component.scss'],
   imports: [
     NgClass,
-    NgbTooltip
+    NgbTooltip,
 ],
 })
 export class RequestLogLineComponent {

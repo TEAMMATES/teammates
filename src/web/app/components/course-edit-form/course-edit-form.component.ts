@@ -38,7 +38,7 @@ const formatTwoDigits = (n: number): string => {
     NgClass,
     NgbTooltip,
     AjaxLoadingComponent,
-    FormsModule
+    FormsModule,
 ],
 })
 export class CourseEditFormComponent implements OnInit, OnDestroy {

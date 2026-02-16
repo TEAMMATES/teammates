@@ -40,7 +40,7 @@ interface QuestionTab {
     NgTemplateOutlet,
     ResponseModerationButtonComponent,
     PerQuestionViewResponsesComponent,
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {

@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InstructorPermissionSet } from '../../../../types/api-output';
@@ -37,7 +36,7 @@ export interface InstructorSessionLevelPermission {
   templateUrl: './custom-privilege-setting-panel.component.html',
   styleUrls: ['./custom-privilege-setting-panel.component.scss'],
   imports: [
-    FormsModule
+    FormsModule,
 ],
 })
 export class CustomPrivilegeSettingPanelComponent {

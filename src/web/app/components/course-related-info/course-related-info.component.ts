@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { Student } from '../../../types/api-output';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';

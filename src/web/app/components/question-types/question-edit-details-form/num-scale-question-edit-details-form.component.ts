@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +14,7 @@ import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-que
   styleUrls: ['./num-scale-question-edit-details-form.component.scss'],
   imports: [
     NgbTooltip,
-    FormsModule
+    FormsModule,
 ],
 })
 export class NumScaleQuestionEditDetailsFormComponent

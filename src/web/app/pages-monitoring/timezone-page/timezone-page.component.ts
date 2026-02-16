@@ -14,7 +14,7 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
   styleUrls: ['./timezone-page.component.scss'],
   imports: [
     LoadingSpinnerDirective,
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class TimezonePageComponent implements OnInit {

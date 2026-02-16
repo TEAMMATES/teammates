@@ -1,4 +1,3 @@
-
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -31,7 +30,7 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
     NgbTooltip,
     CommentRowComponent,
     CommentTableComponent,
-    CommentToCommentRowModelPipe
+    CommentToCommentRowModelPipe,
 ],
 })
 export class GroupedResponsesComponent extends InstructorResponsesViewBase implements OnInit {

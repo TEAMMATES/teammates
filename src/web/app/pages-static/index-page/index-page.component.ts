@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { default as index } from '../../../data/index.json';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';

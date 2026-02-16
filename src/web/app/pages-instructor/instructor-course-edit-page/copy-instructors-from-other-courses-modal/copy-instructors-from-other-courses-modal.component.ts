@@ -31,7 +31,7 @@ import { ErrorMessageOutput } from '../../../error-message-output';
     NgbTooltip,
     FormsModule,
     AjaxLoadingComponent,
-    InstructorRoleNamePipe
+    InstructorRoleNamePipe,
 ],
 })
 export class CopyInstructorsFromOtherCoursesModalComponent {

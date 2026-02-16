@@ -41,7 +41,7 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
     VisibilityTypeDescriptionPipe,
     VisibilityTypeNamePipe,
     VisibilityEntityNamePipe,
-    VisibilityCapabilityPipe
+    VisibilityCapabilityPipe,
 ],
 })
 export class VisibilityPanelComponent {

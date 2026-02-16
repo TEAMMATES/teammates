@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingBarService } from '../../../services/loading-bar.service';

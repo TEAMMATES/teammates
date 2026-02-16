@@ -25,7 +25,7 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
     CdkDragHandle,
     ConstsumOptionsFieldComponent,
     FormsModule,
-    NgbTooltip
+    NgbTooltip,
 ],
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent

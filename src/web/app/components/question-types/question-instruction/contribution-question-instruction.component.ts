@@ -1,4 +1,3 @@
-
 import { Component, Input, TemplateRef } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';

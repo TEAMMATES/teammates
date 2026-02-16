@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
@@ -33,7 +32,7 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
     NotificationEditFormComponent,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NotificationsTableComponent
+    NotificationsTableComponent,
 ],
 })
 export class AdminNotificationsPageComponent implements OnInit {

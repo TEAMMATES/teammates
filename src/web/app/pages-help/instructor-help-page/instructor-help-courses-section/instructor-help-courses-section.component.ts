@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CoursesSectionQuestions } from './courses-section-questions';
 import { environment } from '../../../../environments/environment';
@@ -18,7 +17,7 @@ import { Sections } from '../sections';
   animations: [collapseAnim],
   imports: [
     InstructorHelpPanelComponent,
-    TeammatesRouterDirective
+    TeammatesRouterDirective,
 ],
 })
 export class InstructorHelpCoursesSectionComponent extends InstructorHelpSectionComponent implements OnInit {

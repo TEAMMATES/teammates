@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { QuestionAdditionalInfo } from './question-additional-info';
 import {
@@ -18,7 +17,7 @@ import { StripHtmlTagsPipe } from '../../teammates-common/strip-html-tags.pipe';
   styleUrls: ['./mcq-question-additional-info.component.scss'],
   imports: [
     StripHtmlTagsPipe,
-    GeneratedChoicePipe
+    GeneratedChoicePipe,
 ],
 })
 export class McqQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackMcqQuestionDetails> {

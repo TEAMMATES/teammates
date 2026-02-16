@@ -25,7 +25,7 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
     CdkDragHandle,
     McqFieldComponent,
     WeightFieldComponent,
-    GeneratedChoicePipe
+    GeneratedChoicePipe,
 ],
 })
 export class McqQuestionEditDetailsFormComponent

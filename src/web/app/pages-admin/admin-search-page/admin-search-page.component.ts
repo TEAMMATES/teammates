@@ -45,7 +45,7 @@ import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter
     AjaxLoadingComponent,
     AccountRequestTableComponent,
     KeyValuePipe,
-    SearchTermsHighlighterPipe
+    SearchTermsHighlighterPipe,
 ],
 })
 export class AdminSearchPageComponent {

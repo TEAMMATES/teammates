@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -27,7 +26,7 @@ import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading
     FormsModule,
     NewInstructorDataRowComponent,
     AjaxLoadingComponent,
-    AccountRequestTableComponent
+    AccountRequestTableComponent,
 ],
   providers: [FormatDateDetailPipe],
 })

@@ -26,7 +26,7 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
     CommentRowComponent,
     CommentTableComponent,
     CommentToCommentRowModelPipe,
-    CommentsToCommentTableModelPipe
+    CommentsToCommentTableModelPipe,
 ],
 })
 export class StudentViewResponsesComponent implements OnInit {

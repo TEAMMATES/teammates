@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -23,7 +22,7 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   styleUrls: ['./num-scale-question-edit-answer-form.component.scss'],
   imports: [
     FormsModule,
-    WheelDisablerDirective
+    WheelDisablerDirective,
 ],
 })
 export class NumScaleQuestionEditAnswerFormComponent

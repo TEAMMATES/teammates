@@ -61,7 +61,7 @@ export class ClickOutsideDirective {
     NotificationBannerComponent,
     LoadingSpinnerDirective,
     RouterOutlet,
-    AsyncPipe
+    AsyncPipe,
 ],
 })
 export class PageComponent {

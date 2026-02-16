@@ -27,7 +27,7 @@ export enum ExtensionModalType {
     NgClass,
     SortableTableComponent,
     FormsModule,
-    FormatDateDetailPipe
+    FormatDateDetailPipe,
 ],
 })
 export class ExtensionConfirmModalComponent implements OnInit {

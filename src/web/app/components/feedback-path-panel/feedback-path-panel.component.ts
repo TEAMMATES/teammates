@@ -26,7 +26,7 @@ import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe, RecipientTypeSi
     KeyValuePipe,
     GiverTypeDescriptionPipe,
     RecipientTypeDescriptionPipe,
-    RecipientTypeSimplifiedDescriptionPipe
+    RecipientTypeSimplifiedDescriptionPipe,
 ],
 })
 export class FeedbackPathPanelComponent {

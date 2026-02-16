@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -80,7 +79,7 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
     ConstsumRecipientsQuestionEditDetailsFormComponent,
     FeedbackPathPanelComponent,
     VisibilityPanelComponent,
-    QuestionTypeNamePipe
+    QuestionTypeNamePipe,
 ],
 })
 export class QuestionEditFormComponent {

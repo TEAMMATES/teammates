@@ -23,7 +23,7 @@ import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor
   imports: [
     FormsModule,
     RichTextEditorComponent,
-    NgClass
+    NgClass,
 ],
 })
 export class TextQuestionEditAnswerFormComponent

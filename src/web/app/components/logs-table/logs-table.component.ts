@@ -28,7 +28,7 @@ import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-out
     EmailLogDetailsComponent,
     ExceptionLogDetailsComponent,
     GenericLogDetailsComponent,
-    JsonPipe
+    JsonPipe,
 ],
 })
 export class LogsTableComponent {

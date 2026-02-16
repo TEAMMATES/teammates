@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -24,7 +23,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   styleUrls: ['./student-course-details-page.component.scss'],
   imports: [
     LoadingRetryComponent,
-    LoadingSpinnerDirective
+    LoadingSpinnerDirective,
 ],
 })
 export class StudentCourseDetailsPageComponent implements OnInit {

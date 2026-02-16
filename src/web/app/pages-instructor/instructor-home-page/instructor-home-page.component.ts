@@ -1,4 +1,3 @@
-
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
   NgbModal,
@@ -91,7 +90,7 @@ export interface CourseTabModel {
     NgbTooltip,
     PanelChevronComponent,
     SessionsTableComponent,
-    ModifiedTimestampModalComponent
+    ModifiedTimestampModalComponent,
 ],
 })
 export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {

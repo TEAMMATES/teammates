@@ -36,7 +36,7 @@ enum DateTime {
     FormsModule,
     DatepickerComponent,
     TimepickerComponent,
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class IndividualExtensionDateModalComponent {

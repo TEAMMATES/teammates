@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { FeedbackRankRecipientsQuestionDetails } from '../../../../types/api-output';
 import {

@@ -86,7 +86,7 @@ interface FeedbackQuestionsResponse {
     NgbTooltip,
     AjaxLoadingComponent,
     SafeHtmlPipe,
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {

@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { ContributionComponent } from './contribution.component';
 import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../../types/feedback-response-details';
@@ -11,7 +10,7 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../../types/feedback-
   templateUrl: './contribution-ratings-list.component.html',
   styleUrls: ['./contribution-ratings-list.component.scss'],
   imports: [
-    ContributionComponent
+    ContributionComponent,
 ],
 })
 export class ContributionRatingsListComponent {

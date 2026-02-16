@@ -19,7 +19,7 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
     FormsModule,
     TeammatesRouterDirective,
     NgbTooltip,
-    NgTemplateOutlet
+    NgTemplateOutlet,
 ],
 })
 export class PreviewSessionResultPanelComponent {

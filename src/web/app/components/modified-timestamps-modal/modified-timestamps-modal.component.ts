@@ -8,7 +8,7 @@ import { TweakedTimestampData } from '../../pages-instructor/instructor-session-
   styleUrls: ['./modified-timestamps-modal.component.scss'],
   imports: [
     NgClass,
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class ModifiedTimestampModalComponent {

@@ -20,7 +20,7 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
     CdkDrag,
     CdkDragHandle,
     RankOptionsFieldComponent,
-    FormsModule
+    FormsModule,
 ],
 })
 export class RankOptionsQuestionEditDetailsFormComponent

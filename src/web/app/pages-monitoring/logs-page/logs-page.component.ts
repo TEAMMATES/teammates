@@ -66,7 +66,7 @@ const DESCENDING_ORDER: string = 'desc';
     NgbTimepicker,
     NgClass,
     LogsTableComponent,
-    LogsHistogramComponent
+    LogsHistogramComponent,
 ],
 })
 export class LogsPageComponent implements OnInit {
