@@ -13,10 +13,6 @@ indexes:
     name: courseId
   - direction: asc
     name: email
-- kind: Instructor
-  properties:
-  - direction: asc
-    name: googleId
 - kind: FeedbackSession
   properties:
   - direction: asc
