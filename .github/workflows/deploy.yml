@@ -175,7 +175,7 @@ jobs:
       - name: Build frontend
         run: npm run build
       
-      # 🔐 OIDC Authentication (no service account key)
+      # OIDC Authentication
       - id: auth
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
