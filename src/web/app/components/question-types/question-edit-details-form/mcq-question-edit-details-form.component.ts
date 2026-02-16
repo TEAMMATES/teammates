@@ -120,20 +120,6 @@ export class McqQuestionEditDetailsFormComponent
   }
 
   /**
-   * Tracks the Mcq option by index.
-   */
-  trackMcqOption(index: number): string {
-    return index.toString();
-  }
-
-  /**
-   * Tracks the Mcq weight by index.
-   */
-  trackMcqWeight(index: number): string {
-    return index.toString();
-  }
-
-  /**
    * Triggers the display of the weight column for the Mcq options if weights option is checked/unchecked.
    */
   triggerWeightsColumn(checked: boolean): void {

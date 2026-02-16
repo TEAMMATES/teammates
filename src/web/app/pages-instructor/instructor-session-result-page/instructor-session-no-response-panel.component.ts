@@ -1,4 +1,3 @@
-import { NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -35,7 +34,6 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   animations: [collapseAnim],
   imports: [
     TeammatesRouterDirective,
-    NgTemplateOutlet,
     PanelChevronComponent,
     LoadingSpinnerDirective
 ],

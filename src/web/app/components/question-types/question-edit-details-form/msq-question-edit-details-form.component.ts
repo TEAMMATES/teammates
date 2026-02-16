@@ -210,20 +210,6 @@ export class MsqQuestionEditDetailsFormComponent
   }
 
   /**
-   * Tracks the Msq option by index.
-   */
-  trackMsqOption(index: number): string {
-    return index.toString();
-  }
-
-  /**
-   * Tracks the Msq weight by index.
-   */
-  trackMsqWeight(index: number): string {
-    return index.toString();
-  }
-
-  /**
    * Checks if the generatedOptionsFor checkbox is enabled.
    */
   get isGeneratedOptionsEnabled(): boolean {

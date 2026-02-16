@@ -94,7 +94,7 @@
           </div>
         }
         <div class="container">
-          @for (recipientSubmissionFormModel of model.recipientSubmissionForms; track trackRecipientSubmissionFormByFn(i, recipientSubmissionFormModel); let i = $index) {
+          @for (recipientSubmissionFormModel of model.recipientSubmissionForms; track $index; let i = $index) {
             <div class="row">
               <!-- When questions are grouped by recipients, only show the question edit answer form for that particular recipients-->
               @if (currentSelectedSessionView === allSessionViews.DEFAULT || (currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS && recipientId === recipientSubmissionFormModel.recipientIdentifier)) {

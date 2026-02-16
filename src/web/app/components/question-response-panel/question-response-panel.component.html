@@ -10,20 +10,20 @@
         <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card bg-light mt-4">
           <div class="card-body">
             <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text-with-info"></tm-question-text-with-info>
-            @if (!question.hasResponseButNotVisibleForPreview,) {
+            @if (!question.hasResponseButNotVisibleForPreview) {
               <div class="all-responses">
                 @if (question.hasCommentNotVisibleForPreview) {
                   <div class="alert alert-warning my-3 non-visible-comment-alert" role="alert">
                     <i class="fas fa-eye-slash"></i> Some comments (on responses) received for this question are omitted from this preview because they are not visible to instructors, as per their visibility settings.
                   </div>
                 }
-                @if (canUserSeeResponses(question),) {
+                @if (canUserSeeResponses(question)) {
                   <div class="other-responses">
                     <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
                       [responses]="question.allResponses"
                       [statistics]="question.questionStatistics"
                     [isStudent]="true"></tm-single-statistics>
-                    @if (RESPONSE_HIDDEN_QUESTIONS.includes(question.feedbackQuestion.questionType),) {
+                    @if (RESPONSE_HIDDEN_QUESTIONS.includes(question.feedbackQuestion.questionType)) {
                       <div>
                         <p style="color: gray; font-size: small;"><i class="fas fa-info-circle" style="color: #087CFC;"></i> Individual Responses are not configured to be shown for this question type.</p>
                       </div>
