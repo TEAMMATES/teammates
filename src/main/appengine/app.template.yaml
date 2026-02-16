@@ -36,9 +36,15 @@ handlers:
   - url: /assets
     static_dir: assets
     expiration: 90d
-  - url: /(.*\.(js|css))$
+  - url: /(.*\.js)$
     static_files: \1
-    upload: .*\.(js|css)$
+    upload: .*\.js$
+    mime_type: application/javascript
+    expiration: 90d
+  - url: /(.*\.css)$
+    static_files: \1
+    upload: .*\.css$
+    mime_type: text/css
     expiration: 90d
 
   # Progressive web app files
