@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { NgIf, NgFor } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -19,16 +19,14 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
   styleUrls: ['./mcq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
   imports: [
     FormsModule,
-    NgIf,
     NgbTooltip,
     CdkDropList,
-    NgFor,
     CdkDrag,
     CdkDragHandle,
     McqFieldComponent,
     WeightFieldComponent,
-    GeneratedChoicePipe,
-  ],
+    GeneratedChoicePipe
+],
 })
 export class McqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> {

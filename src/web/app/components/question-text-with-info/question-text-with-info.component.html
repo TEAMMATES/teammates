@@ -3,20 +3,44 @@
     Question {{ questionNumber }}:
   </h2>
   <span class="question-text mx-sm-2">{{ questionDetails.questionText }}</span>
-  <button class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)">
-    [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
-  </button>
+  @if (hasAdditionalInfo(questionDetails)) {
+    <button class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()">
+      [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
+    </button>
+  }
 </span>
 
-<div class="additional-info info-font-size" *ngIf="hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded">
-  <tm-contribution-question-additional-info *ngIf="QuestionDetailsTypeChecker.isContrib(questionDetails)" [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
-  <tm-text-question-additional-info *ngIf="QuestionDetailsTypeChecker.isText(questionDetails)" [questionDetails]="questionDetails"></tm-text-question-additional-info>
-  <tm-mcq-question-additional-info *ngIf="QuestionDetailsTypeChecker.isMcq(questionDetails)" [questionDetails]="questionDetails"></tm-mcq-question-additional-info>
-  <tm-msq-question-additional-info *ngIf="QuestionDetailsTypeChecker.isMsq(questionDetails)" [questionDetails]="questionDetails"></tm-msq-question-additional-info>
-  <tm-rank-options-question-additional-info *ngIf="QuestionDetailsTypeChecker.isRankOptions(questionDetails)" [questionDetails]="questionDetails"></tm-rank-options-question-additional-info>
-  <tm-rank-recipients-question-additional-info *ngIf="QuestionDetailsTypeChecker.isRankRecipients(questionDetails)" [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
-  <tm-rubric-question-additional-info *ngIf="QuestionDetailsTypeChecker.isRubric(questionDetails)" [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
-  <tm-constsum-options-question-additional-info *ngIf="QuestionDetailsTypeChecker.isConstSumOptions(questionDetails)" [questionDetails]="questionDetails"></tm-constsum-options-question-additional-info>
-  <tm-constsum-recipients-question-additional-info *ngIf="QuestionDetailsTypeChecker.isConstSumRecipients(questionDetails)" [questionDetails]="questionDetails"></tm-constsum-recipients-question-additional-info>
-  <tm-num-scale-question-additional-info *ngIf="QuestionDetailsTypeChecker.isNumscale(questionDetails)" [questionDetails]="questionDetails"></tm-num-scale-question-additional-info>
-</div>
+@if (hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded) {
+  <div class="additional-info info-font-size">
+    @if (QuestionDetailsTypeChecker.isContrib(questionDetails)) {
+      <tm-contribution-question-additional-info [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
+    }
+    @if (QuestionDetailsTypeChecker.isText(questionDetails)) {
+      <tm-text-question-additional-info [questionDetails]="questionDetails"></tm-text-question-additional-info>
+    }
+    @if (QuestionDetailsTypeChecker.isMcq(questionDetails)) {
+      <tm-mcq-question-additional-info [questionDetails]="questionDetails"></tm-mcq-question-additional-info>
+    }
+    @if (QuestionDetailsTypeChecker.isMsq(questionDetails)) {
+      <tm-msq-question-additional-info [questionDetails]="questionDetails"></tm-msq-question-additional-info>
+    }
+    @if (QuestionDetailsTypeChecker.isRankOptions(questionDetails)) {
+      <tm-rank-options-question-additional-info [questionDetails]="questionDetails"></tm-rank-options-question-additional-info>
+    }
+    @if (QuestionDetailsTypeChecker.isRankRecipients(questionDetails)) {
+      <tm-rank-recipients-question-additional-info [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
+    }
+    @if (QuestionDetailsTypeChecker.isRubric(questionDetails)) {
+      <tm-rubric-question-additional-info [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
+    }
+    @if (QuestionDetailsTypeChecker.isConstSumOptions(questionDetails)) {
+      <tm-constsum-options-question-additional-info [questionDetails]="questionDetails"></tm-constsum-options-question-additional-info>
+    }
+    @if (QuestionDetailsTypeChecker.isConstSumRecipients(questionDetails)) {
+      <tm-constsum-recipients-question-additional-info [questionDetails]="questionDetails"></tm-constsum-recipients-question-additional-info>
+    }
+    @if (QuestionDetailsTypeChecker.isNumscale(questionDetails)) {
+      <tm-num-scale-question-additional-info [questionDetails]="questionDetails"></tm-num-scale-question-additional-info>
+    }
+  </div>
+}

@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
@@ -17,10 +17,8 @@ import { MSQ_ANSWER_NONE_OF_THE_ABOVE, NO_VALUE } from '../../../../types/feedba
   templateUrl: './msq-question-edit-answer-form.component.html',
   styleUrls: ['./msq-question-edit-answer-form.component.scss'],
   imports: [
-    NgFor,
-    NgIf,
-    FormsModule,
-  ],
+    FormsModule
+],
 })
 export class MsqQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>

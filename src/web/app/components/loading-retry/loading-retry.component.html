@@ -1,8 +1,9 @@
-<div *ngIf="shouldShowRetry; else content" class="text-center">
-  <p class="text-muted m-1">{{message || ''}}</p>
-  <button (click)="retryEvent.emit()" class="btn btn-primary" [disabled]="retryButtonDisabled"><i class="fas fa-redo" aria-hidden="true"></i>&nbsp;Retry</button>
-</div>
-
-<ng-template #content>
+@if (shouldShowRetry) {
+  <div class="text-center">
+    <p class="text-muted m-1">{{message || ''}}</p>
+    <button (click)="retryEvent.emit()" class="btn btn-primary" [disabled]="retryButtonDisabled"><i class="fas fa-redo" aria-hidden="true"></i>&nbsp;Retry</button>
+  </div>
+} @else {
   <ng-content></ng-content>
-</ng-template>
+}
+

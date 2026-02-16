@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass, KeyValuePipe } from '@angular/common';
+import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TweakedTimestampData } from '../../pages-instructor/instructor-session-base-page.component';
 
@@ -7,11 +7,9 @@ import { TweakedTimestampData } from '../../pages-instructor/instructor-session-
   templateUrl: './modified-timestamps-modal.component.html',
   styleUrls: ['./modified-timestamps-modal.component.scss'],
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
-    KeyValuePipe,
-  ],
+    KeyValuePipe
+],
 })
 export class ModifiedTimestampModalComponent {
   @Input()

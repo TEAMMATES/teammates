@@ -6,108 +6,162 @@
     <div class="d-flex flex-fill flex-sm-row flex-column align-items-sm-center align-items-start">
       <div id="question-header" class="d-flex flex-column text-start">
         <div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-start">
-          <h2 class="question-number fw-bold me-1">Question <span id="question-number" *ngIf="!model.isEditable">{{ model.questionNumber }}</span>
-            <select id="question-number-dropdown" class="form-control form-select question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable" (click)="$event.stopPropagation()">
-              <option *ngFor="let i of range(numOfQuestions)" [ngValue]="i + 1">{{ i + 1 }}</option>
+          <h2 class="question-number fw-bold me-1">Question @if (!model.isEditable) {
+            <span id="question-number">{{ model.questionNumber }}</span>
+          }
+          @if (model.isEditable) {
+            <select id="question-number-dropdown" class="form-control form-select question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" (click)="$event.stopPropagation()">
+              @for (i of range(numOfQuestions); track i) {
+                <option [ngValue]="i + 1">{{ i + 1 }}</option>
+              }
             </select>
-          </h2>
+          }
+        </h2>
         <span id="question-type">{{ model.questionType | questionTypeName }}</span>
-        </div>
-        <ng-container *ngIf="model.isCollapsed">
-          <div class="collapse-qn-description">{{ model.questionBrief }}</div>
-        </ng-container>
       </div>
-      <div class="card-header-btn-toolbar ms-0 ms-sm-auto text-start">
-        <div *ngIf="formMode === QuestionEditFormMode.EDIT">
-          <button id="btn-edit-question" type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable"
-                  (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();"
-                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-            <i class="fas fa-pencil-alt"></i> Edit
-          </button>
-          <button id="btn-save-question" type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
-                  (click)="saveQuestionHandler(); $event.stopPropagation();"
-                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save
-          </button>
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
-                  (click)="discardChangesHandler(false); $event.stopPropagation();"
-                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-            <i class="fas fa-ban"></i> Cancel
-          </button>
-          <button id="btn-delete-question" type="button" class="btn btn-primary btn-sm"
-                  (click)="deleteCurrentQuestionHandler(); $event.stopPropagation();"
-                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-            <tm-ajax-loading *ngIf="model.isDeleting"></tm-ajax-loading><i class="fas fa-trash"></i> Delete
-          </button>
-          <button id="btn-duplicate-question" type="button" class="btn btn-primary btn-sm" container="body"
-                  (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();"
-                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating"
-                  ngbTooltip="Make a copy of the existing question and add to the current feedback session."
-                  container="body">
-            <tm-ajax-loading *ngIf="model.isDuplicating"></tm-ajax-loading><i class="far fa-copy"></i> Duplicate
-          </button>
-        </div>
-        <div *ngIf="formMode === QuestionEditFormMode.ADD">
-          <button type="button" class="btn btn-primary btn-sm"
+      @if (model.isCollapsed) {
+        <div class="collapse-qn-description">{{ model.questionBrief }}</div>
+      }
+    </div>
+    <div class="card-header-btn-toolbar ms-0 ms-sm-auto text-start">
+      @if (formMode === QuestionEditFormMode.EDIT) {
+        <div>
+          @if (!model.isEditable) {
+            <button id="btn-edit-question" type="button" class="btn btn-primary btn-sm"
+              (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();"
+              [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
+              <i class="fas fa-pencil-alt"></i> Edit
+            </button>
+          }
+          @if (model.isEditable) {
+            <button id="btn-save-question" type="button" class="btn btn-primary btn-sm"
+              (click)="saveQuestionHandler(); $event.stopPropagation();"
+              [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
+              @if (model.isSaving) {
+                <tm-ajax-loading></tm-ajax-loading>
+                }<i class="fas fa-check"></i> Save
+              </button>
+            }
+            @if (model.isEditable) {
+              <button type="button" class="btn btn-primary btn-sm"
+                (click)="discardChangesHandler(false); $event.stopPropagation();"
+                [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
+                <i class="fas fa-ban"></i> Cancel
+              </button>
+            }
+            <button id="btn-delete-question" type="button" class="btn btn-primary btn-sm"
+              (click)="deleteCurrentQuestionHandler(); $event.stopPropagation();"
+              [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
+              @if (model.isDeleting) {
+                <tm-ajax-loading></tm-ajax-loading>
+                }<i class="fas fa-trash"></i> Delete
+              </button>
+              <button id="btn-duplicate-question" type="button" class="btn btn-primary btn-sm" container="body"
+                (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();"
+                [disabled]="model.isSaving || model.isDeleting || model.isDuplicating"
+                ngbTooltip="Make a copy of the existing question and add to the current feedback session."
+                container="body">
+                @if (model.isDuplicating) {
+                  <tm-ajax-loading></tm-ajax-loading>
+                  }<i class="far fa-copy"></i> Duplicate
+                </button>
+              </div>
+            }
+            @if (formMode === QuestionEditFormMode.ADD) {
+              <div>
+                <button type="button" class="btn btn-primary btn-sm"
                   (click)="discardChangesHandler(true); $event.stopPropagation();"
                   [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-            <i class="fas fa-ban"></i>
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  </button>
-  <div *ngIf="!model.isCollapsed" @collapseAnim>
-    <div class="card-body">
-      <div class="background-color-light-blue">
-        <div class="row">
-          <div class="col-12">
-            <tm-question-edit-brief-description-form [brief]="model.questionBrief" (briefChange)="triggerModelChange('questionBrief', $event)" [isBriefDisabled]="!model.isEditable"
-                                                     [description]="model.questionDescription" (descriptionChange)="triggerModelChange('questionDescription', $event)" [isDescriptionDisabled]="!model.isEditable"
-            ></tm-question-edit-brief-description-form>
-            <div class="padding-15px">
-              <tm-text-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-text-question-edit-details-form>
-              <tm-contribution-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-contribution-question-edit-details-form>
-              <tm-mcq-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.MCQ" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-mcq-question-edit-details-form>
-              <tm-msq-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.MSQ" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-msq-question-edit-details-form>
-              <tm-num-scale-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-num-scale-question-edit-details-form>
-              <tm-rank-options-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-options-question-edit-details-form>
-              <tm-rank-recipients-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-recipients-question-edit-details-form>
-              <tm-rubric-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RUBRIC" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rubric-question-edit-details-form>
-              <tm-constsum-options-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable" [questionNumber]="model.questionNumber"></tm-constsum-options-question-edit-details-form>
-              <tm-constsum-recipients-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable" [questionNumber]="model.questionNumber"></tm-constsum-recipients-question-edit-details-form>
-            </div>
+                  <i class="fas fa-ban"></i>
+                  Cancel
+                </button>
+              </div>
+            }
           </div>
         </div>
-      </div>
-      <tm-feedback-path-panel [model]="model" [commonFeedbackPaths]="commonFeedbackPaths"
-                              [allowedFeedbackPaths]="allowedFeedbackPaths"
-                              (customFeedbackPath)="triggerModelChange('isUsingOtherFeedbackPath', $event)"
-                              (customNumberOfEntitiesToGiveFeedbackTo)="triggerModelChange('customNumberOfEntitiesToGiveFeedbackTo', $event)"
-                              (numberOfEntitiesToGiveFeedbackToSetting)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
-                              (triggerModelChangeBatch)="triggerModelChangeBatch($event)"></tm-feedback-path-panel>
-      <tm-visibility-panel [model]="model" [isCustomFeedbackVisibilitySettingAllowed]="isCustomFeedbackVisibilitySettingAllowed"
-                           [commonFeedbackVisibilitySettings]="commonFeedbackVisibilitySettings"
-                           (customVisibilitySetting)="triggerModelChange('isUsingOtherVisibilitySetting', $event)"
-                           (triggerModelChangeBatch)="triggerModelChangeBatch($event)"
-                           [visibilityStateMachine]="visibilityStateMachine"></tm-visibility-panel>
-      <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
-        <div class="col-12 text-end">
-          <button type="button" class="btn btn-light btn-margin-right" *ngIf="model.isEditable"
-                  (click)="discardChangesHandler(false)"
-                  [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
-            <i class="fas fa-ban"></i> Cancel
-          </button>
-          <button class="btn btn-success"
-              [disabled]="!model.isEditable || model.isSaving || model.isDeleting || model.isDuplicating"
-              (click)="saveQuestionHandler()">
-            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>
-            <span *ngIf="formMode === QuestionEditFormMode.EDIT" ><i class="fas fa-check"></i> Save Changes</span>
-            <span id="btn-save-new" *ngIf="formMode === QuestionEditFormMode.ADD"><i class="fas fa-check"></i> Save Question</span>
-          </button>
+      </button>
+      @if (!model.isCollapsed) {
+        <div @collapseAnim>
+          <div class="card-body">
+            <div class="background-color-light-blue">
+              <div class="row">
+                <div class="col-12">
+                  <tm-question-edit-brief-description-form [brief]="model.questionBrief" (briefChange)="triggerModelChange('questionBrief', $event)" [isBriefDisabled]="!model.isEditable"
+                    [description]="model.questionDescription" (descriptionChange)="triggerModelChange('questionDescription', $event)" [isDescriptionDisabled]="!model.isEditable"
+                  ></tm-question-edit-brief-description-form>
+                  <div class="padding-15px">
+                    @if (model.questionType === FeedbackQuestionType.TEXT) {
+                      <tm-text-question-edit-details-form [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-text-question-edit-details-form>
+                    }
+                    @if (model.questionType === FeedbackQuestionType.CONTRIB) {
+                      <tm-contribution-question-edit-details-form [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-contribution-question-edit-details-form>
+                    }
+                    @if (model.questionType === FeedbackQuestionType.MCQ) {
+                      <tm-mcq-question-edit-details-form [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-mcq-question-edit-details-form>
+                    }
+                    @if (model.questionType === FeedbackQuestionType.MSQ) {
+                      <tm-msq-question-edit-details-form [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-msq-question-edit-details-form>
+                    }
+                    @if (model.questionType === FeedbackQuestionType.NUMSCALE) {
+                      <tm-num-scale-question-edit-details-form [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-num-scale-question-edit-details-form>
+                    }
+                    @if (model.questionType === FeedbackQuestionType.RANK_OPTIONS) {
+                      <tm-rank-options-question-edit-details-form [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-options-question-edit-details-form>
+                    }
+                    @if (model.questionType === FeedbackQuestionType.RANK_RECIPIENTS) {
+                      <tm-rank-recipients-question-edit-details-form [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-recipients-question-edit-details-form>
+                    }
+                    @if (model.questionType === FeedbackQuestionType.RUBRIC) {
+                      <tm-rubric-question-edit-details-form [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rubric-question-edit-details-form>
+                    }
+                    @if (model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS) {
+                      <tm-constsum-options-question-edit-details-form [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable" [questionNumber]="model.questionNumber"></tm-constsum-options-question-edit-details-form>
+                    }
+                    @if (model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
+                      <tm-constsum-recipients-question-edit-details-form [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable" [questionNumber]="model.questionNumber"></tm-constsum-recipients-question-edit-details-form>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+            <tm-feedback-path-panel [model]="model" [commonFeedbackPaths]="commonFeedbackPaths"
+              [allowedFeedbackPaths]="allowedFeedbackPaths"
+              (customFeedbackPath)="triggerModelChange('isUsingOtherFeedbackPath', $event)"
+              (customNumberOfEntitiesToGiveFeedbackTo)="triggerModelChange('customNumberOfEntitiesToGiveFeedbackTo', $event)"
+              (numberOfEntitiesToGiveFeedbackToSetting)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
+            (triggerModelChangeBatch)="triggerModelChangeBatch($event)"></tm-feedback-path-panel>
+            <tm-visibility-panel [model]="model" [isCustomFeedbackVisibilitySettingAllowed]="isCustomFeedbackVisibilitySettingAllowed"
+              [commonFeedbackVisibilitySettings]="commonFeedbackVisibilitySettings"
+              (customVisibilitySetting)="triggerModelChange('isUsingOtherVisibilitySetting', $event)"
+              (triggerModelChangeBatch)="triggerModelChangeBatch($event)"
+            [visibilityStateMachine]="visibilityStateMachine"></tm-visibility-panel>
+            @if (!isDisplayOnly) {
+              <div class="row margin-top-15px">
+                <div class="col-12 text-end">
+                  @if (model.isEditable) {
+                    <button type="button" class="btn btn-light btn-margin-right"
+                      (click)="discardChangesHandler(false)"
+                      [disabled]="model.isSaving || model.isDeleting || model.isDuplicating">
+                      <i class="fas fa-ban"></i> Cancel
+                    </button>
+                  }
+                  <button class="btn btn-success"
+                    [disabled]="!model.isEditable || model.isSaving || model.isDeleting || model.isDuplicating"
+                    (click)="saveQuestionHandler()">
+                    @if (model.isSaving) {
+                      <tm-ajax-loading></tm-ajax-loading>
+                    }
+                    @if (formMode === QuestionEditFormMode.EDIT) {
+                      <span ><i class="fas fa-check"></i> Save Changes</span>
+                    }
+                    @if (formMode === QuestionEditFormMode.ADD) {
+                      <span id="btn-save-new"><i class="fas fa-check"></i> Save Question</span>
+                    }
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
         </div>
-      </div>
+      }
     </div>
-  </div>
-</div>

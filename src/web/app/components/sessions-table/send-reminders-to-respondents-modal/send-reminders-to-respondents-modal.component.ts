@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,10 +17,9 @@ import { RespondentListInfoTableComponent } from '../respondent-list-info-table/
   templateUrl: './send-reminders-to-respondents-modal.component.html',
   styleUrls: ['./send-reminders-to-respondents-modal.component.scss'],
   imports: [
-    NgIf,
     FormsModule,
-    RespondentListInfoTableComponent,
-  ],
+    RespondentListInfoTableComponent
+],
 })
 export class SendRemindersToRespondentsModalComponent {
 

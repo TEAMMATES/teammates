@@ -1,8 +1,8 @@
 <tm-loading-retry [shouldShowRetry]="hasStudentLoadingFailed" (retryEvent)="loadStudentDetails(courseId, studentEmail)" [message]="'Failed to load students'">
   <div *tmIsLoading="isStudentLoading">
-    <ng-container *ngIf="student">
+    @if (student) {
       <h1 id="student-name">{{student?.name}}</h1>
       <tm-course-related-info [student]="student"></tm-course-related-info>
-    </ng-container>
+    }
   </div>
 </tm-loading-retry>

@@ -1,113 +1,125 @@
-<h1 class="page-title text-break" *ngIf="course.courseId">Team Details for {{ course.courseId }}</h1>
+@if (course.courseId) {
+  <h1 class="page-title text-break">Team Details for {{ course.courseId }}</h1>
+}
 <tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load details'" (retryEvent)="retryLoading()">
-  <div class="section" *ngIf="course.courseId">
-    <div *tmIsLoading="isLoadingCourse || isLoadingInstructor || isLoadingStudent" class="card">
-      <div class="card-body fill-plain">
-        <ng-container *ngIf="course.courseId">
-          <div class="row">
-            <div class="col-3 text-end">
-              <label>Course ID:</label>
-            </div>
-            <div class="col-9">
-              <span id="course-id">{{ course.courseId }}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-3 text-end">
-              <label>Course name:</label>
-            </div>
-            <div class="col-9">
-              <span id="course-name">{{ course.courseName }}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-3 text-end">
-              <label>Course institute:</label>
-            </div>
-            <div class="col-9">
-              <span id="course-institute">{{ course.institute }}</span>
-            </div>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="instructorDetails && instructorDetails.length">
-          <div class="row">
-            <div class="col-3 text-end">
-              <label>Instructors:</label>
-            </div>
-            <div class="col-9" style="margin-bottom: .5rem;" id="instructors">
-              <div *ngFor="let instructorDetail of instructorDetails">
-                {{ instructorDetail.displayedToStudentsAs }}:
-                <a href="mailto:{{ instructorDetail.email }}">{{ instructorDetail.name }} ({{ instructorDetail.email }})</a>
+  @if (course.courseId) {
+    <div class="section">
+      <div *tmIsLoading="isLoadingCourse || isLoadingInstructor || isLoadingStudent" class="card">
+        <div class="card-body fill-plain">
+          @if (course.courseId) {
+            <div class="row">
+              <div class="col-3 text-end">
+                <label>Course ID:</label>
+              </div>
+              <div class="col-9">
+                <span id="course-id">{{ course.courseId }}</span>
               </div>
             </div>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="student.courseId">
-          <div class="row">
-            <div class="col-3 text-end">
-              <label>Your section:</label>
+            <div class="row">
+              <div class="col-3 text-end">
+                <label>Course name:</label>
+              </div>
+              <div class="col-9">
+                <span id="course-name">{{ course.courseName }}</span>
+              </div>
             </div>
-            <div class="col-9">
-              <span id="student-section">{{ student.sectionName }}</span>
+            <div class="row">
+              <div class="col-3 text-end">
+                <label>Course institute:</label>
+              </div>
+              <div class="col-9">
+                <span id="course-institute">{{ course.institute }}</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-3 text-end">
-              <label>Your team:</label>
+          }
+          @if (instructorDetails && instructorDetails.length) {
+            <div class="row">
+              <div class="col-3 text-end">
+                <label>Instructors:</label>
+              </div>
+              <div class="col-9" style="margin-bottom: .5rem;" id="instructors">
+                @for (instructorDetail of instructorDetails; track instructorDetail) {
+                  <div>
+                    {{ instructorDetail.displayedToStudentsAs }}:
+                    <a href="mailto:{{ instructorDetail.email }}">{{ instructorDetail.name }} ({{ instructorDetail.email }})</a>
+                  </div>
+                }
+              </div>
             </div>
-            <div class="col-9">
-              <span id="student-team">{{ student.teamName }}</span>
+          }
+          @if (student.courseId) {
+            <div class="row">
+              <div class="col-3 text-end">
+                <label>Your section:</label>
+              </div>
+              <div class="col-9">
+                <span id="student-section">{{ student.sectionName }}</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-3 text-end">
-              <label>Your name:</label>
+            <div class="row">
+              <div class="col-3 text-end">
+                <label>Your team:</label>
+              </div>
+              <div class="col-9">
+                <span id="student-team">{{ student.teamName }}</span>
+              </div>
             </div>
-            <div class="col-9">
-              <span id="student-name">{{ student.name }}</span>
+            <div class="row">
+              <div class="col-3 text-end">
+                <label>Your name:</label>
+              </div>
+              <div class="col-9">
+                <span id="student-name">{{ student.name }}</span>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-3 text-end">
-              <label>Your email:</label>
+            <div class="row">
+              <div class="col-3 text-end">
+                <label>Your email:</label>
+              </div>
+              <div class="col-9">
+                <span id="student-email">{{ student.email }}</span>
+              </div>
             </div>
-            <div class="col-9">
-              <span id="student-email">{{ student.email }}</span>
-            </div>
-          </div>
-        </ng-container>
+          }
+        </div>
       </div>
     </div>
-  </div>
-  <div *ngIf="!isLoadingTeammates && teammateProfiles.length" class="card bg-light mb-4">
-    <div class="card-body">
-      <span class="d-inline h5 fw-bold">Sort By: </span>
-      <div class="btn-group" data-toggle="buttons">
-        <button id="sort-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_NAME)" (click)="sortTeammatesBy(SortBy.RESPONDENT_NAME)">Name</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_EMAIL)" (click)="sortTeammatesBy(SortBy.RESPONDENT_EMAIL)">Email</button>
+  }
+  @if (!isLoadingTeammates && teammateProfiles.length) {
+    <div class="card bg-light mb-4">
+      <div class="card-body">
+        <span class="d-inline h5 fw-bold">Sort By: </span>
+        <div class="btn-group" data-toggle="buttons">
+          <button id="sort-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_NAME)" (click)="sortTeammatesBy(SortBy.RESPONDENT_NAME)">Name</button>
+          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_EMAIL)" (click)="sortTeammatesBy(SortBy.RESPONDENT_EMAIL)">Email</button>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </tm-loading-retry>
 
 <div class="section" *tmIsLoading="isLoadingTeammates">
   <div class="row top-padded">
-    <div class="col-md-2" *ngIf="teammateProfiles.length">
-      <strong>Your teammates:</strong>
-    </div>
+    @if (teammateProfiles.length) {
+      <div class="col-md-2">
+        <strong>Your teammates:</strong>
+      </div>
+    }
     <div class="col-md-10">
       <table>
         <tbody>
-        <tr *ngFor="let teammateProfile of teammateProfiles; let i = index">
-          <td class="team-member-profile-cell" id="teammates-details-{{ i }}">
-            <div>
-              <label>Name:</label> {{ teammateProfile.name }}
-            </div>
-            <div>
-              <label>Email:</label>&nbsp;<a href="mailto:{{ teammateProfile.email }}">{{ teammateProfile.email }}</a>
-            </div>
-          </td>
-        </tr>
+          @for (teammateProfile of teammateProfiles; track teammateProfile; let i = $index) {
+            <tr>
+              <td class="team-member-profile-cell" id="teammates-details-{{ i }}">
+                <div>
+                  <label>Name:</label> {{ teammateProfile.name }}
+                </div>
+                <div>
+                  <label>Email:</label>&nbsp;<a href="mailto:{{ teammateProfile.email }}">{{ teammateProfile.email }}</a>
+                </div>
+              </td>
+            </tr>
+          }
         </tbody>
       </table>
     </div>

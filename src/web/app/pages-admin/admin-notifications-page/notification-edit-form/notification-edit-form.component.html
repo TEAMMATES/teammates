@@ -2,12 +2,14 @@
   <div class="close-header">
     <button type="button" class="btn-close float-end" aria-label="Close" (click)="cancelHandler()"></button>
   </div>
-  <div class="card-body" *ngIf="model.shown">
-    <div class="alert alert-danger mb-0">
-      <h5><i class="fas fa-exclamation-circle"></i>&nbsp;This notification has already been shown to users.</h5>
-      <p>Major edits to the notification are not recommended.</p>
+  @if (model.shown) {
+    <div class="card-body">
+      <div class="alert alert-danger mb-0">
+        <h5><i class="fas fa-exclamation-circle"></i>&nbsp;This notification has already been shown to users.</h5>
+        <p>Major edits to the notification are not recommended.</p>
+      </div>
     </div>
-  </div>
+  }
   <div class="card-body">
     <div class="card border-primary">
       <div class="card-body">
@@ -32,7 +34,9 @@
           </div>
           <div class="col-md-auto text-md-start">
             <select id="notification-style" class="form-control form-select" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
-              <option *ngFor="let style of NotificationStyle | keyvalue" [ngValue]="style.value">{{ style.value | notificationStyleDescription }}</option>
+              @for (style of NotificationStyle | keyvalue; track style) {
+                <option [ngValue]="style.value">{{ style.value | notificationStyleDescription }}</option>
+              }
             </select>
           </div>
           <div class="col-md-auto text-md-middle d-flex mb-0 border border-secondary" [ngClass]="model.style | notificationStyleClass">
@@ -88,7 +92,7 @@
             <div class="row text-center align-items-center">
               <div id="notification-start-date" class="col-md-7 col-xs-center">
                 <tm-datepicker (dateChangeCallback)="triggerModelChange('startDate', $event)"
-                               [date]="model.startDate"></tm-datepicker>
+                [date]="model.startDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
                 <tm-timepicker id="notification-start-time" [time]="model.startTime" (timeChange)="triggerModelChange('startTime', $event)"></tm-timepicker>
@@ -106,7 +110,7 @@
             <div class="row align-items-center">
               <div id="notification-end-date" class="col-md-7 col-xs-center">
                 <tm-datepicker (dateChangeCallback)="triggerModelChange('endDate', $event)"
-                               [minDate]="model.startDate" [date]="model.endDate"></tm-datepicker>
+                [minDate]="model.startDate" [date]="model.endDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
                 <tm-timepicker id="notification-end-time" [time]="model.endTime" (timeChange)="triggerModelChange('endTime', $event)"></tm-timepicker>
@@ -119,17 +123,27 @@
     <div class="row margin-top-20px">
       <div class="col-12 text-center">
         <span class="loader"></span>
-        <div *ngIf="formMode === NotificationEditFormMode.ADD">
-          <button id="btn-create-notification" type="button" class="btn btn-primary" [disabled]="model.isSaving" (click)="submitFormHandler()">
-            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Create Notification
-          </button>
-        </div>
-        <div *ngIf="formMode === NotificationEditFormMode.EDIT">
-          <button id="btn-edit-notification" type="button" class="btn btn-success" [disabled]="model.isSaving" *ngIf="formMode === NotificationEditFormMode.EDIT" (click)="submitFormHandler()">
-            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Save Changes
-          </button>
+        @if (formMode === NotificationEditFormMode.ADD) {
+          <div>
+            <button id="btn-create-notification" type="button" class="btn btn-primary" [disabled]="model.isSaving" (click)="submitFormHandler()">
+              @if (model.isSaving) {
+                <tm-ajax-loading></tm-ajax-loading>
+                }Create Notification
+              </button>
+            </div>
+          }
+          @if (formMode === NotificationEditFormMode.EDIT) {
+            <div>
+              @if (formMode === NotificationEditFormMode.EDIT) {
+                <button id="btn-edit-notification" type="button" class="btn btn-success" [disabled]="model.isSaving" (click)="submitFormHandler()">
+                  @if (model.isSaving) {
+                    <tm-ajax-loading></tm-ajax-loading>
+                    }Save Changes
+                  </button>
+                }
+              </div>
+            }
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>

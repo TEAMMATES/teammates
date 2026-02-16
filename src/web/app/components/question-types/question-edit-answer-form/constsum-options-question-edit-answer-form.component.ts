@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
@@ -21,11 +21,9 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   templateUrl: './constsum-options-question-edit-answer-form.component.html',
   styleUrls: ['./constsum-options-question-edit-answer-form.component.scss'],
   imports: [
-    NgFor,
     FormsModule,
-    WheelDisablerDirective,
-    NgIf,
-  ],
+    WheelDisablerDirective
+],
 })
 export class ConstsumOptionsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {

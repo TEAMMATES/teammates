@@ -1,11 +1,16 @@
-<a
-  class="show-response-rate-{{ idx }}"
-  *ngIf="empty && !isLoading"
-  href="#"
-  (click)="onClick(); $event.preventDefault()"
-  >Show</a
->
-<div class="response-rate-{{ idx }}" *ngIf="!empty">
-  {{ responseRate }}
-</div>
-<tm-ajax-loading *ngIf="isLoading" [useBlueSpinner]="true"></tm-ajax-loading>
+@if (empty && !isLoading) {
+  <a
+    class="show-response-rate-{{ idx }}"
+    href="#"
+    (click)="onClick(); $event.preventDefault()"
+    >Show</a
+    >
+  }
+  @if (!empty) {
+    <div class="response-rate-{{ idx }}">
+      {{ responseRate }}
+    </div>
+  }
+  @if (isLoading) {
+    <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
+  }

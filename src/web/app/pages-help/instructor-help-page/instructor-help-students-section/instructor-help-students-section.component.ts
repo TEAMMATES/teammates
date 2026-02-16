@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import {
   EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,
@@ -34,14 +34,13 @@ import { Sections } from '../sections';
   styleUrls: ['./instructor-help-students-section.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     InstructorHelpPanelComponent,
     ExampleBoxComponent,
     CourseRelatedInfoComponent,
     InstructorCourseStudentEditPageComponent,
     InstructorSearchBarComponent,
-    StudentResultTableComponent,
-  ],
+    StudentResultTableComponent
+],
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

@@ -1,13 +1,31 @@
-<tm-contribution-question-response *ngIf="QuestionDetailsTypeChecker.isContrib(questionDetails) && ResponseDetailsTypeChecker.isContrib(responseDetails)" [responseDetails]="responseDetails" [questionDetails]="questionDetails" [statistics]="statistics" [giverEmail]="giverEmail" [recipientEmail]="recipientEmail"></tm-contribution-question-response>
+@if (QuestionDetailsTypeChecker.isContrib(questionDetails) && ResponseDetailsTypeChecker.isContrib(responseDetails)) {
+  <tm-contribution-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails" [statistics]="statistics" [giverEmail]="giverEmail" [recipientEmail]="recipientEmail"></tm-contribution-question-response>
+}
 
-<tm-constsum-question-response *ngIf="(QuestionDetailsTypeChecker.isConstSumOptions(questionDetails) || QuestionDetailsTypeChecker.isConstSumRecipients(questionDetails)) && ResponseDetailsTypeChecker.isConstSum(responseDetails)" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-constsum-question-response>
-<tm-num-scale-question-response *ngIf="QuestionDetailsTypeChecker.isNumscale(questionDetails) && ResponseDetailsTypeChecker.isNumscale(responseDetails)" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-num-scale-question-response>
-<tm-rubric-question-response *ngIf="QuestionDetailsTypeChecker.isRubric(questionDetails) && ResponseDetailsTypeChecker.isRubric(responseDetails)" [responseDetails]="responseDetails" [questionDetails]="questionDetails" [isStudentPage]="isStudentPage"></tm-rubric-question-response>
-<tm-rank-options-question-response *ngIf="QuestionDetailsTypeChecker.isRankOptions(questionDetails) && ResponseDetailsTypeChecker.isRankOptions(responseDetails)" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-options-question-response>
-<tm-rank-recipients-question-response *ngIf="QuestionDetailsTypeChecker.isRankRecipients(questionDetails) && ResponseDetailsTypeChecker.isRankRecipients(responseDetails)" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-recipients-question-response>
-<tm-msq-question-response *ngIf="QuestionDetailsTypeChecker.isMsq(questionDetails) && ResponseDetailsTypeChecker.isMsq(responseDetails)" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-msq-question-response>
-<tm-mcq-question-response *ngIf="QuestionDetailsTypeChecker.isMcq(questionDetails) && ResponseDetailsTypeChecker.isMcq(responseDetails)" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-mcq-question-response>
+@if ((QuestionDetailsTypeChecker.isConstSumOptions(questionDetails) || QuestionDetailsTypeChecker.isConstSumRecipients(questionDetails)) && ResponseDetailsTypeChecker.isConstSum(responseDetails)) {
+  <tm-constsum-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-constsum-question-response>
+}
+@if (QuestionDetailsTypeChecker.isNumscale(questionDetails) && ResponseDetailsTypeChecker.isNumscale(responseDetails)) {
+  <tm-num-scale-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-num-scale-question-response>
+}
+@if (QuestionDetailsTypeChecker.isRubric(questionDetails) && ResponseDetailsTypeChecker.isRubric(responseDetails)) {
+  <tm-rubric-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails" [isStudentPage]="isStudentPage"></tm-rubric-question-response>
+}
+@if (QuestionDetailsTypeChecker.isRankOptions(questionDetails) && ResponseDetailsTypeChecker.isRankOptions(responseDetails)) {
+  <tm-rank-options-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-options-question-response>
+}
+@if (QuestionDetailsTypeChecker.isRankRecipients(questionDetails) && ResponseDetailsTypeChecker.isRankRecipients(responseDetails)) {
+  <tm-rank-recipients-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-rank-recipients-question-response>
+}
+@if (QuestionDetailsTypeChecker.isMsq(questionDetails) && ResponseDetailsTypeChecker.isMsq(responseDetails)) {
+  <tm-msq-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-msq-question-response>
+}
+@if (QuestionDetailsTypeChecker.isMcq(questionDetails) && ResponseDetailsTypeChecker.isMcq(responseDetails)) {
+  <tm-mcq-question-response [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-mcq-question-response>
+}
 
 <!-- For cases of "No Response", the response typing is hard-coded with feedback question type = TEXT -->
 <!-- Thus, for responses with question type = TEXT, we (safely) skip the question type checking -->
-<tm-text-question-response *ngIf="ResponseDetailsTypeChecker.isText(responseDetails)" [responseDetails]="responseDetails" [questionDetails]="castAsTextQuestion(questionDetails)"></tm-text-question-response>
+@if (ResponseDetailsTypeChecker.isText(responseDetails)) {
+  <tm-text-question-response [responseDetails]="responseDetails" [questionDetails]="castAsTextQuestion(questionDetails)"></tm-text-question-response>
+}

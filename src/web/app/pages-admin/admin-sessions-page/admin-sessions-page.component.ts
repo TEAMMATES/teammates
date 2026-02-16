@@ -1,4 +1,4 @@
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
@@ -30,15 +30,13 @@ interface OngoingSessionModel {
   styleUrls: ['./admin-sessions-page.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     FormsModule,
     NgbInputDatepicker,
     NgbTimepicker,
-    NgFor,
     LoadingSpinnerDirective,
     PanelChevronComponent,
-    KeyValuePipe,
-  ],
+    KeyValuePipe
+],
 })
 export class AdminSessionsPageComponent implements OnInit {
 

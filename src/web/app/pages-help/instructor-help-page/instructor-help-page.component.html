@@ -17,9 +17,11 @@
             </div>
           </div>
         </div>
-        <div *ngIf="key" style="margin-top: 20px;">
-          <h4>{{ matchFound }} results found for "{{ key }}"</h4>
-        </div>
+        @if (key) {
+          <div style="margin-top: 20px;">
+            <h4>{{ matchFound }} results found for "{{ key }}"</h4>
+          </div>
+        }
         <hr/>
       </div>
     </div>
@@ -49,29 +51,29 @@
     <p><b>
       Browse by topic:
       <br>
-    </b></p>
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item">
-        <a (click)="scroll(Sections.students)" [tmRouterLink]="[]">Students</a>
-      </li>
-      <li class="nav-item">
-        <a (click)="scroll(Sections.courses)" [tmRouterLink]="[]">Courses</a>
-      </li>
-      <li class="nav-item">
-        <a (click)="scroll(Sections.sessions)" [tmRouterLink]="[]">Sessions</a>
-      </li>
-      <li class="nav-item">
-        <a (click)="scroll(Sections.questions)" [tmRouterLink]="[]">Questions</a>
-      </li>
-      <li class="nav-item">
-        <a (click)="scroll(Sections.general)" [tmRouterLink]="[]">General</a>
-      </li>
-    </ul>
-    <br>
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item">
-        <a (click)="scroll(Sections.body)" [tmRouterLink]="[]">Back to Top <i class="fas fa-arrow-up"></i> </a>
-      </li>
-    </ul>
-  </div>
-</div>
+      </b></p>
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a (click)="scroll(Sections.students)" [tmRouterLink]="[]">Students</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="scroll(Sections.courses)" [tmRouterLink]="[]">Courses</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="scroll(Sections.sessions)" [tmRouterLink]="[]">Sessions</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="scroll(Sections.questions)" [tmRouterLink]="[]">Questions</a>
+        </li>
+        <li class="nav-item">
+          <a (click)="scroll(Sections.general)" [tmRouterLink]="[]">General</a>
+        </li>
+      </ul>
+      <br>
+        <ul class="nav nav-pills flex-column">
+          <li class="nav-item">
+            <a (click)="scroll(Sections.body)" [tmRouterLink]="[]">Back to Top <i class="fas fa-arrow-up"></i> </a>
+          </li>
+        </ul>
+      </div>
+    </div>

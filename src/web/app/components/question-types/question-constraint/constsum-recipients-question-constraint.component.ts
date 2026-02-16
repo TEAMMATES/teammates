@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
 import {
@@ -20,7 +20,7 @@ import {
     selector: 'tm-constsum-recipients-question-constraint',
     templateUrl: './constsum-recipients-question-constraint.component.html',
     styleUrls: ['./constsum-recipients-question-constraint.component.scss'],
-    imports: [NgIf],
+    imports: [],
 })
 export class ConstsumRecipientsQuestionConstraintComponent
     extends QuestionConstraintComponent<FeedbackConstantSumQuestionDetails> {

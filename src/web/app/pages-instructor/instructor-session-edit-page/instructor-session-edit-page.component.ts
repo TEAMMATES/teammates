@@ -1,4 +1,4 @@
-import { NgIf, NgFor } from '@angular/common';
+
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -96,13 +96,11 @@ import {
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     SessionEditFormComponent,
-    NgIf,
-    NgFor,
     QuestionEditFormComponent,
     AddingQuestionPanelComponent,
     PreviewSessionPanelComponent,
-    ModifiedTimestampModalComponent,
-  ],
+    ModifiedTimestampModalComponent
+],
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
 

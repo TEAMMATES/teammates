@@ -2,23 +2,24 @@
   <div class="col-sm-6">
     <div class="row">
       <div id="options-section" cdkDropList (cdkDropListDropped)="onConstsumOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-        <div class="mb-3 d-flex" *ngFor="let option of model.constSumOptions; let i = index;
-        trackBy: trackConstsumOption" cdkDrag cdkDragLockAxis="y">
-          <div cdkDragHandle aria-hidden="true">
-            <span class="btn input-group-addon">&#8597; </span>
+        @for (option of model.constSumOptions; track trackConstsumOption(i, option); let i = $index) {
+          <div class="mb-3 d-flex" cdkDrag cdkDragLockAxis="y">
+            <div cdkDragHandle aria-hidden="true">
+              <span class="btn input-group-addon">&#8597; </span>
+            </div>
+            <div class="flex-grow-1">
+              <tm-constsum-options-field (elementDeleted)="onConstsumOptionDeleted(i)"
+                [isEditable]="isEditable"
+                (textChange)="onConstsumOptionEntered($event, i)"
+              [text]="option"></tm-constsum-options-field>
+            </div>
           </div>
-          <div class="flex-grow-1">
-            <tm-constsum-options-field (elementDeleted)="onConstsumOptionDeleted(i)"
-                                  [isEditable]="isEditable"
-                                  (textChange)="onConstsumOptionEntered($event, i)"
-                                  [text]="option"></tm-constsum-options-field>
-          </div>
-        </div>
+        }
       </div>
     </div>
     <div class="mb-3">
       <button id="btn-add-option" class="btn btn-primary" name="button" ngDefaultControl
-              [disabled]="!isEditable" (click)="increaseNumberOfConstsumOptions()">
+        [disabled]="!isEditable" (click)="increaseNumberOfConstsumOptions()">
         <i class="fas fa-plus"></i> Add More Options
       </button>
     </div>
@@ -33,9 +34,9 @@
           <label class="row form-check-label">
             <div class="col-sm-6">
               <input id="total-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="false" [name]="pointsRadioGroupName"
-                     (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable" aria-label="Use Total Points Checkbox">
+                (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable" aria-label="Use Total Points Checkbox">
               <input id="total-points" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'points')"
-                     [ngModel]="!model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || model.pointsPerOption" aria-label="Total Points Input">
+                [ngModel]="!model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || model.pointsPerOption" aria-label="Total Points Input">
             </div>
             <div class="col-sm-6 text-start">
               <b class="ngb-tooltip-class" ngbTooltip="Respondents will have to distribute the total points specified here among the options, e.g. if you specify 100 points here and there are 3 options, respondents will have to distribute 100 points among 3 options.">in total</b>
@@ -46,9 +47,9 @@
           <label class="row form-check-label">
             <div class="col-sm-6">
               <input id="per-option-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="true" [name]="pointsRadioGroupName"
-                     (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable" aria-label="Use Total Points Times Number of Options Checkbox">
+                (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable" aria-label="Use Total Points Times Number of Options Checkbox">
               <input id="per-option-points" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'points')"
-                     [ngModel]="model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || !model.pointsPerOption" aria-label="Points Input">
+                [ngModel]="model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || !model.pointsPerOption" aria-label="Points Input">
             </div>
             <div class="col-sm-6 text-start">
               <b class="ngb-tooltip-class" ngbTooltip="The number of points to distribute will vary based on the number of options, e.g. if you specify 100 points here and there are 3 options, the total number of points to distribute among 3 options will be 300 (i.e. 100 x 3).">times (number of options)</b>
@@ -62,10 +63,10 @@
             <div class="form-check">
               <label class="form-check-label">
                 <input id="min-point-checkbox" class="form-check-input" type="checkbox"
-                       [ngModel]="hasMinPoint"
-                       (ngModelChange)="resetMinPoint($event)" [disabled]="!isEditable" aria-label="Minimum Value Checkbox">
+                  [ngModel]="hasMinPoint"
+                  (ngModelChange)="resetMinPoint($event)" [disabled]="!isEditable" aria-label="Minimum Value Checkbox">
                 <input id="min-point" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'minPoint')"
-                       [ngModel]="hasMinPoint ? model.minPoint : ''" (ngModelChange)="triggerModelChange('minPoint', $event)" [disabled]="!isEditable || !hasMinPoint" aria-label="Minimum Value Input">
+                  [ngModel]="hasMinPoint ? model.minPoint : ''" (ngModelChange)="triggerModelChange('minPoint', $event)" [disabled]="!isEditable || !hasMinPoint" aria-label="Minimum Value Input">
                 <b class="ngb-tooltip-class" ngbTooltip="The minimum allocation of the points to an option, e.g if you specify 5 points here, the user must input a value larger than or equal to 5 for each option.">minimum per option</b>
               </label>
             </div>
@@ -74,10 +75,10 @@
             <div class="form-check">
               <label class="form-check-label">
                 <input id="max-point-checkbox" class="form-check-input" type="checkbox"
-                       [ngModel]="hasMaxPoint"
-                       (ngModelChange)="resetMaxPoint($event)"  [disabled]="!isEditable" aria-label="Maximum Value Checkbox">
+                  [ngModel]="hasMaxPoint"
+                  (ngModelChange)="resetMaxPoint($event)"  [disabled]="!isEditable" aria-label="Maximum Value Checkbox">
                 <input id="max-point" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'maxPoint')"
-                       [ngModel]="hasMaxPoint ? model.maxPoint : ''" (ngModelChange)="triggerModelChange('maxPoint', $event)" [disabled]="!isEditable || !hasMaxPoint" aria-label="Maximum Value Input">
+                  [ngModel]="hasMaxPoint ? model.maxPoint : ''" (ngModelChange)="triggerModelChange('maxPoint', $event)" [disabled]="!isEditable || !hasMaxPoint" aria-label="Maximum Value Input">
                 <b class="ngb-tooltip-class" ngbTooltip="The maximum allocation of the points to an option, e.g if you specify 30 points here, the user must input a value smaller than or equal to 30 for each option.">maximum per option</b>
               </label>
             </div>
@@ -88,11 +89,11 @@
         <div class="form-check">
           <label class="form-check-label">
             <input id="uneven-distribution-checkbox" class="form-check-input" type="checkbox"
-                  [ngModel]="model.forceUnevenDistribution"
-                  (ngModelChange)="onForceUnevenDistribution($event)" [disabled]="!isEditable" aria-label="Uneven Distribution Checkbox">
+              [ngModel]="model.forceUnevenDistribution"
+              (ngModelChange)="onForceUnevenDistribution($event)" [disabled]="!isEditable" aria-label="Uneven Distribution Checkbox">
             <select id="uneven-distribution-dropdown" class="form-control form-select" [ngModel]="model.distributePointsFor"
-                    [disabled]="!isEditable || model.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE"
-                    (ngModelChange)="triggerModelChange('distributePointsFor', $event)" aria-label="Uneven Distribution Options">
+              [disabled]="!isEditable || model.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE"
+              (ngModelChange)="triggerModelChange('distributePointsFor', $event)" aria-label="Uneven Distribution Options">
               <option [value]="FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY" aria-label="Every Option to Receive a Different Number of Points">
                 Every option
               </option>

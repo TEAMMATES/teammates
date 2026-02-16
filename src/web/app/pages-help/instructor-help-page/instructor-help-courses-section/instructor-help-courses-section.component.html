@@ -1,18 +1,22 @@
 <div>
   <div class="section-header d-flex align-items-center">
-    <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Courses</h2>
+    @if (!key || showQuestion.length > 0) {
+      <h2 class="color-blue">Courses</h2>
+    }
     <div class="ms-2 mb-1" (click)="changeBrowserUrl(Sections.courses)">
       <div class="fas fa-anchor"></div>
     </div>
   </div>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(0, 5)">Enrolling Students in Courses</h4>
+  @if (displaySubsection(0, 5)) {
+    <h4>Enrolling Students in Courses</h4>
+  }
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_STUDENTS)"
-                            [id]="CoursesSectionQuestions.COURSE_ADD_STUDENTS"
-                            [section]="Sections.courses"
-                            headerText="How do I add students to a course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]">
+    [id]="CoursesSectionQuestions.COURSE_ADD_STUDENTS"
+    [section]="Sections.courses"
+    headerText="How do I add students to a course?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]">
     <p>
       There are two ways to enroll students in a course:
     </p>
@@ -27,10 +31,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.SIZE_LIMIT)"
-                            [id]="CoursesSectionQuestions.SIZE_LIMIT"
-                            [section]="Sections.courses"
-                            headerText="Is there a size limit for a course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]">
+    [id]="CoursesSectionQuestions.SIZE_LIMIT"
+    [section]="Sections.courses"
+    headerText="Is there a size limit for a course?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]">
     <p>
       No. However, if courses with an enrollment of more than 100 students need to be <a (click)="jumpTo(CoursesSectionQuestions.ENROLL_SECTIONS); questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS] = true" [tmRouterLink]="">divided into sections</a>.<br>
       TEAMMATES uses section information to organize the results of your sessions into a downloadable report.
@@ -38,10 +42,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.NO_TEAMS)"
-                            [id]="CoursesSectionQuestions.NO_TEAMS"
-                            [section]="Sections.courses"
-                            headerText="What should I do if my course doesn't have teams?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]">
+    [id]="CoursesSectionQuestions.NO_TEAMS"
+    [section]="Sections.courses"
+    headerText="What should I do if my course doesn't have teams?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]">
     <p>
       When you enroll students in a course, TEAMMATES requires you to specify a <span class="ui-text">Team</span> for each student.<br>
       If your class does not use groups or teams, simply provide a dummy value in the Team column.
@@ -49,10 +53,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.SECTIONS)"
-                            [id]="CoursesSectionQuestions.SECTIONS"
-                            [section]="Sections.courses"
-                            headerText="What are sections meant for?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SECTIONS]">
+    [id]="CoursesSectionQuestions.SECTIONS"
+    [section]="Sections.courses"
+    headerText="What are sections meant for?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SECTIONS]">
     <p>
       Sections are used to organize students in courses with significantly large numbers of students.
       It is mandatory for courses with more than 100 students to organize students into sections.
@@ -65,23 +69,25 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question class="instr-help-qn-last" [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.ENROLL_SECTIONS)"
-                            [id]="CoursesSectionQuestions.ENROLL_SECTIONS"
-                            [section]="Sections.courses"
-                            headerText="How do I enroll students into sections?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]">
+    [id]="CoursesSectionQuestions.ENROLL_SECTIONS"
+    [section]="Sections.courses"
+    headerText="How do I enroll students into sections?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]">
     <p>
       To specify a section for each student at the time of enrollment, include a <span class="ui-text">Section</span> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
       To view more information, go to the <span class="ui-text">Courses</span> page, click on the <button class="btn btn-light btn-sm" type="button">Enroll</button> button for any course and scroll down to the <span class="ui-text">More Info</span> section.
     </p>
   </tm-instructor-help-panel>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(5, 9)">Adding Instructors to Courses</h4>
+  @if (displaySubsection(5, 9)) {
+    <h4>Adding Instructors to Courses</h4>
+  }
   <!--Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR)"
-                            [id]="CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR"
-                            [section]="Sections.courses"
-                            headerText="How do I add instructors to my course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]">
+    [id]="CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR"
+    [section]="Sections.courses"
+    headerText="How do I add instructors to my course?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]">
     <p>
       From your <span class="ui-text">Home</span> page, click on the <button class="btn btn-primary btn-sm dropdown-toggle">Instructors</button> button of the corresponding course, and choose <span class="ui-text">View / Edit</span>. You will be directed to the <span class="ui-text">Edit Course Details</span> page.<br>
       Here, you can add new instructors to the course, edit existing instructors' details, and delete instructors from the course, depending on your access privileges.
@@ -103,10 +109,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR)"
-                            [id]="CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR"
-                            [section]="Sections.courses"
-                            headerText="How do I edit the information of an instructor in my course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]">
+    [id]="CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR"
+    [section]="Sections.courses"
+    headerText="How do I edit the information of an instructor in my course?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]">
     <p>
       From your <span class="ui-text">Home</span> page, click on the <button class="btn btn-primary btn-sm dropdown-toggle">Instructors</button> button of the corresponding course, and choose <span class="ui-text">View / Edit</span>. You will be directed to the <span class="ui-text">Edit Course Details</span> page.<br>
     </p>
@@ -130,10 +136,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS)"
-                            [id]="CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS"
-                            [section]="Sections.courses"
-                            headerText="How do I set an instructor's access level?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]">
+    [id]="CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS"
+    [section]="Sections.courses"
+    headerText="How do I set an instructor's access level?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]">
     <p>
       When <a (click)="jumpTo(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR] = true" [tmRouterLink]="">adding an instructor</a> or <a (click)="jumpTo(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR] = true" [tmRouterLink]="">editing an instructor's information</a>, you can set the instructor's access level.
       There are 4 pre-defined privilege options for you to choose from:
@@ -159,10 +165,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.PRIVILEGES)"
-                            [id]="CoursesSectionQuestions.PRIVILEGES"
-                            [section]="Sections.courses"
-                            headerText="How do I set custom privileges for an instructor?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]">
+    [id]="CoursesSectionQuestions.PRIVILEGES"
+    [section]="Sections.courses"
+    headerText="How do I set custom privileges for an instructor?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]">
     <p>
       When you set the access level for an instructor to <span class="ui-text">Custom</span>, detailed privilege settings will appear.<br>
       Use the checkboxes to give instructors specific privileges.
@@ -174,13 +180,15 @@
     </p>
   </tm-instructor-help-panel>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(9, 13)">Managing Courses</h4>
+  @if (displaySubsection(9, 13)) {
+    <h4>Managing Courses</h4>
+  }
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_STUDENTS)"
-                            [id]="CoursesSectionQuestions.COURSE_VIEW_STUDENTS"
-                            [section]="Sections.courses"
-                            headerText="How do I view a list of students in a course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]">
+    [id]="CoursesSectionQuestions.COURSE_VIEW_STUDENTS"
+    [section]="Sections.courses"
+    headerText="How do I view a list of students in a course?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]">
     <p>
       There are two ways to access the list of students in a course.
     </p>
@@ -198,10 +206,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.CHANGE_SECTION)"
-                            [id]="CoursesSectionQuestions.CHANGE_SECTION"
-                            [section]="Sections.courses"
-                            headerText="How do I change a student's section?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]">
+    [id]="CoursesSectionQuestions.CHANGE_SECTION"
+    [section]="Sections.courses"
+    headerText="How do I change a student's section?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]">
     <p>
       To edit the section Student A from Course B is enrolled in:
     </p>
@@ -222,10 +230,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.DISAPPEARED_COURSE)"
-                            [id]="CoursesSectionQuestions.DISAPPEARED_COURSE"
-                            [section]="Sections.courses"
-                            headerText="What should I do if a student says his/her courses have disappeared from the system?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]">
+    [id]="CoursesSectionQuestions.DISAPPEARED_COURSE"
+    [section]="Sections.courses"
+    headerText="What should I do if a student says his/her courses have disappeared from the system?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]">
     <p>
       The most likely reason for this is that the student has changed the primary email address associated with his/her Google ID. Please ask the student to email
       <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a> so that we help to rectify the problem.
@@ -233,10 +241,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.DEL_STUDENTS)"
-                            [id]="CoursesSectionQuestions.DEL_STUDENTS"
-                            [section]="Sections.courses"
-                            headerText="How do I delete students from a course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]">
+    [id]="CoursesSectionQuestions.DEL_STUDENTS"
+    [section]="Sections.courses"
+    headerText="How do I delete students from a course?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]">
     <p>
       To remove Student A from Course B:
     </p>
@@ -253,13 +261,15 @@
     </ol>
   </tm-instructor-help-panel>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(13, 16)">Archiving Courses</h4>
+  @if (displaySubsection(13, 16)) {
+    <h4>Archiving Courses</h4>
+  }
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ARCHIVE)"
-                            [id]="CoursesSectionQuestions.COURSE_ARCHIVE"
-                            [section]="Sections.courses"
-                            headerText="How do I archive a course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]">
+    [id]="CoursesSectionQuestions.COURSE_ARCHIVE"
+    [section]="Sections.courses"
+    headerText="How do I archive a course?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]">
     <p>
       When a course has ended, you can archive it so that it doesn't appear in your home page. Course, student and session details of an archived course are still stored on TEAMMATES. However, you cannot edit, create feedback sessions for or enroll students in an archived course.
     </p>
@@ -276,10 +286,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED)"
-                            [id]="CoursesSectionQuestions.COURSE_VIEW_ARCHIVED"
-                            [section]="Sections.courses"
-                            headerText="How do I view courses I have archived?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]">
+    [id]="CoursesSectionQuestions.COURSE_VIEW_ARCHIVED"
+    [section]="Sections.courses"
+    headerText="How do I view courses I have archived?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]">
     <p>
       You can view all your archived courses by navigating to the <span class="ui-text">Courses</span> page.<br>
       Scroll to the <span class="ui-text">Archived courses</span> heading.
@@ -291,23 +301,25 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_UNARCHIVE)"
-                            [id]="CoursesSectionQuestions.COURSE_UNARCHIVE"
-                            [section]="Sections.courses"
-                            headerText="How do I unarchive an archived course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]">
+    [id]="CoursesSectionQuestions.COURSE_UNARCHIVE"
+    [section]="Sections.courses"
+    headerText="How do I unarchive an archived course?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]">
     <p>
       To unarchive a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED] = true" [tmRouterLink]="">view the course</a> that you would like to unarchive in the <span class="ui-text">Courses</span> page.<br>
       Then, click on the <button class="btn btn-light btn-sm" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
     </p>
   </tm-instructor-help-panel>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(16, 20)">Restoring Deleted Courses</h4>
+  @if (displaySubsection(16, 20)) {
+    <h4>Restoring Deleted Courses</h4>
+  }
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_DELETED)"
-                            [id]="CoursesSectionQuestions.COURSE_VIEW_DELETED"
-                            [section]="Sections.courses"
-                            headerText="How do I view courses I have deleted?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]">
+    [id]="CoursesSectionQuestions.COURSE_VIEW_DELETED"
+    [section]="Sections.courses"
+    headerText="How do I view courses I have deleted?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]">
     <p>
       You can view all your deleted courses by navigating to the <span class="ui-text">Courses</span> page.<br>
       Scroll to the <span class="ui-text">Deleted courses</span> heading.
@@ -319,10 +331,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_RESTORE)"
-                            [id]="CoursesSectionQuestions.COURSE_RESTORE"
-                            [section]="Sections.courses"
-                            headerText="How do I restore a deleted course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]">
+    [id]="CoursesSectionQuestions.COURSE_RESTORE"
+    [section]="Sections.courses"
+    headerText="How do I restore a deleted course?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]">
     <p>
       To restore a deleted course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [tmRouterLink]="">view the course</a> that you would like to restore in the <span class="ui-text">Courses</span> page.<br>
       Then, click on the <button class="btn btn-light btn-sm" type="button">Restore</button> button corresponding to the course you want to restore.
@@ -333,10 +345,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.PERM_DEL)"
-                            [id]="CoursesSectionQuestions.PERM_DEL"
-                            [section]="Sections.courses"
-                            headerText="How do I permanently delete a course?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]">
+    [id]="CoursesSectionQuestions.PERM_DEL"
+    [section]="Sections.courses"
+    headerText="How do I permanently delete a course?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]">
     <p>
       To permanently delete a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [tmRouterLink]="">view the course</a> that you would like to permanently delete in the <span class="ui-text">Courses</span> page.<br>
       Then, click on the <button class="btn btn-light btn-sm text-danger" type="button">Delete Permanently</button> button corresponding to the course you want to delete.
@@ -347,10 +359,10 @@
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.RESTORE_ALL)"
-                            [id]="CoursesSectionQuestions.RESTORE_ALL"
-                            [section]="Sections.courses"
-                            headerText="How do I restore/delete all courses from Recycle Bin?"
-                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]">
+    [id]="CoursesSectionQuestions.RESTORE_ALL"
+    [section]="Sections.courses"
+    headerText="How do I restore/delete all courses from Recycle Bin?"
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]">
     <p>
       First <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [tmRouterLink]="">view the course</a> and check for courses in Recycle Bin.<br>
       To restore all courses, click on the <button class="btn btn-secondary btn-sm"><i class="fas fa-check"></i> Restore All</button> button in <span class="ui-text">Deleted courses</span> heading;

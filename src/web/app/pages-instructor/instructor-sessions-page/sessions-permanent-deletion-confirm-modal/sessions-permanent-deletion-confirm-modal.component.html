@@ -8,7 +8,9 @@
     feedback sessions in the <b>Recycle Bin</b>?
   </div>
   <ul>
-    <li *ngFor="let session of sessionsToDelete">{{ session.courseId }}: {{ session.feedbackSessionName }}</li>
+    @for (session of sessionsToDelete; track session) {
+      <li>{{ session.courseId }}: {{ session.feedbackSessionName }}</li>
+    }
   </ul>
 </div>
 <div class="modal-footer">

@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } from '../../../types/datetime-const';
@@ -11,10 +11,8 @@ import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } fr
   templateUrl: './timepicker.component.html',
   styleUrls: ['./timepicker.component.scss'],
   imports: [
-    FormsModule,
-    NgFor,
-    NgIf,
-  ],
+    FormsModule
+],
 })
 export class TimepickerComponent {
   @Input()
