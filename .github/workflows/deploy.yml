@@ -34,17 +34,29 @@ jobs:
               head_sha: sha,
             });
             for (const name of requiredWorkflows) {
-              const runs = workflow_runs.filter(r => r.name === name);
-              if (runs.length === 0) {
-                core.info(`Workflow "${name}" has not run for ${sha}. Proceeding anyway.`);
-                continue;
-              }
-              const passed = runs.some(r => r.conclusion === 'success');
-              if (!passed) {
-                core.info(`Workflow "${name}" ran but did not succeed for ${sha}. Skipping deploy.`);
-                core.setOutput('ready', 'false');
-                return;
-              }
+                const runs = workflow_runs
+                    .filter(r => r.name === name && r.head_sha === sha)
+                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+                if (runs.length === 0) {
+                    core.info(`Workflow "${name}" has not run for ${sha}. Skipping deploy.`);
+                    core.setOutput('ready', 'false');
+                    return;
+                }
+
+                const latest = runs[0];
+
+                if (latest.status !== 'completed') {
+                    core.info(`Workflow "${name}" is still in progress for ${sha}.`);
+                    core.setOutput('ready', 'false');
+                    return;
+                }
+
+                if (latest.conclusion !== 'success') {
+                    core.info(`Workflow "${name}" failed for ${sha}.`);
+                    core.setOutput('ready', 'false');
+                    return;
+                }
             }
             core.info('All CI workflows passed!');
             core.setOutput('ready', 'true');
@@ -185,7 +197,7 @@ jobs:
         run: ./gradlew generateTypes
 
       - name: Build frontend
-        run: ng build —configuration production —optimization=false
+        run: npm run build 
       
       # OIDC Authentication
       - id: auth
