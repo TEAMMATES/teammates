@@ -55,6 +55,11 @@ jobs:
                 .filter(r => r.name === name && r.head_sha === sha)
                 .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
+              if (runsForSha.length === 0) {
+                core.info(`Workflow "${name}" has no run for this SHA. Skipping workflow.`);
+                continue;
+              }
+
               const latest = runsForSha[0];
 
               if (latest.status !== 'completed') {
