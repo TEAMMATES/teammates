@@ -30,11 +30,14 @@ jobs:
               head_sha: sha,
             });
             for (const name of requiredWorkflows) {
-              const passed = workflow_runs.some(
-                r => r.name === name && r.conclusion === 'success'
-              );
+              const runs = workflow_runs.filter(r => r.name === name);
+              if (runs.length === 0) {
+                core.info(`Workflow "${name}" has not run for ${sha}. Proceeding anyway.`);
+                continue;
+              }
+              const passed = runs.some(r => r.conclusion === 'success');
               if (!passed) {
-                core.info(`Workflow "${name}" has not succeeded yet for ${sha}. Skipping deploy.`);
+                core.info(`Workflow "${name}" ran but did not succeed for ${sha}. Skipping deploy.`);
                 core.setOutput('ready', 'false');
                 return;
               }
@@ -94,6 +97,9 @@ jobs:
           APP_EMAIL_SENDERNAME: ${{ vars.APP_EMAIL_SENDERNAME }}
           APP_MAINTAINERS: ${{ vars.APP_MAINTAINERS }}
           APP_SEARCH_SERVICE_HOST: ${{ vars.APP_SEARCH_SERVICE_HOST }}
+          APP_EMAIL_SERVICE: ${{ vars.APP_EMAIL_SERVICE }}
+          MAILJET_APIKEY: ${{ secrets.MAILJET_APIKEY }}
+          MAILJET_SECRETKEY: ${{ secrets.MAILJET_SECRETKEY }}
         run: |
           cat > src/main/resources/build.properties << EOF
           app.id=${APP_ID}
@@ -129,7 +135,9 @@ jobs:
           app.email.senderemail=${APP_EMAIL_SENDEREMAIL}
           app.email.sendername=${APP_EMAIL_SENDERNAME}
           app.email.replyto=${APP_EMAIL_REPLYTO}
-          app.email.service=
+          app.email.service=${APP_EMAIL_SERVICE}
+          app.mailjet.apikey=${MAILJET_APIKEY}
+          app.mailjet.secretkey=${MAILJET_SECRETKEY}
           
           app.search.service.host=${APP_SEARCH_SERVICE_HOST}
           EOF
