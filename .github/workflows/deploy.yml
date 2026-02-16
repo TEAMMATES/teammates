@@ -11,6 +11,10 @@ permissions:
   actions: read    # required to check workflow run status
   id-token: write  # required for OIDC
 
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: true
+
 jobs:
   check-ci:
     runs-on: ubuntu-latest
