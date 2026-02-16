@@ -55,12 +55,6 @@ jobs:
                 .filter(r => r.name === name && r.head_sha === sha)
                 .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-              if (runsForSha.length === 0) {
-                core.info(`Workflow "${name}" has no run for this SHA. Skipping deploy.`);
-                core.setOutput('ready', 'false');
-                return;
-              }
-
               const latest = runsForSha[0];
 
               if (latest.status !== 'completed') {
@@ -117,7 +111,7 @@ jobs:
           APP_POSTGRES_DATABASENAME: ${{ vars.APP_POSTGRES_DATABASENAME }}
           APP_POSTGRES_PASSWORD: ${{ secrets.APP_POSTGRES_PASSWORD }}
           APP_PRODUCTION_GCS_BUCKETNAME: ${{ vars.APP_PRODUCTION_GCS_BUCKETNAME }}
-          APP_BACKDOOR_KEY: ${{ secrets.APP_BACKDOOR_KEY }}
+          APP_BACKUP_KEY: ${{ secrets.APP_BACKUP_KEY }}
           APP_CAPTCHA_SECRET_KEY: ${{ secrets.APP_CAPTCHA_SECRET_KEY }}
           APP_CSRF_KEY: ${{ secrets.APP_CSRF_KEY }}
           APP_ENCRYPTION_KEY: ${{ secrets.APP_ENCRYPTION_KEY }}
@@ -152,7 +146,7 @@ jobs:
           app.maintenance=false
           
           app.csrf.key=${APP_CSRF_KEY}
-          app.backdoor.key=${APP_BACKDOOR_KEY}
+          app.backdoor.key=${APP_BACKUP_KEY}
           app.encryption.key=${APP_ENCRYPTION_KEY}
           
           app.auth.type=googleoauth2
