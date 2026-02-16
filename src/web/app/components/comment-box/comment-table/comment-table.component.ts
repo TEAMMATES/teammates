@@ -109,13 +109,6 @@ export class CommentTableComponent {
   }
 
   /**
-   * Tracks by index.
-   */
-  trackByIndex(index: number): string {
-    return index.toString();
-  }
-
-  /**
    * Handles the close editing event.
    */
   handleCloseEditingCommentRowEvent(index: number): void {

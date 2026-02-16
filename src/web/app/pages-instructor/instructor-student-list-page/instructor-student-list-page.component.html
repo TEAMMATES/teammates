@@ -37,7 +37,7 @@
                   <div *tmIsLoading="!courseTab.hasStudentLoaded">
                     @if (!courseTab.hasLoadingFailed) {
                       <div class="card-body">
-                        @if (courseTab.hasStudentLoaded && courseTab.stats.numOfStudents > 0,) {
+                        @if (courseTab.hasStudentLoaded && courseTab.stats.numOfStudents > 0) {
                           @if (courseTab.stats) {
                             <div class="row text-center text-sm-start">
                               <div class="col-md-4">
@@ -80,7 +80,7 @@
                               (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
                             </tm-student-list>
                           } @else {
-                            @if (courseTab.isAbleToViewStudents,) {
+                            @if (courseTab.isAbleToViewStudents) {
                               <h5>There are no students in this course.</h5>
                               <a id="btn-enroll" class="btn btn-success"
                                 tmRouterLink="/web/instructor/courses/enroll"

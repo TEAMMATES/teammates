@@ -76,7 +76,7 @@
       <div @collapseAnim>
         <div class="card-body">
           @if (userHasRealResponses[userInfo]) {
-            @for (last = last; track last = last) {
+            @for (other of responsesToShow[userInfo] | keyvalue; track other.key; let isLast = $last) {
               <div id="grouped-responses" class="top-padded">
                 <tm-grouped-responses [responses]="other.value"
                   [isGrq]="isGrq" [session]="session"
@@ -86,7 +86,7 @@
                   (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
                   (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
                   (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-                [isLastGroupedResponses]="last"></tm-grouped-responses>
+                  [isLastGroupedResponses]="isLast"></tm-grouped-responses>
               </div>
             }
           }

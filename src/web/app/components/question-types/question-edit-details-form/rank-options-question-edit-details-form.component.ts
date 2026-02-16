@@ -53,13 +53,6 @@ export class RankOptionsQuestionEditDetailsFormComponent
   }
 
   /**
-   * Tracks the Rank option by index.
-   */
-  trackRankOption(index: number): string {
-    return index.toString();
-  }
-
-  /**
    * Deletes a Rank option.
    */
   onRankOptionDeleted(event: number): void {
