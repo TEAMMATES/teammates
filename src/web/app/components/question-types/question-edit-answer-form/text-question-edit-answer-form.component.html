@@ -1,12 +1,20 @@
-<div class="plain-text-area" *ngIf="!questionDetails.shouldAllowRichText">
-  <textarea [ngModel]="decodedAnswer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [attr.aria-label]="getAriaLabel()" [disabled]="isDisabled"></textarea>
-</div>
-<tm-rich-text-editor *ngIf="questionDetails.shouldAllowRichText" role="textbox" [attr.aria-label]="getAriaLabel()" [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
+@if (!questionDetails.shouldAllowRichText) {
+  <div class="plain-text-area">
+    <textarea [ngModel]="decodedAnswer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [attr.aria-label]="getAriaLabel()" [disabled]="isDisabled"></textarea>
+  </div>
+}
+@if (questionDetails.shouldAllowRichText) {
+  <tm-rich-text-editor role="textbox" [attr.aria-label]="getAriaLabel()" [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
+}
 <div class="margin-top-7px text-secondary text-end">
-  <div id="recommended-length" *ngIf="questionDetails.recommendedLength">
-    Recommended length for the answer: {{ questionDetails.recommendedLength }} words
-  </div>
-  <div id="response-length" *ngIf="questionDetails.recommendedLength" [ngClass]="{'text-success': isWordCountWithinRecommendedBound }">
-    Response length: {{ wordCount }} words
-  </div>
+  @if (questionDetails.recommendedLength) {
+    <div id="recommended-length">
+      Recommended length for the answer: {{ questionDetails.recommendedLength }} words
+    </div>
+  }
+  @if (questionDetails.recommendedLength) {
+    <div id="response-length" [ngClass]="{'text-success': isWordCountWithinRecommendedBound }">
+      Response length: {{ wordCount }} words
+    </div>
+  }
 </div>

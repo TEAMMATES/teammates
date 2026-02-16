@@ -1,4 +1,4 @@
-import { NgIf, NgFor } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { QuestionAdditionalInfo } from './question-additional-info';
 import {
@@ -17,11 +17,9 @@ import { StripHtmlTagsPipe } from '../../teammates-common/strip-html-tags.pipe';
   templateUrl: './mcq-question-additional-info.component.html',
   styleUrls: ['./mcq-question-additional-info.component.scss'],
   imports: [
-    NgIf,
-    NgFor,
     StripHtmlTagsPipe,
-    GeneratedChoicePipe,
-  ],
+    GeneratedChoicePipe
+],
 })
 export class McqQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackMcqQuestionDetails> {
 

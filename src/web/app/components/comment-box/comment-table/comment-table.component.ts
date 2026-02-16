@@ -1,4 +1,4 @@
-import { NgIf, NgFor } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentTableModel } from './comment-table.model';
 import {
@@ -19,10 +19,8 @@ import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-mo
   styleUrls: ['./comment-table.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
-    NgFor,
-    CommentRowComponent,
-  ],
+    CommentRowComponent
+],
   providers: [
     CommentToCommentRowModelPipe,
     CommentsToCommentTableModelPipe,

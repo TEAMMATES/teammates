@@ -1,4 +1,4 @@
-import { NgClass, NgIf, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -32,19 +32,17 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
   styleUrls: ['./visibility-panel.component.scss'],
   imports: [
     NgClass,
-    NgIf,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
-    NgFor,
     NgbTooltip,
     EnumToArrayPipe,
     VisibilityControlNamePipe,
     VisibilityTypeDescriptionPipe,
     VisibilityTypeNamePipe,
     VisibilityEntityNamePipe,
-    VisibilityCapabilityPipe,
-  ],
+    VisibilityCapabilityPipe
+],
 })
 export class VisibilityPanelComponent {
   readonly castAsInputElement = castAsInputElement;

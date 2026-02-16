@@ -1,4 +1,4 @@
-import { NgClass, NgIf, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsTableHeaderColorScheme, NotificationsTableRowModel } from './notifications-table-model';
@@ -19,14 +19,12 @@ import {
   styleUrls: ['./notifications-table.component.scss'],
   imports: [
     NgClass,
-    NgIf,
-    NgFor,
     NgbTooltip,
     FormatDateDetailPipe,
     FormatDateBriefPipe,
     NotificationStyleDescriptionPipe,
-    NotificationStyleClassPipe,
-  ],
+    NotificationStyleClassPipe
+],
 })
 export class NotificationsTableComponent {
   SortBy = SortBy;

@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionDetails, FeedbackQuestionType } from '../../../types/api-output';
 import { QuestionDetailsTypeChecker } from '../../../types/question-details-impl/question-details-caster';
@@ -21,7 +21,6 @@ import { TextQuestionAdditionalInfoComponent } from '../question-types/question-
   templateUrl: './question-text-with-info.component.html',
   styleUrls: ['./question-text-with-info.component.scss'],
   imports: [
-    NgIf,
     ContributionQuestionAdditionalInfoComponent,
     TextQuestionAdditionalInfoComponent,
     McqQuestionAdditionalInfoComponent,
@@ -31,8 +30,8 @@ import { TextQuestionAdditionalInfoComponent } from '../question-types/question-
     RubricQuestionAdditionalInfoComponent,
     ConstsumOptionsQuestionAdditionalInfoComponent,
     ConstsumRecipientsQuestionAdditionalInfoComponent,
-    NumScaleQuestionAdditionalInfoComponent,
-  ],
+    NumScaleQuestionAdditionalInfoComponent
+],
 })
 export class QuestionTextWithInfoComponent {
   readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;

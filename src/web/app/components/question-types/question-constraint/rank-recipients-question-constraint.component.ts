@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
 import {
@@ -18,7 +18,7 @@ import {
     selector: 'tm-rank-recipients-question-constraint',
     templateUrl: './rank-recipients-question-constraint.component.html',
     styleUrls: ['./rank-recipients-question-constraint.component.scss'],
-    imports: [NgIf],
+    imports: [],
 })
 export class RankRecipientsQuestionConstraintComponent
     extends QuestionConstraintComponent<FeedbackRankRecipientsQuestionDetails> {

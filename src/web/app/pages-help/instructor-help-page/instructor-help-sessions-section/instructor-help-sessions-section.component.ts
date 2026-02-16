@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import {
   EXAMPLE_COMMENT_EDIT_FORM_MODEL,
@@ -79,7 +79,6 @@ import { Sections } from '../sections';
   styleUrls: ['./instructor-help-sessions-section.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     InstructorHelpPanelComponent,
     ExampleBoxComponent,
     SessionEditFormComponent,
@@ -94,8 +93,8 @@ import { Sections } from '../sections';
     InstructorSessionNoResponsePanelComponent,
     QuestionResponsePanelComponent,
     CommentEditFormComponent,
-    SessionsRecycleBinTableComponent,
-  ],
+    SessionsRecycleBinTableComponent
+],
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

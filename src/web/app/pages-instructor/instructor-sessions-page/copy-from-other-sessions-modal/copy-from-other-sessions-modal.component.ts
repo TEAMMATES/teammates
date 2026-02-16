@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,7 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../../types/field-valida
   selector: 'tm-copy-from-other-sessions-modal',
   templateUrl: './copy-from-other-sessions-modal.component.html',
   styleUrls: ['./copy-from-other-sessions-modal.component.scss'],
-  imports: [FormsModule, NgFor],
+  imports: [FormsModule],
 })
 export class CopyFromOtherSessionsModalComponent {
 

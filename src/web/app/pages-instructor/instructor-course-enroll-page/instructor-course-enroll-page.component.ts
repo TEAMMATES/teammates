@@ -1,4 +1,4 @@
-import { NgIf, NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Inject, Input, OnInit, DOCUMENT } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HotTableRegisterer, HotTableModule } from '@handsontable/angular';
@@ -44,16 +44,14 @@ interface EnrollResultPanel {
   imports: [
     LoadingSpinnerDirective,
     LoadingRetryComponent,
-    NgIf,
     StatusMessageComponent,
     AjaxPreloadComponent,
     PanelChevronComponent,
     HotTableModule,
     NgClass,
     ProgressBarComponent,
-    AjaxLoadingComponent,
-    NgFor,
-  ],
+    AjaxLoadingComponent
+],
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {
   GENERAL_ERROR_MESSAGE: string = `You may check that: "Section" and "Comment" are optional while "Team", "Name",

@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   ConstsumRecipientsQuestionStatisticsCalculation,
@@ -18,7 +18,7 @@ import {
     selector: 'tm-constsum-recipients-question-statistics',
     templateUrl: './constsum-recipients-question-statistics.component.html',
     styleUrls: ['./constsum-recipients-question-statistics.component.scss'],
-    imports: [NgIf, SortableTableComponent],
+    imports: [SortableTableComponent],
 })
 export class ConstsumRecipientsQuestionStatisticsComponent extends ConstsumRecipientsQuestionStatisticsCalculation
     implements OnInit, OnChanges {

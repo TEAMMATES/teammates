@@ -1,4 +1,4 @@
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
@@ -17,11 +17,10 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
   imports: [
     DestroyableDirective,
     InViewportDirective,
-    NgIf,
     EditorComponent,
     NgClass,
-    FormsModule,
-  ],
+    FormsModule
+],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: `${TINYMCE_BASE_URL}/tinymce.min.js` },
   ],

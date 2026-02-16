@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
 import {
@@ -18,7 +18,7 @@ import {
     selector: 'tm-contribution-question-constraint',
     templateUrl: './contribution-question-constraint.component.html',
     styleUrls: ['./contribution-question-constraint.component.scss'],
-    imports: [NgIf],
+    imports: [],
 })
 export class ContributionQuestionConstraintComponent
   extends QuestionConstraintComponent<FeedbackContributionQuestionDetails> {

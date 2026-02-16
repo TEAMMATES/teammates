@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -60,16 +60,14 @@ const DESCENDING_ORDER: string = 'desc';
   styleUrls: ['./logs-page.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     LoadingSpinnerDirective,
     NgbInputDatepicker,
     FormsModule,
     NgbTimepicker,
-    NgFor,
     NgClass,
     LogsTableComponent,
-    LogsHistogramComponent,
-  ],
+    LogsHistogramComponent
+],
 })
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;

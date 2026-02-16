@@ -1,4 +1,4 @@
-import { NgIf, JsonPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralLogEntry, LogEvent, RequestLogDetails, RequestLogUser } from '../../../../types/api-output';
@@ -11,10 +11,9 @@ import { GeneralLogEntry, LogEvent, RequestLogDetails, RequestLogUser } from '..
   templateUrl: './request-log-details.component.html',
   styleUrls: ['./request-log-details.component.scss', './log-details.component.scss'],
   imports: [
-    NgIf,
     NgbTooltip,
-    JsonPipe,
-  ],
+    JsonPipe
+],
 })
 export class RequestLogDetailsComponent {
 

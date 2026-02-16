@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgTemplateOutlet, KeyValuePipe } from '@angular/common';
+import { NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
@@ -34,16 +34,14 @@ interface QuestionTab {
   styleUrls: ['./gqr-rqg-view-responses.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
-    NgFor,
     PanelChevronComponent,
     QuestionTextWithInfoComponent,
     SingleStatisticsComponent,
     NgTemplateOutlet,
     ResponseModerationButtonComponent,
     PerQuestionViewResponsesComponent,
-    KeyValuePipe,
-  ],
+    KeyValuePipe
+],
 })
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 

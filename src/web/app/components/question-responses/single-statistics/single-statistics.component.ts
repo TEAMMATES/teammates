@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
@@ -31,7 +31,6 @@ import { TextQuestionStatisticsComponent } from '../../question-types/question-s
   templateUrl: './single-statistics.component.html',
   styleUrls: ['./single-statistics.component.scss'],
   imports: [
-    NgIf,
     ContributionQuestionStatisticsComponent,
     TextQuestionStatisticsComponent,
     ConstsumOptionsQuestionStatisticsComponent,
@@ -41,8 +40,8 @@ import { TextQuestionStatisticsComponent } from '../../question-types/question-s
     RankOptionsQuestionStatisticsComponent,
     RankRecipientsQuestionStatisticsComponent,
     MsqQuestionStatisticsComponent,
-    McqQuestionStatisticsComponent,
-  ],
+    McqQuestionStatisticsComponent
+],
 })
 export class SingleStatisticsComponent implements OnInit, OnChanges {
   readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;

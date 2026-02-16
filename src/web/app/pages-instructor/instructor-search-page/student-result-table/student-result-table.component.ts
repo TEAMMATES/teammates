@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
@@ -22,10 +22,9 @@ export interface SearchStudentsListRowTable {
   templateUrl: './student-result-table.component.html',
   styleUrls: ['./student-result-table.component.scss'],
   imports: [
-    NgFor,
     StudentListComponent,
-    SearchTermsHighlighterPipe,
-  ],
+    SearchTermsHighlighterPipe
+],
 })
 export class StudentResultTableComponent {
 

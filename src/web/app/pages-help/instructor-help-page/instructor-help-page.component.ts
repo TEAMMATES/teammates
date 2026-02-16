@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { AfterViewInit, Component, Inject, ViewChild, DOCUMENT } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -34,13 +34,12 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   imports: [
     TeammatesRouterDirective,
     FormsModule,
-    NgIf,
     InstructorHelpStudentsSectionComponent,
     InstructorHelpCoursesSectionComponent,
     InstructorHelpSessionsSectionComponent,
     InstructorHelpQuestionsSectionComponent,
-    InstructorHelpGeneralSectionComponent,
-  ],
+    InstructorHelpGeneralSectionComponent
+],
 })
 export class InstructorHelpPageComponent implements AfterViewInit {
   // enum
