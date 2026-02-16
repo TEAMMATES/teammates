@@ -12,7 +12,7 @@ import { Toast } from './toast';
   styleUrls: ['./toast.component.scss'],
   imports: [
     NgbToast,
-    NgTemplateOutlet
+    NgTemplateOutlet,
 ],
 })
 export class ToastComponent implements OnChanges {

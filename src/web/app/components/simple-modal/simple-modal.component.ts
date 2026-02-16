@@ -14,7 +14,7 @@ import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
   imports: [
     NgClass,
     NgTemplateOutlet,
-    ProgressBarComponent
+    ProgressBarComponent,
 ],
 })
 export class SimpleModalComponent {

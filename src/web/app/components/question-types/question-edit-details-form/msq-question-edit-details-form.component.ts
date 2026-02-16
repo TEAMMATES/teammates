@@ -29,7 +29,7 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
     CdkDragHandle,
     MsqFieldComponent,
     WeightFieldComponent,
-    GeneratedChoicePipe
+    GeneratedChoicePipe,
 ],
 })
 export class MsqQuestionEditDetailsFormComponent

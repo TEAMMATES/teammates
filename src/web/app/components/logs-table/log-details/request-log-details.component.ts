@@ -12,7 +12,7 @@ import { GeneralLogEntry, LogEvent, RequestLogDetails, RequestLogUser } from '..
   styleUrls: ['./request-log-details.component.scss', './log-details.component.scss'],
   imports: [
     NgbTooltip,
-    JsonPipe
+    JsonPipe,
 ],
 })
 export class RequestLogDetailsComponent {

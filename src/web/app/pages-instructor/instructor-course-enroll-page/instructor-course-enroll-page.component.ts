@@ -50,7 +50,7 @@ interface EnrollResultPanel {
     HotTableModule,
     NgClass,
     ProgressBarComponent,
-    AjaxLoadingComponent
+    AjaxLoadingComponent,
 ],
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {

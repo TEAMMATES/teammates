@@ -54,7 +54,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
     FormsModule,
     NgClass,
     FormatDateDetailPipe,
-    InstructorRoleNamePipe
+    InstructorRoleNamePipe,
 ],
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {

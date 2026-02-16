@@ -1,4 +1,3 @@
-
 import { Component, OnChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -26,7 +25,7 @@ import {
   imports: [
     NgbTooltip,
     FormsModule,
-    SortableTableComponent
+    SortableTableComponent,
 ],
 })
 export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsCalculation

@@ -17,7 +17,7 @@ import { NotificationStyleClassPipe } from '../teammates-common/notification-sty
   animations: [collapseAnim],
   imports: [
     NgClass,
-    NotificationStyleClassPipe
+    NotificationStyleClassPipe,
 ],
 })
 export class NotificationBannerComponent implements OnInit, OnChanges {

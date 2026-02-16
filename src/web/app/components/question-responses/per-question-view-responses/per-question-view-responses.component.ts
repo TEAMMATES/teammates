@@ -29,7 +29,7 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
     SingleResponseComponent,
     ResponseModerationButtonComponent,
     CommentTableModalComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
 ],
 })
 export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {

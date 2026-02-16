@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -81,7 +80,7 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     InstructorSessionResultGqrViewComponent,
     InstructorSessionResultRqgViewComponent,
     InstructorSessionNoResponsePanelComponent,
-    PreviewSessionResultPanelComponent
+    PreviewSessionResultPanelComponent,
 ],
   providers: [
     CommentsToCommentTableModelPipe,

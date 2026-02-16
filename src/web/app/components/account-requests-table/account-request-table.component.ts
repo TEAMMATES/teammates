@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
@@ -35,7 +34,7 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
-    SearchTermsHighlighterPipe
+    SearchTermsHighlighterPipe,
 ],
 })
 

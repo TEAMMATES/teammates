@@ -94,7 +94,7 @@ interface FeedbackSessionLogModel {
     NgClass,
     PanelChevronComponent,
     SortableTableComponent,
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class InstructorStudentActivityLogsComponent implements OnInit {

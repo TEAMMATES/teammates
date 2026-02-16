@@ -35,7 +35,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   imports: [
     TeammatesRouterDirective,
     PanelChevronComponent,
-    LoadingSpinnerDirective
+    LoadingSpinnerDirective,
 ],
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {

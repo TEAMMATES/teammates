@@ -19,7 +19,7 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
   imports: [
     NgbTooltip,
     FormsModule,
-    NgClass
+    NgClass,
 ],
 })
 export class RubricQuestionEditDetailsFormComponent

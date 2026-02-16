@@ -19,7 +19,7 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
     InViewportDirective,
     EditorComponent,
     NgClass,
-    FormsModule
+    FormsModule,
 ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: `${TINYMCE_BASE_URL}/tinymce.min.js` },

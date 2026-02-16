@@ -113,7 +113,7 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
     SafeHtmlPipe,
     VisibilityEntityNamePipe,
     VisibilityCapabilityPipe,
-    RecipientTypeNamePipe
+    RecipientTypeNamePipe,
 ],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {

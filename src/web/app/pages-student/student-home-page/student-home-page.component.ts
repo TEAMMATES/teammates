@@ -61,7 +61,7 @@ interface StudentSession {
     PanelChevronComponent,
     NgbTooltip,
     NgClass,
-    ResponseStatusPipe
+    ResponseStatusPipe,
 ],
 })
 export class StudentHomePageComponent implements OnInit {

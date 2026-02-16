@@ -24,7 +24,7 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
     LoadingSpinnerDirective,
     LoadingRetryComponent,
     GrqRgqViewResponsesComponent,
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class InstructorSessionResultGrqViewComponent extends InstructorSessionResultView {

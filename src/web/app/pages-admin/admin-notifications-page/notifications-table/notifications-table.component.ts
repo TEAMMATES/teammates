@@ -23,7 +23,7 @@ import {
     FormatDateDetailPipe,
     FormatDateBriefPipe,
     NotificationStyleDescriptionPipe,
-    NotificationStyleClassPipe
+    NotificationStyleClassPipe,
 ],
 })
 export class NotificationsTableComponent {

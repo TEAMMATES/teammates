@@ -20,7 +20,7 @@ import {
   styleUrls: ['./saving-complete-modal.component.scss'],
   imports: [
     NgClass,
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class SavingCompleteModalComponent {

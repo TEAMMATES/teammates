@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -19,7 +18,7 @@ import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
   styleUrls: ['./mcq-question-edit-answer-form.component.scss'],
   imports: [
     FormsModule,
-    SafeHtmlPipe
+    SafeHtmlPipe,
 ],
 })
 export class McqQuestionEditAnswerFormComponent

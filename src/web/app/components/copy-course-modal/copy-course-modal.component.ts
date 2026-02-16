@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -24,7 +23,7 @@ const zeroPad: (num: number) => string = (num: number) => String(num).padStart(2
   styleUrls: ['./copy-course-modal.component.scss'],
   imports: [
     FormsModule,
-    NgbTooltip
+    NgbTooltip,
 ],
 })
 export class CopyCourseModalComponent implements OnInit {

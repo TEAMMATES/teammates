@@ -59,7 +59,7 @@ export enum EditMode {
     CustomPrivilegeSettingPanelComponent,
     AjaxLoadingComponent,
     EnumToArrayPipe,
-    InstructorRoleDescriptionPipe
+    InstructorRoleDescriptionPipe,
 ],
 })
 export class InstructorEditPanelComponent {

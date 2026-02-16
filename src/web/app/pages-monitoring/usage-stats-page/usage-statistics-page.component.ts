@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
@@ -55,7 +54,7 @@ interface FormQueryModel {
     FormsModule,
     NgbTimepicker,
     LoadingSpinnerDirective,
-    StatsLineChartComponent
+    StatsLineChartComponent,
 ],
 })
 export class UsageStatisticsPageComponent implements OnInit {

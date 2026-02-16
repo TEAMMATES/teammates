@@ -35,7 +35,7 @@ interface OngoingSessionModel {
     NgbTimepicker,
     LoadingSpinnerDirective,
     PanelChevronComponent,
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class AdminSessionsPageComponent implements OnInit {

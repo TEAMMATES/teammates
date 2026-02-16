@@ -15,7 +15,7 @@ import {
   templateUrl: './constsum-question-response.component.html',
   styleUrls: ['./constsum-question-response.component.scss'],
   imports: [
-    KeyValuePipe
+    KeyValuePipe,
 ],
 })
 export class ConstsumQuestionResponseComponent

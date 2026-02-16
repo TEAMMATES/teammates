@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { RecycleBinTableFormatDatePipe } from './recycle-bin-table-format-date.pipe';
@@ -29,7 +28,7 @@ export interface RecycleBinFeedbackSessionRowModel {
     PanelChevronComponent,
     AjaxLoadingComponent,
     FormatDateDetailPipe,
-    RecycleBinTableFormatDatePipe
+    RecycleBinTableFormatDatePipe,
 ],
 })
 export class SessionsRecycleBinTableComponent {

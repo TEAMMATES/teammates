@@ -75,7 +75,7 @@ export interface SortableTableCellData {
     DynamicComponent,
     NgComponentOutlet,
     ComponentOutletInjectorDirective,
-    DynamicIoDirective
+    DynamicIoDirective,
 ],
 })
 export class SortableTableComponent implements OnInit, OnChanges {

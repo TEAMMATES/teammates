@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';

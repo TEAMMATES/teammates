@@ -26,7 +26,7 @@ import {
   imports: [
     FormsModule,
     NgClass,
-    ContributionPointDescriptionPipe
+    ContributionPointDescriptionPipe,
 ],
 })
 export class ContributionQuestionEditAnswerFormComponent

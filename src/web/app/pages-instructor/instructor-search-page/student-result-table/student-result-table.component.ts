@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
@@ -23,7 +22,7 @@ export interface SearchStudentsListRowTable {
   styleUrls: ['./student-result-table.component.scss'],
   imports: [
     StudentListComponent,
-    SearchTermsHighlighterPipe
+    SearchTermsHighlighterPipe,
 ],
 })
 export class StudentResultTableComponent {

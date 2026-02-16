@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -85,7 +84,7 @@ import { Sections } from '../sections';
     TeammatesRouterDirective,
     InstructorSessionResultQuestionViewComponent,
     NgbTooltip,
-    QuestionSubmissionFormComponent
+    QuestionSubmissionFormComponent,
 ],
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {

@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -20,7 +19,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   templateUrl: './admin-accounts-page.component.html',
   styleUrls: ['./admin-accounts-page.component.scss'],
   imports: [
-    LoadingSpinnerDirective
+    LoadingSpinnerDirective,
 ],
 })
 export class AdminAccountsPageComponent implements OnInit {

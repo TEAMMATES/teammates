@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionType } from '../../../types/api-output';
@@ -23,7 +22,7 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
     AjaxLoadingComponent,
     EnumToArrayPipe,
     QuestionTypeNamePipe,
-    QuestionTypeHelpPathPipe
+    QuestionTypeHelpPathPipe,
 ],
 })
 export class AddingQuestionPanelComponent {

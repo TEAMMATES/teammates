@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
@@ -51,7 +50,7 @@ interface SessionTab {
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     PanelChevronComponent,
-    GrqRgqViewResponsesComponent
+    GrqRgqViewResponsesComponent,
 ],
   providers: [
     CommentsToCommentTableModelPipe,

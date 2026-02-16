@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionDetails, FeedbackQuestionType } from '../../../types/api-output';
 import { QuestionDetailsTypeChecker } from '../../../types/question-details-impl/question-details-caster';
@@ -30,7 +29,7 @@ import { TextQuestionAdditionalInfoComponent } from '../question-types/question-
     RubricQuestionAdditionalInfoComponent,
     ConstsumOptionsQuestionAdditionalInfoComponent,
     ConstsumRecipientsQuestionAdditionalInfoComponent,
-    NumScaleQuestionAdditionalInfoComponent
+    NumScaleQuestionAdditionalInfoComponent,
 ],
 })
 export class QuestionTextWithInfoComponent {

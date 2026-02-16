@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import {
   FeedbackQuestionDetails,
@@ -34,7 +33,7 @@ import { TextQuestionResponseComponent } from '../../question-types/question-res
     RankOptionsQuestionResponseComponent,
     RankRecipientsQuestionResponseComponent,
     MsqQuestionResponseComponent,
-    McqQuestionResponseComponent
+    McqQuestionResponseComponent,
 ],
 })
 export class SingleResponseComponent {

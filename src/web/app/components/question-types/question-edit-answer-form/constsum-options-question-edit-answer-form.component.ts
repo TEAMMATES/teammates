@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
@@ -22,7 +21,7 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   styleUrls: ['./constsum-options-question-edit-answer-form.component.scss'],
   imports: [
     FormsModule,
-    WheelDisablerDirective
+    WheelDisablerDirective,
 ],
 })
 export class ConstsumOptionsQuestionEditAnswerFormComponent

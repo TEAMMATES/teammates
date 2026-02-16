@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {

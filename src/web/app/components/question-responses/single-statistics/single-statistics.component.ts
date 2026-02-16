@@ -1,4 +1,3 @@
-
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
@@ -40,7 +39,7 @@ import { TextQuestionStatisticsComponent } from '../../question-types/question-s
     RankOptionsQuestionStatisticsComponent,
     RankRecipientsQuestionStatisticsComponent,
     MsqQuestionStatisticsComponent,
-    McqQuestionStatisticsComponent
+    McqQuestionStatisticsComponent,
 ],
 })
 export class SingleStatisticsComponent implements OnInit, OnChanges {

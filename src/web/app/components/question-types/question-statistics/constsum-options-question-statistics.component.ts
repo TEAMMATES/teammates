@@ -1,4 +1,3 @@
-
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { ConstsumOptionsQuestionStatisticsCalculation } from './question-statistics-calculation/constsum-options-question-statistics-calculation';
 import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';

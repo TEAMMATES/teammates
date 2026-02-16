@@ -84,7 +84,7 @@ interface CourseModel {
     NgbDropdownMenu,
     PanelChevronComponent,
     ModifiedTimestampModalComponent,
-    DatePipe
+    DatePipe,
 ],
 })
 export class InstructorCoursesPageComponent implements OnInit {

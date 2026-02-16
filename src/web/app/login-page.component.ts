@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GoogleAuthProvider } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +23,7 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
     AjaxLoadingComponent,
     FormsModule,
     ReactiveFormsModule,
-    NgxCaptchaModule
+    NgxCaptchaModule,
 ],
 })
 export class LoginPageComponent implements OnInit {

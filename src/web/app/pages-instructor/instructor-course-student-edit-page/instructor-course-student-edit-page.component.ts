@@ -37,7 +37,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
     LoadingSpinnerDirective,
     FormsModule,
     ReactiveFormsModule,
-    NgClass
+    NgClass,
 ],
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {

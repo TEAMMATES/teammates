@@ -52,7 +52,7 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
     DatepickerComponent,
     TimepickerComponent,
     SubmissionStatusNamePipe,
-    PublishStatusNamePipe
+    PublishStatusNamePipe,
 ],
 })
 export class SessionEditFormComponent {

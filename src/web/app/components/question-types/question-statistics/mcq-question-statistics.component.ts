@@ -1,4 +1,3 @@
-
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   McqQuestionStatisticsCalculation,

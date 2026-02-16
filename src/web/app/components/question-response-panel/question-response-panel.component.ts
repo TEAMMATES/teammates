@@ -1,4 +1,3 @@
-
 import { Component, Input } from '@angular/core';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -36,7 +35,7 @@ import { QuestionTextWithInfoComponent } from '../question-text-with-info/questi
     LoadingRetryComponent,
     QuestionTextWithInfoComponent,
     SingleStatisticsComponent,
-    StudentViewResponsesComponent
+    StudentViewResponsesComponent,
 ],
 })
 export class QuestionResponsePanelComponent {

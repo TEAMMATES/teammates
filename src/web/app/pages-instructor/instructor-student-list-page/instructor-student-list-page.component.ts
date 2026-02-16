@@ -1,4 +1,3 @@
-
 import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
@@ -54,7 +53,7 @@ export interface CourseTab {
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     PanelChevronComponent,
-    StudentListComponent
+    StudentListComponent,
 ],
 })
 export class InstructorStudentListPageComponent implements OnInit {

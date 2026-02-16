@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { GroupButtonsComponent } from './cell-with-group-buttons.component';

@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { default as developers } from '../../../data/developers.json';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
@@ -11,7 +10,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   templateUrl: './about-page.component.html',
   styleUrls: ['./about-page.component.scss'],
   imports: [
-    TeammatesRouterDirective
+    TeammatesRouterDirective,
 ],
 })
 export class AboutPageComponent implements OnInit {
