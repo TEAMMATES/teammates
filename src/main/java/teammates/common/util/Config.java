@@ -94,6 +94,9 @@ public final class Config {
     /** The value of the "app.smtp.port" in build.properties file. */
     public static final String SMTP_PORT;
 
+    /** The value of the "app.smtp.security.protocol" in build.properties file. */
+    public static final String SMTP_SECURITY_PROTOCOL;
+
     /** The value of the "app.smtp.connection.timeout" in build.properties file. */
     public static final String SMTP_CONNECTION_TIMEOUT;
 
@@ -209,6 +212,7 @@ public final class Config {
         SMTP_CONNECTION_TIMEOUT = getProperty(properties, devProperties, "app.smtp.connection.timeout");
         SMTP_CONNECTION_READ_TIMEOUT = getProperty(properties, devProperties, "app.smtp.connection.read.timeout");
         SMTP_CONNECTION_WRITE_TIMEOUT = getProperty(properties, devProperties, "app.smtp.connection.write.timeout");
+        SMTP_SECURITY_PROTOCOL = getProperty(properties, devProperties, "app.smtp.security.protocol");
         SENDGRID_APIKEY = getProperty(properties, devProperties, "app.sendgrid.apikey");
         MAILGUN_APIKEY = getProperty(properties, devProperties, "app.mailgun.apikey");
         MAILGUN_DOMAINNAME = getProperty(properties, devProperties, "app.mailgun.domainname");
