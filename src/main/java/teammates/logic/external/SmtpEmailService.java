@@ -41,7 +41,11 @@ public class SmtpEmailService implements EmailSenderService {
         props.put("mail.smtp.host", Config.SMTP_HOST);
         props.put("mail.smtp.port", Config.SMTP_PORT);
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+
+        boolean isUsingSsl = "ssl".equalsIgnoreCase(Config.SMTP_SECURITY_PROTOCOL);
+        boolean isUsingStartTls = "starttls".equalsIgnoreCase(Config.SMTP_SECURITY_PROTOCOL);
+        props.put("mail.smtp.ssl.enable", String.valueOf(isUsingSsl));
+        props.put("mail.smtp.starttls.enable", String.valueOf(isUsingStartTls));
 
         // Set default timeouts (in milliseconds) for SMTP socket connection, read, and write timeouts
         props.put("mail.smtp.connectiontimeout", SmtpEmailService.DEFAULT_CONNECTION_TIMEOUT);
