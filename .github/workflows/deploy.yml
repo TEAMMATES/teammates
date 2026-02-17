@@ -37,109 +37,6 @@ jobs:
       - name: Create config files
         run: ./gradlew createConfigs
       
-      - name: Configure build.properties
-        env:
-          APP_ID: ${{ vars.APP_ID }}
-          APP_REGION: ${{ vars.APP_REGION }}
-          APP_VERSION: ${{ vars.APP_VERSION }}
-          APP_POSTGRES_HOST: ${{ vars.APP_POSTGRES_HOST }}
-          APP_POSTGRES_PORT: ${{ vars.APP_POSTGRES_PORT }}
-          APP_POSTGRES_DATABASENAME: ${{ vars.APP_POSTGRES_DATABASENAME }}
-          APP_POSTGRES_PASSWORD: ${{ secrets.APP_POSTGRES_PASSWORD }}
-          APP_PRODUCTION_GCS_BUCKETNAME: ${{ vars.APP_PRODUCTION_GCS_BUCKETNAME }}
-          APP_BACKUP_KEY: ${{ secrets.APP_BACKUP_KEY }}
-          APP_CAPTCHA_SECRET_KEY: ${{ secrets.APP_CAPTCHA_SECRET_KEY }}
-          APP_CSRF_KEY: ${{ secrets.APP_CSRF_KEY }}
-          APP_ENCRYPTION_KEY: ${{ secrets.APP_ENCRYPTION_KEY }}
-          APP_OAUTH2_CLIENT_ID: ${{ secrets.APP_OAUTH2_CLIENT_ID }}
-          APP_OAUTH2_CLIENT_SECRET: ${{ secrets.APP_OAUTH2_CLIENT_SECRET }}
-          APP_ADMINS: ${{ vars.APP_ADMINS }}
-          APP_CRASHREPORT_EMAIL: ${{ vars.APP_CRASHREPORT_EMAIL }}
-          APP_EMAIL_REPLYTO: ${{ vars.APP_EMAIL_REPLYTO }}
-          APP_EMAIL_SENDEREMAIL: ${{ vars.APP_EMAIL_SENDEREMAIL }}
-          APP_EMAIL_SENDERNAME: ${{ vars.APP_EMAIL_SENDERNAME }}
-          APP_MAINTAINERS: ${{ vars.APP_MAINTAINERS }}
-          APP_SEARCH_SERVICE_HOST: ${{ vars.APP_SEARCH_SERVICE_HOST }}
-          APP_EMAIL_SERVICE: ${{ vars.APP_EMAIL_SERVICE }}
-          MAILJET_APIKEY: ${{ secrets.MAILJET_APIKEY }}
-          MAILJET_SECRETKEY: ${{ secrets.MAILJET_SECRETKEY }}
-        run: |
-          cat > src/main/resources/build.properties << EOF
-          app.id=${APP_ID}
-          app.region=${APP_REGION}
-          app.version=${APP_VERSION}
-          
-          app.postgres.host=${APP_POSTGRES_HOST}
-          app.postgres.port=${APP_POSTGRES_PORT}
-          app.postgres.databasename=${APP_POSTGRES_DATABASENAME}
-          app.postgres.username=postgres
-          app.postgres.password=${APP_POSTGRES_PASSWORD}
-          
-          app.production.gcs.bucketname=${APP_PRODUCTION_GCS_BUCKETNAME}
-          app.backup.gcs.bucketname=${APP_PRODUCTION_GCS_BUCKETNAME}
-          
-          app.enable.datastore.backup=false
-          app.maintenance=false
-          
-          app.csrf.key=${APP_CSRF_KEY}
-          app.backdoor.key=${APP_BACKUP_KEY}
-          app.encryption.key=${APP_ENCRYPTION_KEY}
-          
-          app.auth.type=googleoauth2
-          app.oauth2.client.id=${APP_OAUTH2_CLIENT_ID}
-          app.oauth2.client.secret=${APP_OAUTH2_CLIENT_SECRET}
-          
-          app.captcha.secretkey=${APP_CAPTCHA_SECRET_KEY}
-          
-          app.admins=${APP_ADMINS}
-          app.maintainers=${APP_MAINTAINERS}
-          app.crashreport.email=${APP_CRASHREPORT_EMAIL}
-          
-          app.email.senderemail=${APP_EMAIL_SENDEREMAIL}
-          app.email.sendername=${APP_EMAIL_SENDERNAME}
-          app.email.replyto=${APP_EMAIL_REPLYTO}
-          app.email.service=${APP_EMAIL_SERVICE}
-          app.mailjet.apikey=${MAILJET_APIKEY}
-          app.mailjet.secretkey=${MAILJET_SECRETKEY}
-          
-          app.search.service.host=${APP_SEARCH_SERVICE_HOST}
-          EOF
-      
-      - name: Configure app.yaml
-        env:
-          INSTANCE_CLASS: ${{ vars.INSTANCE_CLASS }}
-          VPC_ACCESS_CONNECTOR_NAME: ${{ vars.VPC_ACCESS_CONNECTOR_NAME }}
-        run: |
-          cat > src/main/appengine/app.yaml << EOF
-          runtime: java21
-
-          entrypoint: >
-            java -ea -Djava.util.logging.config.file=WEB-INF/logging.properties
-            -Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider
-            -cp "WEB-INF/lib/*:WEB-INF/classes/." teammates.main.Application
-
-          instance_class: ${INSTANCE_CLASS}
-
-          vpc_access_connector:
-            name: ${VPC_ACCESS_CONNECTOR_NAME}
-
-          handlers:
-            - url: /assets
-              static_dir: assets
-              expiration: 90d
-            - url: /(.*\.(js|css))$
-              static_files: \1
-              upload: .*\.(js|css)$
-              expiration: 90d
-            - url: /.*
-              secure: always
-              redirect_http_response_code: 301
-              script: auto
-
-          inbound_services:
-            - warmup
-          EOF
-      
       - name: Compile type definitions
         run: ./gradlew generateTypes
 
@@ -167,4 +64,33 @@ jobs:
             --project=${{ vars.APP_ID }}       
 
       - name: Deploy to App Engine
-        run: ./gradlew appengineDeployAll
+        env:
+          # build.properties
+          APP_ID: ${{ vars.APP_ID }}
+          APP_REGION: ${{ vars.APP_REGION }}
+          APP_VERSION: ${{ vars.APP_VERSION }}
+          APP_POSTGRES_HOST: ${{ vars.APP_POSTGRES_HOST }}
+          APP_POSTGRES_PORT: ${{ vars.APP_POSTGRES_PORT }}
+          APP_POSTGRES_DATABASENAME: ${{ vars.APP_POSTGRES_DATABASENAME }}
+          APP_POSTGRES_PASSWORD: ${{ secrets.APP_POSTGRES_PASSWORD }}
+          APP_PRODUCTION_GCS_BUCKETNAME: ${{ vars.APP_PRODUCTION_GCS_BUCKETNAME }}
+          APP_BACKUP_KEY: ${{ secrets.APP_BACKUP_KEY }}
+          APP_CAPTCHA_SECRET_KEY: ${{ secrets.APP_CAPTCHA_SECRET_KEY }}
+          APP_CSRF_KEY: ${{ secrets.APP_CSRF_KEY }}
+          APP_ENCRYPTION_KEY: ${{ secrets.APP_ENCRYPTION_KEY }}
+          APP_OAUTH2_CLIENT_ID: ${{ secrets.APP_OAUTH2_CLIENT_ID }}
+          APP_OAUTH2_CLIENT_SECRET: ${{ secrets.APP_OAUTH2_CLIENT_SECRET }}
+          APP_ADMINS: ${{ vars.APP_ADMINS }}
+          APP_CRASHREPORT_EMAIL: ${{ vars.APP_CRASHREPORT_EMAIL }}
+          APP_EMAIL_REPLYTO: ${{ vars.APP_EMAIL_REPLYTO }}
+          APP_EMAIL_SENDEREMAIL: ${{ vars.APP_EMAIL_SENDEREMAIL }}
+          APP_EMAIL_SENDERNAME: ${{ vars.APP_EMAIL_SENDERNAME }}
+          APP_MAINTAINERS: ${{ vars.APP_MAINTAINERS }}
+          APP_SEARCH_SERVICE_HOST: ${{ vars.APP_SEARCH_SERVICE_HOST }}
+          APP_EMAIL_SERVICE: ${{ vars.APP_EMAIL_SERVICE }}
+          MAILJET_APIKEY: ${{ secrets.MAILJET_APIKEY }}
+          MAILJET_SECRETKEY: ${{ secrets.MAILJET_SECRETKEY }}
+          # app.yaml
+          INSTANCE_CLASS: ${{ vars.INSTANCE_CLASS }}
+          VPC_ACCESS_CONNECTOR_NAME: ${{ vars.VPC_ACCESS_CONNECTOR_NAME }}
+        run: ./gradlew deployCi
