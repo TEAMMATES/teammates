@@ -43,6 +43,7 @@ public class SmtpEmailService implements EmailSenderService {
         props.put("mail.smtp.port", Config.SMTP_PORT);
         props.put("mail.smtp.auth", "true");
 
+        // Set security protocol
         boolean isUsingSsl = "ssl".equalsIgnoreCase(Config.SMTP_SECURITY_PROTOCOL);
         boolean isUsingStartTls = "starttls".equalsIgnoreCase(Config.SMTP_SECURITY_PROTOCOL);
         props.put("mail.smtp.ssl.enable", String.valueOf(isUsingSsl));
@@ -57,15 +58,9 @@ public class SmtpEmailService implements EmailSenderService {
         String socketConnectionTimeout = Config.SMTP_CONNECTION_TIMEOUT;
         String socketConnectionReadTimeout = Config.SMTP_CONNECTION_READ_TIMEOUT;
         String socketConnectionWriteTimeout = Config.SMTP_CONNECTION_WRITE_TIMEOUT;
-        if (socketConnectionTimeout != null && !socketConnectionTimeout.isEmpty()) {
-            props.put("mail.smtp.connectiontimeout", socketConnectionTimeout);
-        }
-        if (socketConnectionReadTimeout != null && !socketConnectionReadTimeout.isEmpty()) {
-            props.put("mail.smtp.timeout", socketConnectionReadTimeout);
-        }
-        if (socketConnectionWriteTimeout != null && !socketConnectionWriteTimeout.isEmpty()) {
-            props.put("mail.smtp.writetimeout", socketConnectionWriteTimeout);
-        }
+        setIfPresent(props, "mail.smtp.connectiontimeout", socketConnectionTimeout);
+        setIfPresent(props, "mail.smtp.timeout", socketConnectionReadTimeout);
+        setIfPresent(props, "mail.smtp.writetimeout", socketConnectionWriteTimeout);
 
         Authenticator authenticator = new Authenticator() {
             @Override
@@ -83,52 +78,58 @@ public class SmtpEmailService implements EmailSenderService {
     @Override
     public MimeMessage parseToEmail(EmailWrapper wrapper) {
         try {
-            MimeMessage message = new MimeMessage(session);
-
-            if (wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()) {
-                message.setFrom(new InternetAddress(wrapper.getSenderEmail()));
-            } else {
-                message.setFrom(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName()));
-            }
-            message.setReplyTo(new InternetAddress[] { new InternetAddress(wrapper.getReplyTo()) });
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(wrapper.getRecipient()));
-            if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
-                message.setRecipient(Message.RecipientType.BCC, new InternetAddress(wrapper.getBcc()));
-            }
-
-            message.setSubject(wrapper.getSubject(), EMAIL_TEXT_ENCODING);
-            Multipart multipart = new MimeMultipart("alternative");
-
-            MimeBodyPart textPart = new MimeBodyPart();
-            textPart.setText(Jsoup.parse(wrapper.getContent()).text(), EMAIL_TEXT_ENCODING);
-            multipart.addBodyPart(textPart);
-
-            MimeBodyPart htmlPart = new MimeBodyPart();
-            htmlPart.setContent(wrapper.getContent(), String.format("text/html; charset=%s", EMAIL_TEXT_ENCODING));
-            multipart.addBodyPart(htmlPart);
-
-            message.setContent(multipart);
-
-            return message;
+            return createMimeMessage(wrapper);
         } catch (MessagingException | UnsupportedEncodingException e) {
-            Logger.getLogger().severe("Failed to parse email", e);
+            throw new IllegalArgumentException(e);
         }
-
-        return null;
     }
 
     @Override
     public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws EmailSendingException {
         try {
-            MimeMessage message = parseToEmail(wrapper);
-            if (message == null) {
-                return new EmailSendingStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Failed to parse email");
-            }
-
+            MimeMessage message = createMimeMessage(wrapper);
             Transport.send(message);
             return new EmailSendingStatus(HttpStatus.SC_OK, "Email sent successfully");
         } catch (MessagingException e) {
             throw new EmailSendingException(e, HttpStatus.SC_BAD_GATEWAY);
+        } catch (UnsupportedEncodingException e) {
+            throw new EmailSendingException(e, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private MimeMessage createMimeMessage(EmailWrapper wrapper) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = new MimeMessage(session);
+
+        if (wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()) {
+            message.setFrom(new InternetAddress(wrapper.getSenderEmail()));
+        } else {
+            message.setFrom(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName()));
+        }
+        message.setReplyTo(new InternetAddress[] { new InternetAddress(wrapper.getReplyTo()) });
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(wrapper.getRecipient()));
+        if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
+            message.setRecipient(Message.RecipientType.BCC, new InternetAddress(wrapper.getBcc()));
+        }
+
+        message.setSubject(wrapper.getSubject(), EMAIL_TEXT_ENCODING);
+        Multipart multipart = new MimeMultipart("alternative");
+
+        MimeBodyPart textPart = new MimeBodyPart();
+        textPart.setText(Jsoup.parse(wrapper.getContent()).text(), EMAIL_TEXT_ENCODING);
+        multipart.addBodyPart(textPart);
+
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        htmlPart.setContent(wrapper.getContent(), String.format("text/html; charset=%s", EMAIL_TEXT_ENCODING));
+        multipart.addBodyPart(htmlPart);
+
+        message.setContent(multipart);
+
+        return message;
+    }
+
+    private void setIfPresent(Properties props, String key, String value) {
+        if (value != null && !value.isEmpty()) {
+            props.put(key, value);
         }
     }
 }
