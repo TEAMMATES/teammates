@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { saveAs } from 'file-saver';
 import { concat } from 'rxjs';
 import { finalize, takeWhile } from 'rxjs/operators';
 import { FeedbackSessionsService } from './feedback-sessions.service';
+import { saveFile } from './file-save-helper';
 import { ProgressBarService } from './progress-bar.service';
 import { SimpleModalService } from './simple-modal.service';
 import { StatusMessageService } from './status-message.service';
@@ -95,7 +95,7 @@ export class FeedbackSessionActionsService {
             return;
           }
           blob = new Blob(outputData, { type: 'text/csv' });
-          saveAs(blob, filename);
+          saveFile(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
