@@ -28,9 +28,11 @@ import teammates.common.util.Logger;
  * Jakarta mail-based SMTP email sender service.
  *
  * @see <a href="https://jakarta.ee/specifications/mail/">https://jakarta.ee/specifications/mail/</a>
+ * @see <a href="https://javadoc.io/doc/com.sun.mail/jakarta.mail/2.0.1/jakarta.mail/com/sun/mail/smtp/package-summary.html">
+ *     SMTP-related Session properties</a>
  */
 public class SmtpEmailService implements EmailSenderService {
-
+    private static final String DEFAULT_CONNECTION_TIMEOUT = "10000";
     private final Session session;
 
     public SmtpEmailService() {
@@ -40,6 +42,25 @@ public class SmtpEmailService implements EmailSenderService {
         props.put("mail.smtp.port", Config.SMTP_PORT);
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
+
+        // Set default timeouts (in milliseconds) for SMTP socket connection, read, and write timeouts
+        props.put("mail.smtp.connectiontimeout", SmtpEmailService.DEFAULT_CONNECTION_TIMEOUT);
+        props.put("mail.smtp.timeout", SmtpEmailService.DEFAULT_CONNECTION_TIMEOUT);
+        props.put("mail.smtp.writetimeout", SmtpEmailService.DEFAULT_CONNECTION_TIMEOUT);
+
+        // Override default timeouts with values from config if provided
+        String socketConnectionTimeout = Config.SMTP_CONNECTION_TIMEOUT;
+        String socketConnectionReadTimeout = Config.SMTP_CONNECTION_READ_TIMEOUT;
+        String socketConnectionWriteTimeout = Config.SMTP_CONNECTION_WRITE_TIMEOUT;
+        if (socketConnectionTimeout != null && !socketConnectionTimeout.isEmpty()) {
+            props.put("mail.smtp.connectiontimeout", socketConnectionTimeout);
+        }
+        if (socketConnectionReadTimeout != null && !socketConnectionReadTimeout.isEmpty()) {
+            props.put("mail.smtp.timeout", socketConnectionReadTimeout);
+        }
+        if (socketConnectionWriteTimeout != null && !socketConnectionWriteTimeout.isEmpty()) {
+            props.put("mail.smtp.writetimeout", socketConnectionWriteTimeout);
+        }
 
         Authenticator authenticator = new Authenticator() {
             @Override
