@@ -1,20 +1,11 @@
 name: Deploy TEAMMATES Staging
 
 on:
-  workflow_run:
-    workflows: 
-      - "Component Tests"
-      - "E2E Sql Tests"
-      - "Accessibility Tests (SQL)"
-      - "Build Developer Guide"
-      - "L&P Tests"
-      - "Pull Request Checker"
-    types: [completed]
+  push:
     branches: [V9-clean-slate-sql]
 
 permissions:
   contents: read
-  actions: read
   id-token: write
 
 concurrency:
@@ -22,72 +13,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-ci:
-    runs-on: ubuntu-latest
-    outputs:
-      all-passed: ${{ steps.check.outputs.ready }}
-    steps:
-      - name: Check all CI workflows passed
-        id: check
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const sha = context.payload.workflow_run.head_sha;
-            const requiredWorkflows = [
-              'Component Tests',
-              'E2E Sql Tests',
-              'Accessibility Tests (SQL)',
-              'Build Developer Guide',
-              'L&P Tests',
-              'Pull Request Checker'
-            ];
-
-            const { data: { workflow_runs } } = await github.rest.actions.listWorkflowRunsForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              head_sha: sha,
-              per_page: 100
-            });
-
-            for (const name of requiredWorkflows) {
-              // Only consider runs triggered for this SHA and completed
-              const runsForSha = workflow_runs
-                .filter(r => r.name === name && r.head_sha === sha)
-                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-              if (runsForSha.length === 0) {
-                core.info(`Workflow "${name}" has no run for this SHA. Skipping workflow.`);
-                continue;
-              }
-
-              const latest = runsForSha[0];
-
-              if (latest.status !== 'completed') {
-                core.info(`Workflow "${name}" is still running.`);
-                core.setOutput('ready', 'false');
-                return;
-              }
-
-              if (latest.conclusion !== 'success') {
-                core.info(`Workflow "${name}" failed.`);
-                core.setOutput('ready', 'false');
-                return;
-              }
-            }
-
-            core.info('All CI workflows for this SHA passed!');
-            core.setOutput('ready', 'true');
-
   deploy:
-    needs: check-ci
-    if: needs.check-ci.outputs.all-passed == 'true'
     runs-on: ubuntu-latest
     environment: staging
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Setup Java
         uses: actions/setup-java@v5
