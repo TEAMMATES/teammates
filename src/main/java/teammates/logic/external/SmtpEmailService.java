@@ -3,9 +3,6 @@ package teammates.logic.external;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
-import org.apache.http.HttpStatus;
-import org.jsoup.Jsoup;
-
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -18,6 +15,9 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 
+import org.apache.http.HttpStatus;
+import org.jsoup.Jsoup;
+
 import teammates.common.exception.EmailSendingException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailSendingStatus;
@@ -29,10 +29,11 @@ import teammates.common.util.Logger;
  *
  * @see <a href="https://jakarta.ee/specifications/mail/">https://jakarta.ee/specifications/mail/</a>
  * @see <a href="https://javadoc.io/doc/com.sun.mail/jakarta.mail/2.0.1/jakarta.mail/com/sun/mail/smtp/package-summary.html">
- *     SMTP-related Session properties</a>
+ *          SMTP-related Session properties</a>
  */
 public class SmtpEmailService implements EmailSenderService {
     private static final String DEFAULT_CONNECTION_TIMEOUT = "10000";
+    private static final String EMAIL_TEXT_ENCODING = "UTF-8";
     private final Session session;
 
     public SmtpEmailService() {
@@ -48,9 +49,9 @@ public class SmtpEmailService implements EmailSenderService {
         props.put("mail.smtp.starttls.enable", String.valueOf(isUsingStartTls));
 
         // Set default timeouts (in milliseconds) for SMTP socket connection, read, and write timeouts
-        props.put("mail.smtp.connectiontimeout", SmtpEmailService.DEFAULT_CONNECTION_TIMEOUT);
-        props.put("mail.smtp.timeout", SmtpEmailService.DEFAULT_CONNECTION_TIMEOUT);
-        props.put("mail.smtp.writetimeout", SmtpEmailService.DEFAULT_CONNECTION_TIMEOUT);
+        props.put("mail.smtp.connectiontimeout", DEFAULT_CONNECTION_TIMEOUT);
+        props.put("mail.smtp.timeout", DEFAULT_CONNECTION_TIMEOUT);
+        props.put("mail.smtp.writetimeout", DEFAULT_CONNECTION_TIMEOUT);
 
         // Override default timeouts with values from config if provided
         String socketConnectionTimeout = Config.SMTP_CONNECTION_TIMEOUT;
@@ -95,15 +96,15 @@ public class SmtpEmailService implements EmailSenderService {
                 message.setRecipient(Message.RecipientType.BCC, new InternetAddress(wrapper.getBcc()));
             }
 
-            message.setSubject(wrapper.getSubject());
+            message.setSubject(wrapper.getSubject(), EMAIL_TEXT_ENCODING);
             Multipart multipart = new MimeMultipart("alternative");
 
             MimeBodyPart textPart = new MimeBodyPart();
-            textPart.setText(Jsoup.parse(wrapper.getContent()).text(), "UTF-8");
+            textPart.setText(Jsoup.parse(wrapper.getContent()).text(), EMAIL_TEXT_ENCODING);
             multipart.addBodyPart(textPart);
 
             MimeBodyPart htmlPart = new MimeBodyPart();
-            htmlPart.setContent(wrapper.getContent(), "text/html; charset=UTF-8");
+            htmlPart.setContent(wrapper.getContent(), String.format("text/html; charset=%s", EMAIL_TEXT_ENCODING));
             multipart.addBodyPart(htmlPart);
 
             message.setContent(multipart);
@@ -123,6 +124,7 @@ public class SmtpEmailService implements EmailSenderService {
             if (message == null) {
                 return new EmailSendingStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Failed to parse email");
             }
+
             Transport.send(message);
             return new EmailSendingStatus(HttpStatus.SC_OK, "Email sent successfully");
         } catch (MessagingException e) {
