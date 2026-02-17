@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.ReadNotification;
 
 /**
  * Handles CRUD operations for accounts.
@@ -99,6 +100,29 @@ public final class AccountsDb extends EntitiesDb {
         }
 
         return merge(account);
+    }
+
+    /**
+     * Returns a ReadNotification with the given {@code accountId} and {@code notificationId},
+     * or null if it does not exist.
+     */
+    public ReadNotification getReadNotification(UUID accountId, UUID notificationId) {
+        assert accountId != null;
+        assert notificationId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<ReadNotification> cr = cb.createQuery(ReadNotification.class);
+        Root<ReadNotification> readNotificationRoot = cr.from(ReadNotification.class);
+
+        cr.select(readNotificationRoot).where(
+            cb.and(
+                cb.equal(readNotificationRoot.get("account").get("id"), accountId),
+                cb.equal(readNotificationRoot.get("notification").get("id"), notificationId)
+            )
+        );
+
+        List<ReadNotification> results = HibernateUtil.createQuery(cr).getResultList();
+        return results.isEmpty() ? null : results.get(0);
     }
 
     /**

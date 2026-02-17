@@ -155,12 +155,13 @@ public final class AccountsLogic {
 
     /**
      * Updates the readNotifications of an account.
+     * This method is idempotent - marking a notification as read twice will not create duplicates.
      *
      * @param googleId       google ID of the user who read the notification.
      * @param notificationId ID of notification to be marked as read.
      * @param endTime        the expiry time of the notification, i.e. notification
      *                       will not be shown after this time.
-     * @return the account with updated read notifications.
+     * @return the list of read notification IDs for this account.
      * @throws InvalidParametersException  if the notification has expired.
      * @throws EntityDoesNotExistException if account or notification does not
      *                                     exist.
@@ -180,8 +181,13 @@ public final class AccountsLogic {
             throw new InvalidParametersException("Trying to mark an expired notification as read.");
         }
 
-        ReadNotification readNotification = new ReadNotification(account, notification);
-        account.addReadNotification(readNotification);
+        // Check if this notification has already been marked as read for this account (idempotent)
+        if (accountsDb.getReadNotification(account.getId(), notificationId) == null) {
+            ReadNotification readNotification = new ReadNotification(account, notification);
+            account.addReadNotification(readNotification);
+            // Persist the updated account with cascading save of readNotifications
+            accountsDb.updateAccount(account);
+        }
 
         return account.getReadNotifications().stream()
                 .map(n -> n.getNotification().getId())

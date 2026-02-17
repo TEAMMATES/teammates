@@ -4,8 +4,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <include file="src/main/resources/db/changelog/db.changelog-v9.0.0.xml" />
-    <include file="src/main/resources/db/changelog/db.changelog-v9.0.0-beta.5.xml" />
-    <include file="src/main/resources/db/changelog/db.changelog-v9.0.0-beta.7.xml" />
-    <include file="src/main/resources/db/changelog/db.changelog-v9.0.1.xml" />
+
+    <!-- Add unique constraint on (account_id, notification_id) to prevent duplicate ReadNotifications -->
+    <changeSet author="TEAMMATES" id="1708182400000-1">
+        <addUniqueConstraint columnNames="account_id, notification_id"
+            constraintName="uk_read_notification_account_notification"
+            tableName="read_notifications" />
+    </changeSet>
+
 </databaseChangeLog>

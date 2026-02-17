@@ -9,13 +9,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /**
  * Represents an association class between Accounts and Notifications.
  * Keeps track of which Notifications have been read by an Account.
  */
 @Entity
-@Table(name = "ReadNotifications")
+@Table(name = "ReadNotifications", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"account_id", "notification_id"}, name = "uk_read_notification_account_notification")
+})
 public class ReadNotification extends BaseEntity {
     @Id
     private UUID id;

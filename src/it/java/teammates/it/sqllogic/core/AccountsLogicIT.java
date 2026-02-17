@@ -84,6 +84,70 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
+    public void testUpdateReadNotifications_isIdempotent()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        ______TS("success: marking the same notification as read twice should not create duplicates");
+        Account account = new Account("google-id-2", "name", "email2@teammates.com");
+        Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
+        accountsDb.createAccount(account);
+        notificationsLogic.createNotification(notification);
+
+        String googleId = account.getGoogleId();
+        UUID notificationId = notification.getId();
+
+        // First call - should add the notification
+        accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+        Account actualAccount = accountsDb.getAccountByGoogleId(googleId);
+        assertEquals(1, actualAccount.getReadNotifications().size());
+
+        // Second call - should not create a duplicate
+        accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+        actualAccount = accountsDb.getAccountByGoogleId(googleId);
+
+        // Verify that still only one read notification exists
+        List<ReadNotification> accountReadNotifications = actualAccount.getReadNotifications();
+        assertEquals(1, accountReadNotifications.size());
+        assertEquals(notification.getId(), accountReadNotifications.get(0).getNotification().getId());
+    }
+
+    @Test
+    public void testUpdateReadNotifications_multipleNotifications()
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        ______TS("success: mark multiple notifications as read");
+        Account account = new Account("google-id-3", "name", "email3@teammates.com");
+        Notification notification1 = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
+                "Notification 1", "<p>First notification</p>");
+        Notification notification2 = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
+                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.INFO, NotificationTargetUser.GENERAL,
+                "Notification 2", "<p>Second notification</p>");
+        accountsDb.createAccount(account);
+        notificationsLogic.createNotification(notification1);
+        notificationsLogic.createNotification(notification2);
+
+        String googleId = account.getGoogleId();
+        UUID notificationId1 = notification1.getId();
+        UUID notificationId2 = notification2.getId();
+
+        // Mark both notifications as read
+        accountsLogic.updateReadNotifications(googleId, notificationId1, notification1.getEndTime());
+        accountsLogic.updateReadNotifications(googleId, notificationId2, notification2.getEndTime());
+
+        Account actualAccount = accountsDb.getAccountByGoogleId(googleId);
+        List<ReadNotification> accountReadNotifications = actualAccount.getReadNotifications();
+
+        // Verify that both are marked as read
+        assertEquals(2, accountReadNotifications.size());
+        List<UUID> readNotificationIds = accountReadNotifications.stream()
+                .map(rn -> rn.getNotification().getId())
+                .toList();
+        assertTrue(readNotificationIds.contains(notificationId1));
+        assertTrue(readNotificationIds.contains(notificationId2));
+    }
+
+    @Test
     public void testJoinCourseForStudent()
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
 

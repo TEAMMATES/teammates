@@ -89,6 +89,7 @@ public class AccountsLogicTest extends BaseTestCase {
 
         when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
+        when(accountsDb.getReadNotification(account.getId(), notificationId)).thenReturn(null);
 
         List<UUID> readNotificationIds = accountsLogic.updateReadNotifications(googleId, notificationId,
                 notification.getEndTime());
@@ -110,6 +111,7 @@ public class AccountsLogicTest extends BaseTestCase {
 
         when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
+        when(accountsDb.getReadNotification(account.getId(), notificationId)).thenReturn(null);
 
         accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
 
@@ -167,6 +169,42 @@ public class AccountsLogicTest extends BaseTestCase {
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime()));
         assertEquals("Trying to mark an expired notification as read.", ex.getMessage());
+    }
+
+    @Test
+    public void testUpdateReadNotifications_isIdempotent_secondCallDoesNotCreateDuplicate()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Account account = getTypicalAccount();
+        Notification notification = getTypicalNotificationWithId();
+        String googleId = account.getGoogleId();
+        UUID notificationId = notification.getId();
+
+        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
+        when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
+
+        // First call - should add the notification
+        when(accountsDb.getReadNotification(account.getId(), notificationId)).thenReturn(null);
+        List<UUID> firstResult = accountsLogic.updateReadNotifications(googleId, notificationId,
+                notification.getEndTime());
+
+        // Verify that one read notification was added
+        List<ReadNotification> accountReadNotifications = account.getReadNotifications();
+        assertEquals(1, accountReadNotifications.size());
+        assertEquals(1, firstResult.size());
+        assertEquals(notificationId, firstResult.get(0));
+
+        // Second call - should not create a duplicate because one already exists
+        ReadNotification existingReadNotification = accountReadNotifications.get(0);
+        when(accountsDb.getReadNotification(account.getId(), notificationId))
+                .thenReturn(existingReadNotification);
+        List<UUID> secondResult = accountsLogic.updateReadNotifications(googleId, notificationId,
+                notification.getEndTime());
+
+        // Verify that still only one read notification exists
+        accountReadNotifications = account.getReadNotifications();
+        assertEquals(1, accountReadNotifications.size());
+        assertEquals(1, secondResult.size());
+        assertEquals(notificationId, secondResult.get(0));
     }
 
     @Test
