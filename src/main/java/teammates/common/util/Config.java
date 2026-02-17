@@ -94,6 +94,15 @@ public final class Config {
     /** The value of the "app.smtp.port" in build.properties file. */
     public static final String SMTP_PORT;
 
+    /** The value of the "app.smtp.connection.timeout" in build.properties file. */
+    public static final String SMTP_CONNECTION_TIMEOUT;
+
+    /** The value of the "app.smtp.connection.read.timeout" in build.properties file. */
+    public static final String SMTP_CONNECTION_READ_TIMEOUT;
+
+    /** The value of the "app.smtp.connection.write.timeout" in build.properties file. */
+    public static final String SMTP_CONNECTION_WRITE_TIMEOUT;
+
     /** The value of the "app.smtp.username" in build.properties file. */
     public static final String SMTP_USERNAME;
 
@@ -197,6 +206,9 @@ public final class Config {
         SMTP_PORT = getProperty(properties, devProperties, "app.smtp.port");
         SMTP_USERNAME = getProperty(properties, devProperties, "app.smtp.username");
         SMTP_PASSWORD = getProperty(properties, devProperties, "app.smtp.password");
+        SMTP_CONNECTION_TIMEOUT = getProperty(properties, devProperties, "app.smtp.connection.timeout");
+        SMTP_CONNECTION_READ_TIMEOUT = getProperty(properties, devProperties, "app.smtp.connection.read.timeout");
+        SMTP_CONNECTION_WRITE_TIMEOUT = getProperty(properties, devProperties, "app.smtp.connection.write.timeout");
         SENDGRID_APIKEY = getProperty(properties, devProperties, "app.sendgrid.apikey");
         MAILGUN_APIKEY = getProperty(properties, devProperties, "app.mailgun.apikey");
         MAILGUN_DOMAINNAME = getProperty(properties, devProperties, "app.mailgun.domainname");
