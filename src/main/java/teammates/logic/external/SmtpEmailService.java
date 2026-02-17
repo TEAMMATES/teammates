@@ -22,7 +22,6 @@ import teammates.common.exception.EmailSendingException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 
 /**
  * Jakarta mail-based SMTP email sender service.
