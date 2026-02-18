@@ -3,7 +3,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { concat } from 'rxjs';
 import { finalize, takeWhile } from 'rxjs/operators';
 import { FeedbackSessionsService } from './feedback-sessions.service';
-import { saveFile } from './file-save-helper';
+import { FileSaveService } from './file-save.service';
 import { ProgressBarService } from './progress-bar.service';
 import { SimpleModalService } from './simple-modal.service';
 import { StatusMessageService } from './status-message.service';
@@ -28,6 +28,7 @@ import {
 export class FeedbackSessionActionsService {
 
   constructor(private feedbackSessionsService: FeedbackSessionsService,
+      private fileSaveService: FileSaveService,
       private simpleModalService: SimpleModalService,
       private progressBarService: ProgressBarService,
       private statusMessageService: StatusMessageService) {
@@ -95,7 +96,7 @@ export class FeedbackSessionActionsService {
             return;
           }
           blob = new Blob(outputData, { type: 'text/csv' });
-          saveFile(blob, filename);
+          this.fileSaveService.saveFile(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
