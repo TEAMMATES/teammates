@@ -1,16 +1,15 @@
 package teammates.common.util;
 
-import com.google.cloud.secretmanager.v1.AccessSecretVersionResponse;
-import com.google.cloud.secretmanager.v1.SecretManagerServiceClient;
-import com.google.cloud.secretmanager.v1.SecretVersionName;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Properties;
+
+import com.google.cloud.secretmanager.v1.AccessSecretVersionResponse;
+import com.google.cloud.secretmanager.v1.SecretManagerServiceClient;
+import com.google.cloud.secretmanager.v1.SecretVersionName;
 
 /**
  * Represents the deployment-specific configuration values of the system.
@@ -328,17 +327,21 @@ public final class Config {
                 && MAILJET_SECRETKEY != null && !MAILJET_SECRETKEY.isEmpty();
     }
 
+    /**
+     * Returns the value of the specified secret from GCP Secret Manager.
+     * If it is in dev server, it will return the value from build.properties (or build.dev.properties) file instead.
+     */
     private static String getGcpSecret(String secretName, Properties properties, Properties devProperties) {
-        // This method is used to get secrets from GCP Secret Manager in production environment.
-        // The implementation is not provided here as it requires additional dependencies and setup.
-        // In production, the secrets can be accessed using the respective environment variables directly.
-        // You can get this from an environment variable or hardcode
+        // GCP secret name does not support full stop (.) and only supports underscore (_) as separator.
+        // So we will replace full stop with underscore when looking for the secret in dev properties.
+        // In addition, secret names in GCP are capitalised hence the need to convert to lower case.
+
         if (IS_DEV_SERVER) {
             return getProperty(properties, devProperties, secretName.replace('_', '.').toLowerCase());
         }
 
         try (SecretManagerServiceClient client = SecretManagerServiceClient.create()) {
-            SecretVersionName name = SecretVersionName.of(Config.APP_ID, secretName, "1");
+            SecretVersionName name = SecretVersionName.of(APP_ID, secretName, "latest");
             AccessSecretVersionResponse response = client.accessSecretVersion(name);
 
             return response.getPayload().getData().toStringUtf8();
