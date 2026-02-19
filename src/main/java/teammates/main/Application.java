@@ -34,7 +34,9 @@ public final class Application {
 
         WebAppContext webapp = new WebAppContext();
         webapp.setContextPath("/");
-        String classPath = Application.class.getProtectionDomain().getCodeSource().getLocation().getFile();
+        //String classPath = Application.class.getProtectionDomain().getCodeSource().getLocation().getFile();
+        String classPath = new File(
+                Application.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getAbsolutePath();
         String warPath = new File(classPath).getParentFile().getParentFile().getAbsolutePath();
         webapp.setWar(warPath);
 
