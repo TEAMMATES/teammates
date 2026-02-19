@@ -68,14 +68,7 @@ jobs:
           APP_POSTGRES_HOST: ${{ vars.APP_POSTGRES_HOST }}
           APP_POSTGRES_PORT: ${{ vars.APP_POSTGRES_PORT }}
           APP_POSTGRES_DATABASENAME: ${{ vars.APP_POSTGRES_DATABASENAME }}
-          APP_POSTGRES_PASSWORD: ${{ secrets.APP_POSTGRES_PASSWORD }}
           APP_PRODUCTION_GCS_BUCKETNAME: ${{ vars.APP_PRODUCTION_GCS_BUCKETNAME }}
-          APP_BACKUP_KEY: ${{ secrets.APP_BACKUP_KEY }}
-          APP_CAPTCHA_SECRET_KEY: ${{ secrets.APP_CAPTCHA_SECRET_KEY }}
-          APP_CSRF_KEY: ${{ secrets.APP_CSRF_KEY }}
-          APP_ENCRYPTION_KEY: ${{ secrets.APP_ENCRYPTION_KEY }}
-          APP_OAUTH2_CLIENT_ID: ${{ secrets.APP_OAUTH2_CLIENT_ID }}
-          APP_OAUTH2_CLIENT_SECRET: ${{ secrets.APP_OAUTH2_CLIENT_SECRET }}
           APP_ADMINS: ${{ vars.APP_ADMINS }}
           APP_CRASHREPORT_EMAIL: ${{ vars.APP_CRASHREPORT_EMAIL }}
           APP_EMAIL_REPLYTO: ${{ vars.APP_EMAIL_REPLYTO }}
@@ -84,8 +77,6 @@ jobs:
           APP_MAINTAINERS: ${{ vars.APP_MAINTAINERS }}
           APP_SEARCH_SERVICE_HOST: ${{ vars.APP_SEARCH_SERVICE_HOST }}
           APP_EMAIL_SERVICE: ${{ vars.APP_EMAIL_SERVICE }}
-          MAILJET_APIKEY: ${{ secrets.MAILJET_APIKEY }}
-          MAILJET_SECRETKEY: ${{ secrets.MAILJET_SECRETKEY }}
           # app.yaml
           INSTANCE_CLASS: ${{ vars.INSTANCE_CLASS }}
           VPC_ACCESS_CONNECTOR_NAME: ${{ vars.VPC_ACCESS_CONNECTOR_NAME }}
