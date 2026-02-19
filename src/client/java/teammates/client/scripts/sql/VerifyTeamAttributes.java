@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.sqlentity.Team;
@@ -31,8 +32,12 @@ public class VerifyTeamAttributes
         script.doOperationRemotely();
     }
 
-    private static String normalizeSectionOrTeam(String value) {
-        return value == null || value.isEmpty() ? "None" : value;
+    private static String normalizeSectionName(String value) {
+        return value == null || value.isEmpty() ? Const.DEFAULT_SECTION : value;
+    }
+
+    private static String normalizeTeamName(String value) {
+        return value == null || value.isEmpty() ? Const.DEFAULT_TEAM : value;
     }
 
     private Map<String, Set<String>> getSectionNameToTeamNamesMap(Course course) {
@@ -42,8 +47,8 @@ public class VerifyTeamAttributes
                 .filter("courseId", course.getUniqueId())
                 .list()
                 .stream()
-                .collect(Collectors.groupingBy(stu -> normalizeSectionOrTeam(stu.getSectionName()),
-                        Collectors.mapping(stu -> normalizeSectionOrTeam(stu.getTeamName()), Collectors.toSet())));
+                .collect(Collectors.groupingBy(stu -> normalizeSectionName(stu.getSectionName()),
+                        Collectors.mapping(stu -> normalizeTeamName(stu.getTeamName()), Collectors.toSet())));
     }
 
     // Used for sql data migration

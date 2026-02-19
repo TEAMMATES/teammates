@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Team;
@@ -45,12 +46,22 @@ public final class TeamMigrator {
                 continue;
             }
             for (String teamName : entry.getValue()) {
-                String truncatedName = truncate(teamName, MAX_TEAM_NAME_LENGTH);
+                String normalizedName = normalizeTeamName(teamName);
+                String truncatedName = truncate(normalizedName, MAX_TEAM_NAME_LENGTH);
                 Team team = new Team(section, truncatedName);
                 team.setCreatedAt(Instant.now());
                 saveAction.accept(team);
             }
         }
+    }
+
+    /**
+     * Normalizes null/empty team names to {@link Const#DEFAULT_TEAM} so that
+     * Team.name (non-null) receives a valid value. Matches caller normalization
+     * (e.g. DataMigrationForCourseEntitySql, DataMigrationForTeamSql).
+     */
+    private static String normalizeTeamName(String name) {
+        return name == null || name.isEmpty() ? Const.DEFAULT_TEAM : name;
     }
 
     private static String truncate(String str, int maxLength) {

@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.CourseStudent;
@@ -89,7 +90,7 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
     }
 
     private void verifySectionEntities(List<CourseStudent> students) {
-        // Match migration: null/empty section name becomes "None".
+        // Match migration: null/empty section name becomes DEFAULT_SECTION.
         // Key is (section, course) so same name in different courses counts separately.
         int objectifyEntityCount = (int) students.stream()
                 .map(VerifyCourseEntityCounts::toSectionCourseKey)
@@ -102,7 +103,7 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
 
     private void verifyTeamEntities(List<CourseStudent> students) {
         // Team in SQL is keyed by (course, section, team); count distinct (section, team, course) from students.
-        // Match migration: null/empty section and team normalized to "None"
+        // Match migration: null/empty section and team normalized to DEFAULT_SECTION/DEFAULT_TEAM
         int objectifyEntityCount = (int) students.stream()
                 .map(VerifyCourseEntityCounts::toSectionTeamCourseKey)
                 .distinct()
@@ -113,13 +114,16 @@ public class VerifyCourseEntityCounts extends DatastoreClient {
     }
 
     private static String toSectionCourseKey(CourseStudent stu) {
-        String section = (stu.getSectionName() == null || stu.getSectionName().isEmpty()) ? "None" : stu.getSectionName();
+        String section = (stu.getSectionName() == null || stu.getSectionName().isEmpty())
+                ? Const.DEFAULT_SECTION : stu.getSectionName();
         return section + "|" + stu.getCourseId();
     }
 
     private static String toSectionTeamCourseKey(CourseStudent stu) {
-        String section = (stu.getSectionName() == null || stu.getSectionName().isEmpty()) ? "None" : stu.getSectionName();
-        String team = (stu.getTeamName() == null || stu.getTeamName().isEmpty()) ? "None" : stu.getTeamName();
+        String section = (stu.getSectionName() == null || stu.getSectionName().isEmpty())
+                ? Const.DEFAULT_SECTION : stu.getSectionName();
+        String team = (stu.getTeamName() == null || stu.getTeamName().isEmpty())
+                ? Const.DEFAULT_TEAM : stu.getTeamName();
         return section + "|" + team + "|" + stu.getCourseId();
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.sqlentity.Section;
@@ -39,7 +40,7 @@ public class VerifySectionAttributes
                 .stream()
                 .map(stu -> {
                     String name = stu.getSectionName();
-                    return name == null || name.isEmpty() ? "None" : name;
+                    return name == null || name.isEmpty() ? Const.DEFAULT_SECTION : name;
                 })
                 .distinct()
                 .collect(Collectors.toCollection(HashSet::new));

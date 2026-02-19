@@ -56,9 +56,16 @@ public class DataMigrationForSectionSql extends
 
     @Override
     protected void migrateEntity(Course oldCourse) throws Exception {
-        teammates.storage.sqlentity.Course newCourse = HibernateUtil.getReference(
-                teammates.storage.sqlentity.Course.class, oldCourse.getUniqueId());
-        SectionMigrator.migrate(newCourse, getAllSectionNames(oldCourse).collect(Collectors.toList()),
-                this::saveEntityDeferred);
+        HibernateUtil.beginTransaction();
+        try {
+            teammates.storage.sqlentity.Course newCourse = HibernateUtil.getReference(
+                    teammates.storage.sqlentity.Course.class, oldCourse.getUniqueId());
+            SectionMigrator.migrate(newCourse, getAllSectionNames(oldCourse).collect(Collectors.toList()),
+                    this::saveEntityDeferred);
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            HibernateUtil.rollbackTransaction();
+            throw e;
+        }
     }
 }

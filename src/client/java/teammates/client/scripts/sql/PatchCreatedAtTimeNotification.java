@@ -106,20 +106,31 @@ public class PatchCreatedAtTimeNotification extends DatastoreClient {
      * Migrates the entity. In this case, add entity to buffer.
      */
     protected void migrateEntity(teammates.storage.entity.Notification oldEntity) {
-        HibernateUtil.beginTransaction();
-
-        UUID notificationId = UUID.fromString(oldEntity.getNotificationId());
-        teammates.storage.sqlentity.Notification newNotif =
-                HibernateUtil.get(teammates.storage.sqlentity.Notification.class, notificationId);
-        if (newNotif == null) {
-            HibernateUtil.commitTransaction();
-            throw new Error("No notification found with id " + notificationId);
+        UUID notificationId;
+        try {
+            notificationId = UUID.fromString(oldEntity.getNotificationId());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException(
+                    "Invalid notification ID format: " + oldEntity.getNotificationId(), e);
         }
 
-        newNotif.setCreatedAt(oldEntity.getCreatedAt());
-        HibernateUtil.commitTransaction();
-        numberOfAffectedEntities.incrementAndGet();
-        numberOfUpdatedEntities.incrementAndGet();
+        HibernateUtil.beginTransaction();
+        try {
+            teammates.storage.sqlentity.Notification newNotif =
+                    HibernateUtil.get(teammates.storage.sqlentity.Notification.class, notificationId);
+            if (newNotif == null) {
+                HibernateUtil.rollbackTransaction();
+                throw new IllegalStateException("No notification found with id " + notificationId);
+            }
+
+            newNotif.setCreatedAt(oldEntity.getCreatedAt());
+            numberOfAffectedEntities.incrementAndGet();
+            numberOfUpdatedEntities.incrementAndGet();
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            HibernateUtil.rollbackTransaction();
+            throw e;
+        }
     }
 
     @Override

@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.Root;
 
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
@@ -78,8 +79,22 @@ public class DataMigrationForTeamSql extends
                 .list()
                 .stream()
                 .forEach(cs -> sectionNameToTeamNames
-                        .computeIfAbsent(cs.getSectionName(), k -> new HashSet<>())
-                        .add(cs.getTeamName()));
+                        .computeIfAbsent(normalizeSectionName(cs.getSectionName()), k -> new HashSet<>())
+                        .add(normalizeTeamName(cs.getTeamName())));
         return sectionNameToTeamNames;
+    }
+
+    /**
+     * Normalizes null/empty section names to {@link Const#DEFAULT_SECTION}.
+     */
+    private static String normalizeSectionName(String name) {
+        return name == null || name.isEmpty() ? Const.DEFAULT_SECTION : name;
+    }
+
+    /**
+     * Normalizes null/empty team names to {@link Const#DEFAULT_TEAM}.
+     */
+    private static String normalizeTeamName(String name) {
+        return name == null || name.isEmpty() ? Const.DEFAULT_TEAM : name;
     }
 }

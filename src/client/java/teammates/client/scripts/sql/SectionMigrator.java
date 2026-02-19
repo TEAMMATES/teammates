@@ -3,6 +3,7 @@ package teammates.client.scripts.sql;
 import java.time.Instant;
 import java.util.function.Consumer;
 
+import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Section;
 
@@ -32,11 +33,20 @@ public final class SectionMigrator {
             Iterable<String> sectionNames,
             Consumer<Section> saveAction) {
         for (String sectionName : sectionNames) {
-            String truncatedName = truncate(sectionName, MAX_SECTION_NAME_LENGTH);
+            String normalizedName = normalizeSectionName(sectionName);
+            String truncatedName = truncate(normalizedName, MAX_SECTION_NAME_LENGTH);
             Section section = new Section(newCourse, truncatedName);
             section.setCreatedAt(Instant.now());
             saveAction.accept(section);
         }
+    }
+
+    /**
+     * Normalizes null/empty section names to {@link Const#DEFAULT_SECTION} so that
+     * Section.name (non-null) receives a valid value.
+     */
+    private static String normalizeSectionName(String name) {
+        return name == null || name.isEmpty() ? Const.DEFAULT_SECTION : name;
     }
 
     private static String truncate(String str, int maxLength) {

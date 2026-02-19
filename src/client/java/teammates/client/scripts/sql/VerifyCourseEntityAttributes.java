@@ -15,6 +15,7 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -113,7 +114,7 @@ public class VerifyCourseEntityAttributes
 
         for (CourseStudent oldStudent : oldStudents) {
             String name = oldStudent.getSectionName();
-            oldSectionNames.add(name == null || name.isEmpty() ? "None" : name);
+            oldSectionNames.add(name == null || name.isEmpty() ? Const.DEFAULT_SECTION : name);
         }
 
         for (Section newSection : newSections) {
@@ -147,9 +148,9 @@ public class VerifyCourseEntityAttributes
         Map<String, Set<String>> oldSectionToTeamHashSet = new HashMap<>();
         for (CourseStudent student : oldStudents) {
             String sectionName = student.getSectionName();
-            sectionName = sectionName == null || sectionName.isEmpty() ? "None" : sectionName;
+            sectionName = sectionName == null || sectionName.isEmpty() ? Const.DEFAULT_SECTION : sectionName;
             String teamName = student.getTeamName();
-            teamName = teamName == null || teamName.isEmpty() ? "None" : teamName;
+            teamName = teamName == null || teamName.isEmpty() ? Const.DEFAULT_TEAM : teamName;
             oldSectionToTeamHashSet.putIfAbsent(sectionName, new HashSet<>());
             Set<String> teamHashSet = oldSectionToTeamHashSet.get(sectionName);
             boolean addedToSet = teamHashSet.add(teamName);
@@ -210,6 +211,11 @@ public class VerifyCourseEntityAttributes
     }
 
     private boolean verifyStudent(CourseStudent oldStudent, Student newStudent) {
+        if (newStudent == null) {
+            logValidationError(String.format("Student failed to migrate: email=%s, courseId=%s",
+                    oldStudent.getEmail(), oldStudent.getCourseId()));
+            return false;
+        }
         if (!Objects.equals(newStudent.getGoogleId(), oldStudent.getGoogleId())) {
             logValidationError(String.format("Mismatch in google ids. Expected %s but got %s",
                     newStudent.getGoogleId(),
@@ -217,11 +223,11 @@ public class VerifyCourseEntityAttributes
             return false;
         }
 
-        // Match migration: null/empty section and team normalized to "None"
+        // Match migration: null/empty section and team normalized to DEFAULT_SECTION/DEFAULT_TEAM
         String expectedSection = oldStudent.getSectionName() == null || oldStudent.getSectionName().isEmpty()
-                ? "None" : oldStudent.getSectionName();
+                ? Const.DEFAULT_SECTION : oldStudent.getSectionName();
         String expectedTeam = oldStudent.getTeamName() == null || oldStudent.getTeamName().isEmpty()
-                ? "None" : oldStudent.getTeamName();
+                ? Const.DEFAULT_TEAM : oldStudent.getTeamName();
         boolean attributesAreEqual = newStudent.getName().equals(oldStudent.getName())
                 && newStudent.getEmail().equals(oldStudent.getEmail())
                 && newStudent.getComments().equals(oldStudent.getComments())

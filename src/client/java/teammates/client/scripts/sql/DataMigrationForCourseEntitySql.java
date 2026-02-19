@@ -27,6 +27,7 @@ import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -117,17 +118,21 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         migrateCourseDependencies(courseId);
         flushEntitiesSavingBuffer();
 
-        // Refetch course - this is not needed but done to get around
-        // the inherited interface of verifier
-
-        HibernateUtil.beginTransaction();
-        Course newCourse = getCourse(courseId);
-        HibernateUtil.commitTransaction();
-
+        // Refetch course and verify within a transaction so verifier's Hibernate
+        // queries (getCourse, getNewSections, etc.) have an active session and
+        // session state does not leak between course verifications.
         log(String.format("Verifying %s", courseId));
-
-        if (!verifier.equals(newCourse, oldCourse)) {
-            throw new Exception("Verification failed for course with id: " + oldCourse.getUniqueId());
+        HibernateUtil.beginTransaction();
+        try {
+            Course newCourse = getCourse(courseId);
+            if (!verifier.equals(newCourse, oldCourse)) {
+                HibernateUtil.rollbackTransaction();
+                throw new Exception("Verification failed for course with id: " + oldCourse.getUniqueId());
+            }
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            HibernateUtil.rollbackTransaction();
+            throw e;
         }
 
         oldCourse.setMigrated(true);
@@ -176,7 +181,9 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         HibernateUtil.beginTransaction();
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId).list();
         Course newCourse = getCourse(courseId);
-        List<String> sectionNames = oldStudents.stream().map(CourseStudent::getSectionName).distinct()
+        List<String> sectionNames = oldStudents.stream()
+                .map(cs -> normalizeSectionName(cs.getSectionName()))
+                .distinct()
                 .collect(Collectors.toList());
         SectionMigrator.migrate(newCourse, sectionNames, HibernateUtil::persist);
         HibernateUtil.commitTransaction();
@@ -188,8 +195,10 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId).list();
         Map<String, Set<String>> sectionNameToTeamNames = new HashMap<>();
         for (CourseStudent student : oldStudents) {
-            sectionNameToTeamNames.putIfAbsent(student.getSectionName(), new HashSet<>());
-            sectionNameToTeamNames.get(student.getSectionName()).add(student.getTeamName());
+            String sectionName = normalizeSectionName(student.getSectionName());
+            String teamName = normalizeTeamName(student.getTeamName());
+            sectionNameToTeamNames.putIfAbsent(sectionName, new HashSet<>());
+            sectionNameToTeamNames.get(sectionName).add(teamName);
         }
         Course newCourseWithSections = getCourseWithSections(courseId);
         TeamMigrator.migrate(newCourseWithSections, sectionNameToTeamNames, HibernateUtil::persist);
@@ -238,9 +247,9 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             googleIdToAccountMap.put(googleId, associatedAccount);
         }
         for (CourseStudent oldStudent : oldStudents) {
-            Team newTeam = newSectionToTeamEntityMap
-                    .get(oldStudent.getSectionName())
-                    .get(oldStudent.getTeamName());
+            String sectionName = normalizeSectionName(oldStudent.getSectionName());
+            String teamName = normalizeTeamName(oldStudent.getTeamName());
+            Team newTeam = newSectionToTeamEntityMap.get(sectionName).get(teamName);
 
             Student newStudent = createStudent(newCourse, newTeam, oldStudent);
             Account associatedAccount = googleIdToAccountMap.get(oldStudent.getGoogleId());
@@ -492,6 +501,7 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                 if (getMaxCoursesToMigrate().isPresent()
                         && numberOfScannedKey.get() >= getMaxCoursesToMigrate().get()) {
                     currentOldCourse = null;
+                    shouldContinue = false;
                 }
             }
 
@@ -603,6 +613,20 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
             log("Flushing " + entitiesSavingBuffer.size() + " took " + (endTime - startTime) + " milliseconds");
         }
         entitiesSavingBuffer.clear();
+    }
+
+    /**
+     * Normalizes null/empty section names to {@link teammates.common.util.Const#DEFAULT_SECTION}.
+     */
+    private static String normalizeSectionName(String name) {
+        return name == null || name.isEmpty() ? Const.DEFAULT_SECTION : name;
+    }
+
+    /**
+     * Normalizes null/empty team names to {@link teammates.common.util.Const#DEFAULT_TEAM}.
+     */
+    private static String normalizeTeamName(String name) {
+        return name == null || name.isEmpty() ? Const.DEFAULT_TEAM : name;
     }
 
     /**

@@ -17,6 +17,7 @@ import com.googlecode.objectify.Objectify;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -35,12 +36,12 @@ import teammates.storage.sqlentity.questions.FeedbackRubricQuestion.FeedbackRubr
 import teammates.storage.sqlentity.questions.FeedbackTextQuestion.FeedbackTextQuestionDetailsConverter;
 import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse.FeedbackConstantSumResponseDetailsConverter;
 import teammates.storage.sqlentity.responses.FeedbackContributionResponse.FeedbackContributionResponseDetailsConverter;
+import teammates.storage.sqlentity.responses.FeedbackMcqResponse.FeedbackMcqResponseDetailsConverter;
 import teammates.storage.sqlentity.responses.FeedbackMsqResponse.FeedbackMsqResponseDetailsConverter;
 import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse.FeedbackNumericalScaleResponseDetailsConverter;
 import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse.FeedbackRankOptionsResponseDetailsConverter;
 import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse.FeedbackRankRecipientsResponseDetailsConverter;
 import teammates.storage.sqlentity.responses.FeedbackRubricResponse.FeedbackRubricResponseDetailsConverter;
-import teammates.storage.sqlentity.responses.FeedbackTextResponse.FeedbackTextResponseDetailsConverter;
 
 /**
  * Shared migration logic for the feedback chain (FeedbackSession, FeedbackQuestion,
@@ -100,8 +101,10 @@ public final class FeedbackChainMigrator {
                     migrateFeedbackQuestion(newFeedbackSession, oldQuestion, sectionNameToSectionMap);
                 }
             }
-        } finally {
             HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            HibernateUtil.rollbackTransaction();
+            throw e;
         }
     }
 
@@ -134,8 +137,14 @@ public final class FeedbackChainMigrator {
                 .list();
 
         for (FeedbackResponse oldResponse : oldResponses) {
-            Section newGiverSection = sectionNameToSectionMap.get(oldResponse.getGiverSection());
-            Section newRecipientSection = sectionNameToSectionMap.get(oldResponse.getRecipientSection());
+            String giverSectionName = oldResponse.getGiverSection();
+            String recipientSectionName = oldResponse.getRecipientSection();
+            String giverSectionKey = (giverSectionName == null || giverSectionName.isEmpty())
+                    ? Const.DEFAULT_SECTION : giverSectionName;
+            String recipientSectionKey = (recipientSectionName == null || recipientSectionName.isEmpty())
+                    ? Const.DEFAULT_SECTION : recipientSectionName;
+            Section newGiverSection = sectionNameToSectionMap.get(giverSectionKey);
+            Section newRecipientSection = sectionNameToSectionMap.get(recipientSectionKey);
             migrateFeedbackResponse(newFeedbackQuestion, oldResponse, newGiverSection, newRecipientSection,
                     responseIdToCommentsMap);
         }
@@ -261,33 +270,39 @@ public final class FeedbackChainMigrator {
 
     private FeedbackResponseDetails getFeedbackResponseDetails(FeedbackResponse oldResponse) {
         switch (oldResponse.getFeedbackQuestionType()) {
-        case MCQ:
-            return new FeedbackTextResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
-        case MSQ:
+        case MCQ -> {
+            return new FeedbackMcqResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
+        }
+        case MSQ -> {
             return new FeedbackMsqResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
-        case TEXT:
+        }
+        case TEXT -> {
             return new FeedbackTextResponseDetails(oldResponse.getAnswer());
-        case RUBRIC:
+        }
+        case RUBRIC -> {
             return new FeedbackRubricResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
-        case CONTRIB:
+        }
+        case CONTRIB -> {
             return new FeedbackContributionResponseDetailsConverter()
                     .convertToEntityAttribute(oldResponse.getAnswer());
-        case CONSTSUM:
-        case CONSTSUM_RECIPIENTS:
-        case CONSTSUM_OPTIONS:
+        }
+        case CONSTSUM, CONSTSUM_RECIPIENTS, CONSTSUM_OPTIONS -> {
             return new FeedbackConstantSumResponseDetailsConverter()
                     .convertToEntityAttribute(oldResponse.getAnswer());
-        case NUMSCALE:
+        }
+        case NUMSCALE -> {
             return new FeedbackNumericalScaleResponseDetailsConverter()
                     .convertToEntityAttribute(oldResponse.getAnswer());
-        case RANK_OPTIONS:
+        }
+        case RANK_OPTIONS -> {
             return new FeedbackRankOptionsResponseDetailsConverter()
                     .convertToEntityAttribute(oldResponse.getAnswer());
-        case RANK_RECIPIENTS:
+        }
+        case RANK_RECIPIENTS -> {
             return new FeedbackRankRecipientsResponseDetailsConverter()
                     .convertToEntityAttribute(oldResponse.getAnswer());
-        default:
-            throw new IllegalArgumentException("Invalid response type");
+        }
+        default -> throw new IllegalArgumentException("Invalid response type");
         }
     }
 
