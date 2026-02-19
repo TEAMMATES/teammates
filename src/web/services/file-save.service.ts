@@ -18,7 +18,7 @@ export class FileSaveService {
     anchor.download = filename;
     this.document.body.appendChild(anchor);
     anchor.click();
-    this.document.body.removeChild(anchor);
+    anchor.remove();
     URL.revokeObjectURL(url);
   }
 }
