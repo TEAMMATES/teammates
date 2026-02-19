@@ -1,10 +1,15 @@
 package teammates.common.util;
 
+import com.google.cloud.secretmanager.v1.AccessSecretVersionResponse;
+import com.google.cloud.secretmanager.v1.SecretManagerServiceClient;
+import com.google.cloud.secretmanager.v1.SecretVersionName;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -158,20 +163,20 @@ public final class Config {
 
         APP_REGION = getProperty(properties, devProperties, "app.region");
         APP_FRONTEND_URL = getProperty(properties, devProperties, "app.frontend.url", getDefaultFrontEndUrl());
-        CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
-        BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
+        CSRF_KEY = getGcpSecret("APP_CSRF_KEY", properties, devProperties);
+        BACKDOOR_KEY = getGcpSecret("APP_BACKDOOR_KEY", properties, devProperties);
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
         POSTGRES_HOST = getProperty(properties, devProperties, "app.postgres.host");
         POSTGRES_PORT = getProperty(properties, devProperties, "app.postgres.port");
         POSTGRES_DATABASENAME = getProperty(properties, devProperties, "app.postgres.databasename");
-        POSTGRES_USERNAME = getProperty(properties, devProperties, "app.postgres.username");
-        POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
+        POSTGRES_USERNAME = getGcpSecret("APP_POSTGRES_USERNAME", properties, devProperties);
+        POSTGRES_PASSWORD = getGcpSecret("APP_POSTGRES_PASSWORD", properties, devProperties);
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
-        ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
+        ENCRYPTION_KEY = getGcpSecret("APP_ENCRYPTION_KEY", properties, devProperties);
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
-        OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
-        OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
-        CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
+        OAUTH2_CLIENT_ID = getGcpSecret("APP_OAUTH2_CLIENT_ID", properties, devProperties);
+        OAUTH2_CLIENT_SECRET = getGcpSecret("APP_OAUTH2_CLIENT_SECRET", properties, devProperties);
+        CAPTCHA_SECRET_KEY = getGcpSecret("APP_CAPTCHA_SECRET_KEY", properties, devProperties);
         APP_ADMINS = Collections.unmodifiableList(
                 Arrays.asList(getProperty(properties, devProperties, "app.admins", "").split(",")));
         APP_MAINTAINERS = Collections.unmodifiableList(
@@ -321,6 +326,26 @@ public final class Config {
     public static boolean isUsingMailjet() {
         return "mailjet".equalsIgnoreCase(EMAIL_SERVICE) && MAILJET_APIKEY != null && !MAILJET_APIKEY.isEmpty()
                 && MAILJET_SECRETKEY != null && !MAILJET_SECRETKEY.isEmpty();
+    }
+
+    private static String getGcpSecret(String secretName, Properties properties, Properties devProperties) {
+        // This method is used to get secrets from GCP Secret Manager in production environment.
+        // The implementation is not provided here as it requires additional dependencies and setup.
+        // In production, the secrets can be accessed using the respective environment variables directly.
+        // You can get this from an environment variable or hardcode
+        if (IS_DEV_SERVER) {
+            return getProperty(properties, devProperties, secretName.replace('_', '.').toLowerCase());
+        }
+
+        try (SecretManagerServiceClient client = SecretManagerServiceClient.create()) {
+            SecretVersionName name = SecretVersionName.of(Config.APP_ID, secretName, "1");
+            AccessSecretVersionResponse response = client.accessSecretVersion(name);
+
+            return response.getPayload().getData().toStringUtf8();
+        } catch (IOException e) {
+            log.severe("Failed to access secret: " + secretName, e);
+            return null;
+        }
     }
 
 }
