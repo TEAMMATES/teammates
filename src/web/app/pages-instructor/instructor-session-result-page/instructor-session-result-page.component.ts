@@ -2,7 +2,6 @@ import { NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { saveAs } from 'file-saver';
 import { Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
@@ -18,6 +17,7 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { FileSaveService } from '../../../services/file-save.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -160,6 +160,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private feedbackSessionActionsService: FeedbackSessionActionsService,
               private feedbackQuestionsService: FeedbackQuestionsService,
               private courseService: CourseService,
+              private fileSaveService: FileSaveService,
               private studentService: StudentService,
               private instructorService: InstructorService,
               private route: ActivatedRoute,
@@ -576,7 +577,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     ).subscribe({
       next: (resp: string) => {
         const blob: any = new Blob([resp], { type: 'text/csv' });
-        saveAs(blob, filename);
+        this.fileSaveService.saveFile(blob, filename);
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
