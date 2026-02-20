@@ -401,7 +401,7 @@ appengineStage {
 }
 
 task deployCi {
-    description = "Deploy to App Engine using environment variables instead of build.properties and app.yaml"
+    description = "Deploy to App Engine using environment variables"
     doFirst {
         appengine.deploy.projectId = System.getenv("APP_ID")
         appengine.deploy.version = System.getenv("APP_VERSION")
