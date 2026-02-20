@@ -185,11 +185,11 @@ public final class Config {
         EMAIL_SENDERNAME = getProperty(properties, devProperties, "app.email.sendername");
         EMAIL_REPLYTO = getProperty(properties, devProperties, "app.email.replyto");
         EMAIL_SERVICE = getProperty(properties, devProperties, "app.email.service");
-        SENDGRID_APIKEY = getProperty(properties, devProperties, "app.sendgrid.apikey");
-        MAILGUN_APIKEY = getProperty(properties, devProperties, "app.mailgun.apikey");
+        SENDGRID_APIKEY = getGcpSecret(properties, devProperties, "APP_SENDGRID_APIKEY");
+        MAILGUN_APIKEY = getGcpSecret(properties, devProperties, "APP_MAILGUN_APIKEY");
         MAILGUN_DOMAINNAME = getProperty(properties, devProperties, "app.mailgun.domainname");
-        MAILJET_APIKEY = getProperty(properties, devProperties, "app.mailjet.apikey");
-        MAILJET_SECRETKEY = getProperty(properties, devProperties, "app.mailjet.secretkey");
+        MAILJET_APIKEY = getGcpSecret(properties, devProperties, "app.mailjet.apikey");
+        MAILJET_SECRETKEY = getGcpSecret(properties, devProperties, "app.mailjet.secretkey");
         SEARCH_SERVICE_HOST = getProperty(properties, devProperties, "app.search.service.host");
         ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(
                 getProperty(properties, devProperties, "app.enable.datastore.backup", "false"));
