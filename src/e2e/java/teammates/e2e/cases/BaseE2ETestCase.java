@@ -28,7 +28,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
-import teammates.e2e.pageobjects.DevServerLoginPage;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.EmailAccount;
@@ -129,25 +128,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      * Logs in to a page using the given credentials.
      */
     protected <T extends AppPage> T loginToPage(AppUrl url, Class<T> typeOfPage, String userId) {
-        // When not using dev server, Google blocks log in by automation.
-        // To work around that, we inject the user cookie directly into the browser session.
-        if (!TestProperties.isDevServer()) {
-            // In order for the cookie injection to work, we need to be in the domain.
-            // Use the home page to minimize the page load time.
-            browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
-
-            String cookieValue = BACKDOOR.getUserCookie(userId);
-            browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
-
-            return getNewPageInstance(url, typeOfPage);
-        }
-
-        // This will be redirected to the dev server login page.
-        browser.goToUrl(url.toAbsoluteString());
-
-        DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
-        loginPage.loginAsUser(userId);
-
+        // In order for the cookie injection to work, we need to be in the domain.
+        // Use the home page to minimize the page load time.
+        browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
+        String cookieValue = BACKDOOR.getUserCookie(userId);
+        browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
         return getNewPageInstance(url, typeOfPage);
     }
 
