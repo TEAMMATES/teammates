@@ -1,13 +1,14 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -296,145 +297,96 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             assertEquals(expectedStudentData.getJoinState(), actualStudentData.getJoinState());
             break;
         }
+    }
 
+    private void stubSelfLookupAsSameCourse(Course course, Student student) {
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        doAnswer(inv -> {
+            String courseId = inv.getArgument(0);
+            String gid = inv.getArgument(1);
+            if (!course.getId().equals(courseId)) {
+                return null;
+            }
+
+            Account acc = getTypicalAccount();
+            acc.setGoogleId(gid);
+            student.setAccount(acc);
+            student.setCourse(course);
+            return student;
+        }).when(mockLogic).getStudentByGoogleId(eq(course.getId()), anyString());
+    }
+
+    private void stubSelfLookupAsOtherCourse(Course requestedCourse, Course otherCourse, Student student) {
+        when(mockLogic.getCourse(requestedCourse.getId())).thenReturn(requestedCourse);
+        doAnswer(inv -> {
+            String gid = inv.getArgument(1);
+            Account acc = getTypicalAccount();
+            acc.setGoogleId(gid);
+            student.setAccount(acc);
+            student.setCourse(otherCourse);
+            return student;
+        }).when(mockLogic).getStudentByGoogleId(eq(requestedCourse.getId()), anyString());
+    }
+
+    private String[] regKeyParams(String key) {
+        return new String[] {
+                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+                Const.ParamsNames.REGKEY, key,
+        };
     }
 
     @Test
-    void testSpecificAccessControl_instructorWithPermission_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
-                .thenReturn(stubInstructor);
-
+    void testGetStudent_instructorEmailPathSameCourseWithViewSectionPrivilege_canAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
         };
-        verifyCanAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
+        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail()))
+                .thenReturn(stubStudent);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                stubCourse,
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
+                params);
     }
 
     @Test
-    void testSpecificAccessControl_instructorWithoutPermission_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        Instructor stubInstructorWithoutPermission = new Instructor(stubCourse, "name", "google.com",
-                false, "googleId",
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivileges());
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
-                .thenReturn(stubInstructorWithoutPermission);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-        };
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_studentPersonalAccessSameCourse_canAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
-
+    void testGetStudent_studentSelfSameCourse_canAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        verifyCanAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
+        stubSelfLookupAsSameCourse(stubCourse, stubStudent);
+        verifyStudentsOfTheSameCourseCanAccess(stubCourse, params);
     }
 
     @Test
-    void testSpecificAccessControl_studentPersonalAccessNotSameCourse_cannotAccess() {
-        Student studentFromAnotherCourse = getTypicalStudent();
-        studentFromAnotherCourse.setCourse(new Course("another-course", "another-course-name",
-                Const.DEFAULT_TIME_ZONE, "teammates"));
-        loginAsStudent(studentFromAnotherCourse.getGoogleId());
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), studentFromAnotherCourse.getGoogleId()))
-                .thenReturn(studentFromAnotherCourse);
-
+    void testGetStudent_studentSelfOtherCourse_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        verifyCannotAccess(params);
+        Course otherCourse = new Course("another", "another", Const.DEFAULT_TIME_ZONE, "teammates");
+        Student s = getTypicalStudent();
+        stubSelfLookupAsOtherCourse(stubCourse, otherCourse, s);
+        verifyStudentsOfOtherCoursesCannotAccess(stubCourse, params);
     }
 
     @Test
-    void testSpecificAccessControl_studentPublicAccess_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
-        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), "randomEmail")).thenReturn(null);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, "randomEmail",
-        };
-        verifyCannotAccess(params);
-
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), "randomEmail")).thenReturn(stubStudent);
-        verifyCannotAccess(params);
-
-        logoutUser();
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_studentNotLoggedInValidRegKey_canAccess() {
-        when(mockLogic.getStudentByRegistrationKey(stubStudent.getRegKey())).thenReturn(stubStudent);
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.REGKEY, stubStudent.getRegKey(),
-        };
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_studentNotLoggedInInvalidRegKey_cannotAccess() {
-        when(mockLogic.getStudentByRegistrationKey(stubStudent.getRegKey())).thenReturn(null);
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.REGKEY, stubStudent.getRegKey(),
-        };
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_invalidStudentLoginId_cannotAccess() {
+    void testGetStudent_studentSelfWithoutLogin_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        verifyCannotAccess(params);
-
-        loginAsStudent(null);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), null)).thenReturn(null);
-        verifyCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
     }
 
     @Test
-    void testSpecificAccessControl_invalidInstructorLoginId_cannotAccess() {
-        loginAsInstructor(null);
-        String[] params1 = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-        };
-        verifyCannotAccess(params1);
+    void testGetStudent_unregisteredWithValidKey_canAccess() {
+        when(mockLogic.getStudentByRegistrationKey(stubStudent.getRegKey()))
+                .thenReturn(stubStudent);
+        verifyCanAccess(regKeyParams(stubStudent.getRegKey()));
+    }
 
-        String[] params2 = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-        };
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), null)).thenReturn(null);
-        verifyCannotAccess(params2);
-
-        logoutUser();
-        verifyCannotAccess(params1);
-        verifyCannotAccess(params2);
+    @Test
+    void testGetStudent_unregisteredWithInvalidKey_cannotAccess() {
+        when(mockLogic.getStudentByRegistrationKey("BAD")).thenReturn(null);
+        verifyCannotAccess(regKeyParams("BAD"));
     }
 }
