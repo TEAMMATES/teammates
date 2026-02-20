@@ -1,0 +1,74 @@
+name: Deploy TEAMMATES Staging
+
+on:
+  push:
+    branches: [V9-clean-slate-sql]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Create config files
+        run: ./gradlew createConfigs
+      
+      - name: Compile type definitions
+        run: ./gradlew generateTypes
+
+      - name: Build frontend
+        run: npm run build 
+      
+      # OIDC Authentication
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          create_credentials_file: true
+          export_environment_variables: true
+          workload_identity_provider: >-
+            projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ vars.GCP_WIF_POOL_ID }}/providers/${{ vars.GCP_WIF_PROVIDER_ID }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }} 
+
+      - name: Deploy to App Engine
+        env:
+          # build.properties
+          APP_ID: ${{ vars.APP_ID }}
+          APP_REGION: ${{ vars.APP_REGION }}
+          APP_VERSION: ${{ vars.APP_VERSION }}
+          APP_POSTGRES_HOST: ${{ vars.APP_POSTGRES_HOST }}
+          APP_POSTGRES_PORT: ${{ vars.APP_POSTGRES_PORT }}
+          APP_POSTGRES_DATABASENAME: ${{ vars.APP_POSTGRES_DATABASENAME }}
+          APP_PRODUCTION_GCS_BUCKETNAME: ${{ vars.APP_PRODUCTION_GCS_BUCKETNAME }}
+          APP_ADMINS: ${{ vars.APP_ADMINS }}
+          APP_CRASHREPORT_EMAIL: ${{ vars.APP_CRASHREPORT_EMAIL }}
+          APP_EMAIL_REPLYTO: ${{ vars.APP_EMAIL_REPLYTO }}
+          APP_EMAIL_SENDEREMAIL: ${{ vars.APP_EMAIL_SENDEREMAIL }}
+          APP_EMAIL_SENDERNAME: ${{ vars.APP_EMAIL_SENDERNAME }}
+          APP_MAINTAINERS: ${{ vars.APP_MAINTAINERS }}
+          APP_SEARCH_SERVICE_HOST: ${{ vars.APP_SEARCH_SERVICE_HOST }}
+          APP_EMAIL_SERVICE: ${{ vars.APP_EMAIL_SERVICE }}
+          # app.yaml
+          INSTANCE_CLASS: ${{ vars.INSTANCE_CLASS }}
+          VPC_ACCESS_CONNECTOR_NAME: ${{ vars.VPC_ACCESS_CONNECTOR_NAME }}
+        run: ./gradlew deployCi
