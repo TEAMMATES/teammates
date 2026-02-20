@@ -1100,7 +1100,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
-    component.saveFeedbackResponses(component.questionSubmissionForms, true, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms, null);
 
     expect(responseSpy).toHaveBeenCalledTimes(2);
     expect(responseSpy).toHaveBeenNthCalledWith(1, 'feedback-question-id-mcq', {
@@ -1166,7 +1166,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses(component.questionSubmissionForms, true, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms, null);
 
     expect(responseSpy).toHaveBeenCalledTimes(1);
     expect(responseSpy).toHaveBeenNthCalledWith(1, testQuestionSubmissionForm1.feedbackQuestionId, {

@@ -117,10 +117,9 @@
                                           inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                                           [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                                           [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                                          [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], false, entry.key)"
+                                          [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], entry.key)"
                                           (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                                           [isQuestionCountOne]="isQuestionCountOne"
-                                          [(isSubmitAllClicked)]="isSubmitAllClicked"
                                           [currentSelectedSessionView]="currentSelectedSessionView"
                                           [recipientId]="entry.key"
                                           (resetFeedback)="resetFeedbackResponses([$event], entry.key)"
@@ -152,10 +151,9 @@
                                       inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                                       [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                                       [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                                      [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], false, null)"
+                                      [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], null)"
                                       (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                                       [isQuestionCountOne]="isQuestionCountOne"
-                                      [(isSubmitAllClicked)]="isSubmitAllClicked"
                                       (resetFeedback)="resetFeedbackResponses([$event], null)"
                                       (autoSave)="handleAutosave($event)"
           ></tm-question-submission-form>
@@ -168,10 +166,9 @@
                                    inViewport (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                                    [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                                    [isSubmissionDisabled]="isSubmissionFormsDisabled" [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                                   [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], false, null)"
+                                   [isSavingResponses]="isSavingResponses" (responsesSave)="saveFeedbackResponses([$event], null)"
                                    (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                                    [isQuestionCountOne]="isQuestionCountOne"
-                                   [(isSubmitAllClicked)]="isSubmitAllClicked"
                                    [currentSelectedSessionView]="currentSelectedSessionView"
                                    (resetFeedback)="resetFeedbackResponses([$event], null)"
                                    (autoSave)="handleAutosave($event)"
@@ -189,7 +186,7 @@
       <div class="col-12 text-center">
         <button id="btn-submit" type="submit" class="btn btn-success"
                 ngbTooltip="You can save your responses at any time and come back later to continue."
-                (click)="saveFeedbackResponses(questionSubmissionForms, true, null)" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
+                (click)="saveFeedbackResponses(questionSubmissionForms, null)" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
         ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Responses for All Questions</button>
       </div>
     </div>

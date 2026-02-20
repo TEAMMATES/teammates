@@ -138,7 +138,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   isQuestionCountOne: boolean = false;
-  isSubmitAllClicked: boolean = false;
 
   allSessionViews = SessionView;
   currentSelectedSessionView: SessionView = SessionView.DEFAULT;
@@ -836,16 +835,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * <p>All empty feedback response will be deleted; For non-empty responses, update/create them if necessary.
    *
    * @param questionSubmissionForms An array of question submission forms to be saved
-   * @param isSubmitAll Is the 'Submit Responses for All Questions' button clicked when saving responses
    * @param recipientId The recipient identifier of the selected recipient when saving responses for this recipient
    * only. This parameter will be null when saving responses for all questions or saving responses for one question.
    */
-  saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[],
-                        isSubmitAll: boolean, recipientId: string | null): void {
-    if (isSubmitAll) {
-      this.isSubmitAllClicked = true;
-    }
-
+  saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[], recipientId: string | null): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
     const requestIds: Record<string, string> = {};
     const answers: Record<string, FeedbackResponse[]> = {};
@@ -1140,7 +1133,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       .filter((questionSubmissionFormModel: QuestionSubmissionFormModel) =>
           questionsToRecipient.has(questionSubmissionFormModel.questionNumber));
 
-    this.saveFeedbackResponses(recipientQSForms, false, recipientId);
+    this.saveFeedbackResponses(recipientQSForms, recipientId);
   }
 
   /**
