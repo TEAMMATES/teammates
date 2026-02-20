@@ -124,7 +124,7 @@
                                           [currentSelectedSessionView]="currentSelectedSessionView"
                                           [recipientId]="entry.key"
                                           (resetFeedback)="resetFeedbackResponses([$event], entry.key)"
-                                          (autoSave)="handleAutoSave($event)"
+                                          (autoSave)="handleAutosave($event)"
               ></tm-question-submission-form>
             </ng-container>
           </ng-container>
@@ -157,7 +157,7 @@
                                       [isQuestionCountOne]="isQuestionCountOne"
                                       [(isSubmitAllClicked)]="isSubmitAllClicked"
                                       (resetFeedback)="resetFeedbackResponses([$event], null)"
-                                      (autoSave)="handleAutoSave($event)"
+                                      (autoSave)="handleAutosave($event)"
           ></tm-question-submission-form>
         </ng-container>
       </ng-container>
@@ -174,7 +174,7 @@
                                    [(isSubmitAllClicked)]="isSubmitAllClicked"
                                    [currentSelectedSessionView]="currentSelectedSessionView"
                                    (resetFeedback)="resetFeedbackResponses([$event], null)"
-                                   (autoSave)="handleAutoSave($event)"
+                                   (autoSave)="handleAutosave($event)"
       ></tm-question-submission-form>
     </ng-container>
     <div class="row" *ngIf="questionsNeedingSubmission.length === 0">

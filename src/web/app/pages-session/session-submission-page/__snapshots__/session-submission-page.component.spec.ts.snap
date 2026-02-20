@@ -2,14 +2,12 @@
 
 exports[`SessionSubmissionPageComponent should snap when feedback session questions have failed to load 1`] = `
 <tm-session-submission-page
-  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
-  autoSaveDelay={[Function Number]}
-  autoSaveTimeout="undefined"
+  autosaveService={[Function AutosaveService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -48,7 +46,6 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
-  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -165,14 +162,12 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = `
 <tm-session-submission-page
-  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
-  autoSaveDelay={[Function Number]}
-  autoSaveTimeout="undefined"
+  autosaveService={[Function AutosaveService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -211,7 +206,6 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
-  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -325,14 +319,12 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
 
 exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 <tm-session-submission-page
-  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
-  autoSaveDelay={[Function Number]}
-  autoSaveTimeout="undefined"
+  autosaveService={[Function AutosaveService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -371,7 +363,6 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
-  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -485,14 +476,12 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
 
 exports[`SessionSubmissionPageComponent should snap with feedback session and user details 1`] = `
 <tm-session-submission-page
-  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
-  autoSaveDelay={[Function Number]}
-  autoSaveTimeout="undefined"
+  autosaveService={[Function AutosaveService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -531,7 +520,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
-  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail={[Function String]}
   personName={[Function String]}
@@ -778,14 +766,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms 1`] = `
 <tm-session-submission-page
-  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
-  autoSaveDelay={[Function Number]}
-  autoSaveTimeout={[Function Number]}
+  autosaveService={[Function AutosaveService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -824,7 +810,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
-  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -1589,7 +1574,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                   </button>
                   <button
                     class="btn btn-warning float-end"
-                    disabled=""
                     ngbtooltip="Reset your responses for this question to the last submitted state."
                     type="button"
                   >
@@ -3891,14 +3875,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms when disabled 1`] = `
 <tm-session-submission-page
-  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
-  autoSaveDelay={[Function Number]}
-  autoSaveTimeout="undefined"
+  autosaveService={[Function AutosaveService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -3937,7 +3919,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
-  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
@@ -7034,14 +7015,12 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
 
 exports[`SessionSubmissionPageComponent should snap with user that is logged in and using session link 1`] = `
 <tm-session-submission-page
-  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
-  autoSaveDelay={[Function Number]}
-  autoSaveTimeout="undefined"
+  autosaveService={[Function AutosaveService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -7080,7 +7059,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
-  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
@@ -7195,14 +7173,12 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
 
 exports[`SessionSubmissionPageComponent should snap with user that is not logged in and using session link 1`] = `
 <tm-session-submission-page
-  AUTOSAVE_KEY={[Function String]}
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
   Intent={[Function Object]}
   allSessionViews={[Function Object]}
   authService={[Function AuthService]}
-  autoSaveDelay={[Function Number]}
-  autoSaveTimeout="undefined"
+  autosaveService={[Function AutosaveService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
@@ -7241,7 +7217,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   moderatedQuestionId=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function _NgbModal]}
-  originalQuestionSubmissionForms={[Function Array]}
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}

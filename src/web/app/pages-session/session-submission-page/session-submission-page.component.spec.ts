@@ -298,6 +298,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM,
     recipientList: [{ recipientName: 'Gene Harris', recipientIdentifier: 'gene-harris-id' }],
+    originalRecipientSubmissionForms: [testMcqRecipientSubmissionForm],
     recipientSubmissionForms: [testMcqRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -325,6 +326,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.TEAMS,
     recipientList: [],
+    originalRecipientSubmissionForms: [],
     recipientSubmissionForms: [],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -351,6 +353,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.INSTRUCTORS,
     recipientList: [{ recipientName: 'Gene Harris', recipientIdentifier: 'gene-harris-id' }],
+    originalRecipientSubmissionForms: [testTextRecipientSubmissionForm],
     recipientSubmissionForms: [testTextRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -382,6 +385,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    originalRecipientSubmissionForms: [testMsqRecipientSubmissionForm],
     recipientSubmissionForms: [testMsqRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -410,6 +414,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    originalRecipientSubmissionForms: [testNumscaleRecipientSubmissionForm],
     recipientSubmissionForms: [testNumscaleRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -445,6 +450,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    originalRecipientSubmissionForms: [testConstsumRecipientSubmissionForm],
     recipientSubmissionForms: [testConstsumRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -475,6 +481,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    originalRecipientSubmissionForms: [testContribRecipientSubmissionForm],
     recipientSubmissionForms: [testContribRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -509,6 +516,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    originalRecipientSubmissionForms: [testRubricRecipientSubmissionForm],
     recipientSubmissionForms: [testRubricRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -539,6 +547,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    originalRecipientSubmissionForms: [testRankOptionsRecipientSubmissionForm],
     recipientSubmissionForms: [testRankOptionsRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -571,6 +580,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    originalRecipientSubmissionForms: [testRankRecipientsRecipientSubmissionForm],
     recipientSubmissionForms: [testRankRecipientsRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
@@ -743,6 +753,7 @@ describe('SessionSubmissionPageComponent', () => {
     component.isFeedbackSessionLoading = false;
     component.isFeedbackSessionQuestionsLoading = false;
     fixture.detectChanges();
+
     expect(fixture).toMatchSnapshot();
   });
 
@@ -1070,7 +1081,12 @@ describe('SessionSubmissionPageComponent', () => {
     const testResponseDetails2: FeedbackTextResponseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
+    testQuestionSubmissionForm1.hasResponseChangedForRecipients = new Map<string, boolean>([
+      ['barry-harris-id', true],
+      ['random-id', false],
+    ]);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
+    testQuestionSubmissionForm2.hasResponseChangedForRecipients = new Map<string, boolean>();
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
 
@@ -1084,7 +1100,6 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
-
     component.saveFeedbackResponses(component.questionSubmissionForms, true, null);
 
     expect(responseSpy).toHaveBeenCalledTimes(2);
@@ -1122,6 +1137,8 @@ describe('SessionSubmissionPageComponent', () => {
     });
     expect(mockModalRef.componentInstance.notYetAnsweredQuestions).toHaveLength(1);
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({});
+    expect(component.questionSubmissionForms[0].hasResponseChangedForRecipients.get('barry-harris-id')).toBe(false);
+    expect(component.questionSubmissionForms[0].hasResponseChangedForRecipients.get('random-id')).toBe(false);
   });
 
   it('should not save invalid feedback responses', () => {
@@ -1130,7 +1147,12 @@ describe('SessionSubmissionPageComponent', () => {
     const testResponseDetails2: any = deepCopy(testConstsumRecipientSubmissionForm.responseDetails);
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testConstsumQuestionSubmissionForm);
+    testQuestionSubmissionForm1.hasResponseChangedForRecipients = new Map<string, boolean>();
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
+    testQuestionSubmissionForm2.hasResponseChangedForRecipients = new Map<string, boolean>([
+      ['barry-harris-id', true],
+      ['random-id', false],
+    ]);
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     // invalid response
     testQuestionSubmissionForm2.recipientSubmissionForms[0].isValid = false;
@@ -1173,6 +1195,8 @@ describe('SessionSubmissionPageComponent', () => {
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({
       [testQuestionSubmissionForm2.questionNumber]: 'Invalid responses provided. Please check question constraints.',
     });
+    expect(component.questionSubmissionForms[1].hasResponseChangedForRecipients.get('barry-harris-id')).toBe(true);
+    expect(component.questionSubmissionForms[1].hasResponseChangedForRecipients.get('random-id')).toBe(false);
   });
 
   it('should create comment request to create new comment when submission form has no original comment', () => {
@@ -1262,39 +1286,5 @@ describe('SessionSubmissionPageComponent', () => {
     expect(commentSpy).toHaveBeenCalledTimes(1);
     expect(commentSpy).toHaveBeenLastCalledWith(expectedId, Intent.STUDENT_SUBMISSION,
         { key: testQueryParams.key, moderatedperson: '' });
-  });
-
-  it('should autosave data to localStorage', () => {
-    const questionId = 'feedback-question-id-mcq';
-    const model: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
-    model.hasResponseChangedForRecipients = new Map<string, boolean>().set('r1', true);
-    model.isTabExpandedForRecipients = new Map<string, boolean>().set('r1', true);
-    const event = { id: questionId, model };
-    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
-
-    jest.useFakeTimers();
-    component.handleAutoSave(event);
-    jest.advanceTimersByTime(component.autoSaveDelay);
-
-    expect(setItemSpy).toHaveBeenCalled();
-    jest.useRealTimers();
-  });
-
-  it('should load autosaved data from localStorage', () => {
-    const questionId = 'feedback-question-id-mcq';
-    const savedModel: any = deepCopy(testMcqQuestionSubmissionForm);
-    savedModel.hasResponseChangedForRecipients = Array.from(new Map<string, boolean>().set('r1', true).entries());
-    savedModel.isTabExpandedForRecipients = Array.from(new Map<string, boolean>().set('r1', true).entries());
-
-    const getItemSpy = jest.spyOn(Storage.prototype, 'getItem')
-      .mockReturnValue(JSON.stringify({ [questionId]: savedModel }));
-
-    component.questionSubmissionForms = [deepCopy(testMcqQuestionSubmissionForm)];
-
-    component.loadAutoSavedData(questionId);
-
-    expect(component.questionSubmissionForms[0].hasResponseChangedForRecipients.get('r1')).toBe(true);
-    expect(component.questionSubmissionForms[0].isTabExpandedForRecipients.get('r1')).toBe(true);
-    expect(getItemSpy).toHaveBeenCalledWith('autosave');
   });
 });
