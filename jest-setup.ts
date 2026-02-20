@@ -7,3 +7,7 @@ require('@angular/localize/init');
   unobserve: jest.fn(),
   disconnect: jest.fn(),
 }));
+
+if (typeof structuredClone === 'undefined') {
+  globalThis.structuredClone = (obj: any) => JSON.parse(JSON.stringify(obj));
+}

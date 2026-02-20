@@ -130,7 +130,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   isMCQDropDownEnabled: boolean = false;
   isSaved: boolean = false;
-  hasResponseChanged: boolean = false;
+
+  get hasResponseChanged(): boolean {
+    return Array.from(this.model.hasResponseChangedForRecipients.values()).some(Boolean);
+  }
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -166,14 +169,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
-    this.hasResponseChanged = Array.from(this.model.hasResponseChangedForRecipients.values()).some((value) => value);
   }
 
   @Input()
   isQuestionCountOne: boolean = false;
-
-  @Input()
-  isSubmitAllClicked: boolean = false;
 
   allSessionViews = SessionView;
 
@@ -184,16 +183,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   recipientId: string = '';
 
   @Output()
-  isSubmitAllClickedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
   @Output()
   responsesSave: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
   @Output()
-  autoSave: EventEmitter<{ id: string, model: QuestionSubmissionFormModel }> = new EventEmitter();
+  autoSave: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
 
   @Output()
   resetFeedback: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter<QuestionSubmissionFormModel>();
@@ -221,6 +217,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [],
     recipientSubmissionForms: [],
+    originalRecipientSubmissionForms: [],
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
@@ -248,8 +245,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   visibilityStateMachine: VisibilityStateMachine;
   isEveryRecipientSorted: boolean = false;
 
-  autosaveTimeout: any;
-
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
     private feedbackResponseService: FeedbackResponsesService) {
     this.visibilityStateMachine =
@@ -275,39 +270,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.sortRecipientsByName();
     }
 
-    if (this.model.recipientSubmissionForms.some(
-      (response) => response.responseId.length > 0) && !this.isSaved) {
-      this.isSaved = true;
-    }
-
-    if (this.hasResponseChanged) {
-      this.isSaved = false;
-    }
-
-    if (this.isSubmitAllClicked) {
-      if (this.model.recipientSubmissionForms.some((response) => response.responseId.length > 0)) {
-        this.isSaved = true;
-      } else if (this.model.recipientSubmissionForms.every((form) => form.responseId.length === 0)) {
-        this.isSaved = false;
-      }
-
-      this.model.hasResponseChangedForRecipients.forEach((_hasResponseChanged: boolean, recipientId: string) => {
-        this.model.hasResponseChangedForRecipients.set(recipientId, false);
-      });
-    }
-
-    this.model.hasResponseChangedForRecipients.forEach((hasResponseChanged: boolean) => {
-      if (hasResponseChanged) {
-        this.isSaved = false;
-      }
-    });
+    this.isSaved = this.model
+      .recipientSubmissionForms.some((form) => form.responseId.length > 0) && !this.hasResponseChanged;
   }
 
   resetForm(): void {
     this.resetFeedback.emit(this.model);
-    this.isSaved = true;
-    this.hasResponseChanged = false;
-    clearTimeout(this.autosaveTimeout);
   }
 
   toggleQuestionTab(): void {
@@ -385,6 +353,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
       return firstRecipientIndex - secondRecipientIndex;
     });
+    this.model.originalRecipientSubmissionForms.sort((firstRecipient: FeedbackResponseRecipientSubmissionFormModel,
+      secondRecipient: FeedbackResponseRecipientSubmissionFormModel) => {
+      const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) || Number.MAX_SAFE_INTEGER;
+      const secondRecipientIndex: number = indexes.get(secondRecipient.recipientIdentifier) || Number.MAX_SAFE_INTEGER;
+
+      return firstRecipientIndex - secondRecipientIndex;
+    });
     this.isEveryRecipientSorted = true;
   }
 
@@ -438,25 +413,22 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers the change of the recipient submission form.
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
-    if (!this.isFormsDisabled) {
-      this.isSubmitAllClickedChange.emit(false);
-      this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
-
-      this.model.recipientSubmissionForms[index] =
-      {
-        ...this.model.recipientSubmissionForms[index],
-        [field]: data,
-      };
-
-      this.updateIsValidByQuestionConstraint();
-      this.formModelChange.emit(this.model);
-
-      this.autoSave.emit({ id: this.model.feedbackQuestionId, model: this.model });
-      clearTimeout(this.autosaveTimeout);
-      this.autosaveTimeout = setTimeout(() => {
-        this.hasResponseChanged = true;
-      }, 100); // 0.1 second to prevent people from trying to immediately reset before autosave kicks in
+    if (this.isFormsDisabled) {
+      return;
     }
+
+    this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
+
+    this.model.recipientSubmissionForms[index] =
+    {
+      ...this.model.recipientSubmissionForms[index],
+      [field]: data,
+    };
+
+    this.updateIsValidByQuestionConstraint();
+    this.formModelChange.emit(this.model);
+
+    this.autoSave.emit(this.model);
   }
 
   updateIsValidByQuestionConstraint(): void {
@@ -545,13 +517,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers saving of responses for the specific question.
    */
   saveFeedbackResponses(): void {
-    clearTimeout(this.autosaveTimeout);
-    this.isSaved = true;
-    this.hasResponseChanged = false;
-    this.model.hasResponseChangedForRecipients.forEach(
-        (_hasResponseChangedForRecipient: boolean, recipientId: string) => {
-        this.model.hasResponseChangedForRecipients.set(recipientId, false);
-    });
     this.responsesSave.emit(this.model);
   }
 
