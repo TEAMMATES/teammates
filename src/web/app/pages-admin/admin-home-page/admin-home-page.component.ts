@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -25,12 +24,10 @@ import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading
   styleUrls: ['./admin-home-page.component.scss'],
   imports: [
     FormsModule,
-    NgIf,
-    NgFor,
     NewInstructorDataRowComponent,
     AjaxLoadingComponent,
     AccountRequestTableComponent,
-  ],
+],
   providers: [FormatDateDetailPipe],
 })
 export class AdminHomePageComponent implements OnInit {

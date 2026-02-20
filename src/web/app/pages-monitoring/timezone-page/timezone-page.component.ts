@@ -1,4 +1,4 @@
-import { NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -14,9 +14,8 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
   styleUrls: ['./timezone-page.component.scss'],
   imports: [
     LoadingSpinnerDirective,
-    NgFor,
     KeyValuePipe,
-  ],
+],
 })
 export class TimezonePageComponent implements OnInit {
 

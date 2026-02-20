@@ -1,57 +1,81 @@
 <h1>
   Feedback Session Results
 </h1>
-<div class="bg-light" *ngIf="previewAsPerson">
-  <div class="col-12 text-center text-break">
-    <h4>Previewing Session Results as
-      <span *ngIf="intent === Intent.STUDENT_RESULT">student</span>
-      <span *ngIf="intent === Intent.INSTRUCTOR_RESULT">instructor</span>
-      {{ personName }} ({{ previewAsPerson }})
-      <button type="button" class="btn btn-link no-shadow" *ngIf="!isPreviewHintExpanded" (click)="isPreviewHintExpanded = true">[more]</button>
-      <button type="button" class="btn btn-link no-shadow" *ngIf="isPreviewHintExpanded" (click)="isPreviewHintExpanded = false">[less]</button>
-    </h4>
-    <div *ngIf="isPreviewHintExpanded" class="text-start">
-      <p>
-        The page below resembles the session results page as seen by {{ personName }} ({{ previewAsPerson }}).
-      </p>
-      <p>
-        Note that due to visibility settings, contents that are not supposed to be shown to instructors (e.g. yourself) but can be seen by the respondent will not be shown in the page below.
-        Instead, you will see a message box (not seen by the actual respondent) in their place.
-      </p>
+@if (previewAsPerson) {
+  <div class="bg-light">
+    <div class="col-12 text-center text-break">
+      <h4>Previewing Session Results as
+        @if (intent === Intent.STUDENT_RESULT) {
+          <span>student</span>
+        }
+        @if (intent === Intent.INSTRUCTOR_RESULT) {
+          <span>instructor</span>
+        }
+        {{ personName }} ({{ previewAsPerson }})
+        @if (!isPreviewHintExpanded) {
+          <button type="button" class="btn btn-link no-shadow" (click)="isPreviewHintExpanded = true">[more]</button>
+        }
+        @if (isPreviewHintExpanded) {
+          <button type="button" class="btn btn-link no-shadow" (click)="isPreviewHintExpanded = false">[less]</button>
+        }
+      </h4>
+      @if (isPreviewHintExpanded) {
+        <div class="text-start">
+          <p>
+            The page below resembles the session results page as seen by {{ personName }} ({{ previewAsPerson }}).
+          </p>
+          <p>
+            Note that due to visibility settings, contents that are not supposed to be shown to instructors (e.g. yourself) but can be seen by the respondent will not be shown in the page below.
+            Instead, you will see a message box (not seen by the actual respondent) in their place.
+          </p>
+        </div>
+      }
     </div>
   </div>
-</div>
-<div class="row" *ngIf="regKey">
-  <div class="col-12">
-    <div class="alert alert-primary" role="alert">
-      <div *ngIf="loggedInUser">
-        You are viewing feedback results as {{ personName }}. If you wish to link your Google account ({{ loggedInUser }}) with this user,
-        <a href="#" id="join-course-btn" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">click here</a>.
-      </div>
-      <div *ngIf="!loggedInUser">
-        You are viewing feedback results as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in.
-        To access other features you need to <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">log in using a Google account</a> (recommended).
+}
+@if (regKey) {
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-primary" role="alert">
+        @if (loggedInUser) {
+          <div>
+            You are viewing feedback results as {{ personName }}. If you wish to link your Google account ({{ loggedInUser }}) with this user,
+            <a href="#" id="join-course-btn" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">click here</a>.
+          </div>
+        }
+        @if (!loggedInUser) {
+          <div>
+            You are viewing feedback results as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in.
+            To access other features you need to <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">log in using a Google account</a> (recommended).
+          </div>
+        }
       </div>
     </div>
   </div>
-</div>
-<div *ngIf="!isFeedbackSessionResultsLoading && questions.length !== 0" class="alert alert-primary" role="alert">
-  <i class="fas fa-exclamation-circle"></i> Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
-</div>
+}
+@if (!isFeedbackSessionResultsLoading && questions.length !== 0) {
+  <div class="alert alert-primary" role="alert">
+    <i class="fas fa-exclamation-circle"></i> Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  </div>
+}
 <div *tmIsLoading="isCourseLoading || isFeedbackSessionDetailsLoading" class="card card-plain mt-3">
   <div class="card-body">
     <div class="row text-center">
       <label class="col-md-2 text-md-end">Course ID:</label>
       <div id="course-id" class="col-md-7 text-md-start">{{ courseId }}</div>
     </div>
-    <div class="row text-center" *ngIf="courseName">
-      <label class="col-md-2 text-md-end">Course name:</label>
-      <div id="course-name" class="col-md-7 text-md-start">{{ courseName }}</div>
-    </div>
-    <div class="row text-center" *ngIf="courseInstitute">
-      <label class="col-md-2 text-md-end">Course institute:</label>
-      <div id="course-institute" class="col-md-7 text-md-start">{{ courseInstitute }}</div>
-    </div>
+    @if (courseName) {
+      <div class="row text-center">
+        <label class="col-md-2 text-md-end">Course name:</label>
+        <div id="course-name" class="col-md-7 text-md-start">{{ courseName }}</div>
+      </div>
+    }
+    @if (courseInstitute) {
+      <div class="row text-center">
+        <label class="col-md-2 text-md-end">Course institute:</label>
+        <div id="course-institute" class="col-md-7 text-md-start">{{ courseInstitute }}</div>
+      </div>
+    }
     <div class="row text-center">
       <label class="col-md-2 text-md-end">Session:</label>
       <div id="session-name" class="col-md-7 text-md-start">{{ feedbackSessionName }}</div>
@@ -67,28 +91,36 @@
   </div>
 </div>
 
-<div class="card bg-light" style="margin-bottom: 20px;" *ngIf="intent === Intent.INSTRUCTOR_RESULT && !isCourseLoading && !isFeedbackSessionDetailsLoading">
-  <div class="card-body">
-    If you wish to view the feedback results of the entire course, <a href="javascript:;" (click)="navigateToSessionReportPage(); $event.preventDefault()">click here</a>.
-  </div>
-</div>
-
-<div *ngIf="!isFeedbackSessionDetailsLoading && !isSessionPublished()" class="alert alert-warning" role="alert">
-  <i class="fas fa-exclamation-triangle"></i> This feedback session result has not been published yet. Responses will only be visible once the result is published.
-</div>
-
-<tm-loading-retry *ngIf="!isFeedbackSessionDetailsLoading && isSessionPublished()"
-                  [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed"
-                  [message]="'Failed to load results'"
-                  (retryEvent)="retryLoadingFeedbackSessionResults()">
-  <div *tmIsLoading="isFeedbackSessionResultsLoading">
-    <div *ngIf="questions.length === 0" class="mt-4">
-      <div class="alert alert-primary d-flex align-items-center justify-content-center" style="background-color: #D1ECF1;" role="alert">
-        Nothing to show. The responses are either not configured to be visible or there are no responses.
-      </div>
+@if (intent === Intent.INSTRUCTOR_RESULT && !isCourseLoading && !isFeedbackSessionDetailsLoading) {
+  <div class="card bg-light" style="margin-bottom: 20px;">
+    <div class="card-body">
+      If you wish to view the feedback results of the entire course, <a href="javascript:;" (click)="navigateToSessionReportPage(); $event.preventDefault()">click here</a>.
     </div>
-    <tm-question-response-panel [questions]="questions" [session]="session"
-                                [intent]="intent" [regKey]="regKey" [previewAsPerson]="previewAsPerson"
-    ></tm-question-response-panel>
   </div>
-</tm-loading-retry>
+}
+
+@if (!isFeedbackSessionDetailsLoading && !isSessionPublished()) {
+  <div class="alert alert-warning" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> This feedback session result has not been published yet. Responses will only be visible once the result is published.
+  </div>
+}
+
+@if (!isFeedbackSessionDetailsLoading && isSessionPublished()) {
+  <tm-loading-retry
+    [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed"
+    [message]="'Failed to load results'"
+    (retryEvent)="retryLoadingFeedbackSessionResults()">
+    <div *tmIsLoading="isFeedbackSessionResultsLoading">
+      @if (questions.length === 0) {
+        <div class="mt-4">
+          <div class="alert alert-primary d-flex align-items-center justify-content-center" style="background-color: #D1ECF1;" role="alert">
+            Nothing to show. The responses are either not configured to be visible or there are no responses.
+          </div>
+        </div>
+      }
+      <tm-question-response-panel [questions]="questions" [session]="session"
+        [intent]="intent" [regKey]="regKey" [previewAsPerson]="previewAsPerson"
+      ></tm-question-response-panel>
+    </div>
+  </tm-loading-retry>
+}

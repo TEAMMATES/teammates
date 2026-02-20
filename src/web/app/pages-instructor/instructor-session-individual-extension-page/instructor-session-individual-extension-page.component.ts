@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -51,13 +51,11 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgIf,
     FormsModule,
-    NgFor,
     NgClass,
     FormatDateDetailPipe,
     InstructorRoleNamePipe,
-  ],
+],
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {
   feedbackSessionDetails: FeedbackSessionBasicRequest = {

@@ -3,24 +3,28 @@
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
 <div id="template-question-modal" class="modal-body">
-  <div class="card margin-top-20px" *ngFor="let templateQuestionModel of templateQuestionModels">
-    <div class="card-header cursor-pointer"
-         (click)="templateQuestionModel.isShowDetails = !templateQuestionModel.isShowDetails">
-      <label class="checkbox-label">
-        <input type="checkbox" [(ngModel)]="templateQuestionModel.isSelected" (click)="$event.stopPropagation()">
-      </label>&nbsp;
-      <span [innerHTML]="templateQuestionModel.description" class="template-description"></span>
-    </div>
-    <div *ngIf="templateQuestionModel.isShowDetails" @collapseAnim>
-      <div class="card-body">
-        <tm-question-edit-form [formModel]="templateQuestionModel.model" [isDisplayOnly]="true"></tm-question-edit-form>
+  @for (templateQuestionModel of templateQuestionModels; track templateQuestionModel) {
+    <div class="card margin-top-20px">
+      <div class="card-header cursor-pointer"
+        (click)="templateQuestionModel.isShowDetails = !templateQuestionModel.isShowDetails">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="templateQuestionModel.isSelected" (click)="$event.stopPropagation()">
+        </label>&nbsp;
+        <span [innerHTML]="templateQuestionModel.description" class="template-description"></span>
       </div>
+      @if (templateQuestionModel.isShowDetails) {
+        <div @collapseAnim>
+          <div class="card-body">
+            <tm-question-edit-form [formModel]="templateQuestionModel.model" [isDisplayOnly]="true"></tm-question-edit-form>
+          </div>
+        </div>
+      }
     </div>
-  </div>
+  }
 </div>
 
 <div class="modal-footer">
   <button id="btn-confirm-template" type="button" class="btn btn-primary" (click)="activeModal.close(getSelectedQuestions())"
-          [disabled]="!hasAnyTemplateQuestionSelected">Add</button>
+  [disabled]="!hasAnyTemplateQuestionSelected">Add</button>
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Close</button>
 </div>

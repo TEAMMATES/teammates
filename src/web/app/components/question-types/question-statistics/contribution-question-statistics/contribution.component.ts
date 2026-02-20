@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -13,7 +12,7 @@ import {
   selector: 'tm-contribution',
   templateUrl: './contribution.component.html',
   styleUrls: ['./contribution.component.scss'],
-  imports: [NgIf, NgbTooltip],
+  imports: [NgbTooltip],
 })
 export class ContributionComponent {
 

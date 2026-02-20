@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -25,16 +24,14 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
   templateUrl: './grouped-responses.component.html',
   styleUrls: ['./grouped-responses.component.scss'],
   imports: [
-    NgIf,
     ResponseModerationButtonComponent,
-    NgFor,
     QuestionTextWithInfoComponent,
     SingleResponseComponent,
     NgbTooltip,
     CommentRowComponent,
     CommentTableComponent,
     CommentToCommentRowModelPipe,
-  ],
+],
 })
 export class GroupedResponsesComponent extends InstructorResponsesViewBase implements OnInit {
 

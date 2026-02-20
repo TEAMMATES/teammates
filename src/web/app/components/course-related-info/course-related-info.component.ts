@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Student } from '../../../types/api-output';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
@@ -10,7 +9,7 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
     selector: 'tm-course-related-info',
     templateUrl: './course-related-info.component.html',
     styleUrls: ['./course-related-info.component.scss'],
-    imports: [NgIf, TeammatesRouterDirective],
+    imports: [TeammatesRouterDirective],
 })
 export class CourseRelatedInfoComponent {
 

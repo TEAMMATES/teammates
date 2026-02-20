@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -79,7 +78,6 @@ import { Sections } from '../sections';
   styleUrls: ['./instructor-help-questions-section.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     InstructorHelpPanelComponent,
     ExampleBoxComponent,
     QuestionEditFormComponent,
@@ -87,7 +85,7 @@ import { Sections } from '../sections';
     InstructorSessionResultQuestionViewComponent,
     NgbTooltip,
     QuestionSubmissionFormComponent,
-  ],
+],
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

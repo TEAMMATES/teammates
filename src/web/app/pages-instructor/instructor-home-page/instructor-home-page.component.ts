@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
   NgbModal,
@@ -82,12 +81,10 @@ export interface CourseTabModel {
   styleUrls: ['./instructor-home-page.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     LoadingSpinnerDirective,
     TeammatesRouterDirective,
     ProgressBarComponent,
     LoadingRetryComponent,
-    NgFor,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
@@ -95,7 +92,7 @@ export interface CourseTabModel {
     PanelChevronComponent,
     SessionsTableComponent,
     ModifiedTimestampModalComponent,
-  ],
+],
 })
 export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {
 

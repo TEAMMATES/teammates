@@ -3,84 +3,97 @@
     <div class="form-check">
       <label class="fw-bold">
         <input id="make-question-dropdown" class="form-check-input" type="checkbox" [ngModel]="model.questionDropdownEnabled" checked="model.questionDropdownEnabled"
-               (ngModelChange)="triggerQuestionDropdownEnabled($event)" [disabled]="!isEditable">
+          (ngModelChange)="triggerQuestionDropdownEnabled($event)" [disabled]="!isEditable">
         Show options as a drop-down
       </label>
     </div>
   </div>
   <div class="col-md-6">
     <div class="col-md-12">
-      <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
-        <label class="form-check-label ngb-tooltip-class fw-bold" ngbTooltip="Assign weights to the choices for calculating statistics."
-               container="body">
-          <input id="weights-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.hasAssignedWeights"
-                 [disabled]="!isEditable"
-                 (ngModelChange)="triggerWeightsColumn($event)"
-                 >
-          Options are weighted
-        </label>
-      </div>
-      <div class="form-check float-end" *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled" aria-hidden="true">
-        Weights &#8595;
-      </div>
-    </div>
-    <div *ngIf="!isGeneratedOptionsEnabled" class="row">
-      <div id="options-section" cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-        <div class="margin-top-22px d-flex" *ngFor="let num of model.mcqChoices; let i = index;
-        trackBy: trackMcqOption" cdkDrag cdkDragLockAxis="y">
-          <div cdkDragHandle aria-hidden="true">
-            <span class="btn input-group-addon">&#8597;</span>
-          </div>
-          <div class="flex-grow-1">
-            <tm-mcq-field (elementDeleted)="onMcqOptionDeleted($event)"
-                          (mcqText)="onMcqOptionEntered($event, i)"
-                          [index]="i"
-                          [isEditable]="isEditable"
-                          [numberOfMcqChoices]="model.mcqChoices.length"
-                          [text]="model.mcqChoices[i]"
-                          [isQuestionDropdownEnabled]="this.model.questionDropdownEnabled"></tm-mcq-field>
-          </div>
-          <div class="col-2" *ngIf="model.hasAssignedWeights">
-            <tm-weight-field [isEditable]="isEditable"
-                            [weight]="model.mcqWeights[i]"
-                            (weightEntered)="onMcqWeightEntered($event, i)"></tm-weight-field>
-          </div>
-        </div>
-        <br>
-      </div>
-      <div class="mb-2">
-        <button id="btn-add-option" class="btn btn-primary" name="button" ngDefaultControl
-                [disabled]="!isEditable" (click)="increaseNumberOfOptions()">
-          <i class="fas fa-plus"></i> Add More Options
-        </button>
-      </div>
-      <div class="mb-2 ps-5">
-        <div class="checkbox">
-          <label class="bold-label">
-            <input id="other-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.otherEnabled"
-                  (ngModelChange)="triggerOtherEnabled($event)" [disabled]="!isEditable">
-            Add 'Other' option (Allows respondents to type in their own answer)
+      @if (!isGeneratedOptionsEnabled) {
+        <div class="form-check form-check-inline">
+          <label class="form-check-label ngb-tooltip-class fw-bold" ngbTooltip="Assign weights to the choices for calculating statistics."
+            container="body">
+            <input id="weights-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.hasAssignedWeights"
+              [disabled]="!isEditable"
+              (ngModelChange)="triggerWeightsColumn($event)"
+              >
+            Options are weighted
           </label>
         </div>
-        <div class="col-md-3" *ngIf="model.hasAssignedWeights && model.otherEnabled">
-          <input id="other-weight" type="number" class="form-control" step="0.01" min="0" [ngModel]="model.mcqOtherWeight"
-                (ngModelChange)="triggerModelChange('mcqOtherWeight', $event)" [disabled]="!isEditable" aria-label="Weight of Other Option">
+      }
+      @if (model.hasAssignedWeights && !isGeneratedOptionsEnabled) {
+        <div class="form-check float-end" aria-hidden="true">
+          Weights &#8595;
         </div>
-      </div>
+      }
     </div>
-  </div>
-  <div class="col-md-6 col-lg-5 col-lg-offset-1 form">
-    <div class="form-check">
-      <label class="form-check-label fw-bold">
-        <input id="generate-checkbox" class="form-check-input" type="checkbox"  [disabled]="!isEditable"
+    @if (!isGeneratedOptionsEnabled) {
+      <div class="row">
+        <div id="options-section" cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
+          @for (num of model.mcqChoices; track $index; let i = $index) {
+            <div class="margin-top-22px d-flex" cdkDrag cdkDragLockAxis="y">
+              <div cdkDragHandle aria-hidden="true">
+                <span class="btn input-group-addon">&#8597;</span>
+              </div>
+              <div class="flex-grow-1">
+                <tm-mcq-field (elementDeleted)="onMcqOptionDeleted($event)"
+                  (mcqText)="onMcqOptionEntered($event, i)"
+                  [index]="i"
+                  [isEditable]="isEditable"
+                  [numberOfMcqChoices]="model.mcqChoices.length"
+                  [text]="model.mcqChoices[i]"
+                [isQuestionDropdownEnabled]="this.model.questionDropdownEnabled"></tm-mcq-field>
+              </div>
+              @if (model.hasAssignedWeights) {
+                <div class="col-2">
+                  <tm-weight-field [isEditable]="isEditable"
+                    [weight]="model.mcqWeights[i]"
+                  (weightEntered)="onMcqWeightEntered($event, i)"></tm-weight-field>
+                </div>
+              }
+            </div>
+          }
+          <br>
+          </div>
+          <div class="mb-2">
+            <button id="btn-add-option" class="btn btn-primary" name="button" ngDefaultControl
+              [disabled]="!isEditable" (click)="increaseNumberOfOptions()">
+              <i class="fas fa-plus"></i> Add More Options
+            </button>
+          </div>
+          <div class="mb-2 ps-5">
+            <div class="checkbox">
+              <label class="bold-label">
+                <input id="other-checkbox" class="form-check-input" type="checkbox" [ngModel]="model.otherEnabled"
+                  (ngModelChange)="triggerOtherEnabled($event)" [disabled]="!isEditable">
+                Add 'Other' option (Allows respondents to type in their own answer)
+              </label>
+            </div>
+            @if (model.hasAssignedWeights && model.otherEnabled) {
+              <div class="col-md-3">
+                <input id="other-weight" type="number" class="form-control" step="0.01" min="0" [ngModel]="model.mcqOtherWeight"
+                  (ngModelChange)="triggerModelChange('mcqOtherWeight', $event)" [disabled]="!isEditable" aria-label="Weight of Other Option">
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+    <div class="col-md-6 col-lg-5 col-lg-offset-1 form">
+      <div class="form-check">
+        <label class="form-check-label fw-bold">
+          <input id="generate-checkbox" class="form-check-input" type="checkbox"  [disabled]="!isEditable"
             [ngModel]="isGeneratedOptionsEnabled"
             (ngModelChange)="triggerGeneratedOptionsChange($event)">
-        Or, generate options from the list of all
-      </label>
+          Or, generate options from the list of all
+        </label>
+      </div>
+      <select id="generate-dropdown" class="form-control form-select" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
+        [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)" aria-label="Generate Option List Dropdown">
+        @for (option of PARTICIPANT_TYPES; track option) {
+          <option [value]="option">{{ option | generatedChoice }}</option>
+        }
+      </select>
     </div>
-    <select id="generate-dropdown" class="form-control form-select" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
-          [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)" aria-label="Generate Option List Dropdown">
-      <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option | generatedChoice }}</option>
-    </select>
   </div>
-</div>

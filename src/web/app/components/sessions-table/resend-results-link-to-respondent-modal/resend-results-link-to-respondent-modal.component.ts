@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -14,7 +13,7 @@ import { RespondentListInfoTableComponent } from '../respondent-list-info-table/
     selector: 'tm-resend-results-link-to-respondent-modal',
     templateUrl: './resend-results-link-to-respondent-modal.component.html',
     styleUrls: ['./resend-results-link-to-respondent-modal.component.scss'],
-    imports: [NgIf, RespondentListInfoTableComponent],
+    imports: [RespondentListInfoTableComponent],
 })
 export class ResendResultsLinkToRespondentModalComponent {
 

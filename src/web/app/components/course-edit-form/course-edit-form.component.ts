@@ -1,4 +1,4 @@
-import { NgClass, NgIf, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { UntypedFormGroup, FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -36,12 +36,10 @@ const formatTwoDigits = (n: number): string => {
   styleUrls: ['./course-edit-form.component.scss'],
   imports: [
     NgClass,
-    NgIf,
     NgbTooltip,
     AjaxLoadingComponent,
     FormsModule,
-    NgFor,
-  ],
+],
 })
 export class CourseEditFormComponent implements OnInit, OnDestroy {
 

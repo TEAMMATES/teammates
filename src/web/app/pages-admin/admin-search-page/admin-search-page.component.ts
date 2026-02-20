@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass, KeyValuePipe } from '@angular/common';
+import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -40,15 +40,13 @@ import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter
   animations: [collapseAnim],
   imports: [
     FormsModule,
-    NgIf,
-    NgFor,
     NgClass,
     NgbTooltip,
     AjaxLoadingComponent,
     AccountRequestTableComponent,
     KeyValuePipe,
     SearchTermsHighlighterPipe,
-  ],
+],
 })
 export class AdminSearchPageComponent {
 

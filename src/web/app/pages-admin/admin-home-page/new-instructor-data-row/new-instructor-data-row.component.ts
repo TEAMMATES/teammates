@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InstructorData } from '../instructor-data';
@@ -14,7 +13,7 @@ import { InstructorData } from '../instructor-data';
   selector: 'tr[tm-new-instructor-data-row]',
   templateUrl: './new-instructor-data-row.component.html',
   styleUrls: ['./new-instructor-data-row.component.scss'],
-  imports: [NgIf, FormsModule],
+  imports: [FormsModule],
 })
 export class NewInstructorDataRowComponent implements OnInit {
   @Input() instructor!: InstructorData;

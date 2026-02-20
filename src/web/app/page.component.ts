@@ -1,4 +1,4 @@
-import { Location, NgStyle, NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { Location, NgStyle, AsyncPipe } from '@angular/common';
 import { Component, Directive, ElementRef, EventEmitter, HostListener, Input, Output, forwardRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
@@ -53,8 +53,6 @@ export class ClickOutsideDirective {
     forwardRef(() => ClickOutsideDirective),
     TeammatesRouterDirective,
     NgStyle,
-    NgIf,
-    NgFor,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
@@ -64,7 +62,7 @@ export class ClickOutsideDirective {
     LoadingSpinnerDirective,
     RouterOutlet,
     AsyncPipe,
-  ],
+],
 })
 export class PageComponent {
 

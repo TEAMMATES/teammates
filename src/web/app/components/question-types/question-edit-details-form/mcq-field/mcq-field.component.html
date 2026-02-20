@@ -1,12 +1,14 @@
 <div class="input-group">
-  <span class="input-group-addon" *ngIf="!isQuestionDropdownEnabled">
-    <input type="radio" disabled>
-  </span>
+  @if (!isQuestionDropdownEnabled) {
+    <span class="input-group-addon">
+      <input type="radio" disabled>
+    </span>
+  }
   <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text" #mcq
-         (ngModelChange)="onMcqOptionEntered($event.trim())" aria-label="Option">
+    (ngModelChange)="onMcqOptionEntered($event.trim())" aria-label="Option">
   <span class="input-group-btn">
     <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;"
-            [disabled]="!isEditable" (click)="deleteMcqOption()" aria-label="Delete Option">
+      [disabled]="!isEditable" (click)="deleteMcqOption()" aria-label="Delete Option">
       <span aria-hidden="true">&times;</span>
     </button>
   </span>

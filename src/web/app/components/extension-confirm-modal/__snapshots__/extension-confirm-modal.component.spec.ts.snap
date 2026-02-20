@@ -191,16 +191,16 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.DELETE branch 1`
             <tbody>
               <tr>
                 <td>
-                  Test Section 4
+                   Test Section 4 
                 </td>
                 <td>
-                  Test Section 4
+                   Test Section 4 
                 </td>
                 <td>
-                  Test Student 4
+                   Test Student 4 
                 </td>
                 <td>
-                  testStudent4@gmail.com
+                   testStudent4@gmail.com 
                 </td>
                 <td>
                   <span>
@@ -319,10 +319,10 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.DELETE branch 1`
             <tbody>
               <tr>
                 <td>
-                  Test Instructor 4
+                   Test Instructor 4 
                 </td>
                 <td>
-                  testInstructor4@gmail.com
+                   testInstructor4@gmail.com 
                 </td>
                 <td>
                 </td>
@@ -565,16 +565,16 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.SESSION_DELETE b
             <tbody>
               <tr>
                 <td>
-                  Test Section 5
+                   Test Section 5 
                 </td>
                 <td>
-                  Test Section 5
+                   Test Section 5 
                 </td>
                 <td>
-                  Test Student 5
+                   Test Student 5 
                 </td>
                 <td>
-                  testStudent5@gmail.com
+                   testStudent5@gmail.com 
                 </td>
                 <td>
                   <span>
@@ -693,10 +693,10 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.SESSION_DELETE b
             <tbody>
               <tr>
                 <td>
-                  Test InstructorCustom 5
+                   Test InstructorCustom 5 
                 </td>
                 <td>
-                  testInstructorCustom5@gmail.com
+                   testInstructorCustom5@gmail.com 
                 </td>
                 <td>
                   <span>
@@ -927,35 +927,16 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
             <tbody>
               <tr>
                 <td>
-                  Test Section 1
+                   Test Section 1 
                 </td>
                 <td>
-                  Test Section 1
+                   Test Section 1 
                 </td>
                 <td>
-                  Test Student 1
+                   Test Student 1 
                 </td>
                 <td>
-                  testStudent1@gmail.com
-                </td>
-                <td>
-                  <span>
-                    5 Apr 2000 2:00:00
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Test Section 2
-                </td>
-                <td>
-                  Test Section 2
-                </td>
-                <td>
-                  Test Student 2
-                </td>
-                <td>
-                  testStudent2@gmail.com
+                   testStudent1@gmail.com 
                 </td>
                 <td>
                   <span>
@@ -965,16 +946,35 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
               </tr>
               <tr>
                 <td>
-                  Test Section 3
+                   Test Section 2 
                 </td>
                 <td>
-                  Test Section 3
+                   Test Section 2 
                 </td>
                 <td>
-                  Test Student 3
+                   Test Student 2 
                 </td>
                 <td>
-                  testStudent3@gmail.com
+                   testStudent2@gmail.com 
+                </td>
+                <td>
+                  <span>
+                    5 Apr 2000 2:00:00
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                   Test Section 3 
+                </td>
+                <td>
+                   Test Section 3 
+                </td>
+                <td>
+                   Test Student 3 
+                </td>
+                <td>
+                   testStudent3@gmail.com 
                 </td>
                 <td>
                   <span>
@@ -1093,10 +1093,10 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
             <tbody>
               <tr>
                 <td>
-                  Test Instructor 2
+                   Test Instructor 2 
                 </td>
                 <td>
-                  testInstructor2@gmail.com
+                   testInstructor2@gmail.com 
                 </td>
                 <td>
                 </td>
@@ -1108,10 +1108,10 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
               </tr>
               <tr>
                 <td>
-                  Test InstructorTutor 1
+                   Test InstructorTutor 1 
                 </td>
                 <td>
-                  testInstructorTutor1@gmail.com
+                   testInstructorTutor1@gmail.com 
                 </td>
                 <td>
                   <span>
@@ -1126,10 +1126,10 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
               </tr>
               <tr>
                 <td>
-                  Test InstructorManager 3
+                   Test InstructorManager 3 
                 </td>
                 <td>
-                  testInstructorManager3@gmail.com
+                   testInstructorManager3@gmail.com 
                 </td>
                 <td>
                   <span>
@@ -1376,16 +1376,16 @@ exports[`ExtensionConfirmModalComponent use ngOnInit to initialise 1`] = `
             <tbody>
               <tr>
                 <td>
-                  Test Section 3
+                   Test Section 3 
                 </td>
                 <td>
-                  Test Section 3
+                   Test Section 3 
                 </td>
                 <td>
-                  Test Student 3
+                   Test Student 3 
                 </td>
                 <td>
-                  testStudent3@gmail.com
+                   testStudent3@gmail.com 
                 </td>
                 <td>
                   <span>
@@ -1504,10 +1504,10 @@ exports[`ExtensionConfirmModalComponent use ngOnInit to initialise 1`] = `
             <tbody>
               <tr>
                 <td>
-                  Test InstructorManager 3
+                   Test InstructorManager 3 
                 </td>
                 <td>
-                  testInstructorManager3@gmail.com
+                   testInstructorManager3@gmail.com 
                 </td>
                 <td>
                   <span>

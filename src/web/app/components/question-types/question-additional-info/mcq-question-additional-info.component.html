@@ -1,8 +1,16 @@
 Multiple-choice (single answer) question options:
-<div *ngIf="questionDetails.generateOptionsFor !== FeedbackParticipantType.NONE">
-  The options for this question is automatically generated from the list of all {{ questionDetails.generateOptionsFor | generatedChoice }} in this course.
-</div>
-<ul *ngIf="questionDetails.generateOptionsFor === FeedbackParticipantType.NONE">
-  <li *ngFor="let choice of questionDetails.mcqChoices">{{ choice | stripHtmlTags }}</li>
-  <li *ngIf="questionDetails.otherEnabled">Other</li>
-</ul>
+@if (questionDetails.generateOptionsFor !== FeedbackParticipantType.NONE) {
+  <div>
+    The options for this question is automatically generated from the list of all {{ questionDetails.generateOptionsFor | generatedChoice }} in this course.
+  </div>
+}
+@if (questionDetails.generateOptionsFor === FeedbackParticipantType.NONE) {
+  <ul>
+    @for (choice of questionDetails.mcqChoices; track choice) {
+      <li>{{ choice | stripHtmlTags }}</li>
+    }
+    @if (questionDetails.otherEnabled) {
+      <li>Other</li>
+    }
+  </ul>
+}

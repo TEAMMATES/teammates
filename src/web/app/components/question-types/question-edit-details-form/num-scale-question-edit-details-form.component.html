@@ -2,23 +2,27 @@
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Minimum acceptable response value">Minimum value:</span>
     <input id="min-value" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'minScale')"
-           [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', $event)" [disabled]="!isEditable" aria-label="Minimum Value Input">
+      [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', $event)" [disabled]="!isEditable" aria-label="Minimum Value Input">
   </div>
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Value to be increased/decreased each step">Increment:</span>
     <input id="increment-value" type="number" (keypress)="onFloatInput($event)" class="form-control" [ngModel]="model.step" (ngModelChange)="triggerModelChange('step', $event)" [disabled]="!isEditable" (input) = "restrictFloatInputLength($event, 'step')"
-           step="any" min="0" max="999999999" aria-label="Increment Value Input">
+      step="any" min="0" max="999999999" aria-label="Increment Value Input">
   </div>
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Maximum acceptable response value">Maximum value:</span>
     <input id="max-value" type="number" class="form-control" (keypress)="onIntegerInput($event)" (paste)="onPaste($event)" min="1" max="999999999" (input)="restrictIntegerInputLength($event, 'maxScale')"
-           [ngModel]="model.maxScale" (ngModelChange)="triggerModelChange('maxScale', $event)" [disabled]="!isEditable" aria-label="Maximum Value Input">
+      [ngModel]="model.maxScale" (ngModelChange)="triggerModelChange('maxScale', $event)" [disabled]="!isEditable" aria-label="Maximum Value Input">
   </div>
 </div>
 <br>
-<div *ngIf="model.step > 0">
-  Based on the above settings, acceptable responses are: {{ possibleValues }}
-</div>
-<div class="text-danger" *ngIf="model.step <= 0">
-  The step size must be a positive number!
-</div>
+  @if (model.step > 0) {
+    <div>
+      Based on the above settings, acceptable responses are: {{ possibleValues }}
+    </div>
+  }
+  @if (model.step <= 0) {
+    <div class="text-danger">
+      The step size must be a positive number!
+    </div>
+  }

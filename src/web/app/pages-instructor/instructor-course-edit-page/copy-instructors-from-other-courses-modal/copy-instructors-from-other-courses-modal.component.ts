@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -24,8 +24,6 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   templateUrl: './copy-instructors-from-other-courses-modal.component.html',
   styleUrls: ['./copy-instructors-from-other-courses-modal.component.scss'],
   imports: [
-    NgIf,
-    NgFor,
     NgClass,
     PanelChevronComponent,
     LoadingRetryComponent,
@@ -34,7 +32,7 @@ import { ErrorMessageOutput } from '../../../error-message-output';
     FormsModule,
     AjaxLoadingComponent,
     InstructorRoleNamePipe,
-  ],
+],
 })
 export class CopyInstructorsFromOtherCoursesModalComponent {
 

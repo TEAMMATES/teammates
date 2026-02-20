@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingBarService } from '../../../services/loading-bar.service';
@@ -10,7 +9,7 @@ import { LoadingBarService } from '../../../services/loading-bar.service';
   selector: 'tm-loader-bar',
   templateUrl: './loader-bar.component.html',
   styleUrls: ['./loader-bar.component.scss'],
-  imports: [NgIf, NgbProgressbar],
+  imports: [NgbProgressbar],
 })
 export class LoaderBarComponent implements OnInit {
 

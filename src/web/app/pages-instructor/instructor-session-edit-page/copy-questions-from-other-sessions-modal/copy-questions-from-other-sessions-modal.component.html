@@ -11,73 +11,85 @@
       <button id="sort-creation-date" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.SESSION_CREATION_DATE)" (click)="sortFeedbackSessionTabs(SortBy.SESSION_CREATION_DATE)">Creation Date</button>
     </div>
   </div>
-  <div class="feedback-session-tabs" *ngFor="let feedbackSessionTabModel of feedbackSessionTabModels">
-    <div class="card">
-      <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(feedbackSessionTabModel)">
-        <strong class="text-break">[{{feedbackSessionTabModel.courseId}}] Session: {{feedbackSessionTabModel.feedbackSessionName}}</strong>
-        <div class="card-header-btn-toolbar">
-          <tm-panel-chevron [isExpanded]="feedbackSessionTabModel.isTabExpanded"></tm-panel-chevron>
-        </div>
-      </div>
-
-      <div *ngIf="feedbackSessionTabModel.isTabExpanded">
-        <tm-loading-retry [shouldShowRetry]="feedbackSessionTabModel.hasLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="loadQuestions(feedbackSessionTabModel)">
-          <div *tmIsLoading="!feedbackSessionTabModel.hasQuestionsLoaded">
-            <div *ngIf="!feedbackSessionTabModel.hasLoadingFailed" class="card-body">
-              <ng-container *ngIf="feedbackSessionTabModel.hasQuestionsLoaded && feedbackSessionTabModel.questionsTableRowModels.length > 0, else noQuestionsTemplate">
-                <table id="copy-question-table" class="table table-bordered table-responsive-lg">
-                  <thead class="bg-primary text-white">
-                    <tr>
-                      <th>#</th>
-                      <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TYPE)" [attr.aria-sort]="getAriaSort(feedbackSessionTabModel, SortBy.QUESTION_TYPE)">
-                        <button>
-                          Question Type
-                          <span class="fa-stack" aria-hidden="true">
-                            <i class="fas fa-sort"></i>
-                            <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                            <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                          </span>
-                        </button>
-                      </th>
-                      <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TEXT)" [attr.aria-sort]="getAriaSort(feedbackSessionTabModel, SortBy.QUESTION_TEXT)">
-                        <button>
-                          Question Text
-                          <span class="fa-stack" aria-hidden="true">
-                            <i class="fas fa-sort"></i>
-                            <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TEXT, SortOrder.DESC)" class="fas fa-sort-down"></i>
-                            <i *ngIf="isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TEXT, SortOrder.ASC)" class="fas fa-sort-up"></i>
-                          </span>
-                        </button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let questionCandidate of feedbackSessionTabModel.questionsTableRowModels">
-                      <td><input type="checkbox" [(ngModel)]="questionCandidate.isSelected"></td>
-                      <td>{{ questionCandidate.question.questionType | questionTypeName }}</td>
-                      <td>{{ questionCandidate.question.questionBrief }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </ng-container>
-              <button (click)="loadQuestions(feedbackSessionTabModel)" class="btn btn-primary float-end mt-2 mb-3">
-                <i class="fas fa-redo" aria-hidden="true"></i>
-                &nbsp;Reload
-              </button>
-            </div>
+  @for (feedbackSessionTabModel of feedbackSessionTabModels; track feedbackSessionTabModel) {
+    <div class="feedback-session-tabs">
+      <div class="card">
+        <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(feedbackSessionTabModel)">
+          <strong class="text-break">[{{feedbackSessionTabModel.courseId}}] Session: {{feedbackSessionTabModel.feedbackSessionName}}</strong>
+          <div class="card-header-btn-toolbar">
+            <tm-panel-chevron [isExpanded]="feedbackSessionTabModel.isTabExpanded"></tm-panel-chevron>
           </div>
-        </tm-loading-retry>
+        </div>
+        @if (feedbackSessionTabModel.isTabExpanded) {
+          <div>
+            <tm-loading-retry [shouldShowRetry]="feedbackSessionTabModel.hasLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="loadQuestions(feedbackSessionTabModel)">
+              <div *tmIsLoading="!feedbackSessionTabModel.hasQuestionsLoaded">
+                @if (!feedbackSessionTabModel.hasLoadingFailed) {
+                  <div class="card-body">
+                    @if (feedbackSessionTabModel.hasQuestionsLoaded && feedbackSessionTabModel.questionsTableRowModels.length > 0) {
+                      <table id="copy-question-table" class="table table-bordered table-responsive-lg">
+                        <thead class="bg-primary text-white">
+                          <tr>
+                            <th>#</th>
+                            <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TYPE)" [attr.aria-sort]="getAriaSort(feedbackSessionTabModel, SortBy.QUESTION_TYPE)">
+                              <button>
+                                Question Type
+                                <span class="fa-stack" aria-hidden="true">
+                                  <i class="fas fa-sort"></i>
+                                  @if (isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.DESC)) {
+                                    <i class="fas fa-sort-down"></i>
+                                  }
+                                  @if (isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TYPE, SortOrder.ASC)) {
+                                    <i class="fas fa-sort-up"></i>
+                                  }
+                                </span>
+                              </button>
+                            </th>
+                            <th class="sortable-header" (click)="sortQuestionsToCopyForFeedbackSession(feedbackSessionTabModel, SortBy.QUESTION_TEXT)" [attr.aria-sort]="getAriaSort(feedbackSessionTabModel, SortBy.QUESTION_TEXT)">
+                              <button>
+                                Question Text
+                                <span class="fa-stack" aria-hidden="true">
+                                  <i class="fas fa-sort"></i>
+                                  @if (isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TEXT, SortOrder.DESC)) {
+                                    <i class="fas fa-sort-down"></i>
+                                  }
+                                  @if (isSortQuestionsBy(feedbackSessionTabModel, SortBy.QUESTION_TEXT, SortOrder.ASC)) {
+                                    <i class="fas fa-sort-up"></i>
+                                  }
+                                </span>
+                              </button>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (questionCandidate of feedbackSessionTabModel.questionsTableRowModels; track questionCandidate) {
+                            <tr>
+                              <td><input type="checkbox" [(ngModel)]="questionCandidate.isSelected"></td>
+                              <td>{{ questionCandidate.question.questionType | questionTypeName }}</td>
+                              <td>{{ questionCandidate.question.questionBrief }}</td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    } @else {
+                      <h5>There are no questions in this feedback session available for copying.</h5>
+                    }
+                    <button (click)="loadQuestions(feedbackSessionTabModel)" class="btn btn-primary float-end mt-2 mb-3">
+                      <i class="fas fa-redo" aria-hidden="true"></i>
+                      &nbsp;Reload
+                    </button>
+                  </div>
+                }
+              </div>
+            </tm-loading-retry>
+          </div>
+        }
       </div>
-
-      <ng-template #noQuestionsTemplate>
-        <h5>There are no questions in this feedback session available for copying.</h5>
-      </ng-template>
-
     </div>
-  </div>
+  }
 </div>
 <div class="modal-footer">
   <button id="btn-confirm-copy-question" type="button" class="btn btn-primary" (click)="activeModal.close(getSelectedQuestions())"
-          [disabled]="!hasAnyQuestionsToCopySelected">Copy</button>
+  [disabled]="!hasAnyQuestionsToCopySelected">Copy</button>
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
 </div>

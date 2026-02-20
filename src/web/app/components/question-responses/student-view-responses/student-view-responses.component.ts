@@ -1,4 +1,4 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   FeedbackParticipantType,
@@ -22,14 +22,12 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
   styleUrls: ['./student-view-responses.component.scss'],
   imports: [
     NgClass,
-    NgFor,
     SingleResponseComponent,
-    NgIf,
     CommentRowComponent,
     CommentTableComponent,
     CommentToCommentRowModelPipe,
     CommentsToCommentTableModelPipe,
-  ],
+],
 })
 export class StudentViewResponsesComponent implements OnInit {
   // enum

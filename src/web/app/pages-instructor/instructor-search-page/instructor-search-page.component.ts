@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
@@ -27,9 +26,8 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [
     InstructorSearchBarComponent,
     LoadingSpinnerDirective,
-    NgIf,
     StudentResultTableComponent,
-  ],
+],
 })
 export class InstructorSearchPageComponent {
 

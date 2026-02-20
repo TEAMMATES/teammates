@@ -1,4 +1,4 @@
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
@@ -15,10 +15,8 @@ import {
   templateUrl: './constsum-question-response.component.html',
   styleUrls: ['./constsum-question-response.component.scss'],
   imports: [
-    NgIf,
-    NgFor,
     KeyValuePipe,
-  ],
+],
 })
 export class ConstsumQuestionResponseComponent
     extends QuestionResponse<FeedbackConstantSumResponseDetails, FeedbackConstantSumQuestionDetails>

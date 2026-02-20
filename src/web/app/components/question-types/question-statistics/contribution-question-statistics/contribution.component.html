@@ -1,14 +1,34 @@
-<span *ngIf="diffOnly">
-  <span class="positive" *ngIf="value > 0">+{{ value }}%</span>
-  <span class="neutral" *ngIf="value === 0">0</span>
-  <span class="negative" *ngIf="value < 0 && value >= -100">{{ value }}%</span>
-  <span class="ngb-tooltip-class neutral" container="body" ngbTooltip="Not Available: There is no data for this or the data is not enough"
-        *ngIf="value === CONTRIBUTION_POINT_NOT_SUBMITTED || value === CONTRIBUTION_POINT_NOT_INITIALIZED">N/A</span>
-</span>
-<span *ngIf="!diffOnly">
-  <span class="positive" *ngIf="value > 100">E +{{ value - 100 }}%</span>
-  <span class="neutral" *ngIf="value === 100">E</span>
-  <span class="negative" *ngIf="value < 100 && value >= 0">E -{{ 100 - value }}%</span>
-  <span class="ngb-tooltip-class neutral" container="body" ngbTooltip="Not Available: There is no data for this or the data is not enough"
-        *ngIf="value === CONTRIBUTION_POINT_NOT_SUBMITTED || value === CONTRIBUTION_POINT_NOT_INITIALIZED">N/A</span>
-</span>
+@if (diffOnly) {
+  <span>
+    @if (value > 0) {
+      <span class="positive">+{{ value }}%</span>
+    }
+    @if (value === 0) {
+      <span class="neutral">0</span>
+    }
+    @if (value < 0 && value >= -100) {
+      <span class="negative">{{ value }}%</span>
+    }
+    @if (value === CONTRIBUTION_POINT_NOT_SUBMITTED || value === CONTRIBUTION_POINT_NOT_INITIALIZED) {
+      <span class="ngb-tooltip-class neutral" container="body" ngbTooltip="Not Available: There is no data for this or the data is not enough"
+      >N/A</span>
+    }
+  </span>
+}
+@if (!diffOnly) {
+  <span>
+    @if (value > 100) {
+      <span class="positive">E +{{ value - 100 }}%</span>
+    }
+    @if (value === 100) {
+      <span class="neutral">E</span>
+    }
+    @if (value < 100 && value >= 0) {
+      <span class="negative">E -{{ 100 - value }}%</span>
+    }
+    @if (value === CONTRIBUTION_POINT_NOT_SUBMITTED || value === CONTRIBUTION_POINT_NOT_INITIALIZED) {
+      <span class="ngb-tooltip-class neutral" container="body" ngbTooltip="Not Available: There is no data for this or the data is not enough"
+      >N/A</span>
+    }
+  </span>
+}

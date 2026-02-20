@@ -5,19 +5,21 @@
         Participants who have not responded to any question
       </div>
       <div class="card-header-btn-toolbar ms-0 ms-md-auto align-self-md-end">
-        <a *ngIf="session.submissionStatus === FeedbackSessionSubmissionStatus.OPEN; else extendDeadlineBtn"
+        @if (session.submissionStatus === FeedbackSessionSubmissionStatus.OPEN) {
+          <a
             tmRouterLink="/web/instructor/sessions/individual-extension"
             [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, preselectnonsubmitters: true }">
-          <ng-container *ngTemplateOutlet="extendDeadlineBtn"></ng-container>
-        </a>
-        <ng-template #extendDeadlineBtn>
-          <button type="button" class="btn btn-secondary btn-sm button"
-                  [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">
+            <button type="button" class="btn btn-secondary btn-sm button">
+              Extend Deadline for All
+            </button>
+          </a>
+        } @else {
+          <button type="button" class="btn btn-secondary btn-sm button" disabled>
             Extend Deadline for All
           </button>
-        </ng-template>
+        }
         <button id="btn-remind-all" class="btn btn-secondary btn-sm button" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();"
-            [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">
+          [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">
           Remind All
         </button>
       </div>
@@ -26,48 +28,67 @@
       <tm-panel-chevron [isExpanded]="isTabExpanded"></tm-panel-chevron>
     </div>
   </div>
-  <div *ngIf="isTabExpanded" @collapseAnim>
-    <div *tmIsLoading="!isNoResponseStudentsLoaded" class="card-body">
-      <div *ngIf="noResponseStudentsInSection.length">
-        <table id="no-response-table" class="table table-striped">
-          <thead>
-          <tr>
-            <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
-              Team
-              <span class="fa-stack"><i class="fas fa-sort"></i>
-                <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
-            </th>
-            <th id="sort-by-name" class="cursor-pointer" (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
-              Name
-              <span class="fa-stack"><i class="fas fa-sort"></i>
-                <i *ngIf="sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
-                <i *ngIf="sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
-              </span>
-            </th>
-            <th>Actions</th>
-          </tr>
+  @if (isTabExpanded) {
+    <div @collapseAnim>
+      <div *tmIsLoading="!isNoResponseStudentsLoaded" class="card-body">
+        @if (noResponseStudentsInSection.length) {
+          <div>
+            <table id="no-response-table" class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
+                    Team
+                    <span class="fa-stack"><i class="fas fa-sort"></i>
+                    @if (sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.DESC) {
+                      <i class="fas fa-sort-down"></i>
+                    }
+                    @if (sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.ASC) {
+                      <i class="fas fa-sort-up"></i>
+                    }
+                  </span>
+                </th>
+                <th id="sort-by-name" class="cursor-pointer" (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
+                  Name
+                  <span class="fa-stack"><i class="fas fa-sort"></i>
+                  @if (sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC) {
+                    <i class="fas fa-sort-down"></i>
+                  }
+                  @if (sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.ASC) {
+                    <i class="fas fa-sort-up"></i>
+                  }
+                </span>
+              </th>
+              <th>Actions</th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let noResponseStudent of noResponseStudentsInSection">
-            <td>{{ noResponseStudent.teamName }}</td>
-            <td>{{ noResponseStudent.name }} ({{noResponseStudent.email}})</td>
-            <td>
-              <a *ngIf="!isDisplayOnly; else displayOnlySubmitResponseButton" tmRouterLink="/web/sessions/submission" rel="noopener noreferrer" target="_blank"
-                [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
-                class="btn btn-light btn-sm button">
-                Submit responses
-              </a>
-              <ng-template #displayOnlySubmitResponseButton><a class="btn btn-light btn-sm button">Submit response</a></ng-template>
-            </td>
-          </tr>
+            @for (noResponseStudent of noResponseStudentsInSection; track noResponseStudent) {
+              <tr>
+                <td>{{ noResponseStudent.teamName }}</td>
+                <td>{{ noResponseStudent.name }} ({{noResponseStudent.email}})</td>
+                <td>
+                  @if (!isDisplayOnly) {
+                    <a tmRouterLink="/web/sessions/submission" rel="noopener noreferrer" target="_blank"
+                      [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
+                      class="btn btn-light btn-sm button">
+                      Submit responses
+                    </a>
+                  } @else {
+                    <a class="btn btn-light btn-sm button">Submit response</a>
+                  }
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
       </div>
-      <div *ngIf="!noResponseStudentsInSection.length">
+    }
+    @if (!noResponseStudentsInSection.length) {
+      <div>
         <i>All students have responded to some questions in this session.</i>
       </div>
-    </div>
+    }
   </div>
+</div>
+}
 </div>

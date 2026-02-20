@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -24,8 +23,7 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   imports: [
     FormsModule,
     WheelDisablerDirective,
-    NgIf,
-  ],
+],
 })
 export class NumScaleQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackNumericalScaleQuestionDetails,

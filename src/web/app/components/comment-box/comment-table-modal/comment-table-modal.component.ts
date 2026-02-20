@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -14,7 +13,7 @@ import { CommentTableModel } from '../comment-table/comment-table.model';
   selector: 'tm-comment-table-modal',
   templateUrl: './comment-table-modal.component.html',
   styleUrls: ['./comment-table-modal.component.scss'],
-  imports: [NgIf, CommentTableComponent],
+  imports: [CommentTableComponent],
 })
 export class CommentTableModalComponent implements OnChanges {
 

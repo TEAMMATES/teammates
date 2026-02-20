@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +14,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   selector: 'tm-error-report',
   templateUrl: './error-report.component.html',
   styleUrls: ['./error-report.component.scss'],
-  imports: [NgIf, FormsModule],
+  imports: [FormsModule],
 })
 export class ErrorReportComponent implements OnInit {
 

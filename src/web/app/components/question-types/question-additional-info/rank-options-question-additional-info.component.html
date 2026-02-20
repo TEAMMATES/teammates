@@ -1,4 +1,6 @@
 Rank (options) question options:
 <ul>
-  <li *ngFor="let option of questionDetails.options">{{ option }}</li>
+  @for (option of questionDetails.options; track option) {
+    <li>{{ option }}</li>
+  }
 </ul>

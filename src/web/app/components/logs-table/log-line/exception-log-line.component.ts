@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ExceptionLogDetails, GeneralLogEntry, LogEvent } from '../../../../types/api-output';
@@ -10,7 +9,7 @@ import { ExceptionLogDetails, GeneralLogEntry, LogEvent } from '../../../../type
   selector: 'tm-exception-log-line',
   templateUrl: './exception-log-line.component.html',
   styleUrls: ['./exception-log-line.component.scss', './log-line.component.scss'],
-  imports: [NgIf, NgbTooltip],
+  imports: [NgbTooltip],
 })
 export class ExceptionLogLineComponent {
 

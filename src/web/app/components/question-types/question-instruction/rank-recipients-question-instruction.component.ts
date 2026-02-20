@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FeedbackRankRecipientsQuestionDetails } from '../../../../types/api-output';
 import {
@@ -13,7 +12,7 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
     selector: 'tm-rank-recipients-question-instruction',
     templateUrl: './rank-recipients-question-instruction.component.html',
     styleUrls: ['./rank-recipients-question-instruction.component.scss'],
-    imports: [NgIf],
+    imports: [],
 })
 export class RankRecipientsQuestionInstructionComponent {
 

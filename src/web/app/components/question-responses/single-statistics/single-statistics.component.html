@@ -1,10 +1,30 @@
-<tm-contribution-question-statistics *ngIf="QuestionDetailsTypeChecker.isContrib(question)" [responses]="ResponseOutputCaster.contrib(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent" [displayContributionStats]="displayContributionStats" [statistics]="statistics"></tm-contribution-question-statistics>
-<tm-text-question-statistics *ngIf="QuestionDetailsTypeChecker.isText(question)" [responses]="ResponseOutputCaster.text(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-text-question-statistics>
-<tm-constsum-options-question-statistics *ngIf="QuestionDetailsTypeChecker.isConstSumOptions(question)" [responses]="ResponseOutputCaster.constSum(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-constsum-options-question-statistics>
-<tm-constsum-recipients-question-statistics *ngIf="QuestionDetailsTypeChecker.isConstSumRecipients(question)" [responses]="ResponseOutputCaster.constSum(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-constsum-recipients-question-statistics>
-<tm-num-scale-question-statistics *ngIf="QuestionDetailsTypeChecker.isNumscale(question)" [responses]="ResponseOutputCaster.numscale(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-num-scale-question-statistics>
-<tm-rubric-question-statistics *ngIf="QuestionDetailsTypeChecker.isRubric(question)" [responses]="ResponseOutputCaster.rubric(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-rubric-question-statistics>
-<tm-rank-options-question-statistics *ngIf="QuestionDetailsTypeChecker.isRankOptions(question)" [responses]="ResponseOutputCaster.rankOptions(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-rank-options-question-statistics>
-<tm-rank-recipients-question-statistics *ngIf="QuestionDetailsTypeChecker.isRankRecipients(question)" [responses]="ResponseOutputCaster.rankRecipients(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-rank-recipients-question-statistics>
-<tm-msq-question-statistics *ngIf="QuestionDetailsTypeChecker.isMsq(question)" [responses]="ResponseOutputCaster.msq(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-msq-question-statistics>
-<tm-mcq-question-statistics *ngIf="QuestionDetailsTypeChecker.isMcq(question)" [responses]="ResponseOutputCaster.mcq(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-mcq-question-statistics>
+@if (QuestionDetailsTypeChecker.isContrib(question)) {
+  <tm-contribution-question-statistics [responses]="ResponseOutputCaster.contrib(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent" [displayContributionStats]="displayContributionStats" [statistics]="statistics"></tm-contribution-question-statistics>
+}
+@if (QuestionDetailsTypeChecker.isText(question)) {
+  <tm-text-question-statistics [responses]="ResponseOutputCaster.text(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-text-question-statistics>
+}
+@if (QuestionDetailsTypeChecker.isConstSumOptions(question)) {
+  <tm-constsum-options-question-statistics [responses]="ResponseOutputCaster.constSum(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-constsum-options-question-statistics>
+}
+@if (QuestionDetailsTypeChecker.isConstSumRecipients(question)) {
+  <tm-constsum-recipients-question-statistics [responses]="ResponseOutputCaster.constSum(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-constsum-recipients-question-statistics>
+}
+@if (QuestionDetailsTypeChecker.isNumscale(question)) {
+  <tm-num-scale-question-statistics [responses]="ResponseOutputCaster.numscale(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-num-scale-question-statistics>
+}
+@if (QuestionDetailsTypeChecker.isRubric(question)) {
+  <tm-rubric-question-statistics [responses]="ResponseOutputCaster.rubric(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-rubric-question-statistics>
+}
+@if (QuestionDetailsTypeChecker.isRankOptions(question)) {
+  <tm-rank-options-question-statistics [responses]="ResponseOutputCaster.rankOptions(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-rank-options-question-statistics>
+}
+@if (QuestionDetailsTypeChecker.isRankRecipients(question)) {
+  <tm-rank-recipients-question-statistics [responses]="ResponseOutputCaster.rankRecipients(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-rank-recipients-question-statistics>
+}
+@if (QuestionDetailsTypeChecker.isMsq(question)) {
+  <tm-msq-question-statistics [responses]="ResponseOutputCaster.msq(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-msq-question-statistics>
+}
+@if (QuestionDetailsTypeChecker.isMcq(question)) {
+  <tm-mcq-question-statistics [responses]="ResponseOutputCaster.mcq(responsesToUse)" [question]="question" [recipientType]="recipientType" [isStudent]="isStudent"></tm-mcq-question-statistics>
+}

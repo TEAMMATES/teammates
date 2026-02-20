@@ -3,68 +3,78 @@
 </h1>
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSessionResults(courseId, fsName)">
   <div *tmIsLoading="isFeedbackSessionLoading">
-    <div class="card bg-light top-padded text-center text-sm-start" *ngIf="session">
-      <div class="card-body row info-card-padding">
-        <div class="col-sm-12 col-md-12 col-lg-4">
-          <div class="form-group row">
-            <label class="col-lg-4 control-label"><b>Course ID:</b></label>
-            <div id="course-id" class="col-lg-8">
-              <p class="form-control-static">{{ session.courseId }}</p>
+    @if (session) {
+      <div class="card bg-light top-padded text-center text-sm-start">
+        <div class="card-body row info-card-padding">
+          <div class="col-sm-12 col-md-12 col-lg-4">
+            <div class="form-group row">
+              <label class="col-lg-4 control-label"><b>Course ID:</b></label>
+              <div id="course-id" class="col-lg-8">
+                <p class="form-control-static">{{ session.courseId }}</p>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-lg-4 control-label"><b>Session:</b></label>
+              <div id="session-name" class="col-lg-8">
+                <p class="form-control-static">{{ session.feedbackSessionName }}
+                  <a tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, editingMode: true }" aria-label="Edit feedback session"><i class="fas fa-edit"></i></a>
+                </p>
+              </div>
             </div>
           </div>
-          <div class="form-group row">
-            <label class="col-lg-4 control-label"><b>Session:</b></label>
-            <div id="session-name" class="col-lg-8">
-              <p class="form-control-static">{{ session.feedbackSessionName }}
-                <a tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, editingMode: true }" aria-label="Edit feedback session"><i class="fas fa-edit"></i></a>
-              </p>
+          <div class="col-sm-12 col-md-12 col-lg-5">
+            <div class="form-group row">
+              <label class="col-lg-4 control-label"><b>Session duration:</b></label>
+              <div id="session-duration" class="col-lg-8">
+                <p class="form-control-static">{{ formattedSessionOpeningTime }}&nbsp;&nbsp;&nbsp;<b>to</b><br>{{ formattedSessionClosingTime }}</p>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-lg-4 control-label"><b>Results visible from:</b></label>
+              <div id="result-visible-date" class="col-lg-8">
+                <p class="form-control-static">{{ formattedResultVisibleFromTime }}</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-5">
-          <div class="form-group row">
-            <label class="col-lg-4 control-label"><b>Session duration:</b></label>
-            <div id="session-duration" class="col-lg-8">
-              <p class="form-control-static">{{ formattedSessionOpeningTime }}&nbsp;&nbsp;&nbsp;<b>to</b><br>{{ formattedSessionClosingTime }}</p>
-            </div>
+          <div class="action-btn-group col-sm-12 col-md-12 col-lg-3">
+            <button id="btn-publish" class="btn btn-primary action-btn no-print" ngbTooltip="{{session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
+              placement="top" (click)="publishResultHandler()">
+              @if (session.publishStatus === FeedbackSessionPublishStatus.NOT_PUBLISHED) {
+                <i class="fas fa-eye"></i>
+              }
+              @if (session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED) {
+                <i class="fas fa-eye-slash"></i>
+              }
+              {{session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED ? "Unpublish" : "Publish"}} Results
+            </button>
+            <button id="btn-download" class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()" [disabled]="isDownloadingResults">
+              @if (isDownloadingResults) {
+                <tm-ajax-loading></tm-ajax-loading>
+              }
+              <i class="fas fa-file-download"></i> Download Results
+            </button>
+            <button class="btn btn-primary action-btn no-print" (click)="printViewHandler()">
+              <i class="fas fa-print"></i> Print View
+            </button>
           </div>
-          <div class="form-group row">
-            <label class="col-lg-4 control-label"><b>Results visible from:</b></label>
-            <div id="result-visible-date" class="col-lg-8">
-              <p class="form-control-static">{{ formattedResultVisibleFromTime }}</p>
-            </div>
-          </div>
-        </div>
-        <div class="action-btn-group col-sm-12 col-md-12 col-lg-3">
-          <button id="btn-publish" class="btn btn-primary action-btn no-print" ngbTooltip="{{session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
-             placement="top" (click)="publishResultHandler()">
-            <i *ngIf="session.publishStatus === FeedbackSessionPublishStatus.NOT_PUBLISHED" class="fas fa-eye"></i>
-            <i *ngIf="session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" class="fas fa-eye-slash"></i>
-            {{session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED ? "Unpublish" : "Publish"}} Results
-          </button>
-          <button id="btn-download" class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()" [disabled]="isDownloadingResults">
-            <tm-ajax-loading *ngIf="isDownloadingResults"></tm-ajax-loading>
-            <i class="fas fa-file-download"></i> Download Results
-          </button>
-          <button class="btn btn-primary action-btn no-print" (click)="printViewHandler()">
-            <i class="fas fa-print"></i> Print View
-          </button>
         </div>
       </div>
-    </div>
+    }
     <tm-view-results-panel [session]="session" [(viewType)]="viewType"
-                           [(section)]="section" [sectionsModel]="sectionsModel" [(sectionType)]="sectionType"
-                           [(groupByTeam)]="groupByTeam" [(showStatistics)]="showStatistics"
-                           [(indicateMissingResponses)]="indicateMissingResponses"
-                           (collapseAllTabsEvent)="collapseAllTabs()"
+      [(section)]="section" [sectionsModel]="sectionsModel" [(sectionType)]="sectionType"
+      [(groupByTeam)]="groupByTeam" [(showStatistics)]="showStatistics"
+      [(indicateMissingResponses)]="indicateMissingResponses"
+      (collapseAllTabsEvent)="collapseAllTabs()"
     ></tm-view-results-panel>
   </div>
 
-  <div class="card bg-light" style="margin-bottom: 20px;" *ngIf="!isFeedbackSessionLoading">
-    <div class="card-body">
-      If you wish to view only the feedback responses you submitted or received, <a href="javascript:;" (click)="navigateToIndividualSessionResultPage(); $event.preventDefault()">click here</a>.
+  @if (!isFeedbackSessionLoading) {
+    <div class="card bg-light" style="margin-bottom: 20px;">
+      <div class="card-body">
+        If you wish to view only the feedback responses you submitted or received, <a href="javascript:;" (click)="navigateToIndividualSessionResultPage(); $event.preventDefault()">click here</a>.
+      </div>
     </div>
-  </div>
+  }
 
   <div *tmIsLoading="!isSectionsLoaded || !isQuestionsLoaded">
     <div class="top-padded offset-md-10 margin-vertical-20px">
@@ -72,55 +82,69 @@
         {{isExpandAll ? "Collapse": "Expand"}} All
       </button>
     </div>
-    <tm-instructor-session-result-question-view *ngIf="viewType === InstructorSessionResultViewType.QUESTION" [questions]="questionsModel"
+    @if (viewType === InstructorSessionResultViewType.QUESTION) {
+      <tm-instructor-session-result-question-view [questions]="questionsModel"
         [section]="section" [sectionType]="sectionType" [session] = "session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
-        (toggleAndLoadTab)="toggleQuestionTab($event)" (loadTab)="loadQuestionTab($event)" (downloadQuestionResult)="downloadQuestionResultHandler($event)"></tm-instructor-session-result-question-view>
-    <tm-instructor-session-result-grq-view *ngIf="viewType === InstructorSessionResultViewType.GRQ" [responses]="sectionsModel" [isExpandAll]="isExpandAll"
+      (toggleAndLoadTab)="toggleQuestionTab($event)" (loadTab)="loadQuestionTab($event)" (downloadQuestionResult)="downloadQuestionResultHandler($event)"></tm-instructor-session-result-question-view>
+    }
+    @if (viewType === InstructorSessionResultViewType.GRQ) {
+      <tm-instructor-session-result-grq-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
-        (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-grq-view>
-    <tm-instructor-session-result-rgq-view *ngIf="viewType === InstructorSessionResultViewType.RGQ" [responses]="sectionsModel" [isExpandAll]="isExpandAll"
+      (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-grq-view>
+    }
+    @if (viewType === InstructorSessionResultViewType.RGQ) {
+      <tm-instructor-session-result-rgq-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
-        (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-rgq-view>
-    <tm-instructor-session-result-gqr-view *ngIf="viewType === InstructorSessionResultViewType.GQR" [responses]="sectionsModel" [isExpandAll]="isExpandAll"
+      (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-rgq-view>
+    }
+    @if (viewType === InstructorSessionResultViewType.GQR) {
+      <tm-instructor-session-result-gqr-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
-        (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-gqr-view>
-    <tm-instructor-session-result-rqg-view *ngIf="viewType === InstructorSessionResultViewType.RQG" [responses]="sectionsModel" [isExpandAll]="isExpandAll"
+      (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-gqr-view>
+    }
+    @if (viewType === InstructorSessionResultViewType.RQG) {
+      <tm-instructor-session-result-rqg-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="instructorCommentTableModel"
         (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
-        (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-rqg-view>
+      (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-rqg-view>
+    }
   </div>
 </tm-loading-retry>
 
 <tm-loading-retry [shouldShowRetry]="hasNoResponseLoadingFailed" [message]="'Failed to load students who have not responded'" (retryEvent)="loadNoResponseStudents(courseId, fsName)">
-  <div class="top-padded" *ngIf="isNoResponsePanelLoaded">
-    <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"
-                                             [noResponseStudents]="noResponseStudents"
-                                             [section]="section" [session]="session"
-                                             [isNoResponseStudentsLoaded]="isNoResponseStudentsLoaded"
-                                             (studentsToRemindEvent)="sendReminderToStudents($event)" ></tm-instructor-session-no-response-panel>
-  </div>
+  @if (isNoResponsePanelLoaded) {
+    <div class="top-padded">
+      <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"
+        [noResponseStudents]="noResponseStudents"
+        [section]="section" [session]="session"
+        [isNoResponseStudentsLoaded]="isNoResponseStudentsLoaded"
+      (studentsToRemindEvent)="sendReminderToStudents($event)" ></tm-instructor-session-no-response-panel>
+    </div>
+  }
 </tm-loading-retry>
 
-<div *ngIf="!(hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed || isFeedbackSessionLoading)" class="card top-padded">
-  <tm-preview-session-result-panel [courseId]="courseId" [feedbackSessionName]="session.feedbackSessionName"
-                                   [studentsOfCourse]="allStudentsInCourse" [emailOfStudentToPreview]="emailOfStudentToPreview"
-                                   [instructorsOfCourse]="allInstructorsInCourse" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
-  ></tm-preview-session-result-panel>
-</div>
+@if (!(hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed || isFeedbackSessionLoading)) {
+  <div class="card top-padded">
+    <tm-preview-session-result-panel [courseId]="courseId" [feedbackSessionName]="session.feedbackSessionName"
+      [studentsOfCourse]="allStudentsInCourse" [emailOfStudentToPreview]="emailOfStudentToPreview"
+      [instructorsOfCourse]="allInstructorsInCourse" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
+    ></tm-preview-session-result-panel>
+  </div>
+}
 
 <ng-template #downloadTooltip>
   Download session results<br/>

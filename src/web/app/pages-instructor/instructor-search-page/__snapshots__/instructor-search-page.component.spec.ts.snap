@@ -308,7 +308,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </span>
                       </td>
                       <td>
-                        Joined
+                         Joined 
                       </td>
                       <td>
                         <span>
@@ -375,7 +375,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </span>
                       </td>
                       <td>
-                        Joined
+                         Joined 
                       </td>
                       <td>
                         <span>
@@ -442,7 +442,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </span>
                       </td>
                       <td>
-                        Joined
+                         Joined 
                       </td>
                       <td>
                         <span>
@@ -509,7 +509,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </span>
                       </td>
                       <td>
-                        Joined
+                         Joined 
                       </td>
                       <td>
                         <span>
