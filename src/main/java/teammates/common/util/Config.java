@@ -162,20 +162,20 @@ public final class Config {
 
         APP_REGION = getProperty(properties, devProperties, "app.region");
         APP_FRONTEND_URL = getProperty(properties, devProperties, "app.frontend.url", getDefaultFrontEndUrl());
-        CSRF_KEY = getGcpSecret("APP_CSRF_KEY", properties, devProperties);
-        BACKDOOR_KEY = getGcpSecret("APP_BACKDOOR_KEY", properties, devProperties);
+        CSRF_KEY = getGcpSecret(properties, devProperties, "app.csrf.key");
+        BACKDOOR_KEY = getGcpSecret(properties, devProperties, "app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
         POSTGRES_HOST = getProperty(properties, devProperties, "app.postgres.host");
         POSTGRES_PORT = getProperty(properties, devProperties, "app.postgres.port");
         POSTGRES_DATABASENAME = getProperty(properties, devProperties, "app.postgres.databasename");
-        POSTGRES_USERNAME = getGcpSecret("APP_POSTGRES_USERNAME", properties, devProperties);
-        POSTGRES_PASSWORD = getGcpSecret("APP_POSTGRES_PASSWORD", properties, devProperties);
+        POSTGRES_USERNAME = getGcpSecret(properties, devProperties, "app.postgres.username");
+        POSTGRES_PASSWORD = getGcpSecret(properties, devProperties, "app.postgres.password");
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
-        ENCRYPTION_KEY = getGcpSecret("APP_ENCRYPTION_KEY", properties, devProperties);
+        ENCRYPTION_KEY = getGcpSecret(properties, devProperties, "app.encryption.key");
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
-        OAUTH2_CLIENT_ID = getGcpSecret("APP_OAUTH2_CLIENT_ID", properties, devProperties);
-        OAUTH2_CLIENT_SECRET = getGcpSecret("APP_OAUTH2_CLIENT_SECRET", properties, devProperties);
-        CAPTCHA_SECRET_KEY = getGcpSecret("APP_CAPTCHA_SECRET_KEY", properties, devProperties);
+        OAUTH2_CLIENT_ID = getGcpSecret(properties, devProperties, "app.oauth2.client.id");
+        OAUTH2_CLIENT_SECRET = getGcpSecret(properties, devProperties, "app.oauth2.client.secret");
+        CAPTCHA_SECRET_KEY = getGcpSecret(properties, devProperties, "app.captcha.secretkey");
         APP_ADMINS = Collections.unmodifiableList(
                 Arrays.asList(getProperty(properties, devProperties, "app.admins", "").split(",")));
         APP_MAINTAINERS = Collections.unmodifiableList(
@@ -185,8 +185,8 @@ public final class Config {
         EMAIL_SENDERNAME = getProperty(properties, devProperties, "app.email.sendername");
         EMAIL_REPLYTO = getProperty(properties, devProperties, "app.email.replyto");
         EMAIL_SERVICE = getProperty(properties, devProperties, "app.email.service");
-        SENDGRID_APIKEY = getGcpSecret(properties, devProperties, "APP_SENDGRID_APIKEY");
-        MAILGUN_APIKEY = getGcpSecret(properties, devProperties, "APP_MAILGUN_APIKEY");
+        SENDGRID_APIKEY = getGcpSecret(properties, devProperties, "app.sendgrid.apikey");
+        MAILGUN_APIKEY = getGcpSecret(properties, devProperties, "app.mailgun.apikey");
         MAILGUN_DOMAINNAME = getProperty(properties, devProperties, "app.mailgun.domainname");
         MAILJET_APIKEY = getGcpSecret(properties, devProperties, "app.mailjet.apikey");
         MAILJET_SECRETKEY = getGcpSecret(properties, devProperties, "app.mailjet.secretkey");
@@ -331,17 +331,20 @@ public final class Config {
      * Returns the value of the specified secret from GCP Secret Manager.
      * If it is in dev server, it will return the value from build.properties (or build.dev.properties) file instead.
      */
-    private static String getGcpSecret(String secretName, Properties properties, Properties devProperties) {
+    private static String getGcpSecret(Properties properties, Properties devProperties, String secretName) {
         // GCP secret name does not support full stop (.) and only supports underscore (_) as separator.
-        // So we will replace full stop with underscore when looking for the secret in dev properties.
-        // In addition, secret names in GCP are capitalised hence the need to convert to lower case.
+        // So we will replace full stop with underscore when looking for the secret in GCP Secret Manager.
+        // In addition, secret names in GCP are capitalised.
 
         if (IS_DEV_SERVER) {
-            return getProperty(properties, devProperties, secretName.replace('_', '.').toLowerCase());
+            return getProperty(properties, devProperties, secretName);
         }
 
         try (SecretManagerServiceClient client = SecretManagerServiceClient.create()) {
-            SecretVersionName name = SecretVersionName.of(APP_ID, secretName, "latest");
+            SecretVersionName name = SecretVersionName.of(
+                    APP_ID,
+                    secretName.toUpperCase().replace('.', '_'),
+                    "latest");
             AccessSecretVersionResponse response = client.accessSecretVersion(name);
 
             return response.getPayload().getData().toStringUtf8();
@@ -350,5 +353,4 @@ public final class Config {
             return null;
         }
     }
-
 }
