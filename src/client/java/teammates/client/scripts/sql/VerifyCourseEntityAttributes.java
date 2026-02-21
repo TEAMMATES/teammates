@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Const;
@@ -216,12 +215,12 @@ public class VerifyCourseEntityAttributes
                     oldStudent.getEmail(), oldStudent.getCourseId()));
             return false;
         }
-        if (!Objects.equals(newStudent.getGoogleId(), oldStudent.getGoogleId())) {
-            logValidationError(String.format("Mismatch in google ids. Expected %s but got %s",
+        if (!Objects.equals(nullIfEmpty(newStudent.getGoogleId()), nullIfEmpty(oldStudent.getGoogleId()))) {
+                logValidationError(String.format("Mismatch in google ids. Expected %s but got %s",
                     newStudent.getGoogleId(),
                     oldStudent.getGoogleId()));
-            return false;
-        }
+                return false;
+            }
 
         // Match migration: null/empty section and team normalized to DEFAULT_SECTION/DEFAULT_TEAM
         String expectedSection = oldStudent.getSectionName() == null || oldStudent.getSectionName().isEmpty()
@@ -236,7 +235,7 @@ public class VerifyCourseEntityAttributes
                 && newStudent.getCourseId().equals(oldStudent.getCourseId())
                 && newStudent.getSectionName().equals(expectedSection)
                 && newStudent.getTeamName().equals(expectedTeam)
-                && Objects.equals(newStudent.getGoogleId(), oldStudent.getGoogleId());
+                && Objects.equals(nullIfEmpty(newStudent.getGoogleId()), nullIfEmpty(oldStudent.getGoogleId()));
 
         if (!attributesAreEqual) {
             logValidationError(String.format("Section chain - student attributes are not equal"));
@@ -460,6 +459,10 @@ public class VerifyCourseEntityAttributes
         return true;
     }
 
+    private static String nullIfEmpty(String s) {
+        return s == null || s.isEmpty() ? null : s;
+    }
+
     private boolean verifyInstructor(Instructor oldInstructor,
             teammates.storage.sqlentity.Instructor newInstructor) {
         InstructorPrivileges oldPrivileges;
@@ -473,16 +476,17 @@ public class VerifyCourseEntityAttributes
                     : new InstructorPrivileges(privilegesLegacy);
         }
 
-        return newInstructor.getName().equals(oldInstructor.getName())
-                && newInstructor.getEmail().equals(oldInstructor.getEmail())
+        // Migration applies sanitizeName/sanitizeEmail in Instructor/User setters; compare accordingly
+        return newInstructor.getName().equals(SanitizationHelper.sanitizeName(oldInstructor.getName()))
+                && newInstructor.getEmail().equals(SanitizationHelper.sanitizeEmail(oldInstructor.getEmail()))
                 && newInstructor.getRole().getRoleName().equals(oldInstructor.getRole())
                 && newInstructor.getRegKey().equals(oldInstructor.getRegistrationKey())
-                && newInstructor.getDisplayName().equals(oldInstructor.getDisplayedName())
+                && newInstructor.getDisplayName().equals(SanitizationHelper.sanitizeName(oldInstructor.getDisplayedName()))
                 && newInstructor.getPrivileges().equals(oldPrivileges)
                 && newInstructor.isDisplayedToStudents() == oldInstructor.isDisplayedToStudents()
                 && newInstructor.getCreatedAt().equals(oldInstructor.getCreatedAt())
                 // && newInstructor.getUpdatedAt().equals(oldInstructor.getUpdatedAt());
-                && Objects.equals(newInstructor.getGoogleId(), oldInstructor.getGoogleId());
+                && Objects.equals(nullIfEmpty(newInstructor.getGoogleId()), nullIfEmpty(oldInstructor.getGoogleId()));
     }
 
     // Verify DeadlineExtensions ----------------------------
