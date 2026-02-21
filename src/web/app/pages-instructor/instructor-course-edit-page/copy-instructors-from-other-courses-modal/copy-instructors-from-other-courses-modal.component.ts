@@ -49,6 +49,10 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   // data
   courses: CourseTabModel[] = [];
 
+  get hasCoursesToCopyFrom(): boolean {
+    return this.courses && this.courses.length > 0;
+  }
+
   readonly notDisplayedToStudentText: string = '(NOT displayed to students)';
   coursesSortBy: SortBy | undefined;
   isCopyingSelectedInstructors: boolean = false;
