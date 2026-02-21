@@ -10,7 +10,7 @@ import teammates.storage.sqlentity.Course;
 
 // CHECKSTYLE.ON:ImportOrder
 /**
- * Data migration class for feddback sessions.
+ * Data migration class for feedback sessions.
  */
 @SuppressWarnings("PMD")
 public class DataMigrationForFeedbackSessionSql

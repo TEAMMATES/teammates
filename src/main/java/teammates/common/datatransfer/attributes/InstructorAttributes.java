@@ -81,7 +81,9 @@ public final class InstructorAttributes extends EntityAttributes<Instructor> {
         } else {
             InstructorPrivilegesLegacy privilegesLegacy =
                     JsonUtils.fromJson(instructor.getInstructorPrivilegesAsText(), InstructorPrivilegesLegacy.class);
-            instructorAttributes.privileges = new InstructorPrivileges(privilegesLegacy);
+            instructorAttributes.privileges = privilegesLegacy == null
+                    ? new InstructorPrivileges(instructorAttributes.role)
+                    : new InstructorPrivileges(privilegesLegacy);
         }
         if (instructor.getCreatedAt() != null) {
             instructorAttributes.createdAt = instructor.getCreatedAt();

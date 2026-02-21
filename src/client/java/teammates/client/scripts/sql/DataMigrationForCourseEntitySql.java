@@ -2,38 +2,39 @@ package teammates.client.scripts.sql;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.Duration;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Root;
 
 import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Root;
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
-import teammates.common.util.Const;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -42,6 +43,23 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
+import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion.FeedbackConstantSumQuestionDetailsConverter;
+import teammates.storage.sqlentity.questions.FeedbackContributionQuestion.FeedbackContributionQuestionDetailsConverter;
+import teammates.storage.sqlentity.questions.FeedbackMcqQuestion.FeedbackMcqQuestionDetailsConverter;
+import teammates.storage.sqlentity.questions.FeedbackMsqQuestion.FeedbackMsqQuestionDetailsConverter;
+import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion.FeedbackNumericalScaleQuestionDetailsConverter;
+import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion.FeedbackRankOptionsQuestionDetailsConverter;
+import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion.FeedbackRankRecipientsQuestionDetailsConverter;
+import teammates.storage.sqlentity.questions.FeedbackRubricQuestion.FeedbackRubricQuestionDetailsConverter;
+import teammates.storage.sqlentity.questions.FeedbackTextQuestion.FeedbackTextQuestionDetailsConverter;
+import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse.FeedbackConstantSumResponseDetailsConverter;
+import teammates.storage.sqlentity.responses.FeedbackContributionResponse.FeedbackContributionResponseDetailsConverter;
+import teammates.storage.sqlentity.responses.FeedbackMcqResponse.FeedbackMcqResponseDetailsConverter;
+import teammates.storage.sqlentity.responses.FeedbackMsqResponse.FeedbackMsqResponseDetailsConverter;
+import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse.FeedbackNumericalScaleResponseDetailsConverter;
+import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse.FeedbackRankOptionsResponseDetailsConverter;
+import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse.FeedbackRankRecipientsResponseDetailsConverter;
+import teammates.storage.sqlentity.responses.FeedbackRubricResponse.FeedbackRubricResponseDetailsConverter;
 import teammates.test.FileHelper;
 
 /**
@@ -54,17 +72,13 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private static final int BATCH_SIZE = 100;
 
-    private static final int MAX_BUFFER_SIZE = 1000;
-
-    private List<BaseEntity> entitiesSavingBuffer;
-
-    private Logger logger;
+    private final Logger logger;
 
     private final VerifyCourseEntityAttributes verifier;
 
-    private AtomicLong numberOfAffectedEntities;
-    private AtomicLong numberOfScannedKey;
-    private AtomicLong numberOfUpdatedEntities;
+    private final AtomicLong numberOfAffectedEntities;
+    private final AtomicLong numberOfScannedKey;
+    private final AtomicLong numberOfUpdatedEntities;
 
     // Creates the folder that will contain the stored log.
     static {
@@ -75,8 +89,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         numberOfAffectedEntities = new AtomicLong();
         numberOfScannedKey = new AtomicLong();
         numberOfUpdatedEntities = new AtomicLong();
-
-        entitiesSavingBuffer = new ArrayList<>();
 
         logger = new Logger("Course Chain Migration:");
 
@@ -116,7 +128,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         log("Start migrating course with id: " + oldCourse.getUniqueId());
         String courseId = migrateCourseEntity(oldCourse);
         migrateCourseDependencies(courseId);
-        flushEntitiesSavingBuffer();
 
         // Refetch course and verify within a transaction so verifier's Hibernate
         // queries (getCourse, getNewSections, etc.) have an active session and
@@ -141,26 +152,6 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         log("Finish migrating course with id: " + oldCourse.getUniqueId());
     }
 
-    private void migrateCourseDependencies(String newCourseId) {
-        migrateSectionChain(newCourseId);
-        migrateFeedbackChain(newCourseId);
-        migrateInstructorEntities(newCourseId);
-        // migrateUserAccounts(newCourse, userGoogleIdToUserMap);
-        migrateDeadlineExtensionEntities(newCourseId);
-    }
-
-    // methods for migrate section chain ----------------------------------------------------------------------------------
-    // entities: Section, Team, Student
-
-    private void migrateSectionChain(
-            String courseId) {
-        log(String.format("Migrating section chain for %s", courseId));
-
-        migrateSections(courseId);
-        migrateTeams(courseId);
-        migrateStudents(courseId);
-    }
-
     private String migrateCourseEntity(teammates.storage.entity.Course oldCourse) {
         Course newCourse = new Course(
                 oldCourse.getUniqueId(),
@@ -176,192 +167,350 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         return newCourse.getId();
     }
 
+    private void migrateCourseDependencies(String courseId) {
+        migrateSections(courseId);
+        migrateTeams(courseId);
+        migrateStudents(courseId);
+        migrateFeedbackChain(courseId);
+        migrateInstructorEntities(courseId);
+        migrateDeadlineExtensionEntities(courseId);
+    }
+
     private void migrateSections(String courseId) {
         log(String.format("Migrating Sections for course %s", courseId));
         HibernateUtil.beginTransaction();
-        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId).list();
         Course newCourse = getCourse(courseId);
-        List<String> sectionNames = oldStudents.stream()
-                .map(cs -> normalizeSectionName(cs.getSectionName()))
+        List<String> sectionNames = ofy().load().type(CourseStudent.class)
+                .filter("courseId", courseId).list().stream()
+                .map(cs -> DataMigrationForSectionSql.normalizeSectionName(cs.getSectionName()))
                 .distinct()
                 .collect(Collectors.toList());
-        SectionMigrator.migrate(newCourse, sectionNames, HibernateUtil::persist);
+        DataMigrationForSectionSql.migrateSections(newCourse, sectionNames, HibernateUtil::persist);
         HibernateUtil.commitTransaction();
     }
 
     private void migrateTeams(String courseId) {
         log(String.format("Migrating Teams for course %s", courseId));
         HibernateUtil.beginTransaction();
-        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId).list();
-        Map<String, Set<String>> sectionNameToTeamNames = new HashMap<>();
-        for (CourseStudent student : oldStudents) {
-            String sectionName = normalizeSectionName(student.getSectionName());
-            String teamName = normalizeTeamName(student.getTeamName());
-            sectionNameToTeamNames.putIfAbsent(sectionName, new HashSet<>());
-            sectionNameToTeamNames.get(sectionName).add(teamName);
-        }
-        Course newCourseWithSections = getCourseWithSections(courseId);
-        TeamMigrator.migrate(newCourseWithSections, sectionNameToTeamNames, HibernateUtil::persist);
+        Course courseWithSections = getCourseWithSections(courseId);
+        Map<String, java.util.Set<String>> teamsBySection = buildTeamsBySectionMap(courseId);
+        DataMigrationForTeamSql.migrateTeams(courseWithSections, teamsBySection, HibernateUtil::persist);
         HibernateUtil.commitTransaction();
+    }
+
+    private Map<String, java.util.Set<String>> buildTeamsBySectionMap(String courseId) {
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class)
+                .filter("courseId", courseId).list();
+        Map<String, java.util.Set<String>> teamsBySection = new HashMap<>();
+        for (CourseStudent student : oldStudents) {
+            String sectionName = DataMigrationForSectionSql.normalizeSectionName(student.getSectionName());
+            String teamName = DataMigrationForTeamSql.normalizeTeamName(student.getTeamName());
+            teamsBySection.computeIfAbsent(sectionName, k -> new java.util.HashSet<>()).add(teamName);
+        }
+        return teamsBySection;
     }
 
     private void migrateStudents(String courseId) {
         log(String.format("Migrating Students for course %s", courseId));
         HibernateUtil.beginTransaction();
-        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class).filter("courseId", courseId)
-                .list();
+        List<CourseStudent> oldStudents = ofy().load().type(CourseStudent.class)
+                .filter("courseId", courseId).list();
 
         Course newCourse = getCourse(courseId);
-
-        // Get postgres Sections and the names of related teams
-        // Key: Section Name    Value: Team Name
-        Map<String, Set<String>> sectionToTeamNameMap = new HashMap<>();
-        List<Section> newSections = getSections(courseId);
-        for (Section newSection : newSections) {
-            String sectionName = newSection.getName();
-            Set<String> teamHashSet = new HashSet<>();
-            for (Team newTeam : newSection.getTeams()) {
-                teamHashSet.add(newTeam.getName());
-            }
-            sectionToTeamNameMap.put(sectionName, teamHashSet);
-        }
-
-        // Get postgres team entities with their relations to the sections
-        // Key: Section Name    Value: Team name - Team Entity Map
-        Map<String, Map<String, Team>> newSectionToTeamEntityMap = new HashMap<>();
-        for (Entry<String, Set<String>> entry : sectionToTeamNameMap.entrySet()) {
-            String sectionName = entry.getKey();
-            for (String teamName : entry.getValue()) {
-                Team newTeam = getTeam(courseId, sectionName, teamName);
-
-                newSectionToTeamEntityMap.putIfAbsent(sectionName, new HashMap<>());
-                newSectionToTeamEntityMap.get(sectionName).putIfAbsent(teamName, newTeam);
-            }
-        }
-
-        Map<String, Account> googleIdToAccountMap = new HashMap<>();
+        Map<String, Map<String, Team>> teamLookup = buildTeamLookupMap(courseId);
+        Map<String, Account> accountLookup = buildAccountLookupMap(oldStudents);
 
         for (CourseStudent oldStudent : oldStudents) {
-            String googleId = oldStudent.getGoogleId();
-            Account associatedAccount = getAccount(googleId);
-            googleIdToAccountMap.put(googleId, associatedAccount);
-        }
-        for (CourseStudent oldStudent : oldStudents) {
-            String sectionName = normalizeSectionName(oldStudent.getSectionName());
-            String teamName = normalizeTeamName(oldStudent.getTeamName());
-            Team newTeam = newSectionToTeamEntityMap.get(sectionName).get(teamName);
+            String sectionName = DataMigrationForSectionSql.normalizeSectionName(oldStudent.getSectionName());
+            String teamName = DataMigrationForTeamSql.normalizeTeamName(oldStudent.getTeamName());
+            Team team = teamLookup.get(sectionName).get(teamName);
 
-            Student newStudent = createStudent(newCourse, newTeam, oldStudent);
-            Account associatedAccount = googleIdToAccountMap.get(oldStudent.getGoogleId());
-            newStudent.setAccount(associatedAccount);
-
+            Student newStudent = createStudent(newCourse, team, oldStudent);
+            newStudent.setAccount(accountLookup.get(oldStudent.getGoogleId()));
             HibernateUtil.persist(newStudent);
         }
 
         HibernateUtil.commitTransaction();
     }
 
-    private List<Section> getSections(String courseId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<teammates.storage.sqlentity.Section> cr = cb
-                .createQuery(teammates.storage.sqlentity.Section.class);
-        Root<teammates.storage.sqlentity.Section> sectionRoot = cr.from(teammates.storage.sqlentity.Section.class);
-        cr.select(sectionRoot).where(cb.equal(sectionRoot.get("course").get("id"), courseId));
-        List<Section> newSections = HibernateUtil.createQuery(cr).getResultList();
-        return newSections;
+    private Map<String, Map<String, Team>> buildTeamLookupMap(String courseId) {
+        Map<String, Map<String, Team>> teamLookup = new HashMap<>();
+        for (Section section : getSections(courseId)) {
+            Map<String, Team> teamsInSection = new HashMap<>();
+            for (Team team : section.getTeams()) {
+                teamsInSection.put(team.getName(), team);
+            }
+            teamLookup.put(section.getName(), teamsInSection);
+        }
+        return teamLookup;
     }
 
-    private Team getTeam(String courseId, String sectionName, String teamName) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
-        Root<Team> teamRoot = cr.from(Team.class);
-        cr.where(cb.and(
-                cb.equal(teamRoot.get("section").get("name"), sectionName),
-                cb.equal(teamRoot.get("section").get("course").get("id"), courseId),
-                cb.equal(teamRoot.get("name"), teamName)
-        ));
+    private Map<String, Account> buildAccountLookupMap(List<CourseStudent> students) {
+        Map<String, Account> accountLookup = new HashMap<>();
+        for (CourseStudent student : students) {
+            accountLookup.put(student.getGoogleId(), getAccount(student.getGoogleId()));
+        }
+        return accountLookup;
+    }
 
-        return HibernateUtil.createQuery(cr).getSingleResult();
+    private List<Section> getSections(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Section> cr = cb.createQuery(Section.class);
+        Root<Section> sectionRoot = cr.from(Section.class);
+        cr.select(sectionRoot).where(cb.equal(sectionRoot.get("course").get("id"), courseId));
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     private Account getAccount(String googleId) {
         return HibernateUtil.getBySimpleNaturalId(Account.class, SanitizationHelper.sanitizeGoogleId(googleId));
     }
 
-    private Student createStudent(Course newCourse,
-            teammates.storage.sqlentity.Team newTeam,
-            CourseStudent oldStudent) {
-        String truncatedStudentName = truncateToLength255(oldStudent.getName());
-        String truncatedComments = truncateToLength2000(oldStudent.getComments());
-
-        Student newStudent = new Student(newCourse, truncatedStudentName, oldStudent.getEmail(),
-                truncatedComments, newTeam);
-        // newStudent.setUpdatedAt(oldStudent.getUpdatedAt());
+    private Student createStudent(Course newCourse, Team team, CourseStudent oldStudent) {
+        Student newStudent = new Student(
+                newCourse,
+                truncateToLength255(oldStudent.getName()),
+                oldStudent.getEmail(),
+                truncateToLength2000(oldStudent.getComments()),
+                team);
         newStudent.setRegKey(oldStudent.getRegistrationKey());
         newStudent.setCreatedAt(oldStudent.getCreatedAt());
-
         return newStudent;
     }
 
     private void migrateFeedbackChain(String courseId) {
         log("Migrating feedback chain");
-        new FeedbackChainMigrator(this::ofy).migrate(courseId);
+        HibernateUtil.beginTransaction();
+        try {
+            List<teammates.storage.entity.FeedbackSession> oldSessions = ofy().load()
+                    .type(teammates.storage.entity.FeedbackSession.class)
+                    .filter("courseId", courseId).list();
+
+            Course newCourse = getCourse(courseId);
+            Map<String, List<FeedbackQuestion>> questionsBySession = ofy().load()
+                    .type(FeedbackQuestion.class)
+                    .filter("courseId", courseId).list().stream()
+                    .collect(Collectors.groupingBy(FeedbackQuestion::getFeedbackSessionName));
+            Map<String, Section> sectionLookup = getSections(courseId).stream()
+                    .collect(Collectors.toMap(Section::getName, s -> s));
+
+            for (teammates.storage.entity.FeedbackSession oldSession : oldSessions) {
+                FeedbackSession newSession = createFeedbackSession(newCourse, oldSession);
+                HibernateUtil.persist(newSession);
+
+                List<FeedbackQuestion> questions = questionsBySession.get(oldSession.getFeedbackSessionName());
+                if (questions != null) {
+                    for (FeedbackQuestion oldQuestion : questions) {
+                        migrateFeedbackQuestion(newSession, oldQuestion, sectionLookup);
+                    }
+                }
+            }
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            HibernateUtil.rollbackTransaction();
+            throw e;
+        }
+    }
+
+    private FeedbackSession createFeedbackSession(Course newCourse,
+            teammates.storage.entity.FeedbackSession oldSession) {
+        FeedbackSession newSession = new FeedbackSession(
+                oldSession.getFeedbackSessionName(),
+                newCourse,
+                oldSession.getCreatorEmail(),
+                truncateToLength2000(oldSession.getInstructions()),
+                oldSession.getStartTime(),
+                oldSession.getEndTime(),
+                oldSession.getSessionVisibleFromTime(),
+                oldSession.getResultsVisibleFromTime(),
+                Duration.ofMinutes(oldSession.getGracePeriod()),
+                oldSession.isOpenedEmailEnabled(),
+                oldSession.isClosingSoonEmailEnabled(),
+                oldSession.isPublishedEmailEnabled());
+
+        newSession.setClosedEmailSent(oldSession.isSentClosedEmail());
+        newSession.setClosingSoonEmailSent(oldSession.isSentClosingSoonEmail());
+        newSession.setOpenedEmailSent(oldSession.isSentOpenedEmail());
+        newSession.setOpeningSoonEmailSent(oldSession.isSentOpeningSoonEmail());
+        newSession.setPublishedEmailSent(oldSession.isSentPublishedEmail());
+        newSession.setCreatedAt(oldSession.getCreatedTime());
+        newSession.setDeletedAt(oldSession.getDeletedTime());
+        return newSession;
+    }
+
+    private void migrateFeedbackQuestion(FeedbackSession newSession, FeedbackQuestion oldQuestion,
+            Map<String, Section> sectionLookup) {
+        teammates.storage.sqlentity.FeedbackQuestion newQuestion = createFeedbackQuestion(newSession, oldQuestion);
+        HibernateUtil.persist(newQuestion);
+
+        Map<String, List<FeedbackResponseComment>> commentsByResponse = ofy().load()
+                .type(FeedbackResponseComment.class)
+                .filter("feedbackQuestionId", oldQuestion.getId()).list().stream()
+                .collect(Collectors.groupingBy(FeedbackResponseComment::getFeedbackResponseId));
+
+        List<FeedbackResponse> oldResponses = ofy().load()
+                .type(FeedbackResponse.class)
+                .filter("feedbackQuestionId", oldQuestion.getId()).list();
+
+        for (FeedbackResponse oldResponse : oldResponses) {
+            Section giverSection = sectionLookup.get(
+                DataMigrationForSectionSql.normalizeSectionName(oldResponse.getGiverSection())
+            );
+            Section recipientSection = sectionLookup.get(
+                DataMigrationForSectionSql.normalizeSectionName(oldResponse.getRecipientSection())
+            );
+            migrateFeedbackResponse(newQuestion, oldResponse, giverSection, recipientSection, commentsByResponse);
+        }
+    }
+
+    private teammates.storage.sqlentity.FeedbackQuestion createFeedbackQuestion(FeedbackSession newSession,
+            FeedbackQuestion oldQuestion) {
+        teammates.storage.sqlentity.FeedbackQuestion newQuestion =
+                teammates.storage.sqlentity.FeedbackQuestion.makeQuestion(
+                        newSession,
+                        oldQuestion.getQuestionNumber(),
+                        oldQuestion.getQuestionDescription(),
+                        oldQuestion.getGiverType(),
+                        oldQuestion.getRecipientType(),
+                        oldQuestion.getNumberOfEntitiesToGiveFeedbackTo(),
+                        oldQuestion.getShowResponsesTo(),
+                        oldQuestion.getShowGiverNameTo(),
+                        oldQuestion.getShowRecipientNameTo(),
+                        getFeedbackQuestionDetails(oldQuestion));
+        newQuestion.setCreatedAt(oldQuestion.getCreatedAt());
+        return newQuestion;
+    }
+
+    private FeedbackQuestionDetails getFeedbackQuestionDetails(FeedbackQuestion oldQuestion) {
+        return switch (oldQuestion.getQuestionType()) {
+            case MCQ -> new FeedbackMcqQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+            case MSQ -> new FeedbackMsqQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+            case TEXT -> new FeedbackTextQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+            case RUBRIC -> new FeedbackRubricQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+            case CONTRIB -> new FeedbackContributionQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+            case CONSTSUM, CONSTSUM_RECIPIENTS, CONSTSUM_OPTIONS -> new FeedbackConstantSumQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+            case NUMSCALE -> new FeedbackNumericalScaleQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+            case RANK_OPTIONS -> new FeedbackRankOptionsQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+            case RANK_RECIPIENTS -> new FeedbackRankRecipientsQuestionDetailsConverter()
+                    .convertToEntityAttribute(oldQuestion.getQuestionText());
+            default -> throw new IllegalArgumentException("Invalid question type");
+        };
+    }
+
+    private void migrateFeedbackResponse(teammates.storage.sqlentity.FeedbackQuestion newQuestion,
+            FeedbackResponse oldResponse, Section giverSection, Section recipientSection,
+            Map<String, List<FeedbackResponseComment>> commentsByResponse) {
+        teammates.storage.sqlentity.FeedbackResponse newResponse = createFeedbackResponse(
+                newQuestion, oldResponse, giverSection, recipientSection);
+        HibernateUtil.persist(newResponse);
+
+        List<FeedbackResponseComment> oldComments = commentsByResponse.getOrDefault(
+                oldResponse.getId(), Collections.emptyList());
+        for (FeedbackResponseComment oldComment : oldComments) {
+            migrateFeedbackResponseComment(newResponse, oldComment, giverSection, recipientSection);
+        }
+    }
+
+    private teammates.storage.sqlentity.FeedbackResponse createFeedbackResponse(
+            teammates.storage.sqlentity.FeedbackQuestion newQuestion, FeedbackResponse oldResponse,
+            Section giverSection, Section recipientSection) {
+        teammates.storage.sqlentity.FeedbackResponse newResponse =
+                teammates.storage.sqlentity.FeedbackResponse.makeResponse(
+                        newQuestion,
+                        oldResponse.getGiverEmail(),
+                        giverSection,
+                        oldResponse.getRecipientEmail(),
+                        recipientSection,
+                        getFeedbackResponseDetails(oldResponse));
+
+        newResponse.setCreatedAt(oldResponse.getCreatedAt());
+        newResponse.setUpdatedAt(oldResponse.getUpdatedAt());
+        return newResponse;
+    }
+
+    private FeedbackResponseDetails getFeedbackResponseDetails(FeedbackResponse oldResponse) {
+        return switch (oldResponse.getFeedbackQuestionType()) {
+            case MCQ -> new FeedbackMcqResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
+            case MSQ -> new FeedbackMsqResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
+            case TEXT -> new FeedbackTextResponseDetails(oldResponse.getAnswer());
+            case RUBRIC -> new FeedbackRubricResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
+            case CONTRIB -> new FeedbackContributionResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+            case CONSTSUM, CONSTSUM_RECIPIENTS, CONSTSUM_OPTIONS -> new FeedbackConstantSumResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+            case NUMSCALE -> new FeedbackNumericalScaleResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+            case RANK_OPTIONS -> new FeedbackRankOptionsResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+            case RANK_RECIPIENTS -> new FeedbackRankRecipientsResponseDetailsConverter()
+                    .convertToEntityAttribute(oldResponse.getAnswer());
+            default -> throw new IllegalArgumentException("Invalid response type");
+        };
+    }
+
+    private void migrateFeedbackResponseComment(teammates.storage.sqlentity.FeedbackResponse newResponse,
+            FeedbackResponseComment oldComment, Section giverSection, Section recipientSection) {
+        teammates.storage.sqlentity.FeedbackResponseComment newComment =
+                new teammates.storage.sqlentity.FeedbackResponseComment(
+                        newResponse,
+                        oldComment.getGiverEmail(),
+                        oldComment.getCommentGiverType(),
+                        giverSection,
+                        recipientSection,
+                        truncateToLength2000(oldComment.getCommentText()),
+                        oldComment.getIsVisibilityFollowingFeedbackQuestion(),
+                        oldComment.getIsCommentFromFeedbackParticipant(),
+                        oldComment.getShowCommentTo(),
+                        oldComment.getShowGiverNameTo(),
+                        oldComment.getLastEditorEmail());
+
+        newComment.setCreatedAt(oldComment.getCreatedAt());
+        newComment.setUpdatedAt(oldComment.getLastEditedAt());
+        HibernateUtil.persist(newComment);
     }
 
     private Course getCourseWithSections(String courseId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Course> cr = cb.createQuery(Course.class);
-        Root<Course> courseRoot = cr.from(Course.class);
-        courseRoot.fetch("sections", JoinType.LEFT);
-        cr.select(courseRoot).where(cb.equal(courseRoot.get("id"), courseId));
+        Root<Course> root = cr.from(Course.class);
+        root.fetch("sections", JoinType.LEFT);
+        cr.select(root).where(cb.equal(root.get("id"), courseId));
         return HibernateUtil.createQuery(cr).getSingleResult();
     }
 
-    // methods for misc migration methods ---------------------------------------------------------------------------------
-    // entities: Instructor, DeadlineExtension
-
     private void migrateInstructorEntities(String courseId) {
+        log("Migrating instructors");
         HibernateUtil.beginTransaction();
         List<teammates.storage.entity.Instructor> oldInstructors = ofy().load()
                 .type(teammates.storage.entity.Instructor.class)
-                .filter("courseId", courseId)
-                .list();
+                .filter("courseId", courseId).list();
 
         Course newCourse = getCourse(courseId);
 
         for (teammates.storage.entity.Instructor oldInstructor : oldInstructors) {
             Instructor newInstructor = createInstructor(newCourse, oldInstructor);
             newInstructor.setAccount(getAccount(oldInstructor.getGoogleId()));
-            // if (oldInstructor.getGoogleId() != null) {
-            //     userGoogleIdToUserMap.put(oldInstructor.getGoogleId(), newInstructor);
-            // }
             HibernateUtil.persist(newInstructor);
         }
         HibernateUtil.commitTransaction();
     }
 
-    private Instructor createInstructor(Course newCourse,
-            teammates.storage.entity.Instructor oldInstructor) {
-        InstructorPrivileges newPrivileges;
-        if (oldInstructor.getInstructorPrivilegesAsText() == null) {
-            newPrivileges = new InstructorPrivileges(oldInstructor.getRole());
-        } else {
-            InstructorPrivilegesLegacy privilegesLegacy = JsonUtils
-                    .fromJson(oldInstructor.getInstructorPrivilegesAsText(), InstructorPrivilegesLegacy.class);
-            newPrivileges = new InstructorPrivileges(privilegesLegacy);
-        }
-
-        String truncatedInstructorName = truncateToLength255(oldInstructor.getName());
-        String truncatedDisplayName = truncateToLength255(oldInstructor.getDisplayedName());
-
-        teammates.storage.sqlentity.Instructor newInstructor = new teammates.storage.sqlentity.Instructor(
+    private Instructor createInstructor(Course newCourse, teammates.storage.entity.Instructor oldInstructor) {
+        Instructor newInstructor = new Instructor(
                 newCourse,
-                truncatedInstructorName,
+                truncateToLength255(oldInstructor.getName()),
                 oldInstructor.getEmail(),
                 oldInstructor.isDisplayedToStudents(),
-                truncatedDisplayName,
+                truncateToLength255(oldInstructor.getDisplayedName()),
                 InstructorPermissionRole.getEnum(oldInstructor.getRole()),
-                newPrivileges);
+                parseInstructorPrivileges(oldInstructor));
 
         newInstructor.setCreatedAt(oldInstructor.getCreatedAt());
         newInstructor.setUpdatedAt(oldInstructor.getUpdatedAt());
@@ -369,77 +518,61 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         return newInstructor;
     }
 
-    private void migrateDeadlineExtensionEntities(String courseId) {
-        HibernateUtil.beginTransaction();
-        log("Migrating deadline extension");
-        Map<String, Instructor> emailToInstructorMap = new HashMap<>();
-        Map<String, Student> emailToStudentMap = new HashMap<>();
-
-        List<teammates.storage.entity.DeadlineExtension> oldDeadlineExtensions = ofy().load()
-                .type(teammates.storage.entity.DeadlineExtension.class)
-                .filter("courseId", courseId)
-                .list();
-
-        Map<String, FeedbackSession> feedbackSessionNameToFeedbackSessionMap = new HashMap<>();
-
-        for (FeedbackSession newFeedbackSession : getCourse(courseId).getFeedbackSessions()) {
-            feedbackSessionNameToFeedbackSessionMap.put(newFeedbackSession.getName(), newFeedbackSession);
+    private InstructorPrivileges parseInstructorPrivileges(teammates.storage.entity.Instructor oldInstructor) {
+        if (oldInstructor.getInstructorPrivilegesAsText() == null) {
+            return new InstructorPrivileges(oldInstructor.getRole());
         }
 
-        for (teammates.storage.entity.DeadlineExtension oldDeadlineExtension : oldDeadlineExtensions) {
-            String userEmail = oldDeadlineExtension.getUserEmail();
-            String feedbackSessionName = oldDeadlineExtension.getFeedbackSessionName();
-            teammates.storage.sqlentity.FeedbackSession feedbackSession =
-                    feedbackSessionNameToFeedbackSessionMap.get(feedbackSessionName);
-            User user;
-            log(userEmail);
-            if (oldDeadlineExtension.getIsInstructor()) {
-                if (emailToInstructorMap.containsKey(userEmail)) {
-                    user = emailToInstructorMap.get(userEmail);
-                } else {
-                    Instructor instructor = getNewInstructor(courseId, userEmail);
-                    emailToInstructorMap.put(userEmail, instructor);
-                    user = instructor;
-                }
+        InstructorPrivilegesLegacy legacyPrivileges = JsonUtils
+                .fromJson(oldInstructor.getInstructorPrivilegesAsText(), InstructorPrivilegesLegacy.class);
 
-                if (user == null) {
-                    logError("Instructor not found for deadline extension: " + oldDeadlineExtension);
-                    continue;
-                }
+        return legacyPrivileges == null
+                ? new InstructorPrivileges(oldInstructor.getRole())
+                : new InstructorPrivileges(legacyPrivileges);
+    }
+
+    private void migrateDeadlineExtensionEntities(String courseId) {
+        log("Migrating deadline extensions");
+        HibernateUtil.beginTransaction();
+
+        List<teammates.storage.entity.DeadlineExtension> oldExtensions = ofy().load()
+                .type(teammates.storage.entity.DeadlineExtension.class)
+                .filter("courseId", courseId).list();
+
+        Map<String, FeedbackSession> sessionLookup = getCourse(courseId).getFeedbackSessions().stream()
+                .collect(Collectors.toMap(FeedbackSession::getName, s -> s));
+        Map<String, Instructor> instructorCache = new HashMap<>();
+        Map<String, Student> studentCache = new HashMap<>();
+
+        for (teammates.storage.entity.DeadlineExtension oldExtension : oldExtensions) {
+            FeedbackSession session = sessionLookup.get(oldExtension.getFeedbackSessionName());
+            User user;
+            if (oldExtension.getIsInstructor()) {
+                user = instructorCache.computeIfAbsent(oldExtension.getUserEmail(),
+                            email -> getNewInstructor(courseId, email));
             } else {
-                if (emailToStudentMap.containsKey(userEmail)) {
-                    user = emailToStudentMap.get(userEmail);
-                } else {
-                    Student student = getNewStudent(courseId, userEmail);
-                    emailToStudentMap.put(userEmail, student);
-                    user = student;
-                }
-                if (user == null) {
-                    logError("Student not found for deadline extension: " + oldDeadlineExtension);
-                    continue;
-                }
+                user = studentCache.computeIfAbsent(oldExtension.getUserEmail(),
+                            email -> getNewStudent(courseId, email));
             }
-            DeadlineExtension newDeadlineExtension = createDeadlineExtension(oldDeadlineExtension, feedbackSession, user);
-            HibernateUtil.persist(newDeadlineExtension);
+
+            if (user == null) {
+                logError("User not found for deadline extension: " + oldExtension.getUserEmail());
+                continue;
+            }
+
+            DeadlineExtension newExtension = createDeadlineExtension(oldExtension, session, user);
+            HibernateUtil.persist(newExtension);
         }
         HibernateUtil.commitTransaction();
     }
 
-    private DeadlineExtension createDeadlineExtension(teammates.storage.entity.DeadlineExtension oldDeadlineExtension,
-                                          teammates.storage.sqlentity.FeedbackSession feedbackSession,
-                                          User newUser) {
-
-        DeadlineExtension newDeadlineExtension =
-                new teammates.storage.sqlentity.DeadlineExtension(
-                        newUser,
-                        feedbackSession,
-                        oldDeadlineExtension.getEndTime());
-
-        newDeadlineExtension.setCreatedAt(oldDeadlineExtension.getCreatedAt());
-        newDeadlineExtension.setUpdatedAt(oldDeadlineExtension.getUpdatedAt());
-        newDeadlineExtension.setClosingSoonEmailSent(oldDeadlineExtension.getSentClosingSoonEmail());
-
-        return newDeadlineExtension;
+    private DeadlineExtension createDeadlineExtension(teammates.storage.entity.DeadlineExtension oldExtension,
+            FeedbackSession session, User user) {
+        DeadlineExtension newExtension = new DeadlineExtension(user, session, oldExtension.getEndTime());
+        newExtension.setCreatedAt(oldExtension.getCreatedAt());
+        newExtension.setUpdatedAt(oldExtension.getUpdatedAt());
+        newExtension.setClosingSoonEmailSent(oldExtension.getSentClosingSoonEmail());
+        return newExtension;
     }
 
     private Course getCourse(String courseId) {
@@ -452,43 +585,27 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
         log("Preview: " + isPreview());
 
         Cursor cursor = readPositionOfCursorFromFile().orElse(null);
-        if (cursor == null) {
-            log("Start from the beginning");
-        } else {
-            log("Start from cursor position: " + cursor.toUrlSafe());
-        }
+        log(cursor == null ? "Start from the beginning" : "Start from cursor position: " + cursor.toUrlSafe());
 
         boolean shouldContinue = true;
         while (shouldContinue) {
             shouldContinue = false;
-            Query<teammates.storage.entity.Course> filterQueryKeys = getFilterQuery().limit(BATCH_SIZE);
+            Query<teammates.storage.entity.Course> query = getFilterQuery().limit(BATCH_SIZE);
             if (cursor != null) {
-                filterQueryKeys = filterQueryKeys.startAt(cursor);
+                query = query.startAt(cursor);
             }
 
-            QueryResults<?> iterator = filterQueryKeys.iterator();
+            QueryResults<?> iterator = query.iterator();
+            teammates.storage.entity.Course currentCourse = getNextUnmigratedCourse(iterator);
 
-            teammates.storage.entity.Course currentOldCourse = null;
-            // Cascade delete the course if it is not fully migrated.
-            if (iterator.hasNext()) {
-                currentOldCourse = (teammates.storage.entity.Course) iterator.next();
-                if (currentOldCourse.isMigrated()) {
-                    currentOldCourse = iterator.hasNext() ? (teammates.storage.entity.Course) iterator.next() : null;
-                } else {
-                    deleteCourseCascade(currentOldCourse);
-                }
-            }
-
-            while (currentOldCourse != null) {
+            while (currentCourse != null) {
                 shouldContinue = true;
                 try {
-                    doMigration(currentOldCourse);
+                    doMigration(currentCourse);
                 } catch (Exception e) {
                     numberOfScannedKey.incrementAndGet();
                     logError(e.getMessage());
-                    log("Total number of course entities scanned: " + numberOfScannedKey.get());
-                    log("Number of affected course entities: " + numberOfAffectedEntities.get());
-                    log("Number of updated course entities: " + numberOfUpdatedEntities.get());
+                    logProgress();
                     e.printStackTrace();
                     return;
                 }
@@ -497,27 +614,43 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
                 cursor = iterator.getCursorAfter();
                 savePositionOfCursorToFile(cursor);
 
-                currentOldCourse = iterator.hasNext() ? (teammates.storage.entity.Course) iterator.next() : null;
-                if (getMaxCoursesToMigrate().isPresent()
-                        && numberOfScannedKey.get() >= getMaxCoursesToMigrate().get()) {
-                    currentOldCourse = null;
+                currentCourse = iterator.hasNext() ? (teammates.storage.entity.Course) iterator.next() : null;
+                if (hasReachedMaxCourses()) {
+                    currentCourse = null;
                     shouldContinue = false;
                 }
             }
 
             if (shouldContinue) {
-                log(String.format("Cursor Position: %s", cursor != null ? cursor.toUrlSafe() : "null"));
-                log(String.format("Number Of Course Entity Key Scanned: %d", numberOfScannedKey.get()));
-                log(String.format("Number Of Course Entity affected: %d", numberOfAffectedEntities.get()));
-                log(String.format("Number Of Course Entity updated: %d", numberOfUpdatedEntities.get()));
+                logProgress();
             }
         }
 
         deleteCursorPositionFile();
         log(isPreview() ? "Preview Completed!" : "Migration Completed!");
-        log("Total number of course entities: " + numberOfScannedKey.get());
-        log("Number of affected course entities: " + numberOfAffectedEntities.get());
-        log("Number of updated course entities: " + numberOfUpdatedEntities.get());
+        logProgress();
+    }
+
+    private teammates.storage.entity.Course getNextUnmigratedCourse(QueryResults<?> iterator) {
+        while (iterator.hasNext()) {
+            teammates.storage.entity.Course course = (teammates.storage.entity.Course) iterator.next();
+            if (course.isMigrated()) {
+                continue; // skip already-migrated courses
+            }
+            deleteCourseCascade(course); // remove dangling SQL course from previous failed migration
+            return course; // return so we can migrate it from Datastore
+        }
+        return null;
+    }
+
+    private boolean hasReachedMaxCourses() {
+        return getMaxCoursesToMigrate().isPresent()
+                && numberOfScannedKey.get() >= getMaxCoursesToMigrate().get();
+    }
+
+    private void logProgress() {
+        log(String.format("Scanned: %d | Affected: %d | Updated: %d",
+                numberOfScannedKey.get(), numberOfAffectedEntities.get(), numberOfUpdatedEntities.get()));
     }
 
     /**
@@ -584,55 +717,12 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     }
 
     /**
-     * Stores the entity to save in a buffer and saves it later.
-     */
-    protected void saveEntityDeferred(BaseEntity entity) {
-        entitiesSavingBuffer.add(entity);
-        if (entitiesSavingBuffer.size() == MAX_BUFFER_SIZE) {
-            flushEntitiesSavingBuffer();
-        }
-    }
-
-    /**
-     * Flushes the saving buffer by issuing Cloud SQL save request.
-     */
-    private void flushEntitiesSavingBuffer() {
-        if (!entitiesSavingBuffer.isEmpty() && !isPreview()) {
-            log("Saving entities in batch..." + entitiesSavingBuffer.size());
-
-            long startTime = System.currentTimeMillis();
-            HibernateUtil.beginTransaction();
-            for (BaseEntity entity : entitiesSavingBuffer) {
-                HibernateUtil.persist(entity);
-            }
-
-            HibernateUtil.flushSession();
-            HibernateUtil.clearSession();
-            HibernateUtil.commitTransaction();
-            long endTime = System.currentTimeMillis();
-            log("Flushing " + entitiesSavingBuffer.size() + " took " + (endTime - startTime) + " milliseconds");
-        }
-        entitiesSavingBuffer.clear();
-    }
-
-    /**
-     * Normalizes null/empty section names to {@link teammates.common.util.Const#DEFAULT_SECTION}.
-     */
-    private static String normalizeSectionName(String name) {
-        return name == null || name.isEmpty() ? Const.DEFAULT_SECTION : name;
-    }
-
-    /**
-     * Normalizes null/empty team names to {@link teammates.common.util.Const#DEFAULT_TEAM}.
-     */
-    private static String normalizeTeamName(String name) {
-        return name == null || name.isEmpty() ? Const.DEFAULT_TEAM : name;
-    }
-
-    /**
-     * Truncates a string to a maximum length.
+     * Truncates a string to a maximum length. Returns null if str is null.
      */
     protected String truncate(String str, int maxLength) {
+        if (str == null) {
+            return null;
+        }
         return str.length() > maxLength ? str.substring(0, maxLength) : str;
     }
 
@@ -667,24 +757,20 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
     private Student getNewStudent(String courseId, String email) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-        cr.select(studentRoot).where(cb.and(
-                cb.equal(studentRoot.get("courseId"), courseId),
-                cb.equal(studentRoot.get("email"), email)
-        ));
-        Student newStudent = HibernateUtil.createQuery(cr).getSingleResult();
-        return newStudent;
+        Root<Student> root = cr.from(Student.class);
+        cr.select(root).where(cb.and(
+                cb.equal(root.get("courseId"), courseId),
+                cb.equal(root.get("email"), email)));
+        return HibernateUtil.createQuery(cr).getSingleResult();
     }
 
     private Instructor getNewInstructor(String courseId, String email) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-        cr.select(instructorRoot).where(cb.and(
-                cb.equal(instructorRoot.get("courseId"), courseId),
-                cb.equal(instructorRoot.get("email"), email)
-        ));
-        Instructor newInstructor = HibernateUtil.createQuery(cr).getSingleResult();
-        return newInstructor;
+        Root<Instructor> root = cr.from(Instructor.class);
+        cr.select(root).where(cb.and(
+                cb.equal(root.get("courseId"), courseId),
+                cb.equal(root.get("email"), email)));
+        return HibernateUtil.createQuery(cr).getSingleResult();
     }
 }

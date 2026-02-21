@@ -468,7 +468,9 @@ public class VerifyCourseEntityAttributes
         } else {
             InstructorPrivilegesLegacy privilegesLegacy = JsonUtils
                     .fromJson(oldInstructor.getInstructorPrivilegesAsText(), InstructorPrivilegesLegacy.class);
-            oldPrivileges = new InstructorPrivileges(privilegesLegacy);
+            oldPrivileges = privilegesLegacy == null
+                    ? new InstructorPrivileges(oldInstructor.getRole())
+                    : new InstructorPrivileges(privilegesLegacy);
         }
 
         return newInstructor.getName().equals(oldInstructor.getName())

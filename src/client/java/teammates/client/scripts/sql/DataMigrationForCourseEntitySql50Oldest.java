@@ -6,8 +6,8 @@ import com.googlecode.objectify.cmd.Query;
 
 /**
  * Migrates the 50 oldest unmigrated courses from Datastore to SQL.
- * Uses the same migration logic as {@link DataMigrationForCourseEntitySql} (SectionMigrator,
- * TeamMigrator, FeedbackChainMigrator, instructors, deadline extensions).
+ * Uses the same migration logic as {@link DataMigrationForCourseEntitySql} (sections, teams,
+ * feedback chain, instructors, deadline extensions).
  */
 public class DataMigrationForCourseEntitySql50Oldest extends DataMigrationForCourseEntitySql {
 

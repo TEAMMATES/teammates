@@ -1,16 +1,23 @@
 package teammates.client.scripts.sql;
 
+import java.time.Instant;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.CourseStudent;
+import teammates.storage.sqlentity.Section;
 
 /**
  * Data migration class for section entity.
+ *
+ * <p>Exposes {@link #migrateSections} as a reusable static helper for migrating section entities.
+ * Used by both this script and {@link DataMigrationForCourseEntitySql}.
  */
 @SuppressWarnings("PMD")
 public class DataMigrationForSectionSql extends
@@ -60,12 +67,47 @@ public class DataMigrationForSectionSql extends
         try {
             teammates.storage.sqlentity.Course newCourse = HibernateUtil.getReference(
                     teammates.storage.sqlentity.Course.class, oldCourse.getUniqueId());
-            SectionMigrator.migrate(newCourse, getAllSectionNames(oldCourse).collect(Collectors.toList()),
+            migrateSections(newCourse, getAllSectionNames(oldCourse).collect(Collectors.toList()),
                     this::saveEntityDeferred);
             HibernateUtil.commitTransaction();
         } catch (Exception e) {
             HibernateUtil.rollbackTransaction();
             throw e;
         }
+    }
+
+    /**
+     * Creates and saves Section entities for the given course and section names.
+     * Used by both this script and {@link DataMigrationForCourseEntitySql}.
+     *
+     * @param newCourse the SQL course (must already exist)
+     * @param sectionNames distinct section names (e.g. from CourseStudent data)
+     * @param saveAction called for each created section (e.g. {@code HibernateUtil::persist})
+     */
+    public static void migrateSections(teammates.storage.sqlentity.Course newCourse,
+            Iterable<String> sectionNames, Consumer<Section> saveAction) {
+        for (String sectionName : sectionNames) {
+            String normalizedName = normalizeSectionName(sectionName);
+            String truncatedName = truncateSectionName(normalizedName);
+            Section section = new Section(newCourse, truncatedName);
+            section.setCreatedAt(Instant.now());
+            saveAction.accept(section);
+        }
+    }
+
+    /**
+     * Normalizes null/empty section names to {@link Const#DEFAULT_SECTION}.
+     * Used by {@link DataMigrationForCourseEntitySql} when gathering section names.
+     */
+    public static String normalizeSectionName(String name) {
+        return name == null || name.isEmpty() ? Const.DEFAULT_SECTION : name;
+    }
+
+    private static String truncateSectionName(String str) {
+        if (str == null) {
+            return null;
+        }
+        int maxLength = 255;
+        return str.length() > maxLength ? str.substring(0, maxLength) : str;
     }
 }

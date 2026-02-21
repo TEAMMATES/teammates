@@ -1,9 +1,12 @@
 package teammates.client.scripts.sql;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -19,6 +22,9 @@ import teammates.storage.entity.CourseStudent;
 
 /**
  * Data migration class for team entity.
+ *
+ * <p>Exposes {@link #migrateTeams} as a reusable static helper for migrating team entities.
+ * Used by both this script and {@link DataMigrationForCourseEntitySql}.
  */
 public class DataMigrationForTeamSql extends
         DataMigrationEntitiesBaseScriptSql<Course, teammates.storage.sqlentity.Team> {
@@ -55,8 +61,36 @@ public class DataMigrationForTeamSql extends
         HibernateUtil.beginTransaction();
         teammates.storage.sqlentity.Course newCourse = getNewCourse(oldCourse.getUniqueId());
         Map<String, Set<String>> sectionNameToTeamNames = getSectionNameToTeamNames(oldCourse);
-        TeamMigrator.migrate(newCourse, sectionNameToTeamNames, HibernateUtil::persist);
+        migrateTeams(newCourse, sectionNameToTeamNames, HibernateUtil::persist);
         HibernateUtil.commitTransaction();
+    }
+
+    /**
+     * Creates and saves Team entities for the given course. Course must have sections loaded.
+     * Used by both this script and {@link DataMigrationForCourseEntitySql}.
+     *
+     * @param newCourse the SQL course with sections loaded
+     * @param sectionNameToTeamNames map from section name to set of team names in that section
+     * @param saveAction called for each created team (e.g. {@code HibernateUtil::persist})
+     */
+    public static void migrateTeams(teammates.storage.sqlentity.Course newCourse,
+            Map<String, Set<String>> sectionNameToTeamNames,
+            Consumer<teammates.storage.sqlentity.Team> saveAction) {
+        Map<String, teammates.storage.sqlentity.Section> sectionByName = newCourse.getSections().stream()
+                .collect(Collectors.toMap(teammates.storage.sqlentity.Section::getName, s -> s));
+        for (Map.Entry<String, Set<String>> entry : sectionNameToTeamNames.entrySet()) {
+            teammates.storage.sqlentity.Section section = sectionByName.get(entry.getKey());
+            if (section == null) {
+                continue;
+            }
+            for (String teamName : entry.getValue()) {
+                String normalizedName = normalizeTeamName(teamName);
+                String truncatedName = truncateTeamName(normalizedName);
+                teammates.storage.sqlentity.Team team = new teammates.storage.sqlentity.Team(section, truncatedName);
+                team.setCreatedAt(Instant.now());
+                saveAction.accept(team);
+            }
+        }
     }
 
     private teammates.storage.sqlentity.Course getNewCourse(String courseId) {
@@ -79,22 +113,25 @@ public class DataMigrationForTeamSql extends
                 .list()
                 .stream()
                 .forEach(cs -> sectionNameToTeamNames
-                        .computeIfAbsent(normalizeSectionName(cs.getSectionName()), k -> new HashSet<>())
+                        .computeIfAbsent(DataMigrationForSectionSql.normalizeSectionName(cs.getSectionName()),
+                                k -> new HashSet<>())
                         .add(normalizeTeamName(cs.getTeamName())));
         return sectionNameToTeamNames;
     }
 
     /**
-     * Normalizes null/empty section names to {@link Const#DEFAULT_SECTION}.
+     * Normalizes null/empty team names to {@link Const#DEFAULT_TEAM}.
+     * Used by both this script and {@link DataMigrationForCourseEntitySql} when gathering team names.
      */
-    private static String normalizeSectionName(String name) {
-        return name == null || name.isEmpty() ? Const.DEFAULT_SECTION : name;
+    public static String normalizeTeamName(String name) {
+        return name == null || name.isEmpty() ? Const.DEFAULT_TEAM : name;
     }
 
-    /**
-     * Normalizes null/empty team names to {@link Const#DEFAULT_TEAM}.
-     */
-    private static String normalizeTeamName(String name) {
-        return name == null || name.isEmpty() ? Const.DEFAULT_TEAM : name;
+    private static String truncateTeamName(String str) {
+        if (str == null) {
+            return null;
+        }
+        int maxLength = 255;
+        return str.length() > maxLength ? str.substring(0, maxLength) : str;
     }
 }
