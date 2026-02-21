@@ -16,7 +16,7 @@ import { PanelChevronComponent } from '../../../components/panel-chevron/panel-c
 import { InstructorRoleNamePipe } from '../../../components/teammates-common/instructor-role-name.pipe';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
-/**.
+/**
  * Modal to select instructors to copy from other courses.
  */
 @Component({
