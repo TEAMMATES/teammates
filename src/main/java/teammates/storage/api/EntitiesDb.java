@@ -75,7 +75,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
         E entity = convertToEntityForSaving(entityToAdd);
 
         ofy().save().entity(entity).now();
-        // log.info("Entity created: " + JsonUtils.toJson(entityToAdd));
+        log.info("Entity created: " + JsonUtils.toJson(entityToAdd));
 
         return makeAttributes(entity);
     }
@@ -130,9 +130,9 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
             entities.add(entity);
         }
 
-        //for (A attributes : entitiesToAdd) {
-        //    log.info("Entity created: " + JsonUtils.toJson(attributes));
-        //}
+        for (A attributes : entitiesToAdd) {
+            log.info("Entity created: " + JsonUtils.toJson(attributes));
+        }
         ofy().save().entities(entities).now();
 
         return makeAttributes(entities);

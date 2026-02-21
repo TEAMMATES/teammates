@@ -13,6 +13,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -23,7 +24,9 @@ import teammates.common.util.StringHelper;
  * Represents a User.
  */
 @Entity
-@Table(name = "Users")
+@Table(name = "Users", uniqueConstraints = {
+        @UniqueConstraint(name = "Unique email and courseId", columnNames = { "email", "courseId" })
+})
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User extends BaseEntity {
     @Id

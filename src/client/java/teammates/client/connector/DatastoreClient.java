@@ -1,5 +1,6 @@
 package teammates.client.connector;
 
+import com.google.cloud.NoCredentials;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -37,9 +38,10 @@ public abstract class DatastoreClient {
         System.out.println("Going to connect to:" + appDomain + ":" + appPort);
 
         DatastoreOptions.Builder builder = DatastoreOptions.newBuilder().setProjectId(Config.APP_ID);
-        // if (ClientProperties.isTargetUrlDevServer()) {
-        //    builder.setHost(ClientProperties.TARGET_URL);
-        // }
+        if (ClientProperties.isTargetUrlDevServer()) {
+            builder.setHost(ClientProperties.TARGET_URL);
+            builder.setCredentials(NoCredentials.getInstance());
+        }
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
         OfyHelper.registerEntityClasses();
 

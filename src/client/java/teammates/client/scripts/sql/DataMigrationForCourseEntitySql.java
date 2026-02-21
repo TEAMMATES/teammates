@@ -11,14 +11,15 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
-import com.google.cloud.datastore.Cursor;
-import com.google.cloud.datastore.QueryResults;
-import com.googlecode.objectify.cmd.Query;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
+
+import com.google.cloud.datastore.Cursor;
+import com.google.cloud.datastore.QueryResults;
+import com.googlecode.objectify.cmd.Query;
+
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -353,10 +354,10 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
         for (FeedbackResponse oldResponse : oldResponses) {
             Section giverSection = sectionLookup.get(
-                DataMigrationForSectionSql.normalizeSectionName(oldResponse.getGiverSection())
+                    DataMigrationForSectionSql.normalizeSectionName(oldResponse.getGiverSection())
             );
             Section recipientSection = sectionLookup.get(
-                DataMigrationForSectionSql.normalizeSectionName(oldResponse.getRecipientSection())
+                    DataMigrationForSectionSql.normalizeSectionName(oldResponse.getRecipientSection())
             );
             migrateFeedbackResponse(newQuestion, oldResponse, giverSection, recipientSection, commentsByResponse);
         }
@@ -382,25 +383,25 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private FeedbackQuestionDetails getFeedbackQuestionDetails(FeedbackQuestion oldQuestion) {
         return switch (oldQuestion.getQuestionType()) {
-            case MCQ -> new FeedbackMcqQuestionDetailsConverter()
-                    .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case MSQ -> new FeedbackMsqQuestionDetailsConverter()
-                    .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case TEXT -> new FeedbackTextQuestionDetailsConverter()
-                    .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case RUBRIC -> new FeedbackRubricQuestionDetailsConverter()
-                    .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case CONTRIB -> new FeedbackContributionQuestionDetailsConverter()
-                    .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case CONSTSUM, CONSTSUM_RECIPIENTS, CONSTSUM_OPTIONS -> new FeedbackConstantSumQuestionDetailsConverter()
-                    .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case NUMSCALE -> new FeedbackNumericalScaleQuestionDetailsConverter()
-                    .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case RANK_OPTIONS -> new FeedbackRankOptionsQuestionDetailsConverter()
-                    .convertToEntityAttribute(oldQuestion.getQuestionText());
-            case RANK_RECIPIENTS -> new FeedbackRankRecipientsQuestionDetailsConverter()
-                    .convertToEntityAttribute(oldQuestion.getQuestionText());
-            default -> throw new IllegalArgumentException("Invalid question type");
+        case MCQ -> new FeedbackMcqQuestionDetailsConverter()
+                .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case MSQ -> new FeedbackMsqQuestionDetailsConverter()
+                .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case TEXT -> new FeedbackTextQuestionDetailsConverter()
+                .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case RUBRIC -> new FeedbackRubricQuestionDetailsConverter()
+                .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case CONTRIB -> new FeedbackContributionQuestionDetailsConverter()
+                .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case CONSTSUM, CONSTSUM_RECIPIENTS, CONSTSUM_OPTIONS -> new FeedbackConstantSumQuestionDetailsConverter()
+                .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case NUMSCALE -> new FeedbackNumericalScaleQuestionDetailsConverter()
+                .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case RANK_OPTIONS -> new FeedbackRankOptionsQuestionDetailsConverter()
+                .convertToEntityAttribute(oldQuestion.getQuestionText());
+        case RANK_RECIPIENTS -> new FeedbackRankRecipientsQuestionDetailsConverter()
+                .convertToEntityAttribute(oldQuestion.getQuestionText());
+        default -> throw new IllegalArgumentException("Invalid question type");
         };
     }
 
@@ -437,21 +438,21 @@ public class DataMigrationForCourseEntitySql extends DatastoreClient {
 
     private FeedbackResponseDetails getFeedbackResponseDetails(FeedbackResponse oldResponse) {
         return switch (oldResponse.getFeedbackQuestionType()) {
-            case MCQ -> new FeedbackMcqResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
-            case MSQ -> new FeedbackMsqResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
-            case TEXT -> new FeedbackTextResponseDetails(oldResponse.getAnswer());
-            case RUBRIC -> new FeedbackRubricResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
-            case CONTRIB -> new FeedbackContributionResponseDetailsConverter()
-                    .convertToEntityAttribute(oldResponse.getAnswer());
-            case CONSTSUM, CONSTSUM_RECIPIENTS, CONSTSUM_OPTIONS -> new FeedbackConstantSumResponseDetailsConverter()
-                    .convertToEntityAttribute(oldResponse.getAnswer());
-            case NUMSCALE -> new FeedbackNumericalScaleResponseDetailsConverter()
-                    .convertToEntityAttribute(oldResponse.getAnswer());
-            case RANK_OPTIONS -> new FeedbackRankOptionsResponseDetailsConverter()
-                    .convertToEntityAttribute(oldResponse.getAnswer());
-            case RANK_RECIPIENTS -> new FeedbackRankRecipientsResponseDetailsConverter()
-                    .convertToEntityAttribute(oldResponse.getAnswer());
-            default -> throw new IllegalArgumentException("Invalid response type");
+        case MCQ -> new FeedbackMcqResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
+        case MSQ -> new FeedbackMsqResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
+        case TEXT -> new FeedbackTextResponseDetails(oldResponse.getAnswer());
+        case RUBRIC -> new FeedbackRubricResponseDetailsConverter().convertToEntityAttribute(oldResponse.getAnswer());
+        case CONTRIB -> new FeedbackContributionResponseDetailsConverter()
+                .convertToEntityAttribute(oldResponse.getAnswer());
+        case CONSTSUM, CONSTSUM_RECIPIENTS, CONSTSUM_OPTIONS -> new FeedbackConstantSumResponseDetailsConverter()
+                .convertToEntityAttribute(oldResponse.getAnswer());
+        case NUMSCALE -> new FeedbackNumericalScaleResponseDetailsConverter()
+                .convertToEntityAttribute(oldResponse.getAnswer());
+        case RANK_OPTIONS -> new FeedbackRankOptionsResponseDetailsConverter()
+                .convertToEntityAttribute(oldResponse.getAnswer());
+        case RANK_RECIPIENTS -> new FeedbackRankRecipientsResponseDetailsConverter()
+                .convertToEntityAttribute(oldResponse.getAnswer());
+        default -> throw new IllegalArgumentException("Invalid response type");
         };
     }
 

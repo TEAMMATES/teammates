@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Const;
@@ -216,11 +217,11 @@ public class VerifyCourseEntityAttributes
             return false;
         }
         if (!Objects.equals(nullIfEmpty(newStudent.getGoogleId()), nullIfEmpty(oldStudent.getGoogleId()))) {
-                logValidationError(String.format("Mismatch in google ids. Expected %s but got %s",
+            logValidationError(String.format("Mismatch in google ids. Expected %s but got %s",
                     newStudent.getGoogleId(),
                     oldStudent.getGoogleId()));
-                return false;
-            }
+            return false;
+        }
 
         // Match migration: null/empty section and team normalized to DEFAULT_SECTION/DEFAULT_TEAM
         String expectedSection = oldStudent.getSectionName() == null || oldStudent.getSectionName().isEmpty()
