@@ -46,6 +46,8 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
 
     private long entitiesVerified = 0;
 
+    private final Logger logger;
+
     public VerifyNonCourseEntityAttributesBaseScript(
             Class<E> datastoreEntityClass, Class<T> sqlEntityClass) {
         this.datastoreEntityClass = datastoreEntityClass;
@@ -56,10 +58,9 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         String password = ClientProperties.SCRIPT_API_PASSWORD;
 
         HibernateUtil.buildSessionFactory(connectionUrl, username, password);
-    }
 
-    private String getLogPrefix() {
-        return String.format("%s verifying fields:", sqlEntityClass.getName());
+        String logPrefix = String.format("%s verifying fields:", sqlEntityClass.getName());
+        this.logger = new Logger(logPrefix);
     }
 
     /**
@@ -135,7 +136,7 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
         List<Map.Entry<T, E>> failures = new LinkedList<>();
         int numPages = getNumPages();
         if (numPages == 0) {
-            log("No entities available for verification");
+            logError("No entities available for verification");
             return failures;
         }
 
@@ -193,9 +194,9 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
 
         System.out.println("========================================");
         if (!failedEntities.isEmpty()) {
-            log("Errors detected");
+            logError("Errors detected");
             for (Map.Entry<T, E> failure : failedEntities) {
-                log("Sql entity: " + failure.getKey() + " datastore entity: " + failure.getValue());
+                logValidationError("Sql entity: " + failure.getKey() + " datastore entity: " + failure.getValue());
             }
         } else {
             log("No errors detected");
@@ -208,11 +209,29 @@ public abstract class VerifyNonCourseEntityAttributesBaseScript<E extends teamma
     }
 
     /**
-     * Log a line.
+     * Logs a message.
+     *
      * @param logLine the line to log
      */
     protected void log(String logLine) {
-        System.out.println(String.format("%s %s", getLogPrefix(), logLine));
+        logger.log(logLine);
+    }
+
+    /**
+     * Logs an error message.
+     *
+     * @param logLine the line to log
+     */
+    protected void logError(String logLine) {
+        logger.logError(logLine);
+    }
+
+    /**
+     * Log a validation error.
+     * @param logLine the line to log
+     */
+    protected void logValidationError(String logLine) {
+        logger.log(String.format("[ERROR IN VALIDATION] %s", logLine));
     }
 
     /**

@@ -9,8 +9,8 @@ import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.entity.Notification;
 import teammates.storage.entity.UsageStatistics;
-import teammates.storage.sqlentity.Notification;
 // CHECKSTYLE.ON:ImportOrder
 
 /**

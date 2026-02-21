@@ -26,6 +26,8 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
 
+    public static final String DEFAULT_TEAM = "None";
+
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
     public static final String DEFAULT_TIME_ZONE = "UTC";
