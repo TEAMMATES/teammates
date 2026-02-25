@@ -10,7 +10,8 @@ It is provided as a cloud-based service for educators/students and is currently 
 
 <img src="src/web/assets/images/overview.png" width="600">
 
-This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.appspot.com/) to go to the TEAMMATES product website.**
+This is the developer website for TEAMMATES.
+**Click [here](http://teammatesv4.appspot.com/) to visit the TEAMMATES product website.**
 
 [**Documentation for Developers** :book:](https://teammates.github.io/teammates) |
 [Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
