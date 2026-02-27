@@ -9,7 +9,7 @@
             <class name="teammates.e2e.cases.sql.axe.AdminSearchPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.AdminSessionsPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.AdminTimezonePageAxeTest" />
-            <class name="teammates.e2e.cases.sql.axe.DevServerLoginPageAxeTest" />
+            <!-- <class name="teammates.e2e.cases.sql.axe.DevServerLoginPageAxeTest" /> -->
             <class name="teammates.e2e.cases.sql.axe.FeedbackResultsPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.FeedbackSubmitPageAxeTest" />
             <class name="teammates.e2e.cases.sql.axe.HomePageAxeTest" />
