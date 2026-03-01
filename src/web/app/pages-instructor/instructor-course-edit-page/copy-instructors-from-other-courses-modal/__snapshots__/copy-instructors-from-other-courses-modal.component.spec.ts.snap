@@ -33,89 +33,91 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
     class="modal-body"
     id="copy-instructor-modal"
   >
-    <div
-      class="col-12 mb-3 text-md-end"
-    >
-      <strong
-        class="d-inline"
-      >
-         Sort Courses By: 
-      </strong>
-      <div
-        class="btn-group"
-        data-toggle="buttons"
-      >
-        <button
-          class="btn btn-light"
-          id="sort-course-id"
-        >
-          Course ID
-        </button>
-        <button
-          class="btn btn-light"
-          id="sort-course-name"
-        >
-          Course Name
-        </button>
-        <button
-          class="btn btn-light"
-          id="sort-course-creation-date"
-        >
-          Creation Date
-        </button>
-      </div>
-    </div>
     <div>
       <div
-        class="card"
+        class="col-12 mb-3 text-md-end"
       >
-        <div
-          class="card-header cursor-pointer bg-info"
+        <strong
+          class="d-inline"
         >
-          <strong
-            class="text-break"
+           Sort Courses By: 
+        </strong>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            id="sort-course-id"
           >
-            [FAN0002] (Archived): Test Course 1
-          </strong>
-          <div
-            class="card-header-btn-toolbar"
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-course-name"
           >
-            <tm-panel-chevron>
-              <button
-                aria-expanded="true"
-                aria-label="Expand panel"
-                class="chevron btn-course btn btn-primary btn-sm"
-                type="button"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                  style="color: white;"
-                />
-              </button>
-            </tm-panel-chevron>
-          </div>
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-course-creation-date"
+          >
+            Creation Date
+          </button>
         </div>
-        <div>
-          <tm-loading-retry>
-            <div
-              class="text-center"
+      </div>
+      <div>
+        <div
+          class="card"
+        >
+          <div
+            class="card-header cursor-pointer bg-info"
+          >
+            <strong
+              class="text-break"
             >
-              <p
-                class="text-muted m-1"
-              >
-                Failed to load instructors
-              </p>
-              <button
-                class="btn btn-primary"
-              >
-                <i
-                  aria-hidden="true"
-                  class="fas fa-redo"
-                />
-                 Retry
-              </button>
+              [FAN0002] (Archived): Test Course 1
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-chevron-up"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
             </div>
-          </tm-loading-retry>
+          </div>
+          <div>
+            <tm-loading-retry>
+              <div
+                class="text-center"
+              >
+                <p
+                  class="text-muted m-1"
+                >
+                  Failed to load instructors
+                </p>
+                <button
+                  class="btn btn-primary"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="fas fa-redo"
+                  />
+                   Retry
+                </button>
+              </div>
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     </div>
@@ -174,212 +176,214 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     class="modal-body"
     id="copy-instructor-modal"
   >
-    <div
-      class="col-12 mb-3 text-md-end"
-    >
-      <strong
-        class="d-inline"
-      >
-         Sort Courses By: 
-      </strong>
-      <div
-        class="btn-group"
-        data-toggle="buttons"
-      >
-        <button
-          class="btn btn-light"
-          id="sort-course-id"
-        >
-          Course ID
-        </button>
-        <button
-          class="btn btn-light"
-          id="sort-course-name"
-        >
-          Course Name
-        </button>
-        <button
-          class="btn btn-light"
-          id="sort-course-creation-date"
-        >
-          Creation Date
-        </button>
-      </div>
-    </div>
     <div>
       <div
-        class="card"
+        class="col-12 mb-3 text-md-end"
       >
-        <div
-          class="card-header cursor-pointer bg-info"
+        <strong
+          class="d-inline"
         >
-          <strong
-            class="text-break"
+           Sort Courses By: 
+        </strong>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            id="sort-course-id"
           >
-            [FAN0002] (Archived): Test Course 1
-          </strong>
-          <div
-            class="card-header-btn-toolbar"
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-course-name"
           >
-            <tm-panel-chevron>
-              <button
-                aria-expanded="true"
-                aria-label="Expand panel"
-                class="chevron btn-course btn btn-primary btn-sm"
-                type="button"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                  style="color: white;"
-                />
-              </button>
-            </tm-panel-chevron>
-          </div>
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-course-creation-date"
+          >
+            Creation Date
+          </button>
         </div>
-        <div>
-          <tm-loading-retry>
-            <div>
-              <div
-                class="card-body"
-              >
-                <table
-                  class="table table-bordered table-responsive-lg"
-                  id="copy-instructor-table"
-                >
-                  <thead
-                    class="bg-info"
-                  >
-                    <tr>
-                      <th>
-                        #
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="sortable-header"
-                      >
-                        <button>
-                           Instructor Name 
-                          <span
-                            aria-hidden="true"
-                            class="fa-stack"
-                          >
-                            <i
-                              class="fas fa-sort"
-                            />
-                          </span>
-                        </button>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="sortable-header"
-                      >
-                        <button>
-                           Instructor Email 
-                          <span
-                            aria-hidden="true"
-                            class="fa-stack"
-                          >
-                            <i
-                              class="fas fa-sort"
-                            />
-                          </span>
-                        </button>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="sortable-header"
-                      >
-                        <button>
-                           Displayed to Student As 
-                          <span
-                            aria-hidden="true"
-                            class="fa-stack"
-                          >
-                            <i
-                              class="fas fa-sort"
-                            />
-                          </span>
-                        </button>
-                      </th>
-                      <th
-                        aria-sort="none"
-                        class="sortable-header"
-                      >
-                        <button>
-                           Access Level 
-                          <span
-                            aria-hidden="true"
-                            class="fa-stack"
-                          >
-                            <i
-                              class="fas fa-sort"
-                            />
-                          </span>
-                        </button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div>
-                          <input
-                            class="form-check-input no-shadow ng-untouched ng-pristine ng-valid"
-                            id="enabled-checkbox"
-                            type="checkbox"
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        King
-                      </td>
-                      <td>
-                        ins1@fan.tmt
-                      </td>
-                      <td>
-                        QWQWQWQ
-                      </td>
-                      <td>
-                        Manager
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div>
-                          <input
-                            class="form-check-input no-shadow ng-untouched ng-pristine ng-valid"
-                            id="enabled-checkbox"
-                            type="checkbox"
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        Nothing
-                      </td>
-                      <td>
-                        ins4@fan.tmt
-                      </td>
-                      <td>
-                        (NOT displayed to students)
-                      </td>
-                      <td>
-                        Tutor
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+      </div>
+      <div>
+        <div
+          class="card"
+        >
+          <div
+            class="card-header cursor-pointer bg-info"
+          >
+            <strong
+              class="text-break"
+            >
+              [FAN0002] (Archived): Test Course 1
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
                 <button
-                  class="btn btn-secondary float-end mt-2 mb-3"
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
                   <i
-                    aria-hidden="true"
-                    class="fas fa-redo"
+                    class="fas fa-chevron-up"
+                    style="color: white;"
                   />
-                    Reload 
                 </button>
-              </div>
+              </tm-panel-chevron>
             </div>
-          </tm-loading-retry>
+          </div>
+          <div>
+            <tm-loading-retry>
+              <div>
+                <div
+                  class="card-body"
+                >
+                  <table
+                    class="table table-bordered table-responsive-lg"
+                    id="copy-instructor-table"
+                  >
+                    <thead
+                      class="bg-info"
+                    >
+                      <tr>
+                        <th>
+                          #
+                        </th>
+                        <th
+                          aria-sort="none"
+                          class="sortable-header"
+                        >
+                          <button>
+                             Instructor Name 
+                            <span
+                              aria-hidden="true"
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                            </span>
+                          </button>
+                        </th>
+                        <th
+                          aria-sort="none"
+                          class="sortable-header"
+                        >
+                          <button>
+                             Instructor Email 
+                            <span
+                              aria-hidden="true"
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                            </span>
+                          </button>
+                        </th>
+                        <th
+                          aria-sort="none"
+                          class="sortable-header"
+                        >
+                          <button>
+                             Displayed to Student As 
+                            <span
+                              aria-hidden="true"
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                            </span>
+                          </button>
+                        </th>
+                        <th
+                          aria-sort="none"
+                          class="sortable-header"
+                        >
+                          <button>
+                             Access Level 
+                            <span
+                              aria-hidden="true"
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                            </span>
+                          </button>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div>
+                            <input
+                              class="form-check-input no-shadow ng-untouched ng-pristine ng-valid"
+                              id="enabled-checkbox"
+                              type="checkbox"
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          King
+                        </td>
+                        <td>
+                          ins1@fan.tmt
+                        </td>
+                        <td>
+                          QWQWQWQ
+                        </td>
+                        <td>
+                          Manager
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div>
+                            <input
+                              class="form-check-input no-shadow ng-untouched ng-pristine ng-valid"
+                              id="enabled-checkbox"
+                              type="checkbox"
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          Nothing
+                        </td>
+                        <td>
+                          ins4@fan.tmt
+                        </td>
+                        <td>
+                          (NOT displayed to students)
+                        </td>
+                        <td>
+                          Tutor
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <button
+                    class="btn btn-secondary float-end mt-2 mb-3"
+                  >
+                    <i
+                      aria-hidden="true"
+                      class="fas fa-redo"
+                    />
+                      Reload 
+                  </button>
+                </div>
+              </div>
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     </div>
@@ -438,86 +442,88 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     class="modal-body"
     id="copy-instructor-modal"
   >
-    <div
-      class="col-12 mb-3 text-md-end"
-    >
-      <strong
-        class="d-inline"
-      >
-         Sort Courses By: 
-      </strong>
-      <div
-        class="btn-group"
-        data-toggle="buttons"
-      >
-        <button
-          class="btn btn-light"
-          id="sort-course-id"
-        >
-          Course ID
-        </button>
-        <button
-          class="btn btn-light"
-          id="sort-course-name"
-        >
-          Course Name
-        </button>
-        <button
-          class="btn btn-light"
-          id="sort-course-creation-date"
-        >
-          Creation Date
-        </button>
-      </div>
-    </div>
     <div>
       <div
-        class="card"
+        class="col-12 mb-3 text-md-end"
       >
-        <div
-          class="card-header cursor-pointer bg-info"
+        <strong
+          class="d-inline"
         >
-          <strong
-            class="text-break"
+           Sort Courses By: 
+        </strong>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            id="sort-course-id"
           >
-            [FAN0002] (Archived): Test Course 1
-          </strong>
-          <div
-            class="card-header-btn-toolbar"
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-course-name"
           >
-            <tm-panel-chevron>
-              <button
-                aria-expanded="true"
-                aria-label="Expand panel"
-                class="chevron btn-course btn btn-primary btn-sm"
-                type="button"
-              >
-                <i
-                  class="fas fa-chevron-up"
-                  style="color: white;"
-                />
-              </button>
-            </tm-panel-chevron>
-          </div>
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-course-creation-date"
+          >
+            Creation Date
+          </button>
         </div>
-        <div>
-          <tm-loading-retry>
-            <tm-loading-spinner>
-              <div
-                class="loading-container"
-              >
-                <div
-                  class="row spinner-border text-primary"
-                  role="status"
-                />
-                <div
-                  class="row text-secondary"
+      </div>
+      <div>
+        <div
+          class="card"
+        >
+          <div
+            class="card-header cursor-pointer bg-info"
+          >
+            <strong
+              class="text-break"
+            >
+              [FAN0002] (Archived): Test Course 1
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="true"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
                 >
-                  Loading...
+                  <i
+                    class="fas fa-chevron-up"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
+            </div>
+          </div>
+          <div>
+            <tm-loading-retry>
+              <tm-loading-spinner>
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="row spinner-border text-primary"
+                    role="status"
+                  />
+                  <div
+                    class="row text-secondary"
+                  >
+                    Loading...
+                  </div>
                 </div>
-              </div>
-            </tm-loading-spinner>
-          </tm-loading-retry>
+              </tm-loading-spinner>
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     </div>
@@ -576,98 +582,100 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
     class="modal-body"
     id="copy-instructor-modal"
   >
-    <div
-      class="col-12 mb-3 text-md-end"
-    >
-      <strong
-        class="d-inline"
-      >
-         Sort Courses By: 
-      </strong>
-      <div
-        class="btn-group"
-        data-toggle="buttons"
-      >
-        <button
-          class="btn btn-light"
-          id="sort-course-id"
-        >
-          Course ID
-        </button>
-        <button
-          class="btn btn-light"
-          id="sort-course-name"
-        >
-          Course Name
-        </button>
-        <button
-          class="btn btn-light"
-          id="sort-course-creation-date"
-        >
-          Creation Date
-        </button>
-      </div>
-    </div>
     <div>
       <div
-        class="card"
+        class="col-12 mb-3 text-md-end"
       >
-        <div
-          class="card-header cursor-pointer bg-info"
+        <strong
+          class="d-inline"
         >
-          <strong
-            class="text-break"
+           Sort Courses By: 
+        </strong>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            id="sort-course-id"
           >
-            [FAN0002] (Archived): Test Course 1
-          </strong>
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-course-name"
+          >
+            Course Name
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-course-creation-date"
+          >
+            Creation Date
+          </button>
+        </div>
+      </div>
+      <div>
+        <div
+          class="card"
+        >
           <div
-            class="card-header-btn-toolbar"
+            class="card-header cursor-pointer bg-info"
           >
-            <tm-panel-chevron>
-              <button
-                aria-expanded="false"
-                aria-label="Expand panel"
-                class="chevron btn-course btn btn-primary btn-sm"
-                type="button"
-              >
-                <i
-                  class="fas fa-chevron-down"
-                  style="color: white;"
-                />
-              </button>
-            </tm-panel-chevron>
+            <strong
+              class="text-break"
+            >
+              [FAN0002] (Archived): Test Course 1
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="false"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-chevron-down"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div>
-      <div
-        class="card"
-      >
+      <div>
         <div
-          class="card-header cursor-pointer bg-primary text-white"
+          class="card"
         >
-          <strong
-            class="text-break"
-          >
-            [FAN0001]: Test Course 2
-          </strong>
           <div
-            class="card-header-btn-toolbar"
+            class="card-header cursor-pointer bg-primary text-white"
           >
-            <tm-panel-chevron>
-              <button
-                aria-expanded="false"
-                aria-label="Expand panel"
-                class="chevron btn-course btn btn-primary btn-sm"
-                type="button"
-              >
-                <i
-                  class="fas fa-chevron-down"
-                  style="color: white;"
-                />
-              </button>
-            </tm-panel-chevron>
+            <strong
+              class="text-break"
+            >
+              [FAN0001]: Test Course 2
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="false"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-chevron-down"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
+            </div>
           </div>
         </div>
       </div>
@@ -727,6 +735,11 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
     class="modal-body"
     id="copy-instructor-modal"
   >
+    <div
+      class="alert alert-warning m-0"
+    >
+       You do not have any other courses to copy instructors from. 
+    </div>
   </div><div
     class="modal-footer"
   >
