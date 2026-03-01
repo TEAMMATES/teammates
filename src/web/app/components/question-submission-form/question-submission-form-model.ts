@@ -40,6 +40,8 @@ export interface QuestionSubmissionFormModel {
   recipientType: FeedbackParticipantType;
   recipientList: FeedbackResponseRecipient[];
   recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[];
+  // original recipient submission forms stores the last submitted state of the recipient submission forms.
+  originalRecipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[];
 
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting;
   customNumberOfEntitiesToGiveFeedbackTo: number;

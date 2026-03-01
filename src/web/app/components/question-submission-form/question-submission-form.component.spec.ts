@@ -18,6 +18,7 @@ import testEventEmission from '../../../test-helpers/test-event-emitter';
 import {
   FeedbackConstantSumQuestionDetails,
   FeedbackConstantSumResponseDetails,
+  FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
   FeedbackMsqQuestionDetails,
@@ -28,6 +29,7 @@ import {
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
+  FeedbackRankRecipientsResponseDetails,
   FeedbackResponseComment,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
@@ -35,6 +37,7 @@ import {
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
+import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS, DEFAULT_TEXT_RESPONSE_DETAILS } from '../../../types/default-question-structs';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
 import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
@@ -95,6 +98,7 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
     { recipientName: 'Charlie Hans', recipientIdentifier: 'hans-charlie-id' }],
 
   recipientSubmissionForms: [formResponse1, formResponse2, formResponse3, formResponse4],
+  originalRecipientSubmissionForms: [formResponse1, formResponse2, formResponse3, formResponse4],
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
   customNumberOfEntitiesToGiveFeedbackTo: 4,
   showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
@@ -323,22 +327,50 @@ describe('QuestionSubmissionFormComponent', () => {
       expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
     });
 
-  it('ngDoCheck: sets isSaved to false if hasResponseChanged is true and isSubmitAllClicked is false', () => {
-    component.hasResponseChanged = true;
+  it('sets hasResponseChanged to true if any response has changed', () => {
+    component.model.hasResponseChangedForRecipients.set('rogers-alan-id', true);
+    component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
 
-    component.ngDoCheck();
+    expect(component.hasResponseChanged).toBeTruthy();
+  });
+
+  it('sets hasResponseChanged to false if no response has changed', () => {
+    component.model.hasResponseChangedForRecipients.set('rogers-alan-id', false);
+    component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
+
+    expect(component.hasResponseChanged).toBeFalsy();
+  });
+
+  it('sets isSaved to false if some response has changed', () => {
+    component.model.hasResponseChangedForRecipients.set('rogers-alan-id', true);
+    component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
 
     expect(component.isSaved).toBeFalsy();
   });
 
-  it('ngDoCheck: sets isSaved to true if hasResponseChanged is true and isSubmitAllClicked is true'
-  + 'and some responses have responseId', () => {
-    component.hasResponseChanged = true;
-    component.isSubmitAllClicked = true;
-    const model: QuestionSubmissionFormModel = JSON.parse(
-      JSON.stringify(testNumscaleQuestionSubmissionForm, mapReplacer), mapReviver);
-    component.formModel = model;
-    component.ngDoCheck();
+  it('sets isSaved to false if no response has changed and all responses are empty', () => {
+    component.model.hasResponseChangedForRecipients.set('rogers-alan-id', false);
+    component.model.recipientSubmissionForms.push({
+      recipientIdentifier: '',
+      responseDetails: DEFAULT_TEXT_RESPONSE_DETAILS(),
+      responseId: '',
+      isValid: true,
+    }, {
+      recipientIdentifier: '',
+      responseDetails: DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(),
+      responseId: '',
+      isValid: true,
+    });
+
+    expect(component.isSaved).toBeFalsy();
+  });
+
+  it('sets isSaved to true if no response has changed and at least one response is not empty', () => {
+    component.model.hasResponseChangedForRecipients.set('hans-charlie-id', false);
+    component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
+    component.model.recipientSubmissionForms = [formResponse1, formResponse2];
+
+    fixture.detectChanges();
 
     expect(component.isSaved).toBeTruthy();
   });
@@ -554,30 +586,19 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(formModelChangeSpy).not.toHaveBeenCalled();
   });
 
-  it('saveFeedbackResponses: should set isSaved to true, hasResponseChanged to false'
-  + 'and set model.hasResponseChangedForRecipients all to false', () => {
-    component.isSaved = false;
-    component.hasResponseChanged = true;
+  it('saveFeedbackResponses: should emit responsesSave event', () => {
     component.model.hasResponseChangedForRecipients = new Map<string, boolean>([
-      ['id1', true],
-      ['id2', false],
-      ['id3', true],
+      ['harris-barry-id', true],
+      ['hans-charlie-id', false],
+      ['random-recipient-id', false],
     ]);
+    component.model.originalRecipientSubmissionForms = [formResponse1];
+    component.model.recipientSubmissionForms = [formResponse1, formResponse2];
 
     let emittedModel: QuestionSubmissionFormModel | undefined;
     testEventEmission(component.responsesSave, (value) => { emittedModel = value; });
 
     component.saveFeedbackResponses();
-
-    expect(component.isSaved).toBeTruthy();
-    expect(component.hasResponseChanged).toBeFalsy();
-
-    const expectedHasResponseChangedForRecipients = new Map<string, boolean>([
-      ['id1', false],
-      ['id2', false],
-      ['id3', false],
-    ]);
-    expect(component.model.hasResponseChangedForRecipients).toStrictEqual(expectedHasResponseChangedForRecipients);
     expect(emittedModel).toStrictEqual(component.model);
   });
 
@@ -1085,7 +1106,7 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('isSavedForRecipient: returns false if isSaved is false for FeedbackQuestionType.CONSTSUM_RECIPIENTS', () => {
     component.model.questionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
-    component.isSaved = false;
+    expect(component.isSaved).toBeFalsy();
 
     fixture.detectChanges();
     expect(component.isSavedForRecipient('recipientId')).toBeFalsy();
@@ -1093,7 +1114,7 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('isSavedForRecipient: returns false if isSaved is false for FeedbackQuestionType.CONTRIB', () => {
     component.model.questionType = FeedbackQuestionType.CONTRIB;
-    component.isSaved = false;
+    expect(component.isSaved).toBeFalsy();
 
     fixture.detectChanges();
     expect(component.isSavedForRecipient('recipientId')).toBeFalsy();
@@ -1101,33 +1122,60 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('isSavedForRecipient: returns false if isSaved is false for FeedbackQuestionType.RANK_RECIPIENTS', () => {
     component.model.questionType = FeedbackQuestionType.RANK_RECIPIENTS;
-    component.isSaved = false;
+    expect(component.isSaved).toBeFalsy();
 
     fixture.detectChanges();
     expect(component.isSavedForRecipient('recipientId')).toBeFalsy();
   });
 
   it('isSavedForRecipient: returns true if isSaved is true for FeedbackQuestionType.CONSTSUM_RECIPIENTS', () => {
-    component.model.questionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
-    component.isSaved = true;
+    const form = {
+      responseId: 'response-id',
+      recipientIdentifier: 'harris-barry-id',
+      responseDetails: {
+        answers: [1],
+      } as FeedbackConstantSumResponseDetails,
+      isValid: true,
+    };
 
+    component.model.questionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
+    component.model.recipientSubmissionForms = [form];
     fixture.detectChanges();
+
+    expect(component.isSaved).toBeTruthy();
     expect(component.isSavedForRecipient('recipientId')).toBeTruthy();
   });
 
   it('isSavedForRecipient: returns true if isSaved is true for FeedbackQuestionType.CONTRIB', () => {
-    component.model.questionType = FeedbackQuestionType.CONTRIB;
-    component.isSaved = true;
+    const form = {
+      responseId: 'response-id',
+      recipientIdentifier: 'harris-barry-id',
+      responseDetails: {} as FeedbackContributionResponseDetails,
+      isValid: true,
+    };
 
+    component.model.questionType = FeedbackQuestionType.CONTRIB;
+    component.model.recipientSubmissionForms = [form];
     fixture.detectChanges();
+
+    expect(component.isSaved).toBeTruthy();
     expect(component.isSavedForRecipient('recipientId')).toBeTruthy();
   });
 
   it('isSavedForRecipient: returns true if isSaved is true for FeedbackQuestionType.RANK_RECIPIENTS', () => {
+    const form = {
+      responseId: 'response-id',
+      recipientIdentifier: 'harris-barry-id',
+      responseDetails: {} as FeedbackRankRecipientsResponseDetails,
+      isValid: true,
+    };
+
     component.model.questionType = FeedbackQuestionType.RANK_RECIPIENTS;
-    component.isSaved = true;
+    component.model.recipientSubmissionForms = [form];
 
     fixture.detectChanges();
+
+    expect(component.isSaved).toBeTruthy();
     expect(component.isSavedForRecipient('recipientId')).toBeTruthy();
   });
 });
