@@ -116,6 +116,12 @@ describe('CopySessionModalComponent', () => {
     });
   });
 
+  it('should treat whitespace-only copied session name as invalid', () => {
+    component.newFeedbackSessionName = '   ';
+
+    expect(component.isNewFeedbackSessionNameValid).toBe(false);
+  });
+
   it('should add a courseId to copyToCourseSet when it is not already present', () => {
     const courseId = 'Course1';
     expect(component.copyToCourseSet.has(courseId)).toBe(false);
