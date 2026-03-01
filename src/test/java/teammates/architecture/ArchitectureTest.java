@@ -525,6 +525,7 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("AccountRequestSearchManager")
                 .and().doNotHaveSimpleName("InstructorSearchManager")
                 .and().doNotHaveSimpleName("StudentSearchManager")
+                .and().doNotHaveSimpleName("AccountRequestSearchManagerTest")
                 .and().doNotHaveSimpleName("InstructorSearchManagerTest")
                 .and().doNotHaveSimpleName("StudentSearchManagerTest")
                 .should().accessClassesThat().resideInAPackage("org.apache.solr..")
