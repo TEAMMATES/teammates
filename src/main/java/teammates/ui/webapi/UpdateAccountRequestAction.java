@@ -41,10 +41,10 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
                 && (accountRequest.getStatus() == AccountRequestStatus.PENDING
                 || accountRequest.getStatus() == AccountRequestStatus.REJECTED)) {
 
-            if (!sqlLogic.getAccountsForEmailWithTransaction(accountRequest.getEmail()).isEmpty()) {
-                throw new InvalidOperationException(String.format("An account with email %s already exists. "
-                        + "Please reject or delete the account request instead.",
-                        accountRequest.getEmail()));
+            if (logic.existsInstructorWithEmailInInstitute(accountRequest.getEmail(), accountRequest.getInstitute())) {
+                throw new InvalidOperationException(String.format("An instructor account with email %s "
+                        + "under the institute %s already exists. Please reject or delete the account request instead.",
+                        accountRequest.getEmail(), accountRequest.getInstitute()));
             }
 
             if (!sqlLogic.getApprovedAccountRequestsForEmailWithTransaction(accountRequest.getEmail()).isEmpty()) {

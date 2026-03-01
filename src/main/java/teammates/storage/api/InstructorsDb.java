@@ -156,6 +156,15 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     /**
+     * Gets all instructors associated with an email.
+     */
+    public List<InstructorAttributes> getInstructorsForEmail(String email) {
+        assert email != null;
+
+        return makeAttributes(getInstructorEntitiesForEmail(email));
+    }
+
+    /**
      * Gets all instructors associated with a googleId.
      *
      * @param omitArchived whether archived instructors should be omitted or not
@@ -395,6 +404,13 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
 
     private Query<Instructor> getInstructorsForGoogleIdQuery(String googleId) {
         return load().filter("googleId =", googleId);
+    }
+
+    /**
+     * Returns all instructor entities associated with the email.
+     */
+    private List<Instructor> getInstructorEntitiesForEmail(String email) {
+        return load().filter("email =", email).list();
     }
 
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId) {

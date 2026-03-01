@@ -114,6 +114,14 @@ public class Logic {
         return accountsLogic.updateReadNotifications(googleId, notificationId, endTime);
     }
 
+    /**
+     * Returns the institute of the course with ID {@code courseId}.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return The institute of the course, or null if no such course exists.
+     */
     public String getCourseInstitute(String courseId) {
         return coursesLogic.getCourseInstitute(courseId);
     }
@@ -295,6 +303,22 @@ public class Logic {
         assert email != null;
 
         return instructorsLogic.getInstructorById(courseId, email);
+    }
+
+    /**
+     * Checks whether an instructor with the given email exists in any course that belongs to the given institute.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @return true if exists, false otherwise.
+     */
+    public boolean existsInstructorWithEmailInInstitute(String email, String institute) {
+
+        assert email != null;
+        assert institute != null;
+
+        return instructorsLogic.existsInstructorWithEmailInInstitute(email, institute);
     }
 
     /**

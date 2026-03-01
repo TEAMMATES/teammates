@@ -135,6 +135,13 @@ public final class CoursesLogic {
     }
 
     /**
+     * Gets the courses with the specified IDs.
+     */
+    public List<CourseAttributes> getCourses(List<String> courseIds) {
+        return coursesDb.getCourses(courseIds);
+    }
+
+    /**
      * Returns true if the course with ID courseId is present.
      */
     public boolean isCoursePresent(String courseId) {

@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -33,6 +35,7 @@ public final class InstructorsLogic {
     private static final InstructorsLogic instance = new InstructorsLogic();
 
     private final InstructorsDb instructorsDb = InstructorsDb.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
 
     private FeedbackResponsesLogic frLogic;
     private FeedbackResponseCommentsLogic frcLogic;
@@ -177,6 +180,13 @@ public final class InstructorsLogic {
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
+    }
+
+    /**
+     * Gets all instructors associated with an email.
+     */
+    public List<InstructorAttributes> getInstructorsForEmail(String email) {
+        return instructorsDb.getInstructorsForEmail(email);
     }
 
     /**
@@ -424,6 +434,28 @@ public final class InstructorsLogic {
      */
     public boolean isInstructorInAnyCourse(String googleId) {
         return instructorsDb.hasInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Checks if there is an existing instructor with the given email
+     * in any course that belongs to the specified institute.
+     */
+    public boolean existsInstructorWithEmailInInstitute(String email, String institute) {
+        assert email != null;
+        assert institute != null;
+
+        List<InstructorAttributes> instructors = getInstructorsForEmail(email);
+        if (instructors.isEmpty()) {
+            return false;
+        }
+
+        List<String> courseIds = instructors.stream()
+                .map(InstructorAttributes::getCourseId)
+                .collect(Collectors.toList());
+
+        List<CourseAttributes> courses = coursesLogic.getCourses(courseIds);
+        return courses.stream()
+                .anyMatch(course -> institute.equals(course.getInstitute()));
     }
 
     /**
