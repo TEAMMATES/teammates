@@ -86,6 +86,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.9")
     implementation("org.hibernate:hibernate-hikaricp:6.4.4.Final")
     implementation("com.google.cloud:google-cloud-secretmanager")
+    implementation("com.google.cloud:google-cloud-parametermanager")
 
     testAnnotationProcessor(testng)
 
@@ -359,8 +360,10 @@ appengine {
                 props.load(it)
             }
         }
-        projectId = propsExists ? props['app.id'] : null
-        version = propsExists ? props['app.version'] : null
+        String envProjectId = System.getenv("APP_ID") ?: System.getenv("GOOGLE_CLOUD_PROJECT")
+        String envVersion = System.getenv("APP_VERSION")
+        projectId = envProjectId ?: (propsExists ? props['app.id'] : null)
+        version = envVersion ?: (propsExists ? props['app.version'] : null)
         stopPreviousVersion = false
         promote = false
     }
@@ -398,36 +401,6 @@ appengineStage {
         dependsOn explodeWar, copyDistToExplodedWar
         finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp
     }
-}
-
-task deployCi {
-    description = "Deploy to App Engine using environment variables"
-    doFirst {
-        appengine.deploy.projectId = System.getenv("APP_ID")
-        appengine.deploy.version = System.getenv("APP_VERSION")
-
-        def instanceClass = System.getenv("INSTANCE_CLASS") ?: "F1"
-        def vpcConnector = System.getenv("VPC_ACCESS_CONNECTOR_NAME")
-
-        def appYaml = file("src/main/appengine/app.yaml")
-        def appYamlTemplate = file("src/main/appengine/app.template.yaml")
-        copy {
-            from appYamlTemplate
-            into appYamlTemplate.getParent()
-            rename 'app.template.yaml', 'app.yaml'
-        }
-        def content = appYaml.text
-        content = content.replaceAll(/(?m)^instance_class:.*/, "instance_class: ${instanceClass}")
-        if (vpcConnector) {
-            // Uncomment and set vpc_access_connector if present
-            content = content.replaceAll(
-                /(?m)^#\s*vpc_access_connector:\s*\n#\s*name:.*/,
-                "vpc_access_connector:\n  name: ${vpcConnector}"
-            )
-        }
-        appYaml.text = content
-    }
-    finalizedBy appengineDeployAll
 }
 
 // STATIC ANALYSIS TASKS

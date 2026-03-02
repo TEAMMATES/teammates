@@ -2,11 +2,16 @@ package teammates.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import com.google.api.gax.rpc.NotFoundException;
+import com.google.cloud.parametermanager.v1.ParameterManagerClient;
+import com.google.cloud.parametermanager.v1.ParameterVersionName;
+import com.google.cloud.parametermanager.v1.RenderParameterVersionResponse;
 import com.google.cloud.secretmanager.v1.AccessSecretVersionResponse;
 import com.google.cloud.secretmanager.v1.SecretManagerServiceClient;
 import com.google.cloud.secretmanager.v1.SecretVersionName;
@@ -44,7 +49,9 @@ public final class Config {
     /** The value of the "app.postgres.password" in build.properties file. */
     public static final String POSTGRES_PASSWORD;
 
-    /** The value of the "app.production.gcs.bucketname" in build.properties file. */
+    /**
+     * The value of the "app.production.gcs.bucketname" in build.properties file.
+     */
     public static final String PRODUCTION_GCS_BUCKETNAME;
 
     /** The value of the "app.backup.gcs.bucketname" in build.properties file. */
@@ -119,7 +126,9 @@ public final class Config {
     /** The value of the "app.localdatastore.port" in build-dev.properties file. */
     public static final int APP_LOCALDATASTORE_PORT;
 
-    /** The value of the "app.enable.devserver.login" in build-dev.properties file. */
+    /**
+     * The value of the "app.enable.devserver.login" in build-dev.properties file.
+     */
     public static final boolean ENABLE_DEVSERVER_LOGIN;
 
     /** The value of the "app.taskqueue.active" in build-dev.properties file. */
@@ -145,20 +154,18 @@ public final class Config {
         IS_DEV_SERVER = isDevServer(appVersion, appId);
 
         Properties devProperties = new Properties();
-        if (IS_DEV_SERVER) {
-            try (InputStream devPropStream = FileHelper.getResourceAsStream("build-dev.properties")) {
-                if (devPropStream != null) {
-                    devProperties.load(devPropStream);
-                }
-            } catch (IOException e) {
-                log.warning("Dev environment detected but failed to load build-dev.properties file.");
+
+        try (InputStream devPropStream = FileHelper.getResourceAsStream("build-dev.properties")) {
+            if (devPropStream != null) {
+                devProperties.load(devPropStream);
             }
-            APP_ID = getProperty(properties, devProperties, "app.id");
-            APP_VERSION = getProperty(properties, devProperties, "app.version");
-        } else {
-            APP_ID = appId;
-            APP_VERSION = appVersion;
+        } catch (IOException e) {
+            log.warning("Dev environment detected but failed to load build-dev.properties file.");
         }
+
+        properties = getBuildPropertiesFromGcpParameter(properties, appId);
+        APP_ID = properties.getProperty("app.id", appId);
+        APP_VERSION = properties.getProperty("app.version", appVersion);
 
         APP_REGION = getProperty(properties, devProperties, "app.region");
         APP_FRONTEND_URL = getProperty(properties, devProperties, "app.frontend.url", getDefaultFrontEndUrl());
@@ -216,13 +223,19 @@ public final class Config {
     /**
      * Returns the property value based on running environment.
      *
-     * <p>If it is in dev server, it will return the value from build-dev.properties file.
-     * If the respective key does not exist in build-dev.properties file, or it is in production server,
+     * <p>
+     * If it is in dev server, it will return the value from build-dev.properties
+     * file.
+     * If the respective key does not exist in build-dev.properties file, or it is
+     * in production server,
      * it will return the value from build.properties file instead.
      *
-     * <p>If still no key found in build.properties file, the specified default value will be returned.
+     * <p>
+     * If still no key found in build.properties file, the specified default value
+     * will be returned.
      */
-    private static String getProperty(Properties properties, Properties devProperties, String key, String defaultValue) {
+    private static String getProperty(Properties properties, Properties devProperties, String key,
+            String defaultValue) {
         if (IS_DEV_SERVER) {
             String val = devProperties.getProperty(key);
             if (val != null) {
@@ -233,10 +246,43 @@ public final class Config {
     }
 
     /**
-     * Returns the property value based on running environment. null is returned when no match values are found.
+     * Returns the property value based on running environment. null is returned
+     * when no match values are found.
      */
     private static String getProperty(Properties properties, Properties devProperties, String key) {
         return getProperty(properties, devProperties, key, null);
+    }
+
+    private static Properties getBuildPropertiesFromGcpParameter(Properties fallbackProperties,
+            String fallbackProjectId) {
+        try (ParameterManagerClient client = ParameterManagerClient.create()) {
+            ParameterVersionName name = ParameterVersionName.of(
+                    getGcpProjectId(fallbackProjectId), "global", "build_properties", "1");
+            RenderParameterVersionResponse response = client.renderParameterVersion(name);
+
+            Properties propertiesFromParameter = new Properties();
+            propertiesFromParameter.load(new StringReader(response.getPayload().getData().toStringUtf8()));
+            log.severe("Loaded properties from Parameter Manager: " + propertiesFromParameter);
+            return propertiesFromParameter;
+        } catch (NotFoundException e) {
+            log.warning(
+                    "Parameter not found in Parameter Manager: build_properties. Falling back to local build.properties.");
+        } catch (IOException e) {
+            log.warning(
+                    "Failed to access Parameter Manager for build_properties. Falling back to local build.properties.",
+                    e);
+        }
+
+        return fallbackProperties;
+    }
+
+    private static String getGcpProjectId(String fallbackProjectId) {
+        String googleCloudProject = System.getenv("APP_ID");
+        if (googleCloudProject != null && !googleCloudProject.isBlank()) {
+            return googleCloudProject;
+        }
+
+        return fallbackProjectId;
     }
 
     /**
@@ -266,7 +312,8 @@ public final class Config {
      */
     private static boolean isDevServer(String appVersion, String appId) {
         // In production server, GAE sets some non-overrideable environment variables.
-        // We will make use of some of them to determine whether the server is dev server or not.
+        // We will make use of some of them to determine whether the server is dev
+        // server or not.
         // This means that any developer can replicate this condition in dev server,
         // but it is their own choice and risk should they choose to do so.
 
@@ -329,11 +376,14 @@ public final class Config {
 
     /**
      * Returns the value of the specified secret from GCP Secret Manager.
-     * If it is in dev server, it will return the value from build.properties (or build.dev.properties) file instead.
+     * If it is in dev server, it will return the value from build.properties (or
+     * build.dev.properties) file instead.
      */
     private static String getGcpSecret(Properties properties, Properties devProperties, String secretName) {
-        // GCP secret name does not support full stop (.) and only supports underscore (_) as separator.
-        // So we will replace full stop with underscore when looking for the secret in GCP Secret Manager.
+        // GCP secret name does not support full stop (.) and only supports underscore
+        // (_) as separator.
+        // So we will replace full stop with underscore when looking for the secret in
+        // GCP Secret Manager.
         // In addition, secret names in GCP are capitalised.
 
         if (IS_DEV_SERVER) {
