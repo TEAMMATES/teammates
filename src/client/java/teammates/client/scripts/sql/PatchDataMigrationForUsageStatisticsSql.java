@@ -11,10 +11,10 @@ import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import com.google.cloud.datastore.Cursor;
 import com.google.cloud.datastore.QueryResults;
@@ -24,20 +24,24 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+
 import teammates.client.connector.DatastoreClient;
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Notification;
-import teammates.storage.sqlentity.ReadNotification;
+import teammates.storage.sqlentity.UsageStatistics;
 import teammates.test.FileHelper;
 
 // CHECKSTYLE.ON:ImportOrder
 /**
- * Data migration class for account and read notifications.
+ * Patch Migration Script for Usage Statistics
+ * Batch select datastore usage statistics, and then batch select SQL entities
+ * with the same start timestamps.
+ * Compare the size of the two list, if is not equal, find the missing one in
+ * SQL and migrate it.
  */
 @SuppressWarnings("PMD")
-public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClient {
+public class PatchDataMigrationForUsageStatisticsSql extends DatastoreClient {
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
 
@@ -57,20 +61,14 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     AtomicLong numberOfAffectedEntities;
     AtomicLong numberOfUpdatedEntities;
 
-    // buffer of entities to save
-    private List<teammates.storage.sqlentity.Account> entitiesAccountSavingBuffer;
-    private List<teammates.storage.entity.Account> entitiesOldAccountSavingBuffer;
+    private List<teammates.storage.sqlentity.UsageStatistics> entitiesSavingBuffer;
 
-    private List<ReadNotification> entitiesReadNotificationSavingBuffer;
-
-    private DataMigrationForAccountAndReadNotificationSql() {
+    private PatchDataMigrationForUsageStatisticsSql() {
         numberOfScannedKey = new AtomicLong();
         numberOfAffectedEntities = new AtomicLong();
         numberOfUpdatedEntities = new AtomicLong();
 
-        entitiesAccountSavingBuffer = new ArrayList<>();
-        entitiesOldAccountSavingBuffer = new ArrayList<>();
-        entitiesReadNotificationSavingBuffer = new ArrayList<>();
+        entitiesSavingBuffer = new ArrayList<>();
 
         String connectionUrl = ClientProperties.SCRIPT_API_URL;
         String username = ClientProperties.SCRIPT_API_NAME;
@@ -80,14 +78,14 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     }
 
     public static void main(String[] args) {
-        new DataMigrationForAccountAndReadNotificationSql().doOperationRemotely();
+        new PatchDataMigrationForUsageStatisticsSql().doOperationRemotely();
     }
 
     /**
      * Returns the log prefix.
      */
     protected String getLogPrefix() {
-        return String.format("Account and Read Notifications Migrating:");
+        return String.format("Usage Statistics Patch Migration:");
     }
 
     private boolean isPreview() {
@@ -97,86 +95,47 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
     /**
      * Returns whether the account has been migrated.
      */
-    protected boolean isMigrationNeeded(teammates.storage.entity.Account entity) {
+    protected boolean isMigrationNeeded(teammates.storage.entity.UsageStatistics entity) {
         return true;
     }
 
     /**
      * Returns the filter query.
      */
-    protected Query<teammates.storage.entity.Account> getFilterQuery() {
-        return ofy().load().type(teammates.storage.entity.Account.class);
+    protected Query<teammates.storage.entity.UsageStatistics> getFilterQuery() {
+        return ofy().load().type(teammates.storage.entity.UsageStatistics.class);
     }
 
-    private void doMigration(teammates.storage.entity.Account entity) {
+    private void doMigration(teammates.storage.entity.UsageStatistics entity) {
         try {
             if (!isMigrationNeeded(entity)) {
                 return;
             }
-            numberOfAffectedEntities.incrementAndGet();
             if (!isPreview()) {
                 migrateEntity(entity);
-                numberOfUpdatedEntities.incrementAndGet();
             }
         } catch (Exception e) {
-            logError("Problem migrating account " + entity);
+            logError("Problem migrating usage stats " + entity);
             logError(e.getMessage());
         }
     }
 
     /**
-     * Migrates the entity.
+     * Migrates the entity. In this case, add entity to buffer.
      */
-    protected void migrateEntity(teammates.storage.entity.Account oldAccount) {
-        HibernateUtil.beginTransaction();
+    protected void migrateEntity(teammates.storage.entity.UsageStatistics oldEntity) {
+        UsageStatistics newEntity = new UsageStatistics(
+                oldEntity.getStartTime(),
+                oldEntity.getTimePeriod(),
+                oldEntity.getNumResponses(),
+                oldEntity.getNumCourses(),
+                oldEntity.getNumStudents(),
+                oldEntity.getNumInstructors(),
+                oldEntity.getNumAccountRequests(),
+                oldEntity.getNumEmails(),
+                oldEntity.getNumSubmissions());
 
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<teammates.storage.sqlentity.Account> cr = cb.createQuery(
-                teammates.storage.sqlentity.Account.class);
-        Root<teammates.storage.sqlentity.Account> root = cr.from(teammates.storage.sqlentity.Account.class);
-        cr.select(root).where(cb.equal(root.get("googleId"), oldAccount.getGoogleId()));
-
-        TypedQuery<teammates.storage.sqlentity.Account> query = HibernateUtil.createQuery(cr);
-
-        boolean isEntityInDb = query.getResultList().size() != 0;
-        HibernateUtil.commitTransaction();
-
-        // In db, but somehow not set as migrated.
-        if (isEntityInDb) {
-            oldAccount.setMigrated(true);
-            entitiesOldAccountSavingBuffer.add(oldAccount);
-            return;
-        }
-
-        teammates.storage.sqlentity.Account newAccount = new teammates.storage.sqlentity.Account(
-                oldAccount.getGoogleId(),
-                oldAccount.getName(),
-                oldAccount.getEmail());
-
-        entitiesAccountSavingBuffer.add(newAccount);
-
-        oldAccount.setMigrated(true);
-        entitiesOldAccountSavingBuffer.add(oldAccount);
-        migrateReadNotification(oldAccount, newAccount);
-    }
-
-    private void migrateReadNotification(teammates.storage.entity.Account oldAccount,
-            teammates.storage.sqlentity.Account newAccount) {
-
-        HibernateUtil.beginTransaction();
-        for (Map.Entry<String, Instant> entry : oldAccount.getReadNotifications().entrySet()) {
-            UUID notificationId = UUID.fromString(entry.getKey());
-            Notification newNotification = HibernateUtil.get(Notification.class, notificationId);
-
-            // If the notification does not exist in the new database
-            if (newNotification == null) {
-                continue;
-            }
-
-            ReadNotification newReadNotification = new ReadNotification(newAccount, newNotification);
-            entitiesReadNotificationSavingBuffer.add(newReadNotification);
-        }
-        HibernateUtil.commitTransaction();
+        entitiesSavingBuffer.add(newEntity);
     }
 
     @Override
@@ -191,16 +150,14 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
             log("Start from cursor position: " + cursor.toUrlSafe());
         }
 
-        // // Clean account and read notification in SQL before migration
-        // cleanAccountAndReadNotificationInSql();
         boolean shouldContinue = true;
         while (shouldContinue) {
             shouldContinue = false;
-            Query<teammates.storage.entity.Account> filterQueryKeys = getFilterQuery().limit(BATCH_SIZE);
+            Query<teammates.storage.entity.UsageStatistics> filterQueryKeys = getFilterQuery().limit(BATCH_SIZE);
             if (cursor != null) {
                 filterQueryKeys = filterQueryKeys.startAt(cursor);
             }
-            QueryResults<teammates.storage.entity.Account> iterator;
+            QueryResults<teammates.storage.entity.UsageStatistics> iterator;
 
             iterator = filterQueryKeys.iterator();
 
@@ -220,10 +177,7 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
                 log(String.format("Number Of Entity Key Scanned: %d", numberOfScannedKey.get()));
                 log(String.format("Number Of Entity affected: %d", numberOfAffectedEntities.get()));
                 log(String.format("Number Of Entity updated: %d", numberOfUpdatedEntities.get()));
-            } else {
-                flushEntitiesSavingBuffer();
             }
-            flushEntitiesSavingBuffer();
         }
 
         deleteCursorPositionFile();
@@ -233,56 +187,53 @@ public class DataMigrationForAccountAndReadNotificationSql extends DatastoreClie
         log("Number of updated entities: " + numberOfUpdatedEntities.get());
     }
 
-    // private void cleanAccountAndReadNotificationInSql() {
-    //     HibernateUtil.beginTransaction();
-
-    //     CriteriaDelete<ReadNotification> cdReadNotification = HibernateUtil.getCriteriaBuilder()
-    //             .createCriteriaDelete(ReadNotification.class);
-    //     cdReadNotification.from(ReadNotification.class);
-    //     HibernateUtil.executeDelete(cdReadNotification);
-
-    //     CriteriaDelete<teammates.storage.sqlentity.Account> cdAccount = HibernateUtil.getCriteriaBuilder()
-    //             .createCriteriaDelete(
-    //                     teammates.storage.sqlentity.Account.class);
-    //     cdAccount.from(teammates.storage.sqlentity.Account.class);
-    //     HibernateUtil.executeDelete(cdAccount);
-
-    //     HibernateUtil.commitTransaction();
-    // }
-
     /**
      * Flushes the saving buffer by issuing Cloud SQL save request.
      */
     private void flushEntitiesSavingBuffer() {
-        if (!entitiesAccountSavingBuffer.isEmpty() && !isPreview()) {
-            log("Saving account in batch..." + entitiesAccountSavingBuffer.size());
+        if (!entitiesSavingBuffer.isEmpty() && !isPreview()) {
+            log("Checking usage stats in batch..." + entitiesSavingBuffer.size());
 
+            // Entity identity is (startTime, timePeriod). Find which buffer entities are missing in SQL.
             HibernateUtil.beginTransaction();
-            for (teammates.storage.sqlentity.Account account : entitiesAccountSavingBuffer) {
-                HibernateUtil.persist(account);
+            CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+            CriteriaQuery<teammates.storage.sqlentity.UsageStatistics> cr = cb.createQuery(
+                    teammates.storage.sqlentity.UsageStatistics.class);
+            Root<teammates.storage.sqlentity.UsageStatistics> root = cr
+                    .from(teammates.storage.sqlentity.UsageStatistics.class);
+
+            List<Instant> instantList = entitiesSavingBuffer.stream()
+                    .map(teammates.storage.sqlentity.UsageStatistics::getStartTime)
+                    .distinct()
+                    .collect(Collectors.toList());
+            cr.select(root).where(root.get("startTime").in(instantList));
+            TypedQuery<teammates.storage.sqlentity.UsageStatistics> query = HibernateUtil.createQuery(cr);
+            List<teammates.storage.sqlentity.UsageStatistics> sqlEntitiesFound = query.getResultList();
+
+            Set<String> sqlKeys = sqlEntitiesFound.stream()
+                    .map(entity -> entity.getStartTime().toEpochMilli() + "|"
+                            + entity.getTimePeriod())
+                    .collect(Collectors.toSet());
+
+            for (teammates.storage.sqlentity.UsageStatistics entity : entitiesSavingBuffer) {
+                String key = entity.getStartTime().toEpochMilli() + "|" + entity.getTimePeriod();
+                if (sqlKeys.contains(key)) {
+                    continue;
+                }
+                // entity is not found in SQL
+                log("Migrating missing usage stats: startTime=" + entity.getStartTime()
+                        + ", timePeriod=" + entity.getTimePeriod());
+                numberOfAffectedEntities.incrementAndGet();
+                numberOfUpdatedEntities.incrementAndGet();
+                HibernateUtil.persist(entity);
             }
 
             HibernateUtil.flushSession();
             HibernateUtil.clearSession();
             HibernateUtil.commitTransaction();
 
-            ofy().save().entities(entitiesOldAccountSavingBuffer).now();
         }
-        entitiesAccountSavingBuffer.clear();
-        entitiesOldAccountSavingBuffer.clear();
-
-        if (!entitiesReadNotificationSavingBuffer.isEmpty() && !isPreview()) {
-            log("Saving notification in batch..." + entitiesReadNotificationSavingBuffer.size());
-            HibernateUtil.beginTransaction();
-            for (teammates.storage.sqlentity.ReadNotification rf : entitiesReadNotificationSavingBuffer) {
-                HibernateUtil.persist(rf);
-            }
-            HibernateUtil.flushSession();
-            HibernateUtil.clearSession();
-            HibernateUtil.commitTransaction();
-        }
-
-        entitiesReadNotificationSavingBuffer.clear();
+        entitiesSavingBuffer.clear();
     }
 
     /**

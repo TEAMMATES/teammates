@@ -17,8 +17,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import org.hibernate.annotations.UpdateTimestamp;
-
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
 import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
@@ -61,7 +59,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     @JoinColumn(name = "recipientSectionId")
     private Section recipientSection;
 
-    @UpdateTimestamp
+    // @UpdateTimestamp
     private Instant updatedAt;
 
     protected FeedbackResponse() {

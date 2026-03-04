@@ -9,8 +9,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Converter;
 import jakarta.persistence.MappedSuperclass;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.google.common.reflect.TypeToken;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -26,8 +24,9 @@ import teammates.common.util.JsonUtils;
 @MappedSuperclass
 public abstract class BaseEntity {
 
-    @CreationTimestamp
-    @Column(updatable = false)
+    // @CreationTimestamp
+    // @Column(updatable = false)
+    @Column(updatable = true)
     private Instant createdAt;
 
     BaseEntity() {

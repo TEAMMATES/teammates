@@ -124,6 +124,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
             }
         } catch (Exception e) {
             logError("Problem migrating entity " + entity);
+            e.printStackTrace();
             logError(e.getMessage());
         }
     }
