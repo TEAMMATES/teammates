@@ -8,7 +8,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import com.google.api.gax.rpc.ApiException;
 import com.google.api.gax.rpc.NotFoundException;
+import com.google.api.gax.rpc.PermissionDeniedException;
 import com.google.cloud.parametermanager.v1.ParameterManagerClient;
 import com.google.cloud.parametermanager.v1.ParameterVersionName;
 import com.google.cloud.parametermanager.v1.RenderParameterVersionResponse;
@@ -164,7 +166,7 @@ public final class Config {
         }
 
         properties = getBuildPropertiesFromGcpParameter(properties, appId);
-        APP_ID = properties.getProperty("app.id", appId);
+        APP_ID = getGcpProjectId(properties.getProperty("app.id", appId));
         APP_VERSION = properties.getProperty("app.version", appVersion);
 
         APP_REGION = getProperty(properties, devProperties, "app.region");
@@ -262,11 +264,18 @@ public final class Config {
 
             Properties propertiesFromParameter = new Properties();
             propertiesFromParameter.load(new StringReader(response.getPayload().getData().toStringUtf8()));
-            log.severe("Loaded properties from Parameter Manager: " + propertiesFromParameter);
             return propertiesFromParameter;
         } catch (NotFoundException e) {
             log.warning(
                     "Parameter not found in Parameter Manager: build_properties. Falling back to local build.properties.");
+        } catch (PermissionDeniedException e) {
+            log.warning(
+                "Permission denied when accessing Parameter Manager for build_properties. "
+                + "Falling back to local build.properties.", e);
+        } catch (ApiException e) {
+            log.warning(
+                "Failed to access Parameter Manager for build_properties due to API error. "
+                + "Falling back to local build.properties.", e);
         } catch (IOException e) {
             log.warning(
                     "Failed to access Parameter Manager for build_properties. Falling back to local build.properties.",
@@ -277,9 +286,23 @@ public final class Config {
     }
 
     private static String getGcpProjectId(String fallbackProjectId) {
-        String googleCloudProject = System.getenv("APP_ID");
+        String googleCloudProject = System.getenv("GOOGLE_CLOUD_PROJECT");
         if (googleCloudProject != null && !googleCloudProject.isBlank()) {
             return googleCloudProject;
+        }
+
+        String appId = System.getenv("APP_ID");
+        if (appId != null && !appId.isBlank()) {
+            return appId;
+        }
+
+        String gaeApplication = System.getenv("GAE_APPLICATION");
+        if (gaeApplication != null && !gaeApplication.isBlank()) {
+            int separatorIndex = gaeApplication.lastIndexOf('~');
+            if (separatorIndex >= 0 && separatorIndex + 1 < gaeApplication.length()) {
+                return gaeApplication.substring(separatorIndex + 1);
+            }
+            return gaeApplication;
         }
 
         return fallbackProjectId;
@@ -387,20 +410,29 @@ public final class Config {
         // In addition, secret names in GCP are capitalised.
 
         if (IS_DEV_SERVER) {
-            return getProperty(properties, devProperties, secretName);
+            return getProperty(properties, devProperties, secretName, "");
         }
 
         try (SecretManagerServiceClient client = SecretManagerServiceClient.create()) {
             SecretVersionName name = SecretVersionName.of(
-                    APP_ID,
+                    getGcpProjectId(APP_ID),
                     secretName.toUpperCase().replace('.', '_'),
                     "latest");
             AccessSecretVersionResponse response = client.accessSecretVersion(name);
 
             return response.getPayload().getData().toStringUtf8();
+        } catch (NotFoundException e) {
+            log.warning("Secret not found: " + secretName + ". Using empty value.");
+            return "";
+        } catch (PermissionDeniedException e) {
+            log.warning("Permission denied when accessing secret: " + secretName + ". Using empty value.", e);
+            return "";
+        } catch (ApiException e) {
+            log.warning("Failed to access secret due to API error: " + secretName + ". Using empty value.", e);
+            return "";
         } catch (IOException e) {
-            log.severe("Failed to access secret: " + secretName, e);
-            return null;
+            log.warning("Failed to access secret: " + secretName + ". Using empty value.", e);
+            return "";
         }
     }
 }
