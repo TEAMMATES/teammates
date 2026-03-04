@@ -274,8 +274,8 @@ public final class Config {
                 + "Falling back to local build.properties.", e);
         } catch (ApiException e) {
             log.warning(
-                "Failed to access Parameter Manager for build_properties due to API error. "
-                + "Falling back to local build.properties.", e);
+                    "Failed to access Parameter Manager for build_properties due to API error. "
+                    + "Falling back to local build.properties.", e);
         } catch (IOException e) {
             log.warning(
                     "Failed to access Parameter Manager for build_properties. Falling back to local build.properties.",
