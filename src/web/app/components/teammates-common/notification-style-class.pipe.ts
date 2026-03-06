@@ -8,7 +8,7 @@ import { NotificationStyle } from '../../../types/api-output';
 export class NotificationStyleClassPipe implements PipeTransform {
 
   transform(style: NotificationStyle): string {
-    return `alert alert-${style.toLowerCase()}`;
+    return `bg-${style.toLowerCase()} text-white`;
   }
 
 }
