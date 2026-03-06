@@ -121,8 +121,8 @@ public final class HibernateUtil {
                 .setProperty("hibernate.hbm2ddl.auto", "validate")
                 .setProperty("show_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
-                .setProperty("hibernate.hikari.minimumIdle", "1")
-                .setProperty("hibernate.hikari.maximumPoolSize", "5")
+                .setProperty("hibernate.hikari.minimumIdle", "10")
+                .setProperty("hibernate.hikari.maximumPoolSize", "30")
                 .setProperty("hibernate.hikari.idleTimeout", "300000")
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
                 // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.

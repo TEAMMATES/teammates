@@ -54,6 +54,5 @@ jobs:
         env:
           APP_ID: ${{ vars.APP_ID }}
           APP_VERSION: ${{ vars.APP_VERSION }}
-          INSTANCE_CLASS: ${{ vars.INSTANCE_CLASS }}
           VPC_ACCESS_CONNECTOR_NAME: ${{ vars.VPC_ACCESS_CONNECTOR_NAME }}
         run: ./gradlew appEngineDeployAll
