@@ -14,7 +14,7 @@
       </div>
       <div class="form-group">
         <label><b>Name for new session*</b></label>
-        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" maxlength="38"
+        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" maxlength="64"
                placeholder="e.g. Feedback for Project Presentation 1" required #newSessionName="ngModel">
         <div [hidden]="newSessionName.valid || (newSessionName.pristine && newSessionName.untouched)" class="invalid-field">
           <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
