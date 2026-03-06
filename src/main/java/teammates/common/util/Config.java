@@ -270,8 +270,8 @@ public final class Config {
                     "Parameter not found in Parameter Manager: build_properties. Falling back to local build.properties.");
         } catch (PermissionDeniedException e) {
             log.warning(
-                "Permission denied when accessing Parameter Manager for build_properties. "
-                + "Falling back to local build.properties.", e);
+                    "Permission denied when accessing Parameter Manager for build_properties. "
+                    + "Falling back to local build.properties.", e);
         } catch (ApiException e) {
             log.warning(
                     "Failed to access Parameter Manager for build_properties due to API error. "
