@@ -385,7 +385,7 @@ public final class UsersLogic {
      * Creates an account for the instructor if no existing account is found.
      * Preconditions:
      * Parameters regkey and googleId are non-null.
-     * 
+     *
      * @throws EntityAlreadyExistsException if the instructor already exists in the
      *                                      database.
      * @throws InvalidParametersException   if the instructor parameters are not
@@ -604,7 +604,7 @@ public final class UsersLogic {
      * visibility according to the logged-in user's google ID. This is used by admin
      * to
      * search students in the whole system.
-     * 
+     *
      * @return null if no result found
      */
     public List<Student> searchStudentsInWholeSystem(String queryString)

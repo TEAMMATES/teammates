@@ -81,8 +81,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
             assertEquals(student.getComments(), studentData.getComments());
             assertEquals(
                     student.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED,
-                    studentData.getJoinState()
-            );
+                    studentData.getJoinState());
             assertEquals(student.getTeamName(), studentData.getTeamName());
             assertEquals(student.getSectionName(), studentData.getSectionName());
 
@@ -106,7 +105,11 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         when(mockLogic.getInstructorsForGoogleId(instructorId)).thenReturn(instructors);
         when(mockLogic.searchStudents(searchKey, instructors)).thenReturn(students);
 
-        String[] params = {
+        for (Student student : students) {
+            when(mockLogic.getCourseInstitute(student.getCourseId())).thenReturn(student.getCourse().getInstitute());
+        }
+
+        for (Student student : students) { when(mockLogic.getCourseInstitute(student.getCourseId())).thenReturn(student.getCourse().getInstitute()); } String[] params = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
@@ -168,9 +171,8 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         verify(mockLogic, never()).getInstructorsForGoogleId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
-        verify(mockLogic, times(students.size())).getCourseInstitute(argThat(courseId ->
-                students.stream().map(Student::getCourseId).anyMatch(id -> id.equals(courseId))
-        ));
+        verify(mockLogic, times(students.size())).getCourseInstitute(
+                argThat(courseId -> students.stream().map(Student::getCourseId).anyMatch(id -> id.equals(courseId))));
         verifyNoMoreInteractions(mockLogic);
 
         verifyStudentsData(students, studentsData, true);

@@ -306,7 +306,7 @@ public class Logic {
 
     /**
      * Gets a course by course id.
-     * 
+     *
      * @param courseId courseId of the course.
      * @return the specified course.
      */
@@ -368,7 +368,7 @@ public class Logic {
 
     /**
      * Creates a course.
-     * 
+     *
      * @param course the course to create.
      * @return the created course.
      * @throws InvalidParametersException   if the course is not valid.
@@ -385,7 +385,7 @@ public class Logic {
      * Preconditions: <br/>
      * * {@code instructorGoogleId} already has an account and instructor
      * privileges.
-     * 
+     *
      * @param instructorGoogleId the Google ID of the instructor creating the
      *                           course.
      * @param course             the course to create.
@@ -399,7 +399,7 @@ public class Logic {
 
     /**
      * Deletes a course by course id.
-     * 
+     *
      * @param courseId of course.
      */
     public void deleteCourseCascade(String courseId) {
@@ -442,7 +442,7 @@ public class Logic {
 
     /**
      * Moves a course to Recycle Bin by its given corresponding ID.
-     * 
+     *
      * @return the deletion timestamp assigned to the course.
      */
     public Course moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
@@ -694,7 +694,7 @@ public class Logic {
 
     /**
      * Publishes a feedback session.
-     * 
+     *
      * @return the published feedback session
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      * @throws InvalidParametersException  if session is already published
@@ -769,7 +769,7 @@ public class Logic {
 
     /**
      * Unpublishes a feedback session.
-     * 
+     *
      * @return the unpublished feedback session
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      * @throws InvalidParametersException
@@ -788,7 +788,7 @@ public class Logic {
     /**
      * After an update to feedback session's fields, may need to adjust the email
      * status of the session.
-     * 
+     *
      * @param session recently updated session.
      */
     public void adjustFeedbackSessionEmailStatusAfterUpdate(FeedbackSession session) {
@@ -881,7 +881,7 @@ public class Logic {
      * Preconditions:
      * </p>
      * * All parameters are non-null.
-     * 
+     *
      * @return updated notification
      * @throws InvalidParametersException  if the notification is not valid
      * @throws EntityDoesNotExistException if the notification does not exist in the
@@ -1137,7 +1137,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Empty list if none found.
      */
     public List<Student> getStudentsForCourse(String courseId) {
@@ -1148,7 +1148,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @return Empty list if none found.
      */
     public List<Student> getUnregisteredStudentsForCourse(String courseId) {
@@ -1213,7 +1213,7 @@ public class Logic {
 
     /**
      * Search for students. Preconditions: all parameters are non-null.
-     * 
+     *
      * @param instructors a list of Instructors associated to a googleId,
      *                    used for filtering of search result
      * @return Null if no match found
@@ -1231,7 +1231,7 @@ public class Logic {
      * visibility according to the logged-in user's google ID. This is used by admin
      * to
      * search students in the whole system.
-     * 
+     *
      * @return Null if no match found.
      */
     public List<Student> searchStudentsInWholeSystem(String queryString)
@@ -1279,7 +1279,7 @@ public class Logic {
      * Create an account for the student if no existing account is found.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * 
+     *
      * @param key the registration key
      */
     public Student joinCourseForStudent(String key, String googleId)
@@ -1678,7 +1678,7 @@ public class Logic {
 
     /**
      * Gets an feedback response comment by feedback response comment id.
-     * 
+     *
      * @param id of feedback response comment.
      * @return the specified feedback response comment.
      */
@@ -1688,7 +1688,7 @@ public class Logic {
 
     /**
      * Updates a feedback response comment.
-     * 
+     *
      * @throws EntityDoesNotExistException if the comment does not exist
      */
     public FeedbackResponseComment updateFeedbackResponseComment(Long frcId,
@@ -1742,7 +1742,7 @@ public class Logic {
 
     /**
      * Creates a feedback response comment.
-     * 
+     *
      * @throws EntityAlreadyExistsException if the comment alreadty exists
      * @throws InvalidParametersException   if the comment is invalid
      */
