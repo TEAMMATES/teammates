@@ -1,5 +1,9 @@
 package teammates.logic.api;
 
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -14,6 +18,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.logic.external.MailgunService;
 import teammates.logic.external.MailjetService;
 import teammates.logic.external.SendgridService;
+import teammates.logic.external.SmtpEmailService;
 
 /**
  * SUT: {@link SendgridService},
@@ -97,4 +102,29 @@ public class EmailSenderTest extends BaseLogicTest {
         assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
     }
 
+    @Test
+    public void testConvertToSmtp() throws Exception {
+        EmailWrapper wrapper = getTypicalEmailWrapper();
+        MimeMessage email = new SmtpEmailService().parseToEmail(wrapper);
+
+        InternetAddress fromAddress = (InternetAddress) email.getFrom()[0];
+        assertEquals(wrapper.getSenderEmail(), fromAddress.getAddress());
+        assertEquals(wrapper.getSenderName(), fromAddress.getPersonal());
+        assertEquals(wrapper.getRecipient(), email.getRecipients(MimeMessage.RecipientType.TO)[0].toString());
+        assertEquals(wrapper.getBcc(), email.getRecipients(MimeMessage.RecipientType.BCC)[0].toString());
+        assertEquals(wrapper.getReplyTo(), email.getReplyTo()[0].toString());
+        assertEquals(wrapper.getSubject(), email.getSubject());
+
+        // Verify multipart content
+        MimeMultipart multipart = (MimeMultipart) email.getContent();
+        assertEquals(2, multipart.getCount());
+
+        // Verify plain text part
+        MimeBodyPart textPart = (MimeBodyPart) multipart.getBodyPart(0);
+        assertEquals(Jsoup.parse(wrapper.getContent()).text(), textPart.getContent().toString());
+
+        // Verify HTML part
+        MimeBodyPart htmlPart = (MimeBodyPart) multipart.getBodyPart(1);
+        assertEquals(wrapper.getContent(), htmlPart.getContent().toString());
+    }
 }
