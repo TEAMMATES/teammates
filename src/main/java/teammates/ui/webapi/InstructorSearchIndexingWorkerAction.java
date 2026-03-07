@@ -27,9 +27,14 @@ public class InstructorSearchIndexingWorkerAction extends AdminOnlyAction {
     private JsonResult executeWithSql(String courseId, String email) {
         Instructor instructor = sqlLogic.getInstructorForEmail(courseId, email);
         try {
-            sqlLogic.putInstructorDocument(instructor);
+            if (instructor == null) {
+                sqlLogic.deleteInstructorDocument(courseId, email);
+            } else {
+                sqlLogic.putInstructorDocument(instructor);
+            }
         } catch (SearchServiceException e) {
-            // Set an arbitrary retry code outside the range 200-299 to trigger automatic retry
+            // Set an arbitrary retry code outside the range 200-299 to trigger automatic
+            // retry
             return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);
         }
 
@@ -41,7 +46,8 @@ public class InstructorSearchIndexingWorkerAction extends AdminOnlyAction {
         try {
             logic.putInstructorDocument(instructor);
         } catch (SearchServiceException e) {
-            // Set an arbitrary retry code outside of the range 200-299 to trigger automatic retry
+            // Set an arbitrary retry code outside of the range 200-299 to trigger automatic
+            // retry
             return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);
         }
 

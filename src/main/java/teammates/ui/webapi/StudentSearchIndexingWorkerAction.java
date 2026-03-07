@@ -30,7 +30,8 @@ public class StudentSearchIndexingWorkerAction extends AdminOnlyAction {
         try {
             logic.putStudentDocument(student);
         } catch (SearchServiceException e) {
-            // Set an arbitrary retry code outside of the range 200-299 to trigger automatic retry
+            // Set an arbitrary retry code outside of the range 200-299 to trigger automatic
+            // retry
             return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);
         }
 
@@ -40,9 +41,14 @@ public class StudentSearchIndexingWorkerAction extends AdminOnlyAction {
     private ActionResult executeWithSql(String courseId, String email) {
         Student student = sqlLogic.getStudentForEmail(courseId, email);
         try {
-            sqlLogic.putStudentDocument(student);
+            if (student == null) {
+                sqlLogic.deleteStudentDocument(courseId, email);
+            } else {
+                sqlLogic.putStudentDocument(student);
+            }
         } catch (SearchServiceException e) {
-            // Set an arbitrary retry code outside of the range 200-299 to trigger automatic retry
+            // Set an arbitrary retry code outside the range 200-299 to trigger automatic
+            // retry
             return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);
         }
 

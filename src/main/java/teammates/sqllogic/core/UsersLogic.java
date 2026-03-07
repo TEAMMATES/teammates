@@ -45,14 +45,10 @@ import teammates.ui.request.InstructorCreateRequest;
  */
 public final class UsersLogic {
 
-    static final String ERROR_INVALID_TEAM_NAME =
-            "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
-    static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
-            "Please use different team names in different sections.";
-    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
-            "You are trying enroll more than %s students in section \"%s\".";
-    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
-            "To avoid performance problems, please do not enroll more than %s students in a single section.";
+    static final String ERROR_INVALID_TEAM_NAME = "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
+    static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION = "Please use different team names in different sections.";
+    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT = "You are trying enroll more than %s students in section \"%s\".";
+    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION = "To avoid performance problems, please do not enroll more than %s students in a single section.";
 
     private static final UsersLogic instance = new UsersLogic();
 
@@ -76,9 +72,10 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
-                               FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
-                               DeadlineExtensionsLogic deadlineExtensionsLogic) {
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
+            FeedbackResponsesLogic feedbackResponsesLogic,
+            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
+            DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
@@ -109,6 +106,23 @@ public final class UsersLogic {
     }
 
     /**
+     * Removes search document for the instructor identified by the given email and
+     * course ID.
+     */
+    public void deleteInstructorDocument(String courseId, String email) {
+        getInstructorSearchManager()
+                .deleteDocumentsByQuery("courseId:\"" + courseId + "\" AND email:\"" + email + "\"");
+    }
+
+    /**
+     * Removes search document for the student identified by the given email and
+     * course ID.
+     */
+    public void deleteStudentDocument(String courseId, String email) {
+        getStudentSearchManager().deleteDocumentsByQuery("courseId:\"" + courseId + "\" AND email:\"" + email + "\"");
+    }
+
+    /**
      * Create an instructor.
      *
      * @return the created instructor
@@ -128,12 +142,15 @@ public final class UsersLogic {
      * Updates an instructor and cascades to responses and comments if needed.
      *
      * @return updated instructor
-     * @throws InvalidParametersException if the instructor update request is invalid
-     * @throws InstructorUpdateException if the update violates instructor validity
-     * @throws EntityDoesNotExistException if the instructor does not exist in the database
+     * @throws InvalidParametersException  if the instructor update request is
+     *                                     invalid
+     * @throws InstructorUpdateException   if the update violates instructor
+     *                                     validity
+     * @throws EntityDoesNotExistException if the instructor does not exist in the
+     *                                     database
      */
-    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
-            InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
+    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest)
+            throws InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
         Instructor instructor;
         String instructorId = instructorRequest.getId();
         if (instructorId == null) {
@@ -176,8 +193,8 @@ public final class UsersLogic {
 
         if (needsCascade) {
             // cascade responses
-            List<FeedbackResponse> responsesFromUser =
-                    feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, originalEmail);
+            List<FeedbackResponse> responsesFromUser = feedbackResponsesLogic
+                    .getFeedbackResponsesFromGiverForCourse(courseId, originalEmail);
             for (FeedbackResponse responseFromUser : responsesFromUser) {
                 FeedbackQuestion question = responseFromUser.getFeedbackQuestion();
                 if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
@@ -185,13 +202,13 @@ public final class UsersLogic {
                     responseFromUser.setGiver(newEmail);
                 }
             }
-            List<FeedbackResponse> responsesToUser =
-                    feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, originalEmail);
+            List<FeedbackResponse> responsesToUser = feedbackResponsesLogic
+                    .getFeedbackResponsesForRecipientForCourse(courseId, originalEmail);
             for (FeedbackResponse responseToUser : responsesToUser) {
                 FeedbackQuestion question = responseToUser.getFeedbackQuestion();
                 if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                         || question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
-                        && question.getRecipientType() == FeedbackParticipantType.SELF) {
+                                && question.getRecipientType() == FeedbackParticipantType.SELF) {
                     responseToUser.setRecipient(newEmail);
                 }
             }
@@ -205,10 +222,11 @@ public final class UsersLogic {
     /**
      * Verifies that at least one instructor is displayed to studens.
      *
-     * @throws InstructorUpdateException if there is no instructor displayed to students.
+     * @throws InstructorUpdateException if there is no instructor displayed to
+     *                                   students.
      */
     void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
-                                               boolean isEditedInstructorDisplayed)
+            boolean isEditedInstructorDisplayed)
             throws InstructorUpdateException {
         List<Instructor> instructorsDisplayed = usersDb.getInstructorsDisplayedToStudents(courseId);
         boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
@@ -279,7 +297,8 @@ public final class UsersLogic {
     /**
      * Searches instructors in the whole system. Used by admin only.
      *
-     * @return List of found instructors in the whole system. Null if no result found.
+     * @return List of found instructors in the whole system. Null if no result
+     *         found.
      */
     public List<Instructor> searchInstructorsInWholeSystem(String queryString)
             throws SearchServiceException {
@@ -297,7 +316,8 @@ public final class UsersLogic {
      * Deletes an instructor and cascades deletion to
      * associated feedback responses, deadline extensions and comments.
      *
-     * <p>Fails silently if the instructor does not exist.
+     * <p>
+     * Fails silently if the instructor does not exist.
      */
     public void deleteInstructorCascade(String courseId, String email) {
         Instructor instructor = getInstructorForEmail(courseId, email);
@@ -308,6 +328,7 @@ public final class UsersLogic {
         feedbackResponsesLogic.deleteFeedbackResponsesForCourseCascade(courseId, email);
         deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(instructor);
         deleteUser(instructor);
+        deleteInstructorDocument(courseId, email);
     }
 
     /**
@@ -359,12 +380,16 @@ public final class UsersLogic {
     }
 
     /**
-     * Make the instructor join the course, i.e. associate an account to the instructor with the given googleId.
+     * Make the instructor join the course, i.e. associate an account to the
+     * instructor with the given googleId.
      * Creates an account for the instructor if no existing account is found.
      * Preconditions:
      * Parameters regkey and googleId are non-null.
-     * @throws EntityAlreadyExistsException if the instructor already exists in the database.
-     * @throws InvalidParametersException if the instructor parameters are not valid
+     * 
+     * @throws EntityAlreadyExistsException if the instructor already exists in the
+     *                                      database.
+     * @throws InvalidParametersException   if the instructor parameters are not
+     *                                      valid
      */
     public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -390,7 +415,8 @@ public final class UsersLogic {
         }
         usersDb.updateUser(instructor);
 
-        // Update the googleId of the student entity for the instructor which was created from sample data.
+        // Update the googleId of the student entity for the instructor which was
+        // created from sample data.
         Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null) {
             if (student.getAccount() == null) {
@@ -406,10 +432,12 @@ public final class UsersLogic {
     }
 
     /**
-     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     * Regenerates the registration key for the instructor with email address
+     * {@code email} in course {@code courseId}.
      *
      * @return the instructor with the new registration key.
-     * @throws InstructorUpdateException if system was unable to generate a new registration key.
+     * @throws InstructorUpdateException   if system was unable to generate a new
+     *                                     registration key.
      * @throws EntityDoesNotExistException if the instructor does not exist.
      */
     public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
@@ -417,7 +445,8 @@ public final class UsersLogic {
         Instructor instructor = getInstructorForEmail(courseId, email);
         if (instructor == null) {
             String errorMessage = String.format(
-                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+                    "The instructor with the email %s could not be found for the course with ID [%s].", email,
+                    courseId);
             throw new EntityDoesNotExistException(errorMessage);
         }
 
@@ -435,10 +464,12 @@ public final class UsersLogic {
     }
 
     /**
-     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
+     * Regenerates the registration key for the student with email address
+     * {@code email} in course {@code courseId}.
      *
      * @return the student with the new registration key.
-     * @throws StudentUpdateException if system was unable to generate a new registration key.
+     * @throws StudentUpdateException      if system was unable to generate a new
+     *                                     registration key.
      * @throws EntityDoesNotExistException if the student does not exist.
      */
     public Student regenerateStudentRegistrationKey(String courseId, String email)
@@ -464,7 +495,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Returns true if the user associated with the googleId is an instructor in any course in the system.
+     * Returns true if the user associated with the googleId is an instructor in any
+     * course in the system.
      */
     public boolean isInstructorInAnyCourse(String googleId) {
         return !usersDb.getAllInstructorsByGoogleId(googleId).isEmpty();
@@ -567,9 +599,12 @@ public final class UsersLogic {
     }
 
     /**
-     * This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin to
+     * This method should be used by admin only since the searching does not
+     * restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin
+     * to
      * search students in the whole system.
+     * 
      * @return null if no result found
      */
     public List<Student> searchStudentsInWholeSystem(String queryString)
@@ -647,22 +682,26 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets the section with the name in a particular course, otherwise creates a new section.
+     * Gets the section with the name in a particular course, otherwise creates a
+     * new section.
      */
     public Section getSectionOrCreate(String courseId, String sectionName) {
         return usersDb.getSectionOrCreate(courseId, sectionName);
     }
 
     /**
-     * Gets the team with the name in a particular session, otherwise creates a new team.
+     * Gets the team with the name in a particular session, otherwise creates a new
+     * team.
      */
     public Team getTeamOrCreate(Section section, String teamName) {
         return usersDb.getTeamOrCreate(section, teamName);
     }
 
     /**
-     * Checks if there are any other registered instructors that can modify instructors.
-     * If there are none, the instructor currently being edited will be granted the privilege
+     * Checks if there are any other registered instructors that can modify
+     * instructors.
+     * If there are none, the instructor currently being edited will be granted the
+     * privilege
      * of modifying instructors automatically.
      *
      * @param courseId         Id of the course.
@@ -682,17 +721,19 @@ public final class UsersLogic {
         boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
                 && instrWithModifyInstructorPrivilege != null
                 && (!instrWithModifyInstructorPrivilege.isRegistered()
-                || instrWithModifyInstructorPrivilege.getGoogleId()
-                .equals(instructorToEdit.getGoogleId()));
+                        || instrWithModifyInstructorPrivilege.getGoogleId()
+                                .equals(instructorToEdit.getGoogleId()));
         if (isLastRegInstructorWithPrivilege) {
             instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         }
     }
 
     /**
-     * Deletes a student along with its associated feedback responses, deadline extensions and comments.
+     * Deletes a student along with its associated feedback responses, deadline
+     * extensions and comments.
      *
-     * <p>Fails silently if the student does not exist.
+     * <p>
+     * Fails silently if the student does not exist.
      */
     public void deleteStudentCascade(String courseId, String studentEmail) {
         Student student = getStudentForEmail(courseId, studentEmail);
@@ -705,7 +746,8 @@ public final class UsersLogic {
                 .deleteFeedbackResponsesForCourseCascade(courseId, studentEmail);
 
         if (usersDb.getStudentCountForTeam(student.getTeamName(), student.getCourseId()) == 1) {
-            // the student is the only student in the team, delete responses related to the team
+            // the student is the only student in the team, delete responses related to the
+            // team
             feedbackResponsesLogic
                     .deleteFeedbackResponsesForCourseCascade(
                             student.getCourse().getId(), student.getTeamName());
@@ -713,11 +755,13 @@ public final class UsersLogic {
 
         deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
         deleteUser(student);
+        deleteStudentDocument(courseId, studentEmail);
         feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
     }
 
     /**
-     * Deletes students in the course cascade their associated responses, deadline extensions, and comments.
+     * Deletes students in the course cascade their associated responses, deadline
+     * extensions, and comments.
      */
     public void deleteStudentsInCourseCascade(String courseId) {
         List<Student> studentsInCourse = getStudentsForCourse(courseId);
@@ -745,18 +789,24 @@ public final class UsersLogic {
     /**
      * Updates a student by {@link Student}.
      *
-     * <p>If email changed, update by recreating the student and cascade update all responses
+     * <p>
+     * If email changed, update by recreating the student and cascade update all
+     * responses
      * and comments the student gives/receives.
      *
-     * <p>If team changed, cascade delete all responses the student gives/receives within that team.
+     * <p>
+     * If team changed, cascade delete all responses the student gives/receives
+     * within that team.
      *
-     * <p>If section changed, cascade update all responses the student gives/receives.
+     * <p>
+     * If section changed, cascade update all responses the student gives/receives.
      *
      * @return updated student
-     * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the student cannot be found
+     * @throws InvalidParametersException   if attributes to update are not valid
+     * @throws EntityDoesNotExistException  if the student cannot be found
      * @throws EntityAlreadyExistsException if the student cannot be updated
-     *         by recreation because of an existent student
+     *                                      by recreation because of an existent
+     *                                      student
      */
     public Student updateStudentCascade(Student student)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
@@ -788,7 +838,8 @@ public final class UsersLogic {
         // cascade email changes to responses and comments
         if (changedEmail) {
             feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, student.getEmail());
-            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, student.getEmail());
+            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail,
+                    student.getEmail());
         }
 
         // adjust submissions if moving to a different team
@@ -830,7 +881,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Validates sections for any limit violations and teams for any team name violations.
+     * Validates sections for any limit violations and teams for any team name
+     * violations.
      */
     public void validateSectionsAndTeams(
             List<Student> studentList, String courseId) throws EnrollException {
@@ -936,7 +988,7 @@ public final class UsersLogic {
     }
 
     private boolean isInEnrollList(Student student,
-                                   List<Student> studentInfoList) {
+            List<Student> studentInfoList) {
         for (Student studentInfo : studentInfoList) {
             if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
                 return true;
@@ -993,7 +1045,8 @@ public final class UsersLogic {
     }
 
     /**
-     * Utility function to convert user list to email-user map for faster email lookup.
+     * Utility function to convert user list to email-user map for faster email
+     * lookup.
      *
      * @param users users list which contains users with unique email addresses
      * @return email-user map for faster email lookup

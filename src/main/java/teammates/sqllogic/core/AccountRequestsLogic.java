@@ -51,6 +51,13 @@ public final class AccountRequestsLogic {
     }
 
     /**
+     * Removes search document for the account request identified by the given ID.
+     */
+    public void deleteDocument(UUID id) {
+        getSearchManager().deleteDocuments(List.of(id.toString()));
+    }
+
+    /**
      * Creates an account request.
      */
     public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
@@ -145,7 +152,8 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Creates/resets the account request with the given id such that it is not registered.
+     * Creates/resets the account request with the given id such that it is not
+     * registered.
      */
     public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -163,7 +171,10 @@ public final class AccountRequestsLogic {
     /**
      * Deletes account request associated with the {@code id}.
      *
-     * <p>Fails silently if no account requests with the given id to delete can be found.</p>
+     * <p>
+     * Fails silently if no account requests with the given id to delete can be
+     * found.
+     * </p>
      *
      */
     public void deleteAccountRequest(UUID id) {

@@ -50,7 +50,8 @@ public class SearchStudentsAction extends Action {
             return new JsonResult(e.getMessage(), e.getStatusCode());
         }
 
-        // Search in datastore. For more information on dual db support, see this [PR](https://github.com/TEAMMATES/teammates/pull/12728/files)
+        // Search in datastore. For more information on dual db support, see this
+        // [PR](https://github.com/TEAMMATES/teammates/pull/12728/files)
         List<StudentAttributes> studentsDatastore;
         try {
             if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entity)) {
@@ -68,14 +69,26 @@ public class SearchStudentsAction extends Action {
         List<StudentData> studentDataList = new ArrayList<>();
         // Add students from sql database
         for (Student s : students) {
+            String institute = null;
+            try {
+                institute = sqlLogic.getCourseInstitute(s.getCourseId());
+            } catch (AssertionError e) {
+                // If course is missing, it means the course (and its students) were deleted,
+                // but Solr is out of sync. We skip this "ghost" student.
+                continue;
+            }
+
+            if (institute == null) {
+                continue;
+            }
+
             StudentData studentData = new StudentData(s);
 
             if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getRegKey(),
-                        sqlLogic.getCourseInstitute(s.getCourseId()),
-                        s.getGoogleId()
-                );
+                        institute,
+                        s.getGoogleId());
             }
 
             studentDataList.add(studentData);
@@ -92,8 +105,7 @@ public class SearchStudentsAction extends Action {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getKey(),
                         logic.getCourseInstitute(s.getCourse()),
-                        s.getGoogleId()
-                );
+                        s.getGoogleId());
             }
 
             studentDataList.add(studentData);

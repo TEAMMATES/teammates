@@ -38,10 +38,23 @@ public class SearchInstructorsAction extends AdminOnlyAction {
 
         // Add instructors from sql db
         for (Instructor instructor : instructors) {
+            String institute = null;
+            try {
+                institute = sqlLogic.getCourseInstitute(instructor.getCourseId());
+            } catch (AssertionError e) {
+                // If course is missing, it means the course (and its instructors) were deleted,
+                // but Solr is out of sync. We skip this "ghost" instructor.
+                continue;
+            }
+
+            if (institute == null) {
+                continue;
+            }
+
             InstructorData instructorData = new InstructorData(instructor);
             instructorData.addAdditionalInformationForAdminSearch(
                     instructor.getRegKey(),
-                    sqlLogic.getCourseInstitute(instructor.getCourseId()),
+                    institute,
                     instructor.getGoogleId());
 
             instructorDataList.add(instructorData);

@@ -57,6 +57,8 @@ import teammates.storage.sqlentity.responses.FeedbackTextResponse;
  */
 public final class HibernateUtil {
     private static SessionFactory sessionFactory;
+    private static final ThreadLocal<java.util.List<Runnable>> postCommitActions = ThreadLocal
+            .withInitial(java.util.ArrayList::new);
 
     private static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(
             AccountRequest.class,
@@ -125,7 +127,8 @@ public final class HibernateUtil {
                 .setProperty("hibernate.hikari.maximumPoolSize", "30")
                 .setProperty("hibernate.hikari.idleTimeout", "300000")
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
-                // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.
+                // Uncomment only during migration for optimized batch-insertion, batch-update,
+                // and batch-fetch.
                 // .setProperty("hibernate.jdbc.batch_size", "50")
                 // .setProperty("hibernate.order_updates", "true")
                 // .setProperty("hibernate.batch_versioned_data", "true")
@@ -155,6 +158,7 @@ public final class HibernateUtil {
 
     /**
      * Returns the current hibernate session.
+     * 
      * @see SessionFactory#getCurrentSession()
      */
     private static Session getCurrentSession() {
@@ -163,6 +167,7 @@ public final class HibernateUtil {
 
     /**
      * Returns a CriteriaBuilder object.
+     * 
      * @see SessionFactory#getCriteriaBuilder()
      */
     public static CriteriaBuilder getCriteriaBuilder() {
@@ -171,6 +176,7 @@ public final class HibernateUtil {
 
     /**
      * Returns a generic typed TypedQuery object.
+     * 
      * @see Session#createQuery(CriteriaQuery)
      */
     public static <T> TypedQuery<T> createQuery(CriteriaQuery<T> cr) {
@@ -179,6 +185,7 @@ public final class HibernateUtil {
 
     /**
      * Returns a MutationQuery object.
+     * 
      * @see Session#createMutationQuery(CriteriaDelete)
      */
     public static <T> MutationQuery createMutationQuery(CriteriaDelete<T> cd) {
@@ -191,6 +198,7 @@ public final class HibernateUtil {
 
     /**
      * Start a resource transaction.
+     * 
      * @see Transaction#begin()
      */
     public static void beginTransaction() {
@@ -200,9 +208,11 @@ public final class HibernateUtil {
 
     /**
      * Roll back the current resource transaction if needed.
+     * 
      * @see Transaction#rollback()
      */
     public static void rollbackTransaction() {
+        postCommitActions.get().clear();
         Session session = getCurrentSession();
         if (session.getTransaction().getStatus() == TransactionStatus.ACTIVE
                 || session.getTransaction().getStatus() == TransactionStatus.MARKED_ROLLBACK) {
@@ -211,16 +221,46 @@ public final class HibernateUtil {
     }
 
     /**
-     * Commit the current resource transaction, writing any unflushed changes to the database.
+     * Commit the current resource transaction, writing any unflushed changes to the
+     * database.
+     * 
      * @see Transaction#commit()
      */
     public static void commitTransaction() {
         Transaction transaction = getCurrentSession().getTransaction();
         transaction.commit();
+
+        java.util.List<Runnable> actions = new java.util.ArrayList<>(postCommitActions.get());
+        postCommitActions.get().clear();
+        for (Runnable action : actions) {
+            action.run();
+        }
     }
 
     /**
-     * Force this session to flush. Must be called at the end of a unit of work, before the transaction is committed.
+     * Registers an action to be executed after the current transaction is
+     * committed.
+     * If no transaction is active, the action is executed immediately.
+     */
+    public static void executeOnCommit(Runnable action) {
+        if (isTransactionActive()) {
+            postCommitActions.get().add(action);
+        } else {
+            action.run();
+        }
+    }
+
+    /**
+     * Returns true if a resource transaction is active.
+     */
+    public static boolean isTransactionActive() {
+        return getCurrentSession().getTransaction().getStatus() == TransactionStatus.ACTIVE;
+    }
+
+    /**
+     * Force this session to flush. Must be called at the end of a unit of work,
+     * before the transaction is committed.
+     * 
      * @see Session#flush()
      */
     public static void flushSession() {
@@ -229,6 +269,7 @@ public final class HibernateUtil {
 
     /**
      * Force this session to clear. Usually called together with flush.
+     * 
      * @see Session#clear()
      */
     public static void clearSession() {
@@ -236,8 +277,10 @@ public final class HibernateUtil {
     }
 
     /**
-     * Return the persistent instance of the given entity class with the given identifier,
+     * Return the persistent instance of the given entity class with the given
+     * identifier,
      * or null if there is no such persistent instance.
+     * 
      * @see Session#get(Class, Object)
      */
     public static <T extends BaseEntity> T get(Class<T> entityType, Object id) {
@@ -245,8 +288,10 @@ public final class HibernateUtil {
     }
 
     /**
-     * Return the persistent instance of the given entity class with the given natural id,
+     * Return the persistent instance of the given entity class with the given
+     * natural id,
      * or null if there is no such persistent instance.
+     * 
      * @see Session#get(Class, Object)
      */
     public static <T extends BaseEntity> T getBySimpleNaturalId(Class<T> entityType, Object id) {
@@ -254,7 +299,9 @@ public final class HibernateUtil {
     }
 
     /**
-     * Copy the state of the given object onto the persistent object with the same identifier.
+     * Copy the state of the given object onto the persistent object with the same
+     * identifier.
+     * 
      * @see Session#merge(E)
      */
     public static <E> E merge(E object) {
@@ -262,7 +309,9 @@ public final class HibernateUtil {
     }
 
     /**
-     * Make a transient instance persistent and mark it for later insertion in the database.
+     * Make a transient instance persistent and mark it for later insertion in the
+     * database.
+     * 
      * @see Session#persist(Object)
      */
     public static void persist(BaseEntity entity) {
@@ -270,7 +319,9 @@ public final class HibernateUtil {
     }
 
     /**
-     * Mark a persistence instance associated with this session for removal from the underlying database.
+     * Mark a persistence instance associated with this session for removal from the
+     * underlying database.
+     * 
      * @see Session#remove(Object)
      */
     public static void remove(BaseEntity entity) {
@@ -278,7 +329,8 @@ public final class HibernateUtil {
     }
 
     /**
-     * Create and execute a {@code MutationQuery} for the given delete criteria tree.
+     * Create and execute a {@code MutationQuery} for the given delete criteria
+     * tree.
      */
     public static <T> void executeDelete(CriteriaDelete<T> cd) {
         getCurrentSession().createMutationQuery(cd).executeUpdate();
@@ -288,6 +340,7 @@ public final class HibernateUtil {
      * Return a reference to the persistent instance with the given class and
      * identifier,making the assumption that the instance is still persistent in the
      * database.
+     * 
      * @see Session#getReference(Class, Object)
      */
     public static <T> T getReference(Class<T> entityType, Object id) {
@@ -296,6 +349,7 @@ public final class HibernateUtil {
 
     /**
      * Flush the current session and evict the given entity from the session.
+     * 
      * @see Session#evict(Object)
      */
     public static <T> void flushAndEvict(T entity) {

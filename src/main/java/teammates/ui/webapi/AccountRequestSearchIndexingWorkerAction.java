@@ -27,9 +27,14 @@ public class AccountRequestSearchIndexingWorkerAction extends AdminOnlyAction {
         AccountRequest accRequest = sqlLogic.getAccountRequest(accountRequestId);
 
         try {
-            sqlLogic.putAccountRequestDocument(accRequest);
+            if (accRequest == null) {
+                sqlLogic.deleteAccountRequestDocument(accountRequestId);
+            } else {
+                sqlLogic.putAccountRequestDocument(accRequest);
+            }
         } catch (SearchServiceException e) {
-            // Set an arbitrary retry code outside of the range 200-299 to trigger automatic retry
+            // Set an arbitrary retry code outside of the range 200-299 to trigger automatic
+            // retry
             return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);
         }
 

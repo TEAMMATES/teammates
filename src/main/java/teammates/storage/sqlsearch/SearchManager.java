@@ -169,6 +169,25 @@ abstract class SearchManager<T extends BaseEntity> {
     }
 
     /**
+     * Removes search documents based on the given query.
+     */
+    public void deleteDocumentsByQuery(String query) {
+        if (client == null) {
+            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
+            return;
+        }
+
+        try {
+            client.deleteByQuery(getCollectionName(), query);
+            client.commit(getCollectionName());
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, query, e.getRootCause()), e);
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, query, e.getCause()), e);
+        }
+    }
+
+    /**
      * Resets the data for all collections if, and only if called during component
      * tests.
      */
