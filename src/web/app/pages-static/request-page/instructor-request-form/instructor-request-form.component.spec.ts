@@ -7,11 +7,14 @@ import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
 import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest, AccountRequestStatus } from '../../../../types/api-request';
+import { environment } from '../../../../environments/environment';
 
 describe('InstructorRequestFormComponent', () => {
   let component: InstructorRequestFormComponent;
   let fixture: ComponentFixture<InstructorRequestFormComponent>;
   let accountService: AccountService;
+  let originalCaptchaSiteKey: string;
+
   const typicalModel: InstructorRequestFormModel = {
     name: 'John Doe',
     institution: 'Example Institution',
@@ -54,6 +57,9 @@ describe('InstructorRequestFormComponent', () => {
   }
 
   beforeEach(waitForAsync(() => {
+    originalCaptchaSiteKey = environment.captchaSiteKey;
+    environment.captchaSiteKey = '';
+
     TestBed.configureTestingModule({
       providers: [
         { provide: AccountService, useValue: accountServiceStub },
@@ -67,13 +73,16 @@ describe('InstructorRequestFormComponent', () => {
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
-    component.captchaSiteKey = ''; // Test ignores captcha
     fixture.detectChanges();
     jest.clearAllMocks();
   });
 
+  afterEach(() => {
+    environment.captchaSiteKey = originalCaptchaSiteKey;
+  });
+
   it('should have empty captcha key', () => {
-    expect(component).toBeTruthy();
+    expect(component.captchaSiteKey).toBe('');
   });
 
   it('should create', () => {
@@ -98,7 +107,6 @@ describe('InstructorRequestFormComponent', () => {
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       new Observable((subscriber) => { subscriber.next(typicalAccountRequest); }));
 
-    // Listen for emitted value
     let actualModel: InstructorRequestFormModel | null = null;
     component.requestSubmissionEvent.pipe(first())
         .subscribe((data: InstructorRequestFormModel) => { actualModel = data; });
