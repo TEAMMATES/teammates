@@ -88,7 +88,7 @@ describe('NotificationBannerComponent', () => {
     expect(component.isShown).toBeFalsy();
   });
 
-  it('should close after clicking mark as read', () => {
+  it('should close after clicking mark as read when there are no more unread notifications', () => {
     const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -108,7 +108,32 @@ describe('NotificationBannerComponent', () => {
     button.click();
     expect(apiSpy).toHaveBeenCalledTimes(1);
     expect(messageSpy).toHaveBeenCalledTimes(1);
+    expect(component.notifications).toEqual([]);
     expect(component.isShown).toBeFalsy();
+  });
+
+  it('should show the next notification after clicking mark as read', () => {
+    const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
+      .mockImplementation((request: MarkNotificationAsReadRequest) => {
+        expect(request.notificationId).toEqual(testNotificationOne.notificationId);
+        return of({
+          readNotifications: [request.notificationId],
+        });
+      });
+    const messageSpy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('Notification marked as read.');
+      });
+    component.notifications = [testNotificationOne, testNotificationTwo];
+    fixture.detectChanges();
+
+    expect(component.isShown).toBeTruthy();
+    const button = fixture.debugElement.query(By.css('#btn-mark-as-read')).nativeElement;
+    button.click();
+    expect(apiSpy).toHaveBeenCalledTimes(1);
+    expect(messageSpy).toHaveBeenCalledTimes(1);
+    expect(component.notifications).toEqual([testNotificationTwo]);
+    expect(component.isShown).toBeTruthy();
   });
 
   it('should snap with no unread notifications', () => {
