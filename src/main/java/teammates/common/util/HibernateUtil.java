@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.TypedQuery;
