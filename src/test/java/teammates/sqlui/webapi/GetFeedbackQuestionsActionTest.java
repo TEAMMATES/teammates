@@ -20,10 +20,6 @@ import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.request.Intent;
 import teammates.ui.webapi.GetFeedbackQuestionsAction;
 
-import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackSession;
-
 /**
  * SUT: {@link GetFeedbackQuestionsAction}.
  */
@@ -60,18 +56,8 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
 
     @Test
     void testCheckAccessControl() {
-        // COMMENT: This mock is critical. The Action class under test calls 
-        // getNonNullSqlFeedbackSession() as a "pre-check" before verifying 
-        // instructor privileges. Without this, the test fails with an EntityNotFoundException.
         when(mockLogic.getFeedbackSession(feedbackSession.getName(), course.getId()))
                 .thenReturn(feedbackSession);
-
-        // COMMENT: This helper is a "power method".r
-        // 1. Logs in as a course instructor (Access Granted)
-        // 2. Logs in as an Admin (Access Granted via Masquerade)
-        // 3. Logs in as a student (Access Denied)
-        // 4. Logs in as an instructor from a DIFFERENT course (Access Denied)
-        // 5. Logs out/Guest user (Access Denied)
         verifyOnlyInstructorsOfTheSameCourseCanAccess(course, getActionParams());
     }
 
@@ -102,13 +88,9 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
 
     @Test
     void testExecute_success() {
-        // COMMENT: Even for functional tests, we use the mock logic to return 
-        // the data I prepared in the @BeforeMethod.
         when(mockLogic.getFeedbackSession(feedbackSession.getName(), course.getId())).thenReturn(feedbackSession);
         when(mockLogic.getFeedbackQuestionsForSession(feedbackSession)).thenReturn(feedbackQuestions);
 
-        // COMMENT: I call getAction(params) instead of manually instantiating 
-        // the class to ensure the Action is properly injected with the mock logic.
         GetFeedbackQuestionsAction getFeedbackQuestionsAction = getAction(getActionParams());
         FeedbackQuestionsData actionOutput = (FeedbackQuestionsData) getJsonResult(getFeedbackQuestionsAction).getOutput();
         assertEquals(JsonUtils.toJson(
