@@ -1,0 +1,45 @@
+<div class="position-relative">
+  <div class="input-group">
+    <input
+      type="text"
+      class="form-control"
+      [placeholder]="isOpen ? 'Type to filter...' : placeholder"
+      [(ngModel)]="inputText"
+      [disabled]="disabled"
+      (click)="openDropdown()"
+      (input)="onInputChange()"
+      (keydown)="onKeydown($event)"
+      autocomplete="off"
+      role="combobox"
+      aria-haspopup="listbox"
+      [attr.aria-expanded]="isOpen"
+    />
+    <button
+      class="btn btn-outline-secondary"
+      type="button"
+      [disabled]="disabled"
+      (click)="onToggleClick($event)"
+      tabindex="-1"
+      aria-label="Toggle dropdown"
+    >
+      <i class="fas fa-chevron-down" *ngIf="!isOpen"></i>
+      <i class="fas fa-chevron-up" *ngIf="isOpen"></i>
+    </button>
+  </div>
+
+  <ul class="dropdown-menu show w-100 combobox-menu" *ngIf="isOpen" role="listbox">
+    <li *ngFor="let option of filteredOptions; let i = index">
+      <button
+        class="dropdown-item"
+        type="button"
+        [class.active]="i === activeIndex"
+        role="option"
+        [attr.aria-selected]="option.value === selectedValue"
+        (click)="selectOption(option); $event.stopPropagation()"
+      >{{ option.label }}</button>
+    </li>
+    <li *ngIf="filteredOptions.length === 0">
+      <span class="dropdown-item disabled text-muted">No options found</span>
+    </li>
+  </ul>
+</div>

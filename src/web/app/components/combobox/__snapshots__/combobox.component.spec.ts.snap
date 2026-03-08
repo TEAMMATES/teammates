@@ -1,0 +1,220 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ComboboxComponent should snap when an option is selected 1`] = `
+<tm-combobox
+  activeIndex={[Function Number]}
+  disabled="false"
+  elementRef={[Function ElementRef]}
+  filteredOptions={[Function Array]}
+  inputText={[Function String]}
+  isOpen="false"
+  options={[Function Array]}
+  placeholder={[Function String]}
+  selectedValue={[Function String]}
+  selectionChange={[Function EventEmitter_]}
+>
+  <div
+    class="position-relative"
+  >
+    <div
+      class="input-group"
+    >
+      <input
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        autocomplete="off"
+        class="form-control ng-untouched ng-pristine ng-valid"
+        placeholder="Select an option"
+        role="combobox"
+        type="text"
+      />
+      <button
+        aria-label="Toggle dropdown"
+        class="btn btn-outline-secondary"
+        tabindex="-1"
+        type="button"
+      >
+        <i
+          class="fas fa-chevron-down"
+        />
+      </button>
+    </div>
+  </div>
+</tm-combobox>
+`;
+
+exports[`ComboboxComponent should snap when no options match the filter 1`] = `
+<tm-combobox
+  activeIndex={[Function Number]}
+  disabled="false"
+  elementRef={[Function ElementRef]}
+  filteredOptions={[Function Array]}
+  inputText={[Function String]}
+  isOpen={[Function Boolean]}
+  options={[Function Array]}
+  placeholder={[Function String]}
+  selectedValue=""
+  selectionChange={[Function EventEmitter_]}
+>
+  <div
+    class="position-relative"
+  >
+    <div
+      class="input-group"
+    >
+      <input
+        aria-expanded="true"
+        aria-haspopup="listbox"
+        autocomplete="off"
+        class="form-control ng-untouched ng-pristine ng-valid"
+        placeholder="Type to filter..."
+        role="combobox"
+        type="text"
+      />
+      <button
+        aria-label="Toggle dropdown"
+        class="btn btn-outline-secondary"
+        tabindex="-1"
+        type="button"
+      >
+        <i
+          class="fas fa-chevron-up"
+        />
+      </button>
+    </div>
+    <ul
+      class="dropdown-menu show w-100 combobox-menu"
+      role="listbox"
+    >
+      <li>
+        <span
+          class="dropdown-item disabled text-muted"
+        >
+          No options found
+        </span>
+      </li>
+    </ul>
+  </div>
+</tm-combobox>
+`;
+
+exports[`ComboboxComponent should snap when open with options 1`] = `
+<tm-combobox
+  activeIndex={[Function Number]}
+  disabled="false"
+  elementRef={[Function ElementRef]}
+  filteredOptions={[Function Array]}
+  inputText=""
+  isOpen={[Function Boolean]}
+  options={[Function Array]}
+  placeholder={[Function String]}
+  selectedValue=""
+  selectionChange={[Function EventEmitter_]}
+>
+  <div
+    class="position-relative"
+  >
+    <div
+      class="input-group"
+    >
+      <input
+        aria-expanded="true"
+        aria-haspopup="listbox"
+        autocomplete="off"
+        class="form-control ng-untouched ng-pristine ng-valid"
+        placeholder="Type to filter..."
+        role="combobox"
+        type="text"
+      />
+      <button
+        aria-label="Toggle dropdown"
+        class="btn btn-outline-secondary"
+        tabindex="-1"
+        type="button"
+      >
+        <i
+          class="fas fa-chevron-up"
+        />
+      </button>
+    </div>
+    <ul
+      class="dropdown-menu show w-100 combobox-menu"
+      role="listbox"
+    >
+      <li>
+        <button
+          aria-selected="false"
+          class="dropdown-item"
+          role="option"
+          type="button"
+        >
+          Apple
+        </button>
+      </li>
+      <li>
+        <button
+          aria-selected="false"
+          class="dropdown-item"
+          role="option"
+          type="button"
+        >
+          Banana
+        </button>
+      </li>
+      <li>
+        <button
+          aria-selected="false"
+          class="dropdown-item"
+          role="option"
+          type="button"
+        >
+          Cherry
+        </button>
+      </li>
+    </ul>
+  </div>
+</tm-combobox>
+`;
+
+exports[`ComboboxComponent should snap with default fields 1`] = `
+<tm-combobox
+  activeIndex={[Function Number]}
+  disabled="false"
+  elementRef={[Function ElementRef]}
+  filteredOptions={[Function Array]}
+  inputText=""
+  isOpen="false"
+  options={[Function Array]}
+  placeholder={[Function String]}
+  selectedValue=""
+  selectionChange={[Function EventEmitter_]}
+>
+  <div
+    class="position-relative"
+  >
+    <div
+      class="input-group"
+    >
+      <input
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        autocomplete="off"
+        class="form-control ng-untouched ng-pristine ng-valid"
+        placeholder="Select an option"
+        role="combobox"
+        type="text"
+      />
+      <button
+        aria-label="Toggle dropdown"
+        class="btn btn-outline-secondary"
+        tabindex="-1"
+        type="button"
+      >
+        <i
+          class="fas fa-chevron-down"
+        />
+      </button>
+    </div>
+  </div>
+</tm-combobox>
+`;
