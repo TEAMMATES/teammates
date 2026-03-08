@@ -138,6 +138,33 @@ export class UserNotificationsListComponent implements OnInit {
       });
   }
 
+  get hasUnreadNotifications(): boolean {
+    return this.notificationTabs.some((tab) => !tab.isRead);
+  }
+
+  markAllNotificationsAsRead(): void {
+    const unreadTabs: NotificationTab[] = this.notificationTabs.filter((tab) => !tab.isRead);
+    forkJoin(
+      unreadTabs.map((tab) =>
+        this.notificationService.markNotificationAsRead({
+          notificationId: tab.notification.notificationId,
+          endTimestamp: tab.notification.endTimestamp,
+        }),
+      ),
+    ).subscribe({
+      next: () => {
+        unreadTabs.forEach((tab) => {
+          tab.isRead = true;
+          tab.hasTabExpanded = false;
+        });
+        this.statusMessageService.showSuccessToast('All notifications marked as read.');
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+  }
+
   getBodyTextClass(notificationTab: NotificationTab): string {
     return notificationTab.isRead ? 'card-body' : 'card-body pb-0';
   }

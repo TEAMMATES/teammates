@@ -3,6 +3,7 @@
 </div>
 <div class="row mb-3" *ngIf="notificationTabs.length > 0">
   <div class="col-12">
+    <button id="btn-mark-all-as-read" class="btn btn-secondary" *ngIf="hasUnreadNotifications" (click)="markAllNotificationsAsRead()">Mark All as Read</button>
     <div class="float-end">
       <strong class="d-inline"> Sort By: </strong>
       <div class="btn-group" data-toggle="buttons">
