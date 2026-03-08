@@ -8,6 +8,7 @@ import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
 import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.SendFailedException;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
@@ -32,7 +33,7 @@ import teammates.common.util.EmailWrapper;
  */
 public class SmtpService implements EmailSenderService {
     private static final String DEFAULT_CONNECTION_TIMEOUT = "10000";
-    private static final String EMAIL_TEXT_ENCODING = "UTF-8";
+    private static final String EMAIL_TEXT_ENCODING_UTF8 = "UTF-8";
     private final Session session;
 
     public SmtpService() {
@@ -88,10 +89,15 @@ public class SmtpService implements EmailSenderService {
             MimeMessage message = createMimeMessage(wrapper);
             Transport.send(message);
             return new EmailSendingStatus(HttpStatus.SC_OK, "Email sent successfully");
-        } catch (MessagingException e) {
-            throw new EmailSendingException(e, HttpStatus.SC_BAD_GATEWAY);
-        } catch (UnsupportedEncodingException e) {
-            throw new EmailSendingException(e, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        } catch (SendFailedException sfe) {
+            if (sfe.getInvalidAddresses() != null && sfe.getInvalidAddresses().length > 0) {
+                throw new EmailSendingException(sfe, HttpStatus.SC_BAD_REQUEST);
+            }
+            throw new EmailSendingException(sfe, HttpStatus.SC_BAD_GATEWAY);
+        } catch (MessagingException me) {
+            throw new EmailSendingException(me, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        } catch (UnsupportedEncodingException uee) {
+            throw new EmailSendingException(uee, HttpStatus.SC_BAD_REQUEST);
         }
     }
 
@@ -103,21 +109,21 @@ public class SmtpService implements EmailSenderService {
         } else {
             message.setFrom(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName()));
         }
-        message.setReplyTo(new InternetAddress[] { new InternetAddress(wrapper.getReplyTo()) });
+
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(wrapper.getRecipient()));
         if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
             message.setRecipient(Message.RecipientType.BCC, new InternetAddress(wrapper.getBcc()));
         }
+        message.setReplyTo(new InternetAddress[] { new InternetAddress(wrapper.getReplyTo()) });
+        message.setSubject(wrapper.getSubject(), EMAIL_TEXT_ENCODING_UTF8);
 
-        message.setSubject(wrapper.getSubject(), EMAIL_TEXT_ENCODING);
         Multipart multipart = new MimeMultipart("alternative");
 
         MimeBodyPart textPart = new MimeBodyPart();
-        textPart.setText(Jsoup.parse(wrapper.getContent()).text(), EMAIL_TEXT_ENCODING);
+        textPart.setText(Jsoup.parse(wrapper.getContent()).text(), EMAIL_TEXT_ENCODING_UTF8);
         multipart.addBodyPart(textPart);
-
         MimeBodyPart htmlPart = new MimeBodyPart();
-        htmlPart.setContent(wrapper.getContent(), String.format("text/html; charset=%s", EMAIL_TEXT_ENCODING));
+        htmlPart.setContent(wrapper.getContent(), String.format("text/html; charset=%s", EMAIL_TEXT_ENCODING_UTF8));
         multipart.addBodyPart(htmlPart);
 
         message.setContent(multipart);
