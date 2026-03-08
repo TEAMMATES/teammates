@@ -36,17 +36,25 @@ public class SmtpService implements EmailSenderService {
     private final Session session;
 
     public SmtpService() {
+        this(Config.SMTP_HOST, Config.SMTP_PORT, Config.SMTP_SECURITY_PROTOCOL,
+                Config.SMTP_USERNAME, Config.SMTP_PASSWORD, Config.SMTP_SOCKET_CONNECTION_TIMEOUT,
+                Config.SMTP_SOCKET_READ_TIMEOUT, Config.SMTP_SOCKET_WRITE_TIMEOUT);
+    }
+
+    public SmtpService(String host, String port, String securityProtocol,
+                       String username, String password, String socketConnectionTimeout,
+                       String socketReadTimeout, String socketWriteTimeout) {
         Properties props = new Properties();
         props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.host", Config.SMTP_HOST);
-        props.put("mail.smtp.port", Config.SMTP_PORT);
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
         props.put("mail.smtp.auth", "true");
 
         // Set security protocol
-        boolean isUsingSsl = "ssl".equalsIgnoreCase(Config.SMTP_SECURITY_PROTOCOL);
-        boolean isUsingStartTls = "starttls".equalsIgnoreCase(Config.SMTP_SECURITY_PROTOCOL);
+        boolean isUsingSsl = "ssl".equalsIgnoreCase(securityProtocol);
+        boolean isUsingStartTls = "starttls".equalsIgnoreCase(securityProtocol);
         if (!isUsingSsl && !isUsingStartTls) {
-            throw new IllegalArgumentException("Unsupported SMTP security protocol: " + Config.SMTP_SECURITY_PROTOCOL);
+            throw new IllegalArgumentException("Unsupported SMTP security protocol: " + securityProtocol);
         }
         props.put("mail.smtp.ssl.enable", String.valueOf(isUsingSsl));
         props.put("mail.smtp.starttls.enable", String.valueOf(isUsingStartTls));
@@ -58,9 +66,6 @@ public class SmtpService implements EmailSenderService {
         props.put("mail.smtp.writetimeout", DEFAULT_CONNECTION_TIMEOUT);
 
         // Override default timeouts with values from config if provided
-        String socketConnectionTimeout = Config.SMTP_SOCKET_CONNECTION_TIMEOUT;
-        String socketReadTimeout = Config.SMTP_SOCKET_READ_TIMEOUT;
-        String socketWriteTimeout = Config.SMTP_SOCKET_WRITE_TIMEOUT;
         setIfPresent(props, "mail.smtp.connectiontimeout", socketConnectionTimeout);
         setIfPresent(props, "mail.smtp.timeout", socketReadTimeout);
         setIfPresent(props, "mail.smtp.writetimeout", socketWriteTimeout);
@@ -68,7 +73,7 @@ public class SmtpService implements EmailSenderService {
         Authenticator authenticator = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(Config.SMTP_USERNAME, Config.SMTP_PASSWORD);
+                return new PasswordAuthentication(username, password);
             }
         };
 

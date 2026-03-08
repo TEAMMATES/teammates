@@ -106,7 +106,9 @@ public class EmailSenderTest extends BaseLogicTest {
     @Test
     public void testConvertToSmtp() throws Exception {
         EmailWrapper wrapper = getTypicalEmailWrapper();
-        MimeMessage email = new SmtpService().parseToEmail(wrapper);
+        SmtpService smtpService = new SmtpService("smtp.example.invalid", "587", "starttls",
+                "username", "password", "10000", "10000", "10000");
+        MimeMessage email = smtpService.parseToEmail(wrapper);
 
         InternetAddress fromAddress = (InternetAddress) email.getFrom()[0];
         assertEquals(wrapper.getSenderEmail(), fromAddress.getAddress());
