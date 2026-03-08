@@ -18,7 +18,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.logic.external.MailgunService;
 import teammates.logic.external.MailjetService;
 import teammates.logic.external.SendgridService;
-import teammates.logic.external.SmtpEmailService;
+import teammates.logic.external.SmtpService;
 
 /**
  * SUT: {@link SendgridService},
@@ -105,7 +105,7 @@ public class EmailSenderTest extends BaseLogicTest {
     @Test
     public void testConvertToSmtp() throws Exception {
         EmailWrapper wrapper = getTypicalEmailWrapper();
-        MimeMessage email = new SmtpEmailService().parseToEmail(wrapper);
+        MimeMessage email = new SmtpService().parseToEmail(wrapper);
 
         InternetAddress fromAddress = (InternetAddress) email.getFrom()[0];
         assertEquals(wrapper.getSenderEmail(), fromAddress.getAddress());

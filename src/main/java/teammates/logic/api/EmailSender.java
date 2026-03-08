@@ -14,7 +14,7 @@ import teammates.logic.external.EmptyEmailService;
 import teammates.logic.external.MailgunService;
 import teammates.logic.external.MailjetService;
 import teammates.logic.external.SendgridService;
-import teammates.logic.external.SmtpEmailService;
+import teammates.logic.external.SmtpService;
 
 /**
  * Handles operations related to sending emails.
@@ -34,7 +34,7 @@ public class EmailSender {
         } else if (Config.isUsingMailjet()) {
             service = new MailjetService();
         } else if (Config.isUsingSmtp()) {
-            service = new SmtpEmailService();
+            service = new SmtpService();
         } else {
             service = new EmptyEmailService();
         }

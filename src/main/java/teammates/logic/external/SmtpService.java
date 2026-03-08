@@ -30,12 +30,12 @@ import teammates.common.util.EmailWrapper;
  * @see <a href="https://javadoc.io/doc/com.sun.mail/jakarta.mail/2.0.1/jakarta.mail/com/sun/mail/smtp/package-summary.html">
  *          SMTP-related Session properties</a>
  */
-public class SmtpEmailService implements EmailSenderService {
+public class SmtpService implements EmailSenderService {
     private static final String DEFAULT_CONNECTION_TIMEOUT = "10000";
     private static final String EMAIL_TEXT_ENCODING = "UTF-8";
     private final Session session;
 
-    public SmtpEmailService() {
+    public SmtpService() {
         Properties props = new Properties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.host", Config.SMTP_HOST);
