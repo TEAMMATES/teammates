@@ -14,12 +14,13 @@ import {
 } from '../../../components/teammates-common/notification-style-description.pipe';
 
 // Import types from sortable-table
-import { ColumnData, SortableTableCellData } from '../../../components/sortable-table/sortable-table.component';
+import { SortableTableComponent, ColumnData, SortableTableCellData, SortableTableHeaderColorScheme } from '../../../components/sortable-table/sortable-table.component';
 
 @Component({
     selector: 'tm-notifications-table',
     templateUrl: './notifications-table.component.html',
     styleUrls: ['./notifications-table.component.scss'],
+    standalone: true, 
     imports: [
         NgClass,
         NgIf,
@@ -29,6 +30,7 @@ import { ColumnData, SortableTableCellData } from '../../../components/sortable-
         FormatDateBriefPipe,
         NotificationStyleDescriptionPipe,
         NotificationStyleClassPipe,
+        SortableTableComponent, 
     ],
 })
 export class NotificationsTableComponent implements OnChanges {
@@ -60,6 +62,16 @@ export class NotificationsTableComponent implements OnChanges {
     @Output()
     loadNotificationEditFormEvent: EventEmitter<Notification> = new EventEmitter();
 
+    get tableSortBy(): SortBy {
+        return this.notificationsTableRowModelsSortBy;
+    }
+    get tableSortOrder(): SortOrder {
+        return this.notificationsTableRowModelsSortOrder;
+    }
+    get tableHeaderColorScheme(): SortableTableHeaderColorScheme {
+        return this.headerColorScheme as unknown as SortableTableHeaderColorScheme;
+    }
+
     columnsData: ColumnData[] = [
         {
             header: 'Title',
@@ -90,7 +102,7 @@ export class NotificationsTableComponent implements OnChanges {
 
     constructor(private simpleModalService: SimpleModalService) { }
 
-    ngOnChanges(changes: SimpleChanges): void {
+    ngOnChanges(_changes: SimpleChanges): void {
         this.rowsData = this.notificationsTableRowModels.map((rowModel) => [
             {
                 value: rowModel.notification.title,
@@ -109,8 +121,8 @@ export class NotificationsTableComponent implements OnChanges {
                 displayValue: this.formatDate(rowModel.notification.createdAt),
             },
             {
-                value: rowModel.notification.id,
-                displayValue: 'Actions', // You can customize this for action buttons in the table cell template
+                value: rowModel.notification.notificationId,
+                displayValue: 'Actions',
             },
         ]);
     }
@@ -123,7 +135,9 @@ export class NotificationsTableComponent implements OnChanges {
      * Handles sort event from sortable-table.
      */
     sortNotificationsTableRowModels(event: { sortBy: SortBy, sortOrder: SortOrder }): void {
-        this.sortNotificationsTableRowModelsEvent.emit(event);
+        this.notificationsTableRowModelsSortBy = event.sortBy;
+        this.notificationsTableRowModelsSortOrder = event.sortOrder;
+        this.ngOnChanges({});
     }
 
     /**
