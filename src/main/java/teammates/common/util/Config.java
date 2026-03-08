@@ -271,11 +271,13 @@ public final class Config {
         } catch (PermissionDeniedException e) {
             log.warning(
                     "Permission denied when accessing Parameter Manager for build_properties. "
-                    + "Falling back to local build.properties.", e);
+                            + "Falling back to local build.properties.",
+                    e);
         } catch (ApiException e) {
             log.warning(
                     "Failed to access Parameter Manager for build_properties due to API error. "
-                    + "Falling back to local build.properties.", e);
+                            + "Falling back to local build.properties.",
+                    e);
         } catch (IOException e) {
             log.warning(
                     "Failed to access Parameter Manager for build_properties. Falling back to local build.properties.",
@@ -380,7 +382,8 @@ public final class Config {
      * Returns db connection URL.
      */
     public static String getDbConnectionUrl() {
-        String baseUrl = String.format("jdbc:postgresql://%s:%s/%s", POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DATABASENAME);
+        String baseUrl = String.format("jdbc:postgresql://%s:%s/%s", POSTGRES_HOST, POSTGRES_PORT,
+                POSTGRES_DATABASENAME);
         if (IS_DEV_SERVER) {
             return baseUrl;
         }
@@ -427,17 +430,13 @@ public final class Config {
 
             return response.getPayload().getData().toStringUtf8();
         } catch (NotFoundException e) {
-            log.warning("Secret not found: " + secretName + ". Using empty value.");
-            return "";
+            throw new IllegalStateException("Required secret not found: " + secretName, e);
         } catch (PermissionDeniedException e) {
-            log.warning("Permission denied when accessing secret: " + secretName + ". Using empty value.", e);
-            return "";
+            throw new IllegalStateException("Permission denied when accessing secret: " + secretName, e);
         } catch (ApiException e) {
-            log.warning("Failed to access secret due to API error: " + secretName + ". Using empty value.", e);
-            return "";
+            throw new IllegalStateException("Failed to access secret due to API error: " + secretName, e);
         } catch (IOException e) {
-            log.warning("Failed to access secret: " + secretName + ". Using empty value.", e);
-            return "";
+            throw new IllegalStateException("Failed to initialize Secret Manager client for secret: " + secretName, e);
         }
     }
 }
