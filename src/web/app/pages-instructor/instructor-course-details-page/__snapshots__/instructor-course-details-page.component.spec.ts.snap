@@ -4,6 +4,7 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
+  fileSaveService={[Function FileSaveService]}
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -46,6 +47,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
+  fileSaveService={[Function FileSaveService]}
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -208,6 +210,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
+  fileSaveService={[Function FileSaveService]}
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
@@ -616,6 +619,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
+  fileSaveService={[Function FileSaveService]}
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
