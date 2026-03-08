@@ -209,9 +209,9 @@ public final class Config {
         SMTP_PORT = getProperty(properties, devProperties, "app.smtp.port");
         SMTP_USERNAME = getProperty(properties, devProperties, "app.smtp.username");
         SMTP_PASSWORD = getProperty(properties, devProperties, "app.smtp.password");
-        SMTP_SOCKET_CONNECTION_TIMEOUT = getProperty(properties, devProperties, "app.smtp.connection.timeout");
-        SMTP_SOCKET_READ_TIMEOUT = getProperty(properties, devProperties, "app.smtp.connection.read.timeout");
-        SMTP_SOCKET_WRITE_TIMEOUT = getProperty(properties, devProperties, "app.smtp.connection.write.timeout");
+        SMTP_SOCKET_CONNECTION_TIMEOUT = getProperty(properties, devProperties, "app.smtp.socket.connection.timeout");
+        SMTP_SOCKET_READ_TIMEOUT = getProperty(properties, devProperties, "app.smtp.socket.read.timeout");
+        SMTP_SOCKET_WRITE_TIMEOUT = getProperty(properties, devProperties, "app.smtp.socket.write.timeout");
         SMTP_SECURITY_PROTOCOL = getProperty(properties, devProperties, "app.smtp.security.protocol");
         SENDGRID_APIKEY = getProperty(properties, devProperties, "app.sendgrid.apikey");
         MAILGUN_APIKEY = getProperty(properties, devProperties, "app.mailgun.apikey");

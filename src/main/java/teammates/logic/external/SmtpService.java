@@ -44,9 +44,13 @@ public class SmtpService implements EmailSenderService {
 
         // Set security protocol
         boolean isUsingSsl = "ssl".equalsIgnoreCase(Config.SMTP_SECURITY_PROTOCOL);
+        boolean isUsingStartTls = "starttls".equalsIgnoreCase(Config.SMTP_SECURITY_PROTOCOL);
+        if (!isUsingSsl && !isUsingStartTls) {
+            throw new IllegalArgumentException("Unsupported SMTP security protocol: " + Config.SMTP_SECURITY_PROTOCOL);
+        }
         props.put("mail.smtp.ssl.enable", String.valueOf(isUsingSsl));
-        props.put("mail.smtp.starttls.enable", String.valueOf(!isUsingSsl));
-        props.put("mail.smtp.starttls.required", String.valueOf(!isUsingSsl));
+        props.put("mail.smtp.starttls.enable", String.valueOf(isUsingStartTls));
+        props.put("mail.smtp.starttls.required", String.valueOf(isUsingStartTls));
 
         // Set default timeouts (in milliseconds) for SMTP socket connection, read, and write timeouts
         props.put("mail.smtp.connectiontimeout", DEFAULT_CONNECTION_TIMEOUT);
@@ -104,15 +108,12 @@ public class SmtpService implements EmailSenderService {
     private MimeMessage createMimeMessage(EmailWrapper wrapper) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = new MimeMessage(session);
 
+        // Set email sender, recipient, reply-to, and subject
         if (wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()) {
             message.setFrom(new InternetAddress(wrapper.getSenderEmail()));
         } else {
-            message.setFrom(new InternetAddress(
-                    wrapper.getSenderEmail(),
-                    wrapper.getSenderName(),
-                    TEXT_ENCODING_UTF8));
+            message.setFrom(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName(), TEXT_ENCODING_UTF8));
         }
-
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(wrapper.getRecipient()));
         if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
             message.setRecipient(Message.RecipientType.BCC, new InternetAddress(wrapper.getBcc()));
@@ -120,8 +121,8 @@ public class SmtpService implements EmailSenderService {
         message.setReplyTo(new InternetAddress[] { new InternetAddress(wrapper.getReplyTo()) });
         message.setSubject(wrapper.getSubject(), TEXT_ENCODING_UTF8);
 
+        // Set email content in text and HTML part
         Multipart multipart = new MimeMultipart("alternative");
-
         MimeBodyPart textPart = new MimeBodyPart();
         textPart.setText(Jsoup.parse(wrapper.getContent()).text(), TEXT_ENCODING_UTF8);
         multipart.addBodyPart(textPart);
