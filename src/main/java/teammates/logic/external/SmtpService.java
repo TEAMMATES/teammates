@@ -27,13 +27,12 @@ import teammates.common.util.EmailWrapper;
 /**
  * Jakarta mail-based SMTP email sender service.
  *
- * @see <a href="https://jakarta.ee/specifications/mail/">https://jakarta.ee/specifications/mail/</a>
  * @see <a href="https://javadoc.io/doc/com.sun.mail/jakarta.mail/2.0.1/jakarta.mail/com/sun/mail/smtp/package-summary.html">
  *          SMTP-related Session properties</a>
  */
 public class SmtpService implements EmailSenderService {
     private static final String DEFAULT_CONNECTION_TIMEOUT = "10000";
-    private static final String EMAIL_TEXT_ENCODING_UTF8 = "UTF-8";
+    private static final String TEXT_ENCODING_UTF8 = "UTF-8";
     private final Session session;
 
     public SmtpService() {
@@ -108,7 +107,10 @@ public class SmtpService implements EmailSenderService {
         if (wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()) {
             message.setFrom(new InternetAddress(wrapper.getSenderEmail()));
         } else {
-            message.setFrom(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName()));
+            message.setFrom(new InternetAddress(
+                    wrapper.getSenderEmail(),
+                    wrapper.getSenderName(),
+                    TEXT_ENCODING_UTF8));
         }
 
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(wrapper.getRecipient()));
@@ -116,15 +118,15 @@ public class SmtpService implements EmailSenderService {
             message.setRecipient(Message.RecipientType.BCC, new InternetAddress(wrapper.getBcc()));
         }
         message.setReplyTo(new InternetAddress[] { new InternetAddress(wrapper.getReplyTo()) });
-        message.setSubject(wrapper.getSubject(), EMAIL_TEXT_ENCODING_UTF8);
+        message.setSubject(wrapper.getSubject(), TEXT_ENCODING_UTF8);
 
         Multipart multipart = new MimeMultipart("alternative");
 
         MimeBodyPart textPart = new MimeBodyPart();
-        textPart.setText(Jsoup.parse(wrapper.getContent()).text(), EMAIL_TEXT_ENCODING_UTF8);
+        textPart.setText(Jsoup.parse(wrapper.getContent()).text(), TEXT_ENCODING_UTF8);
         multipart.addBodyPart(textPart);
         MimeBodyPart htmlPart = new MimeBodyPart();
-        htmlPart.setContent(wrapper.getContent(), String.format("text/html; charset=%s", EMAIL_TEXT_ENCODING_UTF8));
+        htmlPart.setContent(wrapper.getContent(), String.format("text/html; charset=%s", TEXT_ENCODING_UTF8));
         multipart.addBodyPart(htmlPart);
 
         message.setContent(multipart);
