@@ -243,67 +243,47 @@ describe('InstructorSearchPageComponent', () => {
       canViewSessionInSections: true,
       canSubmitSessionInSections: true,
     };
-    const mockPrivilegesArray: InstructorPrivilege[] = [
-      {
-        privileges: {
-          courseLevel: basePrivilege,
-          sectionLevel: {},
-          sessionLevel: {},
-        },
-      },
-      {
-        privileges: {
-          courseLevel: {
-            ...basePrivilege,
-            canViewStudentInSections: false,
-            canModifyStudent: true,
-          },
-          sectionLevel: {},
-          sessionLevel: {},
-        },
-      },
-      {
-        privileges: {
-          courseLevel: {
-            ...basePrivilege,
-            canViewStudentInSections: true,
-            canModifyStudent: false,
-          },
-          sectionLevel: {},
-          sessionLevel: {},
-        },
-      },
-      {
-        privileges: {
-          courseLevel: {
-            ...basePrivilege,
-            canViewStudentInSections: false,
-            canModifyStudent: false,
-          },
-          sectionLevel: {},
-          sessionLevel: {},
-        },
-      },
-    ];
-    component.combinePrivileges([coursesWithStudents, mockPrivilegesArray]);
 
+    // Privileges keyed by courseId; section-level overrides apply per section
+    const mockPrivilegeMap: Record<string, InstructorPrivilege> = {
+      CS3281: {
+        privileges: {
+          courseLevel: basePrivilege, // Section 1 students fall back to this
+          sectionLevel: {
+            'Section 2': { ...basePrivilege, canViewStudentInSections: true, canModifyStudent: false },
+          },
+          sessionLevel: {},
+        },
+      },
+      CS3282: {
+        privileges: {
+          courseLevel: { ...basePrivilege, canViewStudentInSections: false, canModifyStudent: false },
+          sectionLevel: {},
+          sessionLevel: {},
+        },
+      },
+    };
+    component.combinePrivileges([coursesWithStudents, mockPrivilegeMap]);
+
+    // Alice (CS3281, Section 1): no section override → courseLevel
     const course1Student1: StudentListRowModel = coursesWithStudents[0].students[0];
     expect(course1Student1.isAllowedToViewStudentInSection).toEqual(true);
     expect(course1Student1.isAllowedToModifyStudent).toEqual(true);
 
+    // Bob (CS3281, Section 1): same section as Alice → same courseLevel
     const course1Student2: StudentListRowModel = coursesWithStudents[0].students[1];
-    expect(course1Student2.isAllowedToViewStudentInSection).toEqual(false);
+    expect(course1Student2.isAllowedToViewStudentInSection).toEqual(true);
     expect(course1Student2.isAllowedToModifyStudent).toEqual(true);
 
+    // Chloe (CS3281, Section 2): sectionLevel override applied
     const course1Student3: StudentListRowModel = coursesWithStudents[0].students[2];
     expect(course1Student3.isAllowedToViewStudentInSection).toEqual(true);
     expect(course1Student3.isAllowedToModifyStudent).toEqual(false);
 
+    // David (CS3282, Section 2): no section override → courseLevel
     const course2Student1: StudentListRowModel = coursesWithStudents[1].students[0];
     expect(course2Student1.isAllowedToViewStudentInSection).toEqual(false);
     expect(course2Student1.isAllowedToModifyStudent).toEqual(false);
-
-    expect(mockPrivilegesArray.length).toEqual(0);
   });
 
 });

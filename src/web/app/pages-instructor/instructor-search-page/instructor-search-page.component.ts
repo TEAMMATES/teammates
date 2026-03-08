@@ -40,6 +40,9 @@ export class InstructorSearchPageComponent {
   studentsListRowTables: SearchStudentsListRowTable[] = [];
   isSearching: boolean = false;
 
+  // Cache privileges per courseId to avoid redundant API calls
+  private privilegeCache: Record<string, InstructorPrivilege> = {};
+
   constructor(
     private statusMessageService: StatusMessageService,
     private searchService: SearchService,
@@ -64,7 +67,7 @@ export class InstructorSearchPageComponent {
               this.getPrivileges(coursesWithStudents),
             ]),
         ),
-        map((res: [SearchStudentsListRowTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
+        map((res: [SearchStudentsListRowTable[], Record<string, InstructorPrivilege>]) => this.combinePrivileges(res)),
         finalize(() => {
           this.isSearching = false;
         }),
@@ -121,39 +124,45 @@ export class InstructorSearchPageComponent {
 
   getPrivileges(
       coursesWithStudents: SearchStudentsListRowTable[],
-  ): Observable<InstructorPrivilege[]> {
+  ): Observable<Record<string, InstructorPrivilege>> {
     if (coursesWithStudents.length === 0) {
-      return of([]);
+      return of({});
     }
-    const privileges: Observable<InstructorPrivilege>[] = [];
-    coursesWithStudents.forEach((course: SearchStudentsListRowTable) => {
-      const sectionToPrivileges: Record<string, Observable<InstructorPrivilege>> = {};
-      Array.from(
-          new Set(course.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName)),
-      ).forEach((section: string) => {
-        sectionToPrivileges[section] = this.instructorService.loadInstructorPrivilege({ courseId: course.courseId });
-      });
-      course.students.forEach((studentModel: StudentListRowModel) =>
-          privileges.push(sectionToPrivileges[studentModel.student.sectionName]),
-      );
-    });
-    return forkJoin(privileges);
+
+    // Only fetch privileges for courses not already cached
+    const uncachedCourseIds: string[] = coursesWithStudents
+        .map((course: SearchStudentsListRowTable) => course.courseId)
+        .filter((courseId: string) => !(courseId in this.privilegeCache));
+
+    if (uncachedCourseIds.length === 0) {
+      return of({ ...this.privilegeCache });
+    }
+
+    return forkJoin(
+        uncachedCourseIds.map((courseId: string) =>
+            this.instructorService.loadInstructorPrivilege({ courseId }).pipe(
+                map((privilege: InstructorPrivilege) => ({ courseId, privilege })),
+            ),
+        ),
+    ).pipe(
+        map((results: { courseId: string; privilege: InstructorPrivilege }[]) => {
+          results.forEach(({ courseId, privilege }) => {
+            this.privilegeCache[courseId] = privilege;
+          });
+          return { ...this.privilegeCache };
+        }),
+    );
   }
 
   combinePrivileges(
-      [coursesWithStudents, privileges]: [SearchStudentsListRowTable[], InstructorPrivilege[]],
+      [coursesWithStudents, privilegeMap]: [SearchStudentsListRowTable[], Record<string, InstructorPrivilege>],
   ): TransformedInstructorSearchResult {
-    /**
-     * Pop the privilege objects one at a time and attach them to the results. This is possible
-     * because `forkJoin` guarantees that the `InstructorPrivilege` results are returned in the
-     * same order the requests were made.
-     */
     for (const course of coursesWithStudents) {
+      const privilege: InstructorPrivilege | undefined = privilegeMap[course.courseId];
+      if (!privilege) {
+        continue;
+      }
       for (const studentModel of course.students) {
-        const privilege: InstructorPrivilege | undefined = privileges.shift();
-        if (!privilege) {
-          continue;
-        }
         const sectionName: string = studentModel.student.sectionName;
         const courseLevel: InstructorPermissionSet = privilege.privileges.courseLevel;
         const sectionLevel: InstructorPermissionSet = privilege.privileges.sectionLevel[sectionName]
