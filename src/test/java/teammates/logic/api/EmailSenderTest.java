@@ -130,4 +130,20 @@ public class EmailSenderTest extends BaseLogicTest {
         MimeBodyPart htmlPart = (MimeBodyPart) multipart.getBodyPart(1);
         assertEquals(wrapper.getContent(), htmlPart.getContent().toString());
     }
+
+    @Test
+    public void testSmtpSender_invalidSecurityProtocol_exceptionThrown() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SmtpService("smtp.example.invalid", "587", null,
+                    "username", "password", "10000", "10000", "10000");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SmtpService("smtp.example.invalid", "587", "",
+                    "username", "password", "10000", "10000", "10000");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SmtpService("smtp.example.invalid", "587", "invalid_protocol",
+                    "username", "password", "10000", "10000", "10000");
+        });
+    }
 }
