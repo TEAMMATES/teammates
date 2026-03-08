@@ -54,12 +54,12 @@ public class SmtpService implements EmailSenderService {
         props.put("mail.smtp.writetimeout", DEFAULT_CONNECTION_TIMEOUT);
 
         // Override default timeouts with values from config if provided
-        String socketConnectionTimeout = Config.SMTP_CONNECTION_TIMEOUT;
-        String socketConnectionReadTimeout = Config.SMTP_CONNECTION_READ_TIMEOUT;
-        String socketConnectionWriteTimeout = Config.SMTP_CONNECTION_WRITE_TIMEOUT;
+        String socketConnectionTimeout = Config.SMTP_SOCKET_CONNECTION_TIMEOUT;
+        String socketReadTimeout = Config.SMTP_SOCKET_READ_TIMEOUT;
+        String socketWriteTimeout = Config.SMTP_SOCKET_WRITE_TIMEOUT;
         setIfPresent(props, "mail.smtp.connectiontimeout", socketConnectionTimeout);
-        setIfPresent(props, "mail.smtp.timeout", socketConnectionReadTimeout);
-        setIfPresent(props, "mail.smtp.writetimeout", socketConnectionWriteTimeout);
+        setIfPresent(props, "mail.smtp.timeout", socketReadTimeout);
+        setIfPresent(props, "mail.smtp.writetimeout", socketWriteTimeout);
 
         Authenticator authenticator = new Authenticator() {
             @Override
