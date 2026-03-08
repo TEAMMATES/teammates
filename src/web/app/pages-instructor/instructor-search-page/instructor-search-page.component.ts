@@ -145,7 +145,7 @@ export class InstructorSearchPageComponent {
             ),
         ),
     ).pipe(
-        map((results: { courseId: string; privilege: InstructorPrivilege }[]) => {
+        map((results: { courseId: string, privilege: InstructorPrivilege }[]) => {
           results.forEach(({ courseId, privilege }) => {
             this.privilegeCache[courseId] = privilege;
           });
