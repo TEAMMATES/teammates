@@ -110,6 +110,7 @@ public class EmailSenderTest extends BaseLogicTest {
                 "username", "password", "10000", "10000", "10000");
         MimeMessage email = smtpService.parseToEmail(wrapper);
 
+        // Verify sender, recipient, reply-to and subject
         InternetAddress fromAddress = (InternetAddress) email.getFrom()[0];
         assertEquals(wrapper.getSenderEmail(), fromAddress.getAddress());
         assertEquals(wrapper.getSenderName(), fromAddress.getPersonal());
@@ -118,15 +119,11 @@ public class EmailSenderTest extends BaseLogicTest {
         assertEquals(wrapper.getReplyTo(), email.getReplyTo()[0].toString());
         assertEquals(wrapper.getSubject(), email.getSubject());
 
-        // Verify multipart content
+        // Verify HTML and text part of email content
         MimeMultipart multipart = (MimeMultipart) email.getContent();
         assertEquals(2, multipart.getCount());
-
-        // Verify plain text part
         MimeBodyPart textPart = (MimeBodyPart) multipart.getBodyPart(0);
         assertEquals(Jsoup.parse(wrapper.getContent()).text(), textPart.getContent().toString());
-
-        // Verify HTML part
         MimeBodyPart htmlPart = (MimeBodyPart) multipart.getBodyPart(1);
         assertEquals(wrapper.getContent(), htmlPart.getContent().toString());
     }

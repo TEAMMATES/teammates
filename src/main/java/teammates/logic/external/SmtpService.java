@@ -113,7 +113,7 @@ public class SmtpService implements EmailSenderService {
     private MimeMessage createMimeMessage(EmailWrapper wrapper) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = new MimeMessage(session);
 
-        // Set email sender, recipient, reply-to, and subject
+        // Set sender, recipient, reply-to, and subject
         if (wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()) {
             message.setFrom(new InternetAddress(wrapper.getSenderEmail()));
         } else {
