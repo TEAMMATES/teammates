@@ -171,13 +171,9 @@ public final class Config {
         APP_VERSION = properties.getProperty("app.version", appVersion);
         IS_DEV_SERVER = isDevServer(APP_VERSION, APP_ID);
 
-        SecretManagerServiceClient secretManagerClient = null;
         Map<String, String> secretCache = new HashMap<>();
-        try {
-            if (!IS_DEV_SERVER) {
-                secretManagerClient = SecretManagerServiceClient.create();
-            }
-
+        try (SecretManagerServiceClient secretManagerClient = IS_DEV_SERVER ? null
+                : SecretManagerServiceClient.create()) {
             APP_REGION = getProperty(properties, devProperties, "app.region");
             APP_FRONTEND_URL = getProperty(properties, devProperties, "app.frontend.url", getDefaultFrontEndUrl());
             CSRF_KEY = getGcpSecret(properties, devProperties, secretManagerClient, secretCache, "app.csrf.key");
@@ -225,10 +221,6 @@ public final class Config {
             MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
         } catch (IOException e) {
             throw new IllegalStateException("Failed to initialize Secret Manager client.", e);
-        } finally {
-            if (secretManagerClient != null) {
-                secretManagerClient.close();
-            }
         }
 
         // The following properties are not used in production server.
