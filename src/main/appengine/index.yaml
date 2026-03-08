@@ -17,6 +17,8 @@ indexes:
   properties:
   - direction: asc
     name: googleId
+  - direction: asc
+    name: isArchived
 - kind: FeedbackSession
   properties:
   - direction: asc
