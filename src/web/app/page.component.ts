@@ -169,6 +169,13 @@ export class PageComponent {
   }
 
   /**
+ * Method to toggle dark mode.
+ */
+toggleDarkMode(): void {
+  document.body.classList.toggle('dark-mode');
+}
+
+  /**
    * Method that checks if current page has active modals and close them.
    */
   closeModal(): void {

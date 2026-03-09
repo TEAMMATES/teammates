@@ -22,6 +22,12 @@
     </ul>
     <ul class="nav navbar-nav me-auto" *ngIf="!isValidUser"></ul>
     <ul class="nav navbar-nav pull-right" *ngIf="!hideAuthInfo && !isFetchingAuthDetails">
+      
+      <li class="nav-item">
+        <button class="btn btn-link nav-link text-white" (click)="toggleDarkMode()">
+          Dark Mode
+        </button>
+      </li>
       <li class="nav-item dropdown" ngbDropdown placement="bottom-end" *ngIf="!user">
         <button class="bg-transparent btn btn-link nav-link dropdown-toggle"
            data-toggle="dropdown" tabindex="0" ngbDropdownToggle>Login</button>

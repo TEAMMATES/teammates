@@ -333,3 +333,26 @@ a i.fa-info-circle {
 .table-responsive {
   -webkit-overflow-scrolling: auto;
 }
+
+.dark-mode {
+  background-color: #121212;
+  color: white;
+}
+
+.dark-mode .navbar {
+  background-color: #1e1e1e !important;
+}
+
+.dark-mode .card {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.dark-mode table {
+  color: white;
+}
+
+.dark-mode .btn-light {
+  background-color: #333;
+  color: white;
+}
