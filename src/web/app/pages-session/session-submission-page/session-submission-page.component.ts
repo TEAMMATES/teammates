@@ -1365,6 +1365,15 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private setLocalStorageItem(key: string, data: any): void {
     localStorage.setItem(key, JSON.stringify(data));
   }
-expandAllQuestions(): void { this.questionSubmissionForms.forEach( (q) => { q.isTabExpanded=true;} ) }
-collapseAllQuestions(): void{this.questionSubmissionForms.forEach( (q) => { q.isTabExpanded=false } );}
+    expandAllQuestions(): void {
+    this.questionSubmissionForms.forEach((q) => {
+      q.isTabExpanded = true;
+    });
+  }
+
+    collapseAllQuestions(): void {
+    this.questionSubmissionForms.forEach((q) => {
+      q.isTabExpanded = false;
+    });
+  }
 }
