@@ -100,7 +100,7 @@
     </div>
   </div>
 </div>
-
+<div class=" text-center" > <button type="button" class="btn btn-secondary" (click)="collapseAllQuestions()"> collapse all </button> <button  type="button" class="btn btn-secondary"(click)="expandAllQuestions()"> expand all </button> </div>
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
   <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
     <ng-container *ngIf="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS">

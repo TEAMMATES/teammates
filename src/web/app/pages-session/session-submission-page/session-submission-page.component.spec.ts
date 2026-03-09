@@ -2,6 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
@@ -1297,4 +1298,35 @@ describe('SessionSubmissionPageComponent', () => {
     expect(component.questionSubmissionForms[0].isTabExpandedForRecipients.get('r1')).toBe(true);
     expect(getItemSpy).toHaveBeenCalledWith('autosave');
   });
+describe ('Expand and Collapse All buttons',()=> {
+
+it ('should expand all questions',()=>{
+component.questionSubmissionForms = [
+  { isTabExpanded: false } as any,
+  { isTabExpanded: false } as any,
+];
+component.expandAllQuestions();
+expect(component.questionSubmissionForms.every((q) => q.isTabExpanded)).toBe(true);
+});
+
+it ('should collapse all questions', () =>{
+    component.questionSubmissionForms = [
+       {isTabExpanded:true} as any,
+       {isTabExpanded: true} as any,
+        ];
+    component.collapseAllQuestions();
+    expect(component.questionSubmissionForms.every((q)=>q.isTabExpanded)).toBe(false);
+});
+
+it('should show Expand All and Collapse All buttons', () => {
+const buttons = fixture.debugElement.queryAll(By.css('button'));
+  const texts = buttons.map((b) => b.nativeElement.textContent.trim());
+  expect(texts).toContain('expand all');
+  expect(texts).toContain('collapse all');
+});
+
+
+
+
+    });
 });
