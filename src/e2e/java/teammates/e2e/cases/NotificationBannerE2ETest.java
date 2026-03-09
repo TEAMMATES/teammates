@@ -63,3 +63,4 @@ public class NotificationBannerE2ETest extends BaseE2ETestCase {
         }
     }
 }
+
