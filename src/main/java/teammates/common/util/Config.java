@@ -155,21 +155,26 @@ public final class Config {
 
         String appVersion = properties.getProperty("app.version");
         String appId = properties.getProperty("app.id");
+        IS_DEV_SERVER = isDevServer(appVersion, appId);
 
         Properties devProperties = new Properties();
-
-        try (InputStream devPropStream = FileHelper.getResourceAsStream("build-dev.properties")) {
-            if (devPropStream != null) {
-                devProperties.load(devPropStream);
+        if (IS_DEV_SERVER) {
+            try (InputStream devPropStream = FileHelper.getResourceAsStream("build-dev.properties")) {
+                if (devPropStream != null) {
+                    devProperties.load(devPropStream);
+                }
+            } catch (IOException e) {
+                log.warning("Dev environment detected but failed to load build-dev.properties file.");
             }
-        } catch (IOException e) {
-            log.warning("Dev environment detected but failed to load build-dev.properties file.");
+            APP_ID = getProperty(properties, devProperties, "app.id");
+            APP_VERSION = getProperty(properties, devProperties, "app.version");
+        } else {
+            properties = getBuildPropertiesFromGcpParameter(properties, appId);
+            appId = properties.getProperty("app.id", appId);
+            appVersion = properties.getProperty("app.version", appVersion);
+            APP_ID = getGcpProjectId(appId);
+            APP_VERSION = appVersion;
         }
-
-        properties = getBuildPropertiesFromGcpParameter(properties, appId);
-        APP_ID = getGcpProjectId(properties.getProperty("app.id", appId));
-        APP_VERSION = properties.getProperty("app.version", appVersion);
-        IS_DEV_SERVER = isDevServer(APP_VERSION, APP_ID);
 
         Map<String, String> secretCache = new HashMap<>();
         try (SecretManagerServiceClient secretManagerClient = IS_DEV_SERVER ? null
@@ -278,7 +283,7 @@ public final class Config {
             String fallbackProjectId) {
         try (ParameterManagerClient client = ParameterManagerClient.create()) {
             ParameterVersionName name = ParameterVersionName.of(
-                    getGcpProjectId(fallbackProjectId), "global", "build_properties", "1");
+                    getGcpProjectId(fallbackProjectId), "global", "build_properties", "latest");
             RenderParameterVersionResponse response = client.renderParameterVersion(name);
 
             Properties propertiesFromParameter = new Properties();
