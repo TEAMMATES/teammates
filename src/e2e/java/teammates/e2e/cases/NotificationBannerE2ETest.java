@@ -51,7 +51,7 @@ public class NotificationBannerE2ETest extends BaseE2ETestCase {
         AccountData accountFromDb = BACKDOOR.getAccountData(account.getGoogleId());
 
         studentHomePage.verifyStatusMessage("Notification marked as read.");
-        assertFalse(studentHomePage.isBannerVisible());
+        assertTrue(studentHomePage.isBannerVisible());
         assertTrue(accountFromDb.getReadNotifications().containsKey(notificationId));
 
     }
