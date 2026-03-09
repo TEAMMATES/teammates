@@ -5,9 +5,9 @@ import { Observable, first } from 'rxjs';
 import { AccountRequest } from 'src/web/types/api-output';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
+import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest, AccountRequestStatus } from '../../../../types/api-request';
-import { environment } from '../../../../environments/environment';
 
 describe('InstructorRequestFormComponent', () => {
   let component: InstructorRequestFormComponent;
@@ -39,8 +39,8 @@ describe('InstructorRequestFormComponent', () => {
 
   const accountServiceStub: Partial<AccountService> = {
     createAccountRequest: () => new Observable((subscriber) => {
-        subscriber.next(typicalAccountRequest);
-      }),
+      subscriber.next(typicalAccountRequest);
+    }),
   };
 
   /**
@@ -109,7 +109,7 @@ describe('InstructorRequestFormComponent', () => {
 
     let actualModel: InstructorRequestFormModel | null = null;
     component.requestSubmissionEvent.pipe(first())
-        .subscribe((data: InstructorRequestFormModel) => { actualModel = data; });
+      .subscribe((data: InstructorRequestFormModel) => { actualModel = data; });
 
     fillFormWith(typicalModel);
     component.onSubmit();
@@ -135,7 +135,7 @@ describe('InstructorRequestFormComponent', () => {
 
   it('should auto-unify country when applicable', () => {
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-        new Observable((subscriber) => { subscriber.next(typicalAccountRequest); }));
+      new Observable((subscriber) => { subscriber.next(typicalAccountRequest); }));
     const unitedStatesModel: InstructorRequestFormModel = {
       ...typicalModel,
       country: 'españa',
@@ -144,12 +144,13 @@ describe('InstructorRequestFormComponent', () => {
       ...typicalCreateRequest,
       instructorInstitution: `${unitedStatesModel.institution}, Spain`,
     };
+
     fillFormWith(unitedStatesModel);
     component.onSubmit();
 
     expect(accountService.createAccountRequest).toHaveBeenCalledTimes(1);
     expect(accountService.createAccountRequest).toHaveBeenCalledWith(
-        expect.objectContaining(unitedStatesCreateRequest));
+      expect.objectContaining(unitedStatesCreateRequest));
   });
 
 });
