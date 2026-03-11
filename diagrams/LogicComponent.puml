@@ -29,6 +29,7 @@ component Logic {
         rectangle EmailSender
         rectangle EmailGenerator
         rectangle TaskQueuer
+        rectangle FileStorage
         rectangle RecaptchaVerifier
         rectangle "Logic" as Logic2
         rectangle UserProvision
