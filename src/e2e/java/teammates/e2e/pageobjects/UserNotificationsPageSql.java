@@ -100,7 +100,7 @@ public class UserNotificationsPageSql extends AppPage {
     private String getTimezone() {
         return notificationsTimezone.getText().replace("All dates are displayed in ", "").replace(" time.", "");
     }
-    
+
     private String getHeaderText(Notification notification) {
         return String.format("%s [%s - %s]", notification.getTitle(),
                 getHeaderDateString(notification.getStartTime()), getHeaderDateString(notification.getEndTime()));
