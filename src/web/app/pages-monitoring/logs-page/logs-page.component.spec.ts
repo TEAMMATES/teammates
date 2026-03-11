@@ -8,7 +8,11 @@ import { LogsPageComponent } from './logs-page.component';
 import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { GeneralLogEntry, LogEvent, LogSeverity } from '../../../types/api-output';
+import {
+  GeneralLogEntry,
+  LogEvent,
+  LogSeverity,
+} from '../../../types/api-output';
 import { getLatestTimeFormat } from '../../../types/datetime-const';
 
 describe('LogsPageComponent', () => {
@@ -26,8 +30,7 @@ describe('LogsPageComponent', () => {
         provideHttpClientTesting(),
         provideRouter([]),
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -74,10 +77,12 @@ describe('LogsPageComponent', () => {
   });
 
   it('should search for logs when search button is clicked', () => {
-    const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
-        .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
-    const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
-        .mockReturnValue(0);
+    const logSpy: SpyInstance = jest
+      .spyOn(logService, 'searchLogs')
+      .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+    const timeSpy: SpyInstance = jest
+      .spyOn(timezoneService, 'resolveLocalDateTime')
+      .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -109,9 +114,11 @@ describe('LogsPageComponent', () => {
   });
 
   it('should search for logs with minimum severity', () => {
-    const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
+    const logSpy: SpyInstance = jest
+      .spyOn(logService, 'searchLogs')
       .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
-    const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
+    const timeSpy: SpyInstance = jest
+      .spyOn(timezoneService, 'resolveLocalDateTime')
       .mockReturnValue(0);
 
     component.isLoading = false;
@@ -144,10 +151,12 @@ describe('LogsPageComponent', () => {
   });
 
   it('should search for logs with event type', () => {
-    const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
-        .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
-    const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
-        .mockReturnValue(0);
+    const logSpy: SpyInstance = jest
+      .spyOn(logService, 'searchLogs')
+      .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+    const timeSpy: SpyInstance = jest
+      .spyOn(timezoneService, 'resolveLocalDateTime')
+      .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -223,11 +232,15 @@ describe('LogsPageComponent', () => {
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
     fixture.detectChanges();
     fixture.debugElement.nativeElement.querySelector('#query-button').click();
-    expect(spy).toHaveBeenLastCalledWith('Please fill in Source location file or clear Source location function');
+    expect(spy).toHaveBeenLastCalledWith(
+      'Please fill in Source location file or clear Source location function',
+    );
   });
 
   it('should disable load button if there is no next page', () => {
-    jest.spyOn(logService, 'searchLogs').mockReturnValue(of({ logEntries: [], hasNextPage: false }));
+    jest
+      .spyOn(logService, 'searchLogs')
+      .mockReturnValue(of({ logEntries: [], hasNextPage: false }));
     jest.spyOn(timezoneService, 'resolveLocalDateTime').mockReturnValue(0);
     component.formModel = {
       logsDateFrom: { year: 2021, month: 6, day: 1 },
@@ -246,7 +259,9 @@ describe('LogsPageComponent', () => {
     component.searchForLogs();
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#load-previous-button');
+    const button: any = fixture.debugElement.nativeElement.querySelector(
+      '#load-previous-button',
+    );
     expect(button).toBeNull();
   });
 
@@ -264,11 +279,13 @@ describe('LogsPageComponent', () => {
       timestamp: 1549095330000,
       message: 'message',
     };
-    const logSpy: SpyInstance = jest.spyOn(logService, 'searchLogs')
-        .mockReturnValueOnce(of({ logEntries: [testLog1], hasNextPage: true }))
-        .mockReturnValueOnce(of({ logEntries: [], hasNextPage: false }));
-    const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime')
-        .mockReturnValue(0);
+    const logSpy: SpyInstance = jest
+      .spyOn(logService, 'searchLogs')
+      .mockReturnValueOnce(of({ logEntries: [testLog1], hasNextPage: true }))
+      .mockReturnValueOnce(of({ logEntries: [], hasNextPage: false }));
+    const timeSpy: SpyInstance = jest
+      .spyOn(timezoneService, 'resolveLocalDateTime')
+      .mockReturnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -328,8 +345,11 @@ describe('LogsPageComponent', () => {
       timestamp: 1549095330000,
       message: 'message',
     };
-    jest.spyOn(logService, 'searchLogs')
-      .mockReturnValue(of({ logEntries: [testLog1, testLog2, testLog3], hasNextPage: false }));
+    jest
+      .spyOn(logService, 'searchLogs')
+      .mockReturnValue(
+        of({ logEntries: [testLog1, testLog2, testLog3], hasNextPage: false }),
+      );
     jest.spyOn(timezoneService, 'resolveLocalDateTime').mockReturnValue(0);
 
     component.isLoading = false;
@@ -338,5 +358,20 @@ describe('LogsPageComponent', () => {
     component.searchForLogs();
 
     expect(component.histogramResult.length).toEqual(2);
+  });
+
+  it('should create tooltip only once', () => {
+    fixture.detectChanges();
+
+    const tooltipsBefore =
+      document.querySelectorAll('.histogram-tooltip').length;
+
+    component.searchForLogs();
+    component.searchForLogs();
+
+    const tooltipsAfter =
+      document.querySelectorAll('.histogram-tooltip').length;
+
+    expect(tooltipsAfter).toEqual(tooltipsBefore);
   });
 });

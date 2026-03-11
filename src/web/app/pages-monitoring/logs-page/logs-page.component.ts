@@ -72,14 +72,22 @@ const DESCENDING_ORDER: string = 'desc';
   ],
 })
 export class LogsPageComponent implements OnInit {
-  readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
+  readonly LOGS_RETENTION_PERIOD_IN_DAYS: number =
+    ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number =
-    this.LOGS_RETENTION_PERIOD_IN_DAYS * Hours.IN_ONE_DAY * Milliseconds.IN_ONE_HOUR;
+    this.LOGS_RETENTION_PERIOD_IN_DAYS
+    * Hours.IN_ONE_DAY
+    * Milliseconds.IN_ONE_HOUR;
   readonly SEVERITIES: LogSeverity[] = [
-    LogSeverity.INFO, LogSeverity.WARNING, LogSeverity.ERROR,
+    LogSeverity.INFO,
+    LogSeverity.WARNING,
+    LogSeverity.ERROR,
   ];
   readonly EVENTS: LogEvent[] = [
-    LogEvent.REQUEST_LOG, LogEvent.EXCEPTION_LOG, LogEvent.EMAIL_SENT, LogEvent.FEEDBACK_SESSION_AUDIT,
+    LogEvent.REQUEST_LOG,
+    LogEvent.EXCEPTION_LOG,
+    LogEvent.EMAIL_SENT,
+    LogEvent.FEEDBACK_SESSION_AUDIT,
     LogEvent.INSTANCE_LOG,
   ];
   filterType: 'SEVERITY' | 'MIN_SEVERITY' | 'EVENT' = 'EVENT';
@@ -139,14 +147,20 @@ export class LogsPageComponent implements OnInit {
   logsMap: Map<string, number> = new Map<string, number>();
 
   get filteredHistogramResult(): LogsHistogramDataModel[] {
-    return this.frequencyThreshold > 0 ? this.histogramResult.filter(d => d.numberOfTimes >= this.frequencyThreshold) : this.histogramResult;
+    return this.frequencyThreshold > 0
+      ? this.histogramResult.filter(
+          (d) => d.numberOfTimes >= this.frequencyThreshold,
+        )
+      : this.histogramResult;
   }
 
-  constructor(private datetimeService: DateTimeService,
+  constructor(
+    private datetimeService: DateTimeService,
     private logService: LogService,
     private timezoneService: TimezoneService,
     private statusMessageService: StatusMessageService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -155,7 +169,9 @@ export class LogsPageComponent implements OnInit {
     this.dateToday.month = now.getMonth() + 1;
     this.dateToday.day = now.getDate();
 
-    const earliestSearchDate: Date = new Date(now.getTime() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS);
+    const earliestSearchDate: Date = new Date(
+      now.getTime() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS,
+    );
     this.earliestSearchDate.year = earliestSearchDate.getFullYear();
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
@@ -169,22 +185,29 @@ export class LogsPageComponent implements OnInit {
       day: fromDate.getDate(),
     };
     this.formModel.logsDateTo = { ...this.dateToday };
-    this.formModel.logsTimeFrom = this.datetimeService.convertDateToTimeFormat(fromDate);
-    this.formModel.logsTimeTo = this.datetimeService.convertDateToTimeFormat(now);
+    this.formModel.logsTimeFrom =
+      this.datetimeService.convertDateToTimeFormat(fromDate);
+    this.formModel.logsTimeTo =
+      this.datetimeService.convertDateToTimeFormat(now);
 
-    this.logService.getActionClassList()
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      }))
+    this.logService
+      .getActionClassList()
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+      )
       .subscribe((actionClasses: ActionClasses) => {
         this.ACTION_CLASSES = actionClasses.actionClasses.sort();
       });
 
-    this.activatedRoute.data.pipe(
+    this.activatedRoute.data
+      .pipe(
         tap((data: any) => {
           this.isAdmin = data.isAdmin;
         }),
-    ).subscribe(() => {});
+      )
+      .subscribe(() => {});
   }
 
   searchForLogs(): void {
@@ -203,9 +226,13 @@ export class LogsPageComponent implements OnInit {
     this.hasPreviousPage = true;
     this.hasNextPage = false;
     const timestampFrom: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
+      this.formModel.logsDateFrom,
+      this.formModel.logsTimeFrom,
+    );
     const timestampUntil: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateTo, this.formModel.logsTimeTo);
+      this.formModel.logsDateTo,
+      this.formModel.logsTimeTo,
+    );
 
     if (this.isTableView) {
       this.searchForLogsTableView(timestampFrom, timestampUntil);
@@ -214,16 +241,21 @@ export class LogsPageComponent implements OnInit {
     }
   }
 
-  private searchForLogsTableView(timestampFrom: number, timestampUntil: number): void {
+  private searchForLogsTableView(
+    timestampFrom: number,
+    timestampUntil: number,
+  ): void {
     this.searchStartTime = timestampFrom;
     this.searchEndTime = timestampUntil;
     this.setQueryParams(timestampFrom, timestampUntil);
-    this.logService.searchLogs(this.queryParams)
+    this.logService
+      .searchLogs(this.queryParams)
       .pipe(
         finalize(() => {
           this.isSearching = false;
           this.hasResult = true;
-        }))
+        }),
+      )
       .subscribe({
         next: (generalLogs: GeneralLogs) => {
           this.hasPreviousPage = generalLogs.hasNextPage;
@@ -236,10 +268,15 @@ export class LogsPageComponent implements OnInit {
   }
 
   private isFormValid(): boolean {
-    if (this.formModel.filters.sourceLocation && !this.formModel.filters.sourceLocation.file
-        && this.formModel.filters.sourceLocation.function) {
+    if (
+      this.formModel.filters.sourceLocation
+      && !this.formModel.filters.sourceLocation.file
+      && this.formModel.filters.sourceLocation.function
+    ) {
       this.isFiltersExpanded = true;
-      this.statusMessageService.showErrorToast('Please fill in Source location file or clear Source location function');
+      this.statusMessageService.showErrorToast(
+        'Please fill in Source location file or clear Source location function',
+      );
       return false;
     }
 
@@ -272,7 +309,10 @@ export class LogsPageComponent implements OnInit {
     }
   }
 
-  private searchForLogsHistogramView(timestampFrom: number, timestampUntil: number): void {
+  private searchForLogsHistogramView(
+    timestampFrom: number,
+    timestampUntil: number,
+  ): void {
     let numberOfPagesRetrieved: number = 0;
     this.queryParams = {
       startTime: timestampFrom,
@@ -280,30 +320,44 @@ export class LogsPageComponent implements OnInit {
       order: DESCENDING_ORDER,
       severity: LogSeverity.ERROR,
     };
-    this.logService.searchLogs(this.queryParams)
+    this.logService
+      .searchLogs(this.queryParams)
       .pipe(
         expand((logs: GeneralLogs) => {
-          if (logs.hasNextPage && numberOfPagesRetrieved < MAXIMUM_PAGES_FOR_ERROR_LOGS) {
+          if (
+            logs.hasNextPage
+            && numberOfPagesRetrieved < MAXIMUM_PAGES_FOR_ERROR_LOGS
+          ) {
             numberOfPagesRetrieved += 1;
-            this.queryParams.endTime = logs.logEntries[logs.logEntries.length - 1].timestamp;
+            this.queryParams.endTime =
+              logs.logEntries[logs.logEntries.length - 1].timestamp;
             return this.logService.searchLogs(this.queryParams);
           }
 
           return EMPTY;
         }),
-        reduce((acc: GeneralLogEntry[], res: GeneralLogs) => acc.concat(res.logEntries), [] as GeneralLogEntry[]),
+        reduce(
+          (acc: GeneralLogEntry[], res: GeneralLogs) =>
+            acc.concat(res.logEntries),
+          [] as GeneralLogEntry[],
+        ),
         finalize(() => {
           this.isSearching = false;
           this.hasResult = true;
         }),
       )
       .subscribe({
-        next: (logResults: GeneralLogEntry[]) => this.processLogsForHistogram(logResults),
-        error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+        next: (logResults: GeneralLogEntry[]) =>
+          this.processLogsForHistogram(logResults),
+        error: (e: ErrorMessageOutput) =>
+          this.statusMessageService.showErrorToast(e.error.message),
       });
   }
 
-  private processLogsForTableView(generalLogs: GeneralLogs, isDescendingOrder: boolean): void {
+  private processLogsForTableView(
+    generalLogs: GeneralLogs,
+    isDescendingOrder: boolean,
+  ): void {
     if (isDescendingOrder) {
       generalLogs.logEntries.forEach((log: GeneralLogEntry) => {
         if (this.logsMap.get(log.insertId) === log.timestamp) {
@@ -314,7 +368,9 @@ export class LogsPageComponent implements OnInit {
       });
     } else {
       generalLogs.logEntries
-        .sort((a: GeneralLogEntry, b: GeneralLogEntry) => a.timestamp - b.timestamp)
+        .sort(
+          (a: GeneralLogEntry, b: GeneralLogEntry) => a.timestamp - b.timestamp,
+        )
         .forEach((log: GeneralLogEntry) => {
           if (this.logsMap.get(log.insertId) === log.timestamp) {
             return;
@@ -334,11 +390,19 @@ export class LogsPageComponent implements OnInit {
         this.logsMap.set(log.insertId, log.timestamp);
         return true;
       })
-      .reduce((acc: Map<string, number>, log: GeneralLogEntry) =>
-        acc.set(JSON.stringify(log.sourceLocation), (acc.get(JSON.stringify(log.sourceLocation)) || 0) + 1),
-        new Map<string, number>());
+      .reduce(
+        (acc: Map<string, number>, log: GeneralLogEntry) =>
+          acc.set(
+            JSON.stringify(log.sourceLocation),
+            (acc.get(JSON.stringify(log.sourceLocation)) || 0) + 1,
+          ),
+        new Map<string, number>(),
+      );
     sourceToFrequencyMap.forEach((value: number, key: string) => {
-      this.histogramResult.push({ sourceLocation: JSON.parse(key), numberOfTimes: value });
+      this.histogramResult.push({
+        sourceLocation: JSON.parse(key),
+        numberOfTimes: value,
+      });
     });
   }
 
@@ -356,7 +420,10 @@ export class LogsPageComponent implements OnInit {
     }
 
     const timestampForDisplay: string = this.timezoneService.formatToString(
-        log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A');
+      log.timestamp,
+      this.timezoneService.guessTimezone(),
+      'DD MMM, YYYY hh:mm:ss A',
+    );
 
     return {
       traceIdForDisplay,
@@ -388,7 +455,9 @@ export class LogsPageComponent implements OnInit {
   addExceptionClassToFilter(exceptionClass: string): void {
     this.isFiltersExpanded = true;
     this.formModel.filters.exceptionClass = exceptionClass;
-    this.statusMessageService.showSuccessToast('Exception class added to filters');
+    this.statusMessageService.showSuccessToast(
+      'Exception class added to filters',
+    );
   }
 
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {
@@ -398,7 +467,9 @@ export class LogsPageComponent implements OnInit {
       line: 0,
       function: sourceLocation.function,
     };
-    this.statusMessageService.showSuccessToast('Source location added to filters');
+    this.statusMessageService.showSuccessToast(
+      'Source location added to filters',
+    );
   }
 
   addUserInfoToFilter(userInfo: RequestLogUser): void {
@@ -417,7 +488,7 @@ export class LogsPageComponent implements OnInit {
   }
 
   getMaxFrequency(): number {
-    return Math.max(...this.histogramResult.map(d => d.numberOfTimes), 0);
+    return Math.max(...this.histogramResult.map((d) => d.numberOfTimes), 0);
   }
 
   clearFilters(): void {
@@ -469,8 +540,11 @@ export class LogsPageComponent implements OnInit {
     this.queryParams.endTime = this.searchStartTime;
     this.searchStartTime -= Milliseconds.IN_TEN_MINUTES;
     [this.formModel.logsDateFrom, this.formModel.logsTimeFrom] =
-    this.datetimeService.getDateTimeFromDateTimeDeltaMinutes(this.formModel.logsDateFrom,
-      this.formModel.logsTimeFrom, -10);
+      this.datetimeService.getDateTimeFromDateTimeDeltaMinutes(
+        this.formModel.logsDateFrom,
+        this.formModel.logsTimeFrom,
+        -10,
+      );
     this.queryParams.startTime = this.searchStartTime;
     this.searchPreviousLogs();
   }
@@ -481,37 +555,48 @@ export class LogsPageComponent implements OnInit {
     this.queryParams.startTime = this.searchEndTime;
     this.searchEndTime += Milliseconds.IN_TEN_MINUTES;
     [this.formModel.logsDateTo, this.formModel.logsTimeTo] =
-    this.datetimeService.getDateTimeFromDateTimeDeltaMinutes(this.formModel.logsDateTo,
-      this.formModel.logsTimeTo, 10);
+      this.datetimeService.getDateTimeFromDateTimeDeltaMinutes(
+        this.formModel.logsDateTo,
+        this.formModel.logsTimeTo,
+        10,
+      );
     this.queryParams.endTime = this.searchEndTime;
     this.searchLaterLogs();
   }
 
   private searchPreviousLogs(): void {
-    this.logService.searchLogs(this.queryParams)
-      .pipe(finalize(() => {
-        this.isSearching = false;
-      }))
+    this.logService
+      .searchLogs(this.queryParams)
+      .pipe(
+        finalize(() => {
+          this.isSearching = false;
+        }),
+      )
       .subscribe({
         next: (generalLogs: GeneralLogs) => {
           this.hasPreviousPage = generalLogs.hasNextPage;
           this.processLogsForTableView(generalLogs, true);
         },
-        error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+        error: (e: ErrorMessageOutput) =>
+          this.statusMessageService.showErrorToast(e.error.message),
       });
   }
 
   private searchLaterLogs(): void {
-    this.logService.searchLogs(this.queryParams)
-      .pipe(finalize(() => {
-        this.isSearchingLaterLogs = false;
-      }))
+    this.logService
+      .searchLogs(this.queryParams)
+      .pipe(
+        finalize(() => {
+          this.isSearchingLaterLogs = false;
+        }),
+      )
       .subscribe({
         next: (generalLogs: GeneralLogs) => {
           this.hasNextPage = generalLogs.hasNextPage;
           this.processLogsForTableView(generalLogs, false);
         },
-        error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
+        error: (e: ErrorMessageOutput) =>
+          this.statusMessageService.showErrorToast(e.error.message),
       });
   }
 }
