@@ -52,6 +52,17 @@ public final class FeedbackSessionLogsLogic {
     }
 
     /**
+     * Creates feedback session log.
+     */
+    public void createFeedbackSessionLog(FeedbackSessionLog fsLog) {
+        try {
+            fslDb.createFeedbackSessionLog(fsLog);
+        } catch (ObjectNotFoundException e) {
+            log.severe(String.format(ERROR_FAILED_TO_CREATE_LOG), e);
+        }
+    }
+
+    /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp. Logs with the same timestamp will be ordered by the
      * student's email.

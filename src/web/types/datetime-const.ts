@@ -25,6 +25,10 @@ export enum Milliseconds {
     IN_ONE_WEEK = 604800000,
 }
 
+export enum Timestamps {
+    TIME_REPRESENTS_LATER = Date.parse('1970-01-01T00:00:00Z'),
+}
+
 export const getDefaultDateFormat = (): DateFormat => {
     return { year: 0, month: 0, day: 0 };
 };

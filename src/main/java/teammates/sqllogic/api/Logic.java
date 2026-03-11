@@ -752,7 +752,7 @@ public class Logic {
     /**
      * Gets the expected number of submissions for a feedback session.
      *
-     * <br>Preconditions: <br>
+     * <br>Preconditions: <br/>
      * * All parameters are non-null.
      */
     public int getExpectedTotalSubmission(FeedbackSession fs) {
@@ -763,7 +763,7 @@ public class Logic {
     /**
      * Gets the actual number of submissions for a feedback session.
      *
-     * <br>Preconditions: <br>
+     * <br>Preconditions: <br/>
      * * All parameters are non-null.
      */
     public int getActualTotalSubmission(FeedbackSession fs) {
@@ -1184,7 +1184,7 @@ public class Logic {
     /**
      * Deletes all the students in the course cascade their associated responses, deadline extensions and comments.
      *
-     * <br/>Preconditions: <br>
+     * <br/>Preconditions: <br/>
      * Parameter is non-null.
      */
     public void deleteStudentsInCourseCascade(String courseId) {
@@ -1753,6 +1753,13 @@ public class Logic {
      */
     public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs) {
         feedbackSessionLogsLogic.createFeedbackSessionLogs(feedbackSessionLogs);
+    }
+
+    /**
+     * Create feedback session log.
+     */
+    public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) {
+        feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSessionLog);
     }
 
     /**
