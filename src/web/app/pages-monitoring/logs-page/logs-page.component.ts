@@ -85,6 +85,7 @@ export class LogsPageComponent implements OnInit {
   filterType: 'SEVERITY' | 'MIN_SEVERITY' | 'EVENT' = 'EVENT';
   ACTION_CLASSES: string[] = [];
   isAdmin: boolean = false;
+  frequencyThreshold: number = 0;
 
   formModel: SearchLogsFormModel = {
     logsDateFrom: getDefaultDateFormat(),
@@ -136,6 +137,10 @@ export class LogsPageComponent implements OnInit {
   hasPreviousPage: boolean = true;
   hasNextPage: boolean = false;
   logsMap: Map<string, number> = new Map<string, number>();
+
+  get filteredHistogramResult(): LogsHistogramDataModel[] {
+    return this.frequencyThreshold > 0 ? this.histogramResult.filter(d => d.numberOfTimes >= this.frequencyThreshold) : this.histogramResult;
+  }
 
   constructor(private datetimeService: DateTimeService,
     private logService: LogService,
@@ -405,6 +410,14 @@ export class LogsPageComponent implements OnInit {
     };
 
     this.statusMessageService.showSuccessToast('User info added to filters');
+  }
+
+  onSourceLocationSelected(sourceLocation: SourceLocation): void {
+    this.addSourceLocationToFilter(sourceLocation);
+  }
+
+  getMaxFrequency(): number {
+    return Math.max(...this.histogramResult.map(d => d.numberOfTimes), 0);
   }
 
   clearFilters(): void {

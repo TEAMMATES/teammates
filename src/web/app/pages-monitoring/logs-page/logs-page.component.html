@@ -40,6 +40,10 @@
             <ngb-timepicker [(ngModel)]="formModel.logsTimeTo" [spinners]="false"></ngb-timepicker>
           </div>
         </div>
+        <div class="col-12 mt-2" *ngIf="!isTableView">
+          <label for="frequency-threshold" class="fw-bold">Frequency threshold</label>
+          <input id="frequency-threshold" type="number" class="form-control" [(ngModel)]="frequencyThreshold" min="0">
+        </div>
       </div>
       <div class="col-12 col-sm-4" *ngIf="isTableView">
         <div class="col-12">
@@ -187,7 +191,7 @@
 
 <div *ngIf="!isTableView">
   <div id="histogram" style="height: 400px; width: 100%;" *tmIsLoading="isSearching">
-    <tm-logs-histogram [data]="histogramResult" *ngIf="histogramResult.length>0; else noDataMessage"></tm-logs-histogram>
+    <tm-logs-histogram [data]="filteredHistogramResult" [frequencyThreshold]="frequencyThreshold" (sourceLocationSelected)="onSourceLocationSelected($event)" *ngIf="histogramResult.length>0; else noDataMessage"></tm-logs-histogram>
   </div>
   <ng-template #noDataMessage>
     <div class="no-data-message">
