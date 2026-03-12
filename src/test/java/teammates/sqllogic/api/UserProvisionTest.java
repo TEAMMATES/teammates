@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 
 import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -24,17 +25,28 @@ public class UserProvisionTest extends BaseTestCase {
 
     private UserProvision userProvision;
     private UsersLogic mockUsersLogic;
+    private MockedStatic<Config> mockConfig;
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @BeforeMethod
     public void setUpMethod() {
         mockUsersLogic = mock(UsersLogic.class);
-        // UserProvision stores UsersLogic.inst() in a final field at construction time.
-        // We mock the static method during construction so the field captures our mock.
         try (MockedStatic<UsersLogic> usersLogicStatic = mockStatic(UsersLogic.class)) {
             usersLogicStatic.when(UsersLogic::inst).thenReturn(mockUsersLogic);
             userProvision = new UserProvision();
         }
-        // After the try block, userProvision.usersLogic still holds the mockUsersLogic reference.
+
+        mockConfig = mockStatic(Config.class);
+        mockConfig.when(Config::getAppAdmins).thenReturn(List.of());
+        mockConfig.when(Config::getAppMaintainers).thenReturn(List.of());
+
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
+    }
+
+    @AfterMethod
+    public void tearDownMethod() {
+        mockConfig.close();
+        mockHibernateUtil.close();
     }
 
     /** Asserts all four roles at once so no role is accidentally left unchecked. */
@@ -56,6 +68,10 @@ public class UserProvisionTest extends BaseTestCase {
 
     private static void assertIsAdminOnly(UserInfo user) {
         assertHasExactRoles(user, true, false, false, false);
+    }
+
+    private static void assertIsMaintainerOnly(UserInfo user) {
+        assertHasExactRoles(user, false, false, false, true);
     }
 
     private static void assertNoRoles(UserInfo user) {
@@ -80,8 +96,6 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUser_instructor_returnsUserInfoWithIsInstructorTrue() {
         String userId = "typical-instructor";
-        assertFalse(Config.APP_ADMINS.contains(userId)); // precondition: must not be an admin
-        assertFalse(Config.APP_MAINTAINERS.contains(userId)); // precondition: must not be a maintainer
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
@@ -94,8 +108,6 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUser_student_returnsUserInfoWithIsStudentTrue() {
         String userId = "typical-student";
-        assertFalse(Config.APP_ADMINS.contains(userId)); // precondition: must not be an admin
-        assertFalse(Config.APP_MAINTAINERS.contains(userId)); // precondition: must not be a maintainer
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
 
@@ -107,43 +119,29 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_admin_returnsUserInfoWithIsAdminTrue() {
-        // Use the first non-blank configured admin; skip if app.admins is not set.
-        List<String> configuredAdmins = Config.APP_ADMINS.stream()
-                .filter(s -> !s.isBlank())
-                .toList();
-        if (configuredAdmins.isEmpty()) {
-            return;
-        }
-        String adminUserId = configuredAdmins.get(0);
+        String adminUserId = "admin-user-id";
+        mockConfig.when(Config::getAppAdmins).thenReturn(List.of(adminUserId));
 
         UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(adminUserId));
 
         assertEquals(adminUserId, user.id);
-        assertTrue(user.isAdmin);
+        assertIsAdminOnly(user);
     }
 
     @Test
     public void testGetCurrentUser_maintainer_returnsUserInfoWithIsMaintainerTrue() {
-        // Use the first non-blank configured maintainer; skip if app.maintainers is not set.
-        List<String> configuredMaintainers = Config.APP_MAINTAINERS.stream()
-                .filter(s -> !s.isBlank())
-                .toList();
-        if (configuredMaintainers.isEmpty()) {
-            return;
-        }
-        String maintainerUserId = configuredMaintainers.get(0);
+        String maintainerUserId = "maintainer-user-id";
+        mockConfig.when(Config::getAppMaintainers).thenReturn(List.of(maintainerUserId));
 
         UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(maintainerUserId));
 
         assertEquals(maintainerUserId, user.id);
-        assertTrue(user.isMaintainer);
+        assertIsMaintainerOnly(user);
     }
 
     @Test
     public void testGetCurrentUser_unregistered_returnsUserInfoWithAllRolesFalse() {
         String userId = "unregistered-user";
-        assertFalse(Config.APP_ADMINS.contains(userId)); // precondition: must not be an admin
-        assertFalse(Config.APP_MAINTAINERS.contains(userId)); // precondition: must not be a maintainer
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
@@ -157,27 +155,21 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUserWithTransaction_nullUic_returnsNull() {
-        try (MockedStatic<HibernateUtil> mockHibernateUtil = mockStatic(HibernateUtil.class)) {
-            assertNull(userProvision.getCurrentUserWithTransaction(null));
-        }
+        assertNull(userProvision.getCurrentUserWithTransaction(null));
     }
 
     @Test
     public void testGetCurrentUserWithTransaction_instructor_wrapsInTransactionAndReturnsUserInfo() {
         String userId = "typical-instructor";
-        assertFalse(Config.APP_ADMINS.contains(userId)); // precondition: must not be an admin
-        assertFalse(Config.APP_MAINTAINERS.contains(userId)); // precondition: must not be a maintainer
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
-        try (MockedStatic<HibernateUtil> mockHibernateUtil = mockStatic(HibernateUtil.class)) {
-            UserInfo user = userProvision.getCurrentUserWithTransaction(new UserInfoCookie(userId));
+        UserInfo user = userProvision.getCurrentUserWithTransaction(new UserInfoCookie(userId));
 
-            assertEquals(userId, user.id);
-            assertIsInstructorOnly(user);
-            mockHibernateUtil.verify(HibernateUtil::beginTransaction);
-            mockHibernateUtil.verify(HibernateUtil::commitTransaction);
-        }
+        assertEquals(userId, user.id);
+        assertIsInstructorOnly(user);
+        mockHibernateUtil.verify(HibernateUtil::beginTransaction);
+        mockHibernateUtil.verify(HibernateUtil::commitTransaction);
     }
 
     // ======================= getCurrentLoggedInUser =======================
@@ -209,7 +201,6 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetMasqueradeUser_instructor_returnsUserInfoWithIsInstructorTrue() {
         String googleId = "typical-instructor";
-        assertFalse(Config.APP_MAINTAINERS.contains(googleId)); // precondition: must not be a maintainer
         when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
         when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(false);
 
@@ -222,7 +213,6 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetMasqueradeUser_student_returnsUserInfoWithIsStudentTrue() {
         String googleId = "typical-student";
-        assertFalse(Config.APP_MAINTAINERS.contains(googleId)); // precondition: must not be a maintainer
         when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
 
@@ -234,26 +224,18 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetMasqueradeUser_maintainer_returnsUserInfoWithIsMaintainerTrue() {
-        // Use the first non-blank configured maintainer; skip if app.maintainers is not set.
-        List<String> configuredMaintainers = Config.APP_MAINTAINERS.stream()
-                .filter(s -> !s.isBlank())
-                .toList();
-        if (configuredMaintainers.isEmpty()) {
-            return;
-        }
-        String maintainerGoogleId = configuredMaintainers.get(0);
+        String maintainerGoogleId = "maintainer-user-id";
+        mockConfig.when(Config::getAppMaintainers).thenReturn(List.of(maintainerGoogleId));
 
         UserInfo user = userProvision.getMasqueradeUser(maintainerGoogleId);
 
         assertEquals(maintainerGoogleId, user.id);
-        assertTrue(user.isMaintainer);
-        assertFalse(user.isAdmin); // getMasqueradeUser explicitly sets isAdmin=false
+        assertIsMaintainerOnly(user);
     }
 
     @Test
     public void testGetMasqueradeUser_unregistered_returnsUserInfoWithAllRolesFalse() {
         String googleId = "unregistered-user";
-        assertFalse(Config.APP_MAINTAINERS.contains(googleId)); // precondition: must not be a maintainer
         when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(false);
 
