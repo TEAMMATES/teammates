@@ -73,7 +73,7 @@ public class TestDataValidityTest extends BaseTestCase {
                     return;
                 }
 
-                String testPage = path.getFileName().toString().replace("E2ETestSql.json", "");
+                String testPage = extractTestPage(path.getFileName().toString());
                 SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
 
                 dataBundle.accounts.forEach((id, account) -> {
