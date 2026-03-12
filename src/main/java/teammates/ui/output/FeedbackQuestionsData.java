@@ -8,7 +8,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 /**
  * The API output format of a list of {@link FeedbackQuestion}.
  */
-public class FeedbackQuestionsData extends ApiOutput {
+public final class FeedbackQuestionsData extends ApiOutput {
     private List<FeedbackQuestionData> questions;
 
     private FeedbackQuestionsData() {
