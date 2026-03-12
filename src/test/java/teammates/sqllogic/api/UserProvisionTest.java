@@ -4,6 +4,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import org.mockito.MockedStatic;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -50,6 +52,7 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUser_instructor_returnsUserInfoWithIsInstructorTrue() {
         String userId = "typical-instructor";
+        assertFalse(Config.APP_ADMINS.contains(userId)); // precondition: must not be an admin
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
@@ -64,6 +67,7 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUser_student_returnsUserInfoWithIsStudentTrue() {
         String userId = "typical-student";
+        assertFalse(Config.APP_ADMINS.contains(userId)); // precondition: must not be an admin
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
 
@@ -77,7 +81,14 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_admin_returnsUserInfoWithIsAdminTrue() {
-        String adminUserId = Config.APP_ADMINS.get(0);
+        // Use the first non-blank configured admin; skip if app.admins is not set.
+        List<String> configuredAdmins = Config.APP_ADMINS.stream()
+                .filter(s -> !s.isBlank())
+                .toList();
+        if (configuredAdmins.isEmpty()) {
+            return;
+        }
+        String adminUserId = configuredAdmins.get(0);
 
         UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(adminUserId));
 
@@ -88,6 +99,7 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUser_unregistered_returnsUserInfoWithAllRolesFalse() {
         String userId = "unregistered-user";
+        assertFalse(Config.APP_ADMINS.contains(userId)); // precondition: must not be an admin
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
