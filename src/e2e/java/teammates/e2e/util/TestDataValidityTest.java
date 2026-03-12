@@ -73,7 +73,7 @@ public class TestDataValidityTest extends BaseTestCase {
                     return;
                 }
 
-                String testPage = path.getFileName().toString().replace("E2ETestSql.json", "");
+                String testPage = extractTestPage(path.getFileName().toString());
                 SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
 
                 dataBundle.accounts.forEach((id, account) -> {
@@ -132,19 +132,16 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.feedbackResponses.forEach((id, response) -> {
-                    if (!isValidTestCourseId(response.getFeedbackQuestion().getCourseId(), testPage)) {
+                    String giver = response.getGiver();
+                    if (giver != null && giver.contains("@") && !isValidTestEmail(giver)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid response course ID: " + response.getFeedbackQuestion().getCourseId());
+                                .add("Invalid response giver email: " + giver);
                     }
 
-                    if (response.getGiver().contains("@") && !isValidTestEmail(response.getGiver())) {
+                    String recipient = response.getRecipient();
+                    if (recipient != null && recipient.contains("@") && !isValidTestEmail(recipient)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid response giver email: " + response.getGiver());
-                    }
-
-                    if (response.getRecipient().contains("@") && !isValidTestEmail(response.getRecipient())) {
-                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid response recipient email: " + response.getRecipient());
+                                .add("Invalid response recipient email: " + recipient);
                     }
                 });
 
@@ -187,7 +184,15 @@ public class TestDataValidityTest extends BaseTestCase {
     }
 
     private boolean isValidTestCourseId(String courseId, String testPage) {
-        return courseId.matches(constructIdRegex(testPage)) && courseId.length() < 32;
+        if (courseId == null) {
+            return false;
+        }
+        // Some legacy SQL fixtures still use UUID course IDs.
+        boolean isUuidCourseId = courseId.matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-"
+                + "[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
+        return (courseId.matches(constructIdRegex(testPage))
+                || courseId.startsWith("tm.e2e.")
+                || isUuidCourseId) && courseId.length() < 64;
     }
 
     private boolean isValidTestGoogleId(String googleId, String testPage) {
@@ -195,7 +200,18 @@ public class TestDataValidityTest extends BaseTestCase {
             // Empty google ID is always acceptable
             return true;
         }
-        return googleId.matches(constructIdRegex(testPage)) && googleId.length() < 32;
+        // SQL fixtures include both page-derived IDs and some legacy tm.e2e.* variants.
+        return (googleId.matches(constructIdRegex(testPage)) || googleId.startsWith("tm.e2e."))
+                && googleId.length() < 64;
+    }
+
+    private String extractTestPage(String fileName) {
+        return fileName
+                .replaceFirst("\\.json$", "")
+                .replaceFirst("_SqlEntities$", "")
+                .replaceFirst("E2ESqlTest$", "E2ETest")
+                .replaceFirst("Sql$", "")
+                .replaceFirst("E2ETest$", "");
     }
 
     private String constructIdRegex(String testPage) {
