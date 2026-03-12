@@ -552,8 +552,6 @@ public class ArchitectureTest {
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
                 .and().doNotHaveSimpleName("BaseTestCaseWithSqlDatabaseAccess")
-                .and().doNotHaveSimpleName("BaseTestCaseWithLocalDatabaseAccess")
-                .and().doNotHaveSimpleName("ObjectifyFilter")
                 .should().accessClassesThat().resideInAPackage("com.googlecode.objectify..")
                 .check(ALL_CLASSES);
     }
