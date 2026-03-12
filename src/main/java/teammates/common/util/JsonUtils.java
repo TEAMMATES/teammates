@@ -70,8 +70,8 @@ public final class JsonUtils {
                 .registerTypeAdapter(Instant.class, new InstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new ZoneIdAdapter())
                 .registerTypeAdapter(Duration.class, new DurationMinutesAdapter())
-                .registerTypeHierarchyAdapter(FeedbackQuestion.class, new FeedbackQuestionAdapter())
-                .registerTypeHierarchyAdapter(FeedbackResponse.class, new FeedbackResponseAdapter())
+                .registerTypeAdapter(FeedbackQuestion.class, new FeedbackQuestionAdapter())
+                .registerTypeAdapter(FeedbackResponse.class, new FeedbackResponseAdapter())
                 .registerTypeAdapter(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsAdapter())
                 .registerTypeAdapter(FeedbackResponseDetails.class, new FeedbackResponseDetailsAdapter())
                 .registerTypeAdapter(LogDetails.class, new LogDetailsAdapter())
@@ -252,18 +252,26 @@ public final class JsonUtils {
 
         @Override
         public JsonElement serialize(FeedbackResponse src, Type typeOfSrc, JsonSerializationContext context) {
-            JsonObject result = new JsonObject();
-            result.addProperty("feedbackQuestionId", src.getFeedbackQuestion().getId().toString());
-            result.addProperty("giver", src.getGiver());
-            result.addProperty("recipient", src.getRecipient());
-            result.addProperty("feedbackSessionName",
-                    src.getFeedbackQuestion().getFeedbackSessionName());
-            result.addProperty("courseId", src.getFeedbackQuestion().getCourseId());
-            result.add("responseDetails",
-                    context.serialize(src.getFeedbackResponseDetailsCopy(), FeedbackResponseDetails.class));
-            result.addProperty("giverSection", src.getGiverSectionName());
-            result.addProperty("recipientSection", src.getRecipientSectionName());
-            return result;
+            if (src instanceof FeedbackConstantSumResponse) {
+                return context.serialize(src, FeedbackConstantSumResponse.class);
+            } else if (src instanceof FeedbackContributionResponse) {
+                return context.serialize(src, FeedbackContributionResponse.class);
+            } else if (src instanceof FeedbackMcqResponse) {
+                return context.serialize(src, FeedbackMcqResponse.class);
+            } else if (src instanceof FeedbackMsqResponse) {
+                return context.serialize(src, FeedbackMsqResponse.class);
+            } else if (src instanceof FeedbackNumericalScaleResponse) {
+                return context.serialize(src, FeedbackNumericalScaleResponse.class);
+            } else if (src instanceof FeedbackRankOptionsResponse) {
+                return context.serialize(src, FeedbackRankOptionsResponse.class);
+            } else if (src instanceof FeedbackRankRecipientsResponse) {
+                return context.serialize(src, FeedbackRankRecipientsResponse.class);
+            } else if (src instanceof FeedbackRubricResponse) {
+                return context.serialize(src, FeedbackRubricResponse.class);
+            } else if (src instanceof FeedbackTextResponse) {
+                return context.serialize(src, FeedbackTextResponse.class);
+            }
+            return null;
         }
 
         @Override
@@ -320,19 +328,26 @@ public final class JsonUtils {
 
         @Override
         public JsonElement serialize(FeedbackQuestion src, Type typeOfSrc, JsonSerializationContext context) {
-            JsonObject result = new JsonObject();
-            result.addProperty("feedbackSessionName", src.getFeedbackSessionName());
-            result.addProperty("courseId", src.getCourseId());
-            result.add("questionDetails",
-                    context.serialize(src.getQuestionDetailsCopy(), FeedbackQuestionDetails.class));
-            result.addProperty("questionNumber", src.getQuestionNumber());
-            result.add("giverType", context.serialize(src.getGiverType()));
-            result.add("recipientType", context.serialize(src.getRecipientType()));
-            result.addProperty("numberOfEntitiesToGiveFeedbackTo", src.getNumOfEntitiesToGiveFeedbackTo());
-            result.add("showResponsesTo", context.serialize(src.getShowResponsesTo()));
-            result.add("showGiverNameTo", context.serialize(src.getShowGiverNameTo()));
-            result.add("showRecipientNameTo", context.serialize(src.getShowRecipientNameTo()));
-            return result;
+            if (src instanceof FeedbackMcqQuestion) {
+                return context.serialize(src, FeedbackMcqQuestion.class);
+            } else if (src instanceof FeedbackMsqQuestion) {
+                return context.serialize(src, FeedbackMsqQuestion.class);
+            } else if (src instanceof FeedbackTextQuestion) {
+                return context.serialize(src, FeedbackTextQuestion.class);
+            } else if (src instanceof FeedbackNumericalScaleQuestion) {
+                return context.serialize(src, FeedbackNumericalScaleQuestion.class);
+            } else if (src instanceof FeedbackConstantSumQuestion) {
+                return context.serialize(src, FeedbackConstantSumQuestion.class);
+            } else if (src instanceof FeedbackContributionQuestion) {
+                return context.serialize(src, FeedbackContributionQuestion.class);
+            } else if (src instanceof FeedbackRubricQuestion) {
+                return context.serialize(src, FeedbackRubricQuestion.class);
+            } else if (src instanceof FeedbackRankOptionsQuestion) {
+                return context.serialize(src, FeedbackRankOptionsQuestion.class);
+            } else if (src instanceof FeedbackRankRecipientsQuestion) {
+                return context.serialize(src, FeedbackRankRecipientsQuestion.class);
+            }
+            return null;
         }
 
         @Override
