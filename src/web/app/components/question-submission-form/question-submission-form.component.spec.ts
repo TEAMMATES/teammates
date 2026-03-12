@@ -330,6 +330,8 @@ describe('QuestionSubmissionFormComponent', () => {
     component.model.hasResponseChangedForRecipients.set('rogers-alan-id', true);
     component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
 
+    fixture.detectChanges();
+
     expect(component.hasResponseChanged).toBeTruthy();
   });
 
@@ -337,12 +339,16 @@ describe('QuestionSubmissionFormComponent', () => {
     component.model.hasResponseChangedForRecipients.set('rogers-alan-id', false);
     component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
 
+    fixture.detectChanges();
+
     expect(component.hasResponseChanged).toBeFalsy();
   });
 
   it('sets isSaved to false if some response has changed', () => {
     component.model.hasResponseChangedForRecipients.set('rogers-alan-id', true);
     component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
+
+    fixture.detectChanges();
 
     expect(component.isSaved).toBeFalsy();
   });
