@@ -1174,7 +1174,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }).subscribe();
   }
 
-
     expandAllQuestions(): void {
     this.questionSubmissionForms.forEach((q) => {
       q.isTabExpanded = true;
