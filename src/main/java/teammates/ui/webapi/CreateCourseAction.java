@@ -21,6 +21,9 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 public class CreateCourseAction extends Action {
     boolean useDatastore; // TODO: Remove once migration is complete
 
+    private String createdInstructorCourseId;
+    private String createdInstructorEmail;
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -93,8 +96,8 @@ public class CreateCourseAction extends Action {
 
                 InstructorAttributes instructorCreatedForCourse =
                         logic.getInstructorForGoogleId(newCourseId, userInfo.getId());
-                taskQueuer.scheduleInstructorForSearchIndexing(instructorCreatedForCourse.getCourseId(),
-                        instructorCreatedForCourse.getEmail());
+                createdInstructorCourseId = instructorCreatedForCourse.getCourseId();
+                createdInstructorEmail = instructorCreatedForCourse.getEmail();
             } catch (EntityAlreadyExistsException e) {
                 throw new InvalidOperationException("The course ID " + courseAttributes.getId()
                         + " has been used by another course, possibly by some other user."
@@ -110,9 +113,8 @@ public class CreateCourseAction extends Action {
             sqlLogic.createCourseAndInstructor(userInfo.getId(), course);
 
             Instructor createdInstructor = sqlLogic.getInstructorByGoogleId(newCourseId, userInfo.getId());
-            taskQueuer.scheduleInstructorForSearchIndexing(
-                    createdInstructor.getCourseId(),
-                    createdInstructor.getEmail());
+            createdInstructorCourseId = createdInstructor.getCourseId();
+            createdInstructorEmail = createdInstructor.getEmail();
 
             Course createdCourse = sqlLogic.getCourse(newCourseId);
             return new JsonResult(new CourseData(createdCourse));
@@ -123,6 +125,13 @@ public class CreateCourseAction extends Action {
                     + " Please try again with a different course ID.", e);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
+        }
+    }
+
+    @Override
+    public void executePostTransaction() {
+        if (createdInstructorCourseId != null && createdInstructorEmail != null) {
+            taskQueuer.scheduleInstructorForSearchIndexing(createdInstructorCourseId, createdInstructorEmail);
         }
     }
 }

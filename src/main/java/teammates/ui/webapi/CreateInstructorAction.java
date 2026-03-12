@@ -18,6 +18,9 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public class CreateInstructorAction extends Action {
 
+    private String createdInstructorCourseId;
+    private String createdInstructorEmail;
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -89,7 +92,8 @@ public class CreateInstructorAction extends Action {
 
         taskQueuer.scheduleCourseRegistrationInviteToInstructor(
                 this.userInfo.id, instructorToAdd.getEmail(), courseId, false);
-        taskQueuer.scheduleInstructorForSearchIndexing(createdInstructor.getCourseId(), createdInstructor.getEmail());
+        createdInstructorCourseId = createdInstructor.getCourseId();
+        createdInstructorEmail = createdInstructor.getEmail();
 
         return new JsonResult(new InstructorData(createdInstructor));
     }
@@ -115,7 +119,8 @@ public class CreateInstructorAction extends Action {
 
         taskQueuer.scheduleCourseRegistrationInviteToInstructor(
                 userInfo.id, instructorToAdd.getEmail(), instructorToAdd.getCourseId(), false);
-        taskQueuer.scheduleInstructorForSearchIndexing(createdInstructor.getCourseId(), createdInstructor.getEmail());
+        createdInstructorCourseId = createdInstructor.getCourseId();
+        createdInstructorEmail = createdInstructor.getEmail();
 
         return new JsonResult(new InstructorData(createdInstructor));
     }
@@ -155,6 +160,13 @@ public class CreateInstructorAction extends Action {
 
         return new Instructor(course, instrName, instrEmail, isDisplayedToStudents, instrDisplayedName, role,
                 privileges);
+    }
+
+    @Override
+    public void executePostTransaction() {
+        if (createdInstructorCourseId != null && createdInstructorEmail != null) {
+            taskQueuer.scheduleInstructorForSearchIndexing(createdInstructorCourseId, createdInstructorEmail);
+        }
     }
 
     /**

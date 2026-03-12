@@ -46,6 +46,9 @@ public class UpdateStudentAction extends Action {
      */
     public static final String ERROR_EMAIL_ALREADY_EXISTS = "Trying to update to an email that is already in use";
 
+    private String updatedStudentCourseId;
+    private String updatedStudentEmail;
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -101,7 +104,8 @@ public class UpdateStudentAction extends Action {
 
             studentToUpdate.setId(existingStudent.getId());
             Student updatedStudent = sqlLogic.updateStudentCascade(studentToUpdate);
-            taskQueuer.scheduleStudentForSearchIndexing(courseId, updatedStudent.getEmail());
+            updatedStudentCourseId = courseId;
+            updatedStudentEmail = updatedStudent.getEmail();
 
             if (!studentEmail.equals(updateRequest.getEmail()) && updateRequest.getIsSessionSummarySendEmail()) {
                 boolean emailSent = sendEmail(courseId, updateRequest.getEmail());
@@ -153,7 +157,8 @@ public class UpdateStudentAction extends Action {
                             .withSectionName(updateRequest.getSection())
                             .withComment(updateRequest.getComments())
                             .build());
-            taskQueuer.scheduleStudentForSearchIndexing(updatedStudent.getCourse(), updatedStudent.getEmail());
+            updatedStudentCourseId = updatedStudent.getCourse();
+            updatedStudentEmail = updatedStudent.getEmail();
 
             if (!student.getEmail().equals(updateRequest.getEmail())) {
                 logic.resetStudentGoogleId(updateRequest.getEmail(), courseId);
@@ -176,6 +181,13 @@ public class UpdateStudentAction extends Action {
         }
 
         return new JsonResult(SUCCESSFUL_UPDATE);
+    }
+
+    @Override
+    public void executePostTransaction() {
+        if (updatedStudentCourseId != null && updatedStudentEmail != null) {
+            taskQueuer.scheduleStudentForSearchIndexing(updatedStudentCourseId, updatedStudentEmail);
+        }
     }
 
     /**

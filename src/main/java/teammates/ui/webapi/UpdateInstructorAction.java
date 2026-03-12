@@ -17,6 +17,9 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public class UpdateInstructorAction extends Action {
 
+    private String updatedInstructorCourseId;
+    private String updatedInstructorEmail;
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -66,7 +69,8 @@ public class UpdateInstructorAction extends Action {
         InstructorData newInstructorData = new InstructorData(updatedInstructor);
         newInstructorData.setGoogleId(updatedInstructor.getGoogleId());
 
-        taskQueuer.scheduleInstructorForSearchIndexing(updatedInstructor.getCourseId(), updatedInstructor.getEmail());
+        updatedInstructorCourseId = updatedInstructor.getCourseId();
+        updatedInstructorEmail = updatedInstructor.getEmail();
 
         return new JsonResult(newInstructorData);
     }
@@ -108,7 +112,8 @@ public class UpdateInstructorAction extends Action {
             InstructorData newInstructorData = new InstructorData(updatedInstructor);
             newInstructorData.setGoogleId(updatedInstructor.getGoogleId());
 
-            taskQueuer.scheduleInstructorForSearchIndexing(updatedInstructor.getCourseId(), updatedInstructor.getEmail());
+            updatedInstructorCourseId = updatedInstructor.getCourseId();
+            updatedInstructorEmail = updatedInstructor.getEmail();
 
             return new JsonResult(newInstructorData);
         } catch (InvalidParametersException e) {
@@ -157,6 +162,13 @@ public class UpdateInstructorAction extends Action {
         instructorToEdit.setDisplayedToStudents(isDisplayedToStudents);
 
         return instructorToEdit;
+    }
+
+    @Override
+    public void executePostTransaction() {
+        if (updatedInstructorCourseId != null && updatedInstructorEmail != null) {
+            taskQueuer.scheduleInstructorForSearchIndexing(updatedInstructorCourseId, updatedInstructorEmail);
+        }
     }
 
 }
