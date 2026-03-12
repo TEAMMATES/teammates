@@ -1173,4 +1173,15 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       studentId: this.studentId,
     }).subscribe();
   }
+expandAllQuestions(): void {
+    this.questionSubmissionForms.forEach((q) => {
+      q.isTabExpanded = true;
+    });
+  }
+
+  collapseAllQuestions(): void {
+    this.questionSubmissionForms.forEach((q) => {
+      q.isTabExpanded = false;
+    });
+  }
 }
