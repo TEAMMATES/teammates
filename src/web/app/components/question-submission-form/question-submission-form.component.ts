@@ -404,7 +404,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       return;
     }
 
-    this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
+    const recipientIdentifier: string = this.model.recipientSubmissionForms[index].recipientIdentifier;
+    this.model.hasResponseChangedForRecipients.set(recipientIdentifier, true);
 
     this.model.recipientSubmissionForms[index] =
     {
