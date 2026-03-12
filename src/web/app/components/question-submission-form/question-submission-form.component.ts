@@ -130,7 +130,15 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   isMCQDropDownEnabled: boolean = false;
   isSaved: boolean = false;
-  hasResponseChanged: boolean = false;
+  get hasResponseChanged(): boolean {
+    for (const value of this.model.hasResponseChangedForRecipients.values()) {
+      if (value) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -171,9 +179,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   isQuestionCountOne: boolean = false;
 
-  @Input()
-  isSubmitAllClicked: boolean = false;
-
   allSessionViews = SessionView;
 
   @Input()
@@ -181,9 +186,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   @Input()
   recipientId: string = '';
-
-  @Output()
-  isSubmitAllClickedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
@@ -266,32 +268,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.sortRecipientsByName();
     }
 
-    if (this.model.recipientSubmissionForms.some(
-      (response) => response.responseId.length > 0) && !this.isSaved) {
-      this.isSaved = true;
-    }
-
-    if (this.hasResponseChanged) {
-      this.isSaved = false;
-    }
-
-    if (this.isSubmitAllClicked) {
-      if (this.model.recipientSubmissionForms.some((response) => response.responseId.length > 0)) {
-        this.isSaved = true;
-      } else if (this.model.recipientSubmissionForms.every((form) => form.responseId.length === 0)) {
-        this.isSaved = false;
-      }
-
-      this.model.hasResponseChangedForRecipients.forEach((_hasResponseChanged: boolean, recipientId: string) => {
-        this.model.hasResponseChangedForRecipients.set(recipientId, false);
-      });
-    }
-
-    this.model.hasResponseChangedForRecipients.forEach((hasResponseChanged: boolean) => {
-      if (hasResponseChanged) {
-        this.isSaved = false;
-      }
-    });
+    this.isSaved = this.model
+      .recipientSubmissionForms.some((form) => form.responseId.length > 0) && !this.hasResponseChanged;
   }
 
   toggleQuestionTab(): void {
@@ -422,20 +400,20 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers the change of the recipient submission form.
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
-    if (!this.isFormsDisabled) {
-      this.hasResponseChanged = true;
-      this.isSubmitAllClickedChange.emit(false);
-      this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
-
-      this.model.recipientSubmissionForms[index] =
-      {
-        ...this.model.recipientSubmissionForms[index],
-        [field]: data,
-      };
-
-      this.updateIsValidByQuestionConstraint();
-      this.formModelChange.emit(this.model);
+    if (this.isFormsDisabled) {
+      return;
     }
+
+    this.model.hasResponseChangedForRecipients.set(this.model.recipientList[index].recipientIdentifier, true);
+
+    this.model.recipientSubmissionForms[index] =
+    {
+      ...this.model.recipientSubmissionForms[index],
+      [field]: data,
+    };
+
+    this.updateIsValidByQuestionConstraint();
+    this.formModelChange.emit(this.model);
   }
 
   updateIsValidByQuestionConstraint(): void {
@@ -516,7 +494,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     for (const recipientSubmissionForm of this.model.recipientSubmissionForms) {
       recipientSubmissionForm.isValid = isValid;
     }
-
     this.formModelChange.emit(this.model);
   }
 
@@ -524,12 +501,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers saving of responses for the specific question.
    */
   saveFeedbackResponses(): void {
-    this.isSaved = true;
-    this.hasResponseChanged = false;
-    this.model.hasResponseChangedForRecipients.forEach(
-        (_hasResponseChangedForRecipient: boolean, recipientId: string) => {
-        this.model.hasResponseChangedForRecipients.set(recipientId, false);
-    });
     this.responsesSave.emit(this.model);
   }
 
