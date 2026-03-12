@@ -23,13 +23,16 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
     FormsModule,
   ],
   providers: [
-    { provide: TINYMCE_SCRIPT_SRC, useValue: `${TINYMCE_BASE_URL}/tinymce.min.js` },
+    {
+      provide: TINYMCE_SCRIPT_SRC,
+      useValue: `${TINYMCE_BASE_URL}/tinymce.min.js`,
+    },
   ],
 })
 export class RichTextEditorComponent implements OnInit {
-
   // const
-  RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
+  RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number =
+    RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
 
   @Input()
   isDisabled: boolean = false;
@@ -56,10 +59,11 @@ export class RichTextEditorComponent implements OnInit {
 
   render: boolean = false;
 
-  defaultToolbar: string = 'styles | forecolor backcolor '
-      + '| bold italic underline strikethrough subscript superscript '
-      + '| alignleft aligncenter alignright alignjustify '
-      + '| bullist numlist | link image charmap emoticons';
+  defaultToolbar: string =
+    'styles | forecolor backcolor '
+    + '| bold italic underline strikethrough subscript superscript '
+    + '| alignleft aligncenter alignright alignjustify '
+    + '| bullist numlist | link image charmap emoticons';
 
   ngOnInit(): void {
     this.init = this.getEditorSettings();
@@ -79,55 +83,93 @@ export class RichTextEditorComponent implements OnInit {
       remove_linebreaks: false,
       placeholder: this.placeholderText,
       plugins: [
-        'advlist', 'autolink', 'autoresize', 'lists', 'link', 'image', 'charmap', 'anchor',
-        'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code',
-        'insertdatetime', 'nonbreaking', 'save', 'table', 'directionality',
+        'advlist',
+        'autolink',
+        'autoresize',
+        'lists',
+        'link',
+        'image',
+        'charmap',
+        'anchor',
+        'searchreplace',
+        'wordcount',
+        'visualblocks',
+        'visualchars',
+        'code',
+        'insertdatetime',
+        'nonbreaking',
+        'save',
+        'table',
+        'directionality',
         'emoticons',
       ],
       menubar: false,
       autoresize_bottom_margin: 50,
 
       toolbar1: this.defaultToolbar,
-      setup: (editor:any) => {
+      setup: (editor: any) => {
         if (this.hasCharacterLimit) {
           editor.on('GetContent', () => {
             setTimeout(() => {
               this.characterCount = this.getCurrentCharacterCount(editor);
             }, 0);
           });
-          editor.on('keypress', (event:any) => {
+          editor.on('keypress', (event: any) => {
             const currentCharacterCount = this.getCurrentCharacterCount(editor);
-            if (currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) {
+            if (
+              currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH
+            ) {
               event.preventDefault();
             }
           });
           editor.on('paste', (event: any) => {
-            const contentBeforePasteEvent = editor.getContent({ format: 'text' });
+            const contentBeforePasteEvent = editor.getContent({
+              format: 'text',
+            });
             setTimeout(() => {
-              const currentCharacterCount = this.getCurrentCharacterCount(editor);
-              if (currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) {
+              const currentCharacterCount =
+                this.getCurrentCharacterCount(editor);
+              if (
+                currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH
+              ) {
                 event.preventDefault();
-                const contentAfterPasteEvent = editor.getContent({ format: 'text' });
+                const contentAfterPasteEvent = editor.getContent({
+                  format: 'text',
+                });
                 let firstDifferentIndex = 0;
-                while (contentBeforePasteEvent[firstDifferentIndex] === contentAfterPasteEvent[firstDifferentIndex]) {
+                while (
+                  contentBeforePasteEvent[firstDifferentIndex]
+                  === contentAfterPasteEvent[firstDifferentIndex]
+                ) {
                   firstDifferentIndex += 1;
                 }
-                const contentBeforeFirstDifferentIndex = contentBeforePasteEvent.substring(0, firstDifferentIndex);
-                const contentAfterFirstDifferentIndex = contentBeforePasteEvent.substring(firstDifferentIndex);
-                const lengthExceed = currentCharacterCount - RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
-                const pasteContentLength = contentAfterPasteEvent.length - contentBeforePasteEvent.length;
+                const contentBeforeFirstDifferentIndex =
+                  contentBeforePasteEvent.substring(0, firstDifferentIndex);
+                const contentAfterFirstDifferentIndex =
+                  contentBeforePasteEvent.substring(firstDifferentIndex);
+                const lengthExceed =
+                  currentCharacterCount - RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
+                const pasteContentLength =
+                  contentAfterPasteEvent.length
+                  - contentBeforePasteEvent.length;
                 const pasteContent = contentAfterPasteEvent.substring(
                   firstDifferentIndex,
                   firstDifferentIndex + pasteContentLength,
                 );
-                const truncatedPastedText = pasteContent.substring(0, pasteContentLength - lengthExceed);
-                const finalContent = contentBeforeFirstDifferentIndex + truncatedPastedText
+                const truncatedPastedText = pasteContent.substring(
+                  0,
+                  pasteContentLength - lengthExceed,
+                );
+                const finalContent =
+                  contentBeforeFirstDifferentIndex
+                  + truncatedPastedText
                   + contentAfterFirstDifferentIndex;
                 editor.setContent(finalContent);
 
                 // This sets the cursor to the end of the text.
                 const selection = editor.selection.getRng();
-                const newCursorPosition = firstDifferentIndex + truncatedPastedText.length;
+                const newCursorPosition =
+                  firstDifferentIndex + truncatedPastedText.length;
                 const newRange = editor.dom.createRng();
                 newRange.setStart(selection.startContainer, newCursorPosition);
                 newRange.collapse(true);
@@ -154,4 +196,16 @@ export class RichTextEditorComponent implements OnInit {
     }
   }
 
+  private normalizeWhitespace(value: string): string {
+    return value.replace(/&nbsp;/g, '\u00A0').replace(/\u00A0/g, ' ');
+  }
+
+  onRichTextChange(value: string): void {
+    const normalizedIncoming = this.normalizeWhitespace(value);
+    const normalizedOriginal = this.normalizeWhitespace(this.richText);
+
+    if (normalizedIncoming !== normalizedOriginal) {
+      this.richTextChange.emit(value);
+    }
+  }
 }
