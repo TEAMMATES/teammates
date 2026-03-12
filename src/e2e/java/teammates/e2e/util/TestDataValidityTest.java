@@ -14,21 +14,25 @@ import java.util.stream.Stream;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.test.BaseTestCase;
 import teammates.test.FileHelper;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Checks for test data validity.
  *
- * <p>As E2E tests can be run against actual production server, the test data needs to be carefully designed
- * such that they do not consist any form of data that may be resembling what users can be using.
+ * <p>
+ * As E2E tests can be run against actual production server, the test data needs
+ * to be carefully designed
+ * such that they do not consist any form of data that may be resembling what
+ * users can be using.
  *
- * <p>For the above reason, the following fields are checked:
+ * <p>
+ * For the above reason, the following fields are checked:
  * <ul>
  * <li>Account Google ID</li>
  * <li>Course ID</li>
@@ -36,8 +40,11 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <li>Instructor email</li>
  * </ul>
  *
- * <p>In order to guarantee data safety as much as possible, we set some form of validation rule for the above fields
- * such that the likelihood of any user using the same identifier is very low or zero.
+ * <p>
+ * In order to guarantee data safety as much as possible, we set some form of
+ * validation rule for the above fields
+ * such that the likelihood of any user using the same identifier is very low or
+ * zero.
  */
 public class TestDataValidityTest extends BaseTestCase {
 
@@ -50,10 +57,6 @@ public class TestDataValidityTest extends BaseTestCase {
             paths.filter(Files::isRegularFile).forEach(path -> {
                 String pathString = path.toString();
 
-                // we ignore sql tests for now, will need to create a TestDataValidaity for sql entities
-                if (pathString.contains("Sql")) {
-                    return;
-                }
                 String jsonString;
                 try {
                     jsonString = FileHelper.readFile(pathString);
@@ -65,8 +68,8 @@ public class TestDataValidityTest extends BaseTestCase {
                     return;
                 }
 
-                String testPage = path.getFileName().toString().replace("E2ETest.json", "");
-                DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
+                String testPage = extractTestPage(path.getFileName().toString());
+                SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
 
                 dataBundle.accounts.forEach((id, account) -> {
                     if (!isValidTestGoogleId(account.getGoogleId(), testPage)) {
@@ -124,9 +127,9 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.feedbackResponses.forEach((id, response) -> {
-                    if (!isValidTestCourseId(response.getCourseId(), testPage)) {
+                    if (!isValidTestCourseId(response.getFeedbackQuestion().getCourseId(), testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid response course ID: " + response.getCourseId());
+                                .add("Invalid response course ID: " + response.getFeedbackQuestion().getCourseId());
                     }
 
                     if (response.getGiver().contains("@") && !isValidTestEmail(response.getGiver())) {
@@ -148,14 +151,16 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.deadlineExtensions.forEach((id, deadlineExtension) -> {
-                    if (!isValidTestCourseId(deadlineExtension.getCourseId(), testPage)) {
+                    if (!isValidTestCourseId(deadlineExtension.getFeedbackSession().getCourseId(), testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid deadline extension course ID: " + deadlineExtension.getCourseId());
+                                .add("Invalid deadline extension course ID: "
+                                        + deadlineExtension.getFeedbackSession().getCourseId());
                     }
 
-                    if (!isValidTestEmail(deadlineExtension.getUserEmail())) {
+                    if (!isValidTestEmail(deadlineExtension.getUser().getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid deadline extension user email: " + deadlineExtension.getUserEmail());
+                                .add("Invalid deadline extension user email: "
+                                        + deadlineExtension.getUser().getEmail());
                     }
                 });
             });
@@ -186,6 +191,15 @@ public class TestDataValidityTest extends BaseTestCase {
             return true;
         }
         return googleId.matches(constructIdRegex(testPage)) && googleId.length() < 32;
+    }
+
+    private String extractTestPage(String fileName) {
+        return fileName
+                .replaceFirst("\\.json$", "")
+                .replaceFirst("_SqlEntities$", "")
+                .replaceFirst("E2ESqlTest$", "E2ETest")
+                .replaceFirst("Sql$", "")
+                .replaceFirst("E2ETest$", "");
     }
 
     private String constructIdRegex(String testPage) {
@@ -226,7 +240,8 @@ public class TestDataValidityTest extends BaseTestCase {
                 .replace("ConstSum", "CSum");
 
         // Prefix with tm.e2e.
-        // Add validation at the end to ensure that the ID is not equal to the prefix only
+        // Add validation at the end to ensure that the ID is not equal to the prefix
+        // only
         return "tm\\.e2e\\." + shortenedTestPage + "\\.(?:[A-Za-z0-9]+.)*[A-Za-z0-9]+";
     }
 
