@@ -35,6 +35,9 @@ import teammates.ui.request.StudentsEnrollRequest;
  */
 public class EnrollStudentsAction extends Action {
 
+    private List<Student> enrolledSqlStudents = new ArrayList<>();
+    private List<StudentAttributes> enrolledDatastoreStudents = new ArrayList<>();
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -104,8 +107,6 @@ public class EnrollStudentsAction extends Action {
                                 enrollRequest.getEmail(), enrollRequest.getComments(), team);
                         newStudent.setId(sqlLogic.getStudentForEmail(courseId, enrollRequest.getEmail()).getId());
                         Student updatedStudent = sqlLogic.updateStudentCascade(newStudent);
-                        taskQueuer.scheduleStudentForSearchIndexing(
-                                updatedStudent.getCourseId(), updatedStudent.getEmail());
                         enrolledStudents.add(updatedStudent);
                     } catch (InvalidParametersException | EntityDoesNotExistException
                             | EntityAlreadyExistsException exception) {
@@ -122,8 +123,6 @@ public class EnrollStudentsAction extends Action {
                                 course, enrollRequest.getName(),
                                 enrollRequest.getEmail(), enrollRequest.getComments(), team);
                         newStudent = sqlLogic.createStudent(newStudent);
-                        taskQueuer.scheduleStudentForSearchIndexing(
-                                newStudent.getCourseId(), newStudent.getEmail());
                         enrolledStudents.add(newStudent);
                     } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
                         // Unsuccessfully enrolled students will not be returned.
@@ -132,6 +131,8 @@ public class EnrollStudentsAction extends Action {
                     }
                 }
             }
+
+            this.enrolledSqlStudents = enrolledStudents;
 
             List<StudentData> studentDataList = enrolledStudents
                     .stream()
@@ -181,8 +182,6 @@ public class EnrollStudentsAction extends Action {
                                 .withComment(student.getComments())
                                 .build();
                         StudentAttributes updatedStudent = logic.updateStudentCascade(updateOptions);
-                        taskQueuer.scheduleStudentForSearchIndexing(
-                                updatedStudent.getCourse(), updatedStudent.getEmail());
                         enrolledStudents.add(updatedStudent);
                     } catch (InvalidParametersException | EntityDoesNotExistException
                             | EntityAlreadyExistsException exception) {
@@ -200,7 +199,6 @@ public class EnrollStudentsAction extends Action {
                                 .withComment(student.getComments())
                                 .build();
                         StudentAttributes newStudent = logic.createStudent(studentAttributes);
-                        taskQueuer.scheduleStudentForSearchIndexing(newStudent.getCourse(), newStudent.getEmail());
                         enrolledStudents.add(newStudent);
                     } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
                         // Unsuccessfully enrolled students will not be returned.
@@ -218,8 +216,22 @@ public class EnrollStudentsAction extends Action {
 
             data.setStudents(studentDataList);
 
+            this.enrolledDatastoreStudents = enrolledStudents;
+
             return new JsonResult(new EnrollStudentsData(data, failToEnrollStudents));
 
+        }
+    }
+
+    @Override
+    public void executePostTransaction() {
+        for (Student student : enrolledSqlStudents) {
+            taskQueuer.scheduleStudentForSearchIndexing(
+                    student.getCourseId(), student.getEmail());
+        }
+        for (StudentAttributes student : enrolledDatastoreStudents) {
+            taskQueuer.scheduleStudentForSearchIndexing(
+                    student.getCourse(), student.getEmail());
         }
     }
 }

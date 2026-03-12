@@ -126,6 +126,7 @@ public class WebApiServlet extends HttpServlet {
 
             ActionResult result = action.execute();
             HibernateUtil.commitTransaction();
+            action.executePostTransaction();
             return result;
         } catch (Exception e) {
             HibernateUtil.rollbackTransaction();
