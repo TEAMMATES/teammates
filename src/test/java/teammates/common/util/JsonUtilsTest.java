@@ -55,7 +55,6 @@ public class JsonUtilsTest extends BaseTestCase {
         fq.setShowRecipientNameTo(participants);
         fq.setShowResponsesTo(participants);
 
-
         assertEquals("{\n"
                 + "  \"questionDetails\": {\n"
                 + "    \"shouldAllowRichText\": true,\n"
