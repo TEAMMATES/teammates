@@ -1031,9 +1031,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     questionSubmissionForms: QuestionSubmissionFormModel[]): void {
     const questionsToRecipient = this.recipientQuestionMap.get(recipientId);
     if (!questionsToRecipient) {
-      // fail silently
-      // this should not happen as the save button for recipient should not
-      // be shown if there is no question mapped to the recipient.
+      this.statusMessageService.showErrorToast('There was an issue saving your responses.');
       return;
     }
     const recipientQSForms = questionSubmissionForms
