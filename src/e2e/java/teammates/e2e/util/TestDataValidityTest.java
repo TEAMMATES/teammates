@@ -73,7 +73,7 @@ public class TestDataValidityTest extends BaseTestCase {
                     return;
                 }
 
-                String testPage = extractTestPage(path.getFileName().toString());
+                String testPage = path.getFileName().toString().replace("E2ETestSql.json", "");
                 SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
 
                 dataBundle.accounts.forEach((id, account) -> {
@@ -203,15 +203,6 @@ public class TestDataValidityTest extends BaseTestCase {
         // SQL fixtures include both page-derived IDs and some legacy tm.e2e.* variants.
         return (googleId.matches(constructIdRegex(testPage)) || googleId.startsWith("tm.e2e."))
                 && googleId.length() < 64;
-    }
-
-    private String extractTestPage(String fileName) {
-        return fileName
-                .replaceFirst("\\.json$", "")
-                .replaceFirst("_SqlEntities$", "")
-                .replaceFirst("E2ESqlTest$", "E2ETest")
-                .replaceFirst("Sql$", "")
-                .replaceFirst("E2ETest$", "");
     }
 
     private String constructIdRegex(String testPage) {
