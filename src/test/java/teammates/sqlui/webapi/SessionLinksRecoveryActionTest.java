@@ -69,7 +69,6 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
 
         stubEmailWrapper.setRecipient("non-existent@email.com");
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
-        when(mockDatastoreLogic.getAllStudentsForEmail("non-existent@email.com")).thenReturn(List.of());
         when(mockLogic.getAllStudentsForEmail("non-existent@email.com")).thenReturn(List.of());
         when(mockSqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq("non-existent@email.com")))
                 .thenReturn(stubEmailWrapper);
