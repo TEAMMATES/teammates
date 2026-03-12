@@ -1,0 +1,52 @@
+file: session-submission-page.component.spec.ts  τα 3 tests 
+my code :describe('Expand and Collapse All buttons', () => {
+
+it('should expand all questions', () => {
+component.questionSubmissionForms = [
+  { isTabExpanded: false } as any,
+  { isTabExpanded: false } as any,
+];
+component.expandAllQuestions();
+expect(component.questionSubmissionForms.every((q) => q.isTabExpanded)).toBe(true);
+});
+
+it('should collapse all questions', () => {
+    component.questionSubmissionForms = [
+       { isTabExpanded: true } as any,
+       { isTabExpanded: true } as any,
+        ];
+    component.collapseAllQuestions();
+    expect(component.questionSubmissionForms.every((q) => q.isTabExpanded)).toBe(false);
+});
+
+it('should show Expand All and Collapse All buttons', () => {
+const buttons = fixture.debugElement.queryAll(By.css('button'));
+  const texts = buttons.map((b) => b.nativeElement.textContent.trim());
+  expect(texts).toContain('expand all');
+  expect(texts).toContain('collapse all');
+});
+--------------------------------------------------------------------------------------------------------------------------------
+
+File:  	:  οι 2 functions  
+  expandAllQuestions(): void {
+    this.questionSubmissionForms.forEach((q) => {
+      q.isTabExpanded = true;
+    });
+  }
+
+    collapseAllQuestions(): void {
+    this.questionSubmissionForms.forEach((q) => {
+      q.isTabExpanded = false;
+    });
+  }
+-------------------------------------------------------------------------------------------------------------------------------------
+File: session-submission-page.component.html  τα 2 κουμπιά
+
+<div class="text-center">
+  <button type="button" class="btn btn-secondary" (click)="collapseAllQuestions()">
+    collapse all
+  </button>
+  <button type="button" class="btn btn-secondary" (click)="expandAllQuestions()">
+    expand all
+  </button>
+</div>
