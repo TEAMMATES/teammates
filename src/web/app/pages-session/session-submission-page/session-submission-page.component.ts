@@ -1174,19 +1174,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }).subscribe();
   }
 
-  /**
-   * Utility method to get item from local storage.
-   */
-  private getLocalStorageItem(key: string): any {
-    return JSON.parse(localStorage.getItem(key) || '{}');
-  }
 
-  /**
-   * Utility method to set item in local storage.
-   */
-  private setLocalStorageItem(key: string, data: any): void {
-    localStorage.setItem(key, JSON.stringify(data));
-  }
     expandAllQuestions(): void {
     this.questionSubmissionForms.forEach((q) => {
       q.isTabExpanded = true;
