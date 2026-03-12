@@ -56,7 +56,7 @@ public class TestDataValidityTest extends BaseTestCase {
         try (Stream<Path> paths = Files.walk(Paths.get(TestProperties.TEST_DATA_FOLDER))) {
             paths.filter(Files::isRegularFile).forEach(path -> {
                 String pathString = path.toString();
-                
+
                 // TODO: Remove after we are left with only *_Sql.json files
                 if (!pathString.contains("Sql") || pathString.contains("SqlEntities")) {
                     return;
