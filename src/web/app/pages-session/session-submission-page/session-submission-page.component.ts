@@ -832,7 +832,13 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                           recipientSubmissionFormModel.commentByGiver = undefined;
                         }
                       });
-
+                }),
+                switchMap(() =>
+                    forkJoin(questionSubmissionFormModel.recipientSubmissionForms
+                        .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
+                            this.createCommentRequest(recipientSubmissionFormModel))),
+                ),
+                tap(() => {
                   if (recipientId) {
                     questionSubmissionFormModel.hasResponseChangedForRecipients.set(recipientId, false);
                   } else {
@@ -841,11 +847,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     });
                   }
                 }),
-                switchMap(() =>
-                    forkJoin(questionSubmissionFormModel.recipientSubmissionForms
-                        .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
-                            this.createCommentRequest(recipientSubmissionFormModel))),
-                ),
                 catchError((error: ErrorMessageOutput) => {
                   failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
                   return of(error);
