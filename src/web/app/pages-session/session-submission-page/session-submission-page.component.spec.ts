@@ -1263,4 +1263,31 @@ describe('SessionSubmissionPageComponent', () => {
     expect(commentSpy).toHaveBeenLastCalledWith(expectedId, Intent.STUDENT_SUBMISSION,
         { key: testQueryParams.key, moderatedperson: '' });
   });
+describe('Expand and Collapse All buttons', () => {
+
+    it('should expand all questions', () => {
+        component.questionSubmissionForms = [
+            { isTabExpanded: false } as any,
+            { isTabExpanded: false } as any,
+        ];
+        component.expandAllQuestions();
+        expect(component.questionSubmissionForms.every((q) => q.isTabExpanded)).toBe(true);
+    });
+
+    it('should collapse all questions', () => {
+        component.questionSubmissionForms = [
+            { isTabExpanded: true } as any,
+            { isTabExpanded: true } as any,
+        ];
+        component.collapseAllQuestions();
+        expect(component.questionSubmissionForms.every((q) => q.isTabExpanded)).toBe(false);
+    });
+
+    it('should show Expand All and Collapse All buttons', () => {
+        const buttons = fixture.debugElement.queryAll(By.css('button'));
+        const texts = buttons.map((b) => b.nativeElement.textContent.trim());
+        expect(texts).toContain('expand all');
+        expect(texts).toContain('collapse all');
+    });
+});
 });
