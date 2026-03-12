@@ -119,19 +119,20 @@ public class WebApiServlet extends HttpServlet {
 
     private ActionResult executeWithTransaction(Action action, HttpServletRequest req)
             throws InvalidOperationException, InvalidHttpRequestBodyException, UnauthorizedAccessException {
+        ActionResult result;
         try {
             HibernateUtil.beginTransaction();
             action.init(req);
             action.checkAccessControl();
 
-            ActionResult result = action.execute();
+            result = action.execute();
             HibernateUtil.commitTransaction();
-            action.executePostTransaction();
-            return result;
         } catch (Exception e) {
             HibernateUtil.rollbackTransaction();
             throw e;
         }
+        action.executePostTransaction();
+        return result;
     }
 
     private ActionResult executeWithoutTransaction(Action action, HttpServletRequest req)
