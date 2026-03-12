@@ -512,13 +512,11 @@ public abstract class Action {
     public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
 
     /**
-     * Executes post-transaction tasks (e.g. scheduling task queue workers).
+     * Executes logic that should run after the database transaction is committed.
      *
-     * This is invoked by the servlet after the transaction for this action has been committed
-     * so any entities persisted during the transaction are guaranteed to be visible to
-     * asynchronous workers. Override this in subclasses that need to enqueue tasks that
-     * depend on committed data.
+     * <p>This is useful for side effects like task queueing that depend on committed data.</p>
      */
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void executePostTransaction() {
         // No-op by default.
     }
