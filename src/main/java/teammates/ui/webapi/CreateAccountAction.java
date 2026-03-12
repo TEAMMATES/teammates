@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -32,6 +33,9 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 public class CreateAccountAction extends Action {
 
     private static final Logger log = Logger.getLogger();
+
+    private List<StudentAttributes> studentsToIndex = new ArrayList<>();
+    private List<InstructorAttributes> instructorsToIndex = new ArrayList<>();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -172,15 +176,20 @@ public class CreateAccountAction extends Action {
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        for (StudentAttributes student : students) {
-            taskQueuer.scheduleStudentForSearchIndexing(student.getCourse(), student.getEmail());
-        }
-
-        for (InstructorAttributes instructor : instructors) {
-            taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
-        }
+        studentsToIndex.addAll(students);
+        instructorsToIndex.addAll(instructors);
 
         return courseId;
+    }
+
+    @Override
+    public void executePostTransaction() {
+        for (StudentAttributes student : studentsToIndex) {
+            taskQueuer.scheduleStudentForSearchIndexing(student.getCourse(), student.getEmail());
+        }
+        for (InstructorAttributes instructor : instructorsToIndex) {
+            taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
+        }
     }
 
     // Strategy to Generate New Demo Course Id:
