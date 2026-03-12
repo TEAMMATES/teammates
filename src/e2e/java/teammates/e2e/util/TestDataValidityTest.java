@@ -14,13 +14,13 @@ import java.util.stream.Stream;
 
 import org.testng.annotations.Test;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.datatransfer.SqlDataBundle;
 import teammates.test.BaseTestCase;
 import teammates.test.FileHelper;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Checks for test data validity.
@@ -68,7 +68,7 @@ public class TestDataValidityTest extends BaseTestCase {
                     return;
                 }
 
-                String testPage =  path.getFileName().toString().replace("E2ETestSql.json", "");
+                String testPage = path.getFileName().toString().replace("E2ETestSql.json", "");
                 SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
 
                 dataBundle.accounts.forEach((id, account) -> {
