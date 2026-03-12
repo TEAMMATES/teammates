@@ -290,6 +290,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         };
         EnrollStudentsAction action = getAction(req, params);
         JsonResult result = action.execute();
+        action.executePostTransaction();
 
         return ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
     }

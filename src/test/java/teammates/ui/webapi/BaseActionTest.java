@@ -569,6 +569,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     protected JsonResult getJsonResult(Action a, int statusCode) {
         try {
             ActionResult r = a.execute();
+            a.executePostTransaction();
             assertEquals(statusCode, r.getStatusCode());
             return (JsonResult) r;
         } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
