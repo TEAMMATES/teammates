@@ -207,6 +207,15 @@ public class TestDataValidityTest extends BaseTestCase {
                 .replaceFirst("E2ETest$", "");
     }
 
+    private String extractTestPage(String fileName) {
+        return fileName
+                .replaceFirst("\\.json$", "")
+                .replaceFirst("_SqlEntities$", "")
+                .replaceFirst("E2ESqlTest$", "E2ETest")
+                .replaceFirst("Sql$", "")
+                .replaceFirst("E2ETest$", "");
+    }
+
     private String constructIdRegex(String testPage) {
         // We set these rules for setting the prefix for IDs:
         // Rule 1: must start with predefined phrase
