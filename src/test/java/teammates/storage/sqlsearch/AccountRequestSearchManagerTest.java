@@ -8,6 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,13 +46,13 @@ public class AccountRequestSearchManagerTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCollectionName_returnsCorrectCollectionName() throws Exception {
+    public void testGetCollectionName_returnsCorrectCollectionName() {
         String collectionName = searchManager.getCollectionName();
         assertEquals(collectionName, "accountrequests");
     }
 
     @Test
-    public void testCreateDocument_createsCorrectDocumentType() throws Exception {
+    public void testCreateDocument_createsCorrectDocumentType() {
         AccountRequest accountRequest = createTestAccountRequest();
 
         AccountRequestSearchDocument document = searchManager.createDocument(accountRequest);
@@ -65,12 +66,12 @@ public class AccountRequestSearchManagerTest extends BaseTestCase {
 
     @Test
     public void testSortResult_sortsCorrectly() throws Exception {
-        AccountRequest accountRequest1 = createTestAccountRequest("req1@example.com", "Institute A", "Alice");
-        // Sleep to ensure different createdAt timestamps
-        Thread.sleep(10);
-        AccountRequest accountRequest2 = createTestAccountRequest("req2@example.com", "Institute B", "Bob");
-        Thread.sleep(10);
-        AccountRequest accountRequest3 = createTestAccountRequest("req3@example.com", "Institute A", "Charlie");
+        Instant now = Instant.now();
+        AccountRequest accountRequest1 = createTestAccountRequest(
+                "req1@example.com", "Institute A", "Alice", now.minusSeconds(20));
+        AccountRequest accountRequest2 = createTestAccountRequest(
+                "req2@example.com", "Institute B", "Bob", now.minusSeconds(10));
+        AccountRequest accountRequest3 = createTestAccountRequest("req3@example.com", "Institute A", "Charlie", now);
 
         List<AccountRequest> accountRequests =
                 new ArrayList<>(Arrays.asList(accountRequest1, accountRequest2, accountRequest3));
@@ -84,7 +85,7 @@ public class AccountRequestSearchManagerTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetBasicQuery_buildsQueryCorrectly() throws Exception {
+    public void testGetBasicQuery_buildsQueryCorrectly() {
         String queryString = "test query";
         SolrQuery query = searchManager.getBasicQuery(queryString);
 
@@ -195,11 +196,13 @@ public class AccountRequestSearchManagerTest extends BaseTestCase {
 
     // Helper methods to create test entities
     private AccountRequest createTestAccountRequest() {
-        return createTestAccountRequest("test@example.com", "Test Institute", "Test Name");
+        return createTestAccountRequest("test@example.com", "Test Institute", "Test Name", Instant.now());
     }
 
-    private AccountRequest createTestAccountRequest(String email, String institute, String name) {
-        return new AccountRequest(email, name, institute,
+    private AccountRequest createTestAccountRequest(String email, String institute, String name, Instant createdAt) {
+        AccountRequest request = new AccountRequest(email, name, institute,
                 teammates.common.datatransfer.AccountRequestStatus.PENDING, "");
+        request.setCreatedAt(createdAt);
+        return request;
     }
 }
