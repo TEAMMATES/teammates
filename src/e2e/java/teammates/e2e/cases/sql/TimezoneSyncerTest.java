@@ -1,4 +1,4 @@
-package teammates.e2e.cases;
+package teammates.e2e.cases.sql;
 
 import java.time.Instant;
 import java.time.LocalDate;

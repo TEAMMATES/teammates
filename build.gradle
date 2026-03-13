@@ -48,7 +48,6 @@ repositories {
     mavenCentral()
 }
 
-def objectify = "com.googlecode.objectify:objectify:6.0.7"
 def testng = "org.testng:testng:7.12.0"
 
 dependencies {
@@ -57,17 +56,13 @@ dependencies {
     staticAnalysis("com.github.spotbugs:spotbugs:${spotbugsVersion}")
     staticAnalysis("org.jacoco:org.jacoco.build:${jacocoVersion}")
 
-    annotationProcessor(objectify)
-
     implementation("com.google.auth:google-auth-library-oauth2-http:1.42.1")
     implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
-    implementation("com.google.cloud:google-cloud-datastore")
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("com.google.guava:guava:33.5.0-jre")
-    implementation(objectify)
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20260102.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:5.2.5")
@@ -336,11 +331,6 @@ task serverRun(type: JavaExec) {
     jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties",
             "-Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider"
     dependsOn explodeWar, copyDistToExplodedWar
-}
-
-task runDatastoreEmulator(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-    mainClass = "teammates.storage.api.DatastoreEmulatorRunner"
 }
 
 appengine {

@@ -25,7 +25,6 @@ import teammates.ui.webapi.CreateFeedbackSessionAction;
 import teammates.ui.webapi.CreateFeedbackSessionLogAction;
 import teammates.ui.webapi.CreateInstructorAction;
 import teammates.ui.webapi.CreateNotificationAction;
-import teammates.ui.webapi.DatastoreBackupAction;
 import teammates.ui.webapi.DeleteAccountAction;
 import teammates.ui.webapi.DeleteAccountRequestAction;
 import teammates.ui.webapi.DeleteCourseAction;
@@ -189,7 +188,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 PublishFeedbackSessionAction.class,
                 GetSessionResultsAction.class,
                 GetHasResponsesAction.class,
-                DatastoreBackupAction.class,
                 RestoreCourseAction.class,
                 BinCourseAction.class,
                 DeleteAccountAction.class,

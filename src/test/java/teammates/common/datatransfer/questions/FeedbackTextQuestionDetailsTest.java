@@ -6,7 +6,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
 import teammates.test.BaseTestCase;
@@ -88,12 +87,6 @@ public class FeedbackTextQuestionDetailsTest extends BaseTestCase {
         assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, 10).isEmpty());
 
         assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, -100).isEmpty());
-    }
-
-    @Test
-    public void testValidateGiverRecipientVisibility_shouldReturnEmptyString() {
-        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder().build();
-        assertEquals("", feedbackTextQuestionDetails.validateGiverRecipientVisibility(feedbackQuestionAttributes));
     }
 
     @Test

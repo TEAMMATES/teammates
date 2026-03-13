@@ -1,10 +1,9 @@
 package teammates.ui.output;
 
-import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
 import teammates.storage.sqlentity.UsageStatistics;
 
 /**
- * The API output format of {@link UsageStatisticsAttributes}.
+ * The API output format of {@link UsageStatistics}.
  */
 public class UsageStatisticsData extends ApiOutput {
 
@@ -17,18 +16,6 @@ public class UsageStatisticsData extends ApiOutput {
     private final int numAccountRequests;
     private final int numEmails;
     private final int numSubmissions;
-
-    public UsageStatisticsData(UsageStatisticsAttributes attributes) {
-        this.startTime = attributes.getStartTime().toEpochMilli();
-        this.timePeriod = attributes.getTimePeriod();
-        this.numResponses = attributes.getNumResponses();
-        this.numCourses = attributes.getNumCourses();
-        this.numStudents = attributes.getNumStudents();
-        this.numInstructors = attributes.getNumInstructors();
-        this.numAccountRequests = attributes.getNumAccountRequests();
-        this.numEmails = attributes.getNumEmails();
-        this.numSubmissions = attributes.getNumSubmissions();
-    }
 
     public UsageStatisticsData(UsageStatistics usageStatistics) {
         this.startTime = usageStatistics.getStartTime().toEpochMilli();

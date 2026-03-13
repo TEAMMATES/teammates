@@ -398,7 +398,6 @@ public final class Const {
         private static final String URI_PREFIX = "/auto";
 
         public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
-        public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";
         public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =
                 URI_PREFIX + "/feedbackSessionOpeningSoonReminders";
         public static final String AUTOMATED_FEEDBACK_OPENED_REMINDERS =

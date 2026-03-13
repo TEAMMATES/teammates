@@ -4,7 +4,6 @@ import org.threeten.bp.Instant;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.storage.sqlentity.Notification;
 
 /**
@@ -21,18 +20,6 @@ public class NotificationData extends ApiOutput {
     private String title;
     private String message;
     private boolean shown;
-
-    public NotificationData(NotificationAttributes notificationAttributes) {
-        this.notificationId = notificationAttributes.getNotificationId();
-        this.startTimestamp = notificationAttributes.getStartTime().toEpochMilli();
-        this.endTimestamp = notificationAttributes.getEndTime().toEpochMilli();
-        this.createdAt = notificationAttributes.getCreatedAt().toEpochMilli();
-        this.style = notificationAttributes.getStyle();
-        this.targetUser = notificationAttributes.getTargetUser();
-        this.title = notificationAttributes.getTitle();
-        this.message = notificationAttributes.getMessage();
-        this.shown = notificationAttributes.isShown();
-    }
 
     public NotificationData(Notification notification) {
         this.notificationId = notification.getId().toString();

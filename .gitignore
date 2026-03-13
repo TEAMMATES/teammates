@@ -78,7 +78,6 @@ src/e2e/resources/gmail-api/
 src/e2e/resources/downloads/
 src/web/dist/*
 src/web/webtools/*
-datastore-dev/datastore/*
 postgres-data/
 
 !.gitkeep

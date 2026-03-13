@@ -32,10 +32,8 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
     private SqlDataBundle testDataBundle;
 
-    @Override
     @BeforeClass
     public void setupClass() {
-        super.setupClass();
         testDataBundle = loadSqlDataBundle("/FeedbackResponsesITBundle.json");
     }
 

@@ -547,19 +547,6 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_externalApi_objectifyApiCanOnlyBeAccessedBySomePackages() {
-        noClasses().that().resideOutsideOfPackage(includeSubpackages(STORAGE_API_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
-                .and().doNotHaveSimpleName("BaseTestCaseWithSqlDatabaseAccess")
-                .and().doNotHaveSimpleName("BaseTestCaseWithLocalDatabaseAccess")
-                .and().doNotHaveSimpleName("ObjectifyFilter")
-                .should().accessClassesThat().resideInAPackage("com.googlecode.objectify..")
-                .check(ALL_CLASSES);
-    }
-
-    @Test
     public void testArchitecture_externalApi_servletApiCanOnlyBeAccessedBySomePackages() {
         noClasses().that().doNotHaveSimpleName("HttpRequestHelper")
                 .and().doNotHaveSimpleName("OfyHelper")
