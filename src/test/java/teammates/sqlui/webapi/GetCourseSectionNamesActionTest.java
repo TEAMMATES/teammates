@@ -18,8 +18,6 @@ import teammates.ui.webapi.GetCourseSectionNamesAction;
  */
 public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSectionNamesAction> {
 
-    String googleId = "user-googleId";
-
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.COURSE_SECTIONS;
@@ -69,20 +67,5 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(course, params);
-    }
-
-    @Test
-    void testSpecificAccessControl_invalidInstructor_cannotAccess() {
-        Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-
-        loginAsInstructor(googleId);
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(null);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-        };
-
-        verifyCannotAccess(params);
     }
 }

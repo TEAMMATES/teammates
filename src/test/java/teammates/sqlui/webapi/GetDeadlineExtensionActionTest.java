@@ -10,9 +10,10 @@ import java.util.Arrays;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.User;
 import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.webapi.EntityNotFoundException;
@@ -23,7 +24,7 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetDeadlineExtensionAction}.
  */
 public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineExtensionAction> {
-    private DeadlineExtensionAttributes deadlineExtension;
+    private DeadlineExtension deadlineExtension;
 
     @Override
     protected String getActionUri() {
@@ -38,7 +39,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
     @BeforeMethod
     public void setUp() {
         logoutUser();
-        deadlineExtension = getTypicalDeadlineExtensionAttributesStudent();
+        deadlineExtension = getTypicalDeadlineExtensionStudent();
     }
 
     @Test
@@ -72,15 +73,16 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
     void testExecute_deadlineExtensionMissing_shouldFail() {
         String[] params = getNormalParams();
 
-        when(mockLogic.getFeedbackSession(deadlineExtension.getFeedbackSessionName(), deadlineExtension.getCourseId()))
+        when(mockLogic.getFeedbackSession(deadlineExtension.getFeedbackSession().getName(),
+                deadlineExtension.getFeedbackSession().getCourseId()))
                 .thenReturn(getTypicalDeadlineExtensionStudent().getFeedbackSession());
         when(mockLogic.getExtendedDeadlineForUser(isA(FeedbackSession.class), isA(User.class)))
                 .thenReturn(null);
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Deadline extension for course id: " + deadlineExtension.getCourseId() + " and "
-                + "feedback session name: " + deadlineExtension.getFeedbackSessionName() + " and student "
-                + "email: " + deadlineExtension.getUserEmail() + " not found.",
+        assertEquals("Deadline extension for course id: " + deadlineExtension.getFeedbackSession().getCourseId()
+                + " and feedback session name: " + deadlineExtension.getFeedbackSession().getName()
+                + " and student email: " + deadlineExtension.getUser().getEmail() + " not found.",
                 enfe.getMessage());
     }
 
@@ -88,9 +90,11 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
     void testExecute_typicalCaseStudent_shouldSucceed() {
         String[] params = getNormalParams();
 
-        when(mockLogic.getFeedbackSession(deadlineExtension.getFeedbackSessionName(), deadlineExtension.getCourseId()))
+        when(mockLogic.getFeedbackSession(deadlineExtension.getFeedbackSession().getName(),
+                deadlineExtension.getFeedbackSession().getCourseId()))
                 .thenReturn(getTypicalDeadlineExtensionStudent().getFeedbackSession());
-        when(mockLogic.getStudentForEmail(deadlineExtension.getCourseId(), deadlineExtension.getUserEmail()))
+        when(mockLogic.getStudentForEmail(deadlineExtension.getFeedbackSession().getCourseId(),
+                deadlineExtension.getUser().getEmail()))
                 .thenReturn(getTypicalStudent());
         when(mockLogic.getExtendedDeadlineForUser(isA(FeedbackSession.class), isA(User.class)))
                 .thenReturn(deadlineExtension.getEndTime());
@@ -104,12 +108,14 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
 
     @Test
     void testExecute_typicalCaseInstructor_shouldSucceed() {
-        deadlineExtension = getTypicalDeadlineExtensionAttributesInstructor();
+        deadlineExtension = getTypicalDeadlineExtensionInstructor();
         String[] params = getNormalParams();
 
-        when(mockLogic.getFeedbackSession(deadlineExtension.getFeedbackSessionName(), deadlineExtension.getCourseId()))
+        when(mockLogic.getFeedbackSession(deadlineExtension.getFeedbackSession().getName(),
+                deadlineExtension.getFeedbackSession().getCourseId()))
                 .thenReturn(getTypicalDeadlineExtensionInstructor().getFeedbackSession());
-        when(mockLogic.getInstructorForEmail(deadlineExtension.getCourseId(), deadlineExtension.getUserEmail()))
+        when(mockLogic.getInstructorForEmail(deadlineExtension.getFeedbackSession().getCourseId(),
+                deadlineExtension.getUser().getEmail()))
                 .thenReturn(getTypicalInstructor());
         when(mockLogic.getExtendedDeadlineForUser(isA(FeedbackSession.class), isA(User.class)))
                 .thenReturn(deadlineExtension.getEndTime());
@@ -124,21 +130,21 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
 
     private String[] getNormalParams() {
         return new String[] {
-                Const.ParamsNames.COURSE_ID, deadlineExtension.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSessionName(),
-                Const.ParamsNames.USER_EMAIL, deadlineExtension.getUserEmail(),
-                Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getIsInstructor()),
+                Const.ParamsNames.COURSE_ID, deadlineExtension.getFeedbackSession().getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, deadlineExtension.getFeedbackSession().getName(),
+                Const.ParamsNames.USER_EMAIL, deadlineExtension.getUser().getEmail(),
+                Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(deadlineExtension.getUser() instanceof Instructor),
         };
     }
 
     private void compareOutput(DeadlineExtensionData response) {
-        assertEquals(deadlineExtension.getCourseId(), response.getCourseId());
-        assertEquals(deadlineExtension.getFeedbackSessionName(), response.getFeedbackSessionName());
-        assertEquals(deadlineExtension.getUserEmail(), response.getUserEmail());
-        assertEquals(deadlineExtension.getIsInstructor(), response.getIsInstructor());
+        assertEquals(deadlineExtension.getFeedbackSession().getCourseId(), response.getCourseId());
+        assertEquals(deadlineExtension.getFeedbackSession().getName(), response.getFeedbackSessionName());
+        assertEquals(deadlineExtension.getUser().getEmail(), response.getUserEmail());
+        assertEquals(deadlineExtension.getUser() instanceof Instructor, response.getIsInstructor());
         assertEquals(deadlineExtension.getEndTime().toEpochMilli(),
                 Instant.ofEpochMilli(response.getEndTime()).toEpochMilli());
-        assertEquals(deadlineExtension.getSentClosingSoonEmail(), response.getSentClosingSoonEmail());
+        assertEquals(deadlineExtension.isClosingSoonEmailSent(), response.getSentClosingSoonEmail());
     }
 
 }
