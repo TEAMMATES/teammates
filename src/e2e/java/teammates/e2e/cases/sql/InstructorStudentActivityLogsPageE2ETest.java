@@ -17,6 +17,7 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE}.
@@ -90,6 +91,17 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentActivityLogsPage.waitForPageToLoad();
         studentActivityLogsPage.startSearching();
 
-        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
+        boolean isLogPresent = Boolean.TRUE.equals(
+                studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
+        int retryLimit = 5;
+        while (!isLogPresent && retryLimit > 0) {
+            retryLimit--;
+            ThreadHelper.waitFor(1000);
+            studentActivityLogsPage.startSearching();
+            isLogPresent = Boolean.TRUE.equals(
+                    studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
+        }
+
+        assertTrue(isLogPresent);
     }
 }
