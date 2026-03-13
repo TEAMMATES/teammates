@@ -22,7 +22,6 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
-  CourseArchive,
   Courses,
   FeedbackSession,
   FeedbackSessions,
@@ -92,7 +91,6 @@ interface CourseModel {
 export class InstructorCoursesPageComponent implements OnInit {
 
   activeCourses: CourseModel[] = [];
-  archivedCourses: CourseModel[] = [];
   softDeletedCourses: CourseModel[] = [];
   allCoursesList: Course[] = [];
   activeCoursesList: Course[] = [];
@@ -102,8 +100,6 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   activeTableSortOrder: SortOrder = SortOrder.ASC;
   activeTableSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
-  archivedTableSortOrder: SortOrder = SortOrder.ASC;
-  archivedTableSortBy: SortBy = SortBy.COURSE_NAME;
   deletedTableSortOrder: SortOrder = SortOrder.ASC;
   deletedTableSortBy: SortBy = SortBy.COURSE_NAME;
 
@@ -113,14 +109,12 @@ export class InstructorCoursesPageComponent implements OnInit {
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
   isLoadingActiveCourses: boolean = false;
-  isLoadingArchivedCourses: boolean = false;
   isLoadingSoftDeletedCourses: boolean = false;
   hasLoadingFailed: boolean = false;
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
   isAddNewCourseFormExpanded: boolean = false;
-  isArchivedCourseExpanded: boolean = false;
   isCopyingCourse: boolean = false;
 
   copyProgressPercentage: number = 0;
@@ -130,7 +124,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   modifiedSessions: Record<string, TweakedTimestampData> = {};
 
   get isLoadingCourses(): boolean {
-    return this.isLoadingActiveCourses || this.isLoadingArchivedCourses || this.isLoadingSoftDeletedCourses;
+    return this.isLoadingActiveCourses || this.isLoadingSoftDeletedCourses;
   }
 
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
@@ -168,10 +162,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   loadInstructorCourses(): void {
     this.hasLoadingFailed = false;
     this.isLoadingActiveCourses = true;
-    this.isLoadingArchivedCourses = true;
     this.isLoadingSoftDeletedCourses = true;
     this.activeCourses = [];
-    this.archivedCourses = [];
     this.softDeletedCourses = [];
     this.activeCoursesList = [];
     this.allCoursesList = [];
@@ -197,32 +189,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       },
       error: (resp: ErrorMessageOutput) => {
         this.isLoadingActiveCourses = false;
-        this.hasLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
-
-    this.courseService.getAllCoursesAsInstructor('archived').subscribe({
-      next: (resp: Courses) => {
-        for (const course of resp.courses) {
-          this.allCoursesList.push(course);
-          let canModifyCourse: boolean = false;
-          let canModifyStudent: boolean = false;
-          if (course.privileges) {
-            canModifyCourse = course.privileges.canModifyCourse;
-            canModifyStudent = course.privileges.canModifyStudent;
-          }
-          const isLoadingCourseStats: boolean = false;
-          const archivedCourse: CourseModel = {
-            course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
-          };
-          this.archivedCourses.push(archivedCourse);
-          this.archivedCoursesDefaultSort();
-        }
-        this.isLoadingArchivedCourses = false;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.isLoadingArchivedCourses = false;
         this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
@@ -291,61 +257,6 @@ export class InstructorCoursesPageComponent implements OnInit {
             this.statusMessageService.showErrorToast(resp.error.message);
           },
         });
-  }
-
-  /**
-   * Changes the status of an archived course.
-   */
-  changeArchiveStatus(courseId: string, toArchive: boolean): void {
-    if (!courseId) {
-      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
-      return;
-    }
-    this.courseService.changeArchiveStatus(courseId, {
-      archiveStatus: toArchive,
-    }).subscribe({
-      next: (courseArchive: CourseArchive) => {
-        if (courseArchive.isArchived) {
-          this.changeModelFromActiveToArchived(courseId);
-          this.statusMessageService.showSuccessToast(`The course ${courseId} has been archived. `
-          + 'It will not appear on the home page anymore.');
-        } else {
-          this.changeModelFromArchivedToActive(courseId);
-          this.statusMessageService.showSuccessToast('The course has been unarchived.');
-        }
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
-  }
-
-  /**
-   * Moves a course model from active courses list to archived list.
-   * This is to reduce the need to refresh the entire list of courses multiple times.
-   */
-  changeModelFromActiveToArchived(courseId: string): void {
-    const courseToBeRemoved: CourseModel | undefined = this.findCourse(this.activeCourses, courseId);
-    this.activeCourses = this.removeCourse(this.activeCourses, courseId);
-    this.activeCoursesList = this.activeCourses.map((courseModel: CourseModel) => courseModel.course);
-    if (courseToBeRemoved !== undefined) {
-      this.archivedCourses.push(courseToBeRemoved);
-      this.archivedCourses.sort(this.sortBy(this.archivedTableSortBy, this.archivedTableSortOrder));
-    }
-  }
-
-  /**
-   * Moves a course model from archived courses list to active list.
-   * This is to reduce the need to refresh the entire list of courses multiple times.
-   */
-  changeModelFromArchivedToActive(courseId: string): void {
-    const courseToBeRemoved: CourseModel | undefined = this.findCourse(this.archivedCourses, courseId);
-    this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
-    if (courseToBeRemoved !== undefined) {
-      this.activeCourses.push(courseToBeRemoved);
-      this.activeCoursesList = this.activeCourses.map((courseModel: CourseModel) => courseModel.course);
-      this.activeCourses.sort(this.sortBy(this.activeTableSortBy, this.activeTableSortOrder));
-    }
   }
 
   /**
@@ -651,7 +562,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Moves an active/archived course to Recycle Bin.
+   * Moves an active course to Recycle Bin.
    */
   onDelete(courseId: string): Promise<void> {
     if (!courseId) {
@@ -676,7 +587,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Moves an active/archived course to Recycle Bin.
+   * Moves an active course to Recycle Bin.
    * This is to reduce the need to refresh the entire list of courses multiple times.
    */
   moveCourseToRecycleBin(courseId: string, deletionTimeStamp: number): void {
@@ -687,14 +598,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       activeCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
       this.softDeletedCourses.push(activeCourseToBeRemoved);
       this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
-    } else {
-      const archivedCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.archivedCourses, courseId);
-      this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
-      if (archivedCourseToBeRemoved !== undefined) {
-        archivedCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
-        this.softDeletedCourses.push(archivedCourseToBeRemoved);
-        this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
-      }
     }
   }
 
@@ -809,7 +712,6 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.softDeletedCourses = [];
           this.allCoursesList = [];
           this.allCoursesList.push(...this.activeCourses.map((courseModel: CourseModel) => courseModel.course));
-          this.allCoursesList.push(...this.archivedCourses.map((courseModel: CourseModel) => courseModel.course));
           this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
         },
         error: (resp: ErrorMessageOutput) => {
@@ -863,32 +765,6 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.activeTableSortBy = SortBy.COURSE_CREATION_DATE;
     this.activeTableSortOrder = SortOrder.DESC;
     this.activeCourses.sort(this.sortBy(this.activeTableSortBy, this.activeTableSortOrder));
-  }
-
-  /**
-   * Sorts the archived courses table
-   */
-  sortArchivedCoursesEvent(by: SortBy): void {
-    this.archivedTableSortOrder = this.archivedTableSortBy === by && this.archivedTableSortOrder === SortOrder.ASC
-        ? SortOrder.DESC : SortOrder.ASC;
-    this.archivedTableSortBy = by;
-    this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
-  }
-
-  getAriaSortArchived(by: SortBy): string {
-    if (by !== this.archivedTableSortBy) {
-      return 'none';
-    }
-    return this.archivedTableSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
-  }
-
-  /**
-   * Archived courses default sort on page load
-   */
-  archivedCoursesDefaultSort(): void {
-    this.archivedTableSortBy = SortBy.COURSE_CREATION_DATE;
-    this.archivedTableSortOrder = SortOrder.DESC;
-    this.archivedCourses.sort(this.sortBy(this.archivedTableSortBy, this.archivedTableSortOrder));
   }
 
   /**

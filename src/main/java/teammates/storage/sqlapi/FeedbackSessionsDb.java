@@ -154,7 +154,8 @@ public final class FeedbackSessionsDb extends EntitiesDb {
             throw new InvalidParametersException(session.getInvalidityInfo());
         }
 
-        if (getFeedbackSession(session.getId()) != null) {
+        if (getFeedbackSession(session.getId()) != null
+                || getFeedbackSession(session.getName(), session.getCourseId()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, session.toString()));
         }
 

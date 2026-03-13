@@ -123,14 +123,12 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
 
         CoursesData courses = getValidCourses(params);
         courses.getCourses().sort((c1, c2) -> c1.getCourseId().compareTo(c2.getCourseId()));
-        assertEquals(3, courses.getCourses().size());
+        assertEquals(2, courses.getCourses().size());
         Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
         Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
-        Course expectedCourse3 = typicalBundle.courses.get("typicalCourse4");
 
         verifySameCourseDataStudent(courses.getCourses().get(0), expectedCourse1);
         verifySameCourseDataStudent(courses.getCourses().get(1), expectedCourse2);
-        verifySameCourseDataStudent(courses.getCourses().get(2), expectedCourse3);
     }
 
     private void verifySameCourseData(CourseData actualCourse, Course expectedCourse) {

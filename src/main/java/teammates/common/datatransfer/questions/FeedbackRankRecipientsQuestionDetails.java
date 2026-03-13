@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
@@ -60,11 +59,6 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
         }
 
         return errors;
-    }
-
-    @Override
-    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        return "";
     }
 
     @Override

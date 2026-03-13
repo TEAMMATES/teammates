@@ -5,7 +5,7 @@ import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
-import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
+import { CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 
 describe('CourseService', () => {
   let spyHttpRequestService: any;
@@ -82,14 +82,8 @@ describe('CourseService', () => {
       entitytype: 'instructor',
       user: googleId,
     };
-    const archivedCoursesParamMap: { [key: string]: string } = {
-      coursestatus: 'archived',
-      entitytype: 'instructor',
-      user: googleId,
-    };
     service.getInstructorCoursesInMasqueradeMode(googleId);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSES, activeCoursesParamMap);
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSES, archivedCoursesParamMap);
   });
 
   it('should execute GET when getting all active instructor courses', () => {
@@ -130,17 +124,6 @@ describe('CourseService', () => {
     const paramMap: { [key: string]: string } = { courseid };
     service.deleteCourse(courseid);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap);
-  });
-
-  it('should execute PUT to archive course', () => {
-    const courseid: string = 'test-id';
-    const request: CourseArchiveRequest = {
-      archiveStatus: true,
-    };
-    const paramMap: { [key: string]: string } = { courseid };
-    service.changeArchiveStatus(courseid, request);
-    expect(spyHttpRequestService.put)
-        .toHaveBeenCalledWith(ResourceEndpoints.COURSE_ARCHIVE, paramMap, request);
   });
 
   it('should execute PUT to bin course', () => {

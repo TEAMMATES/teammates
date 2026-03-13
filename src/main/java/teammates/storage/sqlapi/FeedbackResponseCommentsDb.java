@@ -110,7 +110,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
         cq.select(root)
                 .where(cb.and(
-                        cb.equal(frJoin.get("id"), feedbackResponseId)));
+                        cb.equal(frJoin.get("id"), feedbackResponseId),
+                        cb.equal(root.get("isCommentFromFeedbackParticipant"), true)));
         return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
     }
 

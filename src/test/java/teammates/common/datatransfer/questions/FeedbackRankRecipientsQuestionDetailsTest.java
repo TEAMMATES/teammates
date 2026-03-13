@@ -8,7 +8,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
 import teammates.test.BaseTestCase;
@@ -174,14 +173,6 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
     public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackRankRecipientsQuestionDetails();
         assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
-    }
-
-    @Test
-    public void testValidateGiverRecipientVisibility() {
-        FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails =
-                new FeedbackRankRecipientsQuestionDetails();
-        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder().build();
-        assertEquals("", feedbackRankRecipientsQuestionDetails.validateGiverRecipientVisibility(feedbackQuestionAttributes));
     }
 
     @Test
