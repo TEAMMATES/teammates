@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Create Config Files
         run: ./gradlew createConfigs
-      - name: Run Solr search service + local Datastore emulator
+      - name: Run Solr search service
         run: docker compose up -d
       - name: Start Server
         run: ./gradlew serverRun &
