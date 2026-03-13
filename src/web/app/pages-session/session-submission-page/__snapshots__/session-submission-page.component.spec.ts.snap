@@ -996,6 +996,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
     </div>
   </div><tm-loading-retry>
     <div>
+      <div
+        class="text-center"
+      >
+        <button
+          class="btn btn-secondary"
+          type="button"
+        >
+           collapse all 
+        </button>
+        <button
+          class="btn btn-secondary"
+          type="button"
+        >
+           expand all 
+        </button>
+      </div>
       <tm-question-submission-form
         id="feedback-question-id-mcq"
         inviewport=""
@@ -4033,6 +4049,22 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
     </div>
   </div><tm-loading-retry>
     <div>
+      <div
+        class="text-center"
+      >
+        <button
+          class="btn btn-secondary"
+          type="button"
+        >
+           collapse all 
+        </button>
+        <button
+          class="btn btn-secondary"
+          type="button"
+        >
+           expand all 
+        </button>
+      </div>
       <tm-question-submission-form
         id="feedback-question-id-mcq"
         inviewport=""
