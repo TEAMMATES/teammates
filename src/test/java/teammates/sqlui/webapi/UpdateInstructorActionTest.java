@@ -14,7 +14,6 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.TaskWrapper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -79,11 +78,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(updatedInstructor.getName(), response.getName());
         assertEquals(updatedInstructor.getEmail(), response.getEmail());
-
-        TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
-
-        assertEquals(typicalCourse.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
-        assertEquals(updatedInstructor.getEmail(), taskAdded.getParamMap().get(Const.ParamsNames.INSTRUCTOR_EMAIL));
+        assertTrue("No tasks should be queued for instructor update", mockTaskQueuer.getTasksAdded().isEmpty());
 
         verify(mockLogic, times(1))
                 .updateToEnsureValidityOfInstructorsForTheCourse(typicalCourse.getId(), updatedInstructor);
@@ -172,11 +167,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(updatedInstructor.getName(), response.getName());
         assertEquals(updatedInstructor.getEmail(), response.getEmail());
-
-        TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
-
-        assertEquals(typicalCourse.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
-        assertEquals(updatedInstructor.getEmail(), taskAdded.getParamMap().get(Const.ParamsNames.INSTRUCTOR_EMAIL));
+        assertTrue("No tasks should be queued for instructor update", mockTaskQueuer.getTasksAdded().isEmpty());
 
         verify(mockLogic, times(1))
                 .updateToEnsureValidityOfInstructorsForTheCourse(typicalCourse.getId(), updatedInstructor);
