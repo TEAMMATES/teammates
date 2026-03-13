@@ -5,11 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Section;
 import teammates.test.BaseTestCase;
 
 /**
@@ -19,48 +14,35 @@ public class JsonUtilsTest extends BaseTestCase {
 
     @Test
     public void testFeedbackQuestionDetailsAdaptor_withComposedQuestionDetails_shouldSerializeToConcreteClass() {
-        FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
-        Course course = getTypicalCourse();
-        FeedbackSession fs = getTypicalFeedbackSessionForCourse(course);
-        FeedbackQuestion fq = getTypicalFeedbackQuestionForSession(fs);
-        fq.setQuestionDetails(questionDetails);
+        FeedbackTextQuestionDetails qd = new FeedbackTextQuestionDetails("Question text.");
 
-        String expectedQuestionDetailsJson = "\"questionDetails\": {\n"
-                + "    \"shouldAllowRichText\": true,\n"
-                + "    \"questionType\": \"TEXT\",\n"
-                + "    \"questionText\": \"Question text.\"\n"
-                + "  }";
+        String expectedQuestionDetailsJson = "{\n"
+                + "  \"shouldAllowRichText\": true,\n"
+                + "  \"questionType\": \"TEXT\",\n"
+                + "  \"questionText\": \"Question text.\"\n"
+                + "}";
 
-        assertTrue(JsonUtils.toJson(fq).contains(expectedQuestionDetailsJson));
+        assertEquals(expectedQuestionDetailsJson, JsonUtils.toJson(qd));
 
-        expectedQuestionDetailsJson = "\"questionDetails\":{\"shouldAllowRichText\":true,\"questionType\":\"TEXT\","
+        expectedQuestionDetailsJson = "{\"shouldAllowRichText\":true,\"questionType\":\"TEXT\","
                 + "\"questionText\":\"Question text.\"}";
 
-        assertTrue(JsonUtils.toCompactJson(fq).contains(expectedQuestionDetailsJson));
+        assertEquals(expectedQuestionDetailsJson, JsonUtils.toCompactJson(qd));
     }
 
     @Test
     public void testFeedbackResponseDetailsAdaptor_withComposedResponseDetails_shouldSerializeToConcreteClass() {
-        Course course = getTypicalCourse();
-        FeedbackSession fs = getTypicalFeedbackSessionForCourse(course);
-        FeedbackQuestion fq = getTypicalFeedbackQuestionForSession(fs);
-        Section giverSection = getTypicalSection();
-        Section recipientSection = getTypicalSection();
-
         FeedbackResponseDetails frd = new FeedbackTextResponseDetails("My answer");
-        FeedbackResponse fr = FeedbackResponse.makeResponse(fq, "giver@email.com",
-                giverSection, "recipient@email.com",
-                recipientSection, frd);
 
-        String expectedFeedbackResponseDetailsJson = "\"answer\": {\n"
-                + "    \"answer\": \"My answer\",\n"
-                + "    \"questionType\": \"TEXT\"\n"
-                + "  }";
+        String expectedFeedbackResponseDetailsJson = "{\n"
+                + "  \"answer\": \"My answer\",\n"
+                + "  \"questionType\": \"TEXT\"\n"
+                + "}";
 
-        assertTrue(JsonUtils.toJson(fr).contains(expectedFeedbackResponseDetailsJson));
+        assertEquals(expectedFeedbackResponseDetailsJson, JsonUtils.toJson(frd));
 
-        expectedFeedbackResponseDetailsJson = "\"answer\":{\"answer\":\"My answer\",\"questionType\":\"TEXT\"}";
+        expectedFeedbackResponseDetailsJson = "{\"answer\":\"My answer\",\"questionType\":\"TEXT\"}";
 
-        assertTrue(JsonUtils.toCompactJson(fr).contains(expectedFeedbackResponseDetailsJson));
+        assertEquals(expectedFeedbackResponseDetailsJson, JsonUtils.toCompactJson(frd));
     }
 }
