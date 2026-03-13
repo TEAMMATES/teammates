@@ -5,14 +5,16 @@ on:
     branches:
       - master
       - release
+
   pull_request:
     branches:
       - master
       - release
+
   schedule:
     - cron: "0 0 * * *" #end of every day
   workflow_dispatch:
-  
+
 jobs:
   E2E-sql-testing:
     runs-on: ubuntu-latest
@@ -42,7 +44,7 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Update Property File
         run: mv src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
-      - name: Run Solr search service + local Datastore emulator
+      - name: Run Solr search service
         run: docker compose up -d
       - name: Create Config Files
         run: ./gradlew createConfigs testClasses generateTypes

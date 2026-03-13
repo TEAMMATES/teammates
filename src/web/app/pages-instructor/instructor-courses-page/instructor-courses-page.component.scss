@@ -6,14 +6,6 @@
   }
 }
 
-// applies only to mobile screens
-@media (width <= 768px) {
-  .custom-button-archived {
-    width: 95px;
-    margin-bottom: 5px;
-  }
-}
-
 .sortable-header {
   cursor: pointer;
 
@@ -76,14 +68,6 @@
 }
 
 .recycle-bin-table {
-  margin-bottom: 0;
-}
-
-.archive-body {
-  padding: 0;
-}
-
-.archive-table {
   margin-bottom: 0;
 }
 

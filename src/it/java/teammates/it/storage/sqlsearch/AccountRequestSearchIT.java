@@ -18,7 +18,7 @@ import teammates.test.TestProperties;
 
 /**
  * SUT: {@link AccountRequestsDb},
- *      {@link teammates.storage.search.AccountRequestSearchDocument}.
+ *      {@link teammates.storage.sqlsearch.AccountRequestSearchDocument}.
  */
 public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 

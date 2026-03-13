@@ -48,7 +48,6 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student unregisteredStuInCourse1 = typicalBundle.students.get("unregisteredStudentInCourse1");
         Student stu1InCourse3 = typicalBundle.students.get("student1InCourse3");
         Student stu1InCourse4 = typicalBundle.students.get("student1InCourse4");
-        Student stuOfArchivedCourse = typicalBundle.students.get("studentOfArchivedCourse");
 
         Instructor ins1InCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor ins1InCourse4 = typicalBundle.instructors.get("instructor1OfCourse4");
@@ -72,11 +71,6 @@ public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         results = usersDb.searchStudentsInWholeSystem("\"sTuDeNt1\"");
         verifySearchResults(results, stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InCourse4);
-
-        ______TS("success: search for students in whole system; students in archived courses should be included");
-
-        results = usersDb.searchStudentsInWholeSystem("\"Student In Archived Course\"");
-        verifySearchResults(results, stuOfArchivedCourse);
 
         ______TS("success: search for students in whole system; students should be searchable by course id");
 

@@ -238,7 +238,7 @@ abstract class SearchManager<T extends BaseEntity> {
         for (SolrDocument document : documents) {
             T entity = getEntityFromDocument(document);
 
-            // Entity will be null if document corresponds to entity in datastore
+            // Entity will be null if the indexed document no longer has a backing SQL entity
             if (entity == null) {
                 // search engine out of sync as SearchManager may fail to delete documents
                 // the chance is low and it is generally not a big problem

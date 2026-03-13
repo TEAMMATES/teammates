@@ -96,7 +96,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        assertEquals(11, response.getStudents().size());
+        assertEquals(10, response.getStudents().size());
     }
 
     @Test
@@ -114,7 +114,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        assertEquals(11, response.getStudents().size());
+        assertEquals(10, response.getStudents().size());
     }
 
     @Test

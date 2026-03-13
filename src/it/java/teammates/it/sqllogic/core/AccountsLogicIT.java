@@ -45,10 +45,8 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private SqlDataBundle typicalDataBundle;
 
-    @Override
     @BeforeClass
     public void setupClass() {
-        super.setupClass();
         typicalDataBundle = getTypicalSqlDataBundle();
     }
 

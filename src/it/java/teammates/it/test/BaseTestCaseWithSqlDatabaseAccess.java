@@ -6,16 +6,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-
-import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.testing.LocalDatastoreHelper;
-import com.googlecode.objectify.ObjectifyFactory;
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.util.Closeable;
 
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -26,7 +19,6 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.core.LogicStarter;
-import teammates.storage.api.OfyHelper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
@@ -57,15 +49,7 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
 
     private static final PostgreSQLContainer<?> PGSQL = new PostgreSQLContainer<>("postgres:15.1-alpine");
 
-    private static final LocalDatastoreHelper LOCAL_DATASTORE_HELPER = LocalDatastoreHelper.newBuilder()
-            .setConsistency(1.0)
-            .setPort(TestProperties.TEST_LOCALDATASTORE_PORT)
-            .setStoreOnDisk(false)
-            .build();
-
     private final Logic logic = Logic.inst();
-
-    private Closeable closeable;
 
     @BeforeSuite
     protected static void setUpSuite() throws Exception {
@@ -83,34 +67,10 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
             new InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
         SearchManagerFactory.registerStudentSearchManager(
             new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-
-        // TODO: remove after migration, needed for dual db support
-
-        teammates.storage.search.SearchManagerFactory.registerAccountRequestSearchManager(
-            new teammates.storage.search.AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        teammates.storage.search.SearchManagerFactory.registerInstructorSearchManager(
-            new teammates.storage.search.InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        teammates.storage.search.SearchManagerFactory.registerStudentSearchManager(
-            new teammates.storage.search.StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-
-        teammates.logic.core.LogicStarter.initializeDependencies();
-        LOCAL_DATASTORE_HELPER.start();
-        DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
-        ObjectifyService.init(new ObjectifyFactory(
-                options.getService()));
-        OfyHelper.registerEntityClasses();
-
-    }
-
-    @BeforeClass
-    public void setupClass() {
-        closeable = ObjectifyService.begin();
     }
 
     @AfterClass
     public void tearDownClass() {
-        closeable.close();
-
         SearchManagerFactory.getAccountRequestSearchManager().resetCollections();
         SearchManagerFactory.getInstructorSearchManager().resetCollections();
         SearchManagerFactory.getStudentSearchManager().resetCollections();
@@ -119,7 +79,6 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     @AfterSuite
     protected static void tearDownSuite() throws Exception {
         PGSQL.close();
-        LOCAL_DATASTORE_HELPER.stop();
     }
 
     @BeforeMethod

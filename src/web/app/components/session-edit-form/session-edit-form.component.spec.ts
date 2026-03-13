@@ -119,12 +119,10 @@ describe('SessionEditFormComponent', () => {
   });
 
   it('should not adjust the session visibility date and time if submission opening date and time are later', () => {
-    const date: DateFormat = component.minDateForSubmissionStart;
-    const time: TimeFormat = component.minTimeForSubmissionStart;
-    component.model.customSessionVisibleDate = dateTimeService
-      .getDateInstance(moment().tz(component.model.timeZone).subtract(1, 'days'));
-    component.model.customSessionVisibleTime = dateTimeService
-      .getTimeInstance(moment().tz(component.model.timeZone).subtract(1, 'hours'));
+    const date: DateFormat = { day: 14, month: 7, year: 2024 };
+    const time: TimeFormat = { hour: 14, minute: 0 };
+    component.model.customSessionVisibleDate = { day: 13, month: 7, year: 2024 };
+    component.model.customSessionVisibleTime = { hour: 13, minute: 0 };
     component.configureSessionVisibleDateTime(date, time);
     expect(component.model.customSessionVisibleDate).not.toEqual(date);
     expect(component.model.customSessionVisibleTime).not.toEqual(time);

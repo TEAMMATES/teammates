@@ -123,7 +123,6 @@
       },
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "isArchived": false,
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -152,7 +151,6 @@
       },
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "isArchived": false,
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -181,7 +179,6 @@
       },
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "isArchived": true,
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -210,7 +207,6 @@
       },
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "isArchived": true,
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -239,7 +235,6 @@
       },
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "isArchived": false,
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -304,21 +299,6 @@
       "email": "student1@gmail.tmt",
       "name": "student 1",
       "comments": "comment for student1InCourse3"
-    },
-    "student1InArchivedCourse": {
-      "id": "00000000-0000-4000-8000-000000000604",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
-      "course": {
-        "id": "idOfTypicalCourse4"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
-      "email": "student1@gmail.tmt",
-      "name": "student 1",
-      "comments": ""
     }
   }
 }

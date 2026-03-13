@@ -29,8 +29,8 @@ import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
-import teammates.logic.api.MockUserProvision;
 import teammates.sqllogic.api.Logic;
+import teammates.sqllogic.api.MockUserProvision;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
@@ -205,7 +205,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
      * (without admin rights or student rights).
      */
     protected void loginAsInstructor(String userId) {
-        UserInfo user = mockUserProvision.loginUser(userId);
+        UserInfo user = mockUserProvision.loginAsInstructor(userId);
         assertFalse(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -216,7 +216,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
      * (without admin rights or student rights).
      */
     protected void loginAsInstructorWithTransaction(String userId) {
-        UserInfo user = mockUserProvision.loginUserWithTransaction(userId);
+        UserInfo user = mockUserProvision.loginAsInstructorWithTransaction(userId);
         assertFalse(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -227,7 +227,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudent(String userId) {
-        UserInfo user = mockUserProvision.loginUser(userId);
+        UserInfo user = mockUserProvision.loginAsStudent(userId);
         assertTrue(user.isStudent);
         assertFalse(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -238,7 +238,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudentWithTransaction(String userId) {
-        UserInfo user = mockUserProvision.loginUserWithTransaction(userId);
+        UserInfo user = mockUserProvision.loginAsStudentWithTransaction(userId);
         assertTrue(user.isStudent);
         assertFalse(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -249,7 +249,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
      * admin rights).
      */
     protected void loginAsStudentInstructor(String userId) {
-        UserInfo user = mockUserProvision.loginUser(userId);
+        UserInfo user = mockUserProvision.loginAsStudentInstructor(userId);
         assertTrue(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -259,7 +259,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
      * Logs in the user to the test environment as a maintainer.
      */
     protected void loginAsMaintainer() {
-        UserInfo user = mockUserProvision.loginUser(Config.APP_MAINTAINERS.get(0));
+        UserInfo user = mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
         assertTrue(user.isMaintainer);
     }
 
@@ -473,8 +473,14 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         ______TS("admin can access");
 
         loginAsAdmin();
+        mockUserProvision.setAdmin(true);
+        mockUserProvision.setInstructor(true);
+        mockUserProvision.setStudent(false);
+        mockUserProvision.setMaintainer(false);
+
         // not checking for non-masquerade mode because admin may not be an instructor
         verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
+        mockUserProvision.setInstructor(false);
     }
 
     void verifyAccessibleForAdminToMasqueradeAsInstructor(Course course, String[] submissionParams)
@@ -484,8 +490,13 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
                 "AccessibleForAdminToMasqueradeAsInstructor@teammates.tmt");
 
         loginAsAdmin();
+        mockUserProvision.setAdmin(true);
+        mockUserProvision.setInstructor(true);
+        mockUserProvision.setStudent(false);
+        mockUserProvision.setMaintainer(false);
         // not checking for non-masquerade mode because admin may not be an instructor
         verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
+        mockUserProvision.setInstructor(false);
     }
 
     void verifyInaccessibleWithoutModifySessionPrivilege(Course course, String[] submissionParams)
