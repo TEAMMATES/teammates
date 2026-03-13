@@ -12,7 +12,6 @@ import teammates.ui.output.ActionClasses;
 import teammates.ui.webapi.AccountRequestSearchIndexingWorkerAction;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.AdminExceptionTestAction;
-import teammates.ui.webapi.ArchiveCourseAction;
 import teammates.ui.webapi.BinCourseAction;
 import teammates.ui.webapi.BinFeedbackSessionAction;
 import teammates.ui.webapi.CalculateUsageStatisticsAction;
@@ -26,11 +25,9 @@ import teammates.ui.webapi.CreateFeedbackSessionAction;
 import teammates.ui.webapi.CreateFeedbackSessionLogAction;
 import teammates.ui.webapi.CreateInstructorAction;
 import teammates.ui.webapi.CreateNotificationAction;
-import teammates.ui.webapi.DatastoreBackupAction;
 import teammates.ui.webapi.DeleteAccountAction;
 import teammates.ui.webapi.DeleteAccountRequestAction;
 import teammates.ui.webapi.DeleteCourseAction;
-import teammates.ui.webapi.DeleteDataBundleAction;
 import teammates.ui.webapi.DeleteFeedbackQuestionAction;
 import teammates.ui.webapi.DeleteFeedbackResponseCommentAction;
 import teammates.ui.webapi.DeleteFeedbackSessionAction;
@@ -92,7 +89,6 @@ import teammates.ui.webapi.JoinCourseAction;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.MarkNotificationAsReadAction;
 import teammates.ui.webapi.PublishFeedbackSessionAction;
-import teammates.ui.webapi.PutDataBundleAction;
 import teammates.ui.webapi.PutDataBundleDocumentsAction;
 import teammates.ui.webapi.PutSqlDataBundleAction;
 import teammates.ui.webapi.QueryLogsAction;
@@ -154,8 +150,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 BinFeedbackSessionAction.class,
                 GetCoursesAction.class,
                 GetRegkeyValidityAction.class,
-                PutDataBundleAction.class,
-                DeleteDataBundleAction.class,
                 CreateFeedbackSessionLogAction.class,
                 GetFeedbackSessionLogsAction.class,
                 GetInstructorPrivilegeAction.class,
@@ -171,7 +165,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateInstructorAction.class,
                 GetInstructorAction.class,
                 UpdateInstructorAction.class,
-                ArchiveCourseAction.class,
                 InstructorCourseJoinEmailWorkerAction.class,
                 DeleteStudentAction.class,
                 GetStudentAction.class,
@@ -195,7 +188,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 PublishFeedbackSessionAction.class,
                 GetSessionResultsAction.class,
                 GetHasResponsesAction.class,
-                DatastoreBackupAction.class,
                 RestoreCourseAction.class,
                 BinCourseAction.class,
                 DeleteAccountAction.class,

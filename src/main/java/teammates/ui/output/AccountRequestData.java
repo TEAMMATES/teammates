@@ -3,7 +3,6 @@ package teammates.ui.output;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.storage.sqlentity.AccountRequest;
 
 /**
@@ -21,24 +20,6 @@ public class AccountRequestData extends ApiOutput {
     @Nullable
     private final Long registeredAt;
     private final long createdAt;
-
-    public AccountRequestData(AccountRequestAttributes accountRequestInfo) {
-        this.id = accountRequestInfo.getId();
-        this.name = accountRequestInfo.getName();
-        this.email = accountRequestInfo.getEmail();
-        this.institute = accountRequestInfo.getInstitute();
-        this.registrationKey = accountRequestInfo.getRegistrationKey();
-        this.comments = null;
-        this.createdAt = accountRequestInfo.getCreatedAt().toEpochMilli();
-
-        if (accountRequestInfo.getRegisteredAt() == null) {
-            this.status = AccountRequestStatus.APPROVED;
-            this.registeredAt = null;
-        } else {
-            this.status = AccountRequestStatus.REGISTERED;
-            this.registeredAt = accountRequestInfo.getRegisteredAt().toEpochMilli();
-        }
-    }
 
     public AccountRequestData(AccountRequest accountRequest) {
         this.id = accountRequest.getId().toString();

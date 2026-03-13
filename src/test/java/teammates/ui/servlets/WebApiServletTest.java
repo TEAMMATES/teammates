@@ -15,8 +15,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.cloud.datastore.DatastoreException;
-
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.test.BaseTestCase;
@@ -98,14 +96,6 @@ public class WebApiServletTest extends BaseTestCase {
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_BAD_REQUEST, mockResponse.getStatus());
 
-        ______TS("Failure case: DatastoreException");
-
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
-
         ______TS("Failure case: UnauthorizedAccessException");
 
         setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
@@ -177,14 +167,6 @@ public class WebApiServletTest extends BaseTestCase {
 
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
-
-        ______TS("Failure case: DatastoreTimeoutException");
-
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
         ______TS("Failure case: UnauthorizedAccessException");
 

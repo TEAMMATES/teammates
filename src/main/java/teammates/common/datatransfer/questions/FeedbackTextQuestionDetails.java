@@ -5,7 +5,6 @@ import java.util.List;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
@@ -51,11 +50,6 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         return new ArrayList<>();
-    }
-
-    @Override
-    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        return "";
     }
 
     @Override

@@ -3,9 +3,6 @@ package teammates.ui.webapi;
 import org.postgresql.util.PSQLException;
 import org.postgresql.util.PSQLState;
 
-import com.google.cloud.datastore.DatastoreException;
-import com.google.rpc.Code;
-
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -44,10 +41,6 @@ public class AdminExceptionTestAction extends Action {
         }
         if (error.equals(DeadlineExceededException.class.getSimpleName())) {
             throw new DeadlineExceededException();
-        }
-        if (error.equals(DatastoreException.class.getSimpleName())) {
-            throw new DatastoreException(Code.DEADLINE_EXCEEDED_VALUE, "DatastoreException testing",
-                    Code.DEADLINE_EXCEEDED.name());
         }
         if (error.equals(PSQLException.class.getSimpleName())) {
             throw new RuntimeException("PSQLException testing",

@@ -222,7 +222,6 @@ public final class Const {
      */
     public static class CourseStatus {
         public static final String ACTIVE = "active";
-        public static final String ARCHIVED = "archived";
         public static final String SOFT_DELETED = "softDeleted";
     }
 
@@ -348,7 +347,6 @@ public final class Const {
         public static final String ACCOUNTS = URI_PREFIX + "/accounts";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String COURSE = URI_PREFIX + "/course";
-        public static final String COURSE_ARCHIVE = URI_PREFIX + "/course/archive";
         public static final String BIN_COURSE = URI_PREFIX + "/bin/course";
         public static final String COURSE_SECTIONS = URI_PREFIX + "/course/sections";
         public static final String COURSES = URI_PREFIX + "/courses";
@@ -400,7 +398,6 @@ public final class Const {
         private static final String URI_PREFIX = "/auto";
 
         public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
-        public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";
         public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =
                 URI_PREFIX + "/feedbackSessionOpeningSoonReminders";
         public static final String AUTOMATED_FEEDBACK_OPENED_REMINDERS =

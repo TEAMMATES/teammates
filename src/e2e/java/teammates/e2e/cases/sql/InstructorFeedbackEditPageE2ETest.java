@@ -12,7 +12,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPage;
+import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -129,7 +129,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.verifyQuestionDetails(3, editedQuestion);
 
         ______TS("preview session as student");
-        FeedbackSubmitPage previewPage = feedbackEditPage.previewAsStudent(testData.students.get("InstFEP.jose.tmms"));
+        FeedbackSubmitPageSql previewPage = feedbackEditPage.previewAsStudent(testData.students.get("InstFEP.jose.tmms"));
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("preview session as instructor");
