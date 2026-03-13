@@ -26,7 +26,7 @@
     <changeSet id="v9.0.0-beta.8-courses-name-trgm" author="search-migration">
         <sql>CREATE INDEX IF NOT EXISTS idx_courses_name_trgm ON courses USING gin (name gin_trgm_ops);</sql>
     </changeSet>
-    
+
     <!-- Teams -->
     <changeSet id="v9.0.0-beta.8-teams-name-trgm" author="search-migration">
         <sql>CREATE INDEX IF NOT EXISTS idx_teams_name_trgm ON teams USING gin (name gin_trgm_ops);</sql>
