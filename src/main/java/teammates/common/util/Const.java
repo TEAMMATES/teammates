@@ -452,12 +452,6 @@ public final class Const {
 
         public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
         public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/studentCourseJoinEmail";
-
-        public static final String SEARCH_INDEXING_QUEUE_NAME = "search-indexing-queue";
-        public static final String INSTRUCTOR_SEARCH_INDEXING_WORKER_URL = URI_PREFIX + "/instructorSearchIndexing";
-        public static final String ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL =
-                URI_PREFIX + "/accountRequestSearchIndexing";
-        public static final String STUDENT_SEARCH_INDEXING_WORKER_URL = URI_PREFIX + "/studentSearchIndexing";
     }
 
 }
