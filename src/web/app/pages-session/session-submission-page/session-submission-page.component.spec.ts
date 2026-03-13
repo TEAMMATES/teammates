@@ -1284,10 +1284,7 @@ describe('Expand and Collapse All buttons', () => {
     });
 
    it('should show Expand All and Collapse All buttons', () => {
-       component.questionSubmissionForms = [
-           { isTabExpanded: false } as any,
-           { isTabExpanded: false } as any,
-       ];
+       component.questionSubmissionForms = [];
        component.isFeedbackSessionQuestionsLoading = false;
        fixture.detectChanges();
 
