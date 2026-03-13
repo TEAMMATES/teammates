@@ -142,7 +142,6 @@ public final class ActionFactory {
         // Reference: https://cloud.google.com/appengine/docs/standard/scheduling-jobs-with-cron-yaml
 
         map(CronJobURIs.AUTOMATED_LOG_COMPILATION, GET, CompileLogsAction.class);
-        map(CronJobURIs.AUTOMATED_DATASTORE_BACKUP, GET, DatastoreBackupAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENED_REMINDERS, GET, FeedbackSessionOpenedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, GET, FeedbackSessionClosedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_SOON_REMINDERS, GET, FeedbackSessionClosingSoonRemindersAction.class);
