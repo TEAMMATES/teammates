@@ -63,6 +63,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("com.google.guava:guava:33.5.0-jre")
+    implementation("commons-lang:commons-lang:2.6")
+    implementation(objectify)
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20260102.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:5.2.5")
@@ -79,6 +81,7 @@ dependencies {
     implementation("org.hibernate.orm:hibernate-core:6.4.4.Final")
     implementation("org.postgresql:postgresql:42.7.9")
     implementation("org.hibernate:hibernate-hikaricp:6.4.4.Final")
+    implementation("org.apache.commons:commons-math3:3.6.1")
 
     testAnnotationProcessor(testng)
 
