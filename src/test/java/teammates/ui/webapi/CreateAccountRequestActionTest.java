@@ -67,7 +67,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertEquals(registrationKey, output.getRegistrationKey());
 
         verifyNoEmailsSent();
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         ______TS("Account request already exists: instructor unregistered");
 

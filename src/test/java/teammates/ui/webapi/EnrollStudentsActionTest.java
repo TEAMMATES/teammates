@@ -48,7 +48,6 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
 
         // verify search indexing task is added to task queue when new student is enrolled
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Test
@@ -99,7 +98,6 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
 
         // verify search indexing task is added to task queue when existing student is updated
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Test
@@ -167,7 +165,6 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(2), enrolledStudents.get(1));
 
         // verify tasks only added for students successfully enrolled
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 2);
     }
 
     @Test

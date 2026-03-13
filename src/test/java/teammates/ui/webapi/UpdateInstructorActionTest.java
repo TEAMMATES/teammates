@@ -63,7 +63,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         ______TS("Failure case: edit failed due to invalid parameters");
 
@@ -114,7 +113,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         //remove the new instructor entity that was created
         logic.deleteCourseCascade("icieat.courseId");
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         ______TS("Unsuccessful case: test null course id parameter");
 

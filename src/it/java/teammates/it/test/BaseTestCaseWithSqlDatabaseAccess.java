@@ -43,10 +43,6 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
-import teammates.storage.sqlsearch.AccountRequestSearchManager;
-import teammates.storage.sqlsearch.InstructorSearchManager;
-import teammates.storage.sqlsearch.SearchManagerFactory;
-import teammates.storage.sqlsearch.StudentSearchManager;
 import teammates.test.BaseTestCase;
 
 /**
@@ -77,22 +73,6 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
 
         LogicStarter.initializeDependencies();
 
-        SearchManagerFactory.registerAccountRequestSearchManager(
-            new AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        SearchManagerFactory.registerInstructorSearchManager(
-            new InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        SearchManagerFactory.registerStudentSearchManager(
-            new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-
-        // TODO: remove after migration, needed for dual db support
-
-        teammates.storage.search.SearchManagerFactory.registerAccountRequestSearchManager(
-            new teammates.storage.search.AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        teammates.storage.search.SearchManagerFactory.registerInstructorSearchManager(
-            new teammates.storage.search.InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        teammates.storage.search.SearchManagerFactory.registerStudentSearchManager(
-            new teammates.storage.search.StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-
         teammates.logic.core.LogicStarter.initializeDependencies();
         LOCAL_DATASTORE_HELPER.start();
         DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
@@ -110,10 +90,6 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     @AfterClass
     public void tearDownClass() {
         closeable.close();
-
-        SearchManagerFactory.getAccountRequestSearchManager().resetCollections();
-        SearchManagerFactory.getInstructorSearchManager().resetCollections();
-        SearchManagerFactory.getStudentSearchManager().resetCollections();
     }
 
     @AfterSuite
@@ -149,7 +125,7 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
      * Puts searchable documents from the data bundle to the solr database.
      */
     protected void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
-        logic.putDocuments(dataBundle);
+        // Search indexing is removed.
     }
 
     /**

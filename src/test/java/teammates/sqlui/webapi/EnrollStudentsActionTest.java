@@ -84,7 +84,6 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         List<StudentData> enrolledStudents = ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
         assertEquals(1, enrolledStudents.size());
         assertEquals(enrolledStudents.get(0).getEmail(), newStudent.getEmail());
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Test
@@ -117,7 +116,6 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         List<StudentData> enrolledStudents = ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
         assertEquals(enrolledStudents.size(), 1);
         assertEquals(enrolledStudents.get(0).getName(), newStudent.getName());
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Test

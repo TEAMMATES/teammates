@@ -88,7 +88,7 @@ public class UpdateStudentAction extends Action {
             studentToUpdate.setEmail(newEmail);
 
             studentToUpdate.setId(existingStudent.getId());
-            Student updatedStudent = sqlLogic.updateStudentCascade(studentToUpdate);
+            sqlLogic.updateStudentCascade(studentToUpdate);
 
             if (!studentEmail.equals(updateRequest.getEmail()) && updateRequest.getIsSessionSummarySendEmail()) {
                 boolean emailSent = sendEmail(courseId, updateRequest.getEmail());

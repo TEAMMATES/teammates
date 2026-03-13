@@ -63,7 +63,6 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertEquals(newInstructorEmail, response.getEmail());
 
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
 
@@ -120,7 +119,6 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertEquals(newInstructorEmail, response.getEmail());
 
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         taskAdded = mockTaskQueuer.getTasksAdded().get(0);
         Map<String, String> paramMap = taskAdded.getParamMap();
