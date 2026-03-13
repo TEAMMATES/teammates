@@ -1,13 +1,8 @@
 package teammates.common.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.test.BaseTestCase;
@@ -19,89 +14,35 @@ public class JsonUtilsTest extends BaseTestCase {
 
     @Test
     public void testFeedbackQuestionDetailsAdaptor_withComposedQuestionDetails_shouldSerializeToConcreteClass() {
-        FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
+        FeedbackTextQuestionDetails qd = new FeedbackTextQuestionDetails("Question text.");
 
-        List<FeedbackParticipantType> participants = new ArrayList<>();
-        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-        participants.add(FeedbackParticipantType.RECEIVER);
+        String expectedQuestionDetailsJson = "{\n"
+                + "  \"shouldAllowRichText\": true,\n"
+                + "  \"questionType\": \"TEXT\",\n"
+                + "  \"questionText\": \"Question text.\"\n"
+                + "}";
 
-        FeedbackQuestionAttributes fqa = FeedbackQuestionAttributes.builder()
-                .withCourseId("testingCourse")
-                .withFeedbackSessionName("testFeedbackSession")
-                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
-                .withRecipientType(FeedbackParticipantType.SELF)
-                .withNumberOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
-                .withQuestionNumber(1)
-                .withQuestionDetails(questionDetails)
-                .withShowGiverNameTo(participants)
-                .withShowRecipientNameTo(participants)
-                .withShowResponsesTo(participants)
-                .build();
+        assertEquals(expectedQuestionDetailsJson, JsonUtils.toJson(qd));
 
-        assertEquals("{\n"
-                + "  \"feedbackSessionName\": \"testFeedbackSession\",\n"
-                + "  \"courseId\": \"testingCourse\",\n"
-                + "  \"questionDetails\": {\n"
-                + "    \"shouldAllowRichText\": true,\n"
-                + "    \"questionType\": \"TEXT\",\n"
-                + "    \"questionText\": \"Question text.\"\n"
-                + "  },\n"
-                + "  \"questionNumber\": 1,\n"
-                + "  \"giverType\": \"INSTRUCTORS\",\n"
-                + "  \"recipientType\": \"SELF\",\n"
-                + "  \"numberOfEntitiesToGiveFeedbackTo\": -100,\n"
-                + "  \"showResponsesTo\": [\n"
-                + "    \"RECEIVER\"\n"
-                + "  ],\n"
-                + "  \"showGiverNameTo\": [\n"
-                + "    \"RECEIVER\"\n"
-                + "  ],\n"
-                + "  \"showRecipientNameTo\": [\n"
-                + "    \"RECEIVER\"\n"
-                + "  ]\n"
-                + "}", JsonUtils.toJson(fqa));
+        expectedQuestionDetailsJson = "{\"shouldAllowRichText\":true,\"questionType\":\"TEXT\","
+                + "\"questionText\":\"Question text.\"}";
 
-        assertEquals("{\"feedbackSessionName\":\"testFeedbackSession\","
-                + "\"courseId\":\"testingCourse\",\"questionDetails\":{\"shouldAllowRichText\":true,\"questionType\":"
-                + "\"TEXT\","
-                + "\"questionText\":\"Question text.\"},\"questionNumber\":1,"
-                + "\"giverType\":\"INSTRUCTORS\",\"recipientType\":\"SELF\",\"numberOfEntitiesToGiveFeedbackTo\":-100,"
-                + "\"showResponsesTo\":[\"RECEIVER\"],\"showGiverNameTo\":[\"RECEIVER\"],"
-                + "\"showRecipientNameTo\":[\"RECEIVER\"]}",
-                JsonUtils.toCompactJson(fqa));
+        assertEquals(expectedQuestionDetailsJson, JsonUtils.toCompactJson(qd));
     }
 
     @Test
     public void testFeedbackResponseDetailsAdaptor_withComposedResponseDetails_shouldSerializeToConcreteClass() {
-        FeedbackResponseAttributes fra =
-                FeedbackResponseAttributes.builder(
-                        "questionId", "giver@email.com", "recipient@email.com")
-                .withFeedbackSessionName("Session1")
-                .withCourseId("CS3281")
-                .withGiverSection("giverSection")
-                .withRecipientSection("recipientSection")
-                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
-                .build();
+        FeedbackResponseDetails frd = new FeedbackTextResponseDetails("My answer");
 
-        assertEquals("{\n"
-                + "  \"feedbackQuestionId\": \"questionId\",\n"
-                + "  \"giver\": \"giver@email.com\",\n"
-                + "  \"recipient\": \"recipient@email.com\",\n"
-                + "  \"feedbackSessionName\": \"Session1\",\n"
-                + "  \"courseId\": \"CS3281\",\n"
-                + "  \"responseDetails\": {\n"
-                + "    \"answer\": \"My answer\",\n"
-                + "    \"questionType\": \"TEXT\"\n"
-                + "  },\n"
-                + "  \"giverSection\": \"giverSection\",\n"
-                + "  \"recipientSection\": \"recipientSection\"\n"
-                + "}", JsonUtils.toJson(fra));
+        String expectedFeedbackResponseDetailsJson = "{\n"
+                + "  \"answer\": \"My answer\",\n"
+                + "  \"questionType\": \"TEXT\"\n"
+                + "}";
 
-        assertEquals("{\"feedbackQuestionId\":\"questionId\",\"giver\":\"giver@email.com\","
-                + "\"recipient\":\"recipient@email.com\",\"feedbackSessionName\":\"Session1\","
-                + "\"courseId\":\"CS3281\",\"responseDetails\":{\"answer\":\"My answer\","
-                + "\"questionType\":\"TEXT\"},\"giverSection\":\"giverSection\","
-                + "\"recipientSection\":\"recipientSection\"}",
-                JsonUtils.toCompactJson(fra));
+        assertEquals(expectedFeedbackResponseDetailsJson, JsonUtils.toJson(frd));
+
+        expectedFeedbackResponseDetailsJson = "{\"answer\":\"My answer\",\"questionType\":\"TEXT\"}";
+
+        assertEquals(expectedFeedbackResponseDetailsJson, JsonUtils.toCompactJson(frd));
     }
 }
