@@ -3,7 +3,6 @@ package teammates.ui.output;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.storage.sqlentity.Course;
 
 /**
@@ -21,18 +20,6 @@ public class CourseData extends ApiOutput {
     private long deletionTimestamp;
     @Nullable
     private InstructorPermissionSet privileges;
-
-    public CourseData(CourseAttributes courseAttributes) {
-        this.courseId = courseAttributes.getId();
-        this.courseName = courseAttributes.getName();
-        this.timeZone = courseAttributes.getTimeZone();
-        this.institute = courseAttributes.getInstitute();
-        this.creationTimestamp = courseAttributes.getCreatedAt().toEpochMilli();
-        if (courseAttributes.getDeletedAt() != null) {
-            this.deletionTimestamp = courseAttributes.getDeletedAt().toEpochMilli();
-        }
-        this.isMigrated = false;
-    }
 
     public CourseData(Course course) {
         this.courseId = course.getId();

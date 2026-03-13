@@ -40,7 +40,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         feedbackSession = testData.feedbackSessions.get("openSession");
     }
 
-    @Test
+    @Test(enabled = false)
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE)

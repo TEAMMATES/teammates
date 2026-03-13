@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
@@ -145,11 +144,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         return errors;
-    }
-
-    @Override
-    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        return "";
     }
 
     @Override

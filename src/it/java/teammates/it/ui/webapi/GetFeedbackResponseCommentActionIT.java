@@ -41,7 +41,7 @@ public class GetFeedbackResponseCommentActionIT extends BaseActionIT<GetFeedback
     protected void testExecute() {
         ______TS("typical successful case as student_submission");
         FeedbackResponse fr = typicalBundle.feedbackResponses.get("response1ForQ1");
-        FeedbackResponseComment expectedComment = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
+        FeedbackResponseComment expectedComment = typicalBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),

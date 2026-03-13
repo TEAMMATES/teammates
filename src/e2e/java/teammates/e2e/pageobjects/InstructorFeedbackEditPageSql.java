@@ -290,29 +290,29 @@ public class InstructorFeedbackEditPageSql extends AppPage {
         clickAndConfirm(waitForElementPresence(By.id("btn-fs-delete")));
     }
 
-    public FeedbackSubmitPage previewAsStudent(Student student) {
+    public FeedbackSubmitPageSql previewAsStudent(Student student) {
         selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.getTeamName(),
                 student.getName()));
         return previewAsStudent();
     }
 
-    public FeedbackSubmitPage previewAsStudent() {
+    public FeedbackSubmitPageSql previewAsStudent() {
         click(previewAsStudentButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(FeedbackSubmitPage.class);
+        return changePageType(FeedbackSubmitPageSql.class);
     }
 
-    public FeedbackSubmitPage previewAsInstructor(Instructor instructor) {
+    public FeedbackSubmitPageSql previewAsInstructor(Instructor instructor) {
         selectDropdownOptionByText(previewAsInstructorDropdown, instructor.getName());
         return previewAsInstructor();
     }
 
-    public FeedbackSubmitPage previewAsInstructor() {
+    public FeedbackSubmitPageSql previewAsInstructor() {
         click(previewAsInstructorButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(FeedbackSubmitPage.class);
+        return changePageType(FeedbackSubmitPageSql.class);
     }
 
     public void verifyNumQuestions(int expected) {

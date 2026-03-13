@@ -1,12 +1,8 @@
 name: L&P Tests
 
 on:
-  push:
-    branches:
-      - master 
-      - release
-  schedule:
-    - cron: "0 0 * * *" # end of every day
+  workflow_dispatch:
+
 jobs:
   LnP-testing:
     runs-on: ubuntu-latest
@@ -28,7 +24,7 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Create Config Files
         run: ./gradlew createConfigs
-      - name: Run Solr search service + local Datastore emulator
+      - name: Run Solr search service
         run: docker compose up -d
       - name: Start Server
         run: ./gradlew serverRun &

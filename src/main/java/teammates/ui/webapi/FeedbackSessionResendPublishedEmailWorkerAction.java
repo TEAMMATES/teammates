@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -32,35 +29,6 @@ public class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAc
         String courseId = remindRequest.getCourseId();
         String feedbackSessionName = remindRequest.getFeedbackSessionName();
         String[] usersToRemind = remindRequest.getUsersToRemind();
-
-        if (!isCourseMigrated(courseId)) {
-            try {
-                FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-                List<StudentAttributes> studentsToEmailList = new ArrayList<>();
-                List<InstructorAttributes> instructorsToEmailList = new ArrayList<>();
-                InstructorAttributes instructorToNotify =
-                        logic.getInstructorForGoogleId(courseId, googleIdOfInstructorToNotify);
-
-                for (String userEmail : usersToRemind) {
-                    StudentAttributes student = logic.getStudentForEmail(courseId, userEmail);
-                    if (student != null) {
-                        studentsToEmailList.add(student);
-                    }
-
-                    InstructorAttributes instructor = logic.getInstructorForEmail(courseId, userEmail);
-                    if (instructor != null) {
-                        instructorsToEmailList.add(instructor);
-                    }
-                }
-
-                List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionPublishedEmails(
-                        session, studentsToEmailList, instructorsToEmailList, Collections.singletonList(instructorToNotify));
-                taskQueuer.scheduleEmailsForSending(emails);
-            } catch (Exception e) {
-                log.severe("Unexpected error while sending emails", e);
-            }
-            return new JsonResult("Successful");
-        }
 
         try {
             FeedbackSession session = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);

@@ -48,7 +48,7 @@ public class SendLoginEmailAction extends Action {
                     + "The email could not be generated."));
         }
 
-        EmailWrapper loginEmail = emailGenerator.generateLoginEmail(userEmail, loginLink);
+        EmailWrapper loginEmail = sqlEmailGenerator.generateLoginEmail(userEmail, loginLink);
         EmailSendingStatus status = emailSender.sendEmail(loginEmail);
 
         if (status.isSuccess()) {

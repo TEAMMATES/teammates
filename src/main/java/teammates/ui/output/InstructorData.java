@@ -3,7 +3,6 @@ package teammates.ui.output;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.storage.sqlentity.Instructor;
 
 /**
@@ -26,18 +25,6 @@ public class InstructorData extends ApiOutput {
     private String key;
     @Nullable
     private String institute;
-
-    public InstructorData(InstructorAttributes instructorAttributes) {
-        this.courseId = instructorAttributes.getCourseId();
-        this.email = instructorAttributes.getEmail();
-        this.role = instructorAttributes.getRole() == null ? null
-                : InstructorPermissionRole.getEnum(instructorAttributes.getRole());
-        this.isDisplayedToStudents = instructorAttributes.isDisplayedToStudents();
-        this.displayedToStudentsAs = instructorAttributes.getDisplayedName();
-        this.name = instructorAttributes.getName();
-
-        this.joinState = instructorAttributes.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
-    }
 
     public InstructorData(Instructor instructor) {
         this.courseId = instructor.getCourseId();

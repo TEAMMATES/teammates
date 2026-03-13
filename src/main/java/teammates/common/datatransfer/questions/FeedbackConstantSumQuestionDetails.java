@@ -8,7 +8,6 @@ import java.util.Set;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
@@ -306,11 +305,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         }
 
         return errors;
-    }
-
-    @Override
-    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        return "";
     }
 
     @Override
