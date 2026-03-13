@@ -11,12 +11,14 @@ import java.util.UUID;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlsearch.AccountRequestSearchManager;
@@ -184,6 +186,25 @@ public final class AccountRequestsDb {
             return new ArrayList<>();
         }
 
-        return getSearchManager().searchAccountRequests(queryString);
+        String wildcardQuery = "%" + queryString.toLowerCase() + "%";
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+
+        Predicate searchPredicate = cb.or(
+                cb.like(cb.lower(root.get("name")), wildcardQuery),
+                cb.like(cb.lower(root.get("email")), wildcardQuery),
+                cb.like(cb.lower(root.get("institute")), wildcardQuery),
+                cb.like(cb.lower(cb.coalesce(root.get("comments"), "")), wildcardQuery),
+                cb.like(cb.lower(cb.coalesce(root.get("status").as(String.class), "")), wildcardQuery));
+
+        cr.select(root)
+                .where(searchPredicate)
+                .orderBy(cb.desc(root.get("createdAt")));
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        query.setMaxResults(Const.SEARCH_QUERY_SIZE_LIMIT);
+        return query.getResultList();
     }
 }
