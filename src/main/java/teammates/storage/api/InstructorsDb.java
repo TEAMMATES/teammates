@@ -21,8 +21,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.storage.entity.Instructor;
-import teammates.storage.search.InstructorSearchManager;
-import teammates.storage.search.SearchManagerFactory;
 
 /**
  * Handles CRUD operations for instructors.
@@ -44,22 +42,18 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         return instance;
     }
 
-    private InstructorSearchManager getSearchManager() {
-        return SearchManagerFactory.getInstructorSearchManager();
-    }
-
     /**
      * Creates or updates search document for the given instructor.
      */
     public void putDocument(InstructorAttributes instructor) throws SearchServiceException {
-        getSearchManager().putDocument(instructor);
+        // Search indexing is removed.
     }
 
     /**
      * Removes search document for the given instructor by using {@code instructorUniqueId}.
      */
     public void deleteDocumentByInstructorId(String instructorUniqueId) {
-        getSearchManager().deleteDocuments(Collections.singletonList(instructorUniqueId));
+        // Search indexing is removed.
     }
 
     /**
@@ -97,7 +91,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
             return new ArrayList<>();
         }
 
-        return getSearchManager().searchInstructors(queryString);
+        return new ArrayList<>();
     }
 
     /**
@@ -329,10 +323,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
 
         if (query.isCourseIdPresent()) {
             List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
-            getSearchManager().deleteDocuments(
-                    instructorsToDelete.stream()
-                            .map(Instructor::getUniqueId)
-                            .collect(Collectors.toList()));
 
             deleteEntity(instructorsToDelete.stream()
                     .map(s -> Key.create(Instructor.class, s.getUniqueId()))

@@ -52,9 +52,6 @@
         <listener-class>teammates.storage.api.OfyHelper</listener-class>
     </listener>
     <listener>
-        <listener-class>teammates.storage.search.SearchManagerStarter</listener-class>
-    </listener>
-    <listener>
         <listener-class>teammates.logic.core.LogicStarter</listener-class>
     </listener>
     <listener>

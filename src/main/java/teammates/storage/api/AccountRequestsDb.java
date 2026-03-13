@@ -4,7 +4,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +15,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.storage.entity.AccountRequest;
-import teammates.storage.search.AccountRequestSearchManager;
-import teammates.storage.search.SearchManagerFactory;
 
 /**
  * Handles CRUD operations for account requests.
@@ -37,15 +34,11 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
         return instance;
     }
 
-    private AccountRequestSearchManager getSearchManager() {
-        return SearchManagerFactory.getAccountRequestSearchManager();
-    }
-
     /**
      * Creates or updates search document for the given account request.
      */
     public void putDocument(AccountRequestAttributes accountRequest) throws SearchServiceException {
-        getSearchManager().putDocument(accountRequest);
+        // Search indexing is removed.
     }
 
     /**
@@ -60,7 +53,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
             return new ArrayList<>();
         }
 
-        return getSearchManager().searchAccountRequests(queryString);
+        return new ArrayList<>();
     }
 
     /**
@@ -142,7 +135,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
      * Removes search document for the given account request by using {@code accountRequestUniqueId}.
      */
     public void deleteDocumentByAccountRequestId(String accountRequestUniqueId) {
-        getSearchManager().deleteDocuments(Collections.singletonList(accountRequestUniqueId));
+        // Search indexing is removed.
     }
 
     @Override
