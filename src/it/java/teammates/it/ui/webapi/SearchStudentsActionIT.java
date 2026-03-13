@@ -96,7 +96,10 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        assertEquals(10, response.getStudents().size());
+        long expectedMatches = typicalBundle.students.values().stream()
+                .filter(student -> student.getName().equals(student1InCourse1.getName()))
+                .count();
+        assertEquals((int) expectedMatches, response.getStudents().size());
     }
 
     @Test
@@ -114,7 +117,10 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        assertEquals(10, response.getStudents().size());
+        int expectedMatches = (int) typicalBundle.students.values().stream()
+                .filter(student -> student.getCourseId().equals(student1InCourse1.getCourseId()))
+                .count();
+        assertEquals(expectedMatches, response.getStudents().size());
     }
 
     @Test
