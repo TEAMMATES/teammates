@@ -10,7 +10,7 @@ import teammates.storage.sqlentity.UsageStatistics;
  * Handles operations related to system usage statistics objects.
  *
  * @see UsageStatistics
- * @see teammates.storage.api.UsageStatisticsDb
+ * @see teammates.storage.sqlapi.UsageStatisticsDb
  */
 public final class UsageStatisticsLogic {
 
