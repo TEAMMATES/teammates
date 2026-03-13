@@ -97,7 +97,7 @@ public final class SanitizationHelper {
             return null;
         }
         // the policy normalises all whitespace, which causes &nbsp;
-        // to collapse into regular spaces. hide nbsp behind a 
+        // to collapse into regular spaces. hide nbsp behind a
         // placeholder character before sanitisation and restore afterwards.
         final String nbspPlaceholder = "\uF8FF";
 
