@@ -1,14 +1,11 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.util.Const;
-import teammates.test.TestProperties;
 import teammates.ui.output.AccountRequestsData;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link SearchAccountRequestsAction}.
@@ -22,7 +19,6 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
     protected void prepareTestData() {
         DataBundle dataBundle = getTypicalDataBundle();
         removeAndRestoreDataBundle(dataBundle);
-        putDocuments(dataBundle);
     }
 
     @Override
@@ -48,10 +44,6 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
 
     @Test
     protected void testExecute_searchEmail_shouldSucceed() {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getEmail() };
         SearchAccountRequestsAction action = getAction(submissionParams);
@@ -66,10 +58,6 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
 
     @Test
     protected void testExecute_searchInstitute_shouldSucceed() {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getInstitute() };
         SearchAccountRequestsAction action = getAction(submissionParams);
@@ -84,10 +72,6 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
 
     @Test
     protected void testExecute_searchName_shouldSucceed() {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getName() };
         SearchAccountRequestsAction action = getAction(submissionParams);
@@ -102,33 +86,12 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
 
     @Test
     protected void testExecute_searchNoMatch_shouldBeEmpty() {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, "noMatch" };
         SearchAccountRequestsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         AccountRequestsData response = (AccountRequestsData) result.getOutput();
         assertEquals(0, response.getAccountRequests().size());
-    }
-
-    @Test
-    public void testExecute_noSearchService_shouldReturn501() {
-        if (TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
-        loginAsAdmin();
-        String[] params = new String[] {
-                Const.ParamsNames.SEARCH_KEY, "anything",
-        };
-        SearchAccountRequestsAction a = getAction(params);
-        JsonResult result = getJsonResult(a, HttpStatus.SC_NOT_IMPLEMENTED);
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals("Full-text search is not available.", output.getMessage());
     }
 
     @Override
