@@ -6,7 +6,7 @@
     [init]="init"
     [disabled]="isDisabled"
     [ngModel]="richText"
-    (ngModelChange)="onRichTextChange($event)"
+    (ngModelChange)="richTextChange.emit($event)"
     [attr.placeholder]="placeholderText"
   >
   </editor>

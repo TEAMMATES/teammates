@@ -96,7 +96,18 @@ public final class SanitizationHelper {
         if (content == null) {
             return null;
         }
-        return richTextPolicy.sanitize(sanitizeTextField(content));
+        // the policy normalises all whitespace, which causes &nbsp;
+        // to collapse into regular spaces. hide nbsp behind a 
+        // placeholder character before sanitisation and restore afterwards.
+        final String nbspPlaceholder = "\uF8FF";
+
+        String preprocessed = content
+                .replace("&nbsp;", nbspPlaceholder)
+                .replace("\u00A0", nbspPlaceholder);
+
+        String sanitized = richTextPolicy.sanitize(sanitizeTextField(preprocessed));
+
+        return sanitized.replace(nbspPlaceholder, "&nbsp;");
     }
 
     /**

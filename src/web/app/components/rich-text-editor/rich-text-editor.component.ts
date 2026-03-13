@@ -195,17 +195,4 @@ export class RichTextEditorComponent implements OnInit {
       this.render = true;
     }
   }
-
-  private normalizeWhitespace(value: string): string {
-    return value.replace(/&nbsp;/g, '\u00A0').replace(/\u00A0/g, ' ');
-  }
-
-  onRichTextChange(value: string): void {
-    const normalizedIncoming = this.normalizeWhitespace(value);
-    const normalizedOriginal = this.normalizeWhitespace(this.richText);
-
-    if (normalizedIncoming !== normalizedOriginal) {
-      this.richTextChange.emit(value);
-    }
-  }
 }
