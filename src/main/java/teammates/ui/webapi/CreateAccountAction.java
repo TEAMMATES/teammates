@@ -174,12 +174,6 @@ public class CreateAccountAction extends Action {
 
         List<Student> students = sqlLogic.getStudentsForCourse(courseId);
         List<Instructor> instructors = sqlLogic.getInstructorsByCourse(courseId);
-        students.stream().forEach(student -> {
-            taskQueuer.scheduleStudentForSearchIndexing(student.getCourseId(), student.getEmail());
-        });
-        instructors.stream().forEach(instructor -> {
-            taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
-        });
 
         return courseId;
     }

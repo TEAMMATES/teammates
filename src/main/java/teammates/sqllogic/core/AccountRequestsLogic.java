@@ -10,7 +10,6 @@ import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlsearch.AccountRequestSearchManager;
 
 /**
  * Handles operations related to account requests.
@@ -37,17 +36,6 @@ public final class AccountRequestsLogic {
      */
     public void initLogicDependencies(AccountRequestsDb accountRequestDb) {
         this.accountRequestDb = accountRequestDb;
-    }
-
-    private AccountRequestSearchManager getSearchManager() {
-        return accountRequestDb.getSearchManager();
-    }
-
-    /**
-     * Creates or updates search document for the given account request.
-     */
-    public void putDocument(AccountRequest accountRequest) throws SearchServiceException {
-        getSearchManager().putDocument(accountRequest);
     }
 
     /**
@@ -145,7 +133,8 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Creates/resets the account request with the given id such that it is not registered.
+     * Creates/resets the account request with the given id such that it is not
+     * registered.
      */
     public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -163,7 +152,10 @@ public final class AccountRequestsLogic {
     /**
      * Deletes account request associated with the {@code id}.
      *
-     * <p>Fails silently if no account requests with the given id to delete can be found.</p>
+     * <p>
+     * Fails silently if no account requests with the given id to delete can be
+     * found.
+     * </p>
      *
      */
     public void deleteAccountRequest(UUID id) {
