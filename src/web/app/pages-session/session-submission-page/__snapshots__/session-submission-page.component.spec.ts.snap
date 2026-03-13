@@ -38,7 +38,6 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -197,7 +196,6 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -353,7 +351,6 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -509,7 +506,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -798,7 +794,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -3835,7 +3830,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled={[Function Boolean]}
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -6903,7 +6897,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -7060,7 +7053,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""

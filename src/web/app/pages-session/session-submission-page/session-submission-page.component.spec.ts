@@ -1070,7 +1070,12 @@ describe('SessionSubmissionPageComponent', () => {
     const testResponseDetails2: FeedbackTextResponseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
+    testQuestionSubmissionForm1.hasResponseChangedForRecipients = new Map<string, boolean>([
+      ['barry-harris-id', true],
+      ['random-id', false],
+    ]);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
+    testQuestionSubmissionForm2.hasResponseChangedForRecipients = new Map<string, boolean>();
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
 
@@ -1085,7 +1090,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses(component.questionSubmissionForms, true, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms, null);
 
     expect(responseSpy).toHaveBeenCalledTimes(2);
     expect(responseSpy).toHaveBeenNthCalledWith(1, 'feedback-question-id-mcq', {
@@ -1122,6 +1127,8 @@ describe('SessionSubmissionPageComponent', () => {
     });
     expect(mockModalRef.componentInstance.notYetAnsweredQuestions).toHaveLength(1);
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({});
+    expect(component.questionSubmissionForms[0].hasResponseChangedForRecipients.get('barry-harris-id')).toBe(false);
+    expect(component.questionSubmissionForms[0].hasResponseChangedForRecipients.get('random-id')).toBe(false);
   });
 
   it('should not save invalid feedback responses', () => {
@@ -1130,7 +1137,12 @@ describe('SessionSubmissionPageComponent', () => {
     const testResponseDetails2: any = deepCopy(testConstsumRecipientSubmissionForm.responseDetails);
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testConstsumQuestionSubmissionForm);
+    testQuestionSubmissionForm1.hasResponseChangedForRecipients = new Map<string, boolean>();
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
+    testQuestionSubmissionForm2.hasResponseChangedForRecipients = new Map<string, boolean>([
+      ['barry-harris-id', true],
+      ['random-id', false],
+    ]);
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     // invalid response
     testQuestionSubmissionForm2.recipientSubmissionForms[0].isValid = false;
@@ -1144,7 +1156,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses(component.questionSubmissionForms, true, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms, null);
 
     expect(responseSpy).toHaveBeenCalledTimes(1);
     expect(responseSpy).toHaveBeenNthCalledWith(1, testQuestionSubmissionForm1.feedbackQuestionId, {
@@ -1173,6 +1185,8 @@ describe('SessionSubmissionPageComponent', () => {
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({
       [testQuestionSubmissionForm2.questionNumber]: 'Invalid responses provided. Please check question constraints.',
     });
+    expect(component.questionSubmissionForms[1].hasResponseChangedForRecipients.get('barry-harris-id')).toBe(true);
+    expect(component.questionSubmissionForms[1].hasResponseChangedForRecipients.get('random-id')).toBe(false);
   });
 
   it('should create comment request to create new comment when submission form has no original comment', () => {
