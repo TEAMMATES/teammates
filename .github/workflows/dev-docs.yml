@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - master
-      - V9-clean-slate-sql
+
   pull_request:
     branches:
       - master
-      - V9-clean-slate-sql
 
 jobs:
   build:
