@@ -359,8 +359,9 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         setStartTime(session, -1);
         setEndTime(session, 3);
 
-        questionNumber = 222;
-        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
+        submissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000"};
 
         verifyEntityNotFoundAcl(submissionParams);
 
@@ -623,7 +624,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         ______TS("Failure: feedback question does not exist");
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, "non-existent id"};
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000"};
         verifyEntityNotFound(submissionParams);
 
         ______TS("Failure: instructor has invalid intent");

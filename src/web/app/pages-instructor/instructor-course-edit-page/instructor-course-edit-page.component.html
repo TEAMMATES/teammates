@@ -2,7 +2,7 @@
   <div *tmIsLoading="isCourseLoading">
   <tm-course-edit-form
     [formMode]="CourseEditFormMode.EDIT"
-    [(formModel)]="courseFormModel"
+    [formModel]="courseFormModel"
     [resetFormEvent]="resetCourseFormEvent"
     (deleteCourseEvent)="deleteCourse()"
     (updateCourseEvent)="onSaveCourse()"

@@ -25,6 +25,7 @@ import {
   TimeFormat,
   Milliseconds,
 } from '../../../types/datetime-const';
+import { castAsInputElement } from '../../../types/event-target-caster';
 import { SortBy } from '../../../types/sort-properties';
 import { DatePickerFormatter } from '../../components/datepicker/datepicker-formatter';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -99,6 +100,8 @@ interface FeedbackSessionLogModel {
   ],
 })
 export class InstructorStudentActivityLogsComponent implements OnInit {
+  readonly castAsInputElement = castAsInputElement;
+
   LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
   STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL: number = ApiConst.STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL;

@@ -4,6 +4,7 @@ exports[`PerQuestionViewResponsesComponent should snap response with comments 1`
 <tm-per-question-view-responses
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
+  currResponseToAdd="undefined"
   deleteCommentEvent={[Function EventEmitter_]}
   feedbackResponsesService={[Function FeedbackResponsesService]}
   groupByTeam={[Function Boolean]}

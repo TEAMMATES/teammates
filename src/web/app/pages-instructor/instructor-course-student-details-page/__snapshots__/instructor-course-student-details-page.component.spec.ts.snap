@@ -7,6 +7,7 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with default fi
   isStudentLoading={[Function Boolean]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
+  student="undefined"
   studentEmail="undefined"
   studentService={[Function StudentService]}
 >

@@ -1,5 +1,5 @@
 import { NgClass, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -32,6 +32,8 @@ export enum ExtensionModalType {
   ],
 })
 export class ExtensionConfirmModalComponent implements OnInit {
+  private readonly timeZoneService = inject(TimezoneService);
+
   @Input()
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
 
@@ -80,8 +82,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
   dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
   instructorRoleNamePipe = new InstructorRoleNamePipe();
 
-  constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService,
-  private timeZoneService: TimezoneService) {}
+  constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) {}
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;

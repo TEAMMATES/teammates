@@ -1,5 +1,6 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionDetails } from '../../../../types/api-output';
+import { castAsInputElement } from '../../../../types/event-target-caster';
 
 /**
  * The abstract question details edit form component.
@@ -7,6 +8,7 @@ import { FeedbackQuestionDetails } from '../../../../types/api-output';
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestionDetails> {
+  readonly castAsInputElement = castAsInputElement;
 
   model: D;
 
@@ -70,16 +72,16 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
     }
   }
 
-  restrictIntegerInputLength(event : InputEvent, field: keyof D) : void {
-    const target : HTMLInputElement = event.target as HTMLInputElement;
+  restrictIntegerInputLength(event: Event, field: keyof D) : void {
+    const target = castAsInputElement(event.target);
     if (target.value != null && target.value.length > 9) {
       target.value = target.value.substring(0, 9);
       this.triggerModelChange(field, parseInt(target.value, 10) as any);
     }
   }
 
-  restrictFloatInputLength(event : InputEvent, field: keyof D) : void {
-    const target : HTMLInputElement = event.target as HTMLInputElement;
+  restrictFloatInputLength(event: Event, field: keyof D) : void {
+    const target = castAsInputElement(event.target);
     if (target.value != null && target.value.length > 9) {
       target.value = target.value.substring(0, 9);
       this.triggerModelChange(field, parseFloat(target.value) as any);

@@ -34,6 +34,10 @@ export class SimpleModalComponent {
     return this.content instanceof TemplateRef;
   }
 
+  get contentAsTemplateRef(): TemplateRef<any> {
+    return this.content as TemplateRef<any>;
+  }
+
   constructor(public activeModal: NgbActiveModal) { }
 
 }

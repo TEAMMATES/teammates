@@ -4,11 +4,11 @@ import {
   NgbDropdownModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { InstructorPermissionSet } from 'src/web/types/api-request';
 import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
 } from '../../../types/api-output';
+import { InstructorPermissionSet } from '../../../types/api-request';
 
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SortableTableHeaderColorScheme } from '../sortable-table/sortable-table.component';

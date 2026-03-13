@@ -49,7 +49,7 @@
         </div>
         <tm-loading-retry [shouldShowRetry]="studentCourse.hasFeedbackSessionsLoadingFailed"
                           [message]="'Failed to load feedback sessions for the course'"
-                          (retryEvent)="loadFeedbackSessionsForCourse(studentCourse.courseId)">
+                          (retryEvent)="loadFeedbackSessionsForCourse(studentCourse.course.courseId)">
           <div class="table-responsive" *tmIsLoading="studentCourse.isFeedbackSessionsLoading">
             <div *ngIf="studentCourse.isTabExpanded" @collapseAnim>
               <table class="table table-striped table-bordered margin-0" *ngIf="studentCourse.feedbackSessions && studentCourse.feedbackSessions.length">

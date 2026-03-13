@@ -19,7 +19,7 @@
 </div>
 <div class="modal-body">
   <div *ngIf="isTemplate">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
+    <ng-container *ngTemplateOutlet="contentAsTemplateRef"></ng-container>
   </div>
   <div *ngIf="!isTemplate" [innerHTML]="content"></div>
   <div *ngIf="type === SimpleModalType.LOAD" class="progress-bar-container">

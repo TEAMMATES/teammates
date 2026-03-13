@@ -9,14 +9,14 @@
 </span>
 
 <div class="additional-info info-font-size" *ngIf="hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded">
-  <tm-contribution-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
-  <tm-text-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.TEXT" [questionDetails]="questionDetails"></tm-text-question-additional-info>
-  <tm-mcq-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.MCQ" [questionDetails]="questionDetails"></tm-mcq-question-additional-info>
-  <tm-msq-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.MSQ" [questionDetails]="questionDetails"></tm-msq-question-additional-info>
-  <tm-rank-options-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="questionDetails"></tm-rank-options-question-additional-info>
-  <tm-rank-recipients-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
-  <tm-rubric-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.RUBRIC" [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
-  <tm-constsum-options-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="questionDetails"></tm-constsum-options-question-additional-info>
-  <tm-constsum-recipients-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [questionDetails]="questionDetails"></tm-constsum-recipients-question-additional-info>
-  <tm-num-scale-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="questionDetails"></tm-num-scale-question-additional-info>
+  <tm-contribution-question-additional-info *ngIf="QuestionDetailsTypeChecker.isContrib(questionDetails)" [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
+  <tm-text-question-additional-info *ngIf="QuestionDetailsTypeChecker.isText(questionDetails)" [questionDetails]="questionDetails"></tm-text-question-additional-info>
+  <tm-mcq-question-additional-info *ngIf="QuestionDetailsTypeChecker.isMcq(questionDetails)" [questionDetails]="questionDetails"></tm-mcq-question-additional-info>
+  <tm-msq-question-additional-info *ngIf="QuestionDetailsTypeChecker.isMsq(questionDetails)" [questionDetails]="questionDetails"></tm-msq-question-additional-info>
+  <tm-rank-options-question-additional-info *ngIf="QuestionDetailsTypeChecker.isRankOptions(questionDetails)" [questionDetails]="questionDetails"></tm-rank-options-question-additional-info>
+  <tm-rank-recipients-question-additional-info *ngIf="QuestionDetailsTypeChecker.isRankRecipients(questionDetails)" [questionDetails]="questionDetails"></tm-rank-recipients-question-additional-info>
+  <tm-rubric-question-additional-info *ngIf="QuestionDetailsTypeChecker.isRubric(questionDetails)" [questionDetails]="questionDetails"></tm-rubric-question-additional-info>
+  <tm-constsum-options-question-additional-info *ngIf="QuestionDetailsTypeChecker.isConstSumOptions(questionDetails)" [questionDetails]="questionDetails"></tm-constsum-options-question-additional-info>
+  <tm-constsum-recipients-question-additional-info *ngIf="QuestionDetailsTypeChecker.isConstSumRecipients(questionDetails)" [questionDetails]="questionDetails"></tm-constsum-recipients-question-additional-info>
+  <tm-num-scale-question-additional-info *ngIf="QuestionDetailsTypeChecker.isNumscale(questionDetails)" [questionDetails]="questionDetails"></tm-num-scale-question-additional-info>
 </div>

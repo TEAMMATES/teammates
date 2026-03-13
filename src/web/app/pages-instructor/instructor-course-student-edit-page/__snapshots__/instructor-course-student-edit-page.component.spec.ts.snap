@@ -4,6 +4,8 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
 <tm-instructor-course-student-edit-page
   FormValidator={[Function Object]}
   courseId="undefined"
+  editForm="undefined"
+  emailFieldSubscription="undefined"
   hasStudentLoadingFailed="false"
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
@@ -15,8 +17,10 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  student="undefined"
   studentEmail="undefined"
   studentService={[Function StudentService]}
+  teamFieldSubscription="undefined"
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -42,6 +46,8 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
 <tm-instructor-course-student-edit-page
   FormValidator={[Function Object]}
   courseId="undefined"
+  editForm="undefined"
+  emailFieldSubscription="undefined"
   hasStudentLoadingFailed="false"
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
@@ -53,8 +59,10 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
+  student="undefined"
   studentEmail="undefined"
   studentService={[Function StudentService]}
+  teamFieldSubscription="undefined"
 >
   <tm-loading-retry>
     <tm-loading-spinner>
@@ -81,6 +89,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   FormValidator={[Function Object]}
   courseId="undefined"
   editForm={[Function FormGroup]}
+  emailFieldSubscription="undefined"
   hasStudentLoadingFailed="false"
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
@@ -95,6 +104,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   student={[Function Object]}
   studentEmail="undefined"
   studentService={[Function StudentService]}
+  teamFieldSubscription="undefined"
 >
   <tm-loading-retry>
     <div>

@@ -525,6 +525,7 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("AccountRequestSearchManager")
                 .and().doNotHaveSimpleName("InstructorSearchManager")
                 .and().doNotHaveSimpleName("StudentSearchManager")
+                .and().doNotHaveSimpleName("AccountRequestSearchManagerTest")
                 .and().doNotHaveSimpleName("InstructorSearchManagerTest")
                 .and().doNotHaveSimpleName("StudentSearchManagerTest")
                 .should().accessClassesThat().resideInAPackage("org.apache.solr..")
@@ -542,19 +543,6 @@ public class ArchitectureTest {
     public void testArchitecture_externalApi_cloudLoggingApiCanOnlyBeAccessedByCloudLoggingService() {
         noClasses().that().doNotHaveSimpleName("GoogleCloudLoggingService")
                 .should().accessClassesThat().resideInAPackage("com.google.cloud.logging..")
-                .check(ALL_CLASSES);
-    }
-
-    @Test
-    public void testArchitecture_externalApi_objectifyApiCanOnlyBeAccessedBySomePackages() {
-        noClasses().that().resideOutsideOfPackage(includeSubpackages(STORAGE_API_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
-                .and().doNotHaveSimpleName("BaseTestCaseWithSqlDatabaseAccess")
-                .and().doNotHaveSimpleName("BaseTestCaseWithLocalDatabaseAccess")
-                .and().doNotHaveSimpleName("ObjectifyFilter")
-                .should().accessClassesThat().resideInAPackage("com.googlecode.objectify..")
                 .check(ALL_CLASSES);
     }
 

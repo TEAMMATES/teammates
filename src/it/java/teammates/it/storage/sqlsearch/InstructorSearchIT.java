@@ -44,7 +44,6 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         Instructor ins1InCourse4 = typicalBundle.instructors.get("instructor1OfCourse4");
         Instructor ins2InCourse4 = typicalBundle.instructors.get("instructor2YetToJoinCourse4");
         Instructor ins3InCourse4 = typicalBundle.instructors.get("instructor3YetToJoinCourse4");
-        Instructor insInArchivedCourse = typicalBundle.instructors.get("instructorOfArchivedCourse");
         Instructor insInUnregCourse = typicalBundle.instructors.get("instructorOfUnregisteredCourse");
         Instructor insUniqueDisplayName = typicalBundle.instructors.get("instructorOfCourse2WithUniqueDisplayName");
         Instructor ins1InCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
@@ -63,17 +62,12 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: search for instructors in whole system; query string matches some instructors");
 
         results = usersDb.searchInstructorsInWholeSystem("\"Instructor of\"");
-        verifySearchResults(results, insInArchivedCourse, insInUnregCourse, insUniqueDisplayName);
+        verifySearchResults(results, insInUnregCourse, insUniqueDisplayName);
 
         ______TS("success: search for instructors in whole system; query string should be case-insensitive");
 
         results = usersDb.searchInstructorsInWholeSystem("\"InStRuCtOr 2\"");
         verifySearchResults(results, ins2InCourse1, ins2InCourse4);
-
-        ______TS("success: search for instructors in whole system; instructors in archived courses should be included");
-
-        results = usersDb.searchInstructorsInWholeSystem("\"Instructor Of Archived Course\"");
-        verifySearchResults(results, insInArchivedCourse);
 
         ______TS(
                 "success: search for instructors in whole system; instructors in unregistered course should be included");
@@ -103,7 +97,7 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by their role");
         results = usersDb.searchInstructorsInWholeSystem("\"Co-owner\"");
-        verifySearchResults(results, ins1InCourse1, insInArchivedCourse,
+        verifySearchResults(results, ins1InCourse1,
                 insInUnregCourse, insUniqueDisplayName, ins1InCourse3,
                 ins1InCourse4, ins2InCourse4, ins3InCourse4);
 
@@ -117,13 +111,13 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         usersDb.deleteUser(insUniqueDisplayName);
         results = usersDb.searchInstructorsInWholeSystem("\"Instructor of\"");
-        verifySearchResults(results, insInArchivedCourse, insInUnregCourse);
+        verifySearchResults(results, insInUnregCourse);
 
         // This method used to use usersDb.putEntity, not sure if the .createInstructor method has the same functionality
         ______TS("success: search for instructors in whole system; instructors created without searchability unsearchable");
         usersDb.createInstructor(insUniqueDisplayName);
         results = usersDb.searchInstructorsInWholeSystem("\"Instructor of\"");
-        verifySearchResults(results, insInArchivedCourse, insInUnregCourse, insUniqueDisplayName);
+        verifySearchResults(results, insInUnregCourse, insUniqueDisplayName);
 
         ______TS("success: search for instructors in whole system; deleting instructor without deleting document:"
                 + "document deleted during search, instructor unsearchable");

@@ -43,7 +43,7 @@
           <label class="col-sm-2 text-sm-end control-label">Instructors:</label>
           <div id="instructors" class="col-sm-9 text-sm-start">
             <div *ngFor="let instructor of instructors">
-              {{instructor.role | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
+              {{instructor.role! | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { FeedbackQuestion, QuestionOutput, ResponseOutput } from 'src/web/types/api-output';
+import { FeedbackQuestion, QuestionOutput, ResponseOutput } from '../../../types/api-output';
 
 /**
  * Per section view tab model.

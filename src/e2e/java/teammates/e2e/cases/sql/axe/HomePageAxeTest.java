@@ -1,0 +1,32 @@
+package teammates.e2e.cases.sql.axe;
+
+import org.testng.annotations.Test;
+
+import com.deque.html.axecore.results.Results;
+
+import teammates.common.util.AppUrl;
+import teammates.common.util.Const;
+import teammates.e2e.pageobjects.HomePage;
+
+/**
+ * SUT: {@link Const.WebPageURIs#FRONT_PAGE}.
+ */
+public class HomePageAxeTest extends BaseAxeTestCase {
+
+    @Override
+    protected void prepareTestData() {
+        // No test data needed; public landing page only.
+    }
+
+    @Test
+    @Override
+    public void testAll() {
+        AppUrl url = createFrontendUrl(Const.WebPageURIs.FRONT_PAGE);
+        HomePage homePage = getNewPageInstance(url, HomePage.class);
+
+        // Front page does not use an h1 heading; disable page-has-heading-one for this page.
+        Results results = getAxeBuilder("page-has-heading-one").analyze(homePage.getBrowser().getDriver());
+        assertViolationFree(results);
+    }
+
+}

@@ -1,5 +1,3 @@
-import { SectionTabModel } from 'src/web/app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
-import { FeedbackQuestionModel } from 'src/web/app/pages-session/session-result-page/feedback-question.model';
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
   CommentVisibilityType,
@@ -30,6 +28,8 @@ import {
 import {
   RecycleBinFeedbackSessionRowModel,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import { SectionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
+import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/feedback-question.model';
 
 /**
  * Structure of example session edit form model

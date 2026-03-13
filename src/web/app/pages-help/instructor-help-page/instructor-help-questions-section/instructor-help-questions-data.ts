@@ -1,4 +1,3 @@
-import { QuestionTabModel } from 'src/web/app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import {
   ContributionStatistics,
   FeedbackConstantSumDistributePointsType,
@@ -39,6 +38,7 @@ import {
   QuestionSubmissionFormModel,
 } from '../../../components/question-submission-form/question-submission-form-model';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
+import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
 /**
  * Structure for example of essay question model

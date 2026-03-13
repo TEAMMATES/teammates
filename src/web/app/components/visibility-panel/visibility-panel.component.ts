@@ -11,6 +11,7 @@ import {
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
+import { castAsInputElement } from '../../../types/event-target-caster';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
 import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
@@ -46,6 +47,7 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
   ],
 })
 export class VisibilityPanelComponent {
+  readonly castAsInputElement = castAsInputElement;
 
   // enum
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;

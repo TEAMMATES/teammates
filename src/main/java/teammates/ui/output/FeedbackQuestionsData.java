@@ -3,18 +3,13 @@ package teammates.ui.output;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
- * The API output format of a list of {@link FeedbackQuestionAttributes}.
+ * The API output format of a list of {@link FeedbackQuestion}.
  */
-public class FeedbackQuestionsData extends ApiOutput {
+public final class FeedbackQuestionsData extends ApiOutput {
     private List<FeedbackQuestionData> questions;
-
-    public FeedbackQuestionsData(List<FeedbackQuestionAttributes> questionAttributesList) {
-        questions = questionAttributesList.stream().map(FeedbackQuestionData::new).collect(Collectors.toList());
-    }
 
     private FeedbackQuestionsData() {
 

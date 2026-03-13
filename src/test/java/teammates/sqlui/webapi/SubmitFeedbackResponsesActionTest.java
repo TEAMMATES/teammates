@@ -40,6 +40,7 @@ import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
 import teammates.ui.webapi.EntityNotFoundException;
+import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.SubmitFeedbackResponsesAction;
 
 /**
@@ -600,7 +601,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_idCannotBeConvertedToUuid_throwsEntityNotFoundException() {
+    void testExecute_idCannotBeConvertedToUuid_throwsInvalidHttpParameterException() {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
@@ -617,8 +618,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         requestBody.setResponses(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
-        assertEquals("The feedback question does not exist.", enfe.getMessage());
+        InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action::execute);
+        assertEquals("Expected UUID value for questionid parameter, but found: [invalid-uuid]", ihpe.getMessage());
     }
 
     @Test

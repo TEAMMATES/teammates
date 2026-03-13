@@ -2,7 +2,6 @@ package teammates.ui.output;
 
 import java.time.Instant;
 
-import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.Instructor;
 
@@ -26,15 +25,6 @@ public class DeadlineExtensionData extends ApiOutput {
         this.isInstructor = isInstructor;
         this.sentClosingSoonEmail = sentClosingSoonEmail;
         this.endTime = endTime.toEpochMilli();
-    }
-
-    public DeadlineExtensionData(DeadlineExtensionAttributes deadlineExtension) {
-        this.courseId = deadlineExtension.getCourseId();
-        this.feedbackSessionName = deadlineExtension.getFeedbackSessionName();
-        this.userEmail = deadlineExtension.getUserEmail();
-        this.isInstructor = deadlineExtension.getIsInstructor();
-        this.sentClosingSoonEmail = deadlineExtension.getSentClosingSoonEmail();
-        this.endTime = deadlineExtension.getEndTime().toEpochMilli();
     }
 
     public DeadlineExtensionData(DeadlineExtension deadlineExtension) {

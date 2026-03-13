@@ -4,7 +4,7 @@ import {
   NgbDropdownModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { InstructorPermissionSet } from 'src/web/types/api-request';
+import { InstructorPermissionSet } from '../../../types/api-request';
 
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 

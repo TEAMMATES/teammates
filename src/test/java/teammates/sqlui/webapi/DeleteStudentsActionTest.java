@@ -91,20 +91,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @Test
     void testExecute_missingCourseId_throwsInvalidParametersException() {
-        String[] params = {
-                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testExecute_missingLimit_throwsInvalidParametersException() {
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-        };
-
-        verifyHttpParameterFailure(params);
+        verifyHttpParameterFailure();
     }
 
     @Test

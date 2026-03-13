@@ -1447,9 +1447,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             <div
                               class="col-md-10"
                             >
-                              <tm-rich-text-editor
-                                minheightinpx="100"
-                              >
+                              <tm-rich-text-editor>
                                 <div
                                   inviewport=""
                                 >
@@ -2182,9 +2180,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                             <div
                               class="col-md-10"
                             >
-                              <tm-rich-text-editor
-                                minheightinpx="100"
-                              >
+                              <tm-rich-text-editor>
                                 <div
                                   inviewport=""
                                 >
@@ -4089,9 +4085,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                         <div
                           class="col-md-10"
                         >
-                          <tm-rich-text-editor
-                            minheightinpx="100"
-                          >
+                          <tm-rich-text-editor>
                             <div
                               inviewport=""
                             >

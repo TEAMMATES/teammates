@@ -53,4 +53,8 @@ export class ToastComponent implements OnChanges {
     return this.toast.message instanceof TemplateRef;
   }
 
+  get contentAsTemplateRef(): TemplateRef<any> {
+    return this.toast!.message as TemplateRef<any>;
+  }
+
 }

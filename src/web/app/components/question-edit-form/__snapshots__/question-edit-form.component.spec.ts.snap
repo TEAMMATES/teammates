@@ -177,9 +177,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     <div
                       class="col-md-10"
                     >
-                      <tm-rich-text-editor
-                        minheightinpx="100"
-                      >
+                      <tm-rich-text-editor>
                         <div
                           inviewport=""
                         >

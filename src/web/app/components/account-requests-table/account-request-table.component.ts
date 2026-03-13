@@ -234,7 +234,7 @@ export class AccountRequestTableComponent {
     }, () => {});
   }
 
-  trackAccountRequest(accountRequest: AccountRequestTableRowModel): string {
+  trackAccountRequest(_: number, accountRequest: AccountRequestTableRowModel): string {
     return accountRequest.id;
   }
 }

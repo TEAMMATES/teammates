@@ -4,11 +4,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.storage.sqlentity.FeedbackResponse;
 
 /**
- * The API output format of a list of {@link FeedbackResponseAttributes}.
+ * The API output format of a list of {@link FeedbackResponse}.
  */
 public class FeedbackResponsesData extends ApiOutput {
 
@@ -20,14 +19,6 @@ public class FeedbackResponsesData extends ApiOutput {
 
     public FeedbackResponsesData() {
         responses = Collections.emptyList();
-    }
-
-    /**
-     *  Creates FeedbackResponsesData from a list of FeedbackResponseAttributes.
-     *  TODO: When deleting Attributes, rename createFromEntity to be constructor.
-     */
-    public static FeedbackResponsesData createFromAttributes(List<FeedbackResponseAttributes> responses) {
-        return new FeedbackResponsesData(responses.stream().map(FeedbackResponseData::new).collect(Collectors.toList()));
     }
 
     /**

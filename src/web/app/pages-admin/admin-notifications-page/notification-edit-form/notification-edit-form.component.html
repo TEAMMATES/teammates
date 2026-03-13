@@ -32,7 +32,7 @@
           </div>
           <div class="col-md-auto text-md-start">
             <select id="notification-style" class="form-control form-select" [ngModel]="model.style" (ngModelChange)="triggerModelChange('style', $event)">
-              <option *ngFor="let style of NotificationStyle | keyvalue" [ngValue]="style.value">{{ style.key | notificationStyleDescription }}</option>
+              <option *ngFor="let style of NotificationStyle | keyvalue" [ngValue]="style.value">{{ style.value | notificationStyleDescription }}</option>
             </select>
           </div>
           <div class="col-md-auto text-md-middle d-flex mb-0 border border-secondary" [ngClass]="model.style | notificationStyleClass">
@@ -46,7 +46,7 @@
             <span class="ngb-tooltip-class" ngbTooltip="Enter the name of the notification e.g. Version Changelog 8.9.1.">Title</span>
           </div>
           <div class="col-md-10 text-md-start">
-            <input id="notification-title" type="text" class="form-control" [ngModel]="model.title" (ngModelChange)="triggerModelChange('title', $event)" placeholder="e.g. Version Changelog 8.9.1" maxlength="{{NOTIFICATION_TITLE_MAX_LENGTH}}" />
+            <input id="notification-title" type="text" class="form-control" [ngModel]="model.title" (ngModelChange)="triggerModelChange('title', $event)" placeholder="e.g. Version Changelog 8.9.1" [maxlength]="NOTIFICATION_TITLE_MAX_LENGTH" />
             <div>
               {{NOTIFICATION_TITLE_MAX_LENGTH - model.title.length}} characters left
             </div>

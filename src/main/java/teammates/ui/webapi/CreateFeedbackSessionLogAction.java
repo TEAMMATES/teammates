@@ -44,20 +44,14 @@ public class CreateFeedbackSessionLogAction extends Action {
         details.setStudentEmail(studentEmail);
         details.setAccessType(fslType);
 
-        if (isCourseMigrated(courseId)) {
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+        UUID fsId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-            UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
-            UUID fsId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        details.setStudentId(studentId.toString());
+        details.setFeedbackSessionId(fsId.toString());
 
-            details.setStudentId(studentId.toString());
-            details.setFeedbackSessionId(fsId.toString());
-
-            // Necessary to assist local testing. For production usage, this will be a no-op.
-            logsProcessor.createFeedbackSessionLog(courseId, studentId, fsId, fslType);
-        } else {
-            // Necessary to assist local testing. For production usage, this will be a no-op.
-            logsProcessor.createFeedbackSessionLog(courseId, studentEmail, fsName, fslType);
-        }
+        // Necessary to assist local testing. For production usage, this will be a no-op.
+        logsProcessor.createFeedbackSessionLog(courseId, studentId, fsId, fslType);
 
         log.event("Feedback session audit event: " + fslType, details);
 
