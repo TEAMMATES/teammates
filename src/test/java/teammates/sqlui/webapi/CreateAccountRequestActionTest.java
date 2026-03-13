@@ -100,7 +100,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         verify(mockRecaptchaVerifier).isVerificationSuccessful(createRequest.getCaptchaResponse());
         verifyAccountRequestCreated(output, accountRequest);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
         verifyNumberOfEmailsSent(2);
     }
 
@@ -153,7 +152,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         verify(mockRecaptchaVerifier, never()).isVerificationSuccessful(createRequest.getCaptchaResponse());
         verifyAccountRequestCreated(output, accountRequest);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
         verifyNumberOfEmailsSent(0);
     }
 

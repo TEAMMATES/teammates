@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.ui.output.ActionClasses;
-import teammates.ui.webapi.AccountRequestSearchIndexingWorkerAction;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.AdminExceptionTestAction;
 import teammates.ui.webapi.BinCourseAction;
@@ -84,7 +83,6 @@ import teammates.ui.webapi.GetTimeZonesAction;
 import teammates.ui.webapi.GetUsageStatisticsAction;
 import teammates.ui.webapi.GetUserCookieAction;
 import teammates.ui.webapi.InstructorCourseJoinEmailWorkerAction;
-import teammates.ui.webapi.InstructorSearchIndexingWorkerAction;
 import teammates.ui.webapi.JoinCourseAction;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.MarkNotificationAsReadAction;
@@ -110,7 +108,6 @@ import teammates.ui.webapi.SendJoinReminderEmailAction;
 import teammates.ui.webapi.SendLoginEmailAction;
 import teammates.ui.webapi.SessionLinksRecoveryAction;
 import teammates.ui.webapi.StudentCourseJoinEmailWorkerAction;
-import teammates.ui.webapi.StudentSearchIndexingWorkerAction;
 import teammates.ui.webapi.SubmitFeedbackResponsesAction;
 import teammates.ui.webapi.UnpublishFeedbackSessionAction;
 import teammates.ui.webapi.UpdateAccountRequestAction;
@@ -235,9 +232,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 DeleteFeedbackQuestionAction.class,
                 CreateFeedbackQuestionAction.class,
                 UpdateFeedbackQuestionAction.class,
-                InstructorSearchIndexingWorkerAction.class,
-                StudentSearchIndexingWorkerAction.class,
-                AccountRequestSearchIndexingWorkerAction.class,
                 SearchAccountRequestsAction.class,
                 ResetAccountRequestAction.class,
                 CalculateUsageStatisticsAction.class,

@@ -106,11 +106,6 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
         assertEquals(email, instructor.getEmail());
         assertEquals(name, instructor.getName());
 
-        List<Student> studentList = logic.getStudentsForCourse(courseId);
-        List<Instructor> instructorList = logic.getInstructorsByCourse(courseId);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
-                studentList.size() + instructorList.size());
-
         ______TS("Normal case with invalid timezone, timezone should default to UTC");
 
         Account instructor2 = typicalBundle.accounts.get("unregisteredInstructor2");
@@ -144,9 +139,6 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
             assertEquals(LocalTime.MIDNIGHT, actualStartTime);
             assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
-
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
-                studentList.size() + instructorList.size());
 
         ______TS("Error: registration key already used");
         verifyInvalidOperation(params);

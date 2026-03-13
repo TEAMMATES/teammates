@@ -282,21 +282,21 @@ public final class UsersDb {
         Join<Instructor, Account> accountsJoin = instructorRoot.join("account", jakarta.persistence.criteria.JoinType.LEFT);
 
         Predicate searchPredicate = cb.or(
-            cb.like(cb.lower(instructorRoot.get("name")), wildcardQuery),
-            cb.like(cb.lower(instructorRoot.get("email")), wildcardQuery),
-            cb.like(cb.lower(instructorRoot.get("courseId")), wildcardQuery),
-            cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery),
-            cb.like(cb.lower(cb.coalesce(accountsJoin.get("googleId"), "")), wildcardQuery),
-            cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery),
-            cb.like(cb.lower(instructorRoot.get("role").as(String.class)), wildcardQuery));
+                cb.like(cb.lower(instructorRoot.get("name")), wildcardQuery),
+                cb.like(cb.lower(instructorRoot.get("email")), wildcardQuery),
+                cb.like(cb.lower(instructorRoot.get("courseId")), wildcardQuery),
+                cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery),
+                cb.like(cb.lower(cb.coalesce(accountsJoin.get("googleId"), "")), wildcardQuery),
+                cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery),
+                cb.like(cb.lower(instructorRoot.get("role").as(String.class)), wildcardQuery));
 
         cr.select(instructorRoot)
-            .where(searchPredicate)
-            .orderBy(
-                cb.asc(instructorRoot.get("courseId")),
-                cb.asc(instructorRoot.get("role")),
-                cb.asc(instructorRoot.get("name")),
-                cb.asc(instructorRoot.get("email")));
+                .where(searchPredicate)
+                .orderBy(
+                        cb.asc(instructorRoot.get("courseId")),
+                        cb.asc(instructorRoot.get("role")),
+                        cb.asc(instructorRoot.get("name")),
+                        cb.asc(instructorRoot.get("email")));
 
         TypedQuery<Instructor> query = HibernateUtil.createQuery(cr);
         query.setMaxResults(Const.SEARCH_QUERY_SIZE_LIMIT);
