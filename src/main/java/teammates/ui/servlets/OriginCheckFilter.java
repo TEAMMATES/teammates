@@ -60,7 +60,8 @@ public class OriginCheckFilter implements Filter {
             response.setHeader("Access-Control-Allow-Credentials", "true");
         }
 
-        if (Config.CSRF_KEY.equals(request.getHeader(Const.HeaderNames.CSRF_KEY))) {
+        if (Config.CSRF_KEY != null
+            && Config.CSRF_KEY.equals(request.getHeader(Const.HeaderNames.CSRF_KEY))) {
             // Can bypass CSRF check with the correct key
             chain.doFilter(req, res);
             return;
