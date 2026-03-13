@@ -59,7 +59,6 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
         JsonResult result = getJsonResult(action);
 
-
         CourseData courseData = (CourseData) result.getOutput();
         assertEquals(courseData.getCourseId(), "new-course");
         assertEquals(courseData.getCourseName(), "New Course");

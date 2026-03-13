@@ -82,7 +82,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 instructor1OfCourse1.getCourseId()), email.getSubject());
         assertEquals(newStudentEmail, email.getRecipient());
 
-
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
         String newStudentEmailToBeTrimmed = "  newemail@gmail.tmt   "; // after trim, this is equal to newStudentEmail
         String newStudentTeamToBeTrimmed = "  New team   ";
