@@ -28,9 +28,6 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
-import teammates.storage.sqlsearch.InstructorSearchManager;
-import teammates.storage.sqlsearch.SearchManagerFactory;
-import teammates.storage.sqlsearch.StudentSearchManager;
 
 /**
  * Handles CRUD operations for users.
@@ -47,14 +44,6 @@ public final class UsersDb extends EntitiesDb {
 
     public static UsersDb inst() {
         return instance;
-    }
-
-    public InstructorSearchManager getInstructorSearchManager() {
-        return SearchManagerFactory.getInstructorSearchManager();
-    }
-
-    public StudentSearchManager getStudentSearchManager() {
-        return SearchManagerFactory.getStudentSearchManager();
     }
 
     /**

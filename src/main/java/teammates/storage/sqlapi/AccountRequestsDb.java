@@ -4,7 +4,6 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,8 +20,6 @@ import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlsearch.AccountRequestSearchManager;
-import teammates.storage.sqlsearch.SearchManagerFactory;
 
 /**
  * Generates CRUD operations for AccountRequest.
@@ -38,10 +35,6 @@ public final class AccountRequestsDb extends EntitiesDb {
 
     public static AccountRequestsDb inst() {
         return instance;
-    }
-
-    public AccountRequestSearchManager getSearchManager() {
-        return SearchManagerFactory.getAccountRequestSearchManager();
     }
 
     /**
@@ -168,10 +161,7 @@ public final class AccountRequestsDb extends EntitiesDb {
      * Removes search document for the given account request.
      */
     public void deleteDocumentByAccountRequestId(UUID accountRequestId) {
-        if (getSearchManager() != null) {
-            getSearchManager().deleteDocuments(
-                    Collections.singletonList(accountRequestId.toString()));
-        }
+        // Search indexing is removed.
     }
 
     /**
