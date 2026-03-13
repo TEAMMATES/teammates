@@ -21,7 +21,6 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
 import teammates.ui.webapi.CreateAccountAction;
 import teammates.ui.webapi.InvalidHttpParameterException;
 

@@ -80,7 +80,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(updatedInstructor.getName(), response.getName());
         assertEquals(updatedInstructor.getEmail(), response.getEmail());
 
-
         TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
 
         assertEquals(typicalCourse.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
@@ -173,7 +172,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(updatedInstructor.getName(), response.getName());
         assertEquals(updatedInstructor.getEmail(), response.getEmail());
-
 
         TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
 

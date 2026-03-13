@@ -111,7 +111,6 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student1.getCourseId()), email.getSubject());
         assertEquals(newStudentEmail, email.getRecipient());
 
-
         resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
     }
 
