@@ -21,7 +21,7 @@ import teammates.storage.sqlentity.Student;
  *
  * @see FeedbackSessionLog
  */
-public final class FeedbackSessionLogsDb extends EntitiesDb {
+public final class FeedbackSessionLogsDb {
 
     private static final FeedbackSessionLogsDb instance = new FeedbackSessionLogsDb();
 
@@ -79,7 +79,7 @@ public final class FeedbackSessionLogsDb extends EntitiesDb {
     public FeedbackSessionLog createFeedbackSessionLog(FeedbackSessionLog log) {
         assert log != null;
 
-        persist(log);
+        HibernateUtil.persist(log);
 
         return log;
     }

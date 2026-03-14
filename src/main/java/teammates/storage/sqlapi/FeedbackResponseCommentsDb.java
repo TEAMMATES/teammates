@@ -27,7 +27,7 @@ import teammates.storage.sqlentity.Section;
  *
  * @see FeedbackResponseComment
  */
-public final class FeedbackResponseCommentsDb extends EntitiesDb {
+public final class FeedbackResponseCommentsDb {
 
     private static final FeedbackResponseCommentsDb instance = new FeedbackResponseCommentsDb();
 
@@ -66,7 +66,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         }
 
         feedbackResponseComment.setId(null);
-        persist(feedbackResponseComment);
+        HibernateUtil.persist(feedbackResponseComment);
         return feedbackResponseComment;
     }
 
@@ -78,7 +78,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
 
         FeedbackResponseComment frc = getFeedbackResponseComment(frcId);
         if (frc != null) {
-            delete(frc);
+            HibernateUtil.remove(frc);
         }
     }
 
@@ -132,7 +132,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
 
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setGiver(updatedEmail);
-            merge(responseComment);
+            HibernateUtil.merge(responseComment);
         }
     }
 
@@ -207,7 +207,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-        return merge(feedbackResponseComment);
+        return HibernateUtil.merge(feedbackResponseComment);
     }
 
     /**
