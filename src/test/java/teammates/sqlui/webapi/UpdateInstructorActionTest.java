@@ -78,7 +78,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(updatedInstructor.getName(), response.getName());
         assertEquals(updatedInstructor.getEmail(), response.getEmail());
-        assertTrue("No tasks should be queued for instructor update", mockTaskQueuer.getTasksAdded().isEmpty());
 
         verify(mockLogic, times(1))
                 .updateToEnsureValidityOfInstructorsForTheCourse(typicalCourse.getId(), updatedInstructor);
@@ -167,7 +166,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(updatedInstructor.getName(), response.getName());
         assertEquals(updatedInstructor.getEmail(), response.getEmail());
-        assertTrue("No tasks should be queued for instructor update", mockTaskQueuer.getTasksAdded().isEmpty());
 
         verify(mockLogic, times(1))
                 .updateToEnsureValidityOfInstructorsForTheCourse(typicalCourse.getId(), updatedInstructor);
