@@ -39,9 +39,6 @@
         <url-pattern>/worker/*</url-pattern>
     </filter-mapping>
     <listener>
-        <listener-class>teammates.logic.core.LogicStarter</listener-class>
-    </listener>
-    <listener>
         <listener-class>teammates.sqllogic.core.LogicStarter</listener-class>
     </listener>
     <listener>
