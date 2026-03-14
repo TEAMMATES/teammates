@@ -1,36 +1,50 @@
-<div *ngIf="groupByTeam">
-  <div id="team-panel" *ngFor="let teamInfo of teamsToUsers | keyvalue">
-    <div class="card top-padded">
-      <h6 id="team-header" class="card-header alert alert-warning alert-no-bottom cursor-pointer" role="button" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
-        {{ teamInfo.key === '-' ? 'No Specific Team': teamInfo.key }}
-        <div class="card-header-btn-toolbar">
-          <tm-panel-chevron [isExpanded]="teamExpanded[teamInfo.key]"></tm-panel-chevron>
-        </div>
-      </h6>
-      <div *ngIf="teamExpanded[teamInfo.key]" @collapseAnim class="background-color-warning">
-        <div class="card-body">
-          <div *ngFor="let userInfo of teamInfo.value">
-            <ng-container
-                [ngTemplateOutlet]="userTab"
-                [ngTemplateOutletContext]="{userInfo:userInfo}">
-            </ng-container>
-          </div>
+@if (groupByTeam) {
+  <div>
+    @for (teamInfo of teamsToUsers | keyvalue; track teamInfo) {
+      <div id="team-panel">
+        <div class="card top-padded">
+          <h6 id="team-header" class="card-header alert alert-warning alert-no-bottom cursor-pointer" role="button" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
+            {{ teamInfo.key === '-' ? 'No Specific Team': teamInfo.key }}
+            <div class="card-header-btn-toolbar">
+              <tm-panel-chevron [isExpanded]="teamExpanded[teamInfo.key]"></tm-panel-chevron>
+            </div>
+          </h6>
+          @if (teamExpanded[teamInfo.key]) {
+            <div @collapseAnim class="background-color-warning">
+              <div class="card-body">
+                @for (userInfo of teamInfo.value; track userInfo) {
+                  <div>
+                    <ng-container
+                      [ngTemplateOutlet]="userTab"
+                      [ngTemplateOutletContext]="{userInfo:userInfo}">
+                    </ng-container>
+                  </div>
+                }
+              </div>
+            </div>
+          }
         </div>
       </div>
-    </div>
+    }
   </div>
-</div>
-<div *ngIf="!groupByTeam">
-  <div *ngFor="let userInfo of userExpanded | keyvalue; trackBy: trackByName">
-    <ng-container
-        [ngTemplateOutlet]="userTab"
-        [ngTemplateOutletContext]="{userInfo:userInfo.key}">
-    </ng-container>
+}
+@if (!groupByTeam) {
+  <div>
+    @for (userInfo of userExpanded | keyvalue; track trackByName($index, userInfo)) {
+      <div>
+        <ng-container
+          [ngTemplateOutlet]="userTab"
+          [ngTemplateOutletContext]="{userInfo:userInfo.key}">
+        </ng-container>
+      </div>
+    }
   </div>
-</div>
-<div *ngIf="(groupByTeam && !(teamsToUsers | keyvalue)?.length) || (!groupByTeam && !(userExpanded | keyvalue)?.length)">
-  <i>There are no responses for this section or you may not have the permission to see the response.</i>
-</div>
+}
+@if ((groupByTeam && !(teamsToUsers | keyvalue)?.length) || (!groupByTeam && !(userExpanded | keyvalue)?.length)) {
+  <div>
+    <i>There are no responses for this section or you may not have the permission to see the response.</i>
+  </div>
+}
 
 <ng-template #userTab let-userInfo='userInfo'>
   <div id="user-panel" class="card top-padded border-primary">
@@ -39,42 +53,52 @@
         {{ isGrq ? 'From' : 'To' }}:
         {{ userInfo === '-' ? 'No Specific User' : userInfo }}
         {{ usersToTeams[userInfo] !== ''
-          ? '('
-            + (usersToTeams[userInfo] === '-' ? 'No Specific Team' : usersToTeams[userInfo])
-            + ')'
-          : ''
+        ? '('
+        + (usersToTeams[userInfo] === '-' ? 'No Specific Team' : usersToTeams[userInfo])
+        + ')'
+        : ''
         }}
-        <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
-          [{{ userToEmail[userInfo] }}]
-        </a>
+        @if (userToEmail[userInfo]) {
+          <a [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
+            [{{ userToEmail[userInfo] }}]
+          </a>
+        }
       </div>
       <div class="card-header-btn-toolbar">
-        <tm-response-moderation-button class="btn-margin-right" *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
-                                       [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]" btnStyle="PRIMARY" (click)="$event.stopPropagation()"></tm-response-moderation-button>
+        @if (isGrq && userToRelatedEmail[userInfo]) {
+          <tm-response-moderation-button class="btn-margin-right" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
+          [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]" btnStyle="PRIMARY" (click)="$event.stopPropagation()"></tm-response-moderation-button>
+        }
         <tm-panel-chevron [isExpanded]="userExpanded[userInfo]"></tm-panel-chevron>
       </div>
     </h6>
-    <div *ngIf="userExpanded[userInfo]" @collapseAnim>
-      <div class="card-body">
-        <ng-container *ngIf="userHasRealResponses[userInfo]">
-          <div id="grouped-responses" class="top-padded" *ngFor="let last = last; let other of responsesToShow[userInfo] | keyvalue">
-            <tm-grouped-responses [responses]="other.value"
-                                  [isGrq]="isGrq" [session]="session"
-                                  [instructorCommentTableModel]="instructorCommentTableModel"
-                                  [userToEmail]="userToEmail"
-                                  (instructorCommentTableModelChange)="triggerModelChange($event)"
-                                  (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
-                                  (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
-                                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-                                  [isLastGroupedResponses]="last"></tm-grouped-responses>
-          </div>
-        </ng-container>
-        <div id="no-responses" *ngIf="!userHasRealResponses[userInfo]" class="top-padded">
-          <i>
-            There are no responses {{ isGrq ? 'given' : 'received' }} by this user or you may not have the permission to see the responses.
-          </i>
+    @if (userExpanded[userInfo]) {
+      <div @collapseAnim>
+        <div class="card-body">
+          @if (userHasRealResponses[userInfo]) {
+            @for (other of responsesToShow[userInfo] | keyvalue; track other.key; let isLast = $last) {
+              <div id="grouped-responses" class="top-padded">
+                <tm-grouped-responses [responses]="other.value"
+                  [isGrq]="isGrq" [session]="session"
+                  [instructorCommentTableModel]="instructorCommentTableModel"
+                  [userToEmail]="userToEmail"
+                  (instructorCommentTableModelChange)="triggerModelChange($event)"
+                  (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
+                  (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
+                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
+                  [isLastGroupedResponses]="isLast"></tm-grouped-responses>
+              </div>
+            }
+          }
+          @if (!userHasRealResponses[userInfo]) {
+            <div id="no-responses" class="top-padded">
+              <i>
+                There are no responses {{ isGrq ? 'given' : 'received' }} by this user or you may not have the permission to see the responses.
+              </i>
+            </div>
+          }
         </div>
       </div>
-    </div>
+    }
   </div>
 </ng-template>

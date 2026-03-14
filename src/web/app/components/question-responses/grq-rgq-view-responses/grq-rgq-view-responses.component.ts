@@ -1,4 +1,4 @@
-import { KeyValue, NgIf, NgFor, NgTemplateOutlet, KeyValuePipe } from '@angular/common';
+import { KeyValue, NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
@@ -27,14 +27,12 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
   styleUrls: ['./grq-rgq-view-responses.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
-    NgFor,
     PanelChevronComponent,
     NgTemplateOutlet,
     ResponseModerationButtonComponent,
     GroupedResponsesComponent,
     KeyValuePipe,
-  ],
+],
 })
 export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 

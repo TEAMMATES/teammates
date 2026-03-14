@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
 import { InstructorSessionResultView } from './instructor-session-result-view';
@@ -27,15 +26,13 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
   styleUrls: ['./instructor-session-result-question-view.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgFor,
     QuestionTextWithInfoComponent,
     PanelChevronComponent,
-    NgIf,
     LoadingSpinnerDirective,
     LoadingRetryComponent,
     SingleStatisticsComponent,
     PerQuestionViewResponsesComponent,
-  ],
+],
 })
 export class InstructorSessionResultQuestionViewComponent
     extends InstructorSessionResultView implements OnInit, OnChanges {
