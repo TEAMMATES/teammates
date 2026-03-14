@@ -284,7 +284,6 @@ There are two big categories of testing in TEAMMATES:
 
 Other tests in TEAMMATES include:
 
-- **Performance tests**: Evaluate the application's stability and responsiveness under expected, peak, and prolonged loads. See [Performance Testing](performance-testing.md).
 - **Accessibility tests**: Ensure the application is accessible to users with disabilities. See [Accessibility Testing](axe-testing.md).
 
 ## Deploying to a staging server
@@ -327,7 +326,6 @@ There are several files used to configure various aspects of the system.
 
 * `component.yml`: Configuration for component tests.
 * `e2e.yml`: Configuration for E2E tests.
-* `lnp.yml`: Configuration for load & performance tests.
 * `dev-docs.yml`: Configuration for developer documentation site.
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
