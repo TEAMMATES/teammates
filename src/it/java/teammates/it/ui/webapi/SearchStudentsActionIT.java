@@ -159,7 +159,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         public void execute_searchWithoutSearchService_shouldSucceed() {
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] params = new String[] {
-            Const.ParamsNames.SEARCH_KEY, "student1",
+                Const.ParamsNames.SEARCH_KEY, "student1",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         SearchStudentsAction a = getAction(params);
@@ -170,7 +170,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
 
         loginAsAdmin();
         params = new String[] {
-            Const.ParamsNames.SEARCH_KEY, student1InCourse1.getEmail(),
+                Const.ParamsNames.SEARCH_KEY, student1InCourse1.getEmail(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
 
