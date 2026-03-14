@@ -279,7 +279,7 @@ public final class UsersDb {
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
         Join<Instructor, Course> coursesJoin = instructorRoot.join("course");
-        Join<Instructor, Account> accountsJoin = instructorRoot.join("account", jakarta.persistence.criteria.JoinType.LEFT);
+        Join<Instructor, Account> accountsJoin = instructorRoot.join("account", JoinType.LEFT);
 
         Predicate searchPredicate = cb.or(
                 cb.like(cb.lower(instructorRoot.get("name")), wildcardQuery),
