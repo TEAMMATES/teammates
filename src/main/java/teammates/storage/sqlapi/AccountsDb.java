@@ -21,7 +21,7 @@ import teammates.storage.sqlentity.Account;
  *
  * @see Account
  */
-public final class AccountsDb extends EntitiesDb {
+public final class AccountsDb {
 
     private static final AccountsDb instance = new AccountsDb();
 
@@ -80,7 +80,7 @@ public final class AccountsDb extends EntitiesDb {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
         }
 
-        persist(account);
+        HibernateUtil.persist(account);
         return account;
     }
 
@@ -98,7 +98,7 @@ public final class AccountsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + account.toString());
         }
 
-        return merge(account);
+        return HibernateUtil.merge(account);
     }
 
     /**
@@ -106,7 +106,7 @@ public final class AccountsDb extends EntitiesDb {
      */
     public void deleteAccount(Account account) {
         if (account != null) {
-            delete(account);
+            HibernateUtil.remove(account);
         }
     }
 
