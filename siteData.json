@@ -268,19 +268,6 @@
       "headingKeywords": {}
     },
     {
-      "src": "performance-testing.md",
-      "title": "Performance Testing",
-      "headings": {
-        "performance-testing": "Performance Testing",
-        "running-performance-tests": "Running Performance Tests",
-        "using-gradle": "Using Gradle",
-        "using-the-command-line": "Using the Command Line",
-        "using-jmeter-gui": "Using JMeter GUI",
-        "creating-performance-tests": "Creating Performance Tests"
-      },
-      "headingKeywords": {}
-    },
-    {
       "src": "process.md",
       "title": "Process",
       "headings": {
