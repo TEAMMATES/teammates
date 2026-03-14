@@ -5,10 +5,6 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="v9.0.0-beta.8-enable-pg-trgm" author="search-migration">
-        <sql>CREATE EXTENSION IF NOT EXISTS pg_trgm;</sql>
-    </changeSet>
-
     <!-- Users -->
     <changeSet id="v9.0.0-beta.8-users-name-trgm" author="search-migration">
         <sql>CREATE INDEX IF NOT EXISTS idx_users_name_trgm ON users USING gin (lower(name) gin_trgm_ops);</sql>
