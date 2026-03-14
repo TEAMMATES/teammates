@@ -13,6 +13,10 @@ on:
     - cron: "0 0 * * *" #end of every day
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   E2E-sql-testing:
     runs-on: ubuntu-latest
