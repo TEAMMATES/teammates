@@ -13,7 +13,6 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.sqllogic.api.Logic;
@@ -81,13 +80,6 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     protected void persistDataBundle(SqlDataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         logic.persistDataBundle(dataBundle);
-    }
-
-    /**
-     * Puts searchable documents from the data bundle to the solr database.
-     */
-    protected void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
-        // Search indexing is removed.
     }
 
     /**

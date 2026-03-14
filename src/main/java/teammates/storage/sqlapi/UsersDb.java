@@ -12,9 +12,9 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -263,7 +263,8 @@ public final class UsersDb {
     /**
      * Searches all instructors in the system.
      *
-     * <p>This method should be used by admin only since the searching does not
+     * <p>
+     * This method should be used by admin only since the searching does not
      * restrict the visibility according to the logged-in user's google ID. This
      * is used by admin to search instructors in the whole system.
      */
@@ -367,8 +368,11 @@ public final class UsersDb {
     /**
      * Searches all students in the system.
      *
-     * <p>This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin to
+     * <p>
+     * This method should be used by admin only since the searching does not
+     * restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin
+     * to
      * search instructors in the whole system.
      */
     public List<Student> searchStudentsInWholeSystem(String queryString)
@@ -450,7 +454,8 @@ public final class UsersDb {
     }
 
     /**
-     * Gets the list of students for the specified {@code courseId} in batches with {@code batchSize}.
+     * Gets the list of students for the specified {@code courseId} in batches with
+     * {@code batchSize}.
      */
     public List<Student> getStudentsForCourse(String courseId, int batchSize) {
         assert courseId != null;

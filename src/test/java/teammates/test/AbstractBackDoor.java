@@ -252,21 +252,6 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Puts searchable documents in data bundle into the SQL database.
-     */
-    public String putSqlDocuments(SqlDataBundle dataBundle) throws HttpRequestFailedException {
-        Map<String, String> params = new HashMap<>();
-        params.put("databundletype", "sql");
-        ResponseBodyAndCode putRequestOutput =
-                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, params, JsonUtils.toJson(dataBundle));
-        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
-            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
-                    + putRequestOutput.responseBody);
-        }
-        return putRequestOutput.responseBody;
-    }
-
-    /**
      * Gets account data from the database.
      */
     public AccountData getAccountData(String googleId) {

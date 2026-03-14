@@ -27,7 +27,6 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
     protected void setUp() throws Exception {
         super.setUp();
         persistDataBundle(typicalBundle);
-        putDocuments(typicalBundle);
         HibernateUtil.flushSession();
     }
 

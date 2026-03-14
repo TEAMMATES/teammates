@@ -17,7 +17,6 @@ public class UserNotificationsPageAxeTest extends BaseAxeTestCase {
     protected void prepareTestData() {
         testData = loadSqlDataBundle("/AdminNotificationsPageE2ETestSql.json");
         removeAndRestoreDataBundle(testData);
-        putDocuments(testData);
     }
 
     @Test

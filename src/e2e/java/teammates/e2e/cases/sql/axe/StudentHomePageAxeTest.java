@@ -17,7 +17,6 @@ public class StudentHomePageAxeTest extends BaseAxeTestCase {
     protected void prepareTestData() {
         testData = loadSqlDataBundle("/StudentHomePageE2ESqlTest.json");
         removeAndRestoreDataBundle(testData);
-        putDocuments(testData);
     }
 
     @Test

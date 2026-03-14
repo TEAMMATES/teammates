@@ -25,7 +25,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
     protected void setUp() throws Exception {
         super.setUp();
         persistDataBundle(typicalBundle);
-        putDocuments(typicalBundle);
         HibernateUtil.flushSession();
     }
 
