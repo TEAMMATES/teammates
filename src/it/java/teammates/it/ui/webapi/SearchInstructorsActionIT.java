@@ -1,6 +1,5 @@
 package teammates.it.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -10,9 +9,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
-import teammates.test.TestProperties;
 import teammates.ui.output.InstructorsData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.SearchInstructorsAction;
 
@@ -55,10 +52,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
 
     @Test
     protected void testExecute_searchCourseId_shouldSucceed() {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getCourseId() };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -72,10 +65,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
 
     @Test
     protected void testExecute_searchDisplayedName_shouldSucceed() {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getDisplayName() };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -89,10 +78,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
 
     @Test
     protected void testExecute_searchEmail_shouldSucceed() {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getEmail() };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -108,10 +93,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
 
     @Test
     protected void testExecute_searchGoogleId_shouldSucceed() {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getGoogleId() };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -127,10 +108,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
 
     @Test
     protected void testExecute_searchName_shouldSucceed() {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getName() };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -146,10 +123,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
 
     @Test
     protected void testExecute_searchNoMatch_shouldBeEmpty() {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, "noMatch" };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -159,20 +132,17 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
     }
 
     @Test
-    public void testExecute_noSearchService_shouldReturn501() {
-        if (TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
+    public void testExecute_searchWithoutSearchService_shouldSucceed() {
         loginAsAdmin();
         String[] params = new String[] {
-                Const.ParamsNames.SEARCH_KEY, "anything",
+                Const.ParamsNames.SEARCH_KEY, instructor.getName(),
         };
         SearchInstructorsAction a = getAction(params);
-        JsonResult result = getJsonResult(a, HttpStatus.SC_NOT_IMPLEMENTED);
-        MessageOutput output = (MessageOutput) result.getOutput();
+        JsonResult result = getJsonResult(a);
+        InstructorsData output = (InstructorsData) result.getOutput();
 
-        assertEquals("Full-text search is not available.", output.getMessage());
+        assertTrue(output.getInstructors().stream()
+                .anyMatch(i -> i.getName().equals(instructor.getName())));
     }
 
     @Override

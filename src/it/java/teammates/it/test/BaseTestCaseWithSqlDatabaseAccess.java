@@ -3,7 +3,6 @@ package teammates.it.test;
 import java.util.UUID;
 
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
@@ -54,24 +53,6 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
 
         LogicStarter.initializeDependencies();
-
-        teammates.logic.core.LogicStarter.initializeDependencies();
-        LOCAL_DATASTORE_HELPER.start();
-        DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
-        ObjectifyService.init(new ObjectifyFactory(
-                options.getService()));
-        OfyHelper.registerEntityClasses();
-
-    }
-
-    @BeforeClass
-    public void setupClass() {
-        closeable = ObjectifyService.begin();
-    }
-
-    @AfterClass
-    public void tearDownClass() {
-        closeable.close();
     }
 
     @AfterSuite

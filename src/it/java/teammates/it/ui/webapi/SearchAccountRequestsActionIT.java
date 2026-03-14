@@ -1,6 +1,5 @@
 package teammates.it.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -10,9 +9,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
-import teammates.test.TestProperties;
 import teammates.ui.output.AccountRequestsData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.SearchAccountRequestsAction;
 
@@ -50,15 +47,6 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
     @Test
     @Override
     protected void testExecute() throws InvalidParametersException, EntityAlreadyExistsException {
-        if (!TestProperties.isSearchServiceActive()) {
-            ______TS("Search with SearchService disabled");
-            String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, "randomString123" };
-            SearchAccountRequestsAction action = getAction(submissionParams);
-            JsonResult result = getJsonResult(action, HttpStatus.SC_NOT_IMPLEMENTED);
-            MessageOutput output = (MessageOutput) result.getOutput();
-            assertEquals("Full-text search is not available.", output.getMessage());
-            return;
-        }
         AccountRequest accountRequest = typicalBundle.accountRequests.get("instructor1");
 
         loginAsAdmin();
