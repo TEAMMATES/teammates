@@ -1,4 +1,4 @@
-import { NgIf, NgFor, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -71,13 +71,11 @@ interface CourseModel {
   styleUrls: ['./instructor-courses-page.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     CourseEditFormComponent,
     ProgressBarComponent,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     AjaxLoadingComponent,
-    NgFor,
     NgbTooltip,
     TeammatesRouterDirective,
     NgbDropdown,
@@ -86,7 +84,7 @@ interface CourseModel {
     PanelChevronComponent,
     ModifiedTimestampModalComponent,
     DatePipe,
-  ],
+],
 })
 export class InstructorCoursesPageComponent implements OnInit {
 

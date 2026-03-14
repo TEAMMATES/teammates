@@ -1,4 +1,4 @@
-import { NgFor, NgIf, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
@@ -20,14 +20,12 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
   styleUrls: ['./instructor-session-result-rgq-view.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgFor,
     PanelChevronComponent,
-    NgIf,
     LoadingSpinnerDirective,
     LoadingRetryComponent,
     GrqRgqViewResponsesComponent,
     KeyValuePipe,
-  ],
+],
 })
 export class InstructorSessionResultRgqViewComponent extends InstructorSessionResultView {
 

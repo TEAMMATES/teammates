@@ -1,25 +1,39 @@
-<div *ngIf="isStudentPage">
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Criteria</th>
-        <th class="text-center" *ngFor="let choice of questionDetails.rubricChoices">{{ choice }}</th>
-      </tr>
-    </thead>
-    <tbody class="rubric-answers">
-      <tr *ngFor="let answer of answers; let i = index">
-        <td>{{ questionDetails.rubricSubQuestions[i] }}</td>
-        <td class="text-center" *ngFor="let choice of questionDetails.rubricChoices">
-          <span [attr.aria-label]="answer.answer === choice ? 'selected' : 'unselected'" role="img">
-            <i *ngIf="answer.answer === choice" class="fas fa-check"></i>
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div *ngIf="!isStudentPage">
-  <ol type="a">
-    <li *ngFor="let answer of answers">{{ answer.answer }} <span class="choice-index">{{ answer.index ? '(Choice ' + answer.index + ')' : '' }}</span></li>
-  </ol>
-</div>
+@if (isStudentPage) {
+  <div>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Criteria</th>
+          @for (choice of questionDetails.rubricChoices; track choice) {
+            <th class="text-center">{{ choice }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody class="rubric-answers">
+        @for (answer of answers; track answer; let i = $index) {
+          <tr>
+            <td>{{ questionDetails.rubricSubQuestions[i] }}</td>
+            @for (choice of questionDetails.rubricChoices; track choice) {
+              <td class="text-center">
+                <span [attr.aria-label]="answer.answer === choice ? 'selected' : 'unselected'" role="img">
+                  @if (answer.answer === choice) {
+                    <i class="fas fa-check"></i>
+                  }
+                </span>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
+@if (!isStudentPage) {
+  <div>
+    <ol type="a">
+      @for (answer of answers; track answer) {
+        <li>{{ answer.answer }} <span class="choice-index">{{ answer.index ? '(Choice ' + answer.index + ')' : '' }}</span></li>
+      }
+    </ol>
+  </div>
+}

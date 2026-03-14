@@ -30,7 +30,6 @@
   * [Unit Testing]({{ baseUrl }}/unit-testing.html)
   * [End-to-End Testing]({{ baseUrl }}/e2e-testing.html)
   * [Snapshot Testing]({{ baseUrl }}/snapshot-testing.html)
-  * [Performance Testing]({{ baseUrl }}/performance-testing.html)
   * [Accessibility Testing]({{ baseUrl }}/axe-testing.html)
   * [Search]({{ baseUrl }}/search.html)
   * [Static Analysis]({{ baseUrl }}/static-analysis.html)

@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbCalendar, NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -43,9 +43,7 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
   providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     FormsModule,
-    NgFor,
     TeammatesRouterDirective,
     AjaxLoadingComponent,
     NgbTooltip,
@@ -55,7 +53,7 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
     TimepickerComponent,
     SubmissionStatusNamePipe,
     PublishStatusNamePipe,
-  ],
+],
 })
 export class SessionEditFormComponent {
 

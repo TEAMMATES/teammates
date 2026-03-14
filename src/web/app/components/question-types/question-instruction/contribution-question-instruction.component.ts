@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
@@ -12,7 +11,7 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
   selector: 'tm-contribution-question-instruction',
   templateUrl: './contribution-question-instruction.component.html',
   styleUrls: ['./contribution-question-instruction.component.scss'],
-  imports: [NgIf],
+  imports: [],
 })
 export class ContributionQuestionInstructionComponent {
 
