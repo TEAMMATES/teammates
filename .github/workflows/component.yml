@@ -33,7 +33,7 @@ jobs:
           distribution: temurin
           java-version: 21
       - name: Cache Gradle packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -42,7 +42,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Cache eslint
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ./.eslintcache
@@ -50,7 +50,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-eslint-
       - name: Cache stylelint
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ./.stylelintcache
@@ -80,7 +80,7 @@ jobs:
           distribution: temurin
           java-version: 21
       - name: Cache Gradle packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
