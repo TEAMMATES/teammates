@@ -93,3 +93,19 @@ table td {
   height: 20px;
   margin: 5px;
 }
+
+.red-box {
+  background: var(--color-enroll-invalid);
+}
+
+.green-box {
+  background: var(--color-enroll-new);
+}
+
+.yellow-box {
+  background: var(--color-enroll-modified);
+}
+
+.grey-box {
+  background: var(--color-enroll-unchanged);
+}

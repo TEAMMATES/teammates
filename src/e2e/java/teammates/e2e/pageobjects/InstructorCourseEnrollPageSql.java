@@ -25,11 +25,11 @@ public class InstructorCourseEnrollPageSql extends AppPage {
     @FindBy(id = "toggle-existing-students")
     private WebElement toggleExistingStudentsHeader;
 
-    @FindBy(id = "existingStudentsHOT")
-    private WebElement existingStudentsTable;
+    @FindBy(id = "existingStudentsGrid")
+    private WebElement existingStudentsGrid;
 
-    @FindBy(id = "newStudentsHOT")
-    private WebElement enrollSpreadsheet;
+    @FindBy(id = "newStudentsGrid")
+    private WebElement newStudentsGrid;
 
     @FindBy(id = "btn-enroll")
     private WebElement enrollButton;
@@ -83,7 +83,7 @@ public class InstructorCourseEnrollPageSql extends AppPage {
         Actions actions = new Actions(browser.driver);
         actions.sendKeys(Keys.PAGE_UP).perform();
 
-        List<WebElement> indexCells = enrollSpreadsheet.findElements(By.cssSelector("span.rowHeader"));
+        List<WebElement> indexCells = newStudentsGrid.findElements(By.cssSelector("span.rowHeader"));
         String lastIndexCellText = indexCells.get(indexCells.size() - 1).getAttribute("innerHTML");
 
         int expectedNumRows = addedNumRows + SPREADSHEET_NUM_STARTING_ROWS;
@@ -101,7 +101,7 @@ public class InstructorCourseEnrollPageSql extends AppPage {
 
     public void verifyExistingStudentsTableContains(Student[] expectedStudents) {
         clickToggleExistingStudentsHeader();
-        verifyTableBodyValues(existingStudentsTable, getEnrollmentData(expectedStudents));
+        verifyTableBodyValues(existingStudentsGrid, getEnrollmentData(expectedStudents));
     }
 
     public void verifyResultsPanelContains(Student[] expectedNewStudents,
@@ -146,7 +146,7 @@ public class InstructorCourseEnrollPageSql extends AppPage {
     }
 
     private WebElement getEnrollSpreadsheetFirstCell() {
-        return enrollSpreadsheet.findElement(By.tagName("tbody")).findElement(By.tagName("td"));
+        return newStudentsGrid.findElement(By.tagName("tbody")).findElement(By.tagName("td"));
     }
 
     private String[][] getEnrollmentData(Student[] studentsData) {
