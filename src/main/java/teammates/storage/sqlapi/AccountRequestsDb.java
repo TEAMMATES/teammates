@@ -38,6 +38,17 @@ public final class AccountRequestsDb {
     }
 
     /**
+     * Escapes LIKE pattern metacharacters so user input is treated literally.
+     */
+    private static String escapeLikePattern(String pattern, char escapeChar) {
+        String esc = String.valueOf(escapeChar);
+        return pattern
+                .replace(esc, esc + esc)
+                .replace("%", esc + "%")
+                .replace("_", esc + "_");
+    }
+
+    /**
      * Creates an AccountRequest in the database.
      */
     public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
@@ -176,18 +187,20 @@ public final class AccountRequestsDb {
             return new ArrayList<>();
         }
 
-        String wildcardQuery = "%" + queryString.toLowerCase() + "%";
+        char escapeChar = '\\';
+        String escapedQuery = escapeLikePattern(queryString.toLowerCase(), escapeChar);
+        String wildcardQuery = "%" + escapedQuery + "%";
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
 
         Predicate searchPredicate = cb.or(
-                cb.like(cb.lower(root.get("name")), wildcardQuery),
-                cb.like(cb.lower(root.get("email")), wildcardQuery),
-                cb.like(cb.lower(root.get("institute")), wildcardQuery),
-                cb.like(cb.lower(cb.coalesce(root.get("comments"), "")), wildcardQuery),
-                cb.like(cb.lower(cb.coalesce(root.get("status").as(String.class), "")), wildcardQuery));
+                cb.like(cb.lower(root.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(root.get("email")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(root.get("institute")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(cb.coalesce(root.get("comments"), "")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(cb.coalesce(root.get("status").as(String.class), "")), wildcardQuery, escapeChar));
 
         cr.select(root)
                 .where(searchPredicate)
