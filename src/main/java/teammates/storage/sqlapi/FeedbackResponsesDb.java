@@ -30,7 +30,7 @@ import teammates.storage.sqlentity.Section;
  *
  * @see FeedbackResponse
  */
-public final class FeedbackResponsesDb extends EntitiesDb {
+public final class FeedbackResponsesDb {
 
     private static final FeedbackResponsesDb instance = new FeedbackResponsesDb();
 
@@ -127,7 +127,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponse.toString()));
         }
 
-        persist(feedbackResponse);
+        HibernateUtil.persist(feedbackResponse);
         return feedbackResponse;
     }
 
@@ -136,7 +136,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
      */
     public void deleteFeedbackResponse(FeedbackResponse feedbackResponse) {
         if (feedbackResponse != null) {
-            delete(feedbackResponse);
+            HibernateUtil.remove(feedbackResponse);
         }
     }
 
@@ -258,7 +258,7 @@ public final class FeedbackResponsesDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-        return merge(feedbackResponse);
+        return HibernateUtil.merge(feedbackResponse);
     }
 
     /**
