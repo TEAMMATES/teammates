@@ -261,6 +261,17 @@ public final class UsersDb {
     }
 
     /**
+     * Escapes LIKE pattern metacharacters so user input is treated literally.
+     */
+    private static String escapeLikePattern(String pattern, char escapeChar) {
+        String esc = String.valueOf(escapeChar);
+        return pattern
+                .replace(esc, esc + esc)
+                .replace("%", esc + "%")
+                .replace("_", esc + "_");
+    }
+
+    /**
      * Searches all instructors in the system.
      *
      * <p>
@@ -274,7 +285,9 @@ public final class UsersDb {
             return new ArrayList<>();
         }
 
-        String wildcardQuery = "%" + queryString.toLowerCase() + "%";
+        char escapeChar = '\\';
+        String escapedQuery = escapeLikePattern(queryString.toLowerCase(), escapeChar);
+        String wildcardQuery = "%" + escapedQuery + "%";
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
@@ -283,13 +296,13 @@ public final class UsersDb {
         Join<Instructor, Account> accountsJoin = instructorRoot.join("account", JoinType.LEFT);
 
         Predicate searchPredicate = cb.or(
-                cb.like(cb.lower(instructorRoot.get("name")), wildcardQuery),
-                cb.like(cb.lower(instructorRoot.get("email")), wildcardQuery),
-                cb.like(cb.lower(instructorRoot.get("courseId")), wildcardQuery),
-                cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery),
-                cb.like(cb.lower(cb.coalesce(accountsJoin.get("googleId"), "")), wildcardQuery),
-                cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery),
-                cb.like(cb.lower(instructorRoot.get("role").as(String.class)), wildcardQuery));
+                cb.like(cb.lower(instructorRoot.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(instructorRoot.get("email")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(instructorRoot.get("courseId")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(cb.coalesce(accountsJoin.get("googleId"), "")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(instructorRoot.get("role").as(String.class)), wildcardQuery, escapeChar));
 
         cr.select(instructorRoot)
                 .where(searchPredicate)
@@ -327,7 +340,9 @@ public final class UsersDb {
             }
         }
 
-        String wildcardQuery = "%" + queryString.toLowerCase() + "%";
+        char escapeChar = '\\';
+        String escapedQuery = escapeLikePattern(queryString.toLowerCase(), escapeChar);
+        String wildcardQuery = "%" + escapedQuery + "%";
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
@@ -337,12 +352,12 @@ public final class UsersDb {
         Join<Team, Section> sectionsJoin = teamsJoin.join("section");
 
         Predicate searchPredicate = cb.or(
-                cb.like(cb.lower(studentRoot.get("name")), wildcardQuery),
-                cb.like(cb.lower(studentRoot.get("email")), wildcardQuery),
-                cb.like(cb.lower(studentRoot.get("courseId")), wildcardQuery),
-                cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery),
-                cb.like(cb.lower(teamsJoin.get("name")), wildcardQuery),
-                cb.like(cb.lower(sectionsJoin.get("name")), wildcardQuery));
+                cb.like(cb.lower(studentRoot.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(studentRoot.get("email")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(studentRoot.get("courseId")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(teamsJoin.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(sectionsJoin.get("name")), wildcardQuery, escapeChar));
 
         if (courseIdsWithViewStudentPrivilege == null) {
             cr.select(studentRoot)
