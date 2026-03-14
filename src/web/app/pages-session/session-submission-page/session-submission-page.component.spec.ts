@@ -1290,8 +1290,7 @@ describe('Expand and Collapse All buttons', () => {
 
        const buttons = fixture.nativeElement.querySelectorAll('button');
        const texts = Array.from(buttons).map((b: any) => b.textContent.trim());
-       expect(texts).toContain('expand all');
-       expect(texts).toContain('collapse all');
+       expect(texts).toContain('Collapse All');
    });
 });
 });

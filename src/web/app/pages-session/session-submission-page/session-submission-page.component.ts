@@ -1173,15 +1173,19 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       studentId: this.studentId,
     }).subscribe();
   }
+isAllCollapsed: boolean = false;
+
 expandAllQuestions(): void {
     this.questionSubmissionForms.forEach((q) => {
-      q.isTabExpanded = true;
+        q.isTabExpanded = true;
     });
-  }
+    this.isAllCollapsed = false;
+}
 
   collapseAllQuestions(): void {
-    this.questionSubmissionForms.forEach((q) => {
-      q.isTabExpanded = false;
-    });
+      this.questionSubmissionForms.forEach((q) => {
+          q.isTabExpanded = false;
+      });
+      this.isAllCollapsed = true;
   }
 }

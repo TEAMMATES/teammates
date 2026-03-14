@@ -31,6 +31,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isAllCollapsed="false"
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -190,6 +191,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isAllCollapsed="false"
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -346,6 +348,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isAllCollapsed="false"
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -502,6 +505,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isAllCollapsed="false"
   isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -791,6 +795,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isAllCollapsed="false"
   isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
@@ -1000,16 +1005,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="text-center"
       >
         <button
-          class="btn btn-secondary"
-          type="button"
+          class="btn btn-light"
+          id="btn-collapse-expand"
         >
-           collapse all 
-        </button>
-        <button
-          class="btn btn-secondary"
-          type="button"
-        >
-           expand all 
+           Collapse All 
         </button>
       </div>
       <tm-question-submission-form
@@ -3844,6 +3843,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isAllCollapsed="false"
   isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
@@ -4053,16 +4053,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="text-center"
       >
         <button
-          class="btn btn-secondary"
-          type="button"
+          class="btn btn-light"
+          id="btn-collapse-expand"
         >
-           collapse all 
-        </button>
-        <button
-          class="btn btn-secondary"
-          type="button"
-        >
-           expand all 
+           Collapse All 
         </button>
       </div>
       <tm-question-submission-form
@@ -6928,6 +6922,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isAllCollapsed="false"
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -7085,6 +7080,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
+  isAllCollapsed="false"
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}

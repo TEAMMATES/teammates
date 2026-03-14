@@ -103,18 +103,16 @@
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
     <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
         <div class="text-center">
-            <button type="button" class="btn btn-secondary" (click)="collapseAllQuestions()">
-                collapse all
-            </button>
-            <button type="button" class="btn btn-secondary" (click)="expandAllQuestions()">
-                expand all
+            <button id="btn-collapse-expand" class="btn btn-light"
+                    (click)="isAllCollapsed ? expandAllQuestions() : collapseAllQuestions()">
+                {{ isAllCollapsed ? 'Expand' : 'Collapse' }} All
             </button>
         </div>
         <ng-container *ngIf="currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS">
             <h1 class="my-3">Grouped Questions</h1>
-      <div class="card" *ngIf="recipientQuestionMap.size === 0">
-        <h2 class="my-2 mx-2">There are no groupable questions</h2>
-      </div>
+            <div class="card" *ngIf="recipientQuestionMap.size === 0">
+                <h2 class="my-2 mx-2">There are no groupable questions</h2>
+            </div>
       <ng-container *ngFor="let entry of recipientQuestionMap | keyvalue">
         <div class="card px-4">
           <h2 class="my-4">{{ getRecipientName(entry.key) }}</h2>
