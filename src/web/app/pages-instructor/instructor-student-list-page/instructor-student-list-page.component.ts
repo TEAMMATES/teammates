@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
@@ -53,11 +52,9 @@ export interface CourseTab {
     TeammatesRouterDirective,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgIf,
-    NgFor,
     PanelChevronComponent,
     StudentListComponent,
-  ],
+],
 })
 export class InstructorStudentListPageComponent implements OnInit {
 

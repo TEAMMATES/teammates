@@ -10,10 +10,12 @@
         </tr>
       </thead>
       <tbody id="tz-java">
-        <tr *ngFor="let tz of javaTimezones | keyvalue">
-          <td>{{ tz.key }}</td>
-          <td>UTC{{ tz.value > 0 ? '+' : '' }}{{ tz.value ? tz.value / 60 / 60 : '' }}</td>
-        </tr>
+        @for (tz of javaTimezones | keyvalue; track tz) {
+          <tr>
+            <td>{{ tz.key }}</td>
+            <td>UTC{{ tz.value > 0 ? '+' : '' }}{{ tz.value ? tz.value / 60 / 60 : '' }}</td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>
@@ -28,10 +30,12 @@
         </tr>
       </thead>
       <tbody id="tz-moment">
-        <tr *ngFor="let tz of momentTimezones | keyvalue">
-          <td>{{ tz.key }}</td>
-          <td>UTC{{ tz.value > 0 ? '+' : '' }}{{ tz.value ? tz.value / 60 : '' }}</td>
-        </tr>
+        @for (tz of momentTimezones | keyvalue; track tz) {
+          <tr>
+            <td>{{ tz.key }}</td>
+            <td>UTC{{ tz.value > 0 ? '+' : '' }}{{ tz.value ? tz.value / 60 : '' }}</td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>

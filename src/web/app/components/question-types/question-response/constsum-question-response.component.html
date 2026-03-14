@@ -1,4 +1,10 @@
-<span *ngIf="questionDetails.distributeToRecipients">{{ responseDetails.answers }}</span>
-<ul *ngIf="!questionDetails.distributeToRecipients">
-  <li *ngFor="let answer of optionToAnswer | keyvalue">{{ answer.key }}: {{ answer.value }}</li>
-</ul>
+@if (questionDetails.distributeToRecipients) {
+  <span>{{ responseDetails.answers }}</span>
+}
+@if (!questionDetails.distributeToRecipients) {
+  <ul>
+    @for (answer of optionToAnswer | keyvalue; track answer) {
+      <li>{{ answer.key }}: {{ answer.value }}</li>
+    }
+  </ul>
+}
