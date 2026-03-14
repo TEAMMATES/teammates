@@ -95,13 +95,6 @@ dependencies {
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.39.0")
     // For using Gmail API
     testImplementation("com.google.apis:google-api-services-gmail:v1-rev20260112-2.0.0")
-    // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.6.2") {
-        exclude group: "org.apache.jmeter", module: "bom"
-    }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.6.2") {
-        exclude group: "org.apache.jmeter", module: "bom"
-    }
 
     liquibaseRuntime("info.picocli:picocli:4.7.7")
     liquibaseRuntime(sourceSets.main.output)
@@ -122,7 +115,6 @@ sourceSets {
         java {
             srcDir "src/test/java"
             srcDir "src/e2e/java"
-            srcDir "src/lnp/java"
             srcDir "src/it/java"
             srcDir "src/client/java"
             include "**/*.java"
@@ -130,7 +122,6 @@ sourceSets {
         resources {
             srcDir "src/test/resources"
             srcDir "src/e2e/resources"
-            srcDir "src/lnp/resources"
             srcDir "src/it/resources"
             srcDir "src/client/resources"
             exclude "**/*.java"
@@ -256,7 +247,6 @@ task createConfigs {
             "src/main/resources/build-dev.template.properties",
             "src/web/environments/config.template.ts",
             "src/test/resources/test.template.properties",
-            "src/lnp/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
             "src/client/resources/client.template.properties",
             "src/main/appengine/app.template.yaml"
@@ -527,38 +517,6 @@ task lint {
 // TEST TASKS
 
 def numOfTestRetries = 4
-
-task lnpTests(type: Test) {
-    systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
-    testClassesDirs = testing.suites.test.sources.output.classesDirs
-    classpath = testing.suites.test.sources.runtimeClasspath
-    useTestNG()
-    options.suites "src/lnp/resources/testng-lnp.xml"
-    options.useDefaultListeners = true
-    ignoreFailures = false
-    maxHeapSize = "1g"
-    reports.html.required = false
-    reports.junitXml.required = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed", "failed", "skipped"
-    }
-    // Display the L&P test results in the build
-    def outputCache = new LinkedList<String>()
-    beforeTest { TestDescriptor td -> outputCache.clear() } // clear output cache before the test starts
-    onOutput { TestDescriptor td, TestOutputEvent toe -> // put output in the cache
-        outputCache.add(toe.getMessage())
-        while (outputCache.size() > 2) outputCache.remove() // keep only last 2 result lines
-    }
-    afterTest { TestDescriptor td ->
-        if (outputCache.size() > 0) {
-            println(" L&P results for ${td.className}:")
-            outputCache.each { print(" > $it") }
-        }
-    }
-}
 
 task unitTests(type: Test) {
     description = "Runs the full unit test suite."

@@ -42,7 +42,6 @@ Here are some documents important for TEAMMATES developers.
   * [Unit testing](unit-testing.md)
   * [End-to-End testing](e2e-testing.md)
   * [Snapshot testing](snapshot-testing.md)
-  * [Performance testing](performance-testing.md)
   * [Accessibility testing](axe-testing.md)
   * [Setting up full-text search](search.md)
   * [Static analysis](static-analysis.md): Performing code quality checks
