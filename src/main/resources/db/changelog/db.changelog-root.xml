@@ -7,5 +7,5 @@
     <include file="src/main/resources/db/changelog/db.changelog-v9.0.0.xml" />
     <include file="src/main/resources/db/changelog/db.changelog-v9.0.0-beta.5.xml" />
     <include file="src/main/resources/db/changelog/db.changelog-v9.0.0-beta.7.xml" />
-    <include file="src/main/resources/db/changelog/db.changelog-v9.0.0-beta.8.xml"/>
+    <include file="src/main/resources/db/changelog/db.changelog-add-gin.xml"/>
 </databaseChangeLog>
