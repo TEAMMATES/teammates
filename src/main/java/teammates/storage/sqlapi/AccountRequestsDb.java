@@ -164,15 +164,7 @@ public final class AccountRequestsDb {
     public void deleteAccountRequest(AccountRequest accountRequest) {
         if (accountRequest != null) {
             HibernateUtil.remove(accountRequest);
-            deleteDocumentByAccountRequestId(accountRequest.getId());
         }
-    }
-
-    /**
-     * Removes search document for the given account request.
-     */
-    public void deleteDocumentByAccountRequestId(UUID accountRequestId) {
-        // Search indexing is removed.
     }
 
     /**
