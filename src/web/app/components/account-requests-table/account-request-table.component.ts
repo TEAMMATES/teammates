@@ -124,7 +124,10 @@ export class AccountRequestTableComponent {
   }
 
   removeLocalAccountRequest(accountRequest: AccountRequestTableRowModel): void {
-    this.accountRequests = this.accountRequests.filter((x: AccountRequestTableRowModel) => x !== accountRequest);
+    const index: number = this.accountRequests.indexOf(accountRequest);
+    if (index > -1) {
+      this.accountRequests.splice(index, 1);
+    }
   }
 
   /**
@@ -239,7 +242,10 @@ export class AccountRequestTableComponent {
       .subscribe({
         next: (resp: MessageOutput) => {
           this.statusMessageService.showSuccessToast(resp.message);
-          this.accountRequests = this.accountRequests.filter((x: AccountRequestTableRowModel) => x !== accountRequest);
+          const index: number = this.accountRequests.indexOf(accountRequest);
+          if (index > -1) {
+            this.accountRequests.splice(index, 1);
+          }
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
