@@ -54,9 +54,7 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     @BeforeSuite
     protected static void setUpSuite() throws Exception {
         PGSQL.start();
-        // Temporarily disable migration utility
-        // DbMigrationUtil.resetDb(PGSQL.getJdbcUrl(), PGSQL.getUsername(),
-        // PGSQL.getPassword());
+
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
 
         LogicStarter.initializeDependencies();
