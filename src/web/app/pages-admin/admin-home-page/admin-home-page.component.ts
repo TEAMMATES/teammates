@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { InstructorData } from './instructor-data';
 import { AccountService } from '../../../services/account.service';
-import { LinkService } from '../../../services/link.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { AccountRequest, AccountRequests } from '../../../types/api-output';
+import { AccountRequests } from '../../../types/api-output';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { NewInstructorDataRowComponent } from './new-instructor-data-row/new-instructor-data-row.component';
-import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 
 /**
  * Admin home page.
@@ -24,8 +19,6 @@ import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading
   styleUrls: ['./admin-home-page.component.scss'],
   imports: [
     FormsModule,
-    NewInstructorDataRowComponent,
-    AjaxLoadingComponent,
     AccountRequestTableComponent,
 ],
   providers: [FormatDateDetailPipe],
@@ -37,20 +30,16 @@ export class AdminHomePageComponent implements OnInit {
   instructorEmail: string = '';
   instructorInstitution: string = '';
 
-  instructorsConsolidated: InstructorData[] = [];
   accountReqs: AccountRequestTableRowModel[] = [];
-  activeRequests: number = 0;
   currentPage: number = 1;
   pageSize: number = 20;
   items$: Observable<any> = of([]);
-
-  isAddingInstructors: boolean = false;
+  localDraftCounter: number = 0;
 
   constructor(
     private accountService: AccountService,
     private statusMessageService: StatusMessageService,
     private timezoneService: TimezoneService,
-    private linkService: LinkService,
     private formatDateDetailPipe: FormatDateDetailPipe,
   ) {}
 
@@ -75,13 +64,11 @@ export class AdminHomePageComponent implements OnInit {
         invalidLines.push(instructorDetail);
         continue;
       }
-      this.instructorsConsolidated.push({
-        name: instructorDetailSplit[0],
-        email: instructorDetailSplit[1],
-        institution: instructorDetailSplit[2],
-        status: 'PENDING',
-        isCurrentlyBeingEdited: false,
-      });
+      this.accountReqs.unshift(this.getLocalDraftRowModel(
+          instructorDetailSplit[0],
+          instructorDetailSplit[1],
+          instructorDetailSplit[2],
+      ));
     }
     this.instructorDetails = invalidLines.join('\r\n');
   }
@@ -94,79 +81,32 @@ export class AdminHomePageComponent implements OnInit {
       // TODO handle error
       return;
     }
-    this.instructorsConsolidated.push({
-      name: this.instructorName,
-      email: this.instructorEmail,
-      institution: this.instructorInstitution,
-      status: 'PENDING',
-      isCurrentlyBeingEdited: false,
-    });
+    this.accountReqs.unshift(this.getLocalDraftRowModel(
+      this.instructorName,
+      this.instructorEmail,
+      this.instructorInstitution,
+    ));
     this.instructorName = '';
     this.instructorEmail = '';
     this.instructorInstitution = '';
   }
 
-  /**
-   * Adds the instructor at the i-th index.
-   */
-  addInstructor(i: number): void {
-    const instructor: InstructorData = this.instructorsConsolidated[i];
-    if (this.instructorsConsolidated[i].isCurrentlyBeingEdited
-      || (instructor.status !== 'PENDING' && instructor.status !== 'FAIL')) {
-      return;
-    }
-    this.activeRequests += 1;
-    instructor.status = 'ADDING';
-
-    this.isAddingInstructors = true;
-    this.accountService.createAccountRequest({
-      instructorEmail: instructor.email,
-      instructorName: instructor.name,
-      instructorInstitution: instructor.institution,
-    })
-        .pipe(finalize(() => {
-          this.isAddingInstructors = false;
-        }))
-        .subscribe({
-          next: (resp: AccountRequest) => {
-            instructor.status = 'SUCCESS';
-            instructor.statusCode = 200;
-            instructor.joinLink = this.linkService.generateAccountRegistrationLink(resp.registrationKey);
-            this.activeRequests -= 1;
-          },
-          error: (resp: ErrorMessageOutput) => {
-            instructor.status = 'FAIL';
-            instructor.statusCode = resp.status;
-            instructor.message = resp.error.message;
-            this.activeRequests -= 1;
-          },
-        });
-  }
-
-  /**
-   * Removes the instructor at the i-th index.
-   */
-  removeInstructor(i: number): void {
-    this.instructorsConsolidated.splice(i, 1);
-  }
-
-  /**
-   * Sets the i-th instructor data row's edit mode status.
-   *
-   * @param i The index.
-   * @param isEnabled Whether the edit mode status is enabled.
-   */
-  setInstructorRowEditModeEnabled(i: number, isEnabled: boolean): void {
-    this.instructorsConsolidated[i].isCurrentlyBeingEdited = isEnabled;
-  }
-
-  /**
-   * Adds all the pending and failed-to-add instructors.
-   */
-  addAllInstructors(): void {
-    for (let i: number = 0; i < this.instructorsConsolidated.length; i += 1) {
-      this.addInstructor(i);
-    }
+  private getLocalDraftRowModel(name: string, email: string, institution: string): AccountRequestTableRowModel {
+    this.localDraftCounter += 1;
+    return {
+      id: '',
+      localId: `local-draft-${this.localDraftCounter}`,
+      name,
+      email,
+      status: 'DRAFT',
+      instituteAndCountry: institution,
+      createdAtText: '',
+      registeredAtText: '',
+      comments: '',
+      registrationLink: '',
+      showLinks: false,
+      isLocalRow: true,
+    };
   }
 
   private formatAccountRequests(requests: AccountRequests): AccountRequestTableRowModel[] {
@@ -184,14 +124,17 @@ export class AdminHomePageComponent implements OnInit {
         comments: request.comments || '',
         registrationLink: '',
         showLinks: false,
+        isLocalRow: false,
       };
     });
   }
 
   fetchAccountRequests(): void {
+    const localDraftRows: AccountRequestTableRowModel[] = this.accountReqs
+        .filter((row: AccountRequestTableRowModel) => row.isLocalRow);
     this.accountService.getPendingAccountRequests().subscribe({
       next: (resp: AccountRequests) => {
-        this.accountReqs = this.formatAccountRequests(resp);
+        this.accountReqs = [...localDraftRows, ...this.formatAccountRequests(resp)];
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
