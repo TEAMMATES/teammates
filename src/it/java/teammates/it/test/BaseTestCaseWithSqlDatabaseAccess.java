@@ -7,7 +7,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -38,8 +37,7 @@ import teammates.test.BaseTestCase;
 /**
  * Base test case for tests that access the database.
  */
-@Test(singleThreaded = true)
-public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
+public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
 
     private static final PostgreSQLContainer<?> PGSQL = new PostgreSQLContainer<>("postgres:15.1-alpine");
 

@@ -3,7 +3,6 @@ package teammates.sqllogic.api;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
-import teammates.common.util.HibernateUtil;
 import teammates.sqllogic.core.UsersLogic;
 
 /**
@@ -15,9 +14,7 @@ public class UserProvision {
 
     private final UsersLogic usersLogic = UsersLogic.inst();
 
-    @SuppressWarnings("PMD.UnnecessaryConstructor")
-    public UserProvision() {
-        // TODO: change constructor to private & remove PMD suppression after migration
+    UserProvision() {
         // prevent initialization
     }
 
@@ -44,20 +41,9 @@ public class UserProvision {
     }
 
     /**
-     * Gets the information of the current logged in user, with an SQL transaction.
-     */
-    public UserInfo getCurrentUserWithTransaction(UserInfoCookie uic) {
-        HibernateUtil.beginTransaction();
-        UserInfo userInfo = getCurrentUser(uic);
-        HibernateUtil.commitTransaction();
-        return userInfo;
-    }
-
-    // TODO: method visibility to package-private after migration
-    /**
      * Gets the current logged in user.
      */
-    public UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
+    UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
         if (uic == null || !uic.isValid()) {
             return null;
         }
