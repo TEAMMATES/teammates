@@ -19,7 +19,7 @@ import teammates.test.AssertHelper;
  */
 public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final SqlDataBundle typicalBundle = getTypicalSqlDataBundle();
+    private final SqlDataBundle typicalBundle = getTypicalDataBundle();
     private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
 
     @Override

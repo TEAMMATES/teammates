@@ -32,7 +32,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @BeforeClass
     public void setupClass() {
-        typicalDataBundle = getTypicalSqlDataBundle();
+        typicalDataBundle = getTypicalDataBundle();
     }
 
     @Override

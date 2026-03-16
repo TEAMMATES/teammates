@@ -57,37 +57,32 @@ public class BaseTestCase {
      */
     // CHECKSTYLE.OFF:AbbreviationAsWordInName|MethodName the weird name is for easy spotting.
     public static void ______TS(String description) {
-        print(" * " + description);
+        System.out.println(" * " + description);
     }
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
     @BeforeClass
     public void printTestClassHeader() {
-        print("[============================="
+        System.out.println("[============================="
                 + getClass().getCanonicalName()
                 + "=============================]");
     }
 
     @AfterClass
     public void printTestClassFooter() {
-        print(getClass().getCanonicalName() + " completed");
-    }
-
-    protected static void print(String message) {
-        System.out.println(message);
+        System.out.println(getClass().getCanonicalName() + " completed");
     }
 
     protected String getTestDataFolder() {
         return TestProperties.TEST_DATA_FOLDER;
     }
 
-    protected SqlDataBundle getTypicalSqlDataBundle() {
-        return loadSqlDataBundle("/typicalDataBundle.json");
+    protected SqlDataBundle getTypicalDataBundle() {
+        return loadDataBundle("/typicalDataBundle.json");
     }
 
-    protected SqlDataBundle loadSqlDataBundle(String jsonFileName) {
+    protected SqlDataBundle loadDataBundle(String jsonFileName) {
         try {
-            // TODO: rename to loadDataBundle after migration
             String pathToJsonFile = getTestDataFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return DataBundleLogic.deserializeDataBundle(jsonString);

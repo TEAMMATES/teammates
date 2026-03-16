@@ -63,7 +63,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     static final String PUT = HttpPut.METHOD_NAME;
     static final String DELETE = HttpDelete.METHOD_NAME;
 
-    SqlDataBundle typicalBundle = getTypicalSqlDataBundle();
+    SqlDataBundle typicalBundle = getTypicalDataBundle();
     Logic logic = Logic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
