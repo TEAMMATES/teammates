@@ -26,6 +26,7 @@ import teammates.test.BaseTestCase;
  * SUT: {@link SendgridService},
  *      {@link MailgunService},
  *      {@link MailjetService}.
+ *      {@link SmtpService}
  */
 public class EmailSenderTest extends BaseTestCase {
 
