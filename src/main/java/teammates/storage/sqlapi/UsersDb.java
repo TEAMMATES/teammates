@@ -22,6 +22,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
@@ -487,6 +488,7 @@ public final class UsersDb {
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
         assert courseId != null;
         assert userEmail != null;
+        String sanitizedUserEmail = SanitizationHelper.sanitizeEmail(userEmail);
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
@@ -495,7 +497,7 @@ public final class UsersDb {
         cr.select(instructorRoot)
                 .where(cb.and(
                         cb.equal(instructorRoot.get("courseId"), courseId),
-                        cb.equal(instructorRoot.get("email"), userEmail)));
+                cb.equal(cb.lower(instructorRoot.get("email")), sanitizedUserEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
@@ -513,7 +515,8 @@ public final class UsersDb {
 
         List<Predicate> predicates = new ArrayList<>();
         for (String userEmail : userEmails) {
-            predicates.add(cb.equal(instructorRoot.get("email"), userEmail));
+            predicates.add(cb.equal(cb.lower(instructorRoot.get("email")),
+                    SanitizationHelper.sanitizeEmail(userEmail)));
         }
 
         cr.select(instructorRoot)
@@ -530,6 +533,7 @@ public final class UsersDb {
     public Student getStudentForEmail(String courseId, String userEmail) {
         assert courseId != null;
         assert userEmail != null;
+        String sanitizedUserEmail = SanitizationHelper.sanitizeEmail(userEmail);
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
@@ -538,7 +542,7 @@ public final class UsersDb {
         cr.select(studentRoot)
                 .where(cb.and(
                         cb.equal(studentRoot.get("courseId"), courseId),
-                        cb.equal(studentRoot.get("email"), userEmail)));
+                cb.equal(cb.lower(studentRoot.get("email")), sanitizedUserEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
@@ -556,7 +560,8 @@ public final class UsersDb {
 
         List<Predicate> predicates = new ArrayList<>();
         for (String userEmail : userEmails) {
-            predicates.add(cb.equal(studentRoot.get("email"), userEmail));
+            predicates.add(cb.equal(cb.lower(studentRoot.get("email")),
+                    SanitizationHelper.sanitizeEmail(userEmail)));
         }
 
         cr.select(studentRoot)
