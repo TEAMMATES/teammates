@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -82,7 +83,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
-            if (feedbackResponseComment.getGiver().equals(instructor.getEmail())) { // giver, allowed by default
+            if (SanitizationHelper.isSameEmail(feedbackResponseComment.getGiver(), instructor.getEmail())) {
                 return;
             }
             gateKeeper.verifyAccessible(instructor, session, response.getGiverSection().getName(),

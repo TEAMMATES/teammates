@@ -9,6 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
@@ -90,7 +91,8 @@ public class UpdateStudentAction extends Action {
             studentToUpdate.setId(existingStudent.getId());
             sqlLogic.updateStudentCascade(studentToUpdate);
 
-            if (!studentEmail.equals(updateRequest.getEmail()) && updateRequest.getIsSessionSummarySendEmail()) {
+                if (!SanitizationHelper.isSameEmail(studentEmail, updateRequest.getEmail())
+                    && updateRequest.getIsSessionSummarySendEmail()) {
                 boolean emailSent = sendEmail(courseId, updateRequest.getEmail());
                 String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL
                         : SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;

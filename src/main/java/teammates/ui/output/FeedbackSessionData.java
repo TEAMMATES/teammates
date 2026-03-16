@@ -9,6 +9,7 @@ import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -337,7 +338,7 @@ public class FeedbackSessionData extends ApiOutput {
     public void hideInformationForStudent(String studentEmail) {
         hideInformationForStudentAndInstructor();
         hideSessionVisibilityTimestamps();
-        studentDeadlines.keySet().removeIf(email -> !(email.equals(studentEmail)));
+        studentDeadlines.keySet().removeIf(email -> !SanitizationHelper.isSameEmail(email, studentEmail));
         instructorDeadlines.clear();
     }
 
@@ -354,7 +355,7 @@ public class FeedbackSessionData extends ApiOutput {
      */
     public void hideInformationForInstructor(String instructorEmail) {
         hideInformationForStudentAndInstructor();
-        instructorDeadlines.keySet().removeIf(email -> !(email.equals(instructorEmail)));
+        instructorDeadlines.keySet().removeIf(email -> !SanitizationHelper.isSameEmail(email, instructorEmail));
         studentDeadlines.clear();
     }
 

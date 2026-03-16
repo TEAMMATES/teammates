@@ -17,6 +17,7 @@ import teammates.common.datatransfer.SqlSessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -89,10 +90,10 @@ public class SessionResultsData extends ApiOutput {
                 for (FeedbackResponse response : responses) {
                     boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeamName());
 
-                    boolean isUserGiver = student.getEmail().equals(response.getGiver())
+                        boolean isUserGiver = SanitizationHelper.isSameEmail(student.getEmail(), response.getGiver())
                             && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                             || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
-                    boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
+                        boolean isUserRecipient = SanitizationHelper.isSameEmail(student.getEmail(), response.getRecipient())
                             && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                             || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
                     ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
@@ -136,7 +137,7 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeamName());
 
         // process giver
-        boolean isUserGiver = student.getEmail().equals(response.getGiver())
+        boolean isUserGiver = SanitizationHelper.isSameEmail(student.getEmail(), response.getGiver())
                 && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                 || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
         boolean isUserTeamGiver = question.getGiverType() == FeedbackParticipantType.TEAMS
@@ -155,7 +156,7 @@ public class SessionResultsData extends ApiOutput {
         }
 
         // process recipient
-        boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
+        boolean isUserRecipient = SanitizationHelper.isSameEmail(student.getEmail(), response.getRecipient())
                 && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                 || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
         boolean isUserTeamRecipient = (question.getRecipientType() == FeedbackParticipantType.TEAMS

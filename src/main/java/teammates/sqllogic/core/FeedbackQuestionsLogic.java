@@ -24,6 +24,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -147,7 +148,7 @@ public final class FeedbackQuestionsLogic {
                 fqDb.getFeedbackQuestionsForGiverType(
                     feedbackSession, FeedbackParticipantType.INSTRUCTORS));
 
-        if (feedbackSession.getCreatorEmail().equals(userEmail)) {
+        if (SanitizationHelper.isSameEmail(feedbackSession.getCreatorEmail(), userEmail)) {
             questions.addAll(
                     fqDb.getFeedbackQuestionsForGiverType(
                         feedbackSession, FeedbackParticipantType.SELF));
@@ -343,7 +344,8 @@ public final class FeedbackQuestionsLogic {
             }
 
             if (generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
-                studentList.removeIf(studentInList -> studentInList.getEmail().equals(emailOfEntityDoingQuestion));
+                studentList.removeIf(studentInList ->
+                    SanitizationHelper.isSameEmail(studentInList.getEmail(), emailOfEntityDoingQuestion));
             }
 
             for (Student student : studentList) {
@@ -387,7 +389,8 @@ public final class FeedbackQuestionsLogic {
                         courseId);
 
                 if (generateOptionsFor == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
-                    teamMembers.removeIf(teamMember -> teamMember.getEmail().equals(emailOfEntityDoingQuestion));
+                        teamMembers.removeIf(teamMember ->
+                            SanitizationHelper.isSameEmail(teamMember.getEmail(), emailOfEntityDoingQuestion));
                 }
 
                 teamMembers.forEach(teamMember -> optionList.add(teamMember.getName()));
@@ -500,7 +503,8 @@ public final class FeedbackQuestionsLogic {
                 }
                 // Ensure student does not evaluate him/herself if it's STUDENTS_EXCLUDING_SELF or
                 // STUDENTS_IN_SAME_SECTION
-                if (giverEmail.equals(student.getEmail()) && generateOptionsFor != FeedbackParticipantType.STUDENTS) {
+                if (SanitizationHelper.isSameEmail(giverEmail, student.getEmail())
+                        && generateOptionsFor != FeedbackParticipantType.STUDENTS) {
                     continue;
                 }
                 recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
@@ -520,7 +524,7 @@ public final class FeedbackQuestionsLogic {
                     continue;
                 }
                 // Ensure instructor does not evaluate himself
-                if (!giverEmail.equals(instr.getEmail())) {
+                if (!SanitizationHelper.isSameEmail(giverEmail, instr.getEmail())) {
                     recipients.put(instr.getEmail(),
                             new FeedbackQuestionRecipient(instr.getName(), instr.getEmail()));
                 }
@@ -577,7 +581,7 @@ public final class FeedbackQuestionsLogic {
                 students = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
             }
             for (Student student : students) {
-                if (!student.getEmail().equals(giverEmail)) {
+                if (!SanitizationHelper.isSameEmail(student.getEmail(), giverEmail)) {
                     recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
                             student.getSectionName(), student.getTeamName()));
                 }

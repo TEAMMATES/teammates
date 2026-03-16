@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.List;
 
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Instructor;
 
 /**
@@ -77,11 +78,12 @@ public class DeleteInstructorAction extends Action {
 
         for (Instructor instr : instructors) {
             hasAlternativeModifyInstructor = hasAlternativeModifyInstructor || instr.isRegistered()
-                    && !instr.getEmail().equals(instructorToDeleteEmail)
+                    && !SanitizationHelper.isSameEmail(instr.getEmail(), instructorToDeleteEmail)
                     && instr.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
 
             hasAlternativeVisibleInstructor = hasAlternativeVisibleInstructor
-                    || instr.isDisplayedToStudents() && !instr.getEmail().equals(instructorToDeleteEmail);
+                    || instr.isDisplayedToStudents()
+                    && !SanitizationHelper.isSameEmail(instr.getEmail(), instructorToDeleteEmail);
 
             if (hasAlternativeModifyInstructor && hasAlternativeVisibleInstructor) {
                 return true;

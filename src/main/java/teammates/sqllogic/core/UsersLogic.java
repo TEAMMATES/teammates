@@ -18,12 +18,12 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -142,7 +142,7 @@ public final class UsersLogic {
 
         String newEmail = instructor.getEmail();
 
-        if (!originalEmail.equals(newEmail)) {
+        if (!SanitizationHelper.isSameEmail(originalEmail, newEmail)) {
             needsCascade = true;
         }
 
@@ -705,7 +705,7 @@ public final class UsersLogic {
     }
 
     private boolean isEmailChanged(String originalEmail, String newEmail) {
-        return newEmail != null && !originalEmail.equals(newEmail);
+        return newEmail != null && !SanitizationHelper.isSameEmail(originalEmail, newEmail);
     }
 
     private boolean isTeamChanged(Team originalTeam, Team newTeam) {

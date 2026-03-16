@@ -11,6 +11,7 @@ import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -241,13 +242,15 @@ public final class FeedbackResponseCommentsLogic {
                                                                FeedbackParticipantType.INSTRUCTORS);
 
         boolean isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients =
-                response.getRecipient().equals(userEmail) && checkIsResponseCommentVisibleTo(relatedQuestion,
+            SanitizationHelper.isSameEmail(response.getRecipient(), userEmail)
+                && checkIsResponseCommentVisibleTo(relatedQuestion,
                         relatedComment, FeedbackParticipantType.RECEIVER);
 
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
-                response.getGiver().equals(userEmail) && isVisibleToGiver;
+            SanitizationHelper.isSameEmail(response.getGiver(), userEmail) && isVisibleToGiver;
 
-        boolean isUserRelatedResponseCommentGiver = relatedComment.getGiver().equals(userEmail);
+        boolean isUserRelatedResponseCommentGiver =
+            SanitizationHelper.isSameEmail(relatedComment.getGiver(), userEmail);
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
                 isUserStudent && checkIsResponseCommentVisibleTo(relatedQuestion,

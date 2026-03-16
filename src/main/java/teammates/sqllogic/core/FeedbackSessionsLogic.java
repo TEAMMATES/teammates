@@ -15,6 +15,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -557,7 +558,7 @@ public final class FeedbackSessionsLogic {
         } else {
             // No questions for instructors. There must be questions for creator.
             List<Instructor> creators = instructors.stream()
-                    .filter(instructor -> fs.getCreatorEmail().equals(instructor.getEmail()))
+                    .filter(instructor -> SanitizationHelper.isSameEmail(fs.getCreatorEmail(), instructor.getEmail()))
                     .collect(Collectors.toList());
             expectedTotal += creators.size();
         }

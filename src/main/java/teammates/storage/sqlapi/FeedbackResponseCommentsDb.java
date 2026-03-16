@@ -15,6 +15,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -123,7 +124,7 @@ public final class FeedbackResponseCommentsDb {
         assert oldEmail != null;
         assert updatedEmail != null;
 
-        if (oldEmail.equals(updatedEmail)) {
+        if (SanitizationHelper.isSameEmail(oldEmail, updatedEmail)) {
             return;
         }
 
@@ -144,7 +145,7 @@ public final class FeedbackResponseCommentsDb {
         assert oldEmail != null;
         assert updatedEmail != null;
 
-        if (oldEmail.equals(updatedEmail)) {
+        if (SanitizationHelper.isSameEmail(oldEmail, updatedEmail)) {
             return;
         }
 
