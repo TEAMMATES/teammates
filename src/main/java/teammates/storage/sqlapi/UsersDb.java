@@ -275,8 +275,7 @@ public final class UsersDb {
     /**
      * Searches all instructors in the system.
      *
-     * <p>
-     * This method should be used by admin only since the searching does not
+     * <p>This method should be used by admin only since the searching does not
      * restrict the visibility according to the logged-in user's google ID. This
      * is used by admin to search instructors in the whole system.
      */
@@ -384,11 +383,8 @@ public final class UsersDb {
     /**
      * Searches all students in the system.
      *
-     * <p>
-     * This method should be used by admin only since the searching does not
-     * restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin
-     * to
+     * <p>This method should be used by admin only since the searching does not restrict the
+     * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
      */
     public List<Student> searchStudentsInWholeSystem(String queryString)
