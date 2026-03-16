@@ -960,9 +960,9 @@ public final class FeedbackResponsesLogic {
 
         boolean isVisibleResponse = false;
         if (isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-            || SanitizationHelper.isSameEmail(response.getRecipient(), userEmail)
+                || SanitizationHelper.isSameEmail(response.getRecipient(), userEmail)
                 && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-            || SanitizationHelper.isSameEmail(response.getGiver(), userEmail)
+                || SanitizationHelper.isSameEmail(response.getGiver(), userEmail)
                 || !isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
         } else if (studentsEmailInTeam != null && !isInstructor) {

@@ -249,12 +249,12 @@ public class InstructorCourseEditPageSql extends AppPage {
         for (WebElement card : cards) {
             WebElement cardHeader = card.findElement(By.className("card-header"));
             String cardHeaderText = cardHeader.getText();
-                int courseIdStartIndex = cardHeaderText.indexOf('[');
-                int courseIdEndIndex = cardHeaderText.indexOf(']');
-                if (courseIdStartIndex < 0 || courseIdEndIndex <= courseIdStartIndex) {
-                    continue;
-                }
-                String courseId = cardHeaderText.substring(courseIdStartIndex + 1, courseIdEndIndex);
+            int courseIdStartIndex = cardHeaderText.indexOf('[');
+            int courseIdEndIndex = cardHeaderText.indexOf(']');
+            if (courseIdStartIndex < 0 || courseIdEndIndex <= courseIdStartIndex) {
+                continue;
+            }
+            String courseId = cardHeaderText.substring(courseIdStartIndex + 1, courseIdEndIndex);
             if (courseInstructorEmailsMap.containsKey(courseId)) {
                 click(cardHeader);
                 WebElement cardBody = waitForElementPresence(By.className("card-body"));
@@ -265,10 +265,10 @@ public class InstructorCourseEditPageSql extends AppPage {
                 List<WebElement> rows = table.findElements(By.cssSelector("tbody tr"));
                 for (WebElement row : rows) {
                     List<WebElement> cells = row.findElements(By.tagName("td"));
-                        String listedEmail = SanitizationHelper.sanitizeEmail(cells.get(2).getText());
-                        if (courseInstructorEmailsMap.get(courseId).stream()
-                                .map(SanitizationHelper::sanitizeEmail)
-                                .anyMatch(listedEmail::equals)) {
+                    String listedEmail = SanitizationHelper.sanitizeEmail(cells.get(2).getText());
+                    if (courseInstructorEmailsMap.get(courseId).stream()
+                            .map(SanitizationHelper::sanitizeEmail)
+                            .anyMatch(listedEmail::equals)) {
                         markOptionAsSelected(cells.get(0).findElement(By.id("enabled-checkbox")));
                     }
                 }

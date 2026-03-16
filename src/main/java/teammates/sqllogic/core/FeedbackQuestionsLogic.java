@@ -345,7 +345,7 @@ public final class FeedbackQuestionsLogic {
 
             if (generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
                 studentList.removeIf(studentInList ->
-                    SanitizationHelper.isSameEmail(studentInList.getEmail(), emailOfEntityDoingQuestion));
+                        SanitizationHelper.isSameEmail(studentInList.getEmail(), emailOfEntityDoingQuestion));
             }
 
             for (Student student : studentList) {
@@ -389,7 +389,7 @@ public final class FeedbackQuestionsLogic {
                         courseId);
 
                 if (generateOptionsFor == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
-                        teamMembers.removeIf(teamMember ->
+                    teamMembers.removeIf(teamMember ->
                             SanitizationHelper.isSameEmail(teamMember.getEmail(), emailOfEntityDoingQuestion));
                 }
 

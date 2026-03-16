@@ -40,7 +40,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + student.getTeam());
         } else if (question.getGiverType() == FeedbackParticipantType.STUDENTS
-            && !SanitizationHelper.isSameEmail(response.getGiver(), student.getEmail())) {
+                && !SanitizationHelper.isSameEmail(response.getGiver(), student.getEmail())) {
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + student.getName());
         }

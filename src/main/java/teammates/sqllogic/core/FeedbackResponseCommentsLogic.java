@@ -242,15 +242,15 @@ public final class FeedbackResponseCommentsLogic {
                                                                FeedbackParticipantType.INSTRUCTORS);
 
         boolean isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients =
-            SanitizationHelper.isSameEmail(response.getRecipient(), userEmail)
+                SanitizationHelper.isSameEmail(response.getRecipient(), userEmail)
                 && checkIsResponseCommentVisibleTo(relatedQuestion,
                         relatedComment, FeedbackParticipantType.RECEIVER);
 
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
-            SanitizationHelper.isSameEmail(response.getGiver(), userEmail) && isVisibleToGiver;
+                SanitizationHelper.isSameEmail(response.getGiver(), userEmail) && isVisibleToGiver;
 
         boolean isUserRelatedResponseCommentGiver =
-            SanitizationHelper.isSameEmail(relatedComment.getGiver(), userEmail);
+                SanitizationHelper.isSameEmail(relatedComment.getGiver(), userEmail);
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
                 isUserStudent && checkIsResponseCommentVisibleTo(relatedQuestion,

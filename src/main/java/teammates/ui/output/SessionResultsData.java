@@ -90,12 +90,12 @@ public class SessionResultsData extends ApiOutput {
                 for (FeedbackResponse response : responses) {
                     boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeamName());
 
-                        boolean isUserGiver = SanitizationHelper.isSameEmail(student.getEmail(), response.getGiver())
+                    boolean isUserGiver = SanitizationHelper.isSameEmail(student.getEmail(), response.getGiver())
                             && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
-                            || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
-                        boolean isUserRecipient = SanitizationHelper.isSameEmail(student.getEmail(), response.getRecipient())
+                                || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+                    boolean isUserRecipient = SanitizationHelper.isSameEmail(student.getEmail(), response.getRecipient())
                             && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
-                            || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
+                                || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
                     ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
 
                     if (isUserRecipient) {
