@@ -85,7 +85,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Removes and restores the databundle, with retries.
+     * Removes and restores the databundle.
      */
     protected SqlDataBundle removeAndRestoreDataBundle(SqlDataBundle testData) {
         SqlDataBundle dataBundle = null;
@@ -387,6 +387,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     protected void verifyPresentInDatabase(BaseEntity expected) {
         assertNotNull(expected);
         ApiOutput actual = getEntity(expected);
+        assertNotNull(actual);
         verifyEquals(expected, actual);
     }
 
@@ -466,7 +467,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the feedback response data for the given course ID, feedback session name, question number, giver and recipient.
+     * Gets the feedback response data for the given question ID, giver, and recipient.
      */
     protected FeedbackResponseData getFeedbackResponse(String questionId, String giver, String recipient) {
         return BACKDOOR.getFeedbackResponseData(questionId, giver, recipient);
