@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -28,6 +29,11 @@ public class UserProvisionTest extends BaseTestCase {
     private UsersLogic mockUsersLogic;
     private MockedStatic<Config> mockConfig;
     private MockedStatic<HibernateUtil> mockHibernateUtil;
+
+    @BeforeClass
+    public void setUpClass() {
+        UserProvision.inst();
+    }
 
     @BeforeMethod
     public void setUpMethod() {
