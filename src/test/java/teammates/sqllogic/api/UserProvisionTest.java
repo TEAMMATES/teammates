@@ -1,5 +1,6 @@
 package teammates.sqllogic.api;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
@@ -36,6 +37,10 @@ public class UserProvisionTest extends BaseTestCase {
             userProvision = new UserProvision();
         }
 
+        // Default mock to return false for all IDs, individual tests will override as needed
+        when(mockUsersLogic.isInstructorInAnyCourse(anyString())).thenReturn(false);
+        when(mockUsersLogic.isStudentInAnyCourse(anyString())).thenReturn(false);
+
         mockConfig = mockStatic(Config.class);
         mockConfig.when(Config::getAppAdmins).thenReturn(List.of());
         mockConfig.when(Config::getAppMaintainers).thenReturn(List.of());
@@ -63,7 +68,6 @@ public class UserProvisionTest extends BaseTestCase {
     public void testGetCurrentUser_instructor_returnsUserInfoWithIsInstructorTrue() {
         String userId = "typical-instructor";
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
@@ -74,7 +78,6 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUser_student_returnsUserInfoWithIsStudentTrue() {
         String userId = "typical-student";
-        when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
@@ -108,8 +111,6 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUser_unregistered_returnsUserInfoWithNoRoles() {
         String userId = "unregistered-user";
-        when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(false);
-        when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
@@ -120,13 +121,14 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUserWithTransaction_nullUic_returnsNull() {
         assertNull(userProvision.getCurrentUserWithTransaction(null));
+        mockHibernateUtil.verify(HibernateUtil::beginTransaction);
+        mockHibernateUtil.verify(HibernateUtil::commitTransaction);
     }
 
     @Test
     public void testGetCurrentUserWithTransaction_instructor_wrapsInTransactionAndReturnsUserInfo() {
         String userId = "typical-instructor";
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
         UserInfo user = userProvision.getCurrentUserWithTransaction(createMockValidCookie(userId));
 
@@ -159,7 +161,6 @@ public class UserProvisionTest extends BaseTestCase {
     public void testGetMasqueradeUser_instructor_returnsUserInfoWithIsInstructorTrue() {
         String googleId = "typical-instructor";
         when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(false);
 
         UserInfo user = userProvision.getMasqueradeUser(googleId);
 
@@ -170,7 +171,6 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetMasqueradeUser_student_returnsUserInfoWithIsStudentTrue() {
         String googleId = "typical-student";
-        when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
 
         UserInfo user = userProvision.getMasqueradeUser(googleId);
@@ -193,8 +193,6 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetMasqueradeUser_unregistered_returnsUserInfoWithAllRolesFalse() {
         String googleId = "unregistered-user";
-        when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(false);
-        when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(false);
 
         UserInfo user = userProvision.getMasqueradeUser(googleId);
 

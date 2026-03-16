@@ -36,7 +36,7 @@ public class UserProvision {
         user.isAdmin = Config.getAppAdmins().contains(userId);
         user.isInstructor = usersLogic.isInstructorInAnyCourse(userId);
         user.isStudent = usersLogic.isStudentInAnyCourse(userId);
-        user.isMaintainer = Config.getAppMaintainers().contains(user.getId());
+        user.isMaintainer = Config.getAppMaintainers().contains(userId);
         return user;
     }
 
