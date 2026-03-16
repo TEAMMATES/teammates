@@ -48,7 +48,7 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         SqlDataBundle dataBundle = doRemoveAndRestoreDataBundle(testData);
         while (dataBundle == null && retryLimit > 0) {
             retryLimit--;
-            print("Re-trying removeAndRestoreDataBundle");
+            System.out.println("Re-trying removeAndRestoreDataBundle");
             ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
             dataBundle = doRemoveAndRestoreDataBundle(testData);
         }

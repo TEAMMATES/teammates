@@ -57,24 +57,20 @@ public class BaseTestCase {
      */
     // CHECKSTYLE.OFF:AbbreviationAsWordInName|MethodName the weird name is for easy spotting.
     public static void ______TS(String description) {
-        print(" * " + description);
+        System.out.println(" * " + description);
     }
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
     @BeforeClass
     public void printTestClassHeader() {
-        print("[============================="
+        System.out.println("[============================="
                 + getClass().getCanonicalName()
                 + "=============================]");
     }
 
     @AfterClass
     public void printTestClassFooter() {
-        print(getClass().getCanonicalName() + " completed");
-    }
-
-    protected static void print(String message) {
-        System.out.println(message);
+        System.out.println(getClass().getCanonicalName() + " completed");
     }
 
     protected String getTestDataFolder() {

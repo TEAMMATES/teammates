@@ -43,7 +43,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BACKDOOR.executeGetRequest(url, null);
 
-        print("AssertionError triggered, verify that you have received error logs via email");
+        System.out.println("AssertionError triggered, verify that you have received error logs via email");
 
     }
 
@@ -57,7 +57,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BACKDOOR.executeGetRequest(url, null);
 
-        print("NullPointerException triggered, verify that you have received error logs via email");
+        System.out.println("NullPointerException triggered, verify that you have received error logs via email");
 
     }
 
@@ -71,7 +71,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BACKDOOR.executeGetRequest(url, null);
 
-        print("DeadlineExceededException triggered, verify that you have received error logs via email");
+        System.out.println("DeadlineExceededException triggered, verify that you have received error logs via email");
 
     }
 
@@ -85,7 +85,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BACKDOOR.executeGetRequest(url, null);
 
-        print("PSQLException triggered, verify that you have received error logs via email");
+        System.out.println("PSQLException triggered, verify that you have received error logs via email");
 
     }
 
@@ -99,7 +99,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BACKDOOR.executeGetRequest(url, null);
 
-        print("This exception is handled by system, make sure you don't receive any emails");
+        System.out.println("This exception is handled by system, make sure you don't receive any emails");
 
     }
 
@@ -113,7 +113,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BACKDOOR.executeGetRequest(url, null);
 
-        print("This exception is handled by system, make sure you don't receive any emails");
+        System.out.println("This exception is handled by system, make sure you don't receive any emails");
 
     }
 
@@ -127,7 +127,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BACKDOOR.executeGetRequest(url, null);
 
-        print("This exception is handled by system, make sure you don't receive any emails");
+        System.out.println("This exception is handled by system, make sure you don't receive any emails");
 
     }
 
