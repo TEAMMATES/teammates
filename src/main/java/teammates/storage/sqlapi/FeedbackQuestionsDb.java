@@ -23,7 +23,7 @@ import teammates.storage.sqlentity.FeedbackSession;
  *
  * @see FeedbackQuestion
  */
-public final class FeedbackQuestionsDb extends EntitiesDb {
+public final class FeedbackQuestionsDb {
 
     private static final FeedbackQuestionsDb instance = new FeedbackQuestionsDb();
 
@@ -55,7 +55,7 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
             throw new EntityAlreadyExistsException(errorMessage);
         }
 
-        persist(feedbackQuestion);
+        HibernateUtil.persist(feedbackQuestion);
         return feedbackQuestion;
     }
 
@@ -127,7 +127,7 @@ public final class FeedbackQuestionsDb extends EntitiesDb {
 
         FeedbackQuestion fq = getFeedbackQuestion(fqId);
         if (fq != null) {
-            delete(fq);
+            HibernateUtil.remove(fq);
         }
     }
 

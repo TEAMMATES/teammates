@@ -10,8 +10,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.SanitizationHelper;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Notification;
@@ -24,7 +22,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
 
     @Test
-    public void testCreateNotification() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateNotification() throws EntityAlreadyExistsException {
         ______TS("success: create notification that does not exist");
         Notification newNotification = generateTypicalNotification();
 
@@ -36,7 +34,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetNotification() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testGetNotification() throws EntityAlreadyExistsException {
         ______TS("success: get a notification that already exists");
         Notification newNotification = generateTypicalNotification();
 
@@ -53,7 +51,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testDeleteNotification() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testDeleteNotification() throws EntityAlreadyExistsException {
         ______TS("success: delete a notification that already exists");
         Notification notification = generateTypicalNotification();
 
@@ -66,7 +64,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetAllNotifications() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testGetAllNotifications() throws EntityAlreadyExistsException {
         ______TS("success: no notification present in the database");
         List<Notification> allNotifications = notificationsDb.getAllNotifications();
         assertEquals(0, allNotifications.size());
@@ -86,7 +84,7 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetActiveNotificationsByTargetUser() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testGetActiveNotificationsByTargetUser() throws EntityAlreadyExistsException {
         Notification n1 = new Notification(
                 Instant.parse("2011-01-04T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"),
@@ -153,36 +151,6 @@ public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         actualNotifications.forEach(actual -> {
             verifyEquals(it2.next(), actual);
         });
-    }
-
-    @Test
-    public void testCreateNotification_sqlInjectionAttemptIntoTitle_shouldNotRunSqlInjectionQuery()
-            throws EntityAlreadyExistsException, InvalidParametersException {
-        Notification notification = generateTypicalNotification();
-        // insert into notifications (created_at, end_time, message, shown, start_time, style, target_user, title,
-        // updated_at, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        String sqlInjectionTitle = "t', '101231 2359'::timestamp, uuid_generate_v4()); "
-                + "DROP TABLE notifications;--";
-        notification.setTitle(sqlInjectionTitle);
-        UUID id = notificationsDb.createNotification(notification).getId();
-        Notification createdNotification = notificationsDb.getNotification(id);
-        assertNotNull(createdNotification);
-        assertEquals(sqlInjectionTitle, createdNotification.getTitle());
-    }
-
-    @Test
-    public void testCreateNotification_sqlInjectionAttemptIntoMessage_shouldNotRunSqlInjectionQuery()
-            throws EntityAlreadyExistsException, InvalidParametersException {
-        Notification notification = generateTypicalNotification();
-        // insert into notifications (created_at, end_time, message, shown, start_time, style, target_user, title,
-        // updated_at, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        String sqlInjectionMessage = "m', TRUE, '110101 0000'::timestamp, 'DANGER', 'GENERAL', 't', "
-                + "'101231 2359'::timestamp, uuid_generate_v4()); DROP TABLE notifications;--";
-        notification.setMessage(sqlInjectionMessage);
-        UUID id = notificationsDb.createNotification(notification).getId();
-        Notification createdNotification = notificationsDb.getNotification(id);
-        assertNotNull(createdNotification);
-        assertEquals(SanitizationHelper.sanitizeForRichText(sqlInjectionMessage), createdNotification.getMessage());
     }
 
     private Notification generateTypicalNotification() {

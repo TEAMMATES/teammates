@@ -34,7 +34,7 @@ import teammates.storage.sqlsearch.StudentSearchManager;
  *
  * @see User
  */
-public final class UsersDb extends EntitiesDb {
+public final class UsersDb {
 
     private static final UsersDb instance = new UsersDb();
 
@@ -65,7 +65,7 @@ public final class UsersDb extends EntitiesDb {
             throw new InvalidParametersException(instructor.getInvalidityInfo());
         }
 
-        persist(instructor);
+        HibernateUtil.persist(instructor);
         return instructor;
     }
 
@@ -80,7 +80,7 @@ public final class UsersDb extends EntitiesDb {
             throw new InvalidParametersException(student.getInvalidityInfo());
         }
 
-        persist(student);
+        HibernateUtil.persist(student);
         return student;
     }
 
@@ -265,7 +265,7 @@ public final class UsersDb extends EntitiesDb {
     public <T extends User> T updateUser(T user) {
         assert user != null;
 
-        return merge(user);
+        return HibernateUtil.merge(user);
     }
 
     /**
@@ -319,7 +319,7 @@ public final class UsersDb extends EntitiesDb {
      */
     public <T extends User> void deleteUser(T user) {
         if (user != null) {
-            delete(user);
+            HibernateUtil.remove(user);
         }
     }
 
@@ -611,7 +611,7 @@ public final class UsersDb extends EntitiesDb {
         if (section == null) {
             Course course = CoursesDb.inst().getCourse(courseId);
             section = new Section(course, sectionName);
-            persist(section);
+            HibernateUtil.persist(section);
         }
 
         return section;
@@ -648,7 +648,7 @@ public final class UsersDb extends EntitiesDb {
 
         if (team == null) {
             team = new Team(section, teamName);
-            persist(team);
+            HibernateUtil.persist(team);
         }
 
         return team;
@@ -661,7 +661,7 @@ public final class UsersDb extends EntitiesDb {
             throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         checkBeforeUpdateStudent(student);
 
-        return merge(student);
+        return HibernateUtil.merge(student);
     }
 
     /**

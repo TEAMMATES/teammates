@@ -27,7 +27,7 @@ import teammates.storage.sqlsearch.SearchManagerFactory;
  *
  * @see AccountRequest
  */
-public final class AccountRequestsDb extends EntitiesDb {
+public final class AccountRequestsDb {
     private static final AccountRequestsDb instance = new AccountRequestsDb();
 
     private AccountRequestsDb() {
@@ -51,7 +51,7 @@ public final class AccountRequestsDb extends EntitiesDb {
         if (!accountRequest.isValid()) {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
-        persist(accountRequest);
+        HibernateUtil.persist(accountRequest);
         return accountRequest;
     }
 
@@ -148,7 +148,7 @@ public final class AccountRequestsDb extends EntitiesDb {
                 String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
         }
 
-        merge(accountRequest);
+        HibernateUtil.merge(accountRequest);
         return accountRequest;
     }
 
@@ -157,7 +157,7 @@ public final class AccountRequestsDb extends EntitiesDb {
      */
     public void deleteAccountRequest(AccountRequest accountRequest) {
         if (accountRequest != null) {
-            delete(accountRequest);
+            HibernateUtil.remove(accountRequest);
             deleteDocumentByAccountRequestId(accountRequest.getId());
         }
     }

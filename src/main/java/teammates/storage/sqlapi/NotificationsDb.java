@@ -23,7 +23,7 @@ import teammates.storage.sqlentity.Notification;
  *
  * @see Notification
  */
-public final class NotificationsDb extends EntitiesDb {
+public final class NotificationsDb {
 
     private static final NotificationsDb instance = new NotificationsDb();
 
@@ -49,7 +49,7 @@ public final class NotificationsDb extends EntitiesDb {
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, notification.toString()));
         }
 
-        persist(notification);
+        HibernateUtil.persist(notification);
         return notification;
     }
 
@@ -69,7 +69,7 @@ public final class NotificationsDb extends EntitiesDb {
      */
     public void deleteNotification(Notification notification) {
         if (notification != null) {
-            delete(notification);
+            HibernateUtil.remove(notification);
         }
     }
 
@@ -118,7 +118,7 @@ public final class NotificationsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Notification.class);
         }
 
-        return merge(notification);
+        return HibernateUtil.merge(notification);
     }
 
 }

@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
@@ -39,8 +38,7 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testResetAccountRequest()
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+    public void testResetAccountRequest() throws InvalidParametersException, EntityDoesNotExistException {
 
         ______TS("success: create account request and update registeredAt field");
 
