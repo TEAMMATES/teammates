@@ -574,15 +574,14 @@ task e2eTests {
 (1..numOfTestRetries + 1).each { id ->
     def isFirstTry = id == 1
     def isLastRetry = id == numOfTestRetries + 1
-    def runUnstableTests = project.hasProperty('unstable')
-    def outputFileName = runUnstableTests ? "e2e-unstable-test-try-" : "e2e-test-try-"
+    def outputFileName = "e2e-test-try-"
 
     task "e2eTestTry${id}"(type: Test) {
         testClassesDirs = testing.suites.test.sources.output.classesDirs
         classpath = testing.suites.test.sources.runtimeClasspath
         useTestNG()
         options.suites isFirstTry
-                ? (runUnstableTests ? "src/e2e/resources/testng-unstable-e2e.xml" : "src/e2e/resources/testng-e2e.xml")
+                ? "src/e2e/resources/testng-e2e.xml"
                 : file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml")
         options.outputDirectory = file("${buildDir}/reports/${outputFileName}${id}")
         options.useDefaultListeners = true
@@ -615,15 +614,14 @@ task e2eTestsSql {
 (1..numOfTestRetries + 1).each { id ->
     def isFirstTry = id == 1
     def isLastRetry = id == numOfTestRetries + 1
-    def runUnstableTests = project.hasProperty('unstable')
-    def outputFileName = runUnstableTests ? "e2e-sql-unstable-test-try-" : "e2e-sql-test-try-"
+    def outputFileName = "e2e-sql-test-try-"
 
     task "e2eSqlTestTry${id}"(type: Test) {
         testClassesDirs = testing.suites.test.sources.output.classesDirs
         classpath = testing.suites.test.sources.runtimeClasspath
         useTestNG()
         options.suites isFirstTry
-                ? (runUnstableTests ? "src/e2e/resources/testng-unstable-e2e-sql.xml" : "src/e2e/resources/testng-e2e-sql.xml")
+                ? "src/e2e/resources/testng-e2e-sql.xml"
                 : file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml")
         options.outputDirectory = file("${buildDir}/reports/${outputFileName}${id}")
         options.useDefaultListeners = true
