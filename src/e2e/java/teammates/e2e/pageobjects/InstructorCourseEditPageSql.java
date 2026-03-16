@@ -17,6 +17,7 @@ import org.openqa.selenium.support.ui.Select;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.test.ThreadHelper;
@@ -248,7 +249,12 @@ public class InstructorCourseEditPageSql extends AppPage {
         for (WebElement card : cards) {
             WebElement cardHeader = card.findElement(By.className("card-header"));
             String cardHeaderText = cardHeader.getText();
-            String courseId = cardHeaderText.substring(1, cardHeaderText.indexOf(']'));
+                int courseIdStartIndex = cardHeaderText.indexOf('[');
+                int courseIdEndIndex = cardHeaderText.indexOf(']');
+                if (courseIdStartIndex < 0 || courseIdEndIndex <= courseIdStartIndex) {
+                    continue;
+                }
+                String courseId = cardHeaderText.substring(courseIdStartIndex + 1, courseIdEndIndex);
             if (courseInstructorEmailsMap.containsKey(courseId)) {
                 click(cardHeader);
                 WebElement cardBody = waitForElementPresence(By.className("card-body"));
@@ -259,7 +265,10 @@ public class InstructorCourseEditPageSql extends AppPage {
                 List<WebElement> rows = table.findElements(By.cssSelector("tbody tr"));
                 for (WebElement row : rows) {
                     List<WebElement> cells = row.findElements(By.tagName("td"));
-                    if (courseInstructorEmailsMap.get(courseId).contains(cells.get(2).getText())) {
+                        String listedEmail = SanitizationHelper.sanitizeEmail(cells.get(2).getText());
+                        if (courseInstructorEmailsMap.get(courseId).stream()
+                                .map(SanitizationHelper::sanitizeEmail)
+                                .anyMatch(listedEmail::equals)) {
                         markOptionAsSelected(cells.get(0).findElement(By.id("enabled-checkbox")));
                     }
                 }
@@ -634,8 +643,9 @@ public class InstructorCourseEditPageSql extends AppPage {
     }
 
     private int getIntrNum(String email) {
+        String normalizedEmail = SanitizationHelper.sanitizeEmail(email);
         for (int i = 1; i <= getNumInstructors(); i++) {
-            if (getInstructorEmail(i).equals(email)) {
+            if (SanitizationHelper.sanitizeEmail(getInstructorEmail(i)).equals(normalizedEmail)) {
                 return i;
             }
         }

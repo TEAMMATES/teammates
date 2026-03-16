@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.SanitizationHelper;
 import teammates.test.ThreadHelper;
 
 /**
@@ -106,13 +107,14 @@ public class AdminHomePage extends AppPage {
     }
 
     public WebElement getAccountRequestRow(String name, String email, String institute) {
+        String normalizedEmail = SanitizationHelper.sanitizeEmail(email);
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_NAME - 1)
                     .getAttribute("innerHTML")).contains(name)
                     && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
-                    .getAttribute("innerHTML")).contains(email)
+                    .getAttribute("innerHTML")).contains(normalizedEmail)
                     && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
                     .getAttribute("innerHTML")).contains(institute)) {
                 return row;

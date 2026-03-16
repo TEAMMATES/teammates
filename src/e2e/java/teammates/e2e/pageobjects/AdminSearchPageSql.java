@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
@@ -281,7 +282,7 @@ public class AdminSearchPageSql extends AppPage {
     }
 
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
-        String email = accountRequest.getEmail();
+        String email = SanitizationHelper.sanitizeEmail(accountRequest.getEmail());
         String institute = accountRequest.getInstitute();
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
         for (WebElement row : rows) {
@@ -585,7 +586,7 @@ public class AdminSearchPageSql extends AppPage {
         String actualRegisteredAt = getAccountRequestRegisteredAt(accountRequestRow);
 
         assertEquals(accountRequest.getName(), actualName);
-        assertEquals(accountRequest.getEmail(), actualEmail);
+        assertEquals(SanitizationHelper.sanitizeEmail(accountRequest.getEmail()), actualEmail);
         assertEquals(accountRequest.getInstitute(), actualInstitute);
         assertFalse(actualCreatedAt.isBlank());
         if (accountRequest.getRegisteredAt() == null) {
