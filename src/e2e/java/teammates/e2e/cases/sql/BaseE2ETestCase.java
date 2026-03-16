@@ -85,14 +85,14 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Removes and restores the databundle, with retries. 
+     * Removes and restores the databundle, with retries.
      */
     protected SqlDataBundle removeAndRestoreDataBundle(SqlDataBundle testData) {
         SqlDataBundle dataBundle = null;
         try {
             dataBundle = BACKDOOR.removeAndRestoreSqlDataBundle(testData);
         } catch (HttpRequestFailedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         assertNotNull(dataBundle);
         return dataBundle;
@@ -423,50 +423,86 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         }
     }
 
-    AccountData getAccount(String googleId) {
+    /**
+     * Gets the account data for the given Google ID.
+     */
+    protected AccountData getAccount(String googleId) {
         return BACKDOOR.getAccountData(googleId);
     }
 
+    /**
+     * Gets the account data for the given account.
+     */
     protected AccountData getAccount(Account account) {
         return getAccount(account.getGoogleId());
     }
 
-    CourseData getCourse(String courseId) {
+    /**
+     * Gets the course data for the given course ID.
+     */
+    protected CourseData getCourse(String courseId) {
         return BACKDOOR.getCourseData(courseId);
     }
 
+    /**
+     * Gets the course data for the given course.
+     */
     protected CourseData getCourse(Course course) {
         return getCourse(course.getId());
     }
 
-    FeedbackQuestionData getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
+    /**
+     * Gets the feedback question data for the given course ID, feedback session name and question number.
+     */
+    protected FeedbackQuestionData getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
         return BACKDOOR.getFeedbackQuestionData(courseId, feedbackSessionName, qnNumber);
     }
 
+    /**
+     * Gets the feedback question data for the given feedback question.
+     */
     protected FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq) {
         return getFeedbackQuestion(fq.getCourseId(), fq.getFeedbackSession().getName(), fq.getQuestionNumber());
     }
 
-    FeedbackResponseData getFeedbackResponse(String questionId, String giver, String recipient) {
+    /**
+     * Gets the feedback response data for the given course ID, feedback session name, question number, giver and recipient.
+     */
+    protected FeedbackResponseData getFeedbackResponse(String questionId, String giver, String recipient) {
         return BACKDOOR.getFeedbackResponseData(questionId, giver, recipient);
     }
 
+    /**
+     * Gets the feedback response data for the given feedback response.
+     */
     protected FeedbackResponseData getFeedbackResponse(FeedbackResponse fr) {
         return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
     }
 
-    FeedbackResponseCommentData getFeedbackResponseComment(UUID feedbackResponseId) {
+    /**
+     * Gets the feedback response comment data for the given feedback response ID.
+     */
+    protected FeedbackResponseCommentData getFeedbackResponseComment(UUID feedbackResponseId) {
         return BACKDOOR.getFeedbackResponseCommentData(feedbackResponseId.toString());
     }
 
+    /**
+     * Gets the feedback response comment data for the given feedback response comment.
+     */
     protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
         return getFeedbackResponseComment(frc.getFeedbackResponse().getId());
     }
 
-    FeedbackSessionData getFeedbackSession(String courseId, String feedbackSessionName) {
+    /**
+     * Gets the feedback session data for the given course ID and feedback session name.
+     */
+    protected FeedbackSessionData getFeedbackSession(String courseId, String feedbackSessionName) {
         return BACKDOOR.getFeedbackSessionData(courseId, feedbackSessionName);
     }
 
+    /**
+     * Gets the feedback session data for the given feedback session.
+     */
     protected FeedbackSessionData getFeedbackSession(FeedbackSession feedbackSession) {
         return getFeedbackSession(feedbackSession.getCourse().getId(), feedbackSession.getName());
     }
@@ -478,14 +514,23 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         return status == FeedbackSessionPublishStatus.PUBLISHED;
     }
 
-    FeedbackSessionData getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+    /**
+     * Gets the soft-deleted feedback session data for the given feedback session name and instructor ID.
+     */
+    protected FeedbackSessionData getSoftDeletedSession(String feedbackSessionName, String instructorId) {
         return BACKDOOR.getSoftDeletedSessionData(feedbackSessionName, instructorId);
     }
 
-    InstructorData getInstructor(String courseId, String instructorEmail) {
+    /**
+     * Gets the instructor data for the given course ID and instructor email.
+     */
+    protected InstructorData getInstructor(String courseId, String instructorEmail) {
         return BACKDOOR.getInstructorData(courseId, instructorEmail);
     }
 
+    /**
+     * Gets the instructor data for the given instructor.
+     */
     protected InstructorData getInstructor(Instructor instructor) {
         return getInstructor(instructor.getCourseId(), instructor.getEmail());
     }
@@ -497,10 +542,16 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         return getInstructor(courseId, instructorEmail).getKey();
     }
 
-    NotificationData getNotification(String notificationId) {
+    /**
+     * Gets a notification by given notification ID.
+     */
+    protected NotificationData getNotification(String notificationId) {
         return BACKDOOR.getNotificationData(notificationId);
     }
 
+    /**
+     * Gets a notification by given notification.
+     */
     protected NotificationData getNotification(Notification notification) {
         return getNotification(notification.getId().toString());
     }
@@ -523,10 +574,16 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         BACKDOOR.deleteNotification(notificationId);
     }
 
-    StudentData getStudent(String courseId, String studentEmailAddress) {
+    /**
+     * Gets the student data for the given course ID and student email.
+     */
+    protected StudentData getStudent(String courseId, String studentEmailAddress) {
         return BACKDOOR.getStudentData(courseId, studentEmailAddress);
     }
 
+    /**
+     * Gets the student data for the given student.
+     */
     protected StudentData getStudent(Student student) {
         return getStudent(student.getCourseId(), student.getEmail());
     }
