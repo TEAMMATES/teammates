@@ -15,7 +15,7 @@ public class AdminAccountsPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/AdminAccountsPageE2ETestSql.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminAccountsPageE2ETestSql.json"));
     }
 
     @Test

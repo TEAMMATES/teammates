@@ -17,7 +17,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadSqlDataBundle("/InstructorCourseJoinConfirmationPageE2ETestSql.json"));
+                loadDataBundle("/InstructorCourseJoinConfirmationPageE2ETestSql.json"));
 
         newInstructor = testData.instructors.get("ICJoinConf.instr.CS1101");
     }

@@ -32,7 +32,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadSqlDataBundle("/InstructorSessionIndividualExtensionPageE2ETestSql.json"));
+                loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETestSql.json"));
 
         testEmail = TestProperties.TEST_EMAIL;
         Student alice = testData.students.get("alice.tmms@ISesIe.CS2104");

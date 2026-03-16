@@ -81,13 +81,12 @@ public class BaseTestCase {
         return TestProperties.TEST_DATA_FOLDER;
     }
 
-    protected SqlDataBundle getTypicalSqlDataBundle() {
-        return loadSqlDataBundle("/typicalDataBundle.json");
+    protected SqlDataBundle getTypicalDataBundle() {
+        return loadDataBundle("/typicalDataBundle.json");
     }
 
-    protected SqlDataBundle loadSqlDataBundle(String jsonFileName) {
+    protected SqlDataBundle loadDataBundle(String jsonFileName) {
         try {
-            // TODO: rename to loadDataBundle after migration
             String pathToJsonFile = getTestDataFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return DataBundleLogic.deserializeDataBundle(jsonString);

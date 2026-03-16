@@ -20,7 +20,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/InstructorCourseEditPageE2ETestSql.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/InstructorCourseEditPageE2ETestSql.json"));
 
         course = testData.courses.get("ICEdit.CS2104");
         instructors[0] = testData.instructors.get("ICEdit.helper.CS2104");

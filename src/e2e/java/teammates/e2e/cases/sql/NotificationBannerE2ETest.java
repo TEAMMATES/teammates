@@ -19,7 +19,7 @@ public class NotificationBannerE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                        loadSqlDataBundle("/NotificationBannerE2ETestSql.json"));
+                        loadDataBundle("/NotificationBannerE2ETestSql.json"));
     }
 
     @Test

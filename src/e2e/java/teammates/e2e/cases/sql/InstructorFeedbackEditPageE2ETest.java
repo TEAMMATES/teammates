@@ -30,7 +30,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/InstructorFeedbackEditPageE2ETestSql.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/InstructorFeedbackEditPageE2ETestSql.json"));
         course = testData.courses.get("InstFEP.CS2104");
         instructor = testData.instructors.get("InstFEP.instr");
         feedbackSession = testData.feedbackSessions.get("openSession");

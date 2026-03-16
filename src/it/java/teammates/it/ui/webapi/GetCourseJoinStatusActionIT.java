@@ -19,7 +19,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        this.typicalBundle = loadSqlDataBundle("/typicalDataBundle.json");
+        this.typicalBundle = loadDataBundle("/typicalDataBundle.json");
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
     }

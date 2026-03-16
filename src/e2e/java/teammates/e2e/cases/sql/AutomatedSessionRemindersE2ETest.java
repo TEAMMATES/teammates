@@ -18,7 +18,7 @@ public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadSqlDataBundle("/AutomatedSessionRemindersE2ETestSql.json");
+        testData = loadDataBundle("/AutomatedSessionRemindersE2ETestSql.json");
 
         // When running the test against a production server, email alerts will be sent
         // to the specified email address

@@ -21,7 +21,7 @@ public class InstructorCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadSqlDataBundle("/InstructorCourseJoinConfirmationPageE2ETestSql.json"));
+                loadDataBundle("/InstructorCourseJoinConfirmationPageE2ETestSql.json"));
 
         newInstructor = testData.instructors.get("ICJoinConf.instr.CS1101");
     }

@@ -17,7 +17,7 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                        loadSqlDataBundle("/InstructorCourseStudentDetailsPageE2ETestSql.json"));
+                        loadDataBundle("/InstructorCourseStudentDetailsPageE2ETestSql.json"));
 
         student = testData.students.get("ICSDet.jose.tmms");
         otherStudent = testData.students.get("ICSDet.benny.c");

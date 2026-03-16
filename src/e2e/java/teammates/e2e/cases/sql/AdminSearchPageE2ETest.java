@@ -24,7 +24,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/AdminSearchPageE2ESqlTest.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminSearchPageE2ESqlTest.json"));
     }
 
     @Test

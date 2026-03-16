@@ -15,7 +15,7 @@ public class InstructorSessionIndividualExtensionPageAxeTest extends BaseAxeTest
 
     @Override
     protected void prepareTestData() {
-        testData = loadSqlDataBundle("/InstructorSessionIndividualExtensionPageE2ETestSql.json");
+        testData = loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETestSql.json");
         removeAndRestoreDataBundle(testData);
     }
 

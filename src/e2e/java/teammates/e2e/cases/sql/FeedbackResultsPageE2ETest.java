@@ -32,7 +32,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadSqlDataBundle("/FeedbackResultsPageE2ESqlTest.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackResultsPageE2ESqlTest.json"));
 
         course = testData.courses.get("FRes.CS2104");
         openSession = testData.feedbackSessions.get("Open Session");
