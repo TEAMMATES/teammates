@@ -3,7 +3,6 @@ package teammates.it.test;
 import java.util.UUID;
 
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
@@ -14,7 +13,6 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.sqllogic.api.Logic;
@@ -35,10 +33,6 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
-import teammates.storage.sqlsearch.AccountRequestSearchManager;
-import teammates.storage.sqlsearch.InstructorSearchManager;
-import teammates.storage.sqlsearch.SearchManagerFactory;
-import teammates.storage.sqlsearch.StudentSearchManager;
 import teammates.test.BaseTestCase;
 
 /**
@@ -58,20 +52,6 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
 
         LogicStarter.initializeDependencies();
-
-        SearchManagerFactory.registerAccountRequestSearchManager(
-            new AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        SearchManagerFactory.registerInstructorSearchManager(
-            new InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        SearchManagerFactory.registerStudentSearchManager(
-            new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-    }
-
-    @AfterClass
-    public void tearDownClass() {
-        SearchManagerFactory.getAccountRequestSearchManager().resetCollections();
-        SearchManagerFactory.getInstructorSearchManager().resetCollections();
-        SearchManagerFactory.getStudentSearchManager().resetCollections();
     }
 
     @AfterSuite
@@ -100,13 +80,6 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     protected void persistDataBundle(SqlDataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         logic.persistDataBundle(dataBundle);
-    }
-
-    /**
-     * Puts searchable documents from the data bundle to the solr database.
-     */
-    protected void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
-        logic.putDocuments(dataBundle);
     }
 
     /**

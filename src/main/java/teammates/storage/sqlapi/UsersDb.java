@@ -6,10 +6,13 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
@@ -17,6 +20,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -25,9 +29,6 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
-import teammates.storage.sqlsearch.InstructorSearchManager;
-import teammates.storage.sqlsearch.SearchManagerFactory;
-import teammates.storage.sqlsearch.StudentSearchManager;
 
 /**
  * Handles CRUD operations for users.
@@ -44,14 +45,6 @@ public final class UsersDb {
 
     public static UsersDb inst() {
         return instance;
-    }
-
-    public InstructorSearchManager getInstructorSearchManager() {
-        return SearchManagerFactory.getInstructorSearchManager();
-    }
-
-    public StudentSearchManager getStudentSearchManager() {
-        return SearchManagerFactory.getStudentSearchManager();
     }
 
     /**
@@ -269,6 +262,17 @@ public final class UsersDb {
     }
 
     /**
+     * Escapes LIKE pattern metacharacters so user input is treated literally.
+     */
+    private static String escapeLikePattern(String pattern, char escapeChar) {
+        String esc = String.valueOf(escapeChar);
+        return pattern
+                .replace(esc, esc + esc)
+                .replace("%", esc + "%")
+                .replace("_", esc + "_");
+    }
+
+    /**
      * Searches all instructors in the system.
      *
      * <p>This method should be used by admin only since the searching does not
@@ -281,7 +285,36 @@ public final class UsersDb {
             return new ArrayList<>();
         }
 
-        return getInstructorSearchManager().searchInstructors(queryString);
+        char escapeChar = '\\';
+        String escapedQuery = escapeLikePattern(queryString.toLowerCase(), escapeChar);
+        String wildcardQuery = "%" + escapedQuery + "%";
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+        Join<Instructor, Course> coursesJoin = instructorRoot.join("course");
+        Join<Instructor, Account> accountsJoin = instructorRoot.join("account", JoinType.LEFT);
+
+        Predicate searchPredicate = cb.or(
+                cb.like(cb.lower(instructorRoot.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(instructorRoot.get("email")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(instructorRoot.get("courseId")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(cb.coalesce(accountsJoin.get("googleId"), "")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(instructorRoot.get("role").as(String.class)), wildcardQuery, escapeChar));
+
+        cr.select(instructorRoot)
+                .where(searchPredicate)
+                .orderBy(
+                        cb.asc(instructorRoot.get("courseId")),
+                        cb.asc(instructorRoot.get("role")),
+                        cb.asc(instructorRoot.get("name")),
+                        cb.asc(instructorRoot.get("email")));
+
+        TypedQuery<Instructor> query = HibernateUtil.createQuery(cr);
+        query.setMaxResults(Const.SEARCH_QUERY_SIZE_LIMIT);
+        return query.getResultList();
     }
 
     /**
@@ -295,7 +328,56 @@ public final class UsersDb {
             return new ArrayList<>();
         }
 
-        return getStudentSearchManager().searchStudents(queryString, instructors);
+        List<String> courseIdsWithViewStudentPrivilege = null;
+        if (instructors != null) {
+            courseIdsWithViewStudentPrivilege = instructors.stream()
+                    .filter(i -> i.getPrivileges().getCourseLevelPrivileges().isCanViewStudentInSections())
+                    .map(Instructor::getCourseId)
+                    .collect(Collectors.toList());
+
+            if (courseIdsWithViewStudentPrivilege.isEmpty()) {
+                return new ArrayList<>();
+            }
+        }
+
+        char escapeChar = '\\';
+        String escapedQuery = escapeLikePattern(queryString.toLowerCase(), escapeChar);
+        String wildcardQuery = "%" + escapedQuery + "%";
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Course> coursesJoin = studentRoot.join("course");
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+        Join<Team, Section> sectionsJoin = teamsJoin.join("section");
+
+        Predicate searchPredicate = cb.or(
+                cb.like(cb.lower(studentRoot.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(studentRoot.get("email")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(studentRoot.get("courseId")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(teamsJoin.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(sectionsJoin.get("name")), wildcardQuery, escapeChar));
+
+        if (courseIdsWithViewStudentPrivilege == null) {
+            cr.select(studentRoot)
+                    .where(searchPredicate);
+        } else {
+            cr.select(studentRoot)
+                    .where(cb.and(searchPredicate,
+                            studentRoot.get("courseId").in(courseIdsWithViewStudentPrivilege)));
+        }
+
+        cr.orderBy(
+                cb.asc(studentRoot.get("courseId")),
+                cb.asc(sectionsJoin.get("name")),
+                cb.asc(teamsJoin.get("name")),
+                cb.asc(studentRoot.get("name")),
+                cb.asc(studentRoot.get("email")));
+
+        TypedQuery<Student> query = HibernateUtil.createQuery(cr);
+        query.setMaxResults(Const.SEARCH_QUERY_SIZE_LIMIT);
+        return query.getResultList();
     }
 
     /**
@@ -303,7 +385,7 @@ public final class UsersDb {
      *
      * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
-     * search instructors in the whole system.
+     * search students in the whole system.
      */
     public List<Student> searchStudentsInWholeSystem(String queryString)
             throws SearchServiceException {
@@ -311,7 +393,7 @@ public final class UsersDb {
             return new ArrayList<>();
         }
 
-        return getStudentSearchManager().searchStudents(queryString, null);
+        return searchStudents(queryString, null);
     }
 
     /**
@@ -384,7 +466,8 @@ public final class UsersDb {
     }
 
     /**
-     * Gets the list of students for the specified {@code courseId} in batches with {@code batchSize}.
+     * Gets the list of students for the specified {@code courseId} in batches with
+     * {@code batchSize}.
      */
     public List<Student> getStudentsForCourse(String courseId, int batchSize) {
         assert courseId != null;

@@ -96,7 +96,8 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(actualInstructor);
 
         ______TS("success: gets an instructor by googleId");
-        actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(), instructor.getAccount().getGoogleId());
+        actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(),
+                instructor.getAccount().getGoogleId());
         verifyEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor by googleId that does not exist");

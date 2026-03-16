@@ -5,15 +5,17 @@ on:
     branches:
       - master
       - release
-
   pull_request:
     branches:
       - master
       - release
-
   schedule:
     - cron: "0 0 * * *" #end of every day
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   E2E-sql-testing:
@@ -24,7 +26,7 @@ jobs:
         browser: [firefox]
         tests: [stable, unstable]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -34,7 +36,7 @@ jobs:
           distribution: temurin
           java-version: 21
       - name: Cache Gradle packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches

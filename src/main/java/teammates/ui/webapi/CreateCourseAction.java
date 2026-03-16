@@ -62,11 +62,6 @@ public class CreateCourseAction extends Action {
         try {
             sqlLogic.createCourseAndInstructor(userInfo.getId(), course);
 
-            Instructor createdInstructor = sqlLogic.getInstructorByGoogleId(newCourseId, userInfo.getId());
-            taskQueuer.scheduleInstructorForSearchIndexing(
-                    createdInstructor.getCourseId(),
-                    createdInstructor.getEmail());
-
             Course createdCourse = sqlLogic.getCourse(newCourseId);
             return new JsonResult(new CourseData(createdCourse));
 
