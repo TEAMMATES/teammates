@@ -16,6 +16,7 @@ import java.util.Map;
 import jakarta.servlet.AsyncContext;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.ServletRequest;
@@ -24,7 +25,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionContext;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.Part;
 
@@ -210,17 +210,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
             }
 
             @Override
-            public HttpSessionContext getSessionContext() {
-                return null;
-            }
-
-            @Override
             public Object getAttribute(String name) {
-                return null;
-            }
-
-            @Override
-            public Object getValue(String name) {
                 return null;
             }
 
@@ -230,27 +220,12 @@ public class MockHttpServletRequest implements HttpServletRequest {
             }
 
             @Override
-            public String[] getValueNames() {
-                return new String[0];
-            }
-
-            @Override
             public void setAttribute(String name, Object value) {
                 // not used
             }
 
             @Override
-            public void putValue(String name, Object value) {
-                // not used
-            }
-
-            @Override
             public void removeAttribute(String name) {
-                // not used
-            }
-
-            @Override
-            public void removeValue(String name) {
                 // not used
             }
 
@@ -283,11 +258,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public boolean isRequestedSessionIdFromURL() {
-        return false;
-    }
-
-    @Override
-    public boolean isRequestedSessionIdFromUrl() {
         return false;
     }
 
@@ -479,11 +449,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
     }
 
     @Override
-    public String getRealPath(String s) {
-        return null;
-    }
-
-    @Override
     public int getRemotePort() {
         return 0;
     }
@@ -535,6 +500,21 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public DispatcherType getDispatcherType() {
+        return null;
+    }
+
+    @Override
+    public String getRequestId() {
+        return null;
+    }
+
+    @Override
+    public String getProtocolRequestId() {
+        return null;
+    }
+
+    @Override
+    public ServletConnection getServletConnection() {
         return null;
     }
 
