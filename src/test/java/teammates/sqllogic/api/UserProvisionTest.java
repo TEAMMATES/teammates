@@ -49,34 +49,6 @@ public class UserProvisionTest extends BaseTestCase {
         mockHibernateUtil.close();
     }
 
-    private static void assertHasExactRoles(UserInfo user,
-            boolean isAdmin, boolean isInstructor, boolean isStudent, boolean isMaintainer) {
-        assertEquals(isAdmin, user.isAdmin);
-        assertEquals(isInstructor, user.isInstructor);
-        assertEquals(isStudent, user.isStudent);
-        assertEquals(isMaintainer, user.isMaintainer);
-    }
-
-    private static void assertIsInstructorOnly(UserInfo user) {
-        assertHasExactRoles(user, false, true, false, false);
-    }
-
-    private static void assertIsStudentOnly(UserInfo user) {
-        assertHasExactRoles(user, false, false, true, false);
-    }
-
-    private static void assertIsAdminOnly(UserInfo user) {
-        assertHasExactRoles(user, true, false, false, false);
-    }
-
-    private static void assertIsMaintainerOnly(UserInfo user) {
-        assertHasExactRoles(user, false, false, false, true);
-    }
-
-    private static void assertNoRoles(UserInfo user) {
-        assertHasExactRoles(user, false, false, false, false);
-    }
-
     @Test
     public void testGetCurrentUser_nullUic_returnsNull() {
         assertNull(userProvision.getCurrentUser(null));
@@ -84,10 +56,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_invalidCookie_returnsNull() {
-        UserInfoCookie invalidCookie = new UserInfoCookie("userid");
-        invalidCookie.setVerificationCode("invalid_signature");
-
-        assertNull(userProvision.getCurrentUser(invalidCookie));
+        assertNull(userProvision.getCurrentUser(createMockInvalidCookie()));
     }
 
     @Test
@@ -96,7 +65,7 @@ public class UserProvisionTest extends BaseTestCase {
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
-        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(userId));
+        UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
         assertIsInstructorOnly(user);
@@ -108,7 +77,7 @@ public class UserProvisionTest extends BaseTestCase {
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
 
-        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(userId));
+        UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
         assertIsStudentOnly(user);
@@ -119,7 +88,7 @@ public class UserProvisionTest extends BaseTestCase {
         String adminUserId = "admin-user-id";
         mockConfig.when(Config::getAppAdmins).thenReturn(List.of(adminUserId));
 
-        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(adminUserId));
+        UserInfo user = userProvision.getCurrentUser(createMockValidCookie(adminUserId));
 
         assertEquals(adminUserId, user.id);
         assertIsAdminOnly(user);
@@ -130,22 +99,22 @@ public class UserProvisionTest extends BaseTestCase {
         String maintainerUserId = "maintainer-user-id";
         mockConfig.when(Config::getAppMaintainers).thenReturn(List.of(maintainerUserId));
 
-        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(maintainerUserId));
+        UserInfo user = userProvision.getCurrentUser(createMockValidCookie(maintainerUserId));
 
         assertEquals(maintainerUserId, user.id);
         assertIsMaintainerOnly(user);
     }
 
     @Test
-    public void testGetCurrentUser_unregistered_returnsUserInfoWithAllRolesFalse() {
+    public void testGetCurrentUser_unregistered_returnsUserInfoWithNoRoles() {
         String userId = "unregistered-user";
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
-        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(userId));
+        UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
-        assertNoRoles(user);
+        assertHasNoRoles(user);
     }
 
     @Test
@@ -159,7 +128,7 @@ public class UserProvisionTest extends BaseTestCase {
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(false);
 
-        UserInfo user = userProvision.getCurrentUserWithTransaction(new UserInfoCookie(userId));
+        UserInfo user = userProvision.getCurrentUserWithTransaction(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
         assertIsInstructorOnly(user);
@@ -174,17 +143,14 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentLoggedInUser_invalidCookie_returnsNull() {
-        UserInfoCookie invalidCookie = new UserInfoCookie("some-user");
-        invalidCookie.setVerificationCode("invalid-signature");
-
-        assertNull(userProvision.getCurrentLoggedInUser(invalidCookie));
+        assertNull(userProvision.getCurrentLoggedInUser(createMockInvalidCookie()));
     }
 
     @Test
     public void testGetCurrentLoggedInUser_validCookie_returnsUserInfoWithCorrectId() {
         String userId = "valid-user-id";
 
-        UserInfo user = userProvision.getCurrentLoggedInUser(new UserInfoCookie(userId));
+        UserInfo user = userProvision.getCurrentLoggedInUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
     }
@@ -233,7 +199,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getMasqueradeUser(googleId);
 
         assertEquals(googleId, user.id);
-        assertNoRoles(user);
+        assertHasNoRoles(user);
     }
 
     @Test
@@ -244,6 +210,47 @@ public class UserProvisionTest extends BaseTestCase {
 
         assertEquals(userId, user.id);
         assertIsAdminOnly(user);
+    }
+
+    private static UserInfoCookie createMockValidCookie(String userId) {
+        UserInfoCookie cookie = mock(UserInfoCookie.class);
+        when(cookie.isValid()).thenReturn(true);
+        when(cookie.getUserId()).thenReturn(userId);
+        return cookie;
+    }
+
+    private static UserInfoCookie createMockInvalidCookie() {
+        UserInfoCookie cookie = mock(UserInfoCookie.class);
+        when(cookie.isValid()).thenReturn(false);
+        return cookie;
+    }
+
+    private static void assertHasExactRoles(UserInfo user,
+                                            boolean isAdmin, boolean isInstructor, boolean isStudent, boolean isMaintainer) {
+        assertEquals(isAdmin, user.isAdmin);
+        assertEquals(isInstructor, user.isInstructor);
+        assertEquals(isStudent, user.isStudent);
+        assertEquals(isMaintainer, user.isMaintainer);
+    }
+
+    private static void assertIsInstructorOnly(UserInfo user) {
+        assertHasExactRoles(user, false, true, false, false);
+    }
+
+    private static void assertIsStudentOnly(UserInfo user) {
+        assertHasExactRoles(user, false, false, true, false);
+    }
+
+    private static void assertIsAdminOnly(UserInfo user) {
+        assertHasExactRoles(user, true, false, false, false);
+    }
+
+    private static void assertIsMaintainerOnly(UserInfo user) {
+        assertHasExactRoles(user, false, false, false, true);
+    }
+
+    private static void assertHasNoRoles(UserInfo user) {
+        assertHasExactRoles(user, false, false, false, false);
     }
 
 }
