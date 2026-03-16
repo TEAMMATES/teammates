@@ -11,7 +11,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
 import teammates.e2e.pageobjects.AdminSearchPageSql;
-import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -25,19 +24,12 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        if (!TestProperties.INCLUDE_SEARCH_TESTS) {
-            return;
-        }
         testData = removeAndRestoreDataBundle(loadSqlDataBundle("/AdminSearchPageE2ESqlTest.json"));
     }
 
     @Test
     @Override
     public void testAll() {
-        if (!TestProperties.INCLUDE_SEARCH_TESTS) {
-            return;
-        }
-
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         AdminSearchPageSql searchPage = loginAdminToPage(url, AdminSearchPageSql.class);
 

@@ -440,19 +440,6 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_externalApi_solrApiCanOnlyBeAccessedBySearchManagerClasses() {
-        noClasses().that().doNotHaveSimpleName("SearchManager")
-                .and().doNotHaveSimpleName("AccountRequestSearchManager")
-                .and().doNotHaveSimpleName("InstructorSearchManager")
-                .and().doNotHaveSimpleName("StudentSearchManager")
-                .and().doNotHaveSimpleName("AccountRequestSearchManagerTest")
-                .and().doNotHaveSimpleName("InstructorSearchManagerTest")
-                .and().doNotHaveSimpleName("StudentSearchManagerTest")
-                .should().accessClassesThat().resideInAPackage("org.apache.solr..")
-                .check(ALL_CLASSES);
-    }
-
-    @Test
     public void testArchitecture_externalApi_cloudTasksApiCanOnlyBeAccessedByCloudTasksService() {
         noClasses().that().doNotHaveSimpleName("GoogleCloudTasksService")
                 .should().accessClassesThat().resideInAPackage("com.google.cloud.tasks.v2..")

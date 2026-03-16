@@ -11,7 +11,6 @@ import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPageSql;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPageSql;
 import teammates.e2e.pageobjects.InstructorSearchPageSql;
 import teammates.e2e.pageobjects.InstructorStudentRecordsPageSql;
-import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Student;
 
@@ -22,9 +21,6 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        if (!TestProperties.INCLUDE_SEARCH_TESTS) {
-            return;
-        }
         testData = removeAndRestoreDataBundle(
                 loadSqlDataBundle("/InstructorSearchPageE2ETestSql.json"));
     }
@@ -32,10 +28,6 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        if (!TestProperties.INCLUDE_SEARCH_TESTS) {
-            return;
-        }
-
         String instructorId = testData.accounts.get("instructor1OfCourse1").getGoogleId();
         AppUrl searchPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE);
 
