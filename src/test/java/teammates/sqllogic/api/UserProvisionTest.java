@@ -49,7 +49,6 @@ public class UserProvisionTest extends BaseTestCase {
         mockHibernateUtil.close();
     }
 
-    /** Asserts all four roles at once so no role is accidentally left unchecked. */
     private static void assertHasExactRoles(UserInfo user,
             boolean isAdmin, boolean isInstructor, boolean isStudent, boolean isMaintainer) {
         assertEquals(isAdmin, user.isAdmin);
@@ -77,8 +76,6 @@ public class UserProvisionTest extends BaseTestCase {
     private static void assertNoRoles(UserInfo user) {
         assertHasExactRoles(user, false, false, false, false);
     }
-
-    // ======================= getCurrentUser =======================
 
     @Test
     public void testGetCurrentUser_nullUic_returnsNull() {
@@ -151,8 +148,6 @@ public class UserProvisionTest extends BaseTestCase {
         assertNoRoles(user);
     }
 
-    // ======================= getCurrentUserWithTransaction =======================
-
     @Test
     public void testGetCurrentUserWithTransaction_nullUic_returnsNull() {
         assertNull(userProvision.getCurrentUserWithTransaction(null));
@@ -171,8 +166,6 @@ public class UserProvisionTest extends BaseTestCase {
         mockHibernateUtil.verify(HibernateUtil::beginTransaction);
         mockHibernateUtil.verify(HibernateUtil::commitTransaction);
     }
-
-    // ======================= getCurrentLoggedInUser =======================
 
     @Test
     public void testGetCurrentLoggedInUser_nullUic_returnsNull() {
@@ -195,8 +188,6 @@ public class UserProvisionTest extends BaseTestCase {
 
         assertEquals(userId, user.id);
     }
-
-    // ======================= getMasqueradeUser =======================
 
     @Test
     public void testGetMasqueradeUser_instructor_returnsUserInfoWithIsInstructorTrue() {
@@ -244,8 +235,6 @@ public class UserProvisionTest extends BaseTestCase {
         assertEquals(googleId, user.id);
         assertNoRoles(user);
     }
-
-    // ======================= getAdminOnlyUser =======================
 
     @Test
     public void testGetAdminOnlyUser_returnsUserInfoWithOnlyIsAdminTrue() {
