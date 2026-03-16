@@ -7,7 +7,6 @@ import com.deque.html.axecore.results.Results;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminSearchPageSql;
-import teammates.e2e.util.TestProperties;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
@@ -16,19 +15,12 @@ public class AdminSearchPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        if (!TestProperties.INCLUDE_SEARCH_TESTS) {
-            return;
-        }
         testData = removeAndRestoreDataBundle(loadSqlDataBundle("/AdminSearchPageE2ESqlTest.json"));
     }
 
     @Test
     @Override
     public void testAll() {
-        if (!TestProperties.INCLUDE_SEARCH_TESTS) {
-            return;
-        }
-
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         AdminSearchPageSql searchPage = loginAdminToPage(url, AdminSearchPageSql.class);
 
