@@ -47,7 +47,6 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
                         accountRequestRejectionRequest.getReasonTitle(), accountRequestRejectionRequest.getReasonBody());
                 emailSender.sendEmail(email);
             }
-            taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequest.getId().toString());
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException e) {

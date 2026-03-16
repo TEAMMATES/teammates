@@ -57,8 +57,6 @@ public class CreateAccountRequestAction extends Action {
             throw new InvalidHttpRequestBodyException(ipe);
         }
 
-        taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequest.getId().toString());
-
         assert accountRequest != null;
 
         if (userInfo == null || !userInfo.isAdmin) {

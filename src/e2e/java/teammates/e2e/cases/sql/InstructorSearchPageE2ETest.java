@@ -27,7 +27,6 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         }
         testData = removeAndRestoreDataBundle(
                 loadSqlDataBundle("/InstructorSearchPageE2ETestSql.json"));
-        putDocuments(testData);
     }
 
     @Test

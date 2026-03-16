@@ -47,7 +47,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         studentToEmail = testData.students.get("IHome.charlie.d.tmms@IHome.CS2104");
         studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         testData = removeAndRestoreDataBundle(testData);
-        putDocuments(testData);
 
         instructor = testData.instructors.get("IHome.instr.CS2104");
         course = testData.courses.get("IHome.CS2104");

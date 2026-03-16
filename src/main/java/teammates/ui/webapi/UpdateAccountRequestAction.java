@@ -60,7 +60,6 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
                 accountRequest = sqlLogic.updateAccountRequestWithTransaction(accountRequest);
                 EmailWrapper email = sqlEmailGenerator.generateNewInstructorAccountJoinEmail(
                         accountRequest.getEmail(), accountRequest.getName(), accountRequest.getRegistrationUrl());
-                taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequest.getId().toString());
                 emailSender.sendEmail(email);
             } catch (InvalidParametersException e) {
                 throw new InvalidHttpRequestBodyException(e);
@@ -75,7 +74,6 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
                 accountRequest.setStatus(accountRequest.getStatus());
                 accountRequest.setComments(accountRequestUpdateRequest.getComments());
                 accountRequest = sqlLogic.updateAccountRequestWithTransaction(accountRequest);
-                taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequest.getId().toString());
             } catch (InvalidParametersException e) {
                 throw new InvalidHttpRequestBodyException(e);
             } catch (EntityDoesNotExistException e) {
