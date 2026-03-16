@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -23,7 +22,7 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
     selector: 'tm-user-join-page',
     templateUrl: './user-join-page.component.html',
     styleUrls: ['./user-join-page.component.scss'],
-    imports: [LoadingSpinnerDirective, NgIf],
+    imports: [LoadingSpinnerDirective],
 })
 export class UserJoinPageComponent implements OnInit {
 

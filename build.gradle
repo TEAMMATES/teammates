@@ -48,7 +48,6 @@ repositories {
     mavenCentral()
 }
 
-def objectify = "com.googlecode.objectify:objectify:6.0.7"
 def testng = "org.testng:testng:7.12.0"
 
 dependencies {
@@ -57,17 +56,13 @@ dependencies {
     staticAnalysis("com.github.spotbugs:spotbugs:${spotbugsVersion}")
     staticAnalysis("org.jacoco:org.jacoco.build:${jacocoVersion}")
 
-    annotationProcessor(objectify)
-
     implementation("com.google.auth:google-auth-library-oauth2-http:1.42.1")
     implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
-    implementation("com.google.cloud:google-cloud-datastore")
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("com.google.guava:guava:33.5.0-jre")
-    implementation(objectify)
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20260102.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:5.2.5")
@@ -99,17 +94,11 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:1.21.4")
     testImplementation("org.liquibase:liquibase-core:4.27.0")
     testImplementation("org.mockito:mockito-core:5.21.0")
+    testImplementation("org.eclipse.angus:angus-mail:2.0.5")
     // For supporting authorization code flow locally
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.39.0")
     // For using Gmail API
     testImplementation("com.google.apis:google-api-services-gmail:v1-rev20260112-2.0.0")
-    // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.6.2") {
-        exclude group: "org.apache.jmeter", module: "bom"
-    }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.6.2") {
-        exclude group: "org.apache.jmeter", module: "bom"
-    }
 
     liquibaseRuntime("info.picocli:picocli:4.7.7")
     liquibaseRuntime(sourceSets.main.output)
@@ -130,7 +119,6 @@ sourceSets {
         java {
             srcDir "src/test/java"
             srcDir "src/e2e/java"
-            srcDir "src/lnp/java"
             srcDir "src/it/java"
             srcDir "src/client/java"
             include "**/*.java"
@@ -138,7 +126,6 @@ sourceSets {
         resources {
             srcDir "src/test/resources"
             srcDir "src/e2e/resources"
-            srcDir "src/lnp/resources"
             srcDir "src/it/resources"
             srcDir "src/client/resources"
             exclude "**/*.java"
@@ -264,7 +251,6 @@ task createConfigs {
             "src/main/resources/build-dev.template.properties",
             "src/web/environments/config.template.ts",
             "src/test/resources/test.template.properties",
-            "src/lnp/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
             "src/client/resources/client.template.properties",
             "src/main/appengine/app.template.yaml"
@@ -339,11 +325,6 @@ task serverRun(type: JavaExec) {
     jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties",
             "-Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider"
     dependsOn explodeWar, copyDistToExplodedWar
-}
-
-task runDatastoreEmulator(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-    mainClass = "teammates.storage.api.DatastoreEmulatorRunner"
 }
 
 appengine {
@@ -540,38 +521,6 @@ task lint {
 // TEST TASKS
 
 def numOfTestRetries = 4
-
-task lnpTests(type: Test) {
-    systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
-    testClassesDirs = testing.suites.test.sources.output.classesDirs
-    classpath = testing.suites.test.sources.runtimeClasspath
-    useTestNG()
-    options.suites "src/lnp/resources/testng-lnp.xml"
-    options.useDefaultListeners = true
-    ignoreFailures = false
-    maxHeapSize = "1g"
-    reports.html.required = false
-    reports.junitXml.required = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed", "failed", "skipped"
-    }
-    // Display the L&P test results in the build
-    def outputCache = new LinkedList<String>()
-    beforeTest { TestDescriptor td -> outputCache.clear() } // clear output cache before the test starts
-    onOutput { TestDescriptor td, TestOutputEvent toe -> // put output in the cache
-        outputCache.add(toe.getMessage())
-        while (outputCache.size() > 2) outputCache.remove() // keep only last 2 result lines
-    }
-    afterTest { TestDescriptor td ->
-        if (outputCache.size() > 0) {
-            println(" L&P results for ${td.className}:")
-            outputCache.each { print(" > $it") }
-        }
-    }
-}
 
 task unitTests(type: Test) {
     description = "Runs the full unit test suite."

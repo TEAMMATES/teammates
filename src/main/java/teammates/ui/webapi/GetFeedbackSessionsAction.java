@@ -8,10 +8,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -51,13 +47,8 @@ public class GetFeedbackSessionsAction extends Action {
             }
 
             if (courseId != null) {
-                if (isCourseMigrated(courseId)) {
-                    Course course = sqlLogic.getCourse(courseId);
-                    gateKeeper.verifyAccessible(sqlLogic.getStudentByGoogleId(courseId, userInfo.getId()), course);
-                } else {
-                    CourseAttributes courseAttributes = logic.getCourse(courseId);
-                    gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.getId()), courseAttributes);
-                }
+                Course course = sqlLogic.getCourse(courseId);
+                gateKeeper.verifyAccessible(sqlLogic.getStudentByGoogleId(courseId, userInfo.getId()), course);
             }
         } else {
             if (!userInfo.isInstructor) {
@@ -66,14 +57,8 @@ public class GetFeedbackSessionsAction extends Action {
             }
 
             if (courseId != null) {
-                if (isCourseMigrated(courseId)) {
-                    Course course = sqlLogic.getCourse(courseId);
-                    gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()), course);
-                } else {
-                    CourseAttributes courseAttributes = logic.getCourse(courseId);
-                    gateKeeper.verifyAccessible(
-                            logic.getInstructorForGoogleId(courseId, userInfo.getId()), courseAttributes);
-                }
+                Course course = sqlLogic.getCourse(courseId);
+                gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()), course);
             }
         }
     }
@@ -84,9 +69,7 @@ public class GetFeedbackSessionsAction extends Action {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         List<FeedbackSession> feedbackSessions = new ArrayList<>();
-        List<InstructorAttributes> dataStoreInstructors = new ArrayList<>();
         List<Instructor> instructors = new ArrayList<>();
-        List<FeedbackSessionAttributes> feedbackSessionAttributes = new ArrayList<>();
         List<String> studentEmails = new ArrayList<>();
 
         if (courseId == null) {
@@ -100,19 +83,6 @@ public class GetFeedbackSessionsAction extends Action {
                     List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsForCourse(studentCourseId);
                     feedbackSessions.addAll(sessions);
                 }
-                List<StudentAttributes> dataStoreStudents = logic.getStudentsForGoogleId(userInfo.getId());
-                for (StudentAttributes student : dataStoreStudents) {
-                    String studentCourseId = student.getCourse();
-                    String emailAddress = student.getEmail();
-
-                    studentEmails.add(emailAddress);
-                    List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
-                    sessions = sessions.stream()
-                            .map(session -> session.getCopyForStudent(emailAddress))
-                            .collect(Collectors.toList());
-
-                    feedbackSessionAttributes.addAll(sessions);
-                }
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
@@ -123,41 +93,18 @@ public class GetFeedbackSessionsAction extends Action {
                 } else {
                     feedbackSessions = sqlLogic.getFeedbackSessionsForInstructors(instructors);
                 }
-
-                dataStoreInstructors = logic.getInstructorsForGoogleId(userInfo.getId(), true);
-
-                if (isInRecycleBin) {
-                    feedbackSessionAttributes = logic.getSoftDeletedFeedbackSessionsListForInstructors(dataStoreInstructors);
-                } else {
-                    feedbackSessionAttributes = logic.getFeedbackSessionsListForInstructor(dataStoreInstructors);
-                }
             }
         } else {
-            if (isCourseMigrated(courseId)) {
-                feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
-                if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
-                    Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
-                    assert student != null;
-                    String emailAddress = student.getEmail();
+            feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
+            if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
+                Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+                assert student != null;
+                String emailAddress = student.getEmail();
 
-                    studentEmails.add(emailAddress);
-                } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-                    instructors = Collections.singletonList(
-                            sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()));
-                }
-            } else {
-                feedbackSessionAttributes = logic.getFeedbackSessionsForCourse(courseId);
-                if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessionAttributes.isEmpty()) {
-                    StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
-                    assert student != null;
-                    String emailAddress = student.getEmail();
-                    feedbackSessionAttributes = feedbackSessionAttributes.stream()
-                            .map(instructorSession -> instructorSession.getCopyForStudent(emailAddress))
-                            .collect(Collectors.toList());
-                } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-                    dataStoreInstructors =
-                            Collections.singletonList(logic.getInstructorForGoogleId(courseId, userInfo.getId()));
-                }
+                studentEmails.add(emailAddress);
+            } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
+                instructors = Collections.singletonList(
+                        sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()));
             }
         }
 
@@ -165,18 +112,12 @@ public class GetFeedbackSessionsAction extends Action {
             // hide session not visible to student
             feedbackSessions = feedbackSessions.stream()
                     .filter(FeedbackSession::isVisible).collect(Collectors.toList());
-            feedbackSessionAttributes = feedbackSessionAttributes.stream()
-                    .filter(FeedbackSessionAttributes::isVisible).collect(Collectors.toList());
         }
 
         Map<String, Instructor> courseIdToInstructor = new HashMap<>();
         instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
-        Map<String, InstructorAttributes> dataStoreCourseIdToInstructor = new HashMap<>();
-        dataStoreInstructors.forEach(instructor -> dataStoreCourseIdToInstructor.put(instructor.getCourseId(), instructor));
-
-        FeedbackSessionsData responseData =
-                new FeedbackSessionsData(feedbackSessions, feedbackSessionAttributes);
+        FeedbackSessionsData responseData = new FeedbackSessionsData(feedbackSessions);
 
         for (String studentEmail : studentEmails) {
             responseData.hideInformationForStudent(studentEmail);
@@ -187,15 +128,7 @@ public class GetFeedbackSessionsAction extends Action {
         } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             responseData.getFeedbackSessions().forEach(session -> {
                 Instructor instructor = courseIdToInstructor.get(session.getCourseId());
-                InstructorAttributes dataStoreInstructor = dataStoreCourseIdToInstructor.get(session.getCourseId());
-                if (instructor == null && dataStoreInstructor == null) {
-                    return;
-                }
-
-                if (dataStoreInstructor != null) {
-                    InstructorPermissionSet privilege =
-                            constructInstructorPrivileges(dataStoreInstructor, session.getFeedbackSessionName());
-                    session.setPrivileges(privilege);
+                if (instructor == null) {
                     return;
                 }
 

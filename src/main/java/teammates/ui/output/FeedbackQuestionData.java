@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
@@ -16,7 +15,7 @@ import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
- * The API output format of {@link FeedbackQuestionAttributes}.
+ * The API output format of {@link FeedbackQuestion}.
  */
 public class FeedbackQuestionData extends ApiOutput {
     private final String feedbackQuestionId;
@@ -36,56 +35,6 @@ public class FeedbackQuestionData extends ApiOutput {
     private List<FeedbackVisibilityType> showResponsesTo;
     private List<FeedbackVisibilityType> showGiverNameTo;
     private List<FeedbackVisibilityType> showRecipientNameTo;
-
-    public FeedbackQuestionData(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestionAttributes.getQuestionDetailsCopy();
-
-        this.feedbackQuestionId = feedbackQuestionAttributes.getFeedbackQuestionId();
-        this.questionNumber = feedbackQuestionAttributes.getQuestionNumber();
-        this.questionBrief = feedbackQuestionDetails.getQuestionText();
-        this.questionDescription = feedbackQuestionAttributes.getQuestionDescription();
-
-        this.questionDetails = feedbackQuestionDetails;
-
-        this.questionType = feedbackQuestionAttributes.getQuestionType();
-        this.giverType = feedbackQuestionAttributes.getGiverType();
-        this.recipientType = feedbackQuestionAttributes.getRecipientType();
-
-        if (feedbackQuestionAttributes.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
-            this.numberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED;
-            this.customNumberOfEntitiesToGiveFeedbackTo = null;
-        } else {
-            this.numberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM;
-            this.customNumberOfEntitiesToGiveFeedbackTo =
-                    feedbackQuestionAttributes.getNumberOfEntitiesToGiveFeedbackTo();
-        }
-
-        // the visibility types are mixed in feedback participant type
-        // therefore, we convert them to visibility types
-        this.showResponsesTo = convertToFeedbackVisibilityType(feedbackQuestionAttributes.getShowResponsesTo());
-        this.showGiverNameTo = convertToFeedbackVisibilityType(feedbackQuestionAttributes.getShowGiverNameTo());
-        this.showRecipientNameTo =
-                convertToFeedbackVisibilityType(feedbackQuestionAttributes.getShowRecipientNameTo());
-
-        // specially handling for contribution questions
-        // TODO: remove the hack
-        if (this.questionType == FeedbackQuestionType.CONTRIB
-                && this.giverType == FeedbackParticipantType.STUDENTS
-                && this.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF
-                && this.showResponsesTo.contains(FeedbackVisibilityType.GIVER_TEAM_MEMBERS)) {
-            // remove the redundant visibility type as GIVER_TEAM_MEMBERS is just RECIPIENT_TEAM_MEMBERS
-            // contribution question keep the redundancy for legacy reason
-            this.showResponsesTo.remove(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
-        }
-
-        if (this.questionType == FeedbackQuestionType.CONSTSUM) {
-            FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
-                    (FeedbackConstantSumQuestionDetails) this.questionDetails;
-            this.questionType = constantSumQuestionDetails.isDistributeToRecipients()
-                    ? FeedbackQuestionType.CONSTSUM_RECIPIENTS : FeedbackQuestionType.CONSTSUM_OPTIONS;
-            this.questionDetails.setQuestionType(this.questionType);
-        }
-    }
 
     public FeedbackQuestionData(FeedbackQuestion feedbackQuestion) {
         FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestion.getQuestionDetailsCopy();

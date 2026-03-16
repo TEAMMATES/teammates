@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -53,13 +52,11 @@ interface StudentIndexedData {
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgFor,
-    NgIf,
     AjaxLoadingComponent,
     TeammatesRouterDirective,
     StudentListComponent,
     InstructorRoleNamePipe,
-  ],
+],
 })
 export class InstructorCourseDetailsPageComponent implements OnInit {
 

@@ -20,18 +20,14 @@ import teammates.logic.external.MailgunService;
 import teammates.logic.external.MailjetService;
 import teammates.logic.external.SendgridService;
 import teammates.logic.external.SmtpService;
+import teammates.test.BaseTestCase;
 
 /**
  * SUT: {@link SendgridService},
  *      {@link MailgunService},
  *      {@link MailjetService}.
  */
-public class EmailSenderTest extends BaseLogicTest {
-
-    @Override
-    protected void prepareTestData() {
-        // no test data used in this test
-    }
+public class EmailSenderTest extends BaseTestCase {
 
     private EmailWrapper getTypicalEmailWrapper() {
         String senderName = "Sender Name";

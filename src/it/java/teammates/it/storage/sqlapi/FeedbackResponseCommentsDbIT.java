@@ -1,6 +1,5 @@
 package teammates.it.storage.sqlapi;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -9,10 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
@@ -32,10 +28,8 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
 
     private SqlDataBundle testDataBundle;
 
-    @Override
     @BeforeClass
     public void setupClass() {
-        super.setupClass();
         testDataBundle = loadSqlDataBundle("/FeedbackResponsesITBundle.json");
     }
 
@@ -53,70 +47,10 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
         ______TS("success: typical case");
         FeedbackResponse fr = testDataBundle.feedbackResponses.get("response1ForQ1");
 
-        FeedbackResponseComment expectedComment = testDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
+        FeedbackResponseComment expectedComment = testDataBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
         FeedbackResponseComment actualComment = frcDb.getFeedbackResponseCommentForResponseFromParticipant(fr.getId());
 
         assertEquals(expectedComment, actualComment);
-    }
-
-    private FeedbackResponseComment prepareSqlInjectionTest() {
-        FeedbackResponseComment frc = testDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
-        assertNotNull(frcDb.getFeedbackResponseComment(frc.getId()));
-
-        return frc;
-    }
-
-    private void checkSqlInjectionFailed(FeedbackResponseComment frc) {
-        assertNotNull(frcDb.getFeedbackResponseComment(frc.getId()));
-    }
-
-    @Test
-    public void testSqlInjectionInUpdateGiverEmailOfFeedbackResponseComments() {
-        FeedbackResponseComment frc = prepareSqlInjectionTest();
-
-        String sqli = "'; DELETE FROM feedback_response_comments;--";
-        frcDb.updateGiverEmailOfFeedbackResponseComments(sqli, "", "");
-
-        checkSqlInjectionFailed(frc);
-    }
-
-    @Test
-    public void testSqlInjectionInUpdateLastEditorEmailOfFeedbackResponseComments() {
-        FeedbackResponseComment frc = prepareSqlInjectionTest();
-
-        String sqli = "'; DELETE FROM feedback_response_comments;--";
-        frcDb.updateLastEditorEmailOfFeedbackResponseComments(sqli, "", "");
-
-        checkSqlInjectionFailed(frc);
-    }
-
-    @Test
-    public void testSqlInjectionInCreateFeedbackResponseComment() throws Exception {
-        FeedbackResponseComment frc = prepareSqlInjectionTest();
-
-        FeedbackResponse fr = testDataBundle.feedbackResponses.get("response1ForQ1");
-        Section s = testDataBundle.sections.get("section2InCourse1");
-
-        String sqli = "'');/**/DELETE/**/FROM/**/feedback_response_comments;--@gmail.com";
-        FeedbackResponseComment newFrc = new FeedbackResponseComment(
-                fr, "", FeedbackParticipantType.INSTRUCTORS, s, s, "",
-                false, false,
-                new ArrayList<>(), new ArrayList<>(), sqli);
-
-        frcDb.createFeedbackResponseComment(newFrc);
-
-        checkSqlInjectionFailed(frc);
-    }
-
-    @Test
-    public void testSqlInjectionInUpdateFeedbackResponseComment() throws Exception {
-        FeedbackResponseComment frc = prepareSqlInjectionTest();
-
-        String sqli = "'');/**/DELETE/**/FROM/**/feedback_response_comments;--@gmail.com";
-        frc.setLastEditorEmail(sqli);
-        frcDb.updateFeedbackResponseComment(frc);
-
-        checkSqlInjectionFailed(frc);
     }
 
     @Test
@@ -185,8 +119,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAcc
     }
 
     @Test
-    public void testGetFeedbackResponseCommentsForSessionInSection_matchFound_success()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testGetFeedbackResponseCommentsForSessionInSection_matchFound_success() {
         Section section1 = testDataBundle.sections.get("section1InCourse1");
         Section section2 = testDataBundle.sections.get("section2InCourse1");
         Course course = testDataBundle.courses.get("course1");

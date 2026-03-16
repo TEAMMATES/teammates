@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   NumScaleQuestionStatisticsCalculation,
@@ -18,7 +17,7 @@ import {
     selector: 'tm-num-scale-question-statistics',
     templateUrl: './num-scale-question-statistics.component.html',
     styleUrls: ['./num-scale-question-statistics.component.scss'],
-    imports: [NgIf, SortableTableComponent],
+    imports: [SortableTableComponent],
 })
 export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatisticsCalculation
     implements OnInit, OnChanges {

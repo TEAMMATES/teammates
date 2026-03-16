@@ -1,3 +1,7 @@
-<ul *ngIf="!isNoneOfTheAboveAnswer">
-  <li *ngFor="let answer of responseDetails.answers">{{ answer }}</li>
-</ul>
+@if (!isNoneOfTheAboveAnswer) {
+  <ul>
+    @for (answer of responseDetails.answers; track answer) {
+      <li>{{ answer }}</li>
+    }
+  </ul>
+}

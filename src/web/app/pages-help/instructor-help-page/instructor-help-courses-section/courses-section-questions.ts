@@ -68,21 +68,6 @@ export enum CoursesSectionQuestions {
   DEL_STUDENTS = 'del-students',
 
   /**
-   * How do I archive a course?
-   */
-  COURSE_ARCHIVE = 'course-archive',
-
-  /**
-   * How do I view courses I have archived?
-   */
-  COURSE_VIEW_ARCHIVED = 'course-view-archived',
-
-  /**
-   * How do I unarchive an archived course?
-   */
-  COURSE_UNARCHIVE = 'course-unarchive',
-
-  /**
    * How do I view courses I have deleted?
    */
   COURSE_VIEW_DELETED = 'course-view-deleted',

@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CoursesSectionQuestions } from './courses-section-questions';
 import { environment } from '../../../../environments/environment';
@@ -17,10 +16,9 @@ import { Sections } from '../sections';
   styleUrls: ['./instructor-help-courses-section.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     InstructorHelpPanelComponent,
     TeammatesRouterDirective,
-  ],
+],
 })
 export class InstructorHelpCoursesSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
@@ -44,9 +42,6 @@ export class InstructorHelpCoursesSectionComponent extends InstructorHelpSection
     CoursesSectionQuestions.CHANGE_SECTION,
     CoursesSectionQuestions.DISAPPEARED_COURSE,
     CoursesSectionQuestions.DEL_STUDENTS,
-    CoursesSectionQuestions.COURSE_ARCHIVE,
-    CoursesSectionQuestions.COURSE_VIEW_ARCHIVED,
-    CoursesSectionQuestions.COURSE_UNARCHIVE,
     CoursesSectionQuestions.COURSE_VIEW_DELETED,
     CoursesSectionQuestions.COURSE_RESTORE,
     CoursesSectionQuestions.PERM_DEL,

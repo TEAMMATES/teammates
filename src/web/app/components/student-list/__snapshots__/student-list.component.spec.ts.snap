@@ -352,7 +352,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               </span>
             </td>
             <td>
-              Yet to Join
+               Yet to Join 
             </td>
             <td>
               <span>
@@ -425,7 +425,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               </span>
             </td>
             <td>
-              Yet to Join
+               Yet to Join 
             </td>
             <td>
               <span>
@@ -498,7 +498,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -565,7 +565,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -803,7 +803,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               </span>
             </td>
             <td>
-              Yet to Join
+               Yet to Join 
             </td>
             <td>
               <span>
@@ -876,7 +876,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -943,7 +943,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1010,7 +1010,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1248,7 +1248,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1315,7 +1315,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1382,7 +1382,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1449,7 +1449,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1687,7 +1687,7 @@ exports[`StudentListComponent should snap with some student list data and some s
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1754,7 +1754,7 @@ exports[`StudentListComponent should snap with some student list data and some s
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1992,7 +1992,7 @@ exports[`StudentListComponent should snap with some student list data when not a
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -2059,7 +2059,7 @@ exports[`StudentListComponent should snap with some student list data when not a
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -2126,7 +2126,7 @@ exports[`StudentListComponent should snap with some student list data when not a
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -2193,7 +2193,7 @@ exports[`StudentListComponent should snap with some student list data when not a
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -2431,7 +2431,7 @@ exports[`StudentListComponent should snap with some student list data with no se
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>

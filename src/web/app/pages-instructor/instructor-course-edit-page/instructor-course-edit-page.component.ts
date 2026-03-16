@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -93,11 +92,9 @@ interface InstructorEditPanelDetail {
     LoadingSpinnerDirective,
     CourseEditFormComponent,
     TeammatesRouterDirective,
-    NgFor,
     InstructorEditPanelComponent,
-    NgIf,
     AjaxLoadingComponent,
-  ],
+],
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
@@ -693,11 +690,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     forkJoin([
       this.courseService.getAllCoursesAsInstructor('active'),
-      this.courseService.getAllCoursesAsInstructor('archived'),
     ]).subscribe({
       next: (values: Courses[]) => {
         const activeCourses: Courses = values[0];
-        const archivedCourses: Courses = values[1];
 
         activeCourses.courses.forEach((course: Course) => {
           if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
@@ -705,24 +700,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
               courseId: course.courseId,
               courseName: course.courseName,
               creationTimestamp: course.creationTimestamp,
-              isArchived: false,
-              instructorCandidates: [],
-              instructorCandidatesSortBy: SortBy.NONE,
-              instructorCandidatesSortOrder: SortOrder.ASC,
-              hasInstructorsLoaded: false,
-              isTabExpanded: false,
-              hasLoadingFailed: false,
-            };
-            courseTabModels.push(model);
-          }
-        });
-        archivedCourses.courses.forEach((course: Course) => {
-          if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
-            const model: CourseTabModel = {
-              courseId: course.courseId,
-              courseName: course.courseName,
-              creationTimestamp: course.creationTimestamp,
-              isArchived: true,
               instructorCandidates: [],
               instructorCandidatesSortBy: SortBy.NONE,
               instructorCandidatesSortOrder: SortOrder.ASC,

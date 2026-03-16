@@ -26,7 +26,7 @@ import teammates.storage.sqlentity.Team;
  *
  * @see Course
  */
-public final class CoursesDb extends EntitiesDb {
+public final class CoursesDb {
 
     private static final CoursesDb instance = new CoursesDb();
 
@@ -61,7 +61,7 @@ public final class CoursesDb extends EntitiesDb {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()));
         }
 
-        persist(course);
+        HibernateUtil.persist(course);
         HibernateUtil.flushSession();
         return course;
     }
@@ -80,7 +80,7 @@ public final class CoursesDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-        return merge(course);
+        return HibernateUtil.merge(course);
     }
 
     /**
@@ -88,7 +88,7 @@ public final class CoursesDb extends EntitiesDb {
      */
     public void deleteCourse(Course course) {
         if (course != null) {
-            delete(course);
+            HibernateUtil.remove(course);
         }
     }
 
@@ -106,7 +106,7 @@ public final class CoursesDb extends EntitiesDb {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, section.toString()));
         }
 
-        persist(section);
+        HibernateUtil.persist(section);
         return section;
     }
 
@@ -214,7 +214,7 @@ public final class CoursesDb extends EntitiesDb {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, team.toString()));
         }
 
-        persist(team);
+        HibernateUtil.persist(team);
         return team;
     }
 
