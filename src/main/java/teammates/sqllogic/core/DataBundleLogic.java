@@ -283,6 +283,8 @@ public final class DataBundleLogic {
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
         for (AccountRequest accountRequest : accountRequests) {
+            // Sanitizes email because databundle JSON deserialization can bypass setters.
+            accountRequest.setEmail(accountRequest.getEmail());
             accountRequestsLogic.createAccountRequest(accountRequest);
         }
 
@@ -320,14 +322,17 @@ public final class DataBundleLogic {
         }
 
         for (Account account : accounts) {
+            account.setEmail(account.getEmail());
             accountsLogic.createAccount(account);
         }
 
         for (Instructor instructor : instructors) {
+            instructor.setEmail(instructor.getEmail());
             usersLogic.createInstructor(instructor);
         }
 
         for (Student student : students) {
+            student.setEmail(student.getEmail());
             usersLogic.createStudent(student);
         }
 
