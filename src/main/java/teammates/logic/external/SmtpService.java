@@ -31,7 +31,7 @@ import teammates.common.util.EmailWrapper;
  *          SMTP-related Session properties</a>
  */
 public class SmtpService implements EmailSenderService {
-    private static final String DEFAULT_CONNECTION_TIMEOUT = "10000";
+    private static final String DEFAULT_TIMEOUT_MS = "10000";
     private static final String TEXT_ENCODING_UTF8 = "UTF-8";
     private final Session session;
 
@@ -61,9 +61,9 @@ public class SmtpService implements EmailSenderService {
         props.put("mail.smtp.starttls.required", String.valueOf(isUsingStartTls));
 
         // Set default timeouts (in milliseconds) for SMTP socket connection, read, and write timeouts
-        props.put("mail.smtp.connectiontimeout", DEFAULT_CONNECTION_TIMEOUT);
-        props.put("mail.smtp.timeout", DEFAULT_CONNECTION_TIMEOUT);
-        props.put("mail.smtp.writetimeout", DEFAULT_CONNECTION_TIMEOUT);
+        props.put("mail.smtp.connectiontimeout", DEFAULT_TIMEOUT_MS);
+        props.put("mail.smtp.timeout", DEFAULT_TIMEOUT_MS);
+        props.put("mail.smtp.writetimeout", DEFAULT_TIMEOUT_MS);
 
         // Override default timeouts with values from config if provided
         setIfPresent(props, "mail.smtp.connectiontimeout", socketConnectionTimeout);
