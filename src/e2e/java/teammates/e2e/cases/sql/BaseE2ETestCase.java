@@ -59,11 +59,6 @@ import teammates.ui.output.UsageStatisticsData;
  * and can only communicate via the UI or via {@link BackDoor} to obtain/transmit data.
  */
 public abstract class BaseE2ETestCase extends BaseTestCase {
-    private static final int VERIFICATION_RETRY_COUNT = 5;
-    private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
-    private static final int OPERATION_RETRY_COUNT = 5;
-    private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
-
     /**
      * Backdoor used to call APIs.
      */
@@ -90,16 +85,14 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Removes and restores the databundle, with retries.
+     * Removes and restores the databundle, with retries. 
      */
     protected SqlDataBundle removeAndRestoreDataBundle(SqlDataBundle testData) {
-        int retryLimit = OPERATION_RETRY_COUNT;
-        SqlDataBundle dataBundle = doRemoveAndRestoreDataBundle(testData);
-        while (dataBundle == null && retryLimit > 0) {
-            retryLimit--;
-            System.out.println("Re-trying removeAndRestoreDataBundle");
-            ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
-            dataBundle = doRemoveAndRestoreDataBundle(testData);
+        SqlDataBundle dataBundle = null;
+        try {
+            dataBundle = BACKDOOR.removeAndRestoreSqlDataBundle(testData);
+        } catch (HttpRequestFailedException e) {
+            e.printStackTrace();
         }
         assertNotNull(dataBundle);
         return dataBundle;
@@ -257,18 +250,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Removes and restores the databundle using BACKDOOR.
-     */
-    protected SqlDataBundle doRemoveAndRestoreDataBundle(SqlDataBundle testData) {
-        try {
-            return BACKDOOR.removeAndRestoreSqlDataBundle(testData);
-        } catch (HttpRequestFailedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
      * Verifies that two entities are equal.
      */
     protected void verifyEquals(BaseEntity expected, ApiOutput actual) {
@@ -404,13 +385,8 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      * Verifies that the given entity is present in the database.
      */
     protected void verifyPresentInDatabase(BaseEntity expected) {
-        int retryLimit = VERIFICATION_RETRY_COUNT;
+        assertNotNull(expected);
         ApiOutput actual = getEntity(expected);
-        while (actual == null && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
-            actual = getEntity(expected);
-        }
         verifyEquals(expected, actual);
     }
 
@@ -418,13 +394,8 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      * Verifies that the given entity is absent in the database.
      */
     protected void verifyAbsentInDatabase(BaseEntity expected) {
-        int retryLimit = VERIFICATION_RETRY_COUNT;
+        assertNotNull(expected);
         ApiOutput actual = getEntity(expected);
-        while (actual != null && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(VERIFICATION_RETRY_DELAY_IN_MS);
-            actual = getEntity(expected);
-        }
         assertNull(actual);
     }
 
