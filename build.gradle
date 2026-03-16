@@ -58,7 +58,6 @@ dependencies {
 
     implementation("com.google.auth:google-auth-library-oauth2-http:1.42.1")
     implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
-    implementation("com.google.cloud:google-cloud-datastore")
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
     implementation("com.google.code.gson:gson:2.13.2")
@@ -324,11 +323,6 @@ task serverRun(type: JavaExec) {
     jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties",
             "-Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider"
     dependsOn explodeWar, copyDistToExplodedWar
-}
-
-task runDatastoreEmulator(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-    mainClass = "teammates.storage.api.DatastoreEmulatorRunner"
 }
 
 appengine {
