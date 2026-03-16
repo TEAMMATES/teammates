@@ -350,7 +350,7 @@ public final class Config {
         return "smtp".equalsIgnoreCase(EMAIL_SERVICE) && SMTP_HOST != null && !SMTP_HOST.isEmpty()
                 && SMTP_PORT != null && !SMTP_PORT.isEmpty() && SMTP_USERNAME != null && !SMTP_USERNAME.isEmpty()
                 && SMTP_PASSWORD != null && !SMTP_PASSWORD.isEmpty() && SMTP_SECURITY_PROTOCOL != null
-                && !SMTP_SECURITY_PROTOCOL.isEmpty();
+                && (SMTP_SECURITY_PROTOCOL == "ssl" || SMTP_SECURITY_PROTOCOL == "starttls");
     }
 
 }
