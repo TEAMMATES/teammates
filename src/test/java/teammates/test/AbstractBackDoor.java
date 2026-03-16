@@ -33,7 +33,10 @@ import com.google.gson.JsonParser;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
+import teammates.common.util.StringHelper;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
@@ -213,12 +216,13 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Removes and restores given data in the database. This method is to be called on test startup.
+     * Removes and restores given data in the database. This method is to be called
+     * on test startup.
      */
     public SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle dataBundle) throws HttpRequestFailedException {
         removeSqlDataBundle(dataBundle);
-        ResponseBodyAndCode putRequestOutput =
-                executePostRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+        ResponseBodyAndCode putRequestOutput = executePostRequest(Const.ResourceURIs.SQL_DATABUNDLE, null,
+                JsonUtils.toJson(dataBundle));
         if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
             throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
                     + putRequestOutput.responseBody);
@@ -233,7 +237,8 @@ public abstract class AbstractBackDoor {
     /**
      * Removes given data from the database.
      *
-     * <p>If given entities have already been deleted, it fails silently.
+     * <p>
+     * If given entities have already been deleted, it fails silently.
      */
     public void removeSqlDataBundle(SqlDataBundle dataBundle) {
         executePutRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
@@ -249,6 +254,21 @@ public abstract class AbstractBackDoor {
 
         MessageOutput output = JsonUtils.fromJson(response.responseBody, MessageOutput.class);
         return output.getMessage();
+    }
+
+    /**
+     * Puts searchable documents in data bundle into the SQL database.
+     */
+    public String putSqlDocuments(SqlDataBundle dataBundle) throws HttpRequestFailedException {
+        Map<String, String> params = new HashMap<>();
+        params.put("databundletype", "sql");
+        ResponseBodyAndCode putRequestOutput =
+                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, params, JsonUtils.toJson(dataBundle));
+        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
+            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
+                    + putRequestOutput.responseBody);
+        }
+        return putRequestOutput.responseBody;
     }
 
     /**
@@ -305,7 +325,7 @@ public abstract class AbstractBackDoor {
         InstructorsData instructorsData = JsonUtils.fromJson(response.responseBody, InstructorsData.class);
         InstructorData instructorData = instructorsData.getInstructors()
                 .stream()
-                .filter(instructor -> instructor.getEmail().equals(email))
+                .filter(instructor -> instructor.getEmail().equalsIgnoreCase(email))
                 .findFirst()
                 .orElse(null);
 
@@ -322,7 +342,7 @@ public abstract class AbstractBackDoor {
     public StudentData getStudentData(String courseId, String studentEmail) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
+        params.put(Const.ParamsNames.STUDENT_EMAIL, studentEmail.trim().toLowerCase());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENT, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -370,7 +390,7 @@ public abstract class AbstractBackDoor {
      * Get feedback question data from database.
      */
     public FeedbackQuestionData getFeedbackQuestionData(String courseId, String feedbackSessionName,
-                                                                int qnNumber) {
+            int qnNumber) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
         params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -392,7 +412,7 @@ public abstract class AbstractBackDoor {
      * Get feedback response data from database.
      */
     public FeedbackResponseData getFeedbackResponseData(String feedbackQuestionId, String giver,
-                                                                String recipient) {
+            String recipient) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
@@ -405,9 +425,24 @@ public abstract class AbstractBackDoor {
         FeedbackResponsesData responsesData = JsonUtils.fromJson(response.responseBody, FeedbackResponsesData.class);
         return responsesData.getResponses()
                 .stream()
-                .filter(r -> r.getGiverIdentifier().equals(giver) && r.getRecipientIdentifier().equals(recipient))
+                .filter(r -> areIdentifiersMatching(r.getGiverIdentifier(), giver)
+                        && areIdentifiersMatching(r.getRecipientIdentifier(), recipient))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private static boolean areIdentifiersMatching(String firstIdentifier, String secondIdentifier) {
+        if (firstIdentifier == null || secondIdentifier == null) {
+            return firstIdentifier == null && secondIdentifier == null;
+        }
+
+        boolean areBothEmails = StringHelper.isMatching(firstIdentifier, FieldValidator.REGEX_EMAIL)
+                && StringHelper.isMatching(secondIdentifier, FieldValidator.REGEX_EMAIL);
+        if (areBothEmails) {
+            return SanitizationHelper.isSameEmail(firstIdentifier, secondIdentifier);
+        }
+
+        return firstIdentifier.equals(secondIdentifier);
     }
 
     /**
@@ -429,9 +464,10 @@ public abstract class AbstractBackDoor {
      * Updates a feedback response comment via the backdoor.
      * This triggers a new updatedAt timestamp in the database.
      *
-     * @param commentId the ID of the comment to update
-     * @param commentText the new comment text
-     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     * @param commentId          the ID of the comment to update
+     * @param commentText        the new comment text
+     * @param instructorGoogleId the Google ID of an instructor with permission to
+     *                           modify comments
      */
     public void updateFeedbackResponseComment(Long commentId, String commentText, String instructorGoogleId) {
         Map<String, String> params = new HashMap<>();
@@ -442,8 +478,7 @@ public abstract class AbstractBackDoor {
         FeedbackResponseCommentUpdateRequest body = new FeedbackResponseCommentUpdateRequest(
                 commentText,
                 new ArrayList<>(),
-                new ArrayList<>()
-        );
+                new ArrayList<>());
 
         executePutRequest(Const.ResourceURIs.RESPONSE_COMMENT, params, JsonUtils.toJson(body));
     }
@@ -535,7 +570,7 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
         params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        params.put(Const.ParamsNames.USER_EMAIL, userEmail);
+        params.put(Const.ParamsNames.USER_EMAIL, userEmail.trim().toLowerCase());
         params.put(Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(isInstructor));
 
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.DEADLINE_EXTENSION, params);
