@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
@@ -60,10 +61,11 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         JsonResult response = getJsonResult(action);
         InstructorData instructorData = (InstructorData) response.getOutput();
 
-        Instructor createdInstructor = logic.getInstructorForEmail(course1.getId(), instructorCreateRequest.getEmail());
+        String normalizedEmail = SanitizationHelper.sanitizeEmail(instructorCreateRequest.getEmail());
+        Instructor createdInstructor = logic.getInstructorForEmail(course1.getId(), normalizedEmail);
 
         assertEquals(createdInstructor.getName(), instructorCreateRequest.getName());
-        assertEquals(createdInstructor.getEmail(), instructorCreateRequest.getEmail());
+        assertEquals(createdInstructor.getEmail(), normalizedEmail);
         assertEquals(createdInstructor.getName(), instructorData.getName());
         assertEquals(createdInstructor.getEmail(), instructorData.getEmail());
         assertFalse(createdInstructor.isDisplayedToStudents());
@@ -111,9 +113,6 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(course,
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);
-        ______TS("instructors of other courses cannot access");
-
-        verifyInaccessibleForInstructorsOfOtherCourses(course, submissionParams);
     }
 
 }

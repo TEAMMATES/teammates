@@ -158,7 +158,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         String loggedInGoogleId = "AccLogicT.instr.id";
         String[] key = new String[] {
                 getRegKeyForInstructor(instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail()),
-                getRegKeyForInstructor(instructor2YetToJoinCourse.getCourseId(), instructor3YetToJoinCourse.getEmail()),
+                getRegKeyForInstructor(instructor3YetToJoinCourse.getCourseId(), instructor3YetToJoinCourse.getEmail()),
         };
 
         ______TS("failure: googleID belongs to an existing instructor in the course");
@@ -172,8 +172,8 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         accountsLogic.joinCourseForInstructor(key[0], loggedInGoogleId);
 
-        Instructor joinedInstructor = usersLogic.getInstructorForEmail(
-                        instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail());
+        Instructor joinedInstructor = usersLogic.getInstructorByGoogleId(
+                        instructor2YetToJoinCourse.getCourseId(), loggedInGoogleId);
         assertEquals(loggedInGoogleId, joinedInstructor.getGoogleId());
 
         Account accountCreated = accountsLogic.getAccountForGoogleId(loggedInGoogleId);
@@ -187,8 +187,8 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         accountsLogic.joinCourseForInstructor(key[1], existingAccount.getGoogleId());
 
-        joinedInstructor = usersLogic.getInstructorForEmail(
-                        instructor3YetToJoinCourse.getCourseId(), existingAccount.getEmail());
+        joinedInstructor = usersLogic.getInstructorByGoogleId(
+                        instructor3YetToJoinCourse.getCourseId(), existingAccountId);
         assertEquals(existingAccountId, joinedInstructor.getGoogleId());
 
         ______TS("failure: instructor already joined");

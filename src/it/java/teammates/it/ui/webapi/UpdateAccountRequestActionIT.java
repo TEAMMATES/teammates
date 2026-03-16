@@ -13,6 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
@@ -57,6 +58,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         String email = "newEmail@email.com";
         String institute = "newInstitute";
         String comments = "newComments";
+        String normalizedEmail = SanitizationHelper.sanitizeEmail(email);
         AccountRequestStatus status = accountRequest.getStatus();
 
         AccountRequestUpdateRequest requestBody = new AccountRequestUpdateRequest(name, email, institute, status, comments);
@@ -69,7 +71,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         AccountRequestData data = (AccountRequestData) result.getOutput();
 
         assertEquals(name, data.getName());
-        assertEquals(email, data.getEmail());
+        assertEquals(normalizedEmail, data.getEmail());
         assertEquals(institute, data.getInstitute());
         assertEquals(status, data.getStatus());
         assertEquals(comments, data.getComments());
@@ -103,7 +105,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         data = (AccountRequestData) result.getOutput();
 
         assertEquals(name, data.getName());
-        assertEquals(email, data.getEmail());
+        assertEquals(normalizedEmail, data.getEmail());
         assertEquals(institute, data.getInstitute());
         assertEquals(AccountRequestStatus.REGISTERED, data.getStatus());
         assertEquals(comments, data.getComments());
@@ -152,7 +154,8 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, email,
+        assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE,
+                SanitizationHelper.sanitizeEmail(email),
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT, FieldValidator.EMAIL_MAX_LENGTH),
                 ihrbe.getMessage());
 
@@ -224,7 +227,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         data = (AccountRequestData) result.getOutput();
 
         assertEquals(name, data.getName());
-        assertEquals(email, data.getEmail());
+        assertEquals(SanitizationHelper.sanitizeEmail(email), data.getEmail());
         assertEquals(institute, data.getInstitute());
         assertEquals(null, data.getComments());
 

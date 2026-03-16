@@ -115,10 +115,5 @@ public class RegenerateStudentKeyActionIT extends BaseActionIT<RegenerateStudent
                 Const.ParamsNames.COURSE_ID, student.getCourseId(),
         };
         verifyOnlyAdminCanAccess(course, submissionParams);
-
-        ______TS("Students cannot access");
-        loginAsStudent(student.getAccount().getGoogleId());
-
-        verifyInaccessibleForStudents(course, submissionParams);
     }
 }

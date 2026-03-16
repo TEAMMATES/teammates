@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
@@ -66,12 +67,13 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         JsonResult actionOutput = getJsonResult(updateInstructorAction);
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
+        String normalizedNewInstructorEmail = SanitizationHelper.sanitizeEmail(newInstructorEmail);
 
         Instructor editedInstructor = logic.getInstructorByGoogleId(courseId, instructorId);
         assertEquals(newInstructorName, editedInstructor.getName());
         assertEquals(newInstructorName, response.getName());
-        assertEquals(newInstructorEmail, editedInstructor.getEmail());
-        assertEquals(newInstructorEmail, response.getEmail());
+        assertEquals(normalizedNewInstructorEmail, editedInstructor.getEmail());
+        assertEquals(normalizedNewInstructorEmail, response.getEmail());
         assertFalse(editedInstructor.isDisplayedToStudents());
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
@@ -86,7 +88,8 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
                 instructorDisplayName, true);
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(reqBody, submissionParams);
-        String expectedErrorMessage = FieldValidator.getInvalidityInfoForEmail(invalidEmail);
+        String expectedErrorMessage = FieldValidator.getInvalidityInfoForEmail(
+                SanitizationHelper.sanitizeEmail(invalidEmail));
         assertEquals(expectedErrorMessage, ihrbe.getMessage());
 
         verifyNoTasksAdded();
@@ -123,10 +126,11 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         actionOutput = getJsonResult(updateInstructorAction);
 
         response = (InstructorData) actionOutput.getOutput();
+        normalizedNewInstructorEmail = SanitizationHelper.sanitizeEmail(newInstructorEmail);
 
         editedInstructor = logic.getInstructorByGoogleId(courseId, instructorId);
-        assertEquals(newInstructorEmail, editedInstructor.getEmail());
-        assertEquals(newInstructorEmail, response.getEmail());
+        assertEquals(normalizedNewInstructorEmail, editedInstructor.getEmail());
+        assertEquals(normalizedNewInstructorEmail, response.getEmail());
         assertEquals(newInstructorName, editedInstructor.getName());
         assertEquals(newInstructorName, response.getName());
 
@@ -179,9 +183,6 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(course,
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);
-        ______TS("instructors of other courses cannot access");
-
-        verifyInaccessibleForInstructorsOfOtherCourses(course, submissionParams);
     }
 }
 
