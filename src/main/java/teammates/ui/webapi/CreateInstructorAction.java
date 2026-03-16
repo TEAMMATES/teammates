@@ -78,7 +78,6 @@ public class CreateInstructorAction extends Action {
 
         taskQueuer.scheduleCourseRegistrationInviteToInstructor(
                 this.userInfo.id, instructorToAdd.getEmail(), courseId, false);
-        taskQueuer.scheduleInstructorForSearchIndexing(createdInstructor.getCourseId(), createdInstructor.getEmail());
 
         return new JsonResult(new InstructorData(createdInstructor));
     }

@@ -241,20 +241,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithSqlDatabaseAccess 
         }
     }
 
-    /**
-     * Puts the documents in the database using BACKDOOR.
-     * @param dataBundle the data to be put in the database
-     * @return the result of the operation
-     */
-    protected String putDocuments(SqlDataBundle dataBundle) {
-        try {
-            return BACKDOOR.putSqlDocuments(dataBundle);
-        } catch (HttpRequestFailedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     AccountData getAccount(String googleId) {
         return BACKDOOR.getAccountData(googleId);
     }

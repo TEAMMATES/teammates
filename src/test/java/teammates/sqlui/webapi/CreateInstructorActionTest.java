@@ -79,7 +79,6 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
 
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
         assertEquals(typicalCourse.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
@@ -175,7 +174,6 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
 
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
         assertEquals(typicalCourse.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));

@@ -23,7 +23,6 @@ import teammates.common.util.TimeHelper;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -171,15 +170,6 @@ public class CreateAccountAction extends Action {
         SqlDataBundle dataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
 
         sqlLogic.persistDataBundle(dataBundle);
-
-        List<Student> students = sqlLogic.getStudentsForCourse(courseId);
-        List<Instructor> instructors = sqlLogic.getInstructorsByCourse(courseId);
-        students.stream().forEach(student -> {
-            taskQueuer.scheduleStudentForSearchIndexing(student.getCourseId(), student.getEmail());
-        });
-        instructors.stream().forEach(instructor -> {
-            taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
-        });
 
         return courseId;
     }

@@ -34,7 +34,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadSqlDataBundle("/InstructorCoursesPageE2ETestSql.json");
         testData = removeAndRestoreDataBundle(testData);
-        putDocuments(testData);
 
         courses[0] = testData.courses.get("ICs.CS1101");
         courses[1] = testData.courses.get("ICs.CS1231");

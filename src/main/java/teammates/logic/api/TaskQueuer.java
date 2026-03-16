@@ -202,49 +202,6 @@ public class TaskQueuer {
         }
     }
 
-    /**
-     * Schedules for the search indexing of the instructor identified by {@code courseId} and {@code email}.
-     *
-     * @param courseId the course ID of the instructor
-     * @param email the email of the instructor
-     */
-    public void scheduleInstructorForSearchIndexing(String courseId, String email) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, email);
-
-        addTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.INSTRUCTOR_SEARCH_INDEXING_WORKER_URL,
-                paramMap, null);
-    }
-
-    /**
-     * Schedules for the search indexing of the account request identified by {@code id}.
-     *
-     * @param id the id associated with the account request
-     */
-    public void scheduleAccountRequestForSearchIndexing(String id) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.ACCOUNT_REQUEST_ID, id);
-
-        addTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL,
-                paramMap, null);
-    }
-
-    /**
-     * Schedules for the search indexing of the student identified by {@code courseId} and {@code email}.
-     *
-     * @param courseId the course ID of the student
-     * @param email the email of the student
-     */
-    public void scheduleStudentForSearchIndexing(String courseId, String email) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.STUDENT_EMAIL, email);
-
-        addTask(TaskQueue.SEARCH_INDEXING_QUEUE_NAME, TaskQueue.STUDENT_SEARCH_INDEXING_WORKER_URL,
-                paramMap, null);
-    }
-
     private void scheduleEmailForSending(EmailWrapper email, long emailDelayTimer) {
         try {
             SendEmailRequest request = new SendEmailRequest(email);

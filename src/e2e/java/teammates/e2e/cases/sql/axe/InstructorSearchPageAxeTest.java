@@ -22,7 +22,6 @@ public class InstructorSearchPageAxeTest extends BaseAxeTestCase {
 
         testData = loadSqlDataBundle("/InstructorSearchPageE2ETestSql.json");
         removeAndRestoreDataBundle(testData);
-        putDocuments(testData);
     }
 
     @Test
