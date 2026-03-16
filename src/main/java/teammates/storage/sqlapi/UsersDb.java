@@ -389,7 +389,7 @@ public final class UsersDb {
      * restrict the
      * visibility according to the logged-in user's google ID. This is used by admin
      * to
-     * search instructors in the whole system.
+     * search students in the whole system.
      */
     public List<Student> searchStudentsInWholeSystem(String queryString)
             throws SearchServiceException {
