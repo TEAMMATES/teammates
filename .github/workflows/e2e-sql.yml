@@ -46,8 +46,6 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Update Property File
         run: mv src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
-      - name: Run Solr search service
-        run: docker compose up -d
       - name: Create Config Files
         run: ./gradlew createConfigs testClasses generateTypes
       - name: Install Frontend Dependencies
