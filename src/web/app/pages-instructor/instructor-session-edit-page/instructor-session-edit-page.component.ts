@@ -426,9 +426,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       isClosingSoonEmailEnabled: this.sessionEditFormModel.isClosingSoonEmailEnabled,
       isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-
-      studentDeadlines: this.studentDeadlines,
-      instructorDeadlines: this.instructorDeadlines,
     }).pipe(finalize(() => {
       this.sessionEditFormModel.isSaving = false;
     })).subscribe({
@@ -470,10 +467,26 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     return new Observable((subscribeIsUserAccept) => {
       modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe(() => {
-        this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
-        modalRef.componentInstance.isSubmitting = false;
-        modalRef.close();
-        subscribeIsUserAccept.next(true);
+        const updatedStudentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+          affectedStudentModels, this.studentDeadlines);
+        const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+          affectedInstructorModels, this.instructorDeadlines);
+        this.feedbackSessionsService.updateFeedbackSessionDeadlineExtensions(
+          this.courseId, this.feedbackSessionName,
+          { studentDeadlines: updatedStudentDeadlines, instructorDeadlines: updatedInstructorDeadlines },
+        ).subscribe({
+          next: () => {
+            this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
+            modalRef.componentInstance.isSubmitting = false;
+            modalRef.close();
+            subscribeIsUserAccept.next(true);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+            modalRef.componentInstance.isSubmitting = false;
+            subscribeIsUserAccept.next(false);
+          },
+        });
       }, () => {
         subscribeIsUserAccept.next(false);
       });
