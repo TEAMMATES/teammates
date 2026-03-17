@@ -45,13 +45,13 @@
         "student1InCourse1": {
             "googleId": "student1InCourse1",
             "name": "Student 1 in course 1",
-            "email": "student1InCourse1@gmail.tmt",
+            "email": "student1incourse1@gmail.tmt",
             "id": "00000000-0000-4000-8000-000000000008"
         },
         "student2InCourse1": {
             "googleId": "student2InCourse1",
             "name": "Student in two courses",
-            "email": "student2InCourse1@gmail.tmt",
+            "email": "student2incourse1@gmail.tmt",
             "id": "00000000-0000-4000-8000-000000000009"
         },
         "student1InTestingNoEmailsSentCourse": {
@@ -200,7 +200,7 @@
         },
         "instructorNotYetJoinCourse1": {
             "name": "Instructor Not Yet Joined Course 1",
-            "email": "instructorNotYetJoinedCourse1@email.tmt",
+            "email": "instructornotyetjoinedcourse1@email.tmt",
             "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
             "isDisplayedToStudents": true,
             "privileges": {
@@ -442,9 +442,9 @@
             "isClosingSoonEmailEnabled": true,
             "isPublishedEmailEnabled": true,
             "studentDeadlines": {
-                "student2InCourse1@gmail.tmt": "2027-04-30T23:00:00Z",
-                "student4InCourse1@gmail.tmt": "2027-04-30T23:00:00Z",
-                "student5InCourse1@gmail.tmt": "2027-04-30T23:00:00Z"
+                "student2incourse1@gmail.tmt": "2027-04-30T23:00:00Z",
+                "student4incourse1@gmail.tmt": "2027-04-30T23:00:00Z",
+                "student5incourse1@gmail.tmt": "2027-04-30T23:00:00Z"
             },
             "instructorDeadlines": {
                 "instructor2@course1.tmt": "2027-05-01T22:00:00Z",
@@ -758,7 +758,7 @@
     "feedbackResponseComments": {},
     "students": {
         "student1InCourse1": {
-            "email": "student1InCourse1@gmail.tmt",
+            "email": "student1incourse1@gmail.tmt",
             "course": {
                 "id": "idOfTypicalCourse1"
             },
@@ -773,7 +773,7 @@
             }
         },
         "student1InCourse3": {
-            "email": "student1InCourse3@gmail.tmt",
+            "email": "student1incourse3@gmail.tmt",
             "course": {
                 "id": "idOfTypicalCourse3"
             },
@@ -785,7 +785,7 @@
             "id": "00000000-0000-4000-8000-000000000406"
         },
         "student1InCourse4": {
-            "email": "student1InCourse4@gmail.tmt",
+            "email": "student1incourse4@gmail.tmt",
             "course": {
                 "id": "idOfTypicalCourse4"
             },
@@ -797,7 +797,7 @@
             "id": "00000000-0000-4000-8000-000000000407"
         },
         "student1UnregisteredInCourse1": {
-            "email": "student1UnregisteredInCourse1@gmail.tmt",
+            "email": "student1unregisteredincourse1@gmail.tmt",
             "course": {
                 "id": "idOfTypicalCourse1"
             },

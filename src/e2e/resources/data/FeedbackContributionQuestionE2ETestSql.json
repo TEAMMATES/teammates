@@ -102,7 +102,7 @@
     }
   },
   "students": {
-    "alice.tmms@FContrQn.CS2104": {
+    "alice.tmms@fcontrqn.cs2104": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
@@ -117,7 +117,7 @@
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy"
     },
-    "benny.tmms@FContrQn.CS2104": {
+    "benny.tmms@fcontrqn.cs2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
@@ -132,7 +132,7 @@
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles"
     },
-    "charlie.tmms@FContrQn.CS2104": {
+    "charlie.tmms@fcontrqn.cs2104": {
       "id": "00000000-0000-4000-8000-000000000603",
       "account": {
         "id": "00000000-0000-4000-8000-000000000004"
@@ -143,11 +143,11 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "email": "FContrQn.charlie.tmms@gmail.tmt",
+      "email": "fcontrqn.charlie.tmms@gmail.tmt",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis"
     },
-    "danny.tmms@FContrQn.CS1101": {
+    "danny.tmms@fcontrqn.cs1101": {
       "id": "00000000-0000-4000-8000-000000000604",
       "account": {
         "id": "00000000-0000-4000-8000-000000000005"
@@ -158,7 +158,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
-      "email": "FContrQn.danny.tmms@gmail.tmt",
+      "email": "fcontrqn.danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid"
     }

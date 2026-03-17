@@ -225,7 +225,7 @@
   "readNotifications": {},
   "feedbackResponseComments": {},
   "students": {
-    "alice.tmms@FNumScaleQn.CS2104": {
+    "alice.tmms@fnumscaleqn.cs2104": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
@@ -240,7 +240,7 @@
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy"
     },
-    "benny.tmms@FNumScaleQn.CS2104": {
+    "benny.tmms@fnumscaleqn.cs2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "course": {
         "id": "tm.e2e.FNumScaleQn.CS2104"
@@ -252,7 +252,7 @@
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles"
     },
-    "charlie.tmms@FNumScaleQn.CS1101": {
+    "charlie.tmms@fnumscaleqn.cs1101": {
       "id": "00000000-0000-4000-8000-000000000603",
       "course": {
         "id": "tm.e2e.FNumScaleQn.CS1101"

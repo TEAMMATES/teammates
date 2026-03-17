@@ -22,13 +22,13 @@
       "id": "00000000-0000-4000-8000-000000000004",
       "googleId": "tm.e2e.FCSumRcptQn.charlie.tmms",
       "name": "Charlie Davis",
-      "email": "FCSumRcptQn.charlie.tmms@gmail.tmt"
+      "email": "fcsumrcptqn.charlie.tmms@gmail.tmt"
     },
     "tm.e2e.FCSumRcptQn.danny.tmms": {
       "id": "00000000-0000-4000-8000-000000000005",
       "googleId": "tm.e2e.FCSumRcptQn.danny.tmms",
       "name": "Danny Engrid",
-      "email": "FCSumRcptQn.danny.tmms@gmail.tmt"
+      "email": "fcsumrcptqn.danny.tmms@gmail.tmt"
     }
   },
   "courses": {
@@ -104,7 +104,7 @@
     }
   },
   "students": {
-    "alice.tmms@FCSumRcptQn.CS2104": {
+    "alice.tmms@fcsumrcptqn.cs2104": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
@@ -119,7 +119,7 @@
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy"
     },
-    "benny.tmms@FCSumRcptQn.CS2104": {
+    "benny.tmms@fcsumrcptqn.cs2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
@@ -134,7 +134,7 @@
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles"
     },
-    "charlie.tmms@FCSumRcptQn.CS2104": {
+    "charlie.tmms@fcsumrcptqn.cs2104": {
       "id": "00000000-0000-4000-8000-000000000603",
       "account": {
         "id": "00000000-0000-4000-8000-000000000004"
@@ -145,11 +145,11 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000203"
       },
-      "email": "FCSumRcptQn.charlie.tmms@gmail.tmt",
+      "email": "fcsumrcptqn.charlie.tmms@gmail.tmt",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis"
     },
-    "danny.tmms@FCSumRcptQn.CS2104": {
+    "danny.tmms@fcsumrcptqn.cs2104": {
       "id": "00000000-0000-4000-8000-000000000604",
       "account": {
         "id": "00000000-0000-4000-8000-000000000005"
@@ -160,7 +160,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000203"
       },
-      "email": "FCSumRcptQn.danny.tmms@gmail.tmt",
+      "email": "fcsumrcptqn.danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid"
     }

@@ -4,7 +4,7 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.IHome.instructor.tmms",
       "name": "Teammates Test",
-      "email": "IHome.instructor.tmms@gmail.tmt"
+      "email": "ihome.instructor.tmms@gmail.tmt"
     }
   },
   "accountRequests": {},
@@ -99,7 +99,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Teammates Test",
-      "email": "IHome.instructor.tmms@gmail.tmt"
+      "email": "ihome.instructor.tmms@gmail.tmt"
     },
     "IHome.instr.CS1101": {
       "isDisplayedToStudents": true,
@@ -128,11 +128,11 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Teammates Test",
-      "email": "IHome.instructor.tmms@gmail.tmt"
+      "email": "ihome.instructor.tmms@gmail.tmt"
     }
   },
   "students": {
-    "IHome.alice.b.tmms@IHome.CS2104": {
+    "ihome.alice.b.tmms@ihome.cs2104": {
       "comments": "This student's name is Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.IHome.CS2104",
@@ -143,9 +143,9 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Alice Betsy",
-      "email": "IHome.alice.b.tmms@gmail.tmt"
+      "email": "ihome.alice.b.tmms@gmail.tmt"
     },
-    "IHome.benny.c.tmms@IHome.CS2104": {
+    "ihome.benny.c.tmms@ihome.cs2104": {
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.IHome.CS2104",
@@ -156,9 +156,9 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Benny Charles",
-      "email": "IHome.benny.c.tmms@gmail.tmt"
+      "email": "ihome.benny.c.tmms@gmail.tmt"
     },
-    "IHome.charlie.d.tmms@IHome.CS2104": {
+    "ihome.charlie.d.tmms@ihome.cs2104": {
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.IHome.CS2104",
@@ -169,9 +169,9 @@
         "id": "00000000-0000-4000-8000-000000000302"
       },
       "name": "Charlie Davis",
-      "email": "IHome.charlie.d.tmms@gmail.tmt"
+      "email": "ihome.charlie.d.tmms@gmail.tmt"
     },
-    "IHome.danny.e.tmms@IHome.CS2104": {
+    "ihome.danny.e.tmms@ihome.cs2104": {
       "comments": "This student's name is Danny Engrid",
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "tm.e2e.IHome.CS2104",
@@ -182,9 +182,9 @@
         "id": "00000000-0000-4000-8000-000000000302"
       },
       "name": "Danny Engrid",
-      "email": "IHome.danny.e.tmms@gmail.tmt"
+      "email": "ihome.danny.e.tmms@gmail.tmt"
     },
-    "IHome.alice.b.tmms@IHome.CS1101": {
+    "ihome.alice.b.tmms@ihome.cs1101": {
       "comments": "This student's name is Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000605",
       "courseId": "tm.e2e.IHome.CS1101",
@@ -195,9 +195,9 @@
         "id": "00000000-0000-4000-8000-000000000303"
       },
       "name": "Alice Betsy",
-      "email": "IHome.alice.b.tmms@gmail.tmt"
+      "email": "ihome.alice.b.tmms@gmail.tmt"
     },
-    "IHome.benny.c.tmms@IHome.CS1101": {
+    "ihome.benny.c.tmms@ihome.cs1101": {
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000606",
       "courseId": "tm.e2e.IHome.CS1101",
@@ -208,9 +208,9 @@
         "id": "00000000-0000-4000-8000-000000000303"
       },
       "name": "Benny Charles",
-      "email": "IHome.benny.c.tmms@gmail.tmt"
+      "email": "ihome.benny.c.tmms@gmail.tmt"
     },
-    "IHome.charlie.d.tmms@IHome.CS1101": {
+    "ihome.charlie.d.tmms@ihome.cs1101": {
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000607",
       "courseId": "tm.e2e.IHome.CS1101",
@@ -221,9 +221,9 @@
         "id": "00000000-0000-4000-8000-000000000304"
       },
       "name": "Charlie Davis",
-      "email": "IHome.charlie.d.tmms@gmail.tmt"
+      "email": "ihome.charlie.d.tmms@gmail.tmt"
     },
-    "IHome.danny.e.tmms@IHome.CS1101": {
+    "ihome.danny.e.tmms@ihome.cs1101": {
       "comments": "This student's name is Danny Engrid",
       "id": "00000000-0000-4000-8000-000000000608",
       "courseId": "tm.e2e.IHome.CS1101",
@@ -234,7 +234,7 @@
         "id": "00000000-0000-4000-8000-000000000304"
       },
       "name": "Danny Engrid",
-      "email": "IHome.danny.e.tmms@gmail.tmt"
+      "email": "ihome.danny.e.tmms@gmail.tmt"
     }
   },
   "feedbackSessions": {
@@ -244,7 +244,7 @@
         "id": "tm.e2e.IHome.CS2104"
       },
       "name": "First Feedback Session",
-      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
+      "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T04:00:00Z",
       "endTime": "2027-04-30T16:00:00Z",
@@ -267,7 +267,7 @@
         "id": "tm.e2e.IHome.CS2104"
       },
       "name": "Second Feedback Session",
-      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
+      "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-03-29T04:00:00Z",
       "endTime": "2012-05-01T04:00:00Z",
@@ -290,7 +290,7 @@
         "id": "tm.e2e.IHome.CS2104"
       },
       "name": "Third Feedback Session",
-      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
+      "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-10T16:00:00Z",
       "endTime": "2012-04-30T16:00:00Z",
@@ -313,7 +313,7 @@
         "id": "tm.e2e.IHome.CS2104"
       },
       "name": "Fourth Feedback Session",
-      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
+      "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-05T04:00:00Z",
       "endTime": "2012-04-20T04:00:00Z",
@@ -336,7 +336,7 @@
         "id": "tm.e2e.IHome.CS1101"
       },
       "name": "CS1101 Session",
-      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
+      "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-05T04:00:00Z",
       "endTime": "2012-04-20T04:00:00Z",
@@ -417,11 +417,11 @@
         "questionType": "TEXT"
       },
       "id": "00000000-0000-4000-8000-000000000901",
-      "giver": "IHome.alice.b.tmms@gmail.tmt",
+      "giver": "ihome.alice.b.tmms@gmail.tmt",
       "giverSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "recipient": "IHome.danny.e.tmms@gmail.tmt",
+      "recipient": "ihome.danny.e.tmms@gmail.tmt",
       "recipientSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },

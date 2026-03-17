@@ -3,13 +3,13 @@
         "SHome.instr": {
             "googleId": "tm.e2e.SHome.instr",
             "name": "Teammates Test",
-            "email": "SHome.instr@gmail.tmt",
+            "email": "shome.instr@gmail.tmt",
             "id": "00000000-0000-4000-8000-000000000001"
         },
         "SHome.student": {
             "googleId": "tm.e2e.SHome.student",
             "name": "Alice B",
-            "email": "SHome.student@gmail.tmt",
+            "email": "shome.student@gmail.tmt",
             "id": "00000000-0000-4000-8000-000000000002"
         }
     },
@@ -43,7 +43,7 @@
     "instructors": {
         "SHome.instr.CS2104": {
             "name": "Teammates Test",
-            "email": "SHome.instr@gmail.tmt",
+            "email": "shome.instr@gmail.tmt",
             "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
             "isDisplayedToStudents": false,
             "privileges": {
@@ -71,7 +71,7 @@
         },
         "SHome.instr.CS1101": {
             "name": "Teammates Test",
-            "email": "SHome.instr@gmail.tmt",
+            "email": "shome.instr@gmail.tmt",
             "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
             "isDisplayedToStudents": false,
             "privileges": {
@@ -99,7 +99,7 @@
         },
         "SHome.instr.CS4215": {
             "name": "Teammates Test",
-            "email": "SHome.instr@gmail.tmt",
+            "email": "shome.instr@gmail.tmt",
             "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
             "isDisplayedToStudents": false,
             "privileges": {
@@ -127,7 +127,7 @@
         },
         "SHome.instr.CS4221": {
             "name": "Teammates Test",
-            "email": "SHome.instr@gmail.tmt",
+            "email": "shome.instr@gmail.tmt",
             "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
             "isDisplayedToStudents": false,
             "privileges": {
@@ -155,10 +155,10 @@
         }
     },
     "students": {
-        "SHome.student@SHome.CS2104": {
+        "shome.student@shome.cs2104": {
           "id": "00000000-0000-4000-8000-000000000801",
           "account": {},
-          "email": "SHome.student@gmail.tmt",
+          "email": "shome.student@gmail.tmt",
           "course": {
             "id": "tm.e2e.SHome.CS2104"
           },
@@ -168,12 +168,12 @@
             "id": "00000000-0000-4000-8000-000000000201"
           }
         },
-        "SHome.student@SHome.CS1101": {
+        "shome.student@shome.cs1101": {
           "id": "00000000-0000-4000-8000-000000000802",
           "account": {
             "id": "00000000-0000-4000-8000-000000000002"
           },
-          "email": "SHome.student@gmail.tmt",
+          "email": "shome.student@gmail.tmt",
           "course": {
             "id": "tm.e2e.SHome.CS1101"
           },
@@ -183,12 +183,12 @@
             "id": "00000000-0000-4000-8000-000000000202"
           }
         },
-        "SHome.student@SHome.CS4215": {
+        "shome.student@shome.cs4215": {
           "id": "00000000-0000-4000-8000-000000000803",
           "account": {
             "id": "00000000-0000-4000-8000-000000000002"
           },
-          "email": "SHome.student@gmail.tmt",
+          "email": "shome.student@gmail.tmt",
           "course": {
             "id": "tm.e2e.SHome.CS4215"
           },
@@ -198,12 +198,12 @@
             "id": "00000000-0000-4000-8000-000000000203"
           }
         },
-        "SHome.student@SHome.CS4221": {
+        "shome.student@shome.cs4221": {
           "id": "00000000-0000-4000-8000-000000000804",
           "account": {
             "id": "00000000-0000-4000-8000-000000000002"
           },
-          "email": "SHome.student@gmail.tmt",
+          "email": "shome.student@gmail.tmt",
           "course": {
             "id": "tm.e2e.SHome.CS4221"
           },
@@ -276,7 +276,7 @@
     },
     "feedbackSessions": {
         "SHome.CS2104:First Feedback Session": {
-            "creatorEmail": "SHome.instr@gmail.tmt",
+            "creatorEmail": "shome.instr@gmail.tmt",
             "instructions": "Please please fill in the following questions.",
             "createdAt": "2012-03-20T23:59:00Z",
             "startTime": "2012-04-01T16:00:00Z",
@@ -300,7 +300,7 @@
             "name": "First Feedback Session"
         },
         "SHome.CS2104:Graced Feedback Session": {
-            "creatorEmail": "SHome.instr@gmail.tmt",
+            "creatorEmail": "shome.instr@gmail.tmt",
             "instructions": "Please please fill in the following questions.",
             "createdAt": "2012-03-20T23:59:00Z",
             "startTime": "2012-04-01T16:00:00Z",
@@ -324,7 +324,7 @@
             "name": "Graced Feedback Session"
         },
         "SHome.CS2104:No Question Feedback Session": {
-            "creatorEmail": "SHome.instr@gmail.tmt",
+            "creatorEmail": "shome.instr@gmail.tmt",
             "instructions": "Please please fill in the following questions.",
             "createdAt": "2012-03-20T23:59:00Z",
             "startTime": "2012-04-01T16:00:00Z",
@@ -348,7 +348,7 @@
             "name": "No Question Feedback Session"
         },
         "SHome.CS2104:Future Feedback Session": {
-            "creatorEmail": "SHome.instr@gmail.tmt",
+            "creatorEmail": "shome.instr@gmail.tmt",
             "instructions": "Please please fill in the following questions.",
             "createdAt": "2012-03-20T23:59:00Z",
             "startTime": "2034-04-01T16:00:00Z",
@@ -372,7 +372,7 @@
             "name": "Future Feedback Session"
         },
         "SHome.CS2104:Closed Feedback Session": {
-            "creatorEmail": "SHome.instr@gmail.tmt",
+            "creatorEmail": "shome.instr@gmail.tmt",
             "instructions": "Please please fill in the following questions.",
             "createdAt": "2012-03-20T23:59:00Z",
             "startTime": "2012-04-01T16:00:00Z",
@@ -396,7 +396,7 @@
             "name": "Closed Feedback Session"
         },
         "SHome.CS4221:Session with no Student Questions": {
-            "creatorEmail": "SHome.instr@gmail.tmt",
+            "creatorEmail": "shome.instr@gmail.tmt",
             "instructions": "Please please fill in the following questions.",
             "createdAt": "2012-03-20T23:59:00Z",
             "startTime": "2012-04-01T16:00:00Z",

@@ -6,7 +6,7 @@
       "email": "teammates.test@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001"
     },
-    "benny.c.tmms@ISR.CS2104": {
+    "benny.c.tmms@isr.cs2104": {
       "googleId": "tm.e2e.ISRecords.benny.c.tmms",
       "name": "Benny Charlés",
       "email": "benny.c.tmms@gmail.tmt",
@@ -73,7 +73,7 @@
     }
   },
   "students": {
-    "benny.c.tmms@ISR.CS2104": {
+    "benny.c.tmms@isr.cs2104": {
       "comments": "This student's name is Benny Charlés",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.ISRecords.CS2104",
