@@ -129,18 +129,6 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Gets the deadline extensions for a feedback session by calling API.
-   */
-  getFeedbackSessionDeadlineExtensions(courseId: string, feedbackSessionName: string):
-      Observable<FeedbackSessionDeadlineExtensions> {
-    const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.SESSION_DEADLINE_EXTENSIONS, paramMap);
-  }
-
-  /**
    * Deletes a feedback session by calling API.
    */
   deleteFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
