@@ -1,37 +1,30 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.temporal.ChronoUnit;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelperExtension;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
+import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateFeedbackSessionAction;
 
 /**
@@ -41,6 +34,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     private Course course;
     private Instructor instructor;
+    private FeedbackSession feedbackSession;
     private Instant nearestHour;
     private Instant endHour;
     private Instant responseVisibleHour;
@@ -57,96 +51,153 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     @BeforeMethod
     void setUp() throws InvalidParametersException, EntityAlreadyExistsException {
-        nearestHour = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.HOURS);
-        endHour = Instant.now().plus(2, java.time.temporal.ChronoUnit.HOURS)
-                .truncatedTo(java.time.temporal.ChronoUnit.HOURS);
-        responseVisibleHour = Instant.now().plus(3, java.time.temporal.ChronoUnit.HOURS)
-                .truncatedTo(java.time.temporal.ChronoUnit.HOURS);
+        nearestHour = Instant.now().truncatedTo(ChronoUnit.HOURS);
+        endHour = Instant.now().plus(2, ChronoUnit.HOURS).truncatedTo(ChronoUnit.HOURS);
+        responseVisibleHour = Instant.now().plus(3, ChronoUnit.HOURS).truncatedTo(ChronoUnit.HOURS);
 
         course = generateCourse1();
         instructor = generateInstructor1InCourse(course);
+        feedbackSession = generateSession1InCourse(course, instructor);
 
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-
-        when(mockLogic.verifyInstructorsExistInCourse(anyString(), anyList())).thenReturn(true);
-        when(mockLogic.verifyStudentsExistInCourse(anyString(), anyList())).thenReturn(true);
+        when(mockLogic.getFeedbackSession(feedbackSession.getName(), course.getId())).thenReturn(feedbackSession);
     }
 
     @Test
-    void testExecute_updateDeadlineExtensionEndTime_success()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    void testExecute_typicalCase_success() throws Exception {
         loginAsInstructor(instructor.getGoogleId());
-        FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
 
-        String[] param = new String[] {
-                Const.ParamsNames.COURSE_ID, originalFeedbackSession.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, originalFeedbackSession.getName(),
-                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
         };
 
-        List<DeadlineExtension> originalDeadlines = new ArrayList<>();
+        when(mockLogic.updateFeedbackSession(any())).thenReturn(feedbackSession);
 
-        originalDeadlines.add(new DeadlineExtension(instructor, originalFeedbackSession, nearestHour));
-        originalFeedbackSession.setDeadlineExtensions(originalDeadlines);
+        UpdateFeedbackSessionAction a = getAction(updateRequest, params);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        when(mockLogic.getFeedbackSession(any(), any())).thenReturn(originalFeedbackSession);
-
-        FeedbackSession updatedFeedbackSessionWithLaterEndTime = generateSession1InCourse(course, instructor);
-        List<DeadlineExtension> updatedDeadlines = new ArrayList<>();
-        updatedDeadlines.add(new DeadlineExtension(instructor,
-                updatedFeedbackSessionWithLaterEndTime, endHour));
-        updatedFeedbackSessionWithLaterEndTime.setDeadlineExtensions(updatedDeadlines);
-
-        when(mockLogic.updateFeedbackSession(originalFeedbackSession)).thenReturn(updatedFeedbackSessionWithLaterEndTime);
-
-        FeedbackSessionUpdateRequest updateRequest =
-                getTypicalFeedbackSessionUpdateRequest(updatedFeedbackSessionWithLaterEndTime);
-        UpdateFeedbackSessionAction a = getAction(updateRequest, param);
-        getJsonResult(a);
-
-        verify(mockLogic, times(1)).updateDeadlineExtension(any());
-        verify(mockLogic).updateDeadlineExtension(argThat((DeadlineExtension de) -> de.getEndTime().equals(endHour)));
+        assertEquals(feedbackSession.getName(), response.getFeedbackSessionName());
+        assertEquals(feedbackSession.getCourseId(), response.getCourseId());
+        verify(mockLogic, times(1)).updateFeedbackSession(any());
     }
 
     @Test
-    void testExecute_createDeadlineExtensionEndTime_success()
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+    void testExecute_missingParams_throwsInvalidHttpParameterException() {
         loginAsInstructor(instructor.getGoogleId());
-        FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
 
-        String[] param = new String[] {
-                Const.ParamsNames.COURSE_ID, originalFeedbackSession.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, originalFeedbackSession.getName(),
-                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
-        };
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
 
-        List<DeadlineExtension> originalDeadlines = new ArrayList<>();
-        originalFeedbackSession.setDeadlineExtensions(originalDeadlines);
-
-        when(mockLogic.getFeedbackSession(any(), any())).thenReturn(originalFeedbackSession);
-
-        FeedbackSession updatedFeedbackSessionWithLaterEndTime = generateSession1InCourse(course, instructor);
-        List<DeadlineExtension> updatedDeadlines = new ArrayList<>();
-        updatedDeadlines.add(new DeadlineExtension(instructor,
-                updatedFeedbackSessionWithLaterEndTime, nearestHour));
-        updatedFeedbackSessionWithLaterEndTime.setDeadlineExtensions(updatedDeadlines);
-
-        when(mockLogic.updateFeedbackSession(originalFeedbackSession)).thenReturn(updatedFeedbackSessionWithLaterEndTime);
-
-        FeedbackSessionUpdateRequest updateRequest =
-                getTypicalFeedbackSessionUpdateRequest(updatedFeedbackSessionWithLaterEndTime);
-        UpdateFeedbackSessionAction a = getAction(updateRequest, param);
-        getJsonResult(a);
-
-        verify(mockLogic, times(1)).createDeadlineExtension(any());
-        verify(mockLogic).createDeadlineExtension(argThat((DeadlineExtension de) -> de.getEndTime().equals(nearestHour)));
+        verifyHttpParameterFailure(updateRequest);
+        verifyHttpParameterFailure(updateRequest, Const.ParamsNames.COURSE_ID, course.getId());
+        verifyHttpParameterFailure(updateRequest,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName());
     }
 
-    private FeedbackSessionUpdateRequest getTypicalFeedbackSessionUpdateRequest(FeedbackSession feedbackSession) {
+    @Test
+    void testExecute_invalidStartTime_throwsInvalidHttpRequestBodyException() {
+        loginAsInstructor(instructor.getGoogleId());
+
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
+        // Start time more than 2 hours in the past triggers validation failure
+        updateRequest.setSubmissionStartTimestamp(
+                Instant.now().minus(Duration.ofHours(3)).truncatedTo(ChronoUnit.HOURS).toEpochMilli());
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+        };
+
+        verifyHttpRequestBodyFailure(updateRequest, params);
+    }
+
+    @Test
+    void testExecute_invalidEndTime_throwsInvalidHttpRequestBodyException() {
+        loginAsInstructor(instructor.getGoogleId());
+
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
+        // End time more than 1 hour in the past triggers validation failure
+        updateRequest.setSubmissionEndTimestamp(
+                Instant.now().minus(Duration.ofHours(2)).truncatedTo(ChronoUnit.HOURS).toEpochMilli());
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+        };
+
+        verifyHttpRequestBodyFailure(updateRequest, params);
+    }
+
+    @Test
+    void testExecute_sessionVisibleTimeTooEarly_throwsInvalidHttpRequestBodyException() {
+        loginAsInstructor(instructor.getGoogleId());
+
+        // Typical request sets start time to 2 days from now; visibility must be at most 30 days before that
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
+        updateRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
+        updateRequest.setCustomSessionVisibleTimestamp(
+                Instant.now().minus(Duration.ofDays(35)).truncatedTo(ChronoUnit.HOURS).toEpochMilli());
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+        };
+
+        verifyHttpRequestBodyFailure(updateRequest, params);
+    }
+
+    @Test
+    void testAccessControl_nonExistentFeedbackSession_throwsEntityNotFoundException() {
+        loginAsInstructor(instructor.getGoogleId());
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "nonExistentSession",
+        };
+
+        verifyEntityNotFoundAcl(params);
+    }
+
+    @Test
+    void testAccessControl_instructorWithoutPrivilege_cannotAccess() {
+        InstructorPrivileges observerPrivileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+        };
+
+        verifyInaccessibleWithoutCorrectSameCoursePrivilege(course, observerPrivileges, params);
+    }
+
+    @Test
+    void testAccessControl_instructorOfOtherCourse_cannotAccess() {
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+        };
+
+        verifyInstructorsOfOtherCoursesCannotAccess(params);
+    }
+
+    @Test
+    void testAccessControl_nonInstructor_cannotAccess() {
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(course, params);
+    }
+
+    private FeedbackSessionUpdateRequest getTypicalFeedbackSessionUpdateRequest(FeedbackSession fs) {
         FeedbackSessionUpdateRequest updateRequest = new FeedbackSessionUpdateRequest();
         updateRequest.setInstructions("instructions");
-        String timeZone = feedbackSession.getCourse().getTimeZone();
+        String timeZone = fs.getCourse().getTimeZone();
 
         updateRequest.setSubmissionStartTimestamp(TimeHelperExtension.getTimezoneInstantTruncatedDaysOffsetFromNow(
                 2, timeZone).toEpochMilli());
@@ -164,19 +215,6 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         updateRequest.setClosingSoonEmailEnabled(false);
         updateRequest.setPublishedEmailEnabled(false);
-
-        Map<String, Long> instructorDeadlines = new HashMap<>();
-        Map<String, Long> studentDeadlines = new HashMap<>();
-
-        assert feedbackSession.getDeadlineExtensions() != null;
-        for (DeadlineExtension de : feedbackSession.getDeadlineExtensions()) {
-            assert de != null;
-            if (de.getUser() instanceof Student) {
-                studentDeadlines.put(de.getUser().getEmail(), de.getEndTime().toEpochMilli());
-            } else if (de.getUser() instanceof Instructor) {
-                instructorDeadlines.put(de.getUser().getEmail(), de.getEndTime().toEpochMilli());
-            }
-        }
 
         return updateRequest;
     }
@@ -196,15 +234,14 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
     }
 
-    private FeedbackSession generateSession1InCourse(Course course, Instructor instructor) {
-        FeedbackSession fs = new FeedbackSession("feedbacksession-1", course,
-                instructor.getEmail(), "generic instructions",
+    private FeedbackSession generateSession1InCourse(Course c, Instructor inst) {
+        FeedbackSession fs = new FeedbackSession("feedbacksession-1", c,
+                inst.getEmail(), "generic instructions",
                 nearestHour, endHour,
                 nearestHour, responseVisibleHour,
                 Duration.ofHours(10), true, false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
-
         return fs;
     }
 }
