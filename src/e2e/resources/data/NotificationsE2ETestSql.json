@@ -1,38 +1,38 @@
 {
   "accounts": {
-    "NotifBanner.instructor": {
+    "notif.instructor": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.NotifBanner.instructor",
+      "googleId": "tm.e2e.notif.instructor",
       "name": "Teammates Test Instructor",
-      "email": "NotifBanner.instructor@gmail.tmt"
+      "email": "notif.instructor@gmail.tmt"
     },
-    "NotifBanner.student": {
+    "notif.student": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.NotifBanner.student",
+      "googleId": "tm.e2e.notif.student",
       "name": "Teammates Test Student",
-      "email": "NotifBanner.student@gmail.tmt"
+      "email": "notif.student@gmail.tmt"
     }
   },
   "accountRequests": {},
   "courses": {
     "typicalCourse1": {
-      "id": "tm.e2e.NotifBanner.course1",
+      "id": "tm.e2e.notif.course1",
       "name": "Typical Course 1",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "sections": {
-    "tm.e2e.NotifBanner.course1-Section 1": {
+    "tm.e2e.notif.course1-Section 1": {
       "id": "00000000-0000-4000-8000-000000000201",
       "course": {
-        "id": "tm.e2e.NotifBanner.course1"
+        "id": "tm.e2e.notif.course1"
       },
       "name": "Section 1"
     }
   },
   "teams": {
-    "tm.e2e.NotifBanner.course1-Section 1-Team 1.1": {
+    "tm.e2e.notif.course1-Section 1-Team 1.1": {
       "id": "00000000-0000-4000-8000-000000000301",
       "section": {
         "id": "00000000-0000-4000-8000-000000000201"
@@ -47,10 +47,10 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "course": {
-        "id": "tm.e2e.NotifBanner.course1"
+        "id": "tm.e2e.notif.course1"
       },
       "name": "Teammates Test Instructor",
-      "email": "NotifBanner.instructor@gmail.tmt",
+      "email": "notif.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -77,12 +77,12 @@
         "id": "00000000-0000-4000-8000-000000000002"
       },
       "course": {
-        "id": "tm.e2e.NotifBanner.course1"
+        "id": "tm.e2e.notif.course1"
       },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "NotifBanner.student@gmail.tmt",
+      "email": "notif.student@gmail.tmt",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\""
     }
@@ -111,6 +111,36 @@
       "title": "New Update",
       "message": "<p>Information on new update</p>",
       "shown": false
+    },
+    "notification3": {
+      "id": "00000000-0000-4000-8000-000000001103",
+      "startTime": "2011-03-03T00:00:00Z",
+      "endTime": "2099-03-03T00:00:00Z",
+      "style": "SUCCESS",
+      "targetUser": "INSTRUCTOR",
+      "title": "INotifs.notification3",
+      "message": "<p>This notification is shown to instructors only</p>",
+      "shown": true
+    },
+    "notification4": {
+      "id": "00000000-0000-4000-8000-000000001104",
+      "startTime": "2011-04-04T00:00:00Z",
+      "endTime": "2099-04-04T00:00:00Z",
+      "style": "WARNING",
+      "targetUser": "GENERAL",
+      "title": "INotifs.notification4",
+      "message": "<p>This notification has been read by the user</p>",
+      "shown": true
+    },
+    "expiredNotification1": {
+      "id": "00000000-0000-4000-8000-000000001105",
+      "startTime": "2011-01-01T00:00:00Z",
+      "endTime": "2011-02-02T00:00:00Z",
+      "style": "DANGER",
+      "targetUser": "GENERAL",
+      "title": "INotifs.expiredNotification1",
+      "message": "<p>This notification has expired</p>",
+      "shown": false
     }
   },
   "deadlineExtensions": {},
@@ -119,5 +149,24 @@
   "feedbackResponses": {},
   "feedbackResponseComments": {},
   "feedbackSessionLogs": {},
-  "readNotifications": {}
+  "readNotifications": {
+    "notification4INotifs.instr": {
+      "id": "00000000-0000-4000-8000-000000002100",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      },
+      "notification": {
+        "id": "00000000-0000-4000-8000-000000001104"
+      }
+    },
+    "notification4INotifs.student": {
+      "id": "00000000-0000-4000-8000-000000002101",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000002"
+      },
+      "notification": {
+        "id": "00000000-0000-4000-8000-000000001104"
+      }
+    }
+  }
 }
