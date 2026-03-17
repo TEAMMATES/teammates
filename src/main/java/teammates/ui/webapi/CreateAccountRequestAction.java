@@ -43,6 +43,7 @@ public class CreateAccountRequestAction extends Action {
         if (comments != null) {
             comments = comments.trim();
         }
+
         AccountRequest accountRequest;
 
         try {

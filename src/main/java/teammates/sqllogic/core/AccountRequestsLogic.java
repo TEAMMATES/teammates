@@ -98,8 +98,14 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Creates/resets the account request with the given id such that it is not
-     * registered.
+     * Gets the account request by email and institute.
+     */
+    public AccountRequest getAccountRequestByEmailAndInstitute(String email, String institute) {
+        return accountRequestDb.getAccountRequestByEmailAndInstitute(email, institute);
+    }
+
+    /**
+     * Creates/resets the account request with the given id such that it is not registered.
      */
     public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {

@@ -125,6 +125,22 @@ public final class AccountRequestsDb {
     }
 
     /**
+     * Get non-rejected AccountRequest by {@code email} and {@code institute} from database.
+     */
+    public AccountRequest getAccountRequestByEmailAndInstitute(String email, String institute) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        cr.select(root).where(cb.and(
+                cb.equal(root.get("email"), email),
+                cb.equal(root.get("institute"), institute),
+                cb.notEqual(root.get("status"), AccountRequestStatus.REJECTED)));
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        return query.getResultStream().findFirst().orElse(null);
+    }
+
+    /**
      * Get AccountRequest with {@code createdTime} within the times {@code startTime} and {@code endTime}.
      */
     public List<AccountRequest> getAccountRequests(Instant startTime, Instant endTime) {
