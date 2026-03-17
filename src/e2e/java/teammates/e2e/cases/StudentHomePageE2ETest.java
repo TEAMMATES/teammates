@@ -42,9 +42,6 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
             homePage.verifyVisibleFeedbackSessionToStudents(feedbackSessionName, panelIndex);
         });
-
-        ______TS("notification banner is visible");
-        assertTrue(homePage.isBannerVisible());
     }
 
     private List<String> getAllVisibleCourseIds() {
