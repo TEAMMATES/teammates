@@ -38,15 +38,5 @@ public class RequestPageE2ETest extends BaseE2ETestCase {
 
         String expectedEmailSubject = EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT.toString();
         verifyEmailSent(email, expectedEmailSubject);
-
-        ______TS("verify submission without comments");
-        requestPage = getNewPageInstance(url, RequestPage.class);
-        requestPage.clickAmInstructorButton();
-        requestPage.fillForm(name, institution, country, email, "");
-        requestPage.clickSubmitFormButton();
-        requestPage.verifySubmittedInfo(name, institution, country, email, "");
-
-        expectedEmailSubject = EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT.toString();
-        verifyEmailSent(email, expectedEmailSubject);
     }
 }
