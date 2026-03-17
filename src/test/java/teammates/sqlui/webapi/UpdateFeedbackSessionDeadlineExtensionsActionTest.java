@@ -89,7 +89,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(originalFeedbackSession);
 
         FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
-                buildUpdateRequest(instructor.getEmail(), null, endHour, null);
+                buildUpdateRequest(instructor.getEmail(), endHour);
         UpdateFeedbackSessionDeadlineExtensionsAction a = getAction(updateRequest, param);
         getJsonResult(a);
 
@@ -114,7 +114,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(originalFeedbackSession);
 
         FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
-                buildUpdateRequest(instructor.getEmail(), null, nearestHour, null);
+                buildUpdateRequest(instructor.getEmail(), nearestHour);
         UpdateFeedbackSessionDeadlineExtensionsAction a = getAction(updateRequest, param);
         getJsonResult(a);
 
@@ -127,8 +127,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
      * Pass null for an email to omit that user from the request.
      */
     private FeedbackSessionDeadlineExtensionsUpdateRequest buildUpdateRequest(
-            String instructorEmail, Long instructorDeadline, Instant instructorDeadlineInstant,
-            String studentEmail) {
+            String instructorEmail, Instant instructorDeadlineInstant) {
         FeedbackSessionDeadlineExtensionsUpdateRequest request =
                 new FeedbackSessionDeadlineExtensionsUpdateRequest();
 
