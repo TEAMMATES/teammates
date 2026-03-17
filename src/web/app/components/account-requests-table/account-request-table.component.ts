@@ -110,8 +110,7 @@ export class AccountRequestTableComponent {
 
   approveAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
     this.isApprovingAccount[index] = true;
-    this.accountService.approveAccountRequest(accountRequest.id, accountRequest.name,
-        accountRequest.email, accountRequest.instituteAndCountry)
+    this.accountService.approveAccountRequest(accountRequest.id)
     .subscribe({
       next: (resp : AccountRequest) => {
         accountRequest.status = resp.status;
