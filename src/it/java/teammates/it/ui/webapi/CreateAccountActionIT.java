@@ -7,7 +7,6 @@ import java.util.List;
 import jakarta.transaction.Transactional;
 
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -27,7 +26,6 @@ import teammates.ui.webapi.InvalidHttpParameterException;
 /**
  * SUT: {@link CreateAccountAction}.
  */
-@Ignore // TODO: remove ignore once we allow course creation in SQL
 public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
     @Override

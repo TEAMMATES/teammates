@@ -3,7 +3,6 @@ package teammates.sqlui.webapi;
 import static org.mockito.Mockito.when;
 
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
@@ -20,7 +19,6 @@ import teammates.ui.webapi.UpdateInstructorPrivilegeAction;
 /**
  * SUT: {@link UpdateInstructorPrivilegeAction}.
  */
-@Ignore
 public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateInstructorPrivilegeAction> {
 
     String googleId = "user-googleId";
@@ -103,6 +101,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         newPrivileges.updatePrivilege(InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
         newPrivileges.updatePrivilege(InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, true);
         newPrivileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        newPrivileges.updatePrivilege(InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
         reqBody.setPrivileges(newPrivileges);
 
         UpdateInstructorPrivilegeAction action = getAction(reqBody, submissionParams);
@@ -333,6 +332,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course-id",
         };
+        when(mockLogic.getInstructorByGoogleId("course-id", googleId)).thenReturn(null);
 
         loginAsStudent(googleId);
         verifyCannotAccess(params);
