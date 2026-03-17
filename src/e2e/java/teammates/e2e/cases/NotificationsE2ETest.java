@@ -14,7 +14,6 @@ import teammates.e2e.pageobjects.StudentHomePage;
 import teammates.e2e.pageobjects.StudentNotificationsPage;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
-import teammates.storage.sqlentity.ReadNotification;
 import teammates.ui.output.AccountData;
 
 /**
@@ -84,10 +83,12 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
                 testData.notifications.get("notification4"),
         };
 
-        ReadNotification[] readNotifications = testData.readNotifications.values().toArray(ReadNotification[]::new);
+        Notification[] readNotifications = {
+                testData.notifications.get("notification4"),
+        };
 
         Set<String> readNotificationsIds = Stream.of(readNotifications)
-                .map(readNotification -> readNotification.getNotification().getId().toString())
+                .map(readNotification -> readNotification.getId().toString())
                 .collect(Collectors.toSet());
 
         notificationsPage.verifyNotShownNotifications(notShownNotifications);
@@ -113,10 +114,10 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         ______TS("mark notification as read");
         String notificationId = homePage.getNotificationId();
         homePage.clickMarkAsReadButton();
-        AccountData accountFromDb = BACKDOOR.getAccountData(studentAccount.getGoogleId());
 
         homePage.verifyStatusMessage("Notification marked as read.");
         assertFalse(homePage.isBannerVisible());
+        AccountData accountFromDb = BACKDOOR.getAccountData(studentAccount.getGoogleId());
         assertTrue(accountFromDb.getReadNotifications().containsKey(notificationId));
     }
 
