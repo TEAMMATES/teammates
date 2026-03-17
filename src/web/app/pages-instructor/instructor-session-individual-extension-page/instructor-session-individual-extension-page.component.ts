@@ -203,8 +203,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     };
     this.feedbackSessionEndingTimestamp = feedbackSession.submissionEndTimestamp;
     this.feedbackSessionTimeZone = feedbackSession.timeZone;
-    this.studentDeadlines = feedbackSession.studentDeadlines ?? {};
-    this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
+    this.studentDeadlines = feedbackSession.deadlines?.studentDeadlines ?? {};
+    this.instructorDeadlines = feedbackSession.deadlines?.instructorDeadlines ?? {};
   }
 
   private initialSortOfStudents(): void {
