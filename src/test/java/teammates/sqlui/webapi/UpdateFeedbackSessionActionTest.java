@@ -178,9 +178,6 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
             }
         }
 
-        updateRequest.setStudentDeadlines(studentDeadlines);
-        updateRequest.setInstructorDeadlines(instructorDeadlines);
-
         return updateRequest;
     }
 
