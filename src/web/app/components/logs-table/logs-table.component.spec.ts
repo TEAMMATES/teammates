@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-output';
 import { LogsTableRowModel } from './logs-table-model';
 import { LogsTableComponent } from './logs-table.component';
+import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-output';
 
 describe('LogsTableComponent', () => {
   let component: LogsTableComponent;
