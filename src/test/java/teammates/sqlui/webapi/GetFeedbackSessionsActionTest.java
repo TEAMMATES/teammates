@@ -139,9 +139,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                 break;
             }
         }
-        boolean returnsDeadline = sessionData.getDeadlines().getStudentDeadlines().containsKey(emailAddress);
+        boolean returnsDeadline = sessionData.getStudentDeadlines().containsKey(emailAddress);
         boolean returnsDeadlineForStudentIfExists = !hasDeadline || returnsDeadline;
-        boolean returnsOtherDeadlines = sessionData.getDeadlines().getStudentDeadlines().size() > (hasDeadline ? 1 : 0);
+        boolean returnsOtherDeadlines = sessionData.getStudentDeadlines().size() > (hasDeadline ? 1 : 0);
         boolean returnsOnlyDeadlineForStudentIfExists = !returnsOtherDeadlines && returnsDeadlineForStudentIfExists;
         assertTrue(returnsOnlyDeadlineForStudentIfExists);
     }

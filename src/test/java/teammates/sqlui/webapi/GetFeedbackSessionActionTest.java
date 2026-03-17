@@ -115,8 +115,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(0, response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
 
-        assertTrue(response.getDeadlines().getStudentDeadlines().isEmpty());
-        assertTrue(response.getDeadlines().getInstructorDeadlines().isEmpty());
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
 
         logoutUser();
     }
@@ -154,8 +154,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertTrue(response.getDeadlines().getStudentDeadlines().isEmpty());
-        assertTrue(response.getDeadlines().getInstructorDeadlines().isEmpty());
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
@@ -196,8 +196,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertTrue(response.getDeadlines().getStudentDeadlines().isEmpty());
-        assertTrue(response.getDeadlines().getInstructorDeadlines().isEmpty());
+        assertTrue(response.getStudentDeadlines().isEmpty());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
@@ -241,9 +241,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertTrue(response.getDeadlines().getStudentDeadlines().containsKey(student1.getEmail()));
-        assertEquals(1, response.getDeadlines().getStudentDeadlines().size());
-        assertTrue(response.getDeadlines().getInstructorDeadlines().isEmpty());
+        assertTrue(response.getStudentDeadlines().containsKey(student1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
@@ -287,9 +287,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertTrue(response.getDeadlines().getStudentDeadlines().containsKey(student1.getEmail()));
-        assertEquals(1, response.getDeadlines().getStudentDeadlines().size());
-        assertTrue(response.getDeadlines().getInstructorDeadlines().isEmpty());
+        assertTrue(response.getStudentDeadlines().containsKey(student1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
@@ -333,9 +333,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertTrue(response.getDeadlines().getStudentDeadlines().containsKey(student1.getEmail()));
-        assertEquals(1, response.getDeadlines().getStudentDeadlines().size());
-        assertTrue(response.getDeadlines().getInstructorDeadlines().isEmpty());
+        assertTrue(response.getStudentDeadlines().containsKey(student1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
@@ -379,9 +379,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertTrue(response.getDeadlines().getStudentDeadlines().containsKey(student1.getEmail()));
-        assertEquals(1, response.getDeadlines().getStudentDeadlines().size());
-        assertTrue(response.getDeadlines().getInstructorDeadlines().isEmpty());
+        assertTrue(response.getStudentDeadlines().containsKey(student1.getEmail()));
+        assertEquals(1, response.getStudentDeadlines().size());
+        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());

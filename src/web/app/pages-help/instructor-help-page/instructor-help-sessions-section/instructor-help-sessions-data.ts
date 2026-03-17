@@ -194,10 +194,8 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
-  deadlines: {
-    studentDeadlines: {},
-    instructorDeadlines: {},
-  },
+  studentDeadlines: {},
+  instructorDeadlines: {},
 };
 
 /**

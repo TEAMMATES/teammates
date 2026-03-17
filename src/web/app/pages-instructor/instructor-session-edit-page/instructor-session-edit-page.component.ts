@@ -353,8 +353,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           || !feedbackSession.isPublishedEmailEnabled,
     };
 
-    this.studentDeadlines = feedbackSession.deadlines.studentDeadlines;
-    this.instructorDeadlines = feedbackSession.deadlines.instructorDeadlines;
+    this.studentDeadlines = feedbackSession.studentDeadlines;
+    this.instructorDeadlines = feedbackSession.instructorDeadlines;
 
     if (feedbackSession.customSessionVisibleTimestamp) {
       const customSessionVisible: { date: DateFormat, time: TimeFormat } =

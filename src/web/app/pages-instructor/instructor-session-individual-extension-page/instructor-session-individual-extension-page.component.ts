@@ -141,7 +141,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.FULL_DETAIL,
-      })
+      }),
     ])
       .pipe(finalize(() => {
         this.isLoadingFeedbackSession = false;
@@ -203,8 +203,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     };
     this.feedbackSessionEndingTimestamp = feedbackSession.submissionEndTimestamp;
     this.feedbackSessionTimeZone = feedbackSession.timeZone;
-    this.studentDeadlines = feedbackSession.deadlines.studentDeadlines ?? {};
-    this.instructorDeadlines = feedbackSession.deadlines.instructorDeadlines ?? {};
+    this.studentDeadlines = feedbackSession.studentDeadlines ?? {};
+    this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
   }
 
   private initialSortOfStudents(): void {

@@ -69,10 +69,8 @@ export class SessionResultPageComponent implements OnInit {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    deadlines: {
-      studentDeadlines: {},
-      instructorDeadlines: {},
-    },
+    studentDeadlines: {},
+    instructorDeadlines: {},
   };
   questions: FeedbackQuestionModel[] = [];
   courseName: string = '';

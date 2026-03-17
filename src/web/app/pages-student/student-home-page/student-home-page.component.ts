@@ -232,7 +232,7 @@ export class StudentHomePageComponent implements OnInit {
   getSubmissionStatusTooltip(session: StudentSession): string {
     let msg: string = '';
     const hasStudentExtension = DeadlineExtensionHelper.hasUserExtension(session.session);
-    const hasOngoingStudentExtension = DeadlineExtensionHelper.hasOngoingExtension(session.session.deadlines);
+    const hasOngoingStudentExtension = DeadlineExtensionHelper.hasOngoingExtension(session.session);
 
     if (session.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusAwaiting;

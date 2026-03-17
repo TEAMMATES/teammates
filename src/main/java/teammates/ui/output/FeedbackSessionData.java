@@ -1,6 +1,8 @@
 package teammates.ui.output;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
@@ -8,7 +10,10 @@ import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * The API output format of {@link FeedbackSession}.
@@ -53,7 +58,8 @@ public class FeedbackSessionData extends ApiOutput {
     @Nullable
     private InstructorPermissionSet privileges;
 
-    private FeedbackSessionDeadlineExtensionsData deadlines;
+    private Map<String, Long> studentDeadlines;
+    private Map<String, Long> instructorDeadlines;
 
     public FeedbackSessionData(FeedbackSession feedbackSession) {
         assert feedbackSession != null;
@@ -125,7 +131,20 @@ public class FeedbackSessionData extends ApiOutput {
             this.deletedAtTimestamp = feedbackSession.getDeletedAt().toEpochMilli();
         }
 
-        this.deadlines = new FeedbackSessionDeadlineExtensionsData(feedbackSession);
+        this.studentDeadlines = new HashMap<>();
+        this.instructorDeadlines = new HashMap<>();
+
+        // place deadline extensions into appropriate student and instructor deadline maps
+        for (DeadlineExtension de : feedbackSession.getDeadlineExtensions()) {
+            if (de.getUser() instanceof Student) {
+                this.studentDeadlines.put(de.getUser().getEmail(),
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
+            }
+            if (de.getUser() instanceof Instructor) {
+                this.instructorDeadlines.put(de.getUser().getEmail(),
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
+            }
+        }
     }
 
     /**
@@ -227,8 +246,12 @@ public class FeedbackSessionData extends ApiOutput {
         return isPublishedEmailEnabled;
     }
 
-    public FeedbackSessionDeadlineExtensionsData getDeadlines() {
-        return deadlines;
+    public Map<String, Long> getStudentDeadlines() {
+        return studentDeadlines;
+    }
+
+    public Map<String, Long> getInstructorDeadlines() {
+        return instructorDeadlines;
     }
 
     public void setSessionVisibleFromTimestamp(Long sessionVisibleFromTimestamp) {
@@ -291,8 +314,12 @@ public class FeedbackSessionData extends ApiOutput {
         this.privileges = privileges;
     }
 
-    public void setDeadlines(FeedbackSessionDeadlineExtensionsData deadlines) {
-        this.deadlines = deadlines;
+    public void setStudentDeadlines(Map<String, Long> studentDeadlines) {
+        this.studentDeadlines = studentDeadlines;
+    }
+
+    public void setInstructorDeadlines(Map<String, Long> instructorDeadlines) {
+        this.instructorDeadlines = instructorDeadlines;
     }
 
     /**
@@ -301,7 +328,7 @@ public class FeedbackSessionData extends ApiOutput {
     public void hideInformationForStudent() {
         hideInformationForStudentAndInstructor();
         hideSessionVisibilityTimestamps();
-        deadlines.hideInformationForStudent();
+        instructorDeadlines.clear();
     }
 
     /**
@@ -310,7 +337,8 @@ public class FeedbackSessionData extends ApiOutput {
     public void hideInformationForStudent(String studentEmail) {
         hideInformationForStudentAndInstructor();
         hideSessionVisibilityTimestamps();
-        deadlines.hideInformationForStudent(studentEmail);
+        studentDeadlines.keySet().removeIf(email -> !(email.equals(studentEmail)));
+        instructorDeadlines.clear();
     }
 
     /**
@@ -318,7 +346,7 @@ public class FeedbackSessionData extends ApiOutput {
      */
     public void hideInformationForInstructor() {
         hideInformationForStudentAndInstructor();
-        deadlines.hideInformationForInstructor();
+        studentDeadlines.clear();
     }
 
     /**
@@ -326,7 +354,8 @@ public class FeedbackSessionData extends ApiOutput {
      */
     public void hideInformationForInstructor(String instructorEmail) {
         hideInformationForStudentAndInstructor();
-        deadlines.hideInformationForInstructor(instructorEmail);
+        instructorDeadlines.keySet().removeIf(email -> !(email.equals(instructorEmail)));
+        studentDeadlines.clear();
     }
 
     /**
