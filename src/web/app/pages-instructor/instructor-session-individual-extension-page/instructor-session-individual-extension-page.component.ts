@@ -19,6 +19,7 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   Course,
   FeedbackSession,
+  FeedbackSessionDeadlineExtensions,
   FeedbackSessionSubmittedGiverSet,
   Instructors,
   Students,
@@ -142,6 +143,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.FULL_DETAIL,
       }),
+      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
+        this.courseId, this.feedbackSessionName),
     ])
       .pipe(finalize(() => {
         this.isLoadingFeedbackSession = false;
@@ -149,9 +152,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         this.isLoadingAllInstructors = false;
       }))
       .subscribe({
-        next: ([course, feedbackSession]: [Course, FeedbackSession]) => {
+        next: ([course, feedbackSession, deadlines]: [Course, FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
           this.courseName = course.courseName;
-          this.setFeedbackSessionDetails(feedbackSession);
+          this.setFeedbackSessionDetails(feedbackSession, deadlines);
           this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
           this.getAllInstructorsOfCourse();
         },
@@ -188,7 +191,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       });
   }
 
-  private setFeedbackSessionDetails(feedbackSession: FeedbackSession): void {
+  private setFeedbackSessionDetails(feedbackSession: FeedbackSession,
+    deadlines: FeedbackSessionDeadlineExtensions): void {
     this.feedbackSessionDetails = {
       instructions: feedbackSession.instructions,
       submissionStartTimestamp: feedbackSession.submissionStartTimestamp,
@@ -203,8 +207,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     };
     this.feedbackSessionEndingTimestamp = feedbackSession.submissionEndTimestamp;
     this.feedbackSessionTimeZone = feedbackSession.timeZone;
-    this.studentDeadlines = feedbackSession.deadlines?.studentDeadlines ?? {};
-    this.instructorDeadlines = feedbackSession.deadlines?.instructorDeadlines ?? {};
+    this.studentDeadlines = deadlines.studentDeadlines ?? {};
+    this.instructorDeadlines = deadlines.instructorDeadlines ?? {};
   }
 
   private initialSortOfStudents(): void {

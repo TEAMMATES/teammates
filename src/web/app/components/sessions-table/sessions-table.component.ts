@@ -472,8 +472,8 @@ export class SessionsTableComponent implements OnInit {
     studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number>,
   } {
     return {
-      studentDeadlines: model.feedbackSession.studentDeadlines,
-      instructorDeadlines: model.feedbackSession.instructorDeadlines,
+      studentDeadlines: model.feedbackSession.deadlines.studentDeadlines,
+      instructorDeadlines: model.feedbackSession.deadlines.instructorDeadlines,
     };
   }
 }
