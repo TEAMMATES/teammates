@@ -1,9 +1,7 @@
 package teammates.it.ui.webapi;
 
-import java.util.List;
 import java.util.UUID;
 
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,6 +14,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Course;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -33,7 +32,9 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
-        // no need to call super.setUp() because the action handles its own transactions
+        super.setUp();
+        persistDataBundle(typicalBundle);
+        HibernateUtil.flushSession();
     }
 
     @Override
@@ -50,7 +51,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @Test
     public void testExecute() throws Exception {
         ______TS("edit fields of an account request");
-        AccountRequest accountRequest = logic.createAccountRequestWithTransaction("name", "email@email.com",
+        AccountRequest accountRequest = logic.createAccountRequest("name", "email@email.com",
                 "institute", AccountRequestStatus.PENDING, "comments");
         UUID id = accountRequest.getId();
         String name = "newName";
@@ -76,7 +77,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         verifyNoEmailsSent();
 
         ______TS("approve a pending account request");
-        accountRequest = logic.createAccountRequestWithTransaction("name", "email@email.com",
+        accountRequest = logic.createAccountRequest("name", "email@email.com",
                 "institute", AccountRequestStatus.PENDING, "comments");
         requestBody = new AccountRequestUpdateRequest(accountRequest.getName(), accountRequest.getEmail(),
                 accountRequest.getInstitute(), AccountRequestStatus.APPROVED, accountRequest.getComments());
@@ -93,7 +94,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         verifyNumberOfEmailsSent(1);
 
         ______TS("already registered account request has no email sent when approved");
-        accountRequest = logic.createAccountRequestWithTransaction("name", "email@email.com",
+        accountRequest = logic.createAccountRequest("name", "email@email.com",
                 "institute", AccountRequestStatus.REGISTERED, "comments");
         requestBody = new AccountRequestUpdateRequest(name, email, institute, AccountRequestStatus.APPROVED, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
@@ -110,8 +111,8 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         verifyNumberOfEmailsSent(0);
 
         ______TS("email with existing account throws exception");
-        Account account = logic.createAccountWithTransaction(getTypicalAccount());
-        accountRequest = logic.createAccountRequestWithTransaction("name", account.getEmail(),
+        Account account = logic.createAccount(getTypicalAccount());
+        accountRequest = logic.createAccountRequest("name", account.getEmail(),
                 "institute", AccountRequestStatus.PENDING, "comments");
         requestBody = new AccountRequestUpdateRequest(name, email, institute, AccountRequestStatus.APPROVED, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
@@ -141,7 +142,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
 
         ______TS("invalid email");
-        accountRequest = logic.createAccountRequestWithTransaction("name", "email@email.com",
+        accountRequest = logic.createAccountRequest("name", "email@email.com",
                 "institute", AccountRequestStatus.PENDING, "comments");
         id = accountRequest.getId();
         email = "newEmail";
@@ -229,9 +230,9 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals(null, data.getComments());
 
         ______TS("email with approved account request throws exception");
-        logic.createAccountRequestWithTransaction("test", "test@email.com",
+        logic.createAccountRequest("test", "test@email.com",
                 "institute", AccountRequestStatus.APPROVED, "comments");
-        accountRequest = logic.createAccountRequestWithTransaction("test", "test@email.com",
+        accountRequest = logic.createAccountRequest("test", "test@email.com",
                 "institute", AccountRequestStatus.PENDING, "comments");
         requestBody = new AccountRequestUpdateRequest(accountRequest.getName(), accountRequest.getEmail(),
                 accountRequest.getInstitute(), AccountRequestStatus.APPROVED, comments);
@@ -246,19 +247,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @Override
     @Test
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
-        verifyOnlyAdminCanAccessWithTransaction();
-    }
-
-    @Override
-    @AfterMethod
-    protected void tearDown() {
-        HibernateUtil.beginTransaction();
-        List<AccountRequest> accountRequests = logic.getAllAccountRequests();
-        for (AccountRequest ar : accountRequests) {
-            logic.deleteAccountRequest(ar.getId());
-        }
-
-        logic.deleteAccount(getTypicalAccount().getGoogleId());
-        HibernateUtil.commitTransaction();
+        Course course = typicalBundle.courses.get("course1");
+        verifyOnlyAdminCanAccess(course);
     }
 }
