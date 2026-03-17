@@ -132,7 +132,7 @@
     }
   },
   "students": {
-    "ihome.alice.b.tmms@ihome.cs2104": {
+    "IHome.alice.b.tmms@IHome.CS2104": {
       "comments": "This student's name is Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.IHome.CS2104",
@@ -145,7 +145,7 @@
       "name": "Alice Betsy",
       "email": "ihome.alice.b.tmms@gmail.tmt"
     },
-    "ihome.benny.c.tmms@ihome.cs2104": {
+    "IHome.benny.c.tmms@IHome.CS2104": {
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.IHome.CS2104",
@@ -158,7 +158,7 @@
       "name": "Benny Charles",
       "email": "ihome.benny.c.tmms@gmail.tmt"
     },
-    "ihome.charlie.d.tmms@ihome.cs2104": {
+    "IHome.charlie.d.tmms@IHome.CS2104": {
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.IHome.CS2104",
@@ -171,7 +171,7 @@
       "name": "Charlie Davis",
       "email": "ihome.charlie.d.tmms@gmail.tmt"
     },
-    "ihome.danny.e.tmms@ihome.cs2104": {
+    "IHome.danny.e.tmms@IHome.CS2104": {
       "comments": "This student's name is Danny Engrid",
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "tm.e2e.IHome.CS2104",
@@ -184,7 +184,7 @@
       "name": "Danny Engrid",
       "email": "ihome.danny.e.tmms@gmail.tmt"
     },
-    "ihome.alice.b.tmms@ihome.cs1101": {
+    "IHome.alice.b.tmms@IHome.CS1101": {
       "comments": "This student's name is Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000605",
       "courseId": "tm.e2e.IHome.CS1101",
@@ -197,7 +197,7 @@
       "name": "Alice Betsy",
       "email": "ihome.alice.b.tmms@gmail.tmt"
     },
-    "ihome.benny.c.tmms@ihome.cs1101": {
+    "IHome.benny.c.tmms@IHome.CS1101": {
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000606",
       "courseId": "tm.e2e.IHome.CS1101",
@@ -210,7 +210,7 @@
       "name": "Benny Charles",
       "email": "ihome.benny.c.tmms@gmail.tmt"
     },
-    "ihome.charlie.d.tmms@ihome.cs1101": {
+    "IHome.charlie.d.tmms@IHome.CS1101": {
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000607",
       "courseId": "tm.e2e.IHome.CS1101",
@@ -223,7 +223,7 @@
       "name": "Charlie Davis",
       "email": "ihome.charlie.d.tmms@gmail.tmt"
     },
-    "ihome.danny.e.tmms@ihome.cs1101": {
+    "IHome.danny.e.tmms@IHome.CS1101": {
       "comments": "This student's name is Danny Engrid",
       "id": "00000000-0000-4000-8000-000000000608",
       "courseId": "tm.e2e.IHome.CS1101",

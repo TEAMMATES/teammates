@@ -120,7 +120,7 @@
     }
   },
   "students": {
-    "alice.tmms@scjoinconf.cs2104": {
+    "alice.tmms@SCJoinConf.CS2104": {
       "comments": "This student's name is Amy Betsy",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.SCJoinConf.CS2104",
@@ -133,7 +133,7 @@
       "name": "Amy Betsy",
       "email": "scjoinconf.alice@gmail.tmt"
     },
-    "alice.tmms@scjoinconf.cs1101": {
+    "alice.tmms@SCJoinConf.CS1101": {
       "comments": "This student's name is Amy Betsy",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.SCJoinConf.CS1101",

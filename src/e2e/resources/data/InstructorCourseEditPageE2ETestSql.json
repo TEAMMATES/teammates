@@ -472,7 +472,7 @@
     }
   },
   "students": {
-    "alice.tmms@icedit.cs2104": {
+    "alice.tmms@ICEdit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": {
         "id": "00000000-0000-4000-8000-000000000009"
@@ -487,7 +487,7 @@
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "This student's name is Alice Betsy"
     },
-    "charlie.tmms@icedit.cs2104": {
+    "charlie.tmms@ICEdit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "account": {
         "id": "00000000-0000-4000-8000-000000000010"
@@ -502,7 +502,7 @@
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis"
     },
-    "danny.tmms@icedit.cs2104": {
+    "danny.tmms@ICEdit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
       "account": {
         "id": "00000000-0000-4000-8000-000000000011"

@@ -118,7 +118,7 @@
     }
   },
   "students": {
-    "alice.tmms@frubricqn.cs2104": {
+    "alice.tmms@FRubricQn.CS2104": {
       "comments": "This student's name is Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.FRubricQn.CS2104",
@@ -135,7 +135,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       }
     },
-    "benny.tmms@frubricqn.cs2104": {
+    "benny.tmms@FRubricQn.CS2104": {
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.FRubricQn.CS2104",
@@ -152,7 +152,7 @@
       "email": "benny.tmms@gmail.tmt",
       "regKey": "4E89CF58E1263D114A5A352555BDEF24FE9EBA55575B73F1FCDE2A30FF8DF1C8A04289CB0E187D938973732E18082EBF82A64E5B2EC66152A7A50EBB4790F91F"
     },
-    "charlie.tmms@frubricqn.cs2104": {
+    "charlie.tmms@FRubricQn.CS2104": {
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.FRubricQn.CS2104",
@@ -169,7 +169,7 @@
       "email": "frubricqn.charlie.tmms@gmail.tmt",
       "regKey": "067D131524890778C6BBB57B778D4F2FBCF1FA17123302BA4FBBC6705321C17311B2393495AFC68170567B84EB749F9C59DB034E6B00DC113C1D97A09171A55F438B4CED8016561F1425C109373DEA8C"
     },
-    "danny.tmms@frubricqn.cs1101": {
+    "danny.tmms@FRubricQn.CS1101": {
       "comments": "This student's name is Danny Engrid",
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "tm.e2e.FRubricQn.CS1101",

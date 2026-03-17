@@ -737,9 +737,9 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {
-        "student3incourse1@gmail.tmt": "2027-04-30T23:00:00Z",
-        "student4incourse1@gmail.tmt": "2027-04-30T23:00:00Z",
-        "student5incourse1@gmail.tmt": "2027-04-30T23:00:00Z"
+        "student3InCourse1@gmail.tmt": "2027-04-30T23:00:00Z",
+        "student4InCourse1@gmail.tmt": "2027-04-30T23:00:00Z",
+        "student5InCourse1@gmail.tmt": "2027-04-30T23:00:00Z"
       },
       "instructorDeadlines": {
         "instructor1@course1.tmt": "2027-04-30T23:00:00Z",
@@ -767,8 +767,8 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {
-        "student1incourse1@gmail.tmt": "2026-04-28T23:00:00Z",
-        "student4incourse1@gmail.tmt": "2026-04-28T23:00:00Z"
+        "student1InCourse1@gmail.tmt": "2026-04-28T23:00:00Z",
+        "student4InCourse1@gmail.tmt": "2026-04-28T23:00:00Z"
       },
       "instructorDeadlines": {
         "instructor1@course1.tmt": "2027-04-30T23:00:00Z",
@@ -796,7 +796,7 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {
-        "student1incourse1@gmail.tmt": "2026-04-28T23:00:00Z"
+        "student1InCourse1@gmail.tmt": "2026-04-28T23:00:00Z"
       },
       "instructorDeadlines": {}
     },

@@ -142,7 +142,7 @@
     }
   },
   "students": {
-    "alice.tmms@fsubmit.cs2104": {
+    "alice.tmms@FSubmit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000401",
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
@@ -157,7 +157,7 @@
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy"
     },
-    "benny.tmms@fsubmit.cs2104": {
+    "benny.tmms@FSubmit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000402",
       "account": {
         "id": "00000000-0000-4000-8000-000000000004"
@@ -172,7 +172,7 @@
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles"
     },
-    "charlie.tmms@fsubmit.cs2104": {
+    "charlie.tmms@FSubmit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000403",
       "account": {
         "id": "00000000-0000-4000-8000-000000000005"
@@ -187,7 +187,7 @@
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis"
     },
-    "danny.tmms@fsubmit.cs2104": {
+    "danny.tmms@FSubmit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000404",
       "account": {
         "id": "00000000-0000-4000-8000-000000000006"
@@ -202,7 +202,7 @@
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid"
     },
-    "emily.tmms@fsubmit.cs2104": {
+    "emily.tmms@FSubmit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000405",
       "account": {
         "id": "00000000-0000-4000-8000-000000000007"

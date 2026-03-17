@@ -12,35 +12,35 @@
       "name": "Instructor 2",
       "email": "instructor2.tmms@gmail.tmt"
     },
-    "alice.tmms@isesie.cs2104": {
+    "alice.tmms@ISesIe.CS2104": {
       "id": "00000000-0000-4000-8000-000000000003",
       "googleId": "tm.e2e.ISesIe.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.tmms@gmail.tmt",
       "comments": "This student's name is Alice Betsy"
     },
-    "benny.tmms@isesie.cs2104": {
+    "benny.tmms@ISesIe.CS2104": {
       "id": "00000000-0000-4000-8000-000000000004",
       "googleId": "tm.e2e.ISesIe.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.tmms@gmail.tmt",
       "comments": "This student's name is Benny Charles"
     },
-    "charlie.tmms@isesie.cs2104": {
+    "charlie.tmms@ISesIe.CS2104": {
       "id": "00000000-0000-4000-8000-000000000005",
       "googleId": "tm.e2e.ISesIe.charlie.tmms",
       "name": "Charlie Davis",
       "email": "charlie.tmms@gmail.tmt",
       "comments": "This student's name is Charlie Davis"
     },
-    "danny.tmms@isesie.cs2104": {
+    "danny.tmms@ISesIe.CS2104": {
       "id": "00000000-0000-4000-8000-000000000006",
       "googleId": "tm.e2e.ISesIe.danny.tmms",
       "name": "Danny Engrid",
       "email": "danny.tmms@gmail.tmt",
       "comments": "This student's name is Danny Engrid"
     },
-    "emma.tmms@isesie.cs2104": {
+    "emma.tmms@ISesIe.CS2104": {
       "id": "00000000-0000-4000-8000-000000000007",
       "googleId": "tm.e2e.ISesIe.emma.tmms",
       "name": "Emma Farrell",
@@ -140,7 +140,7 @@
     }
   },
   "students": {
-    "alice.tmms@isesie.cs2104": {
+    "alice.tmms@ISesIe.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
@@ -155,7 +155,7 @@
       "email": "alice.tmms@gmail.tmt",
       "comments": "This student's name is Alice Betsy"
     },
-    "benny.tmms@isesie.cs2104": {
+    "benny.tmms@ISesIe.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "account": {
         "id": "00000000-0000-4000-8000-000000000004"
@@ -170,7 +170,7 @@
       "email": "benny.tmms@gmail.tmt",
       "comments": "This student's name is Benny Charles"
     },
-    "charlie.tmms@isesie.cs2104": {
+    "charlie.tmms@ISesIe.CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
       "account": {
         "id": "00000000-0000-4000-8000-000000000005"
@@ -185,7 +185,7 @@
       "email": "charlie.tmms@gmail.tmt",
       "comments": "This student's name is Charlie Davis"
     },
-    "danny.tmms@isesie.cs2104": {
+    "danny.tmms@ISesIe.CS2104": {
       "id": "00000000-0000-4000-8000-000000000604",
       "account": {
         "id": "00000000-0000-4000-8000-000000000006"
@@ -200,7 +200,7 @@
       "email": "danny.tmms@gmail.tmt",
       "comments": "This student's name is Danny Engrid"
     },
-    "emma.tmms@isesie.cs2104": {
+    "emma.tmms@ISesIe.CS2104": {
       "id": "00000000-0000-4000-8000-000000000605",
       "account": {
         "id": "00000000-0000-4000-8000-000000000007"
