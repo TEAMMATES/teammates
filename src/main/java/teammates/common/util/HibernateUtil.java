@@ -122,14 +122,9 @@ public final class HibernateUtil {
                 .setProperty("show_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
                 .setProperty("hibernate.hikari.minimumIdle", "10")
-                .setProperty("hibernate.hikari.maximumPoolSize", "30")
+                .setProperty("hibernate.hikari.maximumPoolSize", "10")
                 .setProperty("hibernate.hikari.idleTimeout", "300000")
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
-                // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.
-                // .setProperty("hibernate.jdbc.batch_size", "50")
-                // .setProperty("hibernate.order_updates", "true")
-                // .setProperty("hibernate.batch_versioned_data", "true")
-                // .setProperty("hibernate.jdbc.fetch_size", "50")
                 .addPackage("teammates.storage.sqlentity");
 
         if (Config.IS_DEV_SERVER) {
