@@ -1,6 +1,8 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Collections;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
+import com.microsoft.aad.msal4j.AuthorizationRequestUrlParameters;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
@@ -54,6 +57,18 @@ public class LoginServlet extends AuthServlet {
             // nextUrl query param is encoded to retain its full value as the nextUrl may contain query params
             resp.sendRedirect("/web/login?nextUrl="
                     + nextUrl.replace("?", "%3f").replace("&", "%26"));
+        } else if (Config.isUsingMicrosoftEntra()) {
+            AuthState state = new AuthState(nextUrl, req.getSession().getId());
+            String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
+            AuthorizationRequestUrlParameters params = AuthorizationRequestUrlParameters
+                    .builder(getRedirectUri(req), Collections.singleton("openid email profile"))
+                    .state(encryptedState)
+                    .build();
+            URL authorizationUrl = getMicrosoftClient().getAuthorizationRequestUrl(params);
+
+            log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Microsoft sign-in page");
+
+            resp.sendRedirect(authorizationUrl.toString());
         } else {
             AuthState state = new AuthState(nextUrl, req.getSession().getId());
             AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
