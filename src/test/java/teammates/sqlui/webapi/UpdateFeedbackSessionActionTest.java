@@ -51,9 +51,10 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     @BeforeMethod
     void setUp() throws InvalidParametersException, EntityAlreadyExistsException {
-        nearestHour = Instant.now().truncatedTo(ChronoUnit.HOURS);
-        endHour = Instant.now().plus(2, ChronoUnit.HOURS).truncatedTo(ChronoUnit.HOURS);
-        responseVisibleHour = Instant.now().plus(3, ChronoUnit.HOURS).truncatedTo(ChronoUnit.HOURS);
+        Instant now = Instant.now();
+        nearestHour = now.truncatedTo(ChronoUnit.HOURS);
+        endHour = now.plus(2, ChronoUnit.HOURS).truncatedTo(ChronoUnit.HOURS);
+        responseVisibleHour = now.plus(3, ChronoUnit.HOURS).truncatedTo(ChronoUnit.HOURS);
 
         course = generateCourse1();
         instructor = generateInstructor1InCourse(course);
