@@ -256,6 +256,31 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetMasqueradeUser_instructorAndStudent_returnsBothRolesTrue() {
+        String googleId = "instructor-student-user-id";
+        when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
+        when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
+
+        UserInfo user = userProvision.getMasqueradeUser(googleId);
+
+        assertEquals(googleId, user.id);
+        assertHasRoles(user, Role.INSTRUCTOR, Role.STUDENT);
+    }
+
+    @Test
+    public void testGetMasqueradeUser_instructorStudentAndMaintainer_returnsThreeRolesTrue() {
+        String googleId = "instructor-student-maintainer-user-id";
+        when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
+        when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
+        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(googleId));
+
+        UserInfo user = userProvision.getMasqueradeUser(googleId);
+
+        assertEquals(googleId, user.id);
+        assertHasRoles(user, Role.INSTRUCTOR, Role.STUDENT, Role.MAINTAINER);
+    }
+
+    @Test
     public void testGetAdminOnlyUser_returnsUserInfoWithOnlyIsAdminTrue() {
         String userId = "admin-user-id";
 
