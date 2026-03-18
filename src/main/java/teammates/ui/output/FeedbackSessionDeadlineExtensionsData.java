@@ -3,6 +3,7 @@ package teammates.ui.output;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -16,26 +17,23 @@ public class FeedbackSessionDeadlineExtensionsData extends ApiOutput {
     private Map<String, Long> studentDeadlines;
     private Map<String, Long> instructorDeadlines;
 
-    public FeedbackSessionDeadlineExtensionsData(String timeZone, List<DeadlineExtension> deadlineExtensions) {
+    public FeedbackSessionDeadlineExtensionsData(String timeZone, List<DeadlineExtension> deadlineExtensions,
+            Map<UUID, Student> studentsByUserId, Map<UUID, Instructor> instructorsByUserId) {
         this.studentDeadlines = new HashMap<>();
         this.instructorDeadlines = new HashMap<>();
 
-        List<DeadlineExtension> studentDeadlineExtensions = deadlineExtensions.stream()
-                .filter(de -> de.getUser() instanceof Student)
-                .toList();
+        for (DeadlineExtension de : deadlineExtensions) {
+            UUID userId = de.getUserId();
+            long epochMilli = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    de.getEndTime(), timeZone, true).toEpochMilli();
 
-        List<DeadlineExtension> instructorDeadlineExtensions = deadlineExtensions.stream()
-                .filter(de -> de.getUser() instanceof Instructor)
-                .toList();
+            if (studentsByUserId.containsKey(userId)) {
+                this.studentDeadlines.put(studentsByUserId.get(userId).getEmail(), epochMilli);
+            }
 
-        for (DeadlineExtension de : studentDeadlineExtensions) {
-            this.studentDeadlines.put(de.getUser().getEmail(),
-                    TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
-        }
-
-        for (DeadlineExtension de : instructorDeadlineExtensions) {
-            this.instructorDeadlines.put(de.getUser().getEmail(),
-                    TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
+            if (instructorsByUserId.containsKey(userId)) {
+                this.instructorDeadlines.put(instructorsByUserId.get(userId).getEmail(), epochMilli);
+            }
         }
     }
 

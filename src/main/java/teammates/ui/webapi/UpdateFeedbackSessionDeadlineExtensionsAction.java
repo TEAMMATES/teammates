@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.common.util.TimeHelper;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -62,15 +65,20 @@ public class UpdateFeedbackSessionDeadlineExtensionsAction extends Action {
 
         List<DeadlineExtension> prevDeadlineExtensions = feedbackSession.getDeadlineExtensions();
 
-        Map<String, DeadlineExtension> oldStudentDeadlines = new HashMap<>();
-        Map<String, DeadlineExtension> oldInstructorDeadlines = new HashMap<>();
-        for (DeadlineExtension de : prevDeadlineExtensions) {
-            if (de.getUser() instanceof Student) {
-                oldStudentDeadlines.put(de.getUser().getEmail(), de);
-            } else if (de.getUser() instanceof Instructor) {
-                oldInstructorDeadlines.put(de.getUser().getEmail(), de);
-            }
-        }
+        // Use userIds to map to users to avoid querying the db for each user multiple times during processing later on
+        Map<UUID, Student> studentsByUserId = sqlLogic.getStudentsForCourse(courseId).stream()
+                .collect(Collectors.toMap(Student::getId, s -> s));
+        Map<UUID, Instructor> instructorsByUserId = sqlLogic.getInstructorsByCourse(courseId).stream()
+                .collect(Collectors.toMap(Instructor::getId, i -> i));
+
+        Map<String, DeadlineExtension> oldStudentDeadlines = prevDeadlineExtensions.stream()
+                .filter(de -> studentsByUserId.containsKey(de.getUserId()))
+                .collect(Collectors.toMap(
+                        de -> studentsByUserId.get(de.getUserId()).getEmail(), de -> de));
+        Map<String, DeadlineExtension> oldInstructorDeadlines = prevDeadlineExtensions.stream()
+                .filter(de -> instructorsByUserId.containsKey(de.getUserId()))
+                .collect(Collectors.toMap(
+                        de -> instructorsByUserId.get(de.getUserId()).getEmail(), de -> de));
 
         Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
         boolean hasInvalidStudentEmails = !oldStudentDeadlines.keySet()
@@ -91,12 +99,12 @@ public class UpdateFeedbackSessionDeadlineExtensionsAction extends Action {
         studentDeadlines = studentDeadlines.entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, entry ->
-                        teammates.common.util.TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                                 entry.getValue(), timeZone, true)));
         instructorDeadlines = instructorDeadlines.entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, entry ->
-                        teammates.common.util.TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                                 entry.getValue(), timeZone, true)));
 
         boolean notifyAboutDeadlines = getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
@@ -116,7 +124,10 @@ public class UpdateFeedbackSessionDeadlineExtensionsAction extends Action {
         feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
         String updatedTimeZone = feedbackSession.getCourse().getTimeZone();
-        return new JsonResult(new FeedbackSessionDeadlineExtensionsData(updatedTimeZone, deadlineExtensions));
+        FeedbackSessionDeadlineExtensionsData responseData = new FeedbackSessionDeadlineExtensionsData(
+                updatedTimeZone, deadlineExtensions, studentsByUserId, instructorsByUserId);
+
+        return new JsonResult(responseData);
     }
 
     private List<EmailWrapper> processDeadlineExtensions(String courseId, FeedbackSession session,
@@ -186,7 +197,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsAction extends Action {
 
         List<EmailWrapper> emailsToSend = new ArrayList<>();
         if (notifyUsers) {
-            teammates.storage.sqlentity.Course course = sqlLogic.getCourse(courseId);
+            Course course = sqlLogic.getCourse(courseId);
             emailsToSend.addAll(sqlEmailGenerator
                     .generateDeadlineRevokedEmails(course, session,
                             revokedDeadlinesEmailToInstantMap, areInstructors));
