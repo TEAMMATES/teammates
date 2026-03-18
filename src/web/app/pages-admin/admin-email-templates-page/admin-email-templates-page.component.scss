@@ -1,0 +1,15 @@
+.template-body-editor {
+  height: 420px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  resize: vertical;
+}
+
+.template-preview-panel {
+  height: 420px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 12px;
+  background-color: #fff;
+}

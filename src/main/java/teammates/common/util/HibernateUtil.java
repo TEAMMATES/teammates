@@ -17,6 +17,7 @@ import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.EmailTemplate;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -60,6 +61,7 @@ public final class HibernateUtil {
 
     private static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(
             AccountRequest.class,
+            EmailTemplate.class,
             Course.class,
             FeedbackSession.class,
             Account.class,

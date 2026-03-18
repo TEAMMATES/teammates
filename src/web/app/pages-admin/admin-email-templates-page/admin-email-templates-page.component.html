@@ -1,0 +1,109 @@
+<h1>Email Templates</h1>
+<p>
+  Customise the emails that TEAMMATES sends to users.
+  Changes take effect immediately for all future emails.
+  If no custom template is saved, the system uses the built-in default.
+</p>
+
+<tm-loading-retry [shouldShowRetry]="hasKeysLoadingFailed" [message]="'Failed to load template list'"
+  (retryEvent)="loadTemplateKeys()">
+
+  <div *tmIsLoading="isKeysLoading">
+
+    @if (templateKeys.length > 0) {
+
+      <!-- Template selector -->
+      <div class="card margin-top-20px">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="template-selector"><strong>Select Template to Edit</strong></label>
+            <select id="template-selector" class="form-control"
+              [(ngModel)]="selectedKey"
+              (ngModelChange)="onTemplateKeyChange()"
+              [disabled]="isTemplateLoading || isSaving">
+              @for (key of templateKeys; track key) {
+                <option [value]="key">{{ key }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Editor card -->
+      <div class="card margin-top-20px">
+        <div class="card-body">
+          <div *tmIsLoading="isTemplateLoading">
+
+            <!-- Variables hint -->
+            <div class="alert alert-info" role="alert">
+              <strong>&#128161; Available Variables:</strong>
+              You can use <code>{{ '${userName}' }}</code> and <code>{{ '${joinUrl}' }}</code> in your
+              message. The system will automatically replace these when sending the email.
+            </div>
+
+            <!-- Subject input -->
+            <div class="form-group">
+              <label for="template-subject"><strong>Subject</strong></label>
+              <input id="template-subject"
+                type="text"
+                class="form-control"
+                [(ngModel)]="model.subject"
+                placeholder="Email subject line"
+                [disabled]="isSaving">
+            </div>
+
+            <!-- Editor and live preview side-by-side -->
+            <div class="row margin-top-20px">
+              <div class="col-md-6">
+                <label><strong>HTML Body</strong></label>
+                <textarea id="template-body"
+                  class="form-control template-body-editor"
+                  [(ngModel)]="model.body"
+                  placeholder="Enter the HTML body for the email..."
+                  [disabled]="isSaving">
+                </textarea>
+              </div>
+
+              <div class="col-md-6">
+                <label><strong>Live Preview</strong></label>
+                <div class="template-preview-panel" [innerHTML]="sanitizedPreview"></div>
+              </div>
+            </div>
+
+            <!-- Customisation status badge -->
+            <div class="margin-top-10px">
+              @if (model.isCustomized) {
+                <span class="badge badge-success">&#10003; Custom Template Active</span>
+              } @else {
+                <span class="badge badge-secondary">Using Default Template</span>
+              }
+            </div>
+
+            <!-- Action buttons -->
+            <div class="d-flex justify-content-end margin-top-20px">
+              @if (model.isCustomized) {
+                <button class="btn btn-outline-danger margin-right-5px"
+                  (click)="revertToDefault()"
+                  [disabled]="isSaving">
+                  <i class="fas fa-undo"></i> Revert to Default
+                </button>
+              }
+              <button class="btn btn-primary"
+                (click)="saveTemplate()"
+                [disabled]="isSaving">
+                @if (isSaving) {
+                  <i class="fas fa-spinner fa-spin"></i> Saving...
+                } @else {
+                  <i class="fas fa-save"></i> Save Template
+                }
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    }
+
+  </div>
+</tm-loading-retry>
