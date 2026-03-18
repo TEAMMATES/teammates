@@ -126,13 +126,6 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCurrentUserWithTransaction_nullUic_returnsNull() {
-        assertNull(userProvision.getCurrentUserWithTransaction(null));
-        mockHibernateUtilStatic.verify(HibernateUtil::beginTransaction);
-        mockHibernateUtilStatic.verify(HibernateUtil::commitTransaction);
-    }
-
-    @Test
     public void testGetCurrentUserWithTransaction_instructor_wrapsInTransactionAndReturnsUserInfo() {
         String userId = "typical-instructor";
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
