@@ -164,28 +164,16 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_alreadyRejected_shouldNotSendEmail()
-            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
+    protected void testExecute_alreadyRejected_shouldThrow() throws InvalidParametersException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
                 AccountRequestStatus.REJECTED, bundleAccountRequest.getComments());
         UUID id = accountRequest.getId();
-
-        AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
-        RejectAccountRequestAction action = getAction(requestBody, params);
-        JsonResult result = action.execute();
-
-        assertEquals(result.getStatusCode(), 200);
-
-        AccountRequestData data = (AccountRequestData) result.getOutput();
-        assertEquals(accountRequest.getName(), data.getName());
-        assertEquals(accountRequest.getEmail(), data.getEmail());
-        assertEquals(accountRequest.getInstitute(), data.getInstitute());
-        assertEquals(accountRequest.getStatus(), data.getStatus());
-        assertEquals(accountRequest.getComments(), data.getComments());
+        InvalidOperationException ioe = verifyInvalidOperation(params);
+        assertEquals("Account request with id " + id + " is not pending and cannot be rejected.", ioe.getMessage());
 
         verifyNoEmailsSent();
     }
