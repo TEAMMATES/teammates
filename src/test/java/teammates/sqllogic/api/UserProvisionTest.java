@@ -35,6 +35,14 @@ public class UserProvisionTest extends BaseTestCase {
 
     @BeforeClass
     public void setUpClass() {
+        // We need to ensure the UserProvision class' static initialiser has run before setupMethod() (below) runs.
+        // This is a defensive practice to ensure the singleton UserProvision instance holds a reference to a real
+        // UsersLogic instance.
+
+        // Otherwise, it is possible for UserProvision's static initialiser to run when we construct the UserProvision
+        // instance in setupMethod(), which would cause the singleton instance to hold a reference to a mocked
+        // UsersLogic instance instead.
+
         UserProvision.inst();
     }
 
