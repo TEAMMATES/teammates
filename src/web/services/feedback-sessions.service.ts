@@ -119,7 +119,7 @@ export class FeedbackSessionsService {
    */
   updateFeedbackSessionDeadlineExtensions(courseId: string, feedbackSessionName: string,
     request: FeedbackSessionDeadlineExtensionsUpdateRequest,
-    isNotifyDeadlines: boolean = false): Observable<FeedbackSessionDeadlineExtensions> {
+    isNotifyDeadlines: boolean): Observable<FeedbackSessionDeadlineExtensions> {
     const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,

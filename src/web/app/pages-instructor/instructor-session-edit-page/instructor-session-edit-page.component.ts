@@ -466,7 +466,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     modalRef.componentInstance.feedbackSessionTimeZone = this.sessionEditFormModel.timeZone;
 
     return new Observable((subscribeIsUserAccept) => {
-      modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe(() => {
+      modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe((isNotifyDeadlines: boolean) => {
         const updatedStudentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
           affectedStudentModels, this.studentDeadlines);
         const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
@@ -474,6 +474,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.feedbackSessionsService.updateFeedbackSessionDeadlineExtensions(
           this.courseId, this.feedbackSessionName,
           { studentDeadlines: updatedStudentDeadlines, instructorDeadlines: updatedInstructorDeadlines },
+          isNotifyDeadlines
         ).subscribe({
           next: () => {
             this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
