@@ -57,7 +57,7 @@ abstract class AuthServlet extends HttpServlet {
         return ConfidentialClientApplication
                 .builder(Config.OAUTH2_CLIENT_ID,
                         ClientCredentialFactory.createFromSecret(Config.OAUTH2_CLIENT_SECRET))
-                .authority(MICROSOFT_AUTHORITY_BASE + Config.OAUTH2_TENANT_ID)
+                .authority(MICROSOFT_AUTHORITY_BASE + "common") // To allow users from any tenant to sign in
                 .build();
     }
 
@@ -65,13 +65,18 @@ abstract class AuthServlet extends HttpServlet {
      * Returns the redirect URI for the given HTTP servlet request.
      */
     String getRedirectUri(HttpServletRequest req) {
-        String requestUrl = req.getRequestURL().toString();
-        if (!Config.IS_DEV_SERVER) {
-            requestUrl = requestUrl.replaceFirst("^http://", "https://");
-        }
-        GenericUrl url = new GenericUrl(requestUrl);
+        GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
         url.setRawPath("/oauth2callback");
         url.set("ngsw-bypass", "true");
+        return url.build();
+    }
+
+    /**
+     * Returns the redirect URI for Microsoft Entra ID for the given HTTP servlet request.
+     */
+    String getMicrosoftRedirectUri(HttpServletRequest req) {
+        GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
+        url.setRawPath("/oauth2callback");
         return url.build();
     }
 

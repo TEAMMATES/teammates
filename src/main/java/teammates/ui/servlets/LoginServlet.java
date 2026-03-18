@@ -62,7 +62,7 @@ public class LoginServlet extends AuthServlet {
             AuthState state = new AuthState(nextUrl, req.getSession().getId());
             String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
             AuthorizationRequestUrlParameters params = AuthorizationRequestUrlParameters
-                    .builder(getRedirectUri(req), Set.of("openid", "email"))
+                    .builder(getMicrosoftRedirectUri(req), Set.of("openid", "email"))
                     .state(encryptedState)
                     .responseMode(ResponseMode.QUERY)
                     .build();
