@@ -892,12 +892,10 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     private WebElement getTeamPanel(WebElement sectionPanel, String teamName) {
         final int maxAttempts = 3;
         final int waitMs = 2000;
-        String normalizedTeamName = normalizeHeaderText(teamName);
         for (int attempt = 0; attempt < maxAttempts; attempt++) {
             List<WebElement> teamPanels = sectionPanel.findElements(By.id("team-panel"));
             for (WebElement teamPanel : teamPanels) {
-                String teamHeaderText = getTeamHeaderText(teamPanel);
-                if (isMatchingHeader(teamHeaderText, normalizedTeamName)) {
+                if (teamPanel.getText().startsWith(teamName)) {
                     return teamPanel;
                 }
             }
@@ -906,23 +904,6 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
             }
         }
         throw new RuntimeException("Team \"" + teamName + "\" not found");
-    }
-
-    private String getTeamHeaderText(WebElement teamPanel) {
-        List<WebElement> teamHeaders = teamPanel.findElements(By.id("team-header"));
-        if (!teamHeaders.isEmpty()) {
-            return normalizeHeaderText(teamHeaders.get(0).getText());
-        }
-        return normalizeHeaderText(teamPanel.getText());
-    }
-
-    private boolean isMatchingHeader(String actualHeaderText, String expectedHeaderText) {
-        return actualHeaderText.equals(expectedHeaderText)
-                || actualHeaderText.startsWith(expectedHeaderText);
-    }
-
-    private String normalizeHeaderText(String text) {
-        return text == null ? "" : text.trim().replaceAll("\\s+", " ").toLowerCase();
     }
 
     private WebElement getUserPanel(WebElement parentPanel, String header) {
