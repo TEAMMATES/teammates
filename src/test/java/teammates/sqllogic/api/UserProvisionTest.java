@@ -235,7 +235,7 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetMasqueradeUser_admin_returnsUserInfoWithIsAdminFalse() {
+    public void testGetMasqueradeUser_admin_returnsUserInfoWithNoRoles() {
         String adminGoogleId = "admin-user-id";
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminGoogleId));
 
