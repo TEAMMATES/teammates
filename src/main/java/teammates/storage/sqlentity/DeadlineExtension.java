@@ -77,6 +77,9 @@ public class DeadlineExtension extends BaseEntity {
         return user;
     }
 
+    /**
+     * Sets the user as well as the userId.
+     */
     public void setUser(User user) {
         this.user = user;
         this.userId = user.getId();
