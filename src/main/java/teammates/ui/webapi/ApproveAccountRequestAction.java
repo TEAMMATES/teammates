@@ -33,18 +33,12 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
             throw new EntityNotFoundException(errorMessage);
         }
 
-        if (accountRequest.getStatus() == AccountRequestStatus.APPROVED
-                || accountRequest.getStatus() == AccountRequestStatus.REGISTERED) {
+        if (accountRequest.getStatus() != AccountRequestStatus.PENDING) {
             throw new InvalidOperationException(
-                    "Account request with id " + accountRequestId + " has already been approved.");
+                    "Account request with id " + accountRequestId + " is not pending and cannot be approved.");
         }
 
-        if (!sqlLogic.getApprovedAccountRequestsForEmailWithTransaction(accountRequest.getEmail()).isEmpty()) {
-            throw new InvalidOperationException(String.format(
-                    "An account request with email %s has already been approved. "
-                            + "Please reject or delete the account request instead.",
-                    accountRequest.getEmail()));
-        }
+        // Check if (email, institute) exists with full privileges. If so, send email to user to inform them.
 
         try {
             accountRequest.setStatus(AccountRequestStatus.APPROVED);
