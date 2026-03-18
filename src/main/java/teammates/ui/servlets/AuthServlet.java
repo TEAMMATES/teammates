@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
+import com.google.api.client.auth.oauth2.BearerToken;
+import com.google.api.client.auth.oauth2.ClientParametersAuthentication;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
@@ -32,6 +34,10 @@ abstract class AuthServlet extends HttpServlet {
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final List<String> SCOPES = Arrays.asList("https://www.googleapis.com/auth/userinfo.email");
+    private static final List<String> MICROSOFT_SCOPES = Arrays.asList("openid", "email", "profile");
+
+    private static final String MICROSOFT_BASE_URL = "https://login.microsoftonline.com/";
+    private static final String MICROSOFT_OAUTH2_PATH = "/oauth2/v2.0/";
 
     /**
      * Gets the authorization code flow to be used across all HTTP servlet requests.
@@ -41,6 +47,24 @@ abstract class AuthServlet extends HttpServlet {
                 HTTP_TRANSPORT, JSON_FACTORY, Config.OAUTH2_CLIENT_ID, Config.OAUTH2_CLIENT_SECRET, SCOPES)
                 .setDataStoreFactory(DATA_STORE_FACTORY)
                 .setAccessType("offline")
+                .build();
+    }
+
+    /**
+     * Gets the Microsoft Entra ID authorization code flow.
+     */
+    AuthorizationCodeFlow getMicrosoftAuthorizationFlow() throws IOException {
+        String tenantBase = MICROSOFT_BASE_URL + Config.OAUTH2_TENANT_ID + MICROSOFT_OAUTH2_PATH;
+        return new AuthorizationCodeFlow.Builder(
+                BearerToken.authorizationHeaderAccessMethod(),
+                HTTP_TRANSPORT,
+                JSON_FACTORY,
+                new GenericUrl(tenantBase + "token"),
+                new ClientParametersAuthentication(Config.OAUTH2_CLIENT_ID, Config.OAUTH2_CLIENT_SECRET),
+                Config.OAUTH2_CLIENT_ID,
+                tenantBase + "authorize")
+                .setScopes(MICROSOFT_SCOPES)
+                .setDataStoreFactory(DATA_STORE_FACTORY)
                 .build();
     }
 
