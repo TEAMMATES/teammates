@@ -21,15 +21,22 @@ public class FeedbackSessionDeadlineExtensionsData extends ApiOutput {
         this.studentDeadlines = new HashMap<>();
         this.instructorDeadlines = new HashMap<>();
 
-        for (DeadlineExtension de : deadlineExtensions) {
-            if (de.getUser() instanceof Student) {
-                this.studentDeadlines.put(de.getUser().getEmail(),
-                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
-            }
-            if (de.getUser() instanceof Instructor) {
-                this.instructorDeadlines.put(de.getUser().getEmail(),
-                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
-            }
+        List<DeadlineExtension> studentDeadlineExtensions = deadlineExtensions.stream()
+                .filter(de -> de.getUser() instanceof Student)
+                .toList();
+        
+        List<DeadlineExtension> instructorDeadlineExtensions = deadlineExtensions.stream()
+                .filter(de -> de.getUser() instanceof Instructor)
+                .toList();
+
+        for (DeadlineExtension de : studentDeadlineExtensions) {
+            this.studentDeadlines.put(de.getUser().getEmail(),
+                    TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
+        }
+
+        for (DeadlineExtension de : instructorDeadlineExtensions) {
+            this.instructorDeadlines.put(de.getUser().getEmail(),
+                    TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
         }
     }
 

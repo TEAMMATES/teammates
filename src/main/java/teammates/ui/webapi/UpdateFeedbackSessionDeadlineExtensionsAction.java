@@ -74,16 +74,14 @@ public class UpdateFeedbackSessionDeadlineExtensionsAction extends Action {
 
         Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
         boolean hasInvalidStudentEmails = !oldStudentDeadlines.keySet()
-                .containsAll(studentDeadlines.keySet())
-                && !sqlLogic.verifyStudentsExistInCourse(courseId, new ArrayList<>(studentDeadlines.keySet()));
+                .containsAll(studentDeadlines.keySet());
         if (hasInvalidStudentEmails) {
             throw new EntityNotFoundException("There are students which do not exist in the course.");
         }
 
         Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
         boolean hasInvalidInstructorEmails = !oldInstructorDeadlines.keySet()
-                .containsAll(instructorDeadlines.keySet())
-                && !sqlLogic.verifyInstructorsExistInCourse(courseId, new ArrayList<>(instructorDeadlines.keySet()));
+                .containsAll(instructorDeadlines.keySet());
         if (hasInvalidInstructorEmails) {
             throw new EntityNotFoundException("There are instructors which do not exist in the course.");
         }
