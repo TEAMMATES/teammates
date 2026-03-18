@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -81,15 +82,17 @@ public class UpdateFeedbackSessionDeadlineExtensionsAction extends Action {
                         de -> instructorsByUserId.get(de.getUserId()).getEmail(), de -> de));
 
         Map<String, Instant> studentDeadlines = updateRequest.getStudentDeadlines();
-        boolean hasInvalidStudentEmails = !oldStudentDeadlines.keySet()
-                .containsAll(studentDeadlines.keySet());
+        Set<String> allStudentEmails = studentsByUserId.values().stream()
+                .map(Student::getEmail).collect(Collectors.toSet());
+        boolean hasInvalidStudentEmails = !allStudentEmails.containsAll(studentDeadlines.keySet());
         if (hasInvalidStudentEmails) {
             throw new EntityNotFoundException("There are students which do not exist in the course.");
         }
 
         Map<String, Instant> instructorDeadlines = updateRequest.getInstructorDeadlines();
-        boolean hasInvalidInstructorEmails = !oldInstructorDeadlines.keySet()
-                .containsAll(instructorDeadlines.keySet());
+        Set<String> allInstructorEmails = instructorsByUserId.values().stream()
+                .map(Instructor::getEmail).collect(Collectors.toSet());
+        boolean hasInvalidInstructorEmails = !allInstructorEmails.containsAll(instructorDeadlines.keySet());
         if (hasInvalidInstructorEmails) {
             throw new EntityNotFoundException("There are instructors which do not exist in the course.");
         }

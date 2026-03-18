@@ -79,6 +79,7 @@ public class DeadlineExtension extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+        this.userId = user.getId();
     }
 
     public FeedbackSession getFeedbackSession() {

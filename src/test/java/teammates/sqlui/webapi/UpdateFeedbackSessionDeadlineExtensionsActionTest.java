@@ -65,6 +65,8 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
 
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>());
+        when(mockLogic.getInstructorsByCourse(course.getId())).thenReturn(new ArrayList<>(List.of(instructor)));
 
         when(mockLogic.verifyInstructorsExistInCourse(anyString(), anyList())).thenReturn(true);
         when(mockLogic.verifyStudentsExistInCourse(anyString(), anyList())).thenReturn(true);
@@ -112,6 +114,8 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
         originalFeedbackSession.setDeadlineExtensions(new ArrayList<>());
 
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(originalFeedbackSession);
+        when(mockLogic.getInstructorForEmail(originalFeedbackSession.getCourse().getId(), instructor.getEmail()))
+                .thenReturn(instructor);
 
         FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
                 buildUpdateRequest(instructor.getEmail(), nearestHour);
