@@ -18,17 +18,17 @@ public class TestNgXmlTest extends BaseTestCase {
 
     @Test
     public void checkTestsInTestNg() throws IOException {
-        String testNgXmlE2ESql = FileHelper.readFile("./src/e2e/resources/testng-e2e-sql.xml");
-        String testNgXmlAxeSql = FileHelper.readFile("./src/e2e/resources/testng-axe-sql.xml");
+        String testNgXmlE2E = FileHelper.readFile("./src/e2e/resources/testng-e2e.xml");
+        String testNgXmlAxe = FileHelper.readFile("./src/e2e/resources/testng-axe.xml");
 
         // <class name, package name>
-        Map<String, String> testFiles = getTestFiles(testNgXmlE2ESql, "./src/e2e/java/teammates/e2e");
+        Map<String, String> testFiles = getTestFiles(testNgXmlE2E, "./src/e2e/java/teammates/e2e");
 
         testFiles.forEach((key, value) -> {
-            if (Objects.equals(value, "teammates.e2e.cases.sql.axe")) {
-                assertTrue(isTestFileIncluded(testNgXmlAxeSql, value, key));
+            if (Objects.equals(value, "teammates.e2e.cases.axe")) {
+                assertTrue(isTestFileIncluded(testNgXmlAxe, value, key));
             } else {
-                assertTrue(isTestFileIncluded(testNgXmlE2ESql, value, key));
+                assertTrue(isTestFileIncluded(testNgXmlE2E, value, key));
             }
         });
     }

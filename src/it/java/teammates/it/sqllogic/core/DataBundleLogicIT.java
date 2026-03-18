@@ -210,7 +210,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testPersistDataBundle_typicalValues_persistedToDbCorrectly() throws Exception {
-        SqlDataBundle dataBundle = loadSqlDataBundle("/DataBundleLogicIT.json");
+        SqlDataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
         dataBundleLogic.persistDataBundle(dataBundle);
 
         ______TS("verify notifications persisted correctly");
@@ -241,7 +241,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testRemoveDataBundle_typicalValues_removedCorrectly()
                 throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        SqlDataBundle dataBundle = loadSqlDataBundle("/DataBundleLogicIT.json");
+        SqlDataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
         dataBundleLogic.persistDataBundle(dataBundle);
 
         ______TS("verify notifications persisted correctly");

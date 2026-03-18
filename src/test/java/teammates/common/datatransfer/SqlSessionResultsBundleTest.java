@@ -22,7 +22,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionResponseMap() {
-        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         List<String> allExpectedResponses = new ArrayList<>();
         allExpectedResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
@@ -60,7 +60,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionMissingResponseMap() {
-        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         List<String> expectedMissingResponses = new ArrayList<>();
         expectedMissingResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
@@ -99,7 +99,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
     @Test
     public void testIsResponseGiverRecipientVisible_typicalCase_shouldReturnCorrectValues() {
 
-        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         FeedbackSession session1Course1 = getTypicalFeedbackSessionForCourse(getTypicalCourse());
 
@@ -151,7 +151,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testIsCommentGiverVisible_typicalCase_shouldReturnCorrectValues() {
-        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         Map<Long, Boolean> commentGiverVisibilityTable = new HashMap<>();
         commentGiverVisibilityTable.put(1L, true);
