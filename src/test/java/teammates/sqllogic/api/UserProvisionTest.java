@@ -3,6 +3,7 @@ package teammates.sqllogic.api;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -220,6 +221,7 @@ public class UserProvisionTest extends BaseTestCase {
 
         assertEquals(userId, user.id);
         assertIsAdminOnly(user);
+        verifyNoInteractions(mockUsersLogic);
     }
 
     private static UserInfoCookie createMockValidCookie(String userId) {
