@@ -132,7 +132,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, uuid};
         EntityNotFoundException enfe = verifyEntityNotFound(params);
         assertEquals(String.format("Account request with id = %s not found", uuid), enfe.getMessage());
-                verifyNoEmailsSent();
+        verifyNoEmailsSent();
     }
 
     @Test
