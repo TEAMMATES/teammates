@@ -74,7 +74,7 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCurrentUser_instructor_returnsUserInfoWithIsInstructorTrue() {
+    public void testGetCurrentUser_instructor_returnsUserInfoWithInstructorRole() {
         String userId = "typical-instructor";
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
 
@@ -85,7 +85,7 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCurrentUser_student_returnsUserInfoWithIsStudentTrue() {
+    public void testGetCurrentUser_student_returnsUserInfoWithStudentRole() {
         String userId = "typical-student";
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
 
@@ -96,7 +96,7 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCurrentUser_admin_returnsUserInfoWithIsAdminTrue() {
+    public void testGetCurrentUser_admin_returnsUserInfoWithAdminRole() {
         String adminUserId = "admin-user-id";
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminUserId));
 
@@ -107,7 +107,7 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCurrentUser_maintainer_returnsUserInfoWithIsMaintainerTrue() {
+    public void testGetCurrentUser_maintainer_returnsUserInfoWithMaintainerRole() {
         String maintainerUserId = "maintainer-user-id";
         mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(maintainerUserId));
 
