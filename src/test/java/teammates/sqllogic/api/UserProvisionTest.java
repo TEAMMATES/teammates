@@ -127,6 +127,57 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetCurrentUser_instructorAndStudent_returnsBothRolesTrue() {
+        String userId = "instructor-student-user-id";
+        when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
+        when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
+
+        UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
+
+        assertEquals(userId, user.id);
+        assertHasExactRoles(user, false, true, true, false);
+    }
+
+    @Test
+    public void testGetCurrentUser_adminAndMaintainer_returnsBothRolesTrue() {
+        String userId = "admin-maintainer-user-id";
+        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(userId));
+        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(userId));
+
+        UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
+
+        assertEquals(userId, user.id);
+        assertHasExactRoles(user, true, false, false, true);
+    }
+
+    @Test
+    public void testGetCurrentUser_instructorStudentAndMaintainer_returnsThreeRolesTrue() {
+        String userId = "instructor-student-maintainer-user-id";
+        when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
+        when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
+        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(userId));
+
+        UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
+
+        assertEquals(userId, user.id);
+        assertHasExactRoles(user, false, true, true, true);
+    }
+
+    @Test
+    public void testGetCurrentUser_allRoles_returnsAllRolesTrue() {
+        String userId = "all-roles-user-id";
+        when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
+        when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
+        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(userId));
+        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(userId));
+
+        UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
+
+        assertEquals(userId, user.id);
+        assertHasExactRoles(user, true, true, true, true);
+    }
+
+    @Test
     public void testGetCurrentUserWithTransaction_instructor_wrapsInTransactionAndReturnsUserInfo() {
         String userId = "typical-instructor";
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
