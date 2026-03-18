@@ -33,12 +33,12 @@ public class UserProvisionTest extends BaseTestCase {
 
     @BeforeClass
     public void setUpClass() {
-        // We need to ensure the UserProvision class' static initialiser has run before setupMethod() (below) runs.
+        // We need to ensure the UserProvision class' static initialiser has run before setUpMethod() (below) runs.
         // This is a defensive practice to ensure the singleton UserProvision instance holds a reference to a real
         // UsersLogic instance.
 
         // Otherwise, it is possible for UserProvision's static initialiser to run when we construct the UserProvision
-        // instance in setupMethod(), which would cause the singleton instance to hold a reference to a mocked
+        // instance in setUpMethod(), which would cause the singleton instance to hold a reference to a mocked
         // UsersLogic instance instead.
 
         UserProvision.inst();
@@ -305,7 +305,9 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     private static void assertHasNoRoles(UserInfo user) {
+        // This method just calls assertHasRoles with an empty array to improve readability
         assertHasRoles(user);
+
     }
 
     private static void assertHasRoles(UserInfo user, Role... expectedRoles) {

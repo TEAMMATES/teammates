@@ -271,7 +271,7 @@ public final class Config {
 
     /**
      * Returns the list of admin Google IDs configured in build.properties.
-     * TODO: refactor all direct accesses to the field to this method call for consistency
+     * TODO: refactor all direct accesses to the field to this method call for consistency.
      */
     public static List<String> getAppAdmins() {
         return APP_ADMINS;
@@ -279,7 +279,7 @@ public final class Config {
 
     /**
      * Returns the list of maintainer Google IDs configured in build.properties.
-     * TODO: refactor all direct accesses to the field with this method call for consistency
+     * TODO: refactor all direct accesses to the field with this method call for consistency.
      */
     public static List<String> getAppMaintainers() {
         return APP_MAINTAINERS;
