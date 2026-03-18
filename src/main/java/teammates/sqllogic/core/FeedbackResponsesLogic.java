@@ -1067,6 +1067,16 @@ public final class FeedbackResponsesLogic {
             );
         }
 
+        // Add all responses if they are visible to instructors
+        // This covers cases where responses are not from/to instructors directly,
+        // but instructors can still view them based on showResponsesTo setting
+        if (question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
+            viewableResponses.addAll(getFeedbackResponsesForQuestion(question.getId()));
+
+            // Early return as this covers all cases above.
+            return new ArrayList<>(viewableResponses);
+        }
+
         return new ArrayList<>(viewableResponses);
     }
 
