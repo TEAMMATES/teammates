@@ -27,8 +27,9 @@ public class UserProvisionTest extends BaseTestCase {
 
     private UserProvision userProvision;
     private UsersLogic mockUsersLogic;
-    private MockedStatic<Config> mockConfig;
-    private MockedStatic<HibernateUtil> mockHibernateUtil;
+    private MockedStatic<Config> mockConfigStatic;
+    private MockedStatic<HibernateUtil> mockHibernateUtilStatic;
+    private MockedStatic<UsersLogic> mockUsersLogicStatic;
 
     @BeforeClass
     public void setUpClass() {
@@ -38,26 +39,26 @@ public class UserProvisionTest extends BaseTestCase {
     @BeforeMethod
     public void setUpMethod() {
         mockUsersLogic = mock(UsersLogic.class);
-        try (MockedStatic<UsersLogic> usersLogicStatic = mockStatic(UsersLogic.class)) {
-            usersLogicStatic.when(UsersLogic::inst).thenReturn(mockUsersLogic);
-            userProvision = new UserProvision();
-        }
+        mockUsersLogicStatic = mockStatic(UsersLogic.class);
+        mockUsersLogicStatic.when(UsersLogic::inst).thenReturn(mockUsersLogic);
+        userProvision = new UserProvision();
 
         // Default mock to return false for all IDs, individual tests will override as needed
         when(mockUsersLogic.isInstructorInAnyCourse(anyString())).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(anyString())).thenReturn(false);
 
-        mockConfig = mockStatic(Config.class);
-        mockConfig.when(Config::getAppAdmins).thenReturn(List.of());
-        mockConfig.when(Config::getAppMaintainers).thenReturn(List.of());
+        mockConfigStatic = mockStatic(Config.class);
+        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of());
+        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of());
 
-        mockHibernateUtil = mockStatic(HibernateUtil.class);
+        mockHibernateUtilStatic = mockStatic(HibernateUtil.class);
     }
 
     @AfterMethod
     public void tearDownMethod() {
-        mockConfig.close();
-        mockHibernateUtil.close();
+        mockConfigStatic.close();
+        mockHibernateUtilStatic.close();
+        mockUsersLogicStatic.close();
     }
 
     @Test
@@ -95,7 +96,7 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUser_admin_returnsUserInfoWithIsAdminTrue() {
         String adminUserId = "admin-user-id";
-        mockConfig.when(Config::getAppAdmins).thenReturn(List.of(adminUserId));
+        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminUserId));
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(adminUserId));
 
@@ -106,7 +107,7 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUser_maintainer_returnsUserInfoWithIsMaintainerTrue() {
         String maintainerUserId = "maintainer-user-id";
-        mockConfig.when(Config::getAppMaintainers).thenReturn(List.of(maintainerUserId));
+        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(maintainerUserId));
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(maintainerUserId));
 
@@ -127,8 +128,8 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetCurrentUserWithTransaction_nullUic_returnsNull() {
         assertNull(userProvision.getCurrentUserWithTransaction(null));
-        mockHibernateUtil.verify(HibernateUtil::beginTransaction);
-        mockHibernateUtil.verify(HibernateUtil::commitTransaction);
+        mockHibernateUtilStatic.verify(HibernateUtil::beginTransaction);
+        mockHibernateUtilStatic.verify(HibernateUtil::commitTransaction);
     }
 
     @Test
@@ -140,8 +141,8 @@ public class UserProvisionTest extends BaseTestCase {
 
         assertEquals(userId, user.id);
         assertIsInstructorOnly(user);
-        mockHibernateUtil.verify(HibernateUtil::beginTransaction);
-        mockHibernateUtil.verify(HibernateUtil::commitTransaction);
+        mockHibernateUtilStatic.verify(HibernateUtil::beginTransaction);
+        mockHibernateUtilStatic.verify(HibernateUtil::commitTransaction);
     }
 
     @Test
@@ -188,7 +189,7 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetMasqueradeUser_maintainer_returnsUserInfoWithIsMaintainerTrue() {
         String maintainerGoogleId = "maintainer-user-id";
-        mockConfig.when(Config::getAppMaintainers).thenReturn(List.of(maintainerGoogleId));
+        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(maintainerGoogleId));
 
         UserInfo user = userProvision.getMasqueradeUser(maintainerGoogleId);
 
@@ -209,7 +210,7 @@ public class UserProvisionTest extends BaseTestCase {
     @Test
     public void testGetMasqueradeUser_admin_returnsUserInfoWithIsAdminFalse() {
         String adminGoogleId = "admin-user-id";
-        mockConfig.when(Config::getAppAdmins).thenReturn(List.of(adminGoogleId));
+        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminGoogleId));
 
         UserInfo user = userProvision.getMasqueradeUser(adminGoogleId);
 
