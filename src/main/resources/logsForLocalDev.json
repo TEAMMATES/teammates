@@ -11,8 +11,8 @@
         [
           "java.base/java.util.Iterator.remove(Iterator.java:102)",
           "java.base/java.util.Collection.removeIf(Collection.java:545)",
-          "teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)",
-          "teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)",
+          "teammates.ui.webapi.GetFeedbackSessionLogsAction.parseSeverities(GetFeedbackSessionLogsAction.java:83)",
+          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:42)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
           "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
@@ -57,8 +57,8 @@
         [
           "java.base/java.util.Iterator.remove(Iterator.java:102)",
           "java.base/java.util.Collection.removeIf(Collection.java:545)",
-          "teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)",
-          "teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)",
+          "teammates.ui.webapi.GetFeedbackSessionLogsAction.parseSeverities(GetFeedbackSessionLogsAction.java:83)",
+          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:42)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
           "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
@@ -326,13 +326,13 @@
     "insertId": "12345479000406a02fdc8b15",
     "details": {
       "event": "REQUEST_LOG",
-      "requestUrl": "/webapi/logs/query",
+      "requestUrl": "/webapi/logs/session",
       "requestParams": {
         "endtime": "1627315140000",
         "minseverity": "INFO",
         "starttime": "1627228740000"
       },
-      "message": "[200] [4798ms] [GET /webapi/logs/query] QueryLogsAction",
+      "message": "[200] [4798ms] [GET /webapi/logs/session] GetFeedbackSessionLogsAction",
       "responseTime": 4798,
       "requestHeaders": {
         "X-Cloud-Trace-Context": "b5e8ad59e0bc03e1691197b9654acd47/5531960319092037144",
@@ -373,7 +373,7 @@
       "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseStatus": 200,
       "requestMethod": "GET",
-      "actionClass": "QueryLogsAction"
+      "actionClass": "GetFeedbackSessionLogsAction"
     },
     "resourceIdentifier": {
       "project_id": "teammates-john",
@@ -521,7 +521,7 @@
   {
     "insertId": "123454840002d64b962e3c43",
     "details": {
-      "message": "[200] [2111ms] [GET /webapi/logs/query] QueryLogsAction",
+      "message": "[200] [2111ms] [GET /webapi/logs/session] GetFeedbackSessionLogsAction",
       "requestHeaders": {
         "Accept": "application/json, text/plain, */*",
         "sec-fetch-mode": "cors",
@@ -562,14 +562,14 @@
       "webVersion": "8.0.0",
       "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseTime": 2111,
-      "requestUrl": "/webapi/logs/query",
+      "requestUrl": "/webapi/logs/session",
       "requestMethod": "GET",
       "requestParams": {
         "endtime": "1627280460000",
         "starttime": "1627276860000",
         "logevent": "REQUEST_LOG"
       },
-      "actionClass": "QueryLogsAction"
+      "actionClass": "GetFeedbackSessionLogsAction"
     },
     "resourceIdentifier": {
       "module_id": "default",
@@ -590,7 +590,7 @@
     "insertId": "1234549100025ad320b623cc",
     "details": {
       "event": "REQUEST_LOG",
-      "requestUrl": "/webapi/logs/query",
+      "requestUrl": "/webapi/logs/session",
       "responseStatus": 200,
       "requestHeaders": {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
@@ -626,7 +626,7 @@
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
       "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
-      "message": "[200] [2525ms] [GET /webapi/logs/query] QueryLogsAction",
+      "message": "[200] [2525ms] [GET /webapi/logs/session] GetFeedbackSessionLogsAction",
       "requestMethod": "GET",
       "userInfo": {
         "googleId": "john"
@@ -637,7 +637,7 @@
         "minseverity": "INFO"
       },
       "responseTime": 2525,
-      "actionClass": "QueryLogsAction"
+      "actionClass": "GetFeedbackSessionLogsAction"
     },
     "resourceIdentifier": {
       "project_id": "teammates-john",
