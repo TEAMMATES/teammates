@@ -28,10 +28,9 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
             throw new EntityNotFoundException(errorMessage);
         }
 
-        if (accountRequest.getStatus() == AccountRequestStatus.APPROVED
-                || accountRequest.getStatus() == AccountRequestStatus.REGISTERED) {
+        if (accountRequest.getStatus() != AccountRequestStatus.PENDING) {
             throw new InvalidOperationException(
-                    "Account request with id " + accountRequestId + " has already been approved and cannot be rejected.");
+                    "Account request with id " + accountRequestId + " is not pending and cannot be rejected.");
         }
 
         AccountRequestRejectionRequest accountRequestRejectionRequest =
