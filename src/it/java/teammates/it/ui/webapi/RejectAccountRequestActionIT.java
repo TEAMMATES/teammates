@@ -134,7 +134,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
-                bundleAccountRequest.getStatus(), bundleAccountRequest.getComments());
+            AccountRequestStatus.PENDING, bundleAccountRequest.getComments());
         UUID id = accountRequest.getId();
 
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, TYPICAL_BODY);
@@ -151,7 +151,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
-                bundleAccountRequest.getStatus(), bundleAccountRequest.getComments());
+            AccountRequestStatus.PENDING, bundleAccountRequest.getComments());
         UUID id = accountRequest.getId();
 
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(TYPICAL_TITLE, null);

@@ -74,7 +74,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         assertEquals(200, result.getStatusCode());
         data = (AccountRequestData) result.getOutput();
         assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
-        verifyNumberOfEmailsSent(2);
+        verifyNumberOfEmailsSent(1);
 
         ______TS("existing account with same email should not block approval");
         Account existingAccount = getTypicalAccount();
@@ -91,7 +91,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         assertEquals(200, result.getStatusCode());
         data = (AccountRequestData) result.getOutput();
         assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
-        verifyNumberOfEmailsSent(3);
+        verifyNumberOfEmailsSent(1);
 
         ______TS("same email different institute with existing approved request should succeed");
         logic.createAccountRequest("name", "same@email.com",
@@ -106,7 +106,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         assertEquals(200, result.getStatusCode());
         data = (AccountRequestData) result.getOutput();
         assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
-        verifyNumberOfEmailsSent(4);
+        verifyNumberOfEmailsSent(1);
 
         ______TS("same email and institute with existing approved request should fail");
         logic.createAccountRequest("name", "duplicate@email.com",
@@ -119,20 +119,20 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         assertEquals(String.format("An account request with email %s and institute %s has already been approved. "
                 + "Please reject or delete the account request instead.",
                 accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
-        verifyNumberOfEmailsSent(4);
+        verifyNoEmailsSent();
 
         ______TS("invalid uuid should fail");
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(params);
         assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
-        verifyNumberOfEmailsSent(4);
+        verifyNoEmailsSent();
 
         ______TS("non-existent uuid should fail");
         String uuid = UUID.randomUUID().toString();
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, uuid};
         EntityNotFoundException enfe = verifyEntityNotFound(params);
         assertEquals(String.format("Account request with id = %s not found", uuid), enfe.getMessage());
-        verifyNumberOfEmailsSent(4);
+                verifyNoEmailsSent();
     }
 
     @Test

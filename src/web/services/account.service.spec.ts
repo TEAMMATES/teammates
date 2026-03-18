@@ -5,8 +5,8 @@ import { AccountService } from './account.service';
 import { HttpRequestService } from './http-request.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
-import { AccountCreateRequest, AccountRequestUpdateRequest } from '../types/api-request';
 import { AccountRequestStatus } from '../types/api-output';
+import { AccountCreateRequest, AccountRequestUpdateRequest } from '../types/api-request';
 
 describe('AccountService', () => {
   let spyHttpRequestService: any;
