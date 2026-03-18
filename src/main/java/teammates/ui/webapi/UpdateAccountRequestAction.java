@@ -33,7 +33,7 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
             accountRequest.setName(accountRequestUpdateRequest.getName());
             accountRequest.setEmail(accountRequestUpdateRequest.getEmail());
             accountRequest.setInstitute(accountRequestUpdateRequest.getInstitute());
-            // Status is updated separately in ApproveAccountRequestAction and RejectAccountRequestAction, so we set it to its current value here to avoid accidentally changing it.
+            // This action is for updating the account request details. Approval or rejection are handled in their respective actions, so the status should not be updated here.
             accountRequest.setStatus(accountRequest.getStatus());
             accountRequest.setComments(accountRequestUpdateRequest.getComments());
             accountRequest = sqlLogic.updateAccountRequest(accountRequest);
