@@ -99,6 +99,11 @@ public final class ActionFactory {
         map(ResourceURIs.SEARCH_ACCOUNT_REQUESTS, GET, SearchAccountRequestsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
 
+        // EMAIL TEMPLATE APIs
+        map(ResourceURIs.EMAIL_TEMPLATE, GET, GetEmailTemplateAction.class);
+        map(ResourceURIs.EMAIL_TEMPLATE, PUT, UpdateEmailTemplateAction.class);
+        map(ResourceURIs.EMAIL_TEMPLATES, GET, GetEmailTemplatesAction.class);
+
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
         map(ResourceURIs.SESSION, GET, GetFeedbackSessionAction.class);

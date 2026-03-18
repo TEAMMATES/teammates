@@ -204,6 +204,8 @@ public final class Const {
         public static final String NOTIFICATION_IS_FETCHING_ALL = "isfetchingall";
         public static final String NOTFICATION_END_TIME = "endtime";
         public static final String CONTINUE_URL = "continueurl";
+
+        public static final String TEMPLATE_KEY = "templatekey";
     }
 
     /**
@@ -384,6 +386,8 @@ public final class Const {
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String LOGIN_EMAIL = URI_PREFIX + "/email/login";
+        public static final String EMAIL_TEMPLATE = URI_PREFIX + "/email/template";
+        public static final String EMAIL_TEMPLATES = URI_PREFIX + "/email/templates";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
         public static final String LOGS = URI_PREFIX + "/logs/query";
         public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
