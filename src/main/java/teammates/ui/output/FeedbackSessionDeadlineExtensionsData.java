@@ -6,12 +6,11 @@ import java.util.Map;
 
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.DeadlineExtension;
-import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 
 /**
- * The API output format for deadline extensions of a {@link FeedbackSession}.
+ * The API output format for deadline extensions.
  */
 public class FeedbackSessionDeadlineExtensionsData extends ApiOutput {
     private Map<String, Long> studentDeadlines;
@@ -24,7 +23,7 @@ public class FeedbackSessionDeadlineExtensionsData extends ApiOutput {
         List<DeadlineExtension> studentDeadlineExtensions = deadlineExtensions.stream()
                 .filter(de -> de.getUser() instanceof Student)
                 .toList();
-        
+
         List<DeadlineExtension> instructorDeadlineExtensions = deadlineExtensions.stream()
                 .filter(de -> de.getUser() instanceof Instructor)
                 .toList();

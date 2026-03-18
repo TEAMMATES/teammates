@@ -42,5 +42,25 @@ public class FeedbackSessionDeadlineExtensionsUpdateRequest extends BasicRequest
     public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(studentDeadlines != null, "deadlines for students cannot be null");
         assertTrue(instructorDeadlines != null, "deadlines for instructors cannot be null");
+
+        for (Map.Entry<String, Long> entry : studentDeadlines.entrySet()) {
+            String email = entry.getKey();
+            Long deadlineMillis = entry.getValue();
+
+            assertTrue(email != null && !email.trim().isEmpty(),
+                    "student email cannot be null or empty");
+            assertTrue(deadlineMillis != null && deadlineMillis > 0,
+                    "student deadline must be a positive epoch milli value");
+        }
+
+        for (Map.Entry<String, Long> entry : instructorDeadlines.entrySet()) {
+            String email = entry.getKey();
+            Long deadlineMillis = entry.getValue();
+
+            assertTrue(email != null && !email.trim().isEmpty(),
+                    "instructor email cannot be null or empty");
+            assertTrue(deadlineMillis != null && deadlineMillis > 0,
+                    "instructor deadline must be a positive epoch milli value");
+        }
     }
 }
