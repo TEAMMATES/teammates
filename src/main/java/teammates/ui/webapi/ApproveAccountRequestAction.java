@@ -46,8 +46,6 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
                 accountRequest.getEmail(), accountRequest.getInstitute()));
         }
 
-        // Check if (email, institute) exists with full privileges. If so, send email to user to inform them.
-
         try {
             accountRequest.setStatus(AccountRequestStatus.APPROVED);
             accountRequest = sqlLogic.updateAccountRequestWithTransaction(accountRequest);
