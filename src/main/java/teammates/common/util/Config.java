@@ -64,6 +64,9 @@ public final class Config {
     /** The value of the "app.oauth2.client.secret" in build.properties file. */
     public static final String OAUTH2_CLIENT_SECRET;
 
+    /** The value of the "app.oauth2.tenant.id" in build.properties file. Used for Microsoft Entra ID authentication. */
+    public static final String OAUTH2_TENANT_ID;
+
     /** The value of the "app.captcha.secretkey" in build.properties file. */
     public static final String CAPTCHA_SECRET_KEY;
 
@@ -162,6 +165,7 @@ public final class Config {
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
         OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
         OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
+        OAUTH2_TENANT_ID = getProperty(properties, devProperties, "app.oauth2.tenant.id");
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
         APP_ADMINS = Collections.unmodifiableList(
                 Arrays.asList(getProperty(properties, devProperties, "app.admins", "").split(",")));
@@ -287,6 +291,10 @@ public final class Config {
 
     public static boolean isUsingFirebase() {
         return "firebase".equalsIgnoreCase(AUTH_TYPE);
+    }
+
+    public static boolean isUsingMicrosoftEntra() {
+        return "entra".equalsIgnoreCase(AUTH_TYPE);
     }
 
     /**
