@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
-import teammates.common.util.HibernateUtil;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.test.BaseTestCase;
 
@@ -30,7 +29,6 @@ public class UserProvisionTest extends BaseTestCase {
     private UserProvision userProvision;
     private UsersLogic mockUsersLogic;
     private MockedStatic<Config> mockConfigStatic;
-    private MockedStatic<HibernateUtil> mockHibernateUtilStatic;
     private MockedStatic<UsersLogic> mockUsersLogicStatic;
 
     @BeforeClass
@@ -60,14 +58,11 @@ public class UserProvisionTest extends BaseTestCase {
         mockConfigStatic = mockStatic(Config.class);
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of());
         mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of());
-
-        mockHibernateUtilStatic = mockStatic(HibernateUtil.class);
     }
 
     @AfterMethod
     public void tearDownMethod() {
         mockConfigStatic.close();
-        mockHibernateUtilStatic.close();
         mockUsersLogicStatic.close();
     }
 
