@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Set;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
@@ -80,7 +81,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
-        assertIsInstructorOnly(user);
+        assertHasRoles(user, Role.INSTRUCTOR);
     }
 
     @Test
@@ -91,7 +92,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
-        assertIsStudentOnly(user);
+        assertHasRoles(user, Role.STUDENT);
     }
 
     @Test
@@ -102,7 +103,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(adminUserId));
 
         assertEquals(adminUserId, user.id);
-        assertIsAdminOnly(user);
+        assertHasRoles(user, Role.ADMIN);
     }
 
     @Test
@@ -113,7 +114,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(maintainerUserId));
 
         assertEquals(maintainerUserId, user.id);
-        assertIsMaintainerOnly(user);
+        assertHasRoles(user, Role.MAINTAINER);
     }
 
     @Test
@@ -135,7 +136,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
-        assertHasExactRoles(user, false, true, true, false);
+        assertHasRoles(user, Role.INSTRUCTOR, Role.STUDENT);
     }
 
     @Test
@@ -147,7 +148,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
-        assertHasExactRoles(user, true, false, false, true);
+        assertHasRoles(user, Role.ADMIN, Role.MAINTAINER);
     }
 
     @Test
@@ -160,7 +161,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
-        assertHasExactRoles(user, false, true, true, true);
+        assertHasRoles(user, Role.INSTRUCTOR, Role.STUDENT, Role.MAINTAINER);
     }
 
     @Test
@@ -174,7 +175,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
-        assertHasExactRoles(user, true, true, true, true);
+        assertHasRoles(user, Role.ADMIN, Role.INSTRUCTOR, Role.STUDENT, Role.MAINTAINER);
     }
 
     @Test
@@ -185,7 +186,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getCurrentUserWithTransaction(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
-        assertIsInstructorOnly(user);
+        assertHasRoles(user, Role.INSTRUCTOR);
         mockHibernateUtilStatic.verify(HibernateUtil::beginTransaction);
         mockHibernateUtilStatic.verify(HibernateUtil::commitTransaction);
     }
@@ -218,7 +219,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getMasqueradeUser(googleId);
 
         assertEquals(googleId, user.id);
-        assertIsInstructorOnly(user);
+        assertHasRoles(user, Role.INSTRUCTOR);
     }
 
     @Test
@@ -229,7 +230,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getMasqueradeUser(googleId);
 
         assertEquals(googleId, user.id);
-        assertIsStudentOnly(user);
+        assertHasRoles(user, Role.STUDENT);
     }
 
     @Test
@@ -240,7 +241,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getMasqueradeUser(maintainerGoogleId);
 
         assertEquals(maintainerGoogleId, user.id);
-        assertIsMaintainerOnly(user);
+        assertHasRoles(user, Role.MAINTAINER);
     }
 
     @Test
@@ -271,7 +272,7 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getAdminOnlyUser(userId);
 
         assertEquals(userId, user.id);
-        assertIsAdminOnly(user);
+        assertHasRoles(user, Role.ADMIN);
         verifyNoInteractions(mockUsersLogic);
     }
 
@@ -288,32 +289,20 @@ public class UserProvisionTest extends BaseTestCase {
         return cookie;
     }
 
-    private static void assertHasExactRoles(UserInfo user,
-                                            boolean isAdmin, boolean isInstructor, boolean isStudent, boolean isMaintainer) {
-        assertEquals(isAdmin, user.isAdmin);
-        assertEquals(isInstructor, user.isInstructor);
-        assertEquals(isStudent, user.isStudent);
-        assertEquals(isMaintainer, user.isMaintainer);
-    }
-
-    private static void assertIsInstructorOnly(UserInfo user) {
-        assertHasExactRoles(user, false, true, false, false);
-    }
-
-    private static void assertIsStudentOnly(UserInfo user) {
-        assertHasExactRoles(user, false, false, true, false);
-    }
-
-    private static void assertIsAdminOnly(UserInfo user) {
-        assertHasExactRoles(user, true, false, false, false);
-    }
-
-    private static void assertIsMaintainerOnly(UserInfo user) {
-        assertHasExactRoles(user, false, false, false, true);
-    }
-
     private static void assertHasNoRoles(UserInfo user) {
-        assertHasExactRoles(user, false, false, false, false);
+        assertHasRoles(user);
+    }
+
+    private static void assertHasRoles(UserInfo user, Role... expectedRoles) {
+        Set<Role> expected = Set.of(expectedRoles);
+        assertEquals(expected.contains(Role.ADMIN), user.isAdmin);
+        assertEquals(expected.contains(Role.INSTRUCTOR), user.isInstructor);
+        assertEquals(expected.contains(Role.STUDENT), user.isStudent);
+        assertEquals(expected.contains(Role.MAINTAINER), user.isMaintainer);
+    }
+
+    private enum Role {
+        ADMIN, INSTRUCTOR, STUDENT, MAINTAINER
     }
 
 }
