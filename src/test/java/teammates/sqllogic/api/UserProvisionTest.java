@@ -75,7 +75,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_instructor_returnsUserInfoWithInstructorRole() {
-        String userId = "typical-instructor";
+        String userId = "instructor-user-id";
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
@@ -86,7 +86,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_student_returnsUserInfoWithStudentRole() {
-        String userId = "typical-student";
+        String userId = "student-user-id";
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
@@ -119,7 +119,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_unregistered_returnsUserInfoWithNoRoles() {
-        String userId = "unregistered-user";
+        String userId = "unregistered-user-id";
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
@@ -180,7 +180,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUserWithTransaction_instructor_wrapsInTransactionAndReturnsUserInfo() {
-        String userId = "typical-instructor";
+        String userId = "instructor-user-id";
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
 
         UserInfo user = userProvision.getCurrentUserWithTransaction(createMockValidCookie(userId));
@@ -224,7 +224,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetMasqueradeUser_student_returnsUserInfoWithStudentRole() {
-        String googleId = "typical-student";
+        String googleId = "student-user-id";
         when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
 
         UserInfo user = userProvision.getMasqueradeUser(googleId);
@@ -257,7 +257,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetMasqueradeUser_unregistered_returnsUserInfoWithNoRoles() {
-        String googleId = "unregistered-user";
+        String googleId = "unregistered-user-id";
 
         UserInfo user = userProvision.getMasqueradeUser(googleId);
 
