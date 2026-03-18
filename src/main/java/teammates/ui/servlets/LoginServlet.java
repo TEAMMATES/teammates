@@ -2,7 +2,7 @@ package teammates.ui.servlets;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
+import java.util.Set;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,6 +11,7 @@ import org.apache.http.HttpStatus;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.microsoft.aad.msal4j.AuthorizationRequestUrlParameters;
+import com.microsoft.aad.msal4j.ResponseMode;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
@@ -61,8 +62,9 @@ public class LoginServlet extends AuthServlet {
             AuthState state = new AuthState(nextUrl, req.getSession().getId());
             String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
             AuthorizationRequestUrlParameters params = AuthorizationRequestUrlParameters
-                    .builder(getRedirectUri(req), Collections.singleton("openid email profile"))
+                    .builder(getRedirectUri(req), Set.of("openid", "email"))
                     .state(encryptedState)
+                    .responseMode(ResponseMode.QUERY)
                     .build();
             URL authorizationUrl = getMicrosoftClient().getAuthorizationRequestUrl(params);
 

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +21,8 @@ import com.google.firebase.auth.FirebaseToken;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.microsoft.aad.msal4j.AuthorizationCodeParameters;
+import com.microsoft.aad.msal4j.IAuthenticationResult;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
@@ -40,6 +44,8 @@ public class OAuth2CallbackServlet extends AuthServlet {
         AuthResult authResult;
         if (Config.isUsingFirebase()) {
             authResult = getFirebaseAuthResult(req, resp);
+        } else if (Config.isUsingMicrosoftEntra()) {
+            authResult = getMicrosoftEntraAuthResult(req, resp);
         } else {
             authResult = getGoogleOauth2AuthResult(req, resp);
         }
@@ -66,13 +72,71 @@ public class OAuth2CallbackServlet extends AuthServlet {
         resp.sendRedirect(authResult.nextUrl);
     }
 
+    private AuthResult getMicrosoftEntraAuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String code = req.getParameter("code");
+        String state = req.getParameter("state");
+        String error = req.getParameter("error");
+        String errorDescription = req.getParameter("error_description");
+        if (error != null) {
+            String message = errorDescription == null ? error : error + ": " + errorDescription;
+            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, message);
+            return null;
+        }
+
+        if (code == null || state == null) {
+            log.warning("Missing Microsoft authorization code or state. Query string: " + req.getQueryString());
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing authorization code");
+            return null;
+        }
+
+        String nextUrl = "/";
+        try {
+            AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
+            if (authState.getNextUrl() != null) {
+                nextUrl = authState.getNextUrl();
+            }
+            String sessionId = authState.getSessionId();
+            if (!sessionId.equals(req.getSession().getId())) {
+                log.warning(String.format("Different session ID: expected %s, got %s",
+                        sessionId, req.getSession().getId()));
+                logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
+                return null;
+            }
+        } catch (JsonParseException | InvalidParametersException e) {
+            log.warning("Failed to parse state object", e);
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Bad state object");
+            return null;
+        }
+
+        String email = null;
+        try {
+            AuthorizationCodeParameters params = AuthorizationCodeParameters
+                    .builder(code, new URI(getRedirectUri(req)))
+                    .scopes(Set.of("openid", "email"))
+                    .build();
+            IAuthenticationResult result = getMicrosoftClient().acquireToken(params).get();
+            // username() returns the verified email/UPN from the validated ID token
+            email = result.account().username();
+        } catch (URISyntaxException | ExecutionException e) {
+            log.warning("Failed to acquire Microsoft token", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.warning("Microsoft token acquisition interrupted", e);
+        }
+        return new AuthResult(email, nextUrl);
+    }
+
     private AuthResult getGoogleOauth2AuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         StringBuffer buf = req.getRequestURL();
         if (req.getQueryString() != null) {
             buf.append('?').append(req.getQueryString());
         }
+        String callbackUrl = buf.toString();
+        if (!Config.IS_DEV_SERVER) {
+            callbackUrl = callbackUrl.replaceFirst("^http://", "https://");
+        }
         AuthorizationCodeResponseUrl responseUrl =
-                new AuthorizationCodeResponseUrl(buf.toString().replaceFirst("^http://", "https://"));
+                new AuthorizationCodeResponseUrl(callbackUrl);
         if (responseUrl.getError() != null) {
             logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, responseUrl.getError());
             return null;
