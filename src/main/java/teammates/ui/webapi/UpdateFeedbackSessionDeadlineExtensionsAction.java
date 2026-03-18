@@ -116,7 +116,9 @@ public class UpdateFeedbackSessionDeadlineExtensionsAction extends Action {
 
         // Refresh to get updated deadline extensions
         feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        return new JsonResult(new FeedbackSessionDeadlineExtensionsData(feedbackSession));
+        List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
+        String updatedTimeZone = feedbackSession.getCourse().getTimeZone();
+        return new JsonResult(new FeedbackSessionDeadlineExtensionsData(updatedTimeZone, deadlineExtensions));
     }
 
     private List<EmailWrapper> processDeadlineExtensions(String courseId, FeedbackSession session,

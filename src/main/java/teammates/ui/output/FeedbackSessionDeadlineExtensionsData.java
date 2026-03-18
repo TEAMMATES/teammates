@@ -1,6 +1,7 @@
 package teammates.ui.output;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.TimeHelper;
@@ -16,12 +17,11 @@ public class FeedbackSessionDeadlineExtensionsData extends ApiOutput {
     private Map<String, Long> studentDeadlines;
     private Map<String, Long> instructorDeadlines;
 
-    public FeedbackSessionDeadlineExtensionsData(FeedbackSession feedbackSession) {
-        String timeZone = feedbackSession.getCourse().getTimeZone();
+    public FeedbackSessionDeadlineExtensionsData(String timeZone, List<DeadlineExtension> deadlineExtensions) {
         this.studentDeadlines = new HashMap<>();
         this.instructorDeadlines = new HashMap<>();
 
-        for (DeadlineExtension de : feedbackSession.getDeadlineExtensions()) {
+        for (DeadlineExtension de : deadlineExtensions) {
             if (de.getUser() instanceof Student) {
                 this.studentDeadlines.put(de.getUser().getEmail(),
                         TimeHelper.getMidnightAdjustedInstantBasedOnZone(de.getEndTime(), timeZone, true).toEpochMilli());
@@ -47,21 +47,6 @@ public class FeedbackSessionDeadlineExtensionsData extends ApiOutput {
 
     public void setInstructorDeadlines(Map<String, Long> instructorDeadlines) {
         this.instructorDeadlines = instructorDeadlines;
-    }
-
-    /**
-     * Hides deadline information from a student (shows only their own deadline).
-     */
-    public void hideInformationForStudent() {
-        instructorDeadlines.clear();
-    }
-
-    /**
-     * Hides deadline information from a student (shows only their own deadline).
-     */
-    public void hideInformationForStudent(String studentEmail) {
-        studentDeadlines.keySet().removeIf(email -> !(email.equals(studentEmail)));
-        instructorDeadlines.clear();
     }
 
     /**
