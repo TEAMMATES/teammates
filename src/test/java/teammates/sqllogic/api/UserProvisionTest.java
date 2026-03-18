@@ -149,16 +149,17 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCurrentLoggedInUser_validCookie_returnsUserInfoWithCorrectId() {
+    public void testGetCurrentLoggedInUser_validCookie_returnsUserInfoWithCorrectIdAndNoRoles() {
         String userId = "valid-user-id";
 
         UserInfo user = userProvision.getCurrentLoggedInUser(createMockValidCookie(userId));
 
         assertEquals(userId, user.id);
+        assertHasNoRoles(user);
     }
 
     @Test
-    public void testGetMasqueradeUser_instructor_returnsUserInfoWithIsInstructorTrue() {
+    public void testGetMasqueradeUser_instructor_returnsUserInfoWithInstructorRole() {
         String googleId = "typical-instructor";
         when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
 
@@ -169,7 +170,7 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetMasqueradeUser_student_returnsUserInfoWithIsStudentTrue() {
+    public void testGetMasqueradeUser_student_returnsUserInfoWithStudentRole() {
         String googleId = "typical-student";
         when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
 
@@ -180,7 +181,7 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetMasqueradeUser_maintainer_returnsUserInfoWithIsMaintainerTrue() {
+    public void testGetMasqueradeUser_maintainer_returnsUserInfoWithMaintainerRole() {
         String maintainerGoogleId = "maintainer-user-id";
         mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(maintainerGoogleId));
 
@@ -191,16 +192,6 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetMasqueradeUser_unregistered_returnsUserInfoWithAllRolesFalse() {
-        String googleId = "unregistered-user";
-
-        UserInfo user = userProvision.getMasqueradeUser(googleId);
-
-        assertEquals(googleId, user.id);
-        assertHasNoRoles(user);
-    }
-
-    @Test
     public void testGetMasqueradeUser_admin_returnsUserInfoWithIsAdminFalse() {
         String adminGoogleId = "admin-user-id";
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminGoogleId));
@@ -208,6 +199,16 @@ public class UserProvisionTest extends BaseTestCase {
         UserInfo user = userProvision.getMasqueradeUser(adminGoogleId);
 
         assertEquals(adminGoogleId, user.id);
+        assertHasNoRoles(user);
+    }
+
+    @Test
+    public void testGetMasqueradeUser_unregistered_returnsUserInfoWithNoRoles() {
+        String googleId = "unregistered-user";
+
+        UserInfo user = userProvision.getMasqueradeUser(googleId);
+
+        assertEquals(googleId, user.id);
         assertHasNoRoles(user);
     }
 
