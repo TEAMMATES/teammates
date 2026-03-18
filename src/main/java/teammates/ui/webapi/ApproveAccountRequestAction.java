@@ -34,8 +34,16 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
         }
 
         if (accountRequest.getStatus() != AccountRequestStatus.PENDING) {
-            throw new InvalidOperationException(
-                    "Account request with id " + accountRequestId + " is not pending and cannot be approved.");
+            throw new InvalidOperationException(String.format(
+                    "Account request with id " + accountRequestId + " is not pending and cannot be approved."));
+        }
+
+        if (!sqlLogic.getApprovedAccountRequestsForEmailAndInstituteWithTransaction(accountRequest.getEmail(), 
+                accountRequest.getInstitute()).isEmpty()) {
+            throw new InvalidOperationException(String.format(
+            "An account request with email %s and institute %s has already been approved. "
+                + "Please reject or delete the account request instead.",
+                accountRequest.getEmail(), accountRequest.getInstitute()));
         }
 
         // Check if (email, institute) exists with full privileges. If so, send email to user to inform them.
