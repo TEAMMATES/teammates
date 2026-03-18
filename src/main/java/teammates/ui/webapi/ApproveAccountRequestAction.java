@@ -33,9 +33,10 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
             throw new EntityNotFoundException(errorMessage);
         }
 
-        if (accountRequest.getStatus() != AccountRequestStatus.PENDING) {
+        if (accountRequest.getStatus() != AccountRequestStatus.PENDING
+                || accountRequest.getStatus() != AccountRequestStatus.REJECTED) {
             throw new InvalidOperationException(String.format(
-                    "Account request with id " + accountRequestId + " is not pending and cannot be approved."));
+                    "Account request with id " + accountRequestId + " is not pending or rejected and cannot be approved."));
         }
 
         if (!sqlLogic.getApprovedAccountRequestsForEmailAndInstituteWithTransaction(accountRequest.getEmail(), 

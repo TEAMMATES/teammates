@@ -174,8 +174,8 @@ public class Logic {
     /**
      * Get a list of account requests associated with email and institute provided.
      */
-    public List<AccountRequest> getApprovedAccountRequestsForEmail(String email) {
-        return accountRequestLogic.getApprovedAccountRequestsForEmail(email);
+    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
+        return accountRequestLogic.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
     }
 
     /**
