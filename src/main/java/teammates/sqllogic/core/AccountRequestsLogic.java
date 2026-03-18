@@ -96,6 +96,7 @@ public final class AccountRequestsLogic {
     public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
         return accountRequestDb.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
     }
+
     /**
      * Creates/resets the account request with the given id such that it is not registered.
      */
