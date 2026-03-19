@@ -44,9 +44,12 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Override
+    protected void testExecute() {
+        // This is separated into different test methods.
+    }
+
     @Test
-    public void testExecute() throws Exception {
-        ______TS("approve pending request should succeed and send email");
+    void testExecute_pendingRequest_approvesSuccessfully() throws Exception {
         AccountRequest accountRequest = logic.createAccountRequest("name", "pending@email.com",
                 "institute", AccountRequestStatus.PENDING, "comments");
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
@@ -62,81 +65,95 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
         assertEquals(accountRequest.getComments(), data.getComments());
         verifyNumberOfEmailsSent(1);
+    }
 
-        ______TS("approve rejected request should succeed and send email");
-        accountRequest = logic.createAccountRequest("name", "rejected@email.com",
+    @Test
+    void testExecute_rejectedRequest_approvesSuccessfully() throws Exception {
+        AccountRequest accountRequest = logic.createAccountRequest("name", "rejected@email.com",
                 "institute", AccountRequestStatus.REJECTED, "comments");
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
-        action = getAction(params);
-        result = action.execute();
+        ApproveAccountRequestAction action = getAction(params);
+        JsonResult result = action.execute();
 
         assertEquals(200, result.getStatusCode());
-        data = (AccountRequestData) result.getOutput();
+        AccountRequestData data = (AccountRequestData) result.getOutput();
         assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
         verifyNumberOfEmailsSent(1);
+    }
 
-        ______TS("existing account with same email should not block approval");
+    @Test
+    void testExecute_existingAccountWithSameEmail_approvesSuccessfully() throws Exception {
         Account existingAccount = getTypicalAccount();
         existingAccount.setEmail("existing@email.com");
         logic.createAccount(existingAccount);
 
-        accountRequest = logic.createAccountRequest("name", existingAccount.getEmail(),
+        AccountRequest accountRequest = logic.createAccountRequest("name", existingAccount.getEmail(),
                 "anotherInstitute", AccountRequestStatus.PENDING, "comments");
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
-        action = getAction(params);
-        result = action.execute();
+        ApproveAccountRequestAction action = getAction(params);
+        JsonResult result = action.execute();
 
         assertEquals(200, result.getStatusCode());
-        data = (AccountRequestData) result.getOutput();
+        AccountRequestData data = (AccountRequestData) result.getOutput();
         assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
         verifyNumberOfEmailsSent(1);
+    }
 
-        ______TS("same email different institute with existing approved request should succeed");
+    @Test
+    void testExecute_existingApprovedRequestWithSameEmailDifferentInstitute_approvesSuccessfully()
+            throws Exception {
         logic.createAccountRequest("name", "same@email.com",
                 "instituteA", AccountRequestStatus.APPROVED, "comments");
-        accountRequest = logic.createAccountRequest("name", "same@email.com",
+        AccountRequest accountRequest = logic.createAccountRequest("name", "same@email.com",
                 "instituteB", AccountRequestStatus.PENDING, "comments");
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
-        action = getAction(params);
-        result = action.execute();
+        ApproveAccountRequestAction action = getAction(params);
+        JsonResult result = action.execute();
 
         assertEquals(200, result.getStatusCode());
-        data = (AccountRequestData) result.getOutput();
+        AccountRequestData data = (AccountRequestData) result.getOutput();
         assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
         verifyNumberOfEmailsSent(1);
+    }
 
-        ______TS("same email and institute with existing approved request should fail");
+    @Test
+    void testExecute_existingApprovedRequestWithSameEmailAndInstitute_throwsInvalidOperationException()
+            throws Exception {
         logic.createAccountRequest("name", "duplicate@email.com",
                 "dupInstitute", AccountRequestStatus.APPROVED, "comments");
-        accountRequest = logic.createAccountRequest("name", "duplicate@email.com",
+        AccountRequest accountRequest = logic.createAccountRequest("name", "duplicate@email.com",
                 "dupInstitute", AccountRequestStatus.PENDING, "comments");
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
         assertEquals(String.format("An account request with email %s and institute %s has already been approved. "
                 + "Please reject or delete the account request instead.",
                 accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
         verifyNoEmailsSent();
+    }
 
-        ______TS("invalid uuid should fail");
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
+    @Test
+    void testExecute_invalidUuid_throwsInvalidHttpParameterException() {
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(params);
         assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
         verifyNoEmailsSent();
+    }
 
-        ______TS("non-existent uuid should fail");
+    @Test
+    void testExecute_nonExistentUuid_throwsEntityNotFoundException() {
         String uuid = UUID.randomUUID().toString();
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, uuid};
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, uuid};
         EntityNotFoundException enfe = verifyEntityNotFound(params);
         assertEquals(String.format("Account request with id = %s not found", uuid), enfe.getMessage());
         verifyNoEmailsSent();
     }
 
     @Test
-    protected void testExecute_invalidStatusShouldFail() throws InvalidParametersException {
+    void testExecute_invalidStatus_throwsInvalidOperationException() throws InvalidParametersException {
         AccountRequest accountRequest = logic.createAccountRequest("name", "registered@email.com",
                 "institute", AccountRequestStatus.REGISTERED, "comments");
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};

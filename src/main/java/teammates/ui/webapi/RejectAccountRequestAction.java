@@ -30,7 +30,7 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
 
         if (accountRequest.getStatus() != AccountRequestStatus.PENDING) {
             throw new InvalidOperationException(
-                    "Account request with id " + accountRequestId + " is not pending and cannot be rejected.");
+                    "Account request with id " + accountRequestId + " is not in pending state and cannot be rejected.");
         }
 
         AccountRequestRejectionRequest accountRequestRejectionRequest =

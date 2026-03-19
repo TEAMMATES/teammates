@@ -18,8 +18,7 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
-        String id = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
-        UUID accountRequestId = getUuidFromString(Const.ParamsNames.ACCOUNT_REQUEST_ID, id);
+        UUID accountRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
 
         AccountRequest accountRequest = sqlLogic.getAccountRequest(accountRequestId);
 
@@ -28,10 +27,10 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
             throw new EntityNotFoundException(errorMessage);
         }
 
-        if (accountRequest.getStatus() != AccountRequestStatus.PENDING
-                && accountRequest.getStatus() != AccountRequestStatus.REJECTED) {
-            throw new InvalidOperationException(String.format(
-                    "Account request with id " + accountRequestId + " is not pending or rejected and cannot be approved."));
+        if (accountRequest.getStatus() == AccountRequestStatus.APPROVED
+                && accountRequest.getStatus() == AccountRequestStatus.REGISTERED) {
+            throw new InvalidOperationException(
+                    "Account request with id " + accountRequestId + " is already approved or registered.");
         }
 
         if (!sqlLogic.getApprovedAccountRequestsForEmailAndInstitute(accountRequest.getEmail(),
