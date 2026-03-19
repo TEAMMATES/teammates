@@ -160,7 +160,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
         assertEquals("Account request with id " + accountRequest.getId()
-                + " is not pending or rejected and cannot be approved.", ipe.getMessage());
+                + " is already approved or registered.", ipe.getMessage());
         verifyNoEmailsSent();
     }
 
