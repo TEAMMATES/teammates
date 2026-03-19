@@ -173,7 +173,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
-        assertEquals("Account request with id " + id + " is not pending and cannot be rejected.", ioe.getMessage());
+        assertEquals("Account request with id " + id + " is not in pending state and cannot be rejected.", ioe.getMessage());
 
         verifyNoEmailsSent();
     }

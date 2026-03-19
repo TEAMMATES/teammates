@@ -28,7 +28,7 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
         }
 
         if (accountRequest.getStatus() == AccountRequestStatus.APPROVED
-                && accountRequest.getStatus() == AccountRequestStatus.REGISTERED) {
+                || accountRequest.getStatus() == AccountRequestStatus.REGISTERED) {
             throw new InvalidOperationException(
                     "Account request with id " + accountRequestId + " is already approved or registered.");
         }
