@@ -2,7 +2,6 @@ package teammates.it.sqllogic.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -36,7 +35,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
 
     @BeforeClass
     public void setupClass() {
-        typicalDataBundle = getTypicalSqlDataBundle();
+        typicalDataBundle = getTypicalDataBundle();
     }
 
     @Override
@@ -157,6 +156,6 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
                 break;
             }
             return null;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 }

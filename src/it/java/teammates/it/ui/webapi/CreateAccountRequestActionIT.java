@@ -1,8 +1,5 @@
 package teammates.it.ui.webapi;
 
-import java.util.List;
-
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -11,7 +8,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
@@ -36,9 +32,8 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
 
     @BeforeMethod
     @Override
-    protected void setUp() {
-        // CreateAccountRequestAction handles its own transactions;
-        // There is thus no need to setup a transaction.
+    protected void setUp() throws Exception {
+        super.setUp();
     }
 
     @Override
@@ -129,16 +124,13 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(AccountRequestStatus.PENDING, output.getStatus());
         assertEquals("My road leads into the desert. I can see it.", output.getComments());
         assertNull(output.getRegisteredAt());
-        HibernateUtil.beginTransaction();
         AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(output.getRegistrationKey());
-        HibernateUtil.commitTransaction();
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
         assertEquals("House Atreides", accountRequest.getInstitute());
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
         verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
         EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
@@ -161,16 +153,13 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(AccountRequestStatus.PENDING, output.getStatus());
         assertNull(output.getComments());
         assertNull(output.getRegisteredAt());
-        HibernateUtil.beginTransaction();
         AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(output.getRegistrationKey());
-        HibernateUtil.commitTransaction();
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
         assertEquals("House Atreides", accountRequest.getInstitute());
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertNull(accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
         verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
         EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
@@ -181,11 +170,9 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
     @Test
     void testExecute_accountRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully()
             throws InvalidParametersException {
-        HibernateUtil.beginTransaction();
         AccountRequest existingAccountRequest = logic.createAccountRequest("Paul Atreides",
                 "kwisatz.haderach@atreides.org",
                 "House Atreides", AccountRequestStatus.PENDING, "My road leads into the desert. I can see it.");
-        HibernateUtil.commitTransaction();
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Paul Atreides");
@@ -201,16 +188,13 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("My road leads into the desert. I can see it.", output.getComments());
         assertNull(output.getRegisteredAt());
         assertNotEquals(output.getRegistrationKey(), existingAccountRequest.getRegistrationKey());
-        HibernateUtil.beginTransaction();
         AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(output.getRegistrationKey());
-        HibernateUtil.commitTransaction();
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
         assertEquals("House Atreides", accountRequest.getInstitute());
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
         verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
         EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
@@ -220,7 +204,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
 
     @Test
     void testExecute_typicalCaseAsAdmin_noEmailsSent() {
-        loginAsAdminWithTransaction();
+        loginAsAdmin();
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Paul Atreides");
@@ -238,18 +222,5 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
     @Test
     protected void testAccessControl() throws Exception {
         verifyAccessibleWithoutLogin();
-    }
-
-    @Override
-    @AfterMethod
-    protected void tearDown() {
-        HibernateUtil.beginTransaction();
-        List<AccountRequest> accountRequests = logic.getPendingAccountRequests();
-        for (AccountRequest ar : accountRequests) {
-            logic.deleteAccountRequest(ar.getId());
-        }
-        accountRequests = logic.getPendingAccountRequests();
-        HibernateUtil.commitTransaction();
-        assert accountRequests.isEmpty();
     }
 }

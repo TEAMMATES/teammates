@@ -16,18 +16,12 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Rejects an account request.
  */
 public class RejectAccountRequestAction extends AdminOnlyAction {
-
-    @Override
-    public boolean isTransactionNeeded() {
-        return false;
-    }
-
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         String id = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
         UUID accountRequestId = getUuidFromString(Const.ParamsNames.ACCOUNT_REQUEST_ID, id);
 
-        AccountRequest accountRequest = sqlLogic.getAccountRequestWithTransaction(accountRequestId);
+        AccountRequest accountRequest = sqlLogic.getAccountRequest(accountRequestId);
 
         if (accountRequest == null) {
             String errorMessage = String.format(Const.ACCOUNT_REQUEST_NOT_FOUND, accountRequestId.toString());
@@ -40,14 +34,13 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
 
         try {
             accountRequest.setStatus(AccountRequestStatus.REJECTED);
-            accountRequest = sqlLogic.updateAccountRequestWithTransaction(accountRequest);
+            accountRequest = sqlLogic.updateAccountRequest(accountRequest);
             if (accountRequestRejectionRequest.checkHasReason()
                     && initialStatus != AccountRequestStatus.REJECTED) {
                 EmailWrapper email = sqlEmailGenerator.generateAccountRequestRejectionEmail(accountRequest,
                         accountRequestRejectionRequest.getReasonTitle(), accountRequestRejectionRequest.getReasonBody());
                 emailSender.sendEmail(email);
             }
-            taskQueuer.scheduleAccountRequestForSearchIndexing(accountRequest.getId().toString());
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException e) {

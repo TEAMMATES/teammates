@@ -15,7 +15,7 @@ import teammates.storage.sqlentity.UsageStatistics;
  *
  * @see UsageStatistics
  */
-public final class UsageStatisticsDb extends EntitiesDb {
+public final class UsageStatisticsDb {
 
     private static final UsageStatisticsDb instance = new UsageStatisticsDb();
 
@@ -48,7 +48,7 @@ public final class UsageStatisticsDb extends EntitiesDb {
     public UsageStatistics createUsageStatistics(UsageStatistics usageStatistics) {
         assert usageStatistics != null;
 
-        persist(usageStatistics);
+        HibernateUtil.persist(usageStatistics);
 
         return usageStatistics;
     }

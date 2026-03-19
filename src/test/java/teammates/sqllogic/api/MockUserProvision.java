@@ -2,7 +2,6 @@ package teammates.sqllogic.api;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
-import teammates.common.util.HibernateUtil;
 
 /**
  * Allows mocking of the {@link UserProvision} API used in production.
@@ -38,28 +37,6 @@ public class MockUserProvision extends UserProvision {
         return loginUser(userId, false, false, false, false);
     }
 
-    private UserInfo loginUserWithTransaction(String userId, boolean isAdmin, boolean isInstructor,
-            boolean isStudent, boolean isMaintainer) {
-        isLoggedIn = true;
-        HibernateUtil.beginTransaction();
-        mockUser.id = userId;
-        mockUser.isAdmin = isAdmin;
-        mockUser.isInstructor = isInstructor;
-        mockUser.isStudent = isStudent;
-        mockUser.isMaintainer = isMaintainer;
-        HibernateUtil.commitTransaction();
-        return mockUser;
-    }
-
-    /**
-     * Adds a logged-in user without admin rights.
-     *
-     * @return The user info after login process
-     */
-    public UserInfo loginUserWithTransaction(String userId) {
-        return loginUserWithTransaction(userId, false, false, false, false);
-    }
-
     /**
      * Adds a logged-in user as an admin.
      *
@@ -67,15 +44,6 @@ public class MockUserProvision extends UserProvision {
      */
     public UserInfo loginAsAdmin(String userId) {
         return loginUser(userId, true, false, false, false);
-    }
-
-    /**
-     * Adds a logged-in user as an admin.
-     *
-     * @return The user info after login process
-     */
-    public UserInfo loginAsAdminWithTransaction(String userId) {
-        return loginUserWithTransaction(userId, true, false, false, false);
     }
 
     /**
@@ -88,30 +56,12 @@ public class MockUserProvision extends UserProvision {
     }
 
     /**
-     * Adds a logged-in user as an instructor.
-     *
-     * @return The user info after login process
-     */
-    public UserInfo loginAsInstructorWithTransaction(String userId) {
-        return loginUserWithTransaction(userId, false, true, false, false);
-    }
-
-    /**
      * Adds a logged-in user as a student.
      *
      * @return The user info after login process
      */
     public UserInfo loginAsStudent(String userId) {
         return loginUser(userId, false, false, true, false);
-    }
-
-    /**
-     * Adds a logged-in user as a student.
-     *
-     * @return The user info after login process
-     */
-    public UserInfo loginAsStudentWithTransaction(String userId) {
-        return loginUserWithTransaction(userId, false, false, true, false);
     }
 
     /**
@@ -124,30 +74,12 @@ public class MockUserProvision extends UserProvision {
     }
 
     /**
-     * Adds a logged-in user as a student instructor.
-     *
-     * @return The user info after login process
-     */
-    public UserInfo loginAsStudentInstructorWithTransaction(String userId) {
-        return loginUserWithTransaction(userId, false, true, true, false);
-    }
-
-    /**
      * Adds a logged-in user as a maintainer.
      *
      * @return The user info after login process
      */
     public UserInfo loginAsMaintainer(String userId) {
         return loginUser(userId, false, false, false, true);
-    }
-
-    /**
-     * Adds a logged-in user as a maintainer.
-     *
-     * @return The user info after login process
-     */
-    public UserInfo loginAsMaintainerWithTransaction(String userId) {
-        return loginUserWithTransaction(userId, false, false, false, true);
     }
 
     /**
@@ -165,11 +97,6 @@ public class MockUserProvision extends UserProvision {
     @Override
     public UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
         return isLoggedIn ? mockUser : null;
-    }
-
-    @Override
-    public UserInfo getCurrentUserWithTransaction(UserInfoCookie uic) {
-        return getCurrentUser(uic);
     }
 
     @Override

@@ -103,9 +103,6 @@ public final class Config {
     /** The value of the "app.mailjet.secretkey" in build.properties file. */
     public static final String MAILJET_SECRETKEY;
 
-    /** The value of the "app.search.service.host" in build.properties file. */
-    public static final String SEARCH_SERVICE_HOST;
-
     /** The value of the "app.maintenance" in build.properties file. */
     public static final boolean MAINTENANCE;
 
@@ -180,7 +177,6 @@ public final class Config {
         MAILGUN_DOMAINNAME = getProperty(properties, devProperties, "app.mailgun.domainname");
         MAILJET_APIKEY = getProperty(properties, devProperties, "app.mailjet.apikey");
         MAILJET_SECRETKEY = getProperty(properties, devProperties, "app.mailjet.secretkey");
-        SEARCH_SERVICE_HOST = getProperty(properties, devProperties, "app.search.service.host");
         MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
 
         // The following properties are not used in production server.
@@ -271,6 +267,22 @@ public final class Config {
 
         // GAE flexible; GAE_ENV variable should not exist in GAE flexible environment
         return env != null;
+    }
+
+    /**
+     * Returns the list of admin Google IDs configured in build.properties.
+     * TODO: refactor all direct accesses to the field to this method call for consistency.
+     */
+    public static List<String> getAppAdmins() {
+        return APP_ADMINS;
+    }
+
+    /**
+     * Returns the list of maintainer Google IDs configured in build.properties.
+     * TODO: refactor all direct accesses to the field with this method call for consistency.
+     */
+    public static List<String> getAppMaintainers() {
+        return APP_MAINTAINERS;
     }
 
     /**

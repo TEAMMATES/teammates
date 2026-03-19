@@ -92,7 +92,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
                 AccountRequestStatus.PENDING, instructorComments);
 
         when(mockRecaptchaVerifier.isVerificationSuccessful(createRequest.getCaptchaResponse())).thenReturn(true);
-        when(mockLogic.createAccountRequestWithTransaction(instructorName, instructorEmail, instructorInstitution,
+        when(mockLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution,
                 AccountRequestStatus.PENDING, instructorComments)).thenReturn(accountRequest);
 
         CreateAccountRequestAction action = getAction(createRequest);
@@ -100,7 +100,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         verify(mockRecaptchaVerifier).isVerificationSuccessful(createRequest.getCaptchaResponse());
         verifyAccountRequestCreated(output, accountRequest);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
         verifyNumberOfEmailsSent(2);
     }
 
@@ -116,26 +115,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
     }
 
     @Test
-    void testExecute_createAccountRequestWithTransactionThrows_throwsInvalidHttpRequestBodyException()
-            throws InvalidParametersException {
-        String instructorEmail = "jamesbond89@gmail.tmt";
-        String instructorName = "JamesBond";
-        String instructorInstitution = "TEAMMATES Test Institute 1";
-        String instructorComments = "comments";
-
-        when(mockRecaptchaVerifier.isVerificationSuccessful(createRequest.getCaptchaResponse())).thenReturn(true);
-        when(mockLogic.createAccountRequestWithTransaction(instructorName, instructorEmail, instructorInstitution,
-                AccountRequestStatus.PENDING, instructorComments))
-                .thenThrow(new InvalidParametersException("test"));
-
-        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
-        assertEquals("test", ex.getMessage());
-        verify(mockRecaptchaVerifier).isVerificationSuccessful(createRequest.getCaptchaResponse());
-        verifyNoTasksAdded();
-        verifyNoEmailsSent();
-    }
-
-    @Test
     void testExecute_adminUser_bypassesCaptchaAndNoEmailSent() throws InvalidParametersException {
         loginAsAdmin();
         String instructorEmail = "jamesbond89@gmail.tmt";
@@ -145,7 +124,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         AccountRequest accountRequest = new AccountRequest(instructorEmail, instructorName, instructorInstitution,
                 AccountRequestStatus.PENDING, instructorComments);
 
-        when(mockLogic.createAccountRequestWithTransaction(instructorName, instructorEmail, instructorInstitution,
+        when(mockLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution,
                 AccountRequestStatus.PENDING, instructorComments)).thenReturn(accountRequest);
 
         CreateAccountRequestAction action = getAction(createRequest);
@@ -153,7 +132,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         verify(mockRecaptchaVerifier, never()).isVerificationSuccessful(createRequest.getCaptchaResponse());
         verifyAccountRequestCreated(output, accountRequest);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
         verifyNumberOfEmailsSent(0);
     }
 
@@ -171,14 +149,14 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
     }
 
     private AccountCreateRequest getTypicalAccountCreateRequest() {
-        AccountCreateRequest createRequest = new AccountCreateRequest();
+        AccountCreateRequest newCreateRequest = new AccountCreateRequest();
 
-        createRequest.setInstructorEmail("  jamesbond89@gmail.tmt  ");
-        createRequest.setInstructorName("  JamesBond  ");
-        createRequest.setInstructorInstitution("  TEAMMATES Test Institute 1  ");
-        createRequest.setInstructorComments("  comments  ");
+        newCreateRequest.setInstructorEmail("  jamesbond89@gmail.tmt  ");
+        newCreateRequest.setInstructorName("  JamesBond  ");
+        newCreateRequest.setInstructorInstitution("  TEAMMATES Test Institute 1  ");
+        newCreateRequest.setInstructorComments("  comments  ");
 
-        return createRequest;
+        return newCreateRequest;
     }
 
     private void verifyAccountRequestCreated(AccountRequestData output, AccountRequest accountRequest) {

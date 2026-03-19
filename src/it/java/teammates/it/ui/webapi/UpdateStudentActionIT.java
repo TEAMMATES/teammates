@@ -111,8 +111,6 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student1.getCourseId()), email.getSubject());
         assertEquals(newStudentEmail, email.getRecipient());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
-
         resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
     }
 

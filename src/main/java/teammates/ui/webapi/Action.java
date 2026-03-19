@@ -162,11 +162,7 @@ public abstract class Action {
         } else {
             String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
             UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
-            if (isTransactionNeeded()) {
-                userInfo = userProvision.getCurrentUser(uic);
-            } else {
-                userInfo = userProvision.getCurrentUserWithTransaction(uic);
-            }
+            userInfo = userProvision.getCurrentUser(uic);
         }
 
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
@@ -349,14 +345,6 @@ public abstract class Action {
                             Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         }
         return privilege;
-    }
-
-    /**
-     * Checks if the action requires a SQL transaction when executed.
-     * If false, the action will have to handle its own SQL transactions.
-     */
-    public boolean isTransactionNeeded() {
-        return true;
     }
 
     /**

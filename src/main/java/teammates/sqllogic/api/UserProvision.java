@@ -3,7 +3,6 @@ package teammates.sqllogic.api;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
-import teammates.common.util.HibernateUtil;
 import teammates.sqllogic.core.UsersLogic;
 
 /**
@@ -15,9 +14,7 @@ public class UserProvision {
 
     private final UsersLogic usersLogic = UsersLogic.inst();
 
-    @SuppressWarnings("PMD.UnnecessaryConstructor")
-    public UserProvision() {
-        // TODO: change constructor to private & remove PMD suppression after migration
+    UserProvision() {
         // prevent initialization
     }
 
@@ -36,28 +33,17 @@ public class UserProvision {
         }
 
         String userId = user.id;
-        user.isAdmin = Config.APP_ADMINS.contains(userId);
+        user.isAdmin = Config.getAppAdmins().contains(userId);
         user.isInstructor = usersLogic.isInstructorInAnyCourse(userId);
         user.isStudent = usersLogic.isStudentInAnyCourse(userId);
-        user.isMaintainer = Config.APP_MAINTAINERS.contains(user.getId());
+        user.isMaintainer = Config.getAppMaintainers().contains(userId);
         return user;
     }
 
     /**
-     * Gets the information of the current logged in user, with an SQL transaction.
-     */
-    public UserInfo getCurrentUserWithTransaction(UserInfoCookie uic) {
-        HibernateUtil.beginTransaction();
-        UserInfo userInfo = getCurrentUser(uic);
-        HibernateUtil.commitTransaction();
-        return userInfo;
-    }
-
-    // TODO: method visibility to package-private after migration
-    /**
      * Gets the current logged in user.
      */
-    public UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
+    UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
         if (uic == null || !uic.isValid()) {
             return null;
         }
@@ -73,7 +59,7 @@ public class UserProvision {
         userInfo.isAdmin = false;
         userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(googleId);
         userInfo.isStudent = usersLogic.isStudentInAnyCourse(googleId);
-        userInfo.isMaintainer = Config.APP_MAINTAINERS.contains(googleId);
+        userInfo.isMaintainer = Config.getAppMaintainers().contains(googleId);
         return userInfo;
     }
 

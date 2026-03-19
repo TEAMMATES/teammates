@@ -22,7 +22,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.api.MockEmailSender;
@@ -63,7 +62,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     static final String PUT = HttpPut.METHOD_NAME;
     static final String DELETE = HttpDelete.METHOD_NAME;
 
-    SqlDataBundle typicalBundle = getTypicalSqlDataBundle();
+    SqlDataBundle typicalBundle = getTypicalDataBundle();
     Logic logic = Logic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
@@ -171,30 +170,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     }
 
     /**
-     * Logs in the user to the test environment as an admin.
-     */
-    protected void loginAsAdminWithTransaction() {
-        UserInfo user = mockUserProvision.loginAsAdminWithTransaction(Config.APP_ADMINS.get(0));
-        assertTrue(user.isAdmin);
-    }
-
-    /**
      * Logs in the user to the test environment as an unregistered user
      * (without any right).
      */
     protected void loginAsUnregistered(String userId) {
         UserInfo user = mockUserProvision.loginUser(userId);
-        assertFalse(user.isStudent);
-        assertFalse(user.isInstructor);
-        assertFalse(user.isAdmin);
-    }
-
-    /**
-     * Logs in the user to the test environment as an unregistered user
-     * (without any right).
-     */
-    protected void loginAsUnregisteredWithTransaction(String userId) {
-        UserInfo user = mockUserProvision.loginUserWithTransaction(userId);
         assertFalse(user.isStudent);
         assertFalse(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -212,33 +192,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     }
 
     /**
-     * Logs in the user to the test environment as an instructor
-     * (without admin rights or student rights).
-     */
-    protected void loginAsInstructorWithTransaction(String userId) {
-        UserInfo user = mockUserProvision.loginAsInstructorWithTransaction(userId);
-        assertFalse(user.isStudent);
-        assertTrue(user.isInstructor);
-        assertFalse(user.isAdmin);
-    }
-
-    /**
      * Logs in the user to the test environment as a student
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudent(String userId) {
         UserInfo user = mockUserProvision.loginAsStudent(userId);
-        assertTrue(user.isStudent);
-        assertFalse(user.isInstructor);
-        assertFalse(user.isAdmin);
-    }
-
-    /**
-     * Logs in the user to the test environment as a student
-     * (without admin rights or instructor rights).
-     */
-    protected void loginAsStudentWithTransaction(String userId) {
-        UserInfo user = mockUserProvision.loginAsStudentWithTransaction(userId);
         assertTrue(user.isStudent);
         assertFalse(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -271,8 +229,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     }
 
     void grantInstructorWithSectionPrivilege(
-            Instructor instructor, String privilege, String[] sections)
-            throws Exception {
+            Instructor instructor, String privilege, String[] sections) {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
 
         for (String section : sections) {
@@ -307,24 +264,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         verifyInaccessibleForStudents(course, params);
         verifyInaccessibleForInstructors(course, params);
         verifyAccessibleForAdmin(params);
-    }
-
-    void verifyOnlyAdminCanAccessWithTransaction(String... params)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        HibernateUtil.beginTransaction();
-        Course course = getTypicalCourse();
-        course = logic.createCourse(course);
-        HibernateUtil.commitTransaction();
-
-        verifyInaccessibleWithoutLogin(params);
-        verifyInaccessibleForUnregisteredUsersWithTransaction(params);
-        verifyInaccessibleForStudentsWithTransaction(course, params);
-        verifyInaccessibleForInstructorsWithTransaction(course, params);
-        verifyAccessibleForAdminWithTransaction(params);
-
-        HibernateUtil.beginTransaction();
-        logic.deleteCourseCascade(course.getId());
-        HibernateUtil.commitTransaction();
     }
 
     void verifyOnlyInstructorsCanAccess(Course course, String... params)
@@ -389,25 +328,10 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         verifyCannotAccess(params);
     }
 
-    void verifyInaccessibleForUnregisteredUsersWithTransaction(String... params) {
-        ______TS("Non-registered users cannot access");
-
-        String unregUserId = "unreg.user";
-        loginAsUnregisteredWithTransaction(unregUserId);
-        verifyCannotAccess(params);
-    }
-
     void verifyAccessibleForAdmin(String... params) {
         ______TS("Admin can access");
 
         loginAsAdmin();
-        verifyCanAccess(params);
-    }
-
-    void verifyAccessibleForAdminWithTransaction(String... params) {
-        ______TS("Admin can access");
-
-        loginAsAdminWithTransaction();
         verifyCanAccess(params);
     }
 
@@ -428,21 +352,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
 
     }
 
-    void verifyInaccessibleForStudentsWithTransaction(Course course, String... params)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        ______TS("Students cannot access");
-        HibernateUtil.beginTransaction();
-        Student student = createTypicalStudent(course, "InaccessibleForStudents@teammates.tmt");
-        HibernateUtil.commitTransaction();
-
-        loginAsStudentWithTransaction(student.getAccount().getGoogleId());
-        verifyCannotAccess(params);
-
-        HibernateUtil.beginTransaction();
-        logic.deleteAccountCascade(student.getAccount().getGoogleId());
-        HibernateUtil.commitTransaction();
-    }
-
     void verifyInaccessibleForInstructors(Course course, String... params)
             throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("Instructors cannot access");
@@ -451,21 +360,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         loginAsInstructor(instructor.getAccount().getGoogleId());
         verifyCannotAccess(params);
 
-    }
-
-    void verifyInaccessibleForInstructorsWithTransaction(Course course, String... params)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        ______TS("Instructors cannot access");
-        HibernateUtil.beginTransaction();
-        Instructor instructor = createTypicalInstructor(course, "InaccessibleForInstructors@teammates.tmt");
-        HibernateUtil.commitTransaction();
-
-        loginAsInstructorWithTransaction(instructor.getAccount().getGoogleId());
-        verifyCannotAccess(params);
-
-        HibernateUtil.beginTransaction();
-        logic.deleteAccountCascade(instructor.getAccount().getGoogleId());
-        HibernateUtil.commitTransaction();
     }
 
     void verifyAccessibleForAdminToMasqueradeAsInstructor(

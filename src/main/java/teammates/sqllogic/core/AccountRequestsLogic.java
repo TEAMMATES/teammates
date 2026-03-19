@@ -7,10 +7,8 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlsearch.AccountRequestSearchManager;
 
 /**
  * Handles operations related to account requests.
@@ -39,17 +37,6 @@ public final class AccountRequestsLogic {
         this.accountRequestDb = accountRequestDb;
     }
 
-    private AccountRequestSearchManager getSearchManager() {
-        return accountRequestDb.getSearchManager();
-    }
-
-    /**
-     * Creates or updates search document for the given account request.
-     */
-    public void putDocument(AccountRequest accountRequest) throws SearchServiceException {
-        getSearchManager().putDocument(accountRequest);
-    }
-
     /**
      * Creates an account request.
      */
@@ -75,42 +62,11 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Gets the account request associated with the {@code id}.
-     */
-    public AccountRequest getAccountRequestWithTransaction(UUID id) {
-        HibernateUtil.beginTransaction();
-        AccountRequest request = accountRequestDb.getAccountRequest(id);
-        HibernateUtil.commitTransaction();
-        return request;
-    }
-
-    /**
      * Updates an account request.
      */
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
         return accountRequestDb.updateAccountRequest(accountRequest);
-    }
-
-    /**
-     * Updates an account request.
-     */
-    @SuppressWarnings("PMD.PreserveStackTrace")
-    public AccountRequest updateAccountRequestWithTransaction(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        HibernateUtil.beginTransaction();
-        AccountRequest updatedRequest;
-
-        try {
-            updatedRequest = accountRequestDb.updateAccountRequest(accountRequest);
-            HibernateUtil.commitTransaction();
-        } catch (InvalidParametersException ipe) {
-            HibernateUtil.rollbackTransaction();
-            throw new InvalidParametersException(ipe.getMessage());
-        }
-
-        return updatedRequest;
     }
 
     /**
@@ -137,15 +93,13 @@ public final class AccountRequestsLogic {
     /**
      * Get a list of account requests associated with email provided.
      */
-    public List<AccountRequest> getApprovedAccountRequestsForEmailWithTransaction(String email) {
-        HibernateUtil.beginTransaction();
-        List<AccountRequest> accountRequests = accountRequestDb.getApprovedAccountRequestsForEmail(email);
-        HibernateUtil.commitTransaction();
-        return accountRequests;
+    public List<AccountRequest> getApprovedAccountRequestsForEmail(String email) {
+        return accountRequestDb.getApprovedAccountRequestsForEmail(email);
     }
 
     /**
-     * Creates/resets the account request with the given id such that it is not registered.
+     * Creates/resets the account request with the given id such that it is not
+     * registered.
      */
     public AccountRequest resetAccountRequest(UUID id)
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -163,7 +117,10 @@ public final class AccountRequestsLogic {
     /**
      * Deletes account request associated with the {@code id}.
      *
-     * <p>Fails silently if no account requests with the given id to delete can be found.</p>
+     * <p>
+     * Fails silently if no account requests with the given id to delete can be
+     * found.
+     * </p>
      *
      */
     public void deleteAccountRequest(UUID id) {
@@ -180,24 +137,5 @@ public final class AccountRequestsLogic {
     public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
             throws SearchServiceException {
         return accountRequestDb.searchAccountRequestsInWholeSystem(queryString);
-    }
-
-    /**
-     * Creates an or gets an account request.
-     */
-    public AccountRequest createOrGetAccountRequestWithTransaction(String name, String email, String institute,
-            AccountRequestStatus status, String comments)
-            throws InvalidParametersException {
-        AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
-        HibernateUtil.beginTransaction();
-        AccountRequest accountRequest;
-        try {
-            accountRequest = accountRequestDb.createAccountRequest(toCreate);
-            HibernateUtil.commitTransaction();
-        } catch (InvalidParametersException ipe) {
-            HibernateUtil.rollbackTransaction();
-            throw new InvalidParametersException(ipe);
-        }
-        return accountRequest;
     }
 }
