@@ -31,7 +31,6 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
-  isAllCollapsed="false"
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -191,7 +190,6 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
-  isAllCollapsed="false"
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -348,7 +346,6 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
-  isAllCollapsed="false"
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -505,7 +502,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
-  isAllCollapsed="false"
   isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -795,7 +791,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
-  isAllCollapsed="false"
   isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
@@ -1006,7 +1001,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       >
         <button
           class="btn btn-light"
-          id="btn-collapse-expand"
+          id="btn-collapse-all"
         >
            Collapse All 
         </button>
@@ -3843,7 +3838,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
-  isAllCollapsed="false"
   isCourseLoading="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
@@ -4054,7 +4048,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       >
         <button
           class="btn btn-light"
-          id="btn-collapse-expand"
+          id="btn-collapse-all"
         >
            Collapse All 
         </button>
@@ -6922,7 +6916,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
-  isAllCollapsed="false"
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -7080,7 +7073,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   hasLoadedAllRecipients="false"
   instructorService={[Function InstructorService]}
   intent={[Function String]}
-  isAllCollapsed="false"
   isCourseLoading={[Function Boolean]}
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}

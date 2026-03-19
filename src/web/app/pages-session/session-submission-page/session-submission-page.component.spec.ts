@@ -1283,18 +1283,18 @@ describe('Expand and Collapse All buttons', () => {
         expect(component.questionSubmissionForms.every((q) => q.isTabExpanded)).toBe(false);
     });
 
-   it('should show Expand All and Collapse All buttons', () => {
-       component.questionSubmissionForms = [
-           { isTabExpanded: true, isTabExpandedForRecipients: new Map() } as any,
-           { isTabExpanded: false, isTabExpandedForRecipients: new Map() } as any,
-       ];
-       component.isFeedbackSessionQuestionsLoading = false;
-       fixture.detectChanges();
+it('should show Expand All and Collapse All buttons', () => {
+    component.questionSubmissionForms = [
+        { ...testMcqQuestionSubmissionForm, isTabExpanded: true },
+        { ...testTextQuestionSubmissionForm, isTabExpanded: false },
+    ];
+    component.isFeedbackSessionQuestionsLoading = false;
+    fixture.detectChanges();
 
-       const buttons = fixture.nativeElement.querySelectorAll('button');
-       const texts = Array.from(buttons).map((b: any) => b.textContent.trim());
-       expect(texts).toContain('Collapse All');
-       expect(texts).toContain('Expand All');
-   });
+    const buttons = fixture.nativeElement.querySelectorAll('button');
+    const texts = Array.from(buttons).map((b: any) => b.textContent.trim());
+    expect(texts).toContain('Collapse All');
+    expect(texts).toContain('Expand All');
+});
 });
 });
