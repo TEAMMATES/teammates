@@ -1171,19 +1171,33 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       studentId: this.studentId,
     }).subscribe();
   }
-isAllCollapsed: boolean = false;
-
-expandAllQuestions(): void {
-    this.questionSubmissionForms.forEach((q) => {
-        q.isTabExpanded = true;
-    });
-    this.isAllCollapsed = false;
+get isAllExpanded(): boolean {
+  return this.questionSubmissionForms.every((q) => q.isTabExpanded);
 }
 
-  collapseAllQuestions(): void {
-      this.questionSubmissionForms.forEach((q) => {
-          q.isTabExpanded = false;
-      });
-      this.isAllCollapsed = true;
-  }
+get isAllCollapsed(): boolean {
+  return this.questionSubmissionForms.every((q) => !q.isTabExpanded);
+}
+
+expandAllQuestions(): void {
+  this.questionSubmissionForms.forEach((q) => {
+    q.isTabExpanded = true;
+    const newMap = new Map<string, boolean>();
+    this.recipientQuestionMap.forEach((_, recipientId) => {
+      newMap.set(recipientId, true);
+    });
+    q.isTabExpandedForRecipients = newMap;
+  });
+}
+
+collapseAllQuestions(): void {
+  this.questionSubmissionForms.forEach((q) => {
+    q.isTabExpanded = false;
+    const newMap = new Map<string, boolean>();
+    this.recipientQuestionMap.forEach((_, recipientId) => {
+      newMap.set(recipientId, false);
+    });
+    q.isTabExpandedForRecipients = newMap;
+  });
+}
 }

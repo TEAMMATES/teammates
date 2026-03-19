@@ -1265,32 +1265,36 @@ describe('SessionSubmissionPageComponent', () => {
   });
 describe('Expand and Collapse All buttons', () => {
 
-    it('should expand all questions', () => {
-        component.questionSubmissionForms = [
-            { isTabExpanded: false } as any,
-            { isTabExpanded: false } as any,
-        ];
-        component.expandAllQuestions();
-        expect(component.questionSubmissionForms.every((q) => q.isTabExpanded)).toBe(true);
-    });
+   it('should expand all questions', () => {
+       component.questionSubmissionForms = [
+           { isTabExpanded: false, isTabExpandedForRecipients: new Map() } as any,
+           { isTabExpanded: false, isTabExpandedForRecipients: new Map() } as any,
+       ];
+       component.expandAllQuestions();
+       expect(component.questionSubmissionForms.every((q) => q.isTabExpanded)).toBe(true);
+   });
 
     it('should collapse all questions', () => {
         component.questionSubmissionForms = [
-            { isTabExpanded: true } as any,
-            { isTabExpanded: true } as any,
+            { isTabExpanded: true, isTabExpandedForRecipients: new Map() } as any,
+            { isTabExpanded: true, isTabExpandedForRecipients: new Map() } as any,
         ];
         component.collapseAllQuestions();
         expect(component.questionSubmissionForms.every((q) => q.isTabExpanded)).toBe(false);
     });
 
    it('should show Expand All and Collapse All buttons', () => {
-       component.questionSubmissionForms = [];
+       component.questionSubmissionForms = [
+           { isTabExpanded: true, isTabExpandedForRecipients: new Map() } as any,
+           { isTabExpanded: false, isTabExpandedForRecipients: new Map() } as any,
+       ];
        component.isFeedbackSessionQuestionsLoading = false;
        fixture.detectChanges();
 
        const buttons = fixture.nativeElement.querySelectorAll('button');
        const texts = Array.from(buttons).map((b: any) => b.textContent.trim());
        expect(texts).toContain('Collapse All');
+       expect(texts).toContain('Expand All');
    });
 });
 });

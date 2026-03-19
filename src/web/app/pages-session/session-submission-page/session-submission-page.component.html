@@ -135,10 +135,18 @@
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
     <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
         <div class="text-center">
-            <button id="btn-collapse-expand" class="btn btn-light"
-                    (click)="isAllCollapsed ? expandAllQuestions() : collapseAllQuestions()">
-                {{ isAllCollapsed ? 'Expand' : 'Collapse' }} All
+            @if (!isAllExpanded) {
+            <button id="btn-expand-all" class="btn btn-light"
+                    (click)="expandAllQuestions()">
+                Expand All
             </button>
+            }
+            @if (!isAllCollapsed) {
+            <button id="btn-collapse-all" class="btn btn-light"
+                    (click)="collapseAllQuestions()">
+                Collapse All
+            </button>
+            }
         </div>
         @if (currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS) {
         <h1 class="my-3">Grouped Questions</h1>
