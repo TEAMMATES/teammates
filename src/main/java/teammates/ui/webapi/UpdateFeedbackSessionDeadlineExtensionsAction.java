@@ -57,9 +57,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        assert feedbackSession != null;
 
         FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
                 getAndValidateRequestBody(FeedbackSessionDeadlineExtensionsUpdateRequest.class);
