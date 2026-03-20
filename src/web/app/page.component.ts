@@ -234,6 +234,10 @@ export class PageComponent {
     if (this.providerModalRef) {
       this.providerModalRef.close();
     }
-    window.location.href = loginUrl;
+    this.redirectTo(loginUrl);
+  }
+
+  redirectTo(url: string): void {
+    window.location.assign(url);
   }
 }
