@@ -343,6 +343,7 @@ public final class Const {
         public static final String ACCOUNT_REQUESTS = URI_PREFIX + "/account/requests";
         public static final String ACCOUNT_REQUEST_RESET = ACCOUNT_REQUEST + "/reset";
         public static final String ACCOUNT_REQUEST_REJECTION = ACCOUNT_REQUEST + "/rejection";
+        public static final String ACCOUNT_REQUEST_APPROVAL = ACCOUNT_REQUEST + "/approval";
         public static final String ACCOUNTS = URI_PREFIX + "/accounts";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String COURSE = URI_PREFIX + "/course";
