@@ -30,6 +30,9 @@ public class MarkNotificationsAsReadRequest extends BasicRequest {
         }
     }
 
+    /**
+     * Represents the read status of a specific notification.
+     */
     public static class NotificationReadStatus {
         private String notificationId;
         private long endTimestamp;
