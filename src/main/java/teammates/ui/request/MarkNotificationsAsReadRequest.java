@@ -7,27 +7,6 @@ import java.util.List;
  */
 public class MarkNotificationsAsReadRequest extends BasicRequest {
 
-    public static class NotificationReadStatus {
-        private String notificationId;
-        private long endTimestamp;
-
-        public NotificationReadStatus() {
-        }
-
-        public NotificationReadStatus(String notificationId, long endTimestamp) {
-            this.notificationId = notificationId;
-            this.endTimestamp = endTimestamp;
-        }
-
-        public String getNotificationId() {
-            return notificationId;
-        }
-
-        public long getEndTimestamp() {
-            return endTimestamp;
-        }
-    }
-
     private List<NotificationReadStatus> notifications;
 
     public MarkNotificationsAsReadRequest() {
@@ -48,6 +27,27 @@ public class MarkNotificationsAsReadRequest extends BasicRequest {
             assertTrue(notification != null, "Notification status should not be null.");
             assertTrue(notification.getNotificationId() != null, "Notification id should not be null.");
             assertTrue(notification.getEndTimestamp() > 0L, "End timestamp should be more than zero");
+        }
+    }
+
+    public static class NotificationReadStatus {
+        private String notificationId;
+        private long endTimestamp;
+
+        public NotificationReadStatus() {
+        }
+
+        public NotificationReadStatus(String notificationId, long endTimestamp) {
+            this.notificationId = notificationId;
+            this.endTimestamp = endTimestamp;
+        }
+
+        public String getNotificationId() {
+            return notificationId;
+        }
+
+        public long getEndTimestamp() {
+            return endTimestamp;
         }
     }
 }
