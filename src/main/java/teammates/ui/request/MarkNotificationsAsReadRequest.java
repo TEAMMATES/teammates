@@ -9,7 +9,11 @@ public class MarkNotificationsAsReadRequest extends BasicRequest {
 
     private List<NotificationReadStatus> notifications;
 
+    /**
+     * Default constructor is required for Jackson deserialization.
+     */
     public MarkNotificationsAsReadRequest() {
+        // Default constructor for Jackson deserialization
     }
 
     public MarkNotificationsAsReadRequest(List<NotificationReadStatus> notifications) {
@@ -37,7 +41,11 @@ public class MarkNotificationsAsReadRequest extends BasicRequest {
         private String notificationId;
         private long endTimestamp;
 
+        /**
+         * Default constructor is required for Jackson deserialization.
+         */
         public NotificationReadStatus() {
+            // Default constructor for Jackson deserialization
         }
 
         public NotificationReadStatus(String notificationId, long endTimestamp) {
