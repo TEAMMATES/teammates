@@ -98,13 +98,15 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Get all Account Requests for a given {@code email}.
+     * Get all Account Requests for a given {@code email} and {@code institute}.
      */
-    public List<AccountRequest> getApprovedAccountRequestsForEmail(String email) {
+    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.and(cb.equal(root.get("email"), email),
+        cr.select(root).where(cb.and(
+                cb.equal(root.get("email"), email),
+                cb.equal(root.get("institute"), institute),
                 cb.equal(root.get("status"), AccountRequestStatus.APPROVED)));
 
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
