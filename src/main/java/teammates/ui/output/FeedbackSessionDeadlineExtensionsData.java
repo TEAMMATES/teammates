@@ -52,19 +52,4 @@ public class FeedbackSessionDeadlineExtensionsData extends ApiOutput {
     public void setInstructorDeadlines(Map<String, Long> instructorDeadlines) {
         this.instructorDeadlines = instructorDeadlines;
     }
-
-    /**
-     * Hides deadline information from an instructor without appropriate privilege.
-     */
-    public void hideInformationForInstructor() {
-        studentDeadlines.clear();
-    }
-
-    /**
-     * Hides deadline information from an instructor without appropriate privilege.
-     */
-    public void hideInformationForInstructor(String instructorEmail) {
-        instructorDeadlines.keySet().removeIf(email -> !(email.equals(instructorEmail)));
-        studentDeadlines.clear();
-    }
 }
