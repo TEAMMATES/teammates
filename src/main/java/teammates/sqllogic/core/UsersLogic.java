@@ -335,6 +335,16 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets a non-soft-deleted instructor with the specified email and institute.
+     */
+    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
+        assert email != null;
+        assert institute != null;
+
+        return usersDb.getInstructorByEmailAndInstitute(email, institute);
+    }
+
+    /**
      * Make the instructor join the course, i.e. associate an account to the instructor with the given googleId.
      * Creates an account for the instructor if no existing account is found.
      * Preconditions:
