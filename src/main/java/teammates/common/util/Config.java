@@ -127,9 +127,14 @@ public final class Config {
             assert false;
         }
 
-        String appVersion = properties.getProperty("app.version");
         String appId = properties.getProperty("app.id");
-        IS_DEV_SERVER = isDevServer(appVersion, appId);
+
+        // Hardcoded application version (single source of truth).
+        // NOTE: keep in sync with src/web/environments/config.template.ts (frontend)
+        final String HARDCODED_APP_VERSION = "8.0.0";
+
+        // Use the hardcoded version when determining dev vs prod server.
+        IS_DEV_SERVER = isDevServer(HARDCODED_APP_VERSION, appId);
 
         Properties devProperties = new Properties();
         if (IS_DEV_SERVER) {
@@ -141,10 +146,11 @@ public final class Config {
                 log.warning("Dev environment detected but failed to load build-dev.properties file.");
             }
             APP_ID = getProperty(properties, devProperties, "app.id");
-            APP_VERSION = getProperty(properties, devProperties, "app.version");
+            // Do not read `app.version` from build.properties anymore; use the hardcoded value.
+            APP_VERSION = HARDCODED_APP_VERSION;
         } else {
             APP_ID = appId;
-            APP_VERSION = appVersion;
+            APP_VERSION = HARDCODED_APP_VERSION;
         }
 
         APP_REGION = getProperty(properties, devProperties, "app.region");
