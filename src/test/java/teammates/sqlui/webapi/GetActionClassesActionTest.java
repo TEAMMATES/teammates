@@ -114,6 +114,7 @@ import teammates.ui.webapi.UpdateCourseAction;
 import teammates.ui.webapi.UpdateFeedbackQuestionAction;
 import teammates.ui.webapi.UpdateFeedbackResponseCommentAction;
 import teammates.ui.webapi.UpdateFeedbackSessionAction;
+import teammates.ui.webapi.UpdateFeedbackSessionDeadlineExtensionsAction;
 import teammates.ui.webapi.UpdateFeedbackSessionLogsAction;
 import teammates.ui.webapi.UpdateInstructorAction;
 import teammates.ui.webapi.UpdateInstructorPrivilegeAction;
@@ -171,6 +172,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateFeedbackSessionAction.class,
                 GetFeedbackSessionAction.class,
                 UpdateFeedbackSessionAction.class,
+                UpdateFeedbackSessionDeadlineExtensionsAction.class,
                 FeedbackSessionClosingSoonRemindersAction.class,
                 GetTimeZonesAction.class,
                 FeedbackSessionRemindParticularUsersEmailWorkerAction.class,

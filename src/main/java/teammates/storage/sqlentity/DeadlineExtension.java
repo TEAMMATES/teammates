@@ -28,6 +28,9 @@ public class DeadlineExtension extends BaseEntity {
     @Id
     private UUID id;
 
+    @Column(nullable = false, insertable = false, updatable = false)
+    private UUID userId;
+
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "userId", nullable = false)
@@ -66,12 +69,20 @@ public class DeadlineExtension extends BaseEntity {
         this.id = id;
     }
 
+    public UUID getUserId() {
+        return userId;
+    }
+
     public User getUser() {
         return user;
     }
 
+    /**
+     * Sets the user as well as the userId.
+     */
     public void setUser(User user) {
         this.user = user;
+        this.userId = user.getId();
     }
 
     public FeedbackSession getFeedbackSession() {
