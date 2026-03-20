@@ -41,10 +41,12 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String provider = determineAuthProvider(req);
+
         AuthResult authResult;
-        if (Config.isUsingFirebase()) {
+        if ("firebase".equals(provider)) {
             authResult = getFirebaseAuthResult(req, resp);
-        } else if (Config.isUsingMicrosoftEntra()) {
+        } else if ("entra".equals(provider)) {
             authResult = getMicrosoftEntraAuthResult(req, resp);
         } else {
             authResult = getGoogleOauth2AuthResult(req, resp);
@@ -70,6 +72,28 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
         resp.addCookie(cookie);
         resp.sendRedirect(authResult.nextUrl);
+    }
+
+    private String determineAuthProvider(HttpServletRequest req) {
+        String state = req.getParameter("state");
+        if (state != null) {
+            try {
+                AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
+                if (authState.getProvider() != null) {
+                    return authState.getProvider();
+                }
+            } catch (Exception e) {
+                log.warning("Failed to extract provider from state, falling back to global config");
+            }
+        }
+        // Fallback to global config
+        if (Config.isUsingFirebase()) {
+            return "firebase";
+        } else if (Config.isUsingMicrosoftEntra()) {
+            return "entra";
+        } else {
+            return "google";
+        }
     }
 
     private AuthResult getMicrosoftEntraAuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {

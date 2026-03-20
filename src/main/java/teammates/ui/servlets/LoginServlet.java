@@ -31,6 +31,7 @@ public class LoginServlet extends AuthServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String nextUrl = req.getParameter("nextUrl");
+        String provider = req.getParameter("provider");
         if (nextUrl == null) {
             nextUrl = "/";
         }
@@ -52,14 +53,20 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
-        if (Config.isUsingFirebase()) {
+        // Determine which auth provider to use: explicit provider param or fallback to global config
+        boolean useFirebase = provider != null && provider.equals("firebase") ? true : Config.isUsingFirebase();
+        boolean useEntra = provider != null && provider.equals("entra") ? true : Config.isUsingMicrosoftEntra();
+        boolean useGoogle = provider != null && provider.equals("google") ? true 
+                : (!useFirebase && !useEntra);
+
+        if (useFirebase) {
             log.request(req, HttpStatus.SC_MOVED_PERMANENTLY, "Redirect to web login page");
 
             // nextUrl query param is encoded to retain its full value as the nextUrl may contain query params
             resp.sendRedirect("/web/login?nextUrl="
                     + nextUrl.replace("?", "%3f").replace("&", "%26"));
-        } else if (Config.isUsingMicrosoftEntra()) {
-            AuthState state = new AuthState(nextUrl, req.getSession().getId());
+        } else if (useEntra) {
+            AuthState state = new AuthState(nextUrl, req.getSession().getId(), "entra");
             String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
             AuthorizationRequestUrlParameters params = AuthorizationRequestUrlParameters
                     .builder(getMicrosoftRedirectUri(req), Set.of("openid", "email"))
@@ -71,8 +78,8 @@ public class LoginServlet extends AuthServlet {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Microsoft sign-in page");
 
             resp.sendRedirect(authorizationUrl.toString());
-        } else {
-            AuthState state = new AuthState(nextUrl, req.getSession().getId());
+        } else if (useGoogle) {
+            AuthState state = new AuthState(nextUrl, req.getSession().getId(), "google");
             AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
             authorizationUrl.setRedirectUri(getRedirectUri(req));
             authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));

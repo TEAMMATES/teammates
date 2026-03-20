@@ -109,10 +109,16 @@ abstract class AuthServlet extends HttpServlet {
     static class AuthState {
         private final String nextUrl;
         private final String sessionId;
+        private final String provider;
 
         AuthState(String nextUrl, String sessionId) {
+            this(nextUrl, sessionId, null);
+        }
+
+        AuthState(String nextUrl, String sessionId, String provider) {
             this.nextUrl = nextUrl;
             this.sessionId = sessionId;
+            this.provider = provider;
         }
 
         String getNextUrl() {
@@ -121,6 +127,10 @@ abstract class AuthServlet extends HttpServlet {
 
         public String getSessionId() {
             return sessionId;
+        }
+
+        String getProvider() {
+            return provider;
         }
     }
 
