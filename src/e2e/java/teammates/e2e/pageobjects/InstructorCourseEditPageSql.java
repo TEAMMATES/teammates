@@ -665,19 +665,19 @@ public class InstructorCourseEditPageSql extends AppPage {
     }
 
     public Map<String, Boolean> permissionSetToMapFormat(InstructorPermissionSet permissionSet) {
-        Map<String, Boolean> legacyFormat = new HashMap<>();
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, permissionSet.isCanModifyCourse());
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, permissionSet.isCanModifyInstructor());
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, permissionSet.isCanModifySession());
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, permissionSet.isCanModifyStudent());
-        legacyFormat.put(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
+        Map<String, Boolean> map = new HashMap<>();
+        map.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, permissionSet.isCanModifyCourse());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, permissionSet.isCanModifyInstructor());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, permissionSet.isCanModifySession());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, permissionSet.isCanModifyStudent());
+        map.put(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
                 permissionSet.isCanViewStudentInSections());
-        legacyFormat.put(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
+        map.put(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
                 permissionSet.isCanViewSessionInSections());
-        legacyFormat.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
+        map.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 permissionSet.isCanSubmitSessionInSections());
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 permissionSet.isCanModifySessionCommentsInSections());
-        return legacyFormat;
+        return map;
     }
 }
