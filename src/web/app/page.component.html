@@ -38,8 +38,8 @@
             <button class="bg-transparent btn btn-link nav-link dropdown-toggle"
             data-toggle="dropdown" tabindex="0" ngbDropdownToggle>Login</button>
             <div class="dropdown-menu-right" ngbDropdownMenu>
-              <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
-              <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
+              <button class="dropdown-item" type="button" id="student-login-btn" (click)="openProviderModal('student')">Student Login</button>
+              <button class="dropdown-item" type="button" id="instructor-login-btn" (click)="openProviderModal('instructor')">Instructor Login</button>
             </div>
           </li>
         }
@@ -175,3 +175,22 @@
           </div>
         </div>
       </footer>
+
+      <!-- Auth Provider Selection Modal -->
+      <ng-template #providerModal let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title">Select Login Method</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-center mb-4">Choose your preferred authentication method to log in.</p>
+          <div class="d-grid gap-2">
+            <button type="button" class="btn btn-primary btn-lg" (click)="loginWithProvider('google')">
+              <i class="fab fa-google"></i>&nbsp;Continue with Google
+            </button>
+            <button type="button" class="btn btn-primary btn-lg" (click)="loginWithProvider('entra')">
+              <i class="fab fa-microsoft"></i>&nbsp;Continue with Microsoft Entra ID
+            </button>
+          </div>
+        </div>
+      </ng-template>

@@ -1,8 +1,8 @@
 import { Location, NgStyle, AsyncPipe } from '@angular/common';
-import { Component, Directive, ElementRef, EventEmitter, HostListener, Input, Output, forwardRef } from '@angular/core';
+import { Component, Directive, ElementRef, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild, forwardRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { NgbModal, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
@@ -83,6 +83,8 @@ export class PageComponent {
   @Input() hideAuthInfo: boolean = false;
   @Input() navItems: any[] = [];
 
+  @ViewChild('providerModal') providerModal!: TemplateRef<any>;
+
   isCollapsed: boolean = true;
   isUnsupportedBrowser: boolean = false;
   isCookieDisabled: boolean = false;
@@ -91,6 +93,10 @@ export class PageComponent {
   version: string = environment.version;
   logoutUrl: string = `${environment.backendUrl}/logout`;
   toast: Toast | null = null;
+
+  private currentRole: 'student' | 'instructor' | null = null;
+  private providerModalRef: NgbModalRef | null = null;
+  private backendUrl: string = environment.backendUrl;
 
   /**
    * Minimum versions of browsers supported.
@@ -191,5 +197,43 @@ export class PageComponent {
     } else {
       window.location.href = this.logoutUrl;
     }
+  }
+
+  /**
+   * Opens the auth provider selection modal for the given role.
+   * @param role - 'student' or 'instructor'
+   */
+  openProviderModal(role: 'student' | 'instructor'): void {
+    this.currentRole = role;
+    this.providerModalRef = this.ngbModal.open(this.providerModal, { centered: true });
+  }
+
+  /**
+   * Logs in with the selected auth provider and role.
+   * Constructs the appropriate login URL with provider parameter and redirects.
+   * @param provider - 'google' or 'entra'
+   */
+  loginWithProvider(provider: 'google' | 'entra'): void {
+    if (!this.currentRole) {
+      this.statusMessageService.showErrorToast('Role not selected');
+      return;
+    }
+
+    // Construct the next URL based on role
+    const nextUrlMap: Record<string, string> = {
+      student: '/web/student/home',
+      instructor: '/web/instructor/home',
+    };
+    
+    const nextUrl = nextUrlMap[this.currentRole] || '/';
+
+    // Construct login URL with provider parameter
+    const loginUrl = `${this.backendUrl}/login?provider=${provider}&nextUrl=${encodeURIComponent(nextUrl)}`;
+
+    // Close modal and redirect
+    if (this.providerModalRef) {
+      this.providerModalRef.close();
+    }
+    window.location.href = loginUrl;
   }
 }

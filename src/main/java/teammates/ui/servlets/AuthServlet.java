@@ -75,7 +75,7 @@ abstract class AuthServlet extends HttpServlet {
      * Returns the redirect URI for Microsoft Entra ID for the given HTTP servlet request.
      */
     String getMicrosoftRedirectUri(HttpServletRequest req) {
-        GenericUrl url = new GenericUrl(getSecureRequestUrl(req));
+        GenericUrl url = new GenericUrl(getInsecureRequestUrl(req));
         url.setRawPath("/oauth2callback");
         return url.build();
     }
@@ -101,6 +101,11 @@ abstract class AuthServlet extends HttpServlet {
 
     String getSecureRequestUrl(HttpServletRequest req) {
         return req.getRequestURL().toString().replaceFirst("^http://", "https://");
+    }
+
+    // Used for localhost
+    String getInsecureRequestUrl(HttpServletRequest req) {
+        return req.getRequestURL().toString().replaceFirst("^https://", "http://");
     }
 
     /**

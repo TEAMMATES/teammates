@@ -53,19 +53,14 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
-        // Determine which auth provider to use: explicit provider param or fallback to global config
-        boolean useFirebase = provider != null && provider.equals("firebase") ? true : Config.isUsingFirebase();
-        boolean useEntra = provider != null && provider.equals("entra") ? true : Config.isUsingMicrosoftEntra();
-        boolean useGoogle = provider != null && provider.equals("google") ? true 
-                : (!useFirebase && !useEntra);
-
-        if (useFirebase) {
+        // Determine which auth provider to use
+        if ("firebase".equals(provider) || (provider == null && Config.isUsingFirebase())) {
             log.request(req, HttpStatus.SC_MOVED_PERMANENTLY, "Redirect to web login page");
 
             // nextUrl query param is encoded to retain its full value as the nextUrl may contain query params
             resp.sendRedirect("/web/login?nextUrl="
                     + nextUrl.replace("?", "%3f").replace("&", "%26"));
-        } else if (useEntra) {
+        } else if ("entra".equals(provider) || (provider == null && Config.isUsingMicrosoftEntra())) {
             AuthState state = new AuthState(nextUrl, req.getSession().getId(), "entra");
             String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
             AuthorizationRequestUrlParameters params = AuthorizationRequestUrlParameters
@@ -78,7 +73,7 @@ public class LoginServlet extends AuthServlet {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Microsoft sign-in page");
 
             resp.sendRedirect(authorizationUrl.toString());
-        } else if (useGoogle) {
+        } else {
             AuthState state = new AuthState(nextUrl, req.getSession().getId(), "google");
             AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
             authorizationUrl.setRedirectUri(getRedirectUri(req));
