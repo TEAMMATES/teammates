@@ -131,12 +131,8 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (req.getQueryString() != null) {
             buf.append('?').append(req.getQueryString());
         }
-        String callbackUrl = buf.toString();
-        if (!Config.IS_DEV_SERVER) {
-            callbackUrl = callbackUrl.replaceFirst("^http://", "https://");
-        }
         AuthorizationCodeResponseUrl responseUrl =
-                new AuthorizationCodeResponseUrl(callbackUrl);
+                new AuthorizationCodeResponseUrl(buf.toString().replaceFirst("^http://", "https://"));
         if (responseUrl.getError() != null) {
             logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, responseUrl.getError());
             return null;
