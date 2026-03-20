@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -121,55 +120,6 @@ public final class InstructorPrivileges {
             setDefaultPrivilegesForCustom();
             break;
         }
-    }
-
-    public InstructorPrivileges(InstructorPrivilegesLegacy legacyFormat) {
-        this.courseLevel = InstructorPermissionSet.fromLegacyMapFormat(legacyFormat.getCourseLevel());
-
-        this.sectionLevel = new LinkedHashMap<>();
-        for (Map.Entry<String, Map<String, Boolean>> entry : legacyFormat.getSectionLevel().entrySet()) {
-            this.sectionLevel.put(entry.getKey(), InstructorPermissionSet.fromLegacyMapFormat(entry.getValue()));
-        }
-
-        this.sessionLevel = new LinkedHashMap<>();
-        for (Map.Entry<String, Map<String, Map<String, Boolean>>> section : legacyFormat.getSessionLevel().entrySet()) {
-            Map<String, InstructorPermissionSet> sessionMap = new HashMap<>();
-            for (Map.Entry<String, Map<String, Boolean>> session : section.getValue().entrySet()) {
-                sessionMap.put(session.getKey(), InstructorPermissionSet.fromLegacyMapFormat(session.getValue()));
-            }
-            this.sessionLevel.put(section.getKey(), sessionMap);
-        }
-    }
-
-    /**
-     * Converts the current privilege object to its legacy format.
-     */
-    public InstructorPrivilegesLegacy toLegacyFormat() {
-        InstructorPrivilegesLegacy privilegesLegacy = new InstructorPrivilegesLegacy();
-        privilegesLegacy.getCourseLevel().putAll(courseLevel.toLegacyMapFormat());
-        for (Map.Entry<String, InstructorPermissionSet> entry : sectionLevel.entrySet()) {
-            Map<String, Boolean> legacySectionMap = new HashMap<>();
-            for (Map.Entry<String, Boolean> section : entry.getValue().toLegacyMapFormat().entrySet()) {
-                if (isPrivilegeNameValidForSectionLevel(section.getKey())) {
-                    legacySectionMap.put(section.getKey(), section.getValue());
-                }
-            }
-            privilegesLegacy.getSectionLevel().put(entry.getKey(), legacySectionMap);
-        }
-        for (Map.Entry<String, Map<String, InstructorPermissionSet>> section : sessionLevel.entrySet()) {
-            Map<String, Map<String, Boolean>> sessionMap = new HashMap<>();
-            for (Map.Entry<String, InstructorPermissionSet> entry : section.getValue().entrySet()) {
-                Map<String, Boolean> legacySessionMap = new HashMap<>();
-                for (Map.Entry<String, Boolean> session : entry.getValue().toLegacyMapFormat().entrySet()) {
-                    if (isPrivilegeNameValidForSessionLevel(session.getKey())) {
-                        legacySessionMap.put(session.getKey(), session.getValue());
-                    }
-                }
-                sessionMap.put(entry.getKey(), legacySessionMap);
-            }
-            privilegesLegacy.getSessionLevel().put(section.getKey(), sessionMap);
-        }
-        return privilegesLegacy;
     }
 
     /**

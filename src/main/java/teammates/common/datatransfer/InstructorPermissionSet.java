@@ -1,8 +1,5 @@
 package teammates.common.datatransfer;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import teammates.common.util.Const;
 
 /**
@@ -148,40 +145,6 @@ public class InstructorPermissionSet {
         default:
             break;
         }
-    }
-
-    /**
-     * Returns the legacy map representation of this permission set structure.
-     */
-    public Map<String, Boolean> toLegacyMapFormat() {
-        Map<String, Boolean> legacyFormat = new HashMap<>();
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, canModifyCourse);
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, canModifyInstructor);
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, canModifySession);
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, canModifyStudent);
-        legacyFormat.put(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, canViewStudentInSections);
-        legacyFormat.put(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, canViewSessionInSections);
-        legacyFormat.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, canSubmitSessionInSections);
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                canModifySessionCommentsInSections);
-        return legacyFormat;
-    }
-
-    static InstructorPermissionSet fromLegacyMapFormat(Map<String, Boolean> legacyMap) {
-        InstructorPermissionSet ips = new InstructorPermissionSet();
-        ips.setCanModifyCourse(legacyMap.getOrDefault(Const.InstructorPermissions.CAN_MODIFY_COURSE, false));
-        ips.setCanModifyInstructor(legacyMap.getOrDefault(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false));
-        ips.setCanModifyStudent(legacyMap.getOrDefault(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false));
-        ips.setCanModifySession(legacyMap.getOrDefault(Const.InstructorPermissions.CAN_MODIFY_SESSION, false));
-        ips.setCanViewStudentInSections(
-                legacyMap.getOrDefault(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false));
-        ips.setCanViewSessionInSections(
-                legacyMap.getOrDefault(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, false));
-        ips.setCanSubmitSessionInSections(
-                legacyMap.getOrDefault(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, false));
-        ips.setCanModifySessionCommentsInSections(
-                legacyMap.getOrDefault(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, false));
-        return ips;
     }
 
     @Override
