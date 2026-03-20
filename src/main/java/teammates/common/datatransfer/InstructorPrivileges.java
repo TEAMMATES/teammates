@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import teammates.common.util.Const;
@@ -426,14 +427,11 @@ public final class InstructorPrivileges {
 
     @Override
     public int hashCode() {
-        int prime = 31;
-        int result = 1;
-
-        result = prime * result + this.getCourseLevelPrivileges().hashCode();
-        result = prime * result + this.getSectionLevelPrivileges().hashCode();
-        result = prime * result + this.getSessionLevelPrivileges().hashCode();
-
-        return result;
+        return Objects.hash(
+            this.getCourseLevelPrivileges(),
+            this.getSectionLevelPrivileges(),
+            this.getSessionLevelPrivileges()
+        );
     }
 
 }

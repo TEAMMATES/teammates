@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import java.util.Objects;
+
 import teammates.common.util.Const;
 
 /**
@@ -169,19 +171,16 @@ public class InstructorPermissionSet {
 
     @Override
     public int hashCode() {
-        int prime = 31;
-        int result = 1;
-
-        result = prime * result + Boolean.hashCode(canModifyCourse);
-        result = prime * result + Boolean.hashCode(canModifyInstructor);
-        result = prime * result + Boolean.hashCode(canModifySession);
-        result = prime * result + Boolean.hashCode(canModifyStudent);
-        result = prime * result + Boolean.hashCode(canViewStudentInSections);
-        result = prime * result + Boolean.hashCode(canViewSessionInSections);
-        result = prime * result + Boolean.hashCode(canSubmitSessionInSections);
-        result = prime * result + Boolean.hashCode(canModifySessionCommentsInSections);
-
-        return result;
+        return Objects.hash(
+            canModifyCourse,
+            canModifyInstructor,
+            canModifySession,
+            canModifyStudent,
+            canViewStudentInSections,
+            canViewSessionInSections,
+            canSubmitSessionInSections,
+            canModifySessionCommentsInSections
+        );
     }
 
 }
