@@ -137,3 +137,25 @@ nav {
 button.bg-transparent.btn.btn-link.nav-link:active {
   color: white !important;
 }
+
+.modal-header {
+  background: #3c3c3c;
+  border-bottom: 1px solid rgb(255 255 255 / 20%);
+
+  .modal-title {
+    color: rgb(255 255 255 / 75%);
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    opacity: 0.75;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+  }
+}
