@@ -65,7 +65,7 @@ abstract class AuthServlet extends HttpServlet {
      * Returns the redirect URI for the given HTTP servlet request.
      */
     String getRedirectUri(HttpServletRequest req) {
-        GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
+        GenericUrl url = new GenericUrl(getSecureRequestUrl(req));
         url.setRawPath("/oauth2callback");
         url.set("ngsw-bypass", "true");
         return url.build();
@@ -75,7 +75,7 @@ abstract class AuthServlet extends HttpServlet {
      * Returns the redirect URI for Microsoft Entra ID for the given HTTP servlet request.
      */
     String getMicrosoftRedirectUri(HttpServletRequest req) {
-        GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
+        GenericUrl url = new GenericUrl(getSecureRequestUrl(req));
         url.setRawPath("/oauth2callback");
         return url.build();
     }
@@ -97,6 +97,10 @@ abstract class AuthServlet extends HttpServlet {
         cookie.setHttpOnly(true);
         cookie.setMaxAge((int) Const.COOKIE_VALIDITY_PERIOD.toSeconds()); // one week
         return cookie;
+    }
+
+    String getSecureRequestUrl(HttpServletRequest req) {
+        return req.getRequestURL().toString().replaceFirst("^http://", "https://");
     }
 
     /**

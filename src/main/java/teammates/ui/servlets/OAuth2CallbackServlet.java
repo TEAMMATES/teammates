@@ -76,8 +76,8 @@ public class OAuth2CallbackServlet extends AuthServlet {
         String code = req.getParameter("code");
         String state = req.getParameter("state");
         String error = req.getParameter("error");
-        String errorDescription = req.getParameter("error_description");
         if (error != null) {
+            String errorDescription = req.getParameter("error_description");
             String message = errorDescription == null ? error : error + ": " + errorDescription;
             logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, message);
             return null;
@@ -111,7 +111,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         String email = null;
         try {
             AuthorizationCodeParameters params = AuthorizationCodeParameters
-                    .builder(code, new URI(getRedirectUri(req)))
+                    .builder(code, new URI(getMicrosoftRedirectUri(req)))
                     .scopes(Set.of("openid", "email"))
                     .build();
             IAuthenticationResult result = getMicrosoftClient().acquireToken(params).get();
