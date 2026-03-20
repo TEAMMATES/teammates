@@ -6,6 +6,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -13,6 +15,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.webapi.ApproveAccountRequestAction;
 import teammates.ui.webapi.EntityNotFoundException;
@@ -130,6 +133,30 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
         assertEquals(String.format("An account request with email %s and institute %s has already been approved. "
+                + "Please reject or delete the account request instead.",
+                accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
+        verifyNoEmailsSent();
+    }
+
+    @Test
+    void testExecute_existingInstructorWithSameEmailAndInstitute_throwsInvalidOperationException()
+            throws Exception {
+        String email = "existing-instructor@email.com";
+        String institute = "dupInstitute";
+
+        Course course = new Course("dup-course-id", "dup course", Const.DEFAULT_TIME_ZONE, institute);
+        logic.createCourse(course);
+
+        Instructor existingInstructor = new Instructor(course, "name", email, true, "display-name",
+                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
+        logic.createInstructor(existingInstructor);
+
+        AccountRequest accountRequest = logic.createAccountRequest("name", email,
+                institute, AccountRequestStatus.PENDING, "comments");
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
+
+        InvalidOperationException ipe = verifyInvalidOperation(params);
+        assertEquals(String.format("An instructor with email %s and institute %s already exists. "
                 + "Please reject or delete the account request instead.",
                 accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
         verifyNoEmailsSent();

@@ -917,6 +917,13 @@ public class Logic {
     }
 
     /**
+     * Gets a non-soft-deleted instructor with the specified email and institute.
+     */
+    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
+        return usersLogic.getInstructorForEmailAndInstitute(email, institute);
+    }
+
+    /**
      * Gets instructors by associated {@code courseId}.
      */
     public List<Instructor> getInstructorsByCourse(String courseId) {

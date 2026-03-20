@@ -41,6 +41,14 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
                 accountRequest.getEmail(), accountRequest.getInstitute()));
         }
 
+        if (sqlLogic.getInstructorForEmailAndInstitute(accountRequest.getEmail(), accountRequest.getInstitute())
+                != null) {
+            throw new InvalidOperationException(String.format(
+                "An instructor with email %s and institute %s already exists. "
+                    + "Please reject or delete the account request instead.",
+                accountRequest.getEmail(), accountRequest.getInstitute()));
+        }
+
         try {
             accountRequest.setStatus(AccountRequestStatus.APPROVED);
             accountRequest = sqlLogic.updateAccountRequest(accountRequest);
