@@ -5,6 +5,9 @@
   <div class="row mb-3">
     <div class="col-12">
       <div class="float-end">
+        <button id="mark-all-read" class="btn btn-light me-2" type="button" [disabled]="!hasUnreadNotifications() || isMarkingAllAsRead" (click)="markAllNotificationsAsRead()">
+          Mark all as read
+        </button>
         <strong class="d-inline"> Sort By: </strong>
         <div class="btn-group" data-toggle="buttons">
           <button id="sort-end-time" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NOTIFICATION_END_TIME)" (click)="sortNotificationsBy(SortBy.NOTIFICATION_END_TIME)">End Time</button>

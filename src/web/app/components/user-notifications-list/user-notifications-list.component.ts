@@ -60,6 +60,7 @@ export class UserNotificationsListComponent implements OnInit {
   notificationsSortBy: SortBy = SortBy.NONE;
 
   isLoadingNotifications: boolean = false;
+  isMarkingAllAsRead: boolean = false;
   hasLoadingFailed: boolean = false;
 
   DATE_FORMAT: string = 'DD MMM YYYY';
@@ -129,6 +130,42 @@ export class UserNotificationsListComponent implements OnInit {
           notificationTab.isRead = true;
           this.statusMessageService.showSuccessToast('Notification marked as read.');
           notificationTab.hasTabExpanded = false;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+  }
+
+  hasUnreadNotifications(): boolean {
+    return this.notificationTabs.some((tab: NotificationTab) => !tab.isRead);
+  }
+
+  markAllNotificationsAsRead(): void {
+    const unreadTabs: NotificationTab[] = this.notificationTabs.filter((tab) => !tab.isRead);
+
+    if (unreadTabs.length === 0) {
+      return;
+    }
+
+    this.isMarkingAllAsRead = true;
+
+    const request = {
+      notifications: unreadTabs.map((tab) => ({
+        notificationId: tab.notification.notificationId,
+        endTimestamp: tab.notification.endTimestamp,
+      })),
+    };
+
+    this.notificationService.markAllNotificationsAsRead(request)
+      .pipe(finalize(() => { this.isMarkingAllAsRead = false; }))
+      .subscribe({
+        next: () => {
+          unreadTabs.forEach((tab: NotificationTab) => {
+            tab.isRead = true;
+            tab.hasTabExpanded = false;
+          });
+          this.statusMessageService.showSuccessToast('All notifications marked as read.');
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);

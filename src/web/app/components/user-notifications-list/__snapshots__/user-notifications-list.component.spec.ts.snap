@@ -388,6 +388,12 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
       <div
         class="float-end"
       >
+        <button
+          class="btn btn-light me-2"
+          type="button"
+        >
+          Mark all as read
+        </button>
         <strong
           class="d-inline"
         >
@@ -569,6 +575,12 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
       <div
         class="float-end"
       >
+        <button
+          class="btn btn-light me-2"
+          type="button"
+        >
+          Mark all as read
+        </button>
         <strong
           class="d-inline"
         >

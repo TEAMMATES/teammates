@@ -132,6 +132,25 @@ describe('UserNotificationsListComponent', () => {
     expect(component.notificationTabs[0].hasTabExpanded).toBeFalsy();
   });
 
+  it('should mark all notifications as read when the mark all button is clicked', () => {
+    const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markAllNotificationsAsRead')
+      .mockImplementation(() => of({
+        readNotifications: [testNotificationOne.notificationId, testNotificationTwo.notificationId],
+      }));
+    const messageSpy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
+      .mockImplementation(() => null);
+
+    component.notificationTabs = getNotificationTabs([testNotificationOne, testNotificationTwo]);
+    fixture.detectChanges();
+
+    const markAllButton = fixture.debugElement.query(By.css('#mark-all-read')).nativeElement;
+    markAllButton.click();
+
+    expect(apiSpy).toHaveBeenCalledTimes(1);
+    expect(messageSpy).toHaveBeenCalledWith('All notifications marked as read.');
+    expect(component.notificationTabs.every((tab) => tab.isRead)).toBeTruthy();
+  });
+
   it('should collapse an expanded tab when the header is clicked', () => {
     component.notificationTabs = getNotificationTabs([testNotificationOne]);
     fixture.detectChanges();
