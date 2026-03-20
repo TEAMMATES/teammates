@@ -43,8 +43,6 @@ public final class Const {
     public static final Duration STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = Duration.ofMinutes(15);
     public static final Duration STUDENT_ACTIVITY_LOGS_FILTER_WINDOW = Duration.ofSeconds(2);
 
-    public static final String ACCOUNT_REQUEST_NOT_FOUND = "Account request with id = %s not found";
-
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
     public static final int INT_UNINITIALIZED = -9999;
