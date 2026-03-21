@@ -172,10 +172,10 @@ public class Logic {
     }
 
     /**
-     * Get a list of account requests associated with email provided.
+     * Get a list of approved account requests associated with email and institute provided.
      */
-    public List<AccountRequest> getApprovedAccountRequestsForEmail(String email) {
-        return accountRequestLogic.getApprovedAccountRequestsForEmail(email);
+    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
+        return accountRequestLogic.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
     }
 
     /**
@@ -914,6 +914,13 @@ public class Logic {
      */
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         return usersLogic.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Gets a non-soft-deleted instructor with the specified email and institute.
+     */
+    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
+        return usersLogic.getInstructorForEmailAndInstitute(email, institute);
     }
 
     /**
