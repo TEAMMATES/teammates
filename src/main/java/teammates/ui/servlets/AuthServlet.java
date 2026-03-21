@@ -39,11 +39,11 @@ abstract class AuthServlet extends HttpServlet {
     private static final String MICROSOFT_AUTHORITY_BASE = "https://login.microsoftonline.com/";
 
     /**
-     * Gets the authorization code flow to be used across all HTTP servlet requests.
+     * Gets the authorization code flow to be used for Google OAuth2 authentication.
      */
-    AuthorizationCodeFlow getAuthorizationFlow() throws IOException {
+    AuthorizationCodeFlow getGoogleAuthorizationFlow() throws IOException {
         return new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, Config.OAUTH2_CLIENT_ID, Config.OAUTH2_CLIENT_SECRET, SCOPES)
+                HTTP_TRANSPORT, JSON_FACTORY, Config.OAUTH2_GOOGLE_CLIENT_ID, Config.OAUTH2_GOOGLE_CLIENT_SECRET, SCOPES)
                 .setDataStoreFactory(DATA_STORE_FACTORY)
                 .setAccessType("offline")
                 .build();
@@ -51,12 +51,13 @@ abstract class AuthServlet extends HttpServlet {
 
     /**
      * Creates a Microsoft Entra ID confidential client application (MSAL).
+     * Uses a client secret as authentication credential.
      * The returned instance performs full JWT signature verification against Microsoft's JWKS.
      */
     ConfidentialClientApplication getMicrosoftClient() throws MalformedURLException {
         return ConfidentialClientApplication
-                .builder(Config.OAUTH2_CLIENT_ID,
-                        ClientCredentialFactory.createFromSecret(Config.OAUTH2_CLIENT_SECRET))
+                .builder(Config.OAUTH2_MS_ENTRA_CLIENT_ID,
+                        ClientCredentialFactory.createFromSecret(Config.OAUTH2_MS_ENTRA_CLIENT_SECRET))
                 .authority(MICROSOFT_AUTHORITY_BASE + "common") // To allow users from any tenant to sign in
                 .build();
     }

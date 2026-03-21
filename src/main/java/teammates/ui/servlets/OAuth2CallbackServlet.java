@@ -26,7 +26,6 @@ import com.microsoft.aad.msal4j.IAuthenticationResult;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -42,6 +41,11 @@ public class OAuth2CallbackServlet extends AuthServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String provider = determineAuthProvider(req);
+        if (provider == null) {
+            log.warning("Failed to determine OAuth2 provider from state parameter.");
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid state parameter");
+            return;
+        }
 
         AuthResult authResult;
         if ("firebase".equals(provider)) {
@@ -76,24 +80,17 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     private String determineAuthProvider(HttpServletRequest req) {
         String state = req.getParameter("state");
-        if (state != null) {
-            try {
-                AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
-                if (authState.getProvider() != null) {
-                    return authState.getProvider();
-                }
-            } catch (Exception e) {
-                log.warning("Failed to extract provider from state, falling back to global config");
+        assert state != null : "State parameter is missing in the OAuth2 callback request";
+
+        try {
+            AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
+            if (authState.getProvider() != null) {
+                return authState.getProvider();
             }
+        } catch (Exception e) {
+            log.warning("Failed to extract provider from state, falling back to global config");
         }
-        // Fallback to global config
-        if (Config.isUsingFirebase()) {
-            return "firebase";
-        } else if (Config.isUsingMicrosoftEntra()) {
-            return "entra";
-        } else {
-            return "google";
-        }
+        return null;
     }
 
     private AuthResult getMicrosoftEntraAuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -189,7 +186,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         String redirectUri = getRedirectUri(req);
-        TokenResponse token = getAuthorizationFlow().newTokenRequest(code).setRedirectUri(redirectUri).execute();
+        TokenResponse token = getGoogleAuthorizationFlow().newTokenRequest(code).setRedirectUri(redirectUri).execute();
         String email = null;
         try {
             String userInfoResponse = HttpRequest.executeGetRequest(

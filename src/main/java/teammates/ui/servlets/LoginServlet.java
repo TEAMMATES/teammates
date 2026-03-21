@@ -54,13 +54,13 @@ public class LoginServlet extends AuthServlet {
         }
 
         // Determine which auth provider to use
-        if ("firebase".equals(provider) || provider == null && Config.isUsingFirebase()) {
+        if ("firebase".equals(provider)) {
             log.request(req, HttpStatus.SC_MOVED_PERMANENTLY, "Redirect to web login page");
 
             // nextUrl query param is encoded to retain its full value as the nextUrl may contain query params
             resp.sendRedirect("/web/login?nextUrl="
                     + nextUrl.replace("?", "%3f").replace("&", "%26"));
-        } else if ("entra".equals(provider) || provider == null && Config.isUsingMicrosoftEntra()) {
+        } else if ("entra".equals(provider)) {
             AuthState state = new AuthState(nextUrl, req.getSession().getId(), "entra");
             String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
             AuthorizationRequestUrlParameters params = AuthorizationRequestUrlParameters
@@ -75,7 +75,7 @@ public class LoginServlet extends AuthServlet {
             resp.sendRedirect(authorizationUrl.toString());
         } else {
             AuthState state = new AuthState(nextUrl, req.getSession().getId(), "google");
-            AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
+            AuthorizationCodeRequestUrl authorizationUrl = getGoogleAuthorizationFlow().newAuthorizationUrl();
             authorizationUrl.setRedirectUri(getRedirectUri(req));
             authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
 
