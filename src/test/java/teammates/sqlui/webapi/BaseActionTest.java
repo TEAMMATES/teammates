@@ -107,6 +107,10 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
                 req.addCookie(cookie);
             }
         }
+        // Worker and cron actions require bearer token for auth
+        if (getActionUri().contains("/worker/") || getActionUri().contains("/auto/")) {
+            req.addHeader("Authorization", "Bearer " + Config.CRON_AND_WORKER_SECRET);
+        }
         try {
             @SuppressWarnings("unchecked")
             T action = (T) ActionFactory.getAction(req, getRequestMethod());

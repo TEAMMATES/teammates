@@ -12,6 +12,7 @@ import org.hibernate.HibernateException;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.Logger;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.Action;
@@ -127,11 +128,9 @@ public class WebApiServlet extends HttpServlet {
 
     private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)
             throws IOException {
-        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
-        boolean isRequestFromAppEngineQueue = req.getHeader("X-AppEngine-QueueName") != null;
+        boolean isRequestFromWorker = InternalRequestAuth.isTrustedCronOrWorkerRequest(req);
 
-        if (isRequestFromAppEngineQueue) {
+        if (isRequestFromWorker) {
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
 
             // Response status is not set to 4XX to 5XX to prevent Cloud Tasks retry mechanism because

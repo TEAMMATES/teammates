@@ -112,6 +112,15 @@ public class OriginCheckFilterTest extends BaseTestCase {
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
         assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
+        ______TS("POST request with bearer token (cron/worker) will bypass CSRF check");
+
+        setupMocks(HttpPost.METHOD_NAME);
+
+        mockRequest.addHeader("referer", "http://localhost:9090");
+        mockRequest.addHeader("Authorization", "Bearer " + Config.CRON_AND_WORKER_SECRET);
+        FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
+
         if (Config.IS_DEV_SERVER) {
 
             ______TS("Cross-origin GET request is allowed in dev server");

@@ -52,6 +52,9 @@ public final class Config {
     /** The value of the "app.backdoor.key" in build.properties file. */
     public static final String BACKDOOR_KEY;
 
+    /** The value of the "app.cron.and.worker.secret" in build.properties file. Used for bearer token auth of cron and worker requests. */
+    public static final String CRON_AND_WORKER_SECRET;
+
     /** The value of the "app.encryption.key" in build.properties file. */
     public static final String ENCRYPTION_KEY;
 
@@ -151,6 +154,7 @@ public final class Config {
         APP_FRONTEND_URL = getProperty(properties, devProperties, "app.frontend.url", getDefaultFrontEndUrl());
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
+        CRON_AND_WORKER_SECRET = getProperty(properties, devProperties, "app.cron.and.worker.secret");
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
         POSTGRES_HOST = getProperty(properties, devProperties, "app.postgres.host");
         POSTGRES_PORT = getProperty(properties, devProperties, "app.postgres.port");

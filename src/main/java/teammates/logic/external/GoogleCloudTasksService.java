@@ -36,7 +36,8 @@ public class GoogleCloudTasksService implements TaskQueueService {
                             .setAppEngineRouting(AppEngineRouting.newBuilder()
                                     .setVersion(Config.APP_VERSION)
                                     .build())
-                            .setHttpMethod(HttpMethod.POST);
+                            .setHttpMethod(HttpMethod.POST)
+                            .putHeaders("Authorization", "Bearer " + Config.CRON_AND_WORKER_SECRET);
 
             if (task.getRequestBody() == null) {
                 String relativeUrl = "http://place.holder"; // the value is not important

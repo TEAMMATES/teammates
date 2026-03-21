@@ -13,6 +13,7 @@ import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.AuthProxy;
@@ -153,12 +154,10 @@ public abstract class Action {
             return;
         }
 
-        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
-        String queueNameHeader = req.getHeader("X-AppEngine-QueueName");
-        boolean isRequestFromAppEngineQueue = queueNameHeader != null;
-        if (isRequestFromAppEngineQueue) {
-            userInfo = userProvision.getAdminOnlyUser("AppEngine-" + queueNameHeader);
+        if (InternalRequestAuth.isTrustedCronOrWorkerRequest(req)) {
+            String requestUri = req.getRequestURI();
+            boolean isCronPath = requestUri != null && requestUri.contains("/auto/");
+            userInfo = userProvision.getAdminOnlyUser(isCronPath ? "Cron-Service" : "Worker-Service");
         } else {
             String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
             UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);

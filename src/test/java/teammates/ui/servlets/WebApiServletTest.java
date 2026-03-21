@@ -15,6 +15,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.test.BaseTestCase;
@@ -51,9 +52,9 @@ public class WebApiServletTest extends BaseTestCase {
         mockResponse = new MockHttpServletResponse();
     }
 
-    private void setupMocksFromGaeQueue(String method, String requestUrl) {
+    private void setupMocksFromWorkerOrCron(String method, String requestUrl) {
         Map<String, List<String>> headers = new HashMap<>();
-        headers.put("X-AppEngine-QueueName", Collections.singletonList("queuename"));
+        headers.put("Authorization", Collections.singletonList("Bearer " + Config.CRON_AND_WORKER_SECRET));
         mockRequest = new MockHttpServletRequest(method, requestUrl, headers);
         mockResponse = new MockHttpServletResponse();
     }
@@ -131,11 +132,11 @@ public class WebApiServletTest extends BaseTestCase {
     }
 
     @Test
-    public void testGaeQueueInvokedRequests() throws Exception {
+    public void testWorkerOrCronInvokedRequests() throws Exception {
 
         ______TS("Typical case: valid action mapping");
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
         mockRequest.addParam(Const.ParamsNames.ERROR, "NoException");
 
         SERVLET.doGet(mockRequest, mockResponse);
@@ -143,26 +144,26 @@ public class WebApiServletTest extends BaseTestCase {
 
         ______TS("\"Successful\" case: invalid action mapping");
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, "nonexistent");
+        setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, "nonexistent");
 
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
 
-        setupMocksFromGaeQueue(HttpPost.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        setupMocksFromWorkerOrCron(HttpPost.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
 
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
 
         ______TS("\"Successful\" case: NullHttpParameterException");
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
 
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
 
         ______TS("\"Successful\" case: InvalidHttpParameterException");
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
         mockRequest.addParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
@@ -170,7 +171,7 @@ public class WebApiServletTest extends BaseTestCase {
 
         ______TS("Failure case: UnauthorizedAccessException");
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
         mockRequest.addParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
@@ -178,7 +179,7 @@ public class WebApiServletTest extends BaseTestCase {
 
         ______TS("Failure case: EntityNotFoundException");
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
         mockRequest.addParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
@@ -186,7 +187,7 @@ public class WebApiServletTest extends BaseTestCase {
 
         ______TS("Failure case: NullPointerException");
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
         mockRequest.addParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
@@ -194,7 +195,7 @@ public class WebApiServletTest extends BaseTestCase {
 
         ______TS("Failure case: AssertionError");
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
         mockRequest.addParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);

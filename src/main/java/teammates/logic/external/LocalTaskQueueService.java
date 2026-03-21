@@ -45,8 +45,7 @@ public class LocalTaskQueueService implements TaskQueueService {
             post.setEntity(entity);
         }
 
-        post.addHeader("X-AppEngine-QueueName", task.getQueueName());
-        post.addHeader("X-Google-DevAppserver-SkipAdminCheck", "true");
+        post.addHeader("Authorization", "Bearer " + Config.CRON_AND_WORKER_SECRET);
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             httpClient.execute(post);
