@@ -150,7 +150,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         assertEquals("Account is successfully reset.", output.getMessage());
         assertEquals(1, mockTaskQueuer.getTasksAdded().size());
-        assertEquals(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL,
+        assertEquals(Const.TaskQueue.PRIORITY_EMAIL_WORKER_URL,
                 mockTaskQueuer.getTasksAdded().get(0).getWorkerUrl());
         assertEquals(expectedParamMap, mockTaskQueuer.getTasksAdded().get(0).getParamMap());
         verify(mockLogic, times(1)).resetInstructorGoogleId(stubInstructor.getEmail(),
@@ -178,7 +178,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         assertEquals("Account is successfully reset.", output.getMessage());
         assertEquals(1, mockTaskQueuer.getTasksAdded().size());
-        assertEquals(Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL,
+        assertEquals(Const.TaskQueue.PRIORITY_EMAIL_WORKER_URL,
                 mockTaskQueuer.getTasksAdded().get(0).getWorkerUrl());
         assertEquals(expectedParamMap, mockTaskQueuer.getTasksAdded().get(0).getParamMap());
         verify(mockLogic, times(1))
@@ -206,7 +206,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         assertEquals("Account is successfully reset.", output.getMessage());
         assertEquals(1, mockTaskQueuer.getTasksAdded().size());
-        assertEquals(Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL,
+        assertEquals(Const.TaskQueue.PRIORITY_EMAIL_WORKER_URL,
                 mockTaskQueuer.getTasksAdded().get(0).getWorkerUrl());
         assertEquals(expectedParamMap, mockTaskQueuer.getTasksAdded().get(0).getParamMap());
         verify(mockLogic, times(0))
@@ -234,7 +234,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         assertEquals("Account is successfully reset.", output.getMessage());
         assertEquals(1, mockTaskQueuer.getTasksAdded().size());
-        assertEquals(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL,
+        assertEquals(Const.TaskQueue.PRIORITY_EMAIL_WORKER_URL,
                 mockTaskQueuer.getTasksAdded().get(0).getWorkerUrl());
         assertEquals(expectedParamMap, mockTaskQueuer.getTasksAdded().get(0).getParamMap());
         verify(mockLogic, times(0)).resetInstructorGoogleId(stubInstructor.getEmail(),

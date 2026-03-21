@@ -88,7 +88,7 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
 
         assertEquals("Successful", response.getMessage());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
     }
 
     private void textExecute_typicalSuccess2() {

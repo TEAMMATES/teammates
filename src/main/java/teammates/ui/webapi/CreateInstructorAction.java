@@ -84,6 +84,9 @@ public class CreateInstructorAction extends Action {
         // Generate and queue invitation email to priority queue (user-triggered)
         Course course = sqlLogic.getCourse(courseId);
         Account inviter = sqlLogic.getAccountForGoogleId(userInfo.id);
+        if (inviter == null) {
+            throw new EntityNotFoundException("Inviter account does not exist.");
+        }
         EmailWrapper email = sqlEmailGenerator.generateInstructorCourseJoinEmail(inviter, createdInstructor, course);
         List<EmailWrapper> emails = new ArrayList<>();
         emails.add(email);
