@@ -50,6 +50,7 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT_REQUESTS, GET, GetAccountRequestsAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST_RESET, PUT, ResetAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST_REJECTION, POST, RejectAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST_APPROVAL, POST, ApproveAccountRequestAction.class);
         map(ResourceURIs.ACCOUNTS, GET, GetAccountsAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
@@ -105,6 +106,7 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION, PUT, UpdateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, POST, CreateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);
+        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, PUT, UpdateFeedbackSessionDeadlineExtensionsAction.class);
         map(ResourceURIs.SESSION_PUBLISH, POST, PublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, DELETE, UnpublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_SUBMITTED_GIVER_SET, GET, GetFeedbackSessionSubmittedGiverSetAction.class);

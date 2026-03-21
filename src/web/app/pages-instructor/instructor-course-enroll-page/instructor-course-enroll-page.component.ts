@@ -1,12 +1,9 @@
 import { NgClass } from '@angular/common';
-import { Component, Inject, Input, OnInit, DOCUMENT } from '@angular/core';
+import { Component, OnInit, DOCUMENT, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HotTableRegisterer, HotTableModule } from '@handsontable/angular';
-import Handsontable from 'handsontable';
-import { DetailedSettings } from 'handsontable/plugins/contextMenu';
+import { type CellValue } from 'handsontable/common';
 import { PageScrollService } from 'ngx-page-scroll-core';
-import { concat, Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { concat, finalize, Observable } from 'rxjs';
 import { EnrollStatus } from './enroll-status';
 import { CourseService } from '../../../services/course.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
@@ -17,6 +14,7 @@ import { EnrollStudents, HasResponses, JoinState, Student, Students } from '../.
 import { StudentEnrollRequest, StudentsEnrollRequest } from '../../../types/api-request';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { AjaxPreloadComponent } from '../../components/ajax-preload/ajax-preload.component';
+import { DataGridComponent } from '../../components/data-grid/data-grid.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
@@ -47,13 +45,22 @@ interface EnrollResultPanel {
     StatusMessageComponent,
     AjaxPreloadComponent,
     PanelChevronComponent,
-    HotTableModule,
     NgClass,
     ProgressBarComponent,
     AjaxLoadingComponent,
-],
+    DataGridComponent,
+  ],
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly courseService = inject(CourseService);
+  private readonly studentService = inject(StudentService);
+  private readonly progressBarService = inject(ProgressBarService);
+  private readonly simpleModalService = inject(SimpleModalService);
+  private readonly pageScrollService = inject(PageScrollService);
+  private readonly document = inject(DOCUMENT);
+
   GENERAL_ERROR_MESSAGE: string = `You may check that: "Section" and "Comment" are optional while "Team", "Name",
         and "Email" must be filled. "Section", "Team", "Name", and "Comment" should start with an
         alphabetical character, unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and
@@ -61,6 +68,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         more text. "Team" should not have the same format as email to avoid mis-interpretation.`;
   SECTION_ERROR_MESSAGE: string = 'Section cannot be empty if the total number of students is more than 100. ';
   TEAM_ERROR_MESSAGE: string = 'Duplicated team detected in different sections. ';
+
+  COL_HEADERS = ['Section', 'Team', 'Name', 'Email', 'Comments'];
+  ENROLL_BATCH_SIZE = 50;
+
+  newStudentsGrid = viewChild.required<DataGridComponent>('newStudentsGrid');
 
   // enum
   EnrollStatus: typeof EnrollStatus = EnrollStatus;
@@ -72,40 +84,16 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   statusMessage: StatusMessage[] = [];
   unsuccessfulEnrolls: { [email: string]: string } = {};
 
-  @Input() isNewStudentsPanelCollapsed: boolean = false;
-  @Input() isExistingStudentsPanelCollapsed: boolean = true;
-
-  colHeaders: string[] = ['Section', 'Team', 'Name', 'Email', 'Comments'];
-  contextMenuOptions: DetailedSettings = {
-    items: {
-      row_above: {},
-      row_below: {},
-      remove_row: {},
-      undo: {},
-      redo: {},
-      cut: {},
-      copy: {},
-      paste: {
-        key: 'paste',
-        name: 'Paste',
-        callback: this.pasteClick,
-      },
-      make_read_only: {},
-      alignment: {},
-    },
-  };
-
-  hotRegisterer: HotTableRegisterer = new HotTableRegisterer();
-  newStudentsHOT: string = 'newStudentsHOT';
+  isNewStudentsPanelCollapsed: boolean = false;
+  isExistingStudentsPanelCollapsed: boolean = true;
 
   enrollResultPanelList?: EnrollResultPanel[];
   existingStudents: Student[] = [];
+  existingStudentsData: string[][] = [];
 
-  existingStudentsHOT: string = 'existingStudentsHOT';
   isExistingStudentsPresent: boolean = true;
   hasLoadingStudentsFailed: boolean = false;
   isLoadingExistingStudents: boolean = false;
-  isAjaxSuccess: boolean = true;
   isEnrolling: boolean = false;
 
   allStudentChunks: StudentEnrollRequest[][] = [];
@@ -113,22 +101,26 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   newStudentRowsIndex: Set<number> = new Set();
   modifiedStudentRowsIndex: Set<number> = new Set();
   unchangedStudentRowsIndex: Set<number> = new Set();
-  numberOfStudentsPerRequest: number = 50; // at most 50 students per chunk
-
-  constructor(private route: ActivatedRoute,
-              private statusMessageService: StatusMessageService,
-              private courseService: CourseService,
-              private studentService: StudentService,
-              private progressBarService: ProgressBarService,
-              private simpleModalService: SimpleModalService,
-              private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.getCourseEnrollPageData(queryParams.courseid);
     });
+  }
+
+  private mapStudentsToRows(students: Student[] | undefined): string[][] {
+    if (!students) {
+      return [];
+    }
+
+    return students.map((student: Student) => ([
+      student.sectionName,
+      student.teamName,
+      student.name,
+      student.email,
+      student.comments || '',
+    ]));
   }
 
   /**
@@ -143,46 +135,32 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.modifiedStudentRowsIndex = new Set();
     this.unchangedStudentRowsIndex = new Set();
 
-    const lastColIndex: number = 4;
-    const newStudentsHOTInstance: Handsontable =
-        this.hotRegisterer.getInstance(this.newStudentsHOT);
-    const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
+    const data = this.newStudentsGrid().getData();
 
     // Reset error highlighting on a new submission
-    this.resetTableStyle(newStudentsHOTInstance, 0,
-        newStudentsHOTInstance.getData().length - 1,
-        0,
-        hotInstanceColHeaders.indexOf(this.colHeaders[lastColIndex]));
-
-    // Remove error highlight on click
-    newStudentsHOTInstance.addHook('afterSelectionEnd', (row: number, column: number,
-                                                         row2: number, column2: number) => {
-      this.resetTableStyle(newStudentsHOTInstance, row, row2, column, column2);
-    });
+    this.newStudentsGrid().resetTableStyles();
 
     // Record the row with its index on the table
     const studentEnrollRequests: Map<number, StudentEnrollRequest> = new Map();
+    const normalizeCell = (value: CellValue): string => {
+      if (value === null || value === undefined) {
+        return '';
+      }
+      return typeof value === 'string' ? value.trim() : String(value);
+    };
 
     // Parse the user input to be requests.
-    // Handsontable contains null value initially,
-    // see https://github.com/handsontable/handsontable/issues/3927
-    newStudentsHOTInstance.getData()
-        .forEach((row: string[], index: number) => {
-          if (!row.every((cell: string) => cell === null || cell === '')) {
-            studentEnrollRequests.set(index, {
-              section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null
-                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
-              team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null
-                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
-              name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null
-                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
-              email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null
-                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
-              comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null
-                  ? '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
-            });
-          }
+    data.forEach((row: CellValue[], index: number) => {
+      if (!row.every((cell: CellValue) => normalizeCell(cell) === '')) {
+        studentEnrollRequests.set(index, {
+          section: normalizeCell(row[0]),
+          team: normalizeCell(row[1]),
+          name: normalizeCell(row[2]),
+          email: normalizeCell(row[3]),
+          comments: normalizeCell(row[4]),
         });
+      }
+    });
 
     if (studentEnrollRequests.size === 0) {
       this.enrollErrorMessage = 'Empty table';
@@ -195,7 +173,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.checkTeamsValid(studentEnrollRequests);
 
     if (this.invalidRowsIndex.size > 0) {
-      this.setTableStyleBasedOnFieldChecks(newStudentsHOTInstance, hotInstanceColHeaders);
+      this.setTableStyleBasedOnFieldChecks();
       this.isEnrolling = false;
       return;
     }
@@ -247,7 +225,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           || this.newStudentRowsIndex.size > 0
           || this.modifiedStudentRowsIndex.size > 0
           || this.unchangedStudentRowsIndex.size > 0) {
-          this.setTableStyleBasedOnFieldChecks(newStudentsHOTInstance, hotInstanceColHeaders);
+          this.setTableStyleBasedOnFieldChecks();
         }
       },
       error: (resp: ErrorMessageOutput) => {
@@ -266,22 +244,34 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
                                    studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
     this.enrollResultPanelList = this.populateEnrollResultPanelList(this.existingStudents,
         enrolledStudents, studentEnrollRequests);
+    this.getExistingStudents(this.courseId);
+  }
 
-    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
-      this.existingStudents = resp.students;
-      if (!this.isExistingStudentsPanelCollapsed) {
-        const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
-        this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
-      }
-      this.isExistingStudentsPresent = true;
-    });
+  private getExistingStudents(courseId: string): void {
+    this.isLoadingExistingStudents = true;
+    this.hasLoadingStudentsFailed = false;
+    this.studentService.getStudentsFromCourse({ courseId })
+      .pipe(finalize(() => {
+        this.isLoadingExistingStudents = false;
+      }))
+      .subscribe({
+        next: (resp: Students) => {
+          this.existingStudents = resp.students;
+          this.existingStudentsData = this.mapStudentsToRows(resp.students);
+          this.isExistingStudentsPresent = resp.students.length > 0;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasLoadingStudentsFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   private partitionStudentEnrollRequests(studentEnrollRequests: StudentEnrollRequest[]): void {
     let currentStudentChunk: StudentEnrollRequest[] = [];
     for (const request of studentEnrollRequests) {
       currentStudentChunk.push(request);
-      if (currentStudentChunk.length >= this.numberOfStudentsPerRequest) {
+      if (currentStudentChunk.length >= this.ENROLL_BATCH_SIZE) {
         this.allStudentChunks.push(currentStudentChunk);
         currentStudentChunk = [];
       }
@@ -366,33 +356,22 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
   }
 
-  private resetTableStyle(newStudentsHOTInstance: Handsontable,
-                                 startRow: number, endRow: number, startCol: number, endCol: number): void {
-    for (let row: number = startRow; row <= endRow; row += 1) {
-      for (let col: number = startCol; col <= endCol; col += 1) {
-        newStudentsHOTInstance.setCellMeta(row, col, 'className', 'valid-row');
-      }
+  private setTableStyleBasedOnFieldChecks(): void {
+    const rowIdxToClass: Record<number, string> = {};
+    for (const index of this.invalidRowsIndex) {
+      rowIdxToClass[index] = 'invalid-row';
     }
-    newStudentsHOTInstance.render();
-  }
-
-  private setTableStyleBasedOnFieldChecks(newStudentsHOTInstance: Handsontable,
-                                          hotInstanceColHeaders: string[]): void {
-    this.setRowStyle(this.invalidRowsIndex, 'invalid-row', newStudentsHOTInstance, hotInstanceColHeaders);
-    this.setRowStyle(this.newStudentRowsIndex, 'new-row', newStudentsHOTInstance, hotInstanceColHeaders);
-    this.setRowStyle(this.modifiedStudentRowsIndex, 'modified-row', newStudentsHOTInstance, hotInstanceColHeaders);
-    this.setRowStyle(this.unchangedStudentRowsIndex, 'unchanged-row', newStudentsHOTInstance, hotInstanceColHeaders);
-
-    newStudentsHOTInstance.render();
-  }
-
-  private setRowStyle(rowsIndex: Set<number>, style: string, newStudentsHOTInstance: Handsontable,
-    hotInstanceColHeaders: string[]): void {
-    for (const index of rowsIndex) {
-      for (const header of this.colHeaders) {
-        newStudentsHOTInstance.setCellMeta(index, hotInstanceColHeaders.indexOf(header), 'className', style);
-      }
+    for (const index of this.newStudentRowsIndex) {
+      rowIdxToClass[index] = 'new-row';
     }
+    for (const index of this.modifiedStudentRowsIndex) {
+      rowIdxToClass[index] = 'modified-row';
+    }
+    for (const index of this.unchangedStudentRowsIndex) {
+      rowIdxToClass[index] = 'unchanged-row';
+    }
+
+    this.newStudentsGrid().styleRows(rowIdxToClass);
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
@@ -503,14 +482,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   /**
    * Adds new rows to the 'New students' spreadsheet interface
-   * according to user input
    */
-  addRows(numOfRows: number): void {
-    if (!numOfRows) {
+  addRows(numRows: number): void {
+    if (!numRows) {
       return;
     }
-    this.hotRegisterer.getInstance(this.newStudentsHOT).alter(
-        'insert_row_below', [], numOfRows);
+
+    this.newStudentsGrid().addRows(numRows);
   }
 
   /**
@@ -519,16 +497,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   toggleNewStudentsPanel(): void {
     this.isNewStudentsPanelCollapsed = !this.isNewStudentsPanelCollapsed;
-  }
-
-  /**
-   * Returns the length of the current spreadsheet.
-   * Rows with all null values are filtered.
-   */
-  getSpreadsheetLength(dataHandsontable: string[][]): number {
-    return dataHandsontable
-        .filter((row: string[]) => (!row.every((cell: string) => cell === null)))
-        .length;
   }
 
   /**
@@ -557,77 +525,16 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   /**
-   * Loads existing student data into the spreadsheet interface.
-   */
-  loadExistingStudentsData(existingStudentsHOTInstance: Handsontable, studentsData: Student[]): void {
-    existingStudentsHOTInstance.loadData(this.studentListDataToHandsontableData(
-        studentsData, (existingStudentsHOTInstance.getColHeader() as any[])));
-  }
-
-  /**
    * Toggles the view of 'Existing Students' spreadsheet interface
    */
   toggleExistingStudentsPanel(): void {
-    // Has to be done before the API call is made so that HOT is available for data population
     this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed;
-    this.isLoadingExistingStudents = true;
-    const existingStudentsHOTInstance: Handsontable =
-        this.hotRegisterer.getInstance(this.existingStudentsHOT);
-
-    // Calling REST API only the first time when spreadsheet has no data
-    if (this.getSpreadsheetLength(existingStudentsHOTInstance.getData()) !== 0) {
-      this.isLoadingExistingStudents = false;
-      return;
-    }
-
-    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe({
-      next: (resp: Students) => {
-        if (resp.students.length) {
-          this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
-        } else {
-          // Shows a message if there are no existing students. Panel would not be expanded.
-          this.isExistingStudentsPresent = false;
-          this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-        }
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        this.isAjaxSuccess = false;
-        this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-      },
-      complete: () => {
-        this.isLoadingExistingStudents = false;
-      },
-    });
-  }
-
-  /**
-   * Trigger click button
-   */
-  pasteClick(): void {
-    const element: HTMLElement =
-        (document.getElementById('paste') as HTMLElement);
-    element.click();
-  }
-
-  /**
-   * Shows modal box when user clicks on the 'paste' option in the
-   * Handsontable context menu
-   */
-  showPasteModalBox(): void {
-    const modalContent: string =
-      `Pasting data through the context menu is not supported due to browser restrictions.<br>
-      Please use <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to paste your data instead.`;
-    this.simpleModalService.openInformationModal('Pasting data through the context menu',
-        SimpleModalType.WARNING, modalContent);
   }
 
   /**
    * Checks whether the course is present
    */
   getCourseEnrollPageData(courseid: string): void {
-    this.existingStudents = [];
-    this.hasLoadingStudentsFailed = false;
     this.isLoadingCourseEnrollPage = true;
     this.courseService.hasResponsesForCourse(courseid).subscribe({
       next: (resp: HasResponses) => {
@@ -655,15 +562,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.isLoadingCourseEnrollPage = false;
       },
     });
-    this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe({
-      next: (resp: Students) => {
-        this.existingStudents = resp.students;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.hasLoadingStudentsFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.getExistingStudents(courseid);
   }
 
   /**
