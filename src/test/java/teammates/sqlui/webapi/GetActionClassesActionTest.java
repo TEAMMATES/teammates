@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.ui.output.ActionClasses;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.AdminExceptionTestAction;
+import teammates.ui.webapi.ApproveAccountRequestAction;
 import teammates.ui.webapi.BinCourseAction;
 import teammates.ui.webapi.BinFeedbackSessionAction;
 import teammates.ui.webapi.CalculateUsageStatisticsAction;
@@ -114,6 +115,7 @@ import teammates.ui.webapi.UpdateCourseAction;
 import teammates.ui.webapi.UpdateFeedbackQuestionAction;
 import teammates.ui.webapi.UpdateFeedbackResponseCommentAction;
 import teammates.ui.webapi.UpdateFeedbackSessionAction;
+import teammates.ui.webapi.UpdateFeedbackSessionDeadlineExtensionsAction;
 import teammates.ui.webapi.UpdateFeedbackSessionLogsAction;
 import teammates.ui.webapi.UpdateInstructorAction;
 import teammates.ui.webapi.UpdateInstructorPrivilegeAction;
@@ -171,6 +173,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateFeedbackSessionAction.class,
                 GetFeedbackSessionAction.class,
                 UpdateFeedbackSessionAction.class,
+                UpdateFeedbackSessionDeadlineExtensionsAction.class,
                 FeedbackSessionClosingSoonRemindersAction.class,
                 GetTimeZonesAction.class,
                 FeedbackSessionRemindParticularUsersEmailWorkerAction.class,
@@ -193,6 +196,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 DeleteAccountRequestAction.class,
                 GetAccountRequestsAction.class,
                 UpdateAccountRequestAction.class,
+                ApproveAccountRequestAction.class,
                 RejectAccountRequestAction.class,
                 GetAccountAction.class,
                 GetAccountsAction.class,
