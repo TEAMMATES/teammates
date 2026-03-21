@@ -1,11 +1,16 @@
 package teammates.ui.webapi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.SanitizationHelper;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
@@ -76,8 +81,13 @@ public class CreateInstructorAction extends Action {
 
         Instructor createdInstructor = sqlLogic.createInstructor(instructorToAdd);
 
-        taskQueuer.scheduleCourseRegistrationInviteToInstructor(
-                this.userInfo.id, instructorToAdd.getEmail(), courseId, false);
+        // Generate and queue invitation email to priority queue (user-triggered)
+        Course course = sqlLogic.getCourse(courseId);
+        Account inviter = sqlLogic.getAccountForGoogleId(userInfo.id);
+        EmailWrapper email = sqlEmailGenerator.generateInstructorCourseJoinEmail(inviter, createdInstructor, course);
+        List<EmailWrapper> emails = new ArrayList<>();
+        emails.add(email);
+        taskQueuer.scheduleEmailsForPrioritySending(emails);
 
         return new JsonResult(new InstructorData(createdInstructor));
     }

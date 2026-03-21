@@ -55,132 +55,36 @@ public class TaskQueuer {
     // The following methods are the actual API methods to be used by the client classes
 
     /**
-     * Schedules for feedback session reminders (i.e. student has not submitted responses yet)
-     * for the specified feedback session.
+     * Schedules for the given list of emails to be sent via priority queue (user-triggered, immediate).
      *
-     * @param courseId the course ID of the feedback session
-     * @param feedbackSessionName the name of the feedback session
+     * @param emails the list of emails to be sent
      */
-    public void scheduleFeedbackSessionReminders(String courseId, String feedbackSessionName,
-                                                 String googleIdOfRequestingInstructor) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.INSTRUCTOR_ID, googleIdOfRequestingInstructor);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-
-        addTask(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, paramMap, null);
-    }
-
-    /**
-     * Schedules for feedback session reminders (i.e. student/instructor has not submitted responses yet)
-     * for the specified feedback session for the specified group of users.
-     *
-     * @param courseId the course ID of the feedback session
-     * @param feedbackSessionName the name of the feedback session
-     * @param usersToRemind the group of users to send the reminders to
-     * @param requestingInstructorId the ID of the instructor who sends the reminder
-     * @param isSendingCopyToInstructor the indicator of whether to send an email copy to the requesting instructor
-     */
-    public void scheduleFeedbackSessionRemindersForParticularUsers(String courseId, String feedbackSessionName,
-                                                                   String[] usersToRemind,
-                                                                   String requestingInstructorId,
-                                                                   boolean isSendingCopyToInstructor) {
-        FeedbackSessionRemindRequest remindRequest =
-                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToRemind,
-                        isSendingCopyToInstructor);
-
-        addTask(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, new HashMap<>(), remindRequest);
-    }
-
-    /**
-     * Schedules for feedback session published email to be sent.
-     *
-     * @param courseId the course ID of the feedback session
-     * @param feedbackSessionName the name of the feedback session
-     */
-    public void scheduleFeedbackSessionPublishedEmail(String courseId, String feedbackSessionName) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-
-        addTask(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, paramMap, null);
-    }
-
-    /**
-     * Schedules for feedback session publication reminders
-     * for the specified feedback session for the specified group of users.
-     *
-     * @param courseId the course ID of the feedback session
-     * @param feedbackSessionName the name of the feedback session
-     * @param usersToEmail the group of users to send the reminders to
-     * @param requestingInstructorId the ID of the instructor who sends the reminder
-     */
-    public void scheduleFeedbackSessionResendPublishedEmail(String courseId, String feedbackSessionName,
-            String[] usersToEmail, String requestingInstructorId) {
-        FeedbackSessionRemindRequest remindRequest =
-                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToEmail, true);
-
-        addTask(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, new HashMap<>(), remindRequest);
-    }
-
-    /**
-     * Schedules for feedback session unpublished email to be sent.
-     *
-     * @param courseId the course ID of the feedback session
-     * @param feedbackSessionName the name of the feedback session
-     */
-    public void scheduleFeedbackSessionUnpublishedEmail(String courseId, String feedbackSessionName) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-
-        addTask(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, paramMap, null);
-    }
-
-    /**
-     * Schedules for course registration to be sent to the specified instructor.
-     *
-     * @param inviterGoogleId googleId of instructor or administrator who sends the invitation
-     * @param courseId the target course ID
-     * @param instructorEmail the email address of the invited instructor
-     */
-    public void scheduleCourseRegistrationInviteToInstructor(String inviterGoogleId,
-            String instructorEmail, String courseId, boolean isRejoining) {
-        Map<String, String> paramMap = new HashMap<>();
-        if (inviterGoogleId != null) {
-            paramMap.put(ParamsNames.INVITER_ID, inviterGoogleId);
+    public void scheduleEmailsForPrioritySending(List<EmailWrapper> emails) {
+        if (emails.isEmpty()) {
+            return;
         }
-        paramMap.put(ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.IS_INSTRUCTOR_REJOINING, String.valueOf(isRejoining));
 
-        addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,
-                TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, paramMap, null);
+        // Send priority emails immediately with minimal delay
+        long numberOfEmailsSent = 0L;
+        for (EmailWrapper email : emails) {
+            scheduleEmailForPrioritySending(email, numberOfEmailsSent * 100); // 100ms delay between emails
+            numberOfEmailsSent++;
+        }
+    }
+
+    private void scheduleEmailForPrioritySending(EmailWrapper email, long emailDelayTimer) {
+        try {
+            SendEmailRequest request = new SendEmailRequest(email);
+
+            addDeferredTask(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, TaskQueue.PRIORITY_EMAIL_WORKER_URL,
+                            new HashMap<>(), request, emailDelayTimer);
+        } catch (Exception e) {
+            log.severe("Error when adding email to priority queue: " + e.getMessage());
+        }
     }
 
     /**
-     * Schedules for course registration to be sent to the specified student.
-     *
-     * @param courseId the target course ID
-     * @param studentEmail the email address of the student
-     */
-    public void scheduleCourseRegistrationInviteToStudent(String courseId, String studentEmail, boolean isRejoining) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.STUDENT_EMAIL, studentEmail);
-        paramMap.put(ParamsNames.IS_STUDENT_REJOINING, String.valueOf(isRejoining));
-
-        addTask(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME,
-                TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, paramMap, null);
-    }
-
-    /**
-     * Schedules for the given list of emails to be sent.
+     * Schedules for the given list of emails to be sent via standard queue (system/cron, deferred).
      *
      * @param emails the list of emails to be sent
      */

@@ -1,4 +1,6 @@
 package teammates.ui.webapi;
+import java.util.List;
+
 
 import org.apache.http.HttpStatus;
 
@@ -6,6 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
@@ -47,10 +50,14 @@ public class PublishFeedbackSessionAction extends Action {
         try {
             FeedbackSession publishFeedbackSession = sqlLogic.publishFeedbackSession(feedbackSessionName, courseId);
 
-            if (publishFeedbackSession.isPublishedEmailEnabled()) {
-                taskQueuer.scheduleFeedbackSessionPublishedEmail(courseId, feedbackSessionName);
-            }
 
+            if (publishFeedbackSession.isPublishedEmailEnabled()) {
+                // Generate and queue published emails to send-email-queue
+                List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionPublishedEmails(publishFeedbackSession);
+                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+                publishFeedbackSession.setPublishedEmailSent(true);
+                sqlLogic.adjustFeedbackSessionEmailStatusAfterUpdate(publishFeedbackSession);
+            }
             return new JsonResult(new FeedbackSessionData(publishFeedbackSession));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
