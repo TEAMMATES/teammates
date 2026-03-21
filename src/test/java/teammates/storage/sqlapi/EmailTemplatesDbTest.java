@@ -1,0 +1,160 @@
+package teammates.storage.sqlapi;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+
+import java.util.stream.Stream;
+
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.EmailTemplate;
+import teammates.test.BaseTestCase;
+
+/**
+ * SUT: {@link EmailTemplatesDb}.
+ */
+public class EmailTemplatesDbTest extends BaseTestCase {
+
+    private EmailTemplatesDb emailTemplatesDb;
+
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
+
+    @BeforeMethod
+    public void setUpMethod() {
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
+        emailTemplatesDb = spy(EmailTemplatesDb.class);
+    }
+
+    @AfterMethod
+    public void teardownMethod() {
+        mockHibernateUtil.close();
+    }
+
+    @Test
+    public void testGetEmailTemplate_templateExists_returnsTemplate() {
+        EmailTemplate expectedTemplate = new EmailTemplate("KEY", "Subject", "Body");
+
+        CriteriaBuilder cb = mock(CriteriaBuilder.class);
+        @SuppressWarnings("unchecked")
+        CriteriaQuery<EmailTemplate> cr = mock(CriteriaQuery.class);
+        @SuppressWarnings("unchecked")
+        Root<EmailTemplate> root = mock(Root.class);
+        @SuppressWarnings("unchecked")
+        TypedQuery<EmailTemplate> query = mock(TypedQuery.class);
+        @SuppressWarnings("unchecked")
+        Path<Object> path = mock(Path.class);
+        Predicate predicate = mock(Predicate.class);
+
+        mockHibernateUtil.when(HibernateUtil::getCriteriaBuilder).thenReturn(cb);
+        doReturn(cr).when(cb).createQuery(EmailTemplate.class);
+        doReturn(root).when(cr).from(EmailTemplate.class);
+        doReturn(path).when(root).get("templateKey");
+        doReturn(predicate).when(cb).equal(path, "KEY");
+        doReturn(cr).when(cr).select(root);
+        doReturn(cr).when(cr).where(predicate);
+        mockHibernateUtil.when(() -> HibernateUtil.createQuery(cr)).thenReturn(query);
+        doReturn(Stream.of(expectedTemplate)).when(query).getResultStream();
+
+        EmailTemplate actualTemplate = emailTemplatesDb.getEmailTemplate("KEY");
+
+        assertEquals(expectedTemplate, actualTemplate);
+    }
+
+    @Test
+    public void testGetEmailTemplate_templateDoesNotExist_returnsNull() {
+        CriteriaBuilder cb = mock(CriteriaBuilder.class);
+        @SuppressWarnings("unchecked")
+        CriteriaQuery<EmailTemplate> cr = mock(CriteriaQuery.class);
+        @SuppressWarnings("unchecked")
+        Root<EmailTemplate> root = mock(Root.class);
+        @SuppressWarnings("unchecked")
+        TypedQuery<EmailTemplate> query = mock(TypedQuery.class);
+        @SuppressWarnings("unchecked")
+        Path<Object> path = mock(Path.class);
+        Predicate predicate = mock(Predicate.class);
+
+        mockHibernateUtil.when(HibernateUtil::getCriteriaBuilder).thenReturn(cb);
+        doReturn(cr).when(cb).createQuery(EmailTemplate.class);
+        doReturn(root).when(cr).from(EmailTemplate.class);
+        doReturn(path).when(root).get("templateKey");
+        doReturn(predicate).when(cb).equal(path, "MISSING_KEY");
+        doReturn(cr).when(cr).select(root);
+        doReturn(cr).when(cr).where(predicate);
+        mockHibernateUtil.when(() -> HibernateUtil.createQuery(cr)).thenReturn(query);
+        doReturn(Stream.empty()).when(query).getResultStream();
+
+        EmailTemplate actualTemplate = emailTemplatesDb.getEmailTemplate("MISSING_KEY");
+
+        assertNull(actualTemplate);
+    }
+
+    @Test
+    public void testUpsertEmailTemplate_newTemplate_persistsCalled() throws InvalidParametersException {
+        EmailTemplate newTemplate = new EmailTemplate("KEY", "Subject", "Body");
+        doReturn(null).when(emailTemplatesDb).getEmailTemplate("KEY");
+
+        emailTemplatesDb.upsertEmailTemplate(newTemplate);
+
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(newTemplate));
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(any(EmailTemplate.class)), never());
+    }
+
+    @Test
+    public void testUpsertEmailTemplate_existingTemplate_mergesCalled() throws InvalidParametersException {
+        EmailTemplate existingTemplate = new EmailTemplate("KEY", "Old Subject", "Old Body");
+        EmailTemplate updatedTemplate = new EmailTemplate("KEY", "New Subject", "New Body");
+        doReturn(existingTemplate).when(emailTemplatesDb).getEmailTemplate("KEY");
+        mockHibernateUtil.when(() -> HibernateUtil.merge(existingTemplate)).thenReturn(existingTemplate);
+
+        EmailTemplate result = emailTemplatesDb.upsertEmailTemplate(updatedTemplate);
+
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(existingTemplate));
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
+        assertEquals("New Subject", result.getSubject());
+        assertEquals("New Body", result.getBody());
+    }
+
+    @Test
+    public void testUpsertEmailTemplate_invalidTemplate_throwsInvalidParametersException() {
+        EmailTemplate invalidTemplate = new EmailTemplate("KEY", "", "Body");
+        doReturn(null).when(emailTemplatesDb).getEmailTemplate("KEY");
+
+        assertThrows(InvalidParametersException.class,
+                () -> emailTemplatesDb.upsertEmailTemplate(invalidTemplate));
+
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(any(EmailTemplate.class)), never());
+    }
+
+    @Test
+    public void testDeleteEmailTemplate_templateExists_removeCalled() {
+        EmailTemplate template = new EmailTemplate("KEY", "Subject", "Body");
+
+        emailTemplatesDb.deleteEmailTemplate(template);
+
+        mockHibernateUtil.verify(() -> HibernateUtil.remove(template));
+    }
+
+    @Test
+    public void testDeleteEmailTemplate_nullTemplate_removeNotCalled() {
+        emailTemplatesDb.deleteEmailTemplate(null);
+
+        mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
+    }
+}
