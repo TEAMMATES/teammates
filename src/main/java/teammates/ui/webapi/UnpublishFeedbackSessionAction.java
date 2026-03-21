@@ -49,7 +49,12 @@ public class UnpublishFeedbackSessionAction extends Action {
                     sqlLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
 
             if (unpublishFeedbackSession.isPublishedEmailEnabled()) {
-                taskQueuer.scheduleFeedbackSessionUnpublishedEmail(courseId, feedbackSessionName);
+                java.util.List<teammates.common.util.EmailWrapper> emailsToBeSent =
+                        sqlEmailGenerator.generateFeedbackSessionUnpublishedEmails(unpublishFeedbackSession);
+                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+
+                unpublishFeedbackSession.setPublishedEmailSent(false);
+                sqlLogic.adjustFeedbackSessionEmailStatusAfterUpdate(unpublishFeedbackSession);
             }
 
             return new JsonResult(new FeedbackSessionData(unpublishFeedbackSession));

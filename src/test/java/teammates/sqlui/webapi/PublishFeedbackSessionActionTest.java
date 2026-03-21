@@ -151,7 +151,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         verifyFeedbackSessionData(feedbackSessionData, typicalFeedbackSession,
                 FeedbackSessionPublishStatus.NOT_PUBLISHED);
         verify(mockLogic).publishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId());
-        verifySpecifiedTasksAdded(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test

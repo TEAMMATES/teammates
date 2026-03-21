@@ -96,7 +96,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         RemindFeedbackSessionResultAction validAction = getAction(remindRequest, paramsTypical);
         getJsonResult(validAction);
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
     }
 
     private Course generateCourse1() {

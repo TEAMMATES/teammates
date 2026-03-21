@@ -58,30 +58,34 @@ public class SendJoinReminderEmailAction extends Action {
         JsonResult statusMsg;
 
         if (isSendingToStudent) {
-            taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, false);
             Student studentData = sqlLogic.getStudentForEmail(courseId, studentEmail);
             if (studentData == null) {
                 throw new EntityNotFoundException(
                         "Student with email " + studentEmail + " does not exist in course " + courseId + "!");
             }
+            teammates.common.util.EmailWrapper email = sqlEmailGenerator.generateStudentCourseJoinEmail(course, studentData);
+            taskQueuer.schedulePriorityEmailForSending(email);
             statusMsg = new JsonResult("An email has been sent to " + studentEmail);
 
         } else if (isSendingToInstructor) {
-            taskQueuer.scheduleCourseRegistrationInviteToInstructor(userInfo.id,
-                    instructorEmail, courseId, false);
-
             Instructor instructorData = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
             if (instructorData == null) {
                 throw new EntityNotFoundException(
                         "Instructor with email " + instructorEmail + " does not exist in course " + courseId + "!");
             }
+            teammates.storage.sqlentity.Account inviter = sqlLogic.getAccountForGoogleId(userInfo.id);
+            teammates.common.util.EmailWrapper email = sqlEmailGenerator.generateInstructorCourseJoinEmail(
+                    inviter, instructorData, course);
+            taskQueuer.schedulePriorityEmailForSending(email);
             statusMsg = new JsonResult("An email has been sent to " + instructorEmail);
 
         } else {
             List<Student> studentDataList = sqlLogic.getUnregisteredStudentsForCourse(courseId);
+            java.util.List<teammates.common.util.EmailWrapper> emails = new java.util.ArrayList<>();
             for (Student student : studentDataList) {
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail(), false);
+                emails.add(sqlEmailGenerator.generateStudentCourseJoinEmail(course, student));
             }
+            taskQueuer.scheduleEmailsForSending(emails);
             statusMsg = new JsonResult("Emails have been sent to unregistered students.");
         }
 

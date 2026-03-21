@@ -61,7 +61,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
 
             verify(mockLogic, times(1)).getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(2));
-            verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 2);
+            verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }
@@ -76,7 +76,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
 
             verify(mockLogic, times(1)).getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(1));
-            verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 1);
+            verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }

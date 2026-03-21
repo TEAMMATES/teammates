@@ -157,7 +157,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         verifyFeedbackSessionData(feedbackSessionData, outputFeedbackSession,
                 FeedbackSessionPublishStatus.NOT_PUBLISHED);
         verify(mockLogic).unpublishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId());
-        verifySpecifiedTasksAdded(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test

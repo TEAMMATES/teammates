@@ -15,7 +15,11 @@ public class FeedbackSessionPublishedRemindersAction extends AdminOnlyAction {
         List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
-            taskQueuer.scheduleFeedbackSessionPublishedEmail(session.getCourse().getId(), session.getName());
+            java.util.List<teammates.common.util.EmailWrapper> emailsToBeSent =
+                    sqlEmailGenerator.generateFeedbackSessionPublishedEmails(session);
+            taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+            session.setPublishedEmailSent(true);
+            sqlLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
         }
 
         return new JsonResult("Successful");

@@ -30,7 +30,10 @@ public class ResetAccountAction extends AdminOnlyAction {
 
             try {
                 sqlLogic.resetStudentGoogleId(studentEmail, courseId, existingStudent.getGoogleId());
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
+                teammates.storage.sqlentity.Student updatedStudent = sqlLogic.getStudentForEmail(courseId, studentEmail);
+                teammates.common.util.EmailWrapper email = sqlEmailGenerator
+                        .generateStudentCourseRejoinEmailAfterGoogleIdReset(sqlLogic.getCourse(courseId), updatedStudent);
+                taskQueuer.schedulePriorityEmailForSending(email);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
@@ -43,7 +46,10 @@ public class ResetAccountAction extends AdminOnlyAction {
 
             try {
                 sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, existingInstructor.getGoogleId());
-                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
+                teammates.storage.sqlentity.Instructor updatedInstructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
+                teammates.common.util.EmailWrapper email = sqlEmailGenerator
+                        .generateInstructorCourseRejoinEmailAfterGoogleIdReset(updatedInstructor, sqlLogic.getCourse(courseId));
+                taskQueuer.schedulePriorityEmailForSending(email);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }

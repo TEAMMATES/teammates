@@ -47,8 +47,27 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         String[] usersToRemind = remindRequest.getUsersToRemind();
         boolean isSendingCopyToInstructor = remindRequest.getIsSendingCopyToInstructor();
 
-        taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName,
-                usersToRemind, userInfo.getId(), isSendingCopyToInstructor);
+        java.util.List<teammates.storage.sqlentity.Student> studentsToRemindList = new java.util.ArrayList<>();
+        java.util.List<Instructor> instructorsToRemindList = new java.util.ArrayList<>();
+        Instructor instructorToNotify = isSendingCopyToInstructor
+                ? sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId())
+                : null;
+
+        for (String userEmail : usersToRemind) {
+            teammates.storage.sqlentity.Student student = sqlLogic.getStudentForEmail(courseId, userEmail);
+            if (student != null) {
+                studentsToRemindList.add(student);
+            }
+
+            Instructor userInstructor = sqlLogic.getInstructorForEmail(courseId, userEmail);
+            if (userInstructor != null) {
+                instructorsToRemindList.add(userInstructor);
+            }
+        }
+
+        java.util.List<teammates.common.util.EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
+                feedbackSession, studentsToRemindList, instructorsToRemindList, instructorToNotify);
+        taskQueuer.scheduleEmailsForSending(emails);
 
         return new JsonResult("Reminders sent");
     }

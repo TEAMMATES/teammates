@@ -48,7 +48,11 @@ public class PublishFeedbackSessionAction extends Action {
             FeedbackSession publishFeedbackSession = sqlLogic.publishFeedbackSession(feedbackSessionName, courseId);
 
             if (publishFeedbackSession.isPublishedEmailEnabled()) {
-                taskQueuer.scheduleFeedbackSessionPublishedEmail(courseId, feedbackSessionName);
+                java.util.List<teammates.common.util.EmailWrapper> emailsToBeSent =
+                        sqlEmailGenerator.generateFeedbackSessionPublishedEmails(publishFeedbackSession);
+                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+                publishFeedbackSession.setPublishedEmailSent(true);
+                sqlLogic.adjustFeedbackSessionEmailStatusAfterUpdate(publishFeedbackSession);
             }
 
             return new JsonResult(new FeedbackSessionData(publishFeedbackSession));

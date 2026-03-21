@@ -64,7 +64,7 @@ public class SendJoinReminderEmailActionTest
                 "An email has been sent to " + student.getEmail(),
                 actionOutput.getMessage());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class SendJoinReminderEmailActionTest
                 "An email has been sent to " + instructor.getEmail(),
                 actionOutput.getMessage());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class SendJoinReminderEmailActionTest
                 "Emails have been sent to unregistered students.",
                 actionOutput.getMessage());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, unregisteredStudents.size());
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, unregisteredStudents.size());
     }
 
     @Test

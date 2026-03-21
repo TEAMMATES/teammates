@@ -76,8 +76,10 @@ public class CreateInstructorAction extends Action {
 
         Instructor createdInstructor = sqlLogic.createInstructor(instructorToAdd);
 
-        taskQueuer.scheduleCourseRegistrationInviteToInstructor(
-                this.userInfo.id, instructorToAdd.getEmail(), courseId, false);
+        teammates.storage.sqlentity.Account inviter = sqlLogic.getAccountForGoogleId(this.userInfo.id);
+        teammates.common.util.EmailWrapper email = sqlEmailGenerator.generateInstructorCourseJoinEmail(
+                inviter, createdInstructor, sqlLogic.getCourse(courseId));
+        taskQueuer.schedulePriorityEmailForSending(email);
 
         return new JsonResult(new InstructorData(createdInstructor));
     }

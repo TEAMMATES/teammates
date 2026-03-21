@@ -40,8 +40,25 @@ public class RemindFeedbackSessionResultAction extends Action {
                 getAndValidateRequestBody(FeedbackSessionRespondentRemindRequest.class);
         String[] usersToEmail = remindRequest.getUsersToRemind();
 
-        taskQueuer.scheduleFeedbackSessionResendPublishedEmail(
-                courseId, feedbackSessionName, usersToEmail, userInfo.getId());
+        java.util.List<teammates.storage.sqlentity.Student> studentsToEmailList = new java.util.ArrayList<>();
+        java.util.List<Instructor> instructorsToEmailList = new java.util.ArrayList<>();
+
+        Instructor instructorToNotify = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+
+        for (String userEmail : usersToEmail) {
+            teammates.storage.sqlentity.Student student = sqlLogic.getStudentForEmail(courseId, userEmail);
+            if (student != null) {
+                studentsToEmailList.add(student);
+            }
+
+            Instructor userInstructor = sqlLogic.getInstructorForEmail(courseId, userEmail);
+            if (userInstructor != null) {
+                instructorsToEmailList.add(userInstructor);
+            }
+        }
+        java.util.List<teammates.common.util.EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionPublishedEmails(
+                feedbackSession, studentsToEmailList, instructorsToEmailList, java.util.Collections.singletonList(instructorToNotify));
+        taskQueuer.scheduleEmailsForSending(emails);
 
         return new JsonResult("Reminders sent");
     }
