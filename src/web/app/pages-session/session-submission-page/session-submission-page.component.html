@@ -134,7 +134,7 @@
 </div>
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
     <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
-        <div class="text-center">
+        <div class="text-end">
             @if (!isAllExpanded) {
             <button id="btn-expand-all" class="btn btn-light"
                     (click)="expandAllQuestions()">

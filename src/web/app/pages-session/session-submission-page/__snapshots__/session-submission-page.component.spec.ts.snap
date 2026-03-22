@@ -997,7 +997,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   </div><tm-loading-retry>
     <div>
       <div
-        class="text-center"
+        class="text-end"
       >
         <button
           class="btn btn-light"
@@ -4044,7 +4044,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   </div><tm-loading-retry>
     <div>
       <div
-        class="text-center"
+        class="text-end"
       >
         <button
           class="btn btn-light"
