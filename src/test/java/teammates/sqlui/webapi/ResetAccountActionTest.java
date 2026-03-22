@@ -48,7 +48,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         stubInstructorAfterReset = getTypicalInstructor();
         reset(mockLogic, mockSqlEmailGenerator);
         logoutUser();
-        
+
         // Mock getCourse to avoid NPE
         when(mockLogic.getCourse(stubStudent.getCourseId())).thenReturn(stubStudent.getCourse());
         when(mockLogic.getCourse(stubInstructor.getCourseId())).thenReturn(stubInstructor.getCourse());

@@ -1,7 +1,8 @@
 package teammates.ui.webapi;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -45,7 +46,6 @@ public class RemindFeedbackSessionResultAction extends Action {
                 getAndValidateRequestBody(FeedbackSessionRespondentRemindRequest.class);
         String[] usersToEmail = remindRequest.getUsersToRemind();
 
-
         // Generate reminder emails for specified users
         List<Student> studentsToEmailList = new ArrayList<>();
         List<Instructor> instructorsToEmailList = new ArrayList<>();
@@ -63,8 +63,9 @@ public class RemindFeedbackSessionResultAction extends Action {
             }
         }
         List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionPublishedEmails(
-                feedbackSession, studentsToEmailList, instructorsToEmailList, java.util.Collections.singletonList(instructorToNotify));
-        
+                feedbackSession, studentsToEmailList, instructorsToEmailList,
+                Collections.singletonList(instructorToNotify));
+
         // Queue to priority queue for immediate sending (user-triggered)
         taskQueuer.scheduleEmailsForPrioritySending(emails);
         return new JsonResult("Reminders sent");

@@ -19,19 +19,18 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link CreateInstructorAction}.
  */
 public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorAction> {
-    private Account inviter;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
         persistDataBundle(typicalBundle);
-        
+
         // Ensure the admin account exists for email sending
         String adminId = Config.APP_ADMINS.get(0);
-        inviter = new Account(adminId, "Admin", "admin@test.tmt");
+        Account inviter = new Account(adminId, "Admin", "admin@test.tmt");
         logic.createAccount(inviter);
-        
+
         HibernateUtil.flushSession();
     }
 

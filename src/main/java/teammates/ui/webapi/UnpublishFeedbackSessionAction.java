@@ -1,14 +1,14 @@
 package teammates.ui.webapi;
-import java.util.List;
 
+import java.util.List;
 
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
@@ -51,10 +51,10 @@ public class UnpublishFeedbackSessionAction extends Action {
             FeedbackSession unpublishFeedbackSession =
                     sqlLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
 
-
             if (unpublishFeedbackSession.isPublishedEmailEnabled()) {
                 // Generate and queue unpublished emails to send-email-queue
-                List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionUnpublishedEmails(unpublishFeedbackSession);
+                List<EmailWrapper> emailsToBeSent =
+                        sqlEmailGenerator.generateFeedbackSessionUnpublishedEmails(unpublishFeedbackSession);
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 unpublishFeedbackSession.setPublishedEmailSent(false);
                 sqlLogic.adjustFeedbackSessionEmailStatusAfterUpdate(unpublishFeedbackSession);

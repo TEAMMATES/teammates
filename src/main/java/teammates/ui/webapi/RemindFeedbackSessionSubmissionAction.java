@@ -72,7 +72,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
 
         List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
                 feedbackSession, studentsToRemindList, instructorsToRemindList, instructorToNotify);
-        
+
         // Queue to priority queue for immediate sending (user-triggered)
         taskQueuer.scheduleEmailsForPrioritySending(emails);
 

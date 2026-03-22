@@ -53,7 +53,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     @BeforeMethod
     void setUp() {
         reset(mockLogic, mockSqlEmailGenerator);
-        
+
         typicalInstructor = getTypicalInstructor();
         typicalCourse = getTypicalCourse();
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
@@ -140,7 +140,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
             throws EntityDoesNotExistException, InvalidParametersException {
         typicalFeedbackSession.setPublishedEmailEnabled(true);
         EmailWrapper mockEmail = mock(EmailWrapper.class);
-        
+
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
