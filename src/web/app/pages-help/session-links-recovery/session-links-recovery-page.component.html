@@ -18,7 +18,10 @@
     </div>
     @if (captchaSiteKey !== '') {
       <div class="form-group">
-        <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey" (success)="handleSuccess($event)"
+        <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey" 
+          (success)="handleSuccess($event)"
+          (load)="handleLoad()"
+          (error)="handleError()"
           [useGlobalDomain]="false" [size]="size" [hl]="lang" formControlName="recaptcha">
         </ngx-recaptcha2>
       </div>

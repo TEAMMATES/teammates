@@ -1,7 +1,30 @@
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { SessionLinksRecoveryPageComponent } from './session-links-recovery-page.component';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+
+const mockStatusMessageService: jest.Mocked<Partial<StatusMessageService>> = {
+  showErrorToast: jest.fn(),
+};
+
+const mockFeedbackSessionsService = {
+  sendFeedbackSessionLinkToRecoveryEmail: jest.fn(),
+};
+
+function setValidEmail(component: SessionLinksRecoveryPageComponent): void {
+  component.formSessionLinksRecovery.controls['email'].setValue('test@example.com');
+}
+
+function setCaptchaState(
+  component: SessionLinksRecoveryPageComponent,
+  state: { loaded: boolean; error: boolean; },
+): void {
+  component.captchaLoaded = state.loaded;
+  component.captchaError = state.error;
+  (component as any).captchaSiteKey = 'fake-key';
+}
+
 
 describe('SessionLinksRecoveryPageComponent', () => {
   let component: SessionLinksRecoveryPageComponent;
@@ -9,21 +32,57 @@ describe('SessionLinksRecoveryPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [SessionLinksRecoveryPageComponent],
       providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
+        { provide: StatusMessageService, useValue: mockStatusMessageService },
+        { provide: FeedbackSessionsService, useValue: mockFeedbackSessionsService },
       ],
     })
-        .compileComponents();
+    .overrideComponent(SessionLinksRecoveryPageComponent, {
+      set: {
+        imports: [FormsModule, ReactiveFormsModule],
+      },
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {
+    jest.clearAllMocks();
+
     fixture = TestBed.createComponent(SessionLinksRecoveryPageComponent);
     component = fixture.componentInstance;
+
     fixture.detectChanges();
+
+    component.captchaElem = { reloadCaptcha: jest.fn() } as any;
   });
+
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should show error when email is invalid or empty', () => {
+    component.onSubmitFormSessionLinksRecovery(component.formSessionLinksRecovery);
+
+    expect(mockStatusMessageService.showErrorToast).toHaveBeenCalledWith('Please enter a valid email address.');
+  });
+
+  it('should show error when captcha failed to load', () => {
+    setValidEmail(component);
+    setCaptchaState(component, { loaded: false, error: true });
+
+    component.onSubmitFormSessionLinksRecovery(component.formSessionLinksRecovery);
+
+    expect(mockStatusMessageService.showErrorToast).toHaveBeenCalledWith('The "I\'m not a robot" checkbox failed to load. Please try again later.');
+  });
+
+  it('should show error when captcha is loaded but not completed', () => {
+    setValidEmail(component);
+    setCaptchaState(component, { loaded: true, error: false });
+
+    component.onSubmitFormSessionLinksRecovery(component.formSessionLinksRecovery);
+
+    expect(mockStatusMessageService.showErrorToast).toHaveBeenCalledWith('Please complete the "I\'m not a robot" checkbox before submitting.');
   });
 });
