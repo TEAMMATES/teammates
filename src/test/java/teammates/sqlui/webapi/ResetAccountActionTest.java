@@ -1,19 +1,18 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.MessageOutput;
@@ -47,8 +46,12 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         stubStudent.setAccount(getTypicalAccount());
         stubStudentAfterReset = getTypicalStudent();
         stubInstructorAfterReset = getTypicalInstructor();
-        reset(mockLogic);
+        reset(mockLogic, mockSqlEmailGenerator);
         logoutUser();
+        
+        // Mock getCourse to avoid NPE
+        when(mockLogic.getCourse(stubStudent.getCourseId())).thenReturn(stubStudent.getCourse());
+        when(mockLogic.getCourse(stubInstructor.getCourseId())).thenReturn(stubInstructor.getCourse());
     }
 
     @Test
@@ -139,20 +142,14 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         };
         when(mockLogic.getInstructorForEmail(stubInstructor.getCourseId(), stubInstructor.getEmail()))
                 .thenReturn(stubInstructor);
+        when(mockSqlEmailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(
+                stubInstructor, stubInstructor.getCourse())).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
         JsonResult jsonResult = action.execute();
         MessageOutput output = (MessageOutput) jsonResult.getOutput();
 
-        Map<String, String> expectedParamMap = new HashMap<>();
-        expectedParamMap.put(Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail());
-        expectedParamMap.put(Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId());
-        expectedParamMap.put(Const.ParamsNames.IS_INSTRUCTOR_REJOINING, "true");
-
         assertEquals("Account is successfully reset.", output.getMessage());
-        assertEquals(1, mockTaskQueuer.getTasksAdded().size());
-        assertEquals(Const.TaskQueue.PRIORITY_EMAIL_WORKER_URL,
-                mockTaskQueuer.getTasksAdded().get(0).getWorkerUrl());
-        assertEquals(expectedParamMap, mockTaskQueuer.getTasksAdded().get(0).getParamMap());
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
         verify(mockLogic, times(1)).resetInstructorGoogleId(stubInstructor.getEmail(),
                 stubInstructor.getCourseId(), stubInstructor.getGoogleId());
     }
@@ -167,20 +164,14 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         };
         when(mockLogic.getStudentForEmail(stubStudent.getCourseId(), stubStudent.getEmail()))
                 .thenReturn(stubStudent);
+        when(mockSqlEmailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(
+                stubStudent.getCourse(), stubStudent)).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
         JsonResult jsonResult = action.execute();
         MessageOutput output = (MessageOutput) jsonResult.getOutput();
 
-        Map<String, String> expectedParamMap = new HashMap<>();
-        expectedParamMap.put(Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail());
-        expectedParamMap.put(Const.ParamsNames.COURSE_ID, stubStudent.getCourseId());
-        expectedParamMap.put(Const.ParamsNames.IS_STUDENT_REJOINING, "true");
-
         assertEquals("Account is successfully reset.", output.getMessage());
-        assertEquals(1, mockTaskQueuer.getTasksAdded().size());
-        assertEquals(Const.TaskQueue.PRIORITY_EMAIL_WORKER_URL,
-                mockTaskQueuer.getTasksAdded().get(0).getWorkerUrl());
-        assertEquals(expectedParamMap, mockTaskQueuer.getTasksAdded().get(0).getParamMap());
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
         verify(mockLogic, times(1))
                 .resetStudentGoogleId(stubStudent.getEmail(), stubStudent.getCourseId(), stubStudent.getGoogleId());
     }
@@ -195,20 +186,14 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         };
         when(mockLogic.getStudentForEmail(stubStudent.getCourseId(), stubStudent.getEmail()))
                 .thenReturn(stubStudentAfterReset);
+        when(mockSqlEmailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(
+                stubStudent.getCourse(), stubStudentAfterReset)).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
         JsonResult jsonResult = action.execute();
         MessageOutput output = (MessageOutput) jsonResult.getOutput();
 
-        Map<String, String> expectedParamMap = new HashMap<>();
-        expectedParamMap.put(Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail());
-        expectedParamMap.put(Const.ParamsNames.COURSE_ID, stubStudent.getCourseId());
-        expectedParamMap.put(Const.ParamsNames.IS_STUDENT_REJOINING, "true");
-
         assertEquals("Account is successfully reset.", output.getMessage());
-        assertEquals(1, mockTaskQueuer.getTasksAdded().size());
-        assertEquals(Const.TaskQueue.PRIORITY_EMAIL_WORKER_URL,
-                mockTaskQueuer.getTasksAdded().get(0).getWorkerUrl());
-        assertEquals(expectedParamMap, mockTaskQueuer.getTasksAdded().get(0).getParamMap());
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
         verify(mockLogic, times(0))
                 .resetStudentGoogleId(stubStudent.getEmail(), stubStudent.getCourseId(), stubStudent.getGoogleId());
     }
@@ -223,20 +208,14 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         };
         when(mockLogic.getInstructorForEmail(stubInstructor.getCourseId(), stubInstructor.getEmail()))
                 .thenReturn(stubInstructorAfterReset);
+        when(mockSqlEmailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(
+                stubInstructorAfterReset, stubInstructor.getCourse())).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
         JsonResult jsonResult = action.execute();
         MessageOutput output = (MessageOutput) jsonResult.getOutput();
 
-        Map<String, String> expectedParamMap = new HashMap<>();
-        expectedParamMap.put(Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail());
-        expectedParamMap.put(Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId());
-        expectedParamMap.put(Const.ParamsNames.IS_INSTRUCTOR_REJOINING, "true");
-
         assertEquals("Account is successfully reset.", output.getMessage());
-        assertEquals(1, mockTaskQueuer.getTasksAdded().size());
-        assertEquals(Const.TaskQueue.PRIORITY_EMAIL_WORKER_URL,
-                mockTaskQueuer.getTasksAdded().get(0).getWorkerUrl());
-        assertEquals(expectedParamMap, mockTaskQueuer.getTasksAdded().get(0).getParamMap());
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
         verify(mockLogic, times(0)).resetInstructorGoogleId(stubInstructor.getEmail(),
                 stubInstructor.getCourseId(), stubInstructor.getGoogleId());
     }

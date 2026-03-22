@@ -6,7 +6,6 @@ import java.util.List;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -39,7 +38,9 @@ public class ResetAccountAction extends AdminOnlyAction {
             }
 
             try {
-                sqlLogic.resetStudentGoogleId(studentEmail, courseId, existingStudent.getGoogleId());
+                if (existingStudent.getGoogleId() != null) {
+                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, existingStudent.getGoogleId());
+                }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = sqlEmailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, existingStudent);
                 List<EmailWrapper> emails = new ArrayList<>();
@@ -56,7 +57,9 @@ public class ResetAccountAction extends AdminOnlyAction {
             }
 
             try {
-                sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, existingInstructor.getGoogleId());
+                if (existingInstructor.getGoogleId() != null) {
+                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, existingInstructor.getGoogleId());
+                }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = sqlEmailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(existingInstructor, course);
                 List<EmailWrapper> emails = new ArrayList<>();

@@ -1,16 +1,22 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -43,6 +49,8 @@ public class RemindFeedbackSessionSubmissionActionTest
 
     @BeforeMethod
     void setUp() {
+        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+
         nearestHour = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.HOURS);
 
         course = generateCourse1();
@@ -81,9 +89,15 @@ public class RemindFeedbackSessionSubmissionActionTest
     @Test
     protected void testExecute_openedFeedbackSession_success() {
         FeedbackSession openedFeedbackSession = generateOpenedSessionInCourse(course, instructor);
+        EmailWrapper mockEmail = mock(EmailWrapper.class);
 
         when(mockLogic.getFeedbackSession(isA(String.class), isA(String.class)))
                 .thenReturn(openedFeedbackSession);
+        when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
+        when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
+        when(mockSqlEmailGenerator.generateFeedbackSessionReminderEmails(
+                isA(FeedbackSession.class), anyList(), anyList(), isNull()))
+                .thenReturn(List.of(mockEmail));
 
         String[] usersToRemind = {instructor.getEmail(), student.getEmail()};
         FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
