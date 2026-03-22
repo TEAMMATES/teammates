@@ -88,7 +88,7 @@ describe('NotificationBannerComponent', () => {
     expect(component.isShown).toBeFalsy();
   });
 
-  it('should close after clicking mark as read', () => {
+  it('should close after clicking mark as read when no more unread notifications remain', () => {
     const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -108,6 +108,7 @@ describe('NotificationBannerComponent', () => {
     button.click();
     expect(apiSpy).toHaveBeenCalledTimes(1);
     expect(messageSpy).toHaveBeenCalledTimes(1);
+    expect(component.notifications).toEqual([]);
     expect(component.isShown).toBeFalsy();
   });
 
@@ -140,7 +141,7 @@ describe('NotificationBannerComponent', () => {
     expect(banner.textContent).toContain(testNotificationTwo.title);
   });
 
-  it('should snap with no unread notifications', () => {
+  it('should snap with no unread notifications', () => {  
     component.notifications = [];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
