@@ -27,6 +27,9 @@ public class FirebaseAuthService implements AuthService {
     public FirebaseAuthService() throws AuthException {
         try {
             InputStream firebaseCredentialsStream = FileHelper.getResourceAsStream("firebase-credentials.json");
+            if (firebaseCredentialsStream == null) {
+                throw new IOException("firebase-credentials.json not found in resources");
+            }
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(firebaseCredentialsStream))
                     .build();
