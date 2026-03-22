@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -36,16 +35,15 @@ abstract class AuthServlet extends HttpServlet {
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final List<String> GOOGLE_SCOPES = Arrays.asList("https://www.googleapis.com/auth/userinfo.email");
-
     private static final String MICROSOFT_AUTHORITY_BASE = "https://login.microsoftonline.com/";
-    protected static final Set<String> MICROSOFT_SCOPES = Set.of("openid", "email");
 
     /**
      * Gets the authorization code flow to be used for Google OAuth2 authentication.
      */
     AuthorizationCodeFlow getGoogleAuthorizationFlow() throws IOException {
         return new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, Config.OAUTH2_GOOGLE_CLIENT_ID, Config.OAUTH2_GOOGLE_CLIENT_SECRET, GOOGLE_SCOPES)
+                HTTP_TRANSPORT, JSON_FACTORY, Config.OAUTH2_GOOGLE_CLIENT_ID,
+                    Config.OAUTH2_GOOGLE_CLIENT_SECRET, GOOGLE_SCOPES)
                 .setDataStoreFactory(DATA_STORE_FACTORY)
                 .setAccessType("offline")
                 .build();

@@ -27,6 +27,7 @@ import teammates.common.util.StringHelper;
 public class LoginServlet extends AuthServlet {
 
     private static final Logger log = Logger.getLogger();
+    private static final Set<String> MICROSOFT_SCOPES = Set.of("openid", "email");
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
