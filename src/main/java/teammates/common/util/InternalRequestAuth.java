@@ -1,5 +1,8 @@
 package teammates.common.util;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -25,7 +28,8 @@ public final class InternalRequestAuth {
         String auth = req.getHeader("Authorization");
         if (auth != null && auth.startsWith(BEARER_PREFIX)) {
             String token = auth.substring(BEARER_PREFIX.length());
-            return token.equals(secret);
+            return MessageDigest.isEqual(token.getBytes(StandardCharsets.UTF_8),
+                    secret.getBytes(StandardCharsets.UTF_8));
         }
         return false;
     }
