@@ -141,7 +141,7 @@ describe('NotificationBannerComponent', () => {
     expect(banner.textContent).toContain(testNotificationTwo.title);
   });
 
-  it('should snap with no unread notifications', () => {  
+  it('should snap with no unread notifications', () => {
     component.notifications = [];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
