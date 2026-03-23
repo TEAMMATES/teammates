@@ -92,4 +92,5 @@ public class EmailSenderTest extends BaseTestCase {
         assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));
         assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
     }
+
 }
