@@ -37,13 +37,10 @@ public class SmtpService implements EmailSenderService {
 
     public SmtpService() {
         this(Config.SMTP_HOST, Config.SMTP_PORT, Config.SMTP_SECURITY_PROTOCOL,
-                Config.SMTP_USERNAME, Config.SMTP_PASSWORD, Config.SMTP_SOCKET_CONNECTION_TIMEOUT,
-                Config.SMTP_SOCKET_READ_TIMEOUT, Config.SMTP_SOCKET_WRITE_TIMEOUT);
+                Config.SMTP_USERNAME, Config.SMTP_PASSWORD);
     }
 
-    public SmtpService(String host, String port, String securityProtocol,
-                       String username, String password, String socketConnectionTimeout,
-                       String socketReadTimeout, String socketWriteTimeout) {
+    public SmtpService(String host, String port, String securityProtocol,  String username, String password) {
         Properties props = new Properties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.host", host);
@@ -64,11 +61,6 @@ public class SmtpService implements EmailSenderService {
         props.put("mail.smtp.connectiontimeout", DEFAULT_TIMEOUT_MS);
         props.put("mail.smtp.timeout", DEFAULT_TIMEOUT_MS);
         props.put("mail.smtp.writetimeout", DEFAULT_TIMEOUT_MS);
-
-        // Override default timeouts with values from config if provided
-        setIfPresent(props, "mail.smtp.connectiontimeout", socketConnectionTimeout);
-        setIfPresent(props, "mail.smtp.timeout", socketReadTimeout);
-        setIfPresent(props, "mail.smtp.writetimeout", socketWriteTimeout);
 
         Authenticator authenticator = new Authenticator() {
             @Override
