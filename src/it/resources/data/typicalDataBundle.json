@@ -133,6 +133,7 @@
       "name": "Instructor 2 of Course 3",
       "email": "instr2@course3.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country",
       "createdAt": "2011-01-01T00:00:00Z",
       "registeredAt": "1970-02-14T00:00:00Z"
     },

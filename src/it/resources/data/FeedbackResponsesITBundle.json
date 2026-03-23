@@ -67,6 +67,7 @@
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country",
       "registeredAt": "2010-02-14T00:00:00Z"
     },
     "instructor2": {
@@ -74,12 +75,14 @@
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country",
       "registeredAt": "2015-02-14T00:00:00Z"
     },
     "instructor3": {
       "name": "Instructor 3 of CourseNoRegister",
       "email": "instr3@teammates.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country",
       "createdAt": "2011-01-01T00:00:00Z",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
@@ -87,6 +90,7 @@
       "name": "Instructor 1 of Course 1",
       "email": "instr1@course1.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country",
       "createdAt": "2011-01-01T00:00:00Z",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
@@ -94,6 +98,7 @@
       "name": "Instructor 2 of Course 1",
       "email": "instr2@course1.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country",
       "createdAt": "2011-01-01T00:00:00Z",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
@@ -101,6 +106,7 @@
       "name": "Instructor 1 of Course 2",
       "email": "instr1@course2.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country",
       "createdAt": "2011-01-01T00:00:00Z",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
@@ -115,6 +121,7 @@
       "name": "Instructor 1 of Course 3",
       "email": "instr1@course3.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country",
       "createdAt": "2011-01-01T00:00:00Z",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
@@ -122,6 +129,7 @@
       "name": "Instructor 2 of Course 3",
       "email": "instr2@course3.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country",
       "createdAt": "2011-01-01T00:00:00Z",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
@@ -135,6 +143,7 @@
       "name": "Unregistered Instructor 2",
       "email": "unregisteredinstructor2@gmail.tmt",
       "institute": "TEAMMATES Test Institute 2",
+      "country": "Test Country",
       "createdAt": "2011-01-01T00:00:00Z"
     }
   },
