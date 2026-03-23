@@ -23,6 +23,7 @@ describe('NewInstructorDataRowComponent', () => {
       name: 'Instructor',
       email: 'instructor@instruct.or',
       institution: 'Institutional Institution of Institute',
+      country: '',
       status: 'PENDING',
       isCurrentlyBeingEdited: false,
     };

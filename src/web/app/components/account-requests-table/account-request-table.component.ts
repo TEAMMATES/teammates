@@ -233,7 +233,7 @@ export class AccountRequestTableComponent {
     }, () => {});
   }
 
-  trackAccountRequest(_: number, accountRequest: AccountRequestTableRowModel): string {
-    return accountRequest.id;
+  trackAccountRequest(index: number, accountRequest: AccountRequestTableRowModel): string {
+    return accountRequest.id || `account-request-${index}`;
   }
 }

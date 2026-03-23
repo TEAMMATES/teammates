@@ -3,6 +3,7 @@
 exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
+  editedInstructorCountry=""
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
@@ -30,6 +31,11 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
       id="instructor-0-institution"
     >
       Institutional Institution of Institute
+    </span>
+  </td><td>
+    <span
+      id="instructor-0-country"
+    >
     </span>
   </td><td
     style="width: 17%;"
@@ -72,6 +78,7 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
 exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
+  editedInstructorCountry=""
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
@@ -99,6 +106,11 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
       id="instructor-0-institution"
     >
       Institutional Institution of Institute
+    </span>
+  </td><td>
+    <span
+      id="instructor-0-country"
+    >
     </span>
   </td><td
     style="width: 17%;"
@@ -141,6 +153,7 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
 exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
+  editedInstructorCountry=""
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
@@ -168,6 +181,11 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
       id="instructor-0-institution"
     >
       Edited Institution
+    </span>
+  </td><td>
+    <span
+      id="instructor-0-country"
+    >
     </span>
   </td><td
     style="width: 17%;"
@@ -210,6 +228,7 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
 exports[`NewInstructorDataRowComponent should snap with instructor details edited 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
+  editedInstructorCountry=""
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
@@ -236,6 +255,12 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
     <input
       class="form-control ng-untouched ng-pristine ng-valid"
       id="instructor-0-institution-input"
+      type="text"
+    />
+  </td><td>
+    <input
+      class="form-control ng-untouched ng-pristine ng-valid"
+      id="instructor-0-country-input"
       type="text"
     />
   </td><td
@@ -273,6 +298,7 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
 exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
+  editedInstructorCountry=""
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
@@ -299,6 +325,12 @@ exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
     <input
       class="form-control ng-untouched ng-pristine ng-valid"
       id="instructor-0-institution-input"
+      type="text"
+    />
+  </td><td>
+    <input
+      class="form-control ng-untouched ng-pristine ng-valid"
+      id="instructor-0-country-input"
       type="text"
     />
   </td><td
