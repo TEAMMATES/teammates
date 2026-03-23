@@ -18,16 +18,15 @@ import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.test.BaseTestCase;
 
-
 /**
  * SUT: {@link SmtpService}.
  */
 public class SmtpServiceTest extends BaseTestCase {
 
-    private static EmailWrapper buildMinimalWrapper() {
+    private static EmailWrapper getTypicalEmailWrapper() {
         EmailWrapper wrapper = new EmailWrapper();
         wrapper.setSenderName("Sender Name");
-        wrapper.setSenderEmail("sender@exaple.com");
+        wrapper.setSenderEmail("sender@example.com");
         wrapper.setReplyTo("replyto@example.com");
         wrapper.setRecipient("recipient@example.com");
         wrapper.setBcc("bcc@example.com");
@@ -43,7 +42,7 @@ public class SmtpServiceTest extends BaseTestCase {
     @Test
     public void testSendEmail_noErrors_returnsOk() throws EmailSendingException {
         SmtpServiceStub service = new SmtpServiceStub(null);
-        EmailSendingStatus status = service.sendEmail(buildMinimalWrapper());
+        EmailSendingStatus status = service.sendEmail(getTypicalEmailWrapper());
         assertEquals(HttpStatus.SC_OK, status.getStatusCode());
     }
 
@@ -52,7 +51,7 @@ public class SmtpServiceTest extends BaseTestCase {
         for (int code : new int[] { 500, 550, 554 }) {
             SmtpServiceStub service = new SmtpServiceStub(buildSmtpException(code));
             EmailSendingException e = assertThrows(EmailSendingException.class,
-                    () -> service.sendEmail(buildMinimalWrapper()));
+                    () -> service.sendEmail(getTypicalEmailWrapper()));
             assertEquals(HttpStatus.SC_BAD_REQUEST, e.getStatusCode());
         }
     }
@@ -62,7 +61,7 @@ public class SmtpServiceTest extends BaseTestCase {
         for (int code : new int[] { 421, 450, 451, 452 }) {
             SmtpServiceStub service = new SmtpServiceStub(buildSmtpException(code));
             EmailSendingException e = assertThrows(EmailSendingException.class,
-                    () -> service.sendEmail(buildMinimalWrapper()));
+                    () -> service.sendEmail(getTypicalEmailWrapper()));
             assertEquals(HttpStatus.SC_BAD_GATEWAY, e.getStatusCode());
         }
     }
@@ -71,7 +70,7 @@ public class SmtpServiceTest extends BaseTestCase {
     public void testSendEmail_messagingException_throwsInternalServerError() {
         SmtpServiceStub service = new SmtpServiceStub(new MessagingException("Connection refused"));
         EmailSendingException e = assertThrows(EmailSendingException.class,
-                () -> service.sendEmail(buildMinimalWrapper()));
+                () -> service.sendEmail(getTypicalEmailWrapper()));
         assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getStatusCode());
     }
 
@@ -137,7 +136,7 @@ public class SmtpServiceTest extends BaseTestCase {
 
     @Test
     public void testParseToEmail_returnsValidMessage() throws Exception {
-        EmailWrapper wrapper = buildMinimalWrapper();
+        EmailWrapper wrapper = getTypicalEmailWrapper();
         SmtpService smtpService = new SmtpService("smtp.example.invalid", "587", "starttls", "false",
                 "", "");
         MimeMessage email = smtpService.parseToEmail(wrapper);
