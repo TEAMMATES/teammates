@@ -309,6 +309,7 @@ There are several files used to configure various aspects of the system.
 **Main**: These vary from developer to developer and are subjected to frequent changes.
 
 * `build.properties`: Contains the general purpose configuration values to be used by the web API.
+  * `app.env` defaults to `production`. For local development, `build-dev.properties` overrides this to `development` (or set the `APP_ENV` environment variable to override both files). Production-only trees can omit `build-dev.properties`; use `./gradlew createConfigsProduction` or `./gradlew createConfigs -PproductionConfigs` so the dev template is not materialized.
 * `config.ts`: Contains the general purpose configuration values to be used by the web application.
 * `test.properties`: Contains the configuration values for the test driver.
   * There are two separate `test.properties`; one for component tests and one for E2E tests.

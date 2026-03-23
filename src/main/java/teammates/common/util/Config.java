@@ -22,6 +22,12 @@ public final class Config {
     /** The value of the "app.version" in build.properties file. */
     public static final String APP_VERSION;
 
+    /**
+     * Deployment environment: from {@code APP_ENV} if set, otherwise {@code app.env} in property files
+     * (defaults: {@code production} in {@code build.properties}, {@code development} in {@code build-dev.properties}).
+     */
+    public static final String APP_ENV;
+
     /** The value of the "app.frontend.url" in build.properties file. */
     public static final String APP_FRONTEND_URL;
 
@@ -109,10 +115,10 @@ public final class Config {
     /** The value of the "app.maintenance" in build.properties file. */
     public static final boolean MAINTENANCE;
 
-    /** The value of the "app.enable.devserver.login" in build-dev.properties file. */
+    /** The value of the "app.enable.devserver.login" property (defaults to false). */
     public static final boolean ENABLE_DEVSERVER_LOGIN;
 
-    /** The value of the "app.taskqueue.active" in build-dev.properties file. */
+    /** The value of the "app.taskqueue.active" property (defaults to true). */
     public static final boolean TASKQUEUE_ACTIVE;
 
     // Other properties
@@ -130,24 +136,24 @@ public final class Config {
             assert false;
         }
 
-        String appVersion = properties.getProperty("app.version");
-        String appId = properties.getProperty("app.id");
-        IS_DEV_SERVER = isDevServer(appVersion, appId);
-
         Properties devProperties = new Properties();
-        if (IS_DEV_SERVER) {
-            try (InputStream devPropStream = FileHelper.getResourceAsStream("build-dev.properties")) {
-                if (devPropStream != null) {
-                    devProperties.load(devPropStream);
-                }
-            } catch (IOException e) {
-                log.warning("Dev environment detected but failed to load build-dev.properties file.");
+        try (InputStream devPropStream = FileHelper.getResourceAsStream("build-dev.properties")) {
+            if (devPropStream != null) {
+                devProperties.load(devPropStream);
             }
+        } catch (IOException e) {
+            log.warning("Failed to load build-dev.properties file.");
+        }
+
+        APP_ENV = resolveAppEnv(properties, devProperties);
+        IS_DEV_SERVER = "development".equalsIgnoreCase(APP_ENV);
+
+        if (IS_DEV_SERVER) {
             APP_ID = getProperty(properties, devProperties, "app.id");
             APP_VERSION = getProperty(properties, devProperties, "app.version");
         } else {
-            APP_ID = appId;
-            APP_VERSION = appVersion;
+            APP_ID = properties.getProperty("app.id");
+            APP_VERSION = properties.getProperty("app.version");
         }
 
         APP_REGION = getProperty(properties, devProperties, "app.region");
@@ -183,10 +189,11 @@ public final class Config {
         MAILJET_SECRETKEY = getProperty(properties, devProperties, "app.mailjet.secretkey");
         MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
 
-        // The following properties are not used in production server.
-        // So they will only be read from build-dev.properties file.
-        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(devProperties.getProperty("app.enable.devserver.login", "false"));
-        TASKQUEUE_ACTIVE = Boolean.parseBoolean(devProperties.getProperty("app.taskqueue.active", "true"));
+        // Development-oriented; same resolution as other keys (dev file when IS_DEV_SERVER, else build.properties).
+        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(
+                getProperty(properties, devProperties, "app.enable.devserver.login", "false"));
+        TASKQUEUE_ACTIVE = Boolean.parseBoolean(
+                getProperty(properties, devProperties, "app.taskqueue.active", "true"));
     }
 
     private Config() {
@@ -238,6 +245,30 @@ public final class Config {
     }
 
     /**
+     * Resolves effective deployment environment. Precedence: {@code APP_ENV} environment variable,
+     * then {@code app.env} in {@code build-dev.properties} (if set), then {@code app.env} in {@code build.properties},
+     * then backward-compatible defaults when {@code app.env} is missing in both files.
+     */
+    private static String resolveAppEnv(Properties properties, Properties devProperties) {
+        String fromEnv = System.getenv("APP_ENV");
+        if (fromEnv != null && !fromEnv.isBlank()) {
+            return fromEnv.trim();
+        }
+        String fromDev = devProperties.getProperty("app.env");
+        if (fromDev != null && !fromDev.isBlank()) {
+            return fromDev.trim();
+        }
+        String fromBase = properties.getProperty("app.env");
+        if (fromBase != null && !fromBase.isBlank()) {
+            return fromBase.trim();
+        }
+        if (!devProperties.isEmpty()) {
+            return "development";
+        }
+        return "production";
+    }
+
+    /**
      * Returns the GAE instance ID.
      */
     public static String getInstanceId() {
@@ -246,31 +277,6 @@ public final class Config {
             return "dev_server_instance_id";
         }
         return instanceId;
-    }
-
-    /**
-     * Returns true if the server is configured to be the dev server.
-     */
-    private static boolean isDevServer(String appVersion, String appId) {
-        // In production server, GAE sets some non-overrideable environment variables.
-        // We will make use of some of them to determine whether the server is dev server or not.
-        // This means that any developer can replicate this condition in dev server,
-        // but it is their own choice and risk should they choose to do so.
-
-        String version = System.getenv("GAE_VERSION");
-        if (!appVersion.equals(version)) {
-            return true;
-        }
-
-        String env = System.getenv("GAE_ENV");
-        if ("standard".equals(env)) {
-            // GAE standard
-            String appName = System.getenv("GAE_APPLICATION");
-            return appName == null || !appName.endsWith(appId);
-        }
-
-        // GAE flexible; GAE_ENV variable should not exist in GAE flexible environment
-        return env != null;
     }
 
     /**
