@@ -54,7 +54,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     @Test
     void testExecute_pendingRequest_approvesSuccessfully() throws Exception {
         AccountRequest accountRequest = logic.createAccountRequest("name", "pending@email.com",
-                "institute", AccountRequestStatus.PENDING, "comments");
+                "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
@@ -73,7 +73,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     @Test
     void testExecute_rejectedRequest_approvesSuccessfully() throws Exception {
         AccountRequest accountRequest = logic.createAccountRequest("name", "rejected@email.com",
-                "institute", AccountRequestStatus.REJECTED, "comments");
+                "institute", "Test Country", AccountRequestStatus.REJECTED, "comments");
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
@@ -92,7 +92,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         logic.createAccount(existingAccount);
 
         AccountRequest accountRequest = logic.createAccountRequest("name", existingAccount.getEmail(),
-                "anotherInstitute", AccountRequestStatus.PENDING, "comments");
+                "anotherInstitute", "Test Country", AccountRequestStatus.PENDING, "comments");
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
@@ -108,9 +108,9 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     void testExecute_existingApprovedRequestWithSameEmailDifferentInstitute_approvesSuccessfully()
             throws Exception {
         logic.createAccountRequest("name", "same@email.com",
-                "instituteA", AccountRequestStatus.APPROVED, "comments");
+                "instituteA", "Test Country", AccountRequestStatus.APPROVED, "comments");
         AccountRequest accountRequest = logic.createAccountRequest("name", "same@email.com",
-                "instituteB", AccountRequestStatus.PENDING, "comments");
+                "instituteB", "Test Country", AccountRequestStatus.PENDING, "comments");
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
@@ -126,15 +126,15 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     void testExecute_existingApprovedRequestWithSameEmailAndInstitute_throwsInvalidOperationException()
             throws Exception {
         logic.createAccountRequest("name", "duplicate@email.com",
-                "dupInstitute", AccountRequestStatus.APPROVED, "comments");
+                "dupInstitute", "Test Country", AccountRequestStatus.APPROVED, "comments");
         AccountRequest accountRequest = logic.createAccountRequest("name", "duplicate@email.com",
-                "dupInstitute", AccountRequestStatus.PENDING, "comments");
+                "dupInstitute", "Test Country", AccountRequestStatus.PENDING, "comments");
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
-        assertEquals(String.format("An account request with email %s and institute %s has already been approved. "
+        assertEquals(String.format("An account request with email %s, institute %s, and country %s has already been approved. "
                 + "Please reject or delete the account request instead.",
-                accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
+                accountRequest.getEmail(), accountRequest.getInstitute(), accountRequest.getCountry()), ipe.getMessage());
         verifyNoEmailsSent();
     }
 
@@ -143,8 +143,9 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
             throws Exception {
         String email = "existing-instructor@email.com";
         String institute = "dupInstitute";
+        String courseInstitute = "dupInstitute, Test Country";
 
-        Course course = new Course("dup-course-id", "dup course", Const.DEFAULT_TIME_ZONE, institute);
+        Course course = new Course("dup-course-id", "dup course", Const.DEFAULT_TIME_ZONE, courseInstitute);
         logic.createCourse(course);
 
         Instructor existingInstructor = new Instructor(course, "name", email, true, "display-name",
@@ -152,14 +153,33 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         logic.createInstructor(existingInstructor);
 
         AccountRequest accountRequest = logic.createAccountRequest("name", email,
-                institute, AccountRequestStatus.PENDING, "comments");
+                institute, "Test Country", AccountRequestStatus.PENDING, "comments");
+        assertEquals(courseInstitute, accountRequest.getInstituteForCourseMatch());
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
         assertEquals(String.format("An instructor with email %s and institute %s already exists. "
-                + "Please reject or delete the account request instead.",
-                accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
+                    + "Please reject or delete the account request instead.",
+                accountRequest.getEmail(), accountRequest.getInstituteForCourseMatch()), ipe.getMessage());
         verifyNoEmailsSent();
+    }
+
+    @Test
+    void testExecute_existingApprovedRequestSameEmailAndInstituteDifferentCountry_approvesSuccessfully()
+            throws Exception {
+        logic.createAccountRequest("name", "same-institute@email.com",
+                "Some University", "Country A", AccountRequestStatus.APPROVED, "comments");
+        AccountRequest accountRequest = logic.createAccountRequest("name", "same-institute@email.com",
+                "Some University", "Country B", AccountRequestStatus.PENDING, "comments");
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
+
+        ApproveAccountRequestAction action = getAction(params);
+        JsonResult result = action.execute();
+
+        assertEquals(200, result.getStatusCode());
+        AccountRequestData data = (AccountRequestData) result.getOutput();
+        assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
+        verifyNumberOfEmailsSent(1);
     }
 
     @Test
@@ -182,7 +202,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     @Test
     void testExecute_invalidStatus_throwsInvalidOperationException() throws InvalidParametersException {
         AccountRequest accountRequest = logic.createAccountRequest("name", "registered@email.com",
-                "institute", AccountRequestStatus.REGISTERED, "comments");
+                "institute", "Test Country", AccountRequestStatus.REGISTERED, "comments");
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);

@@ -118,7 +118,7 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testSearchAccountRequestsInWholeSystem_sqlInjectionInput_shouldNotAffectData() throws Exception {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute",
+        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute", "Test Country",
                 AccountRequestStatus.PENDING, "comments");
         accountRequestsDb.createAccountRequest(accountRequest);
 

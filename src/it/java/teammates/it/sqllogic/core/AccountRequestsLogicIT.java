@@ -30,7 +30,7 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
         AccountRequest expectedAccountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
         UUID id = expectedAccountRequest.getId();
         accountRequestsLogic.createAccountRequest(expectedAccountRequest);
         AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
@@ -45,10 +45,12 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         String name = "name lee";
         String email = "email@gmail.com";
         String institute = "institute";
+        String country = "Test Country";
         AccountRequestStatus status = AccountRequestStatus.PENDING;
         String comments = "comments";
 
-        AccountRequest toReset = accountRequestsLogic.createAccountRequest(name, email, institute, status, comments);
+        AccountRequest toReset = accountRequestsLogic.createAccountRequest(name, email, institute, country, status,
+                comments);
         AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
 
         toReset.setRegisteredAt(Instant.now());
