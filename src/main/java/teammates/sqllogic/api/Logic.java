@@ -111,29 +111,6 @@ public class Logic {
     }
 
     /**
-     * Gets the account request with the given {@code id}.
-     *
-     * @return account request with the given {@code id}.
-     */
-    public AccountRequest getAccountRequestWithTransaction(UUID id) {
-        return accountRequestLogic.getAccountRequestWithTransaction(id);
-    }
-
-    /**
-     * Creates a or gets an account request.
-     *
-     * @return newly created account request.
-     * @throws InvalidParametersException   if the account request details are
-     *                                      invalid.
-     * @throws EntityAlreadyExistsException if the account request already exists.
-     */
-    public AccountRequest createAccountRequestWithTransaction(String name, String email, String institute,
-            AccountRequestStatus status, String comments) throws InvalidParametersException {
-
-        return accountRequestLogic.createOrGetAccountRequestWithTransaction(name, email, institute, status, comments);
-    }
-
-    /**
      * Gets the account request with the associated {@code regkey}.
      *
      * @return account request with the associated {@code regkey}.
@@ -150,16 +127,6 @@ public class Logic {
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
         return accountRequestLogic.updateAccountRequest(accountRequest);
-    }
-
-    /**
-     * Updates the given account request.
-     *
-     * @return the updated account request.
-     */
-    public AccountRequest updateAccountRequestWithTransaction(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return accountRequestLogic.updateAccountRequestWithTransaction(accountRequest);
     }
 
     /**
@@ -205,10 +172,10 @@ public class Logic {
     }
 
     /**
-     * Get a list of account requests associated with email provided.
+     * Get a list of approved account requests associated with email and institute provided.
      */
-    public List<AccountRequest> getApprovedAccountRequestsForEmailWithTransaction(String email) {
-        return accountRequestLogic.getApprovedAccountRequestsForEmailWithTransaction(email);
+    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
+        return accountRequestLogic.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
     }
 
     /**
@@ -233,13 +200,6 @@ public class Logic {
     }
 
     /**
-     * Get a list of accounts associated with email provided.
-     */
-    public List<Account> getAccountsForEmailWithTransaction(String email) {
-        return accountsLogic.getAccountsForEmailWithTransaction(email);
-    }
-
-    /**
      * Creates an account.
      *
      * @return the created account
@@ -250,19 +210,6 @@ public class Logic {
     public Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return accountsLogic.createAccount(account);
-    }
-
-    /**
-     * Creates an account.
-     *
-     * @return the created account
-     * @throws InvalidParametersException   if the account is not valid
-     * @throws EntityAlreadyExistsException if the account already exists in the
-     *                                      database.
-     */
-    public Account createAccountWithTransaction(Account account)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return accountsLogic.createAccountWithTransaction(account);
     }
 
     /**
@@ -967,6 +914,13 @@ public class Logic {
      */
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         return usersLogic.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Gets a non-soft-deleted instructor with the specified email and institute.
+     */
+    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
+        return usersLogic.getInstructorForEmailAndInstitute(email, institute);
     }
 
     /**

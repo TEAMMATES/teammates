@@ -19,7 +19,7 @@ import teammates.test.AssertHelper;
  */
 public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final SqlDataBundle typicalBundle = getTypicalSqlDataBundle();
+    private final SqlDataBundle typicalBundle = getTypicalDataBundle();
     private final UsersDb usersDb = UsersDb.inst();
 
     @Override

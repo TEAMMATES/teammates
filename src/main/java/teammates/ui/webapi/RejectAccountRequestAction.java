@@ -16,22 +16,21 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Rejects an account request.
  */
 public class RejectAccountRequestAction extends AdminOnlyAction {
-
-    @Override
-    public boolean isTransactionNeeded() {
-        return false;
-    }
-
     @Override
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         String id = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
         UUID accountRequestId = getUuidFromString(Const.ParamsNames.ACCOUNT_REQUEST_ID, id);
 
-        AccountRequest accountRequest = sqlLogic.getAccountRequestWithTransaction(accountRequestId);
+        AccountRequest accountRequest = sqlLogic.getAccountRequest(accountRequestId);
 
         if (accountRequest == null) {
             String errorMessage = String.format(Const.ACCOUNT_REQUEST_NOT_FOUND, accountRequestId.toString());
             throw new EntityNotFoundException(errorMessage);
+        }
+
+        if (accountRequest.getStatus() != AccountRequestStatus.PENDING) {
+            throw new InvalidOperationException(
+                    "Account request with id " + accountRequestId + " is not in pending state and cannot be rejected.");
         }
 
         AccountRequestRejectionRequest accountRequestRejectionRequest =
@@ -40,7 +39,7 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
 
         try {
             accountRequest.setStatus(AccountRequestStatus.REJECTED);
-            accountRequest = sqlLogic.updateAccountRequestWithTransaction(accountRequest);
+            accountRequest = sqlLogic.updateAccountRequest(accountRequest);
             if (accountRequestRejectionRequest.checkHasReason()
                     && initialStatus != AccountRequestStatus.REJECTED) {
                 EmailWrapper email = sqlEmailGenerator.generateAccountRequestRejectionEmail(accountRequest,
