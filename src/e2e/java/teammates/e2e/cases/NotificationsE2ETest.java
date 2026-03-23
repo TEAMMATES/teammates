@@ -125,11 +125,11 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
 
         homePage.verifyStatusMessage("Notification marked as read.");
         if (homePage.isBannerVisible()) {
-                String nextNotificationId = homePage.getNotificationId();
-                assertNotEquals(firstNotificationId, nextNotificationId);
-                assertNotEquals(secondNotificationId, nextNotificationId);
+            String nextNotificationId = homePage.getNotificationId();
+            assertNotEquals(firstNotificationId, nextNotificationId);
+            assertNotEquals(secondNotificationId, nextNotificationId);
         } else {
-                assertFalse(homePage.isBannerVisible());
+            assertFalse(homePage.isBannerVisible());
         }
         AccountData accountFromDb = BACKDOOR.getAccountData(studentAccount.getGoogleId());
         assertTrue(accountFromDb.getReadNotifications().containsKey(firstNotificationId));
