@@ -37,7 +37,6 @@
     "d3": "^7.8.5",
     "firebase": "^10.7.2",
     "handsontable": "^17.0.0",
-    "intersection-observer": "^0.12.2",
     "moment-timezone": "^0.6.0",
     "ng-dynamic-component": "^10.8.2",
     "ng-in-viewport": "^16.1.0",
