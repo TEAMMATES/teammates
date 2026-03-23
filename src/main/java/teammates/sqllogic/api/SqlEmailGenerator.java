@@ -968,6 +968,7 @@ public final class SqlEmailGenerator {
     public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
         String name = accountRequest.getName();
         String institute = accountRequest.getInstitute();
+        String country = accountRequest.getCountry();
         String emailAddress = accountRequest.getEmail();
         String comments = accountRequest.getComments();
         if (comments == null) {
@@ -977,6 +978,7 @@ public final class SqlEmailGenerator {
         String[] templateKeyValuePairs = new String[] {
                 "${name}", name,
                 "${institute}", institute,
+                "${country}", country,
                 "${emailAddress}", emailAddress,
                 "${comments}", comments,
                 "${adminAccountRequestsPageUrl}", adminAccountRequestsPageUrl,
@@ -995,6 +997,7 @@ public final class SqlEmailGenerator {
     public EmailWrapper generateNewAccountRequestAcknowledgementEmail(AccountRequest accountRequest) {
         String name = SanitizationHelper.sanitizeForHtml(accountRequest.getName());
         String institute = SanitizationHelper.sanitizeForHtml(accountRequest.getInstitute());
+        String country = SanitizationHelper.sanitizeForHtml(accountRequest.getCountry());
         String emailAddress = SanitizationHelper.sanitizeForHtml(accountRequest.getEmail());
         String comments = SanitizationHelper.sanitizeForHtml(accountRequest.getComments());
         if (comments == null) {
@@ -1003,6 +1006,7 @@ public final class SqlEmailGenerator {
         String[] templateKeyValuePairs = new String[] {
                 "${name}", name,
                 "${institute}", institute,
+                "${country}", country,
                 "${emailAddress}", emailAddress,
                 "${comments}", comments,
                 "${supportEmail}", Config.SUPPORT_EMAIL,

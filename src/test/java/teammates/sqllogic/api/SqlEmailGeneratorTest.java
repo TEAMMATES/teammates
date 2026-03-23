@@ -21,6 +21,7 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
     @Test
     void testGenerateNewAccountRequestAdminAlertEmail_withComments_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("chosen-one@jedi.org", "Anakin Skywalker", "Jedi Order",
+                "Outer Rim",
                 AccountRequestStatus.PENDING,
                 "I don't like sand. It's coarse and rough and irritating... and it gets everywhere.");
         EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
@@ -32,6 +33,7 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
     @Test
     void testGenerateNewAccountRequestAdminAlertEmail_withNoComments_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
+                "Outer Rim",
                 AccountRequestStatus.PENDING, null);
         EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
         verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
@@ -42,6 +44,7 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
     @Test
     void testGenerateNewAccountRequestAcknowledgementEmail_withComments_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("darth-vader@sith.org", "Darth Vader", "Sith Order",
+                "Outer Rim",
                 AccountRequestStatus.PENDING,
                 "I Am Your Father");
         EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
@@ -53,6 +56,7 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
     @Test
     void testGenerateNewAccountRequestAcknowledgementEmail_withNoComments_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
+                "Outer Rim",
                 AccountRequestStatus.PENDING, null);
         EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
         verifyEmail(email, "maul@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
@@ -63,6 +67,7 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
     @Test
     void testGenerateAccountRequestRejectionEmail_withDefaultReason_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
+                "Outer Rim",
                 AccountRequestStatus.PENDING, null);
         String title = "We are Unable to Create an Account for you";
         String content = new StringBuilder()
