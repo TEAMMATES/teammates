@@ -101,6 +101,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Pau| Atreides");
         request.setInstructorInstitution("House Atreides");
+        request.setInstructorCountry("Arrakis");
         InvalidHttpRequestBodyException ihrbException = verifyHttpRequestBodyFailure(request);
         String expectedMessage = "\"Pau| Atreides\" is not acceptable to TEAMMATES as a/an person name because it contains "
                 + "invalid characters. A/An person name must start with an alphanumeric character, and cannot contain any "
