@@ -83,16 +83,28 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
     }
 
     @Test
+    void testExecute_nullInstructorCountry_throwsInvalidHttpRequestBodyException() {
+        createRequest.setInstructorCountry(null);
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
+        assertEquals("country cannot be null", ex.getMessage());
+        verifyNoTasksAdded();
+        verifyNoEmailsSent();
+    }
+
+    @Test
     void testExecute_validAccountCreateRequest_success() throws InvalidParametersException {
         String instructorEmail = "jamesbond89@gmail.tmt";
         String instructorName = "JamesBond";
         String instructorInstitution = "TEAMMATES Test Institute 1";
+        String instructorCountry = "Test Country";
         String instructorComments = "comments";
         AccountRequest accountRequest = new AccountRequest(instructorEmail, instructorName, instructorInstitution,
+                instructorCountry,
                 AccountRequestStatus.PENDING, instructorComments);
 
         when(mockRecaptchaVerifier.isVerificationSuccessful(createRequest.getCaptchaResponse())).thenReturn(true);
-        when(mockLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution,
+        when(mockLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution, instructorCountry,
                 AccountRequestStatus.PENDING, instructorComments)).thenReturn(accountRequest);
 
         CreateAccountRequestAction action = getAction(createRequest);
@@ -120,11 +132,13 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         String instructorEmail = "jamesbond89@gmail.tmt";
         String instructorName = "JamesBond";
         String instructorInstitution = "TEAMMATES Test Institute 1";
+        String instructorCountry = "Test Country";
         String instructorComments = "comments";
         AccountRequest accountRequest = new AccountRequest(instructorEmail, instructorName, instructorInstitution,
+                instructorCountry,
                 AccountRequestStatus.PENDING, instructorComments);
 
-        when(mockLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution,
+        when(mockLogic.createAccountRequest(instructorName, instructorEmail, instructorInstitution, instructorCountry,
                 AccountRequestStatus.PENDING, instructorComments)).thenReturn(accountRequest);
 
         CreateAccountRequestAction action = getAction(createRequest);
@@ -154,6 +168,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         newCreateRequest.setInstructorEmail("  jamesbond89@gmail.tmt  ");
         newCreateRequest.setInstructorName("  JamesBond  ");
         newCreateRequest.setInstructorInstitution("  TEAMMATES Test Institute 1  ");
+        newCreateRequest.setInstructorCountry("  Test Country  ");
         newCreateRequest.setInstructorComments("  comments  ");
 
         return newCreateRequest;
@@ -164,6 +179,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertEquals(output.getEmail(), accountRequest.getEmail());
         assertEquals(output.getName(), accountRequest.getName());
         assertEquals(output.getInstitute(), accountRequest.getInstitute());
+        assertEquals(output.getCountry(), accountRequest.getCountry());
         assertEquals(output.getRegistrationKey(), accountRequest.getRegistrationKey());
         assertEquals(output.getStatus(), accountRequest.getStatus());
         assertEquals(output.getComments(), accountRequest.getComments());

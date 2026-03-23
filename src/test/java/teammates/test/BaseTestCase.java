@@ -202,7 +202,7 @@ public class BaseTestCase {
     }
 
     protected AccountRequest getTypicalAccountRequest() {
-        return new AccountRequest("valid@test.com", "Test Name", "TEAMMATES Test Institute 1, Test Country",
+        return new AccountRequest("valid@test.com", "Test Name", "TEAMMATES Test Institute 1", "Test Country",
                 AccountRequestStatus.PENDING, "");
     }
 

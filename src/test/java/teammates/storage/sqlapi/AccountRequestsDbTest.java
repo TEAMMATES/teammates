@@ -44,7 +44,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testCreateAccountRequest_typicalCase_success() throws InvalidParametersException {
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest));
@@ -62,7 +62,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
         AccountRequest expectedAccountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
         UUID id = expectedAccountRequest.getId();
         mockHibernateUtil.when(() -> HibernateUtil.get(AccountRequest.class, id)).thenReturn(expectedAccountRequest);
         AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
@@ -73,7 +73,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testUpdateAccountRequest_invalidEmail_throwsInvalidParametersException() {
         AccountRequest accountRequestWithInvalidEmail =
-                new AccountRequest("testgmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+                new AccountRequest("testgmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
 
         assertThrows(InvalidParametersException.class,
                 () -> accountRequestDb.updateAccountRequest(accountRequestWithInvalidEmail));
@@ -84,7 +84,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testUpdateAccountRequest_accountRequestDoesNotExist_throwsEntityDoesNotExistException() {
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
         doReturn(null).when(accountRequestDb).getAccountRequest(accountRequest.getId());
 
         assertThrows(EntityDoesNotExistException.class,
@@ -96,7 +96,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testUpdateAccountRequest_success() throws InvalidParametersException, EntityDoesNotExistException {
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
         doReturn(accountRequest).when(accountRequestDb).getAccountRequest(accountRequest.getId());
         mockHibernateUtil.when(() -> HibernateUtil.merge(accountRequest)).thenReturn(accountRequest);
 
@@ -108,7 +108,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     @Test
     public void testDeleteAccountRequest_success() {
         AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
 
         accountRequestDb.deleteAccountRequest(accountRequest);
 
