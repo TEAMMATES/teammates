@@ -13,13 +13,15 @@
       "name": "Teammates Test 2",
       "email": "ICJoinConf.instr2@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "ICJoinConf.newinstr": {
       "id": "00000000-0000-4000-8000-000000000201",
       "name": "Teammates Test 3",
       "email": "ICJoinConf.newinstr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "institute": "TEAMMATES Test Institute 1",
+      "country": "Test Country"
     }
   },
   "courses": {

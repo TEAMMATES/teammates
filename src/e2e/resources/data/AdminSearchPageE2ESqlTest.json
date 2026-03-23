@@ -24,6 +24,7 @@
           "name": "Instructor1 of Course1",
           "email": "ASearch.instructor1@gmail.tmt",
           "institute": "TEAMMATES Test Institute 1",
+          "country": "Test Country",
           "createdAt": "2011-01-01T00:00:00Z",
           "registeredAt": "1970-02-14T00:00:00Z"
         },
@@ -31,6 +32,7 @@
           "name": "Instructor2 of Course1",
           "email": "ASearch.instructor2@gmail.tmt",
           "institute": "TEAMMATES Test Institute 1",
+          "country": "Test Country",
           "createdAt": "2011-01-01T00:00:00Z",
           "registeredAt": "1970-02-14T00:00:00Z"
         },
@@ -38,6 +40,7 @@
           "name": "Typical Instructor Name",
           "email": "ASearch.unregisteredinstructor1@gmail.tmt",
           "institute": "TEAMMATES Test Institute 1",
+          "country": "Test Country",
           "createdAt": "2011-01-01T00:00:00Z",
           "status": "PENDING"
         },
@@ -45,6 +48,7 @@
           "name": "Typical Instructor Name",
           "email": "ASearch.unregisteredinstructor2@gmail.tmt",
           "institute": "TEAMMATES Test Institute 2",
+          "country": "Test Country",
           "createdAt": "2011-01-01T00:00:00Z",
           "status": "PENDING"
         },
@@ -52,6 +56,7 @@
           "name": "Typical Instructor Name",
           "email": "ASearch.unregisteredinstructor3@gmail.tmt",
           "institute": "TEAMMATES Test Institute 3",
+          "country": "Test Country",
           "createdAt": "2011-01-01T00:00:00Z",
           "status": "PENDING"
         },
@@ -59,6 +64,7 @@
           "name": "Typical Instructor Name",
           "email": "ASearch.unregisteredinstructor4@gmail.tmt",
           "institute": "TEAMMATES Test Institute 4",
+          "country": "Test Country",
           "createdAt": "2011-01-01T00:00:00Z",
           "status": "PENDING"
         },
@@ -66,6 +72,7 @@
           "name": "Typical Instructor Name",
           "email": "ASearch.unregisteredinstructor5@gmail.tmt",
           "institute": "TEAMMATES Test Institute 5",
+          "country": "Test Country",
           "createdAt": "2011-01-01T00:00:00Z",
           "status": "PENDING"
         }

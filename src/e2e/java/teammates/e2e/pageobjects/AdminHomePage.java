@@ -17,6 +17,7 @@ public class AdminHomePage extends AppPage {
     private static final int ACCOUNT_REQUEST_COL_NAME = 1;
     private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
     private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
+    private static final int ACCOUNT_REQUEST_COL_COUNTRY = 5;
 
     @FindBy(id = "instructor-details-single-line")
     private WebElement detailsSingleLineTextBox;
@@ -29,6 +30,9 @@ public class AdminHomePage extends AppPage {
 
     @FindBy (id = "instructor-institution")
     private WebElement institutionTextBox;
+
+    @FindBy (id = "instructor-country")
+    private WebElement countryTextBox;
 
     @FindBy (id = "add-instructor")
     private WebElement submitButton;
@@ -48,7 +52,7 @@ public class AdminHomePage extends AppPage {
         return getPageSource().contains("Add New Instructor</h1>");
     }
 
-    public void queueInstructorForAdding(String name, String email, String institute) {
+    public void queueInstructorForAdding(String name, String email, String institute, String country) {
         if (name != null) {
             fillTextBox(nameTextBox, name);
         }
@@ -57,6 +61,9 @@ public class AdminHomePage extends AppPage {
         }
         if (institute != null) {
             fillTextBox(institutionTextBox, institute);
+        }
+        if (country != null) {
+            fillTextBox(countryTextBox, country);
         }
 
         click(submitButton);
@@ -105,7 +112,7 @@ public class AdminHomePage extends AppPage {
         return text.replace("<span class=\"highlighted-text\">", "").replace("</span>", "");
     }
 
-    public WebElement getAccountRequestRow(String name, String email, String institute) {
+    public WebElement getAccountRequestRow(String name, String email, String institute, String country) {
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
@@ -114,15 +121,17 @@ public class AdminHomePage extends AppPage {
                     && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
                     .getAttribute("innerHTML")).contains(email)
                     && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
-                    .getAttribute("innerHTML")).contains(institute)) {
+                    .getAttribute("innerHTML")).contains(institute)
+                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_COUNTRY - 1)
+                    .getAttribute("innerHTML")).contains(country)) {
                 return row;
             }
         }
         return null;
     }
 
-    public void verifyInstructorInAccountRequestTable(String name, String email, String institute) {
-        WebElement row = getAccountRequestRow(name, email, institute);
+    public void verifyInstructorInAccountRequestTable(String name, String email, String institute, String country) {
+        WebElement row = getAccountRequestRow(name, email, institute, country);
         assertNotNull(row);
     }
 }

@@ -38,8 +38,9 @@ public class AdminSearchPageSql extends AppPage {
     private static final int ACCOUNT_REQUEST_COL_NAME = 1;
     private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
     private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
-    private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 5;
-    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 6;
+    private static final int ACCOUNT_REQUEST_COL_COUNTRY = 5;
+    private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 6;
+    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 7;
 
     private static final String EXPANDED_ROWS_HEADER_EMAIL = "Email";
     private static final String EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK = "Course Join Link";
@@ -283,13 +284,16 @@ public class AdminSearchPageSql extends AppPage {
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
         String email = accountRequest.getEmail();
         String institute = accountRequest.getInstitute();
+        String country = accountRequest.getCountry();
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
                     .getAttribute("innerHTML")).contains(email)
                     && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
-                    .getAttribute("innerHTML")).contains(institute)) {
+                    .getAttribute("innerHTML")).contains(institute)
+                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_COUNTRY - 1)
+                    .getAttribute("innerHTML")).contains(country)) {
                 return row;
             }
         }
@@ -306,6 +310,10 @@ public class AdminSearchPageSql extends AppPage {
 
     public String getAccountRequestInstitute(WebElement accountRequestRow) {
         return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_INSTITUTE);
+    }
+
+    public String getAccountRequestCountry(WebElement accountRequestRow) {
+        return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_COUNTRY);
     }
 
     public String getAccountRequestCreatedAt(WebElement accountRequestRow) {
@@ -581,12 +589,14 @@ public class AdminSearchPageSql extends AppPage {
         String actualName = getAccountRequestName(accountRequestRow);
         String actualEmail = getAccountRequestEmail(accountRequestRow);
         String actualInstitute = getAccountRequestInstitute(accountRequestRow);
+        String actualCountry = getAccountRequestCountry(accountRequestRow);
         String actualCreatedAt = getAccountRequestCreatedAt(accountRequestRow);
         String actualRegisteredAt = getAccountRequestRegisteredAt(accountRequestRow);
 
         assertEquals(accountRequest.getName(), actualName);
         assertEquals(accountRequest.getEmail(), actualEmail);
         assertEquals(accountRequest.getInstitute(), actualInstitute);
+        assertEquals(accountRequest.getCountry(), actualCountry);
         assertFalse(actualCreatedAt.isBlank());
         if (accountRequest.getRegisteredAt() == null) {
             assertEquals("Not Registered Yet", actualRegisteredAt);
