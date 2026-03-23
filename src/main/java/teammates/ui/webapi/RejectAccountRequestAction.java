@@ -28,6 +28,11 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
             throw new EntityNotFoundException(errorMessage);
         }
 
+        if (accountRequest.getStatus() != AccountRequestStatus.PENDING) {
+            throw new InvalidOperationException(
+                    "Account request with id " + accountRequestId + " is not in pending state and cannot be rejected.");
+        }
+
         AccountRequestRejectionRequest accountRequestRejectionRequest =
                 getAndValidateRequestBody(AccountRequestRejectionRequest.class);
         AccountRequestStatus initialStatus = accountRequest.getStatus();

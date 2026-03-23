@@ -321,6 +321,7 @@ public final class Const {
         public static final String ACCOUNT_REQUESTS = URI_PREFIX + "/account/requests";
         public static final String ACCOUNT_REQUEST_RESET = ACCOUNT_REQUEST + "/reset";
         public static final String ACCOUNT_REQUEST_REJECTION = ACCOUNT_REQUEST + "/rejection";
+        public static final String ACCOUNT_REQUEST_APPROVAL = ACCOUNT_REQUEST + "/approval";
         public static final String ACCOUNTS = URI_PREFIX + "/accounts";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String COURSE = URI_PREFIX + "/course";
@@ -340,6 +341,7 @@ public final class Const {
         public static final String NOTIFICATION_READ = URI_PREFIX + "/notification/read";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
+        public static final String SESSION_DEADLINE_EXTENSIONS = URI_PREFIX + "/session/deadlineextensions";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";
         public static final String SESSION_REMIND_SUBMISSION = URI_PREFIX + "/session/remind/submission";
         public static final String SESSION_REMIND_RESULT = URI_PREFIX + "/session/remind/result";
