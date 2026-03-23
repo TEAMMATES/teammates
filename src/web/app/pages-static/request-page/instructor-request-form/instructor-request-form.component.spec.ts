@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { Observable, first } from 'rxjs';
-import { AccountRequest } from '../../../../types/api-output';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
 import { AccountService } from '../../../../services/account.service';
+import { AccountRequest } from '../../../../types/api-output';
 import { AccountCreateRequest, AccountRequestStatus } from '../../../../types/api-request';
 
 describe('InstructorRequestFormComponent', () => {

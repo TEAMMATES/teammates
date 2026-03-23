@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { StatusMessageService } from '../../../../services/status-message.service';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal-model';
+import { StatusMessageService } from '../../../../services/status-message.service';
 import { castAsInputElement, castAsTextAreaElement } from '../../../../types/event-target-caster';
 
 /**

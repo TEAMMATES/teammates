@@ -77,7 +77,8 @@ export class AdminHomePageComponent implements OnInit {
         invalidLines.push(instructorDetail);
         continue;
       }
-      if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2] || !instructorDetailSplit[3]) {
+      if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]
+          || !instructorDetailSplit[3]) {
         invalidLines.push(instructorDetail);
         continue;
       }
@@ -99,11 +100,12 @@ export class AdminHomePageComponent implements OnInit {
     }
     if (addedCount === 0) {
       this.statusMessageService.showErrorToast(
-          'None of the lines could be added. Use the format: Name | Email | Institution | Country, with all fields filled.');
+          'None of the lines could be added. Use the format: Name | Email | Institution | Country, '
+          + 'with all fields filled.');
     } else {
       this.statusMessageService.showWarningToast(
-          `${invalidLines.length} line(s) could not be added. Each line must include name, email, institution, and country `
-          + 'separated by | or tab.');
+          `${invalidLines.length} line(s) could not be added. Each line must include name, email, `
+          + 'institution, and country separated by | or tab.');
     }
   }
 

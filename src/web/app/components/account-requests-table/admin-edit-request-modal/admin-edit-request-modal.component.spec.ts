@@ -2,8 +2,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { StatusMessageService } from '../../../../services/status-message.service';
 import { EditRequestModalComponent } from './admin-edit-request-modal.component';
+import { StatusMessageService } from '../../../../services/status-message.service';
 
 describe('EditRequestModalComponent', () => {
   let fixture: ComponentFixture<EditRequestModalComponent>;
