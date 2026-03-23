@@ -240,19 +240,22 @@ task execScript(type: JavaExec) {
 // SETUP TASKS
 
 task createConfigs {
-    description = "Sets up the project by obtaining necessary files and configurations points."
+    description = "Sets up the project by obtaining necessary files and configurations points. " +
+            "Use -PproductionConfigs to skip creating build-dev.properties (for production-only trees)."
     group = "Setup"
     doLast {
         def templatesToCopy = [
             "gradle.template.properties",
             "src/main/resources/build.template.properties",
-            "src/main/resources/build-dev.template.properties",
             "src/web/environments/config.template.ts",
             "src/test/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
             "src/client/resources/client.template.properties",
             "src/main/appengine/app.template.yaml"
         ]
+        if (!project.hasProperty("productionConfigs")) {
+            templatesToCopy.add(2, "src/main/resources/build-dev.template.properties")
+        }
         templatesToCopy.findAll {
             !(new File(it.replace(".template", ""))).exists()
         }.each {
@@ -262,6 +265,18 @@ task createConfigs {
                 rename '(.*).template(.*)', '$1$2'
             }
         }
+    }
+}
+
+task createConfigsProduction {
+    description = "Same as createConfigs but does not create build-dev.properties from template."
+    group = "Setup"
+    dependsOn createConfigs
+}
+
+gradle.taskGraph.whenReady {
+    if (it.allTasks.any { task -> task.name == "createConfigsProduction" }) {
+        project.ext.productionConfigs = true
     }
 }
 

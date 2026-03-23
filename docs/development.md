@@ -308,7 +308,10 @@ There are several files used to configure various aspects of the system.
 
 **Main**: These vary from developer to developer and are subjected to frequent changes.
 
-* `build.properties`: Contains the general purpose configuration values to be used by the web API.
+* `build.properties` (from `build.template.properties`): Base backend configuration for the web API.
+* `build-dev.properties` (from `build-dev.template.properties`, gitignored): Optional local overrides. It is loaded whenever present; together with `build.properties` it determines the backend environment and, when that environment is `development`, values here override `build.properties` for the same keys. Implementation details: `teammates.common.util.Config`.
+  * **Environment:** If the `APP_ENV` environment variable is set, it wins. Otherwise `app.env` is taken from `build-dev.properties` if set, then from `build.properties`. If `app.env` is missing in both files, a non-empty `build-dev.properties` implies `development`; otherwise `production`.
+  * **Production-only trees** can omit `build-dev.properties`; use `./gradlew createConfigsProduction` or `./gradlew createConfigs -PproductionConfigs` so the dev template is not materialized.
 * `config.ts`: Contains the general purpose configuration values to be used by the web application.
 * `test.properties`: Contains the configuration values for the test driver.
   * There are two separate `test.properties`; one for component tests and one for E2E tests.

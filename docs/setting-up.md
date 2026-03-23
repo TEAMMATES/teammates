@@ -62,7 +62,9 @@ If you want to develop front-end, you need to install the following:
    ```sh
    ./gradlew createConfigs
    ```
+   For a production-only checkout (no local `build-dev.properties` from template), you can use `./gradlew createConfigsProduction` or `./gradlew createConfigs -PproductionConfigs` instead.
    **Verification:** The file named `gradle.properties` should be added to the project root directory.
+   The API reads `src/main/resources/build.properties` (required) and optionally `src/main/resources/build-dev.properties`. How they interact with `APP_ENV` / `app.env` is described under **Config points** in [development.md](development.md#config-points).
 
 1. Modify the following config file:
    * `gradle.properties`
