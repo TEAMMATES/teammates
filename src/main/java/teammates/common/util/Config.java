@@ -52,7 +52,11 @@ public final class Config {
     /** The value of the "app.backdoor.key" in build.properties file. */
     public static final String BACKDOOR_KEY;
 
-    /** The value of the "app.cron.and.worker.secret" in build.properties file. Used for bearer token auth of cron and worker requests. */
+    /**
+     * The value of the "app.cron.and.worker.secret" in build.properties file.
+     * Used for bearer token auth of cron and worker requests via Authorization: Bearer <token>.
+     * Used by external cron providers and Cloud Tasks when calling /auto/* and /worker/* endpoints.
+     * */
     public static final String CRON_AND_WORKER_SECRET;
 
     /** The value of the "app.encryption.key" in build.properties file. */
