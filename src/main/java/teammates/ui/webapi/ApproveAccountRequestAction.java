@@ -33,20 +33,20 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
                     "Account request with id " + accountRequestId + " is already approved or registered.");
         }
 
-        if (!sqlLogic.getApprovedAccountRequestsForEmailAndInstitute(accountRequest.getEmail(),
-                accountRequest.getInstitute()).isEmpty()) {
+        if (!sqlLogic.getApprovedAccountRequestsForEmailInstituteAndCountry(accountRequest.getEmail(),
+                accountRequest.getInstitute(), accountRequest.getCountry()).isEmpty()) {
             throw new InvalidOperationException(String.format(
-            "An account request with email %s and institute %s has already been approved. "
+            "An account request with email %s, institute %s, and country %s has already been approved. "
                 + "Please reject or delete the account request instead.",
-                accountRequest.getEmail(), accountRequest.getInstitute()));
+                accountRequest.getEmail(), accountRequest.getInstitute(), accountRequest.getCountry()));
         }
 
-        if (sqlLogic.getInstructorForEmailAndInstitute(accountRequest.getEmail(), accountRequest.getInstitute())
-                != null) {
+        if (sqlLogic.getInstructorForEmailAndInstitute(accountRequest.getEmail(),
+                accountRequest.getInstituteForCourseMatch()) != null) {
             throw new InvalidOperationException(String.format(
                 "An instructor with email %s and institute %s already exists. "
                     + "Please reject or delete the account request instead.",
-                accountRequest.getEmail(), accountRequest.getInstitute()));
+                accountRequest.getEmail(), accountRequest.getInstituteForCourseMatch()));
         }
 
         try {

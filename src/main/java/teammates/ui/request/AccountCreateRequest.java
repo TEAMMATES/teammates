@@ -16,6 +16,7 @@ public class AccountCreateRequest extends BasicRequest {
     private String instructorEmail;
     private String instructorName;
     private String instructorInstitution;
+    private String instructorCountry;
     @Nullable
     private String instructorComments;
     @Nullable
@@ -33,6 +34,10 @@ public class AccountCreateRequest extends BasicRequest {
         return this.instructorInstitution;
     }
 
+    public String getInstructorCountry() {
+        return this.instructorCountry;
+    }
+
     public String getInstructorComments() {
         return this.instructorComments;
     }
@@ -47,6 +52,10 @@ public class AccountCreateRequest extends BasicRequest {
 
     public void setInstructorInstitution(String institution) {
         this.instructorInstitution = institution;
+    }
+
+    public void setInstructorCountry(String instructorCountry) {
+        this.instructorCountry = instructorCountry;
     }
 
     public void setInstructorEmail(String instructorEmail) {
@@ -66,6 +75,7 @@ public class AccountCreateRequest extends BasicRequest {
         assertTrue(this.instructorEmail != null, "email cannot be null");
         assertTrue(this.instructorName != null, "name cannot be null");
         assertTrue(this.instructorInstitution != null, "institute cannot be null");
+        assertTrue(this.instructorCountry != null, "country cannot be null");
 
         List<String> errors = new ArrayList<>();
 
@@ -82,6 +92,11 @@ public class AccountCreateRequest extends BasicRequest {
         String instituteError = FieldValidator.getInvalidityInfoForInstituteName(this.instructorInstitution.trim());
         if (!instituteError.isEmpty()) {
             errors.add(instituteError);
+        }
+
+        String countryError = FieldValidator.getInvalidityInfoForCountryName(this.instructorCountry.trim());
+        if (!countryError.isEmpty()) {
+            errors.add(countryError);
         }
 
         assertTrue(errors.isEmpty(), StringHelper.toString(errors));

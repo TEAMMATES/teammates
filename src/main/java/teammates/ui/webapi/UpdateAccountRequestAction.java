@@ -33,6 +33,7 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
             accountRequest.setName(accountRequestUpdateRequest.getName());
             accountRequest.setEmail(accountRequestUpdateRequest.getEmail());
             accountRequest.setInstitute(accountRequestUpdateRequest.getInstitute());
+            accountRequest.setCountry(accountRequestUpdateRequest.getCountry());
             // This action is for updating the account request details.
             // Approval or rejection are handled in their respective actions, so status should not be updated here.
             accountRequest.setStatus(accountRequest.getStatus());

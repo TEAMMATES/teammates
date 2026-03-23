@@ -48,6 +48,9 @@ public final class FieldValidator {
     public static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = 128;
 
+    public static final String COUNTRY_NAME_FIELD_NAME = "country name";
+    public static final int COUNTRY_NAME_MAX_LENGTH = 40;
+
     // email-related
     public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
@@ -447,6 +450,17 @@ public final class FieldValidator {
     public static String getInvalidityInfoForInstituteName(String instituteName) {
         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
                                              instituteName);
+    }
+
+    /**
+     * Checks if {@code countryName} is a non-null non-empty string no longer than the specified length
+     * {@code COUNTRY_NAME_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
+     * @return An explanation of why the {@code countryName} is not acceptable.
+     *         Returns an empty string if the {@code countryName} is acceptable.
+     */
+    public static String getInvalidityInfoForCountryName(String countryName) {
+        return getValidityInfoForAllowedName(COUNTRY_NAME_FIELD_NAME, COUNTRY_NAME_MAX_LENGTH,
+                                             countryName);
     }
 
     /**

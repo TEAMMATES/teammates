@@ -39,6 +39,7 @@ public class CreateAccountRequestAction extends Action {
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
         String instructorInstitution = createRequest.getInstructorInstitution().trim();
+        String instructorCountry = createRequest.getInstructorCountry().trim();
         String comments = createRequest.getInstructorComments();
         if (comments != null) {
             comments = comments.trim();
@@ -47,7 +48,7 @@ public class CreateAccountRequestAction extends Action {
 
         try {
             accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail,
-                    instructorInstitution, AccountRequestStatus.PENDING, comments);
+                    instructorInstitution, instructorCountry, AccountRequestStatus.PENDING, comments);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }

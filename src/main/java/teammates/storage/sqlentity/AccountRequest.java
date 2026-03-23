@@ -179,7 +179,7 @@ public class AccountRequest extends BaseEntity {
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        this.comments = SanitizationHelper.sanitizeTextField(comments);
     }
 
     public Instant getRegisteredAt() {
