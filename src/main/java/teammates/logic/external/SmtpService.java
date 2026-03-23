@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import jakarta.mail.Authenticator;
-import jakarta.mail.Message;
+import jakarta.mail.Message.RecipientType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
 import jakarta.mail.PasswordAuthentication;
@@ -111,9 +111,9 @@ public class SmtpService implements EmailSenderService {
         } else {
             message.setFrom(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName(), TEXT_ENCODING_UTF8));
         }
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress(wrapper.getRecipient()));
+        message.setRecipient(RecipientType.TO, new InternetAddress(wrapper.getRecipient()));
         if (wrapper.getBcc() != null && !wrapper.getBcc().isEmpty()) {
-            message.setRecipient(Message.RecipientType.BCC, new InternetAddress(wrapper.getBcc()));
+            message.setRecipient(RecipientType.BCC, new InternetAddress(wrapper.getBcc()));
         }
         message.setReplyTo(new InternetAddress[] { new InternetAddress(wrapper.getReplyTo()) });
         message.setSubject(wrapper.getSubject(), TEXT_ENCODING_UTF8);
