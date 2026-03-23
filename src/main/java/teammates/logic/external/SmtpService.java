@@ -23,6 +23,7 @@ import teammates.common.exception.EmailSendingException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.StringHelper;
 
 /**
  * Jakarta mail-based SMTP email sender service.
@@ -37,15 +38,26 @@ public class SmtpService implements EmailSenderService {
 
     public SmtpService() {
         this(Config.SMTP_HOST, Config.SMTP_PORT, Config.SMTP_SECURITY_PROTOCOL,
-                Config.SMTP_USERNAME, Config.SMTP_PASSWORD);
+                Config.SMTP_AUTH, Config.SMTP_USERNAME, Config.SMTP_PASSWORD);
     }
 
-    public SmtpService(String host, String port, String securityProtocol,  String username, String password) {
+    public SmtpService(String host, String port, String securityProtocol, String authEnabled,
+                       String username, String password) {
+        boolean isAuthEnabled = Boolean.parseBoolean(authEnabled);
+        boolean isAuthEnabledValid = "true".equalsIgnoreCase(authEnabled) || "false".equalsIgnoreCase(authEnabled);
+        if (!isAuthEnabledValid) {
+            throw new IllegalArgumentException("Invalid value for SMTP auth enabled: " + authEnabled);
+        }
+        boolean isCredentialsValid = !StringHelper.isEmpty(username) && !StringHelper.isEmpty(password);
+        if (isAuthEnabled && !isCredentialsValid) {
+            throw new IllegalArgumentException("SMTP auth is enabled but username or password is missing");
+        }
+
         Properties props = new Properties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.port", port);
-        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.auth", authEnabled);
 
         // Set security protocol
         boolean isUsingSsl = "ssl".equalsIgnoreCase(securityProtocol);
@@ -62,14 +74,17 @@ public class SmtpService implements EmailSenderService {
         props.put("mail.smtp.timeout", DEFAULT_TIMEOUT_MS);
         props.put("mail.smtp.writetimeout", DEFAULT_TIMEOUT_MS);
 
-        Authenticator authenticator = new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        };
-
-        this.session = Session.getInstance(props, authenticator);
+        if (isAuthEnabled) {
+            Authenticator authenticator = new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(username, password);
+                }
+            };
+            this.session = Session.getInstance(props, authenticator);
+        } else {
+            this.session = Session.getInstance(props);
+        }
     }
 
     /**

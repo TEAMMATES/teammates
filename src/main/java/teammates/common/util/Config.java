@@ -97,6 +97,9 @@ public final class Config {
     /** The value of the "app.smtp.security.protocol" in build.properties file. */
     public static final String SMTP_SECURITY_PROTOCOL;
 
+    /** The value of the "app.smtp.auth" in build.properties file. */
+    public static final String SMTP_AUTH;
+
     /** The value of the "app.smtp.username" in build.properties file. */
     public static final String SMTP_USERNAME;
 
@@ -189,6 +192,7 @@ public final class Config {
         EMAIL_SERVICE = getProperty(properties, devProperties, "app.email.service");
         SMTP_HOST = getProperty(properties, devProperties, "app.smtp.host");
         SMTP_PORT = getProperty(properties, devProperties, "app.smtp.port");
+        SMTP_AUTH = getProperty(properties, devProperties, "app.smtp.auth");
         SMTP_USERNAME = getProperty(properties, devProperties, "app.smtp.username");
         SMTP_PASSWORD = getProperty(properties, devProperties, "app.smtp.password");
         SMTP_SECURITY_PROTOCOL = getProperty(properties, devProperties, "app.smtp.security.protocol");
@@ -347,10 +351,14 @@ public final class Config {
     }
 
     public static boolean isUsingSmtp() {
+        boolean isSecurityProtocolValid = "ssl".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL)
+                || "starttls".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL);
+        boolean isSmtpAuthValid = "true".equalsIgnoreCase(SMTP_AUTH) || "false".equalsIgnoreCase(SMTP_AUTH);
+        boolean isAuthEnabled = "true".equalsIgnoreCase(SMTP_AUTH);
+        boolean isCredentialValid = !StringHelper.isEmpty(SMTP_USERNAME) && !StringHelper.isEmpty(SMTP_PASSWORD);
+
         return "smtp".equalsIgnoreCase(EMAIL_SERVICE)
                 && !StringHelper.isEmpty(SMTP_HOST) && !StringHelper.isEmpty(SMTP_PORT)
-                && !StringHelper.isEmpty(SMTP_USERNAME) && !StringHelper.isEmpty(SMTP_PASSWORD)
-                && ("ssl".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL)
-                        || "starttls".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL));
+                && isSecurityProtocolValid && isSmtpAuthValid && (!isAuthEnabled || isCredentialValid);
     }
 }
