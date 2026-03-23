@@ -3,7 +3,7 @@
     <div>
       <strong>Adding Multiple Instructors</strong>
       <p class="text-muted">
-        <i class="fas fa-exclamation-circle"></i> Add Instructor Details in the format: Name | Email | Institution
+        <i class="fas fa-exclamation-circle"></i> Add Instructor Details in the format: Name | Email | Institution | Country
       </p>
       <textarea class="form-control" id="instructor-details-single-line" [(ngModel)]="instructorDetails" aria-label="Add multiple instructors"></textarea>
     </div>
@@ -42,6 +42,13 @@
     </div>
 
     <div class="top-padded">
+      <label for="instructor-country">
+        <strong>Country:</strong>
+      </label>
+      <input class="form-control" type="text" id="instructor-country" [(ngModel)]="instructorCountry">
+    </div>
+
+    <div class="top-padded">
       <button class="btn btn-primary" id="add-instructor" (click)="validateAndAddInstructorDetail()">Add Instructor</button>
     </div>
   </div>
@@ -60,6 +67,7 @@
               <th>Name</th>
               <th>Email</th>
               <th>Institution</th>
+              <th>Country</th>
               <th>Action</th>
               <th>Status</th>
               <th>Message</th>

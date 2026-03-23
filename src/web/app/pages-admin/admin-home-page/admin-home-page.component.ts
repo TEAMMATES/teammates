@@ -36,6 +36,7 @@ export class AdminHomePageComponent implements OnInit {
   instructorName: string = '';
   instructorEmail: string = '';
   instructorInstitution: string = '';
+  instructorCountry: string = '';
 
   instructorsConsolidated: InstructorData[] = [];
   accountReqs: AccountRequestTableRowModel[] = [];
@@ -62,48 +63,75 @@ export class AdminHomePageComponent implements OnInit {
    * Validates and adds the instructor details filled with first form.
    */
   validateAndAddInstructorDetails(): void {
+    if (!this.instructorDetails.trim()) {
+      this.statusMessageService.showErrorToast(
+          'Enter instructor details in the format: Name | Email | Institution | Country.');
+      return;
+    }
+
+    const countBefore: number = this.instructorsConsolidated.length;
     const invalidLines: string[] = [];
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
-        // TODO handle error
         invalidLines.push(instructorDetail);
         continue;
       }
-      if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]) {
-        // TODO handle error
+      if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2] || !instructorDetailSplit[3]) {
         invalidLines.push(instructorDetail);
         continue;
       }
+
       this.instructorsConsolidated.push({
         name: instructorDetailSplit[0],
         email: instructorDetailSplit[1],
         institution: instructorDetailSplit[2],
+        country: instructorDetailSplit[3],
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
       });
     }
     this.instructorDetails = invalidLines.join('\r\n');
+
+    const addedCount: number = this.instructorsConsolidated.length - countBefore;
+    if (invalidLines.length === 0) {
+      return;
+    }
+    if (addedCount === 0) {
+      this.statusMessageService.showErrorToast(
+          'None of the lines could be added. Use the format: Name | Email | Institution | Country, with all fields filled.');
+    } else {
+      this.statusMessageService.showWarningToast(
+          `${invalidLines.length} line(s) could not be added. Each line must include name, email, institution, and country `
+          + 'separated by | or tab.');
+    }
   }
 
   /**
    * Validates and adds the instructor detail filled with second form.
    */
   validateAndAddInstructorDetail(): void {
-    if (!this.instructorName || !this.instructorEmail || !this.instructorInstitution) {
-      // TODO handle error
+    const name: string = this.instructorName.trim();
+    const email: string = this.instructorEmail.trim();
+    const institution: string = this.instructorInstitution.trim();
+    const country: string = this.instructorCountry.trim();
+    if (!name || !email || !institution || !country) {
+      this.statusMessageService.showErrorToast(
+          'Please fill in name, email, institution, and country before adding an instructor.');
       return;
     }
     this.instructorsConsolidated.push({
-      name: this.instructorName,
-      email: this.instructorEmail,
-      institution: this.instructorInstitution,
+      name,
+      email,
+      institution,
+      country,
       status: 'PENDING',
       isCurrentlyBeingEdited: false,
     });
     this.instructorName = '';
     this.instructorEmail = '';
     this.instructorInstitution = '';
+    this.instructorCountry = '';
   }
 
   /**
@@ -123,6 +151,7 @@ export class AdminHomePageComponent implements OnInit {
       instructorEmail: instructor.email,
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
+      instructorCountry: instructor.country,
     })
         .pipe(finalize(() => {
           this.isAddingInstructors = false;
@@ -177,7 +206,8 @@ export class AdminHomePageComponent implements OnInit {
         name: request.name,
         email: request.email,
         status: request.status,
-        instituteAndCountry: request.institute,
+        institute: request.institute,
+        country: request.country,
         createdAtText: this.formatDateDetailPipe.transform(request.createdAt, timezone),
         registeredAtText: request.registeredAt
         ? this.formatDateDetailPipe.transform(request.registeredAt, timezone) : '',

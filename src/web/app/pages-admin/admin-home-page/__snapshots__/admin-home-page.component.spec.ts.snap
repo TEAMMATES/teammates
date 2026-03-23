@@ -7,6 +7,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   activeRequests="0"
   currentPage={[Function Number]}
   formatDateDetailPipe={[Function FormatDateDetailPipe]}
+  instructorCountry=""
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""
@@ -35,7 +36,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
           <i
             class="fas fa-exclamation-circle"
           />
-           Add Instructor Details in the format: Name | Email | Institution 
+           Add Instructor Details in the format: Name | Email | Institution | Country 
         </p>
         <textarea
           aria-label="Add multiple instructors"
@@ -116,6 +117,22 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
       <div
         class="top-padded"
       >
+        <label
+          for="instructor-country"
+        >
+          <strong>
+            Country:
+          </strong>
+        </label>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-country"
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
         <button
           class="btn btn-primary"
           id="add-instructor"
@@ -135,6 +152,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   activeRequests={[Function Number]}
   currentPage={[Function Number]}
   formatDateDetailPipe={[Function FormatDateDetailPipe]}
+  instructorCountry=""
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""
@@ -163,7 +181,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
           <i
             class="fas fa-exclamation-circle"
           />
-           Add Instructor Details in the format: Name | Email | Institution 
+           Add Instructor Details in the format: Name | Email | Institution | Country 
         </p>
         <textarea
           aria-label="Add multiple instructors"
@@ -238,6 +256,22 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-institution"
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <label
+          for="instructor-country"
+        >
+          <strong>
+            Country:
+          </strong>
+        </label>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-country"
           type="text"
         />
       </div>
@@ -283,6 +317,9 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
                 Institution
               </th>
               <th>
+                Country
+              </th>
+              <th>
                 Action
               </th>
               <th>
@@ -316,6 +353,13 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
                   id="instructor-0-institution"
                 >
                   Sample Institution A
+                </span>
+              </td>
+              <td>
+                <span
+                  id="instructor-0-country"
+                >
+                  Test Country
                 </span>
               </td>
               <td
@@ -354,6 +398,13 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
                   id="instructor-1-institution"
                 >
                   Sample Institution B
+                </span>
+              </td>
+              <td>
+                <span
+                  id="instructor-1-country"
+                >
+                  Test Country
                 </span>
               </td>
               <td
@@ -427,6 +478,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   activeRequests="0"
   currentPage={[Function Number]}
   formatDateDetailPipe={[Function FormatDateDetailPipe]}
+  instructorCountry=""
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""
@@ -455,7 +507,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
           <i
             class="fas fa-exclamation-circle"
           />
-           Add Instructor Details in the format: Name | Email | Institution 
+           Add Instructor Details in the format: Name | Email | Institution | Country 
         </p>
         <textarea
           aria-label="Add multiple instructors"
@@ -536,6 +588,22 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
       <div
         class="top-padded"
       >
+        <label
+          for="instructor-country"
+        >
+          <strong>
+            Country:
+          </strong>
+        </label>
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="instructor-country"
+          type="text"
+        />
+      </div>
+      <div
+        class="top-padded"
+      >
         <button
           class="btn btn-primary"
           id="add-instructor"
@@ -575,6 +643,9 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 Institution
               </th>
               <th>
+                Country
+              </th>
+              <th>
                 Action
               </th>
               <th>
@@ -608,6 +679,13 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                   id="instructor-0-institution"
                 >
                   Sample Institution A
+                </span>
+              </td>
+              <td>
+                <span
+                  id="instructor-0-country"
+                >
+                  Test Country
                 </span>
               </td>
               <td
@@ -672,6 +750,13 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                   Sample Institution B
                 </span>
               </td>
+              <td>
+                <span
+                  id="instructor-1-country"
+                >
+                  Test Country
+                </span>
+              </td>
               <td
                 style="width: 17%;"
               >
@@ -719,6 +804,13 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                   id="instructor-2-institution"
                 >
                   Sample Institution C
+                </span>
+              </td>
+              <td>
+                <span
+                  id="instructor-2-country"
+                >
+                  Test Country
                 </span>
               </td>
               <td

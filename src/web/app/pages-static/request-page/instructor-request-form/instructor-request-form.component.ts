@@ -206,12 +206,12 @@ export class InstructorRequestFormComponent {
     const country = this.country.value!.trim();
     const mappedCountry = countryMapping[country.toLowerCase()] || country;
     const institution = this.institution.value!.trim();
-    const combinedInstitution = `${institution}, ${mappedCountry}`;
 
     const requestData: AccountCreateRequest = {
       instructorEmail: email,
       instructorName: name,
-      instructorInstitution: combinedInstitution,
+      instructorInstitution: institution,
+      instructorCountry: mappedCountry,
       captchaResponse: this.captchaSiteKey ? this.captchaResponse! : '',
     };
 

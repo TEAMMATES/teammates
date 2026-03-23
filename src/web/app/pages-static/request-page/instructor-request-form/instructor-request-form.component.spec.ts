@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { Observable, first } from 'rxjs';
-import { AccountRequest } from 'src/web/types/api-output';
+import { AccountRequest } from '../../../../types/api-output';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
 import { AccountService } from '../../../../services/account.service';
@@ -22,13 +22,15 @@ describe('InstructorRequestFormComponent', () => {
   const typicalCreateRequest: AccountCreateRequest = {
     instructorEmail: typicalModel.email,
     instructorName: typicalModel.name,
-    instructorInstitution: `${typicalModel.institution}, ${typicalModel.country}`,
+    instructorInstitution: typicalModel.institution,
+    instructorCountry: typicalModel.country,
   };
   const typicalAccountRequest: AccountRequest = {
     id: 'id',
     email: typicalModel.email,
     name: typicalModel.name,
-    institute: `${typicalModel.institution}, ${typicalModel.country}`,
+    institute: typicalModel.institution,
+    country: typicalModel.country,
     registrationKey: 'registration-key',
     status: AccountRequestStatus.PENDING,
     createdAt: 0,
@@ -134,7 +136,8 @@ describe('InstructorRequestFormComponent', () => {
     };
     const unitedStatesCreateRequest: AccountCreateRequest = {
       ...typicalCreateRequest,
-      instructorInstitution: `${unitedStatesModel.institution}, Spain`,
+      instructorInstitution: unitedStatesModel.institution,
+      instructorCountry: 'Spain',
     };
     fillFormWith(unitedStatesModel);
     component.onSubmit();

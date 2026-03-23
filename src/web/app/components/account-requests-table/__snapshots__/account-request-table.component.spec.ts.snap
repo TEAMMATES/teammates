@@ -41,7 +41,10 @@ exports[`AccountRequestTableComponent should display account requests with no re
               Status
             </th>
             <th>
-              Institute, Country
+              Institute
+            </th>
+            <th>
+              Country
             </th>
             <th>
               Created At
@@ -67,6 +70,9 @@ exports[`AccountRequestTableComponent should display account requests with no re
             </td>
             <td>
               institute
+            </td>
+            <td>
+              country
             </td>
             <td
               id="timestamp-box"
@@ -178,6 +184,9 @@ exports[`AccountRequestTableComponent should display account requests with no re
             </td>
             <td>
               institute
+            </td>
+            <td>
+              country
             </td>
             <td
               id="timestamp-box"
@@ -346,7 +355,10 @@ exports[`AccountRequestTableComponent should display account requests with reset
               Status
             </th>
             <th>
-              Institute, Country
+              Institute
+            </th>
+            <th>
+              Country
             </th>
             <th>
               Created At
@@ -375,6 +387,9 @@ exports[`AccountRequestTableComponent should display account requests with reset
             </td>
             <td>
               institute
+            </td>
+            <td>
+              country
             </td>
             <td
               id="timestamp-box"
@@ -505,6 +520,9 @@ exports[`AccountRequestTableComponent should display account requests with reset
             </td>
             <td>
               institute
+            </td>
+            <td>
+              country
             </td>
             <td
               id="timestamp-box"
@@ -671,7 +689,10 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
               Status
             </th>
             <th>
-              Institute, Country
+              Institute
+            </th>
+            <th>
+              Country
             </th>
             <th>
               Created At
@@ -697,6 +718,9 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
             </td>
             <td>
               institute
+            </td>
+            <td>
+              country
             </td>
             <td
               id="timestamp-box"

@@ -24,7 +24,8 @@
             <th>Name</th>
             <th>Email</th>
             <th>Status</th>
-            <th>Institute, Country</th>
+            <th>Institute</th>
+            <th>Country</th>
             <th>Created At</th>
             @if (searchString) {
               <th>Registered At</th>
@@ -53,8 +54,10 @@
                 </td>
                 <td [innerHtml]="accountRequest.email | highlighter:searchString:true">{{ accountRequest.email }}</td>
                 <td [innerHtml]="accountRequest.status | highlighter:searchString:true">{{ accountRequest.status }}</td>
-                <td [innerHtml]="accountRequest.instituteAndCountry | highlighter:searchString:true">{{
-                accountRequest.instituteAndCountry }}</td>
+                <td [innerHtml]="accountRequest.institute | highlighter:searchString:true">{{
+                accountRequest.institute }}</td>
+                <td [innerHtml]="accountRequest.country | highlighter:searchString:true">{{
+                accountRequest.country }}</td>
                 <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
                 @if (searchString) {
                   <td id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}

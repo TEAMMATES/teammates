@@ -27,6 +27,7 @@ export class NewInstructorDataRowComponent implements OnInit {
   editedInstructorName!: string;
   editedInstructorEmail!: string;
   editedInstructorInstitution!: string;
+  editedInstructorCountry!: string;
 
   ngOnInit(): void {
     this.resetEditedInstructorDetails();
@@ -72,6 +73,7 @@ export class NewInstructorDataRowComponent implements OnInit {
     this.editedInstructorName = this.instructor.name;
     this.editedInstructorEmail = this.instructor.email;
     this.editedInstructorInstitution = this.instructor.institution;
+    this.editedInstructorCountry = this.instructor.country;
   }
 
   /**

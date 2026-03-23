@@ -7,7 +7,11 @@ import { AdminHomePageComponent } from './admin-home-page.component';
 import { InstructorData } from './instructor-data';
 import { AccountService } from '../../../services/account.service';
 import { LinkService } from '../../../services/link.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequestStatus } from '../../../types/api-output';
+
+const SINGLE_INSTRUCTOR_REQUIRED_FIELDS_TOAST =
+    'Please fill in name, email, institution, and country before adding an instructor.';
 
 describe('AdminHomePageComponent', () => {
   let component: AdminHomePageComponent;
@@ -42,6 +46,7 @@ describe('AdminHomePageComponent', () => {
     component.instructorName = 'Instructor Name';
     component.instructorEmail = 'instructor@example.com';
     component.instructorInstitution = 'Instructor Institution';
+    component.instructorCountry = 'Test Country';
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
@@ -50,10 +55,12 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorName).toEqual('');
     expect(component.instructorEmail).toEqual('');
     expect(component.instructorInstitution).toEqual('');
+    expect(component.instructorCountry).toEqual('');
     expect(component.instructorsConsolidated.length).toEqual(1);
     expect(component.instructorsConsolidated[0]).toEqual({
       email: 'instructor@example.com',
       institution: 'Instructor Institution',
+      country: 'Test Country',
       name: 'Instructor Name',
       status: 'PENDING',
       isCurrentlyBeingEdited: false,
@@ -61,9 +68,13 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should not add one instructor to list if some fields are empty', () => {
+    const statusMessageService: StatusMessageService = TestBed.inject(StatusMessageService);
+    const errorToastSpy: jest.SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+
     component.instructorName = 'Instructor Name';
     component.instructorEmail = '';
     component.instructorInstitution = 'Instructor Institution';
+    component.instructorCountry = 'Test Country';
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
@@ -72,7 +83,9 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorName).toEqual('Instructor Name');
     expect(component.instructorEmail).toEqual('');
     expect(component.instructorInstitution).toEqual('Instructor Institution');
+    expect(component.instructorCountry).toEqual('Test Country');
     expect(component.instructorsConsolidated.length).toEqual(0);
+    expect(errorToastSpy).toHaveBeenCalledWith(SINGLE_INSTRUCTOR_REQUIRED_FIELDS_TOAST);
 
     component.instructorName = '';
     component.instructorEmail = 'instructor@example.com';
@@ -82,25 +95,96 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorName).toEqual('');
     expect(component.instructorEmail).toEqual('instructor@example.com');
     expect(component.instructorInstitution).toEqual('Instructor Institution');
+    expect(component.instructorCountry).toEqual('Test Country');
     expect(component.instructorsConsolidated.length).toEqual(0);
 
     component.instructorName = 'Instructor Name';
     component.instructorInstitution = '';
+    component.instructorCountry = 'Test Country';
 
     button.click();
 
     expect(component.instructorName).toEqual('Instructor Name');
     expect(component.instructorEmail).toEqual('instructor@example.com');
     expect(component.instructorInstitution).toEqual('');
+    expect(component.instructorCountry).toEqual('Test Country');
+    expect(component.instructorsConsolidated.length).toEqual(0);
+
+    component.instructorInstitution = 'Instructor Institution';
+    component.instructorCountry = '';
+
+    button.click();
+
+    expect(component.instructorsConsolidated.length).toEqual(0);
+
+    expect(errorToastSpy).toHaveBeenCalledTimes(4);
+    expect(errorToastSpy.mock.calls).toEqual([
+      [SINGLE_INSTRUCTOR_REQUIRED_FIELDS_TOAST],
+      [SINGLE_INSTRUCTOR_REQUIRED_FIELDS_TOAST],
+      [SINGLE_INSTRUCTOR_REQUIRED_FIELDS_TOAST],
+      [SINGLE_INSTRUCTOR_REQUIRED_FIELDS_TOAST],
+    ]);
+  });
+
+  it.each([
+    { field: 'name' as const, scenario: 'whitespace only' },
+    { field: 'email' as const, scenario: 'whitespace only' },
+    { field: 'institution' as const, scenario: 'whitespace only' },
+    { field: 'country' as const, scenario: 'whitespace only' },
+  ])('should not add one instructor when $field is $scenario', ({ field }) => {
+    const statusMessageService: StatusMessageService = TestBed.inject(StatusMessageService);
+    const errorToastSpy: jest.SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+
+    component.instructorName = 'Instructor Name';
+    component.instructorEmail = 'instructor@example.com';
+    component.instructorInstitution = 'Instructor Institution';
+    component.instructorCountry = 'Test Country';
+
+    const whitespaceOnly: string = '   ';
+    if (field === 'name') {
+      component.instructorName = whitespaceOnly;
+    } else if (field === 'email') {
+      component.instructorEmail = whitespaceOnly;
+    } else if (field === 'institution') {
+      component.instructorInstitution = whitespaceOnly;
+    } else {
+      component.instructorCountry = whitespaceOnly;
+    }
+
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
+    button.click();
+
+    expect(errorToastSpy).toHaveBeenCalledTimes(1);
+    expect(errorToastSpy).toHaveBeenCalledWith(SINGLE_INSTRUCTOR_REQUIRED_FIELDS_TOAST);
+    expect(component.instructorsConsolidated.length).toEqual(0);
+  });
+
+  it('should show error toast when bulk instructor details are empty', () => {
+    const statusMessageService: StatusMessageService = TestBed.inject(StatusMessageService);
+    const errorToastSpy: jest.SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+
+    component.instructorDetails = '   ';
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
+    button.click();
+
+    expect(errorToastSpy).toHaveBeenCalledWith(
+        'Enter instructor details in the format: Name | Email | Institution | Country.');
     expect(component.instructorsConsolidated.length).toEqual(0);
   });
 
   it('should only add valid instructor details in the single line field', () => {
+    const statusMessageService: StatusMessageService = TestBed.inject(StatusMessageService);
+    const warningToastSpy: jest.SpyInstance = jest.spyOn(statusMessageService, 'showWarningToast');
+
     component.instructorDetails = [
-        'Instructor A | instructora@example.com | Institution A',
+        'Instructor A | instructora@example.com | Institution A | Country A',
         'Instructor B | instructorb@example.com',
         'Instructor C | | instructorc@example.com',
-        'Instructor D | instructord@example.com | Institution D',
+        'Instructor D | instructord@example.com | Institution D | Country D',
         '| instructore@example.com | Institution E',
     ].join('\n');
     fixture.detectChanges();
@@ -108,6 +192,8 @@ describe('AdminHomePageComponent', () => {
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
 
+    expect(warningToastSpy).toHaveBeenCalledWith(
+        '3 line(s) could not be added. Each line must include name, email, institution, and country separated by | or tab.');
     expect(component.instructorDetails).toEqual([
       'Instructor B | instructorb@example.com',
       'Instructor C | | instructorc@example.com',
@@ -117,6 +203,7 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorsConsolidated[0]).toEqual({
       email: 'instructora@example.com',
       institution: 'Institution A',
+      country: 'Country A',
       name: 'Instructor A',
       status: 'PENDING',
       isCurrentlyBeingEdited: false,
@@ -124,6 +211,7 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorsConsolidated[1]).toEqual({
       email: 'instructord@example.com',
       institution: 'Institution D',
+      country: 'Country D',
       name: 'Instructor D',
       status: 'PENDING',
       isCurrentlyBeingEdited: false,
@@ -135,6 +223,7 @@ describe('AdminHomePageComponent', () => {
       name: 'Instructor A',
       email: 'instructora@example.com',
       institution: 'Sample Institution A',
+      country: 'Test Country',
       status: 'PENDING',
       isCurrentlyBeingEdited: false,
       joinLink: 'This should not be displayed',
@@ -156,6 +245,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
+        country: 'Singapore',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
@@ -167,6 +257,7 @@ describe('AdminHomePageComponent', () => {
       email: 'some.person@example.com',
       name: 'Some Person',
       institute: 'NUS',
+      country: 'Singapore',
       status: AccountRequestStatus.APPROVED,
       registrationKey: 'registrationKey',
       createdAt: 528,
@@ -190,6 +281,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
+        country: 'Singapore',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
@@ -217,6 +309,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
@@ -226,6 +319,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
+        country: 'Test Country',
         status: 'SUCCESS',
         statusCode: 200,
         isCurrentlyBeingEdited: false,
@@ -236,6 +330,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor C',
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
+        country: 'Test Country',
         status: 'FAIL',
         statusCode: 400,
         isCurrentlyBeingEdited: false,
@@ -258,6 +353,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
@@ -267,6 +363,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
@@ -276,6 +373,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor C',
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
+        country: 'Test Country',
         status: 'FAIL',
         statusCode: 400,
         isCurrentlyBeingEdited: false,
@@ -302,6 +400,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
@@ -311,6 +410,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
+        country: 'Test Country',
         status: 'SUCCESS',
         statusCode: 200,
         isCurrentlyBeingEdited: false,
@@ -321,6 +421,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor C',
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
+        country: 'Test Country',
         status: 'FAIL',
         statusCode: 400,
         isCurrentlyBeingEdited: false,
@@ -347,6 +448,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
@@ -356,6 +458,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: true,
         joinLink: 'This should not be displayed',
@@ -365,6 +468,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor C',
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
+        country: 'Test Country',
         status: 'FAIL',
         statusCode: 400,
         isCurrentlyBeingEdited: false,
@@ -393,6 +497,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
@@ -402,6 +507,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
+        country: 'Test Country',
         status: 'SUCCESS',
         statusCode: 200,
         isCurrentlyBeingEdited: false,
@@ -412,6 +518,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor C',
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
+        country: 'Test Country',
         status: 'FAIL',
         statusCode: 400,
         isCurrentlyBeingEdited: false,
@@ -429,6 +536,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
+        country: 'Test Country',
         status: 'ADDING',
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
@@ -438,6 +546,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
         joinLink: 'This should not be displayed',
@@ -452,8 +561,8 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should add multiple instructors split by tabs', () => {
-    component.instructorDetails = `Instructor A   \t  instructora@example.com \t  Sample Institution A\n
-     Instructor B \t instructorb@example.com \t Sample Institution B`;
+    component.instructorDetails = `Instructor A   \t  instructora@example.com \t  Sample Institution A \t Test Country\n
+     Instructor B \t instructorb@example.com \t Sample Institution B \t Test Country`;
 
     fixture.detectChanges();
 
@@ -466,6 +575,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
       },
@@ -475,6 +585,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
       },
@@ -482,8 +593,8 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should add multiple instructors split by vertical bars', () => {
-    component.instructorDetails = `Instructor A | instructora@example.com | Sample Institution A\n
-        Instructor B | instructorb@example.com | Sample Institution B`;
+    component.instructorDetails = `Instructor A | instructora@example.com | Sample Institution A | Test Country\n
+        Instructor B | instructorb@example.com | Sample Institution B | Test Country`;
 
     fixture.detectChanges();
 
@@ -496,6 +607,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
       },
@@ -505,6 +617,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
+        country: 'Test Country',
         status: 'PENDING',
         isCurrentlyBeingEdited: false,
       },

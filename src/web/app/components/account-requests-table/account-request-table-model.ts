@@ -8,7 +8,8 @@ export interface AccountRequestTableRowModel {
     name: string;
     email: string;
     status: AccountRequestStatus;
-    instituteAndCountry: string;
+    institute: string;
+    country: string;
     createdAtText: string;
     registeredAtText: string;
     comments: string;

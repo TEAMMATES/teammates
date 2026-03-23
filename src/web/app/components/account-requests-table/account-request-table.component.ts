@@ -79,7 +79,8 @@ export class AccountRequestTableComponent {
     const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
-    modalRef.componentInstance.accountRequestInstitution = accountRequest.instituteAndCountry;
+    modalRef.componentInstance.accountRequestInstitution = accountRequest.institute;
+    modalRef.componentInstance.accountRequestCountry = accountRequest.country;
     modalRef.componentInstance.accountRequestComments = accountRequest.comments;
 
     modalRef.result.then((res: EditRequestModalComponentResult) => {
@@ -89,6 +90,7 @@ export class AccountRequestTableComponent {
             name: res.accountRequestName,
             email: res.accountRequestEmail,
             institute: res.accountRequestInstitution,
+            country: res.accountRequestCountry,
             status: accountRequest.status,
             comments: res.accountRequestComment,
         }),
@@ -98,7 +100,8 @@ export class AccountRequestTableComponent {
           accountRequest.comments = resp.comments ?? '';
           accountRequest.name = resp.name;
           accountRequest.email = resp.email;
-          accountRequest.instituteAndCountry = resp.institute;
+          accountRequest.institute = resp.institute;
+          accountRequest.country = resp.country;
           this.statusMessageService.showSuccessToast('Account request was successfully updated.');
         },
         error: (resp: ErrorMessageOutput) => {
@@ -130,7 +133,7 @@ export class AccountRequestTableComponent {
     this.isResettingAccount[index] = true;
     const modalContent = `Are you sure you want to reset the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.instituteAndCountry}</strong>?
+        <strong>${accountRequest.institute}</strong> (${accountRequest.country})?
         An email with the account registration link will also be sent to the instructor.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Reset account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
@@ -159,7 +162,7 @@ export class AccountRequestTableComponent {
   deleteAccountRequest(accountRequest: AccountRequestTableRowModel): void {
     const modalContent: string = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.instituteAndCountry}</strong>?`;
+        <strong>${accountRequest.institute}</strong> (${accountRequest.country})?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Delete account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.DANGER, modalContent);
 

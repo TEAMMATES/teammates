@@ -191,6 +191,7 @@ describe('SearchService', () => {
     createdAt: 1585487897502,
     name: 'Test Instructor',
     institute: 'Test Institute',
+    country: 'Test Country',
     email: 'test@example.com',
     comments: 'This is a test account request',
     status: AccountRequestStatus.APPROVED,
@@ -311,6 +312,7 @@ describe('SearchService', () => {
     expect(result.id).toBe('132efa02-b208-4195-a262-a8eae25ceb95');
     expect(result.email).toBe('test@example.com');
     expect(result.institute).toBe('Test Institute');
+    expect(result.country).toBe('Test Country');
     expect(result.name).toBe('Test Instructor');
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
     expect(result.registeredAtText).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
@@ -323,6 +325,7 @@ describe('SearchService', () => {
 
     expect(result.email).toBe('test@example.com');
     expect(result.institute).toBe('Test Institute');
+    expect(result.country).toBe('Test Country');
     expect(result.name).toBe('Test Instructor');
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 01:18 PM +00:00');
     expect(result.registeredAtText).toBe(null);

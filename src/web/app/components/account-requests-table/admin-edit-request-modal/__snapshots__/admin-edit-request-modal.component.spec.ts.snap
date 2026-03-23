@@ -1,14 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RejectWithReasonModal should show empty fields 1`] = `
+exports[`EditRequestModalComponent should show empty fields 1`] = `
 <tm-edit-request-modal
   accountRequestComments=""
+  accountRequestCountry=""
   accountRequestEmail=""
   accountRequestInstitution=""
   accountRequestName=""
   activeModal={[Function NgbActiveModal]}
   castAsInputElement={[Function Function]}
   castAsTextAreaElement={[Function Function]}
+  statusMessageService={[Function StatusMessageService]}
 >
   <div
     class="modal-header bg-primary"
@@ -28,8 +30,13 @@ exports[`RejectWithReasonModal should show empty fields 1`] = `
     class="modal-body"
     id="reject-account-request-modal"
   >
-    <div>
-      <label>
+    <div
+      class="mb-3"
+    >
+      <label
+        class="form-label mb-1"
+        for="request-name"
+      >
         <b>
           Name:
         </b>
@@ -40,8 +47,13 @@ exports[`RejectWithReasonModal should show empty fields 1`] = `
         type="text"
       />
     </div>
-    <div>
-      <label>
+    <div
+      class="mb-3"
+    >
+      <label
+        class="form-label mb-1"
+        for="request-email"
+      >
         <b>
           Email:
         </b>
@@ -52,10 +64,15 @@ exports[`RejectWithReasonModal should show empty fields 1`] = `
         type="text"
       />
     </div>
-    <div>
-      <label>
+    <div
+      class="mb-3"
+    >
+      <label
+        class="form-label mb-1"
+        for="request-institution"
+      >
         <b>
-          Institution, Country:
+          Institution:
         </b>
       </label>
       <input
@@ -65,59 +82,70 @@ exports[`RejectWithReasonModal should show empty fields 1`] = `
       />
     </div>
     <div
-      class="row"
+      class="mb-3"
     >
-      <div
-        class="col-12"
+      <label
+        class="form-label mb-1"
+        for="request-country"
       >
-        <div>
-          <label>
-            <b>
-              Comments:
-            </b>
-          </label>
-        </div>
-        <div
-          class="form-group"
-        >
-          <textarea
-            class="form-control"
-            id="request-comments"
-            rows="5"
-          />
-        </div>
-      </div>
-      <div
-        class="modal-footer"
-      >
-        <button
-          class="btn btn-light"
-          type="button"
-        >
-          Cancel
-        </button>
-        <button
-          class="btn btn-primary"
-          id="btn-confirm-edit-request"
-          type="button"
-        >
-           Save 
-        </button>
-      </div>
+        <b>
+          Country:
+        </b>
+      </label>
+      <input
+        class="form-control"
+        id="request-country"
+        type="text"
+      />
     </div>
+    <div
+      class="mb-0"
+    >
+      <label
+        class="form-label mb-1"
+        for="request-comments"
+      >
+        <b>
+          Comments:
+        </b>
+      </label>
+      <textarea
+        class="form-control"
+        id="request-comments"
+        rows="5"
+      />
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      id="btn-confirm-edit-request"
+      type="button"
+    >
+       Save 
+    </button>
   </div>
 </tm-edit-request-modal>
 `;
 
-exports[`RejectWithReasonModal should show populated data 1`] = `
+exports[`EditRequestModalComponent should show populated data 1`] = `
 <tm-edit-request-modal
   accountRequestComments={[Function String]}
+  accountRequestCountry={[Function String]}
   accountRequestEmail={[Function String]}
   accountRequestInstitution={[Function String]}
   accountRequestName={[Function String]}
   activeModal={[Function NgbActiveModal]}
   castAsInputElement={[Function Function]}
   castAsTextAreaElement={[Function Function]}
+  statusMessageService={[Function StatusMessageService]}
 >
   <div
     class="modal-header bg-primary"
@@ -137,8 +165,13 @@ exports[`RejectWithReasonModal should show populated data 1`] = `
     class="modal-body"
     id="reject-account-request-modal"
   >
-    <div>
-      <label>
+    <div
+      class="mb-3"
+    >
+      <label
+        class="form-label mb-1"
+        for="request-name"
+      >
         <b>
           Name:
         </b>
@@ -149,8 +182,13 @@ exports[`RejectWithReasonModal should show populated data 1`] = `
         type="text"
       />
     </div>
-    <div>
-      <label>
+    <div
+      class="mb-3"
+    >
+      <label
+        class="form-label mb-1"
+        for="request-email"
+      >
         <b>
           Email:
         </b>
@@ -161,10 +199,15 @@ exports[`RejectWithReasonModal should show populated data 1`] = `
         type="text"
       />
     </div>
-    <div>
-      <label>
+    <div
+      class="mb-3"
+    >
+      <label
+        class="form-label mb-1"
+        for="request-institution"
+      >
         <b>
-          Institution, Country:
+          Institution:
         </b>
       </label>
       <input
@@ -174,46 +217,55 @@ exports[`RejectWithReasonModal should show populated data 1`] = `
       />
     </div>
     <div
-      class="row"
+      class="mb-3"
     >
-      <div
-        class="col-12"
+      <label
+        class="form-label mb-1"
+        for="request-country"
       >
-        <div>
-          <label>
-            <b>
-              Comments:
-            </b>
-          </label>
-        </div>
-        <div
-          class="form-group"
-        >
-          <textarea
-            class="form-control"
-            id="request-comments"
-            rows="5"
-          />
-        </div>
-      </div>
-      <div
-        class="modal-footer"
-      >
-        <button
-          class="btn btn-light"
-          type="button"
-        >
-          Cancel
-        </button>
-        <button
-          class="btn btn-primary"
-          id="btn-confirm-edit-request"
-          type="button"
-        >
-           Save 
-        </button>
-      </div>
+        <b>
+          Country:
+        </b>
+      </label>
+      <input
+        class="form-control"
+        id="request-country"
+        type="text"
+      />
     </div>
+    <div
+      class="mb-0"
+    >
+      <label
+        class="form-label mb-1"
+        for="request-comments"
+      >
+        <b>
+          Comments:
+        </b>
+      </label>
+      <textarea
+        class="form-control"
+        id="request-comments"
+        rows="5"
+      />
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      id="btn-confirm-edit-request"
+      type="button"
+    >
+       Save 
+    </button>
   </div>
 </tm-edit-request-modal>
 `;

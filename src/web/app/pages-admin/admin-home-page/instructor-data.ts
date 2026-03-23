@@ -5,6 +5,7 @@ export interface InstructorData {
   name: string;
   email: string;
   institution: string;
+  country: string;
   status: string;
   isCurrentlyBeingEdited: boolean;
   statusCode?: number;

@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { StatusMessageService } from '../../../../services/status-message.service';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal-model';
 import { castAsInputElement, castAsTextAreaElement } from '../../../../types/event-target-caster';
 
 /**
- * Modal to select reject account requests with reason.
+ * Modal to edit an account request (name, email, institution, country, comments).
  */
 @Component({
     selector: 'tm-edit-request-modal',
@@ -23,21 +24,39 @@ export class EditRequestModalComponent {
   @Input()
   accountRequestInstitution: string = '';
   @Input()
+  accountRequestCountry: string = '';
+  @Input()
   accountRequestComments: string = '';
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(
+      public activeModal: NgbActiveModal,
+      private statusMessageService: StatusMessageService,
+  ) {}
 
   /**
    * Fires the edit event.
    */
   edit(): void {
-      const result: EditRequestModalComponentResult = {
-        accountRequestName: this.accountRequestName,
-        accountRequestEmail: this.accountRequestEmail,
-        accountRequestInstitution: this.accountRequestInstitution,
-        accountRequestComment: this.accountRequestComments,
-      };
+    const name: string = this.accountRequestName.trim();
+    const email: string = this.accountRequestEmail.trim();
+    const institution: string = this.accountRequestInstitution.trim();
+    const country: string = this.accountRequestCountry.trim();
+    const comments: string = (this.accountRequestComments ?? '').trim();
 
-      this.activeModal.close(result);
+    if (!name || !email || !institution || !country) {
+      this.statusMessageService.showErrorToast(
+          'Please fill in name, email, institution, and country.');
+      return;
+    }
+
+    const result: EditRequestModalComponentResult = {
+      accountRequestName: name,
+      accountRequestEmail: email,
+      accountRequestInstitution: institution,
+      accountRequestCountry: country,
+      accountRequestComment: comments,
+    };
+
+    this.activeModal.close(result);
   }
 }

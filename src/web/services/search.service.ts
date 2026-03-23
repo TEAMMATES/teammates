@@ -304,6 +304,7 @@ export class SearchService {
       name: '',
       email: '',
       institute: '',
+      country: '',
       createdAtText: '',
       registeredAtText: '',
       registrationLink: '',
@@ -314,7 +315,7 @@ export class SearchService {
 
     const {
       id, registrationKey, createdAt, registeredAt,
-      name, institute, email, status, comments,
+      name, institute, country, email, status, comments,
     }: AccountRequest = accountRequest;
 
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
@@ -323,7 +324,7 @@ export class SearchService {
     accountRequestResult.comments = comments || '';
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
-    accountRequestResult = { ...accountRequestResult, id, name, email, institute, registrationLink, status };
+    accountRequestResult = { ...accountRequestResult, id, name, email, institute, country, registrationLink, status };
 
     return accountRequestResult;
   }
@@ -477,6 +478,7 @@ export interface AccountRequestSearchResult {
   email: string;
   status: AccountRequestStatus;
   institute: string;
+  country: string;
   createdAtText: string;
   registeredAtText: string | null;
   registrationLink: string;
