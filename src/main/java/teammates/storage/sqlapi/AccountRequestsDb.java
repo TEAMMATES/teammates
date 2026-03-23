@@ -98,15 +98,17 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Get all Account Requests for a given {@code email} and {@code institute}.
+     * Get all approved Account Requests for a given {@code email}, {@code institute}, and {@code country}.
      */
-    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
+    public List<AccountRequest> getApprovedAccountRequestsForEmailInstituteAndCountry(String email, String institute,
+            String country) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
         cr.select(root).where(cb.and(
                 cb.equal(root.get("email"), email),
                 cb.equal(root.get("institute"), institute),
+                cb.equal(root.get("country"), country),
                 cb.equal(root.get("status"), AccountRequestStatus.APPROVED)));
 
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
@@ -193,6 +195,7 @@ public final class AccountRequestsDb {
                 cb.like(cb.lower(root.get("name")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(root.get("email")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(root.get("institute")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(root.get("country")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(cb.coalesce(root.get("comments"), "")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(cb.coalesce(root.get("status").as(String.class), "")), wildcardQuery, escapeChar));
 

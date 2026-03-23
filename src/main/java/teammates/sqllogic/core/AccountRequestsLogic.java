@@ -47,9 +47,9 @@ public final class AccountRequestsLogic {
     /**
      * Creates an account request.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
-            String comments) throws InvalidParametersException {
-        AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
+    public AccountRequest createAccountRequest(String name, String email, String institute, String country,
+            AccountRequestStatus status, String comments) throws InvalidParametersException {
+        AccountRequest toCreate = new AccountRequest(email, name, institute, country, status, comments);
 
         return accountRequestDb.createAccountRequest(toCreate);
     }
@@ -93,8 +93,9 @@ public final class AccountRequestsLogic {
     /**
      * Get a list of approved account requests associated with email and institute provided.
      */
-    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
-        return accountRequestDb.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
+    public List<AccountRequest> getApprovedAccountRequestsForEmailInstituteAndCountry(String email, String institute,
+            String country) {
+        return accountRequestDb.getApprovedAccountRequestsForEmailInstituteAndCountry(email, institute, country);
     }
 
     /**

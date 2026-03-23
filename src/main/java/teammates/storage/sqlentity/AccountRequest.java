@@ -146,26 +146,21 @@ public class AccountRequest extends BaseEntity {
     }
 
     public String getCountry() {
-        return this.country == null ? "" : this.country;
+        return this.country;
     }
 
     public void setCountry(String country) {
-        if (country == null) {
-            this.country = "";
-        } else {
-            String sanitized = SanitizationHelper.sanitizeTitle(country);
-            this.country = sanitized == null ? "" : sanitized;
-        }
+        this.country = SanitizationHelper.sanitizeTitle(country);
     }
 
     /**
      * Returns the institute string used to match {@link teammates.storage.sqlentity.Course#getInstitute()}.
-     * When country is blank, returns {@link #getInstitute()} only (legacy rows may store a combined value).
+     * When country is null or blank, returns {@link #getInstitute()} only (legacy rows may store a combined value).
      * Otherwise returns "{@code institute + ", " + country}".
      */
     public String getInstituteForCourseMatch() {
         String c = getCountry();
-        if (c.isEmpty()) {
+        if (c == null || c.isEmpty()) {
             return institute;
         }
         return institute + ", " + c;

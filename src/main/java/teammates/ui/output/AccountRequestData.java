@@ -13,6 +13,7 @@ public class AccountRequestData extends ApiOutput {
     private final String email;
     private final String name;
     private final String institute;
+    private final String country;
     private final String registrationKey;
     private final AccountRequestStatus status;
     @Nullable
@@ -26,6 +27,7 @@ public class AccountRequestData extends ApiOutput {
         this.name = accountRequest.getName();
         this.email = accountRequest.getEmail();
         this.institute = accountRequest.getInstitute();
+        this.country = accountRequest.getCountry();
         this.registrationKey = accountRequest.getRegistrationKey();
         this.status = accountRequest.getStatus();
         this.comments = accountRequest.getComments();
@@ -44,6 +46,10 @@ public class AccountRequestData extends ApiOutput {
 
     public String getInstitute() {
         return institute;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public String getEmail() {

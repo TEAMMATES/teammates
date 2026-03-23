@@ -95,10 +95,10 @@ public class Logic {
      *                                      invalid.
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
-            String comments) throws InvalidParametersException {
+    public AccountRequest createAccountRequest(String name, String email, String institute, String country,
+            AccountRequestStatus status, String comments) throws InvalidParametersException {
 
-        return accountRequestLogic.createAccountRequest(name, email, institute, status, comments);
+        return accountRequestLogic.createAccountRequest(name, email, institute, country, status, comments);
     }
 
     /**
@@ -174,8 +174,9 @@ public class Logic {
     /**
      * Get a list of approved account requests associated with email and institute provided.
      */
-    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
-        return accountRequestLogic.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
+    public List<AccountRequest> getApprovedAccountRequestsForEmailInstituteAndCountry(String email, String institute,
+            String country) {
+        return accountRequestLogic.getApprovedAccountRequestsForEmailInstituteAndCountry(email, institute, country);
     }
 
     /**
