@@ -132,9 +132,11 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
-        assertEquals(String.format("An account request with email %s, institute %s, and country %s has already been approved. "
+        assertEquals(String.format(
+                "An account request with email %s, institute %s, and country %s has already been approved. "
                 + "Please reject or delete the account request instead.",
-                accountRequest.getEmail(), accountRequest.getInstitute(), accountRequest.getCountry()), ipe.getMessage());
+                accountRequest.getEmail(), accountRequest.getInstitute(), accountRequest.getCountry()),
+                ipe.getMessage());
         verifyNoEmailsSent();
     }
 

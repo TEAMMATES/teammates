@@ -31,7 +31,8 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.queueInstructorForAdding(name, email, institute, country);
 
-        String singleLineDetails = "Instructor With Invalid Email | invalidemail | TEAMMATES Test Institute 1 | Test Country";
+        String singleLineDetails =
+                "Instructor With Invalid Email | invalidemail | TEAMMATES Test Institute 1 | Test Country";
 
         homePage.queueInstructorForAdding(singleLineDetails);
 

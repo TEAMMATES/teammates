@@ -59,7 +59,8 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         String comments = "newComments";
         AccountRequestStatus status = accountRequest.getStatus();
 
-        AccountRequestUpdateRequest requestBody = new AccountRequestUpdateRequest(name, email, institute, country, status, comments);
+        AccountRequestUpdateRequest requestBody = new AccountRequestUpdateRequest(
+                name, email, institute, country, status, comments);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         UpdateAccountRequestAction action = getAction(requestBody, params);

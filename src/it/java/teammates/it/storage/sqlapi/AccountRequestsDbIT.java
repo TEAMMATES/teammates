@@ -23,8 +23,9 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testCreateReadDeleteAccountRequest() throws Exception {
         ______TS("Create account request, does not exists, succeeds");
 
-        AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest = new AccountRequest(
+                "test@gmail.com", "name", "institute", "Test Country",
+                AccountRequestStatus.PENDING, "comments");
         accountRequestDb.createAccountRequest(accountRequest);
 
         ______TS("Read account request using the given ID");
@@ -55,8 +56,9 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("Create account request, same email address and institute already exist, creates successfully");
 
-        AccountRequest identicalAccountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
+        AccountRequest identicalAccountRequest = new AccountRequest(
+                "test@gmail.com", "name", "institute", "Test Country",
+                AccountRequestStatus.PENDING, "comments");
         assertNotSame(accountRequest, identicalAccountRequest);
 
         accountRequestDb.createAccountRequest(identicalAccountRequest);
@@ -82,8 +84,9 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
-        AccountRequest expectedAccountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
+        AccountRequest expectedAccountRequest = new AccountRequest(
+                "test@gmail.com", "name", "institute", "Test Country",
+                AccountRequestStatus.PENDING, "comments");
         UUID id = expectedAccountRequest.getId();
         accountRequestDb.createAccountRequest(expectedAccountRequest);
         AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
@@ -94,8 +97,9 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testUpdateAccountRequest() throws Exception {
         ______TS("Update account request, does not exists, exception thrown");
 
-        AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest = new AccountRequest(
+                "test@gmail.com", "name", "institute", "Test Country",
+                AccountRequestStatus.PENDING, "comments");
 
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestDb.updateAccountRequest(accountRequest));

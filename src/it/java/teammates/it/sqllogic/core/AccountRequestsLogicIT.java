@@ -29,8 +29,9 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
-        AccountRequest expectedAccountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", "Test Country", AccountRequestStatus.PENDING, "comments");
+        AccountRequest expectedAccountRequest = new AccountRequest(
+                "test@gmail.com", "name", "institute", "Test Country",
+                AccountRequestStatus.PENDING, "comments");
         UUID id = expectedAccountRequest.getId();
         accountRequestsLogic.createAccountRequest(expectedAccountRequest);
         AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
