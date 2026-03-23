@@ -8,7 +8,6 @@ import jakarta.mail.Message.RecipientType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
 import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.SendFailedException;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
@@ -18,7 +17,6 @@ import jakarta.mail.internet.MimeMultipart;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.angus.mail.smtp.SMTPSendFailedException;
-import org.eclipse.angus.mail.smtp.SMTPTransport;
 import org.jsoup.Jsoup;
 
 import teammates.common.exception.EmailSendingException;
@@ -101,11 +99,19 @@ public class SmtpService implements EmailSenderService {
         }
     }
 
+    /**
+     * Sends the given {@link MimeMessage} via SMTP transport.
+     * Allows mocking of SMTP transport sending behaviour in tests.
+     */
+    protected void sendMessageWithTransport(MimeMessage message) throws MessagingException {
+        Transport.send(message);
+    }
+
     @Override
     public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws EmailSendingException {
         try {
             MimeMessage message = createMimeMessage(wrapper);
-            Transport.send(message);
+            sendMessageWithTransport(message);
             return new EmailSendingStatus(HttpStatus.SC_OK, "Email sent successfully");
         } catch (SMTPSendFailedException sfe) {
             // SMTP 5xx errors indicates a permanent failure, while 4xx indicates a transient failure.
