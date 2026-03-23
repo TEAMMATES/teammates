@@ -17,6 +17,8 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 
 import org.apache.http.HttpStatus;
+import org.eclipse.angus.mail.smtp.SMTPSendFailedException;
+import org.eclipse.angus.mail.smtp.SMTPTransport;
 import org.jsoup.Jsoup;
 
 import teammates.common.exception.EmailSendingException;
@@ -105,10 +107,17 @@ public class SmtpService implements EmailSenderService {
             MimeMessage message = createMimeMessage(wrapper);
             Transport.send(message);
             return new EmailSendingStatus(HttpStatus.SC_OK, "Email sent successfully");
-        } catch (SendFailedException sfe) {
-            if (sfe.getInvalidAddresses() != null && sfe.getInvalidAddresses().length > 0) {
+        } catch (SMTPSendFailedException sfe) {
+            // SMTP 5xx errors indicates a permanent failure, while 4xx indicates a transient failure.
+            // Since HTTP 5xx errors are retried by default while HTTP 4xx errors are not, map the codes accordingly.
+
+            int replyCode = sfe.getReturnCode();
+            // Permanent SMTP send failure, do not retry
+            if (replyCode >= 500 && replyCode < 600) {
                 throw new EmailSendingException(sfe, HttpStatus.SC_BAD_REQUEST);
             }
+
+            // Transient SMTP send failure, retry may succeed
             throw new EmailSendingException(sfe, HttpStatus.SC_BAD_GATEWAY);
         } catch (MessagingException me) {
             throw new EmailSendingException(me, HttpStatus.SC_INTERNAL_SERVER_ERROR);
@@ -147,9 +156,4 @@ public class SmtpService implements EmailSenderService {
         return message;
     }
 
-    private void setIfPresent(Properties props, String key, String value) {
-        if (value != null && !value.isEmpty()) {
-            props.put(key, value);
-        }
-    }
 }

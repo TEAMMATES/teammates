@@ -350,6 +350,10 @@ public final class Config {
                 && MAILJET_SECRETKEY != null && !MAILJET_SECRETKEY.isEmpty();
     }
 
+    /**
+     * Indicates whether SMTP email service is used.
+     * @return true if SMTP email service is properly configured and can be used; false otherwise.
+     */
     public static boolean isUsingSmtp() {
         boolean isSecurityProtocolValid = "ssl".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL)
                 || "starttls".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL);

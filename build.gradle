@@ -82,8 +82,7 @@ dependencies {
     implementation("org.hibernate:hibernate-hikaricp:6.4.4.Final")
     implementation("org.apache.commons:commons-math3:3.6.1")
     implementation("jakarta.mail:jakarta.mail-api:2.1.5")
-
-    runtimeOnly("org.eclipse.angus:angus-mail:2.0.5")
+    implementation("org.eclipse.angus:angus-mail:2.0.5")
 
     testAnnotationProcessor(testng)
 
