@@ -92,7 +92,7 @@ This type of request will be processed as follows:
 
 Automated requests are authenticated via `Authorization: Bearer <token>` (shared secret in `app.cron.and.worker.secret`). They are triggered through two mechanisms:
 
-- Cron jobs: These are jobs that are automatically scheduled for a specified period of time, e.g. scheduling feedback session opened reminders. They must be configured in an external scheduler (cron-job.org, Cloud Scheduler, etc.) that calls `/auto/*` endpoints with the bearer token. See `docs/cron-setup.md` for the schedule and setup guide.
+- Cron jobs: These are jobs that are automatically scheduled for a specified period of time, e.g. scheduling feedback session opened reminders. They must be configured in an external scheduler (Cloud Scheduler, etc.) that calls `/auto/*` endpoints with the bearer token. See `docs/cron-setup.md` for the schedule and setup guide.
 - Task queue workers: These are hybrids of user-invoked and GAE-invoked in that they are queued by users (i.e. users request for the tasks to be added to queue), but executed by Cloud Tasks (i.e. Cloud Tasks determines when and which tasks in the queue are executed). Cloud Tasks invokes `/worker/*` endpoints with the bearer token. This is typically used for tasks that may take a long time to finish. It is configured in `queue.yaml` as well as the `TaskQueue` nested class of the [Const](https://github.com/TEAMMATES/teammates/blob/master/src/main/java/teammates/common/util/Const.java) class.
 
 ### Template Method pattern

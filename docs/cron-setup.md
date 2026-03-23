@@ -1,6 +1,6 @@
 # Cron Job Setup Guide
 
-TEAMMATES cron endpoints must be triggered by an external scheduler (e.g. cron-job.org, Google Cloud Scheduler, GitHub Actions).
+TEAMMATES cron endpoints must be triggered by an external scheduler (e.g. Google Cloud Scheduler).
 
 ## Authentication
 
@@ -32,7 +32,7 @@ All schedules below use **Asia/Singapore**. Configure your scheduler to use this
 
 ## Format 2: Copy-Paste (Unix Cron)
 
-Use these expressions with cron-job.org, Cloud Scheduler, GitHub Actions, etc. Build the full URL as `https://your-teammates-app.com/auto/<path>`.
+Use these expressions with your scheduler of choice (e.g. Google Cloud Scheduler). Build the full URL as `https://your-teammates-app.com/auto/<path>`.
 
 ```
 # Timezone: Asia/Singapore (set in your scheduler)
@@ -48,14 +48,6 @@ Use these expressions with cron-job.org, Cloud Scheduler, GitHub Actions, etc. B
 */5 * * * *   | /auto/compileLogs
 1,16,31,46 * * * * | /auto/updateFeedbackSessionLogs
 ```
-
-## Example: cron-job.org
-
-1. Create a new cron job.
-2. URL: `https://your-teammates-app.com/auto/feedbackSessionOpenedReminders`
-3. Schedule: `2 * * * *` (every hour at minute 2)
-4. Add custom header: `Authorization: Bearer <your-secret>`
-5. Set timezone to Asia/Singapore.
 
 ## Example: Google Cloud Scheduler
 
