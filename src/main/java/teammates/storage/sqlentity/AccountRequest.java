@@ -44,6 +44,8 @@ public class AccountRequest extends BaseEntity {
 
     private String institute;
 
+    private String country;
+
     @Enumerated(EnumType.STRING)
     private AccountRequestStatus status;
 
@@ -59,11 +61,13 @@ public class AccountRequest extends BaseEntity {
         // required by Hibernate
     }
 
-    public AccountRequest(String email, String name, String institute, AccountRequestStatus status, String comments) {
+    public AccountRequest(String email, String name, String institute, String country, AccountRequestStatus status,
+            String comments) {
         this.setId(UUID.randomUUID());
         this.setEmail(email);
         this.setName(name);
         this.setInstitute(institute);
+        this.setCountry(country);
         this.setStatus(status);
         this.setComments(comments);
         this.generateNewRegistrationKey();
@@ -78,6 +82,7 @@ public class AccountRequest extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(getName()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForCountryName(getCountry()), errors);
 
         return errors;
     }
@@ -140,6 +145,32 @@ public class AccountRequest extends BaseEntity {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
+    public String getCountry() {
+        return this.country == null ? "" : this.country;
+    }
+
+    public void setCountry(String country) {
+        if (country == null) {
+            this.country = "";
+        } else {
+            String sanitized = SanitizationHelper.sanitizeTitle(country);
+            this.country = sanitized == null ? "" : sanitized;
+        }
+    }
+
+    /**
+     * Returns the institute string used to match {@link teammates.storage.sqlentity.Course#getInstitute()}.
+     * When country is blank, returns {@link #getInstitute()} only (legacy rows may store a combined value).
+     * Otherwise returns "{@code institute + ", " + country}".
+     */
+    public String getInstituteForCourseMatch() {
+        String c = getCountry();
+        if (c.isEmpty()) {
+            return institute;
+        }
+        return institute + ", " + c;
+    }
+
     public AccountRequestStatus getStatus() {
         return this.status;
     }
@@ -194,7 +225,8 @@ public class AccountRequest extends BaseEntity {
     @Override
     public String toString() {
         return "AccountRequest [id=" + id + ", registrationKey=" + registrationKey + ", name=" + name + ", email="
-                + email + ", institute=" + institute + ", status=" + status + ", comments=" + comments
+                + email + ", institute=" + institute + ", country=" + country + ", status=" + status + ", comments="
+                + comments
                 + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
