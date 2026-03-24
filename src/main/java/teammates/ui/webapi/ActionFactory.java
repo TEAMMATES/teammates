@@ -32,6 +32,8 @@ public final class ActionFactory {
         // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
         map(ResourceURIs.SQL_DATABUNDLE, PUT, DeleteSqlDataBundleAction.class);
         map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
+        map(CronJobURIs.URI_PREFIX + ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
+        map(TaskQueue.URI_PREFIX + ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
         // Even though this is a GET action, POST is used in order to get extra protection from CSRF
         map(ResourceURIs.USER_COOKIE, POST, GetUserCookieAction.class);
 
