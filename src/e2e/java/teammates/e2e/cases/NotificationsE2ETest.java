@@ -111,14 +111,29 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         homePage.reloadPage();
         assertTrue(homePage.isBannerVisible());
 
-        ______TS("mark notification as read");
-        String notificationId = homePage.getNotificationId();
+        ______TS("mark first notification as read - next unread notification should appear immediately");
+        String firstNotificationId = homePage.getNotificationId();
         homePage.clickMarkAsReadButton();
 
         homePage.verifyStatusMessage("Notification marked as read.");
-        assertFalse(homePage.isBannerVisible());
+        assertTrue(homePage.isBannerVisible());
+        String secondNotificationId = homePage.getNotificationId();
+        assertNotEquals(firstNotificationId, secondNotificationId);
+
+        ______TS("mark second notification as read - banner should disappear");
+        homePage.clickMarkAsReadButton();
+
+        homePage.verifyStatusMessage("Notification marked as read.");
+        if (homePage.isBannerVisible()) {
+            String nextNotificationId = homePage.getNotificationId();
+            assertNotEquals(firstNotificationId, nextNotificationId);
+            assertNotEquals(secondNotificationId, nextNotificationId);
+        } else {
+            assertFalse(homePage.isBannerVisible());
+        }
         AccountData accountFromDb = BACKDOOR.getAccountData(studentAccount.getGoogleId());
-        assertTrue(accountFromDb.getReadNotifications().containsKey(notificationId));
+        assertTrue(accountFromDb.getReadNotifications().containsKey(firstNotificationId));
+        assertTrue(accountFromDb.getReadNotifications().containsKey(secondNotificationId));
     }
 
     @AfterClass
