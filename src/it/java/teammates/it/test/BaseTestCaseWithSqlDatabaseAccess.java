@@ -59,6 +59,8 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
 
     @BeforeMethod
     protected void setUp() throws Exception {
+        // Clear any leaked transaction (e.g. if a prior @BeforeMethod failed and @AfterMethod did not run).
+        HibernateUtil.rollbackTransaction();
         HibernateUtil.beginTransaction();
     }
 

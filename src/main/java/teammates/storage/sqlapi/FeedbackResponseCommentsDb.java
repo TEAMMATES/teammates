@@ -59,13 +59,15 @@ public final class FeedbackResponseCommentsDb {
             throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
         }
 
-        if (feedbackResponseComment.getId() != null
-                && getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
+        if (feedbackResponseComment.getId() == null) {
+            feedbackResponseComment.setId(UUID.randomUUID());
+        }
+
+        if (getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
             throw new EntityAlreadyExistsException(
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponseComment.toString()));
         }
 
-        feedbackResponseComment.setId(null);
         HibernateUtil.persist(feedbackResponseComment);
         return feedbackResponseComment;
     }
