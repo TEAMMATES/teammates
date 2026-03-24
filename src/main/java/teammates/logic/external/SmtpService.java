@@ -114,7 +114,7 @@ public class SmtpService implements EmailSenderService {
             sendMessageWithTransport(message);
             return new EmailSendingStatus(HttpStatus.SC_OK, "Email sent successfully");
         } catch (SMTPSendFailedException sfe) {
-            // SMTP 5xx errors indicates a permanent failure, while 4xx indicates a transient failure.
+            // SMTP 5xx errors indicate a permanent failure, while 4xx indicates a transient failure.
             // Since HTTP 5xx errors are retried by default while HTTP 4xx errors are not, map the codes accordingly.
 
             int replyCode = sfe.getReturnCode();
