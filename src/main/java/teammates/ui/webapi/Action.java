@@ -154,10 +154,10 @@ public abstract class Action {
             return;
         }
 
-        if (InternalRequestAuth.isTrustedCronOrWorkerRequest(req)) {
-            String requestUri = req.getRequestURI();
-            boolean isCronPath = requestUri != null && requestUri.contains("/auto/");
-            userInfo = userProvision.getAdminOnlyUser(isCronPath ? "Cron-Service" : "Worker-Service");
+        boolean trustedInternalCronOrWorker = InternalRequestAuth.isTrustedCronOrWorkerRequest(req);
+        if (trustedInternalCronOrWorker) {
+            userInfo = userProvision.getAdminOnlyUser(
+                    InternalRequestAuth.isCronRequestPath(req) ? "Cron-Service" : "Worker-Service");
         } else {
             String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
             UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
@@ -167,7 +167,7 @@ public abstract class Action {
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
 
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null && userInfo.isAdmin) {
+        if (userInfo != null && userParam != null && userInfo.isAdmin && !trustedInternalCronOrWorker) {
             userInfo = userProvision.getMasqueradeUser(userParam);
             authType = AuthType.MASQUERADE;
         }
