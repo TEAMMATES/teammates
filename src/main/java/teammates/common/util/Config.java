@@ -11,10 +11,10 @@ import java.util.Properties;
  * Deployment-specific configuration loaded from classpath resources {@code build.properties} (required) and
  * {@code build-dev.properties} (optional, typically local).
  *
- * <p><b>Environment</b> — {@link #APP_ENV} is resolved by {@code resolveAppEnv}: the {@code APP_ENV} environment
- * variable wins if set; otherwise {@code app.env} in {@code build-dev.properties}, then {@code app.env} in
- * {@code build.properties}; if {@code app.env} is missing in both files, a non-empty {@code build-dev.properties}
- * implies {@code development}, otherwise {@code production}.
+ * <p><b>Environment</b> — {@link #APP_ENV} is resolved by {@code resolveAppEnv}: non-blank {@code APP_ENV} environment
+ * variable if set, otherwise non-blank {@code app.env} in {@code build-dev.properties}, then non-blank {@code app.env}
+ * in {@code build.properties}. The value must be {@code development} or {@code production} (case-insensitive);
+ * missing or invalid values cause {@link IllegalStateException} during class initialization.
  *
  * <p><b>Property resolution</b> — For most keys, when {@link #IS_DEV_SERVER} is {@code true}, the value is taken from
  * {@code build-dev.properties} if the key is present, else from {@code build.properties} (and optional string defaults
@@ -238,27 +238,32 @@ public final class Config {
     }
 
     /**
-     * Resolves effective deployment environment. Precedence: {@code APP_ENV} environment variable,
-     * then {@code app.env} in {@code build-dev.properties} (if set), then {@code app.env} in {@code build.properties},
-     * then backward-compatible defaults when {@code app.env} is missing in both files (see class Javadoc).
+     * Resolves effective deployment environment: {@code APP_ENV} environment variable, then {@code app.env} in
+     * {@code build-dev.properties}, then {@code build.properties}. The value must be {@code development} or
+     * {@code production}.
      */
     private static String resolveAppEnv(Properties properties, Properties devProperties) {
         String fromEnv = System.getenv("APP_ENV");
         if (fromEnv != null && !fromEnv.isBlank()) {
-            return fromEnv.trim();
+            return validateAppEnv(fromEnv.trim());
         }
         String fromDev = devProperties.getProperty("app.env");
         if (fromDev != null && !fromDev.isBlank()) {
-            return fromDev.trim();
+            return validateAppEnv(fromDev.trim());
         }
         String fromBase = properties.getProperty("app.env");
         if (fromBase != null && !fromBase.isBlank()) {
-            return fromBase.trim();
+            return validateAppEnv(fromBase.trim());
         }
-        if (!devProperties.isEmpty()) {
-            return "development";
+        throw new IllegalStateException(
+                "Set APP_ENV or app.env in build.properties or build-dev.properties to development or production.");
+    }
+
+    private static String validateAppEnv(String value) {
+        if ("development".equalsIgnoreCase(value) || "production".equalsIgnoreCase(value)) {
+            return value;
         }
-        return "production";
+        throw new IllegalStateException("Invalid environment: " + value + ". Must be development or production.");
     }
 
     /**

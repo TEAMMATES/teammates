@@ -241,7 +241,7 @@ task execScript(type: JavaExec) {
 
 task createConfigs {
     description = "Sets up the project by obtaining necessary files and configurations points. " +
-            "Use -PproductionConfigs to skip creating build-dev.properties (for production-only trees)."
+            "Use -PproductionConfigs to skip creating build-dev.properties."
     group = "Setup"
     doLast {
         def templatesToCopy = [
@@ -265,18 +265,6 @@ task createConfigs {
                 rename '(.*).template(.*)', '$1$2'
             }
         }
-    }
-}
-
-task createConfigsProduction {
-    description = "Same as createConfigs but does not create build-dev.properties from template."
-    group = "Setup"
-    dependsOn createConfigs
-}
-
-gradle.taskGraph.whenReady {
-    if (it.allTasks.any { task -> task.name == "createConfigsProduction" }) {
-        project.ext.productionConfigs = true
     }
 }
 

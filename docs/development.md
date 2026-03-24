@@ -129,7 +129,7 @@ This instruction set applies for both dev server and production server, with sli
 1. Go to any administrator page, e.g `/web/admin/home`. You may be prompted to log in.
   You will be granted access only if your account has admin permission as defined in `build.properties`.
 
-1. When logged in as administrator, ***masquerade mode*** can be used to impersonate instructors and students. 
+1. When logged in as administrator, ***masquerade mode*** can be used to impersonate instructors and students.
    For more information, refer to [Masquerading as another user](#masquerading-as-another-user).
 
 </panel>
@@ -280,7 +280,7 @@ If you are using the Cloud SDK method, you can use `Ctrl + C` in the console to 
 There are two big categories of testing in TEAMMATES:
 
 - **Component tests**: White-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. To learn more about running and writing component tests, refer to [this guide](unit-testing.md).
-- **<tooltip content="End-to-end">E2E</tooltip> tests**: Black-box tests, i.e. they test the application as a whole without knowing any internal working. To learn more about running and writing E2E tests, refer to [this guide](e2e-testing.md).  
+- **<tooltip content="End-to-end">E2E</tooltip> tests**: Black-box tests, i.e. they test the application as a whole without knowing any internal working. To learn more about running and writing E2E tests, refer to [this guide](e2e-testing.md).
 
 Other tests in TEAMMATES include:
 
@@ -308,10 +308,8 @@ There are several files used to configure various aspects of the system.
 
 **Main**: These vary from developer to developer and are subjected to frequent changes.
 
-* `build.properties` (from `build.template.properties`): Base backend configuration for the web API.
-* `build-dev.properties` (from `build-dev.template.properties`, gitignored): Optional local overrides. It is loaded whenever present; together with `build.properties` it determines the backend environment and, when that environment is `development`, values here override `build.properties` for the same keys. Implementation details: `teammates.common.util.Config`.
-  * **Environment:** If the `APP_ENV` environment variable is set, it wins. Otherwise `app.env` is taken from `build-dev.properties` if set, then from `build.properties`. If `app.env` is missing in both files, a non-empty `build-dev.properties` implies `development`; otherwise `production`.
-  * **Production-only trees** can omit `build-dev.properties`; use `./gradlew createConfigsProduction` or `./gradlew createConfigs -PproductionConfigs` so the dev template is not materialized.
+* `build.properties` (from `build.template.properties`): Backend configuration for the web API.
+* `build-dev.properties` (from `build-dev.template.properties`, gitignored): Optional local configuration overrides.
 * `config.ts`: Contains the general purpose configuration values to be used by the web application.
 * `test.properties`: Contains the configuration values for the test driver.
   * There are two separate `test.properties`; one for component tests and one for E2E tests.
