@@ -72,15 +72,6 @@ describe('SessionLinksRecoveryPageComponent', () => {
     expect(mockStatusMessageService.showErrorToast).toHaveBeenCalledWith('Please enter a valid email address.');
   });
 
-  it('should show error when captcha failed to load', () => {
-    setValidEmail(component);
-    setCaptchaState(component, { loaded: false, error: true });
-
-    component.onSubmitFormSessionLinksRecovery(component.formSessionLinksRecovery);
-
-    expect(mockStatusMessageService.showErrorToast).toHaveBeenCalledWith('The "I\'m not a robot" checkbox failed to load. Please try again later.');
-  });
-
   it('should show error when captcha is loaded but not completed', () => {
     setValidEmail(component);
     setCaptchaState(component, { loaded: true, error: false });

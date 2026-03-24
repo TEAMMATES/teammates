@@ -62,12 +62,9 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
       this.statusMessageService.showErrorToast('Please enter a valid email address.');
       return;
     }
+
     if (this.captchaResponse === undefined) {
-      if (this.captchaError || !this.captchaLoaded) {
-        this.statusMessageService.showErrorToast('The "I\'m not a robot" checkbox failed to load. Please try again later.');
-      } else {
-        this.statusMessageService.showErrorToast('Please complete the "I\'m not a robot" checkbox before submitting.');
-      }
+      this.statusMessageService.showErrorToast('Please complete the "I\'m not a robot" checkbox before submitting.');
       return;
     }
 
