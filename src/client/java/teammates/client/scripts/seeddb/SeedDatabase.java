@@ -1,6 +1,12 @@
 package teammates.client.scripts.seeddb;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -20,18 +26,24 @@ import teammates.sqllogic.core.LogicStarter;
  *
  * <p>Invoked via: {@code ./gradlew seedDatabase}
  *
- * <p>Options (passed as Gradle project properties):
+ * <p>Options:
  * <ul>
- *   <li>{@code -Preset} — truncate all tables before seeding</li>
- *   <li>{@code -PnoSeed} — truncate only, skip seeding (requires {@code -Preset})</li>
- *   <li>{@code -PseedFile=&lt;path&gt;} — seed from a custom JSON file instead of the default</li>
+ *   <li>{@code --reset} — truncate all tables before seeding</li>
+ *   <li>{@code --noSeed} — truncate only, skip seeding (requires {@code --reset})</li>
+ *   <li>{@code --seedFile &lt;path&gt;} — seed from a custom JSON file instead of the default</li>
  * </ul>
  */
 public final class SeedDatabase {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final String DEFAULT_SEED_FILE = "src/it/resources/data/typicalDataBundle.json";
+    private static final String DEFAULT_SEED_FILE = "src/client/resources/SeedingDatabundle.json";
+
+    private static final DateTimeFormatter DATE_FMT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneOffset.UTC);
+
+    private static final Pattern SEED_DATE_TOKEN =
+            Pattern.compile("seed\\.d\\(([+-]?\\d+)\\)");
 
     private static final String TRUNCATE_SQL =
             "TRUNCATE TABLE accounts, account_requests, courses, notifications, usage_statistics"
@@ -108,7 +120,7 @@ public final class SeedDatabase {
                     jsonString = teammates.test.FileHelper.readFile(DEFAULT_SEED_FILE);
                 }
 
-                SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(jsonString);
+                SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(applyDateTokens(jsonString));
                 Logic.inst().persistDataBundle(bundle);
                 log.info("Seeding complete.");
             }
@@ -125,7 +137,7 @@ public final class SeedDatabase {
             log.severe("Invalid entity data: " + e.getMessage());
             System.exit(1);
         } catch (EntityAlreadyExistsException e) {
-            log.severe("Entity already exists — re-run with -Preset to truncate first");
+            log.severe("Entity already exists — re-run with --reset to truncate first");
             System.exit(1);
         } catch (EntityDoesNotExistException e) {
             log.severe("Seed file references an entity that does not exist: " + e.getMessage());
@@ -137,8 +149,20 @@ public final class SeedDatabase {
         }
     }
 
+    private static String applyDateTokens(String jsonString) {
+        Instant now = Instant.now();
+        Matcher m = SEED_DATE_TOKEN.matcher(jsonString);
+        StringBuilder sb = new StringBuilder();
+        while (m.find()) {
+            int days = Integer.parseInt(m.group(1));
+            m.appendReplacement(sb, DATE_FMT.format(now.plus(days, ChronoUnit.DAYS)));
+        }
+        m.appendTail(sb);
+        return sb.toString();
+    }
+
     private static void printUsage() {
-        log.info("Usage: ./gradlew seedDatabase [-Preset] [-PnoSeed] [-PseedFile=<path>]");
+        log.info("Usage: ./gradlew seedDatabase [--reset] [--noSeed] [--seedFile <path>]");
     }
 
 }

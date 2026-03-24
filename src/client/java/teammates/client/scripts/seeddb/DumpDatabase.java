@@ -33,9 +33,9 @@ import teammates.storage.sqlentity.Team;
  *
  * <p>Invoked via: {@code ./gradlew dumpDatabase}
  *
- * <p>Options (passed as Gradle project properties):
+ * <p>Options:
  * <ul>
- *   <li>{@code -PdumpFile=&lt;path&gt;} — output path (default: {@code seed-dump.json})</li>
+ *   <li>{@code --dumpFile &lt;path&gt;} — output path (default: {@code seed-dump.json})</li>
  * </ul>
  */
 public final class DumpDatabase {
