@@ -82,8 +82,8 @@ public class StringHelperTest extends BaseTestCase {
 
     private static String generateSignature(String data) throws Exception {
         SecretKeySpec signingKey =
-                new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
-        Mac mac = Mac.getInstance("HmacSHA1");
+            new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA256");
+        Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(signingKey);
         byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
         return StringHelper.byteArrayToHexString(value);

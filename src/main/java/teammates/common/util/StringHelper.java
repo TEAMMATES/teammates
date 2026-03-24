@@ -83,7 +83,7 @@ public final class StringHelper {
     }
 
     /**
-     * Generates the HMAC SHA-1 signature for a supplied string.
+     * Generates the HMAC SHA-256 signature for a supplied string.
      *
      * @param data The string to be signed
      * @return The signature value as a hex-string
@@ -91,8 +91,8 @@ public final class StringHelper {
     public static String generateSignature(String data) {
         try {
             SecretKeySpec signingKey =
-                    new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
-            Mac mac = Mac.getInstance("HmacSHA1");
+                new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA256");
+            Mac mac = Mac.getInstance("HmacSHA256");
             mac.init(signingKey);
             byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
             return byteArrayToHexString(value);
@@ -103,7 +103,7 @@ public final class StringHelper {
     }
 
     /**
-     * Verifies the HMAC SHA-1 signature against a given value.
+     * Verifies the HMAC SHA-256 signature against a given value.
      *
      * @param value The value to be checked
      * @param signature The signature in hex-string format
