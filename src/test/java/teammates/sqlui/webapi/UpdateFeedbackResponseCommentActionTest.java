@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -89,7 +90,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         when(mockLogic.getFeedbackResponseComment(typicalComment.getId())).thenReturn(typicalComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        when(mockLogic.updateFeedbackResponseComment(any(Long.class), any(FeedbackResponseCommentUpdateRequest.class),
+        when(mockLogic.updateFeedbackResponseComment(any(UUID.class), any(FeedbackResponseCommentUpdateRequest.class),
                 any(String.class))).thenReturn(updatedComment);
 
         UpdateFeedbackResponseCommentAction action = getAction(updateRequest, params);
@@ -116,7 +117,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         when(mockLogic.getFeedbackResponseComment(typicalComment.getId())).thenReturn(typicalComment);
         when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
-        when(mockLogic.updateFeedbackResponseComment(any(Long.class), any(FeedbackResponseCommentUpdateRequest.class),
+        when(mockLogic.updateFeedbackResponseComment(any(UUID.class), any(FeedbackResponseCommentUpdateRequest.class),
                 any(String.class))).thenReturn(updatedComment);
 
         UpdateFeedbackResponseCommentAction action = getAction(updateRequest, params);
@@ -143,7 +144,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         when(mockLogic.getFeedbackResponseComment(typicalComment.getId())).thenReturn(typicalComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        when(mockLogic.updateFeedbackResponseComment(any(Long.class), any(FeedbackResponseCommentUpdateRequest.class),
+        when(mockLogic.updateFeedbackResponseComment(any(UUID.class), any(FeedbackResponseCommentUpdateRequest.class),
                 any(String.class))).thenReturn(updatedComment);
 
         UpdateFeedbackResponseCommentAction action = getAction(updateRequest, params);
@@ -173,7 +174,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         when(mockLogic.getFeedbackResponseComment(typicalComment.getId())).thenReturn(typicalComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        when(mockLogic.updateFeedbackResponseComment(any(Long.class), any(FeedbackResponseCommentUpdateRequest.class),
+        when(mockLogic.updateFeedbackResponseComment(any(UUID.class), any(FeedbackResponseCommentUpdateRequest.class),
                 any(String.class))).thenReturn(updatedComment);
 
         UpdateFeedbackResponseCommentAction action = getAction(updateRequest, params);
@@ -203,7 +204,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         when(mockLogic.getFeedbackResponseComment(typicalComment.getId())).thenReturn(typicalComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        when(mockLogic.updateFeedbackResponseComment(any(Long.class), any(FeedbackResponseCommentUpdateRequest.class),
+        when(mockLogic.updateFeedbackResponseComment(any(UUID.class), any(FeedbackResponseCommentUpdateRequest.class),
                 any(String.class))).thenReturn(updatedComment);
 
         UpdateFeedbackResponseCommentAction action = getAction(updateRequest, params);
@@ -217,7 +218,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     void testExecute_nonExistentFeedbackResponseComment_throwsEntityNotFoundException() {
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "00000000-0000-4000-8000-000000009999",
         };
 
         FeedbackResponseCommentUpdateRequest updateRequest = getTypicalRequestBody();
@@ -247,7 +248,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         when(mockLogic.getFeedbackResponseComment(typicalComment.getId())).thenReturn(typicalComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), differentInstructor.getGoogleId()))
                 .thenReturn(differentInstructor);
-        when(mockLogic.updateFeedbackResponseComment(any(Long.class), any(FeedbackResponseCommentUpdateRequest.class),
+        when(mockLogic.updateFeedbackResponseComment(any(UUID.class), any(FeedbackResponseCommentUpdateRequest.class),
                 any(String.class))).thenReturn(updatedComment);
 
         UpdateFeedbackResponseCommentAction action = getAction(updateRequest, params);
@@ -277,7 +278,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         when(mockLogic.getFeedbackResponseComment(typicalComment.getId())).thenReturn(typicalComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        when(mockLogic.updateFeedbackResponseComment(any(Long.class), any(FeedbackResponseCommentUpdateRequest.class),
+        when(mockLogic.updateFeedbackResponseComment(any(UUID.class), any(FeedbackResponseCommentUpdateRequest.class),
                 any(String.class))).thenReturn(updatedComment);
 
         UpdateFeedbackResponseCommentAction action = getAction(updateRequest, params);
@@ -498,7 +499,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     void testAccessControl_nonExistentFeedbackResponseComment_throwsEntityNotFoundException() {
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "00000000-0000-4000-8000-000000009999",
         };
 
         verifyEntityNotFoundAcl(params);
@@ -689,7 +690,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 typicalStudent.getEmail());
-        feedbackResponseComment.setId((long) 1);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -708,7 +709,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
                 typicalStudent.getEmail());
-        feedbackResponseComment.setId((long) 1);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -727,7 +728,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 typicalInstructor.getEmail());
-        feedbackResponseComment.setId((long) 2);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -746,7 +747,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
                 typicalInstructor.getEmail());
-        feedbackResponseComment.setId((long) 2);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -765,7 +766,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 typicalInstructor.getEmail());
-        feedbackResponseComment.setId((long) 3);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -784,7 +785,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
                 typicalInstructor.getEmail());
-        feedbackResponseComment.setId((long) 3);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -807,7 +808,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 "first team");
-        feedbackResponseComment.setId((long) 4);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000004"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
