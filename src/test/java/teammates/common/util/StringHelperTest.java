@@ -2,10 +2,6 @@ package teammates.common.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.nio.charset.StandardCharsets;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 import org.testng.annotations.Test;
 
@@ -16,9 +12,6 @@ import teammates.test.BaseTestCase;
  * SUT: {@link StringHelper}.
  */
 public class StringHelperTest extends BaseTestCase {
-
-    private static final String HMAC_SHA_256 = "HmacSHA256";
-    private static final int HKDF_HASH_LENGTH_BYTES = 32;
 
     @Test
     public void testIsEmpty() {
@@ -82,46 +75,6 @@ public class StringHelperTest extends BaseTestCase {
         assertNotEquals(ciphertext1, ciphertext2);
         assertEquals(plaintext, StringHelper.decrypt(ciphertext1));
         assertEquals(plaintext, StringHelper.decrypt(ciphertext2));
-    }
-
-    private static String generateSignature(String data) throws Exception {
-        byte[] prk = hkdfExtract(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY));
-        byte[] signingKeyMaterial = hkdfExpand(prk, "teammates-hmac-key", HKDF_HASH_LENGTH_BYTES);
-        SecretKeySpec signingKey = new SecretKeySpec(signingKeyMaterial, HMAC_SHA_256);
-        Mac mac = Mac.getInstance(HMAC_SHA_256);
-        mac.init(signingKey);
-        byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
-        return StringHelper.byteArrayToHexString(value);
-    }
-
-    private static byte[] hkdfExtract(byte[] inputKeyingMaterial) throws Exception {
-        Mac mac = Mac.getInstance(HMAC_SHA_256);
-        mac.init(new SecretKeySpec(new byte[HKDF_HASH_LENGTH_BYTES], HMAC_SHA_256));
-        return mac.doFinal(inputKeyingMaterial);
-    }
-
-    private static byte[] hkdfExpand(byte[] prk, String info, int outputLengthBytes) throws Exception {
-        Mac mac = Mac.getInstance(HMAC_SHA_256);
-        mac.init(new SecretKeySpec(prk, HMAC_SHA_256));
-
-        byte[] infoBytes = info.getBytes(StandardCharsets.UTF_8);
-        byte[] output = new byte[outputLengthBytes];
-        byte[] previousBlock = new byte[0];
-        int copied = 0;
-
-        for (int i = 1; copied < outputLengthBytes; i++) {
-            mac.reset();
-            mac.update(previousBlock);
-            mac.update(infoBytes);
-            mac.update((byte) i);
-            previousBlock = mac.doFinal();
-
-            int bytesToCopy = Math.min(previousBlock.length, outputLengthBytes - copied);
-            System.arraycopy(previousBlock, 0, output, copied, bytesToCopy);
-            copied += bytesToCopy;
-        }
-
-        return output;
     }
 
     @Test
@@ -199,27 +152,4 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("567890", StringHelper.truncateHead("1234567890", 6));
     }
 
-    @Test
-    public void testSignatureGeneration() throws Exception {
-        String data1 = "National University of Singapore";
-        String data2 = "Nanyang Technological University";
-
-        assertEquals(generateSignature(data1), StringHelper.generateSignature(data1));
-
-        assertNotEquals(StringHelper.generateSignature(data1), StringHelper.generateSignature(data2));
-    }
-
-    @Test
-    public void testSignatureVerification() {
-        String valid = "National University of Singapore";
-        String invalid = "Nanyang Technological University";
-        String signature = StringHelper.generateSignature(valid);
-
-        assertTrue(StringHelper.isCorrectSignature(valid, signature));
-
-        assertFalse(StringHelper.isCorrectSignature(valid, invalid));
-        assertFalse(StringHelper.isCorrectSignature(valid, null));
-        assertFalse(StringHelper.isCorrectSignature(null, signature));
-        assertFalse(StringHelper.isCorrectSignature(invalid, signature));
-    }
 }

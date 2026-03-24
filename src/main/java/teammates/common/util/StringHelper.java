@@ -7,7 +7,6 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -37,7 +36,6 @@ public final class StringHelper {
 
     private static final byte[] HKDF_PRK = hkdfExtract(getMasterKey());
     private static final byte[] AES_ENCRYPTION_KEY = hkdfExpand(HKDF_PRK, "teammates-aes-key", MASTER_KEY_LENGTH_BYTES);
-    private static final byte[] HMAC_SIGNING_KEY = hkdfExpand(HKDF_PRK, "teammates-hmac-key", HKDF_HASH_LENGTH_BYTES);
 
     private StringHelper() {
         // utility class
@@ -89,39 +87,6 @@ public final class StringHelper {
             return inputString;
         }
         return inputString.substring(inputStringLength - maximumStringLength);
-    }
-
-    /**
-     * Generates the HMAC SHA-256 signature for a supplied string.
-     *
-     * @param data The string to be signed
-     * @return The signature value as a hex-string
-     */
-    public static String generateSignature(String data) {
-        try {
-            SecretKeySpec signingKey = new SecretKeySpec(HMAC_SIGNING_KEY, HMAC_SHA_256);
-            Mac mac = Mac.getInstance(HMAC_SHA_256);
-            mac.init(signingKey);
-            byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
-            return byteArrayToHexString(value);
-        } catch (Exception e) {
-            assert false;
-            return null;
-        }
-    }
-
-    /**
-     * Verifies the HMAC SHA-256 signature against a given value.
-     *
-     * @param value The value to be checked
-     * @param signature The signature in hex-string format
-     * @return True if signature matches value
-     */
-    public static boolean isCorrectSignature(String value, String signature) {
-        if (value == null || signature == null) {
-            return false;
-        }
-        return Objects.equals(generateSignature(value), signature);
     }
 
     /**
