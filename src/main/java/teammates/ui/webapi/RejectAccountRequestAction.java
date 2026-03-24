@@ -24,7 +24,7 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
         AccountRequest accountRequest = sqlLogic.getAccountRequest(accountRequestId);
 
         if (accountRequest == null) {
-            String errorMessage = String.format(Const.ACCOUNT_REQUEST_NOT_FOUND, accountRequestId.toString());
+            String errorMessage = String.format("Account request with id = %s not found", accountRequestId.toString());
             throw new EntityNotFoundException(errorMessage);
         }
 
