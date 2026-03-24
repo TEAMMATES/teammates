@@ -25,7 +25,8 @@
             },
             "index": "src/web/index.html",
             "polyfills": [
-              "src/web/polyfills.ts"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.app.json",
             "allowedCommonJsDependencies": [
