@@ -13,8 +13,9 @@ It has been built and maintained by hundreds of contributors over more than a de
 
 We welcome contributions from developers of all backgrounds, especially students. Here's how to get started:
 
-1. [Set up your developer environment](getting-started.md)
-2. Read the [Contributing Guidelines](contributing/guidelines.md)
+1. [Set up your developer environment](getting-started.md).
+2. Read the [Contributing Guidelines](contributing/guidelines.md).
+3. Pick a [good first issue](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:"good+first+issue") to work on.
 
 ## Tech Stack
 
