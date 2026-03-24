@@ -129,4 +129,9 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   handleError(): void {
     this.captchaError = true;
   }
+
+  isCaptchaReady(): boolean {
+    if (!this.captchaSiteKey) return true; // dev mode
+    return this.captchaLoaded && !this.captchaError;
+  }
 }

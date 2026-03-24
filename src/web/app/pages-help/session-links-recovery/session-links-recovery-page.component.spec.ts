@@ -72,7 +72,7 @@ describe('SessionLinksRecoveryPageComponent', () => {
     expect(mockStatusMessageService.showErrorToast).toHaveBeenCalledWith('Please enter a valid email address.');
   });
 
-  it('should show error when captcha is loaded but not completed', () => {
+  it('should show error when captcha is not completed', () => {
     setValidEmail(component);
     setCaptchaState(component, { loaded: true, error: false });
 

@@ -38,7 +38,7 @@
       </div>
     }
 
-    <button class="btn btn-primary" type="submit" [disabled]="isFormSubmitting || (captchaSiteKey !== '' && (!captchaLoaded || captchaError))">
+    <button class="btn btn-primary" type="submit" [disabled]="isFormSubmitting || !isCaptchaReady()">
       @if (isFormSubmitting) {
         <tm-ajax-loading></tm-ajax-loading>
         }Submit
