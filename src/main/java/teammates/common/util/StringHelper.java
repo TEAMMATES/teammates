@@ -1,8 +1,10 @@
 package teammates.common.util;
 
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -27,8 +29,15 @@ import teammates.common.exception.InvalidParametersException;
 
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
+    private static final String HMAC_SHA_256 = "HmacSHA256";
+    private static final int MASTER_KEY_LENGTH_BYTES = 32;
     private static final int AES_GCM_IV_LENGTH_BYTES = 12;
     private static final int AES_GCM_TAG_LENGTH_BITS = 128;
+    private static final int HKDF_HASH_LENGTH_BYTES = 32;
+
+    private static final byte[] HKDF_PRK = hkdfExtract(getMasterKey());
+    private static final byte[] AES_ENCRYPTION_KEY = hkdfExpand(HKDF_PRK, "teammates-aes-key", MASTER_KEY_LENGTH_BYTES);
+    private static final byte[] HMAC_SIGNING_KEY = hkdfExpand(HKDF_PRK, "teammates-hmac-key", HKDF_HASH_LENGTH_BYTES);
 
     private StringHelper() {
         // utility class
@@ -90,9 +99,8 @@ public final class StringHelper {
      */
     public static String generateSignature(String data) {
         try {
-            SecretKeySpec signingKey =
-                new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA256");
-            Mac mac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec signingKey = new SecretKeySpec(HMAC_SIGNING_KEY, HMAC_SHA_256);
+            Mac mac = Mac.getInstance(HMAC_SHA_256);
             mac.init(signingKey);
             byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
             return byteArrayToHexString(value);
@@ -125,7 +133,7 @@ public final class StringHelper {
      */
     public static String encrypt(String value) {
         try {
-            SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
+            SecretKeySpec sks = new SecretKeySpec(AES_ENCRYPTION_KEY, "AES");
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             byte[] iv = new byte[AES_GCM_IV_LENGTH_BYTES];
             new SecureRandom().nextBytes(iv);
@@ -157,7 +165,7 @@ public final class StringHelper {
                 throw new IllegalBlockSizeException("Ciphertext does not contain IV and payload");
             }
 
-            SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
+            SecretKeySpec sks = new SecretKeySpec(AES_ENCRYPTION_KEY, "AES");
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             cipher.init(Cipher.DECRYPT_MODE, sks,
                     new GCMParameterSpec(AES_GCM_TAG_LENGTH_BITS, encryptedWithIv, 0, AES_GCM_IV_LENGTH_BYTES));
@@ -261,6 +269,53 @@ public final class StringHelper {
         IntStream.range(0, b.length)
                 .forEach(i -> b[i] = (byte) Integer.parseInt(s.substring(i * 2, i * 2 + 2), 16));
         return b;
+    }
+
+    private static byte[] getMasterKey() {
+        byte[] masterKey = hexStringToByteArray(Config.ENCRYPTION_KEY);
+        if (masterKey.length != MASTER_KEY_LENGTH_BYTES) {
+            throw new IllegalStateException("Encryption key must be 32 bytes (64 hex chars)");
+        }
+        return masterKey;
+    }
+
+    private static byte[] hkdfExtract(byte[] inputKeyingMaterial) {
+        try {
+            Mac mac = Mac.getInstance(HMAC_SHA_256);
+            mac.init(new SecretKeySpec(new byte[HKDF_HASH_LENGTH_BYTES], HMAC_SHA_256));
+            return mac.doFinal(inputKeyingMaterial);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to extract HKDF PRK", e);
+        }
+    }
+
+    private static byte[] hkdfExpand(byte[] prk, String info, int outputLengthBytes) {
+        try {
+            Mac mac = Mac.getInstance(HMAC_SHA_256);
+            mac.init(new SecretKeySpec(prk, HMAC_SHA_256));
+
+            byte[] infoBytes = info.getBytes(StandardCharsets.UTF_8);
+            byte[] output = new byte[outputLengthBytes];
+            byte[] previousBlock = new byte[0];
+            int copied = 0;
+
+            for (int i = 1; copied < outputLengthBytes; i++) {
+                mac.reset();
+                mac.update(previousBlock);
+                mac.update(infoBytes);
+                mac.update((byte) i);
+                previousBlock = mac.doFinal();
+
+                int bytesToCopy = Math.min(previousBlock.length, outputLengthBytes - copied);
+                System.arraycopy(previousBlock, 0, output, copied, bytesToCopy);
+                copied += bytesToCopy;
+            }
+
+            Arrays.fill(previousBlock, (byte) 0);
+            return output;
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to expand HKDF output", e);
+        }
     }
 
     /**
