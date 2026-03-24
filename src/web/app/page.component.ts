@@ -94,6 +94,9 @@ export class PageComponent {
   logoutUrl: string = `${environment.backendUrl}/logout`;
   toast: Toast | null = null;
 
+  showGoogleLogin: boolean = false;
+  showMsEntraLogin: boolean = false;
+
   private currentRole: 'student' | 'instructor' | null = null;
   private providerModalRef: NgbModalRef | null = null;
   private backendUrl: string = environment.backendUrl;
@@ -149,6 +152,13 @@ export class PageComponent {
 
     this.statusMessageService.getToastEvent().subscribe((toast: Toast) => {
       this.toast = toast;
+    });
+
+    this.authService.getAuthTypes().subscribe({
+      next: (authTypes: string[]) => {
+        this.showGoogleLogin = authTypes.includes('google');
+        this.showMsEntraLogin = authTypes.includes('msentra');
+      },
     });
   }
 

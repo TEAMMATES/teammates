@@ -1,8 +1,11 @@
 package teammates.ui.output;
 
+import java.util.List;
+
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.util.Config;
 
 /**
  * Authentication request format.
@@ -20,6 +23,7 @@ public class AuthInfo extends ApiOutput {
     @Nullable
     private final UserInfo user;
     private final boolean masquerade;
+    private final List<String> authTypes;
 
     public AuthInfo(String studentLoginUrl, String instructorLoginUrl, String adminLoginUrl, String maintainerLoginUrl) {
         this.studentLoginUrl = studentLoginUrl;
@@ -28,6 +32,7 @@ public class AuthInfo extends ApiOutput {
         this.maintainerLoginUrl = maintainerLoginUrl;
         this.user = null;
         this.masquerade = false;
+        this.authTypes = Config.AUTH_TYPES;
     }
 
     public AuthInfo(UserInfo user, boolean masquerade) {
@@ -37,6 +42,7 @@ public class AuthInfo extends ApiOutput {
         this.maintainerLoginUrl = null;
         this.user = user;
         this.masquerade = masquerade;
+        this.authTypes = Config.AUTH_TYPES;
     }
 
     public String getStudentLoginUrl() {
@@ -63,4 +69,7 @@ public class AuthInfo extends ApiOutput {
         return masquerade;
     }
 
+    public List<String> getAuthTypes() {
+        return authTypes;
+    }
 }

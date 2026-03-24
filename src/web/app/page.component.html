@@ -185,14 +185,18 @@
         <div class="modal-body">
           <p class="text-center mb-4">Choose your preferred authentication method to log in.</p>
           <div class="d-grid gap-2">
-            <button type="button" class="btn btn-primary btn-lg" id="provider-google-btn"
-                (click)="loginWithProvider('google')">
-              <i class="fab fa-google"></i>&nbsp;Continue with Google
-            </button>
-            <button type="button" class="btn btn-primary btn-lg" id="provider-entra-btn"
-                (click)="loginWithProvider('entra')">
-              <i class="fab fa-microsoft"></i>&nbsp;Continue with Microsoft Entra ID
-            </button>
+            @if (showGoogleLogin) {
+              <button type="button" class="btn btn-primary btn-lg" id="provider-google-btn"
+                  (click)="loginWithProvider('google')">
+                <i class="fab fa-google"></i>&nbsp;Continue with Google
+              </button>
+            }
+            @if (showMsEntraLogin) {
+              <button type="button" class="btn btn-primary btn-lg" id="provider-entra-btn"
+                  (click)="loginWithProvider('entra')">
+                <i class="fab fa-microsoft"></i>&nbsp;Continue with Microsoft
+              </button>
+            }
           </div>
         </div>
       </ng-template>
