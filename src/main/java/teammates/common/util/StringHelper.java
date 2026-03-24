@@ -1,9 +1,9 @@
 package teammates.common.util;
 
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -13,9 +13,9 @@ import java.util.stream.IntStream;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.Mac;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.google.common.base.CharMatcher;
@@ -33,9 +33,11 @@ public final class StringHelper {
     private static final int AES_GCM_IV_LENGTH_BYTES = 12;
     private static final int AES_GCM_TAG_LENGTH_BITS = 128;
     private static final int HKDF_HASH_LENGTH_BYTES = 32;
+    private static final String AES_DERIVATION_CONTEXT = "teammates-aes-context";
 
     private static final byte[] HKDF_PRK = hkdfExtract(getMasterKey());
-    private static final byte[] AES_ENCRYPTION_KEY = hkdfExpand(HKDF_PRK, "teammates-aes-key", MASTER_KEY_LENGTH_BYTES);
+    private static final byte[] AES_ENCRYPTION_MATERIAL =
+            hkdfExpand(HKDF_PRK, AES_DERIVATION_CONTEXT, MASTER_KEY_LENGTH_BYTES);
 
     private StringHelper() {
         // utility class
@@ -98,7 +100,7 @@ public final class StringHelper {
      */
     public static String encrypt(String value) {
         try {
-            SecretKeySpec sks = new SecretKeySpec(AES_ENCRYPTION_KEY, "AES");
+            SecretKeySpec sks = new SecretKeySpec(AES_ENCRYPTION_MATERIAL, "AES");
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             byte[] iv = new byte[AES_GCM_IV_LENGTH_BYTES];
             new SecureRandom().nextBytes(iv);
@@ -124,20 +126,28 @@ public final class StringHelper {
      * @throws RuntimeException if the decryption fails for any other reason, such as {@code Cipher} initialization failure.
      */
     public static String decrypt(String message) throws InvalidParametersException {
+        byte[] encryptedWithIv;
         try {
-            byte[] encryptedWithIv = hexStringToByteArray(message);
-            if (encryptedWithIv.length <= AES_GCM_IV_LENGTH_BYTES) {
-                throw new IllegalBlockSizeException("Ciphertext does not contain IV and payload");
-            }
+            encryptedWithIv = hexStringToByteArray(message);
+        } catch (NumberFormatException e) {
+            log.warning("Attempted to decrypt invalid ciphertext: " + message);
+            throw new InvalidParametersException(e);
+        }
 
-            SecretKeySpec sks = new SecretKeySpec(AES_ENCRYPTION_KEY, "AES");
+        if (encryptedWithIv.length <= AES_GCM_IV_LENGTH_BYTES) {
+            log.warning("Attempted to decrypt invalid ciphertext: " + message);
+            throw new InvalidParametersException("Ciphertext does not contain IV and payload");
+        }
+
+        try {
+            SecretKeySpec sks = new SecretKeySpec(AES_ENCRYPTION_MATERIAL, "AES");
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             cipher.init(Cipher.DECRYPT_MODE, sks,
                     new GCMParameterSpec(AES_GCM_TAG_LENGTH_BITS, encryptedWithIv, 0, AES_GCM_IV_LENGTH_BYTES));
             byte[] decrypted = cipher.doFinal(encryptedWithIv, AES_GCM_IV_LENGTH_BYTES,
                     encryptedWithIv.length - AES_GCM_IV_LENGTH_BYTES);
             return new String(decrypted, Const.ENCODING);
-        } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
             log.warning("Attempted to decrypt invalid ciphertext: " + message);
             throw new InvalidParametersException(e);
         } catch (Exception e) {
