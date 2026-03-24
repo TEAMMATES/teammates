@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.servlet.http.Cookie;
 
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
@@ -58,13 +59,21 @@ public class GetAuthInfoAction extends Action {
 
         String csrfToken = StringHelper.encrypt(req.getSession().getId());
         String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
-        if (csrfToken.equals(existingCsrfToken)) {
+        if (existingCsrfToken != null && isMatchingCsrfToken(existingCsrfToken, req.getSession().getId())) {
             return new JsonResult(output);
         }
         Cookie csrfTokenCookie = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, csrfToken);
         csrfTokenCookie.setPath("/");
         List<Cookie> cookieList = Collections.singletonList(csrfTokenCookie);
         return new JsonResult(output, cookieList);
+    }
+
+    private static boolean isMatchingCsrfToken(String existingCsrfToken, String sessionId) {
+        try {
+            return sessionId.startsWith(StringHelper.decrypt(existingCsrfToken));
+        } catch (InvalidParametersException e) {
+            return false;
+        }
     }
 
     /**
