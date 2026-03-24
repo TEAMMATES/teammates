@@ -9,12 +9,11 @@ import java.util.Properties;
 
 /**
  * Deployment-specific configuration loaded from classpath resources {@code build.properties} (required) and
- * {@code build-dev.properties} (optional, typically local).
+ * {@code build-dev.properties} (optional).
  *
  * <p><b>Environment</b> — {@link #APP_ENV} is resolved by {@code resolveAppEnv}: non-blank {@code APP_ENV} environment
  * variable if set, otherwise non-blank {@code app.env} in {@code build-dev.properties}, then non-blank {@code app.env}
- * in {@code build.properties}. The value must be {@code development} or {@code production} (case-insensitive);
- * missing or invalid values cause {@link IllegalStateException} during class initialization.
+ * in {@code build.properties}.
  *
  * <p><b>Property resolution</b> — For most keys, when {@link #IS_DEV_SERVER} is {@code true}, the value is taken from
  * {@code build-dev.properties} if the key is present, else from {@code build.properties} (and optional string defaults
@@ -186,7 +185,6 @@ public final class Config {
         MAILJET_SECRETKEY = getProperty(properties, devProperties, "app.mailjet.secretkey");
         MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
 
-        // Development-oriented; same resolution as other keys (dev file when IS_DEV_SERVER, else build.properties).
         ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(
                 getProperty(properties, devProperties, "app.enable.devserver.login", "false"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(
@@ -293,9 +291,6 @@ public final class Config {
         return APP_MAINTAINERS;
     }
 
-    /**
-     * Indicates whether dev server login is enabled.
-     */
     public static boolean isDevServerLoginEnabled() {
         return IS_DEV_SERVER && ENABLE_DEVSERVER_LOGIN;
     }
