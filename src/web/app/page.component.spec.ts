@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush, waitForAsync } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatusMessageService } from '../services/status-message.service';
@@ -83,5 +83,61 @@ describe('PageComponent', () => {
     expect(redirectSpy).toHaveBeenCalledWith(
       `${backendUrl}/login?provider=entra&nextUrl=${encodeURIComponent('/web/instructor/home')}`,
     );
+  });
+
+  describe('provider modal button visibility', () => {
+    afterEach(fakeAsync(() => {
+      ngbModal.dismissAll();
+      fixture.detectChanges();
+      flush();
+    }));
+
+    it('should show only Google button when showGoogleLogin is true and showMsEntraLogin is false', () => {
+      component.showGoogleLogin = true;
+      component.showMsEntraLogin = false;
+      fixture.detectChanges();
+
+      component.openProviderModal('student');
+      fixture.detectChanges();
+
+      expect(document.querySelector('#provider-google-btn')).not.toBeNull();
+      expect(document.querySelector('#provider-entra-btn')).toBeNull();
+    });
+
+    it('should show only Microsoft button when showMsEntraLogin is true and showGoogleLogin is false', () => {
+      component.showGoogleLogin = false;
+      component.showMsEntraLogin = true;
+      fixture.detectChanges();
+
+      component.openProviderModal('student');
+      fixture.detectChanges();
+
+      expect(document.querySelector('#provider-google-btn')).toBeNull();
+      expect(document.querySelector('#provider-entra-btn')).not.toBeNull();
+    });
+
+    it('should show both buttons when showGoogleLogin and showMsEntraLogin are both true', () => {
+      component.showGoogleLogin = true;
+      component.showMsEntraLogin = true;
+      fixture.detectChanges();
+
+      component.openProviderModal('student');
+      fixture.detectChanges();
+
+      expect(document.querySelector('#provider-google-btn')).not.toBeNull();
+      expect(document.querySelector('#provider-entra-btn')).not.toBeNull();
+    });
+
+    it('should show no provider buttons when showGoogleLogin and showMsEntraLogin are both false', () => {
+      component.showGoogleLogin = false;
+      component.showMsEntraLogin = false;
+      fixture.detectChanges();
+
+      component.openProviderModal('student');
+      fixture.detectChanges();
+
+      expect(document.querySelector('#provider-google-btn')).toBeNull();
+      expect(document.querySelector('#provider-entra-btn')).toBeNull();
+    });
   });
 });
