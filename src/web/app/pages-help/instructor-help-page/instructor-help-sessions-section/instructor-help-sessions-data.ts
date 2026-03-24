@@ -114,7 +114,7 @@ export const EXAMPLE_RESPONSE_WITH_COMMENT: ResponseOutput = {
   instructorComments: [{
     commentGiver: 'Instructor',
     lastEditorEmail: '',
-    feedbackResponseCommentId: 1,
+    feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
     commentText: 'Good to know!',
     createdAt: 1,
     lastEditedAt: 1,
