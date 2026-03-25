@@ -78,7 +78,7 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
     @Test
     @Override
     protected void testExecute() throws Exception {
-        ______TS("Typical Success Case 1: 1 published-email tasks queued for 1 session that was recently published");
+        ______TS("Typical Success Case 1: 9 published-email tasks queued for 1 session that was recently published");
         textExecute_typicalSuccess1();
 
         ______TS("Typical Success Case 2: No email tasks queued -- session results not published yet");
