@@ -79,7 +79,7 @@ public final class DumpDatabase {
             log.info("Dump complete.");
         } catch (IOException e) {
             HibernateUtil.rollbackTransaction();
-            log.severe("Cannot write dump file '" + dumpFile + "': " + e.getMessage());
+            log.severe("Cannot write dump file '" + dumpFile + "'", e);
             System.exit(1);
         }
     }

@@ -39,7 +39,7 @@ task seedDatabase(type: SeedDatabaseTask) {
     group = 'Development'
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'teammates.client.scripts.seeddb.SeedDatabase'
-    jvmArgs '-Djava.util.logging.SimpleFormatter.format=%4$s: %5$s%n'
+    jvmArgs '-Djava.util.logging.SimpleFormatter.format=%4$s: %5$s%n%6$s'
 }
 
 task dumpDatabase(type: DumpDatabaseTask) {
@@ -47,5 +47,5 @@ task dumpDatabase(type: DumpDatabaseTask) {
     group = 'Development'
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'teammates.client.scripts.seeddb.DumpDatabase'
-    jvmArgs '-Djava.util.logging.SimpleFormatter.format=%4$s: %5$s%n'
+    jvmArgs '-Djava.util.logging.SimpleFormatter.format=%4$s: %5$s%n%6$s'
 }

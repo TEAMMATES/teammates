@@ -133,31 +133,30 @@ public final class SeedDatabase {
 
                 SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(applyDateTokens(jsonString));
                 Logic.inst().persistDataBundle(bundle);
-                log.info("Seeding complete.");
 
                 if (seedFile == null) {
-                    log.info("Seeding demo courses for instructors...");
+                    log.info("Seeding additional demo courses for instructors...");
                     seedDemoCourses(Logic.inst());
-                    log.info("Demo course seeding complete.");
+                    log.info("Seeding complete.");
                 }
             }
 
             HibernateUtil.commitTransaction();
             committed = true;
         } catch (IOException e) {
-            log.severe("Cannot read seed file '" + seedFile + "': " + e.getMessage());
+            log.severe("Cannot read seed file '" + seedFile + "'", e);
             System.exit(1);
         } catch (JsonSyntaxException e) {
-            log.severe("Invalid JSON in seed file: " + e.getMessage());
+            log.severe("Invalid JSON in seed file", e);
             System.exit(1);
         } catch (InvalidParametersException e) {
-            log.severe("Invalid entity data: " + e.getMessage());
+            log.severe("Invalid entity data", e);
             System.exit(1);
         } catch (EntityAlreadyExistsException e) {
-            log.severe("Entity already exists — re-run with --reset to truncate first");
+            log.severe("Entity already exists — re-run with --reset to truncate first", e);
             System.exit(1);
         } catch (EntityDoesNotExistException e) {
-            log.severe("Seed file references an entity that does not exist: " + e.getMessage());
+            log.severe("Seed file references an entity that does not exist", e);
             System.exit(1);
         } finally {
             if (!committed) {
