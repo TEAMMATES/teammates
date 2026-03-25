@@ -28,7 +28,6 @@ import teammates.common.exception.InvalidParametersException;
 
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
-    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
     private static final String HMAC_SHA_256 = "HmacSHA256";
     private static final int MASTER_KEY_LENGTH_BYTES = 32;
     private static final int AES_GCM_IV_LENGTH_BYTES = 12;
@@ -104,7 +103,7 @@ public final class StringHelper {
             SecretKeySpec sks = new SecretKeySpec(AES_ENCRYPTION_MATERIAL, "AES");
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             byte[] iv = new byte[AES_GCM_IV_LENGTH_BYTES];
-            SECURE_RANDOM.nextBytes(iv);
+            new SecureRandom().nextBytes(iv);
             cipher.init(Cipher.ENCRYPT_MODE, sks, new GCMParameterSpec(AES_GCM_TAG_LENGTH_BITS, iv));
             byte[] encrypted = cipher.doFinal(value.getBytes(Const.ENCODING));
 
