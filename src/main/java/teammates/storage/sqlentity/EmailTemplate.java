@@ -20,7 +20,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Table(name = "email_templates",
         uniqueConstraints = {
-                @UniqueConstraint(name = "Unique template key", columnNames = "template_key"),
+                @UniqueConstraint(name = "Unique template key", columnNames = "templateKey"),
         })
 public class EmailTemplate extends BaseEntity {
     @Id

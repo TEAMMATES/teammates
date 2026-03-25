@@ -140,7 +140,7 @@ liquibase {
     activities {
         main {
             searchPath "${projectDir}"
-            changelogFile "src/main/resources/db/changelog/db.changelog-root.xml"
+            changeLogFile "src/main/resources/db/changelog/db.changelog-root.xml"
             url project.properties['liquibaseDbUrl']
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
@@ -154,7 +154,7 @@ liquibase {
         }
         diffMain {
             searchPath "${projectDir}"
-            changelogFile "src/main/resources/db/changelog/db.changelog-new.xml"
+            changeLogFile "src/main/resources/db/changelog/db.changelog-new.xml"
             referenceUrl  project.properties['liquibaseDbUrl']
             referenceUsername project.properties['liquibaseUsername']
             referencePassword project.properties['liquibasePassword']
