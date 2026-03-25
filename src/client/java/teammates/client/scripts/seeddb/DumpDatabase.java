@@ -49,7 +49,7 @@ public final class DumpDatabase {
     private static final String DEFAULT_DUMP_FILE = "Dumped_Databundle_%s.json";
 
     private DumpDatabase() {
-        // utility class
+        // Utility class
     }
 
     public static void main(String[] args) {
@@ -67,6 +67,7 @@ public final class DumpDatabase {
 
         String dbUrl = "jdbc:postgresql://" + Config.POSTGRES_HOST + ":" + Config.POSTGRES_PORT
                 + "/" + Config.POSTGRES_DATABASENAME;
+        boolean dumpOk = false;
 
         try {
             HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
@@ -79,14 +80,17 @@ public final class DumpDatabase {
 
             log.info("Writing dump to: " + dumpFile);
             teammates.test.FileHelper.saveFile(dumpFile, JsonUtils.toJson(bundle));
+            dumpOk = true;
             log.info("Dump complete.");
         } catch (IOException e) {
             HibernateUtil.rollbackTransaction();
             log.severe("Cannot write dump file '" + dumpFile + "'", e);
-            System.exit(1);
         } catch (HibernateException he) {
             HibernateUtil.rollbackTransaction();
             log.severe("Database error: " + he.getMessage(), he);
+        }
+
+        if (!dumpOk) {
             System.exit(1);
         }
     }
@@ -146,7 +150,7 @@ public final class DumpDatabase {
 
     private static <T> List<T> queryAll(CriteriaBuilder cb, Class<T> entityClass) {
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
-        cq.from(entityClass);
+        cq.select(cq.from(entityClass));
         return HibernateUtil.createQuery(cq).getResultList();
     }
 

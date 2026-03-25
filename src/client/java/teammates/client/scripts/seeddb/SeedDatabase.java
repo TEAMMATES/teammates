@@ -50,16 +50,13 @@ public final class SeedDatabase {
             + " RESTART IDENTITY CASCADE";
 
     private SeedDatabase() {
-        // utility class
+        // Utility class
     }
 
-    /**
-     * Entry point.
-     */
     public static void main(String[] args) {
         boolean reset = false;
         boolean noSeed = false;
-        String seedFile = null;
+        String customSeedFile = null;
 
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
@@ -71,13 +68,10 @@ public final class SeedDatabase {
                 noSeed = true;
                 break;
             case "--seedFile":
-                seedFile = args[i + 1];
+                customSeedFile = args[i + 1];
                 break;
             default:
-                log.severe("Unknown argument: " + arg);
-                printUsage();
-                System.exit(1);
-                break;
+                // Unrecognised arguments should be handled by gradle
             }
         }
 
@@ -85,6 +79,18 @@ public final class SeedDatabase {
                 + "/" + Config.POSTGRES_DATABASENAME;
         HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
         LogicStarter.initializeDependencies();
+
+        String jsonString;
+        String seedFile;
+        if (customSeedFile != null) {
+            seedFile = customSeedFile.startsWith("~")
+                    ? System.getProperty("user.home") + customSeedFile.substring(1)
+                    : customSeedFile;
+            log.info("Seeding from specified databundle file: " + customSeedFile);
+        } else {
+            seedFile = DEFAULT_SEED_FILE;
+            log.info("Seeding from default databundle file: " + DEFAULT_SEED_FILE);
+        }
 
         boolean committed = false;
         HibernateUtil.beginTransaction();
@@ -95,51 +101,37 @@ public final class SeedDatabase {
                 log.info("Truncate completed.");
             }
 
-            if (!noSeed) {
-                String jsonString;
-                if (seedFile != null) {
-                    if (seedFile.startsWith("~/")) {
-                        seedFile = System.getProperty("user.home") + seedFile.substring(1);
-                    }
-                    log.info("Seeding from specified databundle file: " + seedFile);
-                    jsonString = teammates.test.FileHelper.readFile(seedFile);
-                } else {
-                    log.info("Seeding from default databundle file: " + DEFAULT_SEED_FILE);
-                    jsonString = teammates.test.FileHelper.readFile(DEFAULT_SEED_FILE);
-                }
+            if (noSeed) {
+                return;
+            }
 
-                SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(applyDateTokens(jsonString));
+            jsonString = teammates.test.FileHelper.readFile(seedFile);
+            SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(applyDateTokens(jsonString));
 
-                Logic.inst().persistDataBundle(bundle);
+            Logic.inst().persistDataBundle(bundle);
 
-                if (seedFile == null) {
-                    log.info("Seeding additional demo courses for instructors...");
-                    seedDemoCourses(Logic.inst(), bundle);
-                }
-
-                log.info("Seeding completed.");
+            if (DEFAULT_SEED_FILE.equals(seedFile)) {
+                log.info("Seeding additional demo courses for instructors...");
+                seedDemoCourses(Logic.inst(), bundle);
             }
 
             HibernateUtil.commitTransaction();
             committed = true;
+            log.info("Seeding completed.");
         } catch (IOException e) {
-            log.severe("Failed read seed file '" + seedFile + "'", e);
-            System.exit(1);
+            log.severe("Failed to read seed file '" + seedFile + "'", e);
         } catch (JsonSyntaxException e) {
             log.severe("Invalid JSON in seed file", e);
-            System.exit(1);
         } catch (InvalidParametersException e) {
             log.severe("Invalid entity data", e);
-            System.exit(1);
         } catch (EntityAlreadyExistsException e) {
             log.severe("Entity already exists", e);
-            System.exit(1);
         } catch (EntityDoesNotExistException e) {
             log.severe("Seed file references an entity that does not exist", e);
-            System.exit(1);
         } finally {
             if (!committed) {
                 HibernateUtil.rollbackTransaction();
+                System.exit(1);
             }
         }
     }
@@ -160,12 +152,12 @@ public final class SeedDatabase {
         }
 
         // Deduplicate instructors by email — one person may appear in multiple courses
-        Map<String, Instructor> uniqueByEmail = new LinkedHashMap<>();
+        Map<String, Instructor> uniqueByEmailInstructors = new LinkedHashMap<>();
         for (Instructor inst : seedBundle.instructors.values()) {
-            uniqueByEmail.putIfAbsent(inst.getEmail(), inst);
+            uniqueByEmailInstructors.putIfAbsent(inst.getEmail(), inst);
         }
 
-        for (Instructor inst : uniqueByEmail.values()) {
+        for (Instructor inst : uniqueByEmailInstructors.values()) {
             Course instCourse = courseById.get(inst.getCourseId());
             String institute = instCourse != null ? instCourse.getInstitute() : "";
             String courseId = demoCourseId(inst.getEmail());
@@ -179,13 +171,11 @@ public final class SeedDatabase {
                     "demo.date1", d1, "demo.date2", d2, "demo.date3", d3,
                     "demo.date4", d4, "demo.date5", d5);
 
-            // deserializeDataBundle regenerates all placeholder UUIDs — no collision across calls
+            // deserializeDataBundle regenerates all placeholder UUIDs
             SqlDataBundle demoBundle = DataBundleLogic.deserializeDataBundle(json);
             logic.persistDataBundle(demoBundle);
 
             // Link the demo-course instructor entity to the already-persisted account.
-            // Mirrors CreateAccountAction.execute() calling joinCourseForInstructor().
-            // googleId == email for all accounts in SeedingDatabundle.json.
             List<Instructor> instructors = logic.getInstructorsByCourse(courseId);
             if (!instructors.isEmpty()) {
                 logic.joinCourseForInstructor(instructors.get(0).getRegKey(), inst.getEmail());
@@ -211,10 +201,6 @@ public final class SeedDatabase {
         }
         m.appendTail(sb);
         return sb.toString();
-    }
-
-    private static void printUsage() {
-        System.out.println("Usage: ./gradlew seedDatabase [--reset] [--noSeed] [--seedFile <path>]");
     }
 
 }
