@@ -18,19 +18,21 @@ import org.hibernate.annotations.UpdateTimestamp;
  * Entity for email templates configurable by an admin.
  */
 @Entity
-@Table(name = "EmailTemplates",
+@Table(name = "email_templates",
         uniqueConstraints = {
-                @UniqueConstraint(name = "Unique template key", columnNames = "templateKey"),
+                @UniqueConstraint(name = "Unique template key", columnNames = "template_key"),
         })
 public class EmailTemplate extends BaseEntity {
     @Id
     private UUID id;
 
+    @Column(nullable = false, length = 100)
     private String templateKey;
 
+    @Column(nullable = false)
     private String subject;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
     @UpdateTimestamp
