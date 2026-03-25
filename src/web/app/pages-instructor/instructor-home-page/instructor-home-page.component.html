@@ -95,7 +95,7 @@
                           tmRouterLink="./"> Copy
                         </a>
                       }
-                      @if (courseTabModel.instructorPrivilege.canModifyInstructor && courseTabModel.course.isMigrated) {
+                      @if (courseTabModel.instructorPrivilege.canModifyInstructor) {
                         <a class="btn-course-logs btn btn-light btn-sm dropdown-item" tmRouterLink="/web/instructor/courses/student-activity-logs"
                           [queryParams]="{courseid: courseTabModel.course.courseId}"> View Logs
                         </a>

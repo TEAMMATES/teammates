@@ -18,13 +18,27 @@
     </div>
     @if (captchaSiteKey !== '') {
       <div class="form-group">
-        <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey" (success)="handleSuccess($event)"
+        <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey"
+          (success)="handleSuccess($event)"
+          (load)="handleLoad()"
+          (error)="handleError()"
           [useGlobalDomain]="false" [size]="size" [hl]="lang" formControlName="recaptcha">
         </ngx-recaptcha2>
+
+        @if (captchaError) {
+          <div class="text-danger">
+            <small>The "I'm not a robot" checkbox failed to load. Please try again later.</small>
+          </div>
+        } @else if (!captchaLoaded) {
+          <div>
+            <tm-ajax-loading></tm-ajax-loading>
+            <span><small>Loading CAPTCHA...</small></span>
+          </div>
+        }
       </div>
     }
 
-    <button class="btn btn-primary" type="submit">
+    <button class="btn btn-primary" type="submit" [disabled]="isFormSubmitting || !isCaptchaReady()">
       @if (isFormSubmitting) {
         <tm-ajax-loading></tm-ajax-loading>
         }Submit
