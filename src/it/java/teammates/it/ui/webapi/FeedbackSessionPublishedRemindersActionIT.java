@@ -77,13 +77,21 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
 
     @Test
     @Override
-    protected void testExecute() {
-        // This is separated into different test methods.
+    protected void testExecute() throws Exception {
+        ______TS("Typical Success Case 1: 1 published-email tasks queued for 1 session that was recently published");
+        textExecute_typicalSuccess1();
+
+        ______TS("Typical Success Case 2: No email tasks queued -- session results not published yet");
+        textExecute_typicalSuccess2();
+
+        ______TS("Typical Success Case 3: No email tasks queued -- send-published-emails not enabled");
+        textExecute_typicalSuccess3();
+
+        ______TS("Typical Success Case 4: No email tasks queued -- resultsVisibleTime is special time");
+        textExecute_typicalSuccess4();
     }
 
-    @Test
-    void testExecute_recentlyPublished_tasksQueued() {
-        ______TS("Typical Success Case 1: 1 published-email tasks queued for 1 session that was recently published");
+    private void textExecute_typicalSuccess1() {
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
 
@@ -102,9 +110,7 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 9);
     }
 
-    @Test
-    void testExecute_notPublishedYet_noTasksQueued() {
-        ______TS("Typical Success Case 2: No email tasks queued -- session results not published yet");
+    private void textExecute_typicalSuccess2() {
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
 
@@ -121,9 +127,7 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         verifyNoTasksAdded();
     }
 
-    @Test
-    void testExecute_publishedEmailsDisabled_noTasksQueued() {
-        ______TS("Typical Success Case 3: No email tasks queued -- send-published-emails not enabled");
+    private void textExecute_typicalSuccess3() {
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
 
@@ -142,9 +146,7 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         verifyNoTasksAdded();
     }
 
-    @Test
-    void testExecute_resultsVisibleLaterSpecialTime_noTasksQueued() {
-        ______TS("Typical Success Case 4: No email tasks queued -- resultsVisibleTime is special time");
+    private void textExecute_typicalSuccess4() {
         FeedbackSession session = generatePreparedSession();
 
         session.setPublishedEmailSent(false);
