@@ -1,6 +1,7 @@
 package teammates.storage.sqlapi;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -11,11 +12,13 @@ import java.util.stream.Stream;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+import org.hibernate.query.MutationQuery;
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -105,27 +108,38 @@ public class EmailTemplatesDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpsertEmailTemplate_newTemplate_persistsCalled() throws InvalidParametersException {
+    public void testUpsertEmailTemplate_newTemplate_success() throws InvalidParametersException {
         EmailTemplate newTemplate = new EmailTemplate("KEY", "Subject", "Body");
-        doReturn(null).when(emailTemplatesDb).getEmailTemplate("KEY");
+        MutationQuery mockMutationQuery = mock(MutationQuery.class);
 
-        emailTemplatesDb.upsertEmailTemplate(newTemplate);
+        mockHibernateUtil.when(() -> HibernateUtil.createNativeMutationQuery(anyString()))
+                .thenReturn(mockMutationQuery);
+        doReturn(mockMutationQuery).when(mockMutationQuery).setParameter(anyString(), any());
+        doReturn(newTemplate).when(emailTemplatesDb).getEmailTemplate("KEY");
 
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(newTemplate));
+        EmailTemplate result = emailTemplatesDb.upsertEmailTemplate(newTemplate);
+
+        mockHibernateUtil.verify(() -> HibernateUtil.createNativeMutationQuery(anyString()));
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
         mockHibernateUtil.verify(() -> HibernateUtil.merge(any(EmailTemplate.class)), never());
+        assertEquals(newTemplate, result);
     }
 
     @Test
-    public void testUpsertEmailTemplate_existingTemplate_mergesCalled() throws InvalidParametersException {
-        EmailTemplate existingTemplate = new EmailTemplate("KEY", "Old Subject", "Old Body");
+    public void testUpsertEmailTemplate_existingTemplate_success() throws InvalidParametersException {
         EmailTemplate updatedTemplate = new EmailTemplate("KEY", "New Subject", "New Body");
-        doReturn(existingTemplate).when(emailTemplatesDb).getEmailTemplate("KEY");
-        mockHibernateUtil.when(() -> HibernateUtil.merge(existingTemplate)).thenReturn(existingTemplate);
+        MutationQuery mockMutationQuery = mock(MutationQuery.class);
+
+        mockHibernateUtil.when(() -> HibernateUtil.createNativeMutationQuery(anyString()))
+                .thenReturn(mockMutationQuery);
+        doReturn(mockMutationQuery).when(mockMutationQuery).setParameter(anyString(), any());
+        doReturn(updatedTemplate).when(emailTemplatesDb).getEmailTemplate("KEY");
 
         EmailTemplate result = emailTemplatesDb.upsertEmailTemplate(updatedTemplate);
 
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(existingTemplate));
+        mockHibernateUtil.verify(() -> HibernateUtil.createNativeMutationQuery(anyString()));
         mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(any(EmailTemplate.class)), never());
         assertEquals("New Subject", result.getSubject());
         assertEquals("New Body", result.getBody());
     }
@@ -133,13 +147,38 @@ public class EmailTemplatesDbTest extends BaseTestCase {
     @Test
     public void testUpsertEmailTemplate_invalidTemplate_throwsInvalidParametersException() {
         EmailTemplate invalidTemplate = new EmailTemplate("KEY", "", "Body");
-        doReturn(null).when(emailTemplatesDb).getEmailTemplate("KEY");
 
         assertThrows(InvalidParametersException.class,
                 () -> emailTemplatesDb.upsertEmailTemplate(invalidTemplate));
 
+        mockHibernateUtil.verify(() -> HibernateUtil.createNativeMutationQuery(anyString()), never());
         mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
         mockHibernateUtil.verify(() -> HibernateUtil.merge(any(EmailTemplate.class)), never());
+    }
+
+    @Test
+    public void testDeleteEmailTemplate_byKey_executesDelete() {
+        CriteriaBuilder cb = mock(CriteriaBuilder.class);
+        @SuppressWarnings("unchecked")
+        CriteriaDelete<EmailTemplate> cd = mock(CriteriaDelete.class);
+        @SuppressWarnings("unchecked")
+        Root<EmailTemplate> root = mock(Root.class);
+        @SuppressWarnings("unchecked")
+        Path<Object> path = mock(Path.class);
+        Predicate predicate = mock(Predicate.class);
+        MutationQuery mutationQuery = mock(MutationQuery.class);
+
+        mockHibernateUtil.when(HibernateUtil::getCriteriaBuilder).thenReturn(cb);
+        doReturn(cd).when(cb).createCriteriaDelete(EmailTemplate.class);
+        doReturn(root).when(cd).from(EmailTemplate.class);
+        doReturn(path).when(root).get("templateKey");
+        doReturn(predicate).when(cb).equal(path, "KEY");
+        doReturn(cd).when(cd).where(predicate);
+        mockHibernateUtil.when(() -> HibernateUtil.createMutationQuery(cd)).thenReturn(mutationQuery);
+
+        emailTemplatesDb.deleteEmailTemplate("KEY");
+
+        mockHibernateUtil.verify(() -> HibernateUtil.createMutationQuery(cd));
     }
 
     @Test
@@ -153,7 +192,7 @@ public class EmailTemplatesDbTest extends BaseTestCase {
 
     @Test
     public void testDeleteEmailTemplate_nullTemplate_removeNotCalled() {
-        emailTemplatesDb.deleteEmailTemplate(null);
+        emailTemplatesDb.deleteEmailTemplate((EmailTemplate) null);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
     }

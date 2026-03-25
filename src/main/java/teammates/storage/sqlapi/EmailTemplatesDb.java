@@ -45,9 +45,9 @@ public final class EmailTemplatesDb {
     /**
      * Creates or updates an EmailTemplate in the database.
      *
-     * <p>Any existing record with the same {@code templateKey} is deleted before
-     * the new template is inserted, keeping both operations within the same
-     * transaction and avoiding a unique-constraint race on concurrent saves.
+     * <p>Uses a native PostgreSQL {@code INSERT ... ON CONFLICT DO UPDATE} to
+     * atomically upsert the record, avoiding TOCTOU race conditions that would
+     * arise from a read-check-write or delete-then-insert approach.
      */
     public EmailTemplate upsertEmailTemplate(EmailTemplate emailTemplate) throws InvalidParametersException {
         assert emailTemplate != null;
@@ -56,9 +56,21 @@ public final class EmailTemplatesDb {
             throw new InvalidParametersException(emailTemplate.getInvalidityInfo());
         }
 
-        deleteEmailTemplate(emailTemplate.getTemplateKey());
-        HibernateUtil.persist(emailTemplate);
-        return emailTemplate;
+        HibernateUtil.createNativeMutationQuery(
+                "INSERT INTO email_templates (id, created_at, template_key, subject, body, updated_at) "
+                        + "VALUES (:id, :createdAt, :templateKey, :subject, :body, NOW()) "
+                        + "ON CONFLICT (template_key) DO UPDATE SET "
+                        + "subject = EXCLUDED.subject, "
+                        + "body = EXCLUDED.body, "
+                        + "updated_at = EXCLUDED.updated_at")
+                .setParameter("id", emailTemplate.getId())
+                .setParameter("createdAt", emailTemplate.getCreatedAt())
+                .setParameter("templateKey", emailTemplate.getTemplateKey())
+                .setParameter("subject", emailTemplate.getSubject())
+                .setParameter("body", emailTemplate.getBody())
+                .executeUpdate();
+
+        return getEmailTemplate(emailTemplate.getTemplateKey());
     }
 
     /**

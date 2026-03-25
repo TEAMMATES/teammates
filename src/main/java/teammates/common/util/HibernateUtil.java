@@ -182,6 +182,14 @@ public final class HibernateUtil {
         return getCurrentSession().createMutationQuery(cd);
     }
 
+    /**
+     * Returns a MutationQuery for the given native SQL string.
+     * @see Session#createNativeMutationQuery(String)
+     */
+    public static MutationQuery createNativeMutationQuery(String queryString) {
+        return getCurrentSession().createNativeMutationQuery(queryString);
+    }
+
     public static void setSessionFactory(SessionFactory sessionFactory) {
         HibernateUtil.sessionFactory = sessionFactory;
     }
