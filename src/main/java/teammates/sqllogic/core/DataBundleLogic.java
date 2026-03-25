@@ -219,9 +219,11 @@ public final class DataBundleLogic {
 
         for (FeedbackSessionLog log : sessionLogs) {
             log.setId(UUID.randomUUID());
-            FeedbackSession fs = sessionsMap.get(log.getFeedbackSession().getId());
+            FeedbackSession fs = log.getFeedbackSession() == null
+                    ? null : sessionsMap.get(log.getFeedbackSession().getId());
             log.setFeedbackSession(fs);
-            Student student = (Student) usersMap.get(log.getStudent().getId());
+            Student student = log.getStudent() == null
+                    ? null : (Student) usersMap.get(log.getStudent().getId());
             log.setStudent(student);
         }
 
@@ -376,6 +378,7 @@ public final class DataBundleLogic {
         Collection<Instructor> instructors = dataBundle.instructors.values();
         Collection<Student> students = dataBundle.students.values();
         Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
+        Collection<FeedbackSessionLog> sessionLogs = dataBundle.feedbackSessionLogs.values();
         Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
         Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
@@ -469,6 +472,15 @@ public final class DataBundleLogic {
                 student.setAccount(account);
             }
             student.generateNewRegistrationKey();
+        }
+
+        for (FeedbackSessionLog log : sessionLogs) {
+            FeedbackSession fs = log.getFeedbackSession() == null
+                    ? null : sessionsMap.get(log.getFeedbackSession().getId());
+            log.setFeedbackSession(fs);
+            Student student = log.getStudent() == null
+                    ? null : (Student) usersMap.get(log.getStudent().getId());
+            log.setStudent(student);
         }
 
         for (Notification notification : notifications) {
