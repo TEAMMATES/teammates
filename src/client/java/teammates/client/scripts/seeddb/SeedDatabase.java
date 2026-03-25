@@ -56,7 +56,7 @@ public final class SeedDatabase {
     public static void main(String[] args) {
         boolean reset = false;
         boolean noSeed = false;
-        String customSeedFile = null;
+        String seedFile = DEFAULT_SEED_FILE;
 
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
@@ -68,10 +68,13 @@ public final class SeedDatabase {
                 noSeed = true;
                 break;
             case "--seedFile":
-                customSeedFile = args[i + 1];
+                String customSeedFile = args[i + 1];
+                seedFile = customSeedFile.startsWith("~")
+                        ? System.getProperty("user.home") + customSeedFile.substring(1)
+                        : customSeedFile;
                 break;
             default:
-                // Unrecognised arguments should be handled by gradle
+                // Unrecognised arguments handled by gradle
             }
         }
 
@@ -79,18 +82,6 @@ public final class SeedDatabase {
                 + "/" + Config.POSTGRES_DATABASENAME;
         HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
         LogicStarter.initializeDependencies();
-
-        String jsonString;
-        String seedFile;
-        if (customSeedFile != null) {
-            seedFile = customSeedFile.startsWith("~")
-                    ? System.getProperty("user.home") + customSeedFile.substring(1)
-                    : customSeedFile;
-            log.info("Seeding from specified databundle file: " + customSeedFile);
-        } else {
-            seedFile = DEFAULT_SEED_FILE;
-            log.info("Seeding from default databundle file: " + DEFAULT_SEED_FILE);
-        }
 
         boolean committed = false;
         HibernateUtil.beginTransaction();
@@ -102,10 +93,18 @@ public final class SeedDatabase {
             }
 
             if (noSeed) {
+                HibernateUtil.commitTransaction();
+                committed = true;
                 return;
             }
 
-            jsonString = teammates.test.FileHelper.readFile(seedFile);
+            if (DEFAULT_SEED_FILE.equals(seedFile)) {
+                log.info("Seeding from default databundle file: " + DEFAULT_SEED_FILE);
+            } else {
+                log.info("Seeding from specified databundle file: " + seedFile);
+            }
+
+            String jsonString = teammates.test.FileHelper.readFile(seedFile);
             SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(applyDateTokens(jsonString));
 
             Logic.inst().persistDataBundle(bundle);
@@ -114,10 +113,10 @@ public final class SeedDatabase {
                 log.info("Seeding additional demo courses for instructors...");
                 seedDemoCourses(Logic.inst(), bundle);
             }
+            log.info("Seeding completed.");
 
             HibernateUtil.commitTransaction();
             committed = true;
-            log.info("Seeding completed.");
         } catch (IOException e) {
             log.severe("Failed to read seed file '" + seedFile + "'", e);
         } catch (JsonSyntaxException e) {
