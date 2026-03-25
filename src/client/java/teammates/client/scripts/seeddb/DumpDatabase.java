@@ -8,8 +8,6 @@ import java.util.List;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 
-import org.hibernate.HibernateException;
-
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.util.Config;
 import teammates.common.util.HibernateUtil;
@@ -67,31 +65,26 @@ public final class DumpDatabase {
 
         String dbUrl = "jdbc:postgresql://" + Config.POSTGRES_HOST + ":" + Config.POSTGRES_PORT
                 + "/" + Config.POSTGRES_DATABASENAME;
+        HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
+        LogicStarter.initializeDependencies();
+        HibernateUtil.beginTransaction();
         boolean dumpOk = false;
 
         try {
-            HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
-            LogicStarter.initializeDependencies();
-
             log.info("Querying database...");
-            HibernateUtil.beginTransaction();
             SqlDataBundle bundle = buildBundle();
-            HibernateUtil.commitTransaction();
-
             log.info("Writing dump to: " + dumpFile);
             teammates.test.FileHelper.saveFile(dumpFile, JsonUtils.toJson(bundle));
+            HibernateUtil.commitTransaction();
             dumpOk = true;
             log.info("Dump completed.");
         } catch (IOException e) {
-            HibernateUtil.rollbackTransaction();
             log.severe("Failed to write dump file '" + dumpFile + "'", e);
-        } catch (HibernateException he) {
-            HibernateUtil.rollbackTransaction();
-            log.severe("Database error: " + he.getMessage(), he);
-        }
-
-        if (!dumpOk) {
-            System.exit(1);
+        } finally {
+            if (!dumpOk) {
+                HibernateUtil.rollbackTransaction();
+                System.exit(1);
+            }
         }
     }
 
