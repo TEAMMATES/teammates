@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Const;
@@ -52,8 +53,8 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         boolean isSendingCopyToInstructor = remindRequest.getIsSendingCopyToInstructor();
 
         // Generate reminder emails for specified users
-        List<Student> studentsToRemindList = new java.util.ArrayList<>();
-        List<Instructor> instructorsToRemindList = new java.util.ArrayList<>();
+        List<Student> studentsToRemindList = new ArrayList<>();
+        List<Instructor> instructorsToRemindList = new ArrayList<>();
         Instructor instructorToNotify = isSendingCopyToInstructor
                 ? sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId())
                 : null;
