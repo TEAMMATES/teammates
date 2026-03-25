@@ -6,6 +6,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.CriteriaUpdate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -183,11 +184,11 @@ public final class HibernateUtil {
     }
 
     /**
-     * Returns a MutationQuery for the given native SQL string.
-     * @see Session#createNativeMutationQuery(String)
+     * Returns a MutationQuery object.
+     * @see Session#createMutationQuery(CriteriaUpdate)
      */
-    public static MutationQuery createNativeMutationQuery(String queryString) {
-        return getCurrentSession().createNativeMutationQuery(queryString);
+    public static <T> MutationQuery createMutationQuery(CriteriaUpdate<T> cu) {
+        return getCurrentSession().createMutationQuery(cu);
     }
 
     public static void setSessionFactory(SessionFactory sessionFactory) {

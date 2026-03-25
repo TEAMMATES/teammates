@@ -1,12 +1,13 @@
 package teammates.storage.sqlapi;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
 
@@ -14,6 +15,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.CriteriaUpdate;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
@@ -108,40 +110,56 @@ public class EmailTemplatesDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpsertEmailTemplate_newTemplate_success() throws InvalidParametersException {
-        EmailTemplate newTemplate = new EmailTemplate("KEY", "Subject", "Body");
-        MutationQuery mockMutationQuery = mock(MutationQuery.class);
-
-        mockHibernateUtil.when(() -> HibernateUtil.createNativeMutationQuery(anyString()))
-                .thenReturn(mockMutationQuery);
-        doReturn(mockMutationQuery).when(mockMutationQuery).setParameter(anyString(), any());
-        doReturn(newTemplate).when(emailTemplatesDb).getEmailTemplate("KEY");
-
-        EmailTemplate result = emailTemplatesDb.upsertEmailTemplate(newTemplate);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.createNativeMutationQuery(anyString()));
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(any(EmailTemplate.class)), never());
-        assertEquals(newTemplate, result);
-    }
-
-    @Test
-    public void testUpsertEmailTemplate_existingTemplate_success() throws InvalidParametersException {
+    public void testUpsertEmailTemplate_existingTemplate_updatesAndReturnsFetched()
+            throws InvalidParametersException {
         EmailTemplate updatedTemplate = new EmailTemplate("KEY", "New Subject", "New Body");
-        MutationQuery mockMutationQuery = mock(MutationQuery.class);
 
-        mockHibernateUtil.when(() -> HibernateUtil.createNativeMutationQuery(anyString()))
-                .thenReturn(mockMutationQuery);
-        doReturn(mockMutationQuery).when(mockMutationQuery).setParameter(anyString(), any());
+        CriteriaBuilder cb = mock(CriteriaBuilder.class);
+        @SuppressWarnings("unchecked")
+        CriteriaUpdate<EmailTemplate> update = mock(CriteriaUpdate.class);
+        @SuppressWarnings("unchecked")
+        Root<EmailTemplate> root = mock(Root.class);
+        MutationQuery mockQuery = mock(MutationQuery.class);
+
+        mockHibernateUtil.when(HibernateUtil::getCriteriaBuilder).thenReturn(cb);
+        doReturn(update).when(cb).createCriteriaUpdate(EmailTemplate.class);
+        doReturn(root).when(update).from(EmailTemplate.class);
+        mockHibernateUtil.when(() -> HibernateUtil.createMutationQuery(update)).thenReturn(mockQuery);
+        doReturn(1).when(mockQuery).executeUpdate();
         doReturn(updatedTemplate).when(emailTemplatesDb).getEmailTemplate("KEY");
 
         EmailTemplate result = emailTemplatesDb.upsertEmailTemplate(updatedTemplate);
 
-        mockHibernateUtil.verify(() -> HibernateUtil.createNativeMutationQuery(anyString()));
+        verify(mockQuery, times(1)).executeUpdate();
         mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(any(EmailTemplate.class)), never());
         assertEquals("New Subject", result.getSubject());
         assertEquals("New Body", result.getBody());
+    }
+
+    @Test
+    public void testUpsertEmailTemplate_newTemplate_persistsWhenNoRowUpdated()
+            throws InvalidParametersException {
+        EmailTemplate newTemplate = new EmailTemplate("KEY", "Subject", "Body");
+
+        CriteriaBuilder cb = mock(CriteriaBuilder.class);
+        @SuppressWarnings("unchecked")
+        CriteriaUpdate<EmailTemplate> update = mock(CriteriaUpdate.class);
+        @SuppressWarnings("unchecked")
+        Root<EmailTemplate> root = mock(Root.class);
+        MutationQuery mockQuery = mock(MutationQuery.class);
+
+        mockHibernateUtil.when(HibernateUtil::getCriteriaBuilder).thenReturn(cb);
+        doReturn(update).when(cb).createCriteriaUpdate(EmailTemplate.class);
+        doReturn(root).when(update).from(EmailTemplate.class);
+        mockHibernateUtil.when(() -> HibernateUtil.createMutationQuery(update)).thenReturn(mockQuery);
+        doReturn(0).when(mockQuery).executeUpdate();
+        doReturn(newTemplate).when(emailTemplatesDb).getEmailTemplate("KEY");
+
+        EmailTemplate result = emailTemplatesDb.upsertEmailTemplate(newTemplate);
+
+        verify(mockQuery, times(1)).executeUpdate();
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(newTemplate));
+        assertEquals(newTemplate, result);
     }
 
     @Test
@@ -151,9 +169,8 @@ public class EmailTemplatesDbTest extends BaseTestCase {
         assertThrows(InvalidParametersException.class,
                 () -> emailTemplatesDb.upsertEmailTemplate(invalidTemplate));
 
-        mockHibernateUtil.verify(() -> HibernateUtil.createNativeMutationQuery(anyString()), never());
+        mockHibernateUtil.verify(() -> HibernateUtil.getCriteriaBuilder(), never());
         mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(any(EmailTemplate.class)), never());
     }
 
     @Test
@@ -179,6 +196,7 @@ public class EmailTemplatesDbTest extends BaseTestCase {
         emailTemplatesDb.deleteEmailTemplate("KEY");
 
         mockHibernateUtil.verify(() -> HibernateUtil.createMutationQuery(cd));
+        verify(mutationQuery, times(1)).executeUpdate();
     }
 
     @Test

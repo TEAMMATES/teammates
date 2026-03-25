@@ -1,9 +1,12 @@
 package teammates.storage.sqlapi;
 
+import java.time.Instant;
+
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.CriteriaUpdate;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.exception.InvalidParametersException;
@@ -45,9 +48,8 @@ public final class EmailTemplatesDb {
     /**
      * Creates or updates an EmailTemplate in the database.
      *
-     * <p>Uses a native PostgreSQL {@code INSERT ... ON CONFLICT DO UPDATE} to
-     * atomically upsert the record, avoiding TOCTOU race conditions that would
-     * arise from a read-check-write or delete-then-insert approach.
+     * <p>Attempts a bulk {@code CriteriaUpdate} first. If no row is matched
+     * (i.e. the template does not yet exist), falls back to a {@code persist}.
      */
     public EmailTemplate upsertEmailTemplate(EmailTemplate emailTemplate) throws InvalidParametersException {
         assert emailTemplate != null;
@@ -56,19 +58,18 @@ public final class EmailTemplatesDb {
             throw new InvalidParametersException(emailTemplate.getInvalidityInfo());
         }
 
-        HibernateUtil.createNativeMutationQuery(
-                "INSERT INTO email_templates (id, created_at, template_key, subject, body, updated_at) "
-                        + "VALUES (:id, :createdAt, :templateKey, :subject, :body, NOW()) "
-                        + "ON CONFLICT (template_key) DO UPDATE SET "
-                        + "subject = EXCLUDED.subject, "
-                        + "body = EXCLUDED.body, "
-                        + "updated_at = EXCLUDED.updated_at")
-                .setParameter("id", emailTemplate.getId())
-                .setParameter("createdAt", emailTemplate.getCreatedAt())
-                .setParameter("templateKey", emailTemplate.getTemplateKey())
-                .setParameter("subject", emailTemplate.getSubject())
-                .setParameter("body", emailTemplate.getBody())
-                .executeUpdate();
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaUpdate<EmailTemplate> update = cb.createCriteriaUpdate(EmailTemplate.class);
+        Root<EmailTemplate> root = update.from(EmailTemplate.class);
+        update.set(root.get("subject"), emailTemplate.getSubject());
+        update.set(root.get("body"), emailTemplate.getBody());
+        update.set(root.get("updatedAt"), Instant.now());
+        update.where(cb.equal(root.get("templateKey"), emailTemplate.getTemplateKey()));
+
+        int rowsUpdated = HibernateUtil.createMutationQuery(update).executeUpdate();
+        if (rowsUpdated == 0) {
+            HibernateUtil.persist(emailTemplate);
+        }
 
         return getEmailTemplate(emailTemplate.getTemplateKey());
     }
