@@ -71,7 +71,7 @@ public final class EmailTemplatesDb {
             HibernateUtil.persist(emailTemplate);
         }
 
-        return getEmailTemplate(emailTemplate.getTemplateKey());
+        return emailTemplate;
     }
 
     /**

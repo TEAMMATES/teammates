@@ -110,7 +110,7 @@ public class EmailTemplatesDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpsertEmailTemplate_existingTemplate_updatesAndReturnsFetched()
+    public void testUpsertEmailTemplate_existingTemplate_updatesSuccessfully()
             throws InvalidParametersException {
         EmailTemplate updatedTemplate = new EmailTemplate("KEY", "New Subject", "New Body");
 
@@ -126,7 +126,6 @@ public class EmailTemplatesDbTest extends BaseTestCase {
         doReturn(root).when(update).from(EmailTemplate.class);
         mockHibernateUtil.when(() -> HibernateUtil.createMutationQuery(update)).thenReturn(mockQuery);
         doReturn(1).when(mockQuery).executeUpdate();
-        doReturn(updatedTemplate).when(emailTemplatesDb).getEmailTemplate("KEY");
 
         EmailTemplate result = emailTemplatesDb.upsertEmailTemplate(updatedTemplate);
 
@@ -153,7 +152,6 @@ public class EmailTemplatesDbTest extends BaseTestCase {
         doReturn(root).when(update).from(EmailTemplate.class);
         mockHibernateUtil.when(() -> HibernateUtil.createMutationQuery(update)).thenReturn(mockQuery);
         doReturn(0).when(mockQuery).executeUpdate();
-        doReturn(newTemplate).when(emailTemplatesDb).getEmailTemplate("KEY");
 
         EmailTemplate result = emailTemplatesDb.upsertEmailTemplate(newTemplate);
 
@@ -163,8 +161,20 @@ public class EmailTemplatesDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpsertEmailTemplate_invalidTemplate_throwsInvalidParametersException() {
+    public void testUpsertEmailTemplate_blankSubject_throwsInvalidParametersException() {
         EmailTemplate invalidTemplate = new EmailTemplate("KEY", "", "Body");
+
+        assertThrows(InvalidParametersException.class,
+                () -> emailTemplatesDb.upsertEmailTemplate(invalidTemplate));
+
+        mockHibernateUtil.verify(() -> HibernateUtil.getCriteriaBuilder(), never());
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
+    }
+
+    @Test
+    public void testUpsertEmailTemplate_templateKeyTooLong_throwsInvalidParametersException() {
+        String keyOver100Chars = "a".repeat(EmailTemplate.TEMPLATE_KEY_MAX_LENGTH + 1);
+        EmailTemplate invalidTemplate = new EmailTemplate(keyOver100Chars, "Subject", "Body");
 
         assertThrows(InvalidParametersException.class,
                 () -> emailTemplatesDb.upsertEmailTemplate(invalidTemplate));

@@ -18,11 +18,13 @@ import org.hibernate.annotations.UpdateTimestamp;
  * Entity for email templates configurable by an admin.
  */
 @Entity
-@Table(name = "email_templates",
+@Table(name = "EmailTemplates",
         uniqueConstraints = {
                 @UniqueConstraint(name = "Unique template key", columnNames = "templateKey"),
         })
 public class EmailTemplate extends BaseEntity {
+    public static final int TEMPLATE_KEY_MAX_LENGTH = 100;
+
     @Id
     private UUID id;
 
@@ -56,6 +58,8 @@ public class EmailTemplate extends BaseEntity {
 
         if (templateKey == null || templateKey.isBlank()) {
             addNonEmptyError("Template key cannot be empty.", errors);
+        } else if (templateKey.length() > TEMPLATE_KEY_MAX_LENGTH) {
+            addNonEmptyError("Template key cannot be longer than " + TEMPLATE_KEY_MAX_LENGTH + " characters.", errors);
         }
         if (subject == null || subject.isBlank()) {
             addNonEmptyError("Email template subject cannot be empty.", errors);
