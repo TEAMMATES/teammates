@@ -5,7 +5,9 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,6 +24,7 @@ import teammates.common.util.Templates;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.sqllogic.core.LogicStarter;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 
 /**
@@ -41,24 +44,11 @@ public final class SeedDatabase {
 
     private static final Logger log = Logger.getLogger();
     private static final String DEFAULT_SEED_FILE = "src/client/resources/SeedingDatabundle.json";
-    private static final DateTimeFormatter DATE_FMT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneOffset.UTC);
-    private static final Pattern SEED_DATE_TOKEN =
-            Pattern.compile("seed\\.d\\(([+-]?\\d+)\\)");
+    private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneOffset.UTC);
+    private static final Pattern SEED_DATE_TOKEN = Pattern.compile("seed\\.d\\(([+-]?\\d+)\\)");
     private static final String TRUNCATE_SQL =
             "TRUNCATE TABLE accounts, account_requests, courses, notifications, usage_statistics"
             + " RESTART IDENTITY CASCADE";
-
-    private record DemoInstructor(String email, String name, String institute) {}
-
-    private static final List<DemoInstructor> DEMO_INSTRUCTORS = List.of(
-            new DemoInstructor("alice@teammates.tmt",     "Alice",     "Ficuni School of Computing"),
-            new DemoInstructor("tanaka@teammates.tmt", "Hiroshi Tanaka", "Ficuni School of Computing"),
-            new DemoInstructor("elena@teammates.tmt",  "Elena Vasquez",  "Ficuni School of Computing"),
-            new DemoInstructor("marcus.okonkwo@teammates.tmt", "Marcus Okonkwo", "Ficuni School of Computing"),
-            new DemoInstructor("priya.sharma@teammates.tmt",   "Priya Sharma",   "Ficuni School of Design and Environment"),
-            new DemoInstructor("lars.eriksson@teammates.tmt",  "Lars Eriksson",  "Ficuni School of Computing")
-    );
 
     private SeedDatabase() {
         // utility class
@@ -136,7 +126,7 @@ public final class SeedDatabase {
 
                 if (seedFile == null) {
                     log.info("Seeding additional demo courses for instructors...");
-                    seedDemoCourses(Logic.inst());
+                    seedDemoCourses(Logic.inst(), bundle);
                     log.info("Seeding complete.");
                 }
             }
@@ -165,7 +155,7 @@ public final class SeedDatabase {
         }
     }
 
-    private static void seedDemoCourses(Logic logic)
+    private static void seedDemoCourses(Logic logic, SqlDataBundle seedBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Instant now = Instant.now();
         String d1 = DATE_FMT.format(now.minus(7, ChronoUnit.DAYS));
@@ -174,28 +164,42 @@ public final class SeedDatabase {
         String d4 = DATE_FMT.format(now.plus(3,  ChronoUnit.DAYS));
         String d5 = DATE_FMT.format(now);
 
-        for (DemoInstructor inst : DEMO_INSTRUCTORS) {
-            String courseId = demoCourseId(inst.email());
+        // Index courses by their ID so we can look up institute from an instructor's course
+        Map<String, Course> courseById = new LinkedHashMap<>();
+        for (Course course : seedBundle.courses.values()) {
+            courseById.put(course.getId(), course);
+        }
+
+        // Deduplicate instructors by email — one person may appear in multiple courses
+        Map<String, Instructor> uniqueByEmail = new LinkedHashMap<>();
+        for (Instructor inst : seedBundle.instructors.values()) {
+            uniqueByEmail.putIfAbsent(inst.getEmail(), inst);
+        }
+
+        for (Instructor inst : uniqueByEmail.values()) {
+            Course instCourse = courseById.get(inst.getCourseId());
+            String institute = instCourse != null ? instCourse.getInstitute() : "";
+            String courseId = demoCourseId(inst.getEmail());
             String json = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
-                    "teammates.demo.instructor.student@demo.course", inst.email().replace("@", "+student@"),
-                    "teammates.demo.instructor@demo.course",         inst.email(),
-                    "Demo_Instructor",                               inst.name(),
+                    "teammates.demo.instructor.student@demo.course", inst.getEmail().replace("@", "+student@"),
+                    "teammates.demo.instructor@demo.course",         inst.getEmail(),
+                    "Demo_Instructor",                               inst.getName(),
                     "demo.course",                                   courseId,
-                    "demo.institute",                                inst.institute(),
+                    "demo.institute",                                institute,
                     "demo.timezone",                                 "UTC",
                     "demo.date1", d1, "demo.date2", d2, "demo.date3", d3,
                     "demo.date4", d4, "demo.date5", d5);
 
             // deserializeDataBundle regenerates all placeholder UUIDs — no collision across calls
-            SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(json);
-            logic.persistDataBundle(bundle);
+            SqlDataBundle demoBundle = DataBundleLogic.deserializeDataBundle(json);
+            logic.persistDataBundle(demoBundle);
 
             // Link the demo-course instructor entity to the already-persisted account.
             // Mirrors CreateAccountAction.execute() calling joinCourseForInstructor().
             // googleId == email for all accounts in SeedingDatabundle.json.
             List<Instructor> instructors = logic.getInstructorsByCourse(courseId);
             if (!instructors.isEmpty()) {
-                logic.joinCourseForInstructor(instructors.get(0).getRegKey(), inst.email());
+                logic.joinCourseForInstructor(instructors.get(0).getRegKey(), inst.getEmail());
             }
             log.info("Seeded demo course: " + courseId);
         }
