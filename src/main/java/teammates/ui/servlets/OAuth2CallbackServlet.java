@@ -80,7 +80,10 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     private String determineAuthProvider(HttpServletRequest req) {
         String state = req.getParameter("state");
-        assert state != null : "State parameter is missing in the OAuth2 callback request";
+        if (state == null) {
+            log.warning("Missing state parameter in OAuth2 callback");
+            return null;
+        }
 
         try {
             AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
