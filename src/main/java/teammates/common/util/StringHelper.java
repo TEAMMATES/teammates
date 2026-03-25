@@ -1,10 +1,8 @@
 package teammates.common.util;
 
-import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -14,7 +12,6 @@ import java.util.stream.IntStream;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.Mac;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -28,16 +25,9 @@ import teammates.common.exception.InvalidParametersException;
 
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
-    private static final String HMAC_SHA_256 = "HmacSHA256";
     private static final int MASTER_KEY_LENGTH_BYTES = 32;
     private static final int AES_GCM_IV_LENGTH_BYTES = 12;
     private static final int AES_GCM_TAG_LENGTH_BITS = 128;
-    private static final int HKDF_HASH_LENGTH_BYTES = 32;
-    private static final String AES_DERIVATION_CONTEXT = "teammates-aes-context";
-
-    private static final byte[] HKDF_PRK = hkdfExtract(getMasterKey());
-    private static final byte[] AES_ENCRYPTION_MATERIAL =
-            hkdfExpand(HKDF_PRK, AES_DERIVATION_CONTEXT, MASTER_KEY_LENGTH_BYTES);
 
     private StringHelper() {
         // utility class
@@ -100,7 +90,7 @@ public final class StringHelper {
      */
     public static String encrypt(String value) {
         try {
-            SecretKeySpec sks = new SecretKeySpec(AES_ENCRYPTION_MATERIAL, "AES");
+            SecretKeySpec sks = new SecretKeySpec(getMasterKey(), "AES");
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             byte[] iv = new byte[AES_GCM_IV_LENGTH_BYTES];
             new SecureRandom().nextBytes(iv);
@@ -140,7 +130,7 @@ public final class StringHelper {
         }
 
         try {
-            SecretKeySpec sks = new SecretKeySpec(AES_ENCRYPTION_MATERIAL, "AES");
+            SecretKeySpec sks = new SecretKeySpec(getMasterKey(), "AES");
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             cipher.init(Cipher.DECRYPT_MODE, sks,
                     new GCMParameterSpec(AES_GCM_TAG_LENGTH_BITS, encryptedWithIv, 0, AES_GCM_IV_LENGTH_BYTES));
@@ -252,45 +242,6 @@ public final class StringHelper {
             throw new IllegalStateException("Encryption key must be 32 bytes (64 hex chars)");
         }
         return masterKey;
-    }
-
-    private static byte[] hkdfExtract(byte[] inputKeyingMaterial) {
-        try {
-            Mac mac = Mac.getInstance(HMAC_SHA_256);
-            mac.init(new SecretKeySpec(new byte[HKDF_HASH_LENGTH_BYTES], HMAC_SHA_256));
-            return mac.doFinal(inputKeyingMaterial);
-        } catch (Exception e) {
-            throw new IllegalStateException("Failed to extract HKDF PRK", e);
-        }
-    }
-
-    private static byte[] hkdfExpand(byte[] prk, String info, int outputLengthBytes) {
-        try {
-            Mac mac = Mac.getInstance(HMAC_SHA_256);
-            mac.init(new SecretKeySpec(prk, HMAC_SHA_256));
-
-            byte[] infoBytes = info.getBytes(StandardCharsets.UTF_8);
-            byte[] output = new byte[outputLengthBytes];
-            byte[] previousBlock = new byte[0];
-            int copied = 0;
-
-            for (int i = 1; copied < outputLengthBytes; i++) {
-                mac.reset();
-                mac.update(previousBlock);
-                mac.update(infoBytes);
-                mac.update((byte) i);
-                previousBlock = mac.doFinal();
-
-                int bytesToCopy = Math.min(previousBlock.length, outputLengthBytes - copied);
-                System.arraycopy(previousBlock, 0, output, copied, bytesToCopy);
-                copied += bytesToCopy;
-            }
-
-            Arrays.fill(previousBlock, (byte) 0);
-            return output;
-        } catch (Exception e) {
-            throw new IllegalStateException("Failed to expand HKDF output", e);
-        }
     }
 
     /**
