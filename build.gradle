@@ -238,7 +238,6 @@ task execScript(type: JavaExec) {
     }
 }
 
-
 // SETUP TASKS
 apply from: 'gradle/seeddb.gradle'
 
