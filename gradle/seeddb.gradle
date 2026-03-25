@@ -9,11 +9,19 @@ abstract class SeedDatabaseTask extends JavaExec {
     void setReset(boolean v)    { reset = v }
     @Option(option = 'noSeed',   description = 'Truncate only, skip seeding (requires --reset)')
     void setNoSeed(boolean v)   { noSeed = v }
-    @Option(option = 'seedFile', description = 'Path to custom JSON seed file')
+    @Option(option = 'seedFile', description = 'Path to custom JSON databundle seed file')
     void setSeedFile(String v)  { seedFile = v }
 
     @Override
     void exec() {
+        if (noSeed && seedFile != null) {
+            throw new IllegalArgumentException('--noSeed and --seedFile are mutually exclusive')
+        }
+
+        if (noSeed && !reset) {
+            throw new IllegalArgumentException('--noSeed requires --reset')
+        }
+
         if (reset)    args '--reset'
         if (noSeed)   args '--noSeed'
         if (seedFile) args '--seedFile', seedFile
@@ -24,7 +32,7 @@ abstract class SeedDatabaseTask extends JavaExec {
 abstract class DumpDatabaseTask extends JavaExec {
     @Internal String dumpFile
 
-    @Option(option = 'dumpFile', description = 'Output path for the JSON dump file (default: seed-dump.json)')
+    @Option(option = 'dumpFile', description = 'Output path for the JSON dump file')
     void setDumpFile(String v) { dumpFile = v }
 
     @Override
@@ -43,7 +51,7 @@ task seedDatabase(type: SeedDatabaseTask) {
 }
 
 task dumpDatabase(type: DumpDatabaseTask) {
-    description = 'Dump the current database state to a JSON seed file'
+    description = 'Dump the current database state to a JSON databundle file'
     group = 'Development'
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'teammates.client.scripts.seeddb.DumpDatabase'

@@ -35,7 +35,7 @@ import teammates.storage.sqlentity.Team;
 /**
  * Dumps the current development database state to a JSON databundle file.
  *
- * <p>Invoked via: {@code ./gradlew dumpDatabase}
+ * <p>Usage: {@code ./gradlew dumpDatabase [--dumpFile <path>]}
  *
  * <p>Options:
  * <ul>
@@ -54,12 +54,6 @@ public final class DumpDatabase {
 
     public static void main(String[] args) {
         String dumpFile = DEFAULT_DUMP_FILE;
-
-        if (args.length != 0 && args.length != 2
-                || args.length == 2 && !"--dumpFile".equals(args[0])) {
-            printUsage();
-            System.exit(1);
-        }
 
         if (args.length == 0) {
             dumpFile = String.format(DEFAULT_DUMP_FILE, LocalDateTime.now()
@@ -156,7 +150,4 @@ public final class DumpDatabase {
         return HibernateUtil.createQuery(cq).getResultList();
     }
 
-    private static void printUsage() {
-        System.out.println("Usage: ./gradlew dumpDatabase [--dumpFile <path>]");
-    }
 }

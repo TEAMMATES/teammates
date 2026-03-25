@@ -30,14 +30,13 @@ import teammates.storage.sqlentity.Instructor;
 /**
  * Seeds the development database with mock data.
  *
- * <p>Invoked via: {@code ./gradlew seedDatabase}
+ * <p>Usage: {@code ./gradlew seedDatabase [--reset] [--noSeed] [--seedFile <path>]}
  *
  * <p>Options:
  * <ul>
  *   <li>{@code --reset} — truncate all tables before seeding</li>
- *   <li>{@code --noSeed} — truncate only, skip seeding (requires {@code --reset})</li>
- *   <li>{@code --seedFile &lt;path&gt;} — seed from a custom JSON file; skips demo-course
- *      seeding (only applies when using the default file)</li>
+ *   <li>{@code --noSeed} — truncate only, skip seeding</li>
+ *   <li>{@code --seedFile <path>} — seed from a custom JSON databundle file</li>
  * </ul>
  */
 public final class SeedDatabase {
@@ -62,26 +61,19 @@ public final class SeedDatabase {
         boolean noSeed = false;
         String seedFile = null;
 
-        int index = 0;
-        while (index < args.length) {
-            String arg = args[index];
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
             switch (arg) {
             case "--reset":
                 reset = true;
-                index++;
+                i++;
                 break;
             case "--noSeed":
                 noSeed = true;
-                index++;
+                i++;
                 break;
             case "--seedFile":
-                if (index + 1 >= args.length) {
-                    log.severe("--seedFile requires a file path");
-                    printUsage();
-                    System.exit(1);
-                }
-                seedFile = args[index + 1];
-                index += 2;
+                seedFile = args[i + 1];
                 break;
             default:
                 log.severe("Unknown argument: " + arg);
@@ -89,17 +81,6 @@ public final class SeedDatabase {
                 System.exit(1);
                 break;
             }
-        }
-
-        if (noSeed && !reset) {
-            log.severe("--noSeed requires --reset");
-            printUsage();
-            System.exit(1);
-        }
-        if (noSeed && seedFile != null) {
-            log.severe("--noSeed and --seedFile are mutually exclusive");
-            printUsage();
-            System.exit(1);
         }
 
         String dbUrl = "jdbc:postgresql://" + Config.POSTGRES_HOST + ":" + Config.POSTGRES_PORT
