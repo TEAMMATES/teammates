@@ -46,8 +46,11 @@ public final class SeedDatabase {
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneOffset.UTC);
     private static final Pattern SEED_DATE_TOKEN = Pattern.compile("seed\\.d\\(([+-]?\\d+)\\)");
     private static final String TRUNCATE_SQL =
-            "TRUNCATE TABLE accounts, account_requests, courses, notifications, usage_statistics"
-            + " RESTART IDENTITY CASCADE";
+            "TRUNCATE TABLE account_requests, accounts, courses, deadline_extensions, "
+                    + "feedback_questions, feedback_response_comments, feedback_responses, "
+                    + "feedback_session_logs, feedback_sessions, instructors, notifications, "
+                    + "read_notifications, sections, students, teams, usage_statistics, users "
+                    + "RESTART IDENTITY CASCADE";
 
     private SeedDatabase() {
         // Utility class
@@ -82,9 +85,9 @@ public final class SeedDatabase {
                 + "/" + Config.POSTGRES_DATABASENAME;
         HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
         LogicStarter.initializeDependencies();
-
-        boolean committed = false;
         HibernateUtil.beginTransaction();
+        boolean committed = false;
+
         try {
             if (reset) {
                 log.info("Truncating all tables...");
