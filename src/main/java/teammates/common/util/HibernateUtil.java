@@ -20,6 +20,7 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.EmailTemplate;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -93,7 +94,8 @@ public final class HibernateUtil {
             FeedbackRubricResponse.class,
             FeedbackTextResponse.class,
             FeedbackResponseComment.class,
-            FeedbackSessionLog.class);
+            FeedbackSessionLog.class,
+            EmailTemplate.class);
 
     private HibernateUtil() {
         // Utility class
