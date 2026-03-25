@@ -62,21 +62,29 @@ public final class SeedDatabase {
         boolean noSeed = false;
         String seedFile = null;
 
-        for (int i = 0; i < args.length; i++) {
-            switch (args[i]) {
+        int index = 0;
+        while (index < args.length) {
+            String arg = args[index];
+            switch (arg) {
             case "--reset":
                 reset = true;
+                index++;
                 break;
             case "--noSeed":
                 noSeed = true;
+                index++;
                 break;
             case "--seedFile":
-                if (i + 1 < args.length) {
-                    seedFile = args[++i];
+                if (index + 1 >= args.length) {
+                    log.severe("--seedFile requires a file path");
+                    printUsage();
+                    System.exit(1);
                 }
+                seedFile = args[index + 1];
+                index += 2;
                 break;
             default:
-                log.severe("Unknown argument: " + args[i]);
+                log.severe("Unknown argument: " + arg);
                 printUsage();
                 System.exit(1);
                 break;
@@ -105,7 +113,7 @@ public final class SeedDatabase {
             if (reset) {
                 log.info("Truncating all tables...");
                 HibernateUtil.createNativeMutationQuery(TRUNCATE_SQL).executeUpdate();
-                log.info("Truncate complete.");
+                log.info("Truncate completed.");
             }
 
             if (!noSeed) {
@@ -122,19 +130,21 @@ public final class SeedDatabase {
                 }
 
                 SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(applyDateTokens(jsonString));
+
                 Logic.inst().persistDataBundle(bundle);
 
                 if (seedFile == null) {
                     log.info("Seeding additional demo courses for instructors...");
                     seedDemoCourses(Logic.inst(), bundle);
-                    log.info("Seeding complete.");
                 }
+
+                log.info("Seeding completed.");
             }
 
             HibernateUtil.commitTransaction();
             committed = true;
         } catch (IOException e) {
-            log.severe("Cannot read seed file '" + seedFile + "'", e);
+            log.severe("Failed read seed file '" + seedFile + "'", e);
             System.exit(1);
         } catch (JsonSyntaxException e) {
             log.severe("Invalid JSON in seed file", e);
@@ -143,7 +153,7 @@ public final class SeedDatabase {
             log.severe("Invalid entity data", e);
             System.exit(1);
         } catch (EntityAlreadyExistsException e) {
-            log.severe("Entity already exists — re-run with --reset to truncate first", e);
+            log.severe("Entity already exists", e);
             System.exit(1);
         } catch (EntityDoesNotExistException e) {
             log.severe("Seed file references an entity that does not exist", e);
@@ -161,7 +171,7 @@ public final class SeedDatabase {
         String d1 = DATE_FMT.format(now.minus(7, ChronoUnit.DAYS));
         String d2 = DATE_FMT.format(now.minus(3, ChronoUnit.DAYS));
         String d3 = DATE_FMT.format(now.minus(2, ChronoUnit.DAYS));
-        String d4 = DATE_FMT.format(now.plus(3,  ChronoUnit.DAYS));
+        String d4 = DATE_FMT.format(now.plus(3, ChronoUnit.DAYS));
         String d5 = DATE_FMT.format(now);
 
         // Index courses by their ID so we can look up institute from an instructor's course
@@ -182,11 +192,11 @@ public final class SeedDatabase {
             String courseId = demoCourseId(inst.getEmail());
             String json = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
                     "teammates.demo.instructor.student@demo.course", inst.getEmail().replace("@", "+student@"),
-                    "teammates.demo.instructor@demo.course",         inst.getEmail(),
-                    "Demo_Instructor",                               inst.getName(),
-                    "demo.course",                                   courseId,
-                    "demo.institute",                                institute,
-                    "demo.timezone",                                 "UTC",
+                    "teammates.demo.instructor@demo.course", inst.getEmail(),
+                    "Demo_Instructor", inst.getName(),
+                    "demo.course", courseId,
+                    "demo.institute", institute,
+                    "demo.timezone", "UTC",
                     "demo.date1", d1, "demo.date2", d2, "demo.date3", d3,
                     "demo.date4", d4, "demo.date5", d5);
 
@@ -225,7 +235,7 @@ public final class SeedDatabase {
     }
 
     private static void printUsage() {
-        log.info("Usage: ./gradlew seedDatabase [--reset] [--noSeed] [--seedFile <path>]");
+        System.out.println("Usage: ./gradlew seedDatabase [--reset] [--noSeed] [--seedFile <path>]");
     }
 
 }
