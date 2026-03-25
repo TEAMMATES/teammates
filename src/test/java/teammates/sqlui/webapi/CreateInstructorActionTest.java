@@ -84,7 +84,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         JsonResult r = getJsonResult(action);
         InstructorData response = (InstructorData) r.getOutput();
 
-        verify(mockLogic, times(2)).getCourse(typicalCourse.getId());
+        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
 
         verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
@@ -181,7 +181,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         JsonResult r = getJsonResult(action);
         InstructorData response = (InstructorData) r.getOutput();
 
-        verify(mockLogic, times(2)).getCourse(typicalCourse.getId());
+        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
 
         verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);

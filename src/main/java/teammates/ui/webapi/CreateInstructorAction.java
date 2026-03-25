@@ -73,7 +73,9 @@ public class CreateInstructorAction extends Action {
     private JsonResult executeWithSql(String courseId, InstructorCreateRequest instructorRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        Instructor instructorToAdd = createInstructorWithBasicAttributesSql(courseId,
+        Course course = sqlLogic.getCourse(courseId);
+
+        Instructor instructorToAdd = createInstructorWithBasicAttributesSql(course,
                 SanitizationHelper.sanitizeName(instructorRequest.getName()),
                 SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()), instructorRequest.getRoleName(),
                 instructorRequest.getIsDisplayedToStudent(),
@@ -82,7 +84,6 @@ public class CreateInstructorAction extends Action {
         Instructor createdInstructor = sqlLogic.createInstructor(instructorToAdd);
 
         // Generate and queue invitation email to priority queue (user-triggered)
-        Course course = sqlLogic.getCourse(courseId);
         Account inviter = sqlLogic.getAccountForGoogleId(userInfo.id);
         if (inviter == null) {
             throw new EntityNotFoundException("Inviter account does not exist.");
@@ -99,8 +100,7 @@ public class CreateInstructorAction extends Action {
      * Creates a new instructor with basic information.
      * This consists of everything apart from custom privileges.
      *
-     * @param courseId              Id of the course the instructor is being added
-     *                              to.
+     * @param course                The course the instructor is being added to.
      * @param instructorName        Name of the instructor.
      * @param instructorEmail       Email of the instructor.
      * @param instructorRole        Role of the instructor.
@@ -111,7 +111,7 @@ public class CreateInstructorAction extends Action {
      *                              {@code isDisplayedToStudents} is false.
      * @return An instructor with basic info, excluding custom privileges
      */
-    private Instructor createInstructorWithBasicAttributesSql(String courseId, String instructorName,
+    private Instructor createInstructorWithBasicAttributesSql(Course course, String instructorName,
             String instructorEmail, String instructorRole,
             boolean isDisplayedToStudents, String displayedName) {
 
@@ -126,7 +126,6 @@ public class CreateInstructorAction extends Action {
 
         InstructorPrivileges privileges = new InstructorPrivileges(instrRole);
         InstructorPermissionRole role = InstructorPermissionRole.getEnum(instrRole);
-        Course course = sqlLogic.getCourse(courseId);
 
         return new Instructor(course, instrName, instrEmail, isDisplayedToStudents, instrDisplayedName, role,
                 privileges);
