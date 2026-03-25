@@ -81,10 +81,10 @@ public final class DumpDatabase {
             log.info("Writing dump to: " + dumpFile);
             teammates.test.FileHelper.saveFile(dumpFile, JsonUtils.toJson(bundle));
             dumpOk = true;
-            log.info("Dump complete.");
+            log.info("Dump completed.");
         } catch (IOException e) {
             HibernateUtil.rollbackTransaction();
-            log.severe("Cannot write dump file '" + dumpFile + "'", e);
+            log.severe("Failed to write dump file '" + dumpFile + "'", e);
         } catch (HibernateException he) {
             HibernateUtil.rollbackTransaction();
             log.severe("Database error: " + he.getMessage(), he);
