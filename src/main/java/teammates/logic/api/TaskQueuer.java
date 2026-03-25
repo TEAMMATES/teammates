@@ -70,7 +70,7 @@ public class TaskQueuer {
         try {
             SendEmailRequest request = new SendEmailRequest(email);
 
-            addDeferredTask(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, TaskQueue.PRIORITY_EMAIL_WORKER_URL,
+            addDeferredTask(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, TaskQueue.SEND_EMAIL_WORKER_URL,
                             new HashMap<>(), request, emailDelayTimer);
         } catch (Exception e) {
             log.severe("Error when adding email to priority queue: " + e.getMessage());

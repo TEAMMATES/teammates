@@ -400,8 +400,6 @@ public final class Const {
         public static final String URI_PREFIX = "/worker";
 
         public static final String PRIORITY_EMAIL_QUEUE_NAME = "priority-email-queue";
-        public static final String PRIORITY_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
-
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
     }
