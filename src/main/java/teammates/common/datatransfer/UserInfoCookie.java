@@ -58,7 +58,8 @@ public class UserInfoCookie {
      * Returns true if the object represents a valid user info and the object has not expired.
      */
     public boolean isValid() {
-        return Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
+        return !StringHelper.isEmpty(userId)
+                && Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
     }
 
 }
