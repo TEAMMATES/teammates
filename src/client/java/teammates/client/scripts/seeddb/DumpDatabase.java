@@ -1,10 +1,14 @@
 package teammates.client.scripts.seeddb;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+
+import org.hibernate.HibernateException;
 
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.util.Config;
@@ -29,48 +33,53 @@ import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 
 /**
- * Dumps the current development database state to a JSON seed file.
+ * Dumps the current development database state to a JSON databundle file.
  *
  * <p>Invoked via: {@code ./gradlew dumpDatabase}
  *
  * <p>Options:
  * <ul>
- *   <li>{@code --dumpFile &lt;path&gt;} — output path (default: {@code seed-dump.json})</li>
+ *   <li>{@code --dumpFile <path>} — output path</li>
  * </ul>
  */
 public final class DumpDatabase {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final String DEFAULT_DUMP_FILE = "seed-dump.json";
+    private static final String DEFAULT_DUMP_FILE = "Dumped_Databundle_%s.json";
 
     private DumpDatabase() {
         // utility class
     }
 
-    /**
-     * Entry point.
-     */
     public static void main(String[] args) {
         String dumpFile = DEFAULT_DUMP_FILE;
 
-        for (int i = 0; i < args.length; i++) {
-            if ("--dumpFile".equals(args[i]) && i + 1 < args.length) {
-                dumpFile = args[++i];
-                if (dumpFile.startsWith("~/")) {
-                    dumpFile = System.getProperty("user.home") + dumpFile.substring(1);
-                }
+        if (args.length != 0 && args.length != 2
+                || args.length == 2 && !"--dumpFile".equals(args[0])) {
+            printUsage();
+            System.exit(1);
+        }
+
+        if (args.length == 0) {
+            dumpFile = String.format(DEFAULT_DUMP_FILE, LocalDateTime.now()
+                    .truncatedTo(ChronoUnit.SECONDS).toString().replace(":", "-"));
+        } else {
+            dumpFile = args[1];
+            if (dumpFile.startsWith("~/")) {
+                dumpFile = System.getProperty("user.home") + dumpFile.substring(1);
             }
         }
 
         String dbUrl = "jdbc:postgresql://" + Config.POSTGRES_HOST + ":" + Config.POSTGRES_PORT
                 + "/" + Config.POSTGRES_DATABASENAME;
-        HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
-        LogicStarter.initializeDependencies();
 
-        log.info("Querying database...");
-        HibernateUtil.beginTransaction();
         try {
+            HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
+            LogicStarter.initializeDependencies();
+
+            log.info("Querying database...");
+            HibernateUtil.beginTransaction();
             SqlDataBundle bundle = buildBundle();
             HibernateUtil.commitTransaction();
 
@@ -80,6 +89,10 @@ public final class DumpDatabase {
         } catch (IOException e) {
             HibernateUtil.rollbackTransaction();
             log.severe("Cannot write dump file '" + dumpFile + "'", e);
+            System.exit(1);
+        } catch (HibernateException he) {
+            HibernateUtil.rollbackTransaction();
+            log.severe("Database error: " + he.getMessage(), he);
             System.exit(1);
         }
     }
@@ -143,4 +156,7 @@ public final class DumpDatabase {
         return HibernateUtil.createQuery(cq).getResultList();
     }
 
+    private static void printUsage() {
+        System.out.println("Usage: ./gradlew dumpDatabase [--dumpFile <path>]");
+    }
 }
