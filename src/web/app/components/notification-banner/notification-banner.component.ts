@@ -62,12 +62,23 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
       .subscribe({
         next: () => {
           this.statusMessageService.showSuccessToast('Notification marked as read.');
-          this.closeNotification();
+          if (this.notifications.length > 0) {
+            this.advanceToNextNotification();
+          }
+
+          if (this.notifications.length === 0) {
+            this.closeNotification();
+          }
+
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
+  }
+
+  advanceToNextNotification(): void {
+      this.notifications.shift();
   }
 
   closeNotification(): void {

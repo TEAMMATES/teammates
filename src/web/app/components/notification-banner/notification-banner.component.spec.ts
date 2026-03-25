@@ -88,7 +88,7 @@ describe('NotificationBannerComponent', () => {
     expect(component.isShown).toBeFalsy();
   });
 
-  it('should close after clicking mark as read', () => {
+  it('should close after clicking mark as read when no more unread notifications remain', () => {
     const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -108,7 +108,37 @@ describe('NotificationBannerComponent', () => {
     button.click();
     expect(apiSpy).toHaveBeenCalledTimes(1);
     expect(messageSpy).toHaveBeenCalledTimes(1);
+    expect(component.notifications).toEqual([]);
     expect(component.isShown).toBeFalsy();
+  });
+
+  it('should show next unread notification after clicking mark as read', () => {
+    const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
+      .mockImplementation((request: MarkNotificationAsReadRequest) => {
+        expect(request.notificationId).toEqual(testNotificationOne.notificationId);
+        return of({
+          readNotifications: [request.notificationId],
+        });
+      });
+    const messageSpy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('Notification marked as read.');
+      });
+    component.notifications = [testNotificationOne, testNotificationTwo];
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.query(By.css('#btn-mark-as-read')).nativeElement;
+    button.click();
+    fixture.detectChanges();
+
+    expect(apiSpy).toHaveBeenCalledTimes(1);
+    expect(messageSpy).toHaveBeenCalledTimes(1);
+    expect(component.isShown).toBeTruthy();
+    expect(component.notifications).toEqual([testNotificationTwo]);
+
+    const banner = fixture.debugElement.query(By.css('#notification-banner')).nativeElement;
+    expect(banner.getAttribute('data-testid')).toEqual(testNotificationTwo.notificationId);
+    expect(banner.textContent).toContain(testNotificationTwo.title);
   });
 
   it('should snap with no unread notifications', () => {
