@@ -30,7 +30,8 @@ import teammates.sqllogic.core.LogicStarter;
  * <ul>
  *   <li>{@code --reset} — truncate all tables before seeding</li>
  *   <li>{@code --noSeed} — truncate only, skip seeding (requires {@code --reset})</li>
- *   <li>{@code --seedFile &lt;path&gt;} — seed from a custom JSON file instead of the default</li>
+ *   <li>{@code --seedFile &lt;path&gt;} — seed from a specified JSON file instead of the
+ *      default {@code SeedingDataBundle.json}</li>
  * </ul>
  */
 public final class SeedDatabase {
