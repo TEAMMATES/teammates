@@ -14,7 +14,7 @@
             <column name="body" type="TEXT">
                 <constraints nullable="false"/>
             </column>
-            <column name="subject" type="VARCHAR(255)">
+            <column name="subject" type="TEXT">
                 <constraints nullable="false"/>
             </column>
             <column name="template_key" type="VARCHAR(100)">

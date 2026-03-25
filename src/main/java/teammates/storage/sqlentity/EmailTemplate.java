@@ -29,7 +29,7 @@ public class EmailTemplate extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String templateKey;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String subject;
 
     @Column(nullable = false, columnDefinition = "TEXT")
