@@ -66,11 +66,9 @@ public final class SeedDatabase {
             switch (arg) {
             case "--reset":
                 reset = true;
-                i++;
                 break;
             case "--noSeed":
                 noSeed = true;
-                i++;
                 break;
             case "--seedFile":
                 seedFile = args[i + 1];

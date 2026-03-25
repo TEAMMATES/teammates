@@ -17,7 +17,6 @@ abstract class SeedDatabaseTask extends JavaExec {
         if (noSeed && seedFile != null) {
             throw new IllegalArgumentException('--noSeed and --seedFile are mutually exclusive')
         }
-
         if (noSeed && !reset) {
             throw new IllegalArgumentException('--noSeed requires --reset')
         }
