@@ -90,8 +90,7 @@ public class SmtpService implements EmailSenderService {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public MimeMessage parseToEmail(EmailWrapper wrapper) {
+    MimeMessage parseToEmail(EmailWrapper wrapper) {
         try {
             return createMimeMessage(wrapper);
         } catch (MessagingException | UnsupportedEncodingException e) {

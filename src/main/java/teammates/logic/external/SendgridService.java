@@ -30,8 +30,7 @@ public class SendgridService implements EmailSenderService {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public Mail parseToEmail(EmailWrapper wrapper) {
+    Mail parseToEmail(EmailWrapper wrapper) {
         Mail email = new Mail();
         Email sender;
         if (wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()) {

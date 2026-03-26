@@ -30,8 +30,7 @@ public class MailjetService implements EmailSenderService {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public MailjetRequest parseToEmail(EmailWrapper wrapper) {
+    MailjetRequest parseToEmail(EmailWrapper wrapper) {
         MailjetRequest request = new MailjetRequest(Email.resource);
         request.property(Email.FROMEMAIL, wrapper.getSenderEmail());
         if (wrapper.getSenderName() != null && !wrapper.getSenderName().isEmpty()) {
