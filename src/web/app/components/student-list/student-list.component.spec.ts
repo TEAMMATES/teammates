@@ -9,9 +9,9 @@ import { StudentListComponent, StudentListRowModel } from './student-list.compon
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ApiStringConst } from '../../../types/api-const';
 import { createBuilder, studentBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import { ApiStringConst } from '../../../types/api-const';
 import { JoinState } from '../../../types/api-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
