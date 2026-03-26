@@ -133,6 +133,7 @@ public class EmailTemplatesDbTest extends BaseTestCase {
         mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
         assertEquals("New Subject", result.getSubject());
         assertEquals("New Body", result.getBody());
+        assertNotNull(result.getUpdatedAt());
     }
 
     @Test

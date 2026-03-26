@@ -10,6 +10,7 @@ import teammates.storage.sqlentity.EmailTemplate;
 import teammates.ui.output.EmailTemplateData;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetEmailTemplateAction;
+import teammates.ui.webapi.GetEmailTemplatesAction;
 import teammates.ui.webapi.InvalidHttpParameterException;
 
 /**
@@ -63,8 +64,8 @@ public class GetEmailTemplateActionTest extends BaseActionTest<GetEmailTemplateA
         EmailTemplateData output = (EmailTemplateData) getJsonResult(action).getOutput();
 
         assertEquals(VALID_TEMPLATE_KEY, output.getTemplateKey());
-        assertNotNull(output.getSubject());
-        assertNotNull(output.getBody());
+        assertEquals(GetEmailTemplatesAction.DEFAULT_SUBJECTS.get(VALID_TEMPLATE_KEY), output.getSubject());
+        assertEquals(GetEmailTemplatesAction.DEFAULT_BODIES.get(VALID_TEMPLATE_KEY), output.getBody());
         assertFalse(output.getIsCustomized());
     }
 
@@ -74,6 +75,11 @@ public class GetEmailTemplateActionTest extends BaseActionTest<GetEmailTemplateA
                 Const.ParamsNames.TEMPLATE_KEY, "UNKNOWN_KEY");
 
         assertEquals("Email template with key 'UNKNOWN_KEY' does not exist.", enfe.getMessage());
+    }
+
+    @Test
+    void testExecute_noParameters_throwsInvalidHttpParameterException() {
+        verifyHttpParameterFailure();
     }
 
     @Test

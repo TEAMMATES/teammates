@@ -13,7 +13,9 @@ import teammates.common.util.Const;
 import teammates.storage.sqlentity.EmailTemplate;
 import teammates.ui.output.EmailTemplateData;
 import teammates.ui.request.EmailTemplateUpdateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.EntityNotFoundException;
+import teammates.ui.webapi.GetEmailTemplatesAction;
 import teammates.ui.webapi.UpdateEmailTemplateAction;
 
 /**
@@ -72,8 +74,8 @@ public class UpdateEmailTemplateActionTest extends BaseActionTest<UpdateEmailTem
 
         verify(mockLogic).deleteEmailTemplate(VALID_TEMPLATE_KEY);
         assertEquals(VALID_TEMPLATE_KEY, output.getTemplateKey());
-        assertNotNull(output.getSubject());
-        assertNotNull(output.getBody());
+        assertEquals(GetEmailTemplatesAction.DEFAULT_SUBJECTS.get(VALID_TEMPLATE_KEY), output.getSubject());
+        assertEquals(GetEmailTemplatesAction.DEFAULT_BODIES.get(VALID_TEMPLATE_KEY), output.getBody());
         assertFalse(output.getIsCustomized());
     }
 
@@ -91,6 +93,65 @@ public class UpdateEmailTemplateActionTest extends BaseActionTest<UpdateEmailTem
         EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
                 null, "Subject", "<p>Body</p>", false);
 
-        verifyHttpRequestBodyFailure(requestBody);
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(requestBody);
+        assertEquals("templateKey cannot be null or empty", ex.getMessage());
+    }
+
+    @Test
+    void testExecute_blankTemplateKey_throwsInvalidHttpRequestBodyException() {
+        EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
+                "   ", "Subject", "<p>Body</p>", false);
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(requestBody);
+        assertEquals("templateKey cannot be null or empty", ex.getMessage());
+    }
+
+    @Test
+    void testExecute_nullSubject_throwsInvalidHttpRequestBodyException() {
+        EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
+                VALID_TEMPLATE_KEY, null, "<p>Body</p>", false);
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(requestBody);
+        assertEquals("subject cannot be null or empty", ex.getMessage());
+    }
+
+    @Test
+    void testExecute_blankSubject_throwsInvalidHttpRequestBodyException() {
+        EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
+                VALID_TEMPLATE_KEY, "   ", "<p>Body</p>", false);
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(requestBody);
+        assertEquals("subject cannot be null or empty", ex.getMessage());
+    }
+
+    @Test
+    void testExecute_nullBody_throwsInvalidHttpRequestBodyException() {
+        EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
+                VALID_TEMPLATE_KEY, "Subject", null, false);
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(requestBody);
+        assertEquals("body cannot be null or empty", ex.getMessage());
+    }
+
+    @Test
+    void testExecute_blankBody_throwsInvalidHttpRequestBodyException() {
+        EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
+                VALID_TEMPLATE_KEY, "Subject", "   ", false);
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(requestBody);
+        assertEquals("body cannot be null or empty", ex.getMessage());
+    }
+
+    @Test
+    void testExecute_dbThrowsInvalidParametersException_throwsInvalidHttpRequestBodyException()
+            throws InvalidParametersException {
+        when(mockLogic.upsertEmailTemplate(any(EmailTemplate.class)))
+                .thenThrow(new InvalidParametersException("Db Error"));
+
+        EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
+                VALID_TEMPLATE_KEY, "Subject", "<p>Body</p>", false);
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(requestBody);
+        assertEquals("Db Error", ex.getMessage());
     }
 }

@@ -61,14 +61,17 @@ public final class EmailTemplatesDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaUpdate<EmailTemplate> update = cb.createCriteriaUpdate(EmailTemplate.class);
         Root<EmailTemplate> root = update.from(EmailTemplate.class);
+        Instant now = Instant.now();
         update.set(root.get("subject"), emailTemplate.getSubject());
         update.set(root.get("body"), emailTemplate.getBody());
-        update.set(root.get("updatedAt"), Instant.now());
+        update.set(root.get("updatedAt"), now);
         update.where(cb.equal(root.get("templateKey"), emailTemplate.getTemplateKey()));
 
         int rowsUpdated = HibernateUtil.createMutationQuery(update).executeUpdate();
         if (rowsUpdated == 0) {
             HibernateUtil.persist(emailTemplate);
+        } else {
+            emailTemplate.setUpdatedAt(now);
         }
 
         return emailTemplate;

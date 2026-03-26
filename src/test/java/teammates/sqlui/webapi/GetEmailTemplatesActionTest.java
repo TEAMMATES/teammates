@@ -1,7 +1,5 @@
 package teammates.sqlui.webapi;
 
-import java.util.List;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -39,8 +37,6 @@ public class GetEmailTemplatesActionTest extends BaseActionTest<GetEmailTemplate
         GetEmailTemplatesAction action = getAction();
         EmailTemplatesData output = (EmailTemplatesData) getJsonResult(action).getOutput();
 
-        List<String> templateKeys = output.getTemplateKeys();
-        assertFalse(templateKeys.isEmpty());
-        assertTrue(templateKeys.contains("NEW_INSTRUCTOR_ACCOUNT_WELCOME"));
+        assertEquals(GetEmailTemplatesAction.CONFIGURABLE_TEMPLATE_KEYS, output.getTemplateKeys());
     }
 }

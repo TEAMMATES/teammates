@@ -1,18 +1,14 @@
 package teammates.sqllogic.core;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.mockito.MockedStatic;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.EmailTemplatesDb;
 import teammates.storage.sqlentity.EmailTemplate;
 import teammates.test.BaseTestCase;
@@ -26,18 +22,10 @@ public class EmailTemplatesLogicTest extends BaseTestCase {
 
     private EmailTemplatesDb emailTemplatesDb;
 
-    private MockedStatic<HibernateUtil> mockHibernateUtil;
-
     @BeforeMethod
     public void setUpMethod() {
         emailTemplatesDb = mock(EmailTemplatesDb.class);
         emailTemplatesLogic.initLogicDependencies(emailTemplatesDb);
-        mockHibernateUtil = mockStatic(HibernateUtil.class);
-    }
-
-    @AfterMethod
-    public void tearDownMethod() {
-        mockHibernateUtil.close();
     }
 
     @Test
@@ -80,7 +68,7 @@ public class EmailTemplatesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpsertEmailTemplate_invalidTemplate_throwsInvalidParametersException()
+    public void testUpsertEmailTemplate_dbThrowsException_propagatesInvalidParametersException()
             throws InvalidParametersException {
         EmailTemplate invalidTemplate = new EmailTemplate("NEW_INSTRUCTOR_ACCOUNT_WELCOME", "Subject", "<p>Body</p>");
 
