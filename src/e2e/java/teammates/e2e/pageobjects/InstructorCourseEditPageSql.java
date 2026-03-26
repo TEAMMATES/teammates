@@ -80,6 +80,23 @@ public class InstructorCourseEditPageSql extends AppPage {
         super(browser);
     }
 
+    private static Map<String, Boolean> permissionSetToMapFormat(InstructorPermissionSet permissionSet) {
+        Map<String, Boolean> map = new HashMap<>();
+        map.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, permissionSet.isCanModifyCourse());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, permissionSet.isCanModifyInstructor());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, permissionSet.isCanModifySession());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, permissionSet.isCanModifyStudent());
+        map.put(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
+                permissionSet.isCanViewStudentInSections());
+        map.put(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
+                permissionSet.isCanViewSessionInSections());
+        map.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
+                permissionSet.isCanSubmitSessionInSections());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                permissionSet.isCanModifySessionCommentsInSections());
+        return map;
+    }
+
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageTitle().contains("Edit Course Details");
@@ -128,7 +145,7 @@ public class InstructorCourseEditPageSql extends AppPage {
 
     private void verifyCourseLevelPrivileges(int instrNum, InstructorPermissionSet courseLevelPrivileges) {
         List<WebElement> checkboxes = getCourseLevelPanelCheckBoxes(instrNum);
-        for (Map.Entry<String, Boolean> privilege : courseLevelPrivileges.toLegacyMapFormat().entrySet()) {
+        for (Map.Entry<String, Boolean> privilege : permissionSetToMapFormat(courseLevelPrivileges).entrySet()) {
             if (!InstructorPrivileges.isPrivilegeNameValid(privilege.getKey())) {
                 continue;
             }
@@ -143,7 +160,7 @@ public class InstructorCourseEditPageSql extends AppPage {
     private void verifySectionLevelPrivileges(int instrNum, Map<String, InstructorPermissionSet> sectionLevelPrivileges) {
         for (Map.Entry<String, InstructorPermissionSet> section : sectionLevelPrivileges.entrySet()) {
             int panelNum = getSectionLevelPanelNumWithSectionSelected(instrNum, section.getKey());
-            for (Map.Entry<String, Boolean> privilege : section.getValue().toLegacyMapFormat().entrySet()) {
+            for (Map.Entry<String, Boolean> privilege : permissionSetToMapFormat(section.getValue()).entrySet()) {
                 if (!InstructorPrivileges.isPrivilegeNameValidForSectionLevel(section.getKey())) {
                     continue;
                 }
@@ -164,7 +181,7 @@ public class InstructorCourseEditPageSql extends AppPage {
             int panelNum = getSectionLevelPanelNumWithSectionSelected(instrNum, section.getKey());
             for (Map.Entry<String, InstructorPermissionSet> session : section.getValue().entrySet()) {
                 int sessionIndex = getSessionIndex(instrNum, session.getKey());
-                for (Map.Entry<String, Boolean> privilege : session.getValue().toLegacyMapFormat().entrySet()) {
+                for (Map.Entry<String, Boolean> privilege : permissionSetToMapFormat(session.getValue()).entrySet()) {
                     if (!InstructorPrivileges.isPrivilegeNameValidForSessionLevel(privilege.getKey())) {
                         continue;
                     }
