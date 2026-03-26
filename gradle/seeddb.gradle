@@ -5,9 +5,9 @@ abstract class SeedDatabaseTask extends JavaExec {
     @Internal boolean reset, noSeed
     @Internal String seedFile
 
-    @Option(option = 'reset',    description = 'Truncate all tables before seeding')
+    @Option(option = 'reset', description = 'Truncate all tables before seeding')
     void setReset(boolean v)    { reset = v }
-    @Option(option = 'noSeed',   description = 'Truncate only, skip seeding (requires --reset)')
+    @Option(option = 'noSeed', description = 'Truncate only, skip seeding (requires --reset)')
     void setNoSeed(boolean v)   { noSeed = v }
     @Option(option = 'seedFile', description = 'Path to custom JSON databundle seed file')
     void setSeedFile(String v)  { seedFile = v }
