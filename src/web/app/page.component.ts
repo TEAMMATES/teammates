@@ -216,7 +216,7 @@ export class PageComponent {
    */
   openProviderModal(role: 'student' | 'instructor'): void {
     this.currentRole = role;
-    this.providerModalRef = this.ngbModal.open(this.providerModal, { centered: true });
+    this.providerModalRef = this.ngbModal.open(this.providerModal, { centered: true, size: 'sm' });
   }
 
   /**
