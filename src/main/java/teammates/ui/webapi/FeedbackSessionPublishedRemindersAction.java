@@ -2,6 +2,8 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
+import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -10,12 +12,21 @@ import teammates.storage.sqlentity.FeedbackSession;
  */
 public class FeedbackSessionPublishedRemindersAction extends AdminOnlyAction {
 
+    private static final Logger log = Logger.getLogger();
+
     @Override
     public JsonResult execute() {
         List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
-            taskQueuer.scheduleFeedbackSessionPublishedEmail(session.getCourse().getId(), session.getName());
+            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionPublishedEmails(session);
+            try {
+                taskQueuer.scheduleEmailsForSending(emailsToBeSent);
+                session.setPublishedEmailSent(true);
+                sqlLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
+            } catch (Exception e) {
+                log.severe("Unexpected error", e);
+            }
         }
 
         return new JsonResult("Successful");

@@ -27,7 +27,8 @@ buildscript {
             exclude group: "org.gradle"
         }
         classpath "com.google.guava:guava:33.5.0-jre"
-        classpath "org.liquibase:liquibase-gradle-plugin:2.2.1"
+        classpath "org.liquibase:liquibase-gradle-plugin:3.1.0"
+        classpath "org.liquibase:liquibase-core:4.27.0"
     }
 }
 
@@ -81,6 +82,8 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.9")
     implementation("org.hibernate:hibernate-hikaricp:6.4.4.Final")
     implementation("org.apache.commons:commons-math3:3.6.1")
+    implementation("jakarta.mail:jakarta.mail-api:2.1.5")
+    implementation("org.eclipse.angus:angus-mail:2.0.5")
 
     testAnnotationProcessor(testng)
 
@@ -92,7 +95,6 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:1.21.4")
     testImplementation("org.liquibase:liquibase-core:4.27.0")
     testImplementation("org.mockito:mockito-core:5.21.0")
-    testImplementation("org.eclipse.angus:angus-mail:2.0.5")
     // For supporting authorization code flow locally
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.39.0")
     // For using Gmail API
@@ -139,7 +141,7 @@ liquibase {
     activities {
         main {
             searchPath "${projectDir}"
-            changeLogFile "src/main/resources/db/changelog/db.changelog-root.xml"
+            changelogFile "src/main/resources/db/changelog/db.changelog-root.xml"
             url project.properties['liquibaseDbUrl']
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
@@ -153,7 +155,7 @@ liquibase {
         }
         diffMain {
             searchPath "${projectDir}"
-            changeLogFile "src/main/resources/db/changelog/db.changelog-new.xml"
+            changelogFile "src/main/resources/db/changelog/db.changelog-new.xml"
             referenceUrl  project.properties['liquibaseDbUrl']
             referenceUsername project.properties['liquibaseUsername']
             referencePassword project.properties['liquibasePassword']
