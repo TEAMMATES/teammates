@@ -19,7 +19,6 @@ public final class Const {
      */
     public static final String USER_TEAM_FOR_INSTRUCTOR = "__TEAMMATES_RESERVED_INSTRUCTORS__";
 
-
     public static final String DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR = "Instructor";
 
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT = "Anonymous";
@@ -30,7 +29,6 @@ public final class Const {
      * Default section when none is specified. Must not be chosen explicitly by students (except empty field).
      */
     public static final String DEFAULT_SECTION = "__TEAMMATES_RESERVED_DEFAULT_SECTION__";
-
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 

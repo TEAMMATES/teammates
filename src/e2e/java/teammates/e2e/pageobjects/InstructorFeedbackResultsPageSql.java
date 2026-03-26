@@ -16,7 +16,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.Const;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
@@ -26,6 +25,7 @@ import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetail
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
+import teammates.common.util.Const;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;

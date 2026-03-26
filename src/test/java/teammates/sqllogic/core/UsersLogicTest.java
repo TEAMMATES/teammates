@@ -1,14 +1,16 @@
 package teammates.sqllogic.core;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,7 +18,6 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Account;
