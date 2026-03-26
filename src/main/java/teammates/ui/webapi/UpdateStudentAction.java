@@ -80,6 +80,9 @@ public class UpdateStudentAction extends Action {
                 updateRequest.getComments(), team);
 
         try {
+            sqlLogic.validateReservedTeamAndSectionForEnrollment(
+                    updateRequest.getTeam(),
+                    updateRequest.getSectionInput());
             //we swap out email before we validate
             //TODO: this is duct tape at the moment, need to refactor how we do the validation
             String newEmail = studentToUpdate.getEmail();

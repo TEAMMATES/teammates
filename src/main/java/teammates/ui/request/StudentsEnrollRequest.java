@@ -86,6 +86,11 @@ public class StudentsEnrollRequest extends BasicRequest {
             return this.section.isEmpty() ? Const.DEFAULT_SECTION : this.section;
         }
 
+        /** Section as entered (may be empty); used for reserved-name validation. */
+        public String getSectionInput() {
+            return this.section;
+        }
+
         public String getComments() {
             return this.comments;
         }
