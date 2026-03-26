@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 
 import teammates.common.util.Const;
 
@@ -150,40 +149,6 @@ public class InstructorPermissionSet {
         }
     }
 
-    /**
-     * Returns the legacy map representation of this permission set structure.
-     */
-    public Map<String, Boolean> toLegacyMapFormat() {
-        Map<String, Boolean> legacyFormat = new HashMap<>();
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, canModifyCourse);
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, canModifyInstructor);
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, canModifySession);
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, canModifyStudent);
-        legacyFormat.put(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, canViewStudentInSections);
-        legacyFormat.put(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, canViewSessionInSections);
-        legacyFormat.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, canSubmitSessionInSections);
-        legacyFormat.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                canModifySessionCommentsInSections);
-        return legacyFormat;
-    }
-
-    static InstructorPermissionSet fromLegacyMapFormat(Map<String, Boolean> legacyMap) {
-        InstructorPermissionSet ips = new InstructorPermissionSet();
-        ips.setCanModifyCourse(legacyMap.getOrDefault(Const.InstructorPermissions.CAN_MODIFY_COURSE, false));
-        ips.setCanModifyInstructor(legacyMap.getOrDefault(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false));
-        ips.setCanModifyStudent(legacyMap.getOrDefault(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false));
-        ips.setCanModifySession(legacyMap.getOrDefault(Const.InstructorPermissions.CAN_MODIFY_SESSION, false));
-        ips.setCanViewStudentInSections(
-                legacyMap.getOrDefault(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false));
-        ips.setCanViewSessionInSections(
-                legacyMap.getOrDefault(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, false));
-        ips.setCanSubmitSessionInSections(
-                legacyMap.getOrDefault(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, false));
-        ips.setCanModifySessionCommentsInSections(
-                legacyMap.getOrDefault(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, false));
-        return ips;
-    }
-
     @Override
     public boolean equals(Object other) {
         if (!(other instanceof InstructorPermissionSet)) {
@@ -206,19 +171,16 @@ public class InstructorPermissionSet {
 
     @Override
     public int hashCode() {
-        int prime = 31;
-        int result = 1;
-
-        result = prime * result + Boolean.hashCode(canModifyCourse);
-        result = prime * result + Boolean.hashCode(canModifyInstructor);
-        result = prime * result + Boolean.hashCode(canModifySession);
-        result = prime * result + Boolean.hashCode(canModifyStudent);
-        result = prime * result + Boolean.hashCode(canViewStudentInSections);
-        result = prime * result + Boolean.hashCode(canViewSessionInSections);
-        result = prime * result + Boolean.hashCode(canSubmitSessionInSections);
-        result = prime * result + Boolean.hashCode(canModifySessionCommentsInSections);
-
-        return result;
+        return Objects.hash(
+            canModifyCourse,
+            canModifyInstructor,
+            canModifySession,
+            canModifyStudent,
+            canViewStudentInSections,
+            canViewSessionInSections,
+            canSubmitSessionInSections,
+            canModifySessionCommentsInSections
+        );
     }
 
 }

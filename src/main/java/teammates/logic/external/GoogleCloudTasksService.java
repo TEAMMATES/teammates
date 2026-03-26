@@ -53,9 +53,11 @@ public class GoogleCloudTasksService implements TaskQueueService {
 
             Task.Builder taskBuilder = Task.newBuilder().setAppEngineHttpRequest(requestBuilder.build());
             if (countdownTime > 0) {
+                Instant scheduledTime = Instant.now().plusMillis(countdownTime);
                 taskBuilder.setScheduleTime(
                         Timestamp.newBuilder()
-                                .setSeconds(Instant.now().plusMillis(countdownTime).getEpochSecond()));
+                                .setSeconds(scheduledTime.getEpochSecond())
+                                .setNanos(scheduledTime.getNano()));
             }
 
             client.createTask(queuePath, taskBuilder.build());
