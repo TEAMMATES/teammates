@@ -1,6 +1,9 @@
 package teammates.client.scripts.seeddb;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -13,7 +16,6 @@ import teammates.common.util.Config;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
-import teammates.sqllogic.core.LogicStarter;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
@@ -29,6 +31,7 @@ import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
+import teammates.test.FileHelper;
 
 /**
  * Dumps the current development database state to a JSON databundle file.
@@ -62,16 +65,21 @@ public final class DumpDatabase {
         String dbUrl = "jdbc:postgresql://" + Config.POSTGRES_HOST + ":" + Config.POSTGRES_PORT
                 + "/" + Config.POSTGRES_DATABASENAME;
         HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
-        LogicStarter.initializeDependencies();
         HibernateUtil.beginTransaction();
         boolean dumpOk = false;
 
         try {
             log.info("Querying database...");
             SqlDataBundle bundle = buildBundle();
+
             log.info("Writing dump to: " + dumpFile);
-            teammates.test.FileHelper.saveFile(dumpFile, JsonUtils.toJson(bundle));
+            Path outputPath = Paths.get(dumpFile);
+            if (outputPath.getParent() != null) {
+                Files.createDirectories(outputPath.getParent());
+            }
+            FileHelper.saveFile(dumpFile, JsonUtils.toJson(bundle));
             HibernateUtil.commitTransaction();
+
             dumpOk = true;
             log.info("Dump completed.");
         } catch (IOException e) {
