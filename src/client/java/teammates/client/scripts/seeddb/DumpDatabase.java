@@ -43,8 +43,7 @@ import teammates.storage.sqlentity.Team;
 public final class DumpDatabase {
 
     private static final Logger log = Logger.getLogger();
-
-    private static final String DEFAULT_DUMP_FILE = "Dumped_Databundle_%s.json";
+    private static final String DEFAULT_DUMP_FILE = "build/dumps/Dumped_Databundle_%s.json";
 
     private DumpDatabase() {
         // Utility class

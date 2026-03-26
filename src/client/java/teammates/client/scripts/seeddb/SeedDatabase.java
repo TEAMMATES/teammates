@@ -109,7 +109,6 @@ public final class SeedDatabase {
 
             String jsonString = teammates.test.FileHelper.readFile(seedFile);
             SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(applyDateTokens(jsonString));
-
             Logic.inst().persistDataBundle(bundle);
 
             if (DEFAULT_SEED_FILE.equals(seedFile)) {
