@@ -58,7 +58,7 @@ dependencies {
     staticAnalysis("org.jacoco:org.jacoco.build:${jacocoVersion}")
 
     implementation("com.google.auth:google-auth-library-oauth2-http:1.42.1")
-    implementation("com.microsoft.azure:msal4j:1.17.2")
+    implementation("com.microsoft.azure:msal4j:1.24.0")
     implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
