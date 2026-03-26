@@ -1317,6 +1317,7 @@ public class Logic {
 
     /**
      * Deletes a custom email template, reverting to the static file fallback.
+     * Does nothing if {@code emailTemplate} is {@code null}.
      */
     public void deleteEmailTemplate(EmailTemplate emailTemplate) {
         emailTemplatesLogic.deleteEmailTemplate(emailTemplate);

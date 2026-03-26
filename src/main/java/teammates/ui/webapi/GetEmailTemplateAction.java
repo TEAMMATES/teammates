@@ -1,9 +1,6 @@
 package teammates.ui.webapi;
 
-import java.util.Map;
-
 import teammates.common.util.Const;
-import teammates.common.util.Templates;
 import teammates.storage.sqlentity.EmailTemplate;
 import teammates.ui.output.EmailTemplateData;
 
@@ -15,22 +12,6 @@ import teammates.ui.output.EmailTemplateData;
  * can pre-populate the editor with the current default.
  */
 public class GetEmailTemplateAction extends AdminOnlyAction {
-
-    /**
-     * Fallback subjects used when the template has not been customised.
-     * These mirror the subjects hardcoded in {@code SqlEmailGenerator}.
-     */
-    private static final Map<String, String> DEFAULT_SUBJECTS = Map.of(
-            "NEW_INSTRUCTOR_ACCOUNT_WELCOME", "Welcome to TEAMMATES!"
-    );
-
-    /**
-     * Fallback bodies used when the template has not been customised.
-     * Each value is the content of the corresponding static HTML resource file.
-     */
-    private static final Map<String, String> DEFAULT_BODIES = Map.of(
-            "NEW_INSTRUCTOR_ACCOUNT_WELCOME", Templates.EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME
-    );
 
     @Override
     public JsonResult execute() {
@@ -47,8 +28,8 @@ public class GetEmailTemplateAction extends AdminOnlyAction {
         }
 
         // Fall back to the static file so the frontend can show the current default.
-        String defaultSubject = DEFAULT_SUBJECTS.get(templateKey);
-        String defaultBody = DEFAULT_BODIES.get(templateKey);
+        String defaultSubject = GetEmailTemplatesAction.DEFAULT_SUBJECTS.get(templateKey);
+        String defaultBody = GetEmailTemplatesAction.DEFAULT_BODIES.get(templateKey);
         return new JsonResult(new EmailTemplateData(templateKey, defaultSubject, defaultBody));
     }
 }

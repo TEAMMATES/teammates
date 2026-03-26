@@ -1,9 +1,6 @@
 package teammates.ui.webapi;
 
-import java.util.Map;
-
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Templates;
 import teammates.storage.sqlentity.EmailTemplate;
 import teammates.ui.output.EmailTemplateData;
 import teammates.ui.request.EmailTemplateUpdateRequest;
@@ -18,18 +15,6 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public class UpdateEmailTemplateAction extends AdminOnlyAction {
 
-    /**
-     * Fallback subjects, kept in sync with {@code GetEmailTemplateAction}
-     * to provide a consistent response when resetting to default.
-     */
-    private static final Map<String, String> DEFAULT_SUBJECTS = Map.of(
-            "NEW_INSTRUCTOR_ACCOUNT_WELCOME", "Welcome to TEAMMATES!"
-    );
-
-    private static final Map<String, String> DEFAULT_BODIES = Map.of(
-            "NEW_INSTRUCTOR_ACCOUNT_WELCOME", Templates.EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME
-    );
-
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         EmailTemplateUpdateRequest updateRequest = getAndValidateRequestBody(EmailTemplateUpdateRequest.class);
@@ -42,8 +27,8 @@ public class UpdateEmailTemplateAction extends AdminOnlyAction {
 
         if (updateRequest.isResetToDefault()) {
             sqlLogic.deleteEmailTemplate(templateKey);
-            String defaultSubject = DEFAULT_SUBJECTS.get(templateKey);
-            String defaultBody = DEFAULT_BODIES.get(templateKey);
+            String defaultSubject = GetEmailTemplatesAction.DEFAULT_SUBJECTS.get(templateKey);
+            String defaultBody = GetEmailTemplatesAction.DEFAULT_BODIES.get(templateKey);
             return new JsonResult(new EmailTemplateData(templateKey, defaultSubject, defaultBody));
         }
 

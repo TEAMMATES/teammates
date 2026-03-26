@@ -8,13 +8,13 @@ import teammates.storage.sqlentity.EmailTemplate;
  * Output format for a single email template.
  */
 public class EmailTemplateData extends ApiOutput {
-    private final String templateKey;
-    private final String subject;
-    private final String body;
-    private final boolean isCustomized;
+    private String templateKey;
+    private String subject;
+    private String body;
+    private boolean isCustomized;
 
     @Nullable
-    private final Long updatedAt;
+    private Long updatedAt;
 
     /**
      * Constructs output from a DB-backed custom template.
@@ -41,23 +41,23 @@ public class EmailTemplateData extends ApiOutput {
     }
 
     public String getTemplateKey() {
-        return templateKey;
+        return this.templateKey;
     }
 
     public String getSubject() {
-        return subject;
+        return this.subject;
     }
 
     public String getBody() {
-        return body;
+        return this.body;
     }
 
     public boolean getIsCustomized() {
-        return isCustomized;
+        return this.isCustomized;
     }
 
     @Nullable
     public Long getUpdatedAt() {
-        return updatedAt;
+        return this.updatedAt;
     }
 }
