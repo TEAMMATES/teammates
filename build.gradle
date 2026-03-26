@@ -27,7 +27,8 @@ buildscript {
             exclude group: "org.gradle"
         }
         classpath "com.google.guava:guava:33.5.0-jre"
-        classpath "org.liquibase:liquibase-gradle-plugin:2.2.1"
+        classpath "org.liquibase:liquibase-gradle-plugin:3.1.0"
+        classpath "org.liquibase:liquibase-core:4.27.0"
     }
 }
 
@@ -140,7 +141,7 @@ liquibase {
     activities {
         main {
             searchPath "${projectDir}"
-            changeLogFile "src/main/resources/db/changelog/db.changelog-root.xml"
+            changelogFile "src/main/resources/db/changelog/db.changelog-root.xml"
             url project.properties['liquibaseDbUrl']
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
@@ -154,7 +155,7 @@ liquibase {
         }
         diffMain {
             searchPath "${projectDir}"
-            changeLogFile "src/main/resources/db/changelog/db.changelog-new.xml"
+            changelogFile "src/main/resources/db/changelog/db.changelog-new.xml"
             referenceUrl  project.properties['liquibaseDbUrl']
             referenceUsername project.properties['liquibaseUsername']
             referencePassword project.properties['liquibasePassword']

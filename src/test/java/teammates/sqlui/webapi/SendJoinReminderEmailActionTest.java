@@ -1,14 +1,18 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -38,6 +42,8 @@ public class SendJoinReminderEmailActionTest
 
     @BeforeMethod
     void setUp() {
+        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+
         course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         student = new Student(course, "student name", "student_email@tm.tmt", null);
         instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
@@ -56,6 +62,7 @@ public class SendJoinReminderEmailActionTest
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
+        when(mockSqlEmailGenerator.generateStudentCourseJoinEmail(course, student)).thenReturn(mock(EmailWrapper.class));
 
         SendJoinReminderEmailAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
@@ -64,7 +71,7 @@ public class SendJoinReminderEmailActionTest
                 "An email has been sent to " + student.getEmail(),
                 actionOutput.getMessage());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test
@@ -75,8 +82,12 @@ public class SendJoinReminderEmailActionTest
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
 
+        Account inviterAccount = mock(Account.class);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
+        when(mockLogic.getAccountForGoogleId(instructorGoogleId)).thenReturn(inviterAccount);
+        when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, instructor, course))
+                .thenReturn(mock(EmailWrapper.class));
 
         SendJoinReminderEmailAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
@@ -85,7 +96,7 @@ public class SendJoinReminderEmailActionTest
                 "An email has been sent to " + instructor.getEmail(),
                 actionOutput.getMessage());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test
@@ -100,6 +111,7 @@ public class SendJoinReminderEmailActionTest
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getUnregisteredStudentsForCourse(course.getId())).thenReturn(unregisteredStudents);
+        when(mockSqlEmailGenerator.generateStudentCourseJoinEmail(course, student)).thenReturn(mock(EmailWrapper.class));
 
         SendJoinReminderEmailAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
@@ -108,7 +120,7 @@ public class SendJoinReminderEmailActionTest
                 "Emails have been sent to unregistered students.",
                 actionOutput.getMessage());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, unregisteredStudents.size());
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, unregisteredStudents.size());
     }
 
     @Test
