@@ -28,7 +28,9 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 
 /**
- * Seeds the development database with mock data. If --seedFile is not specified, seeds from the default
+ * Seeds the development database with mock data.
+ *
+ * <p>If {@code --seedFile} is not specified, seeds from the default
  * seeding databundle file at {@code src/client/resources/SeedingDatabundle.json}
  *
  * <p>Usage: {@code ./gradlew seedDatabase [--reset] [--noSeed] [--seedFile <path>]}
