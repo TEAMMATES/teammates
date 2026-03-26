@@ -4,6 +4,7 @@ import { CellWithActionsComponent } from './cell-with-actions.component';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { formatSectionNameForDisplay, formatTeamNameForDisplay } from '../../../services/roster-display';
 import { ApiStringConst } from '../../../types/api-const';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -136,14 +137,16 @@ export class StudentListComponent implements OnInit {
     this.rowsData = this.students
     .filter((studentModel: StudentListRowModel) => !this.isStudentToHide(studentModel.student.email))
     .map((studentModel: StudentListRowModel) => {
+      const sectionDisplay: string = formatSectionNameForDisplay(studentModel.student.sectionName);
+      const teamDisplay: string = formatTeamNameForDisplay(studentModel.student.teamName);
       const rowData: SortableTableCellData[] = [
         {
-          value: studentModel.student.sectionName,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.sectionName, this.searchString),
+          value: sectionDisplay,
+          displayValue: this.searchTermsHighlighterPipe.transform(sectionDisplay, this.searchString),
         },
         {
-          value: studentModel.student.teamName,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.teamName, this.searchString),
+          value: teamDisplay,
+          displayValue: this.searchTermsHighlighterPipe.transform(teamDisplay, this.searchString),
         },
         {
           value: studentModel.student.name,

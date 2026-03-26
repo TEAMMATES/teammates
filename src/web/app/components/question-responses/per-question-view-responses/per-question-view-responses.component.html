@@ -76,7 +76,7 @@
         @for (response of responsesToShow; track response) {
           <tr [class.color-neutral]="response.isMissingResponse">
             @if (showGiver) {
-              <td>{{ response.giverTeam }}</td>
+              <td>{{ formatTeamLabel(response.giverTeam) }}</td>
             }
             @if (showGiver) {
               <td>
@@ -86,7 +86,7 @@
             }
             @if (showRecipient) {
               <td>
-                {{ response.recipientTeam === '-' ? 'No Specific Team' : response.recipientTeam}}
+                {{ formatTeamLabel(response.recipientTeam) }}
               </td>
             }
             @if (showRecipient) {

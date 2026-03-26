@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { formatTeamNameForDisplay } from '../../../../services/roster-display';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput, ResponseOutput,
@@ -75,9 +76,10 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
     if (recipientTeamName === '') {
       team['recipient'] = '';
     } else {
-      team['recipient'] = (recipientTeamName === '-') ? '(No Specific Team)' : `(${recipientTeamName})`;
+      team['recipient'] = (recipientTeamName === '-') ? '(No Specific Team)'
+          : `(${formatTeamNameForDisplay(recipientTeamName)})`;
     }
-    team['giver'] = `(${this.responses[0].allResponses[0].giverTeam})`;
+    team['giver'] = `(${formatTeamNameForDisplay(this.responses[0].allResponses[0].giverTeam)})`;
     return team;
   }
 

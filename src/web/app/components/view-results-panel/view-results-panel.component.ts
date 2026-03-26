@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { ApiStringConst } from '../../../types/api-const';
+import { formatSectionNameForDisplay } from '../../../services/roster-display';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -42,13 +42,15 @@ import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 })
 export class ViewResultsPanelComponent {
 
-  readonly defaultSection: string = ApiStringConst.DEFAULT_SECTION;
-
   // enum
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
   viewTooltipText: string = 'View results in different formats';
+
+  formatSectionTabLabel(sectionKey: string): string {
+    return formatSectionNameForDisplay(sectionKey);
+  }
 
   @Input()
   session: FeedbackSession = {

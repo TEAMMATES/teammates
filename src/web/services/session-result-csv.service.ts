@@ -17,6 +17,7 @@ import {
 } from '../types/api-output';
 import { FeedbackQuestionDetailsFactory } from '../types/question-details-impl/feedback-question-details-factory';
 import { FeedbackResponseDetailsFactory } from '../types/response-details-impl/feedback-response-details-factory';
+import { formatRosterLabelForCsvCell, formatTeamNameForDisplay } from './roster-display';
 
 /**
  * Service to generate CSV for a feedback session result.
@@ -41,7 +42,7 @@ export class SessionResultCsvService {
     const header: string[] = ['Team', 'Name', 'Email'];
     csvRows.push(header);
     noResponseStudents.forEach((student: Student) => {
-      csvRows.push([student.teamName, student.name, student.email]);
+      csvRows.push([formatTeamNameForDisplay(student.teamName), student.name, student.email]);
     });
 
     return CsvHelper.convertCsvContentsToCsvString(csvRows);
@@ -136,10 +137,10 @@ export class SessionResultCsvService {
     });
 
     for (const response of question.allResponses) {
-      const giverTeamName: string = StringHelper.removeExtraSpace(response.giverTeam);
+      const giverTeamName: string = formatTeamNameForDisplay(StringHelper.removeExtraSpace(response.giverTeam));
       const giverName: string = StringHelper.removeExtraSpace(response.giver);
       const giverEmail: string = response.giverEmail ? StringHelper.removeExtraSpace(response.giverEmail) : '';
-      const recipientTeamName: string = StringHelper.removeExtraSpace(response.recipientTeam);
+      const recipientTeamName: string = formatTeamNameForDisplay(StringHelper.removeExtraSpace(response.recipientTeam));
       const recipientName: string = StringHelper.removeExtraSpace(response.recipient);
       const recipientEmail: string =
         response.recipientEmail ? StringHelper.removeExtraSpace(response.recipientEmail) : '';
@@ -190,9 +191,10 @@ export class SessionResultCsvService {
    * Gets question stats for a question.
    */
   private getQuestionStats(question: QuestionOutput): string[][] {
-    return FeedbackQuestionDetailsFactory
-      .fromApiOutput(question.feedbackQuestion.questionDetails)
-      .getQuestionCsvStats(question);
+    const statsRows: string[][] = FeedbackQuestionDetailsFactory
+        .fromApiOutput(question.feedbackQuestion.questionDetails)
+        .getQuestionCsvStats(question);
+    return statsRows.map((row: string[]) => row.map((cell: string) => formatRosterLabelForCsvCell(cell)));
   }
 
   /**

@@ -2,6 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
+import { formatTeamNameForDisplay } from '../../../../services/roster-display';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -173,6 +174,16 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   /**
    * Opens the comments table modal.
    */
+  /**
+   * Team column: anonymous sentinel '-' vs roster team (including reserved instructor team).
+   */
+  formatTeamLabel(team: string): string {
+    if (team === '-') {
+      return 'No Specific Team';
+    }
+    return formatTeamNameForDisplay(team);
+  }
+
   showCommentTableModel(selectedResponse: ResponseOutput, modal: any): void {
     // open as ng-template rather than concrete class due to the
     // lack of ability to bind @Input to the modal

@@ -20,10 +20,18 @@ const loadTestData: (filename: string) => SessionResults = (filename: string): S
  */
 const replaceUnpredictableValuesWithPlaceholders: (str: string) => string = (str: string): string => {
   // eslint-disable-next-line no-template-curly-in-string
-  return str.replace(/Anonymous (student|instructor|team) [0-9]{1,10}/g, 'Anonymous $1 ${participant.hash}');
+  return str
+      .replace(/Anonymous (student|instructor|team) [0-9]{1,10}/g, 'Anonymous $1 ${participant.hash}')
+      .replace(/__TEAMMATES_RESERVED_INSTRUCTORS__/g, 'Instructors')
+      .replace(/__TEAMMATES_RESERVED_DEFAULT_SECTION__/g, 'No specific section');
 };
 
 describe('replaceUnpredictableValuesWithPlaceholders', () => {
+  it('should normalize reserved API section/team labels for stable snapshots', () => {
+    const input: string = 'Team,__TEAMMATES_RESERVED_INSTRUCTORS__,Section __TEAMMATES_RESERVED_DEFAULT_SECTION__';
+    expect(replaceUnpredictableValuesWithPlaceholders(input)).toEqual('Team,Instructors,Section No specific section');
+  });
+
   it('should replace unpredictable values with placeholders', () => {
     const sampleCsvFile: string = `Header 1,Header 2,Header 3
 Content 1,Content 2,Content 3

@@ -2417,7 +2417,7 @@ exports[`StudentListComponent should snap with some student list data with no se
           <tr>
             <td>
               <span>
-                None
+                No specific section
               </span>
             </td>
             <td>
