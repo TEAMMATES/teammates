@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.UUID;
 
@@ -944,10 +945,16 @@ public final class UsersLogic {
         return errorMessage.toString();
     }
 
-    private boolean isInEnrollList(Student student,
-                                   List<Student> studentInfoList) {
+    /**
+     * True if the batch already represents this student: same email (enroll rows), or same id when
+     * the batch row carries the persisted id (e.g. single-student update with email change).
+     */
+    private boolean isInEnrollList(Student student, List<Student> studentInfoList) {
         for (Student studentInfo : studentInfoList) {
             if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
+                return true;
+            }
+            if (Objects.equals(student.getId(), studentInfo.getId())) {
                 return true;
             }
         }
