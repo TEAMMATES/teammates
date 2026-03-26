@@ -71,10 +71,7 @@ public final class SeedDatabase {
                 noSeed = true;
                 break;
             case "--seedFile":
-                String customSeedFile = args[i + 1];
-                seedFile = customSeedFile.startsWith("~")
-                        ? System.getProperty("user.home") + customSeedFile.substring(1)
-                        : customSeedFile;
+                seedFile = args[i + 1];
                 break;
             default:
                 // Unrecognised arguments handled by gradle

@@ -57,9 +57,6 @@ public final class DumpDatabase {
                     .truncatedTo(ChronoUnit.SECONDS).toString().replace(":", "-"));
         } else {
             dumpFile = args[1];
-            if (dumpFile.startsWith("~/")) {
-                dumpFile = System.getProperty("user.home") + dumpFile.substring(1);
-            }
         }
 
         String dbUrl = "jdbc:postgresql://" + Config.POSTGRES_HOST + ":" + Config.POSTGRES_PORT
