@@ -186,4 +186,18 @@ public class UsersLogicTest extends BaseTestCase {
                         "Team A", Const.DEFAULT_SECTION));
     }
 
+    @Test
+    public void testValidateReservedTeamAndSectionForEnrollment_legacyStyleTeamNameInstructor_ok()
+            throws EnrollException {
+        // Only Const.USER_TEAM_FOR_INSTRUCTOR is blocked; plain "Instructor" is allowed.
+        usersLogic.validateReservedTeamAndSectionForEnrollment(
+                Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, "");
+    }
+
+    @Test
+    public void testValidateReservedTeamAndSectionForEnrollment_sectionNameNone_ok() throws EnrollException {
+        // Only Const.DEFAULT_SECTION is blocked when explicitly given; plain "None" is allowed.
+        usersLogic.validateReservedTeamAndSectionForEnrollment("Team A", "None");
+    }
+
 }
