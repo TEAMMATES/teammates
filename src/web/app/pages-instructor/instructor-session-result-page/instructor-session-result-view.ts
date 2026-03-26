@@ -1,6 +1,7 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
+import { ApiStringConst } from '../../../types/api-const';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -16,6 +17,8 @@ import { CommentTableModel } from '../../components/comment-box/comment-table/co
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class InstructorSessionResultView {
+
+  readonly defaultSection: string = ApiStringConst.DEFAULT_SECTION;
 
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;

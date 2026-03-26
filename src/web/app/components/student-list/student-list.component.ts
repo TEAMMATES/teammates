@@ -4,6 +4,7 @@ import { CellWithActionsComponent } from './cell-with-actions.component';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { ApiStringConst } from '../../../types/api-const';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -83,7 +84,7 @@ export class StudentListComponent implements OnInit {
    */
   hasSection(): boolean {
     return (this.students.some((studentModel: StudentListRowModel) =>
-        studentModel.student.sectionName !== 'None'));
+        studentModel.student.sectionName !== ApiStringConst.DEFAULT_SECTION));
   }
 
   ngOnInit(): void {

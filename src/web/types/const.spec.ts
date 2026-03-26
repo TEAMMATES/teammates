@@ -72,6 +72,8 @@ describe('Constants', () => {
   it('should generate string constants correctly', () => {
     expect(typeof ApiStringConst.EMAIL_REGEX).toEqual('string');
     expect(() => new RegExp(ApiStringConst.EMAIL_REGEX)).not.toThrow();
+    expect(typeof ApiStringConst.DEFAULT_SECTION).toEqual('string');
+    expect(typeof ApiStringConst.USER_TEAM_FOR_INSTRUCTOR).toEqual('string');
   });
 
   // Here we test that:

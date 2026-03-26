@@ -6,7 +6,7 @@ import { CsvHelper } from './csv-helper';
 import { HttpRequestService } from './http-request.service';
 import { TableComparatorService } from './table-comparator.service';
 import { JoinStatePipe } from '../app/components/student-list/join-state.pipe';
-import { ResourceEndpoints } from '../types/api-const';
+import { ApiStringConst, ResourceEndpoints } from '../types/api-const';
 import { Course, EnrollStudents, MessageOutput, RegenerateKey, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
@@ -151,7 +151,7 @@ export class StudentService {
     csvRows.push(['Course Name', courseName]);
     csvRows.push([]);
     const hasSection: boolean =
-        students.some((student: Student) => student.sectionName !== 'None' && student.sectionName !== '');
+        students.some((student: Student) => student.sectionName !== ApiStringConst.DEFAULT_SECTION && student.sectionName !== '');
     const headers: string[] = ['Team', 'Name', 'Status', 'Email'];
     csvRows.push(hasSection ? ['Section'].concat(headers) : headers);
     students.sort((a: Student, b: Student) => {

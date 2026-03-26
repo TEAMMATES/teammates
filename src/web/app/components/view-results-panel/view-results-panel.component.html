@@ -25,7 +25,7 @@
               <option value="">All</option>
               @for (section of sectionsModel | keyvalue; track section) {
                 <option [value]="section.key">
-                  {{ section.key === 'None' ? 'No specific section' : section.key }}
+                  {{ section.key === defaultSection ? 'No specific section' : section.key }}
                 </option>
               }
             </select>
