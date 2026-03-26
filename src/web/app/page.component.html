@@ -199,14 +199,22 @@
                     </svg>
                   </div>
                   <span class="gsi-material-button-contents">Sign in with Google</span>
-                  <span style="display: none;">Sign in with Google</span>
                 </div>
               </button>
             }
             @if (showMsEntraLogin) {
-              <button type="button" class="btn btn-primary btn-lg" id="provider-entra-btn"
+              <button type="button" class="ms-sign-in-button" id="provider-entra-btn"
                   (click)="loginWithProvider('entra')">
-                <i class="fab fa-microsoft"></i>&nbsp;Sign in with Microsoft
+                <div class="ms-sign-in-button-state"></div>
+                <div class="ms-sign-in-button-content-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21">
+                    <rect x="1" y="1" width="9" height="9" fill="#F25022"/>
+                    <rect x="11" y="1" width="9" height="9" fill="#7FBA00"/>
+                    <rect x="1" y="11" width="9" height="9" fill="#00A4EF"/>
+                    <rect x="11" y="11" width="9" height="9" fill="#FFB900"/>
+                  </svg>
+                  <span class="ms-sign-in-button-text">Sign in with Microsoft</span>
+                </div>
               </button>
             }
           </div>

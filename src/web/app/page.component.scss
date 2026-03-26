@@ -150,6 +150,65 @@ button.bg-transparent.btn.btn-link.nav-link:active {
   }
 }
 
+.ms-sign-in-button {
+  align-items: center;
+  background-color: #131314;
+  border: 1px solid #8c8c8c;
+  border-radius: 4px;
+  color: #e3e3e3;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: 'Roboto', arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 41px;
+  letter-spacing: 0.25px;
+  overflow: hidden;
+  padding: 0 12px;
+  position: relative;
+  transition: background-color .218s, border-color .218s, box-shadow .218s;
+  width: 240px;
+
+  &:not(:disabled):hover {
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  }
+}
+
+.ms-sign-in-button-state {
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity .218s;
+}
+
+.ms-sign-in-button:not(:disabled):hover .ms-sign-in-button-state {
+  background-color: white;
+  opacity: 8%;
+}
+
+.ms-sign-in-button:not(:disabled):active .ms-sign-in-button-state,
+.ms-sign-in-button:not(:disabled):focus .ms-sign-in-button-state {
+  background-color: white;
+  opacity: 12%;
+}
+
+.ms-sign-in-button-content-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.ms-sign-in-button-text {
+  flex-grow: 1;
+  text-align: center;
+}
+
 .gsi-material-button {
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -177,9 +236,7 @@ button.bg-transparent.btn.btn-link.nav-link:active {
   transition: background-color .218s, border-color .218s, box-shadow .218s;
   vertical-align: middle;
   white-space: nowrap;
-  width: auto;
-  max-width: 400px;
-  min-width: min-content;
+  width: 240px;
   border-color: #8e918f;
 }
 
