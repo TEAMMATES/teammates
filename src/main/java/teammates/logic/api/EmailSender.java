@@ -14,6 +14,7 @@ import teammates.logic.external.EmptyEmailService;
 import teammates.logic.external.MailgunService;
 import teammates.logic.external.MailjetService;
 import teammates.logic.external.SendgridService;
+import teammates.logic.external.SmtpService;
 
 /**
  * Handles operations related to sending emails.
@@ -26,18 +27,16 @@ public class EmailSender {
     private final EmailSenderService service;
 
     EmailSender() {
-        if (Config.IS_DEV_SERVER) {
-            service = new EmptyEmailService();
+        if (Config.isUsingSendgrid()) {
+            service = new SendgridService();
+        } else if (Config.isUsingMailgun()) {
+            service = new MailgunService();
+        } else if (Config.isUsingMailjet()) {
+            service = new MailjetService();
+        } else if (Config.isUsingSmtp()) {
+            service = new SmtpService();
         } else {
-            if (Config.isUsingSendgrid()) {
-                service = new SendgridService();
-            } else if (Config.isUsingMailgun()) {
-                service = new MailgunService();
-            } else if (Config.isUsingMailjet()) {
-                service = new MailjetService();
-            } else {
-                service = new EmptyEmailService();
-            }
+            service = new EmptyEmailService();
         }
     }
 
