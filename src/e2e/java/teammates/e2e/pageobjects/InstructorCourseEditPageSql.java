@@ -80,6 +80,23 @@ public class InstructorCourseEditPageSql extends AppPage {
         super(browser);
     }
 
+    private static Map<String, Boolean> permissionSetToMapFormat(InstructorPermissionSet permissionSet) {
+        Map<String, Boolean> map = new HashMap<>();
+        map.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, permissionSet.isCanModifyCourse());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, permissionSet.isCanModifyInstructor());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, permissionSet.isCanModifySession());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, permissionSet.isCanModifyStudent());
+        map.put(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
+                permissionSet.isCanViewStudentInSections());
+        map.put(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
+                permissionSet.isCanViewSessionInSections());
+        map.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
+                permissionSet.isCanSubmitSessionInSections());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                permissionSet.isCanModifySessionCommentsInSections());
+        return map;
+    }
+
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageTitle().contains("Edit Course Details");
@@ -662,22 +679,5 @@ public class InstructorCourseEditPageSql extends AppPage {
             }
         }
         return -1;
-    }
-
-    public Map<String, Boolean> permissionSetToMapFormat(InstructorPermissionSet permissionSet) {
-        Map<String, Boolean> map = new HashMap<>();
-        map.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, permissionSet.isCanModifyCourse());
-        map.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, permissionSet.isCanModifyInstructor());
-        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, permissionSet.isCanModifySession());
-        map.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, permissionSet.isCanModifyStudent());
-        map.put(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
-                permissionSet.isCanViewStudentInSections());
-        map.put(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
-                permissionSet.isCanViewSessionInSections());
-        map.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
-                permissionSet.isCanSubmitSessionInSections());
-        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                permissionSet.isCanModifySessionCommentsInSections());
-        return map;
     }
 }
