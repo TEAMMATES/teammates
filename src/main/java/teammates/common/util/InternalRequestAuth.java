@@ -23,15 +23,19 @@ public final class InternalRequestAuth {
      */
     public static boolean isTrustedCronOrWorkerRequest(HttpServletRequest req) {
         String secret = Config.CRON_AND_WORKER_SECRET;
-        if (secret == null || secret.trim().isEmpty()) {
+        if (secret == null) {
+            return false;
+        }
+        secret = secret.trim();
+        if (secret.isEmpty()) {
             return false;
         }
         String auth = req.getHeader("Authorization");
         if (auth == null || !auth.startsWith(BEARER_PREFIX)) {
             return false;
         }
-        String token = auth.substring(BEARER_PREFIX.length());
-        if (token.trim().isEmpty()) {
+        String token = auth.substring(BEARER_PREFIX.length()).trim();
+        if (token.isEmpty()) {
             return false;
         }
         if (!MessageDigest.isEqual(token.getBytes(StandardCharsets.UTF_8),

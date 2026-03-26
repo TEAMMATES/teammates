@@ -28,6 +28,7 @@ public class GoogleCloudTasksService implements TaskQueueService {
 
     @Override
     public void addDeferredTask(TaskWrapper task, long countdownTime) {
+        Config.requireCronAndWorkerSecret();
         try (CloudTasksClient client = CloudTasksClient.create()) {
             String queuePath = QueueName.of(Config.APP_ID, Config.APP_REGION, task.getQueueName()).toString();
 

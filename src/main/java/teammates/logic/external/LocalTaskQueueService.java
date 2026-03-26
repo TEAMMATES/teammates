@@ -36,6 +36,7 @@ public class LocalTaskQueueService implements TaskQueueService {
         if (!Config.TASKQUEUE_ACTIVE) {
             return;
         }
+        Config.requireCronAndWorkerSecret();
         HttpPost post = new HttpPost(createBasicUri(
                 "http://localhost:" + Config.getPort() + task.getWorkerUrl(), task.getParamMap()));
 

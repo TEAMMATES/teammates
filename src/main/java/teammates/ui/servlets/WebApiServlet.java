@@ -128,15 +128,16 @@ public class WebApiServlet extends HttpServlet {
 
     private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)
             throws IOException {
-        boolean isRequestFromWorker = InternalRequestAuth.isTrustedCronOrWorkerRequest(req);
+        boolean isTrustedWorkerRequest = InternalRequestAuth.isTrustedCronOrWorkerRequest(req)
+                && InternalRequestAuth.isWorkerRequestPath(req);
 
-        if (isRequestFromWorker) {
+        if (isTrustedWorkerRequest) {
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
 
-            // Response status is not set to 4XX to 5XX to prevent Cloud Tasks retry mechanism because
-            // if the cause of the exception is improper request URL, no amount of retry is going to help.
-            // The action will be inaccurately marked as "success", but the severe log can be used
-            // to trace the origin of the problem.
+            // For Cloud Tasks worker requests only: response status is not set to 4XX/5XX so the task is not
+            // retried when the failure is due to an improper request URL (retries would not help).
+            // Cron (/auto/*) requests are not included so schedulers still see real HTTP error status on failure.
+            // The action may be inaccurately marked as "success"; the severe log traces the problem.
             throwError(resp, HttpStatus.SC_ACCEPTED, e.getMessage());
         } else {
             log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);

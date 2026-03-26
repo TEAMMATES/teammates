@@ -334,4 +334,16 @@ public final class Config {
                 && MAILJET_SECRETKEY != null && !MAILJET_SECRETKEY.isEmpty();
     }
 
+    /**
+     * Ensures {@link #CRON_AND_WORKER_SECRET} is configured for authenticating worker/cron HTTP requests.
+     *
+     * @throws IllegalStateException if the secret is missing or blank
+     */
+    public static void requireCronAndWorkerSecret() {
+        if (CRON_AND_WORKER_SECRET == null || CRON_AND_WORKER_SECRET.trim().isEmpty()) {
+            throw new IllegalStateException(
+                    "app.cron.and.worker.secret must be set in build.properties for worker/cron requests.");
+        }
+    }
+
 }

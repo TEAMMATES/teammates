@@ -146,10 +146,11 @@ public class WebApiServletTest extends BaseTestCase {
     }
 
     @Test
-    public void testWorkerOrCronInvokedRequests() throws Exception {
+    public void testTrustedWorkerInvokedRequests() throws Exception {
 
         try (MockedStatic<InternalRequestAuth> internalAuth = mockStatic(InternalRequestAuth.class,
                 Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
+            // Path checks use real implementations; only the bearer check is stubbed so tests stay deterministic.
             internalAuth.when(() -> InternalRequestAuth.isTrustedCronOrWorkerRequest(any())).thenReturn(true);
 
             ______TS("Typical case: valid action mapping");
