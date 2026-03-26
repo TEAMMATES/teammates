@@ -43,7 +43,7 @@ describe('PageComponent', () => {
     component.openProviderModal('student');
 
     expect(openSpy).toHaveBeenCalledTimes(1);
-    expect(openSpy).toHaveBeenCalledWith((component as any).providerModal, { centered: true });
+    expect(openSpy).toHaveBeenCalledWith((component as any).providerModal, { centered: true, size: 'sm' });
     expect((component as any).currentRole).toBe('student');
   });
 
