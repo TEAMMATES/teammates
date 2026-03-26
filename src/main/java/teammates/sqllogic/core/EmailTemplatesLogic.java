@@ -49,6 +49,15 @@ public final class EmailTemplatesLogic {
     }
 
     /**
+     * Deletes the custom email template for {@code templateKey}, reverting to the
+     * static file fallback. Does nothing if no such template exists.
+     */
+    public void deleteEmailTemplate(String templateKey) {
+        assert templateKey != null;
+        emailTemplatesDb.deleteEmailTemplate(templateKey);
+    }
+
+    /**
      * Deletes a custom email template, reverting to the static file fallback.
      * Does nothing if {@code emailTemplate} is {@code null}.
      */

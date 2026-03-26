@@ -93,6 +93,15 @@ public class EmailTemplatesLogicTest extends BaseTestCase {
     }
 
     @Test
+    public void testDeleteEmailTemplate_byKey_delegatesToDb() {
+        String templateKey = "NEW_INSTRUCTOR_ACCOUNT_WELCOME";
+
+        emailTemplatesLogic.deleteEmailTemplate(templateKey);
+
+        verify(emailTemplatesDb, times(1)).deleteEmailTemplate(templateKey);
+    }
+
+    @Test
     public void testDeleteEmailTemplate_templateExists_deletesTemplate() {
         EmailTemplate emailTemplate = new EmailTemplate(
                 "NEW_INSTRUCTOR_ACCOUNT_WELCOME", "Welcome Subject", "<p>Welcome body</p>");
@@ -104,8 +113,8 @@ public class EmailTemplatesLogicTest extends BaseTestCase {
 
     @Test
     public void testDeleteEmailTemplate_nullTemplate_doesNothing() {
-        emailTemplatesLogic.deleteEmailTemplate(null);
+        emailTemplatesLogic.deleteEmailTemplate((EmailTemplate) null);
 
-        verify(emailTemplatesDb, times(1)).deleteEmailTemplate(null);
+        verify(emailTemplatesDb, times(1)).deleteEmailTemplate((EmailTemplate) null);
     }
 }

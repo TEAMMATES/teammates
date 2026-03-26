@@ -41,10 +41,7 @@ public class UpdateEmailTemplateAction extends AdminOnlyAction {
         }
 
         if (updateRequest.isResetToDefault()) {
-            EmailTemplate existing = sqlLogic.getEmailTemplate(templateKey);
-            if (existing != null) {
-                sqlLogic.deleteEmailTemplate(existing);
-            }
+            sqlLogic.deleteEmailTemplate(templateKey);
             String defaultSubject = DEFAULT_SUBJECTS.get(templateKey);
             String defaultBody = DEFAULT_BODIES.get(templateKey);
             return new JsonResult(new EmailTemplateData(templateKey, defaultSubject, defaultBody));

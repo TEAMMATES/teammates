@@ -1308,6 +1308,14 @@ public class Logic {
     }
 
     /**
+     * Deletes the custom email template for {@code templateKey}, reverting to the
+     * static file fallback. Does nothing if no such template exists.
+     */
+    public void deleteEmailTemplate(String templateKey) {
+        emailTemplatesLogic.deleteEmailTemplate(templateKey);
+    }
+
+    /**
      * Deletes a custom email template, reverting to the static file fallback.
      */
     public void deleteEmailTemplate(EmailTemplate emailTemplate) {

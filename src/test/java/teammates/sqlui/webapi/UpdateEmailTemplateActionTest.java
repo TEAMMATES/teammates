@@ -1,7 +1,6 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -64,35 +63,14 @@ public class UpdateEmailTemplateActionTest extends BaseActionTest<UpdateEmailTem
     }
 
     @Test
-    void testExecute_resetToDefault_existingTemplate_deletesAndReturnsFallback() {
-        EmailTemplate existingTemplate = new EmailTemplate(
-                VALID_TEMPLATE_KEY, "Old Subject", "<p>Old body</p>");
-        when(mockLogic.getEmailTemplate(VALID_TEMPLATE_KEY)).thenReturn(existingTemplate);
-
+    void testExecute_resetToDefault_deletesAndReturnsFallback() {
         EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
                 VALID_TEMPLATE_KEY, null, null, true);
 
         UpdateEmailTemplateAction action = getAction(requestBody);
         EmailTemplateData output = (EmailTemplateData) getJsonResult(action).getOutput();
 
-        verify(mockLogic).deleteEmailTemplate(existingTemplate);
-        assertEquals(VALID_TEMPLATE_KEY, output.getTemplateKey());
-        assertNotNull(output.getSubject());
-        assertNotNull(output.getBody());
-        assertFalse(output.getIsCustomized());
-    }
-
-    @Test
-    void testExecute_resetToDefault_noExistingTemplate_returnsFallback() {
-        when(mockLogic.getEmailTemplate(VALID_TEMPLATE_KEY)).thenReturn(null);
-
-        EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
-                VALID_TEMPLATE_KEY, null, null, true);
-
-        UpdateEmailTemplateAction action = getAction(requestBody);
-        EmailTemplateData output = (EmailTemplateData) getJsonResult(action).getOutput();
-
-        verify(mockLogic, never()).deleteEmailTemplate(any());
+        verify(mockLogic).deleteEmailTemplate(VALID_TEMPLATE_KEY);
         assertEquals(VALID_TEMPLATE_KEY, output.getTemplateKey());
         assertNotNull(output.getSubject());
         assertNotNull(output.getBody());
