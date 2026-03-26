@@ -2,6 +2,7 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -116,6 +117,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getSectionOrCreate(course.getId(), studentUpdateRequest.getSection());
         verify(mockLogic, times(1)).getTeamOrCreate(section, studentUpdateRequest.getTeam());
 
+        verify(mockLogic, times(1)).validateReservedTeamAndSectionForEnrollment(anyString(), anyString());
         verify(mockLogic, times(1)).validateSectionsAndTeams(anyList(), eq(course.getId()));
         ArgumentCaptor<Student> studentCaptor = ArgumentCaptor.forClass(Student.class);
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
@@ -164,6 +166,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getSectionOrCreate(course.getId(), studentUpdateRequest.getSection());
         verify(mockLogic, times(1)).getTeamOrCreate(section, studentUpdateRequest.getTeam());
 
+        verify(mockLogic, times(1)).validateReservedTeamAndSectionForEnrollment(anyString(), anyString());
         verify(mockLogic, times(1)).validateSectionsAndTeams(anyList(), eq(course.getId()));
         ArgumentCaptor<Student> studentCaptor = ArgumentCaptor.forClass(Student.class);
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
@@ -204,6 +207,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getSectionOrCreate(course.getId(), studentUpdateRequest.getSection());
         verify(mockLogic, times(1)).getTeamOrCreate(section, studentUpdateRequest.getTeam());
 
+        verify(mockLogic, times(1)).validateReservedTeamAndSectionForEnrollment(anyString(), anyString());
         verify(mockLogic, times(1)).validateSectionsAndTeams(anyList(), eq(course.getId()));
         ArgumentCaptor<Student> studentCaptor = ArgumentCaptor.forClass(Student.class);
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
@@ -239,6 +243,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getSectionOrCreate(course.getId(), studentUpdateRequest.getSection());
         verify(mockLogic, times(1)).getTeamOrCreate(section, studentUpdateRequest.getTeam());
 
+        verify(mockLogic, times(1)).validateReservedTeamAndSectionForEnrollment(anyString(), anyString());
         verify(mockLogic, times(1)).validateSectionsAndTeams(anyList(), eq(course.getId()));
         ArgumentCaptor<Student> studentCaptor = ArgumentCaptor.forClass(Student.class);
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
@@ -274,6 +279,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getSectionOrCreate(course.getId(), studentUpdateRequest.getSection());
         verify(mockLogic, times(1)).getTeamOrCreate(section, studentUpdateRequest.getTeam());
 
+        verify(mockLogic, times(1)).validateReservedTeamAndSectionForEnrollment(anyString(), anyString());
         verify(mockLogic, times(1)).validateSectionsAndTeams(anyList(), eq(course.getId()));
         ArgumentCaptor<Student> studentCaptor = ArgumentCaptor.forClass(Student.class);
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
@@ -350,6 +356,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getSectionOrCreate(course.getId(), studentUpdateRequest.getSection());
         verify(mockLogic, times(1)).getTeamOrCreate(section, studentUpdateRequest.getTeam());
 
+        verify(mockLogic, times(1)).validateReservedTeamAndSectionForEnrollment(anyString(), anyString());
         verify(mockLogic, times(1)).validateSectionsAndTeams(anyList(), eq(course.getId()));
         ArgumentCaptor<Student> studentCaptor = ArgumentCaptor.forClass(Student.class);
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
@@ -383,6 +390,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getSectionOrCreate(course.getId(), studentUpdateRequest.getSection());
         verify(mockLogic, times(1)).getTeamOrCreate(section, studentUpdateRequest.getTeam());
 
+        verify(mockLogic, times(1)).validateReservedTeamAndSectionForEnrollment(anyString(), anyString());
         verify(mockLogic, times(1)).validateSectionsAndTeams(anyList(), eq(course.getId()));
         verifyNoTasksAdded();
 
@@ -413,6 +421,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getSectionOrCreate(course.getId(), studentUpdateRequest.getSection());
         verify(mockLogic, times(1)).getTeamOrCreate(section, studentUpdateRequest.getTeam());
 
+        verify(mockLogic, times(1)).validateReservedTeamAndSectionForEnrollment(anyString(), anyString());
         verify(mockLogic, times(1)).validateSectionsAndTeams(anyList(), eq(course.getId()));
         ArgumentCaptor<Student> studentCaptor = ArgumentCaptor.forClass(Student.class);
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
@@ -448,6 +457,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getSectionOrCreate(course.getId(), studentUpdateRequest.getSection());
         verify(mockLogic, times(1)).getTeamOrCreate(section, studentUpdateRequest.getTeam());
 
+        verify(mockLogic, times(1)).validateReservedTeamAndSectionForEnrollment(anyString(), anyString());
         verify(mockLogic, times(1)).validateSectionsAndTeams(anyList(), eq(course.getId()));
         ArgumentCaptor<Student> studentCaptor = ArgumentCaptor.forClass(Student.class);
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
