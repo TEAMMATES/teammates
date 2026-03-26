@@ -53,22 +53,20 @@ public final class DumpDatabase {
     }
 
     public static void main(String[] args) {
-        String dumpFile = DEFAULT_DUMP_FILE;
-
-        if (args.length == 0) {
-            dumpFile = String.format(DEFAULT_DUMP_FILE, LocalDateTime.now()
-                    .truncatedTo(ChronoUnit.SECONDS).toString().replace(":", "-"));
-        } else {
+        String dumpFile = String.format(DEFAULT_DUMP_FILE, LocalDateTime.now()
+                .truncatedTo(ChronoUnit.SECONDS).toString().replace(":", "-"));
+        if (args.length == 2) {
             dumpFile = args[1];
         }
 
-        String dbUrl = "jdbc:postgresql://" + Config.POSTGRES_HOST + ":" + Config.POSTGRES_PORT
-                + "/" + Config.POSTGRES_DATABASENAME;
-        HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
-        HibernateUtil.beginTransaction();
-        boolean dumpOk = false;
+        boolean dumpOk = true;
 
         try {
+            HibernateUtil.buildSessionFactory(
+                    Config.getDbConnectionUrl(), Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
+            HibernateUtil.beginTransaction();
+            dumpOk = false;
+
             log.info("Querying database...");
             SqlDataBundle bundle = buildBundle();
 
@@ -84,6 +82,8 @@ public final class DumpDatabase {
             log.info("Dump completed.");
         } catch (IOException e) {
             log.severe("Failed to write dump file '" + dumpFile + "'", e);
+        } catch (Exception e) {
+            log.severe("Unexpected error", e);
         } finally {
             if (!dumpOk) {
                 HibernateUtil.rollbackTransaction();

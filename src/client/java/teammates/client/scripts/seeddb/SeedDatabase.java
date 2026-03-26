@@ -28,7 +28,8 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 
 /**
- * Seeds the development database with mock data.
+ * Seeds the development database with mock data. If --seedFile is not specified, seeds from the default
+ * seeding databundle file at {@code src/client/resources/SeedingDatabundle.json}
  *
  * <p>Usage: {@code ./gradlew seedDatabase [--reset] [--noSeed] [--seedFile <path>]}
  *
@@ -64,28 +65,24 @@ public final class SeedDatabase {
         for (int i = 0; i < args.length; i++) {
             String arg = args[i];
             switch (arg) {
-            case "--reset":
-                reset = true;
-                break;
-            case "--noSeed":
-                noSeed = true;
-                break;
-            case "--seedFile":
-                seedFile = args[i + 1];
-                break;
-            default:
+            case "--reset" -> reset = true;
+            case "--noSeed" -> noSeed = true;
+            case "--seedFile" -> seedFile = args[i + 1];
+            default -> {
                 // Unrecognised arguments handled by gradle
+            }
             }
         }
 
-        String dbUrl = "jdbc:postgresql://" + Config.POSTGRES_HOST + ":" + Config.POSTGRES_PORT
-                + "/" + Config.POSTGRES_DATABASENAME;
-        HibernateUtil.buildSessionFactory(dbUrl, Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
-        LogicStarter.initializeDependencies();
-        HibernateUtil.beginTransaction();
-        boolean committed = false;
+        boolean committed = true;
 
         try {
+            HibernateUtil.buildSessionFactory(
+                    Config.getDbConnectionUrl(), Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
+            LogicStarter.initializeDependencies();
+            HibernateUtil.beginTransaction();
+            committed = false;
+
             if (reset) {
                 log.info("Truncating all tables...");
                 HibernateUtil.createNativeMutationQuery(TRUNCATE_SQL).executeUpdate();
@@ -98,12 +95,7 @@ public final class SeedDatabase {
                 return;
             }
 
-            if (DEFAULT_SEED_FILE.equals(seedFile)) {
-                log.info("Seeding from default databundle file: " + DEFAULT_SEED_FILE);
-            } else {
-                log.info("Seeding from specified databundle file: " + seedFile);
-            }
-
+            log.info("Seeding from databundle file: " + seedFile);
             String jsonString = teammates.test.FileHelper.readFile(seedFile);
             SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(applyDateTokens(jsonString));
             Logic.inst().persistDataBundle(bundle);
@@ -126,6 +118,8 @@ public final class SeedDatabase {
             log.severe("Entity already exists", e);
         } catch (EntityDoesNotExistException e) {
             log.severe("Seed file references an entity that does not exist", e);
+        } catch (Exception e) {
+            log.severe("Unexpected error", e);
         } finally {
             if (!committed) {
                 HibernateUtil.rollbackTransaction();
@@ -149,7 +143,7 @@ public final class SeedDatabase {
             courseById.put(course.getId(), course);
         }
 
-        // Deduplicate instructors by email — one person may appear in multiple courses
+        // Deduplicate instructors by email
         Map<String, Instructor> uniqueByEmailInstructors = new LinkedHashMap<>();
         for (Instructor inst : seedBundle.instructors.values()) {
             uniqueByEmailInstructors.putIfAbsent(inst.getEmail(), inst);
@@ -169,11 +163,9 @@ public final class SeedDatabase {
                     "demo.date1", d1, "demo.date2", d2, "demo.date3", d3,
                     "demo.date4", d4, "demo.date5", d5);
 
-            // deserializeDataBundle regenerates all placeholder UUIDs
             SqlDataBundle demoBundle = DataBundleLogic.deserializeDataBundle(json);
             logic.persistDataBundle(demoBundle);
 
-            // Link the demo-course instructor entity to the already-persisted account.
             List<Instructor> instructors = logic.getInstructorsByCourse(courseId);
             if (!instructors.isEmpty()) {
                 logic.joinCourseForInstructor(instructors.get(0).getRegKey(), inst.getEmail());
