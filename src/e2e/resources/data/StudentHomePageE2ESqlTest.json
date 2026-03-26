@@ -220,28 +220,28 @@
             "course": {
                 "id": "tm.e2e.SHome.CS2104"
             },
-            "name": "None"
+            "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
         },
         "ProgrammingMethodologyNone": {
             "id": "00000000-0000-4000-8000-000000000102",
             "course": {
                 "id": "tm.e2e.SHome.CS1101"
             },
-            "name": "None"
+            "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
         },
         "ProgrammingLanguageImplementationNone": {
             "id": "00000000-0000-4000-8000-000000000103",
             "course": {
                 "id": "tm.e2e.SHome.CS4215"
             },
-            "name": "None"
+            "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
         },
         "DatabaseDesignNone": {
             "id": "00000000-0000-4000-8000-000000000104",
             "course": {
                 "id": "tm.e2e.SHome.CS4221"
             },
-            "name": "None"
+            "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
         }
     },
     "teams": {

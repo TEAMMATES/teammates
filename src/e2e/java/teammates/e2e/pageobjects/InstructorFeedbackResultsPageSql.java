@@ -16,6 +16,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.Const;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
@@ -1101,7 +1102,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                     .map(Student::getSectionName)
                     .orElse(null);
         } else if (type == FeedbackParticipantType.INSTRUCTORS || type == FeedbackParticipantType.NONE) {
-            sectionName = "None";
+            sectionName = Const.DEFAULT_SECTION;
         } else {
             sectionName = students.stream()
                     .filter(student -> student.getEmail().equals(participant))
@@ -1112,7 +1113,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         if (sectionName == null) {
             throw new RuntimeException("cannot find section name for " + participant);
         }
-        if ("None".equals(sectionName)) {
+        if (Const.DEFAULT_SECTION.equals(sectionName)) {
             sectionName = NO_SECTION_LABEL;
         }
         return sectionName;
@@ -1124,7 +1125,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         } else if (type == FeedbackParticipantType.TEAMS) {
             return participant;
         } else if (type == FeedbackParticipantType.INSTRUCTORS) {
-            return "Instructors";
+            return Const.USER_TEAM_FOR_INSTRUCTOR;
         }
         String teamName = students.stream()
                 .filter(student -> student.getEmail().equals(participant))

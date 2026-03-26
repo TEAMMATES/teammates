@@ -52,14 +52,14 @@
       "course": {
         "id": "tm.e2e.ICs.CS1101"
       },
-      "name": "None"
+      "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     },
     "ICs.Section1InCS1231": {
       "id": "00000000-0000-4000-8000-000000000102",
       "course": {
         "id": "tm.e2e.ICs.CS1231"
       },
-      "name": "None"
+      "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     }
   },
   "teams": {

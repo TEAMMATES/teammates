@@ -14,7 +14,7 @@
         "name": "student1OfTeam1",
         "joinState": "JOINED",
         "teamName": "Team 1",
-        "sectionName": "None"
+        "sectionName": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
       },
       {
         "courseId": "studentListWithoutSection",
@@ -22,7 +22,7 @@
         "name": "student2OfTeam1",
         "joinState": "JOINED",
         "teamName": "Team 1",
-        "sectionName": "None"
+        "sectionName": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
       },
       {
         "courseId": "studentListWithoutSection",
@@ -30,7 +30,7 @@
         "name": "student1OfTeam2",
         "joinState": "JOINED",
         "teamName": "Team 2",
-        "sectionName": "None"
+        "sectionName": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
       },
       {
         "courseId": "studentListWithoutSection",
@@ -38,7 +38,7 @@
         "name": "student1OfNoTeam",
         "joinState": "JOINED",
         "teamName": "N/A",
-        "sectionName": "None"
+        "sectionName": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
       },
       {
         "courseId": "studentListWithoutSection",
@@ -46,7 +46,7 @@
         "name": "student1OfTeam3",
         "joinState": "JOINED",
         "teamName": "Team 3",
-        "sectionName": "None"
+        "sectionName": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
       },
       {
         "courseId": "studentListWithoutSection",
@@ -54,7 +54,7 @@
         "name": "student2OfTeam3",
         "joinState": "NOT_JOINED",
         "teamName": "Team 3",
-        "sectionName": "None"
+        "sectionName": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
       }
     ]
   }

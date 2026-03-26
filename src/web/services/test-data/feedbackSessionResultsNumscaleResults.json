@@ -34,13 +34,13 @@
           "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDkM%instructor1@course1.tmt%instructor1@course1.tmt",
           "giver": "Instructor1 Course1",
           "relatedGiverEmail": "instructor1@course1.tmt",
-          "giverTeam": "Instructors",
+          "giverTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
           "giverEmail": "instructor1@course1.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "Instructor1 Course1",
-          "recipientTeam": "Instructors",
+          "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
           "recipientEmail": "instructor1@course1.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": 4.5,
             "questionType": "NUMSCALE"
@@ -52,13 +52,13 @@
           "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDkM%instructor2@course1.tmt%instructor2@course1.tmt",
           "giver": "Instructor2 Course1",
           "relatedGiverEmail": "instructor2@course1.tmt",
-          "giverTeam": "Instructors",
+          "giverTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
           "giverEmail": "instructor2@course1.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "Instructor2 Course1",
-          "recipientTeam": "Instructors",
+          "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
           "recipientEmail": "instructor2@course1.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": 1.0,
             "questionType": "NUMSCALE"
@@ -70,13 +70,13 @@
           "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDkM%instructor3@course1.tmt%instructor3@course1.tmt",
           "giver": "Instructor3 Course1",
           "relatedGiverEmail": "instructor3@course1.tmt",
-          "giverTeam": "Instructors",
+          "giverTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
           "giverEmail": "instructor3@course1.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "Instructor3 Course1",
-          "recipientTeam": "Instructors",
+          "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
           "recipientEmail": "instructor3@course1.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -133,11 +133,11 @@
           "relatedGiverEmail": "student1InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student1InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student1 In Course1</td></div>'\"",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student1InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": 3.5,
             "questionType": "NUMSCALE"
@@ -151,11 +151,11 @@
           "relatedGiverEmail": "student2InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student2InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student2 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student2InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": 2.0,
             "questionType": "NUMSCALE"
@@ -178,11 +178,11 @@
           "relatedGiverEmail": "student5InCourse1@gmail.tmt",
           "giverTeam": "Team 1.2",
           "giverEmail": "student5InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student5 In Course1",
           "recipientTeam": "Team 1.2",
           "recipientEmail": "student5InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -196,11 +196,11 @@
           "relatedGiverEmail": "student4InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student4InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student4 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student4InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -214,11 +214,11 @@
           "relatedGiverEmail": "student3InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student3InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student3 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student3InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"

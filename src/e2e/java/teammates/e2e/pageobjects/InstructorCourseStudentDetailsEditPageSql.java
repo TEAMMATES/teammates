@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.Const;
 import teammates.storage.sqlentity.Student;
 
 /**
@@ -52,7 +53,7 @@ public class InstructorCourseStudentDetailsEditPageSql extends AppPage {
         assertEquals(student.getCourseId(), courseId.getText());
         assertEquals(student.getName(), studentNameTextbox.getAttribute("value"));
         if (student.getSection() == null) {
-            assertEquals("None", sectionNameTextbox.getAttribute("value"));
+            assertEquals(Const.DEFAULT_SECTION, sectionNameTextbox.getAttribute("value"));
         } else {
             assertEquals(student.getSectionName(), sectionNameTextbox.getAttribute("value"));
         }
