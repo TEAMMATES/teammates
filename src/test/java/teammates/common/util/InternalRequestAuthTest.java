@@ -3,11 +3,11 @@ package teammates.common.util;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.test.BaseTestCase;
 
@@ -23,7 +23,8 @@ public class InternalRequestAuthTest extends BaseTestCase {
         configuredSecret = Config.CRON_AND_WORKER_SECRET;
         if (configuredSecret == null || configuredSecret.trim().isEmpty()) {
             throw new SkipException(
-                    "InternalRequestAuth tests require app.cron.and.worker.secret in build.properties (see build.template.properties).");
+                    "InternalRequestAuth tests require app.cron.and.worker.secret in build.properties "
+                            + "(see build.template.properties).");
         }
     }
 
