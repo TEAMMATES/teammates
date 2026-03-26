@@ -12,8 +12,6 @@ import java.time.Instant;
  */
 public final class Const {
 
-    // This section holds constants that are defined as constants primarily because they are repeated in many places.
-
     public static final String USER_NOBODY_TEXT = "-";
 
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
@@ -44,8 +42,6 @@ public final class Const {
 
     public static final Duration STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = Duration.ofMinutes(15);
     public static final Duration STUDENT_ACTIVITY_LOGS_FILTER_WINDOW = Duration.ofSeconds(2);
-
-    public static final String ACCOUNT_REQUEST_NOT_FOUND = "Account request with id = %s not found";
 
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
@@ -244,24 +240,6 @@ public final class Const {
 
         public static final String CSRF_COOKIE_NAME = "CSRF-TOKEN";
         public static final String AUTH_COOKIE_NAME = "AUTH-TOKEN";
-
-    }
-
-    /**
-     * Represents URIs of accessible pages in the front-end in past versions (V6 and before).
-     */
-    @Deprecated
-    public static class LegacyURIs {
-
-        public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
-        public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
-        public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
-        public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
-        public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
-        public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
-        public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
-        public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
 
     }
 
