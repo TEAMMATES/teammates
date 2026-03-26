@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthProvider } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpRequestService } from './http-request.service';
 import { environment } from '../environments/environment';
@@ -48,7 +48,7 @@ export class AuthService {
    */
   getAuthTypes(): Observable<string[]> {
     if (!this.cachedAuthInfo$) {
-      this.cachedAuthInfo$ = this.getAuthUser().pipe(shareReplay(1));
+      this.cachedAuthInfo$ = this.getAuthUser();
     }
     return this.cachedAuthInfo$.pipe(map((auth: AuthInfo) => auth.authTypes ?? []));
   }

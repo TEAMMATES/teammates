@@ -3,8 +3,8 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, flush, waitForAsync } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { StatusMessageService } from '../services/status-message.service';
 import { PageComponent } from './page.component';
+import { StatusMessageService } from '../services/status-message.service';
 
 describe('PageComponent', () => {
   let component: PageComponent;

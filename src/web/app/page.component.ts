@@ -211,6 +211,7 @@ export class PageComponent {
 
   /**
    * Opens the auth provider selection modal for the given role.
+   *
    * @param role - 'student' or 'instructor'
    */
   openProviderModal(role: 'student' | 'instructor'): void {
@@ -221,6 +222,7 @@ export class PageComponent {
   /**
    * Logs in with the selected auth provider and role.
    * Constructs the appropriate login URL with provider parameter and redirects.
+   *
    * @param provider - 'google' or 'entra'
    */
   loginWithProvider(provider: 'google' | 'entra'): void {
@@ -234,7 +236,7 @@ export class PageComponent {
       student: '/web/student/home',
       instructor: '/web/instructor/home',
     };
-    
+
     const nextUrl = nextUrlMap[this.currentRole] || '/';
 
     // Construct login URL with provider parameter
