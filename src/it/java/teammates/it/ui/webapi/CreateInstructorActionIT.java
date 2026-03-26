@@ -3,8 +3,10 @@ package teammates.it.ui.webapi;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
@@ -17,11 +19,18 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link CreateInstructorAction}.
  */
 public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorAction> {
+
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
         persistDataBundle(typicalBundle);
+
+        // Ensure the admin account exists for email sending
+        String adminId = Config.APP_ADMINS.get(0);
+        Account inviter = new Account(adminId, "Admin", "admin@test.tmt");
+        logic.createAccount(inviter);
+
         HibernateUtil.flushSession();
     }
 
@@ -75,10 +84,9 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
     @Test
     protected void testExecute_uniqueEmailClash_shouldFail() throws Exception {
+        loginAsAdmin();
 
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-
-        loginAsAdmin();
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),

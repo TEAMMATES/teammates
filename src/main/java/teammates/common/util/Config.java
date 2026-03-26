@@ -99,6 +99,24 @@ public final class Config {
     /** Value of {@code app.email.service}. */
     public static final String EMAIL_SERVICE;
 
+    /** Value of {@code app.smtp.host}. */
+    public static final String SMTP_HOST;
+
+    /** Value of {@code app.smtp.port}. */
+    public static final String SMTP_PORT;
+
+    /** Value of {@code app.smtp.security.protocol}. */
+    public static final String SMTP_SECURITY_PROTOCOL;
+
+    /** Value of {@code app.smtp.auth}. */
+    public static final String SMTP_AUTH;
+
+    /** Value of {@code app.smtp.username}. */
+    public static final String SMTP_USERNAME;
+
+    /** Value of {@code app.smtp.password}. */
+    public static final String SMTP_PASSWORD;
+
     /** Value of {@code app.sendgrid.apikey}. */
     public static final String SENDGRID_APIKEY;
 
@@ -178,6 +196,12 @@ public final class Config {
         EMAIL_SENDERNAME = getProperty(properties, devProperties, "app.email.sendername");
         EMAIL_REPLYTO = getProperty(properties, devProperties, "app.email.replyto");
         EMAIL_SERVICE = getProperty(properties, devProperties, "app.email.service");
+        SMTP_HOST = getProperty(properties, devProperties, "app.smtp.host");
+        SMTP_PORT = getProperty(properties, devProperties, "app.smtp.port");
+        SMTP_AUTH = getProperty(properties, devProperties, "app.smtp.auth");
+        SMTP_USERNAME = getProperty(properties, devProperties, "app.smtp.username");
+        SMTP_PASSWORD = getProperty(properties, devProperties, "app.smtp.password");
+        SMTP_SECURITY_PROTOCOL = getProperty(properties, devProperties, "app.smtp.security.protocol");
         SENDGRID_APIKEY = getProperty(properties, devProperties, "app.sendgrid.apikey");
         MAILGUN_APIKEY = getProperty(properties, devProperties, "app.mailgun.apikey");
         MAILGUN_DOMAINNAME = getProperty(properties, devProperties, "app.mailgun.domainname");
@@ -329,4 +353,19 @@ public final class Config {
                 && MAILJET_SECRETKEY != null && !MAILJET_SECRETKEY.isEmpty();
     }
 
+    /**
+     * Indicates whether SMTP email service is used.
+     * @return true if SMTP email service is properly configured and can be used; false otherwise.
+     */
+    public static boolean isUsingSmtp() {
+        boolean isSecurityProtocolValid = "ssl".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL)
+                || "starttls".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL);
+        boolean isSmtpAuthValid = "true".equalsIgnoreCase(SMTP_AUTH) || "false".equalsIgnoreCase(SMTP_AUTH);
+        boolean isAuthEnabled = "true".equalsIgnoreCase(SMTP_AUTH);
+        boolean isCredentialValid = !StringHelper.isEmpty(SMTP_USERNAME) && !StringHelper.isEmpty(SMTP_PASSWORD);
+
+        return "smtp".equalsIgnoreCase(EMAIL_SERVICE)
+                && !StringHelper.isEmpty(SMTP_HOST) && !StringHelper.isEmpty(SMTP_PORT)
+                && isSecurityProtocolValid && isSmtpAuthValid && (!isAuthEnabled || isCredentialValid);
+    }
 }
