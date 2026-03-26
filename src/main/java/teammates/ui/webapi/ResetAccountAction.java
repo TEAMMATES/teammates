@@ -1,7 +1,12 @@
 package teammates.ui.webapi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
+import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 
@@ -20,6 +25,10 @@ public class ResetAccountAction extends AdminOnlyAction {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        Course course = sqlLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityNotFoundException("Course does not exist");
+        }
 
         if (studentEmail != null) {
             Student existingStudent = sqlLogic.getStudentForEmail(courseId, studentEmail);
@@ -29,8 +38,15 @@ public class ResetAccountAction extends AdminOnlyAction {
             }
 
             try {
-                sqlLogic.resetStudentGoogleId(studentEmail, courseId, existingStudent.getGoogleId());
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, true);
+                if (existingStudent.getGoogleId() != null) {
+                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, existingStudent.getGoogleId());
+                }
+                // Generate and queue rejoin email to priority queue
+                EmailWrapper email = sqlEmailGenerator
+                        .generateStudentCourseRejoinEmailAfterGoogleIdReset(course, existingStudent);
+                List<EmailWrapper> emails = new ArrayList<>();
+                emails.add(email);
+                taskQueuer.scheduleEmailsForPrioritySending(emails);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
@@ -42,8 +58,15 @@ public class ResetAccountAction extends AdminOnlyAction {
             }
 
             try {
-                sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, existingInstructor.getGoogleId());
-                taskQueuer.scheduleCourseRegistrationInviteToInstructor(null, instructorEmail, courseId, true);
+                if (existingInstructor.getGoogleId() != null) {
+                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, existingInstructor.getGoogleId());
+                }
+                // Generate and queue rejoin email to priority queue
+                EmailWrapper email = sqlEmailGenerator
+                        .generateInstructorCourseRejoinEmailAfterGoogleIdReset(existingInstructor, course);
+                List<EmailWrapper> emails = new ArrayList<>();
+                emails.add(email);
+                taskQueuer.scheduleEmailsForPrioritySending(emails);
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }

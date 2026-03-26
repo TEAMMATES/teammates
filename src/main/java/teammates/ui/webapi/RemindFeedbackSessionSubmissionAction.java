@@ -1,8 +1,13 @@
 package teammates.ui.webapi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -47,8 +52,30 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         String[] usersToRemind = remindRequest.getUsersToRemind();
         boolean isSendingCopyToInstructor = remindRequest.getIsSendingCopyToInstructor();
 
-        taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName,
-                usersToRemind, userInfo.getId(), isSendingCopyToInstructor);
+        // Generate reminder emails for specified users
+        List<Student> studentsToRemindList = new ArrayList<>();
+        List<Instructor> instructorsToRemindList = new ArrayList<>();
+        Instructor instructorToNotify = isSendingCopyToInstructor
+                ? sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId())
+                : null;
+
+        for (String userEmail : usersToRemind) {
+            Student student = sqlLogic.getStudentForEmail(courseId, userEmail);
+            if (student != null) {
+                studentsToRemindList.add(student);
+            }
+
+            Instructor instructor = sqlLogic.getInstructorForEmail(courseId, userEmail);
+            if (instructor != null) {
+                instructorsToRemindList.add(instructor);
+            }
+        }
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
+                feedbackSession, studentsToRemindList, instructorsToRemindList, instructorToNotify);
+
+        // Queue to priority queue for immediate sending (user-triggered)
+        taskQueuer.scheduleEmailsForPrioritySending(emails);
 
         return new JsonResult("Reminders sent");
     }
