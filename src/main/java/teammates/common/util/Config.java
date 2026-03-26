@@ -13,9 +13,6 @@ import java.util.Properties;
  */
 public final class Config {
 
-    private static final int LEGACY_ENCRYPTION_KEY_HEX_LENGTH = 32;
-    private static final int ENCRYPTION_KEY_HEX_LENGTH = 64;
-
     /** The value of the "app.id" in build.properties file. */
     public static final String APP_ID;
 
@@ -119,6 +116,9 @@ public final class Config {
 
     /** Indicates whether the current server is dev server. */
     public static final boolean IS_DEV_SERVER;
+
+    private static final int LEGACY_ENCRYPTION_KEY_HEX_LENGTH = 32;
+    private static final int ENCRYPTION_KEY_HEX_LENGTH = 64;
 
     private static final Logger log = Logger.getLogger();
 
