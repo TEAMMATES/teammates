@@ -1,8 +1,11 @@
 package teammates.ui.webapi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -58,30 +61,41 @@ public class SendJoinReminderEmailAction extends Action {
         JsonResult statusMsg;
 
         if (isSendingToStudent) {
-            taskQueuer.scheduleCourseRegistrationInviteToStudent(courseId, studentEmail, false);
             Student studentData = sqlLogic.getStudentForEmail(courseId, studentEmail);
             if (studentData == null) {
                 throw new EntityNotFoundException(
                         "Student with email " + studentEmail + " does not exist in course " + courseId + "!");
             }
+            EmailWrapper email = sqlEmailGenerator.generateStudentCourseJoinEmail(course, studentData);
+            List<EmailWrapper> emails = new ArrayList<>();
+            emails.add(email);
+            taskQueuer.scheduleEmailsForPrioritySending(emails);
             statusMsg = new JsonResult("An email has been sent to " + studentEmail);
 
         } else if (isSendingToInstructor) {
-            taskQueuer.scheduleCourseRegistrationInviteToInstructor(userInfo.id,
-                    instructorEmail, courseId, false);
-
             Instructor instructorData = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
             if (instructorData == null) {
                 throw new EntityNotFoundException(
                         "Instructor with email " + instructorEmail + " does not exist in course " + courseId + "!");
             }
+            Account inviter = sqlLogic.getAccountForGoogleId(userInfo.id);
+            if (inviter == null) {
+                throw new EntityNotFoundException("Inviter account does not exist.");
+            }
+            EmailWrapper email = sqlEmailGenerator.generateInstructorCourseJoinEmail(inviter, instructorData, course);
+            List<EmailWrapper> emails = new ArrayList<>();
+            emails.add(email);
+            taskQueuer.scheduleEmailsForPrioritySending(emails);
             statusMsg = new JsonResult("An email has been sent to " + instructorEmail);
 
         } else {
             List<Student> studentDataList = sqlLogic.getUnregisteredStudentsForCourse(courseId);
+            List<EmailWrapper> emails = new ArrayList<>();
             for (Student student : studentDataList) {
-                taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail(), false);
+                EmailWrapper email = sqlEmailGenerator.generateStudentCourseJoinEmail(course, student);
+                emails.add(email);
             }
+            taskQueuer.scheduleEmailsForPrioritySending(emails);
             statusMsg = new JsonResult("Emails have been sent to unregistered students.");
         }
 

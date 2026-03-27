@@ -95,6 +95,24 @@ public final class Config {
     /** The value of the "app.email.service" in build.properties file. */
     public static final String EMAIL_SERVICE;
 
+    /** The value of the "app.smtp.host" in build.properties file. */
+    public static final String SMTP_HOST;
+
+    /** The value of the "app.smtp.port" in build.properties file. */
+    public static final String SMTP_PORT;
+
+    /** The value of the "app.smtp.security.protocol" in build.properties file. */
+    public static final String SMTP_SECURITY_PROTOCOL;
+
+    /** The value of the "app.smtp.auth" in build.properties file. */
+    public static final String SMTP_AUTH;
+
+    /** The value of the "app.smtp.username" in build.properties file. */
+    public static final String SMTP_USERNAME;
+
+    /** The value of the "app.smtp.password" in build.properties file. */
+    public static final String SMTP_PASSWORD;
+
     /** The value of the "app.sendgrid.apikey" in build.properties file. */
     public static final String SENDGRID_APIKEY;
 
@@ -180,6 +198,12 @@ public final class Config {
         EMAIL_SENDERNAME = getProperty(properties, devProperties, "app.email.sendername");
         EMAIL_REPLYTO = getProperty(properties, devProperties, "app.email.replyto");
         EMAIL_SERVICE = getProperty(properties, devProperties, "app.email.service");
+        SMTP_HOST = getProperty(properties, devProperties, "app.smtp.host");
+        SMTP_PORT = getProperty(properties, devProperties, "app.smtp.port");
+        SMTP_AUTH = getProperty(properties, devProperties, "app.smtp.auth");
+        SMTP_USERNAME = getProperty(properties, devProperties, "app.smtp.username");
+        SMTP_PASSWORD = getProperty(properties, devProperties, "app.smtp.password");
+        SMTP_SECURITY_PROTOCOL = getProperty(properties, devProperties, "app.smtp.security.protocol");
         SENDGRID_APIKEY = getProperty(properties, devProperties, "app.sendgrid.apikey");
         MAILGUN_APIKEY = getProperty(properties, devProperties, "app.mailgun.apikey");
         MAILGUN_DOMAINNAME = getProperty(properties, devProperties, "app.mailgun.domainname");
@@ -332,6 +356,22 @@ public final class Config {
     public static boolean isUsingMailjet() {
         return "mailjet".equalsIgnoreCase(EMAIL_SERVICE) && MAILJET_APIKEY != null && !MAILJET_APIKEY.isEmpty()
                 && MAILJET_SECRETKEY != null && !MAILJET_SECRETKEY.isEmpty();
+    }
+
+    /**
+     * Indicates whether SMTP email service is used.
+     * @return true if SMTP email service is properly configured and can be used; false otherwise.
+     */
+    public static boolean isUsingSmtp() {
+        boolean isSecurityProtocolValid = "ssl".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL)
+                || "starttls".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL);
+        boolean isSmtpAuthValid = "true".equalsIgnoreCase(SMTP_AUTH) || "false".equalsIgnoreCase(SMTP_AUTH);
+        boolean isAuthEnabled = "true".equalsIgnoreCase(SMTP_AUTH);
+        boolean isCredentialValid = !StringHelper.isEmpty(SMTP_USERNAME) && !StringHelper.isEmpty(SMTP_PASSWORD);
+
+        return "smtp".equalsIgnoreCase(EMAIL_SERVICE)
+                && !StringHelper.isEmpty(SMTP_HOST) && !StringHelper.isEmpty(SMTP_PORT)
+                && isSecurityProtocolValid && isSmtpAuthValid && (!isAuthEnabled || isCredentialValid);
     }
 
     /**

@@ -399,37 +399,9 @@ public final class Const {
     public static class TaskQueue {
         public static final String URI_PREFIX = "/worker";
 
-        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =
-                "feedback-session-published-email-queue";
-        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionPublishedEmail";
-
-        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME =
-                "feedback-session-resend-published-email-queue";
-        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionResendPublishedEmail";
-
-        public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
-        public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = URI_PREFIX + "/feedbackSessionRemindEmail";
-
-        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME =
-                "feedback-session-remind-particular-users-email-queue";
-        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionRemindParticularUsersEmail";
-
-        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME =
-                "feedback-session-unpublished-email-queue";
-        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionUnpublishedEmail";
-
-        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
-        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/instructorCourseJoinEmail";
-
+        public static final String PRIORITY_EMAIL_QUEUE_NAME = "priority-email-queue";
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
-
-        public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
-        public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/studentCourseJoinEmail";
     }
 
 }

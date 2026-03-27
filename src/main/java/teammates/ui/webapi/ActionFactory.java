@@ -161,17 +161,7 @@ public final class ActionFactory {
         // Task queue workers; use POST request
         // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks
 
-        map(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, POST, FeedbackSessionPublishedEmailWorkerAction.class);
-        map(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, POST,
-                FeedbackSessionResendPublishedEmailWorkerAction.class);
-        map(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, POST, FeedbackSessionRemindEmailWorkerAction.class);
-        map(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, POST,
-                FeedbackSessionRemindParticularUsersEmailWorkerAction.class);
-        map(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, POST,
-                FeedbackSessionUnpublishedEmailWorkerAction.class);
-        map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, POST, InstructorCourseJoinEmailWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, POST, SendEmailWorkerAction.class);
-        map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, POST, StudentCourseJoinEmailWorkerAction.class);
 
     }
 
