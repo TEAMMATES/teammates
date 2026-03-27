@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "check:pr-script": "node --check .github/scripts/check-pr.js",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --configuration production",
