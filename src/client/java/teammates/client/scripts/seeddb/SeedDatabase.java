@@ -26,6 +26,7 @@ import teammates.sqllogic.core.DataBundleLogic;
 import teammates.sqllogic.core.LogicStarter;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
+import teammates.test.FileHelper;
 
 /**
  * Seeds the development database with mock data.
@@ -98,7 +99,7 @@ public final class SeedDatabase {
             }
 
             log.info("Seeding from databundle file: " + seedFile);
-            String jsonString = teammates.test.FileHelper.readFile(seedFile);
+            String jsonString = FileHelper.readFile(seedFile);
             SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(applyDateTokens(jsonString));
             Logic.inst().persistDataBundle(bundle);
 
