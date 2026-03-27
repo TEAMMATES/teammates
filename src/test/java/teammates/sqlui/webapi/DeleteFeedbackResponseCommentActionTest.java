@@ -9,6 +9,7 @@ import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCT
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -93,12 +94,13 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testExecute_nonExistentFeedbackResponseComment_failSilently() {
+        UUID nonExistentCommentId = UUID.fromString("00000000-0000-4000-8000-000000009999");
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123456",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, nonExistentCommentId.toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment((long) 123456))
+        when(mockLogic.getFeedbackResponseComment(nonExistentCommentId))
                 .thenReturn(null);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
@@ -635,7 +637,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 typicalStudent.getEmail());
-        feedbackResponseComment.setId((long) 1);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -654,7 +656,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 typicalInstructor.getEmail());
-        feedbackResponseComment.setId((long) 2);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -673,7 +675,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 typicalInstructor.getEmail());
-        feedbackResponseComment.setId((long) 3);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -696,7 +698,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 "first team");
-        feedbackResponseComment.setId((long) 4);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000004"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
