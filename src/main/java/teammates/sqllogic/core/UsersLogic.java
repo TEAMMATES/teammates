@@ -52,10 +52,6 @@ public final class UsersLogic {
             "You are trying enroll more than %s students in section \"%s\".";
     static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
             "To avoid performance problems, please do not enroll more than %s students in a single section.";
-    static final String ERROR_RESERVED_TEAM_NAME =
-            "This team name is reserved for the system. Please choose a different team name.";
-    static final String ERROR_RESERVED_SECTION_NAME =
-            "This section name is reserved for the system. Please choose a different section name.";
 
     private static final UsersLogic instance = new UsersLogic();
 
@@ -817,26 +813,6 @@ public final class UsersLogic {
 
         if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
             accountsLogic.deleteAccountCascade(googleId);
-        }
-    }
-
-    /**
-     * Rejects team/section strings reserved for instructors or internal use.
-     *
-     * @param sectionInput raw section from the enroll/update form (empty means default section will apply)
-     */
-    public void validateReservedTeamAndSectionForEnrollment(String teamName, String sectionInput)
-            throws EnrollException {
-        List<String> errors = new ArrayList<>();
-        if (Const.USER_TEAM_FOR_INSTRUCTOR.equals(teamName)) {
-            errors.add(ERROR_RESERVED_TEAM_NAME);
-        }
-        if (!sectionInput.isEmpty()
-                && (Const.DEFAULT_SECTION.equals(sectionInput))) {
-            errors.add(ERROR_RESERVED_SECTION_NAME);
-        }
-        if (!errors.isEmpty()) {
-            throw new EnrollException(String.join(" ", errors));
         }
     }
 

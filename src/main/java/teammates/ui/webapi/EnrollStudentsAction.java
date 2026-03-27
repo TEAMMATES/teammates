@@ -58,16 +58,6 @@ public class EnrollStudentsAction extends Action {
         List<StudentsEnrollRequest.StudentEnrollRequest> studentEnrollRequests = enrollRequests.getStudentEnrollRequests();
         Course course = sqlLogic.getCourse(courseId);
 
-        for (StudentsEnrollRequest.StudentEnrollRequest studentEnrollRequest : studentEnrollRequests) {
-            try {
-                sqlLogic.validateReservedTeamAndSectionForEnrollment(
-                        studentEnrollRequest.getTeam(),
-                        studentEnrollRequest.getSectionInput());
-            } catch (EnrollException e) {
-                throw new InvalidOperationException(e);
-            }
-        }
-
         List<Student> studentsToEnroll = new ArrayList<>();
         studentEnrollRequests.forEach(studentEnrollRequest -> {
             Section section = new Section(course, studentEnrollRequest.getSection());

@@ -32,6 +32,7 @@ public class StudentUpdateRequest extends BasicRequest {
         assertTrue(section != null, "section cannot be null");
         assertTrue(comments != null, "comments cannot be null");
         assertTrue(isSessionSummarySendEmail != null, "session summary boolean cannot be null");
+        EnrollmentReservedInputValidator.assertTeamAndSectionNotReserved(team, section);
     }
 
     public String getName() {
@@ -48,11 +49,6 @@ public class StudentUpdateRequest extends BasicRequest {
 
     public String getSection() {
         return this.section.isEmpty() ? Const.DEFAULT_SECTION : this.section;
-    }
-
-    /** Section as entered (may be empty); used for reserved-name validation. */
-    public String getSectionInput() {
-        return this.section;
     }
 
     public String getComments() {

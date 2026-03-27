@@ -15,7 +15,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
@@ -165,40 +164,6 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-    }
-
-    @Test
-    public void testValidateReservedTeamAndSectionForEnrollment_reservedTeam_throws() {
-        assertThrows(EnrollException.class,
-                () -> usersLogic.validateReservedTeamAndSectionForEnrollment(
-                        Const.USER_TEAM_FOR_INSTRUCTOR, ""));
-    }
-
-    @Test
-    public void testValidateReservedTeamAndSectionForEnrollment_emptySectionInput_ok()
-            throws EnrollException {
-        usersLogic.validateReservedTeamAndSectionForEnrollment("Team A", "");
-    }
-
-    @Test
-    public void testValidateReservedTeamAndSectionForEnrollment_explicitReservedSection_throws() {
-        assertThrows(EnrollException.class,
-                () -> usersLogic.validateReservedTeamAndSectionForEnrollment(
-                        "Team A", Const.DEFAULT_SECTION));
-    }
-
-    @Test
-    public void testValidateReservedTeamAndSectionForEnrollment_legacyStyleTeamNameInstructor_ok()
-            throws EnrollException {
-        // Only Const.USER_TEAM_FOR_INSTRUCTOR is blocked; plain "Instructor" is allowed.
-        usersLogic.validateReservedTeamAndSectionForEnrollment(
-                Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, "");
-    }
-
-    @Test
-    public void testValidateReservedTeamAndSectionForEnrollment_sectionNameNone_ok() throws EnrollException {
-        // Only Const.DEFAULT_SECTION is blocked when explicitly given; plain "None" is allowed.
-        usersLogic.validateReservedTeamAndSectionForEnrollment("Team A", "None");
     }
 
 }

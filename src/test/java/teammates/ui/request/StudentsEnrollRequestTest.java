@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const;
 import teammates.test.BaseTestCase;
 
 /**
@@ -43,6 +44,28 @@ public class StudentsEnrollRequestTest extends BaseTestCase {
                 assertThrows(InvalidHttpRequestBodyException.class, enrollRequest::validate);
         assertEquals(actualException.getMessage(),
                 "Error, duplicated email addresses detected in the input: " + duplicatedEmail);
+    }
+
+    @Test
+    public void testValidate_reservedTeam_shouldFail() {
+        StudentsEnrollRequest.StudentEnrollRequest request =
+                new StudentsEnrollRequest.StudentEnrollRequest("typical name", "typical0@email.com",
+                        Const.USER_TEAM_FOR_INSTRUCTOR, "typical section", "");
+        StudentsEnrollRequest enrollRequest = new StudentsEnrollRequest(Arrays.asList(request));
+        InvalidHttpRequestBodyException ex = assertThrows(InvalidHttpRequestBodyException.class,
+                enrollRequest::validate);
+        assertEquals(ex.getMessage(), EnrollmentReservedInputValidator.ERROR_RESERVED_TEAM_NAME);
+    }
+
+    @Test
+    public void testValidate_explicitReservedSection_shouldFail() {
+        StudentsEnrollRequest.StudentEnrollRequest request =
+                new StudentsEnrollRequest.StudentEnrollRequest("typical name", "typical0@email.com",
+                        "typical team", Const.DEFAULT_SECTION, "");
+        StudentsEnrollRequest enrollRequest = new StudentsEnrollRequest(Arrays.asList(request));
+        InvalidHttpRequestBodyException ex = assertThrows(InvalidHttpRequestBodyException.class,
+                enrollRequest::validate);
+        assertEquals(ex.getMessage(), EnrollmentReservedInputValidator.ERROR_RESERVED_SECTION_NAME);
     }
 
     private StudentsEnrollRequest.StudentEnrollRequest getTypicalStudentEnrollRequest(int index) {

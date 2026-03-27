@@ -1723,19 +1723,6 @@ public class Logic {
     }
 
     /**
-     * Rejects team/section strings reserved for instructors or internal use.
-     *
-     * @see teammates.sqllogic.core.UsersLogic#validateReservedTeamAndSectionForEnrollment(String, String)
-     */
-    public void validateReservedTeamAndSectionForEnrollment(String teamName, String sectionInput)
-            throws EnrollException {
-        assert teamName != null;
-        assert sectionInput != null;
-
-        usersLogic.validateReservedTeamAndSectionForEnrollment(teamName, sectionInput);
-    }
-
-    /**
      * Updates a feedback question by {@code FeedbackQuestionUpdateRequest}.
      *
      * <p>

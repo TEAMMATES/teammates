@@ -81,9 +81,6 @@ public class UpdateStudentAction extends Action {
         studentToUpdate.setId(existingStudent.getId());
 
         try {
-            sqlLogic.validateReservedTeamAndSectionForEnrollment(
-                    updateRequest.getTeam(),
-                    updateRequest.getSectionInput());
             sqlLogic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), courseId);
 
             sqlLogic.updateStudentCascade(studentToUpdate);

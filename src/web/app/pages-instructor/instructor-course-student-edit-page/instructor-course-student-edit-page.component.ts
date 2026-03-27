@@ -18,6 +18,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
+import { ApiStringConst } from '../../../types/api-const';
 import { StudentUpdateRequest } from '../../../types/api-request';
 import { FormValidator } from '../../../types/form-validator';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -203,11 +204,24 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Submits the form data to edit the student details.
    */
   submitEditForm(shouldResendPastSessionLinks: boolean): void {
+    const team: string = this.editForm.value['team-name'];
+    const section: string = this.editForm.value['section-name'];
+    if (team === ApiStringConst.USER_TEAM_FOR_INSTRUCTOR) {
+      this.statusMessageService.showErrorToast(
+          'This team name is reserved for the system. Please choose a different team name.');
+      return;
+    }
+    if (section !== '' && section === ApiStringConst.DEFAULT_SECTION) {
+      this.statusMessageService.showErrorToast(
+          'This section name is reserved for the system. Please choose a different section name.');
+      return;
+    }
+
     const reqBody: StudentUpdateRequest = {
       name: this.editForm.value['student-name'],
       email: this.editForm.value['new-student-email'],
-      team: this.editForm.value['team-name'],
-      section: this.editForm.value['section-name'],
+      team,
+      section,
       comments: this.editForm.value.comments,
       isSessionSummarySendEmail: shouldResendPastSessionLinks,
     };

@@ -11,6 +11,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { EnrollStudents, HasResponses, JoinState, Student, Students } from '../../../types/api-output';
+import { ApiStringConst } from '../../../types/api-const';
 import { StudentEnrollRequest, StudentsEnrollRequest } from '../../../types/api-request';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { AjaxPreloadComponent } from '../../components/ajax-preload/ajax-preload.component';
@@ -169,6 +170,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     this.checkCompulsoryFields(studentEnrollRequests);
+    this.checkReservedTeamAndSectionNames(studentEnrollRequests);
     this.checkEmailNotRepeated(studentEnrollRequests);
     this.checkTeamsValid(studentEnrollRequests);
 
@@ -278,6 +280,27 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
     if (currentStudentChunk.length > 0) {
       this.allStudentChunks.push(currentStudentChunk);
+    }
+  }
+
+  private checkReservedTeamAndSectionNames(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
+    const invalidRowsOriginalSize: number = this.invalidRowsIndex.size;
+
+    Array.from(studentEnrollRequests.keys()).forEach((key: number) => {
+      const request: StudentEnrollRequest | undefined = studentEnrollRequests.get(key);
+      if (request === undefined) {
+        return;
+      }
+
+      if (request.team === ApiStringConst.USER_TEAM_FOR_INSTRUCTOR) {
+        this.invalidRowsIndex.add(key);
+      }
+      if (request.section !== '' && request.section === ApiStringConst.DEFAULT_SECTION) {
+        this.invalidRowsIndex.add(key);
+      }
+    });
+    if (this.invalidRowsIndex.size > invalidRowsOriginalSize) {
+      this.enrollErrorMessage += 'Team or section cannot use a name reserved for the system. ';
     }
   }
 
