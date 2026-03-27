@@ -78,6 +78,7 @@ public final class SeedDatabase {
         }
 
         boolean committed = true;
+        boolean isUsingDefaultSeedFile = DEFAULT_SEED_FILE.equals(seedFile);
 
         try {
             HibernateUtil.buildSessionFactory(
@@ -100,10 +101,13 @@ public final class SeedDatabase {
 
             log.info("Seeding from databundle file: " + seedFile);
             String jsonString = FileHelper.readFile(seedFile);
-            SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(applyDateTokens(jsonString));
+            if (isUsingDefaultSeedFile) {
+                jsonString = applyDateTokens(jsonString);
+            }
+            SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(jsonString);
             Logic.inst().persistDataBundle(bundle);
 
-            if (DEFAULT_SEED_FILE.equals(seedFile)) {
+            if (isUsingDefaultSeedFile) {
                 log.info("Seeding additional demo courses for instructors...");
                 seedDemoCourses(Logic.inst(), bundle);
             }
