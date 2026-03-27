@@ -10,6 +10,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.Const;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
@@ -20,6 +21,9 @@ import teammates.test.ThreadHelper;
  * Represents the instructor course details page of the website.
  */
 public class InstructorCourseDetailsPageSql extends AppPage {
+    private static final String DEFAULT_SECTION_DISPLAY_LABEL = "No specific section";
+    private static final String INSTRUCTOR_TEAM_DISPLAY_LABEL = "Instructors";
+
     @FindBy(id = "course-id")
     private WebElement courseIdField;
 
@@ -114,13 +118,33 @@ public class InstructorCourseDetailsPageSql extends AppPage {
         String[][] expected = new String[students.size()][5];
         for (int i = 0; i < students.size(); i++) {
             Student student = students.get(i);
-            expected[i][0] = student.getSectionName();
-            expected[i][1] = student.getTeamName();
+            expected[i][0] = getSectionNameForUi(student.getSectionName());
+            expected[i][1] = getTeamNameForUi(student.getTeamName());
             expected[i][2] = student.getName();
             expected[i][3] = (student.getGoogleId() == null || student.getGoogleId().isEmpty()) ? "Yet to Join" : "Joined";
             expected[i][4] = student.getEmail();
         }
         return expected;
+    }
+
+    /**
+     * Maps reserved API section name to the label shown in the student table (same as the web roster display).
+     */
+    private String getSectionNameForUi(String sectionName) {
+        if (Const.DEFAULT_SECTION.equals(sectionName)) {
+            return DEFAULT_SECTION_DISPLAY_LABEL;
+        }
+        return sectionName;
+    }
+
+    /**
+     * Maps reserved API team name to the label shown in the student table (same as the web roster display).
+     */
+    private String getTeamNameForUi(String teamName) {
+        if (Const.USER_TEAM_FOR_INSTRUCTOR.equals(teamName)) {
+            return INSTRUCTOR_TEAM_DISPLAY_LABEL;
+        }
+        return teamName;
     }
 
     private WebElement getSendInviteButton(String studentEmailAddress) {

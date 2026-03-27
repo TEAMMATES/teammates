@@ -623,7 +623,8 @@ public abstract class AppPage {
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
         scrollElementToCenter(element);
-        element.click();
+        // Use script click so fixed headers (e.g. navbar logo) cannot intercept the native click in Firefox.
+        click(element);
     }
 
     /**

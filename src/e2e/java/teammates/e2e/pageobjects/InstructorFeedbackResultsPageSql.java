@@ -48,6 +48,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     private static final String NO_RESPONSE_LABEL = "No Response";
     private static final String NO_TEAM_LABEL = "No Specific Team";
     private static final String NO_SECTION_LABEL = "No specific section";
+    /** User-visible label for {@link Const#USER_TEAM_FOR_INSTRUCTOR} (matches roster display on the web UI). */
+    private static final String INSTRUCTOR_TEAM_DISPLAY_LABEL = "Instructors";
     private static final String NO_USER_LABEL = "No Specific User";
 
     private static final String MCQ_OTHER = "Other";
@@ -1125,7 +1127,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         } else if (type == FeedbackParticipantType.TEAMS) {
             return participant;
         } else if (type == FeedbackParticipantType.INSTRUCTORS) {
-            return Const.USER_TEAM_FOR_INSTRUCTOR;
+            return INSTRUCTOR_TEAM_DISPLAY_LABEL;
         }
         String teamName = students.stream()
                 .filter(student -> student.getEmail().equals(participant))
