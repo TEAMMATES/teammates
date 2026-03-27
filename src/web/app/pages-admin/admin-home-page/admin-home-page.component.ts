@@ -73,7 +73,7 @@ export class AdminHomePageComponent implements OnInit {
     const invalidLines: string[] = [];
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
-      if (instructorDetailSplit.length < 3) {
+      if (instructorDetailSplit.length < 4) {
         invalidLines.push(instructorDetail);
         continue;
       }

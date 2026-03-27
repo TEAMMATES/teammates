@@ -55,6 +55,7 @@ export class NewInstructorDataRowComponent implements OnInit {
     this.instructor.name = this.editedInstructorName;
     this.instructor.email = this.editedInstructorEmail;
     this.instructor.institution = this.editedInstructorInstitution;
+    this.instructor.country = this.editedInstructorCountry;
     this.setEditModeAndAlertParent(false);
   }
 

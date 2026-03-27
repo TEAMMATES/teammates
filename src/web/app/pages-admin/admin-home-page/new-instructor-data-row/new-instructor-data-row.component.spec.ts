@@ -23,7 +23,7 @@ describe('NewInstructorDataRowComponent', () => {
       name: 'Instructor',
       email: 'instructor@instruct.or',
       institution: 'Institutional Institution of Institute',
-      country: '',
+      country: 'Test Country',
       status: 'PENDING',
       isCurrentlyBeingEdited: false,
     };
@@ -49,6 +49,7 @@ describe('NewInstructorDataRowComponent', () => {
     expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
     expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
     expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
+    expect(component.editedInstructorCountry).toEqual(expectedInstructorData.country);
   });
 
   it('should display the instructor name received as input', () => {
@@ -70,6 +71,13 @@ describe('NewInstructorDataRowComponent', () => {
       .query(By.css(`#instructor-${expectedIndex}-institution`))
       .nativeElement.textContent;
     expect(displayedInstructorInstitution).toEqual(expectedInstructorData.institution);
+  });
+
+  it('should display the instructor country received as input', () => {
+    const displayedInstructorCountry: string = fixture.debugElement
+      .query(By.css(`#instructor-${expectedIndex}-country`))
+      .nativeElement.textContent;
+    expect(displayedInstructorCountry).toEqual(expectedInstructorData.country);
   });
 
   it('should have an add button that is not disabled when isAddDisabled is false', () => {
@@ -170,6 +178,7 @@ describe('NewInstructorDataRowComponent', () => {
     expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
     expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
     expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
+    expect(component.editedInstructorCountry).toEqual(expectedInstructorData.country);
   });
 
   it('should update the instructor details when the edit is confirmed', () => {
@@ -179,6 +188,7 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
+    component.editedInstructorCountry = 'Edited Country';
     const confirmButtonEl: any = fixture.debugElement
       .query(By.css(`#confirm-edit-instructor-${expectedIndex}`))
       .nativeElement;
@@ -187,6 +197,7 @@ describe('NewInstructorDataRowComponent', () => {
     expect(component.instructor.name).toEqual('Edited Name');
     expect(component.instructor.email).toEqual('Edited@ema.il');
     expect(component.instructor.institution).toEqual('Edited Institution');
+    expect(component.instructor.country).toEqual('Edited Country');
   });
 
   it('should not update the instructor details when the edit is cancelled', () => {
@@ -196,6 +207,7 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
+    component.editedInstructorCountry = 'Edited Country';
     const cancelButtonEl: any = fixture.debugElement
       .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
       .nativeElement;
@@ -204,6 +216,7 @@ describe('NewInstructorDataRowComponent', () => {
     expect(component.instructor.name).toEqual(expectedInstructorData.name);
     expect(component.instructor.email).toEqual(expectedInstructorData.email);
     expect(component.instructor.institution).toEqual(expectedInstructorData.institution);
+    expect(component.instructor.country).toEqual(expectedInstructorData.country);
   });
 
   it('should reset the edited instructor details when the edit is cancelled', () => {
@@ -213,6 +226,7 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
+    component.editedInstructorCountry = 'Edited Country';
     const cancelButtonEl: any = fixture.debugElement
       .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
       .nativeElement;
@@ -221,6 +235,7 @@ describe('NewInstructorDataRowComponent', () => {
     expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
     expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
     expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
+    expect(component.editedInstructorCountry).toEqual(expectedInstructorData.country);
   });
 
   it('should initially have the original instructor details when editing starts after a cancellation', () => {
@@ -230,6 +245,7 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
+    component.editedInstructorCountry = 'Edited Country';
     const cancelButtonEl: any = fixture.debugElement
       .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
       .nativeElement;
@@ -241,6 +257,7 @@ describe('NewInstructorDataRowComponent', () => {
     expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
     expect(component.editedInstructorEmail).toEqual(expectedInstructorData.email);
     expect(component.editedInstructorInstitution).toEqual(expectedInstructorData.institution);
+    expect(component.editedInstructorCountry).toEqual(expectedInstructorData.country);
   });
 
   it('should snap with default view', () => {
@@ -261,6 +278,7 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
+    component.editedInstructorCountry = 'Edited Country';
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -273,6 +291,7 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
+    component.editedInstructorCountry = 'Edited Country';
     const confirmButtonEl: any = fixture.debugElement
       .query(By.css(`#confirm-edit-instructor-${expectedIndex}`))
       .nativeElement;
@@ -289,6 +308,7 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
+    component.editedInstructorCountry = 'Edited Country';
     const cancelButtonEl: any = fixture.debugElement
       .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
       .nativeElement;

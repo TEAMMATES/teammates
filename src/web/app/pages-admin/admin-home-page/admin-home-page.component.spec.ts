@@ -185,6 +185,7 @@ describe('AdminHomePageComponent', () => {
         'Instructor B | instructorb@example.com',
         'Instructor C | | instructorc@example.com',
         'Instructor D | instructord@example.com | Institution D | Country D',
+        'Instructor F | instructorf@example.com | Institution F',
         '| instructore@example.com | Institution E',
     ].join('\n');
     fixture.detectChanges();
@@ -193,10 +194,11 @@ describe('AdminHomePageComponent', () => {
     button.click();
 
     expect(warningToastSpy).toHaveBeenCalledWith(
-        '3 line(s) could not be added. Each line must include name, email, institution, and country separated by | or tab.');
+        '4 line(s) could not be added. Each line must include name, email, institution, and country separated by | or tab.');
     expect(component.instructorDetails).toEqual([
       'Instructor B | instructorb@example.com',
       'Instructor C | | instructorc@example.com',
+      'Instructor F | instructorf@example.com | Institution F',
       '| instructore@example.com | Institution E',
     ].join('\r\n'));
     expect(component.instructorsConsolidated.length).toEqual(2);

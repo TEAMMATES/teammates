@@ -3,7 +3,7 @@
 exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
-  editedInstructorCountry=""
+  editedInstructorCountry={[Function String]}
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
@@ -36,6 +36,7 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
     <span
       id="instructor-0-country"
     >
+      Test Country
     </span>
   </td><td
     style="width: 17%;"
@@ -78,7 +79,7 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
 exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
-  editedInstructorCountry=""
+  editedInstructorCountry={[Function String]}
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
@@ -111,6 +112,7 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
     <span
       id="instructor-0-country"
     >
+      Test Country
     </span>
   </td><td
     style="width: 17%;"
@@ -153,7 +155,7 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
 exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
-  editedInstructorCountry=""
+  editedInstructorCountry={[Function String]}
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
@@ -186,6 +188,7 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
     <span
       id="instructor-0-country"
     >
+      Edited Country
     </span>
   </td><td
     style="width: 17%;"
@@ -228,7 +231,7 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
 exports[`NewInstructorDataRowComponent should snap with instructor details edited 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
-  editedInstructorCountry=""
+  editedInstructorCountry={[Function String]}
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
@@ -298,7 +301,7 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
 exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
-  editedInstructorCountry=""
+  editedInstructorCountry={[Function String]}
   editedInstructorEmail={[Function String]}
   editedInstructorInstitution={[Function String]}
   editedInstructorName={[Function String]}
