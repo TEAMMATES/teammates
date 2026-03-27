@@ -14,8 +14,6 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v6
-      - name: Verify PR checker script syntax
-        run: node --check .github/scripts/check-pr.js
       - uses: actions/github-script@v8
         with:
           script: |

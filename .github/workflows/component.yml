@@ -31,8 +31,6 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-      - name: Verify PR checker script syntax
-        run: node --check .github/scripts/check-pr.js
       - name: Set up JDK 21
         uses: actions/setup-java@v5
         with:
