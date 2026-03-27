@@ -380,9 +380,10 @@ public final class Config {
      * @throws IllegalStateException if the secret is missing or blank
      */
     public static void requireCronAndWorkerSecret() {
-        if (CRON_AND_WORKER_SECRET == null || CRON_AND_WORKER_SECRET.trim().isEmpty()) {
+        if (!InternalRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)) {
             throw new IllegalStateException(
-                    "app.cron.and.worker.secret must be set in build.properties for worker/cron requests.");
+                    "app.cron.and.worker.secret must be set in build.properties without leading or trailing "
+                            + "whitespace for worker/cron requests.");
         }
     }
 

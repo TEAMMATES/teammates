@@ -5,8 +5,6 @@ import static org.mockito.Mockito.when;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.testng.SkipException;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
@@ -16,17 +14,8 @@ import teammates.test.BaseTestCase;
  */
 public class InternalRequestAuthTest extends BaseTestCase {
 
-    private static String configuredSecret;
-
-    @BeforeClass
-    public static void verifyCronWorkerSecretConfigured() {
-        configuredSecret = Config.CRON_AND_WORKER_SECRET;
-        if (configuredSecret == null || configuredSecret.trim().isEmpty()) {
-            throw new SkipException(
-                    "InternalRequestAuth tests require app.cron.and.worker.secret in build.properties "
-                            + "(see build.template.properties).");
-        }
-    }
+    /** Fixed secret so bearer-trust tests do not depend on build.properties or CI config. */
+    private static final String TEST_CRON_WORKER_SECRET = "test-cron-worker-secret-for-unit-tests";
 
     private static HttpServletRequest mockRequest(String requestUri, String contextPath, String authorizationHeader) {
         HttpServletRequest req = mock(HttpServletRequest.class);
@@ -34,6 +23,11 @@ public class InternalRequestAuthTest extends BaseTestCase {
         when(req.getContextPath()).thenReturn(contextPath);
         when(req.getHeader("Authorization")).thenReturn(authorizationHeader);
         return req;
+    }
+
+    /** Root servlet context: use empty string, not null, for trusted-auth tests. */
+    private static HttpServletRequest mockTrustedRootContextRequest(String requestUri, String authorizationHeader) {
+        return mockRequest(requestUri, "", authorizationHeader);
     }
 
     @Test
@@ -110,50 +104,88 @@ public class InternalRequestAuthTest extends BaseTestCase {
 
     @Test
     public void testIsTrustedCronOrWorkerRequest_correctToken_cronPath() {
-        HttpServletRequest req = mockRequest("/auto/sync", null, "Bearer " + configuredSecret);
-        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(req));
+        HttpServletRequest req = mockTrustedRootContextRequest("/auto/sync", "Bearer " + TEST_CRON_WORKER_SECRET);
+        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
     }
 
     @Test
     public void testIsTrustedCronOrWorkerRequest_correctToken_workerPath() {
-        HttpServletRequest req = mockRequest("/worker/execute", null, "Bearer " + configuredSecret);
-        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(req));
+        HttpServletRequest req = mockTrustedRootContextRequest("/worker/execute", "Bearer " + TEST_CRON_WORKER_SECRET);
+        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
     }
 
     @Test
     public void testIsTrustedCronOrWorkerRequest_wrongToken() {
-        HttpServletRequest req = mockRequest("/auto/sync", null, "Bearer " + configuredSecret + "-wrong");
-        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req));
+        HttpServletRequest req = mockTrustedRootContextRequest("/auto/sync", "Bearer " + TEST_CRON_WORKER_SECRET + "-wrong");
+        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
     }
 
     @Test
     public void testIsTrustedCronOrWorkerRequest_correctToken_wrongPath() {
-        HttpServletRequest req = mockRequest("/webapi/something", null, "Bearer " + configuredSecret);
-        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req));
+        HttpServletRequest req = mockTrustedRootContextRequest("/webapi/something", "Bearer " + TEST_CRON_WORKER_SECRET);
+        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
     }
 
     @Test
     public void testIsTrustedCronOrWorkerRequest_withContextPath_validBearer() {
-        HttpServletRequest req = mockRequest("/teammates/auto/run", "/teammates", "Bearer " + configuredSecret);
-        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(req));
+        HttpServletRequest req = mockRequest("/teammates/auto/run", "/teammates", "Bearer " + TEST_CRON_WORKER_SECRET);
+        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
     }
 
     @Test
     public void testIsTrustedCronOrWorkerRequest_missingAuthorization() {
-        HttpServletRequest req = mockRequest("/auto/sync", null, null);
-        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req));
+        HttpServletRequest req = mockTrustedRootContextRequest("/auto/sync", null);
+        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
     }
 
     @Test
     public void testIsTrustedCronOrWorkerRequest_nonBearerAuthorization() {
-        HttpServletRequest req = mockRequest("/auto/sync", null, "Basic " + configuredSecret);
-        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req));
+        HttpServletRequest req = mockTrustedRootContextRequest("/auto/sync", "Basic " + TEST_CRON_WORKER_SECRET);
+        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
     }
 
     @Test
     public void testIsTrustedCronOrWorkerRequest_bearerEmptyToken() {
-        HttpServletRequest req = mockRequest("/auto/sync", null, "Bearer ");
-        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req));
+        HttpServletRequest req = mockTrustedRootContextRequest("/auto/sync", "Bearer ");
+        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
+    }
+
+    @Test
+    public void testIsTrustedCronOrWorkerRequest_bearerTokenTrimmingAccepted() {
+        String header = "Bearer   " + TEST_CRON_WORKER_SECRET + "   ";
+        HttpServletRequest cronReq = mockTrustedRootContextRequest("/auto/jobs", header);
+        HttpServletRequest workerReq = mockTrustedRootContextRequest("/worker/task", header);
+        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(cronReq, TEST_CRON_WORKER_SECRET));
+        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(workerReq, TEST_CRON_WORKER_SECRET));
+    }
+
+    @Test
+    public void testIsCronAndWorkerSecretWellFormed_rejectsSurroundingWhitespace() {
+        assertFalse(InternalRequestAuth.isCronAndWorkerSecretWellFormed("  " + TEST_CRON_WORKER_SECRET + "  "));
+        assertTrue(InternalRequestAuth.isCronAndWorkerSecretWellFormed(TEST_CRON_WORKER_SECRET));
+    }
+
+    @Test
+    public void testIsTrustedCronOrWorkerRequest_rootContextPath_emptyString() {
+        HttpServletRequest req = mockRequest("/auto/reminder", "", "Bearer " + TEST_CRON_WORKER_SECRET);
+        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
+    }
+
+    @Test
+    public void testIsTrustedCronOrWorkerRequest_nullContextPath_failClosed() {
+        HttpServletRequest req = mockRequest("/auto/sync", null, "Bearer " + TEST_CRON_WORKER_SECRET);
+        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
+    }
+
+    @Test
+    public void testTrustedCronVsWorkerPath_separation() {
+        HttpServletRequest cronReq = mockTrustedRootContextRequest("/auto/cronJob", "Bearer " + TEST_CRON_WORKER_SECRET);
+        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(cronReq, TEST_CRON_WORKER_SECRET));
+        assertFalse(InternalRequestAuth.isWorkerRequestPath(cronReq));
+
+        HttpServletRequest workerReq = mockTrustedRootContextRequest("/worker/run", "Bearer " + TEST_CRON_WORKER_SECRET);
+        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(workerReq, TEST_CRON_WORKER_SECRET));
+        assertTrue(InternalRequestAuth.isWorkerRequestPath(workerReq));
     }
 
     @Test
@@ -161,9 +193,17 @@ public class InternalRequestAuthTest extends BaseTestCase {
         HttpServletRequest req = mock(HttpServletRequest.class);
         when(req.getRequestURI()).thenReturn(null);
         when(req.getContextPath()).thenReturn("");
-        when(req.getHeader("Authorization")).thenReturn("Bearer " + configuredSecret);
+        when(req.getHeader("Authorization")).thenReturn("Bearer " + TEST_CRON_WORKER_SECRET);
 
-        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req));
+        assertFalse(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));
+    }
+
+    @Test
+    public void testIsTrustedCronOrWorkerRequest_publicApiMatchesExplicitConfigSecret() {
+        HttpServletRequest req = mockTrustedRootContextRequest("/auto/x", null);
+        assertEquals(
+                InternalRequestAuth.isTrustedCronOrWorkerRequest(req),
+                InternalRequestAuth.isTrustedCronOrWorkerRequest(req, Config.CRON_AND_WORKER_SECRET));
     }
 
 }

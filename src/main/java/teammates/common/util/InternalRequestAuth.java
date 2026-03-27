@@ -17,17 +17,31 @@ public final class InternalRequestAuth {
     }
 
     /**
+     * Returns true if {@code secret} is non-empty and has no leading or trailing whitespace.
+     * Misconfigured secrets must not be normalized via trimming — callers should fail closed instead.
+     */
+    public static boolean isCronAndWorkerSecretWellFormed(String secret) {
+        return secret != null && !secret.isEmpty() && secret.equals(secret.trim());
+    }
+
+    /**
      * Returns true if the request has a valid bearer token for cron or worker authentication
      * and the request URI targets a cron ({@code /auto/*}) or worker ({@code /worker/*}) path
      * (including the application context path prefix when present).
      */
     public static boolean isTrustedCronOrWorkerRequest(HttpServletRequest req) {
-        String secret = Config.CRON_AND_WORKER_SECRET;
-        if (secret == null) {
+        return isTrustedCronOrWorkerRequest(req, Config.CRON_AND_WORKER_SECRET);
+    }
+
+    /**
+     * Same as {@link #isTrustedCronOrWorkerRequest(HttpServletRequest)} but with an explicit expected secret
+     * (production uses {@link Config#CRON_AND_WORKER_SECRET}). Package-private for deterministic unit tests.
+     */
+    static boolean isTrustedCronOrWorkerRequest(HttpServletRequest req, String secret) {
+        if (req.getContextPath() == null) {
             return false;
         }
-        secret = secret.trim();
-        if (secret.isEmpty()) {
+        if (!isCronAndWorkerSecretWellFormed(secret)) {
             return false;
         }
         String auth = req.getHeader("Authorization");
