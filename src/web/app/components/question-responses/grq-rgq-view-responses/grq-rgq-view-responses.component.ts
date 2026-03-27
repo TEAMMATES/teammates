@@ -12,6 +12,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { formatTeamNameForDisplay } from '../../../../services/roster-display';
 import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
 import { PanelChevronComponent } from '../../panel-chevron/panel-chevron.component';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
@@ -78,6 +79,13 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
 
   constructor(private feedbackResponsesService: FeedbackResponsesService) {
     super();
+  }
+
+  /**
+   * Team panel title: reserved instructor team vs literal team name (matches roster display).
+   */
+  formatTeamTabLabel(teamKey: string): string {
+    return teamKey === '-' ? 'No Specific Team' : formatTeamNameForDisplay(teamKey);
   }
 
   ngOnInit(): void {
