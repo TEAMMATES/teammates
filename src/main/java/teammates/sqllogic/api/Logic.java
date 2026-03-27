@@ -1596,7 +1596,7 @@ public class Logic {
      * @param id of feedback response comment.
      * @return the specified feedback response comment.
      */
-    public FeedbackResponseComment getFeedbackResponseComment(Long id) {
+    public FeedbackResponseComment getFeedbackResponseComment(UUID id) {
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(id);
     }
 
@@ -1605,7 +1605,7 @@ public class Logic {
      *
      * @throws EntityDoesNotExistException if the comment does not exist
      */
-    public FeedbackResponseComment updateFeedbackResponseComment(Long frcId,
+    public FeedbackResponseComment updateFeedbackResponseComment(UUID frcId,
             FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
             throws EntityDoesNotExistException {
         return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updaterEmail);
@@ -1668,7 +1668,7 @@ public class Logic {
     /**
      * Deletes a feedbackResponseComment.
      */
-    public void deleteFeedbackResponseComment(Long frcId) {
+    public void deleteFeedbackResponseComment(UUID frcId) {
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);
     }
 

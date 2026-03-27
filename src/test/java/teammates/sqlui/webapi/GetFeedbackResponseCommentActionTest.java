@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
@@ -78,7 +79,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 FeedbackParticipantType.STUDENTS, getTypicalSection(), getTypicalSection(),
                 "Student 1 comment", false, false,
                 new ArrayList<>(), new ArrayList<>(), "student-1@teammates.tmt");
-        commentForQ1Response1.setId((long) Math.random());
+        commentForQ1Response1.setId(UUID.randomUUID());
         commentForQ1Response1.setCreatedAt(Instant.now());
         commentForQ1Response1.setUpdatedAt(Instant.now());
 
@@ -86,7 +87,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 FeedbackParticipantType.INSTRUCTORS, getTypicalSection(), getTypicalSection(),
                 "Instructor 1 comment", false, false,
                 new ArrayList<>(), new ArrayList<>(), "instructor-1@teammates.tmt");
-        commentForQ2Response1.setId((long) Math.random());
+        commentForQ2Response1.setId(UUID.randomUUID());
         commentForQ2Response1.setCreatedAt(Instant.now());
         commentForQ2Response1.setUpdatedAt(Instant.now());
     }

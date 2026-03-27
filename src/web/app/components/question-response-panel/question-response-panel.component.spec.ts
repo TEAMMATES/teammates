@@ -335,7 +335,7 @@ describe('QuestionResponsePanelComponent', () => {
               {
                 commentGiver: 'comment-giver-1',
                 lastEditorEmail: 'comment@egeg.com',
-                feedbackResponseCommentId: 1,
+                feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
                 commentText: 'this is a text',
                 createdAt: 1402775804,
                 lastEditedAt: 1402775804,
@@ -548,7 +548,7 @@ describe('QuestionResponsePanelComponent', () => {
               {
                 commentGiver: 'comment-giver-1',
                 lastEditorEmail: 'comment@egeg.com',
-                feedbackResponseCommentId: 1,
+                feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
                 commentText: 'this is a text',
                 createdAt: 1402775804,
                 lastEditedAt: 1402775804,
