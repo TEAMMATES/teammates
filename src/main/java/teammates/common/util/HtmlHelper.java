@@ -29,12 +29,9 @@ public final class HtmlHelper {
             return html;
         }
         Document doc = Jsoup.parse(html);
-        while (true) {
-            Elements anchors = doc.select("a[href]");
-            if (anchors.isEmpty()) {
-                break;
-            }
-            Element anchor = anchors.last();
+        Elements anchors = doc.select("a[href]");
+        for (int i = anchors.size() - 1; i >= 0; i--) {
+            Element anchor = anchors.get(i);
             String href = anchor.attr("href");
             String visible = anchor.text();
             anchor.replaceWith(new TextNode(plainTextForAnchor(href, visible)));
