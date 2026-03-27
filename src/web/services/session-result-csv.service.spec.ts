@@ -19,8 +19,8 @@ const loadTestData: (filename: string) => SessionResults = (filename: string): S
  * Substitutes values that are different across different properties configuration.
  */
 const replaceUnpredictableValuesWithPlaceholders: (str: string) => string = (str: string): string => {
-  // eslint-disable-next-line no-template-curly-in-string
   return str
+      // eslint-disable-next-line no-template-curly-in-string -- literal "${participant.hash}" in CSV snapshot output
       .replace(/Anonymous (student|instructor|team) [0-9]{1,10}/g, 'Anonymous $1 ${participant.hash}')
       .replace(/__TEAMMATES_RESERVED_INSTRUCTORS__/g, 'Instructors')
       .replace(/__TEAMMATES_RESERVED_DEFAULT_SECTION__/g, 'No specific section');

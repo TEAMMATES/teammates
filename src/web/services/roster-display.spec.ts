@@ -1,4 +1,3 @@
-import { ApiStringConst } from '../types/api-const';
 import {
   RESERVED_DEFAULT_SECTION_DISPLAY,
   RESERVED_INSTRUCTOR_TEAM_DISPLAY,
@@ -6,6 +5,7 @@ import {
   formatSectionNameForDisplay,
   formatTeamNameForDisplay,
 } from './roster-display';
+import { ApiStringConst } from '../types/api-const';
 
 describe('roster-display', () => {
   describe('formatSectionNameForDisplay', () => {
