@@ -17,6 +17,7 @@ import jakarta.mail.internet.MimeMultipart;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.angus.mail.smtp.SMTPSendFailedException;
+
 import teammates.common.exception.EmailSendingException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailSendingStatus;
