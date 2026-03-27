@@ -138,6 +138,52 @@ export class UserNotificationsListComponent implements OnInit {
       });
   }
 
+  /**
+   * Checks if there is at least on uneread notification in the list.
+   * Used to toggle the visibility of the "Mark All as Read" button.
+   */
+  get hasUnreadNotifications(): boolean {
+    return this.notificationTabs.some(tab => !tab.isRead);
+  }
+
+  /**
+   * Marks all currently unread notifications as read.
+   * Provides instant visual feedback to the user.
+   */
+  markAllNotificationsAsRead(): void {
+  const unreadTabs = this.notificationTabs.filter(tab => !tab.isRead);
+
+  if (unreadTabs.length === 0) {
+    this.statusMessageService.showSuccessToast('All notifications are already read.');
+    return;
+  }
+
+  // Collapse all unread tabs simultaneously.
+  unreadTabs.forEach(tab => tab.hasTabExpanded = false);
+
+  // Wait for the collapse to finish before hiding the elements completely.
+  setTimeout(() => {
+    
+    // Update local state to trigger the [hidden] attribute in the HTML.
+    unreadTabs.forEach(tab => tab.isRead = true);
+
+    // Display a single success message.
+    this.statusMessageService.showSuccessToast('All notifications marked as read!');
+
+    // Send API requests in the background.
+    // A 600ms delay between each request prevents database locking.
+    unreadTabs.forEach((tab, index) => {
+      setTimeout(() => {
+        this.notificationService.markNotificationAsRead({
+          notificationId: tab.notification.notificationId,
+          endTimestamp: tab.notification.endTimestamp,
+        }).subscribe(); 
+      }, index * 600);
+    });
+
+  }, 400);
+}
+
   getBodyTextClass(notificationTab: NotificationTab): string {
     return notificationTab.isRead ? 'card-body' : 'card-body pb-0';
   }
