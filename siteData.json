@@ -135,6 +135,18 @@
       "headingKeywords": {}
     },
     {
+      "src": "cron-setup.md",
+      "headings": {
+        "cron-job-setup-guide": "Cron Job Setup Guide",
+        "authentication": "Authentication",
+        "timezone": "Timezone",
+        "format-1-human-readable-schedule": "Format 1: Human-Readable Schedule",
+        "format-2-copy-paste-unix-cron": "Format 2: Copy-Paste (Unix Cron)",
+        "example-google-cloud-scheduler": "Example: Google Cloud Scheduler"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "design.md",
       "title": "Design",
       "headings": {
