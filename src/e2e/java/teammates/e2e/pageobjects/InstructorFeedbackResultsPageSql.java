@@ -885,7 +885,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     private WebElement getSectionPanel(String sectionName) {
         List<WebElement> sectionPanels = browser.driver.findElements(By.id("section-panel"));
         for (WebElement sectionPanel : sectionPanels) {
-            if (sectionPanel.getText().startsWith(sectionName)) {
+            String headerText = sectionPanel.findElement(By.id("section-header")).getText().trim();
+            if (headerText.startsWith(sectionName)) {
                 return sectionPanel;
             }
         }
@@ -898,7 +899,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         for (int attempt = 0; attempt < maxAttempts; attempt++) {
             List<WebElement> teamPanels = sectionPanel.findElements(By.id("team-panel"));
             for (WebElement teamPanel : teamPanels) {
-                if (teamPanel.getText().startsWith(teamName)) {
+                String headerText = teamPanel.findElement(By.id("team-header")).getText().trim();
+                if (headerText.startsWith(teamName)) {
                     return teamPanel;
                 }
             }
@@ -912,7 +914,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     private WebElement getUserPanel(WebElement parentPanel, String header) {
         List<WebElement> userPanels = parentPanel.findElements(By.id("user-panel"));
         for (WebElement userPanel : userPanels) {
-            if (userPanel.getText().startsWith(header)) {
+            String headerText = userPanel.findElement(By.id("user-header")).getText().trim().replace("\n", " ");
+            if (headerText.startsWith(header)) {
                 return userPanel;
             }
         }

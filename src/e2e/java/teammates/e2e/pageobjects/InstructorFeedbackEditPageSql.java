@@ -1165,7 +1165,8 @@ public class InstructorFeedbackEditPageSql extends AppPage {
 
     private void clickAndWaitForNewQuestion(WebElement button) {
         int newQuestionNum = getNumQuestions() + 1;
-        click(button);
+        scrollElementToCenter(button);
+        clickPreferNative(button);
         waitForElementPresence(By.id("question-form-" + newQuestionNum));
     }
 
