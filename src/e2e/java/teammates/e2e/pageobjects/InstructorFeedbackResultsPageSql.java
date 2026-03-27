@@ -391,8 +391,10 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         List<FeedbackResponse> responsesToUse = filterMissingResponses(responses);
         List<WebElement> statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-statistics table"));
         verifyTableBodyValues(statisticsTables.get(0), getMcqResponseSummary(question));
-        // sort per recipient statistics
+        // sort per recipient statistics (re-query the table after click — sort re-renders and stale elements fail)
         click(statisticsTables.get(1).findElements(By.tagName("th")).get(1));
+        waitUntilAnimationFinish();
+        statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-statistics table"));
         verifyTableBodyValues(statisticsTables.get(1), getMcqPerRecipientStatistics(question, responsesToUse, students,
                 instructors));
     }
@@ -583,14 +585,28 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
 
     private void verifyNoResponsesMessage(WebElement panel, boolean isQuestion, boolean isGiver) {
         WebElement noResponsesMessage = panel.findElement(By.id("no-responses"));
+        String actualText = getElementTextContent(noResponsesMessage);
         if (isQuestion) {
             assertEquals("There are no responses for this question or you may not have the permission to"
-                    + " see the response.", noResponsesMessage.getText());
+                    + " see the response.", actualText);
         } else {
             assertEquals("There are no responses " + (isGiver ? "given" : "received")
                     + " by this user or you may not have the permission to see the responses.",
-                    noResponsesMessage.getText());
+                    actualText);
         }
+    }
+
+    /**
+     * Text as shown in the DOM (uses textContent when getText() is empty — e.g. Firefox + italic-only message).
+     */
+    private String getElementTextContent(WebElement element) {
+        String text = element.getText();
+        if (text != null && !text.trim().isEmpty()) {
+            return text.trim();
+        }
+        Object content = executeScript(
+                "var e = arguments[0]; return (e.textContent || e.innerText || '').trim();", element);
+        return content == null ? "" : content.toString();
     }
 
     // Methods for formatting expected results
@@ -1017,7 +1033,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                 continue;
             }
             String usersDetails = groupedResponse.findElement(By.id("users-details")).getText();
-            if (usersDetails.startsWith(expectedStarting)) {
+            // Match first line after normalizing whitespace (DOM may break name and team across lines).
+            if (normalizeSingleLine(usersDetails).startsWith(normalizeSingleLine(expectedStarting))) {
                 return groupedResponse;
             }
         }
@@ -1025,6 +1042,10 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
             return null;
         }
         throw new NoSuchElementException("Grouped responses not found for " + userName);
+    }
+
+    private static String normalizeSingleLine(String s) {
+        return s.replaceAll("\\s+", " ").trim();
     }
 
     private WebElement getTeamStats(WebElement parentPanel, int qnNum) {
