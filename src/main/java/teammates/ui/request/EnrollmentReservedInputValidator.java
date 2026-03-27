@@ -15,10 +15,16 @@ public final class EnrollmentReservedInputValidator {
     public static final String ERROR_RESERVED_SECTION_NAME =
             "This section name is reserved for the system. Please choose a different section name.";
 
+    /**
+     * Prevents instantiation.
+     */
     private EnrollmentReservedInputValidator() {
     }
 
     /**
+     * Rejects team/section values that match reserved system identifiers.
+     *
+     * @param teamName team name from the request
      * @param sectionInput raw section from the form (empty means the default section will apply)
      */
     public static void assertTeamAndSectionNotReserved(String teamName, String sectionInput)
