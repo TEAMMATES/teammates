@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -22,7 +24,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
+        UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
         FeedbackResponseComment comment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
 
         String courseId;
@@ -87,7 +89,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     public JsonResult execute() {
-        long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
+        UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         FeedbackResponseComment comment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
 
