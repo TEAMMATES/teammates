@@ -129,7 +129,7 @@ This instruction set applies for both dev server and production server, with sli
 1. Go to any administrator page, e.g `/web/admin/home`. You may be prompted to log in.
   You will be granted access only if your account has admin permission as defined in `build.properties`.
 
-1. When logged in as administrator, ***masquerade mode*** can be used to impersonate instructors and students. 
+1. When logged in as administrator, ***masquerade mode*** can be used to impersonate instructors and students.
    For more information, refer to [Masquerading as another user](#masquerading-as-another-user).
 
 </panel>
@@ -280,7 +280,7 @@ If you are using the Cloud SDK method, you can use `Ctrl + C` in the console to 
 There are two big categories of testing in TEAMMATES:
 
 - **Component tests**: White-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. To learn more about running and writing component tests, refer to [this guide](unit-testing.md).
-- **<tooltip content="End-to-end">E2E</tooltip> tests**: Black-box tests, i.e. they test the application as a whole without knowing any internal working. To learn more about running and writing E2E tests, refer to [this guide](e2e-testing.md).  
+- **<tooltip content="End-to-end">E2E</tooltip> tests**: Black-box tests, i.e. they test the application as a whole without knowing any internal working. To learn more about running and writing E2E tests, refer to [this guide](e2e-testing.md).
 
 Other tests in TEAMMATES include:
 
@@ -334,6 +334,8 @@ There are several files used to configure various aspects of the system.
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
-* `cron.yaml`: Contains the cron jobs specification.
+* `docs/cron-setup.md`: Contains the cron jobs specification and setup guide for external schedulers (Cloud Scheduler, etc.). Cron must be configured externally with bearer token auth.
 * `queue.yaml`: Contains the task queues configuration.
 * `index.yaml`: Contains the Google Cloud Datastore indexes configuration.
+
+**Cron and worker auth**: `app.cron.and.worker.secret` in `build.properties` is the shared secret for authenticating cron and worker requests via `Authorization: Bearer <token>`. Used by external cron providers and Cloud Tasks.
