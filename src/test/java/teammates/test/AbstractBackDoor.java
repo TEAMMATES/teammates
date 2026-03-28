@@ -433,9 +433,9 @@ public abstract class AbstractBackDoor {
      * @param commentText the new comment text
      * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
      */
-    public void updateFeedbackResponseComment(Long commentId, String commentText, String instructorGoogleId) {
+    public void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorGoogleId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(commentId));
+        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
         params.put(Const.ParamsNames.USER_ID, instructorGoogleId);
 

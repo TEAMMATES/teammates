@@ -14,7 +14,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
     String commentGiver;
     String lastEditorEmail;
 
-    private long feedbackResponseCommentId;
+    private String feedbackResponseCommentId;
     private String commentText;
     private long createdAt;
     private long lastEditedAt;
@@ -24,7 +24,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
     private List<CommentVisibilityType> showCommentTo;
 
     public FeedbackResponseCommentData(FeedbackResponseComment frc) {
-        this.feedbackResponseCommentId = frc.getId();
+        this.feedbackResponseCommentId = frc.getId().toString();
         this.commentText = frc.getCommentText();
         this.commentGiver = frc.getGiver();
         this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
@@ -66,7 +66,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
         return commentText;
     }
 
-    public long getFeedbackResponseCommentId() {
+    public String getFeedbackResponseCommentId() {
         return feedbackResponseCommentId;
     }
 
