@@ -19,7 +19,7 @@ import org.hibernate.annotations.ResultCheckStyle;
 @Entity
 @Table(name = "ReadNotifications")
 @SQLInsert(
-        sql = "INSERT INTO read_notifications (?, ?, ?) ON CONFLICT (account_id, notification_id) DO NOTHING",
+        sql = "INSERT INTO read_notifications VALUES (?, ?, ?) ON CONFLICT (account_id, notification_id) DO NOTHING",
         check = ResultCheckStyle.NONE
 )
 public class ReadNotification extends BaseEntity {
