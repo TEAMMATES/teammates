@@ -69,7 +69,7 @@
             "questionType": "CONSTSUM"
           },
           "participantComment": {
-            "feedbackResponseCommentId": 435465,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-00000006a509",
             "commentText": "Instructor 1 comment",
             "createdAt": 1451692743000,
             "lastEditedAt": 1451692740010,
@@ -456,7 +456,7 @@
             "questionType": "CONSTSUM"
           },
           "participantComment": {
-            "feedbackResponseCommentId": 95676,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-0000000175bc",
             "commentText": "Student 2 comment",
             "createdAt": 1451692743000,
             "lastEditedAt": 1451692740010,

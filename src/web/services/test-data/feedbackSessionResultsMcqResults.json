@@ -54,7 +54,7 @@
             "questionType": "MCQ"
           },
           "participantComment": {
-            "feedbackResponseCommentId": 365,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-00000000016d",
             "commentText": "Student 1 comment",
             "createdAt": 1451692740000,
             "lastEditedAt": 1451692740000,
@@ -83,7 +83,7 @@
             "questionType": "MCQ"
           },
           "participantComment": {
-            "feedbackResponseCommentId": 66,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000042",
             "commentText": "Student 2 comment",
             "createdAt": 1451692740000,
             "lastEditedAt": 1451692740000,
@@ -97,7 +97,7 @@
               "lastEditorName": "Instructor1 Course1",
               "commentGiver": "instructor1@course1.tmt",
               "lastEditorEmail": "instructor1@course1.tmt",
-              "feedbackResponseCommentId": 67,
+              "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000043",
               "commentText": "Instructor 1 comment to student 2",
               "createdAt": 1451692740000,
               "lastEditedAt": 1451692740000,
@@ -134,7 +134,7 @@
             "questionType": "MCQ"
           },
           "participantComment": {
-            "feedbackResponseCommentId": 65,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000041",
             "commentText": "Student 3 comment",
             "createdAt": 1451692740000,
             "lastEditedAt": 1451692740000,

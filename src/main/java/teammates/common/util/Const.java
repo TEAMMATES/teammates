@@ -380,7 +380,7 @@ public final class Const {
      * Represents URIs of endpoints used by cron jobs.
      */
     public static class CronJobURIs {
-        private static final String URI_PREFIX = "/auto";
+        public static final String URI_PREFIX = "/auto";
 
         public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
         public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =

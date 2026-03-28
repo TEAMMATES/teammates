@@ -80,7 +80,7 @@
             "questionType": "MSQ"
           },
           "participantComment": {
-            "feedbackResponseCommentId": 66,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000042",
             "commentText": "Instructor 3 comment",
             "createdAt": 1451692740000,
             "lastEditedAt": 1451692740000,
@@ -198,7 +198,7 @@
             "questionType": "MSQ"
           },
           "participantComment": {
-            "feedbackResponseCommentId": 65,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000041",
             "commentText": "Student 4 comment",
             "createdAt": 1451692740000,
             "lastEditedAt": 1451692740000,
