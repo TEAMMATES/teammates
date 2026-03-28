@@ -63,6 +63,12 @@ public final class Config {
     /** Value of {@code app.backdoor.key}. */
     public static final String BACKDOOR_KEY;
 
+    /**
+     * Value of {@code app.cron.and.worker.secret}. Bearer auth for external schedulers and Cloud Tasks calling
+     * {@code /auto/*} and {@code /worker/*}.
+     */
+    public static final String CRON_AND_WORKER_SECRET;
+
     /** Value of {@code app.encryption.key}. */
     public static final String ENCRYPTION_KEY;
 
@@ -175,6 +181,7 @@ public final class Config {
         APP_FRONTEND_URL = getProperty(properties, devProperties, "app.frontend.url", getDefaultFrontEndUrl());
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
+        CRON_AND_WORKER_SECRET = getProperty(properties, devProperties, "app.cron.and.worker.secret");
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
         POSTGRES_HOST = getProperty(properties, devProperties, "app.postgres.host");
         POSTGRES_PORT = getProperty(properties, devProperties, "app.postgres.port");
@@ -368,4 +375,18 @@ public final class Config {
                 && !StringHelper.isEmpty(SMTP_HOST) && !StringHelper.isEmpty(SMTP_PORT)
                 && isSecurityProtocolValid && isSmtpAuthValid && (!isAuthEnabled || isCredentialValid);
     }
+
+    /**
+     * Ensures {@link #CRON_AND_WORKER_SECRET} is configured for authenticating worker/cron HTTP requests.
+     *
+     * @throws IllegalStateException if the secret is missing or blank
+     */
+    public static void requireCronAndWorkerSecret() {
+        if (!InternalRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)) {
+            throw new IllegalStateException(
+                    "app.cron.and.worker.secret must be set in build.properties without leading or trailing "
+                            + "whitespace for worker/cron requests.");
+        }
+    }
+
 }

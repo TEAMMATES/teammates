@@ -36,11 +36,11 @@ export class FeedbackResponseCommentService {
    * Updates a comment by calling API.
    */
   updateComment(updateRequest: FeedbackResponseCommentUpdateRequest,
-                commentId: number, intent: Intent,
+                commentId: string, intent: Intent,
                 additionalParams: { [key: string]: string } = {}): Observable<FeedbackResponseComment> {
     return this.httpRequestService.put(ResourceEndpoints.RESPONSE_COMMENT, {
       intent,
-      responsecommentid: commentId.toString(),
+      responsecommentid: commentId,
       ...additionalParams,
     }, updateRequest);
   }
@@ -48,10 +48,10 @@ export class FeedbackResponseCommentService {
   /**
    * Deletes a comment by calling API.
    */
-  deleteComment(commentId: number, intent: Intent, additionalParams: { [key: string]: string } = {}): Observable<any> {
+  deleteComment(commentId: string, intent: Intent, additionalParams: { [key: string]: string } = {}): Observable<any> {
     return this.httpRequestService.delete(ResourceEndpoints.RESPONSE_COMMENT, {
       intent,
-      responsecommentid: commentId.toString(),
+      responsecommentid: commentId,
       ...additionalParams,
     });
   }

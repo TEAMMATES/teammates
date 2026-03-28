@@ -335,6 +335,8 @@ There are several files used to configure various aspects of the system.
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
-* `cron.yaml`: Contains the cron jobs specification.
+* `docs/cron-setup.md`: Contains the cron jobs specification and setup guide for external schedulers (Cloud Scheduler, etc.). Cron must be configured externally with bearer token auth.
 * `queue.yaml`: Contains the task queues configuration.
 * `index.yaml`: Contains the Google Cloud Datastore indexes configuration.
+
+**Cron and worker auth**: `app.cron.and.worker.secret` in `build.properties` is the shared secret for authenticating cron and worker requests via `Authorization: Bearer <token>`. Used by external cron providers and Cloud Tasks.

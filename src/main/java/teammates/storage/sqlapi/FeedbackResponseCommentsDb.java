@@ -42,7 +42,7 @@ public final class FeedbackResponseCommentsDb {
     /**
      * Gets a feedbackResponseComment or null if it does not exist.
      */
-    public FeedbackResponseComment getFeedbackResponseComment(Long frId) {
+    public FeedbackResponseComment getFeedbackResponseComment(UUID frId) {
         assert frId != null;
 
         return HibernateUtil.get(FeedbackResponseComment.class, frId);
@@ -59,13 +59,11 @@ public final class FeedbackResponseCommentsDb {
             throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
         }
 
-        if (feedbackResponseComment.getId() != null
-                && getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
+        if (getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
             throw new EntityAlreadyExistsException(
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponseComment.toString()));
         }
 
-        feedbackResponseComment.setId(null);
         HibernateUtil.persist(feedbackResponseComment);
         return feedbackResponseComment;
     }
@@ -73,7 +71,7 @@ public final class FeedbackResponseCommentsDb {
     /**
      * Deletes a feedbackResponseComment.
      */
-    public void deleteFeedbackResponseComment(Long frcId) {
+    public void deleteFeedbackResponseComment(UUID frcId) {
         assert frcId != null;
 
         FeedbackResponseComment frc = getFeedbackResponseComment(frcId);

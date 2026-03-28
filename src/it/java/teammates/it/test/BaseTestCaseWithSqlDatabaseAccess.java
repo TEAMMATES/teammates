@@ -62,7 +62,14 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         HibernateUtil.beginTransaction();
     }
 
-    @AfterMethod
+    /**
+     * Rolls back the per-test transaction so each method runs against a clean DB state.
+     *
+     * <p>
+     * {@code alwaysRun} ensures this runs even when configuration ({@code BeforeMethod}) or the
+     * test method fails, so an open transaction is never left on the thread-bound session.
+     */
+    @AfterMethod(alwaysRun = true)
     protected void tearDown() {
         HibernateUtil.rollbackTransaction();
     }

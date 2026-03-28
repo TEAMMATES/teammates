@@ -604,7 +604,7 @@ public final class FeedbackResponsesLogic {
         // visibility table for each response and comment
         Map<FeedbackResponse, Boolean> responseGiverVisibilityTable = new HashMap<>();
         Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable = new HashMap<>();
-        Map<Long, Boolean> commentVisibilityTable = new HashMap<>();
+        Map<UUID, Boolean> commentVisibilityTable = new HashMap<>();
 
         // build response
         for (FeedbackResponse response : allResponses) {
