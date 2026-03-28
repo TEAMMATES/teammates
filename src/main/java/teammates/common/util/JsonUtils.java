@@ -1,5 +1,8 @@
 package teammates.common.util;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.io.Writer;
 import java.lang.reflect.Type;
 import java.time.Duration;
 import java.time.Instant;
@@ -8,6 +11,23 @@ import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -55,8 +75,34 @@ import teammates.storage.sqlentity.responses.FeedbackTextResponse;
  */
 public final class JsonUtils {
 
+    private static final ObjectMapper MAPPER = buildMapper(false);
+    private static final ObjectMapper PRETTY_MAPPER = buildMapper(true);
+
     private JsonUtils() {
         // utility class
+    }
+
+    private static ObjectMapper buildMapper(boolean prettyPrint) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.ALL, Visibility.NONE);
+        mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        // Treat @OneToMany fields as @JsonIgnore
+        mapper.setAnnotationIntrospector(new HibernateAnnotationIntrospector());
+        mapper.registerModule(new JavaTimeModule()); // Format Instant as ISO 8601 string and ZoneId
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Duration.class, new DurationMinutesJacksonSerializer());
+        module.addDeserializer(Duration.class, new DurationMinutesJacksonDeserializer());
+        module.addDeserializer(FeedbackQuestion.class, new FeedbackQuestionJacksonDeserializer());
+        module.addDeserializer(FeedbackResponse.class, new FeedbackResponseJacksonDeserializer());
+        mapper.registerModule(module);
+        if (prettyPrint) {
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        }
+        return mapper;
     }
 
     /**
@@ -151,6 +197,103 @@ public final class JsonUtils {
      */
     public static JsonElement parse(String json) {
         return JsonParser.parseString(json);
+    }
+
+    /**
+     * Jackson equivalent of {@link #toJsonObject}. Returns an {@link ObjectNode} instead of Gson {@link JsonObject}.
+     */
+    public static ObjectNode toObjectNodeJackson(Object src) {
+        return PRETTY_MAPPER.valueToTree(src);
+    }
+
+    /**
+     * Jackson equivalent of {@link #toJson(Object, Type)}.
+     */
+    public static String toJsonJackson(Object src, Type typeOfSrc) {
+        try {
+            return PRETTY_MAPPER.writerFor(PRETTY_MAPPER.getTypeFactory().constructType(typeOfSrc))
+                    .writeValueAsString(src);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Jackson equivalent of {@link #toJson(Object)}.
+     */
+    public static String toJsonJackson(Object src) {
+        try {
+            return PRETTY_MAPPER.writeValueAsString(src);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Jackson equivalent of {@link #toCompactJson(Object)}.
+     */
+    public static String toCompactJsonJackson(Object src) {
+        try {
+            return MAPPER.writeValueAsString(src);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Jackson equivalent of {@link #toCompactJson(Object, Appendable)}.
+     * Note: writer must be a {@link java.io.Writer} at runtime (e.g. PrintWriter).
+     */
+    public static void toCompactJsonJackson(Object src, Appendable writer) {
+        try {
+            MAPPER.writeValue((Writer) writer, src);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Jackson equivalent of {@link #fromJson(String, Type)}.
+     */
+    public static <T> T fromJsonJackson(String json, Type typeOfT) {
+        try {
+            return MAPPER.readValue(json, MAPPER.getTypeFactory().constructType(typeOfT));
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Jackson equivalent of {@link #fromJson(String, Class)}.
+     */
+    public static <T> T fromJsonJackson(String json, Class<T> classOfT) {
+        try {
+            return MAPPER.readValue(json, classOfT);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Jackson overload for callers using {@link TypeReference} instead of Gson TypeToken.
+     */
+    public static <T> T fromJsonJackson(String json, TypeReference<T> typeRef) {
+        try {
+            return MAPPER.readValue(json, typeRef);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Jackson equivalent of {@link #parse}. Returns {@link JsonNode} instead of Gson {@link JsonElement}.
+     */
+    public static JsonNode parseJackson(String json) {
+        try {
+            return MAPPER.readTree(json);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     private static final class HibernateExclusionStrategy implements ExclusionStrategy {
@@ -418,6 +561,118 @@ public final class JsonUtils {
                 event = LogEvent.DEFAULT_LOG;
             }
             return context.deserialize(json, event.getDetailsClass());
+        }
+    }
+
+    private static final class HibernateAnnotationIntrospector extends JacksonAnnotationIntrospector {
+        @Override
+        public boolean hasIgnoreMarker(AnnotatedMember m) {
+            return m.hasAnnotation(OneToMany.class) || super.hasIgnoreMarker(m);
+        }
+    }
+
+    private static final class DurationMinutesJacksonSerializer extends StdSerializer<Duration> {
+        DurationMinutesJacksonSerializer() {
+            super(Duration.class);
+        }
+
+        @Override
+        public void serialize(Duration value, JsonGenerator gen, SerializerProvider p) throws IOException {
+            gen.writeNumber(value.toMinutes());
+        }
+    }
+
+    private static final class DurationMinutesJacksonDeserializer extends StdDeserializer<Duration> {
+        DurationMinutesJacksonDeserializer() {
+            super(Duration.class);
+        }
+
+        @Override
+        public Duration deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctx)
+                throws IOException {
+            return Duration.ofMinutes(p.getLongValue());
+        }
+    }
+
+    private static final class FeedbackQuestionJacksonDeserializer extends StdDeserializer<FeedbackQuestion> {
+        FeedbackQuestionJacksonDeserializer() {
+            super(FeedbackQuestion.class);
+        }
+
+        @Override
+        public FeedbackQuestion deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctx)
+                throws IOException {
+            ObjectNode node = p.readValueAsTree();
+            String qt = node.path("questionDetails").path("questionType").asText();
+            try {
+                switch (FeedbackQuestionType.valueOf(qt)) {
+                case MCQ:
+                    return MAPPER.treeToValue(node, FeedbackMcqQuestion.class);
+                case MSQ:
+                    return MAPPER.treeToValue(node, FeedbackMsqQuestion.class);
+                case TEXT:
+                    return MAPPER.treeToValue(node, FeedbackTextQuestion.class);
+                case RUBRIC:
+                    return MAPPER.treeToValue(node, FeedbackRubricQuestion.class);
+                case CONTRIB:
+                    return MAPPER.treeToValue(node, FeedbackContributionQuestion.class);
+                case CONSTSUM:
+                case CONSTSUM_OPTIONS:
+                case CONSTSUM_RECIPIENTS:
+                    return MAPPER.treeToValue(node, FeedbackConstantSumQuestion.class);
+                case NUMSCALE:
+                    return MAPPER.treeToValue(node, FeedbackNumericalScaleQuestion.class);
+                case RANK_OPTIONS:
+                    return MAPPER.treeToValue(node, FeedbackRankOptionsQuestion.class);
+                case RANK_RECIPIENTS:
+                    return MAPPER.treeToValue(node, FeedbackRankRecipientsQuestion.class);
+                default:
+                    return null;
+                }
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        }
+    }
+
+    private static final class FeedbackResponseJacksonDeserializer extends StdDeserializer<FeedbackResponse> {
+        FeedbackResponseJacksonDeserializer() {
+            super(FeedbackResponse.class);
+        }
+
+        @Override
+        public FeedbackResponse deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctx)
+                throws IOException {
+            ObjectNode node = p.readValueAsTree();
+            String qt = node.path("answer").path("questionType").asText();
+            try {
+                switch (FeedbackQuestionType.valueOf(qt)) {
+                case MCQ:
+                    return MAPPER.treeToValue(node, FeedbackMcqResponse.class);
+                case MSQ:
+                    return MAPPER.treeToValue(node, FeedbackMsqResponse.class);
+                case TEXT:
+                    return MAPPER.treeToValue(node, FeedbackTextResponse.class);
+                case RUBRIC:
+                    return MAPPER.treeToValue(node, FeedbackRubricResponse.class);
+                case CONTRIB:
+                    return MAPPER.treeToValue(node, FeedbackContributionResponse.class);
+                case CONSTSUM:
+                case CONSTSUM_OPTIONS:
+                case CONSTSUM_RECIPIENTS:
+                    return MAPPER.treeToValue(node, FeedbackConstantSumResponse.class);
+                case NUMSCALE:
+                    return MAPPER.treeToValue(node, FeedbackNumericalScaleResponse.class);
+                case RANK_OPTIONS:
+                    return MAPPER.treeToValue(node, FeedbackRankOptionsResponse.class);
+                case RANK_RECIPIENTS:
+                    return MAPPER.treeToValue(node, FeedbackRankRecipientsResponse.class);
+                default:
+                    return null;
+                }
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
         }
     }
 }
