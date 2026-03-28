@@ -38,7 +38,7 @@ import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
     KeyValuePipe,
     SectionTypeDescriptionPipe,
     EnumToArrayPipe,
-],
+  ],
 })
 export class ViewResultsPanelComponent {
 

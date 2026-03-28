@@ -17,8 +17,8 @@ import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { ApiStringConst } from '../../../types/api-const';
+import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { StudentUpdateRequest } from '../../../types/api-request';
 import { FormValidator } from '../../../types/form-validator';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -39,7 +39,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
     FormsModule,
     ReactiveFormsModule,
     NgClass,
-],
+  ],
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 

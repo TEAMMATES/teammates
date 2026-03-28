@@ -41,7 +41,8 @@ export function formatTeamNameForDisplay(teamName: string): string {
 }
 
 /**
- * Applies {@link formatSectionNameForDisplay} then {@link formatTeamNameForDisplay} for CSV cells that may hold either.
+ * Applies {@link formatSectionNameForDisplay} then {@link formatTeamNameForDisplay} for CSV cells
+ * that may hold either.
  */
 export function formatRosterLabelForCsvCell(value: string): string {
   return formatTeamNameForDisplay(formatSectionNameForDisplay(value));

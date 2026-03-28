@@ -82,7 +82,7 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     InstructorSessionResultRqgViewComponent,
     InstructorSessionNoResponsePanelComponent,
     PreviewSessionResultPanelComponent,
-],
+  ],
   providers: [
     CommentsToCommentTableModelPipe,
     CommentToCommentRowModelPipe,
