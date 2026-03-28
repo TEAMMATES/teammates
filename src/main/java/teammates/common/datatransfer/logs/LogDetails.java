@@ -2,9 +2,27 @@ package teammates.common.datatransfer.logs;
 
 import jakarta.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * Holds the details for a specific log event.
  */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "event",
+        visible = true,
+        defaultImpl = DefaultLogDetails.class
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = RequestLogDetails.class, name = "REQUEST_LOG"),
+        @JsonSubTypes.Type(value = ExceptionLogDetails.class, name = "EXCEPTION_LOG"),
+        @JsonSubTypes.Type(value = InstanceLogDetails.class, name = "INSTANCE_LOG"),
+        @JsonSubTypes.Type(value = EmailSentLogDetails.class, name = "EMAIL_SENT"),
+        @JsonSubTypes.Type(value = FeedbackSessionAuditLogDetails.class, name = "FEEDBACK_SESSION_AUDIT"),
+        @JsonSubTypes.Type(value = DefaultLogDetails.class, name = "DEFAULT_LOG")
+})
 public abstract class LogDetails {
 
     private LogEvent event;
