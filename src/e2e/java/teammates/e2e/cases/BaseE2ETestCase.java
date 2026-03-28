@@ -611,7 +611,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      * @param commentText the new comment text
      * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
      */
-    protected void updateFeedbackResponseComment(long commentId, String commentText, String instructorGoogleId) {
+    protected void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorGoogleId) {
         BACKDOOR.updateFeedbackResponseComment(commentId, commentText, instructorGoogleId);
     }
 }
