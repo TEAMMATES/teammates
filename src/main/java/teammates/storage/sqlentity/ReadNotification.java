@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.SQLInsert;
+import org.hibernate.annotations.ResultCheckStyle;
 
 /**
  * Represents an association class between Accounts and Notifications.
@@ -16,6 +18,10 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "ReadNotifications")
+@SQLInsert(
+        sql = "INSERT INTO read_notifications (?, ?, ?) ON CONFLICT (account_id, notification_id) DO NOTHING",
+        check = ResultCheckStyle.NONE
+)
 public class ReadNotification extends BaseEntity {
     @Id
     private UUID id;
