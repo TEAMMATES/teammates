@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                                       http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="v9.0.0-beta.8-remove-duplicate-read-notification-entries" author="Florian Viorel Tanely">
+        <sql>
+            DELETE FROM ReadNotifications
+            WHERE id NOT IN (
+                SELECT MIN(id)
+                FROM ReadNotifications
+                GROUP BY account_id, notification_id
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="v9.0.0-beta.8-add-unique-constraint-to-read-notifications" author="Florian Viorel Tanely">
+        <addUniqueConstraint
+                tableName="read_notifications"
+                columnNames="account_id, notification_id"
+                constraintName="uq_account_notification" />
+
+    </changeSet>
+</databaseChangeLog>
