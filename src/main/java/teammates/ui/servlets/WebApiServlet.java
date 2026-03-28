@@ -6,23 +6,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpStatus;
-import org.hibernate.HibernateException;
-
 import teammates.common.datatransfer.logs.RequestLogUser;
-import teammates.common.exception.DeadlineExceededException;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.Logger;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
-import teammates.ui.webapi.ActionMappingException;
 import teammates.ui.webapi.ActionResult;
-import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.InvalidOperationException;
-import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UnauthorizedAccessException;
 
 /**
@@ -62,38 +53,8 @@ public class WebApiServlet extends HttpServlet {
 
             statusCode = result.getStatusCode();
             result.send(resp);
-        } catch (ActionMappingException e) {
-            statusCode = e.getStatusCode();
-            throwErrorBasedOnRequester(req, resp, e, statusCode);
-        } catch (InvalidHttpRequestBodyException | InvalidHttpParameterException e) {
-            statusCode = HttpStatus.SC_BAD_REQUEST;
-            throwErrorBasedOnRequester(req, resp, e, statusCode);
-        } catch (UnauthorizedAccessException uae) {
-            statusCode = HttpStatus.SC_FORBIDDEN;
-            log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet: " + uae.getMessage(), uae);
-            throwError(resp, statusCode,
-                    uae.isShowErrorMessage() ? uae.getMessage() : "You are not authorized to access this resource.");
-        } catch (EntityNotFoundException enfe) {
-            statusCode = HttpStatus.SC_NOT_FOUND;
-            log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: " + enfe.getMessage(), enfe);
-            throwError(resp, statusCode, enfe.getMessage());
-        } catch (InvalidOperationException ioe) {
-            statusCode = HttpStatus.SC_CONFLICT;
-            log.warning(ioe.getClass().getSimpleName() + " caught by WebApiServlet: " + ioe.getMessage(), ioe);
-            throwError(resp, statusCode, ioe.getMessage());
-        } catch (DeadlineExceededException dee) {
-            statusCode = HttpStatus.SC_GATEWAY_TIMEOUT;
-            log.severe(dee.getClass().getSimpleName() + " caught by WebApiServlet", dee);
-            throwError(resp, statusCode, "The request exceeded the server timeout limit. Please try again later.");
-        } catch (HibernateException e) {
-            statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
-            throwError(resp, statusCode, e.getMessage());
         } catch (Throwable t) {
-            statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
-            log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet: " + t.getMessage(), t);
-            throwError(resp, statusCode,
-                    "The server encountered an error when processing your request.");
+            statusCode = WebApiServletExceptionHandler.handleException(req, resp, t);
         } finally {
             RequestLogUser userInfo = new RequestLogUser();
             String requestBody = null;
@@ -124,30 +85,6 @@ public class WebApiServlet extends HttpServlet {
             HibernateUtil.rollbackTransaction();
             throw e;
         }
-    }
-
-    private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)
-            throws IOException {
-        boolean isTrustedWorkerRequest = InternalRequestAuth.isTrustedCronOrWorkerRequest(req)
-                && InternalRequestAuth.isWorkerRequestPath(req);
-
-        if (isTrustedWorkerRequest) {
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
-
-            // For Cloud Tasks worker requests only: response status is not set to 4XX/5XX so the task is not
-            // retried when the failure is due to an improper request URL (retries would not help).
-            // Cron (/auto/*) requests are not included so schedulers still see real HTTP error status on failure.
-            // The action may be inaccurately marked as "success"; the severe log traces the problem.
-            throwError(resp, HttpStatus.SC_ACCEPTED, e.getMessage());
-        } else {
-            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
-            throwError(resp, statusCode, e.getMessage());
-        }
-    }
-
-    private void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {
-        JsonResult result = new JsonResult(message, statusCode);
-        result.send(resp);
     }
 
 }
