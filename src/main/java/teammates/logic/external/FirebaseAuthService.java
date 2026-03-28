@@ -25,8 +25,12 @@ public class FirebaseAuthService implements AuthService {
     private static final Logger log = Logger.getLogger();
 
     public FirebaseAuthService() throws AuthException {
+        InputStream firebaseCredentialsStream = FileHelper.getResourceAsStream("firebase-credentials.json");
+        if (firebaseCredentialsStream == null) {
+            log.severe("Cannot initialize FirebaseApp: firebase-credentials.json not found in resources");
+            throw new AuthException(new IOException("firebase-credentials.json not found in resources"));
+        }
         try {
-            InputStream firebaseCredentialsStream = FileHelper.getResourceAsStream("firebase-credentials.json");
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(firebaseCredentialsStream))
                     .build();

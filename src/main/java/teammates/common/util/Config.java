@@ -62,14 +62,20 @@ public final class Config {
     /** The value of the "app.encryption.key" in build.properties file. */
     public static final String ENCRYPTION_KEY;
 
-    /** The value of the "app.auth.type" in build.properties file. */
-    public static final String AUTH_TYPE;
+    /** The list of authentication methods used by the system. */
+    public static final List<String> AUTH_TYPES;
 
-    /** The value of the "app.oauth2.client.id" in build.properties file. */
-    public static final String OAUTH2_CLIENT_ID;
+    /** The value of the "app.oauth2.google.client.id" in build.properties file. */
+    public static final String OAUTH2_GOOGLE_CLIENT_ID;
 
-    /** The value of the "app.oauth2.client.secret" in build.properties file. */
-    public static final String OAUTH2_CLIENT_SECRET;
+    /** The value of the "app.oauth2.google.client.secret" in build.properties file. */
+    public static final String OAUTH2_GOOGLE_CLIENT_SECRET;
+
+    /** The value of the "app.oauth2.msentra.client.id" in build.properties file. */
+    public static final String OAUTH2_MS_ENTRA_CLIENT_ID;
+
+    /** The value of the "app.oauth2.msentra.client.secret" in build.properties file. */
+    public static final String OAUTH2_MS_ENTRA_CLIENT_SECRET;
 
     /** The value of the "app.captcha.secretkey" in build.properties file. */
     public static final String CAPTCHA_SECRET_KEY;
@@ -185,9 +191,12 @@ public final class Config {
         POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
         ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
-        AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
-        OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
-        OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
+        AUTH_TYPES = Collections.unmodifiableList(
+                Arrays.asList(getProperty(properties, devProperties, "app.auth.types", "").split(",")));
+        OAUTH2_GOOGLE_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.google.client.id");
+        OAUTH2_GOOGLE_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.google.client.secret");
+        OAUTH2_MS_ENTRA_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.msentra.client.id");
+        OAUTH2_MS_ENTRA_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.msentra.client.secret");
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
         APP_ADMINS = Collections.unmodifiableList(
                 Arrays.asList(getProperty(properties, devProperties, "app.admins", "").split(",")));
@@ -331,10 +340,6 @@ public final class Config {
      */
     public static AppUrl getFrontEndAppUrl(String relativeUrl) {
         return new AppUrl(APP_FRONTEND_URL + relativeUrl);
-    }
-
-    public static boolean isUsingFirebase() {
-        return "firebase".equalsIgnoreCase(AUTH_TYPE);
     }
 
     /**

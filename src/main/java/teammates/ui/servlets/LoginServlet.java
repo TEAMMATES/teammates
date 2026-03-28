@@ -1,6 +1,8 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Set;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
+import com.microsoft.aad.msal4j.AuthorizationRequestUrlParameters;
+import com.microsoft.aad.msal4j.ResponseMode;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
@@ -23,10 +27,12 @@ import teammates.common.util.StringHelper;
 public class LoginServlet extends AuthServlet {
 
     private static final Logger log = Logger.getLogger();
+    private static final Set<String> MICROSOFT_SCOPES = Set.of("openid", "email");
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String nextUrl = req.getParameter("nextUrl");
+        String provider = req.getParameter("provider");
         if (nextUrl == null) {
             nextUrl = "/";
         }
@@ -48,17 +54,32 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
-        if (Config.isUsingFirebase()) {
+        // Determine which auth provider to use
+        if ("firebase".equalsIgnoreCase(provider)) {
             log.request(req, HttpStatus.SC_MOVED_PERMANENTLY, "Redirect to web login page");
 
             // nextUrl query param is encoded to retain its full value as the nextUrl may contain query params
             resp.sendRedirect("/web/login?nextUrl="
                     + nextUrl.replace("?", "%3f").replace("&", "%26"));
+        } else if ("entra".equalsIgnoreCase(provider)) {
+            AuthState state = new AuthState(nextUrl, req.getSession().getId(), "entra");
+            String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
+            AuthorizationRequestUrlParameters params = AuthorizationRequestUrlParameters
+                    .builder(getMicrosoftRedirectUri(req), MICROSOFT_SCOPES)
+                    .state(encryptedState)
+                    .responseMode(ResponseMode.QUERY)
+                    .build();
+            URL authorizationUrl = getMicrosoftClient().getAuthorizationRequestUrl(params);
+
+            log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Microsoft sign-in page");
+
+            resp.sendRedirect(authorizationUrl.toString());
         } else {
-            AuthState state = new AuthState(nextUrl, req.getSession().getId());
-            AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
+            AuthState state = new AuthState(nextUrl, req.getSession().getId(), "google");
+            String encryptedState = StringHelper.encrypt(JsonUtils.toCompactJson(state));
+            AuthorizationCodeRequestUrl authorizationUrl = getGoogleAuthorizationFlow().newAuthorizationUrl();
             authorizationUrl.setRedirectUri(getRedirectUri(req));
-            authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
+            authorizationUrl.setState(encryptedState);
 
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Google sign-in page");
 
