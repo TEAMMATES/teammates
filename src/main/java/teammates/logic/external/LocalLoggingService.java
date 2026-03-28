@@ -1,6 +1,6 @@
 package teammates.logic.external;
 
-import java.lang.reflect.Type;
+import java.io.UncheckedIOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,8 +14,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
@@ -49,8 +48,8 @@ public class LocalLoggingService implements LogService {
         long earliestTimestamp = currentTimestamp - 60 * 60 * 1000;
         try {
             String jsonString = FileHelper.readResourceFile("logsForLocalDev.json");
-            Type type = new TypeToken<Collection<GeneralLogEntry>>(){}.getType();
-            Collection<GeneralLogEntry> logEntriesCollection = JsonUtils.fromJson(jsonString, type);
+            Collection<GeneralLogEntry> logEntriesCollection =
+                    JsonUtils.fromJsonJackson(jsonString, new TypeReference<>(){});
             return logEntriesCollection.stream()
                     .map(log -> {
                         long timestamp = new RandomDataGenerator().nextLong(earliestTimestamp, currentTimestamp);
@@ -62,7 +61,7 @@ public class LocalLoggingService implements LogService {
                         return logEntryWithUpdatedTimestamp;
                     })
                     .collect(Collectors.toList());
-        } catch (JsonParseException e) {
+        } catch (UncheckedIOException e) {
             return new ArrayList<>();
         }
     }
@@ -238,7 +237,8 @@ public class LocalLoggingService implements LogService {
             GeneralLogEntry copiedEntry = new GeneralLogEntry(logEntry.getSeverity(),
                     logEntry.getTrace(), logEntry.getInsertId(), logEntry.getResourceIdentifier(),
                     logEntry.getSourceLocation(), logEntry.getTimestamp());
-            copiedEntry.setDetails(JsonUtils.fromJson(JsonUtils.toCompactJson(logEntry.getDetails()), LogDetails.class));
+            copiedEntry.setDetails(
+                    JsonUtils.fromJsonJackson(JsonUtils.toCompactJsonJackson(logEntry.getDetails()), LogDetails.class));
             copiedEntry.setMessage(logEntry.getMessage());
             result.add(copiedEntry);
         }
