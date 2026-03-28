@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -26,7 +28,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
+        UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         FeedbackResponseComment feedbackResponseComment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
 
@@ -98,7 +100,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
-        long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
+        UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         FeedbackResponseComment feedbackResponseComment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
 

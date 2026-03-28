@@ -82,7 +82,7 @@
             "questionType": "TEXT"
           },
            "participantComment": {
-            "feedbackResponseCommentId": 53666,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-00000000d1a2",
             "commentText": "Instructor 3 comment",
             "createdAt": 1451692743000,
             "lastEditedAt": 1451692740010,
@@ -161,7 +161,7 @@
             "questionType": "NUMSCALE"
           },
            "participantComment": {
-            "feedbackResponseCommentId": 23453,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000005b9d",
             "commentText": "Student 2 comment",
             "createdAt": 1451692740000,
             "lastEditedAt": 1451692740000,
