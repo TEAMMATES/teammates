@@ -68,19 +68,19 @@ public class GoogleRecaptchaServiceTest extends BaseTestCase {
         protected String getApiResponse(String captchaResponse, String secretKey) throws URISyntaxException, IOException {
             switch (captchaResponse) {
             case "success":
-                return "{ success: true }";
+                return "{ \"success\": true }";
 
             case "missing recaptcha params":
-                return "{ success: false, error-codes: [ 'missing-input-response', 'missing-input-secret' ] }";
+                return "{ \"success\": false, \"error-codes\": [ \"missing-input-response\", \"missing-input-secret\" ] }";
 
             case "invalid recaptcha secret key":
-                return "{ success: false, error-codes: [ 'invalid-input-secret' ] }";
+                return "{ \"success\": false, \"error-codes\": [ \"invalid-input-secret\" ] }";
 
             case "invalid recaptcha response":
-                return "{ success: false, error-codes: [ 'invalid-input-response' ] }";
+                return "{ \"success\": false, \"error-codes\": [ \"invalid-input-response\" ] }";
 
             case "invalid recaptcha request":
-                return "{ success: false, error-codes: [ 'bad-request' ] }";
+                return "{ \"success\": false, \"error-codes\": [ \"bad-request\" ] }";
 
             case "null response":
                 throw new NullPointerException();
@@ -101,7 +101,7 @@ public class GoogleRecaptchaServiceTest extends BaseTestCase {
                 throw new HttpResponseException(500, "testing with http failure status code");
 
             default:
-                return "{ success: false }";
+                return "{ \"success\": false }";
             }
         }
     }
