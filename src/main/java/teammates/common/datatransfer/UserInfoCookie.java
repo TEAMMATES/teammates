@@ -1,8 +1,7 @@
 package teammates.common.datatransfer;
 
+import java.io.UncheckedIOException;
 import java.time.Instant;
-
-import com.google.gson.JsonSyntaxException;
 
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -34,8 +33,8 @@ public class UserInfoCookie {
         }
         try {
             String decryptedCookie = StringHelper.decrypt(cookie);
-            return JsonUtils.fromJson(decryptedCookie, UserInfoCookie.class);
-        } catch (InvalidParametersException | JsonSyntaxException e) {
+            return JsonUtils.fromJsonJackson(decryptedCookie, UserInfoCookie.class);
+        } catch (InvalidParametersException | UncheckedIOException e) {
             return null;
         }
     }

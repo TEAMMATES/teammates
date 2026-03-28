@@ -10,7 +10,7 @@ import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import com.google.common.reflect.TypeToken;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.InstanceLogDetails;
@@ -90,11 +90,12 @@ public final class Logger {
         payload.put("severity", LogSeverity.INFO);
 
         Map<String, Object> detailsSpecificPayload =
-                JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+                JsonUtils.fromJsonJackson(JsonUtils.toCompactJsonJackson(details),
+                        new TypeReference<>(){});
         payload.putAll(detailsSpecificPayload);
 
         // Need to use println as the logger is disabled when the instance is shutting down
-        System.out.println(JsonUtils.toCompactJson(payload));
+        System.out.println(JsonUtils.toCompactJsonJackson(payload));
     }
 
     /**
@@ -144,14 +145,15 @@ public final class Logger {
         String logMessage;
         if (Config.IS_DEV_SERVER) {
             logMessage = formatLogMessageForHumanDisplay(message) + " extra_info: "
-                    + JsonUtils.toCompactJson(details);
+                    + JsonUtils.toCompactJsonJackson(details);
         } else {
             Map<String, Object> payload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
             Map<String, Object> detailsSpecificPayload =
-                    JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+                    JsonUtils.fromJsonJackson(JsonUtils.toCompactJsonJackson(details),
+                            new TypeReference<>(){});
             payload.putAll(detailsSpecificPayload);
 
-            logMessage = JsonUtils.toCompactJson(payload);
+            logMessage = JsonUtils.toCompactJsonJackson(payload);
         }
         standardLog.info(logMessage);
     }
@@ -231,10 +233,11 @@ public final class Logger {
         }
 
         Map<String, Object> detailsSpecificPayload =
-                JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+                JsonUtils.fromJsonJackson(JsonUtils.toCompactJsonJackson(details),
+                        new TypeReference<>(){});
         payload.putAll(detailsSpecificPayload);
 
-        return JsonUtils.toCompactJson(payload);
+        return JsonUtils.toCompactJsonJackson(payload);
     }
 
     /**
