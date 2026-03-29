@@ -150,13 +150,10 @@ public final class AccountsLogic {
         }
 
         ReadNotification readNotification = new ReadNotification(account, notification);
-
         Set<ReadNotification> readNotifications = new HashSet<>(account.getReadNotifications());
-        if (readNotifications.contains(readNotification)) {
-            return readNotifications.stream().map(n -> n.getNotification().getId()).toList();
+        if (!readNotifications.contains(readNotification)) {
+            account.addReadNotification(readNotification);
         }
-
-        account.addReadNotification(readNotification);
 
         return account.getReadNotifications().stream()
                 .map(n -> n.getNotification().getId())
