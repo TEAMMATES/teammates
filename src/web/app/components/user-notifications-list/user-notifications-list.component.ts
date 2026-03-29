@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+import { NgIf, NgFor, NgClass } from "@angular/common";
+import { Component, Input, OnInit } from "@angular/core";
+import { forkJoin } from "rxjs";
+import { finalize } from "rxjs/operators";
+import { NotificationService } from "../../../services/notification.service";
+import { StatusMessageService } from "../../../services/status-message.service";
+import { TableComparatorService } from "../../../services/table-comparator.service";
+import { TimezoneService } from "../../../services/timezone.service";
+=======
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
@@ -6,19 +16,20 @@ import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
+>>>>>>> 5707726cbc167242f21141d75daa62a1bea6f904
 import {
   Notification,
   Notifications,
   NotificationTargetUser,
   ReadNotifications,
-} from '../../../types/api-output';
-import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { LoadingRetryComponent } from '../loading-retry/loading-retry.component';
-import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
-import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
-import { collapseAnim } from '../teammates-common/collapse-anim';
-import { NotificationStyleClassPipe } from '../teammates-common/notification-style-class.pipe';
+} from "../../../types/api-output";
+import { SortBy, SortOrder } from "../../../types/sort-properties";
+import { ErrorMessageOutput } from "../../error-message-output";
+import { LoadingRetryComponent } from "../loading-retry/loading-retry.component";
+import { LoadingSpinnerDirective } from "../loading-spinner/loading-spinner.directive";
+import { PanelChevronComponent } from "../panel-chevron/panel-chevron.component";
+import { collapseAnim } from "../teammates-common/collapse-anim";
+import { NotificationStyleClassPipe } from "../teammates-common/notification-style-class.pipe";
 
 export interface NotificationTab {
   notification: Notification;
@@ -32,9 +43,9 @@ export interface NotificationTab {
  * Component for user notifications list.
  */
 @Component({
-  selector: 'tm-user-notifications-list',
-  templateUrl: './user-notifications-list.component.html',
-  styleUrls: ['./user-notifications-list.component.scss'],
+  selector: "tm-user-notifications-list",
+  templateUrl: "./user-notifications-list.component.html",
+  styleUrls: ["./user-notifications-list.component.scss"],
   animations: [collapseAnim],
   imports: [
     LoadingRetryComponent,
@@ -45,16 +56,16 @@ export interface NotificationTab {
 ],
 })
 export class UserNotificationsListComponent implements OnInit {
-
   // enum
-  NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
+  NotificationTargetUser: typeof NotificationTargetUser =
+    NotificationTargetUser;
   SortBy: typeof SortBy = SortBy;
 
   @Input()
   userType: NotificationTargetUser = NotificationTargetUser.GENERAL;
 
   @Input()
-  timezone = '';
+  timezone = "";
 
   notificationTabs: NotificationTab[] = [];
   notificationsSortBy: SortBy = SortBy.NONE;
@@ -62,12 +73,14 @@ export class UserNotificationsListComponent implements OnInit {
   isLoadingNotifications: boolean = false;
   hasLoadingFailed: boolean = false;
 
-  DATE_FORMAT: string = 'DD MMM YYYY';
+  DATE_FORMAT: string = "DD MMM YYYY";
 
-  constructor(private notificationService: NotificationService,
-              private statusMessageService: StatusMessageService,
-              private timezoneService: TimezoneService,
-              private tableComparatorService: TableComparatorService) { }
+  constructor(
+    private notificationService: NotificationService,
+    private statusMessageService: StatusMessageService,
+    private timezoneService: TimezoneService,
+    private tableComparatorService: TableComparatorService,
+  ) {}
 
   ngOnInit(): void {
     this.loadNotifications();
@@ -79,16 +92,29 @@ export class UserNotificationsListComponent implements OnInit {
 
     forkJoin({
       readNotifications: this.notificationService.getReadNotifications(),
-      notifications: this.notificationService.getAllNotificationsForTargetUser(this.userType),
+      notifications: this.notificationService.getAllNotificationsForTargetUser(
+        this.userType,
+      ),
     })
-      .pipe(finalize(() => { this.isLoadingNotifications = false; }))
+      .pipe(
+        finalize(() => {
+          this.isLoadingNotifications = false;
+        }),
+      )
       .subscribe({
-        next: ({ readNotifications, notifications }: {
-          readNotifications: ReadNotifications, notifications: Notifications,
+        next: ({
+          readNotifications,
+          notifications,
+        }: {
+          readNotifications: ReadNotifications;
+          notifications: Notifications;
         }) => {
-          const readNotificationsSet: Set<string> = new Set(readNotifications.readNotifications);
+          const readNotificationsSet: Set<string> = new Set(
+            readNotifications.readNotifications,
+          );
           this.notificationTabs = notifications.notifications.map(
-            (notification) => this.createNotificationTab(notification, readNotificationsSet),
+            (notification) =>
+              this.createNotificationTab(notification, readNotificationsSet),
           );
           this.sortNotificationsBy(this.notificationsSortBy);
         },
@@ -99,17 +125,24 @@ export class UserNotificationsListComponent implements OnInit {
       });
   }
 
-  private createNotificationTab(notification: Notification, readNotifications: Set<string>): NotificationTab {
+  private createNotificationTab(
+    notification: Notification,
+    readNotifications: Set<string>,
+  ): NotificationTab {
     const isRead: boolean = readNotifications.has(notification.notificationId);
     return {
       notification,
       hasTabExpanded: !isRead,
       isRead,
       startDate: this.timezoneService.formatToString(
-        notification.startTimestamp, this.timezone, this.DATE_FORMAT,
+        notification.startTimestamp,
+        this.timezone,
+        this.DATE_FORMAT,
       ),
       endDate: this.timezoneService.formatToString(
-        notification.endTimestamp, this.timezone, this.DATE_FORMAT,
+        notification.endTimestamp,
+        this.timezone,
+        this.DATE_FORMAT,
       ),
     };
   }
@@ -120,14 +153,17 @@ export class UserNotificationsListComponent implements OnInit {
 
   markNotificationAsRead(notificationTab: NotificationTab): void {
     const notification: Notification = notificationTab.notification;
-    this.notificationService.markNotificationAsRead({
-      notificationId: notification.notificationId,
-      endTimestamp: notification.endTimestamp,
-    })
+    this.notificationService
+      .markNotificationAsRead({
+        notificationId: notification.notificationId,
+        endTimestamp: notification.endTimestamp,
+      })
       .subscribe({
         next: () => {
           notificationTab.isRead = true;
-          this.statusMessageService.showSuccessToast('Notification marked as read.');
+          this.statusMessageService.showSuccessToast(
+            "Notification marked as read.",
+          );
           notificationTab.hasTabExpanded = false;
         },
         error: (resp: ErrorMessageOutput) => {
@@ -136,8 +172,80 @@ export class UserNotificationsListComponent implements OnInit {
       });
   }
 
+  private hasMarkAllReadError = false;
+
+  /**
+   * Provides instant visual feedback to the user and sequentially updates the backend.
+   */
+  markAllNotificationsAsRead(): void {
+    const unreadTabs = this.notificationTabs.filter((tab) => !tab.isRead);
+
+    if (unreadTabs.length === 0) {
+      this.statusMessageService.showSuccessToast(
+        "All notifications are already read.",
+      );
+      return;
+    }
+
+    // Collapse all unread tabs simultaneously
+    unreadTabs.forEach((tab) => {
+      tab.hasTabExpanded = false;
+      tab.isRead = true; // Make them visually read immediately
+    });
+
+    this.statusMessageService.showSuccessToast(
+      "All notifications marked as read!",
+    );
+    this.hasMarkAllReadError = false;
+
+    // Start the sequential backend update process
+    this.processMarkAsReadSequentially(unreadTabs, 0);
+  }
+
+  /**
+   * Processes API requests one by one
+   */
+  private processMarkAsReadSequentially(tabs: any[], index: number): void {
+    if (index >= tabs.length) {
+      return;
+    }
+
+    const tab = tabs[index];
+
+    this.notificationService
+      .markNotificationAsRead({
+        notificationId: tab.notification.notificationId,
+        endTimestamp: tab.notification.endTimestamp,
+      })
+      .subscribe({
+        next: () => {
+          // Wait 600ms after this request finishes, then trigger the next one
+          setTimeout(
+            () => this.processMarkAsReadSequentially(tabs, index + 1),
+            600,
+          );
+        },
+        error: () => {
+          // Roll back local state if API fails
+          tab.isRead = false;
+
+          if (!this.hasMarkAllReadError) {
+            this.hasMarkAllReadError = true;
+            this.statusMessageService.showErrorToast(
+              "Some notifications could not be marked as read and may reappear on refresh.",
+            );
+          }
+          // Even if one fails, wait 600ms and try the next one
+          setTimeout(
+            () => this.processMarkAsReadSequentially(tabs, index + 1),
+            600,
+          );
+        },
+      });
+  }
+
   getBodyTextClass(notificationTab: NotificationTab): string {
-    return notificationTab.isRead ? 'card-body' : 'card-body pb-0';
+    return notificationTab.isRead ? "card-body" : "card-body pb-0";
   }
 
   getButtonClass(notificationTab: NotificationTab): string {
@@ -162,8 +270,8 @@ export class UserNotificationsListComponent implements OnInit {
   /**
    * Sorts the notification tabs in order.
    */
-  sortTabsBy(by: SortBy): ((a: NotificationTab, b: NotificationTab) => number) {
-    return ((a: NotificationTab, b: NotificationTab): number => {
+  sortTabsBy(by: SortBy): (a: NotificationTab, b: NotificationTab) => number {
+    return (a: NotificationTab, b: NotificationTab): number => {
       let strA: string;
       let strB: string;
       let order: SortOrder;
@@ -179,11 +287,11 @@ export class UserNotificationsListComponent implements OnInit {
           order = SortOrder.ASC;
           break;
         default:
-          strA = '';
-          strB = '';
+          strA = "";
+          strB = "";
           order = SortOrder.ASC;
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    });
+    };
   }
 }
