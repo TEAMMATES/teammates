@@ -1,8 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import teammates.common.util.JsonUtils;
 
 /**
@@ -13,25 +10,6 @@ import teammates.common.util.JsonUtils;
  * such that pages can render the correct information depending on the
  * question type.
  */
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "questionType",
-        visible = true
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = FeedbackTextResponseDetails.class, name = "TEXT"),
-        @JsonSubTypes.Type(value = FeedbackMcqResponseDetails.class, name = "MCQ"),
-        @JsonSubTypes.Type(value = FeedbackMsqResponseDetails.class, name = "MSQ"),
-        @JsonSubTypes.Type(value = FeedbackNumericalScaleResponseDetails.class, name = "NUMSCALE"),
-        @JsonSubTypes.Type(value = FeedbackConstantSumResponseDetails.class, name = "CONSTSUM"),
-        @JsonSubTypes.Type(value = FeedbackConstantSumResponseDetails.class, name = "CONSTSUM_OPTIONS"),
-        @JsonSubTypes.Type(value = FeedbackConstantSumResponseDetails.class, name = "CONSTSUM_RECIPIENTS"),
-        @JsonSubTypes.Type(value = FeedbackContributionResponseDetails.class, name = "CONTRIB"),
-        @JsonSubTypes.Type(value = FeedbackRubricResponseDetails.class, name = "RUBRIC"),
-        @JsonSubTypes.Type(value = FeedbackRankOptionsResponseDetails.class, name = "RANK_OPTIONS"),
-        @JsonSubTypes.Type(value = FeedbackRankRecipientsResponseDetails.class, name = "RANK_RECIPIENTS")
-})
 public abstract class FeedbackResponseDetails {
     private FeedbackQuestionType questionType;
 

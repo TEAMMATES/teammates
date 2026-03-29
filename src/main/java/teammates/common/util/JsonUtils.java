@@ -98,6 +98,8 @@ public final class JsonUtils {
         module.addDeserializer(Duration.class, new DurationMinutesJacksonDeserializer());
         module.addDeserializer(FeedbackQuestion.class, new FeedbackQuestionJacksonDeserializer());
         module.addDeserializer(FeedbackResponse.class, new FeedbackResponseJacksonDeserializer());
+        module.addDeserializer(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsJacksonDeserializer());
+        module.addDeserializer(FeedbackResponseDetails.class, new FeedbackResponseDetailsJacksonDeserializer());
         mapper.registerModule(module);
         if (prettyPrint) {
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -629,6 +631,46 @@ public final class JsonUtils {
                 default:
                     return null;
                 }
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        }
+    }
+
+    private static final class FeedbackQuestionDetailsJacksonDeserializer
+            extends StdDeserializer<FeedbackQuestionDetails> {
+        FeedbackQuestionDetailsJacksonDeserializer() {
+            super(FeedbackQuestionDetails.class);
+        }
+
+        @Override
+        public FeedbackQuestionDetails deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctx)
+                throws IOException {
+            ObjectNode node = p.readValueAsTree();
+            String qt = node.path("questionType").asText();
+            try {
+                FeedbackQuestionType type = FeedbackQuestionType.valueOf(qt);
+                return MAPPER.treeToValue(node, type.getQuestionDetailsClass());
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        }
+    }
+
+    private static final class FeedbackResponseDetailsJacksonDeserializer
+            extends StdDeserializer<FeedbackResponseDetails> {
+        FeedbackResponseDetailsJacksonDeserializer() {
+            super(FeedbackResponseDetails.class);
+        }
+
+        @Override
+        public FeedbackResponseDetails deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctx)
+                throws IOException {
+            ObjectNode node = p.readValueAsTree();
+            String qt = node.path("questionType").asText();
+            try {
+                FeedbackQuestionType type = FeedbackQuestionType.valueOf(qt);
+                return MAPPER.treeToValue(node, type.getResponseDetailsClass());
             } catch (IllegalArgumentException e) {
                 return null;
             }
