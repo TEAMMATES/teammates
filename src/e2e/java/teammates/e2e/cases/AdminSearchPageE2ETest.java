@@ -105,7 +105,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.verifyLinkExpansionButtons(student, instructor, accountRequest);
 
         ______TS("Typical case: Reset account request successful");
-        searchContent = "ASearch.instructor1@gmail.tmt";
+        searchContent = "asearch.instructor1@gmail.tmt";
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();

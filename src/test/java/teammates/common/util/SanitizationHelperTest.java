@@ -18,11 +18,13 @@ public class SanitizationHelperTest extends BaseTestCase {
     @Test
     public void testSanitizeEmail() {
         String emailWithWhiteSpaces = "\tnormal@email.com \t\n";
+        String emailWithMixedCase = "\tNormal@Email.COM \t\n";
         String normalEmail = "normal@email.com";
 
         assertNull(SanitizationHelper.sanitizeEmail(null));
         assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(normalEmail));
         assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithWhiteSpaces));
+        assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithMixedCase));
     }
 
     @Test
