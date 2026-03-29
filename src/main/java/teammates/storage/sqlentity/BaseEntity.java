@@ -11,7 +11,7 @@ import jakarta.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.google.common.reflect.TypeToken;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -97,13 +97,12 @@ public abstract class BaseEntity {
     public static class FeedbackQuestionDetailsConverter implements AttributeConverter<FeedbackQuestionDetails, String> {
         @Override
         public String convertToDatabaseColumn(FeedbackQuestionDetails entity) {
-            return JsonUtils.toJson(entity);
+            return JsonUtils.toJsonJackson(entity);
         }
 
         @Override
         public FeedbackQuestionDetails convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackQuestionDetails>() {
-            }.getType());
+            return JsonUtils.fromJsonJackson(dbData, FeedbackQuestionDetails.class);
         }
     }
 
@@ -115,13 +114,12 @@ public abstract class BaseEntity {
     public static class FeedbackResponseDetailsConverter implements AttributeConverter<FeedbackResponseDetails, String> {
         @Override
         public String convertToDatabaseColumn(FeedbackResponseDetails entity) {
-            return JsonUtils.toJson(entity);
+            return JsonUtils.toJsonJackson(entity);
         }
 
         @Override
         public FeedbackResponseDetails convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackResponseDetails>() {
-            }.getType());
+            return JsonUtils.fromJsonJackson(dbData, FeedbackResponseDetails.class);
         }
     }
 
@@ -133,13 +131,12 @@ public abstract class BaseEntity {
     public static class FeedbackQuestionTypeConverter implements AttributeConverter<FeedbackQuestionType, String> {
         @Override
         public String convertToDatabaseColumn(FeedbackQuestionType entity) {
-            return JsonUtils.toJson(entity);
+            return JsonUtils.toJsonJackson(entity);
         }
 
         @Override
         public FeedbackQuestionType convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackQuestionType>() {
-            }.getType());
+            return JsonUtils.fromJsonJackson(dbData, FeedbackQuestionType.class);
         }
     }
 
@@ -151,13 +148,12 @@ public abstract class BaseEntity {
 
         @Override
         public String convertToDatabaseColumn(FeedbackParticipantType attribute) {
-            return JsonUtils.toJson(attribute);
+            return JsonUtils.toJsonJackson(attribute);
         }
 
         @Override
         public FeedbackParticipantType convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackParticipantType>() {
-            }.getType());
+            return JsonUtils.fromJsonJackson(dbData, FeedbackParticipantType.class);
         }
     }
 
@@ -170,13 +166,12 @@ public abstract class BaseEntity {
 
         @Override
         public String convertToDatabaseColumn(List<FeedbackParticipantType> attribute) {
-            return JsonUtils.toJson(attribute);
+            return JsonUtils.toJsonJackson(attribute);
         }
 
         @Override
         public List<FeedbackParticipantType> convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<List<FeedbackParticipantType>>() {
-            }.getType());
+            return JsonUtils.fromJsonJackson(dbData, new TypeReference<>(){});
         }
     }
 
@@ -187,12 +182,12 @@ public abstract class BaseEntity {
     public static class InstructorPrivilegesConverter implements AttributeConverter<InstructorPrivileges, String> {
         @Override
         public String convertToDatabaseColumn(InstructorPrivileges entity) {
-            return JsonUtils.toJson(entity);
+            return JsonUtils.toJsonJackson(entity);
         }
 
         @Override
         public InstructorPrivileges convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, InstructorPrivileges.class);
+            return JsonUtils.fromJsonJackson(dbData, InstructorPrivileges.class);
         }
     }
 }

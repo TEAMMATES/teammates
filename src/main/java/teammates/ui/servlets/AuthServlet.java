@@ -14,7 +14,7 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.MemoryDataStoreFactory;
 
 import teammates.common.datatransfer.UserInfoCookie;
@@ -30,7 +30,7 @@ abstract class AuthServlet extends HttpServlet {
 
     private static final MemoryDataStoreFactory DATA_STORE_FACTORY = MemoryDataStoreFactory.getDefaultInstance();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final List<String> SCOPES = Arrays.asList("https://www.googleapis.com/auth/userinfo.email");
 
     /**
@@ -65,7 +65,7 @@ abstract class AuthServlet extends HttpServlet {
 
     Cookie getLoginCookie(UserInfoCookie uic) {
         Cookie cookie = new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME,
-                StringHelper.encrypt(JsonUtils.toCompactJson(uic)));
+                StringHelper.encrypt(JsonUtils.toCompactJsonJackson(uic)));
         cookie.setPath("/");
         cookie.setSecure(!Config.IS_DEV_SERVER);
         cookie.setHttpOnly(true);
