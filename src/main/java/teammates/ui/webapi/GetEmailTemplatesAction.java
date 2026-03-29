@@ -23,7 +23,7 @@ public class GetEmailTemplatesAction extends AdminOnlyAction {
      * These mirror the subjects hardcoded in {@code SqlEmailGenerator}.
      */
     public static final Map<String, String> DEFAULT_SUBJECTS = Map.of(
-            "NEW_INSTRUCTOR_ACCOUNT_WELCOME", "Welcome to TEAMMATES!"
+            "NEW_INSTRUCTOR_ACCOUNT_WELCOME", "TEAMMATES: Welcome to TEAMMATES! ${userName}"
     );
 
     /**
