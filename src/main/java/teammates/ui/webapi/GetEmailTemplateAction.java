@@ -17,7 +17,10 @@ public class GetEmailTemplateAction extends AdminOnlyAction {
     public JsonResult execute() {
         String templateKey = getNonNullRequestParamValue(Const.ParamsNames.TEMPLATE_KEY);
 
-        if (!GetEmailTemplatesAction.CONFIGURABLE_TEMPLATE_KEYS.contains(templateKey)) {
+        ConfigurableEmailTemplate configTemplate;
+        try {
+            configTemplate = ConfigurableEmailTemplate.valueOf(templateKey);
+        } catch (IllegalArgumentException e) {
             throw new EntityNotFoundException("Email template with key '" + templateKey + "' does not exist.");
         }
 
@@ -28,8 +31,7 @@ public class GetEmailTemplateAction extends AdminOnlyAction {
         }
 
         // Fall back to the static file so the frontend can show the current default.
-        String defaultSubject = GetEmailTemplatesAction.DEFAULT_SUBJECTS.get(templateKey);
-        String defaultBody = GetEmailTemplatesAction.DEFAULT_BODIES.get(templateKey);
-        return new JsonResult(new EmailTemplateData(templateKey, defaultSubject, defaultBody));
+        return new JsonResult(new EmailTemplateData(templateKey,
+                configTemplate.getDefaultSubject(), configTemplate.getDefaultBody()));
     }
 }

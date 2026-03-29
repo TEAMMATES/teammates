@@ -1,6 +1,7 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,8 +15,8 @@ import teammates.storage.sqlentity.EmailTemplate;
 import teammates.ui.output.EmailTemplateData;
 import teammates.ui.request.EmailTemplateUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.webapi.ConfigurableEmailTemplate;
 import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.GetEmailTemplatesAction;
 import teammates.ui.webapi.UpdateEmailTemplateAction;
 
 /**
@@ -24,6 +25,7 @@ import teammates.ui.webapi.UpdateEmailTemplateAction;
 public class UpdateEmailTemplateActionTest extends BaseActionTest<UpdateEmailTemplateAction> {
 
     private static final String VALID_TEMPLATE_KEY = "NEW_INSTRUCTOR_ACCOUNT_WELCOME";
+    private static final String VALID_BODY = "<p>Please visit <a href=\"${joinUrl}\">${joinUrl}</a> to join.</p>";
 
     @Override
     String getActionUri() {
@@ -48,19 +50,18 @@ public class UpdateEmailTemplateActionTest extends BaseActionTest<UpdateEmailTem
 
     @Test
     void testExecute_saveValidTemplate_success() throws InvalidParametersException {
-        EmailTemplate savedTemplate = new EmailTemplate(
-                VALID_TEMPLATE_KEY, "New Subject", "<p>New body</p>");
+        EmailTemplate savedTemplate = new EmailTemplate(VALID_TEMPLATE_KEY, "New Subject", VALID_BODY);
         when(mockLogic.upsertEmailTemplate(any(EmailTemplate.class))).thenReturn(savedTemplate);
 
         EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
-                VALID_TEMPLATE_KEY, "New Subject", "<p>New body</p>", false);
+                VALID_TEMPLATE_KEY, "New Subject", VALID_BODY, false);
 
         UpdateEmailTemplateAction action = getAction(requestBody);
         EmailTemplateData output = (EmailTemplateData) getJsonResult(action).getOutput();
 
         assertEquals(VALID_TEMPLATE_KEY, output.getTemplateKey());
         assertEquals("New Subject", output.getSubject());
-        assertEquals("<p>New body</p>", output.getBody());
+        assertEquals(VALID_BODY, output.getBody());
         assertTrue(output.getIsCustomized());
     }
 
@@ -74,9 +75,23 @@ public class UpdateEmailTemplateActionTest extends BaseActionTest<UpdateEmailTem
 
         verify(mockLogic).deleteEmailTemplate(VALID_TEMPLATE_KEY);
         assertEquals(VALID_TEMPLATE_KEY, output.getTemplateKey());
-        assertEquals(GetEmailTemplatesAction.DEFAULT_SUBJECTS.get(VALID_TEMPLATE_KEY), output.getSubject());
-        assertEquals(GetEmailTemplatesAction.DEFAULT_BODIES.get(VALID_TEMPLATE_KEY), output.getBody());
+        assertEquals(ConfigurableEmailTemplate.NEW_INSTRUCTOR_ACCOUNT_WELCOME.getDefaultSubject(),
+                output.getSubject());
+        assertEquals(ConfigurableEmailTemplate.NEW_INSTRUCTOR_ACCOUNT_WELCOME.getDefaultBody(),
+                output.getBody());
         assertFalse(output.getIsCustomized());
+    }
+
+    @Test
+    void testExecute_missingRequiredPlaceholder_throwsInvalidHttpRequestBodyException()
+            throws InvalidParametersException {
+        // Body that omits the critical ${joinUrl} placeholder
+        EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
+                VALID_TEMPLATE_KEY, "Subject", "<p>Hello ${userName}, welcome to TEAMMATES!</p>", false);
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(requestBody);
+        assertEquals("Email body is missing required placeholder(s): [${joinUrl}]", ex.getMessage());
+        verify(mockLogic, never()).upsertEmailTemplate(any(EmailTemplate.class));
     }
 
     @Test
@@ -149,7 +164,7 @@ public class UpdateEmailTemplateActionTest extends BaseActionTest<UpdateEmailTem
                 .thenThrow(new InvalidParametersException("Db Error"));
 
         EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
-                VALID_TEMPLATE_KEY, "Subject", "<p>Body</p>", false);
+                VALID_TEMPLATE_KEY, "Subject", VALID_BODY, false);
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(requestBody);
         assertEquals("Db Error", ex.getMessage());

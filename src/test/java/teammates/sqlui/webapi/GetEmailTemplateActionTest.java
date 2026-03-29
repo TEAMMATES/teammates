@@ -8,9 +8,9 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.EmailTemplate;
 import teammates.ui.output.EmailTemplateData;
+import teammates.ui.webapi.ConfigurableEmailTemplate;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetEmailTemplateAction;
-import teammates.ui.webapi.GetEmailTemplatesAction;
 import teammates.ui.webapi.InvalidHttpParameterException;
 
 /**
@@ -64,8 +64,10 @@ public class GetEmailTemplateActionTest extends BaseActionTest<GetEmailTemplateA
         EmailTemplateData output = (EmailTemplateData) getJsonResult(action).getOutput();
 
         assertEquals(VALID_TEMPLATE_KEY, output.getTemplateKey());
-        assertEquals(GetEmailTemplatesAction.DEFAULT_SUBJECTS.get(VALID_TEMPLATE_KEY), output.getSubject());
-        assertEquals(GetEmailTemplatesAction.DEFAULT_BODIES.get(VALID_TEMPLATE_KEY), output.getBody());
+        assertEquals(ConfigurableEmailTemplate.NEW_INSTRUCTOR_ACCOUNT_WELCOME.getDefaultSubject(),
+                output.getSubject());
+        assertEquals(ConfigurableEmailTemplate.NEW_INSTRUCTOR_ACCOUNT_WELCOME.getDefaultBody(),
+                output.getBody());
         assertFalse(output.getIsCustomized());
     }
 

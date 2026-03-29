@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.List;
+
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlentity.EmailTemplate;
 import teammates.ui.output.EmailTemplateData;
@@ -21,15 +23,23 @@ public class UpdateEmailTemplateAction extends AdminOnlyAction {
 
         String templateKey = updateRequest.getTemplateKey();
 
-        if (!GetEmailTemplatesAction.CONFIGURABLE_TEMPLATE_KEYS.contains(templateKey)) {
+        ConfigurableEmailTemplate configTemplate;
+        try {
+            configTemplate = ConfigurableEmailTemplate.valueOf(templateKey);
+        } catch (IllegalArgumentException e) {
             throw new EntityNotFoundException("Email template with key '" + templateKey + "' does not exist.");
         }
 
         if (updateRequest.isResetToDefault()) {
             sqlLogic.deleteEmailTemplate(templateKey);
-            String defaultSubject = GetEmailTemplatesAction.DEFAULT_SUBJECTS.get(templateKey);
-            String defaultBody = GetEmailTemplatesAction.DEFAULT_BODIES.get(templateKey);
-            return new JsonResult(new EmailTemplateData(templateKey, defaultSubject, defaultBody));
+            return new JsonResult(new EmailTemplateData(templateKey,
+                    configTemplate.getDefaultSubject(), configTemplate.getDefaultBody()));
+        }
+
+        List<String> missingPlaceholders = configTemplate.getMissingPlaceholders(updateRequest.getBody());
+        if (!missingPlaceholders.isEmpty()) {
+            throw new InvalidHttpRequestBodyException(
+                    "Email body is missing required placeholder(s): " + missingPlaceholders);
         }
 
         EmailTemplate emailTemplate = new EmailTemplate(

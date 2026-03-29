@@ -1,10 +1,15 @@
 package teammates.sqlui.webapi;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.ui.output.EmailTemplatesData;
+import teammates.ui.webapi.ConfigurableEmailTemplate;
 import teammates.ui.webapi.GetEmailTemplatesAction;
 
 /**
@@ -37,6 +42,9 @@ public class GetEmailTemplatesActionTest extends BaseActionTest<GetEmailTemplate
         GetEmailTemplatesAction action = getAction();
         EmailTemplatesData output = (EmailTemplatesData) getJsonResult(action).getOutput();
 
-        assertEquals(GetEmailTemplatesAction.CONFIGURABLE_TEMPLATE_KEYS, output.getTemplateKeys());
+        List<String> expectedKeys = Arrays.stream(ConfigurableEmailTemplate.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+        assertEquals(expectedKeys, output.getTemplateKeys());
     }
 }
