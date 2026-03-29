@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -18,7 +17,7 @@ import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
   selector: 'tm-mcq-question-response',
   templateUrl: './mcq-question-response.component.html',
   styleUrls: ['./mcq-question-response.component.scss'],
-  imports: [NgIf, SafeHtmlPipe],
+  imports: [SafeHtmlPipe],
 })
 export class McqQuestionResponseComponent
     extends QuestionResponse<FeedbackMcqResponseDetails, FeedbackMcqQuestionDetails> {

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NgIf, NgFor, NgClass } from "@angular/common";
 import { Component, Input, OnInit } from "@angular/core";
 import { forkJoin } from "rxjs";
@@ -6,6 +7,16 @@ import { NotificationService } from "../../../services/notification.service";
 import { StatusMessageService } from "../../../services/status-message.service";
 import { TableComparatorService } from "../../../services/table-comparator.service";
 import { TimezoneService } from "../../../services/timezone.service";
+=======
+import { NgClass } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { NotificationService } from '../../../services/notification.service';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
+import { TimezoneService } from '../../../services/timezone.service';
+>>>>>>> 5707726cbc167242f21141d75daa62a1bea6f904
 import {
   Notification,
   Notifications,
@@ -37,14 +48,12 @@ export interface NotificationTab {
   styleUrls: ["./user-notifications-list.component.scss"],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgFor,
     NgClass,
     PanelChevronComponent,
     NotificationStyleClassPipe,
-  ],
+],
 })
 export class UserNotificationsListComponent implements OnInit {
   // enum

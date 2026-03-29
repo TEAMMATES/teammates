@@ -148,7 +148,7 @@ describe('AdminNotificationsPageComponent', () => {
 
     const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-add-notification');
     expect(btn.disabled).toBeTruthy();
-    expect(btn.textContent).toEqual(' Edit Existing Notification');
+    expect(btn.textContent.trim()).toEqual('Edit Existing Notification');
   });
 
   it('should load correct notification for a given API output', () => {

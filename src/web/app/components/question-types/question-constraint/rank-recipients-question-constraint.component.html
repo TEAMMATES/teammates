@@ -1,10 +1,18 @@
 <div>
-  <p *ngIf="!questionDetails.areDuplicatesAllowed && isSameRanksAssigned" class="text-danger"><span class="fa fa-times"></span>
-    The same rank should not be given multiple times.</p>
-  <p *ngIf="isNoRecipientRanked" class="text-info"><span class="fa fa-info-circle"></span>
-    Please rank the above recipients.</p>
-  <p *ngIf="isMinRecipientsEnabled && isRecipientsRankedLessThanMin" class="text-danger"><span class="fa fa-times"></span>
-    Rank at least {{ questionDetails.minOptionsToBeRanked }} recipients.</p>
-  <p *ngIf="isMaxRecipientsEnabled && isRecipientsRankedMoreThanMax" class="text-danger"><span class="fa fa-times"></span>
-    Rank no more than {{questionDetails.maxOptionsToBeRanked}} recipients.</p>
+  @if (!questionDetails.areDuplicatesAllowed && isSameRanksAssigned) {
+    <p class="text-danger"><span class="fa fa-times"></span>
+  The same rank should not be given multiple times.</p>
+}
+@if (isNoRecipientRanked) {
+  <p class="text-info"><span class="fa fa-info-circle"></span>
+Please rank the above recipients.</p>
+}
+@if (isMinRecipientsEnabled && isRecipientsRankedLessThanMin) {
+  <p class="text-danger"><span class="fa fa-times"></span>
+Rank at least {{ questionDetails.minOptionsToBeRanked }} recipients.</p>
+}
+@if (isMaxRecipientsEnabled && isRecipientsRankedMoreThanMax) {
+  <p class="text-danger"><span class="fa fa-times"></span>
+Rank no more than {{questionDetails.maxOptionsToBeRanked}} recipients.</p>
+}
 </div>

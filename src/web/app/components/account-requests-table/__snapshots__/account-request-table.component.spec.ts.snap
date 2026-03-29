@@ -384,7 +384,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
             <td
               id="timestamp-box"
             >
-              Not Registered Yet
+              Not Registered Yet 
             </td>
             <td>
               <div
@@ -514,7 +514,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
             <td
               id="timestamp-box"
             >
-              Not Registered Yet
+              Not Registered Yet 
             </td>
             <td>
               <div

@@ -1,6 +1,5 @@
 package teammates.it.sqllogic.core;
 
-import java.time.Instant;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -25,11 +24,9 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
 
     private SqlDataBundle typicalDataBundle;
 
-    @Override
     @BeforeClass
     public void setupClass() {
-        super.setupClass();
-        typicalDataBundle = getTypicalSqlDataBundle();
+        typicalDataBundle = getTypicalDataBundle();
     }
 
     @Override
@@ -93,42 +90,5 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
         assertEquals(fr.getGiver(), newGiver);
         assertEquals(fr.getGiverSection(), newGiverSection);
         assertEquals(fr.getRecipientSection(), newRecipientSection);
-    }
-
-    // TODO: Enable test after fixing automatic persist cascade of feedbackResponse to feedbackResponseComments
-    @Test(enabled = false)
-    public void testUpdatedFeedbackResponsesAndCommentsCascade_noChangeToResponseSection_shouldNotUpdateComments()
-            throws Exception {
-        ______TS("Cascading to feedbackResponseComments should not trigger");
-        FeedbackResponse fr = typicalDataBundle.feedbackResponses.get("response1ForQ1");
-        fr = frLogic.getFeedbackResponse(fr.getId());
-        List<FeedbackResponseComment> oldComments = fr.getFeedbackResponseComments();
-
-        Section newGiverSection = typicalDataBundle.sections.get("section2InCourse1");
-        Section newRecipientSection = typicalDataBundle.sections.get("section2InCourse1");
-        String newGiver = "new test giver";
-
-        for (FeedbackResponseComment oldFrc : oldComments) {
-            assertNotEquals(oldFrc.getGiverSection(), newGiverSection);
-            assertNotEquals(oldFrc.getRecipientSection(), newRecipientSection);
-        }
-        assertNotEquals(fr.getGiver(), newGiver);
-
-        // feedbackResponseComments were changed, but sections on feedbackResponse not changed
-        for (FeedbackResponseComment frc : oldComments) {
-            frc.setGiverSection(newGiverSection);
-            frc.setRecipientSection(newRecipientSection);
-        }
-        fr.setUpdatedAt(Instant.now());
-
-        fr = frLogic.updateFeedbackResponseCascade(fr);
-        fr = frLogic.getFeedbackResponse(fr.getId());
-
-        List<FeedbackResponseComment> updatedComments = fr.getFeedbackResponseComments();
-        for (FeedbackResponseComment updatedFrc : updatedComments) {
-            assertNotEquals(updatedFrc.getGiverSection(), newGiverSection);
-            assertNotEquals(updatedFrc.getRecipientSection(), newRecipientSection);
-        }
-        assertEquals(fr.getGiver(), newGiver);
     }
 }

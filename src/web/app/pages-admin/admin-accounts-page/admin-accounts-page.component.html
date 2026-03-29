@@ -1,22 +1,21 @@
 <div *tmIsLoading="isLoadingAccountInfo">
-  <div class="card bg-light" style="margin-top: 30px;" *ngIf="accountInfo.googleId">
-    <div class="card-body row" style="padding: 25px 40px;">
-      <label class="col-sm-2 control-label">Google ID:</label>
-      <div id="account-google-id" class="col-sm-10">{{ accountInfo.googleId }}</div>
-
-      <label class="col-sm-2 control-label">Name:</label>
-      <div id="account-name" class="col-sm-10">{{ accountInfo.name }}</div>
-
-      <label class="col-sm-2 control-label">Email:</label>
-      <div id="account-email" class="col-sm-10">{{ accountInfo.email }}</div>
-
-      <div class="text-center" style="margin-top: 20px;">
-        <button id="btn-delete-account" class="btn btn-sm btn-danger" (click)="deleteAccount()">
-          <i class="fas fa-trash-alt"></i> Delete Account
-        </button>
+  @if (accountInfo.googleId) {
+    <div class="card bg-light" style="margin-top: 30px;">
+      <div class="card-body row" style="padding: 25px 40px;">
+        <label class="col-sm-2 control-label">Google ID:</label>
+        <div id="account-google-id" class="col-sm-10">{{ accountInfo.googleId }}</div>
+        <label class="col-sm-2 control-label">Name:</label>
+        <div id="account-name" class="col-sm-10">{{ accountInfo.name }}</div>
+        <label class="col-sm-2 control-label">Email:</label>
+        <div id="account-email" class="col-sm-10">{{ accountInfo.email }}</div>
+        <div class="text-center" style="margin-top: 20px;">
+          <button id="btn-delete-account" class="btn btn-sm btn-danger" (click)="deleteAccount()">
+            <i class="fas fa-trash-alt"></i> Delete Account
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </div>
 
 <h2 class="my-3">
@@ -24,57 +23,67 @@
 </h2>
 
 <div *tmIsLoading="isLoadingInstructorCourses">
-  <div class="card bg-light" *ngIf="instructorCourses.length">
-    <table id="instructor-table" class="table table-striped">
-      <thead>
-        <tr>
-          <th>Course</th>
-          <th>Institute</th>
-          <th>Options</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let course of instructorCourses">
-          <td class="text-break">[{{ course.courseId }}] {{ course.courseName }}</td>
-          <td class="text-break">{{ course.institute }}</td>
-          <td>
-            <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(course.courseId)">
-              <i class="fas fa-trash-alt"></i> Remove From Course
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  @if (instructorCourses.length) {
+    <div class="card bg-light">
+      <table id="instructor-table" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Course</th>
+            <th>Institute</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (course of instructorCourses; track course) {
+            <tr>
+              <td class="text-break">[{{ course.courseId }}] {{ course.courseName }}</td>
+              <td class="text-break">{{ course.institute }}</td>
+              <td>
+                <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(course.courseId)">
+                  <i class="fas fa-trash-alt"></i> Remove From Course
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </div>
 
 <h2 class="my-3">
   Student For {{ studentCourses.length }} Courses
 </h2>
 <div *tmIsLoading="isLoadingStudentCourses">
-  <div class="card bg-light" *ngIf="studentCourses.length">
-    <table id="student-table" class="table table-striped">
-      <thead>
-        <tr>
-          <th>Course</th>
-          <th>Institute</th>
-          <th>Options</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let course of studentCourses">
-          <td class="text-break">[{{ course.courseId }}] {{ course.courseName }}</td>
-          <td class="text-break">{{ course.institute }}</td>
-          <td>
-            <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(course.courseId)">
-              <i class="fas fa-trash-alt"></i> Remove From Course
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div *ngIf="!studentCourses.length" class="alert alert-warning">
-    <i class="fas fa-exclamation-circle"></i> No student courses found for this account.
-  </div>
+  @if (studentCourses.length) {
+    <div class="card bg-light">
+      <table id="student-table" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Course</th>
+            <th>Institute</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (course of studentCourses; track course) {
+            <tr>
+              <td class="text-break">[{{ course.courseId }}] {{ course.courseName }}</td>
+              <td class="text-break">{{ course.institute }}</td>
+              <td>
+                <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(course.courseId)">
+                  <i class="fas fa-trash-alt"></i> Remove From Course
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (!studentCourses.length) {
+    <div class="alert alert-warning">
+      <i class="fas fa-exclamation-circle"></i> No student courses found for this account.
+    </div>
+  }
 </div>

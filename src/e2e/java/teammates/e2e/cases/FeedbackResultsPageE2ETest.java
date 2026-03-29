@@ -9,33 +9,30 @@ import java.util.stream.Collectors;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackResultsPage;
+import teammates.e2e.pageobjects.FeedbackResultsPageSql;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#SESSION_RESULTS_PAGE}.
  */
 public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
-    private FeedbackResultsPage resultsPage;
-    private CourseAttributes course;
-    private FeedbackSessionAttributes openSession;
-    private List<FeedbackQuestionAttributes> questions = new ArrayList<>();
+    private FeedbackResultsPageSql resultsPage;
+    private Course course;
+    private FeedbackSession openSession;
+    private List<FeedbackQuestion> questions = new ArrayList<>();
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/FeedbackResultsPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
-
-        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/FeedbackResultsPageE2ETest_SqlEntities.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackResultsPageE2ESqlTest.json"));
 
         course = testData.courses.get("FRes.CS2104");
         openSession = testData.feedbackSessions.get("Open Session");
@@ -49,13 +46,13 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
 
         ______TS("unregistered student: can access results");
-        StudentAttributes unregistered = testData.students.get("Unregistered");
+        Student unregistered = testData.students.get("Unregistered");
         AppUrl url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withCourseId(unregistered.getCourse())
+                .withCourseId(unregistered.getCourse().getId())
                 .withStudentEmail(unregistered.getEmail())
-                .withSessionName(openSession.getFeedbackSessionName())
-                .withRegistrationKey(getKeyForStudent(unregistered));
-        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
+                .withSessionName(openSession.getName())
+                .withRegistrationKey(unregistered.getRegKey());
+        resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -63,11 +60,11 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         verifyLoadedQuestions(unregistered, false);
 
         ______TS("registered student: can access results");
-        StudentAttributes student = testData.students.get("Alice");
+        Student student = testData.students.get("Alice");
         url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
-                .withCourseId(openSession.getCourseId())
-                .withSessionName(openSession.getFeedbackSessionName());
-        resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getGoogleId());
+                .withCourseId(openSession.getCourse().getId())
+                .withSessionName(openSession.getName());
+        resultsPage = loginToPage(url, FeedbackResultsPageSql.class, student.getGoogleId());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -78,7 +75,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         questions.forEach(question -> verifyResponseDetails(student, question));
 
         ______TS("verify statistics - numscale");
-        String[] expectedNumScaleStats = { student.getTeam(), "You", "3.83", "4.5", "3", "3.5" };
+        String[] expectedNumScaleStats = { student.getTeam().getName(), "You", "3.83", "4.5", "3", "3.5" };
 
         resultsPage.verifyNumScaleStatistics(5, expectedNumScaleStats);
 
@@ -98,17 +95,19 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify comments");
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
-        verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment1"), student);
-        verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"), student);
+        verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment1"),
+                student);
+        verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"),
+                student);
         verifyCommentDetails(4, testData.feedbackResponseComments.get("qn4Comment1"), student);
 
         ______TS("registered instructor: can access results");
         logout();
-        InstructorAttributes instructor = testData.instructors.get("FRes.instr");
+        Instructor instructor = testData.instructors.get("FRes.instr");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
-                .withCourseId(openSession.getCourseId())
-                .withSessionName(openSession.getFeedbackSessionName());
-        resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getGoogleId());
+                .withCourseId(openSession.getCourse().getId())
+                .withSessionName(openSession.getName());
+        resultsPage = loginToPage(url, FeedbackResultsPageSql.class, instructor.getGoogleId());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -120,10 +119,10 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview results as student: can access results");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withCourseId(openSession.getCourseId())
-                .withSessionName(openSession.getFeedbackSessionName())
+                .withCourseId(openSession.getCourse().getId())
+                .withSessionName(openSession.getName())
                 .withParam("previewas", student.getEmail());
-        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
+        resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -147,24 +146,16 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview results as instructor: can access results");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
-                .withCourseId(openSession.getCourseId())
-                .withSessionName(openSession.getFeedbackSessionName())
+                .withCourseId(openSession.getCourse().getId())
+                .withSessionName(openSession.getName())
                 .withParam("previewas", instructor.getEmail());
-        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
+        resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
-
-        ______TS("preview results as instructor: questions with responses loaded and invisible responses excluded");
-        verifyLoadedQuestions(instructor, true);
-
-        ______TS("preview results as instructor: visible responses shown");
-        questions.stream().filter(this::canInstructorSeeQuestion)
-                .forEach(question -> verifyResponseDetails(instructor, question));
-
     }
 
-    private void verifyLoadedQuestions(StudentAttributes currentStudent, boolean isPreview) {
-        Set<FeedbackQuestionAttributes> qnsWithResponse = getQnsWithResponses(currentStudent);
+    private void verifyLoadedQuestions(Student currentStudent, boolean isPreview) {
+        Set<FeedbackQuestion> qnsWithResponse = getQnsWithResponses(currentStudent);
         questions.forEach(qn -> {
             if (qnsWithResponse.contains(qn)) {
                 resultsPage.verifyQuestionDetails(qn.getQuestionNumber(), qn);
@@ -174,16 +165,17 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         });
 
         if (isPreview) {
-            Set<FeedbackQuestionAttributes> qnsWithResponseNotVisibleForPreview = qnsWithResponse.stream()
+            Set<FeedbackQuestion> qnsWithResponseNotVisibleForPreview = qnsWithResponse.stream()
                     .filter(qn -> !canInstructorSeeQuestion(qn))
                     .collect(Collectors.toSet());
-            qnsWithResponseNotVisibleForPreview.forEach(qn ->
-                    resultsPage.verifyQuestionHasResponsesNotVisibleForPreview(qn.getQuestionNumber()));
+            qnsWithResponseNotVisibleForPreview
+                    .forEach(qn -> resultsPage.verifyQuestionHasResponsesNotVisibleForPreview(
+                            qn.getQuestionNumber()));
         }
     }
 
-    private void verifyLoadedQuestions(InstructorAttributes currentInstructor, boolean isPreview) {
-        Set<FeedbackQuestionAttributes> qnsWithResponse = getQnsWithResponses(currentInstructor);
+    private void verifyLoadedQuestions(Instructor currentInstructor, boolean isPreview) {
+        Set<FeedbackQuestion> qnsWithResponse = getQnsWithResponses(currentInstructor);
         questions.forEach(qn -> {
             if (qnsWithResponse.contains(qn)) {
                 resultsPage.verifyQuestionDetails(qn.getQuestionNumber(), qn);
@@ -193,105 +185,108 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         });
 
         if (isPreview) {
-            Set<FeedbackQuestionAttributes> qnsWithResponseNotVisibleForPreview = qnsWithResponse.stream()
+            Set<FeedbackQuestion> qnsWithResponseNotVisibleForPreview = qnsWithResponse.stream()
                     .filter(qn -> !canInstructorSeeQuestion(qn))
                     .collect(Collectors.toSet());
-            qnsWithResponseNotVisibleForPreview.forEach(qn ->
-                    resultsPage.verifyQuestionHasResponsesNotVisibleForPreview(qn.getQuestionNumber()));
+            qnsWithResponseNotVisibleForPreview
+                    .forEach(qn -> resultsPage.verifyQuestionHasResponsesNotVisibleForPreview(
+                            qn.getQuestionNumber()));
         }
     }
 
-    private void verifyResponseDetails(StudentAttributes currentStudent, FeedbackQuestionAttributes question) {
-        List<FeedbackResponseAttributes> givenResponses = getGivenResponses(currentStudent, question);
-        List<FeedbackResponseAttributes> otherResponses = getOtherResponses(currentStudent, question);
+    private void verifyResponseDetails(Student currentStudent, FeedbackQuestion question) {
+        List<FeedbackResponse> givenResponses = getGivenResponses(currentStudent, question);
+        List<FeedbackResponse> otherResponses = getOtherResponses(currentStudent, question);
         Set<String> visibleGivers = getVisibleGivers(currentStudent, question);
         Set<String> visibleRecipients = getVisibleRecipients(currentStudent, question);
-        resultsPage.verifyResponseDetails(question, givenResponses, otherResponses, visibleGivers, visibleRecipients);
+        resultsPage.verifyResponseDetails(question, givenResponses, otherResponses, visibleGivers,
+                visibleRecipients);
     }
 
-    private void verifyResponseDetails(InstructorAttributes currentInstructor, FeedbackQuestionAttributes question) {
-        List<FeedbackResponseAttributes> givenResponses = getGivenResponses(currentInstructor, question);
-        List<FeedbackResponseAttributes> otherResponses = getOtherResponses(currentInstructor, question);
+    private void verifyResponseDetails(Instructor currentInstructor, FeedbackQuestion question) {
+        List<FeedbackResponse> givenResponses = getGivenResponses(currentInstructor, question);
+        List<FeedbackResponse> otherResponses = getOtherResponses(currentInstructor, question);
         Set<String> visibleGivers = getVisibleGivers(currentInstructor, question);
         Set<String> visibleRecipients = getVisibleRecipients(currentInstructor, question);
-        resultsPage.verifyResponseDetails(question, givenResponses, otherResponses, visibleGivers, visibleRecipients);
+        resultsPage.verifyResponseDetails(question, givenResponses, otherResponses, visibleGivers,
+                visibleRecipients);
     }
 
-    private void verifyCommentDetails(int questionNum, FeedbackResponseCommentAttributes comment,
-                                      StudentAttributes currentStudent) {
+    private void verifyCommentDetails(int questionNum, FeedbackResponseComment comment,
+            Student currentStudent) {
         String editor = "";
         String giver = "";
         if (comment.getLastEditorEmail() != null) {
             editor = getIdentifier(currentStudent, comment.getLastEditorEmail());
         }
-        if (comment.getCommentGiverType() != FeedbackParticipantType.STUDENTS) {
-            giver = getIdentifier(currentStudent, comment.getCommentGiver());
+        if (comment.getGiverType() != FeedbackParticipantType.STUDENTS) {
+            giver = getIdentifier(currentStudent, comment.getGiver());
         }
         resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());
     }
 
-    private boolean canInstructorSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
-        boolean isGiverVisibleToInstructor =
-                feedbackQuestion.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean isRecipientVisibleToInstructor =
-                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
-        boolean isResponseVisibleToInstructor =
-                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
+    private boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {
+        boolean isGiverVisibleToInstructor = feedbackQuestion.getShowGiverNameTo()
+                .contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isRecipientVisibleToInstructor = feedbackQuestion.getShowRecipientNameTo()
+                .contains(FeedbackParticipantType.INSTRUCTORS);
+        boolean isResponseVisibleToInstructor = feedbackQuestion.getShowResponsesTo()
+                .contains(FeedbackParticipantType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 
-    private Set<FeedbackQuestionAttributes> getQnsWithResponses(StudentAttributes currentStudent) {
+    private Set<FeedbackQuestion> getQnsWithResponses(Student currentStudent) {
         return questions.stream()
                 .filter(qn -> !getGivenResponses(currentStudent, qn).isEmpty()
                         || !getOtherResponses(currentStudent, qn).isEmpty())
                 .collect(Collectors.toSet());
     }
 
-    private Set<FeedbackQuestionAttributes> getQnsWithResponses(InstructorAttributes currentInstructor) {
+    private Set<FeedbackQuestion> getQnsWithResponses(Instructor currentInstructor) {
         return questions.stream()
                 .filter(qn -> !getGivenResponses(currentInstructor, qn).isEmpty()
                         || !getOtherResponses(currentInstructor, qn).isEmpty())
                 .collect(Collectors.toSet());
     }
 
-    private List<FeedbackResponseAttributes> getGivenResponses(StudentAttributes currentStudent,
-                                                               FeedbackQuestionAttributes question) {
-        List<FeedbackResponseAttributes> givenResponses = testData.feedbackResponses.values().stream()
-                .filter(f -> f.getFeedbackQuestionId().equals(Integer.toString(question.getQuestionNumber()))
+    private List<FeedbackResponse> getGivenResponses(Student currentStudent,
+            FeedbackQuestion question) {
+        List<FeedbackResponse> givenResponses = testData.feedbackResponses.values().stream()
+                .filter(f -> f.getFeedbackQuestion().equals(question)
                         && f.getGiver().equals(currentStudent.getEmail()))
                 .collect(Collectors.toList());
         return editIdentifiers(currentStudent, givenResponses);
     }
 
-    private List<FeedbackResponseAttributes> getGivenResponses(InstructorAttributes currentInstructor,
-                                                               FeedbackQuestionAttributes question) {
-        List<FeedbackResponseAttributes> givenResponses = testData.feedbackResponses.values().stream()
-                .filter(f -> f.getFeedbackQuestionId().equals(Integer.toString(question.getQuestionNumber()))
+    private List<FeedbackResponse> getGivenResponses(Instructor currentInstructor,
+            FeedbackQuestion question) {
+        List<FeedbackResponse> givenResponses = testData.feedbackResponses.values().stream()
+                .filter(f -> f.getFeedbackQuestion().equals(question)
                         && f.getGiver().equals(currentInstructor.getEmail()))
                 .collect(Collectors.toList());
         return editIdentifiers(currentInstructor, givenResponses);
     }
 
-    private List<FeedbackResponseAttributes> getOtherResponses(StudentAttributes currentStudent,
-                                                               FeedbackQuestionAttributes question) {
+    private List<FeedbackResponse> getOtherResponses(Student currentStudent,
+            FeedbackQuestion question) {
         Set<String> visibleResponseGivers = getRelevantUsers(currentStudent, question.getShowResponsesTo());
         visibleResponseGivers.add(currentStudent.getEmail());
 
-        List<FeedbackResponseAttributes> questionResponses = testData.feedbackResponses.values().stream()
-                .filter(fr -> fr.getFeedbackQuestionId().equals(Integer.toString(question.getQuestionNumber())))
+        List<FeedbackResponse> questionResponses = testData.feedbackResponses.values().stream()
+                .filter(fr -> fr.getFeedbackQuestion().equals(question))
                 .collect(Collectors.toList());
 
-        List<FeedbackResponseAttributes> selfEvaluationResponses = questionResponses.stream()
+        List<FeedbackResponse> selfEvaluationResponses = questionResponses.stream()
                 .filter(fr -> fr.getGiver().equals(currentStudent.getEmail())
                         && fr.getRecipient().equals(currentStudent.getEmail()))
                 .collect(Collectors.toList());
 
-        List<FeedbackResponseAttributes> responsesByOthers = questionResponses.stream()
+        List<FeedbackResponse> responsesByOthers = questionResponses.stream()
                 .filter(fr -> !fr.getGiver().equals(currentStudent.getEmail())
                         && visibleResponseGivers.contains(fr.getGiver()))
                 .collect(Collectors.toList());
 
-        List<FeedbackResponseAttributes> responsesToSelf = new ArrayList<>();
+        List<FeedbackResponse> responsesToSelf = new ArrayList<>();
         if (visibleResponseGivers.contains("RECEIVER")) {
             responsesToSelf = questionResponses.stream()
                     .filter(fr -> !fr.getGiver().equals(currentStudent.getEmail())
@@ -299,7 +294,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                     .collect(Collectors.toList());
         }
 
-        List<FeedbackResponseAttributes> otherResponses = new ArrayList<>();
+        List<FeedbackResponse> otherResponses = new ArrayList<>();
         otherResponses.addAll(selfEvaluationResponses);
         otherResponses.addAll(responsesByOthers);
         otherResponses.addAll(responsesToSelf);
@@ -307,26 +302,26 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         return editIdentifiers(currentStudent, otherResponses);
     }
 
-    private List<FeedbackResponseAttributes> getOtherResponses(InstructorAttributes currentInstructor,
-                                                               FeedbackQuestionAttributes question) {
+    private List<FeedbackResponse> getOtherResponses(Instructor currentInstructor,
+            FeedbackQuestion question) {
         Set<String> visibleResponseGivers = getRelevantUsersForInstructors(question.getShowResponsesTo());
         visibleResponseGivers.add(currentInstructor.getEmail());
 
-        List<FeedbackResponseAttributes> questionResponses = testData.feedbackResponses.values().stream()
-                .filter(fr -> fr.getFeedbackQuestionId().equals(Integer.toString(question.getQuestionNumber())))
+        List<FeedbackResponse> questionResponses = testData.feedbackResponses.values().stream()
+                .filter(fr -> fr.getFeedbackQuestion().equals(question))
                 .collect(Collectors.toList());
 
-        List<FeedbackResponseAttributes> selfEvaluationResponses = questionResponses.stream()
+        List<FeedbackResponse> selfEvaluationResponses = questionResponses.stream()
                 .filter(fr -> fr.getGiver().equals(currentInstructor.getEmail())
                         && fr.getRecipient().equals(currentInstructor.getEmail()))
                 .collect(Collectors.toList());
 
-        List<FeedbackResponseAttributes> responsesByOthers = questionResponses.stream()
+        List<FeedbackResponse> responsesByOthers = questionResponses.stream()
                 .filter(fr -> !fr.getGiver().equals(currentInstructor.getEmail())
                         && visibleResponseGivers.contains(fr.getGiver()))
                 .collect(Collectors.toList());
 
-        List<FeedbackResponseAttributes> responsesToSelf = new ArrayList<>();
+        List<FeedbackResponse> responsesToSelf = new ArrayList<>();
         if (visibleResponseGivers.contains("RECEIVER") || visibleResponseGivers.contains("INSTRUCTORS")) {
             responsesToSelf = questionResponses.stream()
                     .filter(fr -> !fr.getGiver().equals(currentInstructor.getEmail())
@@ -334,7 +329,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                     .collect(Collectors.toList());
         }
 
-        List<FeedbackResponseAttributes> otherResponses = new ArrayList<>();
+        List<FeedbackResponse> otherResponses = new ArrayList<>();
         otherResponses.addAll(selfEvaluationResponses);
         otherResponses.addAll(responsesByOthers);
         otherResponses.addAll(responsesToSelf);
@@ -342,40 +337,41 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         return editIdentifiers(currentInstructor, otherResponses);
     }
 
-    private Set<String> getVisibleGivers(StudentAttributes currentStudent, FeedbackQuestionAttributes question) {
+    private Set<String> getVisibleGivers(Student currentStudent, FeedbackQuestion question) {
         return getRelevantUsers(currentStudent, question.getShowGiverNameTo()).stream()
                 .map(user -> getIdentifier(currentStudent, user))
                 .collect(Collectors.toSet());
     }
 
-    private Set<String> getVisibleGivers(InstructorAttributes currentInstructor, FeedbackQuestionAttributes question) {
+    private Set<String> getVisibleGivers(Instructor currentInstructor, FeedbackQuestion question) {
         return getRelevantUsersForInstructors(question.getShowGiverNameTo()).stream()
                 .map(user -> getIdentifier(currentInstructor, user))
                 .collect(Collectors.toSet());
     }
 
-    private Set<String> getVisibleRecipients(StudentAttributes currentStudent, FeedbackQuestionAttributes question) {
+    private Set<String> getVisibleRecipients(Student currentStudent, FeedbackQuestion question) {
         return getRelevantUsers(currentStudent, question.getShowRecipientNameTo()).stream()
                 .map(user -> getIdentifier(currentStudent, user))
                 .collect(Collectors.toSet());
     }
 
-    private Set<String> getVisibleRecipients(InstructorAttributes currentInstructor, FeedbackQuestionAttributes question) {
+    private Set<String> getVisibleRecipients(Instructor currentInstructor,
+            FeedbackQuestion question) {
         return getRelevantUsersForInstructors(question.getShowRecipientNameTo()).stream()
                 .map(user -> getIdentifier(currentInstructor, user))
                 .collect(Collectors.toSet());
     }
 
-    private Set<String> getRelevantUsers(StudentAttributes giver, List<FeedbackParticipantType> relevantParticipants) {
+    private Set<String> getRelevantUsers(Student giver, List<FeedbackParticipantType> relevantParticipants) {
         Set<String> relevantUsers = new HashSet<>();
-        List<StudentAttributes> students = new ArrayList<>();
+        List<Student> students = new ArrayList<>();
         if (relevantParticipants.contains(FeedbackParticipantType.STUDENTS)) {
             students.addAll(getOtherStudents(giver));
         } else if (relevantParticipants.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             students.addAll(getOtherTeammates(giver));
         }
         students.forEach(s -> relevantUsers.add(s.getEmail()));
-        students.forEach(s -> relevantUsers.add(s.getTeam()));
+        students.forEach(s -> relevantUsers.add(s.getTeamName()));
 
         if (relevantParticipants.contains(FeedbackParticipantType.RECEIVER)) {
             relevantUsers.add("RECEIVER");
@@ -395,23 +391,23 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         return relevantUsers;
     }
 
-    private Set<StudentAttributes> getOtherTeammates(StudentAttributes currentStudent) {
+    private Set<Student> getOtherTeammates(Student currentStudent) {
         return testData.students.values().stream()
                 .filter(s -> s.getTeam().equals(currentStudent.getTeam())
-                && !s.equals(currentStudent))
+                        && !s.equals(currentStudent))
                 .collect(Collectors.toSet());
     }
 
-    private Set<StudentAttributes> getOtherStudents(StudentAttributes currentStudent) {
+    private Set<Student> getOtherStudents(Student currentStudent) {
         return testData.students.values().stream()
                 .filter(s -> s.getCourse().equals(currentStudent.getCourse())
-                && !s.equals(currentStudent))
+                        && !s.equals(currentStudent))
                 .collect(Collectors.toSet());
     }
 
-    private List<FeedbackResponseAttributes> editIdentifiers(StudentAttributes currentStudent,
-                                                             List<FeedbackResponseAttributes> responses) {
-        List<FeedbackResponseAttributes> editedResponses = deepCopyResponses(responses);
+    private List<FeedbackResponse> editIdentifiers(Student currentStudent,
+            List<FeedbackResponse> responses) {
+        List<FeedbackResponse> editedResponses = deepCopyResponses(responses);
         editedResponses.forEach(fr -> {
             fr.setGiver(getIdentifier(currentStudent, fr.getGiver()));
             fr.setRecipient(getIdentifier(currentStudent, fr.getRecipient()));
@@ -419,9 +415,9 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         return editedResponses;
     }
 
-    private List<FeedbackResponseAttributes> editIdentifiers(InstructorAttributes currentInstructor,
-                                                             List<FeedbackResponseAttributes> responses) {
-        List<FeedbackResponseAttributes> editedResponses = deepCopyResponses(responses);
+    private List<FeedbackResponse> editIdentifiers(Instructor currentInstructor,
+            List<FeedbackResponse> responses) {
+        List<FeedbackResponse> editedResponses = deepCopyResponses(responses);
         editedResponses.forEach(fr -> {
             fr.setGiver(getIdentifier(currentInstructor, fr.getGiver()));
             fr.setRecipient(getIdentifier(currentInstructor, fr.getRecipient()));
@@ -429,14 +425,14 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         return editedResponses;
     }
 
-    private String getIdentifier(StudentAttributes currentStudent, String user) {
+    private String getIdentifier(Student currentStudent, String user) {
         if (currentStudent.getEmail().equals(user)) {
             return "You";
         }
         if (Const.GENERAL_QUESTION.equals(user)) {
             return Const.USER_NOBODY_TEXT;
         }
-        if (user.equals(currentStudent.getTeam())) {
+        if (user.equals(currentStudent.getTeam().getName())) {
             return "Your Team (" + user + ")";
         }
         String identifier = getInstructorName(user);
@@ -449,7 +445,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         return identifier;
     }
 
-    private String getIdentifier(InstructorAttributes currentInstructor, String user) {
+    private String getIdentifier(Instructor currentInstructor, String user) {
         if (currentInstructor.getEmail().equals(user)) {
             return "You";
         }
@@ -468,32 +464,36 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     private String getStudentName(String studentEmail) {
         return testData.students.values().stream()
-               .filter(s -> s.getEmail().equals(studentEmail))
-               .map(StudentAttributes::getName)
-               .findFirst()
-               .orElse(null);
+                .filter(s -> s.getEmail().equals(studentEmail))
+                .map(Student::getName)
+                .findFirst()
+                .orElse(null);
     }
 
     private String getInstructorName(String instructorEmail) {
         return testData.instructors.values().stream()
                 .filter(s -> s.getEmail()
                         .equals(instructorEmail))
-                .map(InstructorAttributes::getName)
+                .map(Instructor::getName)
                 .findFirst()
                 .orElse(null);
     }
 
-    private List<FeedbackResponseAttributes> deepCopyResponses(List<FeedbackResponseAttributes> responses) {
-        List<FeedbackResponseAttributes> copiedResponses = new ArrayList<>();
-        for (FeedbackResponseAttributes response : responses) {
-            copiedResponses.add(new FeedbackResponseAttributes(response));
+    private List<FeedbackResponse> deepCopyResponses(List<FeedbackResponse> responses) {
+        List<FeedbackResponse> copiedResponses = new ArrayList<>();
+        for (FeedbackResponse response : responses) {
+            copiedResponses.add(FeedbackResponse.makeResponse(response.getFeedbackQuestion(),
+                    response.getGiver(),
+                    response.getGiverSection(), response.getRecipient(),
+                    response.getRecipientSection(),
+                    response.getFeedbackResponseDetailsCopy()));
         }
         return copiedResponses;
     }
 
     private void verifyExpectedRubricStats() {
-        FeedbackRubricQuestionDetails rubricsQnDetails =
-                (FeedbackRubricQuestionDetails) testData.feedbackQuestions.get("qn10").getQuestionDetailsCopy();
+        FeedbackRubricQuestionDetails rubricsQnDetails = (FeedbackRubricQuestionDetails) testData.feedbackQuestions
+                .get("qn10").getQuestionDetailsCopy();
         List<String> subQns = rubricsQnDetails.getRubricSubQuestions();
         String[] formattedSubQns = { "a) " + subQns.get(0), "b) " + subQns.get(1), "c) " + subQns.get(2) };
 

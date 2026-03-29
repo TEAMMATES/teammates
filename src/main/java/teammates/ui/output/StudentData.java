@@ -4,11 +4,10 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.storage.sqlentity.Student;
 
 /**
- * The API output format of {@link StudentAttributes}.
+ * The API output format of {@link Student}.
  */
 public class StudentData extends ApiOutput {
 
@@ -32,17 +31,6 @@ public class StudentData extends ApiOutput {
 
     private final String teamName;
     private final String sectionName;
-
-    public StudentData(StudentAttributes studentAttributes) {
-        this.studentId = null;
-        this.email = studentAttributes.getEmail();
-        this.courseId = studentAttributes.getCourse();
-        this.name = studentAttributes.getName();
-        this.joinState = studentAttributes.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
-        this.comments = studentAttributes.getComments();
-        this.teamName = studentAttributes.getTeam();
-        this.sectionName = studentAttributes.getSection();
-    }
 
     public StudentData(Student student) {
         this.studentId = student.getId();

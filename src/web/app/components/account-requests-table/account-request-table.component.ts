@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
@@ -30,15 +29,13 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
   styleUrls: ['./account-request-table.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
-    NgFor,
     NgbTooltip,
     AjaxLoadingComponent,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
     SearchTermsHighlighterPipe,
-  ],
+],
 })
 
 export class AccountRequestTableComponent {
@@ -113,8 +110,7 @@ export class AccountRequestTableComponent {
 
   approveAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
     this.isApprovingAccount[index] = true;
-    this.accountService.approveAccountRequest(accountRequest.id, accountRequest.name,
-        accountRequest.email, accountRequest.instituteAndCountry)
+    this.accountService.approveAccountRequest(accountRequest.id)
     .subscribe({
       next: (resp : AccountRequest) => {
         accountRequest.status = resp.status;

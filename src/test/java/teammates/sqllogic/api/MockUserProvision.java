@@ -2,7 +2,6 @@ package teammates.sqllogic.api;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
-import teammates.logic.api.UserProvision;
 
 /**
  * Allows mocking of the {@link UserProvision} API used in production.
@@ -98,11 +97,6 @@ public class MockUserProvision extends UserProvision {
     @Override
     public UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
         return isLoggedIn ? mockUser : null;
-    }
-
-    @Override
-    public UserInfo getCurrentUserWithTransaction(UserInfoCookie uic) {
-        return getCurrentUser(uic);
     }
 
     @Override

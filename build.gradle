@@ -27,7 +27,8 @@ buildscript {
             exclude group: "org.gradle"
         }
         classpath "com.google.guava:guava:33.5.0-jre"
-        classpath "org.liquibase:liquibase-gradle-plugin:2.2.1"
+        classpath "org.liquibase:liquibase-gradle-plugin:3.1.0"
+        classpath "org.liquibase:liquibase-core:4.27.0"
     }
 }
 
@@ -48,7 +49,6 @@ repositories {
     mavenCentral()
 }
 
-def objectify = "com.googlecode.objectify:objectify:6.0.7"
 def testng = "org.testng:testng:7.12.0"
 
 dependencies {
@@ -57,17 +57,14 @@ dependencies {
     staticAnalysis("com.github.spotbugs:spotbugs:${spotbugsVersion}")
     staticAnalysis("org.jacoco:org.jacoco.build:${jacocoVersion}")
 
-    annotationProcessor(objectify)
-
     implementation("com.google.auth:google-auth-library-oauth2-http:1.42.1")
     implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
-    implementation("com.google.cloud:google-cloud-datastore")
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("com.google.guava:guava:33.5.0-jre")
-    implementation(objectify)
+    implementation("commons-lang:commons-lang:2.6")
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20260102.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression
     implementation("com.mailjet:mailjet-client:5.2.5")
@@ -75,7 +72,6 @@ dependencies {
     implementation("com.sun.jersey:jersey-client:1.19.4")
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
-    implementation("org.apache.solr:solr-solrj:8.11.3")
     implementation(platform("org.eclipse.jetty:jetty-bom:11.0.20"))
     implementation("org.eclipse.jetty:jetty-slf4j-impl")
     implementation("org.eclipse.jetty:jetty-server")
@@ -85,6 +81,9 @@ dependencies {
     implementation("org.hibernate.orm:hibernate-core:6.4.4.Final")
     implementation("org.postgresql:postgresql:42.7.9")
     implementation("org.hibernate:hibernate-hikaricp:6.4.4.Final")
+    implementation("org.apache.commons:commons-math3:3.6.1")
+    implementation("jakarta.mail:jakarta.mail-api:2.1.5")
+    implementation("org.eclipse.angus:angus-mail:2.0.5")
 
     testAnnotationProcessor(testng)
 
@@ -100,13 +99,6 @@ dependencies {
     testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.39.0")
     // For using Gmail API
     testImplementation("com.google.apis:google-api-services-gmail:v1-rev20260112-2.0.0")
-    // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.6.2") {
-        exclude group: "org.apache.jmeter", module: "bom"
-    }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.6.2") {
-        exclude group: "org.apache.jmeter", module: "bom"
-    }
 
     liquibaseRuntime("info.picocli:picocli:4.7.7")
     liquibaseRuntime(sourceSets.main.output)
@@ -127,7 +119,6 @@ sourceSets {
         java {
             srcDir "src/test/java"
             srcDir "src/e2e/java"
-            srcDir "src/lnp/java"
             srcDir "src/it/java"
             srcDir "src/client/java"
             include "**/*.java"
@@ -135,7 +126,6 @@ sourceSets {
         resources {
             srcDir "src/test/resources"
             srcDir "src/e2e/resources"
-            srcDir "src/lnp/resources"
             srcDir "src/it/resources"
             srcDir "src/client/resources"
             exclude "**/*.java"
@@ -151,7 +141,7 @@ liquibase {
     activities {
         main {
             searchPath "${projectDir}"
-            changeLogFile "src/main/resources/db/changelog/db.changelog-root.xml"
+            changelogFile "src/main/resources/db/changelog/db.changelog-root.xml"
             url project.properties['liquibaseDbUrl']
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
@@ -165,7 +155,7 @@ liquibase {
         }
         diffMain {
             searchPath "${projectDir}"
-            changeLogFile "src/main/resources/db/changelog/db.changelog-new.xml"
+            changelogFile "src/main/resources/db/changelog/db.changelog-new.xml"
             referenceUrl  project.properties['liquibaseDbUrl']
             referenceUsername project.properties['liquibaseUsername']
             referencePassword project.properties['liquibasePassword']
@@ -252,20 +242,22 @@ task execScript(type: JavaExec) {
 // SETUP TASKS
 
 task createConfigs {
-    description = "Sets up the project by obtaining necessary files and configurations points."
+    description = "Sets up the project by obtaining necessary files and configurations points. " +
+            "Use -PproductionConfigs to skip creating build-dev.properties."
     group = "Setup"
     doLast {
         def templatesToCopy = [
             "gradle.template.properties",
             "src/main/resources/build.template.properties",
-            "src/main/resources/build-dev.template.properties",
             "src/web/environments/config.template.ts",
             "src/test/resources/test.template.properties",
-            "src/lnp/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
             "src/client/resources/client.template.properties",
             "src/main/appengine/app.template.yaml"
         ]
+        if (!project.hasProperty("productionConfigs")) {
+            templatesToCopy.add(2, "src/main/resources/build-dev.template.properties")
+        }
         templatesToCopy.findAll {
             !(new File(it.replace(".template", ""))).exists()
         }.each {
@@ -336,11 +328,6 @@ task serverRun(type: JavaExec) {
     jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties",
             "-Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider"
     dependsOn explodeWar, copyDistToExplodedWar
-}
-
-task runDatastoreEmulator(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-    mainClass = "teammates.storage.api.DatastoreEmulatorRunner"
 }
 
 appengine {
@@ -538,38 +525,6 @@ task lint {
 
 def numOfTestRetries = 4
 
-task lnpTests(type: Test) {
-    systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
-    testClassesDirs = testing.suites.test.sources.output.classesDirs
-    classpath = testing.suites.test.sources.runtimeClasspath
-    useTestNG()
-    options.suites "src/lnp/resources/testng-lnp.xml"
-    options.useDefaultListeners = true
-    ignoreFailures = false
-    maxHeapSize = "1g"
-    reports.html.required = false
-    reports.junitXml.required = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed", "failed", "skipped"
-    }
-    // Display the L&P test results in the build
-    def outputCache = new LinkedList<String>()
-    beforeTest { TestDescriptor td -> outputCache.clear() } // clear output cache before the test starts
-    onOutput { TestDescriptor td, TestOutputEvent toe -> // put output in the cache
-        outputCache.add(toe.getMessage())
-        while (outputCache.size() > 2) outputCache.remove() // keep only last 2 result lines
-    }
-    afterTest { TestDescriptor td ->
-        if (outputCache.size() > 0) {
-            println(" L&P results for ${td.className}:")
-            outputCache.each { print(" > $it") }
-        }
-    }
-}
-
 task unitTests(type: Test) {
     description = "Runs the full unit test suite."
     group = "Test"
@@ -624,15 +579,14 @@ task e2eTests {
 (1..numOfTestRetries + 1).each { id ->
     def isFirstTry = id == 1
     def isLastRetry = id == numOfTestRetries + 1
-    def runUnstableTests = project.hasProperty('unstable')
-    def outputFileName = runUnstableTests ? "e2e-unstable-test-try-" : "e2e-test-try-"
+    def outputFileName = "e2e-test-try-"
 
     task "e2eTestTry${id}"(type: Test) {
         testClassesDirs = testing.suites.test.sources.output.classesDirs
         classpath = testing.suites.test.sources.runtimeClasspath
         useTestNG()
         options.suites isFirstTry
-                ? (runUnstableTests ? "src/e2e/resources/testng-unstable-e2e.xml" : "src/e2e/resources/testng-e2e.xml")
+                ? "src/e2e/resources/testng-e2e.xml"
                 : file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml")
         options.outputDirectory = file("${buildDir}/reports/${outputFileName}${id}")
         options.useDefaultListeners = true
@@ -655,47 +609,6 @@ task e2eTests {
         }
     }
     e2eTests.dependsOn "e2eTestTry${id}"
-}
-
-task e2eTestsSql {
-    description = "Runs the E2E SQL test suite and retries failed test up to ${numOfTestRetries} times."
-    group = "Test"
-}
-
-(1..numOfTestRetries + 1).each { id ->
-    def isFirstTry = id == 1
-    def isLastRetry = id == numOfTestRetries + 1
-    def runUnstableTests = project.hasProperty('unstable')
-    def outputFileName = runUnstableTests ? "e2e-sql-unstable-test-try-" : "e2e-sql-test-try-"
-
-    task "e2eSqlTestTry${id}"(type: Test) {
-        testClassesDirs = testing.suites.test.sources.output.classesDirs
-        classpath = testing.suites.test.sources.runtimeClasspath
-        useTestNG()
-        options.suites isFirstTry
-                ? (runUnstableTests ? "src/e2e/resources/testng-unstable-e2e-sql.xml" : "src/e2e/resources/testng-e2e-sql.xml")
-                : file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml")
-        options.outputDirectory = file("${buildDir}/reports/${outputFileName}${id}")
-        options.useDefaultListeners = true
-        ignoreFailures = !isLastRetry
-        maxHeapSize = "1g"
-        reports.html.required = false
-        reports.junitXml.required = false
-        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-        testLogging {
-            events "passed"
-        }
-        afterTest afterTestClosure
-        if (isFirstTry) {
-            afterSuite checkTestNgFailureClosure
-        } else {
-            mustRunAfter "e2eSqlTestTry${id - 1}"
-        }
-        onlyIf {
-            isFirstTry || file("${buildDir}/reports/${outputFileName}${id - 1}/testng-failed.xml").exists()
-        }
-    }
-    e2eTestsSql.dependsOn "e2eSqlTestTry${id}"
 }
 
 task axeTests {
@@ -732,42 +645,6 @@ task axeTests {
         }
     }
     axeTests.dependsOn "axeTestTry${id}"
-}
-
-task axeTestsSql {
-    description = "Runs the SQL-backed accessibility test suite and retries failed tests once."
-    group = "Test"
-}
-
-(1..2).each { id ->
-    def isFirstTry = id == 1
-
-    task "axeSqlTestTry${id}"(type: Test) {
-        testClassesDirs = testing.suites.test.sources.output.classesDirs
-        classpath = testing.suites.test.sources.runtimeClasspath
-        useTestNG()
-        options.suites isFirstTry ? "src/e2e/resources/testng-axe-sql.xml" : file("${buildDir}/reports/axe-sql-test-try-${id - 1}/testng-failed.xml")
-        options.outputDirectory = file("${buildDir}/reports/axe-sql-test-try-${id}")
-        options.useDefaultListeners = true
-        ignoreFailures = isFirstTry
-        maxHeapSize = "1g"
-        reports.html.required = false
-        reports.junitXml.required = false
-        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-        testLogging {
-            events "passed"
-        }
-        afterTest afterTestClosure
-        if (isFirstTry) {
-            afterSuite checkTestNgFailureClosure
-        } else {
-            mustRunAfter "axeSqlTestTry${id - 1}"
-        }
-        onlyIf {
-            isFirstTry || file("${buildDir}/reports/axe-sql-test-try-${id - 1}/testng-failed.xml").exists()
-        }
-    }
-    axeTestsSql.dependsOn "axeSqlTestTry${id}"
 }
 
 // COVERAGE TASKS

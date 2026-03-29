@@ -1,11 +1,13 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -16,6 +18,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -49,6 +52,8 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
     @BeforeMethod
     void setUp() {
+        reset(mockLogic, mockSqlEmailGenerator);
+
         typicalInstructor = getTypicalInstructor();
         typicalCourse = getTypicalCourse();
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
@@ -134,6 +139,8 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     void testExecute_unpublishedFeedbackSessionWithEmailEnabled_succeedsWithTasksAdded()
             throws EntityDoesNotExistException, InvalidParametersException {
         typicalFeedbackSession.setPublishedEmailEnabled(true);
+        EmailWrapper mockEmail = mock(EmailWrapper.class);
+
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
@@ -143,6 +150,8 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 .thenReturn(typicalFeedbackSession);
         when(mockLogic.publishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
+        when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(typicalFeedbackSession))
+                .thenReturn(List.of(mockEmail));
 
         PublishFeedbackSessionAction action = getAction(params);
         JsonResult result = getJsonResult(action);
@@ -151,7 +160,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         verifyFeedbackSessionData(feedbackSessionData, typicalFeedbackSession,
                 FeedbackSessionPublishStatus.NOT_PUBLISHED);
         verify(mockLogic).publishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId());
-        verifySpecifiedTasksAdded(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test

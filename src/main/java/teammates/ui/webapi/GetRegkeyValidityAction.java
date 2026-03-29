@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.Instructor;
@@ -35,30 +33,14 @@ public class GetRegkeyValidityAction extends Action {
         String googleId = null;
 
         if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
-            // Try to get googleId for not migrated user
-            StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(regKey);
-            if (studentAttributes != null && !isCourseMigrated(studentAttributes.getCourse())) {
-                isValid = true;
-                googleId = studentAttributes.getGoogleId();
-            }
-
-            // Try to get googleId for migrated user
             Student student = sqlLogic.getStudentByRegistrationKey(regKey);
-            if (student != null) { // assume that if student has been migrated, course has been migrated
+            if (student != null) {
                 isValid = true;
                 googleId = student.getGoogleId();
             }
         } else if (intent == Intent.INSTRUCTOR_SUBMISSION || intent == Intent.INSTRUCTOR_RESULT) {
-            // Try to get googleId for not migrated user
-            InstructorAttributes instructorAttributes = logic.getInstructorForRegistrationKey(regKey);
-            if (instructorAttributes != null && !isCourseMigrated(instructorAttributes.getCourseId())) {
-                isValid = true;
-                googleId = instructorAttributes.getGoogleId();
-            }
-
-            // Try to get googleId for migrated user
             Instructor instructor = sqlLogic.getInstructorByRegistrationKey(regKey);
-            if (instructor != null) { // assume that if instructor has been migrated, course has been migrated
+            if (instructor != null) {
                 isValid = true;
                 googleId = instructor.getGoogleId();
             }

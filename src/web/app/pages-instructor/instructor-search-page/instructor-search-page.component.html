@@ -1,7 +1,9 @@
 <tm-instructor-search-bar (searched)="search()" [(searchParams)]="searchParams"></tm-instructor-search-bar>
 
 <div *tmIsLoading="isSearching">
-  <tm-student-result-table *ngIf="studentsListRowTables && studentsListRowTables.length" [studentTables]="studentsListRowTables"
+  @if (studentsListRowTables && studentsListRowTables.length) {
+    <tm-student-result-table [studentTables]="studentsListRowTables"
       [isSearchTermsHighlighted]="true" [searchString]="searchString" (removeStudentFromCourseEvent)="removeStudentFromCourse($event)">
-  </tm-student-result-table>
+    </tm-student-result-table>
+  }
 </div>

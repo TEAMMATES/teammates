@@ -46,12 +46,6 @@ public class ArchitectureTest {
     private static final String E2E_PAGEOBJECTS_PACKAGE = E2E_PACKAGE + ".pageobjects";
     private static final String E2E_UTIL_PACKAGE = E2E_PACKAGE + ".util";
 
-    private static final String LNP_PACKAGE = "teammates.lnp";
-
-    private static final String LNP_CASES_PACKAGE = LNP_PACKAGE + ".cases";
-    private static final String LNP_SQL_PACKAGE = LNP_PACKAGE + ".sql";
-    private static final String LNP_UTIL_PACKAGE = LNP_PACKAGE + ".util";
-
     private static final String CLIENT_PACKAGE = "teammates.client";
     private static final String CLIENT_CONNECTOR_PACKAGE = CLIENT_PACKAGE + ".connector";
     private static final String CLIENT_SCRIPTS_PACKAGE = CLIENT_PACKAGE + ".scripts";
@@ -405,80 +399,6 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_lnp_lnpShouldBeSelfContained() {
-        noClasses().that().resideOutsideOfPackage(includeSubpackages(LNP_PACKAGE))
-                .should().accessClassesThat().resideInAPackage(includeSubpackages(LNP_PACKAGE))
-                .check(ALL_CLASSES);
-    }
-
-    @Test
-    public void testArchitecture_lnp_lnpShouldNotTouchProductionCodeExceptCommonAndRequests() {
-        noClasses().that().resideInAPackage(includeSubpackages(LNP_PACKAGE))
-                .should().accessClassesThat(new DescribedPredicate<>("") {
-                    @Override
-                    public boolean apply(JavaClass input) {
-                        return input.getPackageName().startsWith(STORAGE_PACKAGE)
-                                && !input.getPackageName().startsWith(STORAGE_SQL_ENTITY_PACKAGE);
-                    }
-                })
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
-                .orShould().accessClassesThat(new DescribedPredicate<>("") {
-                    @Override
-                    public boolean apply(JavaClass input) {
-                        return input.getPackageName().startsWith(UI_PACKAGE)
-                                && !UI_OUTPUT_PACKAGE.equals(input.getPackageName())
-                                && !UI_REQUEST_PACKAGE.equals(input.getPackageName());
-                    }
-                }).check(ALL_CLASSES);
-    }
-
-    @Test
-    public void testArchitecture_lnp_lnpTestCasesShouldBeIndependentOfEachOther() {
-        noClasses().that(new DescribedPredicate<>("") {
-            @Override
-            public boolean apply(JavaClass input) {
-                return input.getPackageName().startsWith(LNP_CASES_PACKAGE) && !input.isInnerClass();
-            }
-        }).should().accessClassesThat(new DescribedPredicate<>("") {
-            @Override
-            public boolean apply(JavaClass input) {
-                return input.getPackageName().startsWith(LNP_CASES_PACKAGE)
-                        && !input.getSimpleName().startsWith("Base")
-                        && !input.isInnerClass();
-            }
-        }).check(forClasses(LNP_CASES_PACKAGE));
-    }
-
-    @Test
-    public void testArchitecture_lnp_lnpSqlTestCasesShouldBeIndependentOfEachOther() {
-        noClasses().that(new DescribedPredicate<>("") {
-            @Override
-            public boolean apply(JavaClass input) {
-                return input.getPackageName().startsWith(LNP_SQL_PACKAGE) && !input.isInnerClass();
-            }
-        }).should().accessClassesThat(new DescribedPredicate<>("") {
-            @Override
-            public boolean apply(JavaClass input) {
-                return input.getPackageName().startsWith(LNP_SQL_PACKAGE)
-                        && !input.getSimpleName().startsWith("Base")
-                        && !input.isInnerClass();
-            }
-        }).check(forClasses(LNP_SQL_PACKAGE));
-    }
-
-    @Test
-    public void testArchitecture_lnp_lnpShouldNotHaveAnyDependency() {
-        noClasses().that().resideInAPackage(includeSubpackages(LNP_UTIL_PACKAGE))
-                .should().accessClassesThat(new DescribedPredicate<>("") {
-                    @Override
-                    public boolean apply(JavaClass input) {
-                        return input.getPackageName().startsWith(LNP_PACKAGE)
-                                && !LNP_UTIL_PACKAGE.equals(input.getPackageName());
-                    }
-                }).check(forClasses(LNP_PACKAGE));
-    }
-
-    @Test
     public void testArchitecture_client_clientShouldBeSelfContained() {
         noClasses().that().resideOutsideOfPackage(includeSubpackages(CLIENT_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(CLIENT_PACKAGE))
@@ -520,18 +440,6 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_externalApi_solrApiCanOnlyBeAccessedBySearchManagerClasses() {
-        noClasses().that().doNotHaveSimpleName("SearchManager")
-                .and().doNotHaveSimpleName("AccountRequestSearchManager")
-                .and().doNotHaveSimpleName("InstructorSearchManager")
-                .and().doNotHaveSimpleName("StudentSearchManager")
-                .and().doNotHaveSimpleName("InstructorSearchManagerTest")
-                .and().doNotHaveSimpleName("StudentSearchManagerTest")
-                .should().accessClassesThat().resideInAPackage("org.apache.solr..")
-                .check(ALL_CLASSES);
-    }
-
-    @Test
     public void testArchitecture_externalApi_cloudTasksApiCanOnlyBeAccessedByCloudTasksService() {
         noClasses().that().doNotHaveSimpleName("GoogleCloudTasksService")
                 .should().accessClassesThat().resideInAPackage("com.google.cloud.tasks.v2..")
@@ -542,19 +450,6 @@ public class ArchitectureTest {
     public void testArchitecture_externalApi_cloudLoggingApiCanOnlyBeAccessedByCloudLoggingService() {
         noClasses().that().doNotHaveSimpleName("GoogleCloudLoggingService")
                 .should().accessClassesThat().resideInAPackage("com.google.cloud.logging..")
-                .check(ALL_CLASSES);
-    }
-
-    @Test
-    public void testArchitecture_externalApi_objectifyApiCanOnlyBeAccessedBySomePackages() {
-        noClasses().that().resideOutsideOfPackage(includeSubpackages(STORAGE_API_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
-                .and().doNotHaveSimpleName("BaseTestCaseWithSqlDatabaseAccess")
-                .and().doNotHaveSimpleName("BaseTestCaseWithLocalDatabaseAccess")
-                .and().doNotHaveSimpleName("ObjectifyFilter")
-                .should().accessClassesThat().resideInAPackage("com.googlecode.objectify..")
                 .check(ALL_CLASSES);
     }
 

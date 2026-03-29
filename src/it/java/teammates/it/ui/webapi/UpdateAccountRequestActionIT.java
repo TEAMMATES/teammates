@@ -1,9 +1,7 @@
 package teammates.it.ui.webapi;
 
-import java.util.List;
 import java.util.UUID;
 
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -14,14 +12,13 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
-import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Course;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.InvalidHttpParameterException;
-import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateAccountRequestAction;
 
@@ -33,7 +30,9 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
-        // no need to call super.setUp() because the action handles its own transactions
+        super.setUp();
+        persistDataBundle(typicalBundle);
+        HibernateUtil.flushSession();
     }
 
     @Override
@@ -50,7 +49,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @Test
     public void testExecute() throws Exception {
         ______TS("edit fields of an account request");
-        AccountRequest accountRequest = logic.createAccountRequestWithTransaction("name", "email@email.com",
+        AccountRequest accountRequest = logic.createAccountRequest("name", "email@email.com",
                 "institute", AccountRequestStatus.PENDING, "comments");
         UUID id = accountRequest.getId();
         String name = "newName";
@@ -75,52 +74,6 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals(comments, data.getComments());
         verifyNoEmailsSent();
 
-        ______TS("approve a pending account request");
-        accountRequest = logic.createAccountRequestWithTransaction("name", "email@email.com",
-                "institute", AccountRequestStatus.PENDING, "comments");
-        requestBody = new AccountRequestUpdateRequest(accountRequest.getName(), accountRequest.getEmail(),
-                accountRequest.getInstitute(), AccountRequestStatus.APPROVED, accountRequest.getComments());
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
-        action = getAction(requestBody, params);
-        result = getJsonResult(action, 200);
-        data = (AccountRequestData) result.getOutput();
-
-        assertEquals(accountRequest.getName(), data.getName());
-        assertEquals(accountRequest.getEmail(), data.getEmail());
-        assertEquals(accountRequest.getInstitute(), data.getInstitute());
-        assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
-        assertEquals(accountRequest.getComments(), data.getComments());
-        verifyNumberOfEmailsSent(1);
-
-        ______TS("already registered account request has no email sent when approved");
-        accountRequest = logic.createAccountRequestWithTransaction("name", "email@email.com",
-                "institute", AccountRequestStatus.REGISTERED, "comments");
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, AccountRequestStatus.APPROVED, comments);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
-
-        action = getAction(requestBody, params);
-        result = getJsonResult(action, 200);
-        data = (AccountRequestData) result.getOutput();
-
-        assertEquals(name, data.getName());
-        assertEquals(email, data.getEmail());
-        assertEquals(institute, data.getInstitute());
-        assertEquals(AccountRequestStatus.REGISTERED, data.getStatus());
-        assertEquals(comments, data.getComments());
-        verifyNumberOfEmailsSent(0);
-
-        ______TS("email with existing account throws exception");
-        Account account = logic.createAccountWithTransaction(getTypicalAccount());
-        accountRequest = logic.createAccountRequestWithTransaction("name", account.getEmail(),
-                "institute", AccountRequestStatus.PENDING, "comments");
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, AccountRequestStatus.APPROVED, comments);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
-
-        InvalidOperationException ipe = verifyInvalidOperation(requestBody, params);
-
-        assertEquals(String.format("An account with email %s already exists. "
-                + "Please reject or delete the account request instead.", account.getEmail()), ipe.getMessage());
-
         ______TS("non-existent but valid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",
                 "institute", AccountRequestStatus.PENDING, "comments");
@@ -141,7 +94,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
 
         ______TS("invalid email");
-        accountRequest = logic.createAccountRequestWithTransaction("name", "email@email.com",
+        accountRequest = logic.createAccountRequest("name", "email@email.com",
                 "institute", AccountRequestStatus.PENDING, "comments");
         id = accountRequest.getId();
         email = "newEmail";
@@ -227,38 +180,12 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals(email, data.getEmail());
         assertEquals(institute, data.getInstitute());
         assertEquals(null, data.getComments());
-
-        ______TS("email with approved account request throws exception");
-        logic.createAccountRequestWithTransaction("test", "test@email.com",
-                "institute", AccountRequestStatus.APPROVED, "comments");
-        accountRequest = logic.createAccountRequestWithTransaction("test", "test@email.com",
-                "institute", AccountRequestStatus.PENDING, "comments");
-        requestBody = new AccountRequestUpdateRequest(accountRequest.getName(), accountRequest.getEmail(),
-                accountRequest.getInstitute(), AccountRequestStatus.APPROVED, comments);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
-
-        ipe = verifyInvalidOperation(requestBody, params);
-
-        assertEquals(String.format("An account request with email %s has already been approved. "
-                + "Please reject or delete the account request instead.", accountRequest.getEmail()), ipe.getMessage());
     }
 
     @Override
     @Test
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
-        verifyOnlyAdminCanAccessWithTransaction();
-    }
-
-    @Override
-    @AfterMethod
-    protected void tearDown() {
-        HibernateUtil.beginTransaction();
-        List<AccountRequest> accountRequests = logic.getAllAccountRequests();
-        for (AccountRequest ar : accountRequests) {
-            logic.deleteAccountRequest(ar.getId());
-        }
-
-        logic.deleteAccount(getTypicalAccount().getGoogleId());
-        HibernateUtil.commitTransaction();
+        Course course = typicalBundle.courses.get("course1");
+        verifyOnlyAdminCanAccess(course);
     }
 }

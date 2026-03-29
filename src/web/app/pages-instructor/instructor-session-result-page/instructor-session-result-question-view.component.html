@@ -1,55 +1,63 @@
-<div id="question-panel-{{ question.question.questionNumber }}" class="card margin-bottom-15px" *ngFor="let question of questionsOrder">
-  <div class="card-header bg-info cursor-pointer" (click)="toggleAndLoadTab.emit(question.question.feedbackQuestionId)">
-   <div class="d-flex w-100 flex-fill flex-md-row flex-column align-items-md-center align-items-start">
-    <div>
-      <tm-question-text-with-info [questionNumber]="question.question.questionNumber"
-                                      [questionDetails]="question.question.questionDetails"
-    ></tm-question-text-with-info>
-    </div>
-    <div class="card-header-btn-toolbar ms-0 ms-md-auto align-self-md-end">
+@for (question of questionsOrder; track question) {
+  <div id="question-panel-{{ question.question.questionNumber }}" class="card margin-bottom-15px">
+    <div class="card-header bg-info cursor-pointer" (click)="toggleAndLoadTab.emit(question.question.feedbackQuestionId)">
+      <div class="d-flex w-100 flex-fill flex-md-row flex-column align-items-md-center align-items-start">
+        <div>
+          <tm-question-text-with-info [questionNumber]="question.question.questionNumber"
+            [questionDetails]="question.question.questionDetails"
+          ></tm-question-text-with-info>
+        </div>
+        <div class="card-header-btn-toolbar ms-0 ms-md-auto align-self-md-end">
       <button type="button" class="btn btn-info btn-sm" (click)="triggerDownloadQuestionResult({
         questionNumber: question.question.questionNumber,
         questionId: question.question.feedbackQuestionId});
         $event.stopPropagation();">
-      Download Results
-    </button>
-   </div>
-   </div>
-   <div class="chevron-collapse">
-      <tm-panel-chevron chevronColor="black" [isExpanded]="question.isTabExpanded"></tm-panel-chevron>
-    </div>
-  </div>
-  <div *ngIf="question.isTabExpanded" @collapseAnim>
-    <div *tmIsLoading="!question.hasPopulated && !question.errorMessage"></div>
-    <tm-loading-retry
-            class="m-3"
-            [shouldShowRetry]="!!question.errorMessage"
-            [message]="question.errorMessage"
-            (retryEvent)="loadTab.emit(question.question.feedbackQuestionId)"
-    >
-      <div *ngIf="question.hasPopulated" class="card-body">
-        <div class="stats-table">
-          <tm-single-statistics *ngIf="showStatistics"
-                                [question]="question.question.questionDetails"
-                                [statistics]="question.statistics"
-                                [responses]="question.responses"
-                                [recipientType]="question.question.recipientType"
-                                [section]="section" [sectionType]="sectionType"
-          ></tm-single-statistics>
-        </div>
-        <div class="stats-table">
-          <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType" [session]="session"
-                                          [statistics]="question.statistics"
-                                          [indicateMissingResponses]="indicateMissingResponses" [question]="question.question"
-                                          [isDisplayOnly]="isDisplayOnly"
-                                          [instructorCommentTableModel]="instructorCommentTableModel"
-                                          (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
-                                          (updateCommentEvent)="triggerUpdateCommentEvent($event)"
-                                          (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
-                                          (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-          ></tm-per-question-view-responses>
+            Download Results
+          </button>
         </div>
       </div>
-    </tm-loading-retry>
+      <div class="chevron-collapse">
+        <tm-panel-chevron chevronColor="black" [isExpanded]="question.isTabExpanded"></tm-panel-chevron>
+      </div>
+    </div>
+    @if (question.isTabExpanded) {
+      <div @collapseAnim>
+        <div *tmIsLoading="!question.hasPopulated && !question.errorMessage"></div>
+        <tm-loading-retry
+          class="m-3"
+          [shouldShowRetry]="!!question.errorMessage"
+          [message]="question.errorMessage"
+          (retryEvent)="loadTab.emit(question.question.feedbackQuestionId)"
+          >
+          @if (question.hasPopulated) {
+            <div class="card-body">
+              <div class="stats-table">
+                @if (showStatistics) {
+                  <tm-single-statistics
+                    [question]="question.question.questionDetails"
+                    [statistics]="question.statistics"
+                    [responses]="question.responses"
+                    [recipientType]="question.question.recipientType"
+                    [section]="section" [sectionType]="sectionType"
+                  ></tm-single-statistics>
+                }
+              </div>
+              <div class="stats-table">
+                <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType" [session]="session"
+                  [statistics]="question.statistics"
+                  [indicateMissingResponses]="indicateMissingResponses" [question]="question.question"
+                  [isDisplayOnly]="isDisplayOnly"
+                  [instructorCommentTableModel]="instructorCommentTableModel"
+                  (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
+                  (updateCommentEvent)="triggerUpdateCommentEvent($event)"
+                  (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
+                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
+                ></tm-per-question-view-responses>
+              </div>
+            </div>
+          }
+        </tm-loading-retry>
+      </div>
+    }
   </div>
-</div>
+}

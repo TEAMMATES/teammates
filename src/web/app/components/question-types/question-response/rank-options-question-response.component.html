@@ -1,3 +1,5 @@
 <ul>
-  <li *ngFor="let answer of orderedAnswer">{{ answer.rank }}: {{ answer.option }}</li>
+  @for (answer of orderedAnswer; track answer) {
+    <li>{{ answer.rank }}: {{ answer.option }}</li>
+  }
 </ul>

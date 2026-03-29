@@ -1,9 +1,7 @@
 package teammates.sqllogic.core;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -17,7 +15,6 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
@@ -407,76 +404,6 @@ public class DataBundleLogicTest extends BaseTestCase {
         dataBundleLogic.removeDataBundle(dataBundle);
 
         verify(accountRequestsLogic, times(1)).deleteAccountRequest(accountRequest.getId());
-    }
-
-    @Test
-    public void testPutDocuments_withStudents_putsStudentDocuments()
-            throws SearchServiceException, InvalidParametersException, EntityAlreadyExistsException,
-            EntityDoesNotExistException {
-        SqlDataBundle dataBundle = new SqlDataBundle();
-        Course course = getTypicalCourse();
-        Section section = new Section(course, "Section 1");
-        Team team = new Team(section, "Team 1");
-        Student student1 = getTypicalStudent();
-        Student student2 = getTypicalStudent();
-        student1.setCourse(course);
-        student1.setTeam(team);
-        student2.setCourse(course);
-        student2.setTeam(team);
-        dataBundle.students.put("student1", student1);
-        dataBundle.students.put("student2", student2);
-
-        dataBundleLogic.putDocuments(dataBundle);
-
-        verify(usersLogic, times(1)).putStudentDocument(student1);
-        verify(usersLogic, times(1)).putStudentDocument(student2);
-        verify(usersLogic, times(2)).putStudentDocument(any(Student.class));
-        verify(usersLogic, never()).putInstructorDocument(any());
-        verify(accountRequestsLogic, never()).putDocument(any());
-    }
-
-    @Test
-    public void testPutDocuments_withInstructors_putsInstructorDocuments()
-            throws SearchServiceException, InvalidParametersException, EntityAlreadyExistsException,
-            EntityDoesNotExistException {
-        SqlDataBundle dataBundle = new SqlDataBundle();
-        Instructor instructor1 = getTypicalInstructor();
-        Instructor instructor2 = getTypicalInstructor();
-        dataBundle.instructors.put("instructor1", instructor1);
-        dataBundle.instructors.put("instructor2", instructor2);
-
-        dataBundleLogic.putDocuments(dataBundle);
-
-        verify(usersLogic, times(1)).putInstructorDocument(instructor1);
-        verify(usersLogic, times(1)).putInstructorDocument(instructor2);
-        verify(usersLogic, times(2)).putInstructorDocument(any(Instructor.class));
-        verify(usersLogic, never()).putStudentDocument(any());
-        verify(accountRequestsLogic, never()).putDocument(any());
-    }
-
-    @Test
-    public void testPutDocuments_withAccountRequests_putsAccountRequestDocuments()
-            throws SearchServiceException, InvalidParametersException, EntityAlreadyExistsException,
-            EntityDoesNotExistException {
-        SqlDataBundle dataBundle = new SqlDataBundle();
-        AccountRequest accountRequest = getTypicalAccountRequest();
-        dataBundle.accountRequests.put("accountRequest1", accountRequest);
-
-        dataBundleLogic.putDocuments(dataBundle);
-
-        verify(accountRequestsLogic, times(1)).putDocument(accountRequest);
-    }
-
-    @Test
-    public void testPutDocuments_emptyBundle_noExceptions() throws SearchServiceException {
-        SqlDataBundle emptyBundle = new SqlDataBundle();
-
-        // Should not throw any exception
-        dataBundleLogic.putDocuments(emptyBundle);
-
-        verify(usersLogic, times(0)).putStudentDocument(any());
-        verify(usersLogic, times(0)).putInstructorDocument(any());
-        verify(accountRequestsLogic, times(0)).putDocument(any());
     }
 
     @Test

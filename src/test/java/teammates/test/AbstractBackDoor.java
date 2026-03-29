@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,28 +30,13 @@ import org.apache.http.message.BasicNameValuePair;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.TimeHelper;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.CoursesData;
 import teammates.ui.output.DeadlineExtensionData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
@@ -63,14 +45,10 @@ import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionsData;
-import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.output.NotificationData;
-import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
-import teammates.ui.output.ResponseVisibleSetting;
-import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.output.StudentData;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
@@ -236,42 +214,6 @@ public abstract class AbstractBackDoor {
 
     /**
      * Removes and restores given data in the database. This method is to be called on test startup.
-     *
-     * <p>Note:  The data associated with the test accounts have to be <strong>manually</strong> removed by removing the data
-     * bundle when a test ends because the test accounts are shared across tests.
-     *
-     * <p>Test data should never be cleared after test in order to prevent incurring additional database costs because the
-     * test's data may not be accessed in another test. Also although unlikely in normal conditions, when a test fail to
-     * remove data bundle on teardown, another test should have no reason to fail.
-     *
-     * <p>Another reason not to remove associated data after a test is that in case of test failures, it helps to have the
-     * associated data in the database to debug the failure.
-     *
-     * <p>This means that removing the data bundle on startup is not always sufficient because a test only knows how
-     * to remove its associated data.
-     * This is why some tests would fail when they use the same account and use different data.
-     * Extending this method to remove data outside its associated data would introduce
-     * unnecessary complications such as extra costs and knowing exactly how much data to remove. Removing too much data
-     * would not just incur higher database costs but we can make tests unexpectedly pass(fail) when the data is expected to
-     * be not present(present) in another test.
-     *
-     * <p>TODO: Hence, we need to explicitly remove the data bundle in tests on teardown to avoid instability of tests.
-     * However, removing the data bundle on teardown manually is not a perfect solution because two tests can concurrently
-     * access the same account and their data may get mixed up in the process. This is a major problem we need to address.
-     */
-    public String removeAndRestoreDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
-        removeDataBundle(dataBundle);
-        ResponseBodyAndCode putRequestOutput =
-                executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
-        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
-            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
-                    + putRequestOutput.responseBody);
-        }
-        return putRequestOutput.responseBody;
-    }
-
-    /**
-     * Removes and restores given data in the database. This method is to be called on test startup.
      */
     public SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle dataBundle) throws HttpRequestFailedException {
         removeSqlDataBundle(dataBundle);
@@ -286,15 +228,6 @@ public abstract class AbstractBackDoor {
         // data bundle is nested under message key
         String message = jsonObject.get("message").getAsString();
         return JsonUtils.fromJson(message, SqlDataBundle.class);
-    }
-
-    /**
-     * Removes given data from the database.
-     *
-     * <p>If given entities have already been deleted, it fails silently.
-     */
-    public void removeDataBundle(DataBundle dataBundle) {
-        executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
     }
 
     /**
@@ -318,38 +251,6 @@ public abstract class AbstractBackDoor {
         return output.getMessage();
     }
 
-    // TODO: remove params after migration
-    /**
-     * Puts searchable documents in data bundle into the database.
-     */
-    public String putDocuments(DataBundle dataBundle) throws HttpRequestFailedException {
-        Map<String, String> params = new HashMap<>();
-        params.put("databundletype", "datastore");
-        ResponseBodyAndCode putRequestOutput =
-                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, params, JsonUtils.toJson(dataBundle));
-        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
-            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
-                    + putRequestOutput.responseBody);
-        }
-        return putRequestOutput.responseBody;
-    }
-
-    // TODO: remove method after migration
-    /**
-     * Puts searchable documents in data bundle into the SQL database.
-     */
-    public String putSqlDocuments(SqlDataBundle dataBundle) throws HttpRequestFailedException {
-        Map<String, String> params = new HashMap<>();
-        params.put("databundletype", "sql");
-        ResponseBodyAndCode putRequestOutput =
-                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, params, JsonUtils.toJson(dataBundle));
-        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
-            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
-                    + putRequestOutput.responseBody);
-        }
-        return putRequestOutput.responseBody;
-    }
-
     /**
      * Gets account data from the database.
      */
@@ -365,26 +266,6 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets an account from the database.
-     */
-    public AccountAttributes getAccount(String googleId) {
-        AccountData accountData = getAccountData(googleId);
-        return AccountAttributes.builder(accountData.getGoogleId())
-                .withName(accountData.getName())
-                .withEmail(accountData.getEmail())
-                .withReadNotifications(
-                    accountData.getReadNotifications()
-                        .entrySet()
-                        .stream()
-                        .collect(Collectors.toMap(
-                            e -> e.getKey(),
-                            e -> Instant.ofEpochMilli(e.getValue())
-                        ))
-                )
-                .build();
-    }
-
-    /**
      * Gets course data from the database.
      */
     public CourseData getCourseData(String courseId) {
@@ -396,65 +277,6 @@ public abstract class AbstractBackDoor {
         }
 
         return JsonUtils.fromJson(response.responseBody, CourseData.class);
-    }
-
-    /**
-     * Gets a course from the database.
-     */
-    public CourseAttributes getCourse(String courseId) {
-        CourseData courseData = getCourseData(courseId);
-        if (courseData == null) {
-            return null;
-        }
-        return CourseAttributes.builder(courseData.getCourseId())
-                .withName(courseData.getCourseName())
-                .withTimezone(courseData.getTimeZone())
-                .withInstitute(courseData.getInstitute())
-                .build();
-    }
-
-    /**
-     * Gets archived course data from the database.
-     */
-    public CourseData getArchivedCourseData(String instructorId, String courseId) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.USER_ID, instructorId);
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
-        params.put(Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ARCHIVED);
-
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.COURSES, params);
-        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
-            return null;
-        }
-
-        CoursesData coursesData = JsonUtils.fromJson(response.responseBody, CoursesData.class);
-        CourseData courseData = coursesData.getCourses()
-                .stream()
-                .filter(cd -> cd.getCourseId().equals(courseId))
-                .findFirst()
-                .orElse(null);
-
-        if (courseData == null) {
-            return null;
-        }
-
-        return courseData;
-    }
-
-    /**
-     * Gets a archived course from the database.
-     */
-    public CourseAttributes getArchivedCourse(String instructorId, String courseId) {
-        CourseData courseData = getArchivedCourseData(instructorId, courseId);
-        if (courseData == null) {
-            return null;
-        }
-        return CourseAttributes.builder(courseData.getCourseId())
-                .withName(courseData.getCourseName())
-                .withTimezone(courseData.getTimeZone())
-                .withInstitute(courseData.getInstitute())
-                .build();
     }
 
     /**
@@ -495,38 +317,6 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get instructor from database. Does not include certain fields like InstructorPrivileges.
-     */
-    public InstructorAttributes getInstructor(String courseId, String instructorEmail) {
-        InstructorData instructorData = getInstructorData(courseId, instructorEmail);
-        if (instructorData == null) {
-            return null;
-        }
-        InstructorAttributes.Builder instructor = InstructorAttributes.builder(instructorData.getCourseId(),
-                instructorData.getEmail());
-        if (instructorData.getGoogleId() != null) {
-            instructor.withGoogleId(instructorData.getGoogleId());
-        }
-        if (instructorData.getName() != null) {
-            instructor.withName(instructorData.getName());
-        }
-        if (instructorData.getRole() != null) {
-            instructor.withRole(instructorData.getRole().getRoleName());
-        }
-        if (instructorData.getIsDisplayedToStudents() != null) {
-            instructor.withIsDisplayedToStudents(instructorData.getIsDisplayedToStudents());
-        }
-        if (instructorData.getDisplayedToStudentsAs() != null) {
-            instructor.withDisplayedName(instructorData.getDisplayedToStudentsAs());
-        }
-        InstructorAttributes instructorAttributes = instructor.build();
-        if (instructorData.getKey() != null) {
-            instructorAttributes.setKey(instructorData.getKey());
-        }
-        return instructorAttributes;
-    }
-
-    /**
      * Gets student data from the database.
      */
     public StudentData getStudentData(String courseId, String studentEmail) {
@@ -538,38 +328,6 @@ public abstract class AbstractBackDoor {
             return null;
         }
         return JsonUtils.fromJson(response.responseBody, StudentData.class);
-    }
-
-    /**
-     * Get student from database.
-     */
-    public StudentAttributes getStudent(String courseId, String studentEmail) {
-        StudentData studentData = getStudentData(courseId, studentEmail);
-        if (studentData == null) {
-            return null;
-        }
-        StudentAttributes.Builder builder = StudentAttributes.builder(studentData.getCourseId(),
-                studentData.getEmail());
-        if (studentData.getGoogleId() != null) {
-            builder.withGoogleId(studentData.getGoogleId());
-        }
-        if (studentData.getName() != null) {
-            builder.withName(studentData.getName());
-        }
-        if (studentData.getSectionName() != null) {
-            builder.withSectionName(studentData.getSectionName());
-        }
-        if (studentData.getTeamName() != null) {
-            builder.withTeamName(studentData.getTeamName());
-        }
-        if (studentData.getComments() != null) {
-            builder.withComment(studentData.getComments());
-        }
-        StudentAttributes student = builder.build();
-        if (studentData.getKey() != null) {
-            student.setKey(studentData.getKey());
-        }
-        return student;
     }
 
     /**
@@ -585,63 +343,6 @@ public abstract class AbstractBackDoor {
             return null;
         }
         return JsonUtils.fromJson(response.responseBody, FeedbackSessionData.class);
-    }
-
-    /**
-     * Get feedback session from database.
-     */
-    public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
-        FeedbackSessionData sessionData = getFeedbackSessionData(courseId, feedbackSessionName);
-        if (sessionData == null) {
-            return null;
-        }
-
-        Map<String, Instant> studentDeadlines =
-                convertDeadlinesToInstant(sessionData.getStudentDeadlines(), sessionData.getTimeZone());
-        Map<String, Instant> instructorDeadlines =
-                convertDeadlinesToInstant(sessionData.getInstructorDeadlines(), sessionData.getTimeZone());
-
-        FeedbackSessionAttributes sessionAttributes = FeedbackSessionAttributes
-                .builder(sessionData.getFeedbackSessionName(), sessionData.getCourseId())
-                .withInstructions(sessionData.getInstructions())
-                .withStartTime(Instant.ofEpochMilli(sessionData.getSubmissionStartTimestamp()))
-                .withEndTime(Instant.ofEpochMilli(sessionData.getSubmissionEndTimestamp()))
-                .withTimeZone(sessionData.getTimeZone())
-                .withGracePeriod(Duration.ofMinutes(sessionData.getGracePeriod()))
-                .withIsClosingSoonEmailEnabled(sessionData.getIsClosingSoonEmailEnabled())
-                .withIsPublishedEmailEnabled(sessionData.getIsPublishedEmailEnabled())
-                .withStudentDeadlines(studentDeadlines)
-                .withInstructorDeadlines(instructorDeadlines)
-                .build();
-
-        sessionAttributes.setCreatedTime(Instant.ofEpochMilli(sessionData.getCreatedAtTimestamp()));
-
-        if (sessionData.getSessionVisibleSetting() == SessionVisibleSetting.AT_OPEN) {
-            sessionAttributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
-        } else {
-            sessionAttributes.setSessionVisibleFromTime(Instant.ofEpochMilli(
-                    sessionData.getCustomSessionVisibleTimestamp()));
-        }
-
-        if (sessionData.getResponseVisibleSetting() == ResponseVisibleSetting.AT_VISIBLE) {
-            sessionAttributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
-        } else if (sessionData.getResponseVisibleSetting() == ResponseVisibleSetting.LATER) {
-            sessionAttributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-        } else {
-            sessionAttributes.setResultsVisibleFromTime(Instant.ofEpochMilli(
-                    sessionData.getCustomResponseVisibleTimestamp()));
-        }
-
-        return sessionAttributes;
-    }
-
-    private Map<String, Instant> convertDeadlinesToInstant(Map<String, Long> deadlines, String timezone) {
-        return deadlines.entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> {
-                    Instant deadline = Instant.ofEpochMilli(entry.getValue());
-                    return TimeHelper.getMidnightAdjustedInstantBasedOnZone(deadline, timezone, true);
-                }));
     }
 
     /**
@@ -663,20 +364,6 @@ public abstract class AbstractBackDoor {
                 .filter(fs -> fs.getFeedbackSessionName().equals(feedbackSessionName))
                 .findFirst()
                 .orElse(null);
-    }
-
-    /**
-     * Get soft deleted feedback session from database.
-     */
-    public FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
-        FeedbackSessionData feedbackSession = getSoftDeletedSessionData(feedbackSessionName, instructorId);
-        if (feedbackSession == null) {
-            return null;
-        }
-
-        return FeedbackSessionAttributes
-                .builder(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName())
-                .build();
     }
 
     /**
@@ -702,65 +389,6 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback question from database.
-     */
-    public FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
-                                                                 int qnNumber) {
-        FeedbackQuestionData question = getFeedbackQuestionData(courseId, feedbackSessionName, qnNumber);
-
-        if (question == null) {
-            return null;
-        }
-
-        FeedbackQuestionAttributes questionAttr = FeedbackQuestionAttributes.builder()
-                .withCourseId(courseId)
-                .withFeedbackSessionName(feedbackSessionName)
-                .withQuestionDetails(question.getQuestionDetails())
-                .withQuestionDescription(question.getQuestionDescription())
-                .withQuestionNumber(question.getQuestionNumber())
-                .withGiverType(question.getGiverType())
-                .withRecipientType(question.getRecipientType())
-                .withNumberOfEntitiesToGiveFeedbackTo(question.getNumberOfEntitiesToGiveFeedbackToSetting()
-                        == NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED
-                        ? Const.MAX_POSSIBLE_RECIPIENTS
-                        : question.getCustomNumberOfEntitiesToGiveFeedbackTo())
-                .withShowResponsesTo(convertToFeedbackParticipantType(question.getShowResponsesTo()))
-                .withShowGiverNameTo(convertToFeedbackParticipantType(question.getShowGiverNameTo()))
-                .withShowRecipientNameTo(convertToFeedbackParticipantType(question.getShowRecipientNameTo()))
-                .build();
-        if (question.getFeedbackQuestionId() != null) {
-            questionAttr.setId(question.getFeedbackQuestionId());
-        }
-        return questionAttr;
-    }
-
-    /**
-     * Converts List of FeedbackParticipantType to sorted List of FeedbackVisibilityType.
-     */
-    private static List<FeedbackParticipantType> convertToFeedbackParticipantType(
-            List<FeedbackVisibilityType> feedbackVisibilityTypeList) {
-        List<FeedbackParticipantType> feedbackParticipantTypeList = feedbackVisibilityTypeList.stream()
-                .map(feedbackParticipantType -> {
-                    switch (feedbackParticipantType) {
-                    case STUDENTS:
-                        return FeedbackParticipantType.STUDENTS;
-                    case INSTRUCTORS:
-                        return FeedbackParticipantType.INSTRUCTORS;
-                    case RECIPIENT:
-                        return FeedbackParticipantType.RECEIVER;
-                    case GIVER_TEAM_MEMBERS:
-                        return FeedbackParticipantType.OWN_TEAM_MEMBERS;
-                    case RECIPIENT_TEAM_MEMBERS:
-                        return FeedbackParticipantType.RECEIVER_TEAM_MEMBERS;
-                    default:
-                        throw new RuntimeException("Unknown FeedbackVisibilityType " + feedbackParticipantType);
-                    }
-                }).collect(Collectors.toList());
-        Collections.sort(feedbackParticipantTypeList);
-        return feedbackParticipantTypeList;
-    }
-
-    /**
      * Get feedback response data from database.
      */
     public FeedbackResponseData getFeedbackResponseData(String feedbackQuestionId, String giver,
@@ -783,27 +411,6 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback response from database.
-     */
-    public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver,
-                                                                 String recipient) {
-        FeedbackResponseData fr = getFeedbackResponseData(feedbackQuestionId, giver, recipient);
-
-        if (fr == null) {
-            return null;
-        }
-
-        FeedbackResponseAttributes responseAttr = FeedbackResponseAttributes
-                .builder(feedbackQuestionId, fr.getGiverIdentifier(), fr.getRecipientIdentifier())
-                .withResponseDetails(fr.getResponseDetails())
-                .build();
-        if (fr.getFeedbackResponseId() != null) {
-            responseAttr.setId(fr.getFeedbackResponseId());
-        }
-        return responseAttr;
-    }
-
-    /**
      * Get feedback response comment data from database.
      */
     public FeedbackResponseCommentData getFeedbackResponseCommentData(String feedbackResponseId) {
@@ -819,21 +426,6 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback response comment from database.
-     */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
-        FeedbackResponseCommentData frc = getFeedbackResponseCommentData(feedbackResponseId);
-        if (frc == null) {
-            return null;
-        }
-
-        return FeedbackResponseCommentAttributes.builder()
-                .withCommentGiver(frc.getCommentGiver())
-                .withCommentText(frc.getCommentText())
-                .build();
-    }
-
-    /**
      * Updates a feedback response comment via the backdoor.
      * This triggers a new updatedAt timestamp in the database.
      *
@@ -841,9 +433,9 @@ public abstract class AbstractBackDoor {
      * @param commentText the new comment text
      * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
      */
-    public void updateFeedbackResponseComment(Long commentId, String commentText, String instructorGoogleId) {
+    public void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorGoogleId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(commentId));
+        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
         params.put(Const.ParamsNames.USER_ID, instructorGoogleId);
 
@@ -868,7 +460,7 @@ public abstract class AbstractBackDoor {
     /**
      * Gets an account request from the database.
      */
-    public AccountRequestAttributes getAccountRequest(UUID id) {
+    public AccountRequestData getAccountRequest(UUID id) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString());
 
@@ -877,11 +469,7 @@ public abstract class AbstractBackDoor {
             return null;
         }
 
-        AccountRequestData accountRequestData = JsonUtils.fromJson(response.responseBody, AccountRequestData.class);
-
-        return AccountRequestAttributes
-                .builder(accountRequestData.getEmail(), accountRequestData.getInstitute(), accountRequestData.getName())
-                .build();
+        return JsonUtils.fromJson(response.responseBody, AccountRequestData.class);
     }
 
     /**
@@ -922,26 +510,6 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets a notification from the database.
-     */
-    public NotificationAttributes getNotification(String notificationId) {
-        NotificationData notificationData = getNotificationData(notificationId);
-        if (notificationData == null) {
-            return null;
-        }
-        NotificationAttributes notification = NotificationAttributes.builder(notificationData.getNotificationId())
-                .withStartTime(Instant.ofEpochMilli(notificationData.getStartTimestamp()))
-                .withEndTime(Instant.ofEpochMilli(notificationData.getEndTimestamp()))
-                .withStyle(notificationData.getStyle())
-                .withTargetUser(notificationData.getTargetUser())
-                .withTitle(notificationData.getTitle())
-                .withMessage(notificationData.getMessage())
-                .build();
-        notification.setCreatedAt(Instant.ofEpochMilli(notificationData.getCreatedAt()));
-        return notification;
-    }
-
-    /**
      * Deletes a notification from the database.
      */
     public void deleteNotification(String notificationId) {
@@ -976,32 +544,6 @@ public abstract class AbstractBackDoor {
         }
 
         return JsonUtils.fromJson(response.responseBody, DeadlineExtensionData.class);
-    }
-
-    /**
-     * Gets a deadline extension from the database.
-     */
-    public DeadlineExtensionAttributes getDeadlineExtension(
-            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        params.put(Const.ParamsNames.USER_EMAIL, userEmail);
-        params.put(Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(isInstructor));
-
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.DEADLINE_EXTENSION, params);
-        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
-            return null;
-        }
-
-        DeadlineExtensionData deadlineExtensionData = JsonUtils.fromJson(response.responseBody, DeadlineExtensionData.class);
-
-        return DeadlineExtensionAttributes.builder(
-                deadlineExtensionData.getCourseId(), deadlineExtensionData.getFeedbackSessionName(),
-                deadlineExtensionData.getUserEmail(), deadlineExtensionData.getIsInstructor())
-                .withEndTime(Instant.ofEpochMilli(deadlineExtensionData.getEndTime()))
-                .withSentClosingSoonEmail(deadlineExtensionData.getSentClosingSoonEmail())
-                .build();
     }
 
     private static final class ResponseBodyAndCode {

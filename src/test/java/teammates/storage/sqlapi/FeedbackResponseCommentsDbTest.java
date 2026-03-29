@@ -1,11 +1,13 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
+
+import java.util.UUID;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
@@ -26,9 +28,9 @@ import teammates.test.BaseTestCase;
 
 public class FeedbackResponseCommentsDbTest extends BaseTestCase {
 
-    private static final Long TYPICAL_ID = 100L;
+    private static final UUID TYPICAL_ID = UUID.fromString("00000000-0000-4000-8000-000000000064");
 
-    private static final Long NOT_TYPICAL_ID = 101L;
+    private static final UUID NOT_TYPICAL_ID = UUID.fromString("00000000-0000-4000-8000-000000000065");
     private FeedbackResponseCommentsDb feedbackResponseCommentsDb;
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
@@ -125,7 +127,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
         FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
         comment.setCommentText("Placeholder Text");
 
-        doReturn(comment).when(feedbackResponseCommentsDb).getFeedbackResponseComment(anyLong());
+        doReturn(comment).when(feedbackResponseCommentsDb).getFeedbackResponseComment(any(UUID.class));
         mockHibernateUtil.when(() -> HibernateUtil.merge(comment)).thenReturn(comment);
         feedbackResponseCommentsDb.updateFeedbackResponseComment(comment);
 

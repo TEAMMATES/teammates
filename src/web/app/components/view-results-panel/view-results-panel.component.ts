@@ -1,4 +1,4 @@
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -32,14 +32,12 @@ import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
   templateUrl: './view-results-panel.component.html',
   styleUrls: ['./view-results-panel.component.scss'],
   imports: [
-    NgIf,
     NgbTooltip,
     FormsModule,
-    NgFor,
     KeyValuePipe,
     SectionTypeDescriptionPipe,
     EnumToArrayPipe,
-  ],
+],
 })
 export class ViewResultsPanelComponent {
 

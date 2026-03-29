@@ -2,6 +2,8 @@ package teammates.it.ui.webapi;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -9,6 +11,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.FeedbackSessionPublishedRemindersAction;
@@ -42,7 +45,22 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
+        // FEEDBACK QUESTIONS
+        String[] fqKeys = {
+                "qn1InSession1InCourse1",
+                "qn2InSession1InCourse1",
+                "qn3InSession1InCourse1",
+                "qn4InSession1InCourse1",
+                "qn5InSession1InCourse1",
+                "qn6InSession1InCourse1NoResponses",
+        };
+        List<FeedbackQuestion> qns = new ArrayList<>();
+        for (String fqKey : fqKeys) {
+            qns.add(typicalBundle.feedbackQuestions.get(fqKey));
+        }
+
         FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        session.setFeedbackQuestions(qns);
         session.setStartTime(now.minusSeconds(oneDay * 3));
         session.setEndTime(now.minusSeconds(oneDay));
         session.setGracePeriod(noGracePeriod);
@@ -60,7 +78,7 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
     @Test
     @Override
     protected void testExecute() throws Exception {
-        ______TS("Typical Success Case 1: 1 published-email tasks queued for 1 session that was recently published");
+        ______TS("Typical Success Case 1: 9 published-email tasks queued for 1 session that was recently published");
         textExecute_typicalSuccess1();
 
         ______TS("Typical Success Case 2: No email tasks queued -- session results not published yet");
@@ -88,7 +106,8 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
 
         assertEquals("Successful", response.getMessage());
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME, 1);
+        // 1 co-owner, 5 students and 3 instructors,
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 9);
     }
 
     private void textExecute_typicalSuccess2() {

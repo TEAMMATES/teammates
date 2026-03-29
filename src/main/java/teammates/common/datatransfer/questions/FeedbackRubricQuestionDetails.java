@@ -3,7 +3,6 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
@@ -170,11 +169,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
 
         return errors;
-    }
-
-    @Override
-    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        return "";
     }
 
     @Override

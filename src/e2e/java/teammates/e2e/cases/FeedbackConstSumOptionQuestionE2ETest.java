@@ -5,31 +5,32 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
-import teammates.e2e.pageobjects.FeedbackSubmitPage;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
+import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.Team;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
  *      specifically for ConstSumOption questions.
  */
 public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
+    // Recipient of responses
+    Team otherTeam;
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/FeedbackConstSumOptionQuestionE2ETest.json");
-        removeAndRestoreDataBundle(testData);
-
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                loadSqlDataBundle("/FeedbackConstSumOptionQuestionE2ETest_SqlEntities.json"));
+        testData = removeAndRestoreDataBundle(
+                loadDataBundle("/FeedbackConstSumOptionQuestionE2ETestSql.json"));
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");
         student = testData.students.get("alice.tmms@FCSumOptQn.CS2104");
+        otherTeam = testData.teams.get("ProgrammingLanguageConceptsTeam2");
     }
 
     @Test
@@ -42,10 +43,11 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
 
     @Override
     protected void testEditPage() {
-        InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
+        InstructorFeedbackEditPageSql feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
-        FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
+        FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession")
+                .makeDeepCopy(feedbackSession);
         FeedbackConstantSumQuestionDetails questionDetails =
                 (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyConstSumQuestionDetails(1, questionDetails);
@@ -59,12 +61,12 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
-        FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
+        FeedbackQuestion copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
         questionDetails = (FeedbackConstantSumQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
                 copiedQuestion.getQuestionDetailsCopy().getQuestionText());
-        copiedQuestion.setCourseId(course.getId());
-        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
+        copiedQuestion.getFeedbackSession().setCourse(course);
+        copiedQuestion.setFeedbackSession(feedbackSession);
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyConstSumQuestionDetails(3, questionDetails);
@@ -88,16 +90,15 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
 
     @Override
     protected void testSubmitPage() {
-        FeedbackSubmitPage feedbackSubmitPage = loginToFeedbackSubmitPage();
+        FeedbackSubmitPageSql feedbackSubmitPage = loginToFeedbackSubmitPage();
 
         ______TS("verify loaded question");
-        FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
+        FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         feedbackSubmitPage.verifyConstSumQuestion(1, "",
                 (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
-        String questionId = getFeedbackQuestion(question).getId();
-        FeedbackResponseAttributes response = getResponse(questionId, Arrays.asList(50, 20, 30));
+        FeedbackResponse response = getResponse(question, Arrays.asList(50, 20, 30));
         feedbackSubmitPage.fillConstSumOptionResponse(1, "", response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
 
@@ -108,7 +109,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         feedbackSubmitPage.verifyConstSumOptionResponse(1, "", response);
 
         ______TS("edit response");
-        response = getResponse(questionId, Arrays.asList(23, 47, 30));
+        response = getResponse(question, Arrays.asList(23, 47, 30));
         feedbackSubmitPage.fillConstSumOptionResponse(1, "", response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
 
@@ -117,11 +118,10 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         verifyPresentInDatabase(response);
     }
 
-    private FeedbackResponseAttributes getResponse(String questionId, List<Integer> answers) {
+    private FeedbackResponse getResponse(FeedbackQuestion question, List<Integer> answers) {
         FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
         details.setAnswers(answers);
-        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), student.getEmail())
-                .withResponseDetails(details)
-                .build();
+        return FeedbackResponse.makeResponse(question, student.getEmail(),
+                student.getSection(), otherTeam.getName(), student.getSection(), details);
     }
 }

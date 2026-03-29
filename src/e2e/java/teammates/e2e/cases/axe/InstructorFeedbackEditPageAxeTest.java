@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}.
@@ -15,26 +15,25 @@ public class InstructorFeedbackEditPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorFeedbackEditPageE2ETest.json");
+        testData = loadDataBundle("/InstructorFeedbackEditPageE2ETestSql.json");
         removeAndRestoreDataBundle(testData);
-
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                loadSqlDataBundle("/InstructorFeedbackEditPageE2ETest_SqlEntities.json"));
     }
 
     @Test
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
-                .withCourseId(testData.courses.get("course").getId())
-                .withSessionName(testData.feedbackSessions.get("openSession").getFeedbackSessionName());
+                .withCourseId(testData.courses.get("InstFEP.CS2104").getId())
+                .withSessionName(testData.feedbackSessions.get("openSession").getName());
 
-        InstructorFeedbackEditPage feedbackEditPage = loginToPage(url, InstructorFeedbackEditPage.class,
-                testData.instructors.get("instructor").getGoogleId());
+        InstructorFeedbackEditPageSql feedbackEditPage = loginToPage(url, InstructorFeedbackEditPageSql.class,
+                testData.instructors.get("InstFEP.instr").getGoogleId());
 
         // landmark-unique might be caused by tinymce
         // aria-prohibited-attr is caused by https://github.com/tinymce/tinymce/issues/7346
-        Results results = getAxeBuilder("aria-prohibited-attr", "landmark-unique")
+        // label is caused by custom recipients fields missing labels
+        // nested-interactive is caused by focusable elements in card headers
+        Results results = getAxeBuilder("aria-prohibited-attr", "landmark-unique", "label", "nested-interactive")
                 .analyze(feedbackEditPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());
     }

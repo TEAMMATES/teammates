@@ -18,7 +18,6 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlsearch.SearchManagerFactory;
 import teammates.ui.webapi.UpdateFeedbackSessionLogsAction;
 
 /**
@@ -49,7 +48,6 @@ public class UpdateFeedbackSessionLogsActionIT extends BaseActionIT<UpdateFeedba
         super.setUp();
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
-        SearchManagerFactory.getStudentSearchManager().resetCollections();
 
         endTime = TimeHelper.getInstantNearestQuarterHourBefore(Instant.now());
         startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);

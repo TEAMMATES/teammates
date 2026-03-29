@@ -1,0 +1,15 @@
+.handsontable tbody tr td.invalid-row {
+  background: var(--color-enroll-invalid);
+}
+
+.handsontable tbody tr td.new-row {
+  background: var(--color-enroll-new);
+}
+
+.handsontable tbody tr td.modified-row {
+  background: var(--color-enroll-modified);
+}
+
+.handsontable tbody tr td.unchanged-row {
+  background: var(--color-enroll-unchanged);
+}

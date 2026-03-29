@@ -129,7 +129,7 @@ This instruction set applies for both dev server and production server, with sli
 1. Go to any administrator page, e.g `/web/admin/home`. You may be prompted to log in.
   You will be granted access only if your account has admin permission as defined in `build.properties`.
 
-1. When logged in as administrator, ***masquerade mode*** can be used to impersonate instructors and students. 
+1. When logged in as administrator, ***masquerade mode*** can be used to impersonate instructors and students.
    For more information, refer to [Masquerading as another user](#masquerading-as-another-user).
 
 </panel>
@@ -280,11 +280,10 @@ If you are using the Cloud SDK method, you can use `Ctrl + C` in the console to 
 There are two big categories of testing in TEAMMATES:
 
 - **Component tests**: White-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. To learn more about running and writing component tests, refer to [this guide](unit-testing.md).
-- **<tooltip content="End-to-end">E2E</tooltip> tests**: Black-box tests, i.e. they test the application as a whole without knowing any internal working. To learn more about running and writing E2E tests, refer to [this guide](e2e-testing.md).  
+- **<tooltip content="End-to-end">E2E</tooltip> tests**: Black-box tests, i.e. they test the application as a whole without knowing any internal working. To learn more about running and writing E2E tests, refer to [this guide](e2e-testing.md).
 
 Other tests in TEAMMATES include:
 
-- **Performance tests**: Evaluate the application's stability and responsiveness under expected, peak, and prolonged loads. See [Performance Testing](performance-testing.md).
 - **Accessibility tests**: Ensure the application is accessible to users with disabilities. See [Accessibility Testing](axe-testing.md).
 
 ## Deploying to a staging server
@@ -309,7 +308,8 @@ There are several files used to configure various aspects of the system.
 
 **Main**: These vary from developer to developer and are subjected to frequent changes.
 
-* `build.properties`: Contains the general purpose configuration values to be used by the web API.
+* `build.properties` (from `build.template.properties`): Backend configuration for the web API.
+* `build-dev.properties` (from `build-dev.template.properties`, optional): Optional local configuration overrides.
 * `config.ts`: Contains the general purpose configuration values to be used by the web application.
 * `test.properties`: Contains the configuration values for the test driver.
   * There are two separate `test.properties`; one for component tests and one for E2E tests.
@@ -327,7 +327,6 @@ There are several files used to configure various aspects of the system.
 
 * `component.yml`: Configuration for component tests.
 * `e2e.yml`: Configuration for E2E tests.
-* `lnp.yml`: Configuration for load & performance tests.
 * `dev-docs.yml`: Configuration for developer documentation site.
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
@@ -336,6 +335,8 @@ There are several files used to configure various aspects of the system.
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
-* `cron.yaml`: Contains the cron jobs specification.
+* `docs/cron-setup.md`: Contains the cron jobs specification and setup guide for external schedulers (Cloud Scheduler, etc.). Cron must be configured externally with bearer token auth.
 * `queue.yaml`: Contains the task queues configuration.
 * `index.yaml`: Contains the Google Cloud Datastore indexes configuration.
+
+**Cron and worker auth**: `app.cron.and.worker.secret` in `build.properties` is the shared secret for authenticating cron and worker requests via `Authorization: Bearer <token>`. Used by external cron providers and Cloud Tasks.

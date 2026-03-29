@@ -435,7 +435,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
     expect(extendButton.textContent).toEqual('Extend / Edit');
     expect(extendButton.disabled).toBeTruthy();
-    expect(deleteButton.textContent).toEqual('Delete');
+    expect(deleteButton.textContent).toEqual('Delete Extensions');
     expect(deleteButton.disabled).toBeTruthy();
   });
 
@@ -452,7 +452,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
     expect(extendButton.textContent).toEqual('Extend / Edit');
     expect(extendButton.disabled).toBeFalsy();
-    expect(deleteButton.textContent).toEqual('Delete');
+    expect(deleteButton.textContent).toEqual('Delete Extensions');
     expect(deleteButton.disabled).toBeTruthy();
   });
 
@@ -469,7 +469,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
     expect(extendButton.textContent).toEqual('Extend / Edit');
     expect(extendButton.disabled).toBeFalsy();
-    expect(deleteButton.textContent).toEqual('Delete');
+    expect(deleteButton.textContent).toEqual('Delete Extensions');
     expect(deleteButton.disabled).toBeFalsy();
   });
 
@@ -487,7 +487,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
     expect(extendButton.textContent).toEqual('Extend / Edit');
     expect(extendButton.disabled).toBeFalsy();
-    expect(deleteButton.textContent).toEqual('Delete');
+    expect(deleteButton.textContent).toEqual('Delete Extensions');
     expect(deleteButton.disabled).toBeFalsy();
   });
 

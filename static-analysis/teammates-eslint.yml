@@ -25,8 +25,6 @@ overrides:
   - airbnb-base
   - airbnb-typescript/base
   rules:
-    "@angular-eslint/prefer-standalone":
-    - off # Temporarily turn off until migration to standalone components is complete
     "@angular-eslint/prefer-inject":
     - off # Temporarily turn off until migration to inject function is complete
     "deprecation/deprecation":

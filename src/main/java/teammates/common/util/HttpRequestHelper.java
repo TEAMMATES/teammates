@@ -46,6 +46,7 @@ public final class HttpRequestHelper {
                 .filter(headerName -> Config.IS_DEV_SERVER || !"cookie".equalsIgnoreCase(headerName))
                 .filter(headerName -> Config.IS_DEV_SERVER || !Const.HeaderNames.BACKDOOR_KEY.equalsIgnoreCase(headerName))
                 .filter(headerName -> Config.IS_DEV_SERVER || !Const.HeaderNames.CSRF_KEY.equalsIgnoreCase(headerName))
+                .filter(headerName -> Config.IS_DEV_SERVER || !"Authorization".equalsIgnoreCase(headerName))
                 .forEach(headerName -> {
                     List<String> headerValues = Collections.list(req.getHeaders(headerName));
                     if (headerValues.size() == 1) {

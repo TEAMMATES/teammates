@@ -2,13 +2,11 @@ package teammates.ui.output;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackResponse;
 
 /**
- * The API output format of {@link FeedbackResponseAttributes}.
+ * The API output format of {@link FeedbackResponse}.
  */
 public class FeedbackResponseData extends ApiOutput {
 
@@ -22,13 +20,6 @@ public class FeedbackResponseData extends ApiOutput {
 
     @Nullable
     private FeedbackResponseCommentData giverComment;
-
-    public FeedbackResponseData(FeedbackResponseAttributes feedbackResponseAttributes) {
-        this.feedbackResponseId = StringHelper.encrypt(feedbackResponseAttributes.getId());
-        this.giverIdentifier = feedbackResponseAttributes.getGiver();
-        this.recipientIdentifier = feedbackResponseAttributes.getRecipient();
-        this.responseDetails = feedbackResponseAttributes.getResponseDetailsCopy();
-    }
 
     public FeedbackResponseData(FeedbackResponse feedbackResponse) {
         this.feedbackResponseId = feedbackResponse.getId().toString();
