@@ -18,13 +18,14 @@ public class MockUserProvision extends UserProvision {
     private boolean isStudent;
 
     private UserInfo loginUser(String userId, boolean isAdmin, boolean isInstructor, boolean isStudent,
-            boolean isMaintainer) {
+            boolean isMaintainer, boolean isInternalService) {
         isLoggedIn = true;
         mockUser.id = userId;
         mockUser.isAdmin = isAdmin;
         mockUser.isInstructor = isInstructor;
         mockUser.isStudent = isStudent;
         mockUser.isMaintainer = isMaintainer;
+        mockUser.isInternalService = isInternalService;
         return mockUser;
     }
 
@@ -34,7 +35,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginUser(String userId) {
-        return loginUser(userId, false, false, false, false);
+        return loginUser(userId, false, false, false, false, false);
     }
 
     /**
@@ -43,7 +44,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsAdmin(String userId) {
-        return loginUser(userId, true, false, false, false);
+        return loginUser(userId, true, false, false, false, false);
     }
 
     /**
@@ -52,7 +53,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsInstructor(String userId) {
-        return loginUser(userId, false, true, false, false);
+        return loginUser(userId, false, true, false, false, false);
     }
 
     /**
@@ -61,7 +62,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsStudent(String userId) {
-        return loginUser(userId, false, false, true, false);
+        return loginUser(userId, false, false, true, false, false);
     }
 
     /**
@@ -70,7 +71,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsStudentInstructor(String userId) {
-        return loginUser(userId, false, true, true, false);
+        return loginUser(userId, false, true, true, false, false);
     }
 
     /**
@@ -79,7 +80,14 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsMaintainer(String userId) {
-        return loginUser(userId, false, false, false, true);
+        return loginUser(userId, false, false, false, true, false);
+    }
+
+    /**
+     * Models a verified cron/worker principal ({@link UserInfo#isInternalService}), not a human app admin.
+     */
+    public UserInfo loginAsInternalService(String userId) {
+        return loginUser(userId, false, false, false, false, true);
     }
 
     /**
@@ -106,6 +114,7 @@ public class MockUserProvision extends UserProvision {
         userInfo.isInstructor = isInstructor;
         userInfo.isStudent = isStudent;
         userInfo.isMaintainer = isMaintainer;
+        userInfo.isInternalService = mockUser.isInternalService;
 
         return userInfo;
     }

@@ -156,8 +156,10 @@ public abstract class Action {
 
         boolean trustedInternalCronOrWorker = InternalRequestAuth.isTrustedCronOrWorkerRequest(req);
         if (trustedInternalCronOrWorker) {
-            userInfo = userProvision.getAdminOnlyUser(
-                    InternalRequestAuth.isCronRequestPath(req) ? "Cron-Service" : "Worker-Service");
+            userInfo = userProvision.getInternalServiceUser(
+                    InternalRequestAuth.isCronRequestPath(req)
+                            ? Const.InternalService.CRON_SERVICE_USER_ID
+                            : Const.InternalService.WORKER_SERVICE_USER_ID);
         } else {
             String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
             UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);

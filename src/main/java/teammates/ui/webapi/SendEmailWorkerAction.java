@@ -10,7 +10,7 @@ import teammates.ui.request.SendEmailRequest;
 /**
  * Task queue worker action: sends queued email.
  */
-public class SendEmailWorkerAction extends AdminOnlyAction {
+public class SendEmailWorkerAction extends InternalServiceAction {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {

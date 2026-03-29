@@ -194,6 +194,12 @@ public class UpdateFeedbackSessionLogsActionTest
     }
 
     @Test
+    public void testSpecificAccessControl_isInternalService_canAccess() {
+        loginAsInternalService();
+        verifyCanAccess();
+    }
+
+    @Test
     public void testSpecificAccessControl_isInstructor_cannotAccess() {
         loginAsInstructor("user-id");
         verifyCannotAccess();

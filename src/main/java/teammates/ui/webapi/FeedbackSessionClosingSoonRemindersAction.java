@@ -13,7 +13,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 /**
  * Cron job: schedules feedback session closing soon emails to be sent.
  */
-public class FeedbackSessionClosingSoonRemindersAction extends AdminOnlyAction {
+public class FeedbackSessionClosingSoonRemindersAction extends InternalServiceAction {
 
     private static final Logger log = Logger.getLogger();
 

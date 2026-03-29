@@ -207,6 +207,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     /**
+     * Models a verified cron/worker principal ({@link UserInfo#isInternalService}), for actions that allow
+     * internal services as well as human admins.
+     */
+    protected void loginAsInternalService() {
+        UserInfo user = mockUserProvision.loginAsInternalService(Const.InternalService.CRON_SERVICE_USER_ID);
+        assertTrue(user.isInternalService);
+        assertFalse(user.isAdmin);
+    }
+
+    /**
      * Logs the current user out of the test environment.
      */
     protected void logoutUser() {
@@ -416,6 +426,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Admin → Maintainer → Instructor → Student → Unregistered → No login
      *  - An 'Only' can access test means all other types to the right cannot access except maintainers,
      *  which should be tested separately as they are a separate unrelated entity.
+     *  - For cron/worker endpoints (InternalServiceAction), use verifyOnlyAdminsOrInternalServicesCanAccess
+     *  instead of verifyOnlyAdminsCanAccess.
      */
 
     // Admins
@@ -425,6 +437,25 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyStudentsCannotAccess(params);
         verifyUnregisteredCannotAccess(params);
         verifyWithoutLoginCannotAccess(params);
+    }
+
+    /**
+     * Like {@link #verifyOnlyAdminsCanAccess(String...)} but also asserts that an internal-service principal
+     * passes {@code checkAccessControl} (for {@code InternalServiceAction} and similar).
+     */
+    void verifyOnlyAdminsOrInternalServicesCanAccess(String... params) {
+        verifyAdminsCanAccess(params);
+        verifyInternalServiceCanAccess(params);
+        verifyInstructorsCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
+    }
+
+    void verifyInternalServiceCanAccess(String... params) {
+        loginAsInternalService();
+        verifyCanAccess(params);
+        logoutUser();
     }
 
     // Instructors
