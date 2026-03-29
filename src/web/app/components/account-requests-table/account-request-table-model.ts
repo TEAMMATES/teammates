@@ -5,13 +5,15 @@ import { AccountRequestStatus } from '../../../types/api-output';
  */
 export interface AccountRequestTableRowModel {
     id: string;
+    localId?: string;
     name: string;
     email: string;
-    status: AccountRequestStatus;
+    status: AccountRequestStatus | 'DRAFT' | 'ADDING' | 'FAIL';
     instituteAndCountry: string;
     createdAtText: string;
     registeredAtText: string;
     comments: string;
     registrationLink: string;
     showLinks: boolean;
+    isLocalRow?: boolean;
 }

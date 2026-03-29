@@ -16,6 +16,11 @@
           (click)="hideAllAccountRequestsLinks()">Collapse All</button>
         </div>
       }
+      @if (!searchString && hasSubmittableLocalAccountRequests()) {
+        <div class="card-header-btn-toolbar">
+          <button id="submit-all-local-account-requests" class="btn btn-light btn-sm" type="button" (click)="submitAllLocalAccountRequests()">Submit All Drafts</button>
+        </div>
+      }
     </div>
     <div class="table-responsive">
       <table class="table table-striped data-table" id="search-table-account-request">
@@ -38,34 +43,59 @@
             <tr>
               <td [innerHtml]="accountRequest.name | highlighter:searchString:true">
                 <br>
-                  <div class="col-sm-1">
-                    @if (!accountRequest.showLinks) {
-                      <button class="btn" aria-label="Expand">
-                        <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
-                      </button>
-                    }
-                    @if (accountRequest.showLinks) {
-                      <button class="btn" aria-label="Collapse">
-                        <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
-                      </button>
-                    }
+                <div class="col-sm-1">
+                  @if (!accountRequest.showLinks) {
+                    <button class="btn" aria-label="Expand">
+                      <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
+                    </button>
+                  }
+                  @if (accountRequest.showLinks) {
+                    <button class="btn" aria-label="Collapse">
+                      <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
+                    </button>
+                  }
+                </div>
+              </td>
+              <td [innerHtml]="accountRequest.email | highlighter:searchString:true">{{ accountRequest.email }}</td>
+              <td [innerHtml]="accountRequest.status | highlighter:searchString:true">{{ accountRequest.status }}</td>
+              <td [innerHtml]="accountRequest.instituteAndCountry | highlighter:searchString:true">{{ accountRequest.instituteAndCountry }}</td>
+              <td id="timestamp-box">{{ accountRequest.createdAtText || '-' }}</td>
+              @if (searchString) {
+                <td id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
+              }
+              <td>
+                <div id="comment-box" [innerHtml]="accountRequest.comments | highlighter:searchString:true">
+                  {{ accountRequest.comments }}
+                </div>
+              </td>
+              <td class="align-middle">
+                @if (isLocalAccountRequest(accountRequest)) {
+                  <div class="d-flex flex-row align-items-center justify-content-center gap-2">
+                    <button
+                      id="submit-local-account-request-{{i}}"
+                      class="btn btn-success"
+                      [disabled]="!canSubmitLocalAccountRequest(accountRequest)"
+                      (click)="$event.stopPropagation(); submitLocalAccountRequest(accountRequest)">
+                      Submit
+                    </button>
+                    <button
+                      id="edit-local-account-request-{{i}}"
+                      type="button"
+                      class="btn btn-info"
+                      [disabled]="accountRequest.status === 'ADDING'"
+                      (click)="$event.stopPropagation(); editLocalAccountRequest(accountRequest)">
+                      Edit
+                    </button>
+                    <button
+                      id="remove-local-account-request-{{i}}"
+                      type="button"
+                      class="btn btn-danger"
+                      [disabled]="accountRequest.status === 'ADDING'"
+                      (click)="$event.stopPropagation(); removeLocalAccountRequest(accountRequest)">
+                      Remove
+                    </button>
                   </div>
-                </td>
-                <td [innerHtml]="accountRequest.email | highlighter:searchString:true">{{ accountRequest.email }}</td>
-                <td [innerHtml]="accountRequest.status | highlighter:searchString:true">{{ accountRequest.status }}</td>
-                <td [innerHtml]="accountRequest.instituteAndCountry | highlighter:searchString:true">{{
-                accountRequest.instituteAndCountry }}</td>
-                <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
-                @if (searchString) {
-                  <td id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}
-                  </td>
-                }
-                <td>
-                  <div id="comment-box" [innerHtml]="accountRequest.comments | highlighter:searchString:true">
-                    {{ accountRequest.comments }}
-                  </div>
-                </td>
-                <td class="align-middle">
+                } @else {
                   <div class="d-flex flex-row align-items-center justify-content-center gap-2">
                     <div>
                       <button id="edit-account-request-{{i}}" type="button" class="btn btn-link p-0"
@@ -124,25 +154,24 @@
                       </div>
                     }
                   </div>
+                }
+              </td>
+            </tr>
+            @if (accountRequest.showLinks && searchString) {
+              <tr>
+                <td colspan="100">
+                  <ul class="list-group" @collapseAnim>
+                    <li class="list-group-item list-group-item-info">
+                      <strong>Account Registration Link</strong>
+                      <input [value]="accountRequest.registrationLink" disabled class="form-control">
+                    </li>
+                  </ul>
                 </td>
               </tr>
-              @if (accountRequest.showLinks && searchString) {
-                <tr>
-                  <td colspan="100">
-                    @if (accountRequest.showLinks) {
-                      <ul class="list-group" @collapseAnim>
-                        <li class="list-group-item list-group-item-info">
-                          <strong>Account Registration Link</strong>
-                          <input [value]="accountRequest.registrationLink" disabled class="form-control">
-                        </li>
-                      </ul>
-                    }
-                  </td>
-                </tr>
-              }
             }
-          </tbody>
-        </table>
-      </div>
+          }
+        </tbody>
+      </table>
     </div>
-  }
+  </div>
+}

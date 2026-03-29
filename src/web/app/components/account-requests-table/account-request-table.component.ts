@@ -10,6 +10,7 @@ import {
   RejectWithReasonModalComponent,
 } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
+import { LinkService } from '../../../services/link.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../types/api-output';
@@ -54,8 +55,80 @@ export class AccountRequestTableComponent {
     private statusMessageService: StatusMessageService,
     private simpleModalService: SimpleModalService,
     private accountService: AccountService,
+    private linkService: LinkService,
     private ngbModal: NgbModal,
   ) {}
+
+  isLocalAccountRequest(accountRequest: AccountRequestTableRowModel): boolean {
+    return !!accountRequest.isLocalRow;
+  }
+
+  canSubmitLocalAccountRequest(accountRequest: AccountRequestTableRowModel): boolean {
+    return this.isLocalAccountRequest(accountRequest)
+      && (accountRequest.status === 'DRAFT' || accountRequest.status === 'FAIL');
+  }
+
+  hasSubmittableLocalAccountRequests(): boolean {
+    return this.accountRequests.some((accountRequest: AccountRequestTableRowModel) =>
+      this.canSubmitLocalAccountRequest(accountRequest));
+  }
+
+  submitAllLocalAccountRequests(): void {
+    this.accountRequests.forEach((accountRequest: AccountRequestTableRowModel) => {
+      if (this.canSubmitLocalAccountRequest(accountRequest)) {
+        this.submitLocalAccountRequest(accountRequest);
+      }
+    });
+  }
+
+  submitLocalAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+    if (!this.canSubmitLocalAccountRequest(accountRequest)) {
+      return;
+    }
+
+    accountRequest.status = 'ADDING';
+    this.accountService.createAccountRequest({
+      instructorEmail: accountRequest.email,
+      instructorName: accountRequest.name,
+      instructorInstitution: accountRequest.instituteAndCountry,
+    }).subscribe({
+      next: (resp: AccountRequest) => {
+        accountRequest.id = resp.id;
+        accountRequest.status = resp.status;
+        accountRequest.comments = resp.comments || accountRequest.comments;
+        accountRequest.registrationLink = this.linkService.generateAccountRegistrationLink(resp.registrationKey);
+        accountRequest.isLocalRow = false;
+        accountRequest.localId = undefined;
+        this.statusMessageService.showSuccessToast('Account request was successfully added.');
+      },
+      error: (resp: ErrorMessageOutput) => {
+        accountRequest.status = 'FAIL';
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
+  }
+
+  editLocalAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+    const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);
+    modalRef.componentInstance.accountRequestName = accountRequest.name;
+    modalRef.componentInstance.accountRequestEmail = accountRequest.email;
+    modalRef.componentInstance.accountRequestInstitution = accountRequest.instituteAndCountry;
+    modalRef.componentInstance.accountRequestComments = accountRequest.comments;
+
+    modalRef.result.then((res: EditRequestModalComponentResult) => {
+      accountRequest.name = res.accountRequestName;
+      accountRequest.email = res.accountRequestEmail;
+      accountRequest.instituteAndCountry = res.accountRequestInstitution;
+      accountRequest.comments = res.accountRequestComment;
+    }, () => {});
+  }
+
+  removeLocalAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+    const index: number = this.accountRequests.indexOf(accountRequest);
+    if (index > -1) {
+      this.accountRequests.splice(index, 1);
+    }
+  }
 
   /**
    * Shows all account requests' links in the page.
@@ -168,7 +241,10 @@ export class AccountRequestTableComponent {
       .subscribe({
         next: (resp: MessageOutput) => {
           this.statusMessageService.showSuccessToast(resp.message);
-          this.accountRequests = this.accountRequests.filter((x: AccountRequestTableRowModel) => x !== accountRequest);
+          const index: number = this.accountRequests.indexOf(accountRequest);
+          if (index > -1) {
+            this.accountRequests.splice(index, 1);
+          }
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -230,7 +306,7 @@ export class AccountRequestTableComponent {
     }, () => {});
   }
 
-  trackAccountRequest(_: number, accountRequest: AccountRequestTableRowModel): string {
-    return accountRequest.id;
+  trackAccountRequest(index: number, accountRequest: AccountRequestTableRowModel): string {
+    return accountRequest.id || accountRequest.localId || `${index}`;
   }
 }
