@@ -30,8 +30,7 @@ public class MailgunService implements EmailSenderService {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public FormDataMultiPart parseToEmail(EmailWrapper wrapper) {
+    FormDataMultiPart parseToEmail(EmailWrapper wrapper) {
         FormDataMultiPart formData = new FormDataMultiPart();
 
         String sender = wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()
