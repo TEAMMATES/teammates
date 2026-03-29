@@ -667,7 +667,7 @@
       "name": "student1 In Course2",
       "comments": "",
       "team": "Team 2.1",
-      "section": "None"
+      "section": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     },
     "student2InCourse2": {
       "googleId": "student2InCourse1",
@@ -676,7 +676,7 @@
       "name": "student2 In Course2",
       "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
       "team": "Team 2.1",
-      "section": "None"
+      "section": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     },
     "student1InCourse3": {
       "googleId": "student1InCourse3",
@@ -1541,8 +1541,8 @@
       "feedbackQuestionId": "3",
       "giver": "instructor1@course1.tmt",
       "recipient": "%GENERAL%",
-      "giverSection": "None",
-      "recipientSection": "None",
+      "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
+      "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Good work, keep it up!"
@@ -1580,8 +1580,8 @@
       "feedbackQuestionId": "2",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
-      "giverSection": "None",
-      "recipientSection": "None",
+      "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
+      "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from instructor to self."
@@ -1593,8 +1593,8 @@
       "feedbackQuestionId": "1",
       "giver": "instructor1@course1.tmt",
       "recipient": "instructor1@course1.tmt",
-      "giverSection": "None",
-      "recipientSection": "None",
+      "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
+      "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from Inst1 to self."
@@ -1632,8 +1632,8 @@
       "feedbackQuestionId": "1",
       "giver": "instructor1@course2.tmt",
       "recipient": "Team 2.1",
-      "giverSection": "None",
-      "recipientSection": "None",
+      "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
+      "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from instr to Team 2.1"
@@ -1645,8 +1645,8 @@
       "feedbackQuestionId": "1",
       "giver": "instructor1@course2.tmt",
       "recipient": "student1InCourse2@gmail.tmt",
-      "giverSection": "None",
-      "recipientSection": "None",
+      "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
+      "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from instr1InC2 to student1InC2."
@@ -1693,8 +1693,8 @@
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "3",
       "commentGiver": "instructor1@course1.tmt",
-      "giverSection": "None",
-      "receiverSection": "None",
+      "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
+      "receiverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "feedbackResponseId": "3%instructor1@course1.tmt%%GENERAL%",
       "showCommentTo": [],
       "showGiverNameTo": [],
@@ -1709,8 +1709,8 @@
       "feedbackSessionName": "Not answerable feedback session",
       "feedbackQuestionId": "1",
       "commentGiver": "instructor3@course.tmt",
-      "giverSection": "None",
-      "receiverSection": "None",
+      "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
+      "receiverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "feedbackResponseId": "1%instructor1@course2.tmt%student1InCourse2@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],

@@ -31,7 +31,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
 
     component.calculateStatistics();
 
-    const team: string = 'Instructors';
+    const team: string = '__TEAMMATES_RESERVED_INSTRUCTORS__';
     const recipient: string = 'Instructor';
     expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
     expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
@@ -52,7 +52,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
 
     component.calculateStatistics();
 
-    const team: string = 'Instructors';
+    const team: string = '__TEAMMATES_RESERVED_INSTRUCTORS__';
     const recipient: string = 'Instructor';
     expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
     expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
@@ -73,7 +73,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
 
     component.calculateStatistics();
 
-    const team: string = 'Instructors';
+    const team: string = '__TEAMMATES_RESERVED_INSTRUCTORS__';
     const recipient: string = 'Instructor';
     expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
     expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);

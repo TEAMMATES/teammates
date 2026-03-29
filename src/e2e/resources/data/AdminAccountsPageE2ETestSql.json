@@ -200,21 +200,21 @@
       "course": {
         "id": "tm.e2e.AAccounts.CS2104"
       },
-      "name": "None"
+      "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     },
     "CS2103None": {
       "id": "00000000-0000-4000-8000-000000000102",
       "course": {
         "id": "tm.e2e.AAccounts.CS2103"
       },
-      "name": "None"
+      "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     },
     "CS1101None": {
       "id": "00000000-0000-4000-8000-000000000103",
       "course": {
         "id": "tm.e2e.AAccounts.CS1101"
       },
-      "name": "None"
+      "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     }
   },
   "teams": {

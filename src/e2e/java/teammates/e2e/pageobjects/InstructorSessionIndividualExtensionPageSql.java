@@ -15,6 +15,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -127,7 +128,7 @@ public class InstructorSessionIndividualExtensionPageSql extends AppPage {
             Student expectedStudent = students.get(email);
 
             if (expectedStudent.getSectionName() == null || expectedStudent.getSectionName().isEmpty()) {
-                assertEquals("None", section);
+                assertEquals(Const.DEFAULT_SECTION, section);
             } else {
                 assertEquals(expectedStudent.getSectionName(), section);
             }

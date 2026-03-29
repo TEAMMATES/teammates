@@ -30,14 +30,14 @@
       "course": {
         "id": "tm.e2e.IHome.CS2104"
       },
-      "name": "None"
+      "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     },
     "tm.e2e.IHome.CS1101-None": {
       "id": "00000000-0000-4000-8000-000000000202",
       "course": {
         "id": "tm.e2e.IHome.CS1101"
       },
-      "name": "None"
+      "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     }
   },
   "teams": {

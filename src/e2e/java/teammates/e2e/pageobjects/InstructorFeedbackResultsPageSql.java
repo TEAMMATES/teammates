@@ -25,6 +25,7 @@ import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetail
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
+import teammates.common.util.Const;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -47,6 +48,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     private static final String NO_RESPONSE_LABEL = "No Response";
     private static final String NO_TEAM_LABEL = "No Specific Team";
     private static final String NO_SECTION_LABEL = "No specific section";
+    /** User-visible label for {@link Const#USER_TEAM_FOR_INSTRUCTOR} (matches roster display on the web UI). */
+    private static final String INSTRUCTOR_TEAM_DISPLAY_LABEL = "Instructors";
     private static final String NO_USER_LABEL = "No Specific User";
 
     private static final String MCQ_OTHER = "Other";
@@ -388,8 +391,10 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         List<FeedbackResponse> responsesToUse = filterMissingResponses(responses);
         List<WebElement> statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-statistics table"));
         verifyTableBodyValues(statisticsTables.get(0), getMcqResponseSummary(question));
-        // sort per recipient statistics
+        // sort per recipient statistics (re-query the table after click — sort re-renders and stale elements fail)
         click(statisticsTables.get(1).findElements(By.tagName("th")).get(1));
+        waitUntilAnimationFinish();
+        statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-statistics table"));
         verifyTableBodyValues(statisticsTables.get(1), getMcqPerRecipientStatistics(question, responsesToUse, students,
                 instructors));
     }
@@ -580,14 +585,28 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
 
     private void verifyNoResponsesMessage(WebElement panel, boolean isQuestion, boolean isGiver) {
         WebElement noResponsesMessage = panel.findElement(By.id("no-responses"));
+        String actualText = getElementTextContent(noResponsesMessage);
         if (isQuestion) {
             assertEquals("There are no responses for this question or you may not have the permission to"
-                    + " see the response.", noResponsesMessage.getText());
+                    + " see the response.", actualText);
         } else {
             assertEquals("There are no responses " + (isGiver ? "given" : "received")
                     + " by this user or you may not have the permission to see the responses.",
-                    noResponsesMessage.getText());
+                    actualText);
         }
+    }
+
+    /**
+     * Text as shown in the DOM (uses textContent when getText() is empty — e.g. Firefox + italic-only message).
+     */
+    private String getElementTextContent(WebElement element) {
+        String text = element.getText();
+        if (text != null && !text.trim().isEmpty()) {
+            return text.trim();
+        }
+        Object content = executeScript(
+                "var e = arguments[0]; return (e.textContent || e.innerText || '').trim();", element);
+        return content == null ? "" : content.toString();
     }
 
     // Methods for formatting expected results
@@ -882,7 +901,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     private WebElement getSectionPanel(String sectionName) {
         List<WebElement> sectionPanels = browser.driver.findElements(By.id("section-panel"));
         for (WebElement sectionPanel : sectionPanels) {
-            if (sectionPanel.getText().startsWith(sectionName)) {
+            String headerText = sectionPanel.findElement(By.id("section-header")).getText().trim();
+            if (headerText.startsWith(sectionName)) {
                 return sectionPanel;
             }
         }
@@ -895,7 +915,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         for (int attempt = 0; attempt < maxAttempts; attempt++) {
             List<WebElement> teamPanels = sectionPanel.findElements(By.id("team-panel"));
             for (WebElement teamPanel : teamPanels) {
-                if (teamPanel.getText().startsWith(teamName)) {
+                String headerText = teamPanel.findElement(By.id("team-header")).getText().trim();
+                if (headerText.startsWith(teamName)) {
                     return teamPanel;
                 }
             }
@@ -909,7 +930,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     private WebElement getUserPanel(WebElement parentPanel, String header) {
         List<WebElement> userPanels = parentPanel.findElements(By.id("user-panel"));
         for (WebElement userPanel : userPanels) {
-            if (userPanel.getText().startsWith(header)) {
+            String headerText = userPanel.findElement(By.id("user-header")).getText().trim().replace("\n", " ");
+            if (headerText.startsWith(header)) {
                 return userPanel;
             }
         }
@@ -1011,7 +1033,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                 continue;
             }
             String usersDetails = groupedResponse.findElement(By.id("users-details")).getText();
-            if (usersDetails.startsWith(expectedStarting)) {
+            // Match first line after normalizing whitespace (DOM may break name and team across lines).
+            if (normalizeSingleLine(usersDetails).startsWith(normalizeSingleLine(expectedStarting))) {
                 return groupedResponse;
             }
         }
@@ -1019,6 +1042,10 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
             return null;
         }
         throw new NoSuchElementException("Grouped responses not found for " + userName);
+    }
+
+    private static String normalizeSingleLine(String s) {
+        return s.replaceAll("\\s+", " ").trim();
     }
 
     private WebElement getTeamStats(WebElement parentPanel, int qnNum) {
@@ -1101,7 +1128,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                     .map(Student::getSectionName)
                     .orElse(null);
         } else if (type == FeedbackParticipantType.INSTRUCTORS || type == FeedbackParticipantType.NONE) {
-            sectionName = "None";
+            sectionName = Const.DEFAULT_SECTION;
         } else {
             sectionName = students.stream()
                     .filter(student -> student.getEmail().equals(participant))
@@ -1112,7 +1139,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         if (sectionName == null) {
             throw new RuntimeException("cannot find section name for " + participant);
         }
-        if ("None".equals(sectionName)) {
+        if (Const.DEFAULT_SECTION.equals(sectionName)) {
             sectionName = NO_SECTION_LABEL;
         }
         return sectionName;
@@ -1124,7 +1151,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         } else if (type == FeedbackParticipantType.TEAMS) {
             return participant;
         } else if (type == FeedbackParticipantType.INSTRUCTORS) {
-            return "Instructors";
+            return INSTRUCTOR_TEAM_DISPLAY_LABEL;
         }
         String teamName = students.stream()
                 .filter(student -> student.getEmail().equals(participant))

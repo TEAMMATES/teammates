@@ -117,14 +117,14 @@
       "course": {
         "id": "tm.e2e.FMsqQn.CS2104"
       },
-      "name": "None"
+      "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     },
     "ProgrammingMethodologysNone": {
       "id": "00000000-0000-4000-8000-000000000102",
       "course": {
         "id": "tm.e2e.FMsqQn.CS1101"
       },
-      "name": "None"
+      "name": "__TEAMMATES_RESERVED_DEFAULT_SECTION__"
     }
   },
   "teams": {

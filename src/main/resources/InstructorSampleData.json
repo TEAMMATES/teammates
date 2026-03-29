@@ -849,7 +849,7 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "None",
+      "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "responseDetails": {
         "answer": "Team 1",
         "otherFieldContent": "",
@@ -902,7 +902,7 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "None",
+      "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "responseDetails": {
         "answers": [
           "C",
@@ -1188,7 +1188,7 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "None",
+      "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "responseDetails": {
         "answer": "Team 2",
         "otherFieldContent": "",
@@ -1241,7 +1241,7 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "None",
+      "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "responseDetails": {
         "answers": [
           "Python"

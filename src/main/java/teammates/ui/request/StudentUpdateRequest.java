@@ -32,6 +32,7 @@ public class StudentUpdateRequest extends BasicRequest {
         assertTrue(section != null, "section cannot be null");
         assertTrue(comments != null, "comments cannot be null");
         assertTrue(isSessionSummarySendEmail != null, "session summary boolean cannot be null");
+        EnrollmentReservedInputValidator.assertTeamAndSectionNotReserved(team, section);
     }
 
     public String getName() {

@@ -11,6 +11,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createBuilder, studentBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import { ApiStringConst } from '../../../types/api-const';
 import { JoinState } from '../../../types/api-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
@@ -382,7 +383,7 @@ describe('StudentListComponent', () => {
           teamName: 'Team 1',
           email: 'tester@tester.com',
           joinState: JoinState.JOINED,
-          sectionName: 'None',
+          sectionName: ApiStringConst.DEFAULT_SECTION,
           courseId: 'text-exa.demo',
         },
         isAllowedToViewStudentInSection: true,
@@ -419,7 +420,7 @@ describe('StudentListComponent', () => {
   });
 
   it('hasSection: should return true when there are sections in the course', () => {
-    const studentOne = studentBuilder.sectionName('None').build();
+    const studentOne = studentBuilder.sectionName(ApiStringConst.DEFAULT_SECTION).build();
     const studentTwo = studentBuilder.sectionName('section-one').build();
     component.studentModels = [
       studentListRowModelBuilder.student(studentOne).build(),
@@ -430,8 +431,8 @@ describe('StudentListComponent', () => {
   });
 
   it('hasSection: should return false when there are no sections in the course', () => {
-    const studentOne = studentBuilder.sectionName('None').build();
-    const studentTwo = studentBuilder.sectionName('None').build();
+    const studentOne = studentBuilder.sectionName(ApiStringConst.DEFAULT_SECTION).build();
+    const studentTwo = studentBuilder.sectionName(ApiStringConst.DEFAULT_SECTION).build();
     component.studentModels = [
       studentListRowModelBuilder.student(studentOne).build(),
       studentListRowModelBuilder.student(studentTwo).build(),

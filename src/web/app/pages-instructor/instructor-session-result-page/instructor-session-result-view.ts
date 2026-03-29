@@ -1,6 +1,7 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
+import { formatSectionNameForDisplay } from '../../../services/roster-display';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -59,6 +60,13 @@ export abstract class InstructorSessionResultView {
   }> = new EventEmitter();
 
   constructor(protected viewType: InstructorSessionResultViewType) {}
+
+  /**
+   * Section tab / panel title: reserved default vs instructor-named section.
+   */
+  formatSectionTabLabel(sectionKey: string): string {
+    return formatSectionNameForDisplay(sectionKey);
+  }
 
   /**
    * Triggers the change of {@code instructorCommentTableModel}

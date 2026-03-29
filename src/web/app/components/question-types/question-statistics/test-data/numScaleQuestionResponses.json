@@ -6,7 +6,7 @@
       "giverEmail": "alice@gmail.com",
       "giverSection": "",
       "recipient": "Instructor",
-      "recipientTeam": "Instructors",
+      "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "recipientEmail": "",
       "recipientSection": "",
       "responseDetails": {
@@ -20,7 +20,7 @@
       "giverEmail": "bob@gmail.com",
       "giverSection": "",
       "recipient": "Instructor",
-      "recipientTeam": "Instructors",
+      "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "recipientEmail": "",
       "recipientSection": "",
       "responseDetails": {
@@ -34,7 +34,7 @@
       "giverEmail": "charles@gmail.com",
       "giverSection": "",
       "recipient": "Instructor",
-      "recipientTeam": "Instructors",
+      "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "recipientEmail": "",
       "recipientSection": "",
       "responseDetails": {
@@ -50,7 +50,7 @@
       "giverEmail": "alice@gmail.com",
       "giverSection": "",
       "recipient": "Instructor",
-      "recipientTeam": "Instructors",
+      "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "recipientEmail": "",
       "recipientSection": "",
       "responseDetails": {
@@ -64,7 +64,7 @@
       "giverEmail": "bob@gmail.com",
       "giverSection": "",
       "recipient": "Instructor",
-      "recipientTeam": "Instructors",
+      "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "recipientEmail": "",
       "recipientSection": "",
       "responseDetails": {
@@ -78,7 +78,7 @@
       "giverEmail": "charles@gmail.com",
       "giverSection": "",
       "recipient": "Instructor",
-      "recipientTeam": "Instructors",
+      "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "recipientEmail": "",
       "recipientSection": "",
       "responseDetails": {
@@ -94,7 +94,7 @@
       "giverEmail": "alice@gmail.com",
       "giverSection": "",
       "recipient": "Instructor",
-      "recipientTeam": "Instructors",
+      "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "recipientEmail": "",
       "recipientSection": "",
       "responseDetails": {
@@ -108,7 +108,7 @@
       "giverEmail": "bob@gmail.com",
       "giverSection": "",
       "recipient": "Instructor",
-      "recipientTeam": "Instructors",
+      "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "recipientEmail": "",
       "recipientSection": "",
       "responseDetails": {
@@ -122,7 +122,7 @@
       "giverEmail": "charles@gmail.com",
       "giverSection": "",
       "recipient": "Instructor",
-      "recipientTeam": "Instructors",
+      "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "recipientEmail": "",
       "recipientSection": "",
       "responseDetails": {
@@ -132,11 +132,11 @@
     },
     {
       "giver": "Instructor",
-      "giverTeam": "Instructors",
+      "giverTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "giverEmail": "",
       "giverSection": "",
       "recipient": "Instructor",
-      "recipientTeam": "Instructors",
+      "recipientTeam": "__TEAMMATES_RESERVED_INSTRUCTORS__",
       "recipientEmail": "",
       "recipientSection": "",
       "responseDetails": {

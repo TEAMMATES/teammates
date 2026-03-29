@@ -1,6 +1,7 @@
 import { KeyValue, NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
+import { formatTeamNameForDisplay } from '../../../../services/roster-display';
 import {
   FeedbackParticipantType,
   FeedbackSession,
@@ -78,6 +79,13 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
 
   constructor(private feedbackResponsesService: FeedbackResponsesService) {
     super();
+  }
+
+  /**
+   * Team panel title: reserved instructor team vs literal team name (matches roster display).
+   */
+  formatTeamTabLabel(teamKey: string): string {
+    return teamKey === '-' ? 'No Specific Team' : formatTeamNameForDisplay(teamKey);
   }
 
   ngOnInit(): void {

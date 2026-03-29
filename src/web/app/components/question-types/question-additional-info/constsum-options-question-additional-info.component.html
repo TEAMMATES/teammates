@@ -1,6 +1,6 @@
 Distribute points (among options) question options:
 <ul>
-  @for (option of questionDetails.constSumOptions; track option) {
+  @for (option of questionDetails.constSumOptions; track $index) {
     <li>{{ option }}</li>
   }
 </ul>

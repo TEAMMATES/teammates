@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
+import { formatTeamNameForDisplay } from '../../../../services/roster-display';
 import { StringHelper } from '../../../../services/string-helper';
 import {
   CommentVisibilityType,
@@ -47,6 +48,13 @@ export interface CommentEditFormModel {
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
   readonly castAsInputElement = castAsInputElement;
+
+  formatTeamLabel(team: string): string {
+    if (team === '-') {
+      return '-';
+    }
+    return formatTeamNameForDisplay(team);
+  }
 
   // enum
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;

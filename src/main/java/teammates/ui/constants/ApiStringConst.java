@@ -2,6 +2,7 @@ package teammates.ui.constants;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 
 /**
@@ -9,7 +10,9 @@ import teammates.common.util.FieldValidator;
  */
 public enum ApiStringConst {
     // CHECKSTYLE.OFF:JavadocVariable
-    EMAIL_REGEX(escapeRegex(FieldValidator.REGEX_EMAIL));
+    DEFAULT_SECTION(Const.DEFAULT_SECTION),
+    EMAIL_REGEX(escapeRegex(FieldValidator.REGEX_EMAIL)),
+    USER_TEAM_FOR_INSTRUCTOR(Const.USER_TEAM_FOR_INSTRUCTOR);
     // CHECKSTYLE.ON:JavadocVariable
 
     private final Object value;

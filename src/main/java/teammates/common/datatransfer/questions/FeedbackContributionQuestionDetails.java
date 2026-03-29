@@ -2,6 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -238,9 +239,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             SqlSessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<>();
         for (String teamName : teamNames) {
-            List<String> memberEmails = bundle.getRoster().getTeamToMembersTable().get(teamName)
-                    .stream().map(Student::getEmail)
-                    .collect(Collectors.toList());
+            List<Student> members = bundle.getRoster().getTeamToMembersTable().get(teamName);
+            List<String> memberEmails = members == null ? Collections.emptyList()
+                    : members.stream().map(Student::getEmail).collect(Collectors.toList());
             teamMembersEmail.put(teamName, memberEmails);
         }
         return teamMembersEmail;

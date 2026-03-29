@@ -14,7 +14,10 @@ public final class Const {
 
     public static final String USER_NOBODY_TEXT = "-";
 
-    public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
+    /**
+     * Synthetic team name for instructors in roster/session results. Must not be used as a student team name.
+     */
+    public static final String USER_TEAM_FOR_INSTRUCTOR = "__TEAMMATES_RESERVED_INSTRUCTORS__";
 
     public static final String DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR = "Instructor";
 
@@ -22,7 +25,10 @@ public final class Const {
 
     public static final int SECTION_SIZE_LIMIT = 100;
 
-    public static final String DEFAULT_SECTION = "None";
+    /**
+     * Default section when none is specified. Must not be chosen explicitly by students (except empty field).
+     */
+    public static final String DEFAULT_SECTION = "__TEAMMATES_RESERVED_DEFAULT_SECTION__";
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 

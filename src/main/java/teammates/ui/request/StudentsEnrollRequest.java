@@ -68,6 +68,7 @@ public class StudentsEnrollRequest extends BasicRequest {
             assertTrue(team != null && !team.isEmpty(), "Team cannot be empty");
             assertTrue(section != null, "Section cannot be null");
             assertTrue(comments != null, "Comments cannot be null");
+            EnrollmentReservedInputValidator.assertTeamAndSectionNotReserved(team, section);
         }
 
         public String getName() {

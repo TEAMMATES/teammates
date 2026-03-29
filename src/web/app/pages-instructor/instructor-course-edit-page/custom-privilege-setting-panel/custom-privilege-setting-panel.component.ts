@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ApiStringConst } from '../../../../types/api-const';
 import { InstructorPermissionSet } from '../../../../types/api-output';
 
 /**
@@ -40,6 +41,8 @@ export interface InstructorSessionLevelPermission {
 ],
 })
 export class CustomPrivilegeSettingPanelComponent {
+
+  readonly defaultSection: string = ApiStringConst.DEFAULT_SECTION;
 
   @Input()
   permission: InstructorOverallPermission = {

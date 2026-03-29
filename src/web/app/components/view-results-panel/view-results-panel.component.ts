@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { formatSectionNameForDisplay } from '../../../services/roster-display';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -37,7 +38,7 @@ import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
     KeyValuePipe,
     SectionTypeDescriptionPipe,
     EnumToArrayPipe,
-],
+  ],
 })
 export class ViewResultsPanelComponent {
 
@@ -46,6 +47,10 @@ export class ViewResultsPanelComponent {
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
   viewTooltipText: string = 'View results in different formats';
+
+  formatSectionTabLabel(sectionKey: string): string {
+    return formatSectionNameForDisplay(sectionKey);
+  }
 
   @Input()
   session: FeedbackSession = {

@@ -6,8 +6,8 @@
   }
   @if (!isFeedbackParticipantComment && response) {
     <div class="col-6">
-      Giver: {{ response.giver }} ({{ response.giverTeam }})<br/>
-      Recipient: {{ response.recipient }} ({{ response.recipientTeam }})
+      Giver: {{ response.giver }} ({{ formatTeamLabel(response.giverTeam) }})<br/>
+      Recipient: {{ response.recipient }} ({{ formatTeamLabel(response.recipientTeam) }})
     </div>
   }
   <div class="col-6">

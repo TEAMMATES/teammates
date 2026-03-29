@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -275,6 +276,17 @@ public abstract class AppPage {
 
     protected void click(WebElement element) {
         executeScript("arguments[0].click();", element);
+    }
+
+    /**
+     * Native click when possible; falls back to a script click when a fixed header intercepts the click.
+     */
+    protected void clickPreferNative(WebElement element) {
+        try {
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            click(element);
+        }
     }
 
     /**
@@ -623,7 +635,9 @@ public abstract class AppPage {
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
         scrollElementToCenter(element);
-        element.click();
+        // Prefer a native click so the element receives focus (required for spreadsheet keyboard input and some
+        // Angular controls). Fall back to a script click when a fixed header still intercepts the click.
+        clickPreferNative(element);
     }
 
     /**

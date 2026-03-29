@@ -11,6 +11,7 @@ import { InstructorSessionResultRgqViewComponent } from './instructor-session-re
 import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
+import { SectionTabModel, QuestionTabModel } from './instructor-session-tab.model';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
@@ -24,6 +25,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { ApiStringConst } from '../../../types/api-const';
 import {
   CourseSectionNames,
   FeedbackQuestions,
@@ -56,7 +58,6 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
 import { ViewResultsPanelComponent } from '../../components/view-results-panel/view-results-panel.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
-import { SectionTabModel, QuestionTabModel } from './instructor-session-tab.model';
 
 const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
 
@@ -81,7 +82,7 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     InstructorSessionResultRqgViewComponent,
     InstructorSessionNoResponsePanelComponent,
     PreviewSessionResultPanelComponent,
-],
+  ],
   providers: [
     CommentsToCommentTableModelPipe,
     CommentToCommentRowModelPipe,
@@ -218,7 +219,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         this.courseService.getCourseSectionNames(courseId)
             .subscribe({
               next: (courseSectionNames: CourseSectionNames) => {
-                this.sectionsModel['None'] = {
+                this.sectionsModel[ApiStringConst.DEFAULT_SECTION] = {
                   questions: [],
                   hasPopulated: false,
                   isTabExpanded: false,

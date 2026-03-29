@@ -78,16 +78,11 @@ public class UpdateStudentAction extends Action {
         Team team = sqlLogic.getTeamOrCreate(section, updateRequest.getTeam());
         Student studentToUpdate = new Student(course, updateRequest.getName(), updateRequest.getEmail(),
                 updateRequest.getComments(), team);
+        studentToUpdate.setId(existingStudent.getId());
 
         try {
-            //we swap out email before we validate
-            //TODO: this is duct tape at the moment, need to refactor how we do the validation
-            String newEmail = studentToUpdate.getEmail();
-            studentToUpdate.setEmail(existingStudent.getEmail());
             sqlLogic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), courseId);
-            studentToUpdate.setEmail(newEmail);
 
-            studentToUpdate.setId(existingStudent.getId());
             sqlLogic.updateStudentCascade(studentToUpdate);
 
             if (!studentEmail.equals(updateRequest.getEmail()) && updateRequest.getIsSessionSummarySendEmail()) {

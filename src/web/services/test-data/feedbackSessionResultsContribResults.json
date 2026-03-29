@@ -33,11 +33,11 @@
           "relatedGiverEmail": "student1InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student1InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student3 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student3InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": 110,
             "questionType": "CONTRIB"
@@ -51,11 +51,11 @@
           "relatedGiverEmail": "student1InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student1InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student1 In Course1</td></div>'\"",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student1InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": 100,
             "questionType": "CONTRIB"
@@ -69,11 +69,11 @@
           "relatedGiverEmail": "student1InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student1InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student4 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student4InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": 130,
             "questionType": "CONTRIB"
@@ -96,11 +96,11 @@
           "relatedGiverEmail": "student1InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student1InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student2 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student2InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": 80,
             "questionType": "CONTRIB"
@@ -114,11 +114,11 @@
           "relatedGiverEmail": "student2InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student2InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student2 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student2InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -132,11 +132,11 @@
           "relatedGiverEmail": "student2InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student2InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student1 In Course1</td></div>'\"",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student1InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -150,11 +150,11 @@
           "relatedGiverEmail": "student2InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student2InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student4 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student4InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -177,11 +177,11 @@
           "relatedGiverEmail": "student2InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student2InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student3 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student3InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -195,11 +195,11 @@
           "relatedGiverEmail": "student5InCourse1@gmail.tmt",
           "giverTeam": "Team 1.2",
           "giverEmail": "student5InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student5 In Course1",
           "recipientTeam": "Team 1.2",
           "recipientEmail": "student5InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -213,11 +213,11 @@
           "relatedGiverEmail": "student4InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student4InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student2 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student2InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -231,11 +231,11 @@
           "relatedGiverEmail": "student4InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student4InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student1 In Course1</td></div>'\"",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student1InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -249,11 +249,11 @@
           "relatedGiverEmail": "student4InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student4InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student4 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student4InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -267,11 +267,11 @@
           "relatedGiverEmail": "student4InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student4InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student3 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student3InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -285,11 +285,11 @@
           "relatedGiverEmail": "student3InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student3InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student2 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student2InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -303,11 +303,11 @@
           "relatedGiverEmail": "student3InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student3InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student1 In Course1</td></div>'\"",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student1InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -321,11 +321,11 @@
           "relatedGiverEmail": "student3InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student3InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student4 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student4InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -339,11 +339,11 @@
           "relatedGiverEmail": "student3InCourse1@gmail.tmt",
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student3InCourse1@gmail.tmt",
-          "giverSection": "None",
+          "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "recipient": "student3 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student3InCourse1@gmail.tmt",
-          "recipientSection": "None",
+          "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
