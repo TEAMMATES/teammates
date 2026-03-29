@@ -81,6 +81,7 @@ import teammates.ui.webapi.GetUserCookieAction;
 import teammates.ui.webapi.JoinCourseAction;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.MarkNotificationAsReadAction;
+import teammates.ui.webapi.MarkNotificationsAsReadAction;
 import teammates.ui.webapi.PublishFeedbackSessionAction;
 import teammates.ui.webapi.PutSqlDataBundleAction;
 import teammates.ui.webapi.QueryLogsAction;
@@ -230,6 +231,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 DeleteNotificationAction.class,
                 GetNotificationsAction.class,
                 MarkNotificationAsReadAction.class,
+                MarkNotificationsAsReadAction.class,
                 GetReadNotificationsAction.class,
                 GetDeadlineExtensionAction.class,
                 SendLoginEmailAction.class,
