@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +107,12 @@ public final class SeedDatabase {
                 jsonString = applyDateTokens(jsonString);
             }
             SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(jsonString);
+
+            // We need to reset readNotifications of each Account to prevent duplicate insertion
+            // When each account is persisted by persistDataBundle, each account's readNotifications are already
+            // populated by deserializeDataBundle, cascading the insertion of readNotifications.
+            // Then, persistDataBundle updates each account's readNotifications again later, causing duplicate
+            bundle.accounts.values().stream().forEach(a -> a.setReadNotifications(new ArrayList<>()));
             Logic.inst().persistDataBundle(bundle);
 
             if (isUsingDefaultSeedFile) {
