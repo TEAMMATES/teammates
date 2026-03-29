@@ -49,7 +49,7 @@ describe('PerQuestionViewResponsesComponent', () => {
     lastEditorName: 'Jennie Kim',
     commentGiver: 'Jennie Kim',
     lastEditorEmail: 'jenniekim@gmail.com',
-    feedbackResponseCommentId: 3,
+    feedbackResponseCommentId: '00000000-0000-4000-8000-000000000003',
     commentText: 'commentText',
     createdAt: 0,
     lastEditedAt: 0,

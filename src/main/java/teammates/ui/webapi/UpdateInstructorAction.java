@@ -53,8 +53,6 @@ public class UpdateInstructorAction extends Action {
         InstructorData newInstructorData = new InstructorData(updatedInstructor);
         newInstructorData.setGoogleId(updatedInstructor.getGoogleId());
 
-        taskQueuer.scheduleInstructorForSearchIndexing(updatedInstructor.getCourseId(), updatedInstructor.getEmail());
-
         return new JsonResult(newInstructorData);
     }
 

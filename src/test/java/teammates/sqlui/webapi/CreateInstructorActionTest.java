@@ -1,6 +1,7 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,7 +15,8 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.TaskWrapper;
+import teammates.common.util.EmailWrapper;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
@@ -30,6 +32,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
     private Instructor typicalInstructor;
     private Course typicalCourse;
+    private Account inviterAccount;
 
     @Override
     String getActionUri() {
@@ -43,10 +46,11 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
     @BeforeMethod
     void setUpMethod() {
-        Mockito.reset(mockLogic);
+        Mockito.reset(mockLogic, mockSqlEmailGenerator);
 
         typicalInstructor = getTypicalInstructor();
         typicalCourse = getTypicalCourse();
+        inviterAccount = new Account(typicalInstructor.getGoogleId(), "Inviter Name", "inviter@teammates.tmt");
     }
 
     @Test
@@ -68,6 +72,11 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenReturn(newInstructor);
+        when(mockLogic.getAccountForGoogleId(typicalInstructor.getGoogleId())).thenReturn(inviterAccount);
+
+        EmailWrapper mockEmail = mock(EmailWrapper.class);
+        when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, newInstructor, typicalCourse))
+                .thenReturn(mockEmail);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
@@ -78,12 +87,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
-
-        TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
-        assertEquals(typicalCourse.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
-        assertEquals(newInstructor.getEmail(), taskAdded.getParamMap().get(Const.ParamsNames.INSTRUCTOR_EMAIL));
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
 
         assertEquals(newInstructor.getName(), response.getName());
         assertEquals(newInstructor.getEmail(), response.getEmail());
@@ -164,6 +168,12 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenReturn(newInstructor);
+        when(mockLogic.getAccountForGoogleId(Mockito.anyString())).thenReturn(inviterAccount);
+
+        EmailWrapper mockEmail = mock(EmailWrapper.class);
+        when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(
+                any(Account.class), any(Instructor.class), any(Course.class)))
+                .thenReturn(mockEmail);
 
         loginAsAdmin();
 
@@ -174,12 +184,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
-
-        TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
-        assertEquals(typicalCourse.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
-        assertEquals(newInstructor.getEmail(), taskAdded.getParamMap().get(Const.ParamsNames.INSTRUCTOR_EMAIL));
+        verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
 
         assertEquals(newInstructor.getName(), response.getName());
         assertEquals(newInstructor.getEmail(), response.getEmail());

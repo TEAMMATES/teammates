@@ -7,7 +7,6 @@ import java.util.List;
 import jakarta.transaction.Transactional;
 
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -21,14 +20,12 @@ import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
 import teammates.ui.webapi.CreateAccountAction;
 import teammates.ui.webapi.InvalidHttpParameterException;
 
 /**
  * SUT: {@link CreateAccountAction}.
  */
-@Ignore // TODO: remove ignore once we allow course creation in SQL
 public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
     @Override
@@ -106,11 +103,6 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
         assertEquals(email, instructor.getEmail());
         assertEquals(name, instructor.getName());
 
-        List<Student> studentList = logic.getStudentsForCourse(courseId);
-        List<Instructor> instructorList = logic.getInstructorsByCourse(courseId);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
-                studentList.size() + instructorList.size());
-
         ______TS("Normal case with invalid timezone, timezone should default to UTC");
 
         Account instructor2 = typicalBundle.accounts.get("unregisteredInstructor2");
@@ -144,9 +136,6 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
             assertEquals(LocalTime.MIDNIGHT, actualStartTime);
             assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
-
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
-                studentList.size() + instructorList.size());
 
         ______TS("Error: registration key already used");
         verifyInvalidOperation(params);

@@ -252,21 +252,6 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Puts searchable documents in data bundle into the SQL database.
-     */
-    public String putSqlDocuments(SqlDataBundle dataBundle) throws HttpRequestFailedException {
-        Map<String, String> params = new HashMap<>();
-        params.put("databundletype", "sql");
-        ResponseBodyAndCode putRequestOutput =
-                executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, params, JsonUtils.toJson(dataBundle));
-        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
-            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
-                    + putRequestOutput.responseBody);
-        }
-        return putRequestOutput.responseBody;
-    }
-
-    /**
      * Gets account data from the database.
      */
     public AccountData getAccountData(String googleId) {
@@ -448,9 +433,9 @@ public abstract class AbstractBackDoor {
      * @param commentText the new comment text
      * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
      */
-    public void updateFeedbackResponseComment(Long commentId, String commentText, String instructorGoogleId) {
+    public void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorGoogleId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(commentId));
+        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
         params.put(Const.ParamsNames.USER_ID, instructorGoogleId);
 

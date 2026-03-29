@@ -4,23 +4,22 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlsearch.AccountRequestSearchManager;
-import teammates.storage.sqlsearch.SearchManagerFactory;
 
 /**
  * Generates CRUD operations for AccountRequest.
@@ -38,8 +37,15 @@ public final class AccountRequestsDb {
         return instance;
     }
 
-    public AccountRequestSearchManager getSearchManager() {
-        return SearchManagerFactory.getAccountRequestSearchManager();
+    /**
+     * Escapes LIKE pattern metacharacters so user input is treated literally.
+     */
+    private static String escapeLikePattern(String pattern, char escapeChar) {
+        String esc = String.valueOf(escapeChar);
+        return pattern
+                .replace(esc, esc + esc)
+                .replace("%", esc + "%")
+                .replace("_", esc + "_");
     }
 
     /**
@@ -92,13 +98,15 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Get all Account Requests for a given {@code email}.
+     * Get all Account Requests for a given {@code email} and {@code institute}.
      */
-    public List<AccountRequest> getApprovedAccountRequestsForEmail(String email) {
+    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.and(cb.equal(root.get("email"), email),
+        cr.select(root).where(cb.and(
+                cb.equal(root.get("email"), email),
+                cb.equal(root.get("institute"), institute),
                 cb.equal(root.get("status"), AccountRequestStatus.APPROVED)));
 
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
@@ -158,17 +166,6 @@ public final class AccountRequestsDb {
     public void deleteAccountRequest(AccountRequest accountRequest) {
         if (accountRequest != null) {
             HibernateUtil.remove(accountRequest);
-            deleteDocumentByAccountRequestId(accountRequest.getId());
-        }
-    }
-
-    /**
-     * Removes search document for the given account request.
-     */
-    public void deleteDocumentByAccountRequestId(UUID accountRequestId) {
-        if (getSearchManager() != null) {
-            getSearchManager().deleteDocuments(
-                    Collections.singletonList(accountRequestId.toString()));
         }
     }
 
@@ -184,6 +181,27 @@ public final class AccountRequestsDb {
             return new ArrayList<>();
         }
 
-        return getSearchManager().searchAccountRequests(queryString);
+        char escapeChar = '\\';
+        String escapedQuery = escapeLikePattern(queryString.toLowerCase(), escapeChar);
+        String wildcardQuery = "%" + escapedQuery + "%";
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+
+        Predicate searchPredicate = cb.or(
+                cb.like(cb.lower(root.get("name")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(root.get("email")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(root.get("institute")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(cb.coalesce(root.get("comments"), "")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(cb.coalesce(root.get("status").as(String.class), "")), wildcardQuery, escapeChar));
+
+        cr.select(root)
+                .where(searchPredicate)
+                .orderBy(cb.desc(root.get("createdAt")));
+
+        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        query.setMaxResults(Const.SEARCH_QUERY_SIZE_LIMIT);
+        return query.getResultList();
     }
 }

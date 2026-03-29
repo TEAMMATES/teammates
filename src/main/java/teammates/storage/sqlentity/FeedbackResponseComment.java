@@ -4,11 +4,11 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -29,8 +29,7 @@ import teammates.common.util.SanitizationHelper;
 @Table(name = "FeedbackResponseComments")
 public class FeedbackResponseComment extends BaseEntity {
     @Id
-    @GeneratedValue
-    private Long id;
+    private UUID id;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -96,13 +95,14 @@ public class FeedbackResponseComment extends BaseEntity {
         this.setShowCommentTo(showCommentTo);
         this.setShowGiverNameTo(showGiverNameTo);
         this.setLastEditorEmail(lastEditorEmail);
+        this.setId(UUID.randomUUID());
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -231,7 +231,7 @@ public class FeedbackResponseComment extends BaseEntity {
 
     @Override
     public String toString() {
-        return "FeedbackResponse [id=" + id + ", giver=" + giver + ", commentText=" + commentText
+        return "FeedbackResponseComment [id=" + id + ", giver=" + giver + ", commentText=" + commentText
                 + ", isVisibilityFollowingFeedbackQuestion=" + isVisibilityFollowingFeedbackQuestion
                 + ", isCommentFromFeedbackParticipant=" + isCommentFromFeedbackParticipant
                 + ", lastEditorEmail=" + lastEditorEmail + ", createdAt=" + getCreatedAt()

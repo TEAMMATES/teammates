@@ -10,7 +10,6 @@ import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
@@ -176,6 +175,10 @@ public final class DataBundleLogic {
         }
 
         for (FeedbackResponseComment responseComment : responseComments) {
+            responseComment.setId(UUID.randomUUID());
+        }
+
+        for (FeedbackResponseComment responseComment : responseComments) {
             FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
             Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
             Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
@@ -316,7 +319,6 @@ public final class DataBundleLogic {
         }
 
         for (FeedbackResponseComment responseComment : responseComments) {
-            responseComment.setId(null);
             frcLogic.createFeedbackResponseComment(responseComment);
         }
 
@@ -367,26 +369,6 @@ public final class DataBundleLogic {
         dataBundle.accountRequests.values().forEach(accountRequest -> {
             accountRequestsLogic.deleteAccountRequest(accountRequest.getId());
         });
-    }
-
-    /**
-     * Creates document for entities that have document, i.e. searchable.
-     */
-    public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
-        Map<String, Student> students = dataBundle.students;
-        for (Student student : students.values()) {
-            usersLogic.putStudentDocument(student);
-        }
-
-        Map<String, Instructor> instructors = dataBundle.instructors;
-        for (Instructor instructor : instructors.values()) {
-            usersLogic.putInstructorDocument(instructor);
-        }
-
-        Map<String, AccountRequest> accountRequests = dataBundle.accountRequests;
-        for (AccountRequest accountRequest : accountRequests.values()) {
-            accountRequestsLogic.putDocument(accountRequest);
-        }
     }
 
     private static void linkEntities(SqlDataBundle dataBundle) {

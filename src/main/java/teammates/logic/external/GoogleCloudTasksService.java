@@ -28,6 +28,7 @@ public class GoogleCloudTasksService implements TaskQueueService {
 
     @Override
     public void addDeferredTask(TaskWrapper task, long countdownTime) {
+        Config.requireCronAndWorkerSecret();
         try (CloudTasksClient client = CloudTasksClient.create()) {
             String queuePath = QueueName.of(Config.APP_ID, Config.APP_REGION, task.getQueueName()).toString();
 
@@ -36,7 +37,8 @@ public class GoogleCloudTasksService implements TaskQueueService {
                             .setAppEngineRouting(AppEngineRouting.newBuilder()
                                     .setVersion(Config.APP_VERSION)
                                     .build())
-                            .setHttpMethod(HttpMethod.POST);
+                            .setHttpMethod(HttpMethod.POST)
+                            .putHeaders("Authorization", "Bearer " + Config.CRON_AND_WORKER_SECRET);
 
             if (task.getRequestBody() == null) {
                 String relativeUrl = "http://place.holder"; // the value is not important
@@ -53,9 +55,11 @@ public class GoogleCloudTasksService implements TaskQueueService {
 
             Task.Builder taskBuilder = Task.newBuilder().setAppEngineHttpRequest(requestBuilder.build());
             if (countdownTime > 0) {
+                Instant scheduledTime = Instant.now().plusMillis(countdownTime);
                 taskBuilder.setScheduleTime(
                         Timestamp.newBuilder()
-                                .setSeconds(Instant.now().plusMillis(countdownTime).getEpochSecond()));
+                                .setSeconds(scheduledTime.getEpochSecond())
+                                .setNanos(scheduledTime.getNano()));
             }
 
             client.createTask(queuePath, taskBuilder.build());

@@ -54,27 +54,27 @@ describe('FeedbackResponseCommentService', () => {
       showCommentTo: [CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS],
       showGiverNameTo: [CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS],
     };
-    const commentId: number = 3;
+    const commentId = '00000000-0000-4000-8000-000000000003';
     const intent: Intent = Intent.INSTRUCTOR_RESULT;
 
     service.updateComment(updateRequest, commentId, intent);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
       ResourceEndpoints.RESPONSE_COMMENT, {
       intent,
-      responsecommentid: commentId.toString(),
+      responsecommentid: commentId,
     },
       updateRequest);
   });
 
   it('should call delete when delete comment', () => {
-    const commentId: number = 2;
+    const commentId = '00000000-0000-4000-8000-000000000002';
     const intent: Intent = Intent.STUDENT_RESULT;
 
     service.deleteComment(commentId, intent);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(
       ResourceEndpoints.RESPONSE_COMMENT, {
       intent,
-      responsecommentid: commentId.toString(),
+      responsecommentid: commentId,
     });
   });
 });

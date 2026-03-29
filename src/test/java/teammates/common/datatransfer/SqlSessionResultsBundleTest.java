@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -22,7 +23,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionResponseMap() {
-        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         List<String> allExpectedResponses = new ArrayList<>();
         allExpectedResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
@@ -60,7 +61,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionMissingResponseMap() {
-        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         List<String> expectedMissingResponses = new ArrayList<>();
         expectedMissingResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
@@ -99,7 +100,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
     @Test
     public void testIsResponseGiverRecipientVisible_typicalCase_shouldReturnCorrectValues() {
 
-        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         FeedbackSession session1Course1 = getTypicalFeedbackSessionForCourse(getTypicalCourse());
 
@@ -151,11 +152,13 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testIsCommentGiverVisible_typicalCase_shouldReturnCorrectValues() {
-        SqlDataBundle responseBundle = loadSqlDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
-        Map<Long, Boolean> commentGiverVisibilityTable = new HashMap<>();
-        commentGiverVisibilityTable.put(1L, true);
-        commentGiverVisibilityTable.put(2L, false);
+        UUID commentId1 = UUID.fromString("00000000-0000-4000-8000-000000000001");
+        UUID commentId2 = UUID.fromString("00000000-0000-4000-8000-000000000002");
+        Map<UUID, Boolean> commentGiverVisibilityTable = new HashMap<>();
+        commentGiverVisibilityTable.put(commentId1, true);
+        commentGiverVisibilityTable.put(commentId2, false);
 
         SqlSessionResultsBundle bundle =
                 new SqlSessionResultsBundle(
@@ -175,8 +178,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         // Manually add comment IDs as loadSqlDataBundle does not add comment IDs
         FeedbackResponseComment comment1 = responseBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
         FeedbackResponseComment comment2 = responseBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
-        comment1.setId(1L);
-        comment2.setId(2L);
+        comment1.setId(commentId1);
+        comment2.setId(commentId2);
 
         assertTrue(bundle.isCommentGiverVisible(comment1));
         assertFalse(bundle.isCommentGiverVisible(comment2));
