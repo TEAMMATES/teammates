@@ -28,6 +28,7 @@ import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
+import teammates.sqllogic.core.EmailTemplatesLogic;
 import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.sqllogic.core.FeedbackResponseCommentsLogic;
 import teammates.sqllogic.core.FeedbackResponsesLogic;
@@ -40,6 +41,7 @@ import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.EmailTemplate;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -78,6 +80,7 @@ public class Logic {
     final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
     final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    final EmailTemplatesLogic emailTemplatesLogic = EmailTemplatesLogic.inst();
 
     Logic() {
         // prevent initialization
@@ -1284,6 +1287,40 @@ public class Logic {
 
     public List<Notification> getAllNotifications() {
         return notificationsLogic.getAllNotifications();
+    }
+
+    /**
+     * Gets the custom email template for {@code templateKey},
+     * or {@code null} if no custom template has been saved.
+     */
+    public EmailTemplate getEmailTemplate(String templateKey) {
+        return emailTemplatesLogic.getEmailTemplate(templateKey);
+    }
+
+    /**
+     * Creates or updates the email template for the given key.
+     *
+     * @return the persisted email template.
+     * @throws InvalidParametersException if the template is not valid.
+     */
+    public EmailTemplate upsertEmailTemplate(EmailTemplate emailTemplate) throws InvalidParametersException {
+        return emailTemplatesLogic.upsertEmailTemplate(emailTemplate);
+    }
+
+    /**
+     * Deletes the custom email template for {@code templateKey}, reverting to the
+     * static file fallback. Does nothing if no such template exists.
+     */
+    public void deleteEmailTemplate(String templateKey) {
+        emailTemplatesLogic.deleteEmailTemplate(templateKey);
+    }
+
+    /**
+     * Deletes a custom email template, reverting to the static file fallback.
+     * Does nothing if {@code emailTemplate} is {@code null}.
+     */
+    public void deleteEmailTemplate(EmailTemplate emailTemplate) {
+        emailTemplatesLogic.deleteEmailTemplate(emailTemplate);
     }
 
     /**
