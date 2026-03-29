@@ -70,6 +70,7 @@ public final class EmailTemplatesDb {
         int rowsUpdated = HibernateUtil.createMutationQuery(update).executeUpdate();
         if (rowsUpdated == 0) {
             HibernateUtil.persist(emailTemplate);
+            emailTemplate.setUpdatedAt(now);
         } else {
             emailTemplate.setUpdatedAt(now);
         }
