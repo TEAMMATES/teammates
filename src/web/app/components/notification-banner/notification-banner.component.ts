@@ -1,4 +1,4 @@
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -16,10 +16,9 @@ import { NotificationStyleClassPipe } from '../teammates-common/notification-sty
   styleUrls: ['./notification-banner.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     NgClass,
     NotificationStyleClassPipe,
-  ],
+],
 })
 export class NotificationBannerComponent implements OnInit, OnChanges {
 
@@ -63,12 +62,23 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
       .subscribe({
         next: () => {
           this.statusMessageService.showSuccessToast('Notification marked as read.');
-          this.closeNotification();
+          if (this.notifications.length > 0) {
+            this.advanceToNextNotification();
+          }
+
+          if (this.notifications.length === 0) {
+            this.closeNotification();
+          }
+
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
+  }
+
+  advanceToNextNotification(): void {
+      this.notifications.shift();
   }
 
   closeNotification(): void {

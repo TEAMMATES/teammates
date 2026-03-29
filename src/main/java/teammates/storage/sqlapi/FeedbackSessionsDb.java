@@ -17,6 +17,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -26,8 +27,9 @@ import teammates.storage.sqlentity.FeedbackSession;
  *
  * @see FeedbackSession
  */
-public final class FeedbackSessionsDb extends EntitiesDb {
+public final class FeedbackSessionsDb {
 
+    private static final Logger log = Logger.getLogger();
     private static final FeedbackSessionsDb instance = new FeedbackSessionsDb();
 
     private FeedbackSessionsDb() {
@@ -140,7 +142,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         }
 
         sessionEntity.setDeletedAt(null);
-        merge(sessionEntity);
+        HibernateUtil.merge(sessionEntity);
     }
 
     /**
@@ -154,11 +156,12 @@ public final class FeedbackSessionsDb extends EntitiesDb {
             throw new InvalidParametersException(session.getInvalidityInfo());
         }
 
-        if (getFeedbackSession(session.getId()) != null) {
+        if (getFeedbackSession(session.getId()) != null
+                || getFeedbackSession(session.getName(), session.getCourseId()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, session.toString()));
         }
 
-        persist(session);
+        HibernateUtil.persist(session);
         return session;
     }
 
@@ -181,7 +184,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-        return merge(feedbackSession);
+        return HibernateUtil.merge(feedbackSession);
     }
 
     /**
@@ -189,7 +192,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
      */
     public void deleteFeedbackSession(FeedbackSession feedbackSession) {
         if (feedbackSession != null) {
-            delete(feedbackSession);
+            HibernateUtil.remove(feedbackSession);
         }
     }
 
@@ -210,7 +213,7 @@ public final class FeedbackSessionsDb extends EntitiesDb {
         }
 
         feedbackSessionEntity.setDeletedAt(Instant.now());
-        merge(feedbackSessionEntity);
+        HibernateUtil.merge(feedbackSessionEntity);
 
         return feedbackSessionEntity;
     }

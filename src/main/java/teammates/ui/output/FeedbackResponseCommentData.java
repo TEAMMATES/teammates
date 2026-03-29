@@ -4,18 +4,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 
 /**
- * The API output format of {@link teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes}.
+ * The API output format of {@link FeedbackResponseComment}.
  */
 public class FeedbackResponseCommentData extends ApiOutput {
 
     String commentGiver;
     String lastEditorEmail;
 
-    private long feedbackResponseCommentId;
+    private String feedbackResponseCommentId;
     private String commentText;
     private long createdAt;
     private long lastEditedAt;
@@ -24,20 +23,8 @@ public class FeedbackResponseCommentData extends ApiOutput {
     private List<CommentVisibilityType> showGiverNameTo;
     private List<CommentVisibilityType> showCommentTo;
 
-    public FeedbackResponseCommentData(FeedbackResponseCommentAttributes frc) {
-        this.feedbackResponseCommentId = frc.getId();
-        this.commentText = frc.getCommentText();
-        this.commentGiver = frc.getCommentGiver();
-        this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
-        this.showCommentTo = convertToFeedbackVisibilityType(frc.getShowCommentTo());
-        this.createdAt = frc.getCreatedAt().toEpochMilli();
-        this.lastEditedAt = frc.getLastEditedAt().toEpochMilli();
-        this.lastEditorEmail = frc.getLastEditorEmail();
-        this.isVisibilityFollowingFeedbackQuestion = frc.isVisibilityFollowingFeedbackQuestion();
-    }
-
     public FeedbackResponseCommentData(FeedbackResponseComment frc) {
-        this.feedbackResponseCommentId = frc.getId();
+        this.feedbackResponseCommentId = frc.getId().toString();
         this.commentText = frc.getCommentText();
         this.commentGiver = frc.getGiver();
         this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
@@ -79,7 +66,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
         return commentText;
     }
 
-    public long getFeedbackResponseCommentId() {
+    public String getFeedbackResponseCommentId() {
         return feedbackResponseCommentId;
     }
 

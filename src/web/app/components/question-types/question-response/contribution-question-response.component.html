@@ -1,7 +1,21 @@
-<span *ngIf="answer === CONTRIBUTION_POINT_NOT_SURE" class="color-negative">Not Sure</span>
-<span *ngIf="answer === 0" class="color-negative">0%</span>
-<span *ngIf="answer === CONTRIBUTION_POINT_NOT_SUBMITTED" class="color-neutral">N/A</span>
-<span *ngIf="answer === CONTRIBUTION_POINT_NOT_INITIALIZED" class="color-neutral"></span>
-<span *ngIf="answer === CONTRIBUTION_POINT_EQUAL_SHARE" class="color-neutral">Equal Share</span>
-<span *ngIf="answer > CONTRIBUTION_POINT_EQUAL_SHARE" class="color-positive">Equal Share +{{ answer - 100 }}%</span>
-<span *ngIf="answer < CONTRIBUTION_POINT_EQUAL_SHARE && answer > 0" class="color-negative">Equal Share -{{ 100 - answer }}%</span>
+@if (answer === CONTRIBUTION_POINT_NOT_SURE) {
+  <span class="color-negative">Not Sure</span>
+}
+@if (answer === 0) {
+  <span class="color-negative">0%</span>
+}
+@if (answer === CONTRIBUTION_POINT_NOT_SUBMITTED) {
+  <span class="color-neutral">N/A</span>
+}
+@if (answer === CONTRIBUTION_POINT_NOT_INITIALIZED) {
+  <span class="color-neutral"></span>
+}
+@if (answer === CONTRIBUTION_POINT_EQUAL_SHARE) {
+  <span class="color-neutral">Equal Share</span>
+}
+@if (answer > CONTRIBUTION_POINT_EQUAL_SHARE) {
+  <span class="color-positive">Equal Share +{{ answer - 100 }}%</span>
+}
+@if (answer < CONTRIBUTION_POINT_EQUAL_SHARE && answer > 0) {
+  <span class="color-negative">Equal Share -{{ 100 - answer }}%</span>
+}

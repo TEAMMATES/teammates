@@ -1,10 +1,16 @@
 <div class="text-info">
-  <p *ngIf="questionDetails.minOptionsToBeRanked !== NO_VALUE || questionDetails.maxOptionsToBeRanked !== NO_VALUE"
-     class="fw-bold">Note:</p>
-  <p id="min-options-message" *ngIf="questionDetails.minOptionsToBeRanked !== NO_VALUE">
-    <span class="fa fa-info-circle"></span> Rank <strong>at least {{ questionDetails.minOptionsToBeRanked }}</strong> options.
-  </p>
-  <p id="max-options-message" *ngIf="questionDetails.maxOptionsToBeRanked !== NO_VALUE">
-    <span class="fa fa-info-circle"></span> Rank <strong> no more than {{ questionDetails.maxOptionsToBeRanked }}</strong> options.
-  </p>
+  @if (questionDetails.minOptionsToBeRanked !== NO_VALUE || questionDetails.maxOptionsToBeRanked !== NO_VALUE) {
+    <p
+    class="fw-bold">Note:</p>
+  }
+  @if (questionDetails.minOptionsToBeRanked !== NO_VALUE) {
+    <p id="min-options-message">
+      <span class="fa fa-info-circle"></span> Rank <strong>at least {{ questionDetails.minOptionsToBeRanked }}</strong> options.
+    </p>
+  }
+  @if (questionDetails.maxOptionsToBeRanked !== NO_VALUE) {
+    <p id="max-options-message">
+      <span class="fa fa-info-circle"></span> Rank <strong> no more than {{ questionDetails.maxOptionsToBeRanked }}</strong> options.
+    </p>
+  }
 </div>

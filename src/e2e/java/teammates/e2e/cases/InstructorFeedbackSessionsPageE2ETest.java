@@ -13,68 +13,59 @@ import java.util.Set;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorFeedbackSessionsPage;
-import teammates.e2e.util.TestProperties;
+import teammates.common.util.TimeHelper;
+import teammates.e2e.pageobjects.InstructorFeedbackSessionsPageSql;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.test.ThreadHelper;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionPublishStatus;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSIONS_PAGE}.
  */
 public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
-    private InstructorAttributes instructor;
-    private CourseAttributes course;
-    private CourseAttributes copiedCourse;
-    private StudentAttributes studentToEmail;
+    private Instructor instructor;
+    private Course course;
+    private Course copiedCourse;
+    private Student studentToEmail;
 
-    private FeedbackSessionAttributes openSession;
-    private FeedbackSessionAttributes closedSession;
-    private FeedbackSessionAttributes newSession;
+    private FeedbackSession openSession;
+    private FeedbackSession closedSession;
+    private FeedbackSession newSession;
 
     private String fileName;
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorFeedbackSessionsPageE2ETest.json");
-        studentToEmail = testData.students.get("charlie.tmms@IFSess.CS1101");
-        studentToEmail.setEmail(TestProperties.TEST_EMAIL);
-        removeAndRestoreDataBundle(testData);
+        testData = removeAndRestoreDataBundle(
+                loadDataBundle("/InstructorFeedbackSessionsPageE2ETestSql.json"));
 
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                loadSqlDataBundle("/InstructorFeedbackSessionsPageE2ETest_SqlEntities.json"));
+        studentToEmail = testData.students.get("IFSessionPage.charlie");
+        instructor = testData.instructors.get("IFSessionPage.instr1");
 
-        instructor = testData.instructors.get("instructor");
-        course = testData.courses.get("course");
-        copiedCourse = testData.courses.get("course2");
+        course = testData.courses.get("IFSessionPage.CS2104");
+        copiedCourse = testData.courses.get("IFSessionPage.CS1101");
 
         openSession = testData.feedbackSessions.get("openSession");
         // To ensure the openSession is always open
         openSession.setEndTime(ZonedDateTime.now(ZoneId.of(copiedCourse.getTimeZone())).plus(Duration.ofDays(182))
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
         closedSession = testData.feedbackSessions.get("closedSession");
-        newSession = FeedbackSessionAttributes
-                .builder("New Session", course.getId())
-                .withCreatorEmail(instructor.getEmail())
-                .withStartTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(2))
-                        .truncatedTo(ChronoUnit.DAYS).toInstant())
-                .withEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(7))
-                        .truncatedTo(ChronoUnit.DAYS).toInstant())
-                .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
-                .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
-                .withGracePeriod(Duration.ZERO)
-                .withInstructions("<p>Please fill in the new feedback session.</p>")
-                .withTimeZone(course.getTimeZone())
-                .withIsClosingSoonEmailEnabled(true)
-                .withIsPublishedEmailEnabled(true)
-                .build();
+        newSession = getTypicalFeedbackSessionForCourse(course);
+        newSession.setStartTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(2))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        newSession.setEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(7))
+                .truncatedTo(ChronoUnit.DAYS).toInstant());
+        newSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        newSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        newSession.setGracePeriod(Duration.ZERO);
 
-        fileName = "/" + openSession.getCourseId() + "_" + openSession.getFeedbackSessionName()
-                + "_result.csv";
+        fileName = "/" + closedSession.getCourseId() + "_" + closedSession.getName() + "_result.csv";
     }
 
     @BeforeClass
@@ -86,11 +77,11 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
-        InstructorFeedbackSessionsPage feedbackSessionsPage =
-                loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.getGoogleId());
+        InstructorFeedbackSessionsPageSql feedbackSessionsPage =
+                loginToPage(url, InstructorFeedbackSessionsPageSql.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
-        FeedbackSessionAttributes[] loadedSessions = { openSession, closedSession };
+        FeedbackSession[] loadedSessions = { closedSession, openSession };
         feedbackSessionsPage.verifySessionsTable(loadedSessions);
 
         ______TS("verify response rate");
@@ -98,53 +89,73 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifyResponseRate(openSession, getExpectedResponseRate(openSession));
 
         ______TS("add new session");
-        FeedbackSessionAttributes[] sessionsForAdded = { closedSession, newSession, openSession };
+        FeedbackSession[] sessionsForAdded = { openSession, closedSession, newSession };
         feedbackSessionsPage.addFeedbackSession(newSession, true);
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been added."
                 + "Click the \"Add New Question\" button below to begin adding questions for the feedback session.");
         feedbackSessionsPage = getNewPageInstance(url,
-                InstructorFeedbackSessionsPage.class);
+                InstructorFeedbackSessionsPageSql.class);
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForAdded);
         verifyPresentInDatabase(newSession);
 
         ______TS("add new copied session");
         String newName = "Copied Name";
-        FeedbackSessionAttributes copiedSession = openSession.getCopy();
-        copiedSession.setCourseId(course.getId());
-        copiedSession.setFeedbackSessionName(newName);
+        FeedbackSession copiedSession = openSession.getCopy();
+        copiedSession.setCourse(course);
+        copiedSession.setName(newName);
         feedbackSessionsPage.addCopyOfSession(openSession, course, newName);
 
         feedbackSessionsPage = getNewPageInstance(url,
-                InstructorFeedbackSessionsPage.class);
+                InstructorFeedbackSessionsPageSql.class);
         // Fetch actual session from database to get deterministic timestamps
-        FeedbackSessionAttributes actualSession = getFeedbackSession(course.getId(), newName);
+        FeedbackSessionData actualSessionData = getFeedbackSession(course.getId(), newName);
         // Update copiedSession with actual timestamps from database
-        copiedSession.setCreatedTime(actualSession.getCreatedTime());
-        copiedSession.setStartTime(actualSession.getStartTime());
-        copiedSession.setEndTime(actualSession.getEndTime());
-        copiedSession.setSessionVisibleFromTime(actualSession.getSessionVisibleFromTime());
+        copiedSession.setCreatedAt(Instant.ofEpochMilli(actualSessionData.getCreatedAtTimestamp()));
+        copiedSession.setStartTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                Instant.ofEpochMilli(actualSessionData.getSubmissionStartTimestamp()),
+                actualSessionData.getTimeZone(), false));
+        copiedSession.setEndTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                Instant.ofEpochMilli(actualSessionData.getSubmissionEndTimestamp()),
+                actualSessionData.getTimeZone(), false));
+        if (actualSessionData.getCustomSessionVisibleTimestamp() != null) {
+            copiedSession.setSessionVisibleFromTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    Instant.ofEpochMilli(actualSessionData.getCustomSessionVisibleTimestamp()),
+                    actualSessionData.getTimeZone(), false));
+        } else {
+            copiedSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        }
         feedbackSessionsPage.verifySessionDetails(copiedSession);
         verifyPresentInDatabase(copiedSession);
 
         ______TS("copy session");
         newName = "Copied Name 2";
-        FeedbackSessionAttributes copiedSession2 = copiedSession.getCopy();
-        copiedSession2.setFeedbackSessionName(newName);
+        FeedbackSession copiedSession2 = copiedSession.getCopy();
+        copiedSession2.setName(newName);
         feedbackSessionsPage.copySession(copiedSession, course, newName);
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
         feedbackSessionsPage = getNewPageInstance(url,
-                InstructorFeedbackSessionsPage.class);
+                InstructorFeedbackSessionsPageSql.class);
         // Fetch actual session from database to get deterministic timestamps
-        FeedbackSessionAttributes actualSession2 = getFeedbackSession(course.getId(), newName);
+        FeedbackSessionData actualSessionData2 = getFeedbackSession(course.getId(), newName);
         // Update copiedSession2 with actual timestamps from database
-        copiedSession2.setCreatedTime(actualSession2.getCreatedTime());
-        copiedSession2.setStartTime(actualSession2.getStartTime());
-        copiedSession2.setEndTime(actualSession2.getEndTime());
-        copiedSession2.setSessionVisibleFromTime(actualSession2.getSessionVisibleFromTime());
+        copiedSession2.setCreatedAt(Instant.ofEpochMilli(actualSessionData2.getCreatedAtTimestamp()));
+        copiedSession2.setStartTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                Instant.ofEpochMilli(actualSessionData2.getSubmissionStartTimestamp()),
+                actualSessionData2.getTimeZone(), false));
+        copiedSession2.setEndTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                Instant.ofEpochMilli(actualSessionData2.getSubmissionEndTimestamp()),
+                actualSessionData2.getTimeZone(), false));
+        if (actualSessionData2.getCustomSessionVisibleTimestamp() != null) {
+            copiedSession2.setSessionVisibleFromTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
+                    Instant.ofEpochMilli(actualSessionData2.getCustomSessionVisibleTimestamp()),
+                    actualSessionData2.getTimeZone(), false));
+        } else {
+            copiedSession2.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        }
         feedbackSessionsPage.verifySessionDetails(copiedSession2);
         verifyPresentInDatabase(copiedSession2);
 
@@ -155,10 +166,10 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been published. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.");
         feedbackSessionsPage.verifySessionDetails(openSession);
-        verifySessionPublishedState(openSession, true);
+        verifySessionPublishedState(openSession, FeedbackSessionPublishStatus.PUBLISHED);
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-                + openSession.getFeedbackSessionName() + "]");
+                + openSession.getName() + "]");
 
         ______TS("send reminder email to selected student");
         feedbackSessionsPage.sendReminderEmailToSelectedStudent(openSession, studentToEmail);
@@ -167,17 +178,17 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-                + openSession.getFeedbackSessionName() + "]");
+                + openSession.getName() + "]");
 
         ______TS("send reminder email to all student non-submitters");
         feedbackSessionsPage.sendReminderEmailToNonSubmitters(openSession);
 
         feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
-                        + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+                + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
 
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-                + openSession.getFeedbackSessionName() + "]");
+                + openSession.getName() + "]");
 
         ______TS("resend results link");
         feedbackSessionsPage.resendResultsLink(openSession, studentToEmail);
@@ -187,7 +198,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 + " sent out.");
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-                + openSession.getFeedbackSessionName() + "]");
+                + openSession.getName() + "]");
 
         ______TS("unpublish results");
         openSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
@@ -195,21 +206,21 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been unpublished.");
         feedbackSessionsPage.verifySessionDetails(openSession);
-        verifySessionPublishedState(openSession, false);
+        verifySessionPublishedState(openSession, FeedbackSessionPublishStatus.NOT_PUBLISHED);
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results unpublished"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-                + openSession.getFeedbackSessionName() + "]");
+                + openSession.getName() + "]");
 
         ______TS("download results");
-        feedbackSessionsPage.downloadResults(openSession);
-        List<String> expectedContent = Arrays.asList("Course,tm.e2e.IFSess.CS1101",
-                "Session Name,Second Session", "Question 1,Testing question text");
+        feedbackSessionsPage.downloadResults(closedSession);
+        List<String> expectedContent = Arrays.asList("Course,tm.e2e.sql.CS1101",
+                "Session Name,Second Session", "Question 1,What did this instructor do well?");
         verifyDownloadedFile(fileName, expectedContent);
 
         ______TS("soft delete session");
-        closedSession.setDeletedTime(Instant.now());
-        FeedbackSessionAttributes[] sessionsForSoftDelete = { copiedSession, copiedSession2, newSession, openSession };
-        FeedbackSessionAttributes[] softDeletedSessions = { closedSession };
+        closedSession.setDeletedAt(Instant.now());
+        FeedbackSession[] sessionsForSoftDelete = {copiedSession, copiedSession2, openSession, newSession};
+        FeedbackSession[] softDeletedSessions = {closedSession};
         feedbackSessionsPage.moveToRecycleBin(closedSession);
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been deleted. "
@@ -217,24 +228,22 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForSoftDelete);
         feedbackSessionsPage.verifySoftDeletedSessionsTable(softDeletedSessions);
-        assertNotNull(getSoftDeletedSession(closedSession.getFeedbackSessionName(),
+        assertNotNull(getSoftDeletedSession(closedSession.getName(),
                 instructor.getGoogleId()));
 
         ______TS("restore session");
-        FeedbackSessionAttributes[] sessionsForRestore = { openSession, newSession, closedSession, copiedSession2,
+        FeedbackSession[] sessionsForRestore = { newSession, closedSession, openSession, copiedSession2,
                 copiedSession };
         feedbackSessionsPage.restoreSession(closedSession);
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been restored.");
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForRestore);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
-        assertNull(getSoftDeletedSession(closedSession.getFeedbackSessionName(),
+        assertNull(getSoftDeletedSession(closedSession.getName(),
                 instructor.getGoogleId()));
 
         ______TS("permanently delete session");
-        FeedbackSessionAttributes[] sessionsForDelete = { copiedSession, copiedSession2, closedSession,
-                openSession };
-
+        FeedbackSession[] sessionsForDelete = { copiedSession, copiedSession2, openSession, closedSession};
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.moveToRecycleBin(newSession);
         feedbackSessionsPage.deleteSession(newSession);
@@ -246,7 +255,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         verifyAbsentInDatabase(newSession);
 
         ______TS("restore all session");
-        FeedbackSessionAttributes[] sessionsForRestoreAll = { copiedSession, copiedSession2, closedSession, openSession };
+        FeedbackSession[] sessionsForRestoreAll = { copiedSession, copiedSession2, openSession, closedSession };
         feedbackSessionsPage.moveToRecycleBin(copiedSession);
         feedbackSessionsPage.moveToRecycleBin(copiedSession2);
         feedbackSessionsPage.restoreAllSessions();
@@ -255,15 +264,15 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForRestoreAll);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
-        assertNull(getSoftDeletedSession(copiedSession.getFeedbackSessionName(),
+        assertNull(getSoftDeletedSession(copiedSession.getName(),
                 instructor.getGoogleId()));
-        assertNull(getSoftDeletedSession(copiedSession2.getFeedbackSessionName(),
+        assertNull(getSoftDeletedSession(copiedSession2.getName(),
                 instructor.getGoogleId()));
 
         ______TS("delete all session");
         feedbackSessionsPage.moveToRecycleBin(copiedSession);
         feedbackSessionsPage.moveToRecycleBin(copiedSession2);
-        FeedbackSessionAttributes[] sessionsForDeleteAll = { closedSession, openSession };
+        FeedbackSession[] sessionsForDeleteAll = { openSession, closedSession };
         feedbackSessionsPage.deleteAllSessions();
 
         feedbackSessionsPage.verifyStatusMessage("All sessions have been permanently deleted.");
@@ -274,8 +283,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         verifyAbsentInDatabase(copiedSession2);
     }
 
-    private String getExpectedResponseRate(FeedbackSessionAttributes session) {
-        String sessionName = session.getFeedbackSessionName();
+    private String getExpectedResponseRate(FeedbackSession session) {
+        String sessionName = session.getName();
         boolean hasQuestion = testData.feedbackQuestions.values()
                 .stream()
                 .anyMatch(q -> q.getFeedbackSessionName().equals(sessionName));
@@ -286,29 +295,29 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         long numStudents = testData.students.values()
                 .stream()
-                .filter(s -> s.getCourse().equals(session.getCourseId()))
+                .filter(s -> s.getCourseId().equals(session.getCourseId()))
                 .count();
 
         Set<String> uniqueGivers = new HashSet<>();
         testData.feedbackResponses.values()
                 .stream()
-                .filter(r -> r.getFeedbackSessionName().equals(sessionName))
+                .filter(r -> r.getFeedbackQuestion().getFeedbackSessionName().equals(sessionName))
                 .forEach(r -> uniqueGivers.add(r.getGiver()));
         int numResponses = uniqueGivers.size();
 
         return numResponses + " / " + numStudents;
     }
 
-    private void verifySessionPublishedState(FeedbackSessionAttributes feedbackSession, boolean state) {
+    private void verifySessionPublishedState(FeedbackSession feedbackSession, FeedbackSessionPublishStatus publishStatus) {
         int retryLimit = 5;
-        FeedbackSessionAttributes actual = getFeedbackSession(feedbackSession.getCourseId(),
-                feedbackSession.getFeedbackSessionName());
-        while (actual.isPublished() == state && retryLimit > 0) {
+        FeedbackSessionData actual = getFeedbackSession(feedbackSession.getCourseId(),
+                feedbackSession.getName());
+        while (actual.getPublishStatus() == publishStatus && retryLimit > 0) {
             retryLimit--;
             ThreadHelper.waitFor(1000);
             actual = getFeedbackSession(feedbackSession.getCourseId(),
-                    feedbackSession.getFeedbackSessionName());
+                    feedbackSession.getName());
         }
-        assertEquals(actual.isPublished(), state);
+        assertEquals(actual.getPublishStatus(), publishStatus);
     }
 }

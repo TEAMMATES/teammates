@@ -49,7 +49,7 @@ public final class FeedbackResponseCommentsLogic {
      * @param id of feedback response comment.
      * @return the specified feedback response comment.
      */
-    public FeedbackResponseComment getFeedbackResponseComment(Long id) {
+    public FeedbackResponseComment getFeedbackResponseComment(UUID id) {
         return frcDb.getFeedbackResponseComment(id);
     }
 
@@ -90,7 +90,7 @@ public final class FeedbackResponseCommentsLogic {
     /**
      * Deletes a feedbackResponseComment.
      */
-    public void deleteFeedbackResponseComment(Long frcId) {
+    public void deleteFeedbackResponseComment(UUID frcId) {
         frcDb.deleteFeedbackResponseComment(frcId);
     }
 
@@ -111,7 +111,7 @@ public final class FeedbackResponseCommentsLogic {
      * Updates a feedback response comment.
      * @throws EntityDoesNotExistException if the comment does not exist
      */
-    public FeedbackResponseComment updateFeedbackResponseComment(Long frcId,
+    public FeedbackResponseComment updateFeedbackResponseComment(UUID frcId,
             FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
             throws EntityDoesNotExistException {
         FeedbackResponseComment comment = frcDb.getFeedbackResponseComment(frcId);

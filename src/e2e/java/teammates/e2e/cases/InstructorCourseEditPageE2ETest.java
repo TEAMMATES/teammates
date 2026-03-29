@@ -4,25 +4,23 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCourseEditPage;
+import teammates.e2e.pageobjects.InstructorCourseEditPageSql;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
  */
 public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
-    CourseAttributes course;
-    InstructorAttributes[] instructors = new InstructorAttributes[5];
+    Course course;
+    Instructor[] instructors = new Instructor[5];
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorCourseEditPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
-
-        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorCourseEditPageE2ETest_SqlEntities.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/InstructorCourseEditPageE2ETestSql.json"));
 
         course = testData.courses.get("ICEdit.CS2104");
         instructors[0] = testData.instructors.get("ICEdit.helper.CS2104");
@@ -39,7 +37,8 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         // log in as instructor with no edit privilege
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
-        InstructorCourseEditPage editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[2].getGoogleId());
+        InstructorCourseEditPageSql editPage =
+                loginToPage(url, InstructorCourseEditPageSql.class, instructors[2].getGoogleId());
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
@@ -51,7 +50,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         logout();
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
-        editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[3].getGoogleId());
+        editPage = loginToPage(url, InstructorCourseEditPageSql.class, instructors[3].getGoogleId());
 
         editPage.verifyCourseDetails(course);
         editPage.verifyInstructorDetails(instructors[0]);
@@ -61,13 +60,15 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.verifyInstructorDetails(instructors[4]);
 
         ______TS("add instructor");
-        InstructorAttributes newInstructor = InstructorAttributes
-                .builder(course.getId(), "ICEdit.test@gmail.tmt")
-                .withName("Teammates Test")
-                .withIsDisplayedToStudents(true)
-                .withDisplayedName("Instructor")
-                .withRole("Tutor")
-                .build();
+        Instructor newInstructor = getTypicalInstructor();
+        newInstructor.setCourse(course);
+        newInstructor.setEmail("ICEdit.test@gmail.tmt");
+        newInstructor.setName("Teammates Test");
+        newInstructor.setDisplayedToStudents(true);
+        newInstructor.setDisplayName("Instructor");
+        InstructorPermissionRole role = InstructorPermissionRole
+                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
+        newInstructor.setRole(role);
 
         editPage.addInstructor(newInstructor);
         editPage.verifyStatusMessage("The instructor " + newInstructor.getName() + " has been added successfully. "
@@ -77,23 +78,22 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(newInstructor);
 
         ______TS("copy instructors from other courses");
-        InstructorAttributes instructorToCopy1 = testData.instructors.get("ICEdit.coowner.CS2103T");
-        InstructorAttributes instructorToCopy2 = testData.instructors.get("ICEdit.observer.CS2103T");
-        InstructorAttributes instructorToCopy3 = testData.instructors.get("ICEdit.manager.CS2105");
-        List<InstructorAttributes> instructorsToCopy = List.of(instructorToCopy1, instructorToCopy2, instructorToCopy3);
+        Instructor instructorToCopy1 = testData.instructors.get("ICEdit.coowner.CS2103T");
+        Instructor instructorToCopy2 = testData.instructors.get("ICEdit.observer.CS2103T");
+        Instructor instructorToCopy3 = testData.instructors.get("ICEdit.manager.CS2105");
+        List<Instructor> instructorsToCopy = List.of(instructorToCopy1, instructorToCopy2, instructorToCopy3);
 
         editPage.copyInstructors(instructorsToCopy);
 
         editPage.verifyStatusMessage("The selected instructor(s) have been added successfully. "
                 + "An email containing how to 'join' this course will be sent to them in a few minutes.");
-        for (InstructorAttributes i : instructorsToCopy) {
-            newInstructor = InstructorAttributes
-                    .builder(course.getId(), i.getEmail())
-                    .withName(i.getName())
-                    .withIsDisplayedToStudents(i.isDisplayedToStudents())
-                    .withDisplayedName(i.getDisplayedName())
-                    .withRole(i.getRole())
-                    .build();
+        for (Instructor i : instructorsToCopy) {
+            newInstructor.setCourse(course);
+            newInstructor.setEmail(i.getEmail());
+            newInstructor.setName(i.getName());
+            newInstructor.setDisplayedToStudents(i.isDisplayedToStudents());
+            newInstructor.setDisplayName(i.getDisplayName());
+            newInstructor.setRole(i.getRole());
 
             editPage.verifyInstructorDetails(newInstructor);
             verifyPresentInDatabase(newInstructor);

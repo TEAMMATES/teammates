@@ -14,7 +14,7 @@
       Mark All as Read
     </button>
   </div>
-</div>
+}
 
 <tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load notifications'" (retryEvent)="loadNotifications()">
   <div *tmIsLoading="isLoadingNotifications">
@@ -42,9 +42,23 @@
                 Mark as Read
               </button>
             </div>
+            @if (notificationTab.hasTabExpanded) {
+              <div class="mb-0" @collapseAnim>
+                <div [ngClass]="getBodyTextClass(notificationTab)">
+                  <div class="notification-message" [innerHtml]="notificationTab.notification.message"></div>
+                </div>
+                @if (!notificationTab.isRead) {
+                  <div class="d-flex flex-row-reverse me-4 mb-3">
+                    <button class="btn-mark-as-read" type="button" [ngClass]="getButtonClass(notificationTab)" (click)="markNotificationAsRead(notificationTab)">
+                      Mark as Read
+                    </button>
+                  </div>
+                }
+              </div>
+            }
           </div>
         </div>
-      </div>
+      }
     </div>
   </ng-container>
 </tm-loading-retry>

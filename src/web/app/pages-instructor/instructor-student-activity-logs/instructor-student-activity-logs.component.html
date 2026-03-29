@@ -13,9 +13,11 @@
         <div class="col-12">
           <select id="activity-type-dropdown" class="form-control form-select col-12" [(ngModel)]="formModel.logType" (ngModelChange)="triggerDefaultLogActivityTypeChange($event)">
             <option value="" disabled selected hidden>Select Activity Type</option>
-            <option *ngFor="let logType of LOG_TYPES" [value]="logType.value">
-              {{logType.label}}
-            </option>
+            @for (logType of LOG_TYPES; track logType) {
+              <option [value]="logType.value">
+                {{logType.label}}
+              </option>
+            }
           </select>
         </div>
       </div>
@@ -45,9 +47,11 @@
         </div>
         <div class="col-12">
           <select id="student-name-dropdown" class="form-control form-select col-12" [(ngModel)]="formModel.selectedStudent">
-            <option *ngFor="let student of students" [ngValue]="{studentEmail: student.email || '', studentId: student.studentId}">
-              {{student.name}} {{student.email ? '<' + student.email + '>' : ''}}
-            </option>
+            @for (student of students; track student) {
+              <option [ngValue]="{studentEmail: student.email || '', studentId: student.studentId}">
+                {{student.name}} {{student.email ? '<' + student.email + '>' : ''}}
+              </option>
+            }
           </select>
         </div>
       </div>
@@ -81,9 +85,11 @@
         <div class="col-12">
           <select id="session-dropdown" class="form-control form-select col-md-12" [(ngModel)]="formModel.selectedSession">
             <option [ngValue]="{feedbackSessionName: '', sessionId: ''}"></option>
-            <option *ngFor="let session of feedbackSessions | keyvalue" [ngValue]="{feedbackSessionName: session.key, sessionId: session.value.feedbackSessionId}">
-              {{session.key}}
-            </option>
+            @for (session of feedbackSessions | keyvalue; track session) {
+              <option [ngValue]="{feedbackSessionName: session.key, sessionId: session.value.feedbackSessionId}">
+                {{session.key}}
+              </option>
+            }
           </select>
         </div>
       </div>
@@ -104,25 +110,30 @@
 </div>
 <div id="logs-output">
   <div *tmIsLoading="isSearching">
-    <div *ngFor="let results of searchResults">
-      <div [ngClass]="{ 'alert-success-border': results.logRowsData.length, 'alert-failure-border': !results.logRowsData.length }" class="card mb-3">
-        <div [ngClass]="{ 'alert-success': results.logRowsData.length, 'alert-failure': !results.logRowsData.length}" class="card-header cursor-pointer text-break" (click)="results.isTabExpanded = !results.isTabExpanded">
-          {{results.feedbackSessionName}}
-          <div class="card-header-btn-toolbar">
-            <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>
-          </div>
-        </div>
-        <div *ngIf="results.isTabExpanded">
-          <div *ngIf="results.logRowsData[0]; else noActivityTemplate" class="card-body mb-4">
-            <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
-          </div>
-          <ng-template #noActivityTemplate>
-            <div class="no-activity-body">
-              <i>No activity for this feedback session in selected search period</i>
+    @for (results of searchResults; track results) {
+      <div>
+        <div [ngClass]="{ 'alert-success-border': results.logRowsData.length, 'alert-failure-border': !results.logRowsData.length }" class="card mb-3">
+          <div [ngClass]="{ 'alert-success': results.logRowsData.length, 'alert-failure': !results.logRowsData.length}" class="card-header cursor-pointer text-break" (click)="results.isTabExpanded = !results.isTabExpanded">
+            {{results.feedbackSessionName}}
+            <div class="card-header-btn-toolbar">
+              <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>
             </div>
-          </ng-template>
+          </div>
+          @if (results.isTabExpanded) {
+            <div>
+              @if (results.logRowsData[0]) {
+                <div class="card-body mb-4">
+                  <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
+                </div>
+              } @else {
+                <div class="no-activity-body">
+                  <i>No activity for this feedback session in selected search period</i>
+                </div>
+              }
+            </div>
+          }
         </div>
       </div>
-    </div>
+    }
   </div>
 </div>

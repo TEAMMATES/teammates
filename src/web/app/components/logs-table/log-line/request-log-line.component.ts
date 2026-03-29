@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralLogEntry, LogEvent, RequestLogDetails } from '../../../../types/api-output';
@@ -12,9 +12,8 @@ import { GeneralLogEntry, LogEvent, RequestLogDetails } from '../../../../types/
   styleUrls: ['./request-log-line.component.scss', './log-line.component.scss'],
   imports: [
     NgClass,
-    NgIf,
     NgbTooltip,
-  ],
+],
 })
 export class RequestLogLineComponent {
 

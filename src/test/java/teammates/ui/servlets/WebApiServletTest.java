@@ -1,5 +1,6 @@
 package teammates.ui.servlets;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 
 import java.util.Collections;
@@ -10,15 +11,17 @@ import java.util.Map;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.mockito.Answers;
 import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.cloud.datastore.DatastoreException;
-
 import teammates.common.util.Const;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.InternalRequestAuth;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.test.MockHttpServletResponse;
@@ -30,6 +33,16 @@ import teammates.ui.webapi.UnauthorizedAccessException;
  * SUT: {@link WebApiServlet}.
  */
 public class WebApiServletTest extends BaseTestCase {
+
+    /**
+     * Admin exception-test action reachable under the worker servlet mapping ({@code /worker/*}).
+     */
+    private static final String WORKER_URI_EXCEPTION = TaskQueue.URI_PREFIX + Const.ResourceURIs.EXCEPTION;
+
+    /**
+     * Unmapped path under {@code /worker/*} for invalid action mapping tests.
+     */
+    private static final String WORKER_URI_NONEXISTENT = TaskQueue.URI_PREFIX + "/nonexistent";
 
     private static final WebApiServlet SERVLET = new WebApiServlet();
 
@@ -53,9 +66,9 @@ public class WebApiServletTest extends BaseTestCase {
         mockResponse = new MockHttpServletResponse();
     }
 
-    private void setupMocksFromGaeQueue(String method, String requestUrl) {
+    private void setupMocksFromWorkerOrCron(String method, String requestUrl) {
         Map<String, List<String>> headers = new HashMap<>();
-        headers.put("X-AppEngine-QueueName", Collections.singletonList("queuename"));
+        headers.put("Authorization", Collections.singletonList("Bearer test"));
         mockRequest = new MockHttpServletRequest(method, requestUrl, headers);
         mockResponse = new MockHttpServletResponse();
     }
@@ -98,14 +111,6 @@ public class WebApiServletTest extends BaseTestCase {
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_BAD_REQUEST, mockResponse.getStatus());
 
-        ______TS("Failure case: DatastoreException");
-
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
-
         ______TS("Failure case: UnauthorizedAccessException");
 
         setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
@@ -141,83 +146,83 @@ public class WebApiServletTest extends BaseTestCase {
     }
 
     @Test
-    public void testGaeQueueInvokedRequests() throws Exception {
+    public void testTrustedWorkerInvokedRequests() throws Exception {
 
-        ______TS("Typical case: valid action mapping");
+        try (MockedStatic<InternalRequestAuth> internalAuth = mockStatic(InternalRequestAuth.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
+            // Path checks use real implementations; only the bearer check is stubbed so tests stay deterministic.
+            internalAuth.when(() -> InternalRequestAuth.isTrustedCronOrWorkerRequest(any())).thenReturn(true);
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, "NoException");
+            ______TS("Typical case: valid action mapping");
 
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
+            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
+            mockRequest.addParam(Const.ParamsNames.ERROR, "NoException");
 
-        ______TS("\"Successful\" case: invalid action mapping");
+            SERVLET.doGet(mockRequest, mockResponse);
+            assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, "nonexistent");
+            ______TS("\"Successful\" case: invalid action mapping");
 
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
+            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_NONEXISTENT);
 
-        setupMocksFromGaeQueue(HttpPost.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+            SERVLET.doGet(mockRequest, mockResponse);
+            assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
 
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
+            ______TS("\"Successful\" case: HTTP method not allowed for worker endpoint");
 
-        ______TS("\"Successful\" case: NullHttpParameterException");
+            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, TaskQueue.SEND_EMAIL_WORKER_URL);
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+            SERVLET.doGet(mockRequest, mockResponse);
+            assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
 
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
+            ______TS("\"Successful\" case: NullHttpParameterException");
 
-        ______TS("\"Successful\" case: InvalidHttpParameterException");
+            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName());
+            SERVLET.doGet(mockRequest, mockResponse);
+            assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
 
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
+            ______TS("\"Successful\" case: InvalidHttpParameterException");
 
-        ______TS("Failure case: DatastoreTimeoutException");
+            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
+            mockRequest.addParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName());
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreException.class.getSimpleName());
+            SERVLET.doGet(mockRequest, mockResponse);
+            assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
 
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
+            ______TS("Failure case: UnauthorizedAccessException");
 
-        ______TS("Failure case: UnauthorizedAccessException");
+            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
+            mockRequest.addParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName());
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName());
+            SERVLET.doGet(mockRequest, mockResponse);
+            assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
 
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
+            ______TS("Failure case: EntityNotFoundException");
 
-        ______TS("Failure case: EntityNotFoundException");
+            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
+            mockRequest.addParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName());
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName());
+            SERVLET.doGet(mockRequest, mockResponse);
+            assertEquals(HttpStatus.SC_NOT_FOUND, mockResponse.getStatus());
 
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_NOT_FOUND, mockResponse.getStatus());
+            ______TS("Failure case: NullPointerException");
 
-        ______TS("Failure case: NullPointerException");
+            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
+            mockRequest.addParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
+            SERVLET.doGet(mockRequest, mockResponse);
+            assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
+            ______TS("Failure case: AssertionError");
 
-        ______TS("Failure case: AssertionError");
+            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
+            mockRequest.addParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
 
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
+            SERVLET.doGet(mockRequest, mockResponse);
+            assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
-
+        }
     }
 
 }

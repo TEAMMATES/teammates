@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -25,7 +25,7 @@ import {
 } from '../../../types/api-output';
 import {
   FeedbackSessionBasicRequest,
-  FeedbackSessionUpdateRequest,
+  FeedbackSessionDeadlineExtensionsUpdateRequest,
   Intent,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -51,13 +51,11 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgIf,
     FormsModule,
-    NgFor,
     NgClass,
     FormatDateDetailPipe,
     InstructorRoleNamePipe,
-  ],
+],
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {
   feedbackSessionDetails: FeedbackSessionBasicRequest = {
@@ -372,12 +370,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     isNotifyDeadlines: boolean,
     extensionTimestamp: number,
   ): void {
-    const updatedDeadlinesForCreation = this.getUpdatedDeadlinesForCreation(
+    const request = this.getUpdatedDeadlinesForCreation(
       selectedStudents, selectedInstructors, extensionTimestamp);
-    const request: FeedbackSessionUpdateRequest = {
-      ...updatedDeadlinesForCreation,
-      ...this.feedbackSessionDetails,
-    };
 
     this.handleUpdateDeadlines(request, selectedStudents.length,
       selectedInstructors.length, isNotifyDeadlines, 'created');
@@ -388,18 +382,14 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     selectedInstructors: InstructorExtensionTableColumnModel[],
     isNotifyDeadlines: boolean,
   ): void {
-    const updatedDeadlinesForDeletion = this.getUpdatedDeadlinesForDeletion(
+    const request = this.getUpdatedDeadlinesForDeletion(
       selectedStudents, selectedInstructors);
-    const request: FeedbackSessionUpdateRequest = {
-      ...updatedDeadlinesForDeletion,
-      ...this.feedbackSessionDetails,
-    };
     this.handleUpdateDeadlines(request, selectedStudents.length,
       selectedInstructors.length, isNotifyDeadlines, 'deleted');
   }
 
   private handleUpdateDeadlines(
-    request: FeedbackSessionUpdateRequest,
+    request: FeedbackSessionDeadlineExtensionsUpdateRequest,
     numStudentsUpdated: number,
     numInstructorsUpdated: number,
     isNotifyDeadlines: boolean,
@@ -407,7 +397,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   ): void {
     this.isSubmittingDeadlines = true;
     this.feedbackSessionsService
-      .updateFeedbackSession(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
+      .updateFeedbackSessionDeadlineExtensions(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
       .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
       .subscribe({
         next: () => {

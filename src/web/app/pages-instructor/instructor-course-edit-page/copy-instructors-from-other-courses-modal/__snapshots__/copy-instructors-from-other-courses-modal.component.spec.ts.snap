@@ -70,12 +70,12 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
         class="card"
       >
         <div
-          class="card-header cursor-pointer bg-info"
+          class="card-header cursor-pointer bg-primary text-white"
         >
           <strong
             class="text-break"
           >
-            [FAN0002] (Archived): Test Course 1
+            [FAN0002]: Test Course 1
           </strong>
           <div
             class="card-header-btn-toolbar"
@@ -211,12 +211,12 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
         class="card"
       >
         <div
-          class="card-header cursor-pointer bg-info"
+          class="card-header cursor-pointer bg-primary text-white"
         >
           <strong
             class="text-break"
           >
-            [FAN0002] (Archived): Test Course 1
+            [FAN0002]: Test Course 1
           </strong>
           <div
             class="card-header-btn-toolbar"
@@ -247,7 +247,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                   id="copy-instructor-table"
                 >
                   <thead
-                    class="bg-info"
+                    class="bg-primary text-white"
                   >
                     <tr>
                       <th>
@@ -475,12 +475,12 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
         class="card"
       >
         <div
-          class="card-header cursor-pointer bg-info"
+          class="card-header cursor-pointer bg-primary text-white"
         >
           <strong
             class="text-break"
           >
-            [FAN0002] (Archived): Test Course 1
+            [FAN0002]: Test Course 1
           </strong>
           <div
             class="card-header-btn-toolbar"
@@ -613,12 +613,12 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
         class="card"
       >
         <div
-          class="card-header cursor-pointer bg-info"
+          class="card-header cursor-pointer bg-primary text-white"
         >
           <strong
             class="text-break"
           >
-            [FAN0002] (Archived): Test Course 1
+            [FAN0002]: Test Course 1
           </strong>
           <div
             class="card-header-btn-toolbar"

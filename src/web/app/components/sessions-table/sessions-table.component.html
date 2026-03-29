@@ -1,16 +1,16 @@
-<div *ngIf="sessionsTableRowModels.length > 0; else noSessionMessage">
-  <tm-sortable-table
-    [columns]="columnsData"
-    [rows]="rowsData"
-    [initialSortBy]="initialSortBy"
-    [sortOrder]="sortOrder"
-    [headerColorScheme]="headerColorScheme"
-    (sortEvent)="sortSessionsTableRowModelsEventHandler($event)"
+@if (sessionsTableRowModels.length > 0) {
+  <div>
+    <tm-sortable-table
+      [columns]="columnsData"
+      [rows]="rowsData"
+      [initialSortBy]="initialSortBy"
+      [sortOrder]="sortOrder"
+      [headerColorScheme]="headerColorScheme"
+      (sortEvent)="sortSessionsTableRowModelsEventHandler($event)"
     ></tm-sortable-table>
-</div>
-
-<ng-template #noSessionMessage>
+  </div>
+} @else {
   <div class="no-session-message">
     There are no feedback sessions in this course.
   </div>
-</ng-template>
+}

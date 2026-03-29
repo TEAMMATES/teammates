@@ -27,7 +27,7 @@ import teammates.storage.sqlentity.User;
  *
  * @see DeadlineExtension
  */
-public final class DeadlineExtensionsDb extends EntitiesDb {
+public final class DeadlineExtensionsDb {
 
     private static final DeadlineExtensionsDb instance = new DeadlineExtensionsDb();
 
@@ -55,7 +55,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, de.toString()));
         }
 
-        persist(de);
+        HibernateUtil.persist(de);
         return de;
     }
 
@@ -108,7 +108,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-        return merge(deadlineExtension);
+        return HibernateUtil.merge(deadlineExtension);
     }
 
     /**
@@ -116,7 +116,7 @@ public final class DeadlineExtensionsDb extends EntitiesDb {
      */
     public void deleteDeadlineExtension(DeadlineExtension de) {
         if (de != null) {
-            delete(de);
+            HibernateUtil.remove(de);
         }
     }
 

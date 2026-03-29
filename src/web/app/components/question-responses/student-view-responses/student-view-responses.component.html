@@ -5,7 +5,7 @@
   <div class="card-body table-responsive" style="padding: 0;">
     <table class="table">
       <tbody>
-        <ng-container *ngFor="let response of responses">
+        @for (response of responses; track response) {
           <tr>
             <td class="response-giver">
               <strong>From:</strong> {{ response.giver }}
@@ -14,37 +14,41 @@
           <tr>
             <td>
               <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="feedbackQuestion.questionDetails"
-                                  [isStudentPage]="true" [giverEmail]="response.giverEmail!" [recipientEmail]="response.recipientEmail!" [statistics]="statistics"></tm-single-response>
+              [isStudentPage]="true" [giverEmail]="response.giverEmail!" [recipientEmail]="response.recipientEmail!" [statistics]="statistics"></tm-single-response>
             </td>
           </tr>
-          <tr *ngIf="response.participantComment">
-            <td>
-              <tm-comment-row
-                              [mode]="CommentRowMode.EDIT"
-                              [isVisibilityOptionEnabled]="false"
-                              [isDisabled]="true"
-                              [shouldHideSavingButton]="true"
-                              [shouldHideClosingButton]="true"
-                              [shouldHideEditButton]="true"
-                              [shouldHideDeleteButton]="true"
-                              [isFeedbackParticipantComment]="true"
-                              [response]="response"
-                              [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
-                              [model]="response.participantComment | commentToCommentRowModel"
-            ></tm-comment-row>
-            </td>
-          </tr>
-          <tr *ngIf="response.instructorComments.length > 0">
-            <td>
-              <tm-comment-table
+          @if (response.participantComment) {
+            <tr>
+              <td>
+                <tm-comment-row
+                  [mode]="CommentRowMode.EDIT"
+                  [isVisibilityOptionEnabled]="false"
+                  [isDisabled]="true"
+                  [shouldHideSavingButton]="true"
+                  [shouldHideClosingButton]="true"
+                  [shouldHideEditButton]="true"
+                  [shouldHideDeleteButton]="true"
+                  [isFeedbackParticipantComment]="true"
+                  [response]="response"
+                  [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
+                  [model]="response.participantComment | commentToCommentRowModel"
+                ></tm-comment-row>
+              </td>
+            </tr>
+          }
+          @if (response.instructorComments.length > 0) {
+            <tr>
+              <td>
+                <tm-comment-table
                   [response]="response"
                   [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
                   [model]="response.instructorComments | commentsToCommentTableModel: true : timezone"
                   [shouldHideClosingButtonForNewComment]="true"
-              ></tm-comment-table>
-            </td>
-          </tr>
-        </ng-container>
+                ></tm-comment-table>
+              </td>
+            </tr>
+          }
+        }
       </tbody>
     </table>
   </div>

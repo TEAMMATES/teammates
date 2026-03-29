@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCourseDetailsPage;
+import teammates.e2e.pageobjects.InstructorCourseDetailsPageSql;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_DETAILS_PAGE}.
@@ -15,10 +15,8 @@ public class InstructorCourseDetailsPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorCourseDetailsPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                loadSqlDataBundle("/InstructorCourseDetailsPageE2ETest_SqlEntities.json"));
+        testData = loadDataBundle("/InstructorCourseDetailsPageE2ESqlTest.json");
+        testData = removeAndRestoreDataBundle(testData);
     }
 
     @Test
@@ -26,11 +24,11 @@ public class InstructorCourseDetailsPageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl detailsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withCourseId(testData.courses.get("ICDet.CS2104").getId());
-        InstructorCourseDetailsPage detailsPage = loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class,
+        InstructorCourseDetailsPageSql detailsPage = loginToPage(detailsPageUrl, InstructorCourseDetailsPageSql.class,
                 testData.instructors.get("ICDet.instr").getGoogleId());
 
         Results results = getAxeBuilder().analyze(detailsPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

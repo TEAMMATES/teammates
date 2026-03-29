@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -96,13 +95,11 @@ import {
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     SessionEditFormComponent,
-    NgIf,
-    NgFor,
     QuestionEditFormComponent,
     AddingQuestionPanelComponent,
     PreviewSessionPanelComponent,
     ModifiedTimestampModalComponent,
-  ],
+],
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
 
@@ -429,9 +426,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       isClosingSoonEmailEnabled: this.sessionEditFormModel.isClosingSoonEmailEnabled,
       isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-
-      studentDeadlines: this.studentDeadlines,
-      instructorDeadlines: this.instructorDeadlines,
     }).pipe(finalize(() => {
       this.sessionEditFormModel.isSaving = false;
     })).subscribe({
@@ -472,11 +466,28 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     modalRef.componentInstance.feedbackSessionTimeZone = this.sessionEditFormModel.timeZone;
 
     return new Observable((subscribeIsUserAccept) => {
-      modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe(() => {
-        this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
-        modalRef.componentInstance.isSubmitting = false;
-        modalRef.close();
-        subscribeIsUserAccept.next(true);
+      modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe((isNotifyDeadlines: boolean) => {
+        const updatedStudentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+          affectedStudentModels, this.studentDeadlines);
+        const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+          affectedInstructorModels, this.instructorDeadlines);
+        this.feedbackSessionsService.updateFeedbackSessionDeadlineExtensions(
+          this.courseId, this.feedbackSessionName,
+          { studentDeadlines: updatedStudentDeadlines, instructorDeadlines: updatedInstructorDeadlines },
+          isNotifyDeadlines,
+        ).subscribe({
+          next: () => {
+            this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
+            modalRef.componentInstance.isSubmitting = false;
+            modalRef.close();
+            subscribeIsUserAccept.next(true);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+            modalRef.componentInstance.isSubmitting = false;
+            subscribeIsUserAccept.next(false);
+          },
+        });
       }, () => {
         subscribeIsUserAccept.next(false);
       });

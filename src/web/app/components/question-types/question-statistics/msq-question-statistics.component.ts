@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import {
   MsqQuestionStatisticsCalculation,
@@ -14,7 +13,7 @@ import { ColumnData, SortableTableCellData, SortableTableComponent } from '../..
     selector: 'tm-msq-question-statistics',
     templateUrl: './msq-question-statistics.component.html',
     styleUrls: ['./msq-question-statistics.component.scss'],
-    imports: [NgIf, SortableTableComponent],
+    imports: [SortableTableComponent],
 })
 export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalculation implements OnInit, OnChanges {
 

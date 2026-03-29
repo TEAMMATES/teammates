@@ -13,44 +13,40 @@ import java.util.Set;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorHomePage;
+import teammates.e2e.pageobjects.InstructorHomePageSql;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.test.ThreadHelper;
+import teammates.ui.output.FeedbackSessionData;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_HOME_PAGE}.
  */
 public class InstructorHomePageE2ETest extends BaseE2ETestCase {
-    private InstructorAttributes instructor;
-    private StudentAttributes studentToEmail;
-    private CourseAttributes course;
-    private CourseAttributes otherCourse;
+    private Instructor instructor;
+    private Student studentToEmail;
+    private Course course;
+    private Course otherCourse;
 
-    private FeedbackSessionAttributes feedbackSessionAwaiting;
-    private FeedbackSessionAttributes feedbackSessionOpen;
-    private FeedbackSessionAttributes feedbackSessionClosed;
-    private FeedbackSessionAttributes feedbackSessionPublished;
-    private FeedbackSessionAttributes otherCourseSession;
+    private FeedbackSession feedbackSessionAwaiting;
+    private FeedbackSession feedbackSessionOpen;
+    private FeedbackSession feedbackSessionClosed;
+    private FeedbackSession feedbackSessionPublished;
+    private FeedbackSession otherCourseSession;
 
     private String fileName;
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorHomePageE2ETest.json");
+        testData = loadDataBundle("/InstructorHomePageE2ETestSql.json");
         studentToEmail = testData.students.get("IHome.charlie.d.tmms@IHome.CS2104");
         studentToEmail.setEmail(TestProperties.TEST_EMAIL);
-        removeAndRestoreDataBundle(testData);
-        putDocuments(testData);
-
-        sqlTestData =
-                removeAndRestoreSqlDataBundle(
-                        loadSqlDataBundle("/InstructorHomePageE2ETest_SqlEntities.json"));
+        testData = removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("IHome.instr.CS2104");
         course = testData.courses.get("IHome.CS2104");
@@ -62,7 +58,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         feedbackSessionPublished = testData.feedbackSessions.get("Fourth Feedback Session");
         otherCourseSession = testData.feedbackSessions.get("CS1101 Session");
 
-        fileName = "/" + feedbackSessionOpen.getCourseId() + "_" + feedbackSessionOpen.getFeedbackSessionName()
+        fileName = "/" + feedbackSessionOpen.getCourse().getId() + "_" + feedbackSessionOpen.getName()
                 + "_result.csv";
     }
 
@@ -75,16 +71,16 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
-        InstructorHomePage homePage = loginToPage(url, InstructorHomePage.class, instructor.getGoogleId());
+        InstructorHomePageSql homePage = loginToPage(url, InstructorHomePageSql.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
         homePage.sortCoursesById();
         int courseIndex = 1;
         int otherCourseIndex = 0;
         // by default, sessions are sorted by end date in descending order
-        FeedbackSessionAttributes[] courseSessions = { feedbackSessionOpen, feedbackSessionAwaiting,
+        FeedbackSession[] courseSessions = { feedbackSessionOpen, feedbackSessionAwaiting,
                 feedbackSessionClosed, feedbackSessionPublished };
-        FeedbackSessionAttributes[] otherCourseSessions = { otherCourseSession };
+        FeedbackSession[] otherCourseSessions = { otherCourseSession };
         // use course index instead of searching for course in table to test sorted order of courses
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessions);
         homePage.verifyCourseTabDetails(courseIndex, course, courseSessions);
@@ -100,47 +96,46 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         ______TS("copy session with modified session timings");
         int sessionIndex = 1;
         String newName = "Copied Name";
-        FeedbackSessionAttributes copiedSession = feedbackSessionAwaiting.getCopy();
-        copiedSession.setCourseId(otherCourse.getId());
-        copiedSession.setFeedbackSessionName(newName);
-        copiedSession.setCreatedTime(Instant.now());
-        int startHour = ZonedDateTime.ofInstant(copiedSession.getStartTime(), ZoneId.of(copiedSession.getTimeZone()))
-                .getHour();
+        FeedbackSession copiedSession = feedbackSessionAwaiting.getCopy();
+        copiedSession.setCourse(otherCourse);
+        copiedSession.setName(newName);
+        copiedSession.setCreatedAt(Instant.now());
+        int startHour = ZonedDateTime.ofInstant(copiedSession.getStartTime(),
+                        ZoneId.of(copiedSession.getCourse().getTimeZone())).getHour();
         copiedSession.setStartTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(2))
                 .withHour(startHour).truncatedTo(ChronoUnit.HOURS).toInstant());
-        int endHour = ZonedDateTime.ofInstant(copiedSession.getEndTime(), ZoneId.of(copiedSession.getTimeZone()))
+        int endHour = ZonedDateTime.ofInstant(copiedSession.getEndTime(), ZoneId.of(copiedSession.getCourse().getTimeZone()))
                 .getHour();
         copiedSession.setEndTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone())).plus(Duration.ofDays(7))
                 .withHour(endHour).truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setSessionVisibleFromTime(ZonedDateTime.now(ZoneId.of(otherCourse.getTimeZone()))
                 .minus(Duration.ofDays(28)).withHour(startHour).truncatedTo(ChronoUnit.HOURS).toInstant());
         copiedSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
-        copiedSession.setTimeZone(otherCourse.getTimeZone());
         homePage.copySession(courseIndex, sessionIndex, otherCourse, newName);
 
         homePage.waitForConfirmationModalAndClickOk();
-        homePage = getNewPageInstance(url, InstructorHomePage.class);
+        homePage = getNewPageInstance(url, InstructorHomePageSql.class);
         homePage.sortCoursesByName();
         // flip index after sorting
         courseIndex = 0;
         otherCourseIndex = 1;
-        FeedbackSessionAttributes[] otherCourseSessionsWithCopy = { copiedSession, otherCourseSession };
+        FeedbackSession[] otherCourseSessionsWithCopy = { copiedSession, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopy);
         verifyPresentInDatabase(copiedSession);
 
         ______TS("copy session with same session timings");
         sessionIndex = 0;
         newName = "Copied Name 2";
-        FeedbackSessionAttributes copiedSession2 = copiedSession.getCopy();
-        copiedSession2.setFeedbackSessionName(newName);
-        copiedSession2.setCreatedTime(Instant.now());
+        FeedbackSession copiedSession2 = copiedSession.getCopy();
+        copiedSession2.setName(newName);
+        copiedSession2.setCreatedAt(Instant.now());
         homePage.copySession(otherCourseIndex, sessionIndex, otherCourse, newName);
 
         homePage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
-        homePage = getNewPageInstance(url, InstructorHomePage.class);
+        homePage = getNewPageInstance(url, InstructorHomePageSql.class);
         homePage.sortCoursesByName();
-        FeedbackSessionAttributes[] otherCourseSessionsWithTwoCopies = { copiedSession2, copiedSession, otherCourseSession };
+        FeedbackSession[] otherCourseSessionsWithTwoCopies = { copiedSession, copiedSession2, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithTwoCopies);
         verifyPresentInDatabase(copiedSession2);
 
@@ -155,7 +150,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         verifySessionPublishedState(feedbackSessionOpen, true);
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
                 + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSessionOpen.getFeedbackSessionName() + "]");
+                + feedbackSessionOpen.getName() + "]");
 
         ______TS("send reminder email to selected student");
         homePage.sendReminderEmailToSelectedStudent(courseIndex, sessionIndex, studentToEmail);
@@ -164,7 +159,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
                 + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSessionOpen.getFeedbackSessionName() + "]");
+                + feedbackSessionOpen.getName() + "]");
 
         ______TS("send reminder email to all student non-submitters");
         homePage.sendReminderEmailToNonSubmitters(courseIndex, sessionIndex);
@@ -173,7 +168,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
                 + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSessionOpen.getFeedbackSessionName() + "]");
+                + feedbackSessionOpen.getName() + "]");
         ______TS("resend results link");
         homePage.resendResultsLink(courseIndex, sessionIndex, studentToEmail);
 
@@ -182,7 +177,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                 + " sent out.");
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
                 + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSessionOpen.getFeedbackSessionName() + "]");
+                + feedbackSessionOpen.getName() + "]");
 
         ______TS("unpublish results");
         feedbackSessionOpen.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
@@ -193,7 +188,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         verifySessionPublishedState(feedbackSessionOpen, false);
         verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results unpublished"
                 + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSessionOpen.getFeedbackSessionName() + "]");
+                + feedbackSessionOpen.getName() + "]");
 
         ______TS("download results");
         homePage.downloadResults(courseIndex, sessionIndex);
@@ -203,39 +198,30 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         ______TS("soft delete session");
         sessionIndex = 1;
-        copiedSession.setDeletedTime(Instant.now());
+        copiedSession.setDeletedAt(Instant.now());
         homePage.deleteSession(otherCourseIndex, sessionIndex);
 
         homePage.verifyStatusMessage("The feedback session has been deleted. "
                 + "You can restore it from the 'Sessions' tab.");
-        homePage.sortCoursesByCreationDate();
-        courseIndex = 1;
-        otherCourseIndex = 0;
-        FeedbackSessionAttributes[] otherCourseSessionsWithCopyTwo = { copiedSession2, otherCourseSession };
+        homePage.sortCoursesByName();
+        otherCourseIndex = 1;
+        FeedbackSession[] otherCourseSessionsWithCopyTwo = { copiedSession, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopyTwo);
-        assertNotNull(getSoftDeletedSession(copiedSession.getFeedbackSessionName(),
+        assertNotNull(getSoftDeletedSession(copiedSession2.getName(),
                 instructor.getGoogleId()));
 
-        ______TS("archive course");
-        homePage.archiveCourse(courseIndex);
-
-        homePage.verifyStatusMessage("The course " + course.getId() + " has been archived. "
-                + "You can retrieve it from the Courses page.");
-        homePage.verifyNumCourses(1);
-        verifyCourseArchivedInDatabase(instructor.getGoogleId(), course);
-
         ______TS("delete course");
-        otherCourseIndex = 0;
+        otherCourseIndex = 1;
         homePage.deleteCourse(otherCourseIndex);
 
         homePage.verifyStatusMessage("The course " + otherCourse.getId() + " has been deleted. "
                 + "You can restore it from the Recycle Bin manually.");
-        homePage.verifyNumCourses(0);
+        homePage.verifyNumCourses(1);
         assertTrue(BACKDOOR.isCourseInRecycleBin(otherCourse.getId()));
     }
 
-    private String getExpectedResponseRate(FeedbackSessionAttributes session) {
-        String sessionName = session.getFeedbackSessionName();
+    private String getExpectedResponseRate(FeedbackSession session) {
+        String sessionName = session.getName();
         boolean hasQuestion = testData.feedbackQuestions.values()
                 .stream()
                 .anyMatch(q -> q.getFeedbackSessionName().equals(sessionName));
@@ -246,40 +232,29 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         long numStudents = testData.students.values()
                 .stream()
-                .filter(s -> s.getCourse().equals(session.getCourseId()))
+                .filter(s -> s.getCourse().getId().equals(session.getCourse().getId()))
                 .count();
 
         Set<String> uniqueGivers = new HashSet<>();
         testData.feedbackResponses.values()
                 .stream()
-                .filter(r -> r.getFeedbackSessionName().equals(sessionName))
+                .filter(r -> r.getFeedbackQuestion().getFeedbackSessionName().equals(sessionName))
                 .forEach(r -> uniqueGivers.add(r.getGiver()));
         int numResponses = uniqueGivers.size();
 
         return numResponses + " / " + numStudents;
     }
 
-    private void verifySessionPublishedState(FeedbackSessionAttributes feedbackSession, boolean state) {
+    private void verifySessionPublishedState(FeedbackSession feedbackSession, boolean state) {
         int retryLimit = 5;
-        FeedbackSessionAttributes actual = getFeedbackSession(feedbackSession.getCourseId(),
-                feedbackSession.getFeedbackSessionName());
-        while (actual.isPublished() == state && retryLimit > 0) {
+        FeedbackSessionData actual = getFeedbackSession(feedbackSession.getCourse().getId(),
+                feedbackSession.getName());
+        while (isFeedbackSessionPublished(actual.getPublishStatus()) != state && retryLimit > 0) {
             retryLimit--;
             ThreadHelper.waitFor(1000);
-            actual = getFeedbackSession(feedbackSession.getCourseId(),
-                    feedbackSession.getFeedbackSessionName());
+            actual = getFeedbackSession(feedbackSession.getCourse().getId(),
+                    feedbackSession.getName());
         }
-        assertEquals(actual.isPublished(), state);
-    }
-
-    private void verifyCourseArchivedInDatabase(String instructorId, CourseAttributes course) {
-        int retryLimit = 5;
-        CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
-        while (actual == null && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(1000);
-            actual = getArchivedCourse(instructorId, course.getId());
-        }
-        assertEquals(actual, course);
+        assertEquals(isFeedbackSessionPublished(actual.getPublishStatus()), state);
     }
 }

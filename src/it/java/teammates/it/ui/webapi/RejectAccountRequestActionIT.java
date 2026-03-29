@@ -1,9 +1,7 @@
 package teammates.it.ui.webapi;
 
-import java.util.List;
 import java.util.UUID;
 
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -17,6 +15,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.Course;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestRejectionRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -50,7 +49,9 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
-        // no need to call super.setUp() because the action handles its own transactions
+        super.setUp();
+        persistDataBundle(typicalBundle);
+        HibernateUtil.flushSession();
     }
 
     @Override
@@ -72,7 +73,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     protected void testExecute_withReasonTitleAndBody_shouldRejectWithEmail()
             throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest accountRequest = logic.createAccountRequestWithTransaction(bundleAccountRequest.getName(),
+        AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
                 AccountRequestStatus.PENDING, bundleAccountRequest.getComments());
         UUID id = accountRequest.getId();
@@ -105,7 +106,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     protected void testExecute_withoutReasonTitleAndBody_shouldRejectWithoutEmail()
             throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest accountRequest = logic.createAccountRequestWithTransaction(bundleAccountRequest.getName(),
+        AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
                 AccountRequestStatus.PENDING, bundleAccountRequest.getComments());
         UUID id = accountRequest.getId();
@@ -131,9 +132,9 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     @Test
     protected void testExecute_withReasonBodyButNoTitle_shouldThrow() throws InvalidParametersException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest accountRequest = logic.createAccountRequestWithTransaction(bundleAccountRequest.getName(),
+        AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
-                bundleAccountRequest.getStatus(), bundleAccountRequest.getComments());
+                AccountRequestStatus.PENDING, bundleAccountRequest.getComments());
         UUID id = accountRequest.getId();
 
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, TYPICAL_BODY);
@@ -148,9 +149,9 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     @Test
     protected void testExecute_withReasonTitleButNoBody_shouldThrow() throws InvalidParametersException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest accountRequest = logic.createAccountRequestWithTransaction(bundleAccountRequest.getName(),
+        AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
-                bundleAccountRequest.getStatus(), bundleAccountRequest.getComments());
+                AccountRequestStatus.PENDING, bundleAccountRequest.getComments());
         UUID id = accountRequest.getId();
 
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(TYPICAL_TITLE, null);
@@ -163,28 +164,16 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_alreadyRejected_shouldNotSendEmail()
-            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
+    protected void testExecute_alreadyRejected_shouldThrow() throws InvalidParametersException {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest accountRequest = logic.createAccountRequestWithTransaction(bundleAccountRequest.getName(),
+        AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
                 AccountRequestStatus.REJECTED, bundleAccountRequest.getComments());
         UUID id = accountRequest.getId();
-
-        AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
-        RejectAccountRequestAction action = getAction(requestBody, params);
-        JsonResult result = action.execute();
-
-        assertEquals(result.getStatusCode(), 200);
-
-        AccountRequestData data = (AccountRequestData) result.getOutput();
-        assertEquals(accountRequest.getName(), data.getName());
-        assertEquals(accountRequest.getEmail(), data.getEmail());
-        assertEquals(accountRequest.getInstitute(), data.getInstitute());
-        assertEquals(accountRequest.getStatus(), data.getStatus());
-        assertEquals(accountRequest.getComments(), data.getComments());
+        InvalidOperationException ioe = verifyInvalidOperation(params);
+        assertEquals("Account request with id " + id + " is not in pending state and cannot be rejected.", ioe.getMessage());
 
         verifyNoEmailsSent();
     }
@@ -213,17 +202,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     @Override
     @Test
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
-        verifyOnlyAdminCanAccessWithTransaction();
-    }
-
-    @Override
-    @AfterMethod
-    protected void tearDown() {
-        HibernateUtil.beginTransaction();
-        List<AccountRequest> accountRequests = logic.getAllAccountRequests();
-        for (AccountRequest ar : accountRequests) {
-            logic.deleteAccountRequest(ar.getId());
-        }
-        HibernateUtil.commitTransaction();
+        Course course = typicalBundle.courses.get("course1");
+        verifyOnlyAdminCanAccess(course);
     }
 }

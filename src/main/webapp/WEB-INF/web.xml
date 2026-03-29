@@ -38,28 +38,6 @@
         <url-pattern>/auto/*</url-pattern>
         <url-pattern>/worker/*</url-pattern>
     </filter-mapping>
-    <filter>
-        <filter-name>ObjectifyFilter</filter-name>
-        <filter-class>teammates.ui.servlets.ObjectifyFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>ObjectifyFilter</filter-name>
-        <url-pattern>/webapi/*</url-pattern>
-        <url-pattern>/auto/*</url-pattern>
-        <url-pattern>/worker/*</url-pattern>
-    </filter-mapping>
-    <listener>
-        <listener-class>teammates.storage.api.OfyHelper</listener-class>
-    </listener>
-    <listener>
-        <listener-class>teammates.storage.search.SearchManagerStarter</listener-class>
-    </listener>
-    <listener>
-        <listener-class>teammates.storage.sqlsearch.SearchManagerStarter</listener-class>
-    </listener>
-    <listener>
-        <listener-class>teammates.logic.core.LogicStarter</listener-class>
-    </listener>
     <listener>
         <listener-class>teammates.sqllogic.core.LogicStarter</listener-class>
     </listener>
@@ -136,16 +114,6 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <description>Servlet that handles mapping from legacy URL to new one</description>
-        <servlet-name>LegacyUrlMapper</servlet-name>
-        <servlet-class>teammates.ui.servlets.LegacyUrlMapper</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LegacyUrlMapper</servlet-name>
-        <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
 
     <context-param>

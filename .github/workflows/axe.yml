@@ -10,15 +10,19 @@ on:
       - master
       - release
   workflow_dispatch:
-  
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  axe-testing:
+  axe-tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         browser: [firefox]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -28,7 +32,7 @@ jobs:
           distribution: temurin
           java-version: 21
       - name: Cache Gradle packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -38,7 +42,7 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Update Property File
         run: mv src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
-      - name: Run Solr search service + local Datastore emulator
+      - name: Start Docker services
         run: docker compose up -d
       - name: Create Config Files
         run: ./gradlew createConfigs testClasses generateTypes
@@ -50,5 +54,5 @@ jobs:
         run: |
           ./gradlew serverRun &
           ./wait-for-server.sh
-      - name: Start Tests
+      - name: Start Axe Tests
         run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew axeTests

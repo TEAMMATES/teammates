@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorSessionIndividualExtensionPage;
+import teammates.e2e.pageobjects.InstructorSessionIndividualExtensionPageSql;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE}.
@@ -15,10 +15,8 @@ public class InstructorSessionIndividualExtensionPageAxeTest extends BaseAxeTest
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETest.json");
+        testData = loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETestSql.json");
         removeAndRestoreDataBundle(testData);
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                loadSqlDataBundle("/InstructorSessionIndividualExtensionPageE2ETest_SqlEntities.json"));
     }
 
     @Test
@@ -26,10 +24,10 @@ public class InstructorSessionIndividualExtensionPageAxeTest extends BaseAxeTest
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE)
                 .withCourseId(testData.courses.get("course").getId())
-                .withSessionName(testData.feedbackSessions.get("firstSession").getFeedbackSessionName());
+                .withSessionName(testData.feedbackSessions.get("firstSession").getName());
 
-        InstructorSessionIndividualExtensionPage individualExtensionPage =
-                loginToPage(url, InstructorSessionIndividualExtensionPage.class,
+        InstructorSessionIndividualExtensionPageSql individualExtensionPage =
+                loginToPage(url, InstructorSessionIndividualExtensionPageSql.class,
                 testData.instructors.get("ISesIe.instructor1").getGoogleId());
 
         Results results = getAxeBuilder().analyze(individualExtensionPage.getBrowser().getDriver());

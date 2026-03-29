@@ -33,8 +33,6 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
-import teammates.storage.sqlsearch.InstructorSearchManager;
-import teammates.storage.sqlsearch.StudentSearchManager;
 import teammates.ui.request.InstructorCreateRequest;
 
 /**
@@ -84,28 +82,6 @@ public final class UsersLogic {
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
-    }
-
-    private InstructorSearchManager getInstructorSearchManager() {
-        return usersDb.getInstructorSearchManager();
-    }
-
-    private StudentSearchManager getStudentSearchManager() {
-        return usersDb.getStudentSearchManager();
-    }
-
-    /**
-     * Creates or updates search document for the given instructor.
-     */
-    public void putInstructorDocument(Instructor instructor) throws SearchServiceException {
-        getInstructorSearchManager().putDocument(instructor);
-    }
-
-    /**
-     * Creates or updates search document for the given student.
-     */
-    public void putStudentDocument(Student student) throws SearchServiceException {
-        getStudentSearchManager().putDocument(student);
     }
 
     /**
@@ -356,6 +332,16 @@ public final class UsersLogic {
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         assert googleId != null;
         return usersDb.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Gets a non-soft-deleted instructor with the specified email and institute.
+     */
+    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
+        assert email != null;
+        assert institute != null;
+
+        return usersDb.getInstructorByEmailAndInstitute(email, institute);
     }
 
     /**
