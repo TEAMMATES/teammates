@@ -3,7 +3,6 @@ package teammates.logic.external;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
 
 import com.mailjet.client.ClientOptions;
 import com.mailjet.client.MailjetClient;
@@ -16,6 +15,7 @@ import teammates.common.exception.EmailSendingException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.HtmlHelper;
 
 /**
  * Email sender service provided by Mailjet.
@@ -46,7 +46,7 @@ public class MailjetService implements EmailSenderService {
         request.property(Email.HEADERS, new JSONObject().put("Reply-To", wrapper.getReplyTo()));
         request.property(Email.SUBJECT, wrapper.getSubject());
         request.property(Email.HTMLPART, wrapper.getContent());
-        request.property(Email.TEXTPART, Jsoup.parse(wrapper.getContent()).text());
+        request.property(Email.TEXTPART, HtmlHelper.htmlToPlainText(wrapper.getContent()));
         return request;
     }
 
