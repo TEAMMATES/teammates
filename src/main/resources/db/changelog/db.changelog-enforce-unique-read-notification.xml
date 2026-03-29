@@ -7,12 +7,16 @@
 
     <changeSet id="v9.0.0-beta.8-remove-duplicate-read-notification-entries" author="Florian Viorel Tanely">
         <sql>
-            DELETE FROM read_notifications
-            WHERE id NOT IN (
-                SELECT MIN(id)
+            WITH numbered AS (
+                SELECT id,
+                       ROW_NUMBER() OVER (
+                           PARTITION BY account_id, notification_id
+                           ORDER BY created_at, id
+                       ) as duplicate_rank
                 FROM read_notifications
-                GROUP BY account_id, notification_id
-            );
+            )
+            DELETE FROM read_notifications
+            WHERE id IN (SELECT id FROM numbered WHERE duplicate_rank > 1);
         </sql>
     </changeSet>
 
