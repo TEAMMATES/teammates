@@ -1,7 +1,9 @@
 package teammates.sqllogic.core;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -148,7 +150,10 @@ public final class AccountsLogic {
         }
 
         ReadNotification readNotification = new ReadNotification(account, notification);
-        account.addReadNotification(readNotification);
+        Set<ReadNotification> readNotifications = new HashSet<>(account.getReadNotifications());
+        if (!readNotifications.contains(readNotification)) {
+            account.addReadNotification(readNotification);
+        }
 
         return account.getReadNotifications().stream()
                 .map(n -> n.getNotification().getId())

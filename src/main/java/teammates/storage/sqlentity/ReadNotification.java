@@ -9,13 +9,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLInsert;
 
 /**
  * Represents an association class between Accounts and Notifications.
  * Keeps track of which Notifications have been read by an Account.
  */
 @Entity
-@Table(name = "ReadNotifications")
+@Table(
+        name = "ReadNotifications",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"account_id", "notification_id"}))
+@SQLInsert(
+        sql = "INSERT INTO read_notifications (account_id, created_at, id, notification_id) "
+                + "VALUES (?, ?, ?, ?) ON CONFLICT (account_id, notification_id) DO NOTHING ",
+        check = ResultCheckStyle.NONE
+)
 public class ReadNotification extends BaseEntity {
     @Id
     private UUID id;
