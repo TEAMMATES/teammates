@@ -152,6 +152,9 @@ public final class Config {
     /** {@code true} when {@link #APP_ENV} is {@code development} (case-insensitive). */
     public static final boolean IS_DEV_SERVER;
 
+    private static final int LEGACY_ENCRYPTION_KEY_HEX_LENGTH = 32;
+    private static final int ENCRYPTION_KEY_HEX_LENGTH = 64;
+
     private static final Logger log = Logger.getLogger();
 
     static {
@@ -190,6 +193,7 @@ public final class Config {
         POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
         ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
+        validateEncryptionKey();
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
         OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
         OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
@@ -224,6 +228,27 @@ public final class Config {
 
     private Config() {
         // access static fields directly
+    }
+
+    private static void validateEncryptionKey() {
+        if (ENCRYPTION_KEY == null) {
+            throw new IllegalStateException("Missing app.encryption.key in build.properties/build-dev.properties");
+        }
+
+        if (!ENCRYPTION_KEY.matches("[0-9A-Fa-f]+") || ENCRYPTION_KEY.length() % 2 != 0) {
+            throw new IllegalStateException("app.encryption.key must be a valid hexadecimal string with 64 chars "
+                    + "(32 bytes)");
+        }
+
+        if (ENCRYPTION_KEY.length() == LEGACY_ENCRYPTION_KEY_HEX_LENGTH) {
+            // TODO: Remove this migration guard after all active environments have switched to 32-byte keys.
+            throw new IllegalStateException("Detected legacy 16-byte app.encryption.key (32 hex chars). "
+                    + "Update app.encryption.key to 32 bytes (64 hex chars) and reset the DB.");
+        }
+
+        if (ENCRYPTION_KEY.length() != ENCRYPTION_KEY_HEX_LENGTH) {
+            throw new IllegalStateException("app.encryption.key must be exactly 64 hex chars (32 bytes)");
+        }
     }
 
     /**
