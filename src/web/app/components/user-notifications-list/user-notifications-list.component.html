@@ -19,12 +19,12 @@
 <tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load notifications'" (retryEvent)="loadNotifications()">
   <div *tmIsLoading="isLoadingNotifications">
     <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="!hasUnreadNotifications && !isLoadingNotifications">
-      There are no active notifications.
+      There are no unread notifications.
     </div>
   </div>
   <ng-container>
     <div id="notification-tabs">
-      <div *ngFor="let notificationTab of notificationTabs" [hidden]="notificationTab.isRead">
+      <div *ngFor="let notificationTab of notificationTabs">
         <div [id]="notificationTab.notification.notificationId" class="card">
           <div class="card-header cursor-pointer mb-0" [ngClass]="notificationTab.notification.style | notificationStyleClass" (click)="toggleCard(notificationTab)">
             <strong class="text-break">{{notificationTab.notification.title}} [{{notificationTab.startDate}} - {{notificationTab.endDate}}]</strong>

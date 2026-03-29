@@ -69,6 +69,23 @@ public class StudentNotificationsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("notification banner is not visible");
         assertFalse(notificationsPage.isBannerVisible());
+
+        ______TS("mark all notifications as read");
+        notificationsPage.markAllNotificationsAsRead();
+        notificationsPage.verifyStatusMessage("All notifications marked as read!");
+    
+        try {
+            Thread.sleep(2000); 
+        } catch (InterruptedException e) {
+            throw new RuntimeException("E2E Test interrupted during Thread.sleep", e);
+        }
+        
+        AccountData updatedAccountFromDb = BACKDOOR.getAccountData(account.getGoogleId());
+        Notification notification1 = sqlTestData.notifications.get("notification1");
+        Notification notification4 = sqlTestData.notifications.get("notification4");
+
+        assertTrue(updatedAccountFromDb.getReadNotifications().containsKey(notification1.getId().toString()));
+        assertTrue(updatedAccountFromDb.getReadNotifications().containsKey(notification4.getId().toString()));
     }
 
     @AfterClass
