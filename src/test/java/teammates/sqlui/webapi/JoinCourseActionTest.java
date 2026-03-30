@@ -74,7 +74,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.joinCourseForStudent("registered-key-student", "unreg-student")).thenReturn(stubStudent);
         when(mockLogic.getCourse(stubStudent.getCourseId())).thenReturn(stubCourse);
         when(mockSqlEmailGenerator.generateUserCourseRegisteredEmail(stubStudent.getName(), stubStudent.getEmail(),
-                "unreg-student", false, stubCourse)).thenReturn(stubEmailWrapper);
+                false, stubCourse)).thenReturn(stubEmailWrapper);
         String[] params = {
                 Const.ParamsNames.REGKEY, "registered-key-student",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
@@ -146,7 +146,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 .thenReturn(stubInstructor);
         when(mockLogic.getCourse(stubInstructor.getCourseId())).thenReturn(stubCourse);
         when(mockSqlEmailGenerator.generateUserCourseRegisteredEmail(stubInstructor.getName(), stubInstructor.getEmail(),
-                "unreg-instructor", true, stubCourse)).thenReturn(stubEmailWrapper);
+                true, stubCourse)).thenReturn(stubEmailWrapper);
         String[] params = {
                 Const.ParamsNames.REGKEY, "registered-key-instructor",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,

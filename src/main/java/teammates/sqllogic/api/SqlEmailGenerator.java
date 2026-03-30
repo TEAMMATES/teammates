@@ -1033,13 +1033,12 @@ public final class SqlEmailGenerator {
      * Generates the course registered email for the user with the given details in {@code course}.
      */
     public EmailWrapper generateUserCourseRegisteredEmail(
-            String name, String emailAddress, String accountId, boolean isInstructor, Course course) {
+            String name, String emailAddress, boolean isInstructor, Course course) {
         String emailBody = Templates.populateTemplate(EmailTemplates.USER_COURSE_REGISTER,
                 "${userName}", SanitizationHelper.sanitizeForHtml(name),
                 "${userType}", isInstructor ? "an instructor" : "a student",
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${accountId}", SanitizationHelper.sanitizeForHtml(accountId),
                 "${appUrl}", isInstructor
                         ? Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).toAbsoluteString()
                         : Config.getFrontEndAppUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).toAbsoluteString(),
