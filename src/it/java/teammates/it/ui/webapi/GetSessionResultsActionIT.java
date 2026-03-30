@@ -51,7 +51,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     @Test
     protected void testExecute() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         ______TS("Typical: Instructor accesses results of their course");
 
@@ -134,7 +134,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         ______TS("Typical: Student accesses results of their course");
 
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
@@ -157,7 +157,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         ______TS("Typical: Student accesses results of their course by questionId");
 
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
 
         FeedbackQuestion question = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
 
@@ -205,7 +205,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.getGoogleId());
+        loginAsStudent(student1InCourse1.getAccountId());
         verifyCannotAccess(submissionParams);
 
         ______TS("Accessible for authenticated instructor when published");
@@ -317,7 +317,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
 
-        loginAsStudent(student1InCourse1.getGoogleId());
+        loginAsStudent(student1InCourse1.getAccountId());
         verifyCanAccess(submissionParams);
     }
 
@@ -332,7 +332,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, unpublishedFeedbackSession.getName(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
-        loginAsStudent(student1InCourse1.getGoogleId());
+        loginAsStudent(student1InCourse1.getAccountId());
         verifyCannotAccess(submissionParams);
     }
 
@@ -348,7 +348,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         };
 
         loginAsAdmin();
-        verifyCanMasquerade(student1InCourse1.getGoogleId(), submissionParams);
+        verifyCanMasquerade(student1InCourse1.getAccountId(), submissionParams);
     }
 
     @Test
@@ -364,7 +364,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
 
-        loginAsStudent(studentInOtherCourse.getGoogleId());
+        loginAsStudent(studentInOtherCourse.getAccountId());
         verifyCannotAccess(submissionParams);
 
         // Malicious api call using course Id of the student to bypass the check

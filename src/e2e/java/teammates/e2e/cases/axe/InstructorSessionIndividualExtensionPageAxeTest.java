@@ -28,7 +28,7 @@ public class InstructorSessionIndividualExtensionPageAxeTest extends BaseAxeTest
 
         InstructorSessionIndividualExtensionPageSql individualExtensionPage =
                 loginToPage(url, InstructorSessionIndividualExtensionPageSql.class,
-                testData.instructors.get("ISesIe.instructor1").getGoogleId());
+                testData.instructors.get("ISesIe.instructor1").getAccountId());
 
         Results results = getAxeBuilder().analyze(individualExtensionPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

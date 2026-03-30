@@ -28,7 +28,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        String instructorId = testData.accounts.get("instructor1OfCourse1").getGoogleId();
+        String instructorId = testData.accounts.get("instructor1OfCourse1").getAccountId();
         AppUrl searchPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE);
 
         InstructorSearchPageSql searchPage = loginToPage(searchPageUrl, InstructorSearchPageSql.class, instructorId);

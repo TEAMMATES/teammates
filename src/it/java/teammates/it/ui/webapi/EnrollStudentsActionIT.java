@@ -66,7 +66,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         Team team = logic.getTeamOrCreate(section, "Team 1");
         Student newStudent = new Student(course, "Test Student", "test@email.com", "Test Comment", team);
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,

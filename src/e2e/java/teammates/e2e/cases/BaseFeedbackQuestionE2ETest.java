@@ -37,7 +37,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getName());
 
-        return loginToPage(url, InstructorFeedbackEditPageSql.class, instructor.getGoogleId());
+        return loginToPage(url, InstructorFeedbackEditPageSql.class, instructor.getAccountId());
     }
 
     FeedbackSubmitPageSql loginToFeedbackSubmitPage() {
@@ -45,7 +45,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
                 .withCourseId(student.getCourse().getId())
                 .withSessionName(feedbackSession.getName());
 
-        return loginToPage(url, FeedbackSubmitPageSql.class, student.getGoogleId());
+        return loginToPage(url, FeedbackSubmitPageSql.class, student.getAccountId());
     }
 
     FeedbackSubmitPageSql getFeedbackSubmitPage() {

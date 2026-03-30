@@ -25,7 +25,7 @@ public class InstructorFeedbackSessionsPageAxeTest extends BaseAxeTestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
         InstructorFeedbackSessionsPageSql feedbackSessionsPage =
                 loginToPage(url, InstructorFeedbackSessionsPageSql.class,
-                testData.instructors.get("IFSessionPage.instr1").getGoogleId());
+                testData.instructors.get("IFSessionPage.instr1").getAccountId());
 
         Results results = getAxeBuilder().analyze(feedbackSessionsPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

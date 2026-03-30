@@ -26,7 +26,7 @@ public class FeedbackSubmitPageAxeTest extends BaseAxeTestCase {
                 .withSessionName(testData.feedbackSessions.get("Open Session").getName());
 
         FeedbackSubmitPageSql feedbackSubmitPage = loginToPage(url, FeedbackSubmitPageSql.class,
-                testData.students.get("alice.tmms@FSubmit.CS2104").getGoogleId());
+                testData.students.get("alice.tmms@FSubmit.CS2104").getAccountId());
 
         Results results = getAxeBuilder().analyze(feedbackSubmitPage.getBrowser().getDriver());
         assertViolationFree(results);

@@ -50,9 +50,9 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
                 studentHomePageLink);
         searchPage.verifyStudentExpandedLinks(student, numExpandedRows);
 
-        ______TS("Typical case: Reset student google id");
-        searchPage.resetStudentGoogleId(student);
-        student.setGoogleId(null);
+        ______TS("Typical case: Reset student account");
+        searchPage.resetStudentAccountId(student);
+        student.setAccount(null);
         searchPage.verifyStudentRowContentAfterReset(student, course);
 
         ______TS("Typical case: Regenerate registration key for a course student");
@@ -73,8 +73,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
                 instructorHomePageLink);
         searchPage.verifyInstructorExpandedLinks(instructor);
 
-        ______TS("Typical case: Reset instructor google id");
-        searchPage.resetInstructorGoogleId(instructor);
+        ______TS("Typical case: Reset instructor account");
+        searchPage.resetInstructorAccountId(instructor);
         searchPage.verifyInstructorRowContentAfterReset(instructor, course);
 
         ______TS("Typical case: Regenerate registration key for an instructor");
@@ -225,14 +225,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     private String getExpectedStudentHomePageLink(Student student) {
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
-                .withUserId(student.getGoogleId())
+                .withUserId(student.getAccountId())
                 .toAbsoluteString()
                 : "";
     }
 
     private String getExpectedStudentManageAccountLink(Student student) {
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.getGoogleId())
+                .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.getAccountId())
                 .toAbsoluteString()
                 : "";
     }
@@ -251,16 +251,16 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedInstructorHomePageLink(Instructor instructor) {
-        String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
+        String accountId = instructor.isRegistered() ? instructor.getAccountId() : "";
         return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                .withUserId(googleId)
+                .withUserId(accountId)
                 .toAbsoluteString();
     }
 
     private String getExpectedInstructorManageAccountLink(Instructor instructor) {
-        String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
+        String accountId = instructor.isRegistered() ? instructor.getAccountId() : "";
         return createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
+                .withParam(Const.ParamsNames.INSTRUCTOR_ID, accountId)
                 .toAbsoluteString();
     }
 

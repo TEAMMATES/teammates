@@ -24,7 +24,7 @@ public class InstructorCourseEnrollPageAxeTest extends BaseAxeTestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                 .withCourseId(testData.courses.get("ICEnroll.CS2104").getId());
         InstructorCourseEnrollPageSql enrollPage = loginToPage(url, InstructorCourseEnrollPageSql.class,
-                testData.instructors.get("ICEnroll.teammates.test").getGoogleId());
+                testData.instructors.get("ICEnroll.teammates.test").getAccountId());
 
         // These rules are disabled due to Handsontable, which is yet to support accessibility.
         Results results = getAxeBuilder(

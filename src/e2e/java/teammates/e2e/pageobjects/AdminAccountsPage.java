@@ -16,7 +16,7 @@ import teammates.ui.output.AccountData;
  */
 public class AdminAccountsPage extends AppPage {
 
-    @FindBy(id = "account-google-id")
+    @FindBy(id = "account-account-id")
     private WebElement accountId;
 
     @FindBy(id = "account-name")
@@ -44,7 +44,7 @@ public class AdminAccountsPage extends AppPage {
     }
 
     public void verifyAccountDetails(AccountData account) {
-        assertEquals(account.getGoogleId(), accountId.getText());
+        assertEquals(account.getAccountId(), accountId.getText());
         assertEquals(account.getName(), accountName.getText());
         assertEquals(account.getEmail(), accountEmail.getText());
     }

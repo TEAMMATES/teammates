@@ -26,7 +26,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                 .withCourseId(testData.courses.get("ICEnroll.CS2104").getId());
         InstructorCourseEnrollPageSql enrollPage = loginToPage(url, InstructorCourseEnrollPageSql.class,
-                testData.instructors.get("ICEnroll.teammates.test").getGoogleId());
+                testData.instructors.get("ICEnroll.teammates.test").getAccountId());
         Course course = testData.courses.get("ICEnroll.CS2104");
         Team team1 = testData.teams.get("tm.e2e.ICEnroll.courseICEnroll.CS2104-SectionA-Team1");
         Team team2 = testData.teams.get("tm.e2e.ICEnroll.courseICEnroll.CS2104-SectionB-Team2");

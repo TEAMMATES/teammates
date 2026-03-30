@@ -42,7 +42,7 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
         Course course = typicalBundle.courses.get("course1");
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor.getAccount().getAccountId());
 
         ______TS("Typical Success Case with INSTRUCTOR_SUBMISSION");
         String[] params = {
@@ -55,7 +55,7 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
         assertEquals(instructor.getName(), response.getName());
-        assertNull(response.getGoogleId());
+        assertNull(response.getAccountId());
         assertNull(response.getKey());
 
         ______TS("Typical Success Case with FULL_DETAIL");
@@ -96,7 +96,7 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("only instructors of the same course with correct privilege can access");
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor.getAccount().getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),

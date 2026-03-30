@@ -27,7 +27,7 @@ public class InstructorCourseStudentDetailsPageAxeTest extends BaseAxeTestCase {
                 .withStudentEmail(testData.students.get("ICSDet.jose.tmms").getEmail());
         InstructorCourseStudentDetailsViewPageSql viewPage =
                 loginToPage(viewPageUrl, InstructorCourseStudentDetailsViewPageSql.class,
-                testData.instructors.get("ICSDet.instr").getGoogleId());
+                testData.instructors.get("ICSDet.instr").getAccountId());
 
         Results results = getAxeBuilder().analyze(viewPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

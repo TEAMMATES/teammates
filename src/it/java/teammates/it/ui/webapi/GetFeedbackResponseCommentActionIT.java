@@ -60,7 +60,7 @@ public class GetFeedbackResponseCommentActionIT extends BaseActionIT<GetFeedback
     protected void testAccessControl() throws Exception {
         ______TS("typical success case as student_submission");
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.getGoogleId());
+        loginAsStudent(student1InCourse1.getAccountId());
 
         FeedbackResponse fr = typicalBundle.feedbackResponses.get("response1ForQ1");
 

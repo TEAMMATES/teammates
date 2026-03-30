@@ -42,7 +42,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
     @Test
     protected void testExecute() {
         Instructor instructorToEdit = typicalBundle.instructors.get("instructor2OfCourse1");
-        String instructorId = instructorToEdit.getGoogleId();
+        String instructorId = instructorToEdit.getAccountId();
         String courseId = instructorToEdit.getCourseId();
         String instructorDisplayName = instructorToEdit.getDisplayName();
 
@@ -67,7 +67,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
-        Instructor editedInstructor = logic.getInstructorByGoogleId(courseId, instructorId);
+        Instructor editedInstructor = logic.getInstructorByAccountId(courseId, instructorId);
         assertEquals(newInstructorName, editedInstructor.getName());
         assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, editedInstructor.getEmail());
@@ -95,9 +95,9 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         instructorToEdit = typicalBundle.instructors.get("instructor1OfCourse3");
 
-        loginAsInstructor(instructorToEdit.getGoogleId());
+        loginAsInstructor(instructorToEdit.getAccountId());
 
-        reqBody = new InstructorCreateRequest(instructorToEdit.getGoogleId(), instructorToEdit.getName(),
+        reqBody = new InstructorCreateRequest(instructorToEdit.getAccountId(), instructorToEdit.getName(),
                 instructorToEdit.getEmail(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 null, false);
 
@@ -124,7 +124,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         response = (InstructorData) actionOutput.getOutput();
 
-        editedInstructor = logic.getInstructorByGoogleId(courseId, instructorId);
+        editedInstructor = logic.getInstructorByAccountId(courseId, instructorId);
         assertEquals(newInstructorEmail, editedInstructor.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
         assertEquals(newInstructorName, editedInstructor.getName());

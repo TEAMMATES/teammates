@@ -26,7 +26,7 @@ public class InstructorNotificationsPageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl notificationsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_NOTIFICATIONS_PAGE);
         InstructorNotificationsPage notificationsPage = loginToPage(notificationsPageUrl, InstructorNotificationsPage.class,
-                testData.accounts.get("INotifs.instr").getGoogleId());
+                testData.accounts.get("INotifs.instr").getAccountId());
 
         Results results = getAxeBuilder().analyze(notificationsPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

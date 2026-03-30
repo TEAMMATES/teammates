@@ -26,7 +26,7 @@ public class StudentCourseDetailsPageAxeTest extends BaseAxeTestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
                 .withCourseId("tm.e2e.SCDet.CS2104");
         StudentCourseDetailsPageSql detailsPage = loginToPage(url, StudentCourseDetailsPageSql.class,
-                testData.students.get("SCDet.alice").getGoogleId());
+                testData.students.get("SCDet.alice").getAccountId());
 
         Results results = getAxeBuilder().analyze(detailsPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

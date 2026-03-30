@@ -28,7 +28,7 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
         AppUrl viewPageUrl = getStudentDetailsViewPageUrl(student.getEmail());
         InstructorCourseStudentDetailsViewPageSql viewPage =
                 loginToPage(viewPageUrl, InstructorCourseStudentDetailsViewPageSql.class,
-                        testData.instructors.get("ICSDet.instr").getGoogleId());
+                        testData.instructors.get("ICSDet.instr").getAccountId());
 
         viewPage.verifyStudentDetails(student);
     }

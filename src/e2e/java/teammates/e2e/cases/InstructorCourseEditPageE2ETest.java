@@ -38,7 +38,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
         InstructorCourseEditPageSql editPage =
-                loginToPage(url, InstructorCourseEditPageSql.class, instructors[2].getGoogleId());
+                loginToPage(url, InstructorCourseEditPageSql.class, instructors[2].getAccountId());
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
@@ -50,7 +50,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         logout();
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
-        editPage = loginToPage(url, InstructorCourseEditPageSql.class, instructors[3].getGoogleId());
+        editPage = loginToPage(url, InstructorCourseEditPageSql.class, instructors[3].getAccountId());
 
         editPage.verifyCourseDetails(course);
         editPage.verifyInstructorDetails(instructors[0]);

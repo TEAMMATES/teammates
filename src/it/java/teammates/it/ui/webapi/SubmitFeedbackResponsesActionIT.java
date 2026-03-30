@@ -66,7 +66,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private Instructor loginInstructor(String instructorId) {
         Instructor instructor = getInstructor(instructorId);
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         HibernateUtil.flushSession();
         return instructor;
     }
@@ -87,7 +87,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private Student loginStudent(String studentId) {
         Student student = getStudent(studentId);
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
         HibernateUtil.flushSession();
         return student;
     }
@@ -502,7 +502,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         questionNumber = 2;
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
-        verifyCanMasquerade(student.getGoogleId(), submissionParams);
+        verifyCanMasquerade(student.getAccountId(), submissionParams);
 
         ______TS("Typical success with instructor: instructor answers question with correct giver");
         loginInstructor("instructor1OfCourse1");
@@ -567,7 +567,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         questionNumber = 4;
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
-        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
+        verifyCanMasquerade(instructor.getAccountId(), submissionParams);
 
         ______TS("Failure with instructor: instructor logged in as student");
         loginStudent("student1InCourse1");
@@ -590,7 +590,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCanAccess(submissionParams);
-        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
+        verifyCanMasquerade(instructor.getAccountId(), submissionParams);
 
         ______TS("Failure with instructor: instructor has no modify session comment privileges");
         loginInstructor("instructor1OfCourse1");
@@ -603,7 +603,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(instructor.getAccountId(), submissionParams);
 
         // Reset privileges
         setSubmitSessionInSectionsInstructorPrivilege(session, instructor, true);

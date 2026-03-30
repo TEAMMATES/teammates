@@ -116,7 +116,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        String instructorId = testData.accounts.get("ICs.instructor").getGoogleId();
+        String instructorId = testData.accounts.get("ICs.instructor").getAccountId();
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
         InstructorCoursesPageSql coursesPage = loginToPage(url, InstructorCoursesPageSql.class, instructorId);
 
@@ -238,7 +238,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 teams.add(student.getTeamName());
                 numTeams++;
             }
-            if (student.getGoogleId() == null || student.getGoogleId().isEmpty()) {
+            if (student.getAccountId() == null || student.getAccountId().isEmpty()) {
                 numUnregistered++;
             }
             numStudents++;

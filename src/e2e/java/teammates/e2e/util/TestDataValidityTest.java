@@ -34,7 +34,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <p>
  * For the above reason, the following fields are checked:
  * <ul>
- * <li>Account Google ID</li>
+ * <li>Account id (UUID in SQL bundles; bundle map key is for references only)</li>
  * <li>Course ID</li>
  * <li>Student email</li>
  * <li>Instructor email</li>
@@ -76,10 +76,11 @@ public class TestDataValidityTest extends BaseTestCase {
                 String testPage = extractTestPage(path.getFileName().toString());
                 SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
 
-                dataBundle.accounts.forEach((id, account) -> {
-                    if (!isValidTestGoogleId(account.getGoogleId(), testPage)) {
+                dataBundle.accounts.forEach((bundleKey, account) -> {
+                    String accountId = account.getId() != null ? account.getId().toString() : bundleKey;
+                    if (!isValidTestAccountId(accountId, testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid account google ID: " + account.getGoogleId());
+                                .add("Invalid account id: " + accountId);
                     }
 
                     if (!isValidTestEmail(account.getEmail())) {
@@ -96,9 +97,9 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.students.forEach((id, student) -> {
-                    if (!isValidTestGoogleId(student.getGoogleId(), testPage)) {
+                    if (!isValidTestAccountId(student.getAccountId(), testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid student google ID: " + student.getGoogleId());
+                                .add("Invalid student account id: " + student.getAccountId());
                     }
 
                     if (!isValidTestEmail(student.getEmail())) {
@@ -108,11 +109,6 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.instructors.forEach((id, instructor) -> {
-                    if (!isValidTestGoogleId(instructor.getGoogleId(), testPage)) {
-                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid instructor google ID: " + instructor.getGoogleId());
-                    }
-
                     if (!isValidTestEmail(instructor.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid instructor email: " + instructor.getEmail());
@@ -195,14 +191,18 @@ public class TestDataValidityTest extends BaseTestCase {
                 || isUuidCourseId) && courseId.length() < 64;
     }
 
-    private boolean isValidTestGoogleId(String googleId, String testPage) {
-        if (googleId == null || "".equals(googleId)) {
-            // Empty google ID is always acceptable
+    private boolean isValidTestAccountId(String accountId, String testPage) {
+        if (accountId == null || "".equals(accountId)) {
+            // Empty account id is always acceptable
             return true;
         }
+        // Some SQL fixtures use fixed UUID account ids (similar to course ids).
+        boolean isUuidAccountId = accountId.matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-"
+                + "[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
         // SQL fixtures include both page-derived IDs and some legacy tm.e2e.* variants.
-        return (googleId.matches(constructIdRegex(testPage)) || googleId.startsWith("tm.e2e."))
-                && googleId.length() < 64;
+        return (accountId.matches(constructIdRegex(testPage)) || accountId.startsWith("tm.e2e.")
+                || isUuidAccountId)
+                && accountId.length() < 64;
     }
 
     private String extractTestPage(String fileName) {

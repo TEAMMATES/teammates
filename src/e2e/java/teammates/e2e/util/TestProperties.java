@@ -24,7 +24,7 @@ public final class TestProperties {
     /** The value of "test.app.backend.url" in test.properties file. */
     public static final String TEAMMATES_BACKEND_URL;
 
-    /** The Google ID of user with admin permission. */
+    /** The account id of user with admin permission. */
     public static final String TEST_ADMIN;
 
     /** The email address used for testing that emails are sent by the system. */

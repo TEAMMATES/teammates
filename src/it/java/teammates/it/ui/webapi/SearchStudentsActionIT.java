@@ -73,7 +73,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         loginAsAdmin();
         verifyHttpParameterFailure(instructorParams);
 
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getAccountId());
         verifyHttpParameterFailure(adminParams);
     }
 
@@ -141,14 +141,14 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
     }
 
     @Test
-    public void execute_instructorSearchGoogleId_matchOnlyStudentsInCourse() {
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        String[] googleIdParams = new String[] {
+    public void execute_instructorSearch_matchOnlyStudentsInCourse() {
+        loginAsInstructor(instructor1OfCourse1.getAccountId());
+        String[] searchParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "student1",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        SearchStudentsAction a = getAction(googleIdParams);
+        SearchStudentsAction a = getAction(searchParams);
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
         assertEquals(3, response.getStudents().size());
@@ -156,7 +156,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
 
     @Test
         public void execute_searchWithoutSearchService_shouldSucceed() {
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getAccountId());
         String[] params = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "student1",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,

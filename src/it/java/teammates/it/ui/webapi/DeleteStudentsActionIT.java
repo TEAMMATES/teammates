@@ -44,7 +44,7 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
         int deleteLimit = 4;
 
         ______TS("Typical Success Case delete a limited number of students");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         List<Student> studentsToDelete = logic.getStudentsForCourse(courseId);
 

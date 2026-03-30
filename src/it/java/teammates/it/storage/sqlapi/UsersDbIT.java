@@ -50,14 +50,14 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         section.addTeam(team);
         coursesDb.updateCourse(course);
 
-        Account instructorAccount = new Account("instructor-account", "instructor-name", "valid-instructor@email.tmt");
+        Account instructorAccount = new Account("instructor-name", "valid-instructor@email.tmt");
         accountsDb.createAccount(instructorAccount);
         instructor = getTypicalInstructor();
         instructor.setCourse(course);
         usersDb.createInstructor(instructor);
         instructor.setAccount(instructorAccount);
 
-        Account studentAccount = new Account("student-account", "student-name", "valid-student@email.tmt");
+        Account studentAccount = new Account("student-name", "valid-student@email.tmt");
         accountsDb.createAccount(studentAccount);
         student = getTypicalStudent();
         student.setCourse(course);
@@ -95,13 +95,13 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         actualInstructor = usersDb.getInstructorByRegKey("invalid-reg-key");
         assertNull(actualInstructor);
 
-        ______TS("success: gets an instructor by googleId");
-        actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(),
-                instructor.getAccount().getGoogleId());
+        ______TS("success: gets an instructor by accountId");
+        actualInstructor = usersDb.getInstructorByAccountId(instructor.getCourseId(),
+                instructor.getAccount().getAccountId());
         verifyEquals(instructor, actualInstructor);
 
-        ______TS("success: gets an instructor by googleId that does not exist");
-        actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(), "invalid-google id");
+        ______TS("success: gets an instructor by accountId that does not exist");
+        actualInstructor = usersDb.getInstructorByAccountId(instructor.getCourseId(), "invalid-account-id");
         assertNull(actualInstructor);
     }
 
@@ -132,19 +132,19 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         actualStudent = usersDb.getStudentByRegKey("invalid-reg-key");
         assertNull(actualStudent);
 
-        ______TS("success: gets a student by googleId");
-        actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), student.getAccount().getGoogleId());
+        ______TS("success: gets a student by accountId");
+        actualStudent = usersDb.getStudentByAccountId(student.getCourseId(), student.getAccount().getAccountId());
         verifyEquals(student, actualStudent);
 
-        ______TS("success: gets a student by googleId that does not exist");
-        actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), "invalid-google id");
+        ______TS("success: gets a student by accountId that does not exist");
+        actualStudent = usersDb.getStudentByAccountId(student.getCourseId(), "invalid-account-id");
         assertNull(actualStudent);
     }
 
     @Test
-    public void testGetAllUsersByGoogleId() throws InvalidParametersException, EntityAlreadyExistsException {
-        ______TS("success: gets all instructors and students by googleId");
-        Account userSharedAccount = new Account("user-account", "user-name", "valid-user@email.tmt");
+    public void testGetAllUsersByAccountId() throws InvalidParametersException, EntityAlreadyExistsException {
+        ______TS("success: gets all instructors and students by accountId");
+        Account userSharedAccount = new Account("user-name", "valid-user@email.tmt");
         accountsDb.createAccount(userSharedAccount);
 
         Instructor firstInstructor = getTypicalInstructor();
@@ -167,20 +167,20 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         usersDb.createStudent(secondStudent);
         secondStudent.setAccount(userSharedAccount);
 
-        List<User> users = usersDb.getAllUsersByGoogleId(userSharedAccount.getGoogleId());
+        List<User> users = usersDb.getAllUsersByAccountId(userSharedAccount.getAccountId());
         assertEquals(4, users.size());
         assertTrue(List.of(firstInstructor, secondInstructor, firstStudent, secondStudent).containsAll(users));
 
-        List<Instructor> instructors = usersDb.getAllInstructorsByGoogleId(userSharedAccount.getGoogleId());
+        List<Instructor> instructors = usersDb.getAllInstructorsByAccountId(userSharedAccount.getAccountId());
         assertEquals(2, instructors.size());
         assertTrue(List.of(firstInstructor, secondInstructor).containsAll(instructors));
 
-        List<Student> students = usersDb.getAllStudentsByGoogleId(userSharedAccount.getGoogleId());
+        List<Student> students = usersDb.getAllStudentsByAccountId(userSharedAccount.getAccountId());
         assertEquals(2, students.size());
         assertTrue(List.of(firstStudent, secondStudent).containsAll(students));
 
-        ______TS("success: gets all instructors and students by googleId that does not exist");
-        List<User> emptyUsers = usersDb.getAllUsersByGoogleId("non-exist-id");
+        ______TS("success: gets all instructors and students by account id that does not exist");
+        List<User> emptyUsers = usersDb.getAllUsersByAccountId("00000000-0000-4000-8000-00000000dead");
 
         assertEquals(0, emptyUsers.size());
     }
@@ -264,11 +264,11 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetStudentsByGoogleId()
+    public void testGetStudentsByAccountId()
             throws EntityAlreadyExistsException, InvalidParametersException {
         Course course2 = new Course("course-id-2", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         Student student2 = getTypicalStudent();
-        Account account = new Account("google-id", student.getName(), student.getEmail());
+        Account account = new Account(student.getName(), student.getEmail());
 
         accountsDb.createAccount(account);
         coursesDb.createCourse(course2);
@@ -279,7 +279,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         List<Student> expectedStudents = List.of(student, student2);
 
-        List<Student> actualStudents = usersDb.getStudentsByGoogleId(student.getGoogleId());
+        List<Student> actualStudents = usersDb.getStudentsByAccountId(student.getAccountId());
 
         assertEquals(expectedStudents.size(), actualStudents.size());
         assertTrue(expectedStudents.containsAll(actualStudents));

@@ -45,7 +45,7 @@ public class CreateFeedbackResponseCommentActionIT extends BaseActionIT<CreateFe
         ______TS("Successful case: student submission");
         Student student = typicalBundle.students.get("student1InCourse1");
         FeedbackResponse fr = typicalBundle.feedbackResponses.get("response1ForQ1InSession2");
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
@@ -79,7 +79,7 @@ public class CreateFeedbackResponseCommentActionIT extends BaseActionIT<CreateFe
 
         ______TS("students access own response to give comments");
 
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
         verifyCanAccess(submissionParamsStudentToStudents);
     }
 

@@ -41,17 +41,17 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         Student studentYetToJoinCourse = typicalBundle.students.get("student2YetToJoinCourse4");
         String student1RegKey =
                 getRegKeyForStudent(studentYetToJoinCourse.getCourseId(), studentYetToJoinCourse.getEmail());
-        String loggedInGoogleIdStu = "AccLogicT.student.id";
+        String loggedInStudentAccountId = "AccLogicT.student.id";
 
         Instructor instructorYetToJoinCourse = typicalBundle.instructors.get("instructor2YetToJoinCourse4");
         String instructor1RegKey =
                 getRegKeyForInstructor(instructorYetToJoinCourse.getCourseId(), instructorYetToJoinCourse.getEmail());
 
-        String loggedInGoogleIdInst = "AccLogicT.instr.id";
+        String loggedInInstructorAccountId = "AccLogicT.instr.id";
 
         ______TS("success: student joins course");
 
-        loginAsUnregistered(loggedInGoogleIdStu);
+        loginAsUnregistered(loggedInStudentAccountId);
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, student1RegKey,
@@ -81,7 +81,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
 
         ______TS("success: instructor joins course");
 
-        loginAsUnregistered(loggedInGoogleIdInst);
+        loginAsUnregistered(loggedInInstructorAccountId);
 
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, instructor1RegKey,

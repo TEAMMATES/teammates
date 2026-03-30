@@ -41,7 +41,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
     @Override
     protected void testExecute() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.getGoogleId();
+        String instructorId = instructor1OfCourse1.getAccountId();
         Course course = typicalBundle.courses.get("course1");
         FeedbackSession fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
 
