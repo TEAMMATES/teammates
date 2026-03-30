@@ -37,7 +37,7 @@ describe('SearchService', () => {
     email: 'alice.b.tmms@gmail.tmt',
     courseId: 'dog.gma-demo',
     name: 'Alice Betsy',
-    googleId: 'alice.b.tmms.sampleData',
+    accountId: 'alice.b.tmms.sampleData',
     comments: "This student's name is Alice Betsy",
     key: 'keyheehee',
     institute: 'NUS',
@@ -47,7 +47,7 @@ describe('SearchService', () => {
   };
 
   const mockInstructorA: Instructor = {
-    googleId: 'test@example.com',
+    accountId: 'test@example.com',
     courseId: 'dog.gma-demo',
     email: 'dog@gmail.com',
     isDisplayedToStudents: true,
@@ -59,7 +59,7 @@ describe('SearchService', () => {
   };
 
   const mockInstructorB: Instructor = {
-    googleId: 'insB',
+    accountId: 'insB',
     courseId: 'dog.gma-demo',
     email: 'cat@gmail.com',
     isDisplayedToStudents: true,
@@ -71,7 +71,7 @@ describe('SearchService', () => {
   };
 
   const mockInstructorC: Instructor = {
-    googleId: 'insC',
+    accountId: 'insC',
     courseId: 'dog.gma-demo',
     email: 'animal@gmail.com',
     isDisplayedToStudents: true,

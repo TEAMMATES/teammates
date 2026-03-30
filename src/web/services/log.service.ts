@@ -122,8 +122,8 @@ export class LogService {
     }
 
     if (queryParams.userInfoParams) {
-      if (queryParams.userInfoParams.googleId) {
-        paramMap['googleid'] = queryParams.userInfoParams.googleId;
+      if (queryParams.userInfoParams.accountId) {
+        paramMap['accountid'] = queryParams.userInfoParams.accountId;
       }
 
       if (queryParams.userInfoParams.regkey) {

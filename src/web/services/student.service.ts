@@ -80,11 +80,11 @@ export class StudentService {
    * Deletes a student in a course by calling API.
    */
   deleteStudent(queryParams: {
-    googleId: string,
+    accountId: string,
     courseId: string,
   }): Observable<any> {
     const paramsMap: Record<string, string> = {
-      googleid: queryParams.googleId,
+      accountid: queryParams.accountId,
       courseid: queryParams.courseId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);

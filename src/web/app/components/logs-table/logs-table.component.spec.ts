@@ -139,7 +139,7 @@ describe('LogsTableComponent', () => {
 
     it('should emit addUserInfoEvent with provided user info', () => {
       const userInfo: RequestLogUser = {
-        googleId: 'instructor.gid',
+        accountId: '00000000-0000-4000-8000-0000000000a1',
         email: 'instructor@teammates.tmt',
       } as any;
       const emitSpy = jest.spyOn(component.addUserInfoEvent, 'emit');

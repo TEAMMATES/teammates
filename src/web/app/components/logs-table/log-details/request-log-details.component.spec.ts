@@ -32,7 +32,7 @@ describe('RequestLogDetailsComponent', () => {
     const expectedUserInfo: RequestLogUser = {
       regkey: 'test_regkey',
       email: 'test_email@gmail.com',
-      googleId: 'test_googleId',
+      accountId: '00000000-0000-4000-8000-0000000000b2',
     };
     const inputLogDetails: Required<RequestLogDetails> = {
       responseStatus: 200,

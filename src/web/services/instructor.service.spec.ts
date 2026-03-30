@@ -24,7 +24,7 @@ const defaultRequestBody: InstructorCreateRequest = {
 
 const defaultInstructors: Instructors = {
   instructors: [{
-    googleId: '',
+    accountId: '',
     courseId: 'CS3281',
     email: '',
     isDisplayedToStudents: true,
@@ -33,7 +33,7 @@ const defaultInstructors: Instructors = {
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     joinState: JoinState.JOINED,
   }, {
-    googleId: '',
+    accountId: '',
     courseId: 'CS3282',
     email: '',
     isDisplayedToStudents: true,

@@ -24,7 +24,7 @@ const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
 const instructorAccountSearchResultBuilder = createBuilder<InstructorAccountSearchResult>({
   name: 'name',
   email: 'email',
-  googleId: 'googleId',
+  accountId: 'accountId',
   courseId: 'courseId',
   courseName: 'courseName',
   isCourseDeleted: false,
@@ -74,21 +74,21 @@ describe('RejectWithReasonModal', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('replaceGoogleId: should set the googleId to an empty string if no instructor accounts are found', () => {
+  it('replaceAccountIdPlaceholder: should set the accountId to an empty string if no instructor accounts are found', () => {
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
       students: [],
       instructors: [],
       accountRequests: [],
     }));
 
-    component.replaceGoogleId();
+    component.replaceAccountIdPlaceholder();
 
-    expect(component.existingAccount.googleId).toEqual('');
+    expect(component.existingAccount.accountId).toEqual('');
   });
 
-  it('replaceGoogleId: should set the googleId to the instructor accounts googleId '
+  it('replaceAccountIdPlaceholder: should set the accountId to the instructor accounts accountId '
   + 'if an instructor account is found', () => {
-    const testInstructor = instructorAccountSearchResultBuilder.googleId('instructorGoogleId').build();
+    const testInstructor = instructorAccountSearchResultBuilder.accountId('instructor-account-id').build();
 
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
       students: [],
@@ -96,9 +96,9 @@ describe('RejectWithReasonModal', () => {
       accountRequests: [],
     }));
 
-    component.replaceGoogleId();
+    component.replaceAccountIdPlaceholder();
 
-    expect(component.existingAccount.googleId).toEqual('instructorGoogleId');
+    expect(component.existingAccount.accountId).toEqual('instructor-account-id');
   });
 
   it('reject: should show error message when title is empty upon submitting', () => {

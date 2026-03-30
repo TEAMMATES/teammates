@@ -34,7 +34,7 @@ const testStudent: Student = {
 const testInstructor: Instructor = {
   courseId: course.courseId,
   joinState: JoinState.JOINED,
-  googleId: 'Hock',
+  accountId: 'Hock',
   name: 'Hock',
   email: 'hock@gmail.com',
   role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -86,7 +86,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     const coOwner: Instructor = {
       courseId: course.courseId,
       joinState: JoinState.JOINED,
-      googleId: 'Hodor',
+      accountId: 'Hodor',
       name: 'Hodor',
       email: 'hodor@gmail.com',
       role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -115,7 +115,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     const coOwner: Instructor = {
       courseId: course.courseId,
       joinState: JoinState.JOINED,
-      googleId: 'Bran',
+      accountId: 'Bran',
       name: 'Bran',
       email: 'bran@gmail.com',
       role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,

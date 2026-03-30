@@ -27,7 +27,7 @@ export class AdminAccountsPageComponent implements OnInit {
   instructorCourses: Course[] = [];
   studentCourses: Course[] = [];
   accountInfo: Account = {
-    googleId: '',
+    accountId: '',
     name: '',
     email: '',
     readNotifications: {},
@@ -106,11 +106,11 @@ export class AdminAccountsPageComponent implements OnInit {
    * Deletes the entire account.
    */
   deleteAccount(): void {
-    const id: string = this.accountInfo.googleId;
+    const id: string = this.accountInfo.accountId;
     this.accountService.deleteAccount(id).subscribe({
       next: () => {
         this.navigationService.navigateWithSuccessMessage('/web/admin/search',
-            `Account "${id}" is successfully deleted.`);
+            `Account for ${this.accountInfo.email} has been successfully deleted.`);
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -124,7 +124,7 @@ export class AdminAccountsPageComponent implements OnInit {
   removeStudentFromCourse(courseId: string): void {
     this.studentService.deleteStudent({
       courseId,
-      googleId: this.accountInfo.googleId,
+      accountId: this.accountInfo.accountId,
     }).subscribe({
       next: () => {
         this.studentCourses = this.studentCourses.filter((course: Course) => course.courseId !== courseId);
@@ -142,7 +142,7 @@ export class AdminAccountsPageComponent implements OnInit {
   removeInstructorFromCourse(courseId: string): void {
     this.instructorService.deleteInstructor({
       courseId,
-      instructorId: this.accountInfo.googleId,
+      instructorId: this.accountInfo.accountId,
     }).subscribe({
       next: () => {
         this.instructorCourses = this.instructorCourses.filter((course: Course) => course.courseId !== courseId);

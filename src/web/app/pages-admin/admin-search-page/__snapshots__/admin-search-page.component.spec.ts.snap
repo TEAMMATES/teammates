@@ -96,7 +96,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               Name
             </th>
             <th>
-              Google ID
+              Account ID
             </th>
             <th>
               Institute
@@ -168,7 +168,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Google ID 
+                 Reset Account ID 
               </a>
               <br />
               <button
@@ -227,7 +227,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               Name
             </th>
             <th>
-              Google ID
+              Account ID
             </th>
             <th>
               Institute
@@ -309,7 +309,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Google ID 
+                 Reset Account ID 
               </a>
               <br />
               <button
@@ -484,7 +484,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
               Name
             </th>
             <th>
-              Google ID
+              Account ID
             </th>
             <th>
               Institute
@@ -553,7 +553,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Google ID 
+                 Reset Account ID 
               </a>
               <br />
               <button
@@ -743,7 +743,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               Name
             </th>
             <th>
-              Google ID
+              Account ID
             </th>
             <th>
               Institute
@@ -822,7 +822,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Google ID 
+                 Reset Account ID 
               </a>
               <br />
               <button

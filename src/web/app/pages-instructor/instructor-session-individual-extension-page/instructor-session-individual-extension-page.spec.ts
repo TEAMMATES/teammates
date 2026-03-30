@@ -88,7 +88,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   const testInstructor1: Instructor = {
     name: 'tester1',
     email: 'tester1@tester.com',
-    googleId: 'instructor-google-id',
+    accountId: 'instructor-google-id',
     courseId: 'test-exa.demo',
     institute: 'institute',
     joinState: JoinState.JOINED,
@@ -96,7 +96,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   const testInstructor2: Instructor = {
     name: 'tester2HasExtension',
     email: 'tester2@tester.com',
-    googleId: 'instructor-google-id',
+    accountId: 'instructor-google-id',
     courseId: 'test-exa.demo',
     institute: 'institute',
     joinState: JoinState.JOINED,

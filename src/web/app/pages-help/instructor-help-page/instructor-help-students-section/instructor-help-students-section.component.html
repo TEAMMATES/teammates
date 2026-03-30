@@ -160,11 +160,11 @@
     <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT)"
       [id]="StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT"
       [section]="Sections.students"
-      headerText="Is it compulsory for students to use Google accounts?"
+      headerText="Is it compulsory for students to log in to TEAMMATES?"
       [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]">
       <p>
-        Students can submit feedback and view results without having to log in to TEAMMATES, unless they choose to link their Google account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and results.
-        However, the following non-essential features are available only to users who have joined a TEAMMATES course using a Google account:
+        Students can submit feedback and view results without having to log in to TEAMMATES, unless they choose to link an account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and results.
+        However, the following non-essential features are available only to users who have joined a TEAMMATES course with a linked login:
       </p>
       <ol>
         <li>
@@ -179,11 +179,11 @@
     <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(StudentsSectionQuestions.STUDENT_CHANGE_ID)"
       [id]="StudentsSectionQuestions.STUDENT_CHANGE_ID"
       [section]="Sections.students"
-      headerText="How do I change the Google ID associated with a student?"
+      headerText="How do I change the account linked to a student?"
       [(isPanelExpanded)]="questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID]">
       <p>
-        At the moment, there is no way for students to update their own (or instructors to update their students') Google IDs.
-        <br> Please ask the student to <a href="mailto:{{ supportEmail }}">contact us</a> for assistance changing his/her Google ID.
+        At the moment, there is no way for students to update their own (or instructors to update their students') linked accounts from the UI.
+        <br> Please ask the student to <a href="mailto:{{ supportEmail }}">contact us</a> for assistance changing their linked account.
       </p>
     </tm-instructor-help-panel>
   </div>

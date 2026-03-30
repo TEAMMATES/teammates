@@ -110,7 +110,7 @@ export class LogsPageComponent implements OnInit {
       version: '',
       traceId: '',
       userInfoParams: {
-        googleId: '',
+        accountId: '',
         email: '',
         regkey: '',
       },
@@ -397,7 +397,7 @@ export class LogsPageComponent implements OnInit {
   addUserInfoToFilter(userInfo: RequestLogUser): void {
     this.isFiltersExpanded = true;
     this.formModel.filters.userInfoParams = {
-      googleId: userInfo.googleId,
+      accountId: userInfo.accountId,
       regkey: userInfo.regkey,
       email: userInfo.email,
     };
@@ -408,7 +408,7 @@ export class LogsPageComponent implements OnInit {
   clearFilters(): void {
     this.formModel.filters.traceId = '';
     this.formModel.filters.userInfoParams = {
-      googleId: '',
+      accountId: '',
       regkey: '',
       email: '',
     };

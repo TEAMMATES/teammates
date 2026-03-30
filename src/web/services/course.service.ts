@@ -77,10 +77,10 @@ export class CourseService {
   /**
    * Get student courses data of a given google id in masquerade mode by calling API.
    */
-  getStudentCoursesInMasqueradeMode(googleId: string): Observable<Courses> {
+  getStudentCoursesInMasqueradeMode(accountId: string): Observable<Courses> {
     const paramMap: Record<string, string> = {
       entitytype: 'student',
-      user: googleId,
+      user: accountId,
     };
     return this.httpRequestService.get(ResourceEndpoints.COURSES, paramMap);
   }
@@ -88,11 +88,11 @@ export class CourseService {
   /**
    * Get instructor courses data of a given google id in masquerade mode by calling API.
    */
-  getInstructorCoursesInMasqueradeMode(googleId: string): Observable<Courses> {
+  getInstructorCoursesInMasqueradeMode(accountId: string): Observable<Courses> {
     const activeCoursesParamMap: Record<string, string> = {
       coursestatus: 'active',
       entitytype: 'instructor',
-      user: googleId,
+      user: accountId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.COURSES, activeCoursesParamMap);
