@@ -102,7 +102,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         when(mockLogic.getTeamOrCreate(section, "team")).thenReturn(team);
         when(mockLogic.getSectionOrCreate(course.getId(), "section")).thenReturn(section);
         when(mockLogic.updateStudentCascade(
-                argThat(argument -> Objects.equals(argument.getName(), newStudent.getName())
+                argThat(argument -> argument != null
+                        && Objects.equals(argument.getName(), newStudent.getName())
                         && Objects.equals(argument.getEmail(), newStudent.getEmail())
                         && Objects.equals(argument.getTeam(), newStudent.getTeam())
                         && Objects.equals(argument.getSection(), newStudent.getSection())))).thenReturn(newStudent);
@@ -136,7 +137,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         when(mockLogic.getTeamOrCreate(section, "team")).thenReturn(team);
         when(mockLogic.getSectionOrCreate(course.getId(), "section")).thenReturn(section);
         when(mockLogic.updateStudentCascade(
-                argThat(argument -> Objects.equals(argument.getName(), requestStudent.getName())
+                argThat(argument -> argument != null
+                        && Objects.equals(argument.getName(), requestStudent.getName())
                         && Objects.equals(argument.getEmail(), "email.com")
                         && Objects.equals(argument.getTeam(), requestStudent.getTeam())
                         && Objects.equals(argument.getSection(), requestStudent.getSection())))).thenReturn(updatedStudent);
