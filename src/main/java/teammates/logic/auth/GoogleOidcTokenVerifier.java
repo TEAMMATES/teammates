@@ -13,6 +13,10 @@ import teammates.common.util.Config;
 
 /**
  * Verifies Google OIDC ID tokens and exposes {@code iss}, {@code sub}, and profile claims.
+ *
+ * <p>Verification is delegated to {@link GoogleIdTokenVerifier} from the Google API Client library.
+ * Unit tests cover malformed tokens only; successful verification with a real signed token is
+ * left to manual or environment-specific checks.</p>
  */
 public final class GoogleOidcTokenVerifier {
 
@@ -30,7 +34,7 @@ public final class GoogleOidcTokenVerifier {
     public static GoogleIdToken verify(String idTokenString) {
         try {
             return VERIFIER.verify(idTokenString);
-        } catch (IOException | GeneralSecurityException e) {
+        } catch (IOException | GeneralSecurityException | IllegalArgumentException e) {
             return null;
         }
     }

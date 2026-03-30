@@ -84,10 +84,10 @@ public final class Config {
     /** Value of {@code app.captcha.secretkey}. */
     public static final String CAPTCHA_SECRET_KEY;
 
-    /** Value of {@code app.admins} (comma-separated in the property file). */
+    /** Value of {@code app.admins}: comma-separated internal account UUID strings (SQL {@code accounts.id}). */
     public static final List<String> APP_ADMINS;
 
-    /** Value of {@code app.maintainers} (comma-separated in the property file). */
+    /** Value of {@code app.maintainers}: comma-separated internal account UUID strings (same format as {@link #APP_ADMINS}). */
     public static final List<String> APP_MAINTAINERS;
 
     /** Value of {@code app.crashreport.email}. */
@@ -307,7 +307,7 @@ public final class Config {
     }
 
     /**
-     * Returns the list of admin account identifiers from {@code app.admins}.
+     * Returns the list of admin account ids (internal UUID strings) from {@code app.admins}.
      * TODO: refactor all direct accesses to the field to this method call for consistency.
      */
     public static List<String> getAppAdmins() {
@@ -315,7 +315,7 @@ public final class Config {
     }
 
     /**
-     * Returns the list of maintainer account identifiers from {@code app.maintainers}.
+     * Returns the list of maintainer account ids (internal UUID strings) from {@code app.maintainers}.
      * TODO: refactor all direct accesses to the field with this method call for consistency.
      */
     public static List<String> getAppMaintainers() {

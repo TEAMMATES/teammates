@@ -1,6 +1,8 @@
 package teammates.sqllogic.core;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,10 +15,12 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.User;
@@ -202,5 +206,79 @@ public class AccountsLogicTest extends BaseTestCase {
             assertEquals(readNotifications.get(i).getNotification().getId(),
                     actualReadNotifications.get(i));
         }
+    }
+
+    @Test
+    public void testResolveOrCreateAccountFromOidc_existingIdentity_returnsSameAccount()
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        String issuer = "https://accounts.google.com";
+        String subject = "oidc-subject-existing";
+        Account existingAccount = getTypicalAccount();
+        AccountIdentity identity = new AccountIdentity(issuer, subject);
+        identity.setAccount(existingAccount);
+
+        when(accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject)).thenReturn(identity);
+
+        Account result = accountsLogic.resolveOrCreateAccountFromOidc(issuer, subject, "other@email.com", "Other");
+
+        assertSame(existingAccount, result);
+        verify(accountsDb, never()).createAccount(any(Account.class));
+    }
+
+    @Test
+    public void testResolveOrCreateAccountFromOidc_newIdentity_createsAccountWithIdentity()
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        String issuer = "https://accounts.google.com";
+        String subject = "oidc-subject-new";
+        String email = "new.user@teammates.tmt";
+        String name = "New User";
+
+        when(accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject)).thenReturn(null);
+        when(accountsDb.createAccount(any(Account.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Account result = accountsLogic.resolveOrCreateAccountFromOidc(issuer, subject, email, name);
+
+        assertEquals(email, result.getEmail());
+        assertEquals(name, result.getName());
+        assertEquals(1, result.getIdentities().size());
+        assertEquals(issuer, result.getIdentities().get(0).getIssuer());
+        assertEquals(subject, result.getIdentities().get(0).getSubject());
+        assertSame(result, result.getIdentities().get(0).getAccount());
+        verify(accountsDb, times(1)).createAccount(result);
+    }
+
+    @Test
+    public void testLinkAccountIdentity_noExistingIdentity_createsAndReturnsIdentity()
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Account account = getTypicalAccount();
+        String issuer = "https://login.microsoftonline.com/tenant/v2.0";
+        String subject = "ms-subject-1";
+
+        when(accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject)).thenReturn(null);
+        when(accountsDb.createAccountIdentity(any(AccountIdentity.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+        AccountIdentity linked = accountsLogic.linkAccountIdentity(account, issuer, subject);
+
+        assertEquals(issuer, linked.getIssuer());
+        assertEquals(subject, linked.getSubject());
+        assertSame(account, linked.getAccount());
+        verify(accountsDb, times(1)).createAccountIdentity(linked);
+    }
+
+    @Test
+    public void testLinkAccountIdentity_identityAlreadyLinked_throwsEntityAlreadyExistsException()
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Account account = getTypicalAccount();
+        String issuer = "https://accounts.google.com";
+        String subject = "dup-subject";
+        AccountIdentity existing = new AccountIdentity(issuer, subject);
+
+        when(accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject)).thenReturn(existing);
+
+        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
+                () -> accountsLogic.linkAccountIdentity(account, issuer, subject));
+        assertEquals("Identity already linked to an account.", ex.getMessage());
+        verify(accountsDb, never()).createAccountIdentity(any(AccountIdentity.class));
     }
 }
