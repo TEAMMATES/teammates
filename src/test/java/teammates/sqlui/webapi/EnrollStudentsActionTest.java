@@ -120,7 +120,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
-    public void testExecute_studentAlreadyEnrolled_updateStudent_caseInsensitiveEmail() throws Exception {
+    public void testExecute_studentAlreadyEnrolled_caseInsensitiveEmail() throws Exception {
         Instructor instructor = getTypicalInstructor();
         instructor.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
         loginAsInstructor(instructor.getGoogleId());

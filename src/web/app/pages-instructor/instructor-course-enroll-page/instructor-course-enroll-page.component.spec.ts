@@ -70,7 +70,7 @@ describe('InstructorCourseEnrollPageComponent', () => {
 
     expect(panels[EnrollStatus.MODIFIED].studentList).toEqual([enrolledStudent]);
     expect(panels[EnrollStatus.ERROR].studentList).toEqual([]);
-    expect(component.modifiedStudentRowsIndex.has(0)).toBeTrue();
+    expect(component.modifiedStudentRowsIndex.has(0)).toBe(true);
   });
 
   it('should detect duplicate enroll emails case-insensitively', () => {

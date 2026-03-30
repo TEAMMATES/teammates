@@ -604,7 +604,7 @@ public final class UsersDb {
         Root<Student> studentRoot = cr.from(Student.class);
 
         cr.select(studentRoot)
-            .where(cb.equal(cb.lower(studentRoot.get("email")), normalizedEmail));
+                .where(cb.equal(cb.lower(studentRoot.get("email")), normalizedEmail));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
