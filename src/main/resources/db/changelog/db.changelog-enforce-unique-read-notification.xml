@@ -5,6 +5,13 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
+    <changeSet id="v9.0.0-beta.8-remove-invalid-read-notification-entries" author="Florian Viorel Tanely">
+        <sql>
+            DELETE FROM read_notifications
+            WHERE account_id IS NULL OR notification_id IS NULL;
+        </sql>
+    </changeSet>
+
     <changeSet id="v9.0.0-beta.8-remove-duplicate-read-notification-entries" author="Florian Viorel Tanely">
         <sql>
             WITH numbered AS (
