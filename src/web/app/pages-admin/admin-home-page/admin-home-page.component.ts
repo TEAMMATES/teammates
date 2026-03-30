@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { AccountRequest, AccountRequests } from '../../../types/api-output';
+import { AccountRequests } from '../../../types/api-output';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
@@ -62,7 +62,7 @@ export class AdminHomePageComponent implements OnInit {
         instructorEmail: instructorDetailSplit[1],
         instructorInstitution: instructorDetailSplit[2],
       }).subscribe({
-        next: (resp: AccountRequest) => {
+        next: () => {
           this.statusMessageService.showSuccessToast(
               `Instructor "${instructorDetailSplit[0]}" has been successfully created`);
           this.fetchAccountRequests();
@@ -88,7 +88,7 @@ export class AdminHomePageComponent implements OnInit {
       instructorEmail: this.instructorEmail,
       instructorInstitution: this.instructorInstitution,
     }).subscribe({
-      next: (resp: AccountRequest) => {
+      next: () => {
         this.statusMessageService.showSuccessToast(`Instructor "${name}" has been successfully created`);
         this.fetchAccountRequests();
       },
