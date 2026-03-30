@@ -28,18 +28,29 @@ public final class InternalRequestAuth {
      * (including the application context path prefix when present).
      */
     public static boolean isTrustedCronOrWorkerRequest(HttpServletRequest req) {
-        return isTrustedCronOrWorkerRequest(req, Config.CRON_AND_WORKER_SECRET);
+        return isTrustedCronOrWorkerRequest(req, Config.CRON_AND_WORKER_SECRET_BYTES);
     }
 
     /**
      * Same as {@link #isTrustedCronOrWorkerRequest(HttpServletRequest)} but with an explicit expected secret
-     * (production uses {@link Config#CRON_AND_WORKER_SECRET}). Package-private for deterministic unit tests.
+     * (production uses {@link Config#CRON_AND_WORKER_SECRET_BYTES}). Package-private for deterministic unit tests.
      */
     static boolean isTrustedCronOrWorkerRequest(HttpServletRequest req, String secret) {
+        if (!isCronAndWorkerSecretWellFormed(secret)) {
+            return false;
+        }
+        return isTrustedCronOrWorkerRequest(req, secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Package-private for deterministic unit tests and for sharing logic with {@link #isTrustedCronOrWorkerRequest(
+     * HttpServletRequest, String)}.
+     */
+    static boolean isTrustedCronOrWorkerRequest(HttpServletRequest req, byte[] secretBytes) {
         if (req.getContextPath() == null) {
             return false;
         }
-        if (!isCronAndWorkerSecretWellFormed(secret)) {
+        if (secretBytes == null || secretBytes.length == 0) {
             return false;
         }
         String token = HttpRequestHelper.parseBearerTokenFromAuthorizationHeader(
@@ -47,8 +58,7 @@ public final class InternalRequestAuth {
         if (token == null || token.isEmpty()) {
             return false;
         }
-        if (!MessageDigest.isEqual(token.getBytes(StandardCharsets.UTF_8),
-                secret.getBytes(StandardCharsets.UTF_8))) {
+        if (!MessageDigest.isEqual(token.getBytes(StandardCharsets.UTF_8), secretBytes)) {
             return false;
         }
         return isCronOrWorkerPath(req);

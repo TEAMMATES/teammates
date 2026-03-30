@@ -14,11 +14,11 @@ Configure this header in your scheduler. The secret is set in `build.properties`
 
 ## Timezone
 
-All schedules below use **Asia/Singapore**. Configure your scheduler to use this timezone.
+All schedules below use **UTC**. Configure your scheduler to use this timezone.
 
 ## Format 1: Human-Readable Schedule
 
-| Endpoint | Description | Schedule (Asia/Singapore) |
+| Endpoint | Description | Schedule (UTC) |
 |----------|-------------|---------------------------|
 | `/auto/feedbackSessionOpenedReminders` | Emails for sessions that just opened | Every hour at :02 |
 | `/auto/feedbackSessionOpeningSoonReminders` | Emails for sessions opening in 24h | Every hour at :11 |
@@ -26,7 +26,6 @@ All schedules below use **Asia/Singapore**. Configure your scheduler to use this
 | `/auto/feedbackSessionClosedReminders` | Emails for sessions that just closed | Every hour at :08 |
 | `/auto/feedbackSessionPublishedReminders` | Emails for sessions just published | Every hour at :04 |
 | `/auto/calculateUsageStatistics` | Gather usage statistics | Every hour at :01 |
-| `/auto/datastoreBackup` | Monthly backup | 1st Sunday of month, 05:30 |
 | `/auto/compileLogs` | Compile severe logs, send email | Every 5 minutes |
 | `/auto/updateFeedbackSessionLogs` | Process feedback session logs | Every 15 minutes |
 
@@ -35,7 +34,7 @@ All schedules below use **Asia/Singapore**. Configure your scheduler to use this
 Use these expressions with your scheduler of choice (e.g. Google Cloud Scheduler). Build the full URL as `https://your-teammates-app.com/auto/<path>`.
 
 ```
-# Timezone: Asia/Singapore (set in your scheduler)
+# Timezone: UTC (set in your scheduler)
 # Format: cron_expression | url_path
 
 2 * * * *     | /auto/feedbackSessionOpenedReminders
@@ -44,7 +43,6 @@ Use these expressions with your scheduler of choice (e.g. Google Cloud Scheduler
 8 * * * *     | /auto/feedbackSessionClosedReminders
 4 * * * *     | /auto/feedbackSessionPublishedReminders
 1 * * * *     | /auto/calculateUsageStatistics
-30 5 1-7 * 0  | /auto/datastoreBackup
 */5 * * * *   | /auto/compileLogs
 1,16,31,46 * * * * | /auto/updateFeedbackSessionLogs
 ```
@@ -55,4 +53,4 @@ Use these expressions with your scheduler of choice (e.g. Google Cloud Scheduler
 2. URL: `https://your-teammates-app.com/auto/feedbackSessionOpenedReminders`
 3. Add header: `Authorization: Bearer <your-secret>`
 4. Schedule: `2 * * * *` (Unix cron format)
-5. Timezone: Asia/Singapore.
+5. Timezone: UTC.

@@ -2,14 +2,12 @@ package teammates.ui.servlets;
 
 import java.io.IOException;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 import org.hibernate.HibernateException;
 
 import teammates.common.exception.DeadlineExceededException;
-import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.Logger;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.ActionMappingException;
@@ -34,13 +32,19 @@ final class WebApiServletExceptionHandler {
      *
      * @return the HTTP status code produced for request logging in {@link WebApiServlet}.
      */
-    static int handleException(HttpServletRequest req, HttpServletResponse resp, Throwable t) throws IOException {
+    static int handleException(HttpServletResponse resp, Throwable t) throws IOException {
         if (t instanceof ActionMappingException) {
-            return handleActionMappingException(req, resp, (ActionMappingException) t);
+            ActionMappingException e = (ActionMappingException) t;
+            int statusCode = e.getStatusCode();
+            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
+            throwError(resp, statusCode, e.getMessage());
+            return statusCode;
         }
         if (t instanceof InvalidHttpRequestBodyException || t instanceof InvalidHttpParameterException) {
             int statusCode = HttpStatus.SC_BAD_REQUEST;
-            throwErrorBasedOnRequester(req, resp, (Exception) t, statusCode);
+            Exception e = (Exception) t;
+            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
+            throwError(resp, statusCode, e.getMessage());
             return statusCode;
         }
         if (t instanceof UnauthorizedAccessException) {
@@ -83,32 +87,6 @@ final class WebApiServletExceptionHandler {
         log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet: " + t.getMessage(), t);
         throwError(resp, statusCode, "The server encountered an error when processing your request.");
         return statusCode;
-    }
-
-    private static int handleActionMappingException(HttpServletRequest req, HttpServletResponse resp,
-            ActionMappingException e) throws IOException {
-        int statusCode = e.getStatusCode();
-        throwErrorBasedOnRequester(req, resp, e, statusCode);
-        return statusCode;
-    }
-
-    private static void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e,
-            int statusCode) throws IOException {
-        boolean isTrustedWorkerRequest = InternalRequestAuth.isTrustedCronOrWorkerRequest(req)
-                && InternalRequestAuth.isWorkerRequestPath(req);
-
-        if (isTrustedWorkerRequest) {
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
-
-            // For Cloud Tasks worker requests only: response status is not set to 4XX/5XX so the task is not
-            // retried when the failure is due to an improper request URL (retries would not help).
-            // Cron (/auto/*) requests are not included so schedulers still see real HTTP error status on failure.
-            // The action may be inaccurately marked as "success"; the severe log traces the problem.
-            throwError(resp, HttpStatus.SC_ACCEPTED, e.getMessage());
-        } else {
-            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
-            throwError(resp, statusCode, e.getMessage());
-        }
     }
 
     private static void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {

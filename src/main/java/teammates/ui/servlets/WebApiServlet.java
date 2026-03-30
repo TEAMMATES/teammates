@@ -54,7 +54,7 @@ public class WebApiServlet extends HttpServlet {
             statusCode = result.getStatusCode();
             result.send(resp);
         } catch (Throwable t) {
-            statusCode = WebApiServletExceptionHandler.handleException(req, resp, t);
+            statusCode = WebApiServletExceptionHandler.handleException(resp, t);
         } finally {
             RequestLogUser userInfo = new RequestLogUser();
             String requestBody = null;

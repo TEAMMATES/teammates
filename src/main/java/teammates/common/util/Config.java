@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -58,6 +59,13 @@ public final class Config {
      * Used by external cron providers and Cloud Tasks when calling /auto/* and /worker/* endpoints.
      * */
     public static final String CRON_AND_WORKER_SECRET;
+
+    /**
+     * UTF-8 bytes of {@link #CRON_AND_WORKER_SECRET} when that value is well-formed per
+     * {@link InternalRequestAuth#isCronAndWorkerSecretWellFormed(String)}; otherwise an empty array.
+     * Pre-computed for constant-time comparison without re-encoding on each request.
+     */
+    public static final byte[] CRON_AND_WORKER_SECRET_BYTES;
 
     /** The value of the "app.encryption.key" in build.properties file. */
     public static final String ENCRYPTION_KEY;
@@ -177,6 +185,9 @@ public final class Config {
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
         CRON_AND_WORKER_SECRET = getProperty(properties, devProperties, "app.cron.and.worker.secret");
+        CRON_AND_WORKER_SECRET_BYTES = InternalRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)
+                ? CRON_AND_WORKER_SECRET.getBytes(StandardCharsets.UTF_8)
+                : new byte[0];
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
         POSTGRES_HOST = getProperty(properties, devProperties, "app.postgres.host");
         POSTGRES_PORT = getProperty(properties, devProperties, "app.postgres.port");
