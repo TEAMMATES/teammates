@@ -28,6 +28,14 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testAreEmailsEqual() {
+        assertTrue(SanitizationHelper.areEmailsEqual(" Test@Email.COM ", "test@email.com"));
+        assertTrue(SanitizationHelper.areEmailsEqual(null, null));
+        assertFalse(SanitizationHelper.areEmailsEqual("test1@email.com", "test2@email.com"));
+        assertFalse(SanitizationHelper.areEmailsEqual("test@email.com", null));
+    }
+
+    @Test
     public void testSanitizeName() {
 
         String nameWithWhiteSpaces = "\t alice   bob \t\n";

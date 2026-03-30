@@ -23,6 +23,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { StatusMessage } from '../../components/status-message/status-message';
 import { StatusMessageComponent } from '../../components/status-message/status-message.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { areEmailsEqual, normalizeEmail } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface EnrollResultPanel {
@@ -202,11 +203,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
         if (resp.unsuccessfulEnrolls != null) {
           for (const unsuccessfulEnroll of resp.unsuccessfulEnrolls) {
-            const normalizedEmail: string = this.normalizeEmail(unsuccessfulEnroll.studentEmail);
+            const normalizedEmail: string = normalizeEmail(unsuccessfulEnroll.studentEmail);
             this.unsuccessfulEnrolls[normalizedEmail] = unsuccessfulEnroll.errorMessage;
 
             for (const index of studentEnrollRequests.keys()) {
-              if (this.normalizeEmail(studentEnrollRequests.get(index)?.email ?? '') === normalizedEmail) {
+              if (normalizeEmail(studentEnrollRequests.get(index)?.email) === normalizedEmail) {
                 this.invalidRowsIndex.add(index);
                 break;
               }
@@ -341,7 +342,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return;
       }
 
-      const normalizedEmail: string = this.normalizeEmail(request.email);
+      const normalizedEmail: string = normalizeEmail(request.email);
       if (!emailMap.has(normalizedEmail)) {
         emailMap.set(normalizedEmail, key);
         return;
@@ -390,13 +391,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     const emailToIndexMap: Map<string, number> = new Map();
     enrollRequests.forEach((enrollRequest: StudentEnrollRequest, index: number) => {
-      emailToIndexMap.set(this.normalizeEmail(enrollRequest.email), index);
+      emailToIndexMap.set(normalizeEmail(enrollRequest.email), index);
     });
 
     // Identify students not in the enroll list.
     for (const existingStudent of existingStudents) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
-        return this.normalizeEmail(student.email) === this.normalizeEmail(existingStudent.email);
+        return areEmailsEqual(student.email, existingStudent.email);
       });
       if (enrolledStudent === undefined) {
         studentLists[EnrollStatus.UNMODIFIED].push(existingStudent);
@@ -409,7 +410,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return this.isSameEnrollInformation(student, enrolledStudent);
       });
       const modifiedStudent: Student | undefined = existingStudents.find((student: Student) => {
-        return this.normalizeEmail(student.email) === this.normalizeEmail(enrolledStudent.email);
+        return areEmailsEqual(student.email, enrolledStudent.email);
       });
 
       if (unchangedStudent !== undefined) {
@@ -427,7 +428,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     // Identify students that failed to enroll.
     for (const request of enrollRequests.values()) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
-        return this.normalizeEmail(student.email) === this.normalizeEmail(request.email);
+        return areEmailsEqual(student.email, request.email);
       });
 
       if (enrolledStudent === undefined) {
@@ -468,14 +469,14 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   private addToRowsIndexSet(email: string, emailToIndexMap: Map<string, number>, rowsIndex: Set<number>): void {
-    const index: number | undefined = emailToIndexMap.get(this.normalizeEmail(email));
+    const index: number | undefined = emailToIndexMap.get(normalizeEmail(email));
     if (index !== undefined) {
       rowsIndex.add(index);
     }
   }
 
   private isSameEnrollInformation(enrolledStudent: Student, existingStudent: Student): boolean {
-    return this.normalizeEmail(enrolledStudent.email) === this.normalizeEmail(existingStudent.email)
+    return areEmailsEqual(enrolledStudent.email, existingStudent.email)
         && enrolledStudent.name === existingStudent.name
         && enrolledStudent.teamName === existingStudent.teamName
         && enrolledStudent.sectionName === existingStudent.sectionName
@@ -483,11 +484,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   getUnsuccessfulEnrollError(email: string): string | undefined {
-    return this.unsuccessfulEnrolls[this.normalizeEmail(email)];
-  }
-
-  private normalizeEmail(email: string): string {
-    return email.trim().toLowerCase();
+    return this.unsuccessfulEnrolls[normalizeEmail(email)];
   }
 
   /**

@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.net.URLEncoder;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
@@ -60,6 +61,13 @@ public final class SanitizationHelper {
     public static String sanitizeEmail(String rawEmail) {
         String trimmedEmail = StringHelper.trimIfNotNull(rawEmail);
         return trimmedEmail == null ? null : trimmedEmail.toLowerCase(Locale.ROOT);
+    }
+
+    /**
+     * Returns true if two email addresses are equal after trimming and lowercasing.
+     */
+    public static boolean areEmailsEqual(String firstEmail, String secondEmail) {
+        return Objects.equals(sanitizeEmail(firstEmail), sanitizeEmail(secondEmail));
     }
 
     /**
