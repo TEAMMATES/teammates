@@ -43,7 +43,7 @@ public class GetHasResponsesAction extends Action {
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                    sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()),
                     sqlLogic.getCourse(courseId));
 
             return;
@@ -55,7 +55,7 @@ public class GetHasResponsesAction extends Action {
 
         if (feedbackSessionName != null) {
             gateKeeper.verifyAccessible(
-                    sqlLogic.getStudentByGoogleId(courseId, userInfo.getId()),
+                    sqlLogic.getStudentByAccountId(courseId, userInfo.getId()),
                     getNonNullFeedbackSession(feedbackSessionName, courseId));
         }
 
@@ -73,7 +73,7 @@ public class GetHasResponsesAction extends Action {
             }
 
             gateKeeper.verifyAccessible(
-                    sqlLogic.getStudentByGoogleId(courseId, userInfo.getId()),
+                    sqlLogic.getStudentByAccountId(courseId, userInfo.getId()),
                     feedbackSession);
         }
     }
@@ -93,7 +93,7 @@ public class GetHasResponsesAction extends Action {
         if (feedbackSessionName == null) {
             // check all sessions in the course
             List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
-            Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+            Student student = sqlLogic.getStudentByAccountId(courseId, userInfo.getId());
 
             Map<String, Boolean> sessionsHasResponses = new HashMap<>();
             for (FeedbackSession feedbackSession : feedbackSessions) {
@@ -110,7 +110,7 @@ public class GetHasResponsesAction extends Action {
 
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
-        Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+        Student student = sqlLogic.getStudentByAccountId(courseId, userInfo.getId());
         return new JsonResult(new HasResponsesData(
                 sqlLogic.isFeedbackSessionAttemptedByStudent(
                         feedbackSession, student.getEmail(), student.getTeamName())));
@@ -161,7 +161,7 @@ public class GetHasResponsesAction extends Action {
 
         FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
         gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()),
                 feedbackSession);
     }
 }

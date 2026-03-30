@@ -89,20 +89,20 @@ public class QueryLogsAction extends AdminOnlyAction {
         String status = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_STATUS);
         String version = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_VERSION);
         String order = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ORDER);
-        String googleId = null;
+        String accountId = null;
         String regkey = null;
         String email = null;
         String extraFilters = null;
 
         if (userInfo.isAdmin) {
-            googleId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
+            accountId = getRequestParamValue(Const.ParamsNames.ACCOUNT_ID);
             regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
             email = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EMAIL);
             extraFilters = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXTRA_FILTERS);
         }
 
         RequestLogUser userInfoParams = new RequestLogUser();
-        userInfoParams.setGoogleId(googleId);
+        userInfoParams.setAccountId(accountId);
         userInfoParams.setRegkey(regkey);
         userInfoParams.setEmail(email);
 

@@ -26,7 +26,7 @@ public class DeleteStudentAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
                 instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
@@ -34,14 +34,14 @@ public class DeleteStudentAction extends Action {
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
+        String accountId = getRequestParamValue(Const.ParamsNames.ACCOUNT_ID);
 
         String studentEmail = null;
 
-        if (studentId == null) {
+        if (accountId == null) {
             studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         } else {
-            Student student = sqlLogic.getStudentByGoogleId(courseId, studentId);
+            Student student = sqlLogic.getStudentByAccountId(courseId, accountId);
             if (student != null) {
                 studentEmail = student.getEmail();
             }

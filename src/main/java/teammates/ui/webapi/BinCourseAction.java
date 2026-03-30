@@ -24,7 +24,7 @@ public class BinCourseAction extends Action {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Course course = sqlLogic.getCourse(idOfCourseToBin);
-        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToBin, userInfo.id),
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByAccountId(idOfCourseToBin, userInfo.id),
                 course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 

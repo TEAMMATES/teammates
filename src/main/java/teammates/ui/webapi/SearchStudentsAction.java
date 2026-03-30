@@ -37,7 +37,7 @@ public class SearchStudentsAction extends Action {
 
         try {
             if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entity)) {
-                List<Instructor> instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
+                List<Instructor> instructors = sqlLogic.getInstructorsForAccountId(userInfo.id);
                 students = sqlLogic.searchStudents(searchKey, instructors);
             } else if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
                 students = sqlLogic.searchStudentsInWholeSystem(searchKey);
@@ -57,7 +57,7 @@ public class SearchStudentsAction extends Action {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getRegKey(),
                         sqlLogic.getCourseInstitute(s.getCourseId()),
-                        s.getGoogleId()
+                        s.getAccountId()
                 );
             }
 

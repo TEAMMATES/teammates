@@ -11,9 +11,9 @@ public class GetAccountAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        String accountId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
-        Account account = sqlLogic.getAccountForGoogleId(googleId);
+        Account account = sqlLogic.getAccountForId(accountId);
 
         if (account == null) {
             throw new EntityNotFoundException("Account does not exist.");

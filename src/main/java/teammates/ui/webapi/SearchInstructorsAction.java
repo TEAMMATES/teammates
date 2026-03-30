@@ -33,7 +33,7 @@ public class SearchInstructorsAction extends AdminOnlyAction {
             instructorData.addAdditionalInformationForAdminSearch(
                     instructor.getRegKey(),
                     sqlLogic.getCourseInstitute(instructor.getCourseId()),
-                    instructor.getGoogleId());
+                    instructor.getAccountId());
 
             instructorDataList.add(instructorData);
         }

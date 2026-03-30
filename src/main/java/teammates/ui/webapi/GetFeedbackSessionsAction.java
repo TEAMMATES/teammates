@@ -48,7 +48,7 @@ public class GetFeedbackSessionsAction extends Action {
 
             if (courseId != null) {
                 Course course = sqlLogic.getCourse(courseId);
-                gateKeeper.verifyAccessible(sqlLogic.getStudentByGoogleId(courseId, userInfo.getId()), course);
+                gateKeeper.verifyAccessible(sqlLogic.getStudentByAccountId(courseId, userInfo.getId()), course);
             }
         } else {
             if (!userInfo.isInstructor) {
@@ -58,7 +58,7 @@ public class GetFeedbackSessionsAction extends Action {
 
             if (courseId != null) {
                 Course course = sqlLogic.getCourse(courseId);
-                gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()), course);
+                gateKeeper.verifyAccessible(sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()), course);
             }
         }
     }
@@ -74,7 +74,7 @@ public class GetFeedbackSessionsAction extends Action {
 
         if (courseId == null) {
             if (Const.EntityType.STUDENT.equals(entityType)) {
-                List<Student> students = sqlLogic.getStudentsByGoogleId(userInfo.getId());
+                List<Student> students = sqlLogic.getStudentsByAccountId(userInfo.getId());
                 for (Student student : students) {
                     String studentCourseId = student.getCourse().getId();
                     String emailAddress = student.getEmail();
@@ -86,7 +86,7 @@ public class GetFeedbackSessionsAction extends Action {
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
-                instructors = sqlLogic.getInstructorsForGoogleId(userInfo.getId());
+                instructors = sqlLogic.getInstructorsForAccountId(userInfo.getId());
 
                 if (isInRecycleBin) {
                     feedbackSessions = sqlLogic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
@@ -97,14 +97,14 @@ public class GetFeedbackSessionsAction extends Action {
         } else {
             feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
             if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
-                Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+                Student student = sqlLogic.getStudentByAccountId(courseId, userInfo.getId());
                 assert student != null;
                 String emailAddress = student.getEmail();
 
                 studentEmails.add(emailAddress);
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 instructors = Collections.singletonList(
-                        sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()));
+                        sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()));
             }
         }
 

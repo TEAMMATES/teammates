@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.Optional;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -42,7 +41,7 @@ public class GetStudentAction extends Action {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+            Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
 
             gateKeeper.verifyAccessible(instructor, sqlLogic.getCourse(courseId),
                     student.getTeamName(),
@@ -54,7 +53,7 @@ public class GetStudentAction extends Action {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
-            student = sqlLogic.getStudentByGoogleId(courseId, userInfo.id);
+            student = sqlLogic.getStudentByAccountId(courseId, userInfo.id);
             gateKeeper.verifyAccessible(student, course);
         }
     }
@@ -80,9 +79,9 @@ public class GetStudentAction extends Action {
         StudentData studentData = new StudentData(student);
         if (userInfo != null && userInfo.isAdmin) {
             studentData.setKey(student.getRegKey());
-            studentData.setGoogleId(
+            studentData.setAccountId(
                     Optional.ofNullable(student.getAccount())
-                        .map(Account::getGoogleId)
+                        .map(a -> a.getId().toString())
                         .orElse("")
             );
         }

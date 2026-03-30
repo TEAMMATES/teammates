@@ -27,7 +27,7 @@ public class DeleteInstructorAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
                 instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
@@ -40,7 +40,7 @@ public class DeleteInstructorAction extends Action {
 
         Instructor instructor;
         if (instructorId != null) {
-            instructor = sqlLogic.getInstructorByGoogleId(courseId, instructorId);
+            instructor = sqlLogic.getInstructorByAccountId(courseId, instructorId);
         } else if (instructorEmail != null) {
             instructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
         } else {

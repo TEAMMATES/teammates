@@ -27,7 +27,7 @@ public class DeleteFeedbackQuestionAction extends Action {
             throw new EntityNotFoundException("Unknown question id");
         }
 
-        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(question.getCourseId(), userInfo.getId()),
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByAccountId(question.getCourseId(), userInfo.getId()),
                 getNonNullFeedbackSession(question.getFeedbackSession().getName(), question.getCourseId()),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
 
