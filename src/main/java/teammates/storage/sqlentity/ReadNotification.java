@@ -7,12 +7,14 @@ import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLInsert;
+
 
 /**
  * Represents an association class between Accounts and Notifications.
@@ -32,9 +34,11 @@ public class ReadNotification extends BaseEntity {
     private UUID id;
 
     @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @ManyToOne
+    @JoinColumn(name = "notification_id", nullable = false)
     private Notification notification;
 
     protected ReadNotification() {
