@@ -25,10 +25,11 @@ import org.hibernate.annotations.SQLInsert;
         name = "ReadNotifications",
         uniqueConstraints = @UniqueConstraint(columnNames = {"account_id", "notification_id"}))
 @SQLInsert(
-        sql = "INSERT INTO read_notifications (account_id, created_at, notification_id, id) "
-                + "VALUES (?, ?, ?, ?) ON CONFLICT (account_id, notification_id) DO NOTHING ",
-        check = ResultCheckStyle.NONE
-)
+        sql = """
+                INSERT INTO read_notifications (account_id, created_at, notification_id, id)
+                VALUES (?, ?, ?, ?) ON CONFLICT (account_id, notification_id) DO NOTHING
+              """,
+        check = ResultCheckStyle.NONE)
 public class ReadNotification extends BaseEntity {
     @Id
     private UUID id;
