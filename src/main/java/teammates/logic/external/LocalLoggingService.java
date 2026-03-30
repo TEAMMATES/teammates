@@ -115,11 +115,11 @@ public class LocalLoggingService implements LogService {
         RequestLogUser userInfoFilter = queryLogsParams.getUserInfoParams();
         String regkeyFilter = userInfoFilter.getRegkey();
         String emailFilter = userInfoFilter.getEmail();
-        String googleIdFilter = userInfoFilter.getGoogleId();
+        String accountIdFilter = userInfoFilter.getAccountId();
 
         if (actionClassFilter == null && exceptionClassFilter == null && logEventFilter == null
                 && latencyFilter == null && statusFilter == null && regkeyFilter == null
-                && emailFilter == null && googleIdFilter == null) {
+                && emailFilter == null && accountIdFilter == null) {
             return true;
         }
         LogDetails details = log.getDetails();
@@ -133,7 +133,7 @@ public class LocalLoggingService implements LogService {
             return false;
         }
         return isRequestFilterSatisfied(details, actionClassFilter, latencyFilter, statusFilter,
-                regkeyFilter, emailFilter, googleIdFilter);
+                regkeyFilter, emailFilter, accountIdFilter);
     }
 
     private boolean isExceptionFilterSatisfied(LogDetails details, String exceptionClassFilter) {
@@ -148,9 +148,9 @@ public class LocalLoggingService implements LogService {
     }
 
     private boolean isRequestFilterSatisfied(LogDetails details, String actionClassFilter,
-            String latencyFilter, String statusFilter, String regkeyFilter, String emailFilter, String googleIdFilter) {
+            String latencyFilter, String statusFilter, String regkeyFilter, String emailFilter, String accountIdFilter) {
         if (actionClassFilter == null && latencyFilter == null && statusFilter == null
-                && regkeyFilter == null && emailFilter == null && googleIdFilter == null) {
+                && regkeyFilter == null && emailFilter == null && accountIdFilter == null) {
             return true;
         }
         if (details.getEvent() != LogEvent.REQUEST_LOG) {
@@ -199,7 +199,7 @@ public class LocalLoggingService implements LogService {
         if (emailFilter != null && (userInfo == null || !emailFilter.equals(userInfo.getEmail()))) {
             return false;
         }
-        return googleIdFilter == null || userInfo != null && googleIdFilter.equals(userInfo.getGoogleId());
+        return accountIdFilter == null || userInfo != null && accountIdFilter.equals(userInfo.getAccountId());
     }
 
     @Override
