@@ -21,11 +21,20 @@ public class UserInfoCookie {
 
     private long expiryTime;
 
-    @JsonCreator
-    public UserInfoCookie(@JsonProperty("userId") String userId) {
+    public UserInfoCookie(String userId) {
         this.userId = userId;
         this.verificationCode = StringHelper.generateSignature(userId);
         this.expiryTime = Instant.now().plus(Const.COOKIE_VALIDITY_PERIOD).toEpochMilli();
+    }
+
+    @JsonCreator
+    private UserInfoCookie(
+            @JsonProperty("userId") String userId,
+            @JsonProperty("verificationCode") String verificationCode,
+            @JsonProperty("expiryTime") long expiryTime) {
+        this.userId = userId;
+        this.verificationCode = verificationCode;
+        this.expiryTime = expiryTime;
     }
 
     /**
