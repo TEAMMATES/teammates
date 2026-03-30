@@ -112,7 +112,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                     }
                 }
                 if (currentUserIndex < 0) {
-                    return output;
+                    return JsonUtils.toJson(output);
                 }
                 int[] claimedNumbers = currentUserTeamResults.claimed[currentUserIndex];
                 int[] perceivedNumbers = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex];
