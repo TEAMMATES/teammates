@@ -10,8 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public final class InternalRequestAuth {
 
-    private static final String BEARER_PREFIX = "Bearer ";
-
     private InternalRequestAuth() {
         // utility class
     }
@@ -44,12 +42,9 @@ public final class InternalRequestAuth {
         if (!isCronAndWorkerSecretWellFormed(secret)) {
             return false;
         }
-        String auth = req.getHeader("Authorization");
-        if (auth == null || !auth.startsWith(BEARER_PREFIX)) {
-            return false;
-        }
-        String token = auth.substring(BEARER_PREFIX.length()).trim();
-        if (token.isEmpty()) {
+        String token = HttpRequestHelper.parseBearerTokenFromAuthorizationHeader(
+                req.getHeader(Const.HeaderNames.AUTHORIZATION_KEY));
+        if (token == null || token.isEmpty()) {
             return false;
         }
         if (!MessageDigest.isEqual(token.getBytes(StandardCharsets.UTF_8),

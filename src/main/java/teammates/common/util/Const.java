@@ -215,6 +215,13 @@ public final class Const {
     }
 
     /**
+     * HTTP authentication scheme names (RFC 6750; scheme matching is case-insensitive).
+     */
+    public static class HttpAuthScheme {
+        public static final String BEARER_SCHEME = "Bearer";
+    }
+
+    /**
      * The course status respect to the instructor's point of view.
      * This parameter is used to get a course list for instructor.
      */
