@@ -32,7 +32,8 @@
                 tableName="read_notifications"
                 columnNames="account_id, notification_id"
                 constraintName="uq_account_notification" />
-
+        <addNotNullConstraint tableName="read_notifications" columnName="account_id" />
+        <addNotNullConstraint tableName="read_notifications" columnName="notification_id" />
     </changeSet>
 
 </databaseChangeLog>
