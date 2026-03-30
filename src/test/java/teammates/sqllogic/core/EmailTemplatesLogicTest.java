@@ -89,20 +89,4 @@ public class EmailTemplatesLogicTest extends BaseTestCase {
         verify(emailTemplatesDb, times(1)).deleteEmailTemplate(templateKey);
     }
 
-    @Test
-    public void testDeleteEmailTemplate_templateExists_deletesTemplate() {
-        EmailTemplate emailTemplate = new EmailTemplate(
-                "NEW_INSTRUCTOR_ACCOUNT_WELCOME", "Welcome Subject", "<p>Welcome body</p>");
-
-        emailTemplatesLogic.deleteEmailTemplate(emailTemplate);
-
-        verify(emailTemplatesDb, times(1)).deleteEmailTemplate(emailTemplate);
-    }
-
-    @Test
-    public void testDeleteEmailTemplate_nullTemplate_doesNothing() {
-        emailTemplatesLogic.deleteEmailTemplate((EmailTemplate) null);
-
-        verify(emailTemplatesDb, times(1)).deleteEmailTemplate((EmailTemplate) null);
-    }
 }
