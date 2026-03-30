@@ -23,7 +23,7 @@ import org.hibernate.annotations.SQLInsert;
         name = "ReadNotifications",
         uniqueConstraints = @UniqueConstraint(columnNames = {"account_id", "notification_id"}))
 @SQLInsert(
-        sql = "INSERT INTO read_notifications (account_id, created_at, id, notification_id) "
+        sql = "INSERT INTO read_notifications (account_id, created_at, notification_id, id) "
                 + "VALUES (?, ?, ?, ?) ON CONFLICT (account_id, notification_id) DO NOTHING ",
         check = ResultCheckStyle.NONE
 )
@@ -84,7 +84,8 @@ public class ReadNotification extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             ReadNotification otherReadNotification = (ReadNotification) other;
-            return Objects.equals(this.getId(), otherReadNotification.getId());
+            return Objects.equals(this.getAccount(), otherReadNotification.getAccount())
+                    && Objects.equals(this.getNotification(), otherReadNotification.getNotification());
         } else {
             return false;
         }
@@ -92,7 +93,7 @@ public class ReadNotification extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return Objects.hash(this.getAccount(), this.getNotification());
     }
 
     @Override
