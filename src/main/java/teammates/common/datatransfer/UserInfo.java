@@ -1,14 +1,14 @@
 package teammates.common.datatransfer;
 
 /**
- * Represents a user type.
- * <br> Contains user's Google ID and flags to indicate whether the user
- *  is an admin, instructor, student.
+ * Represents a logged-in user.
+ * <br> Contains the internal account id (UUID string) and flags to indicate whether the user
+ * is an admin, instructor, student, or maintainer.
  */
 public class UserInfo {
 
     /**
-     * The user's Google ID.
+     * Internal {@link teammates.storage.sqlentity.Account} id (UUID string).
      */
     public String id;
 
@@ -32,8 +32,8 @@ public class UserInfo {
      */
     public boolean isMaintainer;
 
-    public UserInfo(String googleId) {
-        this.id = googleId;
+    public UserInfo(String accountId) {
+        this.id = accountId;
     }
 
     public String getId() {
