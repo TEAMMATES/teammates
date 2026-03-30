@@ -155,7 +155,7 @@ export class PageComponent {
       this.toast = toast;
     });
 
-    this.authService.getAuthTypes().subscribe({
+    this.authService.getAuthProviderTypes().subscribe({
       next: (authTypes: string[]) => {
         this.showGoogleLogin = authTypes.includes(ApiConst.AUTH_PROVIDER_GOOGLE);
         this.showMsEntraLogin = authTypes.includes(ApiConst.AUTH_PROVIDER_MICROSOFT_ENTRA);

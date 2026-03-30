@@ -73,7 +73,7 @@ public final class Config {
     public static final String ENCRYPTION_KEY;
 
     /** The list of authentication methods used by the system. */
-    public static final List<String> AUTH_TYPES;
+    public static final List<String> AUTH_PROVIDER_TYPES;
 
     /** The value of the "app.oauth2.google.client.id" in build.properties file. */
     public static final String OAUTH2_GOOGLE_CLIENT_ID;
@@ -196,8 +196,8 @@ public final class Config {
         POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
         ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
-        AUTH_TYPES = Collections.unmodifiableList(
-                Arrays.asList(getProperty(properties, devProperties, "app.auth.types", "").split(",")));
+        AUTH_PROVIDER_TYPES = Collections.unmodifiableList(
+                Arrays.asList(getProperty(properties, devProperties, "app.auth.provider.types", "").split(",")));
         OAUTH2_GOOGLE_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.google.client.id");
         OAUTH2_GOOGLE_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.google.client.secret");
         OAUTH2_MS_ENTRA_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.msentra.client.id");

@@ -3,7 +3,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthProvider } from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { HttpRequestService } from './http-request.service';
 import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
@@ -20,7 +19,6 @@ export class AuthService {
 
   private frontendUrl: string = environment.frontendUrl;
   private afAuth?: AngularFireAuth;
-  private cachedAuthInfo$?: Observable<AuthInfo>;
 
   constructor(private httpRequestService: HttpRequestService, private injector: Injector) {
     if (environment.firebaseConfig?.projectId) {
@@ -44,13 +42,9 @@ export class AuthService {
 
   /**
    * Returns an observable of the supported auth type strings (e.g. 'google', 'msentra').
-   * The underlying auth-info request is made at most once and its result shared.
    */
-  getAuthTypes(): Observable<string[]> {
-    if (!this.cachedAuthInfo$) {
-      this.cachedAuthInfo$ = this.getAuthUser();
-    }
-    return this.cachedAuthInfo$.pipe(map((auth: AuthInfo) => auth.authTypes ?? []));
+  getAuthProviderTypes(): Observable<string[]> {
+    return this.httpRequestService.get(ResourceEndpoints.AUTH_PROVIDER_TYPES);
   }
 
   /**

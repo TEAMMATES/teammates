@@ -31,6 +31,11 @@ describe('AuthService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH, { frontendUrl });
   });
 
+  it('should execute getAuthProviderTypes', () => {
+    service.getAuthProviderTypes(); 
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH_PROVIDER_TYPES);
+  });
+
   it('should execute getAuthRegkeyValidity', () => {
     const key: string = 'key';
     const intent: Intent = Intent.FULL_DETAIL;

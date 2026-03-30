@@ -78,6 +78,7 @@ abstract class AuthServlet extends HttpServlet {
     String getMicrosoftRedirectUri(HttpServletRequest req) {
         GenericUrl url = new GenericUrl(getSecureRequestUrl(req));
         url.setRawPath("/oauth2callback");
+        url.set("ngsw-bypass", "true");
         return url.build();
     }
 
