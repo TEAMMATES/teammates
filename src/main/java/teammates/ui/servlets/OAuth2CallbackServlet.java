@@ -26,6 +26,7 @@ import com.microsoft.aad.msal4j.IAuthenticationResult;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -48,18 +49,27 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         AuthResult authResult;
-        if ("firebase".equals(provider)) {
+        switch (provider) {
+        case Const.AuthProviderTypes.FIREBASE:
             authResult = getFirebaseAuthResult(req, resp);
-        } else if ("entra".equals(provider)) {
+            break;
+        case Const.AuthProviderTypes.MICROSOFT_ENTRA:
             authResult = getMicrosoftEntraAuthResult(req, resp);
-        } else {
+            break;
+        case Const.AuthProviderTypes.GOOGLE:
             authResult = getGoogleOauth2AuthResult(req, resp);
+            break;
+        default:
+            log.warning("Unknown auth provider: " + provider);
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Unknown auth provider: " + provider);
+            return;
         }
+
         if (authResult == null) {
             return;
         }
-        Cookie cookie;
 
+        Cookie cookie;
         if (authResult.email == null) {
             // invalid google ID
             req.getSession().invalidate();
@@ -79,6 +89,11 @@ public class OAuth2CallbackServlet extends AuthServlet {
     }
 
     private String determineAuthProvider(HttpServletRequest req) {
+        // Firebase flow posts idToken directly without a state parameter
+        if (req.getParameter("idToken") != null) {
+            return Const.AuthProviderTypes.FIREBASE;
+        }
+
         String state = req.getParameter("state");
         if (state == null) {
             log.warning("Missing state parameter in OAuth2 callback");

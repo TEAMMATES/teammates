@@ -16,6 +16,7 @@ import { NotificationBannerComponent } from './components/notification-banner/no
 import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
+import { ApiConst } from '../types/api-const';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -156,8 +157,8 @@ export class PageComponent {
 
     this.authService.getAuthTypes().subscribe({
       next: (authTypes: string[]) => {
-        this.showGoogleLogin = authTypes.includes('google');
-        this.showMsEntraLogin = authTypes.includes('msentra');
+        this.showGoogleLogin = authTypes.includes(ApiConst.AUTH_PROVIDER_GOOGLE);
+        this.showMsEntraLogin = authTypes.includes(ApiConst.AUTH_PROVIDER_MICROSOFT_ENTRA);
       },
     });
   }
@@ -220,12 +221,26 @@ export class PageComponent {
   }
 
   /**
+   * Logs in with Google provider.
+   */
+  loginWithGoogle(): void {
+    this.loginWithProvider(ApiConst.AUTH_PROVIDER_GOOGLE);
+  }
+
+  /**
+   * Logs in with Microsoft Entra provider.
+   */
+  loginWithMsEntra(): void {
+    this.loginWithProvider(ApiConst.AUTH_PROVIDER_MICROSOFT_ENTRA);
+  }
+
+  /**
    * Logs in with the selected auth provider and role.
    * Constructs the appropriate login URL with provider parameter and redirects.
    *
-   * @param provider - 'google' or 'entra'
+   * @param provider
    */
-  loginWithProvider(provider: 'google' | 'entra'): void {
+  loginWithProvider(provider: string): void {
     if (!this.currentRole) {
       this.statusMessageService.showErrorToast('Role not selected');
       return;

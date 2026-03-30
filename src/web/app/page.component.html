@@ -186,7 +186,7 @@
           <p class="text-center mb-4">Choose your preferred authentication method to log in.</p>
           <div class="d-flex flex-column align-items-center gap-2">
             @if (showGoogleLogin) {
-              <button class="gsi-material-button" id="provider-google-btn" (click)="loginWithProvider('google')">
+              <button class="gsi-material-button" id="provider-google-btn" (click)="loginWithGoogle()">
                 <div class="gsi-material-button-state"></div>
                 <div class="gsi-material-button-content-wrapper">
                   <div class="gsi-material-button-icon">
@@ -204,7 +204,7 @@
             }
             @if (showMsEntraLogin) {
               <button type="button" class="ms-sign-in-button" id="provider-entra-btn"
-                  (click)="loginWithProvider('entra')">
+                  (click)="loginWithMsEntra()">
                 <div class="ms-sign-in-button-state"></div>
                 <div class="ms-sign-in-button-content-wrapper">
                   <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21">

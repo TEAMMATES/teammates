@@ -404,4 +404,13 @@ public final class Const {
         public static final String SEND_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
     }
 
+    /**
+     * Represents authentication provider types.
+     */
+    public static class AuthProviderTypes {
+        public static final String GOOGLE = "google";
+        public static final String MICROSOFT_ENTRA = "msentra";
+        public static final String FIREBASE = "firebase";
+    }
+
 }
