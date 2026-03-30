@@ -82,7 +82,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
             Instructor instructor = instructors.get(i);
             InstructorData instructorData = instructorsData.getInstructors().get(i);
 
-            assertEquals(instructor.getGoogleId(), instructorData.getGoogleId());
+            assertEquals(instructor.getAccountId(), instructorData.getAccountId());
             assertEquals(instructor.getCourseId(), instructorData.getCourseId());
             assertEquals(instructor.getEmail(), instructorData.getEmail());
             assertEquals(instructor.isDisplayedToStudents(), instructorData.getIsDisplayedToStudents());

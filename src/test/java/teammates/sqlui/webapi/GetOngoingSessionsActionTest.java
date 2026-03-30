@@ -157,19 +157,19 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         when(mockLogic.getCourse(course2.getId())).thenReturn(course2);
         Course course3 = new Course("test-id3", "test-name3", "UTC", "UCL");
         when(mockLogic.getCourse(course3.getId())).thenReturn(course3);
-        Account instructor2Account = new Account("instructor2", "instructor2", "test2@test.com");
+        Account instructor2Account = new Account("instructor2", "test2@test.com");
         Instructor instructor2 = new Instructor(course1, "instructor2", "test2@test.com", false, "instructor2",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         instructor2.setAccount(instructor2Account);
         when(mockLogic.getInstructorsByCourse(course1.getId())).thenReturn(Collections.singletonList(instructor2));
-        Account instructor3Account = new Account("instructor3", "instructor3", "test3@test.com");
+        Account instructor3Account = new Account("instructor3", "test3@test.com");
         Instructor instructor3 = new Instructor(course2, "instructor3", "test3@test.com", false, "instructor3",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         instructor3.setAccount(instructor3Account);
         when(mockLogic.getInstructorsByCourse(course2.getId())).thenReturn(Collections.singletonList(instructor3));
-        Account instructor4Account = new Account("instructor4", "instructor4", "test4@test.com");
+        Account instructor4Account = new Account("instructor4", "test4@test.com");
         Instructor instructor4 = new Instructor(course3, "instructor4", "test4@test.com", false, "instructor4",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
@@ -212,11 +212,11 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         assertEquals(1, response.getTotalAwaitingSessions());
         assertEquals(3L, response.getTotalInstitutes());
         Map<String, List<OngoingSession>> expectedSessions = new HashMap<>();
-        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(c1Fs2, instructor2.getGoogleId());
+        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(c1Fs2, instructor2.getAccountId());
         expectedSessions.put("NUS", Collections.singletonList(expectedOngoingC1Fs2));
-        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(c2Fs1, instructor3.getGoogleId());
+        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(c2Fs1, instructor3.getAccountId());
         expectedSessions.put("MIT", Collections.singletonList(expectedOngoingC2Fs1));
-        OngoingSession expectedOngoingC3Fs1 = new OngoingSession(c3Fs1, instructor4.getGoogleId());
+        OngoingSession expectedOngoingC3Fs1 = new OngoingSession(c3Fs1, instructor4.getAccountId());
         expectedSessions.put("UCL", Collections.singletonList(expectedOngoingC3Fs1));
         Map<String, List<OngoingSession>> actualSessions = response.getSessions();
         assertEqualSessions(expectedSessions, actualSessions);
@@ -235,13 +235,13 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         when(mockLogic.getCourse(course1.getId())).thenReturn(course1);
         Course course2 = new Course("test-id2", "test-name2", "UTC", "MIT");
         when(mockLogic.getCourse(course2.getId())).thenReturn(course2);
-        Account instructor2Account = new Account("instructor2", "instructor2", "test2@test.com");
+        Account instructor2Account = new Account("instructor2", "test2@test.com");
         Instructor instructor2 = new Instructor(course1, "instructor2", "test2@test.com", false, "instructor2",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         instructor2.setAccount(instructor2Account);
         when(mockLogic.getInstructorsByCourse(course1.getId())).thenReturn(Collections.singletonList(instructor2));
-        Account instructor3Account = new Account("instructor3", "instructor3", "test3@test.com");
+        Account instructor3Account = new Account("instructor3", "test3@test.com");
         Instructor instructor3 = new Instructor(course2, "instructor3", "test3@test.com", false, "instructor3",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
@@ -279,9 +279,9 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         assertEquals(1, response.getTotalAwaitingSessions());
         assertEquals(2L, response.getTotalInstitutes());
         Map<String, List<OngoingSession>> expectedSessions = new HashMap<>();
-        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(sqlC1Fs2, instructor2.getGoogleId());
+        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(sqlC1Fs2, instructor2.getAccountId());
         expectedSessions.put("NUS", Collections.singletonList(expectedOngoingC1Fs2));
-        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(sqlC2Fs1, instructor3.getGoogleId());
+        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(sqlC2Fs1, instructor3.getAccountId());
         expectedSessions.put("MIT", Collections.singletonList(expectedOngoingC2Fs1));
         Map<String, List<OngoingSession>> actualSessions = response.getSessions();
         assertEqualSessions(expectedSessions, actualSessions);

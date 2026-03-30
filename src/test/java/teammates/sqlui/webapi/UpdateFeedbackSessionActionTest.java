@@ -60,14 +60,14 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         instructor = generateInstructor1InCourse(course);
         feedbackSession = generateSession1InCourse(course, instructor);
 
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getFeedbackSession(feedbackSession.getName(), course.getId())).thenReturn(feedbackSession);
     }
 
     @Test
     void testExecute_typicalCase_success() throws Exception {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
         String[] params = {
@@ -88,7 +88,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     @Test
     void testExecute_missingParams_throwsInvalidHttpParameterException() {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
 
@@ -100,7 +100,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     @Test
     void testExecute_invalidStartTime_throwsInvalidHttpRequestBodyException() {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
         // Start time more than 2 hours in the past triggers validation failure
@@ -117,7 +117,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     @Test
     void testExecute_invalidEndTime_throwsInvalidHttpRequestBodyException() {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
         // End time more than 1 hour in the past triggers validation failure
@@ -134,7 +134,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     @Test
     void testExecute_sessionVisibleTimeTooEarly_throwsInvalidHttpRequestBodyException() {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         // Typical request sets start time to 2 days from now; visibility must be at most 30 days before that
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
@@ -152,7 +152,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     @Test
     void testAccessControl_nonExistentFeedbackSession_throwsEntityNotFoundException() {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),

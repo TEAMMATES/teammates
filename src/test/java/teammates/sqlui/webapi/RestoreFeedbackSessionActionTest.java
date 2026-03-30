@@ -24,7 +24,7 @@ import teammates.ui.webapi.RestoreFeedbackSessionAction;
  * SUT: {@link RestoreFeedbackSessionAction}.
  */
 public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeedbackSessionAction> {
-    private static final String GOOGLE_ID = "user-googleId";
+    private static final String TEST_USER_ID = "user-accountId";
     private static final String COURSE_ID = "course-id";
     private static final String FEEDBACK_SESSION_NAME = "feedback-session-name";
 
@@ -60,9 +60,9 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         doNothing().when(mockLogic).restoreFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID);
         when(mockLogic.getFeedbackSession(FEEDBACK_SESSION_NAME, COURSE_ID))
                 .thenReturn(stubFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(COURSE_ID, GOOGLE_ID)).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(COURSE_ID, TEST_USER_ID)).thenReturn(stubInstructor);
 
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, COURSE_ID,
@@ -79,13 +79,13 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
 
     @Test
     void testExecute_emptyParams_throwsInvalidHttpParameterException() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
         verifyHttpParameterFailure();
     }
 
     @Test
     void testExecute_invalidCourseIdParam_throwsInvalidHttpParameterException() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         ______TS("Missing courseId parameter");
         verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME);
@@ -101,7 +101,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
 
     @Test
     void testExecute_invalidFeedbackSessionNameParam_throwsInvalidHttpParameterException() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         ______TS("Missing feedbackSessionName parameter");
         verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, COURSE_ID);
@@ -119,7 +119,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     void testExecute_sessionNotInBin_throwsEntityNotFoundException() {
         when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID)).thenReturn(null);
 
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, COURSE_ID,
@@ -138,7 +138,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         doThrow(new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT)).when(mockLogic)
                 .restoreFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID);
 
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, COURSE_ID,

@@ -100,8 +100,8 @@ public class MockUserProvision extends UserProvision {
     }
 
     @Override
-    public UserInfo getMasqueradeUser(String googleId) {
-        UserInfo userInfo = new UserInfo(googleId);
+    public UserInfo getMasqueradeUser(String accountId) {
+        UserInfo userInfo = new UserInfo(accountId);
         userInfo.isAdmin = isAdmin;
         userInfo.isInstructor = isInstructor;
         userInfo.isStudent = isStudent;

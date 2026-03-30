@@ -4,7 +4,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.UUID;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -94,7 +96,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testExecute_notEnoughParameters_shouldFail() {
-        loginAsInstructor(instructorOfCourse1.getGoogleId());
+        loginAsInstructor(instructorOfCourse1.getAccountId());
 
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
@@ -102,7 +104,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     protected void testExecute_invalidIntent_shouldFail() {
-        loginAsInstructor(instructorOfCourse1.getGoogleId());
+        loginAsInstructor(instructorOfCourse1.getAccountId());
 
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ1);
 
@@ -112,7 +114,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         };
         verifyHttpParameterFailure(submissionParams);
 
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
@@ -122,7 +124,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testExecute_studentSubmissionTypicalSuccessCase_shouldPass() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -140,7 +142,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testExecute_instructorSubmissionTypicalSuccessCase_shouldPass() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -158,7 +160,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testExecute_commnetDoesNotExist_shouldFail() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -175,7 +177,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testExecute_responseDoesNotExist_shouldThrowException() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -191,7 +193,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testAccessControl() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
@@ -199,25 +201,25 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ1);
-        when(mockLogic.getStudentByGoogleId(any(), any())).thenReturn(studentInCourse1);
+        when(mockLogic.getStudentByAccountId(any(), any())).thenReturn(studentInCourse1);
 
         verifyCanAccess(submissionParams);
 
-        loginAsInstructor(instructorOfCourse1.getGoogleId());
+        loginAsInstructor(instructorOfCourse1.getAccountId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ2.getId().toString(),
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ2);
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructorOfCourse1);
+        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructorOfCourse1);
 
         verifyCanAccess(submissionParams);
     }
 
     @Test
     void testAccessControl_invalidIntent_shouldFail() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
         String[] studentInvalidIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
@@ -228,7 +230,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         verifyHttpParameterFailureAcl(studentInvalidIntentParams);
 
-        loginAsInstructor(instructorOfCourse1.getGoogleId());
+        loginAsInstructor(instructorOfCourse1.getAccountId());
         String[] instructorInvalidIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
@@ -239,7 +241,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testAccessControl_responseDoesNotExist_shouldFail() {
-        loginAsInstructor(instructorOfCourse1.getGoogleId());
+        loginAsInstructor(instructorOfCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -254,7 +256,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
     void testAccessControl_accessAcrossCourses_shouldFail() {
 
         // instructor access other instructor's response from different course
-        loginAsInstructor(instructorOfCourse2.getGoogleId());
+        loginAsInstructor(instructorOfCourse2.getAccountId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ2.getId().toString(),
@@ -262,12 +264,12 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ2);
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructorOfCourse2);
+        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructorOfCourse2);
 
         verifyCannotAccess(submissionParams);
 
         // students access other students' response from different course
-        loginAsStudent(studentInCourse2.getGoogleId());
+        loginAsStudent(studentInCourse2.getAccountId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
@@ -275,7 +277,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ1);
-        when(mockLogic.getStudentByGoogleId(any(), any())).thenReturn(studentInCourse2);
+        when(mockLogic.getStudentByAccountId(any(), any())).thenReturn(studentInCourse2);
 
         verifyCannotAccess(submissionParams);
     }
@@ -297,9 +299,10 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
     private Student generateStudentInCourse(String id, Course course) {
         String email = id + "@gmail.com";
         String name = id;
-        String googleId = id;
         Student s = new Student(course, name, email, "comment for " + id);
-        s.setAccount(new Account(googleId, name, email));
+        Account acc = new Account(name, email);
+        acc.setId(UUID.nameUUIDFromBytes(("test-subject:" + id).getBytes(StandardCharsets.UTF_8)));
+        s.setAccount(acc);
         return s;
     }
 
@@ -309,7 +312,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 "", null,
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
         Account a = getTypicalAccount();
-        a.setGoogleId(id);
+        a.setId(UUID.nameUUIDFromBytes(("test-instructor:" + id).getBytes(StandardCharsets.UTF_8)));
         i.setAccount(a);
         return i;
     }

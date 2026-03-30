@@ -27,7 +27,7 @@ import teammates.ui.webapi.QueryLogsAction;
  * SUT: {@link QueryLogsAction}.
  */
 public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
-    private static final String GOOGLE_ID = "user-googleId";
+    private static final String TEST_USER_ID = "user-accountId";
 
     private long startTimeForFailCases = Instant.now().toEpochMilli();
     private long endTimeForFailCases = startTimeForFailCases - 1000;
@@ -95,7 +95,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         requestHeaders.put("User-Agent", "user agent");
         requestHeaders.put("Host", "host");
 
-        infoLogUserInfo1.setGoogleId("infoLogUserGoogleId");
+        infoLogUserInfo1.setAccountId("infoLogUserAccountId");
 
         infoLogJsonPayLoad1.setRequestParams(requestParams);
         infoLogJsonPayLoad1.setRequestHeaders(requestHeaders);
@@ -111,7 +111,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         infoLogJsonPayLoad2.setCourseId("course.id");
         infoLogJsonPayLoad2.setFeedbackSessionName("feedback session name");
 
-        warningLogUserInfo1.setGoogleId("warningLogUserGoogleId");
+        warningLogUserInfo1.setAccountId("warningLogUserAccountId");
 
         warningLogJsonPayLoad1.setRequestParams(requestParams);
         warningLogJsonPayLoad1.setRequestHeaders(requestHeaders);
@@ -129,7 +129,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         warningLogJsonPayLoad2.setEmailRecipient("email.recipient@example.com");
         warningLogJsonPayLoad2.setEmailSubject("email subject");
 
-        errorLogUserInfo1.setGoogleId("errorLogUserGoogleId");
+        errorLogUserInfo1.setAccountId("errorLogUserAccountId");
 
         errorLogJsonPayLoad1.setRequestParams(requestParams);
         errorLogJsonPayLoad1.setRequestHeaders(requestHeaders);
@@ -175,13 +175,13 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
     @Test
     void testSpecificAccessControl_instructor_cannotAccess() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
         verifyCannotAccess();
     }
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent(GOOGLE_ID);
+        loginAsStudent(TEST_USER_ID);
         verifyCannotAccess();
     }
 
@@ -193,7 +193,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
     @Test
     void testSpecificAccessControl_unregistered_cannotAccess() {
-        loginAsUnregistered(GOOGLE_ID);
+        loginAsUnregistered(TEST_USER_ID);
         verifyCannotAccess();
     }
 

@@ -17,7 +17,7 @@ import teammates.ui.webapi.DeleteCourseAction;
  */
 public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
 
-    String googleId = "user-googleId";
+    String accountId = "user-accountId";
 
     @Override
     protected String getActionUri() {
@@ -90,9 +90,9 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, new InstructorPrivileges());
 
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), accountId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -110,9 +110,9 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, instructorPrivileges);
 
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), accountId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -126,7 +126,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course-id",
         };
-        loginAsStudent(googleId);
+        loginAsStudent(accountId);
         verifyCannotAccess(params);
 
         logoutUser();

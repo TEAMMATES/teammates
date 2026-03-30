@@ -4,6 +4,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.UUID;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -16,7 +18,7 @@ import teammates.ui.webapi.GetAccountAction;
  * SUT: {@link GetAccountAction}.
  */
 public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
-    String googleId = "test.googleId";
+    String accountId = "00000000-0000-4000-8000-0000000000b2";
 
     @Override
     protected String getActionUri() {
@@ -31,26 +33,27 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     @Test
     void testExecute_validParams_success() {
         loginAsAdmin();
-        Account account = new Account(googleId, "name", "email");
-        when(mockLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        Account account = new Account("name", "email");
+        account.setId(UUID.fromString(accountId));
+        when(mockLogic.getAccountForId(accountId)).thenReturn(account);
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_ID, googleId,
+                Const.ParamsNames.INSTRUCTOR_ID, accountId,
         };
         GetAccountAction a = getAction(params);
         AccountData output = (AccountData) getJsonResult(a).getOutput();
-        assertEquals(output.getGoogleId(), googleId);
+        assertEquals(output.getAccountId(), accountId);
     }
 
     @Test
     void testExecute_accountDoesNotExist_throwsEntityNotFoundException() {
         loginAsAdmin();
-        when(mockLogic.getAccountForGoogleId(googleId)).thenReturn(null);
+        when(mockLogic.getAccountForId(accountId)).thenReturn(null);
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_ID, googleId,
+                Const.ParamsNames.INSTRUCTOR_ID, accountId,
         };
         EntityNotFoundException e = verifyEntityNotFound(params);
         assertEquals("Account does not exist.", e.getMessage());
-        verify(mockLogic, times(1)).getAccountForGoogleId(googleId);
+        verify(mockLogic, times(1)).getAccountForId(accountId);
     }
 
     @Test

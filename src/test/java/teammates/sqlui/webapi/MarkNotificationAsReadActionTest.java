@@ -43,7 +43,7 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
     @BeforeMethod
     void setUp() {
         instructor = getTypicalInstructor();
-        instructorId = instructor.getGoogleId();
+        instructorId = instructor.getAccountId();
         testNotification = getTypicalNotificationWithId();
         loginAsInstructor(instructorId);
     }

@@ -51,26 +51,9 @@ public class AccountsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetAccountByGoogleId_accountExists_success() {
-        Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
-
-        mockHibernateUtil
-                .when(() -> HibernateUtil.getBySimpleNaturalId(Account.class, googleId))
-                .thenReturn(account);
-
-        Account actualAccount = accountsDb.getAccountByGoogleId(googleId);
-
-        mockHibernateUtil.verify(() ->
-                HibernateUtil.getBySimpleNaturalId(Account.class, googleId));
-
-        assertEquals(account, actualAccount);
-    }
-
-    @Test
     public void testCreateAccount_accountDoesNotExist_success()
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Account account = new Account("google-id", "name", "email@teammates.com");
+        Account account = new Account("name", "email@teammates.com");
 
         accountsDb.createAccount(account);
 
@@ -80,9 +63,10 @@ public class AccountsDbTest extends BaseTestCase {
     @Test
     public void testCreateAccount_accountAlreadyExists_throwsEntityAlreadyExistsException() {
         Account existingAccount = getTypicalAccount();
-        mockHibernateUtil.when(() -> HibernateUtil.getBySimpleNaturalId(Account.class, "google-id"))
+        mockHibernateUtil.when(() -> HibernateUtil.get(Account.class, existingAccount.getId()))
                 .thenReturn(existingAccount);
-        Account account = new Account("google-id", "different name", "email@teammates.com");
+        Account account = new Account("different name", "email@teammates.com");
+        account.setId(existingAccount.getId());
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsDb.createAccount(account));
@@ -93,7 +77,7 @@ public class AccountsDbTest extends BaseTestCase {
 
     @Test
     public void testCreateAccount_invalidEmail_throwsInvalidParametersException() {
-        Account account = new Account("google-id", "name", "invalid");
+        Account account = new Account("name", "invalid");
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> accountsDb.createAccount(account));
@@ -154,7 +138,7 @@ public class AccountsDbTest extends BaseTestCase {
 
     @Test
     public void testDeleteAccount_success() {
-        Account account = new Account("google-id", "name", "email@teammates.com");
+        Account account = new Account("name", "email@teammates.com");
 
         accountsDb.deleteAccount(account);
 

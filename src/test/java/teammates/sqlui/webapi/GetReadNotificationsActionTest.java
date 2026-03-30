@@ -38,13 +38,13 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
         Instructor instructor = getTypicalInstructor();
         List<Notification> testNotifications = new ArrayList<>();
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         for (int i = 0; i < READ_NOTIFICATION_COUNT; i++) {
             testNotifications.add(getTypicalNotificationWithId());
         }
 
         List<UUID> testNotificationIds = testNotifications.stream().map(Notification::getId).collect(Collectors.toList());
-        when(mockLogic.getReadNotificationsId(instructor.getGoogleId())).thenReturn(testNotificationIds);
+        when(mockLogic.getReadNotificationsId(instructor.getAccountId())).thenReturn(testNotificationIds);
 
         GetReadNotificationsAction action = getAction();
         JsonResult jsonResult = getJsonResult(action);

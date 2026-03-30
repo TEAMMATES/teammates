@@ -87,11 +87,11 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
             assertEquals(student.getSectionName(), studentData.getSectionName());
 
             if (isAdmin) {
-                assertEquals(student.getGoogleId(), studentData.getGoogleId());
+                assertEquals(student.getAccountId(), studentData.getAccountId());
                 assertEquals(student.getRegKey(), studentData.getKey());
                 assertEquals(student.getCourse().getInstitute(), studentData.getInstitute());
             } else {
-                assertNull(studentData.getGoogleId());
+                assertNull(studentData.getAccountId());
                 assertNull(studentData.getKey());
                 assertNull(studentData.getInstitute());
             }
@@ -103,7 +103,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsInstructor(instructorId);
         List<Instructor> instructors = setupInstructors();
 
-        when(mockLogic.getInstructorsForGoogleId(instructorId)).thenReturn(instructors);
+        when(mockLogic.getInstructorsForAccountId(instructorId)).thenReturn(instructors);
         when(mockLogic.searchStudents(searchKey, instructors)).thenReturn(students);
 
         String[] params = {
@@ -114,7 +114,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorsForGoogleId(instructorId);
+        verify(mockLogic, times(1)).getInstructorsForAccountId(instructorId);
         verify(mockLogic, times(1)).searchStudents(searchKey, instructors);
         verify(mockLogic, never()).searchStudentsInWholeSystem(any());
         verify(mockLogic, never()).getCourseInstitute(any());
@@ -128,7 +128,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsInstructor(instructorId);
         List<Instructor> instructors = setupInstructors();
 
-        when(mockLogic.getInstructorsForGoogleId(instructorId)).thenReturn(instructors);
+        when(mockLogic.getInstructorsForAccountId(instructorId)).thenReturn(instructors);
         when(mockLogic.searchStudents(searchKey, instructors)).thenReturn(List.of());
 
         String[] params = {
@@ -139,7 +139,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorsForGoogleId(instructorId);
+        verify(mockLogic, times(1)).getInstructorsForAccountId(instructorId);
         verify(mockLogic, times(1)).searchStudents(searchKey, instructors);
         verify(mockLogic, never()).searchStudentsInWholeSystem(any());
         verify(mockLogic, never()).getCourseInstitute(any());
@@ -165,7 +165,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, never()).getInstructorsForGoogleId(any());
+        verify(mockLogic, never()).getInstructorsForAccountId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
         verify(mockLogic, times(students.size())).getCourseInstitute(argThat(courseId ->
@@ -190,7 +190,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, never()).getInstructorsForGoogleId(any());
+        verify(mockLogic, never()).getInstructorsForAccountId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
         verify(mockLogic, never()).getCourseInstitute(any());
@@ -238,7 +238,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action, 500).getOutput();
 
-        verify(mockLogic, never()).getInstructorsForGoogleId(any());
+        verify(mockLogic, never()).getInstructorsForAccountId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
         verify(mockLogic, never()).getCourseInstitute(any());

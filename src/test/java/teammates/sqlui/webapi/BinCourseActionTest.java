@@ -20,7 +20,7 @@ import teammates.ui.webapi.BinCourseAction;
  */
 public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
-    String googleId = "user-googleId";
+    String accountId = "user-accountId";
 
     @Override
     protected String getActionUri() {
@@ -73,9 +73,9 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, new InstructorPrivileges());
 
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), accountId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -93,9 +93,9 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, instructorPrivileges);
 
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), accountId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -110,7 +110,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
                 Const.ParamsNames.COURSE_ID, "course-id",
         };
 
-        loginAsStudent(googleId);
+        loginAsStudent(accountId);
         verifyCannotAccess(params);
 
         logoutUser();

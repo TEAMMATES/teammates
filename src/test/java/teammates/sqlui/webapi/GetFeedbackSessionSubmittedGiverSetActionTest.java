@@ -106,7 +106,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
     @Test
     void testCheckSpecificAccessControl_unregisteredUser_throwsUnauthorizedAccessException() {
-        String googleId = "unregistered-user";
+        String accountId = "unregistered-user";
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
@@ -114,17 +114,17 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), accountId))
                 .thenReturn(null);
 
-        loginAsUnregistered(googleId);
+        loginAsUnregistered(accountId);
 
         verifyCannotAccess(params);
     }
 
     @Test
     void testCheckSpecificAccessControl_student_throwsUnauthorizedAccessException() {
-        String googleId = "student";
+        String accountId = "student";
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
@@ -132,17 +132,17 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), accountId))
                 .thenReturn(null);
 
-        loginAsStudent(googleId);
+        loginAsStudent(accountId);
 
         verifyCannotAccess(params);
     }
 
     @Test
     void testCheckSpecificAccessControl_instructorOfOtherCourse_throwsUnauthorizedAccessException() {
-        String googleId = "instructor-of-other-course";
+        String accountId = "instructor-of-other-course";
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
@@ -150,10 +150,10 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), accountId))
                 .thenReturn(null);
 
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
 
         verifyCannotAccess(params);
     }
@@ -167,10 +167,10 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyCanAccess(params);
     }

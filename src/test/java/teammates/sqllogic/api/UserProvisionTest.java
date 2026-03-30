@@ -200,80 +200,80 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetMasqueradeUser_instructor_returnsUserInfoWithInstructorRole() {
-        String googleId = "typical-instructor";
-        when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
+        String accountId = "typical-instructor";
+        when(mockUsersLogic.isInstructorInAnyCourse(accountId)).thenReturn(true);
 
-        UserInfo user = userProvision.getMasqueradeUser(googleId);
+        UserInfo user = userProvision.getMasqueradeUser(accountId);
 
-        assertEquals(googleId, user.id);
+        assertEquals(accountId, user.id);
         assertHasRoles(user, Role.INSTRUCTOR);
     }
 
     @Test
     public void testGetMasqueradeUser_student_returnsUserInfoWithStudentRole() {
-        String googleId = "student-user-id";
-        when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
+        String accountId = "student-user-id";
+        when(mockUsersLogic.isStudentInAnyCourse(accountId)).thenReturn(true);
 
-        UserInfo user = userProvision.getMasqueradeUser(googleId);
+        UserInfo user = userProvision.getMasqueradeUser(accountId);
 
-        assertEquals(googleId, user.id);
+        assertEquals(accountId, user.id);
         assertHasRoles(user, Role.STUDENT);
     }
 
     @Test
     public void testGetMasqueradeUser_maintainer_returnsUserInfoWithMaintainerRole() {
-        String maintainerGoogleId = "maintainer-user-id";
-        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(maintainerGoogleId));
+        String maintainerAccountId = "maintainer-user-id";
+        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(maintainerAccountId));
 
-        UserInfo user = userProvision.getMasqueradeUser(maintainerGoogleId);
+        UserInfo user = userProvision.getMasqueradeUser(maintainerAccountId);
 
-        assertEquals(maintainerGoogleId, user.id);
+        assertEquals(maintainerAccountId, user.id);
         assertHasRoles(user, Role.MAINTAINER);
     }
 
     @Test
     public void testGetMasqueradeUser_admin_returnsUserInfoWithNoRoles() {
-        String adminGoogleId = "admin-user-id";
-        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminGoogleId));
+        String adminAccountId = "admin-user-id";
+        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminAccountId));
 
-        UserInfo user = userProvision.getMasqueradeUser(adminGoogleId);
+        UserInfo user = userProvision.getMasqueradeUser(adminAccountId);
 
-        assertEquals(adminGoogleId, user.id);
+        assertEquals(adminAccountId, user.id);
         assertHasNoRoles(user);
     }
 
     @Test
     public void testGetMasqueradeUser_unregistered_returnsUserInfoWithNoRoles() {
-        String googleId = "unregistered-user-id";
+        String accountId = "unregistered-user-id";
 
-        UserInfo user = userProvision.getMasqueradeUser(googleId);
+        UserInfo user = userProvision.getMasqueradeUser(accountId);
 
-        assertEquals(googleId, user.id);
+        assertEquals(accountId, user.id);
         assertHasNoRoles(user);
     }
 
     @Test
     public void testGetMasqueradeUser_instructorAndStudent_returnsBothRolesTrue() {
-        String googleId = "instructor-student-user-id";
-        when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
+        String accountId = "instructor-student-user-id";
+        when(mockUsersLogic.isInstructorInAnyCourse(accountId)).thenReturn(true);
+        when(mockUsersLogic.isStudentInAnyCourse(accountId)).thenReturn(true);
 
-        UserInfo user = userProvision.getMasqueradeUser(googleId);
+        UserInfo user = userProvision.getMasqueradeUser(accountId);
 
-        assertEquals(googleId, user.id);
+        assertEquals(accountId, user.id);
         assertHasRoles(user, Role.INSTRUCTOR, Role.STUDENT);
     }
 
     @Test
     public void testGetMasqueradeUser_instructorStudentAndMaintainer_returnsThreeRolesTrue() {
-        String googleId = "instructor-student-maintainer-user-id";
-        when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
-        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(googleId));
+        String accountId = "instructor-student-maintainer-user-id";
+        when(mockUsersLogic.isInstructorInAnyCourse(accountId)).thenReturn(true);
+        when(mockUsersLogic.isStudentInAnyCourse(accountId)).thenReturn(true);
+        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(accountId));
 
-        UserInfo user = userProvision.getMasqueradeUser(googleId);
+        UserInfo user = userProvision.getMasqueradeUser(accountId);
 
-        assertEquals(googleId, user.id);
+        assertEquals(accountId, user.id);
         assertHasRoles(user, Role.INSTRUCTOR, Role.STUDENT, Role.MAINTAINER);
     }
 

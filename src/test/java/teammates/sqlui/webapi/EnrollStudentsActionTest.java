@@ -59,7 +59,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         Instructor instructor = getTypicalInstructor();
         // Ensure instructor has the required permissions
         instructor.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         Student newStudent = new Student(course, "name", "email.com", "", team);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>());
@@ -72,7 +72,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
                         && Objects.equals(argument.getSection(), newStudent.getSection())))).thenReturn(newStudent);
         when(mockLogic.getTeamOrCreate(section, "team")).thenReturn(team);
         when(mockLogic.getSectionOrCreate(course.getId(), "section")).thenReturn(section);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
 
         StudentsEnrollRequest req = prepareRequest(newStudent);
         String[] params = new String[] {
@@ -91,14 +91,14 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         Instructor instructor = getTypicalInstructor();
         // Ensure instructor has the required permissions
         instructor.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         Student newStudent = new Student(course, "name", "email.com", "", team);
         Student existingStudent = new Student(course, "oldName", "email.com", "", team);
         when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>(List.of(existingStudent)));
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentForEmail(course.getId(), newStudent.getEmail())).thenReturn(existingStudent);
         when(mockLogic.getInstructorForEmail(course.getId(), newStudent.getEmail())).thenReturn(null);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
         when(mockLogic.getTeamOrCreate(section, "team")).thenReturn(team);
         when(mockLogic.getSectionOrCreate(course.getId(), "section")).thenReturn(section);
         when(mockLogic.updateStudentCascade(
@@ -126,13 +126,13 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         Instructor instructor = getTypicalInstructor();
         // Ensure instructor has the required permissions
         instructor.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         Student newStudent = new Student(course, "name", "email.com", "", team);
         when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>());
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentForEmail(course.getId(), newStudent.getEmail())).thenReturn(null);
         when(mockLogic.getInstructorForEmail(course.getId(), newStudent.getEmail())).thenReturn(null);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
         when(mockLogic.getTeamOrCreate(section, "team")).thenReturn(team);
         when(mockLogic.getSectionOrCreate(course.getId(), "section")).thenReturn(section);
 
@@ -155,7 +155,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         Instructor instructor = getTypicalInstructor();
         // Ensure instructor has the required permissions
         instructor.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         doThrow(new InvalidParametersException("")).when(mockLogic).updateStudentCascade(any(Student.class));
 
@@ -164,7 +164,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>(List.of(newStudent)));
         when(mockLogic.getStudentForEmail(course.getId(), newStudent.getEmail())).thenReturn(newStudent);
         when(mockLogic.getInstructorForEmail(course.getId(), newStudent.getEmail())).thenReturn(null);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
         when(mockLogic.getTeamOrCreate(section, "team")).thenReturn(team);
         when(mockLogic.getSectionOrCreate(course.getId(), "section")).thenReturn(section);
 
@@ -184,7 +184,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     @Test
     public void testExecute_invalidCourseId_invalidHttpRequestBodyException() {
         Instructor instructor = getTypicalInstructor();
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, null,
         };
@@ -206,9 +206,9 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     public void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, new InstructorPrivileges());
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
@@ -222,8 +222,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, instructorPrivileges);
-        loginAsInstructor(instructor.getGoogleId());
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        loginAsInstructor(instructor.getAccountId());
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),

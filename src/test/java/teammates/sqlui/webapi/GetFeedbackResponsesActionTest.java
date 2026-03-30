@@ -133,7 +133,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         switch (type) {
         case STUDENT:
             if (isBasicParams) {
-                when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+                when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(stubStudent);
             } else {
                 when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
             }
@@ -141,14 +141,14 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
             if (isCommentInResponse) {
                 when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                         argThat(argument -> argument.getId().equals(stubFeedbackQuestion.getId())),
-                        argThat(student -> student.getGoogleId().equals(stubStudent.getGoogleId())
+                        argThat(student -> student.getAccountId().equals(stubStudent.getAccountId())
                                 && student.getName().equals(stubStudent.getName())
                                 && student.getCourse().equals(stubStudent.getCourse()))))
                         .thenReturn(stubFeedbackResponsesNonNullComments);
             } else {
                 when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                         argThat(argument -> argument.getId().equals(stubFeedbackQuestion.getId())),
-                        argThat(student -> student.getGoogleId().equals(stubStudent.getGoogleId())
+                        argThat(student -> student.getAccountId().equals(stubStudent.getAccountId())
                                 && student.getName().equals(stubStudent.getName())
                                 && student.getCourse().equals(stubStudent.getCourse()))))
                         .thenReturn(stubFeedbackResponsesNullComments);
@@ -156,7 +156,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
             break;
         case INSTRUCTOR:
             if (isBasicParams) {
-                when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
+                when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
                         .thenReturn(stubInstructor);
             } else {
                 when(mockLogic.getInstructorForEmail(stubCourse.getId(), stubInstructor.getEmail()))
@@ -166,14 +166,14 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
             if (isCommentInResponse) {
                 when(mockLogic.getFeedbackResponsesFromInstructorForQuestion(
                         argThat(argument -> argument.getId().equals(stubFeedbackQuestion.getId())),
-                        argThat(instructor -> instructor.getGoogleId().equals(stubInstructor.getGoogleId())
+                        argThat(instructor -> instructor.getAccountId().equals(stubInstructor.getAccountId())
                                 && instructor.getName().equals(stubInstructor.getName())
                                 && instructor.getCourse().equals(stubInstructor.getCourse()))))
                         .thenReturn(stubFeedbackResponsesNonNullComments);
             } else {
                 when(mockLogic.getFeedbackResponsesFromInstructorForQuestion(
                         argThat(argument -> argument.getId().equals(stubFeedbackQuestion.getId())),
-                        argThat(instructor -> instructor.getGoogleId().equals(stubInstructor.getGoogleId())
+                        argThat(instructor -> instructor.getAccountId().equals(stubInstructor.getAccountId())
                                 && instructor.getName().equals(stubInstructor.getName())
                                 && instructor.getCourse().equals(stubInstructor.getCourse()))))
                         .thenReturn(stubFeedbackResponsesNullComments);
@@ -186,7 +186,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testExecute_insufficientParams_throwsInvalidHttpParameterException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         String[] params1 = {};
         verifyHttpParameterFailure(params1);
 
@@ -205,7 +205,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testExecute_invalidIntent_throwsInvalidHttpParameterException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
@@ -219,7 +219,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testExecute_studentSubmissionNoPreviewAsNoModeratedPersonNullComments_successfullyGetResponses() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -235,7 +235,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testExecute_studentSubmissionNoPreviewAsNoModeratedPersonNonNullComments_successfullyGetResponses() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -251,7 +251,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testExecute_instructorSubmissionNoPreviewAsNoModeratedPersonNullComments_successfullyGetResponses() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -267,7 +267,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testExecute_instructorSubmissionNoPreviewAsNoModeratedPersonNonNullComments_successfullyGetResponses() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -283,17 +283,17 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testExecute_instructorSubmissionNoResponses_emptyResponseData() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(stubInstructor);
         when(mockLogic.getFeedbackResponsesFromInstructorForQuestion(
                 argThat(argument -> argument.getId().equals(stubFeedbackQuestion.getId())),
-                argThat(instructor -> instructor.getGoogleId().equals(stubInstructor.getGoogleId())
+                argThat(instructor -> instructor.getAccountId().equals(stubInstructor.getAccountId())
                         && instructor.getName().equals(stubInstructor.getName())
                         && instructor.getCourse().equals(stubInstructor.getCourse())))).thenReturn(List.of());
         GetFeedbackResponsesAction action = getAction(params);
@@ -303,17 +303,17 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testExecute_studentSubmissionNoResponses_emptyResponseData() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(stubStudent);
         when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                 argThat(argument -> argument.getId().equals(stubFeedbackQuestion.getId())),
-                argThat(student -> student.getGoogleId().equals(stubStudent.getGoogleId())
+                argThat(student -> student.getAccountId().equals(stubStudent.getAccountId())
                         && student.getName().equals(stubStudent.getName())
                         && student.getCourse().equals(stubStudent.getCourse())))).thenReturn(List.of());
         GetFeedbackResponsesAction action = getAction(params);
@@ -323,7 +323,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testExecute_instructorSubmissionNoPreviewAsModeratedPersonNonNullComments_successfullyGetResponses() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -350,7 +350,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testExecute_idCannotBeConvertedToUuid_throwsInvalidHttpParameterException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         String[] params1 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "random-invalid-id",
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -361,7 +361,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         assertEquals("Expected UUID value for questionid parameter, but found: [random-invalid-id]", ihpe.getMessage());
 
         logoutUser();
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params2 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "random-invalid-id",
@@ -418,12 +418,12 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_notAnswerableForStudent_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
 
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(stubStudent);
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
 
         String[] params = {
@@ -453,13 +453,13 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_notAnswerableForInstructor_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId()))
                 .thenReturn(stubFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(stubInstructor);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
@@ -488,7 +488,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_invalidIntent_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
@@ -523,12 +523,12 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_studentSubmissionAsInstructor_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         FeedbackQuestion questionAnswerableToStudent = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
         questionAnswerableToStudent.setGiverType(FeedbackParticipantType.STUDENTS);
         when(mockLogic.getFeedbackQuestion(questionAnswerableToStudent.getId())).thenReturn(questionAnswerableToStudent);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(null);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(null);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
 
@@ -543,11 +543,11 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_instructorSubmissionAsStudent_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
@@ -560,7 +560,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_invalidQuestion_throwsEntityNotFoundException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(null);
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
@@ -573,11 +573,11 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_typicalInstructorAccess_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         FeedbackQuestion questionAnswerableToInstructor = stubFeedbackQuestion;
         when(mockLogic.getFeedbackQuestion(questionAnswerableToInstructor.getId()))
                 .thenReturn(questionAnswerableToInstructor);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
 
@@ -596,12 +596,12 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         Instructor stubInstructorWithoutPrivileges = new Instructor(stubCourse, "instructor-1-name", "valid1@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, customRole, customInstructorPrivileges);
-        loginAsInstructor(stubInstructorWithoutPrivileges.getGoogleId());
+        loginAsInstructor(stubInstructorWithoutPrivileges.getAccountId());
 
         FeedbackQuestion questionAnswerableToInstructor = stubFeedbackQuestion;
         when(mockLogic.getFeedbackQuestion(questionAnswerableToInstructor.getId()))
                 .thenReturn(questionAnswerableToInstructor);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithoutPrivileges.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithoutPrivileges.getAccountId()))
                 .thenReturn(stubInstructorWithoutPrivileges);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
@@ -633,12 +633,12 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_typicalStudentAccess_canAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         FeedbackQuestion questionAnswerableToStudent = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
         questionAnswerableToStudent.setGiverType(FeedbackParticipantType.STUDENTS);
         when(mockLogic.getFeedbackQuestion(questionAnswerableToStudent.getId())).thenReturn(questionAnswerableToStudent);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(stubStudent);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
 
@@ -651,7 +651,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_previewAs_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         FeedbackQuestion questionAnswerableToInstructor = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         when(mockLogic.getFeedbackQuestion(questionAnswerableToInstructor.getId()))
                 .thenReturn(questionAnswerableToInstructor);
@@ -687,7 +687,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_questionModeratedInstructorSubmission_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         FeedbackQuestion questionThatCanBeModerated = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         questionThatCanBeModerated.setShowGiverNameTo(List.of(FeedbackParticipantType.INSTRUCTORS));
         questionThatCanBeModerated.setShowRecipientNameTo(List.of(FeedbackParticipantType.INSTRUCTORS));
@@ -696,7 +696,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         when(mockLogic.getInstructorForEmail(stubCourse.getId(), stubInstructor.getEmail())).thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(stubInstructor);
 
         String[] params1 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, questionThatCanBeModerated.getId().toString(),
@@ -708,7 +708,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_questionModeratedStudentSubmission_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         FeedbackQuestion questionAnswerableToStudent = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
         questionAnswerableToStudent.setGiverType(FeedbackParticipantType.STUDENTS);
@@ -719,7 +719,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(null);
 
         String[] params1 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, questionAnswerableToStudent.getId().toString(),
@@ -747,7 +747,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_questionCannotBeModeratedInstructorSubmission_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         FeedbackQuestion questionThatCannotBeModerated = stubFeedbackQuestion;
 
         when(mockLogic.getFeedbackQuestion(questionThatCannotBeModerated.getId())).thenReturn(questionThatCannotBeModerated);
@@ -766,7 +766,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_accessAcrossCourses_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         Course anotherCourse = getTypicalCourse();
         anotherCourse.setId("another-course-id");
         anotherCourse.setName("another-course-name");
@@ -776,7 +776,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         anotherFeedbackSession.setSessionVisibleFromTime(Instant.now());
 
         when(mockLogic.getFeedbackQuestion(anotherFeedbackQuestion.getId())).thenReturn(anotherFeedbackQuestion);
-        when(mockLogic.getStudentByGoogleId(anotherCourse.getId(), stubStudent.getGoogleId())).thenReturn(null);
+        when(mockLogic.getStudentByAccountId(anotherCourse.getId(), stubStudent.getAccountId())).thenReturn(null);
         when(mockLogic.getFeedbackSession(anotherFeedbackSession.getName(), anotherFeedbackSession.getCourseId()))
                 .thenReturn(anotherFeedbackSession);
 
@@ -791,7 +791,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_idCannotBeConvertedToUuid_throwsInvalidHttpParameterException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "random-invalid-id",
@@ -804,9 +804,9 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_entityDoesNotBelongInCourse_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(null);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
 
@@ -819,12 +819,12 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         assertEquals("Trying to access system using a non-existent instructor entity", uae1.getMessage());
 
         logoutUser();
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         FeedbackQuestion questionAnswerableToStudent = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
         questionAnswerableToStudent.setGiverType(FeedbackParticipantType.STUDENTS);
         when(mockLogic.getFeedbackQuestion(questionAnswerableToStudent.getId())).thenReturn(questionAnswerableToStudent);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(null);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(null);
 
         String[] params2 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, questionAnswerableToStudent.getId().toString(),
@@ -857,7 +857,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         UnauthorizedAccessException uae1 = assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
         assertEquals("User is not logged in", uae1.getMessage());
 
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), null)).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), null)).thenReturn(null);
         String[] params2 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, questionThatCanBeModerated.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -865,14 +865,14 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         GetFeedbackResponsesAction action2 = getAction(params2);
         UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
         assertEquals("Trying to access system using a non-existent instructor entity", uae2.getMessage());
-        verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(), null);
+        verify(mockLogic, never()).getInstructorByAccountId(stubCourse.getId(), null);
 
         // Student
         FeedbackQuestion questionAnswerableToStudent = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
         questionAnswerableToStudent.setGiverType(FeedbackParticipantType.STUDENTS);
         when(mockLogic.getFeedbackQuestion(questionAnswerableToStudent.getId())).thenReturn(questionAnswerableToStudent);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), null)).thenReturn(null);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), null)).thenReturn(null);
 
         String[] params3 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, questionAnswerableToStudent.getId().toString(),
@@ -899,7 +899,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_instructorWithOnlyModifySessionCommentPrivileges_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         Instructor instructorWithLimitedPrivileges =
                 getInstructorWithLimitedPrivileges(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         instructorWithLimitedPrivileges.setAccount(getTypicalAccount());
@@ -914,7 +914,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 .thenReturn(instructorWithLimitedPrivileges);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), instructorWithLimitedPrivileges.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), instructorWithLimitedPrivileges.getAccountId()))
                 .thenReturn(instructorWithLimitedPrivileges);
 
         String[] params = {
@@ -927,7 +927,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_instructorWithOnlySubmitSectionPrivileges_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         Instructor instructorWithLimitedPrivileges =
                 getInstructorWithLimitedPrivileges(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
         instructorWithLimitedPrivileges.setAccount(getTypicalAccount());
@@ -935,7 +935,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         FeedbackQuestion questionAnswerableToInstructor = stubFeedbackQuestion;
         when(mockLogic.getFeedbackQuestion(questionAnswerableToInstructor.getId()))
                 .thenReturn(questionAnswerableToInstructor);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
 

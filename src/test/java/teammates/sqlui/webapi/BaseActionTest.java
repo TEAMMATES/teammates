@@ -567,7 +567,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     void verifyInstructorsCannotAccess(String... params) {
-        loginAsInstructor("instructor-googleId");
+        loginAsInstructor("instructor-accountId");
         verifyCannotAccess(params);
         logoutUser();
     }
@@ -672,13 +672,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     // Students
     void verifyStudentsCanAccess(String... params) {
-        loginAsStudent("student-googleId");
+        loginAsStudent("student-accountId");
         verifyCanAccess(params);
         logoutUser();
     }
 
     void verifyStudentsCannotAccess(String... params) {
-        loginAsStudent("student-googleId");
+        loginAsStudent("student-accountId");
         verifyCannotAccess(params);
         logoutUser();
     }
@@ -695,13 +695,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     // Unregistered
     void verifyUnregisteredCanAccess(String... params) {
-        loginAsUnregistered("unregistered-googleId");
+        loginAsUnregistered("unregistered-accountId");
         verifyCanAccess(params);
         logoutUser();
     }
 
     void verifyUnregisteredCannotAccess(String... params) {
-        loginAsUnregistered("unregistered-googleId");
+        loginAsUnregistered("unregistered-accountId");
         verifyCannotAccess(params);
         logoutUser();
     }
@@ -727,12 +727,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         mockUserProvision.setInstructor(true);
         mockUserProvision.setStudent(false);
         mockUserProvision.setMaintainer(false);
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructor);
 
         if (canMasquerade) {
-            verifyCanMasquerade(instructor.getGoogleId(), params);
+            verifyCanMasquerade(instructor.getAccountId(), params);
         } else {
-            verifyCannotMasquerade(instructor.getGoogleId(), params);
+            verifyCannotMasquerade(instructor.getAccountId(), params);
         }
 
         mockUserProvision.setInstructor(false);
@@ -742,7 +742,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Instructor sameCourseInstructor = getTypicalInstructor();
         sameCourseInstructor.setCourse(thisCourse);
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(sameCourseInstructor);
+        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(sameCourseInstructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         logoutUser();
@@ -754,7 +754,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(otherCourseInstructor);
+        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(otherCourseInstructor);
 
         logoutUser();
         loginAsInstructor(otherCourseInstructor.getId().toString());
@@ -771,15 +771,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     private void verifySameCourseAccessibility(
             Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
         Instructor instructor = getTypicalInstructor();
-        instructor.setAccount(new Account("instructor-googleId", instructor.getName(), instructor.getEmail()));
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         instructor.setCourse(thisCourse);
 
         logoutUser();
-        loginAsInstructor(instructor.getId().toString());
+        loginAsInstructor(instructor.getAccountId());
         verifyCanAccess(params);
 
         instructor.setPrivileges(instructorPrivileges);
@@ -805,7 +804,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
         Instructor instructor = getTypicalInstructor();
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         instructor.setCourse(thisCourse);

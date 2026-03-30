@@ -76,15 +76,15 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getRecipientsOfQuestion(
                 argThat(arg -> arg.getId().equals(typicalFeedbackQuestion.getId())),
                 argThat(arg -> arg == null),
-                argThat(arg -> arg.getGoogleId().equals(typicalStudent.getGoogleId()))))
+                argThat(arg -> arg.getAccountId().equals(typicalStudent.getAccountId()))))
                 .thenReturn(typicalRecipients);
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         GetFeedbackQuestionRecipientsAction action = getAction(params);
         JsonResult result = action.execute();
@@ -103,15 +103,15 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalInstructor.getCourseId(), typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getRecipientsOfQuestion(
                 argThat(arg -> arg.getId().equals(typicalFeedbackQuestion.getId())),
-                argThat(arg -> arg.getGoogleId().equals(typicalInstructor.getGoogleId())),
+                argThat(arg -> arg.getAccountId().equals(typicalInstructor.getAccountId())),
                 argThat(arg -> arg == null)))
                 .thenReturn(typicalRecipients);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         GetFeedbackQuestionRecipientsAction action = getAction(params);
         JsonResult result = action.execute();
@@ -132,7 +132,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         verifyHttpParameterFailure(params);
     }
@@ -146,7 +146,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         verifyHttpParameterFailure(params);
     }
@@ -160,7 +160,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         when(mockLogic.getFeedbackQuestion(any(UUID.class))).thenReturn(null);
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         verifyEntityNotFound(params);
     }
@@ -179,11 +179,11 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         selfRecipients.put("self", new FeedbackQuestionRecipient(typicalStudent.getName(), typicalStudent.getEmail()));
 
         when(mockLogic.getFeedbackQuestion(selfQuestion.getId())).thenReturn(selfQuestion);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getRecipientsOfQuestion(any(), any(), any())).thenReturn(selfRecipients);
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         GetFeedbackQuestionRecipientsAction action = getAction(selfParams);
         JsonResult result = action.execute();
@@ -244,8 +244,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 .thenReturn(typicalFeedbackSession);
 
         ______TS("Student accessing own feedback - can access");
-        loginAsStudent(typicalStudent.getGoogleId());
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        loginAsStudent(typicalStudent.getAccountId());
+        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId()))
                 .thenReturn(typicalStudent);
         verifyCanAccess(params);
 
@@ -270,12 +270,12 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
                 typicalFeedbackQuestion.getCourseId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalInstructor.getCourseId(), typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
 
         ______TS("Instructor accessing own feedback - can access");
         typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
         verifyCanAccess(params);
 
         ______TS("Instructor preview as student - can access");

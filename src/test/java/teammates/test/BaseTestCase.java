@@ -48,6 +48,12 @@ import teammates.storage.sqlentity.UsageStatistics;
 @SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class BaseTestCase {
 
+    /** Stable account UUID for {@link #getTypicalAccount()} / {@link #getTypicalInstructor()}. */
+    public static final UUID TYPICAL_INSTRUCTOR_ACCOUNT_ID = UUID.fromString("00000000-0000-4000-8000-000000000001");
+
+    /** Stable account UUID for {@link #getTypicalStudent()}. */
+    public static final UUID TYPICAL_STUDENT_ACCOUNT_ID = UUID.fromString("00000000-0000-4000-8000-000000000002");
+
     /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.
@@ -104,7 +110,15 @@ public class BaseTestCase {
      * student.setName("New Student Name");
      */
     protected Account getTypicalAccount() {
-        return new Account("google-id", "name", "email@teammates.com");
+        Account account = new Account("name", "email@teammates.com");
+        account.setId(TYPICAL_INSTRUCTOR_ACCOUNT_ID);
+        return account;
+    }
+
+    protected Account getTypicalStudentAccount() {
+        Account account = new Account("student-name", "validstudent@teammates.tmt");
+        account.setId(TYPICAL_STUDENT_ACCOUNT_ID);
+        return account;
     }
 
     protected Notification getTypicalNotificationWithId() {
@@ -122,8 +136,10 @@ public class BaseTestCase {
         InstructorPermissionRole role = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
-        return new Instructor(course, "instructor-name", "valid@teammates.tmt",
+        Instructor instructor = new Instructor(course, "instructor-name", "valid@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
+        instructor.setAccount(getTypicalAccount());
+        return instructor;
     }
 
     protected Course getTypicalCourse() {
@@ -132,7 +148,9 @@ public class BaseTestCase {
 
     protected Student getTypicalStudent() {
         Course course = getTypicalCourse();
-        return new Student(course, "student-name", "validstudent@teammates.tmt", "comments");
+        Student student = new Student(course, "student-name", "validstudent@teammates.tmt", "comments");
+        student.setAccount(getTypicalStudentAccount());
+        return student;
     }
 
     protected Section getTypicalSection() {

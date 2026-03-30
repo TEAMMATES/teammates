@@ -57,9 +57,9 @@ public class RemindFeedbackSessionSubmissionActionTest
         instructor = generateInstructor1InCourse(course);
         student = generateStudent1InCourse(course);
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
     }
 
@@ -132,9 +132,10 @@ public class RemindFeedbackSessionSubmissionActionTest
     private Student generateStudent1InCourse(Course courseStudentIsIn) {
         String email = "student1@gmail.com";
         String name = "student-1";
-        String googleId = "student-1";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
-        s.setAccount(new Account(googleId, name, email));
+        Account acc = new Account(name, email);
+        acc.setId(java.util.UUID.nameUUIDFromBytes("student-1".getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        s.setAccount(acc);
         return s;
     }
 

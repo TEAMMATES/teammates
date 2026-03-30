@@ -42,25 +42,25 @@ public class AccountsLogicTest extends BaseTestCase {
         accountsDb = mock(AccountsDb.class);
         notificationsLogic = mock(NotificationsLogic.class);
         usersLogic = mock(UsersLogic.class);
+        coursesLogic = mock(CoursesLogic.class);
         accountsLogic.initLogicDependencies(accountsDb, notificationsLogic, usersLogic, coursesLogic);
     }
 
     @Test
     public void testDeleteAccount_accountExists_success() {
         Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
 
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        when(accountsDb.getAccount(account.getId())).thenReturn(account);
 
-        accountsLogic.deleteAccount(googleId);
+        accountsLogic.deleteAccount(account.getId());
 
         verify(accountsDb, times(1)).deleteAccount(account);
     }
 
     @Test
-    public void testDeleteAccountCascade_googleIdExists_success() {
+    public void testDeleteAccountCascade_accountExists_success() {
         Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
+        String accountId = account.getId().toString();
         List<User> users = new ArrayList<>();
 
         for (int i = 0; i < 2; ++i) {
@@ -68,10 +68,10 @@ public class AccountsLogicTest extends BaseTestCase {
             users.add(getTypicalStudent());
         }
 
-        when(usersLogic.getAllUsersByGoogleId(googleId)).thenReturn(users);
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        when(usersLogic.getAllUsersByAccountId(accountId)).thenReturn(users);
+        when(accountsDb.getAccount(account.getId())).thenReturn(account);
 
-        accountsLogic.deleteAccountCascade(googleId);
+        accountsLogic.deleteAccountCascade(accountId);
 
         for (User user : users) {
             verify(usersLogic, times(1)).deleteUser(user);
@@ -84,16 +84,16 @@ public class AccountsLogicTest extends BaseTestCase {
             throws InvalidParametersException, EntityDoesNotExistException {
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
-        String googleId = account.getGoogleId();
+        String accountId = account.getId().toString();
         UUID notificationId = notification.getId();
 
-        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
+        when(accountsDb.getAccount(account.getId())).thenReturn(account);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
 
-        List<UUID> readNotificationIds = accountsLogic.updateReadNotifications(googleId, notificationId,
+        List<UUID> readNotificationIds = accountsLogic.updateReadNotifications(accountId, notificationId,
                 notification.getEndTime());
 
-        verify(accountsDb, times(1)).getAccountByGoogleId(googleId);
+        verify(accountsDb, times(1)).getAccount(account.getId());
         verify(notificationsLogic, times(1)).getNotification(notificationId);
 
         assertEquals(1, readNotificationIds.size());
@@ -105,15 +105,15 @@ public class AccountsLogicTest extends BaseTestCase {
             throws InvalidParametersException, EntityDoesNotExistException {
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
-        String googleId = account.getGoogleId();
+        String accountId = account.getId().toString();
         UUID notificationId = notification.getId();
 
-        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
+        when(accountsDb.getAccount(account.getId())).thenReturn(account);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
 
-        accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+        accountsLogic.updateReadNotifications(accountId, notificationId, notification.getEndTime());
 
-        verify(accountsDb, times(1)).getAccountByGoogleId(googleId);
+        verify(accountsDb, times(1)).getAccount(account.getId());
         verify(notificationsLogic, times(1)).getNotification(notificationId);
 
         List<ReadNotification> accountReadNotifications = account.getReadNotifications();
@@ -127,14 +127,14 @@ public class AccountsLogicTest extends BaseTestCase {
     public void testUpdateReadNotifications_accountDoesNotExist_throwEntityDoesNotExistException() {
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
-        String googleId = account.getGoogleId();
+        String accountId = account.getId().toString();
         UUID notificationId = notification.getId();
 
-        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(null);
+        when(accountsDb.getAccount(account.getId())).thenReturn(null);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime()));
+                () -> accountsLogic.updateReadNotifications(accountId, notificationId, notification.getEndTime()));
         assertEquals("Trying to update the read notifications of a non-existent account.", ex.getMessage());
     }
 
@@ -142,14 +142,14 @@ public class AccountsLogicTest extends BaseTestCase {
     public void testUpdateReadNotifications_notificationDoesNotExist_throwEntityDoesNotExistException() {
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
-        String googleId = account.getGoogleId();
+        String accountId = account.getId().toString();
         UUID notificationId = notification.getId();
 
-        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
+        when(accountsDb.getAccount(account.getId())).thenReturn(account);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(null);
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime()));
+                () -> accountsLogic.updateReadNotifications(accountId, notificationId, notification.getEndTime()));
         assertEquals("Trying to mark as read a notification that does not exist.", ex.getMessage());
     }
 
@@ -158,24 +158,24 @@ public class AccountsLogicTest extends BaseTestCase {
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
         notification.setEndTime(Instant.parse("2012-01-01T00:00:00Z"));
-        String googleId = account.getGoogleId();
+        String accountId = account.getId().toString();
         UUID notificationId = notification.getId();
 
-        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
+        when(accountsDb.getAccount(account.getId())).thenReturn(account);
         when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime()));
+                () -> accountsLogic.updateReadNotifications(accountId, notificationId, notification.getEndTime()));
         assertEquals("Trying to mark an expired notification as read.", ex.getMessage());
     }
 
     @Test
     public void testGetReadNotificationsId_doesNotHaveReadNotifications_success() {
         Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
-        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
+        String accountId = account.getId().toString();
+        when(accountsDb.getAccount(account.getId())).thenReturn(account);
 
-        List<UUID> readNotifications = accountsLogic.getReadNotificationsId(googleId);
+        List<UUID> readNotifications = accountsLogic.getReadNotificationsId(accountId);
 
         assertEquals(0, readNotifications.size());
     }
@@ -191,10 +191,10 @@ public class AccountsLogicTest extends BaseTestCase {
         }
         account.setReadNotifications(readNotifications);
 
-        String googleId = account.getGoogleId();
-        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
+        String accountId = account.getId().toString();
+        when(accountsDb.getAccount(account.getId())).thenReturn(account);
 
-        List<UUID> actualReadNotifications = accountsLogic.getReadNotificationsId(googleId);
+        List<UUID> actualReadNotifications = accountsLogic.getReadNotificationsId(accountId);
 
         assertEquals(10, actualReadNotifications.size());
 

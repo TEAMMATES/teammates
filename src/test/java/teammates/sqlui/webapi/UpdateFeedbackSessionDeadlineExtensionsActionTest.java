@@ -63,7 +63,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
         course = generateCourse1();
         instructor = generateInstructor1InCourse(course);
 
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>());
         when(mockLogic.getInstructorsByCourse(course.getId())).thenReturn(new ArrayList<>(List.of(instructor)));
@@ -75,7 +75,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
     @Test
     void testExecute_updateDeadlineExtensionEndTime_success()
             throws InvalidParametersException, EntityDoesNotExistException {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
 
         String[] param = new String[] {
@@ -102,7 +102,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
     @Test
     void testExecute_createDeadlineExtensionEndTime_success()
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
 
         String[] param = new String[] {
