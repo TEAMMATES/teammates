@@ -202,10 +202,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
         if (resp.unsuccessfulEnrolls != null) {
           for (const unsuccessfulEnroll of resp.unsuccessfulEnrolls) {
-            this.unsuccessfulEnrolls[unsuccessfulEnroll.studentEmail] = unsuccessfulEnroll.errorMessage;
+            const normalizedEmail: string = this.normalizeEmail(unsuccessfulEnroll.studentEmail);
+            this.unsuccessfulEnrolls[normalizedEmail] = unsuccessfulEnroll.errorMessage;
 
             for (const index of studentEnrollRequests.keys()) {
-              if (studentEnrollRequests.get(index)?.email === unsuccessfulEnroll.studentEmail) {
+              if (this.normalizeEmail(studentEnrollRequests.get(index)?.email ?? '') === normalizedEmail) {
                 this.invalidRowsIndex.add(index);
                 break;
               }
@@ -340,13 +341,14 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return;
       }
 
-      if (!emailMap.has(request.email)) {
-        emailMap.set(request.email, key);
+      const normalizedEmail: string = this.normalizeEmail(request.email);
+      if (!emailMap.has(normalizedEmail)) {
+        emailMap.set(normalizedEmail, key);
         return;
       }
 
       this.invalidRowsIndex.add(key);
-      const firstIndex: number | undefined = emailMap.get(request.email);
+      const firstIndex: number | undefined = emailMap.get(normalizedEmail);
       if (firstIndex !== undefined) {
         this.invalidRowsIndex.add(firstIndex);
       }
@@ -388,13 +390,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     const emailToIndexMap: Map<string, number> = new Map();
     enrollRequests.forEach((enrollRequest: StudentEnrollRequest, index: number) => {
-      emailToIndexMap.set(enrollRequest.email, index);
+      emailToIndexMap.set(this.normalizeEmail(enrollRequest.email), index);
     });
 
     // Identify students not in the enroll list.
     for (const existingStudent of existingStudents) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
-        return student.email === existingStudent.email;
+        return this.normalizeEmail(student.email) === this.normalizeEmail(existingStudent.email);
       });
       if (enrolledStudent === undefined) {
         studentLists[EnrollStatus.UNMODIFIED].push(existingStudent);
@@ -407,7 +409,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return this.isSameEnrollInformation(student, enrolledStudent);
       });
       const modifiedStudent: Student | undefined = existingStudents.find((student: Student) => {
-        return student.email === enrolledStudent.email;
+        return this.normalizeEmail(student.email) === this.normalizeEmail(enrolledStudent.email);
       });
 
       if (unchangedStudent !== undefined) {
@@ -425,7 +427,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     // Identify students that failed to enroll.
     for (const request of enrollRequests.values()) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
-        return student.email === request.email;
+        return this.normalizeEmail(student.email) === this.normalizeEmail(request.email);
       });
 
       if (enrolledStudent === undefined) {
@@ -466,18 +468,26 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   private addToRowsIndexSet(email: string, emailToIndexMap: Map<string, number>, rowsIndex: Set<number>): void {
-    const index: number | undefined = emailToIndexMap.get(email);
+    const index: number | undefined = emailToIndexMap.get(this.normalizeEmail(email));
     if (index !== undefined) {
       rowsIndex.add(index);
     }
   }
 
   private isSameEnrollInformation(enrolledStudent: Student, existingStudent: Student): boolean {
-    return enrolledStudent.email === existingStudent.email
+    return this.normalizeEmail(enrolledStudent.email) === this.normalizeEmail(existingStudent.email)
         && enrolledStudent.name === existingStudent.name
         && enrolledStudent.teamName === existingStudent.teamName
         && enrolledStudent.sectionName === existingStudent.sectionName
         && enrolledStudent.comments === existingStudent.comments;
+  }
+
+  getUnsuccessfulEnrollError(email: string): string | undefined {
+    return this.unsuccessfulEnrolls[this.normalizeEmail(email)];
+  }
+
+  private normalizeEmail(email: string): string {
+    return email.trim().toLowerCase();
   }
 
   /**
