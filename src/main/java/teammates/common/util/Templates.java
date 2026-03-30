@@ -42,16 +42,16 @@ public final class Templates {
                 FileHelper.readResourceFile("userEmailTemplate-userRegisterForCourse.html");
         public static final String FRAGMENT_STUDENT_COURSE_JOIN =
                 FileHelper.readResourceFile("studentEmailFragment-courseJoin.html");
-        public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
-                FileHelper.readResourceFile("studentEmailFragment-googleIdReset.html");
+        public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_ACCOUNT_RESET =
+                FileHelper.readResourceFile("studentEmailFragment-accountReset.html");
         public static final String FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET =
                 FileHelper.readResourceFile("studentEmailFragment-registrationKeyReset.html");
         public static final String FRAGMENT_INSTRUCTOR_COPY_PREAMBLE =
                 FileHelper.readResourceFile("instructorEmailFragment-instructorCopyPreamble.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN =
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
-        public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
-                FileHelper.readResourceFile("instructorEmailFragment-googleIdReset.html");
+        public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_ACCOUNT_RESET =
+                FileHelper.readResourceFile("instructorEmailFragment-accountReset.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET =
                 FileHelper.readResourceFile("instructorEmailFragment-registrationKeyReset.html");
         public static final String USER_FEEDBACK_SESSION =

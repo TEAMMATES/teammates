@@ -72,13 +72,13 @@ public final class CoursesLogic {
      * Creates a course and an associated instructor for the course.
      *
      * <br/>Preconditions: <br/>
-     * * {@code instructorGoogleId} already has an account and instructor privileges.
+     * * {@code instructorAccountId} already has an account and instructor privileges.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, Course courseToCreate)
+    public void createCourseAndInstructor(String instructorAccountId, Course courseToCreate)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        Account courseCreator = accountsLogic.getAccountForGoogleId(instructorGoogleId);
-        assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorGoogleId;
+        Account courseCreator = accountsLogic.getAccountById(instructorAccountId);
+        assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorAccountId;
 
         Course createdCourse = createCourse(courseToCreate);
 
@@ -117,10 +117,10 @@ public final class CoursesLogic {
     /**
      * Returns a list of {@link Course} for all courses a given student is enrolled in.
      *
-     * @param googleId The Google ID of the student
+     * @param accountId The account id (UUID string) of the student
      */
-    public List<Course> getCoursesForStudentAccount(String googleId) {
-        List<Student> students = usersLogic.getAllStudentsByGoogleId(googleId);
+    public List<Course> getCoursesForStudentAccount(String accountId) {
+        List<Student> students = usersLogic.getAllStudentsByAccountId(accountId);
 
         return students
                 .stream()

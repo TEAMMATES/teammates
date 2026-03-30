@@ -307,7 +307,7 @@ public final class Config {
     }
 
     /**
-     * Returns the list of admin Google IDs from {@code app.admins}.
+     * Returns the list of admin account identifiers from {@code app.admins}.
      * TODO: refactor all direct accesses to the field to this method call for consistency.
      */
     public static List<String> getAppAdmins() {
@@ -315,7 +315,7 @@ public final class Config {
     }
 
     /**
-     * Returns the list of maintainer Google IDs from {@code app.maintainers}.
+     * Returns the list of maintainer account identifiers from {@code app.maintainers}.
      * TODO: refactor all direct accesses to the field with this method call for consistency.
      */
     public static List<String> getAppMaintainers() {

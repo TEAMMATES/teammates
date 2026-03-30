@@ -337,7 +337,7 @@ public final class DataBundleLogic {
         fslLogic.createFeedbackSessionLogs(new ArrayList<>(sessionLogs));
 
         for (ReadNotification readNotification : readNotifications) {
-            accountsLogic.updateReadNotifications(readNotification.getAccount().getGoogleId(),
+            accountsLogic.updateReadNotifications(readNotification.getAccount().getId().toString(),
                     readNotification.getNotification().getId(), readNotification.getNotification().getEndTime());
         }
 
@@ -364,7 +364,7 @@ public final class DataBundleLogic {
             notificationsLogic.deleteNotification(notification.getId());
         });
         dataBundle.accounts.values().forEach(account -> {
-            accountsLogic.deleteAccount(account.getGoogleId());
+            accountsLogic.deleteAccount(account.getId());
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
             accountRequestsLogic.deleteAccountRequest(accountRequest.getId());

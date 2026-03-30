@@ -39,19 +39,6 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Sanitizes a google ID by removing leading/trailing whitespace.
-     *
-     * @return the sanitized google ID or null (if the parameter was null).
-     */
-    public static String sanitizeGoogleId(String rawGoogleId) {
-        if (rawGoogleId == null) {
-            return null;
-        }
-
-        return rawGoogleId.trim();
-    }
-
-    /**
      * Sanitizes an email address by removing leading/trailing whitespace.
      *
      * @return the sanitized email address or null (if the parameter was null).
