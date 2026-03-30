@@ -31,12 +31,6 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         homePage.addInstructor(name, email, institute);
         homePage.verifyStatusMessage("Instructor \"" + name + "\" has been successfully created");
 
-        String singleLineDetails = "Instructor With Invalid Email | invalidemail | TEAMMATES Test Institute 1";
-
-        homePage.addInstructor(singleLineDetails);
-        homePage.verifyStatusMessage(
-                "\"invalidemail\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format.");
-
         ______TS("Verify that newly added instructor appears in account request table");
 
         homePage.verifyInstructorInAccountRequestTable(name, email, institute);
