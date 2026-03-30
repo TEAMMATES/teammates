@@ -14,8 +14,6 @@ import teammates.ui.output.AccountData;
  */
 public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
 
-    String accountId = "tm.e2e.AAccounts.instr2";
-
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(loadDataBundle("/AdminAccountsPageE2ETestSql.json"));
@@ -24,6 +22,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
+        String accountId = testData.accounts.get("AAccounts.instr2").getAccountId();
         ______TS("verify loaded data");
         AppUrl accountsPageUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, accountId);

@@ -21,7 +21,7 @@ import teammates.ui.webapi.UpdateInstructorPrivilegeAction;
  */
 public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateInstructorPrivilegeAction> {
 
-    String accountId = "user-accountId";
+    String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     String instructorEmail = "instructoremail@tm.tmt";
     String helperEmail = "helperemail@tm.tmt";
 

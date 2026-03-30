@@ -226,7 +226,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
         };
 
-        loginAsUnregistered("unregistered user");
+        loginAsUnregistered(TEST_UNREGISTERED_ACCOUNT_ID.toString());
         verifyCannotAccess(params);
     }
 

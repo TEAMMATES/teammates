@@ -13,7 +13,7 @@ import teammates.ui.webapi.SendErrorReportAction;
  * SUT: {@link SendErrorReportAction}.
  */
 public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAction> {
-    private static final String TEST_USER_ID = "user-accountId";
+    private static final String TEST_USER_ID = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     private static final String REQUEST_ID = "REQUESTID";
     private static final String SUBJECT = "Email subject";
     private static final String CONTENT = "Email content";

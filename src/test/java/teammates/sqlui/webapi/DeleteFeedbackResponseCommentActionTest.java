@@ -166,7 +166,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 .thenReturn(typicalFeedbackResponseComment);
         when(mockLogic.getInstructorByAccountId(any(String.class), any(String.class))).thenReturn(null);
 
-        loginAsUnregistered("unreg.user");
+        loginAsUnregistered("00000000-0000-4000-8000-0000000000f6");
 
         verifyCannotAccess(params);
     }
@@ -383,7 +383,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
 
-        loginAsUnregistered("unreg");
+        loginAsUnregistered("00000000-0000-4000-8000-0000000000f7");
 
         verifyCannotAccess(params);
     }

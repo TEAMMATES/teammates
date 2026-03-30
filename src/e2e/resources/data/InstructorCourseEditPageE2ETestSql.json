@@ -2,67 +2,56 @@
   "accounts": {
     "ICEdit.coowner": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.ICEdit.coowner",
       "name": "Teammates Test",
       "email": "ICEdit.coowner@gmail.tmt"
     },
     "ICEdit.observer": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.ICEdit.observer",
       "name": "Teammates Instructor",
       "email": "ICEdit.observer@gmail.tmt"
     },
     "ICEdit.manager.CS2104": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.ICEdit.manager.CS2104",
       "name": "CS2104 Manager",
       "email": "ICEdit.manager.CS2104@gmail.tmt"
     },
     "ICEdit.tutor.CS2104": {
       "id": "00000000-0000-4000-8000-000000000004",
-      "googleId": "tm.e2e.ICEdit.tutor.CS2104",
       "name": "CS2104 Tutor",
       "email": "ICEdit.tutor.CS2104@gmail.tmt"
     },
     "ICEdit.helper.CS2104": {
       "id": "00000000-0000-4000-8000-000000000005",
-      "googleId": "tm.e2e.ICEdit.helper.CS2104",
       "name": "CS2104 Helper",
       "email": "ICEdit.helper.CS2104@gmail.tmt"
     },
     "ICEdit.helper.CS2103T": {
       "id": "00000000-0000-4000-8000-000000000006",
-      "googleId": "tm.e2e.ICEdit.helper.CS2103T",
       "name": "CS2103T Helper",
       "email": "ICEdit.helper.CS2103T@gmail.tmt"
     },
     "ICEdit.manager.CS2105": {
       "id": "00000000-0000-4000-8000-000000000007",
-      "googleId": "tm.e2e.ICEdit.manager.CS2105",
       "name": "CS2105 Manager",
       "email": "ICEdit.manager.CS2105@gmail.tmt"
     },
     "ICEdit.tutor.CS2106": {
       "id": "00000000-0000-4000-8000-000000000008",
-      "googleId": "tm.e2e.ICEdit.tutor.CS2106",
       "name": "CS2106 Tutor",
       "email": "ICEdit.tutor.CS2106@gmail.tmt"
     },
     "tm.e2e.ICEdit.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000009",
-      "googleId": "tm.e2e.ICEdit.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt"
     },
     "tm.e2e.ICEdit.charlie.tmms": {
       "id": "00000000-0000-4000-8000-000000000010",
-      "googleId": "tm.e2e.ICEdit.charlie.tmms",
       "name": "Charlie Davis",
       "email": "charlie.d.tmms@gmail.tmt"
     },
     "tm.e2e.ICEdit.danny.tmms": {
       "id": "00000000-0000-4000-8000-000000000011",
-      "googleId": "tm.e2e.ICEdit.danny.tmms",
       "name": "Danny Engrid",
       "email": "danny.e.tmms@gmail.tmt"
     }

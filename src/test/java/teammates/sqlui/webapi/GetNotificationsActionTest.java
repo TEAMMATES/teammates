@@ -21,7 +21,7 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetNotificationsAction}.
  */
 public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsAction> {
-    private static final String TEST_USER_ID = "user-accountId";
+    private static final String TEST_USER_ID = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     private static final int READ_NOTIFICATION_COUNT = 5;
     private static final int UNREAD_NOTIFICATION_COUNT = 10;
 

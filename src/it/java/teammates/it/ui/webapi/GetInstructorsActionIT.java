@@ -115,7 +115,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyEntityNotFoundAcl(params);
 
         ______TS("Unknown login entity, intent FULL_DETAIL");
-        loginAsUnregistered("unregistered");
+        loginAsUnregistered(TEST_UNREGISTERED_ACCOUNT_ID.toString());
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),

@@ -22,7 +22,7 @@ import teammates.ui.webapi.UpdateCourseAction;
  */
 public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
 
-    String accountId = "user-accountId";
+    String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     protected String getActionUri() {

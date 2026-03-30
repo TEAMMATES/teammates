@@ -120,7 +120,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         verifyCanAccess(params);
 
         ______TS("Unknown login entity");
-        loginAsUnregistered("does-not-exist-id");
+        loginAsUnregistered("00000000-0000-4000-8000-0000000000f1");
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),

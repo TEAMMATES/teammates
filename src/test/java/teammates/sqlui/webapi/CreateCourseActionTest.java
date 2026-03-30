@@ -27,7 +27,7 @@ import teammates.ui.webapi.JsonResult;
  */
 public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
-    String accountId = "user-accountId";
+    String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @Override

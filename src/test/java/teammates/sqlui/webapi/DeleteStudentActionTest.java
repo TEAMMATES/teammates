@@ -25,8 +25,8 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     private Course course;
     private Student student;
     private Instructor instructor;
-    private String studentId = "student-accountId";
-    private String instructorId = "instructor-accountId";
+    private String studentId = TYPICAL_STUDENT_ACCOUNT_ID.toString();
+    private String instructorId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     protected String getActionUri() {

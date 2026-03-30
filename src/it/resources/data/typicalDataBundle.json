@@ -2,61 +2,51 @@
   "accounts": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "instructor1",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "instructor2",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt"
     },
     "instructorOfUnregisteredCourse": {
       "id": "00000000-0000-4000-8000-000000000004",
-      "googleId": "InstructorOfUnregisteredCourse",
       "name": "Instructor Of Unregistered Course",
       "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt"
     },
     "instructorOfCourse2WithUniqueDisplayName": {
       "id": "00000000-0000-4000-8000-000000000005",
-      "googleId": "instructorOfCourse2WithUniqueDisplayName",
       "name": "Instructor Of Course 2 With Unique Display Name",
       "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt"
     },
     "unregisteredInstructor1": {
       "id": "00000000-0000-4000-8000-000000000006",
-      "googleId": "unregisteredInstructor1",
       "name": "Unregistered Instructor 1",
       "email": "unregisteredinstructor1@gmail.tmt"
     },
     "unregisteredInstructor2": {
       "id": "00000000-0000-4000-8000-000000000007",
-      "googleId": "unregisteredInstructor2",
       "name": "Unregistered Instructor 2",
       "email": "unregisteredinstructor2@gmail.tmt"
     },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "googleId": "idOfStudent1Course1",
       "name": "Student 1",
       "email": "student1@teammates.tmt"
     },
     "student2": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "googleId": "idOfStudent2Course1",
       "name": "Student 2",
       "email": "student2@teammates.tmt"
     },
     "student3": {
       "id": "00000000-0000-4000-8000-000000000103",
-      "googleId": "idOfStudent3Course1",
       "name": "Student 3",
       "email": "student3@teammates.tmt"
     },
     "student4": {
       "id": "00000000-0000-4000-8000-000000000104",
-      "googleId": "idOfStudent4Course1",
       "name": "Student 4",
       "email": "student4@teammates.tmt"
     }
@@ -200,12 +190,12 @@
       "name": "Section 3"
     },
     "section1InCourse3": {
-        "id": "00000000-0000-4000-8000-000000000204",
-        "course": {
-          "id": "course-3"
-        },
-        "name": "Section 1"
-      }
+      "id": "00000000-0000-4000-8000-000000000204",
+      "course": {
+        "id": "course-3"
+      },
+      "name": "Section 1"
+    }
   },
   "teams": {
     "team1InCourse1": {
@@ -230,12 +220,12 @@
       "name": "Team 3"
     },
     "team1InCourse3": {
-        "id": "00000000-0000-4000-8000-000000000304",
-        "section": {
-          "id": "00000000-0000-4000-8000-000000000204"
-        },
-        "name": "Team 1"
+      "id": "00000000-0000-4000-8000-000000000304",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000204"
       },
+      "name": "Team 1"
+    },
     "team2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000305",
       "section": {
@@ -589,16 +579,16 @@
       "comments": ""
     },
     "student1InCourse3": {
-        "id": "00000000-0000-4000-8000-000000000605",
-        "email": "student1@teammates.tmt",
-        "course": {
-            "id": "course-3"
-        },
-        "team": {
-            "id": "00000000-0000-4000-8000-000000000304"
-        },
-        "name": "student1 In Course3</td></div>'\"",
-        "comments": "comment for student1InCourse3</td></div>'\""
+      "id": "00000000-0000-4000-8000-000000000605",
+      "email": "student1@teammates.tmt",
+      "course": {
+        "id": "course-3"
+      },
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000304"
+      },
+      "name": "student1 In Course3</td></div>'\"",
+      "comments": "comment for student1InCourse3</td></div>'\""
     },
     "unregisteredStudentInCourse1": {
       "id": "00000000-0000-4000-8000-000000000606",
@@ -845,9 +835,15 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000802",
@@ -864,9 +860,17 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
     },
     "qn3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000803",
@@ -949,9 +953,15 @@
       "giverType": "SELF",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn6InSession1InCourse1NoResponses": {
       "id": "00000000-0000-4000-8000-000000000806",
@@ -968,9 +978,15 @@
       "giverType": "SELF",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn7InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000807",
@@ -987,12 +1003,18 @@
       "giverType": "SELF",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn8InSession1InCourse1": {
-    "id": "00000000-0000-4000-8000-000000000808",
+      "id": "00000000-0000-4000-8000-000000000808",
       "feedbackSession": {
         "id": "00000000-0000-4000-8000-000000000701"
       },
@@ -1006,9 +1028,15 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["RECEIVER"],
-      "showGiverNameTo": ["RECEIVER"],
-      "showRecipientNameTo": ["RECEIVER"]
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
     },
     "qn9InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000809",
@@ -1024,9 +1052,15 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn1InSession2InCourse1": {
       "id": "00000000-0000-4000-8001-000000000800",
@@ -1037,7 +1071,10 @@
         "hasAssignedWeights": false,
         "mcqWeights": [],
         "mcqOtherWeight": 0.0,
-        "mcqChoices": ["Great", "Perfect"],
+        "mcqChoices": [
+          "Great",
+          "Perfect"
+        ],
         "otherEnabled": false,
         "questionDropdownEnabled": false,
         "generateOptionsFor": "NONE",
@@ -1049,9 +1086,15 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {
@@ -1116,9 +1159,17 @@
         "giverType": "STUDENTS",
         "recipientType": "STUDENTS_EXCLUDING_SELF",
         "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-        "showGiverNameTo": ["INSTRUCTORS"],
-        "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+        "showResponsesTo": [
+          "INSTRUCTORS",
+          "RECEIVER"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS",
+          "RECEIVER"
+        ]
       },
       "giver": "student2@teammates.tmt",
       "recipient": "student1@teammates.tmt",
@@ -1150,9 +1201,17 @@
         "giverType": "STUDENTS",
         "recipientType": "STUDENTS_EXCLUDING_SELF",
         "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-        "showGiverNameTo": ["INSTRUCTORS"],
-        "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+        "showResponsesTo": [
+          "INSTRUCTORS",
+          "RECEIVER"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS",
+          "RECEIVER"
+        ]
       },
       "giver": "student3@teammates.tmt",
       "recipient": "student2@teammates.tmt",
@@ -1197,7 +1256,10 @@
           "hasAssignedWeights": false,
           "mcqWeights": [],
           "mcqOtherWeight": 0.0,
-          "mcqChoices": ["Great", "Perfect"],
+          "mcqChoices": [
+            "Great",
+            "Perfect"
+          ],
           "otherEnabled": false,
           "questionDropdownEnabled": false,
           "generateOptionsFor": "NONE",
@@ -1373,10 +1435,10 @@
     "student1Session1Log1": {
       "id": "00000000-0000-4000-8000-000000001301",
       "student": {
-        "id" : "00000000-0000-4000-8000-000000000601"
+        "id": "00000000-0000-4000-8000-000000000601"
       },
       "feedbackSession": {
-        "id" : "00000000-0000-4000-8000-000000000701"
+        "id": "00000000-0000-4000-8000-000000000701"
       },
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:00Z"
@@ -1384,10 +1446,10 @@
     "student1Session2Log1": {
       "id": "00000000-0000-4000-8000-000000001302",
       "student": {
-        "id" : "00000000-0000-4000-8000-000000000601"
+        "id": "00000000-0000-4000-8000-000000000601"
       },
       "feedbackSession": {
-        "id" : "00000000-0000-4000-8000-000000000702"
+        "id": "00000000-0000-4000-8000-000000000702"
       },
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:01Z"
@@ -1395,10 +1457,10 @@
     "student1Session2Log2": {
       "id": "00000000-0000-4000-8000-000000001303",
       "student": {
-        "id" : "00000000-0000-4000-8000-000000000601"
+        "id": "00000000-0000-4000-8000-000000000601"
       },
       "feedbackSession": {
-        "id" : "00000000-0000-4000-8000-000000000702"
+        "id": "00000000-0000-4000-8000-000000000702"
       },
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "2012-01-01T12:00:02Z"
@@ -1406,10 +1468,10 @@
     "student2Session1Log1": {
       "id": "00000000-0000-4000-8000-000000001304",
       "student": {
-        "id" : "00000000-0000-4000-8000-000000000602"
+        "id": "00000000-0000-4000-8000-000000000602"
       },
       "feedbackSession": {
-        "id" : "00000000-0000-4000-8000-000000000701"
+        "id": "00000000-0000-4000-8000-000000000701"
       },
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:03Z"
@@ -1417,10 +1479,10 @@
     "student2Session1Log2": {
       "id": "00000000-0000-4000-8000-000000001305",
       "student": {
-        "id" : "00000000-0000-4000-8000-000000000602"
+        "id": "00000000-0000-4000-8000-000000000602"
       },
       "feedbackSession": {
-        "id" : "00000000-0000-4000-8000-000000000701"
+        "id": "00000000-0000-4000-8000-000000000701"
       },
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "2012-01-01T12:00:04Z"
@@ -1428,10 +1490,10 @@
     "student1InAnotherCourse": {
       "id": "00000000-0000-4000-8000-000000001306",
       "student": {
-        "id" : "00000000-0000-4000-8000-000000000601"
+        "id": "00000000-0000-4000-8000-000000000601"
       },
       "feedbackSession": {
-        "id" : "00000000-0000-4000-8000-000000000707"
+        "id": "00000000-0000-4000-8000-000000000707"
       },
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:05Z"
@@ -1439,10 +1501,10 @@
     "outOfRangeLog": {
       "id": "00000000-0000-4000-8000-000000001307",
       "student": {
-        "id" : "00000000-0000-4000-8000-000000000602"
+        "id": "00000000-0000-4000-8000-000000000602"
       },
       "feedbackSession": {
-        "id" : "00000000-0000-4000-8000-000000000701"
+        "id": "00000000-0000-4000-8000-000000000701"
       },
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2010-01-01T00:00:00Z"

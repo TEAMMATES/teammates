@@ -2,19 +2,16 @@
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.FCSumOptQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt"
     },
     "tm.e2e.FCSumOptQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.FCSumOptQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt"
     },
     "tm.e2e.FCSumOptQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.FCSumOptQn.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.c.tmms@gmail.tmt"
     }

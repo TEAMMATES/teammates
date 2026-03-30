@@ -244,11 +244,11 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, "fake-accountId",
+                Const.ParamsNames.INSTRUCTOR_ID, "00000000-0000-4000-8000-00000000fa1e",
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        assertNull(logic.getInstructorByAccountId(instructor1OfCourse1.getCourseId(), "fake-accountId"));
+        assertNull(logic.getInstructorByAccountId(instructor1OfCourse1.getCourseId(), "00000000-0000-4000-8000-00000000fa1e"));
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);

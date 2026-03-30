@@ -23,6 +23,11 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link JoinCourseAction}.
  */
 public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
+
+    private static final String ACCT_UNREG_STUDENT = "00000000-0000-4000-8000-0000000000e1";
+    private static final String ACCT_UNREG_INSTRUCTOR = "00000000-0000-4000-8000-0000000000e2";
+    private static final String ACCT_UNREG_USER = "00000000-0000-4000-8000-0000000000e3";
+
     private Student stubStudent;
     private Instructor stubInstructor;
     private Course stubCourse;
@@ -68,10 +73,10 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     @Test
     void testExecute_validStudentRegKey_success() throws EntityAlreadyExistsException, InvalidParametersException,
             EntityDoesNotExistException {
-        loginAsUnregistered("unreg-student");
+        loginAsUnregistered(ACCT_UNREG_STUDENT);
 
         when(mockLogic.getStudentByRegistrationKey("registered-key-student")).thenReturn(stubStudent);
-        when(mockLogic.joinCourseForStudent("registered-key-student", "unreg-student")).thenReturn(stubStudent);
+        when(mockLogic.joinCourseForStudent("registered-key-student", ACCT_UNREG_STUDENT)).thenReturn(stubStudent);
         when(mockLogic.getCourse(stubStudent.getCourseId())).thenReturn(stubCourse);
         when(mockSqlEmailGenerator.generateUserCourseRegisteredEmail(stubStudent.getName(), stubStudent.getEmail(),
                 false, stubCourse)).thenReturn(stubEmailWrapper);
@@ -89,10 +94,10 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     @Test
     void testExecute_studentAlreadyExists_throwsInvalidOperationException() throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
-        loginAsUnregistered("unreg-student");
+        loginAsUnregistered(ACCT_UNREG_STUDENT);
 
         when(mockLogic.getStudentByRegistrationKey("registered-key-student")).thenReturn(stubStudent);
-        when(mockLogic.joinCourseForStudent("registered-key-student", "unreg-student"))
+        when(mockLogic.joinCourseForStudent("registered-key-student", ACCT_UNREG_STUDENT))
                 .thenThrow(EntityAlreadyExistsException.class);
         String[] params = {
                 Const.ParamsNames.REGKEY, "registered-key-student",
@@ -106,10 +111,10 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     @Test
     void testExecute_studentDoesNotExist_throwsEntityNotFoundException() throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
-        loginAsUnregistered("unreg-student");
+        loginAsUnregistered(ACCT_UNREG_STUDENT);
 
         when(mockLogic.getStudentByRegistrationKey("invalid-reg-key")).thenReturn(stubStudent);
-        when(mockLogic.joinCourseForStudent("invalid-reg-key", "unreg-student"))
+        when(mockLogic.joinCourseForStudent("invalid-reg-key", ACCT_UNREG_STUDENT))
                 .thenThrow(EntityDoesNotExistException.class);
         String[] params = {
                 Const.ParamsNames.REGKEY, "invalid-reg-key",
@@ -122,9 +127,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     @Test
     void testExecute_studentInvalidAccount_errorMessage() throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
-        loginAsUnregistered("unreg-student");
+        loginAsUnregistered(ACCT_UNREG_STUDENT);
         when(mockLogic.getStudentByRegistrationKey("invalid-reg-key")).thenReturn(stubStudent);
-        when(mockLogic.joinCourseForStudent("invalid-reg-key", "unreg-student"))
+        when(mockLogic.joinCourseForStudent("invalid-reg-key", ACCT_UNREG_STUDENT))
                 .thenThrow(InvalidParametersException.class);
         String[] params = {
                 Const.ParamsNames.REGKEY, "invalid-reg-key",
@@ -139,10 +144,10 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     @Test
     void testExecute_validInstructorRegKey_success() throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
-        loginAsUnregistered("unreg-instructor");
+        loginAsUnregistered(ACCT_UNREG_INSTRUCTOR);
 
         when(mockLogic.getInstructorByRegistrationKey("registered-key-instructor")).thenReturn(stubInstructor);
-        when(mockLogic.joinCourseForInstructor("registered-key-instructor", "unreg-instructor"))
+        when(mockLogic.joinCourseForInstructor("registered-key-instructor", ACCT_UNREG_INSTRUCTOR))
                 .thenReturn(stubInstructor);
         when(mockLogic.getCourse(stubInstructor.getCourseId())).thenReturn(stubCourse);
         when(mockSqlEmailGenerator.generateUserCourseRegisteredEmail(stubInstructor.getName(), stubInstructor.getEmail(),
@@ -161,10 +166,10 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     @Test
     void testExecute_instructorAlreadyExists_throwsInvalidOperationException() throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
-        loginAsUnregistered("unreg-instructor");
+        loginAsUnregistered(ACCT_UNREG_INSTRUCTOR);
 
         when(mockLogic.getInstructorByRegistrationKey("registered-key-instructor")).thenReturn(stubInstructor);
-        when(mockLogic.joinCourseForInstructor("registered-key-instructor", "unreg-instructor"))
+        when(mockLogic.joinCourseForInstructor("registered-key-instructor", ACCT_UNREG_INSTRUCTOR))
                 .thenThrow(EntityAlreadyExistsException.class);
         String[] params = {
                 Const.ParamsNames.REGKEY, "registered-key-instructor",
@@ -178,10 +183,10 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     @Test
     void testExecute_instructorDoesNotExist_throwsEntityNotFoundException() throws EntityDoesNotExistException,
             EntityAlreadyExistsException, InvalidParametersException {
-        loginAsUnregistered("unreg-instructor");
+        loginAsUnregistered(ACCT_UNREG_INSTRUCTOR);
 
         when(mockLogic.getInstructorByRegistrationKey("invalid-reg-key")).thenReturn(stubInstructor);
-        when(mockLogic.joinCourseForInstructor("invalid-reg-key", "unreg-instructor"))
+        when(mockLogic.joinCourseForInstructor("invalid-reg-key", ACCT_UNREG_INSTRUCTOR))
                 .thenThrow(EntityDoesNotExistException.class);
         String[] params = {
                 Const.ParamsNames.REGKEY, "invalid-reg-key",
@@ -194,9 +199,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     @Test
     void testExecute_instructorInvalidAccount_errorMessage() throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
-        loginAsUnregistered("unreg-instructor");
+        loginAsUnregistered(ACCT_UNREG_INSTRUCTOR);
         when(mockLogic.getInstructorByRegistrationKey("invalid-reg-key")).thenReturn(stubInstructor);
-        when(mockLogic.joinCourseForInstructor("invalid-reg-key", "unreg-instructor"))
+        when(mockLogic.joinCourseForInstructor("invalid-reg-key", ACCT_UNREG_INSTRUCTOR))
                 .thenThrow(InvalidParametersException.class);
         String[] params = {
                 Const.ParamsNames.REGKEY, "invalid-reg-key",
@@ -210,7 +215,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
 
     @Test
     void testExecute_invalidEntityType_throwsInvalidHttpParameterException() {
-        loginAsUnregistered("unreg-user");
+        loginAsUnregistered(ACCT_UNREG_USER);
 
         String[] params1 = {
                 Const.ParamsNames.REGKEY, "registered-key-student",
@@ -235,7 +240,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
 
     @Test
     void testSpecificAccessControl_loggedIn_canAccess() {
-        loginAsUnregistered("unreg-user");
+        loginAsUnregistered(ACCT_UNREG_USER);
         String[] params = {};
         verifyCanAccess(params);
 
@@ -244,11 +249,11 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         verifyCanAccess(params);
 
         logoutUser();
-        loginAsInstructor("instructor");
+        loginAsInstructor(TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString());
         verifyCanAccess(params);
 
         logoutUser();
-        loginAsStudent("student");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         verifyCanAccess(params);
     }
 

@@ -65,8 +65,8 @@ describe('CourseService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap);
   });
 
-  it('should GET student courses data of a given google id in masquerade mode', () => {
-    const accountId: string = 'test-id';
+  it('should GET student courses data of a given account id in masquerade mode', () => {
+    const accountId: string = '00000000-0000-4000-8000-0000000000ed';
     const paramMap: { [key: string]: string } = {
       entitytype: 'student',
       user: accountId,
@@ -75,8 +75,8 @@ describe('CourseService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSES, paramMap);
   });
 
-  it('should GET instructor courses data of a given google id in masquerade mode', () => {
-    const accountId: string = 'test-id';
+  it('should GET instructor courses data of a given account id in masquerade mode', () => {
+    const accountId: string = '00000000-0000-4000-8000-0000000000ed';
     const activeCoursesParamMap: { [key: string]: string } = {
       coursestatus: 'active',
       entitytype: 'instructor',

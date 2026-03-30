@@ -19,7 +19,7 @@ import teammates.ui.webapi.DeleteFeedbackSessionAction;
  * SUT: {@link DeleteFeedbackSessionAction}.
  */
 public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedbackSessionAction> {
-    private String accountId = "user-accountId";
+    private String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     private Course course;
     private FeedbackSession session;
 

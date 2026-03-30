@@ -70,7 +70,8 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
     @Test
     void testExecute_loggedInAsInstructor() {
-        loginAsInstructor("idOfInstructor1OfCourse1");
+        String instructorAccountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
+        loginAsInstructor(instructorAccountId);
 
         GetAuthInfoAction a = getAction();
         JsonResult r = getJsonResult(a);
@@ -86,12 +87,13 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertFalse(user.isAdmin);
         assertTrue(user.isInstructor);
         assertFalse(user.isStudent);
-        assertEquals("idOfInstructor1OfCourse1", user.id);
+        assertEquals(instructorAccountId, user.id);
     }
 
     @Test
     void testExecute_loggedInAsUnregisteredUser() {
-        loginAsUnregistered("unregisteredId");
+        String unregisteredAccountId = TEST_UNREGISTERED_ACCOUNT_ID.toString();
+        loginAsUnregistered(unregisteredAccountId);
 
         GetAuthInfoAction a = getAction();
         JsonResult r = getJsonResult(a);
@@ -107,7 +109,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertFalse(user.isAdmin);
         assertFalse(user.isInstructor);
         assertFalse(user.isStudent);
-        assertEquals("unregisteredId", user.id);
+        assertEquals(unregisteredAccountId, user.id);
     }
 
     @Test
@@ -135,7 +137,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         ______TS("User logged in with non existing csrf token");
 
-        loginAsInstructor("idOfInstructor1OfCourse1");
+        loginAsInstructor(TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString());
 
         a = getAction(emptyParams);
         r = getJsonResult(a);
@@ -144,7 +146,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         ______TS("User logged in with matched CSRF token cookies");
 
-        loginAsInstructor("idOfInstructor1OfCourse1");
+        loginAsInstructor(TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString());
 
         cookieToAdd = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME,
                 StringHelper.encrypt("1234"));

@@ -109,7 +109,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     void testExecute_withoutIntentInstructorsDisplayedToStudents_shouldReturnPartialData() {
-        loginAsStudent("student-id");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
@@ -123,7 +123,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     void testExecute_withoutIntentInstructorsNotDisplayedToStudents_shouldReturnNoData() {
-        loginAsStudent("student-id");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
@@ -306,7 +306,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     void testSpecificAccessControl_unregisteredUserLogin_cannotAccess() {
-        loginAsUnregistered("unregistered");
+        loginAsUnregistered(TEST_UNREGISTERED_ACCOUNT_ID.toString());
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
         String[] params1 = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),

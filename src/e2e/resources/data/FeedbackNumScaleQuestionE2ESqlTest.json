@@ -1,13 +1,11 @@
 {
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "tm.e2e.FNumScaleQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001"
     },
     "tm.e2e.FNumScaleQn.alice.tmms": {
-      "googleId": "tm.e2e.FNumScaleQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002"
@@ -195,9 +193,17 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
     },
     "qn1ForSecondSession": {
       "id": "00000000-0000-4000-8000-000000000802",
@@ -216,9 +222,17 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
     }
   },
   "notifications": {},

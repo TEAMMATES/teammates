@@ -323,7 +323,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     void verifyAccessibleForUnregisteredUsers(String... params) {
         ______TS("Non-registered users can access");
 
-        String unregUserId = "unreg.user";
+        String unregUserId = "00000000-0000-4000-8000-0000000000f2";
         loginAsUnregistered(unregUserId);
         verifyCanAccess(params);
     }
@@ -331,7 +331,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     void verifyInaccessibleForUnregisteredUsers(String... params) {
         ______TS("Non-registered users cannot access");
 
-        String unregUserId = "unreg.user";
+        String unregUserId = "00000000-0000-4000-8000-0000000000f2";
         loginAsUnregistered(unregUserId);
         verifyCannotAccess(params);
     }

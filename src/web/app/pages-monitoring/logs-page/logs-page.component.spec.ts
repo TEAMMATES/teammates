@@ -168,7 +168,7 @@ describe('LogsPageComponent', () => {
           function: 'testFunction',
         },
         userInfoParams: {
-          accountId: 'testGoogleId',
+          accountId: '00000000-0000-4000-8000-0000000000e6',
           regkey: '',
           email: '',
         },
@@ -193,7 +193,7 @@ describe('LogsPageComponent', () => {
         function: 'testFunction',
       },
       userInfoParams: {
-        accountId: 'testGoogleId',
+        accountId: '00000000-0000-4000-8000-0000000000e6',
         regkey: '',
         email: '',
       },

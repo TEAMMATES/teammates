@@ -17,7 +17,7 @@ import teammates.ui.webapi.DeleteCourseAction;
  */
 public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
 
-    String accountId = "user-accountId";
+    String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     protected String getActionUri() {

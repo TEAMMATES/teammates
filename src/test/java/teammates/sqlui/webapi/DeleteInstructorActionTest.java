@@ -33,7 +33,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     private Instructor instructor;
     private Instructor instructor2;
     private Student student;
-    private String studentId = "student-accountId";
+    private String studentId = TYPICAL_STUDENT_ACCOUNT_ID.toString();
 
     @Override
     protected String getActionUri() {
@@ -50,8 +50,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         Mockito.reset(mockLogic);
 
         course = getTypicalCourse();
-        instructor = setupInstructor("instructor-accountId", "instructoremail@teammates.tmt");
-        instructor2 = setupInstructor("instructor2-accountId", "instructor2email@teammates.tmt");
+        instructor = setupInstructor(TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString(), "instructoremail@teammates.tmt");
+        instructor2 = setupInstructor(TEST_OTHER_INSTRUCTOR_ACCOUNT_ID.toString(), "instructor2email@teammates.tmt");
         student = getTypicalStudent();
 
         setupMockLogic();
@@ -187,17 +187,17 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
     @Test
     void testExecute_deleteNonExistentInstructorByAccountId_failSilently() {
-        when(mockLogic.getInstructorByAccountId(course.getId(), "fake-accountId")).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(course.getId(), "00000000-0000-4000-8000-00000000fa1e")).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, "fake-accountId",
+                Const.ParamsNames.INSTRUCTOR_ID, "00000000-0000-4000-8000-00000000fa1e",
         };
 
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), "fake-accountId");
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), "00000000-0000-4000-8000-00000000fa1e");
         verify(mockLogic, never()).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }

@@ -38,7 +38,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
     private long startTime;
     private long endTime;
 
-    private String accountId = "test-account-id";
+    private String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     String getActionUri() {

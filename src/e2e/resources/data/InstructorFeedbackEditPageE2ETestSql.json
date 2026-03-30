@@ -2,13 +2,11 @@
   "accounts": {
     "InstFEP.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.InstFEP.instr",
       "name": "Teammates Test",
       "email": "InstFEP.instr@gmail.tmt"
     },
     "José Gómez": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.InstFEP.jose.tmms",
       "name": "José Gómez",
       "email": "InstFEP.jose.tmms@gmail.tmt"
     }
@@ -230,9 +228,15 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     },
     "qn1ForSecondCourseFirstSession": {
       "id": "00000000-0000-4000-8000-000000000802",
@@ -249,9 +253,15 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
     }
   },
   "feedbackResponses": {},

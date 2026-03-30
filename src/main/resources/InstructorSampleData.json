@@ -34,7 +34,6 @@
   },
   "students": {
     "alice.b.tmms@demo.course": {
-      "googleId": "",
       "email": "alice.b.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Alice Betsy",
@@ -43,7 +42,6 @@
       "section": "Tutorial Group 1"
     },
     "benny.c.tmms@demo.course": {
-      "googleId": "",
       "email": "benny.c.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Benny Charles",
@@ -52,7 +50,6 @@
       "section": "Tutorial Group 1"
     },
     "danny.e.tmms@demo.course": {
-      "googleId": "",
       "email": "danny.e.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Danny Engrid",
@@ -61,7 +58,6 @@
       "section": "Tutorial Group 1"
     },
     "emma.f.tmms@demo.course": {
-      "googleId": "",
       "email": "emma.f.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Emma Farrell",
@@ -70,7 +66,6 @@
       "section": "Tutorial Group 1"
     },
     "charlie.d.tmms@demo.course": {
-      "googleId": "",
       "email": "charlie.d.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Charlie Davis",
@@ -79,7 +74,6 @@
       "section": "Tutorial Group 2"
     },
     "teammates.demo.instructor@demo.course": {
-      "googleId": "",
       "email": "teammates.demo.instructor@demo.course",
       "course": "demo.course",
       "name": "Demo_Instructor",
@@ -88,7 +82,6 @@
       "section": "Tutorial Group 2"
     },
     "francis.g.tmms@demo.course": {
-      "googleId": "",
       "email": "francis.g.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Francis Gabriel",
@@ -97,7 +90,6 @@
       "section": "Tutorial Group 2"
     },
     "gene.h.tmms@demo.course": {
-      "googleId": "",
       "email": "gene.h.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Gene Hudson",
@@ -106,7 +98,6 @@
       "section": "Tutorial Group 2"
     },
     "hugh.i.tmms@demo.course": {
-      "googleId": "",
       "email": "hugh.i.tmms@gmail.tmt",
       "course": "demo.course",
       "name": "Hugh Ivanov",

@@ -19,7 +19,7 @@ import teammates.ui.webapi.RestoreCourseAction;
  */
 public class RestoreCourseActionTest extends BaseActionTest<RestoreCourseAction> {
 
-    String accountId = "user-accountId";
+    String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     protected String getActionUri() {

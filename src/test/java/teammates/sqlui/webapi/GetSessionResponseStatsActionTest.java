@@ -212,13 +212,13 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Test
     void testSpecificAccessControl_invalidInstructor_cannotAccess() {
-        loginAsInstructor("invalid-id");
+        loginAsInstructor("00000000-0000-4000-8000-0000000000f3");
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), "invalid-id"))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), "00000000-0000-4000-8000-0000000000f3"))
                 .thenReturn(null);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubCourse.getId()))
                 .thenReturn(stubFeedbackSession);

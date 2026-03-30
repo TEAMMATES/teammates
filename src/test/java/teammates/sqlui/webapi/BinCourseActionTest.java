@@ -20,7 +20,7 @@ import teammates.ui.webapi.BinCourseAction;
  */
 public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
-    String accountId = "user-accountId";
+    String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     protected String getActionUri() {

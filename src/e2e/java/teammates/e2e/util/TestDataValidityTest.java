@@ -78,7 +78,7 @@ public class TestDataValidityTest extends BaseTestCase {
 
                 dataBundle.accounts.forEach((bundleKey, account) -> {
                     String accountId = account.getId() != null ? account.getId().toString() : bundleKey;
-                    if (!isValidTestAccountId(accountId, testPage)) {
+                    if (!isValidTestAccountId(accountId)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid account id: " + accountId);
                     }
@@ -97,7 +97,7 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.students.forEach((id, student) -> {
-                    if (!isValidTestAccountId(student.getAccountId(), testPage)) {
+                    if (!isValidTestAccountId(student.getAccountId())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid student account id: " + student.getAccountId());
                     }
@@ -191,18 +191,14 @@ public class TestDataValidityTest extends BaseTestCase {
                 || isUuidCourseId) && courseId.length() < 64;
     }
 
-    private boolean isValidTestAccountId(String accountId, String testPage) {
+    private boolean isValidTestAccountId(String accountId) {
         if (accountId == null || "".equals(accountId)) {
             // Empty account id is always acceptable
             return true;
         }
-        // Some SQL fixtures use fixed UUID account ids (similar to course ids).
-        boolean isUuidAccountId = accountId.matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-"
+        // Account ids must be placeholder UUIDs in JSON (rewritten on persist).
+        return accountId.matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-"
                 + "[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
-        // SQL fixtures include both page-derived IDs and some legacy tm.e2e.* variants.
-        return (accountId.matches(constructIdRegex(testPage)) || accountId.startsWith("tm.e2e.")
-                || isUuidAccountId)
-                && accountId.length() < 64;
     }
 
     private String extractTestPage(String fileName) {

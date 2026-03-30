@@ -107,7 +107,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withStudentEntityType_success() {
-        loginAsStudent("student");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         when(mockLogic.getCoursesForStudentAccount("student")).thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
@@ -120,7 +120,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withInvalidEntityType_throwsException() {
-        loginAsStudent("student");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, "invalid",
         };
@@ -190,7 +190,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         verifyCannotAccess(params);
 
         logoutUser();
-        loginAsStudent("student");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         String[] params2 = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,

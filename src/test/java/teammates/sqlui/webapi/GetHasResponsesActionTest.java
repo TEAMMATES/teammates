@@ -298,7 +298,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         ______TS("Non-registered users cannot access");
 
-        loginAsUnregistered("unregistered user");
+        loginAsUnregistered(TEST_UNREGISTERED_ACCOUNT_ID.toString());
 
         verifyCannotAccess(paramsWithCourse);
         verifyCannotAccess(paramsWithFeedbackQuestion);

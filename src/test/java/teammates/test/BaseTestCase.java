@@ -54,6 +54,18 @@ public class BaseTestCase {
     /** Stable account UUID for {@link #getTypicalStudent()}. */
     public static final UUID TYPICAL_STUDENT_ACCOUNT_ID = UUID.fromString("00000000-0000-4000-8000-000000000002");
 
+    /** Account UUID for tests that simulate a logged-in user with no course roles (unregistered). */
+    public static final UUID TEST_UNREGISTERED_ACCOUNT_ID = UUID.fromString("00000000-0000-4000-8000-000000000098");
+
+    /** Distinct account UUID for tests that need a second instructor or "other course" user. */
+    public static final UUID TEST_OTHER_INSTRUCTOR_ACCOUNT_ID = UUID.fromString("00000000-0000-4000-8000-0000000000ca");
+
+    /** Account UUID reserved for tests that simulate an app admin list entry. */
+    public static final UUID TEST_ACCOUNT_ID_ADMIN = UUID.fromString("00000000-0000-4000-8000-000000000010");
+
+    /** Account UUID reserved for tests that simulate an app maintainer list entry. */
+    public static final UUID TEST_ACCOUNT_ID_MAINTAINER = UUID.fromString("00000000-0000-4000-8000-000000000011");
+
     /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.

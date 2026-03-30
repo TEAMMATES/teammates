@@ -19,7 +19,7 @@ import teammates.ui.webapi.GetCourseAction;
  */
 public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
-    String accountId = "user-accountId";
+    String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     protected String getActionUri() {

@@ -2,109 +2,91 @@
   "accounts": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "idOfInstructor1OfCourse1",
       "name": "Instructor 1 of Course 1",
       "email": "instr1@course1.tmt"
     },
     "instructor2OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "idOfInstructor2OfCourse1",
       "name": "Instructor 2 of Course 1",
       "email": "instr2@course1.tmt"
     },
     "helperOfCourse1": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "idOfHelperOfCourse1",
       "name": "Helper of Course 1",
       "email": "helper@course1.tmt"
     },
     "instructor1OfCourse2": {
       "id": "00000000-0000-4000-8000-000000000004",
-      "googleId": "idOfInstructor1OfCourse2",
       "name": "Instructor 1 of Course 2",
       "email": "instr1@course2.tmt"
     },
     "instructor2OfCourse2": {
       "id": "00000000-0000-4000-8000-000000000005",
-      "googleId": "idOfInstructor2OfCourse2",
       "name": "Instructor 2 of Course 2",
       "email": "instr2@course2.tmt"
     },
     "instructor1OfCourse3": {
       "id": "00000000-0000-4000-8000-000000000006",
-      "googleId": "idOfInstructor1OfCourse3",
       "name": "Instructor 1 of Course 3",
       "email": "instr1@course3.tmt"
     },
     "instructor2OfCourse3": {
       "id": "00000000-0000-4000-8000-000000000007",
-      "googleId": "idOfInstructor2OfCourse3",
       "name": "Instructor 2 of Course 3",
       "email": "instr2@course3.tmt"
     },
     "instructor3": {
       "id": "00000000-0000-4000-8000-000000000008",
-      "googleId": "idOfInstructor3",
       "name": "Instructor 3 of Course 1 and 2",
       "email": "instr3@course1n2.tmt"
     },
     "instructor4": {
       "id": "00000000-0000-4000-8000-000000000009",
-      "googleId": "idOfInstructor4",
       "name": "Instructor 4 of CourseNoEvals",
       "email": "instr4@coursenoevals.tmt"
     },
     "instructor5": {
       "id": "00000000-0000-4000-8000-000000000010",
-      "googleId": "idOfInstructor5",
       "name": "Instructor 5 of CourseNoRegister",
       "email": "instructor5@courseNoRegister.tmt"
     },
     "instructorWithoutCourses": {
       "id": "00000000-0000-4000-8000-000000000011",
-      "googleId": "instructorWithoutCourses",
       "name": "Instructor Without Courses",
       "email": "iwc@yahoo.tmt"
     },
     "instructorWithOnlyOneSampleCourse": {
       "id": "00000000-0000-4000-8000-000000000012",
-      "googleId": "idOfInstructorWithOnlyOneSampleCourse",
       "name": "Instructor With Only One Sample Course",
       "email": "iwosc@yahoo.tmt"
     },
     "instructorOfArchivedCourse": {
       "id": "00000000-0000-4000-8000-000000000013",
-      "googleId": "idOfInstructorOfArchivedCourse",
       "name": "InstructorOfArchiveCourse name",
       "email": "instructorOfArchiveCourse@archiveCourse.tmt"
     },
     "instructor1OfTestingSanitizationCourse": {
       "id": "00000000-0000-4000-8000-000000000014",
-      "googleId": "idOfInstructor1OfTestingSanitizationCourse",
       "name": "Instructor<script> alert('hi!'); </script>",
       "email": "instructor1@sanitization.tmt"
     },
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000015",
-      "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
       "email": "student1InCourse1@gmail.tmt"
     },
     "student2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000016",
-      "googleId": "student2InCourse1",
       "name": "Student in two courses",
       "email": "student2InCourse1@gmail.tmt"
     },
     "student1InArchivedCourse": {
       "id": "00000000-0000-4000-8000-000000000017",
-      "googleId": "student1InArchivedCourse",
       "name": "Student in Archived Course",
       "email": "student1InCourse1@gmail.tmt"
     },
     "student1InTestingSanitizationCourse": {
       "id": "00000000-0000-4000-8000-000000000018",
-      "googleId": "student1InTestingSanitizationCourse",
       "name": "Stud1<script> alert('hi!'); </script>",
       "email": "normal@sanitization.tmt"
     }

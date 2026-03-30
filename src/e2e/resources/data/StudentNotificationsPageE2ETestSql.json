@@ -2,7 +2,6 @@
   "accounts": {
     "SNotifs.student": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.SNotifs.student",
       "name": "Alice B",
       "email": "SNotifs.student@gmail.tmt"
     }

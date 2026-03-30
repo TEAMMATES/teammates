@@ -196,7 +196,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
     @Test
     void testExecute_studentIntentWrongUserLoggedInUsedKey_validUsedDisallowedKey() {
-        loginAsStudent("another-id");
+        loginAsStudent("00000000-0000-4000-8000-0000000000f4");
 
         String[] params = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -228,7 +228,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
     @Test
     void testExecute_instructorIntentWrongUserLoggedInUsedKey_validUsedDisallowedKey() {
-        loginAsInstructor("another-id");
+        loginAsInstructor("00000000-0000-4000-8000-0000000000f4");
 
         String[] params = {
                 Const.ParamsNames.REGKEY, stubRegkey,

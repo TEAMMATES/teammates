@@ -189,7 +189,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
     @Test
     protected void testExecute_invalidParameters_throwsInvalidHttpParameterException() {
         ______TS("invalid parameters");
-        loginAsUnregistered("unregistered user");
+        loginAsUnregistered(TEST_UNREGISTERED_ACCOUNT_ID.toString());
         verifyHttpParameterFailure();
 
         verifyHttpParameterFailure(

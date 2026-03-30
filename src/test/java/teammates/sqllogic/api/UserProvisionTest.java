@@ -75,7 +75,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_instructor_returnsUserInfoWithInstructorRole() {
-        String userId = "instructor-user-id";
+        String userId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
@@ -86,7 +86,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_student_returnsUserInfoWithStudentRole() {
-        String userId = "student-user-id";
+        String userId = TYPICAL_STUDENT_ACCOUNT_ID.toString();
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
@@ -97,7 +97,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_admin_returnsUserInfoWithAdminRole() {
-        String adminUserId = "admin-user-id";
+        String adminUserId = TEST_ACCOUNT_ID_ADMIN.toString();
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminUserId));
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(adminUserId));
@@ -108,7 +108,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_maintainer_returnsUserInfoWithMaintainerRole() {
-        String maintainerUserId = "maintainer-user-id";
+        String maintainerUserId = TEST_ACCOUNT_ID_MAINTAINER.toString();
         mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(maintainerUserId));
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(maintainerUserId));
@@ -119,7 +119,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_unregistered_returnsUserInfoWithNoRoles() {
-        String userId = "unregistered-user-id";
+        String userId = TEST_UNREGISTERED_ACCOUNT_ID.toString();
 
         UserInfo user = userProvision.getCurrentUser(createMockValidCookie(userId));
 
@@ -141,7 +141,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_adminAndMaintainer_returnsBothRolesTrue() {
-        String userId = "admin-maintainer-user-id";
+        String userId = "00000000-0000-4000-8000-000000000013";
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(userId));
         mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(userId));
 
@@ -153,7 +153,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_instructorStudentAndMaintainer_returnsThreeRolesTrue() {
-        String userId = "instructor-student-maintainer-user-id";
+        String userId = "00000000-0000-4000-8000-000000000014";
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
         mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(userId));
@@ -166,7 +166,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentUser_allRoles_returnsAllRolesTrue() {
-        String userId = "all-roles-user-id";
+        String userId = "00000000-0000-4000-8000-000000000015";
         when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
         when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(userId));
@@ -190,7 +190,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetCurrentLoggedInUser_validCookie_returnsUserInfoWithCorrectIdAndNoRoles() {
-        String userId = "valid-user-id";
+        String userId = "00000000-0000-4000-8000-000000000016";
 
         UserInfo user = userProvision.getCurrentLoggedInUser(createMockValidCookie(userId));
 
@@ -200,7 +200,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetMasqueradeUser_instructor_returnsUserInfoWithInstructorRole() {
-        String accountId = "typical-instructor";
+        String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
         when(mockUsersLogic.isInstructorInAnyCourse(accountId)).thenReturn(true);
 
         UserInfo user = userProvision.getMasqueradeUser(accountId);
@@ -211,7 +211,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetMasqueradeUser_student_returnsUserInfoWithStudentRole() {
-        String accountId = "student-user-id";
+        String accountId = TYPICAL_STUDENT_ACCOUNT_ID.toString();
         when(mockUsersLogic.isStudentInAnyCourse(accountId)).thenReturn(true);
 
         UserInfo user = userProvision.getMasqueradeUser(accountId);
@@ -233,7 +233,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetMasqueradeUser_admin_returnsUserInfoWithNoRoles() {
-        String adminAccountId = "admin-user-id";
+        String adminAccountId = TEST_ACCOUNT_ID_ADMIN.toString();
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminAccountId));
 
         UserInfo user = userProvision.getMasqueradeUser(adminAccountId);
@@ -244,7 +244,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetMasqueradeUser_unregistered_returnsUserInfoWithNoRoles() {
-        String accountId = "unregistered-user-id";
+        String accountId = TEST_UNREGISTERED_ACCOUNT_ID.toString();
 
         UserInfo user = userProvision.getMasqueradeUser(accountId);
 
@@ -254,7 +254,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetMasqueradeUser_instructorAndStudent_returnsBothRolesTrue() {
-        String accountId = "instructor-student-user-id";
+        String accountId = "00000000-0000-4000-8000-000000000012";
         when(mockUsersLogic.isInstructorInAnyCourse(accountId)).thenReturn(true);
         when(mockUsersLogic.isStudentInAnyCourse(accountId)).thenReturn(true);
 
@@ -266,7 +266,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetMasqueradeUser_instructorStudentAndMaintainer_returnsThreeRolesTrue() {
-        String accountId = "instructor-student-maintainer-user-id";
+        String accountId = "00000000-0000-4000-8000-000000000017";
         when(mockUsersLogic.isInstructorInAnyCourse(accountId)).thenReturn(true);
         when(mockUsersLogic.isStudentInAnyCourse(accountId)).thenReturn(true);
         mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(accountId));
@@ -279,7 +279,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     @Test
     public void testGetAdminOnlyUser_returnsUserInfoWithOnlyIsAdminTrue() {
-        String userId = "admin-user-id";
+        String userId = TEST_ACCOUNT_ID_ADMIN.toString();
 
         UserInfo user = userProvision.getAdminOnlyUser(userId);
 

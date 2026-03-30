@@ -496,7 +496,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
     @Test
     void testSpecificAccessControl_missingCourseId_throwsInvalidHttpParameterException() {
-        loginAsInstructor("instructor-accountId");
+        loginAsInstructor(TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString());
 
         String[] params = {
                 Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
@@ -525,7 +525,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
     @Test
     void testSpecificAccessControl_instructorWithPermission_canAccess() {
-        String instructorId = "instructor-accountId";
+        String instructorId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
         // Instructor with co-owner role can modify student
         Instructor instructor = getTypicalInstructor();
         when(mockLogic.getInstructorByAccountId(course.getId(), instructorId)).thenReturn(instructor);
@@ -544,7 +544,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
     @Test
     void testSpecificAccessControl_instructorWithoutPermission_cannotAccess() {
-        String instructorId = "instructor-accountId";
+        String instructorId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
         // Instructor with observer role cannot modify student
         Instructor instructor = getTypicalInstructor();
         InstructorPrivileges instructorPrivileges =
@@ -566,7 +566,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent("student-accountId");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -592,7 +592,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
     @Test
     void testSpecificAccessControl_unregistered_cannotAccess() {
-        loginAsUnregistered("instructor-accountId");
+        loginAsUnregistered(TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),

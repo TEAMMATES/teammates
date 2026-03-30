@@ -27,7 +27,7 @@ import teammates.ui.webapi.QueryLogsAction;
  * SUT: {@link QueryLogsAction}.
  */
 public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
-    private static final String TEST_USER_ID = "user-accountId";
+    private static final String TEST_USER_ID = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     private long startTimeForFailCases = Instant.now().toEpochMilli();
     private long endTimeForFailCases = startTimeForFailCases - 1000;

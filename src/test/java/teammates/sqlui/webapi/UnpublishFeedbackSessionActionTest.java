@@ -214,7 +214,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
     @Test
     void testCheckSpecificAccessControl_unregisteredUser_throwsUnauthorizedAccessException() {
-        String accountId = "unregistered-user";
+        String accountId = TEST_UNREGISTERED_ACCOUNT_ID.toString();
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
@@ -232,7 +232,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
     @Test
     void testCheckSpecificAccessControl_student_throwsUnauthorizedAccessException() {
-        String accountId = "student";
+        String accountId = TYPICAL_STUDENT_ACCOUNT_ID.toString();
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
@@ -250,7 +250,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
     @Test
     void testCheckSpecificAccessControl_instructorOfOtherCourse_throwsUnauthorizedAccessException() {
-        String accountId = "instructor-of-other-course";
+        String accountId = TEST_OTHER_INSTRUCTOR_ACCOUNT_ID.toString();
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),

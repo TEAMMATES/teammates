@@ -24,7 +24,7 @@ import teammates.ui.webapi.RestoreFeedbackSessionAction;
  * SUT: {@link RestoreFeedbackSessionAction}.
  */
 public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeedbackSessionAction> {
-    private static final String TEST_USER_ID = "user-accountId";
+    private static final String TEST_USER_ID = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     private static final String COURSE_ID = "course-id";
     private static final String FEEDBACK_SESSION_NAME = "feedback-session-name";
 

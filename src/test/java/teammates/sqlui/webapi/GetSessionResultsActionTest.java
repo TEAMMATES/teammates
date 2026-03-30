@@ -40,7 +40,7 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetSessionResultsAction}.
  */
 public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResultsAction> {
-    private String accountId = "user-accountId";
+    private String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     private Course course;
     private FeedbackSession session;
     private SqlSessionResultsBundle resultsStub;

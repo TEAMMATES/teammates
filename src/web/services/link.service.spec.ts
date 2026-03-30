@@ -18,7 +18,7 @@ describe('Link Service', () => {
     email: 'alice.b.tmms@gmail.tmt',
     courseId: 'dog.gma-demo',
     name: 'Alice Betsy',
-    accountId: 'alice.b.tmms.sampleData',
+    accountId: '00000000-0000-4000-8000-0000000000e2',
     comments: "This student's name is Alice Betsy",
     key: 'keyheehee',
     institute: 'NUS',
@@ -28,7 +28,7 @@ describe('Link Service', () => {
   };
 
   const mockInstructor: Instructor = {
-    accountId: 'test@example.com',
+    accountId: '00000000-0000-4000-8000-0000000000e3',
     courseId: 'dog.gma-demo',
     email: 'dog@gmail.com',
     isDisplayedToStudents: true,

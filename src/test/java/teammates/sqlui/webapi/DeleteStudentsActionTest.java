@@ -25,7 +25,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     private static final int DELETE_LIMIT = 3;
     private Course course;
     private Instructor instructor;
-    private String instructorId = "instructor-accountId";
+    private String instructorId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     protected String getActionUri() {
@@ -124,7 +124,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @Test
     void testSpecificAccessControl_instructorInDifferentCourse_cannotAccess() {
-        loginAsInstructor("instructor2-accountId");
+        loginAsInstructor(TEST_OTHER_INSTRUCTOR_ACCOUNT_ID.toString());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -136,7 +136,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent("student-accountId");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),

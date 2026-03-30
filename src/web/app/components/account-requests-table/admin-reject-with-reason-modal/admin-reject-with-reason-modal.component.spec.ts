@@ -24,7 +24,7 @@ const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
 const instructorAccountSearchResultBuilder = createBuilder<InstructorAccountSearchResult>({
   name: 'name',
   email: 'email',
-  accountId: 'accountId',
+  accountId: '00000000-0000-4000-8000-0000000000e1',
   courseId: 'courseId',
   courseName: 'courseName',
   isCourseDeleted: false,
@@ -88,7 +88,7 @@ describe('RejectWithReasonModal', () => {
 
   it('replaceAccountIdPlaceholder: should set the accountId to the instructor accounts accountId '
   + 'if an instructor account is found', () => {
-    const testInstructor = instructorAccountSearchResultBuilder.accountId('instructor-account-id').build();
+    const testInstructor = instructorAccountSearchResultBuilder.accountId('00000000-0000-4000-8000-0000000000ec').build();
 
     jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
       students: [],
@@ -98,7 +98,7 @@ describe('RejectWithReasonModal', () => {
 
     component.replaceAccountIdPlaceholder();
 
-    expect(component.existingAccount.accountId).toEqual('instructor-account-id');
+    expect(component.existingAccount.accountId).toEqual('00000000-0000-4000-8000-0000000000ec');
   });
 
   it('reject: should show error message when title is empty upon submitting', () => {

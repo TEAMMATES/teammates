@@ -29,7 +29,7 @@ const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
 const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   name: 'name',
   email: 'email',
-  accountId: 'accountId',
+  accountId: '00000000-0000-4000-8000-0000000000d1',
   courseId: 'courseId',
   courseName: 'courseName',
   isCourseDeleted: false,
@@ -51,7 +51,7 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
 const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
   name: 'name',
   email: 'email',
-  accountId: 'accountId',
+  accountId: '00000000-0000-4000-8000-0000000000d1',
   courseId: 'courseId',
   courseName: 'courseName',
   isCourseDeleted: false,
@@ -123,7 +123,7 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'instructor',
         email: 'instructor@tester.com',
-        accountId: 'ins-google-id',
+        accountId: '00000000-0000-4000-8000-0000000000d2',
         courseId: 'deleted-course',
         courseName: 'deleted',
         isCourseDeleted: true,
@@ -142,7 +142,7 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'student',
         email: 'student@gmail.tmt',
-        accountId: 'student-google-id',
+        accountId: '00000000-0000-4000-8000-0000000000d3',
         courseId: 'deleted-course',
         courseName: 'deleted',
         isCourseDeleted: true,
@@ -171,7 +171,7 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'tester',
         email: 'tester@tester.com',
-        accountId: 'instructor-google-id',
+        accountId: '00000000-0000-4000-8000-0000000000d4',
         courseId: 'test-exa.demo',
         courseName: 'demo',
         isCourseDeleted: false,
@@ -196,7 +196,7 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'Alice Betsy',
         email: 'alice.b.tmms@gmail.tmt',
-        accountId: 'student-google-id',
+        accountId: '00000000-0000-4000-8000-0000000000d3',
         courseId: 'test-exa.demo',
         courseName: 'demo',
         isCourseDeleted: false,
@@ -261,7 +261,7 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'name1',
         email: 'email1',
-        accountId: 'googleId1',
+        accountId: '00000000-0000-4000-8000-0000000000a1',
         courseId: 'courseId1',
         courseName: 'courseName1',
         isCourseDeleted: false,
@@ -278,7 +278,7 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'name2',
         email: 'email2',
-        accountId: 'googleId2',
+        accountId: '00000000-0000-4000-8000-0000000000a2',
         courseId: 'courseId2',
         courseName: 'courseName2',
         isCourseDeleted: false,
@@ -316,7 +316,7 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'name1',
         email: 'email1',
-        accountId: 'googleId1',
+        accountId: '00000000-0000-4000-8000-0000000000a1',
         courseId: 'courseId1',
         courseName: 'courseName1',
         isCourseDeleted: false,
@@ -336,7 +336,7 @@ describe('AdminSearchPageComponent', () => {
       }, {
         name: 'name2',
         email: 'email2',
-        accountId: 'googleId2',
+        accountId: '00000000-0000-4000-8000-0000000000a2',
         courseId: 'courseId2',
         courseName: 'courseName2',
         isCourseDeleted: false,
@@ -377,7 +377,7 @@ describe('AdminSearchPageComponent', () => {
     const instructorResult: InstructorAccountSearchResult = {
       name: 'name',
       email: 'email',
-      accountId: 'accountId',
+      accountId: '00000000-0000-4000-8000-0000000000d1',
       courseId: 'courseId',
       courseName: 'courseName',
       isCourseDeleted: false,
@@ -413,7 +413,7 @@ describe('AdminSearchPageComponent', () => {
     const instructorResult: InstructorAccountSearchResult = {
       name: 'name',
       email: 'email',
-      accountId: 'accountId',
+      accountId: '00000000-0000-4000-8000-0000000000d1',
       courseId: 'courseId',
       courseName: 'courseName',
       isCourseDeleted: false,
@@ -454,7 +454,7 @@ describe('AdminSearchPageComponent', () => {
     const instructorResult: InstructorAccountSearchResult = {
       name: 'name',
       email: 'email',
-      accountId: 'accountId',
+      accountId: '00000000-0000-4000-8000-0000000000d1',
       courseId: 'courseId',
       courseName: 'courseName',
       isCourseDeleted: false,
@@ -524,7 +524,7 @@ describe('AdminSearchPageComponent', () => {
     const studentResult: StudentAccountSearchResult = {
       name: 'name',
       email: 'email',
-      accountId: 'accountId',
+      accountId: '00000000-0000-4000-8000-0000000000d1',
       courseId: 'courseId',
       courseName: 'courseName',
       isCourseDeleted: false,

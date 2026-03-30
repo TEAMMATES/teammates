@@ -291,7 +291,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testGetStudents_studentSameTeam_canAccess() {
-        when(mockLogic.getStudentByAccountId(stubCourse.getId(), "student-accountId"))
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), TYPICAL_STUDENT_ACCOUNT_ID.toString()))
                 .thenReturn(stubStudentOne);
 
         verifyStudentsCanAccess(
@@ -302,7 +302,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testGetStudents_studentOtherTeam_cannotAccess() {
-        when(mockLogic.getStudentByAccountId(stubCourse.getId(), "student-accountId"))
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), TYPICAL_STUDENT_ACCOUNT_ID.toString()))
                 .thenReturn(stubStudentOne);
         verifyStudentsCannotAccess(
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourse().getId(),
@@ -312,7 +312,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testGetStudents_studentOtherCourse_cannotAccess() {
-        when(mockLogic.getStudentByAccountId("another-course-id", "student-accountId"))
+        when(mockLogic.getStudentByAccountId("another-course-id", TYPICAL_STUDENT_ACCOUNT_ID.toString()))
                 .thenReturn(null);
         verifyStudentsCannotAccess(
                 Const.ParamsNames.COURSE_ID, "another-course-id",
@@ -343,7 +343,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testGetStudents_unregisteredValidStudent_onlyLoggedInCanAccess() {
-        when(mockLogic.getStudentByAccountId(stubCourse.getId(), "unregistered-accountId"))
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), TEST_UNREGISTERED_ACCOUNT_ID.toString()))
                 .thenReturn(stubStudentOne);
 
         String[] params = {
@@ -355,7 +355,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testGetStudents_unregisteredInvalidStudent_cannotAccess() {
-        when(mockLogic.getStudentByAccountId(stubCourse.getId(), "unregistered-accountId"))
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), TEST_UNREGISTERED_ACCOUNT_ID.toString()))
                 .thenReturn(null);
 
         String[] params = {
@@ -368,7 +368,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testGetStudents_unregisteredValidInstructor_onlyLoggedInCanAccess() {
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), "unregistered-accountId"))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), TEST_UNREGISTERED_ACCOUNT_ID.toString()))
                 .thenReturn(stubInstructorWithAllPrivileges);
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
 
@@ -380,7 +380,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testGetStudents_unregisteredInvalidInstructor_cannotAccess() {
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), "unregistered-accountId"))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), TEST_UNREGISTERED_ACCOUNT_ID.toString()))
                 .thenReturn(null);
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
 
