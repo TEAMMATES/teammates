@@ -360,11 +360,11 @@ public final class DataBundleLogic {
         dataBundle.courses.values().forEach(course -> {
             coursesLogic.deleteCourseCascade(course.getId());
         });
-        dataBundle.notifications.values().forEach(notification -> {
-            notificationsLogic.deleteNotification(notification.getId());
-        });
         dataBundle.accounts.values().forEach(account -> {
             accountsLogic.deleteAccount(account.getGoogleId());
+        });
+        dataBundle.notifications.values().forEach(notification -> {
+            notificationsLogic.deleteNotification(notification.getId());
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
             accountRequestsLogic.deleteAccountRequest(accountRequest.getId());
