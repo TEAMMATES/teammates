@@ -181,6 +181,31 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         assertEquals("Successful", output.getMessage());
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student3.getId(), fs1.getId(),
                 Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 1);
+
+        ______TS("Success case: duplicate log in spam window should not be persisted");
+        response = getJsonResult(getAction(paramsSuccessfulAccess));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+        assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student1.getId(), fs1.getId(),
+                Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 2);
+
+        ______TS("Success case: different log type should still be persisted");
+        String[] paramsViewResult = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.getLabel(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
+        };
+        response = getJsonResult(getAction(paramsViewResult));
+        output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+
+        List<FeedbackSessionLog> allStudent1Session1Logs = logic.getOrderedFeedbackSessionLogs(courseId1,
+                student1.getId(), fs1.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60));
+        assertEquals(allStudent1Session1Logs.size(), 3);
+        assertEquals(allStudent1Session1Logs.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.VIEW_RESULT);
     }
 
     @Test

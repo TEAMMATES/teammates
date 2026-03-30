@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
@@ -71,6 +73,36 @@ public final class FeedbackSessionLogsDb {
         cr.select(root).where(predicates.toArray(new Predicate[0])).orderBy(cb.asc(root.get("timestamp")),
                 cb.asc(studentJoin.get("email")));
         return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets the latest feedback session log for the given student, feedback session, and log type.
+     */
+    public FeedbackSessionLog getLatestFeedbackSessionLog(UUID studentId, UUID feedbackSessionId,
+            FeedbackSessionLogType feedbackSessionLogType) {
+        assert studentId != null;
+        assert feedbackSessionId != null;
+        assert feedbackSessionLogType != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSessionLog> cr = cb.createQuery(FeedbackSessionLog.class);
+        Root<FeedbackSessionLog> root = cr.from(FeedbackSessionLog.class);
+        Join<FeedbackSessionLog, FeedbackSession> feedbackSessionJoin = root.join("feedbackSession");
+        Join<FeedbackSessionLog, Student> studentJoin = root.join("student");
+
+        cr.select(root)
+                .where(
+                        cb.equal(studentJoin.get("id"), studentId),
+                        cb.equal(feedbackSessionJoin.get("id"), feedbackSessionId),
+                        cb.equal(root.get("feedbackSessionLogType"), feedbackSessionLogType)
+                )
+                .orderBy(cb.desc(root.get("timestamp")));
+
+        try {
+            return HibernateUtil.createQuery(cr).setMaxResults(1).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     /**

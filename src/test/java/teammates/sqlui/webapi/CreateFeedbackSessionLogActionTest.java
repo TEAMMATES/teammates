@@ -6,6 +6,8 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.Instant;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -14,6 +16,7 @@ import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.CreateFeedbackSessionLogAction;
@@ -124,6 +127,48 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 student1InCourse1.equals(log.getStudent())
                         && fsaCourse1.equals(log.getFeedbackSession())
                         && FeedbackSessionLogType.ACCESS.equals(log.getFeedbackSessionLogType())));
+    }
+
+    @Test
+    void testExecute_duplicateLogWithinSpamWindow_shouldStillSucceedWithoutPersisting() {
+        when(mockLogic.getLatestFeedbackSessionLog(student1InCourse1.getId(), fsaCourse1.getId(),
+                FeedbackSessionLogType.ACCESS)).thenReturn(new FeedbackSessionLog(student1InCourse1, fsaCourse1,
+                FeedbackSessionLogType.ACCESS, Instant.now().minusMillis(
+                        Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis() - 1)));
+
+        String[] paramsSuccessfulAccess = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, accessLabel,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
+        };
+
+        JsonResult response = getJsonResult(getAction(paramsSuccessfulAccess));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
+    }
+
+    @Test
+    void testExecute_duplicateLogWithDifferentType_shouldPersist() {
+        String[] paramsSuccessfulSubmission = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
+        };
+
+        JsonResult response = getJsonResult(getAction(paramsSuccessfulSubmission));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
+                student1InCourse1.equals(log.getStudent())
+                        && fsaCourse1.equals(log.getFeedbackSession())
+                        && FeedbackSessionLogType.SUBMISSION.equals(log.getFeedbackSessionLogType())));
     }
 
     @Test

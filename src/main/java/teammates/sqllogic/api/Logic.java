@@ -15,6 +15,7 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -1796,6 +1797,14 @@ public class Logic {
      */
     public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) {
         feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSessionLog);
+    }
+
+    /**
+     * Gets the latest feedback session log for the given student, feedback session, and log type.
+     */
+    public FeedbackSessionLog getLatestFeedbackSessionLog(UUID studentId, UUID feedbackSessionId,
+            FeedbackSessionLogType feedbackSessionLogType) {
+        return feedbackSessionLogsLogic.getLatestFeedbackSessionLog(studentId, feedbackSessionId, feedbackSessionLogType);
     }
 
     /**

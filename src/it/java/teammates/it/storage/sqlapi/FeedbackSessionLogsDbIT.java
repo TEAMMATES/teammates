@@ -123,4 +123,20 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertEquals(expectedLogs, actualLogs);
     }
+
+    @Test
+    public void test_getLatestFeedbackSessionLog_success() {
+        Student student1 = typicalDataBundle.students.get("student1InCourse1");
+        FeedbackSession fs2 = typicalDataBundle.feedbackSessions.get("session2InTypicalCourse");
+        FeedbackSessionLog expectedLatestLog = typicalDataBundle.feedbackSessionLogs.get("student1Session2Log2");
+
+        FeedbackSessionLog actualLatestLog = fslDb.getLatestFeedbackSessionLog(student1.getId(), fs2.getId(),
+                FeedbackSessionLogType.SUBMISSION);
+
+        assertEquals(actualLatestLog, expectedLatestLog);
+
+        FeedbackSessionLog noMatchLog = fslDb.getLatestFeedbackSessionLog(student1.getId(), fs2.getId(),
+                FeedbackSessionLogType.VIEW_RESULT);
+        assertNull(noMatchLog);
+    }
 }
