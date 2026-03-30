@@ -169,7 +169,7 @@ public abstract class Action {
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
 
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null && userInfo.isAdmin && !trustedInternalCronOrWorker) {
+        if (userInfo != null && userParam != null && userInfo.isAdmin) {
             userInfo = userProvision.getMasqueradeUser(userParam);
             authType = AuthType.MASQUERADE;
         }

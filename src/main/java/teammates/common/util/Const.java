@@ -206,10 +206,12 @@ public final class Const {
      * Represents custom header names used by the system.
      */
     public static class HeaderNames {
+        public static final String COOKIE_KEY = "Cookie";
         public static final String BACKDOOR_KEY = "Backdoor-Key";
         public static final String CSRF_KEY = "CSRF-Key";
         public static final String WEB_VERSION = "X-WEB-VERSION";
         public static final String CSRF_TOKEN = "X-CSRF-TOKEN";
+        public static final String AUTHORIZATION_KEY = "Authorization";
     }
 
     /**
