@@ -177,23 +177,13 @@ public abstract class User extends BaseEntity {
     }
 
     /**
-     * Returns google id of the user if account is not null.
+     * Returns the account UUID as string if the user is linked to an account.
      */
-    public String getGoogleId() {
+    public String getAccountId() {
         if (getAccount() != null) {
-            return getAccount().getGoogleId();
+            return getAccount().getId().toString();
         }
-
         return null;
-    }
-
-    /**
-     * Sets google id of account if account and googleId provided is not null.
-     */
-    public void setGoogleId(String googleId) {
-        if (googleId != null && getAccount() != null) {
-            getAccount().setGoogleId(googleId);
-        }
     }
 
     @Override
