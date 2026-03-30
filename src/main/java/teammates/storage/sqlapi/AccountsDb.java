@@ -15,11 +15,13 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 
 /**
- * Handles CRUD operations for accounts.
+ * Handles CRUD operations for accounts and account identities.
  *
  * @see Account
+ * @see AccountIdentity
  */
 public final class AccountsDb {
 
@@ -43,12 +45,21 @@ public final class AccountsDb {
     }
 
     /**
-     * Returns an Account with the {@code googleId} or null if it does not exist.
+     * Returns the {@link AccountIdentity} for the given OIDC issuer and subject, or null.
      */
-    public Account getAccountByGoogleId(String googleId) {
-        assert googleId != null;
+    public AccountIdentity getAccountIdentityByIssuerAndSubject(String issuer, String subject) {
+        assert issuer != null;
+        assert subject != null;
 
-        return HibernateUtil.getBySimpleNaturalId(Account.class, googleId);
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountIdentity> cr = cb.createQuery(AccountIdentity.class);
+        Root<AccountIdentity> root = cr.from(AccountIdentity.class);
+
+        cr.select(root).where(cb.and(
+                cb.equal(root.get("issuer"), issuer),
+                cb.equal(root.get("subject"), subject)));
+
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
     /**
@@ -67,7 +78,7 @@ public final class AccountsDb {
     }
 
     /**
-     * Creates an Account.
+     * Creates an Account (profile row only). Identities are persisted separately.
      */
     public Account createAccount(Account account) throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
@@ -76,12 +87,31 @@ public final class AccountsDb {
             throw new InvalidParametersException(account.getInvalidityInfo());
         }
 
-        if (getAccountByGoogleId(account.getGoogleId()) != null) {
+        if (getAccount(account.getId()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
         }
 
         HibernateUtil.persist(account);
         return account;
+    }
+
+    /**
+     * Persists a new {@link AccountIdentity}.
+     */
+    public AccountIdentity createAccountIdentity(AccountIdentity identity)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert identity != null;
+
+        if (!identity.isValid()) {
+            throw new InvalidParametersException(identity.getInvalidityInfo());
+        }
+
+        if (getAccountIdentityByIssuerAndSubject(identity.getIssuer(), identity.getSubject()) != null) {
+            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, identity));
+        }
+
+        HibernateUtil.persist(identity);
+        return identity;
     }
 
     /**
@@ -109,5 +139,4 @@ public final class AccountsDb {
             HibernateUtil.remove(account);
         }
     }
-
 }
