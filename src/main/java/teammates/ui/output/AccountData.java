@@ -10,13 +10,13 @@ import teammates.storage.sqlentity.Account;
  */
 public class AccountData extends ApiOutput {
 
-    private final String googleId;
+    private final String accountId;
     private final String name;
     private final String email;
     private final Map<String, Long> readNotifications;
 
     public AccountData(Account account) {
-        this.googleId = account.getGoogleId();
+        this.accountId = account.getId().toString();
         this.name = account.getName();
         this.email = account.getEmail();
         this.readNotifications = account.getReadNotifications()
@@ -31,8 +31,8 @@ public class AccountData extends ApiOutput {
         return email;
     }
 
-    public String getGoogleId() {
-        return googleId;
+    public String getAccountId() {
+        return accountId;
     }
 
     public String getName() {

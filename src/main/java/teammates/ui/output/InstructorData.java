@@ -10,7 +10,7 @@ import teammates.storage.sqlentity.Instructor;
  */
 public class InstructorData extends ApiOutput {
     @Nullable
-    private String googleId;
+    private String accountId;
     private final String courseId;
     private final String email;
     @Nullable
@@ -37,12 +37,12 @@ public class InstructorData extends ApiOutput {
         this.institute = instructor.getCourse().getInstitute();
     }
 
-    public String getGoogleId() {
-        return googleId;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setGoogleId(String googleId) {
-        this.googleId = googleId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getCourseId() {
@@ -110,11 +110,11 @@ public class InstructorData extends ApiOutput {
      *
      * @param key Registration key
      * @param institute Institute of the instructor
-     * @param googleId Google ID of the instructor
+     * @param accountId Account id of the instructor
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute, String googleId) {
+    public void addAdditionalInformationForAdminSearch(String key, String institute, String accountId) {
         setKey(key);
         setInstitute(institute);
-        setGoogleId(googleId);
+        setAccountId(accountId);
     }
 }
