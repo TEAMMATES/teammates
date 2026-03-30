@@ -8,6 +8,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.http.GenericUrl;
@@ -80,7 +82,10 @@ abstract class AuthServlet extends HttpServlet {
         private final String nextUrl;
         private final String sessionId;
 
-        AuthState(String nextUrl, String sessionId) {
+        @JsonCreator
+        AuthState(
+                @JsonProperty("nextUrl") String nextUrl,
+                @JsonProperty("sessionId") String sessionId) {
             this.nextUrl = nextUrl;
             this.sessionId = sessionId;
         }
