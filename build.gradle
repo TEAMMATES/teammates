@@ -62,6 +62,7 @@ dependencies {
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
     implementation("com.google.code.gson:gson:2.13.2")
+    implementation("com.google.api-client:google-api-client:2.6.0")
     implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("com.google.guava:guava:33.5.0-jre")
     implementation("commons-lang:commons-lang:2.6")

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="teammates" id="multi-idp-identity-account-identities">
+        <createTable tableName="account_identities">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="account_identities_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="issuer" type="VARCHAR(2048)">
+                <constraints nullable="false" />
+            </column>
+            <column name="subject" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="account_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="account_identities"
+            constraintName="fk_account_identities_account" referencedColumnNames="id"
+            referencedTableName="accounts" />
+        <addUniqueConstraint columnNames="issuer, subject" constraintName="unique_issuer_subject"
+            tableName="account_identities" />
+        <dropColumn columnName="google_id" tableName="accounts" />
+    </changeSet>
+</databaseChangeLog>

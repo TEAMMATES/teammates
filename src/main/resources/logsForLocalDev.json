@@ -366,7 +366,7 @@
         "X-AppEngine-Request-Log-Id": "1234547300ff02097f61dd99bf00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100"
       },
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
@@ -435,7 +435,7 @@
       "webVersion": "8.0.0",
       "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "requestMethod": "GET"
     },
@@ -467,7 +467,7 @@
       "event": "REQUEST_LOG",
       "actionClass": "GetActionClassesAction",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "requestHeaders": {
         "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
@@ -556,7 +556,7 @@
       "event": "REQUEST_LOG",
       "responseStatus": 200,
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
@@ -629,7 +629,7 @@
       "message": "[200] [2525ms] [GET /webapi/logs/query] QueryLogsAction",
       "requestMethod": "GET",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "requestParams": {
         "endtime": "1627280460000",
@@ -695,7 +695,7 @@
       "message": "[200] [202ms] [GET /webapi/auth] GetAuthInfoAction",
       "requestUrl": "/webapi/auth",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "responseTime": 202,
       "responseStatus": 200,
@@ -756,7 +756,7 @@
       "requestUrl": "/webapi/courses",
       "message": "[200] [761ms] [GET /webapi/courses] GetCoursesAction",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "requestParams": {
         "entitytype": "instructor",
@@ -793,7 +793,7 @@
         "entitytype": "instructor"
       },
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "requestMethod": "GET",
       "event": "REQUEST_LOG",
@@ -859,7 +859,7 @@
       "webVersion": "8.0.0",
       "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "requestMethod": "GET",
       "requestHeaders": {
@@ -968,7 +968,7 @@
       "responseStatus": 200,
       "actionClass": "GetFeedbackSessionsAction",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       }
     },
     "resourceIdentifier": {
@@ -1032,7 +1032,7 @@
       "requestParams": {},
       "event": "REQUEST_LOG",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       }
     },
     "resourceIdentifier": {
@@ -1064,7 +1064,7 @@
       "message": "[200] [384ms] [GET /webapi/courses] GetCoursesAction",
       "requestUrl": "/webapi/courses",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "requestHeaders": {
         "Accept-Encoding": "gzip, deflate, br",
@@ -1152,7 +1152,7 @@
         "fsname": "test"
       },
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "message": "[200] [9435ms] [POST /webapi/logs/session] CreateFeedbackSessionLogAction",
       "requestUrl": "/webapi/logs/session",
@@ -1219,7 +1219,7 @@
       "responseTime": 139,
       "requestUrl": "/webapi/responses",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "event": "REQUEST_LOG",
       "requestMethod": "GET",
@@ -1329,7 +1329,7 @@
       },
       "event": "REQUEST_LOG",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       }
     },
     "resourceIdentifier": {
@@ -1358,7 +1358,7 @@
       "webVersion": "8.0.0",
       "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "requestUrl": "/webapi/auth",
       "requestParams": {},
@@ -1424,7 +1424,7 @@
       "requestMethod": "GET",
       "responseTime": 156,
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
@@ -1524,7 +1524,7 @@
       "responseTime": 211,
       "actionClass": "GetFeedbackSessionAction",
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "responseStatus": 200,
       "event": "REQUEST_LOG",
@@ -1550,7 +1550,7 @@
     "details": {
       "responseTime": 408,
       "userInfo": {
-        "googleId": "john"
+        "accountId": "7c9e6679-7423-41ea-bc55-0242ac130003"
       },
       "requestHeaders": {
         "ngsw-bypass": "true",
