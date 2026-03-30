@@ -308,7 +308,8 @@ There are several files used to configure various aspects of the system.
 
 **Main**: These vary from developer to developer and are subjected to frequent changes.
 
-* `build.properties`: Contains the general purpose configuration values to be used by the web API.
+* `build.properties` (from `build.template.properties`): Backend configuration for the web API.
+* `build-dev.properties` (from `build-dev.template.properties`, optional): Optional local configuration overrides.
 * `config.ts`: Contains the general purpose configuration values to be used by the web application.
 * `test.properties`: Contains the configuration values for the test driver.
   * There are two separate `test.properties`; one for component tests and one for E2E tests.
