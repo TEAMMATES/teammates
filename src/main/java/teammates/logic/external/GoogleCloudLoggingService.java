@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.google.api.gax.paging.Page;
@@ -17,9 +16,7 @@ import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Severity;
 
-import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
-import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogEvent;
@@ -106,76 +103,6 @@ public class GoogleCloudLoggingService implements LogService {
             return LogSeverity.DEBUG;
         }
         return LogSeverity.DEFAULT;
-    }
-
-    @Override
-    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
-        // This method is not necessary for production usage because a feedback session log
-        // is already separately created through the standardized logging infrastructure.
-        // However, this method is not removed as it is necessary to assist in local testing.
-    }
-
-    @Override
-    public void createFeedbackSessionLog(String courseId, UUID studentId, UUID fsId, String fslType) {
-        // This method is not necessary for production usage because a feedback session log
-        // is already separately created through the standardized logging infrastructure.
-        // However, this method is not removed as it is necessary to assist in local testing.
-    }
-
-    @Override
-    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
-            long startTime, long endTime, String fsName) {
-        List<String> filters = new ArrayList<>();
-        if (courseId != null) {
-            filters.add("jsonPayload.courseId=\"" + courseId + "\"");
-        }
-        if (email != null) {
-            filters.add("jsonPayload.studentEmail=\"" + email + "\"");
-        }
-        if (fsName != null) {
-            filters.add("jsonPayload.feedbackSessionName=\"" + fsName + "\"");
-        }
-        QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime, endTime)
-                .withLogEvent(LogEvent.FEEDBACK_SESSION_AUDIT.name())
-                .withSeverityLevel(LogSeverity.INFO)
-                .withExtraFilters(String.join("\n", filters))
-                .withOrder(ASCENDING_ORDER)
-                .build();
-        LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
-                .addLogName(STDOUT_LOG_NAME)
-                .setResourceType(RESOURCE_TYPE_GAE_APP);
-        List<LogEntry> logEntries = getAllLogEntries(logSearchParams);
-
-        List<FeedbackSessionLogEntry> fsLogEntries = new ArrayList<>();
-        for (LogEntry entry : logEntries) {
-            long timestamp = entry.getInstantTimestamp().toEpochMilli();
-            Payload<?> payload = entry.getPayload();
-            FeedbackSessionAuditLogDetails details;
-            if (payload.getType() == Payload.Type.JSON) {
-                Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
-                LogDetails logDetails = JsonUtils.fromJson(JsonUtils.toCompactJson(jsonPayloadMap), LogDetails.class);
-                if (!(logDetails instanceof FeedbackSessionAuditLogDetails)) {
-                    continue;
-                }
-                details = (FeedbackSessionAuditLogDetails) logDetails;
-            } else {
-                continue;
-            }
-
-            UUID studentId = details.getStudentId() != null ? UUID.fromString(details.getStudentId()) : null;
-            UUID fsId = details.getFeedbackSessionId() != null ? UUID.fromString(details.getFeedbackSessionId()) : null;
-            FeedbackSessionLogEntry fslEntry;
-            if (fsId != null && studentId != null) {
-                fslEntry = new FeedbackSessionLogEntry(details.getCourseId(), studentId, fsId, details.getAccessType(),
-                        timestamp);
-            } else {
-                fslEntry = new FeedbackSessionLogEntry(details.getCourseId(), details.getStudentEmail(),
-                        details.getFeedbackSessionName(), details.getAccessType(), timestamp);
-            }
-            fsLogEntries.add(fslEntry);
-        }
-
-        return fsLogEntries;
     }
 
     private List<LogEntry> getAllLogEntries(LogSearchParams logSearchParams) {

@@ -109,7 +109,6 @@ import teammates.ui.webapi.UpdateFeedbackQuestionAction;
 import teammates.ui.webapi.UpdateFeedbackResponseCommentAction;
 import teammates.ui.webapi.UpdateFeedbackSessionAction;
 import teammates.ui.webapi.UpdateFeedbackSessionDeadlineExtensionsAction;
-import teammates.ui.webapi.UpdateFeedbackSessionLogsAction;
 import teammates.ui.webapi.UpdateInstructorAction;
 import teammates.ui.webapi.UpdateInstructorPrivilegeAction;
 import teammates.ui.webapi.UpdateNotificationAction;
@@ -234,8 +233,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetDeadlineExtensionAction.class,
                 SendLoginEmailAction.class,
                 PutSqlDataBundleAction.class,
-                DeleteSqlDataBundleAction.class,
-                UpdateFeedbackSessionLogsAction.class
+                DeleteSqlDataBundleAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)
