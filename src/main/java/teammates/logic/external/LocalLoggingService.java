@@ -49,7 +49,7 @@ public class LocalLoggingService implements LogService {
         try {
             String jsonString = FileHelper.readResourceFile("logsForLocalDev.json");
             Collection<GeneralLogEntry> logEntriesCollection =
-                    JsonUtils.fromJsonJackson(jsonString, new TypeReference<>(){});
+                    JsonUtils.fromJson(jsonString, new TypeReference<>(){});
             return logEntriesCollection.stream()
                     .map(log -> {
                         long timestamp = new RandomDataGenerator().nextLong(earliestTimestamp, currentTimestamp);
@@ -238,7 +238,7 @@ public class LocalLoggingService implements LogService {
                     logEntry.getTrace(), logEntry.getInsertId(), logEntry.getResourceIdentifier(),
                     logEntry.getSourceLocation(), logEntry.getTimestamp());
             copiedEntry.setDetails(
-                    JsonUtils.fromJsonJackson(JsonUtils.toCompactJsonJackson(logEntry.getDetails()), LogDetails.class));
+                    JsonUtils.fromJson(JsonUtils.toCompactJson(logEntry.getDetails()), LogDetails.class));
             copiedEntry.setMessage(logEntry.getMessage());
             result.add(copiedEntry);
         }

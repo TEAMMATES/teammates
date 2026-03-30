@@ -85,7 +85,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
         String nextUrl = "/";
         try {
-            AuthState authState = JsonUtils.fromJsonJackson(StringHelper.decrypt(state), AuthState.class);
+            AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
             if (authState.getNextUrl() != null) {
                 nextUrl = authState.getNextUrl();
             }
@@ -112,7 +112,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
                             + token.getAccessToken()));
 
             Map<String, Object> parsedResponse =
-                    JsonUtils.fromJsonJackson(userInfoResponse, new TypeReference<>(){});
+                    JsonUtils.fromJson(userInfoResponse, new TypeReference<>(){});
             if (parsedResponse.containsKey("email")) {
                 email = String.valueOf(parsedResponse.get("email"));
             }

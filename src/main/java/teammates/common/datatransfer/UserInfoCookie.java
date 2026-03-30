@@ -37,7 +37,7 @@ public class UserInfoCookie {
         }
         try {
             String decryptedCookie = StringHelper.decrypt(cookie);
-            return JsonUtils.fromJsonJackson(decryptedCookie, UserInfoCookie.class);
+            return JsonUtils.fromJson(decryptedCookie, UserInfoCookie.class);
         } catch (InvalidParametersException | UncheckedIOException e) {
             return null;
         }

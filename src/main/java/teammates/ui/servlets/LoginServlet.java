@@ -58,7 +58,7 @@ public class LoginServlet extends AuthServlet {
             AuthState state = new AuthState(nextUrl, req.getSession().getId());
             AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
             authorizationUrl.setRedirectUri(getRedirectUri(req));
-            authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJsonJackson(state)));
+            authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
 
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Google sign-in page");
 

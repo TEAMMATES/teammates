@@ -90,12 +90,12 @@ public final class Logger {
         payload.put("severity", LogSeverity.INFO);
 
         Map<String, Object> detailsSpecificPayload =
-                JsonUtils.fromJsonJackson(JsonUtils.toCompactJsonJackson(details),
+                JsonUtils.fromJson(JsonUtils.toCompactJson(details),
                         new TypeReference<>(){});
         payload.putAll(detailsSpecificPayload);
 
         // Need to use println as the logger is disabled when the instance is shutting down
-        System.out.println(JsonUtils.toCompactJsonJackson(payload));
+        System.out.println(JsonUtils.toCompactJson(payload));
     }
 
     /**
@@ -145,15 +145,15 @@ public final class Logger {
         String logMessage;
         if (Config.IS_DEV_SERVER) {
             logMessage = formatLogMessageForHumanDisplay(message) + " extra_info: "
-                    + JsonUtils.toCompactJsonJackson(details);
+                    + JsonUtils.toCompactJson(details);
         } else {
             Map<String, Object> payload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
             Map<String, Object> detailsSpecificPayload =
-                    JsonUtils.fromJsonJackson(JsonUtils.toCompactJsonJackson(details),
+                    JsonUtils.fromJson(JsonUtils.toCompactJson(details),
                             new TypeReference<>(){});
             payload.putAll(detailsSpecificPayload);
 
-            logMessage = JsonUtils.toCompactJsonJackson(payload);
+            logMessage = JsonUtils.toCompactJson(payload);
         }
         standardLog.info(logMessage);
     }
@@ -233,11 +233,11 @@ public final class Logger {
         }
 
         Map<String, Object> detailsSpecificPayload =
-                JsonUtils.fromJsonJackson(JsonUtils.toCompactJsonJackson(details),
+                JsonUtils.fromJson(JsonUtils.toCompactJson(details),
                         new TypeReference<>(){});
         payload.putAll(detailsSpecificPayload);
 
-        return JsonUtils.toCompactJsonJackson(payload);
+        return JsonUtils.toCompactJson(payload);
     }
 
     /**

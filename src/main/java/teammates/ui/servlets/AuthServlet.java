@@ -67,7 +67,7 @@ abstract class AuthServlet extends HttpServlet {
 
     Cookie getLoginCookie(UserInfoCookie uic) {
         Cookie cookie = new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME,
-                StringHelper.encrypt(JsonUtils.toCompactJsonJackson(uic)));
+                StringHelper.encrypt(JsonUtils.toCompactJson(uic)));
         cookie.setPath("/");
         cookie.setSecure(!Config.IS_DEV_SERVER);
         cookie.setHttpOnly(true);
