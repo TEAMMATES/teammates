@@ -36,9 +36,6 @@ public class AdminHomePage extends AppPage {
     @FindBy (id = "add-instructor-single-line")
     private WebElement submitButtonDetailsSingleLineForm;
 
-    @FindBy (id = "add-all-instructors")
-    private WebElement addAllInstructorsButton;
-
     public AdminHomePage(Browser browser) {
         super(browser);
     }
@@ -48,7 +45,7 @@ public class AdminHomePage extends AppPage {
         return getPageSource().contains("Add New Instructor</h1>");
     }
 
-    public void queueInstructorForAdding(String name, String email, String institute) {
+    public void addInstructor(String name, String email, String institute) {
         if (name != null) {
             fillTextBox(nameTextBox, name);
         }
@@ -62,26 +59,11 @@ public class AdminHomePage extends AppPage {
         click(submitButton);
     }
 
-    public void queueInstructorForAdding(String instructorDetails) {
+    public void addInstructor(String instructorDetails) {
         if (instructorDetails != null) {
             fillTextBox(detailsSingleLineTextBox, instructorDetails);
         }
         click(submitButtonDetailsSingleLineForm);
-    }
-
-    public void addAllInstructors() {
-        click(addAllInstructorsButton);
-        waitForElementToBeClickable(addAllInstructorsButton);
-    }
-
-    public String getMessageForInstructor(int i) {
-        By by = By.id("message-instructor-" + i);
-        waitForElementVisibility(by);
-        WebElement element = browser.driver.findElement(by);
-        if (element == null) {
-            return null;
-        }
-        return element.getText();
     }
 
     public void clickMoreInfoButtonForRegisteredInstructor(int i) {

@@ -28,23 +28,14 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         String email = "ahpuit+++_.instr1!@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
 
-        homePage.queueInstructorForAdding(name, email, institute);
+        homePage.addInstructor(name, email, institute);
+        homePage.verifyStatusMessage("Instructor \"" + name + "\" has been successfully created");
 
         String singleLineDetails = "Instructor With Invalid Email | invalidemail | TEAMMATES Test Institute 1";
 
-        homePage.queueInstructorForAdding(singleLineDetails);
-
-        homePage.addAllInstructors();
-
-        String successMessage = homePage.getMessageForInstructor(0);
-        assertTrue(successMessage.contains(
-                "Instructor \"AHPUiT Instrúctör WithPlusInEmail\" has been successfully created"));
-
-        String failureMessage = homePage.getMessageForInstructor(1);
-        assertTrue(failureMessage.contains(
-                "\"invalidemail\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format."));
-
-        homePage.reloadPage();
+        homePage.addInstructor(singleLineDetails);
+        homePage.verifyStatusMessage(
+                "\"invalidemail\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format.");
 
         ______TS("Verify that newly added instructor appears in account request table");
 
