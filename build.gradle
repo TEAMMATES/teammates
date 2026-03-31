@@ -292,6 +292,7 @@ task downloadLinters {
 // RUN SERVER TASKS
 
 compileJava.options.encoding = "UTF-8"
+compileJava.options.compilerArgs += ["-parameters"]
 compileTestJava.options.encoding = "UTF-8"
 
 processResources {
