@@ -39,14 +39,12 @@ public class AccountsLogicTest extends BaseTestCase {
 
     private UsersLogic usersLogic;
 
-    private CoursesLogic coursesLogic;
-
     @BeforeMethod
     public void setUpMethod() {
         accountsDb = mock(AccountsDb.class);
         notificationsLogic = mock(NotificationsLogic.class);
         usersLogic = mock(UsersLogic.class);
-        coursesLogic = mock(CoursesLogic.class);
+        CoursesLogic coursesLogic = mock(CoursesLogic.class);
         accountsLogic.initLogicDependencies(accountsDb, notificationsLogic, usersLogic, coursesLogic);
     }
 

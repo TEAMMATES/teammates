@@ -87,7 +87,10 @@ public final class Config {
     /** Value of {@code app.admins}: comma-separated internal account UUID strings (SQL {@code accounts.id}). */
     public static final List<String> APP_ADMINS;
 
-    /** Value of {@code app.maintainers}: comma-separated internal account UUID strings (same format as {@link #APP_ADMINS}). */
+    /**
+     * Value of {@code app.maintainers}: comma-separated internal account UUID strings
+     * (same format as {@link #APP_ADMINS}).
+     */
     public static final List<String> APP_MAINTAINERS;
 
     /** Value of {@code app.crashreport.email}. */

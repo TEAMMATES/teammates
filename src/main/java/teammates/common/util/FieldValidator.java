@@ -227,6 +227,13 @@ public final class FieldValidator {
 
     public static final String NOT_EXACT_HOUR_ERROR_MESSAGE = "The %s for this feedback session must be at exact hour mark.";
 
+    /** Max length for OIDC issuer URL (e.g. https://login.microsoftonline.com/.../v2.0). */
+    public static final int OIDC_ISSUER_MAX_LENGTH = 2048;
+    /** Max length for OIDC subject claim. */
+    public static final int OIDC_SUBJECT_MAX_LENGTH = 255;
+    public static final String OIDC_ISSUER_FIELD_NAME = "OIDC issuer";
+    public static final String OIDC_SUBJECT_FIELD_NAME = "OIDC subject";
+
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
     ///////////////////////////////////////
@@ -297,13 +304,6 @@ public final class FieldValidator {
         }
         return "";
     }
-
-    /** Max length for OIDC issuer URL (e.g. https://login.microsoftonline.com/.../v2.0). */
-    public static final int OIDC_ISSUER_MAX_LENGTH = 2048;
-    /** Max length for OIDC subject claim. */
-    public static final int OIDC_SUBJECT_MAX_LENGTH = 255;
-    public static final String OIDC_ISSUER_FIELD_NAME = "OIDC issuer";
-    public static final String OIDC_SUBJECT_FIELD_NAME = "OIDC subject";
 
     /**
      * Validates a non-null OIDC issuer string.

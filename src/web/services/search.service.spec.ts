@@ -261,7 +261,7 @@ describe('SearchService', () => {
     expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=keyheehee&entitytype=student`);
     expect(result.courseName).toBe('Sample Course 101');
     expect(result.email).toBe('alice.b.tmms@gmail.tmt');
-    expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=alice.b.tmms.sampleData');
+    expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=00000000-0000-4000-8000-0000000000e2');
   });
 
   it('should join students with correct profile page link when course has co-owner', () => {
@@ -273,7 +273,7 @@ describe('SearchService', () => {
       [mockPrivilegeC, mockPrivilegeB, mockPrivilegeA],
     );
     expect(result.profilePageLink).toBe('/web/instructor/courses/student/details?'
-      + 'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=test%40example.com');
+      + 'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=00000000-0000-4000-8000-0000000000e3');
   });
 
   it('should join students with correct profile page link when course has no co-owner', () => {
@@ -285,7 +285,7 @@ describe('SearchService', () => {
       [mockPrivilegeB, mockPrivilegeC],
     );
     expect(result.profilePageLink).toBe('/web/instructor/courses/student/details?'
-      + 'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=insC');
+      + 'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=00000000-0000-4000-8000-0000000000e5');
   });
 
   it('should join instructors accurately when calling as admin', () => {
@@ -295,8 +295,8 @@ describe('SearchService', () => {
     expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`);
     expect(result.courseName).toBe('Sample Course 101');
     expect(result.email).toBe('dog@gmail.com');
-    expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=test%40example.com');
-    expect(result.homePageLink).toBe('/web/instructor/home?user=test%40example.com');
+    expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=00000000-0000-4000-8000-0000000000e3');
+    expect(result.homePageLink).toBe('/web/instructor/home?user=00000000-0000-4000-8000-0000000000e3');
   });
 
   it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {

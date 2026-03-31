@@ -17,12 +17,12 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
@@ -233,8 +233,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         differentInstructor.setName("different instructor");
         differentInstructor.setEmail("differentinstructor@teammates.tmt");
         Account accDiff = new Account(differentInstructor.getName(), differentInstructor.getEmail());
-        accDiff.setId(java.util.UUID.nameUUIDFromBytes(
-                "different account id".getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        accDiff.setId(TEST_OTHER_INSTRUCTOR_ACCOUNT_ID);
         differentInstructor.setAccount(accDiff);
 
         FeedbackResponseComment typicalComment = getTypicalCommentFromInstructor();

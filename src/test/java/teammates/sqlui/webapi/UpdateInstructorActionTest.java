@@ -267,7 +267,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
     @Test
     void testAccessControl_instructorWithoutCorrectCoursePrivilege_cannotAccess() {
         Instructor instructorWithoutCorrectPrivilege = getTypicalInstructor();
-        Account accNp = new Account(instructorWithoutCorrectPrivilege.getName(), instructorWithoutCorrectPrivilege.getEmail());
+        Account accNp = new Account(instructorWithoutCorrectPrivilege.getName(),
+                instructorWithoutCorrectPrivilege.getEmail());
         accNp.setId(UUID.nameUUIDFromBytes("no privilege".getBytes(StandardCharsets.UTF_8)));
         instructorWithoutCorrectPrivilege.setAccount(accNp);
         instructorWithoutCorrectPrivilege.setEmail("helper@teammates.tmt");

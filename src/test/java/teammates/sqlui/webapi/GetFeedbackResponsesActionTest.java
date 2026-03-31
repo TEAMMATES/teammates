@@ -133,7 +133,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         switch (type) {
         case STUDENT:
             if (isBasicParams) {
-                when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(stubStudent);
+                when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId()))
+                        .thenReturn(stubStudent);
             } else {
                 when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
             }
@@ -290,7 +291,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
+                .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackResponsesFromInstructorForQuestion(
                 argThat(argument -> argument.getId().equals(stubFeedbackQuestion.getId())),
                 argThat(instructor -> instructor.getAccountId().equals(stubInstructor.getAccountId())
@@ -459,7 +461,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 .thenReturn(stubFeedbackSession);
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId()))
                 .thenReturn(stubFeedbackQuestion);
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
+                .thenReturn(stubInstructor);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
@@ -577,7 +580,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         FeedbackQuestion questionAnswerableToInstructor = stubFeedbackQuestion;
         when(mockLogic.getFeedbackQuestion(questionAnswerableToInstructor.getId()))
                 .thenReturn(questionAnswerableToInstructor);
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
+                .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
 
@@ -696,7 +700,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         when(mockLogic.getInstructorForEmail(stubCourse.getId(), stubInstructor.getEmail())).thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
+                .thenReturn(stubInstructor);
 
         String[] params1 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, questionThatCanBeModerated.getId().toString(),
@@ -935,7 +940,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         FeedbackQuestion questionAnswerableToInstructor = stubFeedbackQuestion;
         when(mockLogic.getFeedbackQuestion(questionAnswerableToInstructor.getId()))
                 .thenReturn(questionAnswerableToInstructor);
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
+                .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
 

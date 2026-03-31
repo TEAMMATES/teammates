@@ -30,7 +30,6 @@ import teammates.logic.api.MockTaskQueuer;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.api.MockUserProvision;
 import teammates.sqllogic.api.SqlEmailGenerator;
-import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -599,6 +598,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Instructor otherCourseInstructor = getTypicalInstructor();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
+        otherCourseInstructor.getAccount().setId(TEST_OTHER_INSTRUCTOR_ACCOUNT_ID);
 
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(currentCourse);
@@ -613,6 +613,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         Instructor sameCourseInstructor = getTypicalInstructor();
         sameCourseInstructor.setCourse(currentCourse);
+        sameCourseInstructor.getAccount().setId(TEST_OTHER_INSTRUCTOR_ACCOUNT_ID);
 
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(currentCourse);

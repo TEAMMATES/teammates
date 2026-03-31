@@ -3,10 +3,9 @@ package teammates.sqlui.webapi;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.time.Duration;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.Instant;
-import java.util.UUID;
 import java.util.ArrayList;
 import java.util.UUID;
 

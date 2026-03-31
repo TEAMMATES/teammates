@@ -4,9 +4,9 @@ import static org.mockito.Mockito.when;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.UUID;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -50,7 +50,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         feedbackSession1 = generateSession1InCourse(course1);
 
         when(mockLogic.getFeedbackSession(feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession1);
-        when(mockLogic.getStudentByAccountId(course1.getId(), student1.getAccount().getId().toString())).thenReturn(student1);
+        when(mockLogic.getStudentByAccountId(course1.getId(), student1.getAccount().getId().toString()))
+                .thenReturn(student1);
     }
 
     @Test

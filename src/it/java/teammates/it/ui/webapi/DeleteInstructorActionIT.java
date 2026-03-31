@@ -248,7 +248,8 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        assertNull(logic.getInstructorByAccountId(instructor1OfCourse1.getCourseId(), "00000000-0000-4000-8000-00000000fa1e"));
+        assertNull(logic.getInstructorByAccountId(instructor1OfCourse1.getCourseId(),
+                "00000000-0000-4000-8000-00000000fa1e"));
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);

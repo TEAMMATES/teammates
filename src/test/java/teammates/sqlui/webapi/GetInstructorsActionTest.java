@@ -167,7 +167,8 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         InstructorsData actualInstructorsData = (InstructorsData) getJsonResult(action).getOutput();
         verifyInstructorsData(expectedInstructorsData, actualInstructorsData, false, false, true);
         verify(mockLogic, times(1)).getInstructorsByCourse(stubCourse.getId());
-        verify(mockLogic, times(1)).getInstructorByAccountId(stubCourse.getId(), stubInstructorWithPermission.getAccountId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(stubCourse.getId(),
+                stubInstructorWithPermission.getAccountId());
     }
 
     @Test

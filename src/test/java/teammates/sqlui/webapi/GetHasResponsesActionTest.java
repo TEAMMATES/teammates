@@ -304,7 +304,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verifyCannotAccess(paramsWithFeedbackQuestion);
 
         verify(mockLogic, times(2))
-                .getInstructorByAccountId(typicalCourse.getId(), "unregistered user");
+                .getInstructorByAccountId(typicalCourse.getId(), TEST_UNREGISTERED_ACCOUNT_ID.toString());
 
         ______TS("Students cannot access");
 

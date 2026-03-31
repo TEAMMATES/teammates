@@ -143,7 +143,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                ins-google-id
+                00000000-0000-4000-8000-0000000000d2
               </a>
             </td>
             <td>
@@ -168,7 +168,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Account ID 
+                 Reset account 
               </a>
               <br />
               <button
@@ -281,7 +281,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                student-google-id
+                00000000-0000-4000-8000-0000000000d3
               </a>
             </td>
             <td>
@@ -309,7 +309,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Account ID 
+                 Reset account 
               </a>
               <br />
               <button
@@ -528,7 +528,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                instructor-google-id
+                00000000-0000-4000-8000-0000000000d4
               </a>
             </td>
             <td>
@@ -553,7 +553,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Account ID 
+                 Reset account 
               </a>
               <br />
               <button
@@ -794,7 +794,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                student-google-id
+                00000000-0000-4000-8000-0000000000d3
               </a>
             </td>
             <td>
@@ -822,7 +822,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Account ID 
+                 Reset account 
               </a>
               <br />
               <button
