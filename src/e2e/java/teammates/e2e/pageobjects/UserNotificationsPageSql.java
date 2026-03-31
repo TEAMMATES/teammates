@@ -1,14 +1,13 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -26,6 +25,9 @@ public class UserNotificationsPageSql extends AppPage {
 
     @FindBy(id = "notifications-timezone")
     private WebElement notificationsTimezone;
+
+    @FindBy(id = "mark-all-read")
+    private WebElement markAllAsReadButton;
 
     public UserNotificationsPageSql(Browser browser) {
         super(browser);
@@ -94,6 +96,11 @@ public class UserNotificationsPageSql extends AppPage {
     public void markNotificationAsRead(Notification notification) {
         WebElement notificationTab = notificationTabs.findElement(By.id(notification.getId().toString()));
         click(notificationTab.findElement(By.className("btn-mark-as-read")));
+        waitForPageToLoad(true);
+    }
+
+    public void markAllNotificationsAsRead() {
+        click(markAllAsReadButton);
         waitForPageToLoad(true);
     }
 
