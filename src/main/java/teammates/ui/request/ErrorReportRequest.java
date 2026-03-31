@@ -1,5 +1,7 @@
 package teammates.ui.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * The create request for an error report to be emailed to the admin.
  */
@@ -8,6 +10,7 @@ public class ErrorReportRequest extends BasicRequest {
     private String subject;
     private String requestId;
 
+    @JsonCreator
     public ErrorReportRequest(String requestId, String subject, String content) {
         this.requestId = requestId;
         this.subject = subject;

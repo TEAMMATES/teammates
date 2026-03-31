@@ -2,6 +2,7 @@ package teammates.ui.request;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.annotation.Nullable;
 
 import teammates.common.util.SanitizationHelper;
@@ -16,6 +17,7 @@ public class AccountRequestRejectionRequest extends BasicRequest {
     @Nullable
     private String reasonBody;
 
+    @JsonCreator
     public AccountRequestRejectionRequest(String reasonTitle, String reasonBody) {
         this.reasonTitle = SanitizationHelper.sanitizeTitle(reasonTitle);
         this.reasonBody = SanitizationHelper.sanitizeForRichText(reasonBody);

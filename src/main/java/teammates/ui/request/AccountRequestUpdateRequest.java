@@ -1,5 +1,6 @@
 package teammates.ui.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
@@ -16,6 +17,10 @@ public class AccountRequestUpdateRequest extends BasicRequest {
 
     @Nullable
     private String comments;
+
+    private AccountRequestUpdateRequest() {
+        // for Jackson deserialization
+    }
 
     public AccountRequestUpdateRequest(String name, String email, String institute, AccountRequestStatus status,
                                        String comments) {

@@ -3,6 +3,7 @@ package teammates.ui.request;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.ui.output.CommentVisibilityType;
 
@@ -16,6 +17,7 @@ class FeedbackResponseCommentBasicRequest extends BasicRequest {
     private List<CommentVisibilityType> showCommentTo;
     private List<CommentVisibilityType> showGiverNameTo;
 
+    @JsonCreator
     FeedbackResponseCommentBasicRequest(String commentText,
                                         List<CommentVisibilityType> showCommentTo,
                                         List<CommentVisibilityType> showGiverNameTo) {

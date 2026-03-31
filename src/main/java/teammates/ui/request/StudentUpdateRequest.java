@@ -1,5 +1,6 @@
 package teammates.ui.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 
@@ -13,6 +14,10 @@ public class StudentUpdateRequest extends BasicRequest {
     private String section;
     private String comments;
     private Boolean isSessionSummarySendEmail;
+
+    private StudentUpdateRequest() {
+        // for Jackson deserialization
+    }
 
     public StudentUpdateRequest(String name, String email, String team, String section, String comments,
                                 Boolean isSessionSummarySendEmail) {
