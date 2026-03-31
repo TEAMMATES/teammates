@@ -1,47 +1,35 @@
 # TEAMMATES
 
-TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students. It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
+<box type=info>
+<md>
+This is the documentation for contributors and developers. If you are an educator or student looking to use TEAMMATES, visit the [product website](https://teammatesv4.appspot.com).
+</md>
+</box>
 
-## Interested to join TEAMMATES developer team?
+TEAMMATES is a free, open-source tool for managing peer evaluations for students.
+It has been built and maintained by hundreds of contributors over more than a decade.
 
-We welcome contributions from developers, especially students. Here are some resources:
+## Get Involved
 
-* [**Contributor Orientation Guide**](contributing-doc.md): This document describes what you need to know/do to become a contributor.
-* [**Project ideas page**](https://github.com/TEAMMATES/teammates/wiki): These are for those who would like to do a relatively bigger projects with TEAMMATES (e.g. summer internships).
+We welcome contributions from developers of all backgrounds, especially students. Here's how to get started:
 
-## Documentation For Developers
+1. [Set up your developer environment](getting-started.md).
+2. Read the [Contributing Guidelines](contributing/guidelines.md).
+3. Pick a [good first issue](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:"good+first+issue") to work on.
 
-Here are some documents important for TEAMMATES developers.
+## Tech Stack
 
-* The project [**vision, challenges, and principles**](overview.md) from a developer's perspective.
-* The [**glossary**](glossary.md) of terms used in the project.
-* Software [**Design**](design.md) - Architecture, APIs, etc.
-* How to [**set up the developer environment**](setting-up.md).
-* [**Development guideline**](development.md) - how to work with your own copy of TEAMMATES.
-* The [**workflow/process to follow**](process.md) when contributing to TEAMMATES.
-* [**Developer Troubleshooting Guide**](troubleshooting-guide.md)
-* How the [**issue tracker**](issues.md) is used - issue lifecycle, issue labels, etc.
+| Domain   | Technology                       |
+| -------- | -------------------------------- |
+| Backend  | Java, Gradle, Jetty              |
+| Frontend | Angular, SCSS                    |
+| Database | PostgreSQL, Hibernate, Liquibase |
+| Testing  | Jest, TestNG, Selenium           |
 
-### Supplementary documents
+## Community & Support
 
-* **Coding standards** for:
-  * [Java](https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html),
-  * [CSS](https://oss-generic.github.io/process/codingStandards/CodingStandard-Css.html),
-  * [HTML](https://oss-generic.github.io/process/codingStandards/CodingStandard-Html.html)
-* **Best practices** for:
-  * [Coding](best-practices/coding.md)
-  * [Testing](best-practices/testing.md)
-  * [Data migration](best-practices/data-migration.md)
-  * [UI design](best-practices/ui-design.md)
-  * [Accessibility](best-practices/accessibility.md)
-  * [Mobile-friendliness](best-practices/mobile-friendliness.md)
-* **How-to guides** for:
-  * [Setting up CAPTCHA](captcha.md)
-  * [Setting up developer documentation](documentation.md)
-  * [Setting up third-party email providers](emails.md)
-  * [Unit testing](unit-testing.md)
-  * [End-to-End testing](e2e-testing.md)
-  * [Snapshot testing](snapshot-testing.md)
-  * [Accessibility testing](axe-testing.md)
-  * [Setting up full-text search](search.md)
-  * [Static analysis](static-analysis.md): Performing code quality checks
+We'd love to hear from you — whether you've found a bug, have an idea, or just want to say hi.
+
+- **Found a bug or have a feature request?** [Open an issue](https://github.com/TEAMMATES/teammates/issues) on GitHub.
+- **Have a question?** Start a [GitHub Discussion](https://github.com/TEAMMATES/teammates/discussions) (preferred), or email us at [teammates@comp.nus.edu.sg](mailto:teammates@comp.nus.edu.sg) for confidential enquiries.
+  
