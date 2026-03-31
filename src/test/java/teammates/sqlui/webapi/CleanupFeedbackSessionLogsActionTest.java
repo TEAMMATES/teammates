@@ -1,0 +1,45 @@
+package teammates.sqlui.webapi;
+
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.verify;
+
+import java.time.Duration;
+import java.time.Instant;
+
+import org.testng.annotations.Test;
+
+import teammates.common.util.Const;
+import teammates.ui.webapi.CleanupFeedbackSessionLogsAction;
+
+/**
+ * SUT: {@link CleanupFeedbackSessionLogsAction}.
+ */
+public class CleanupFeedbackSessionLogsActionTest extends BaseActionTest<CleanupFeedbackSessionLogsAction> {
+
+    @Override
+    protected String getActionUri() {
+        return Const.CronJobURIs.AUTOMATED_FEEDBACK_SESSION_LOGS_CLEANUP;
+    }
+
+    @Override
+    protected String getRequestMethod() {
+        return GET;
+    }
+
+    @Test
+    void testAccessControl() {
+        verifyOnlyAdminsCanAccess();
+        verifyMaintainersCannotAccess();
+    }
+
+    @Test
+    void testExecute_normalCase_shouldDeleteLogsOlderThanRetentionPeriod() {
+        CleanupFeedbackSessionLogsAction action = getAction();
+        action.execute();
+
+        verify(mockLogic).deleteFeedbackSessionLogsOlderThan(argThat(cutoffTime ->
+                Math.abs(cutoffTime.toEpochMilli()
+                        - Instant.now().minus(Duration.ofDays(90)).toEpochMilli())
+                        < 5000));
+    }
+}

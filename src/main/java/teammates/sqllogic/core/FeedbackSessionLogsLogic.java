@@ -64,6 +64,13 @@ public final class FeedbackSessionLogsLogic {
     }
 
     /**
+     * Deletes feedback session logs older than the given cutoff time.
+     */
+    public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
+        return fslDb.deleteFeedbackSessionLogsOlderThan(cutoffTime);
+    }
+
+    /**
      * Gets the latest feedback session log for the given student, feedback session, and log type.
      */
     public FeedbackSessionLog getLatestFeedbackSessionLog(UUID studentId, UUID feedbackSessionId,
