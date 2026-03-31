@@ -25,14 +25,18 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
     @Test
     @Override
     public void testAll() {
+        String pendingInstructorUserId =
+                testData.accountRequests.get("ICJoinConf.instr.CS1101").getId().toString();
+        String newAccountRequestUserId =
+                testData.accountRequests.get("ICJoinConf.newinstr").getId().toString();
+
         ______TS("Click join link: invalid key");
         String invalidKey = "invalidKey";
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidKey)
                 .withEntityType(Const.EntityType.INSTRUCTOR);
-        String newInstructorId = "tm.e2e.ICJoinConf.instr2";
         CourseJoinConfirmationPage confirmationPage = loginToPage(
-                joinLink, CourseJoinConfirmationPage.class, newInstructorId);
+                joinLink, CourseJoinConfirmationPage.class, pendingInstructorUserId);
 
         confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
                 + "entered the URL incorrectly or the URL may correspond to a/an instructor that does not exist.");
@@ -45,7 +49,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
-        confirmationPage.verifyJoiningUser(newInstructorId);
+        confirmationPage.verifyJoiningUser(pendingInstructorUserId);
         confirmationPage.confirmJoinCourse(InstructorHomePageSql.class);
 
         ______TS("Already joined, no confirmation page");
@@ -58,7 +62,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withIsCreatingAccount("true")
                 .withRegistrationKey(invalidKey);
-        confirmationPage = loginToPage(joinLink, CourseJoinConfirmationPage.class, "ICJoinConf.newinstr");
+        confirmationPage = loginToPage(joinLink, CourseJoinConfirmationPage.class, newAccountRequestUserId);
 
         confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
                 + "entered the URL incorrectly or the URL may correspond to a/an instructor that does not exist.");
@@ -73,7 +77,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
                 .withRegistrationKey(regKey);
 
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
-        confirmationPage.verifyJoiningUser("ICJoinConf.newinstr");
+        confirmationPage.verifyJoiningUser(newAccountRequestUserId);
         confirmationPage.confirmJoinCourse(InstructorHomePageSql.class);
 
         ______TS("Regkey for account request used, no confirmation page");

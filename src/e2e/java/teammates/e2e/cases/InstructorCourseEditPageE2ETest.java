@@ -69,6 +69,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         InstructorPermissionRole role = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
         newInstructor.setRole(role);
+        newInstructor.setAccount(null);
 
         editPage.addInstructor(newInstructor);
         editPage.verifyStatusMessage("The instructor " + newInstructor.getName() + " has been added successfully. "
@@ -94,6 +95,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
             newInstructor.setDisplayedToStudents(i.isDisplayedToStudents());
             newInstructor.setDisplayName(i.getDisplayName());
             newInstructor.setRole(i.getRole());
+            newInstructor.setAccount(null);
 
             editPage.verifyInstructorDetails(newInstructor);
             verifyPresentInDatabase(newInstructor);

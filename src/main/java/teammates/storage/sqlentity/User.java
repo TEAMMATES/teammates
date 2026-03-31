@@ -180,7 +180,7 @@ public abstract class User extends BaseEntity {
      * Returns the account UUID as string if the user is linked to an account.
      */
     public String getAccountId() {
-        if (getAccount() != null) {
+        if (getAccount() != null && getAccount().getId() != null) {
             return getAccount().getId().toString();
         }
         return null;
