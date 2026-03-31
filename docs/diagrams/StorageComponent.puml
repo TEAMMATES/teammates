@@ -4,8 +4,6 @@ skinparam componentBackgroundColor MODEL_COLOR_T1
 skinparam componentFontColor #FFFFFF
 skinparam packageBackgroundColor #FFFFFF
 skinparam rectangleBackgroundColor MODEL_COLOR
-skinparam collectionsBackgroundColor MODEL_COLOR
-skinparam collectionsBorderColor #000000
 skinparam rectangleFontColor #FFFFFF
 skinparam arrowColor #000000
 
@@ -15,13 +13,12 @@ component Storage {
         rectangle Account
         rectangle AccountRequest
         rectangle CourseStudent
-        rectangle DeadlineExtension
         rectangle Instructor
         rectangle FeedbackResponse
         rectangle FeedbackQuestion
         rectangle FeedbackSession
         rectangle Course
-        rectangle FeedbackResponseComment
+        rectangle "~*Entity"
     }
 
     package "storage::api" as Api {
@@ -31,40 +28,23 @@ component Storage {
         rectangle StudentsDb
         rectangle " *Db" as Db
     }
-
-    package "storage::search" as Search {
-        rectangle "SearchQuery" as SQ1
-        rectangle "SearchDocument" as SD1
-        collections " *SearchQuery" as SQ2
-        collections " *SearchDocument" as SD2
-        rectangle SearchManager
-    }
 }
 
 rectangle Logic
-database "Google\nCloud\nDatastore" as GCD STORAGE_COLOR_T1
+database "PostgreSQL" as db STORAGE_COLOR_T1
 
 CoursesDb -> EntitiesDb
 InstructorsDb -> EntitiesDb
 StudentsDb -> EntitiesDb
 Db -> EntitiesDb
 
-SQ2 -> SQ1
-SD2 -> SD1
-
-Logic ..> Api
-Api ..> GCD
-
+Logic .down.> Api
 Api ..> Entity
-Api <..> Search
+Api ..> db
 
 ' The hidden associations are for positioning purposes only
 EntitiesDb -[hidden]right- InstructorsDb
 CoursesDb -[hidden]down- InstructorsDb
 InstructorsDb -[hidden]down- StudentsDb
-StudentsDb -[hidden]down- Db
-SD1 -[hidden]down- SD2
-SQ1 -[hidden]down- SQ2
-Search -[hidden]down- Entity
 
 @enduml
