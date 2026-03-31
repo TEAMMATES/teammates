@@ -124,6 +124,31 @@ public class AccountsLogicTest extends BaseTestCase {
     }
 
     @Test
+    public void testUpdateReadNotifications_entryAlreadyExists_returnsReadNotificationsUnchanged()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Account account = getTypicalAccount();
+        Notification notification = getTypicalNotificationWithId();
+        String googleId = account.getGoogleId();
+        UUID notificationId = notification.getId();
+
+        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
+        when(notificationsLogic.getNotification(notificationId)).thenReturn(notification);
+
+        accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+        accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+        accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+
+        verify(accountsDb, times(3)).getAccountByGoogleId(googleId);
+        verify(notificationsLogic, times(3)).getNotification(notificationId);
+
+        List<ReadNotification> accountReadNotifications = account.getReadNotifications();
+        assertEquals(1, accountReadNotifications.size());
+        ReadNotification readNotification = accountReadNotifications.get(0);
+        assertSame(account, readNotification.getAccount());
+        assertSame(notification, readNotification.getNotification());
+    }
+
+    @Test
     public void testUpdateReadNotifications_accountDoesNotExist_throwEntityDoesNotExistException() {
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
