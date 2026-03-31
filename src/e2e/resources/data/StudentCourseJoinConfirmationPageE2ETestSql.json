@@ -3,13 +3,13 @@
     "SCJoinConf.instr": {
       "googleId": "tm.e2e.SCJoinConf.instr",
       "name": "Teammates Test",
-      "email": "SCJoinConf.instr@gmail.tmt",
+      "email": "scjoinconf.instr@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001"
     },
     "alice.tmms": {
       "googleId": "tm.e2e.SCJoinConf.alice",
       "name": "Alice B",
-      "email": "SCJoinConf.alice@gmail.tmt",
+      "email": "scjoinconf.alice@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002"
     }
   },
@@ -88,7 +88,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Teammates Test",
-      "email": "SCJoinConf.instr@gmail.tmt"
+      "email": "scjoinconf.instr@gmail.tmt"
     },
     "SCJoinConf.instr.CS1101": {
       "isDisplayedToStudents": true,
@@ -116,7 +116,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Teammates Test",
-      "email": "SCJoinConf.instr@gmail.tmt"
+      "email": "scjoinconf.instr@gmail.tmt"
     }
   },
   "students": {
@@ -131,7 +131,7 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Amy Betsy",
-      "email": "SCJoinConf.alice@gmail.tmt"
+      "email": "scjoinconf.alice@gmail.tmt"
     },
     "alice.tmms@SCJoinConf.CS1101": {
       "comments": "This student's name is Amy Betsy",
@@ -147,7 +147,7 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Amy Betsy",
-      "email": "SCJoinConf.alice@gmail.tmt"
+      "email": "scjoinconf.alice@gmail.tmt"
     }
   },
   "feedbackSessions": {},

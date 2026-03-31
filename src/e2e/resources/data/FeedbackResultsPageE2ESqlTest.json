@@ -4,43 +4,43 @@
         "id": "00000000-0000-4000-8000-000000000001",
         "googleId": "tm.e2e.FRes.instr",
         "name": "Teammates Test",
-        "email": "FRes.instr@gmail.tmt"
+        "email": "fres.instr@gmail.tmt"
       },
       "FRes.instr2": {
         "id": "00000000-0000-4000-8000-000000000002",
         "googleId": "tm.e2e.FRes.instr2",
         "name": "Teammates Test",
-        "email": "FRes.instr2@gmail.tmt"
+        "email": "fres.instr2@gmail.tmt"
       },
       "FRes.alice.b": {
         "id": "00000000-0000-4000-8000-000000000003",
         "googleId": "tm.e2e.FRes.alice.b",
         "name": "Alice B.",
-        "email": "FRes.alice.b@gmail.tmt"
+        "email": "fres.alice.b@gmail.tmt"
       },
       "FRes.benny.c": {
         "id": "00000000-0000-4000-8000-000000000004",
         "googleId": "tm.e2e.FRes.benny.c",
         "name": "Benny C.",
-        "email": "FRes.benny.c@gmail.tmt"
+        "email": "fres.benny.c@gmail.tmt"
       },
       "FRes.charlie.d": {
         "id": "00000000-0000-4000-8000-000000000005",
         "googleId": "tm.e2e.FRes.charlie.d",
         "name": "Charlie D.",
-        "email": "FRes.charlie.d@gmail.tmt"
+        "email": "fres.charlie.d@gmail.tmt"
       },
       "FRes.danny.e": {
         "id": "00000000-0000-4000-8000-000000000006",
         "googleId": "tm.e2e.FRes.danny.e",
         "name": "Danny E.",
-        "email": "FRes.danny.e@gmail.tmt"
+        "email": "fres.danny.e@gmail.tmt"
       },
       "FRes.emily.f": {
         "id": "00000000-0000-4000-8000-000000000007",
         "googleId": "tm.e2e.FRes.emily.f",
         "name": "Emily F.",
-        "email": "FRes.emily.f@gmail.tmt"
+        "email": "fres.emily.f@gmail.tmt"
       }
     },
     "accountRequests": {},
@@ -113,7 +113,7 @@
           "id": "tm.e2e.FRes.CS2104"
         },
         "name": "Teammates Test",
-        "email": "FRes.instr@gmail.tmt"
+        "email": "fres.instr@gmail.tmt"
       },
       "FRes.instr2": {
         "isDisplayedToStudents": true,
@@ -142,7 +142,7 @@
           "id": "tm.e2e.FRes.CS2104"
         },
         "name": "Teammates Test 2",
-        "email": "FRes.instr2@gmail.tmt"
+        "email": "fres.instr2@gmail.tmt"
       }
     },
     "students": {
@@ -160,7 +160,7 @@
           "id": "00000000-0000-4000-8000-000000000301"
         },
         "name": "Alice Betsy",
-        "email": "FRes.alice.b@gmail.tmt",
+        "email": "fres.alice.b@gmail.tmt",
         "googleId": "tm.e2e.FRes.alice.b"
       },
       "Benny": {
@@ -177,7 +177,7 @@
           "id": "00000000-0000-4000-8000-000000000004"
         },
         "name": "Benny Charles",
-        "email": "FRes.benny.c@gmail.tmt"
+        "email": "fres.benny.c@gmail.tmt"
       },
       "Charlie": {
         "comments": "This student's name is Charlie Davis",
@@ -193,7 +193,7 @@
           "id": "00000000-0000-4000-8000-000000000005"
         },
         "name": "Charlie Davis",
-        "email": "FRes.charlie.d@gmail.tmt"
+        "email": "fres.charlie.d@gmail.tmt"
       },
       "Unregistered": {
         "comments": "This student has not registered",
@@ -206,7 +206,7 @@
           "id": "00000000-0000-4000-8000-000000000302"
         },
         "name": "Unregistered",
-        "email": "Unregistered@gmail.tmt"
+        "email": "unregistered@gmail.tmt"
       },
       "Danny": {
         "comments": "This student's name is Danny Engrid",
@@ -222,7 +222,7 @@
           "id": "00000000-0000-4000-8000-000000000006"
         },
         "name": "Danny Engrid",
-        "email": "FRes.danny.e@gmail.tmt"
+        "email": "fres.danny.e@gmail.tmt"
       },
       "Emily": {
         "comments": "This student's name is Emily",
@@ -238,7 +238,7 @@
           "id": "00000000-0000-4000-8000-000000000007"
         },
         "name": "Emily",
-        "email": "FRes.emily.f@gmail.tmt"
+        "email": "fres.emily.f@gmail.tmt"
       }
     },
     "feedbackSessions": {
@@ -248,7 +248,7 @@
           "id": "tm.e2e.FRes.CS2104"
         },
         "name": "First Session",
-        "creatorEmail": "FRes.instr@gmail.tmt",
+        "creatorEmail": "fres.instr@gmail.tmt",
         "instructions": "Instructions for first session",
         "startTime": "2012-04-01T16:00:00Z",
         "endTime": "2026-04-30T16:00:00Z",
@@ -598,8 +598,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000901",
-        "giver": "FRes.instr@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.instr@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn1response2": {
         "answer": {
@@ -624,8 +624,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000902",
-        "giver": "FRes.instr@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.instr@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn2response1": {
         "answer": {
@@ -650,8 +650,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000903",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn2response2": {
         "answer": {
@@ -676,8 +676,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000904",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "Unregistered@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "unregistered@gmail.tmt"
       },
       "qn2responseA": {
         "answer": {
@@ -702,8 +702,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000905",
-        "giver": "Unregistered@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "unregistered@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn2responseB": {
         "answer": {
@@ -728,8 +728,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000906",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn2responseC": {
         "answer": {
@@ -754,8 +754,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000907",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.danny.e@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.danny.e@gmail.tmt"
       },
       "qn2responseD": {
         "answer": {
@@ -780,8 +780,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000908",
-        "giver": "FRes.danny.e@gmail.tmt",
-        "recipient": "FRes.emily.f@gmail.tmt"
+        "giver": "fres.danny.e@gmail.tmt",
+        "recipient": "fres.emily.f@gmail.tmt"
       },
       "qn3response1": {
         "answer": {
@@ -814,8 +814,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000909",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn3response2": {
         "answer": {
@@ -848,8 +848,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000910",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.charlie.d@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.charlie.d@gmail.tmt"
       },
       "qn3responseA": {
         "answer": {
@@ -882,8 +882,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000911",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn3responseB": {
         "answer": {
@@ -916,8 +916,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000912",
-        "giver": "FRes.charlie.d@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.charlie.d@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn4response1": {
         "answer": {
@@ -951,7 +951,7 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000913",
-        "giver": "FRes.alice.b@gmail.tmt",
+        "giver": "fres.alice.b@gmail.tmt",
         "recipient": "%GENERAL%"
       },
       "qn4responseA": {
@@ -986,7 +986,7 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000914",
-        "giver": "FRes.danny.e@gmail.tmt",
+        "giver": "fres.danny.e@gmail.tmt",
         "recipient": "%GENERAL%"
       },
       "qn5response1": {
@@ -1014,8 +1014,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000915",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn5response2": {
         "answer": {
@@ -1042,8 +1042,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000916",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.charlie.d@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.charlie.d@gmail.tmt"
       },
       "qn5response3": {
         "answer": {
@@ -1070,8 +1070,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000917",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn5responseA": {
         "answer": {
@@ -1098,8 +1098,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000918",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn5responseB": {
         "answer": {
@@ -1126,8 +1126,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000919",
-        "giver": "FRes.charlie.d@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.charlie.d@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn5responseC": {
         "answer": {
@@ -1154,8 +1154,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000920",
-        "giver": "FRes.benny.e@gmail.tmt",
-        "recipient": "FRes.charlie.d@gmail.tmt"
+        "giver": "fres.benny.e@gmail.tmt",
+        "recipient": "fres.charlie.d@gmail.tmt"
       },
       "qn5responseD": {
         "answer": {
@@ -1182,8 +1182,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000921",
-        "giver": "FRes.danny.e@gmail.tmt",
-        "recipient": "Unregistered@gmail.tmt"
+        "giver": "fres.danny.e@gmail.tmt",
+        "recipient": "unregistered@gmail.tmt"
       },
       "qn6response1": {
         "answer": {
@@ -1213,8 +1213,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000922",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn6responseA": {
         "answer": {
@@ -1244,8 +1244,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000923",
-        "giver": "FRes.emily.f@gmail.tmt",
-        "recipient": "FRes.emily.f@gmail.tmt"
+        "giver": "fres.emily.f@gmail.tmt",
+        "recipient": "fres.emily.f@gmail.tmt"
       },
       "qn7response1": {
         "answer": {
@@ -1275,8 +1275,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000924",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn7response2": {
         "answer": {
@@ -1306,8 +1306,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000925",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.charlie.d@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.charlie.d@gmail.tmt"
       },
       "qn7response3": {
         "answer": {
@@ -1337,8 +1337,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000926",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn7responseA": {
         "answer": {
@@ -1368,8 +1368,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000927",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.charlie.d@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.charlie.d@gmail.tmt"
       },
       "qn7responseB": {
         "answer": {
@@ -1399,8 +1399,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000928",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn8response1": {
         "answer": {
@@ -1529,8 +1529,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000932",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.instr2@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.instr2@gmail.tmt"
       },
       "qn9response2": {
         "answer": {
@@ -1557,8 +1557,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000933",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.instr@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.instr@gmail.tmt"
       },
       "qn9responseA": {
         "answer": {
@@ -1585,8 +1585,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000934",
-        "giver": "FRes.emily.f@gmail.tmt",
-        "recipient": "FRes.instr2@gmail.tmt"
+        "giver": "fres.emily.f@gmail.tmt",
+        "recipient": "fres.instr2@gmail.tmt"
       },
       "qn9responseB": {
         "answer": {
@@ -1613,8 +1613,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000935",
-        "giver": "FRes.emily.f@gmail.tmt",
-        "recipient": "FRes.instr@gmail.tmt"
+        "giver": "fres.emily.f@gmail.tmt",
+        "recipient": "fres.instr@gmail.tmt"
       },
       "qn10response1": {
         "answer": {
@@ -1667,8 +1667,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000936",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn10response2": {
         "answer": {
@@ -1721,8 +1721,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000937",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn10response3": {
         "answer": {
@@ -1775,8 +1775,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000938",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.charlie.d@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.charlie.d@gmail.tmt"
       },
       "qn10responseA": {
         "answer": {
@@ -1829,8 +1829,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000939",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn10responseB": {
         "answer": {
@@ -1883,8 +1883,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000940",
-        "giver": "FRes.charlie.d@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.charlie.d@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn10responseC": {
         "answer": {
@@ -1937,8 +1937,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000941",
-        "giver": "FRes.charlie.d@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.charlie.d@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn10responseD": {
         "answer": {
@@ -1991,8 +1991,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000942",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.charlie.d@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.charlie.d@gmail.tmt"
       },
       "qn11response1": {
         "answer": {
@@ -2018,8 +2018,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000943",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn11response2": {
         "answer": {
@@ -2045,8 +2045,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000944",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn11response3": {
         "answer": {
@@ -2072,8 +2072,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000945",
-        "giver": "FRes.alice.b@gmail.tmt",
-        "recipient": "FRes.charlie.d@gmail.tmt"
+        "giver": "fres.alice.b@gmail.tmt",
+        "recipient": "fres.charlie.d@gmail.tmt"
       },
       "qn11responseA": {
         "answer": {
@@ -2099,8 +2099,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000946",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn11responseB": {
         "answer": {
@@ -2126,8 +2126,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000947",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn11responseC": {
         "answer": {
@@ -2153,8 +2153,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000948",
-        "giver": "FRes.benny.c@gmail.tmt",
-        "recipient": "FRes.charlie.d@gmail.tmt"
+        "giver": "fres.benny.c@gmail.tmt",
+        "recipient": "fres.charlie.d@gmail.tmt"
       },
       "qn11responseD": {
         "answer": {
@@ -2180,8 +2180,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000949",
-        "giver": "FRes.charlie.d@gmail.tmt",
-        "recipient": "FRes.alice.b@gmail.tmt"
+        "giver": "fres.charlie.d@gmail.tmt",
+        "recipient": "fres.alice.b@gmail.tmt"
       },
       "qn11responseE": {
         "answer": {
@@ -2207,8 +2207,8 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000950",
-        "giver": "FRes.charlie.d@gmail.tmt",
-        "recipient": "FRes.benny.c@gmail.tmt"
+        "giver": "fres.charlie.d@gmail.tmt",
+        "recipient": "fres.benny.c@gmail.tmt"
       },
       "qn11responseF": {
         "answer": {
@@ -2234,14 +2234,14 @@
           "id": "00000000-0000-4000-8000-000000000201"
         },
         "id": "00000000-0000-4000-8000-000000000951",
-        "giver": "FRes.charlie.d@gmail.tmt",
-        "recipient": "FRes.charlie.d@gmail.tmt"
+        "giver": "fres.charlie.d@gmail.tmt",
+        "recipient": "fres.charlie.d@gmail.tmt"
       }
     },
     "feedbackResponseComments": {
       "qn2Comment1": {
         "id": "00000000-0000-4000-8000-000000000961",
-        "giver": "FRes.instr@gmail.tmt",
+        "giver": "fres.instr@gmail.tmt",
         "giverType": "INSTRUCTORS",
         "giverSection": {
           "id": "00000000-0000-4000-8000-000000000201"
@@ -2265,7 +2265,7 @@
       },
       "qn2Comment2": {
         "id": "00000000-0000-4000-8000-000000000962",
-        "giver": "FRes.instr@gmail.tmt",
+        "giver": "fres.instr@gmail.tmt",
         "giverType": "INSTRUCTORS",
         "giverSection": {
           "id": "00000000-0000-4000-8000-000000000201"
@@ -2289,7 +2289,7 @@
       },
       "qn3Comment1": {
         "id": "00000000-0000-4000-8000-000000000963",
-        "giver": "FRes.benny.c@gmail.tmt",
+        "giver": "fres.benny.c@gmail.tmt",
         "giverType": "STUDENTS",
         "giverSection": {
           "id": "00000000-0000-4000-8000-000000000201"
@@ -2315,7 +2315,7 @@
       },
       "qn3Comment2": {
         "id": "00000000-0000-4000-8000-000000000964",
-        "giver": "FRes.alice.b@gmail.tmt",
+        "giver": "fres.alice.b@gmail.tmt",
         "giverType": "STUDENTS",
         "giverSection": {
           "id": "00000000-0000-4000-8000-000000000201"
@@ -2341,7 +2341,7 @@
       },
       "qn4Comment1": {
         "id": "00000000-0000-4000-8000-000000000965",
-        "giver": "FRes.danny.e@gmail.tmt",
+        "giver": "fres.danny.e@gmail.tmt",
         "giverType": "STUDENTS",
         "giverSection": {
           "id": "00000000-0000-4000-8000-000000000201"

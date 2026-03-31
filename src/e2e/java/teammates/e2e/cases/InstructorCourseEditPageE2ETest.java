@@ -62,7 +62,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         ______TS("add instructor");
         Instructor newInstructor = getTypicalInstructor();
         newInstructor.setCourse(course);
-        newInstructor.setEmail("ICEdit.test@gmail.tmt");
+        newInstructor.setEmail("icedit.test@gmail.tmt");
         newInstructor.setName("Teammates Test");
         newInstructor.setDisplayedToStudents(true);
         newInstructor.setDisplayName("Instructor");
@@ -110,7 +110,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("edit instructor");
         instructors[0].setName("Edited Name");
-        instructors[0].setEmail("ICEdit.edited@gmail.tmt");
+        instructors[0].setEmail("icedit.edited@gmail.tmt");
         instructors[0].getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, true);
         instructors[0].getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
         instructors[0].getPrivileges().updatePrivilege("Section 2",

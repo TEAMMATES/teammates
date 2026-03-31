@@ -4,7 +4,7 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.INotifs.instr",
       "name": "Teammates Test",
-      "email": "INotifs.instr@gmail.tmt"
+      "email": "inotifs.instr@gmail.tmt"
     }
   },
   "courses": {
@@ -19,7 +19,7 @@
     "INotifs.instr": {
       "id": "00000000-0000-4000-8000-000000100001",
       "name": "Teammates Instr1",
-      "email": "INotifs.instr@gmail.tmt",
+      "email": "inotifs.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
