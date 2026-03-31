@@ -2,50 +2,14 @@
   "enableSearch": true,
   "pages": [
     {
-      "src": "CONTRIBUTING.md",
-      "headings": {
-        "contributing-to-teammates": "Contributing to TEAMMATES",
-        "getting-started": "Getting started",
-        "know-the-product-project": "Know the product/project",
-        "code-of-conduct": "Code of Conduct",
-        "how-can-i-contribute": "How can I contribute?",
-        "submitting-an-issue": "Submitting an issue",
-        "manual-testing": "Manual testing",
-        "submitting-a-pull-request": "Submitting a pull request",
-        "contributor-orientation-guide": "Contributor orientation guide",
-        "knowledge-required": "Knowledge required",
-        "orientation-task-list": "Orientation task list"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "SUPPORT.md",
-      "headings": {
-        "teammates-support": "TEAMMATES Support"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "axe-testing.md",
-      "title": "Accessibility Testing",
-      "headings": {
-        "accessibility-testing": "Accessibility Testing",
-        "what-is-accessibility-testing": "What is Accessibility Testing?",
-        "running-accessibility-tests": "Running Accessibility Tests",
-        "running-the-tests": "Running the tests",
-        "creating-accessibility-tests": "Creating Accessibility Tests"
-      },
-      "headingKeywords": {}
-    },
-    {
       "src": "best-practices/accessibility.md",
       "title": "Best Practices: Accessibility",
       "headings": {
         "accessibility-best-practices": "Accessibility Best Practices",
         "content": "Content",
-        "images-icons": "Images/Icons",
+        "images-and-amp-icons": "Images &amp; Icons",
         "keyboard": "Keyboard",
-        "controls-inputs": "Controls/Inputs"
+        "controls-and-amp-inputs": "Controls &amp; Inputs"
       },
       "headingKeywords": {}
     },
@@ -58,20 +22,8 @@
         "style": "Style",
         "refactoring": "Refactoring",
         "code-comments": "Code Comments",
-        "user-visible-text": "User-visible text",
-        "issue-tracking": "Issue tracking",
-        "revision-control": "Revision control",
-        "security": "Security"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "best-practices/data-migration.md",
-      "title": "Best Practices: Data Migration",
-      "headings": {
-        "data-migration-best-practices": "Data Migration Best Practices",
-        "making-code-work-for-both-schemas": "Making code work for both schemas",
-        "interchangeability-between-consecutive-versions": "Interchangeability between consecutive versions"
+        "issue-tracking": "Issue Tracking",
+        "revision-control": "Revision Control"
       },
       "headingKeywords": {}
     },
@@ -81,16 +33,7 @@
       "headings": {
         "mobile-friendliness-best-practices": "Mobile-Friendliness Best Practices",
         "content": "Content",
-        "interactive-elements-e-g-buttons-links-tooltips": "Interactive elements (e.g. buttons, links, tooltips)"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "best-practices/testing.md",
-      "title": "Best Practices: Testing",
-      "headings": {
-        "testing-best-practices": "Testing Best Practices",
-        "general-guidelines": "General guidelines"
+        "interactive-elements": "Interactive Elements"
       },
       "headingKeywords": {}
     },
@@ -99,38 +42,53 @@
       "title": "Best Practices: UI Design",
       "headings": {
         "ui-design-best-practices": "UI Design Best Practices",
-        "be-forgiving-in-processing-input": "Be forgiving in processing input",
-        "be-descriptive": "Be descriptive",
-        "minimize-work-to-be-done-by-the-user": "Minimize work (to be done by the user)",
-        "take-the-user-s-point-of-view": "Take the user's point of view",
-        "be-consistent": "Be consistent"
+        "be-forgiving": "Be Forgiving",
+        "be-descriptive": "Be Descriptive",
+        "minimise-user-effort": "Minimise User Effort",
+        "use-the-user-s-language": "Use the User's Language",
+        "be-consistent": "Be Consistent"
       },
       "headingKeywords": {}
     },
     {
-      "src": "captcha.md",
-      "title": "Captcha",
+      "src": "contributing/development-guide.md",
+      "title": "Development Guide",
       "headings": {
-        "setting-up-captcha": "Setting up CAPTCHA"
+        "development-guide": "Development Guide",
+        "running-the-frontend-server": "Running the Frontend Server",
+        "running-the-backend-server": "Running the Backend Server",
+        "serving-frontend-files-from-the-backend": "Serving frontend files from the backend",
+        "running-tests": "Running Tests",
+        "config-points": "Config Points"
       },
       "headingKeywords": {}
     },
     {
-      "src": "contributing-doc.md",
+      "src": "contributing/development-workflow.md",
+      "title": "Development Workflow",
+      "headings": {
+        "development-workflow": "Development Workflow",
+        "step-1-pick-an-issue": "Step 1: Pick an Issue",
+        "issue-labels": "Issue Labels",
+        "step-2-create-branch": "Step 2: Create Branch",
+        "step-3-fix-and-commit": "Step 3: Fix and Commit",
+        "step-4-submit-a-pr": "Step 4: Submit a PR",
+        "step-5-follow-up": "Step 5: Follow Up"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "contributing/guidelines.md",
       "title": "Contributing",
       "headings": {
-        "contributing-to-teammates": "Contributing to TEAMMATES",
-        "getting-started": "Getting started",
-        "know-the-product-project": "Know the product/project",
+        "contributing-guidelines": "Contributing Guidelines",
         "code-of-conduct": "Code of Conduct",
-        "how-can-i-contribute": "How can I contribute?",
-        "submitting-an-issue": "Submitting an issue",
-        "manual-testing": "Manual testing",
-        "submitting-a-pull-request": "Submitting a pull request",
-        "contributor-orientation-guide": "Contributor orientation guide",
-        "knowledge-required": "Knowledge required",
-        "orientation-task-list": "Orientation task list",
-        "teammates-support": "TEAMMATES Support"
+        "how-to-contribute": "How to Contribute",
+        "submitting-an-issue": "Submitting an Issue",
+        "manual-testing": "Manual Testing",
+        "submitting-a-pull-request": "Submitting a Pull Request",
+        "first-time-contributors": "First-Time Contributors",
+        "larger-contributions": "Larger Contributions"
       },
       "headingKeywords": {}
     },
@@ -147,14 +105,24 @@
       "headingKeywords": {}
     },
     {
-      "src": "design.md",
-      "title": "Design",
+      "src": "design/api-design.md",
+      "title": "API Design",
       "headings": {
-        "design": "Design",
+        "api-design": "API Design",
+        "rest-api-design-policies": "REST API Design Policies",
+        "data-exchange": "Data Exchange",
+        "exception-handling": "Exception Handling"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "design/architecture.md",
+      "title": "Architecture",
+      "headings": {
         "architecture": "Architecture",
+        "overview": "Overview",
         "ui-component": "UI Component",
-        "user-invoked-requests": "User-invoked requests",
-        "automated-requests": "Automated requests",
+        "request-processing": "Request Processing",
         "template-method-pattern": "Template Method pattern",
         "policies": "Policies",
         "logic-component": "Logic Component",
@@ -163,75 +131,22 @@
         "storage-component": "Storage Component",
         "storage-api": "Storage API",
         "policies-3": "Policies",
-        "common-component": "Common Component",
-        "test-driver-component": "Test Driver Component",
-        "e2e-component": "E2E Component",
-        "client-component": "Client Component"
+        "common-component": "Common Component"
       },
       "headingKeywords": {}
     },
     {
-      "src": "development.md",
-      "title": "Development",
+      "src": "getting-started.md",
+      "title": "Getting Started",
       "headings": {
-        "development-guidelines": "Development Guidelines",
-        "managing-the-dev-server-front-end": "Managing the dev server: front-end",
-        "managing-the-dev-server-back-end": "Managing the dev server: back-end",
-        "pre-requisites": "Pre-requisites",
-        "starting-the-dev-server": "Starting the dev server",
-        "stopping-the-dev-server": "Stopping the dev server",
-        "building-front-end-files": "Building front-end files",
-        "logging-in-to-a-teammates-instance": "Logging in to a TEAMMATES instance",
-        "logging-in-without-ui": "Logging in without UI",
-        "masquerading-as-another-user": "Masquerading as another user",
-        "running-the-datastore-emulator": "Running the Datastore emulator",
-        "stopping-the-emulator": "Stopping the emulator",
-        "testing": "Testing",
-        "deploying-to-a-staging-server": "Deploying to a staging server",
-        "running-client-scripts": "Running client scripts",
-        "config-points": "Config points"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "documentation.md",
-      "title": "Documentation",
-      "headings": {
-        "documentation": "Documentation",
-        "installation": "Installation",
-        "quickstart": "Quickstart",
-        "deploying-to-github-pages": "Deploying to GitHub pages"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "e2e-testing.md",
-      "title": "End-to-End Testing",
-      "headings": {
-        "e2e-testing": "E2E Testing",
-        "what-is-e2e-testing": "What is E2E Testing?",
-        "prerequisites-for-local-testing": "Prerequisites for Local Testing",
-        "running-e2e-tests": "Running E2E tests",
-        "configuring-browsers-for-e2e-testing": "Configuring browsers for E2E Testing",
-        "running-the-tests": "Running the tests",
-        "testing-against-production-server": "Testing against production server",
-        "creating-e2e-tests": "Creating E2E tests",
-        "page-object-pattern": "Page Object Pattern",
-        "creating-page-objects": "Creating Page Objects",
-        "things-to-avoid-when-writing-e2e-tests": "Things to avoid when writing E2E tests",
-        "faq": "FAQ",
-        "troubleshooting": "Troubleshooting"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "emails.md",
-      "title": "Emails",
-      "headings": {
-        "using-alternative-email-providers": "Using alternative email providers",
-        "sendgrid": "SendGrid",
-        "mailgun": "Mailgun",
-        "mailjet": "Mailjet"
+        "getting-started": "Getting started",
+        "prerequisites": "Prerequisites",
+        "step-1-fork-and-clone-the-repository": "Step 1: Fork and Clone the Repository",
+        "step-2-install-tools": "Step 2: Install Tools",
+        "step-3-configure-the-project": "Step 3: Configure the Project",
+        "step-4-run-the-application": "Step 4: Run the Application",
+        "step-5-set-up-test-accounts": "Step 5: Set up test accounts",
+        "step-6-next-steps": "Step 6: Next Steps"
       },
       "headingKeywords": {}
     },
@@ -241,9 +156,69 @@
       "headings": {
         "glossary": "Glossary",
         "product-related": "Product-related",
-        "development-related": "Development-related",
-        "servers": "Servers",
-        "tests": "Tests"
+        "development-related": "Development-related"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "how-to/captcha.md",
+      "title": "CAPTCHA",
+      "headings": {
+        "captcha": "CAPTCHA",
+        "setup": "Setup"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "how-to/documentation.md",
+      "title": "Documentation",
+      "headings": {
+        "documentation": "Documentation",
+        "installation": "Installation",
+        "previewing-locally": "Previewing Locally",
+        "writing-documentation": "Writing Documentation",
+        "deployment": "Deployment"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "how-to/emails.md",
+      "title": "Emails",
+      "headings": {
+        "emails": "Emails",
+        "supported-services": "Supported Services",
+        "sendgrid": "SendGrid",
+        "mailgun": "Mailgun",
+        "mailjet": "Mailjet"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "how-to/static-analysis.md",
+      "title": "Static Analysis",
+      "headings": {
+        "static-analysis": "Static Analysis",
+        "tool-stack": "Tool stack",
+        "suppressing-rules": "Suppressing rules",
+        "running-static-analysis": "Running static analysis"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "how-to/testing.md",
+      "title": "Testing",
+      "headings": {
+        "testing": "Testing",
+        "component-tests": "Component Tests",
+        "running-component-tests": "Running Component Tests",
+        "writing-component-tests": "Writing Component Tests",
+        "snapshot-testing": "Snapshot Testing",
+        "e2e-tests": "E2E Tests",
+        "prerequisites": "Prerequisites",
+        "configuring-browsers": "Configuring Browsers",
+        "running-e2e-tests": "Running E2E Tests",
+        "testing-against-a-production-server": "Testing Against a Production Server",
+        "writing-e2e-tests": "Writing E2E Tests"
       },
       "headingKeywords": {}
     },
@@ -252,48 +227,9 @@
       "title": "Home",
       "headings": {
         "teammates": "TEAMMATES",
-        "interested-to-join-teammates-developer-team": "Interested to join TEAMMATES developer team?",
-        "documentation-for-developers": "Documentation For Developers",
-        "supplementary-documents": "Supplementary documents"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "issues.md",
-      "title": "Issues",
-      "headings": {
-        "issue-tracker": "Issue tracker",
-        "issue-lifecycle": "Issue lifecycle",
-        "issue-labels": "Issue labels"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "overview.md",
-      "title": "Overview",
-      "headings": {
-        "overview": "Overview",
-        "vision": "Vision",
-        "challenges": "Challenges",
-        "principles": "Principles"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "process.md",
-      "title": "Process",
-      "headings": {
-        "development-workflow": "Development Workflow",
-        "overview": "Overview",
-        "fixing-issues": "Fixing issues",
-        "step-1-pick-an-issue-to-fix": "Step 1: Pick an issue to fix",
-        "step-2-start-clean-from-a-new-branch": "Step 2: Start clean from a new branch",
-        "step-3-fix-the-issue": "Step 3: Fix the issue",
-        "step-4-submit-a-pr": "Step 4: Submit a PR",
-        "step-5-following-up": "Step 5: Following up",
-        "step-6-prepare-for-merging": "Step 6: Prepare for merging",
-        "reviewing-a-pr": "Reviewing a PR",
-        "merging-a-pr": "Merging a PR"
+        "get-involved": "Get Involved",
+        "tech-stack": "Tech Stack",
+        "community-and-amp-support": "Community &amp; Support"
       },
       "headingKeywords": {}
     },
@@ -311,54 +247,6 @@
       "headingKeywords": {}
     },
     {
-      "src": "search.md",
-      "title": "Search",
-      "headings": {
-        "full-text-search-feature-support": "Full-text Search Feature Support",
-        "setting-up-solr-using-docker": "Setting up Solr using Docker",
-        "setting-up-solr-manually": "Setting up Solr manually"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "setting-up.md",
-      "title": "Setting Up",
-      "headings": {
-        "setting-up-a-development-environment": "Setting up a development environment",
-        "step-1-obtain-your-own-copy-of-the-repository": "Step 1: Obtain your own copy of the repository",
-        "step-2-install-necessary-tools-and-languages": "Step 2: Install necessary tools and languages",
-        "step-3-set-up-project-specific-settings-and-dependencies": "Step 3: Set up project-specific settings and dependencies",
-        "step-4-start-developing": "Step 4: Start developing"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "snapshot-testing.md",
-      "title": "Snapshot Testing",
-      "headings": {
-        "snapshot-testing": "Snapshot Testing",
-        "what-is-snapshot-testing": "What is Snapshot Testing?",
-        "how-does-snapshot-testing-work": "How does Snapshot Testing work?",
-        "how-do-we-use-snapshot-testing": "How do we use Snapshot Testing?",
-        "when-do-we-use-snapshot-testing": "When do we use Snapshot Testing?",
-        "when-do-we-not-use-snapshot-testing": "When do we NOT use Snapshot Testing?",
-        "best-practices": "Best Practices"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "static-analysis.md",
-      "title": "Static Analysis",
-      "headings": {
-        "static-analysis": "Static Analysis",
-        "version-numbers": "Version numbers",
-        "tool-stack": "Tool stack",
-        "suppressing-rules": "Suppressing rules",
-        "running-static-analysis": "Running static analysis"
-      },
-      "headingKeywords": {}
-    },
-    {
       "src": "troubleshooting-guide.md",
       "title": "Troubleshooting Guide",
       "headings": {
@@ -370,18 +258,12 @@
       "headingKeywords": {}
     },
     {
-      "src": "unit-testing.md",
-      "title": "Unit Testing",
+      "src": "vision-principles.md",
+      "title": "Vision & Principles",
       "headings": {
-        "unit-testing": "Unit Testing",
-        "what-is-unit-testing": "What is Unit Testing?",
-        "running-unit-tests": "Running Unit Tests",
-        "frontend-tests": "Frontend tests",
-        "backend-tests": "Backend tests",
-        "creating-unit-tests": "Creating Unit Tests",
-        "general-guidelines": "General guidelines",
-        "frontend-tests-2": "Frontend tests",
-        "backend-tests-2": "Backend tests"
+        "vision-and-amp-principles": "Vision &amp; Principles",
+        "vision": "Vision",
+        "principles": "Principles"
       },
       "headingKeywords": {}
     }

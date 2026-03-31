@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="MarkBind 6.1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>TEAMMATES - Testing</title> <link rel="stylesheet" href="/teammates/markbind/css/bootstrap.min.css"> <link rel="stylesheet" href="/teammates/markbind/fontawesome/css/all.min.css"> <link rel="stylesheet" href="/teammates/markbind/glyphicons/css/bootstrap-glyphicons.min.css"><link rel="stylesheet" href="/teammates/markbind/css/codeblock-light.min.css"><link rel="stylesheet" href="/teammates/markbind/css/markbind.min.css"><link rel="stylesheet" href="/teammates/plugins/codeBlockCopyButtons/codeBlockButtons.css"><link rel="stylesheet" href="/teammates/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css"><link rel="stylesheet" href="/teammates/plugins/markbind-plugin-tree/markbind-plugin-tree.css">
+    
+  <link rel="stylesheet" href="/teammates/stylesheets/main.css">
+<link rel="icon" href="/teammates/images/teammatesIcon.png"></head>
+<script>
+  const baseUrl = '/teammates'
+</script>
+<body  data-bs-spy="scroll" data-bs-target="#mb-page-nav" data-bs-offset="100" >
+<div id="app"><!--[--><header sticky><div data-v-26aac3dc><nav class="navbar navbar-expand-md d-print-none navbar-dark bg-primary" data-v-26aac3dc><div class="container-fluid" data-v-26aac3dc><div class="navbar-left" data-v-26aac3dc><!--[--><a href="/teammates/index.html" title="Home" class="navbar-brand"><span class="image-wrapper" caption><img src="/teammates/images/teammateslogo.png" alt="Logo" width="150" height="" loading="eager" class="img-fluid rounded"><span class="image-caption"><!--[--><!--]--></span></span> <span style="font-style:italic;font-size:small;">[dev docs]</span></a><!--]--></div><div class="navbar-default" data-v-26aac3dc><ul class="navbar-nav me-auto mt-2 mt-lg-0" data-v-26aac3dc><!--[--> <li><a href="/teammates/index.html" class="nav-link">Home</a></li> <li><a href="/teammates/contributing/guidelines.html" class="nav-link">Contributing</a></li> <li><a href="https://teammatesv4.appspot.com/" target="_blank" class="nav-link">Product Website <span><span aria-hidden="true" class="glyphicon glyphicon-share-alt"></span></span></a></li> <li><a href="https://github.com/TEAMMATES/teammates" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li> <!--]--></ul></div><ul class="navbar-nav navbar-right" data-v-26aac3dc><!--[--><li><form class="navbar-form"><div style="position:relative;" class="dropdown" data-v-00e26d0a><!--[--><input value="" data-bs-toggle="dropdown" type="text" class="form-control" placeholder="Search" autocomplete="off" data-v-00e26d0a><div class="form-control placeholder-div-hidden" data-v-00e26d0a>Search</div><!--]--><ul class="dropdown-menu search-dropdown-menu dropdown-menu-hidden dropdown-menu-end" data-v-00e26d0a><!--[--><!--]--></ul></div></form></li><!--]--></ul></div></nav><div style="display:none;" class="lower-navbar-container" data-v-26aac3dc><!--[--><!----><!----><!--]--></div></div></header> <div id="flex-body"><nav id="site-nav" class="fixed-header-padding" data-v-6b1b63d2><!--[--><div class="nav-component slim-scroll"><div class="site-nav-root"><!--[--><ul class="site-nav-list site-nav-list-root" data-v-6b1b63d2><!--[--><li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/index.html">Introduction</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/getting-started.html">Getting Started</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">Contributing 
+
+<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/contributing/guidelines.html">Guidelines</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/contributing/development-guide.html">Development Guide</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/contributing/development-workflow.html">Development Workflow</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">Design
+
+<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/design/architecture.html">Architecture</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/design/api-design.html">API Design</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">Best Practices
+
+<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/accessibility.html">Accessibility</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/coding.html">Coding</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/mobile-friendliness.html">Mobile-Friendliness</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/ui-design.html">UI Design</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">How-to
+
+<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/how-to/captcha.html">CAPTCHA</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/how-to/documentation.html">Documentation</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/how-to/emails.html">Emails</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/how-to/static-analysis.html">Static Analysis</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/how-to/testing.html">Testing</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/troubleshooting-guide.html">Troubleshooting Guide</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/vision-principles.html">Vision &amp; Principles</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/glossary.html">Glossary</a></div></li><!--]--><!--v-if--></ul><!--]--></div></div><!--]--><!--v-if--></nav> <div id="content-wrapper" class="fixed-header-padding"><div data-v-ef898034><nav aria-label="breadcrumb" class="breadcrumb-divider" data-v-ef898034><ol class="breadcrumb" data-v-ef898034><li class="notlink breadcrumb-marker" data-v-ef898034> ››   </li><!--[--><!--]--></ol></nav></div> <h1 id="testing">Testing<a class="fa fa-anchor" href="#testing" onclick="event.stopPropagation()"></a></h1> <h2 id="component-tests">Component Tests<a class="fa fa-anchor" href="#component-tests" onclick="event.stopPropagation()"></a></h2> <p>Component tests are white-box tests that test the application at two levels:</p> <ul><li><strong>Unit tests</strong>: Test individual components in isolation using mocks to simulate dependencies.</li> <li><strong>Integration tests</strong>: Test components against an actual database instance using Testcontainers.</li></ul> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Type</th> <th>Location</th> <th>Configuration</th></tr></thead> <tbody><tr><td>Frontend unit tests</td> <td><code class="hljs inline no-lang">*.spec.ts</code> files</td> <td><code class="hljs inline no-lang">src/web/jest.config.js</code></td></tr> <tr><td>Backend unit tests</td> <td><code class="hljs inline no-lang">teammates.test</code> package</td> <td><code class="hljs inline no-lang">src/test/resources/testng-component.xml</code></td></tr> <tr><td>Backend integration tests</td> <td><code class="hljs inline no-lang">teammates.it</code> package</td> <td><code class="hljs inline no-lang">src/it/resources/testng-it.xml</code></td></tr></tbody></table></div><h3 id="running-component-tests">Running Component Tests<a class="fa fa-anchor" href="#running-component-tests" onclick="event.stopPropagation()"></a></h3> <p><strong>Frontend:</strong></p> <pre><code class="hljs sh"><span>npm run <span class="hljs-built_in">test</span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><p>This runs tests in watch mode — any changes to source code will automatically reload the tests.</p> <p>To run tests once and generate coverage data:</p> <pre><code class="hljs sh"><span>npm run coverage
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><p>To run an individual test, change <code class="hljs inline no-lang">it</code> to <code class="hljs inline no-lang">fit</code> in the relevant <code class="hljs inline no-lang">*.spec.ts</code> file.</p> <div class="printable-tabs" data-v-78737a60><!-- Nav tabs --><ul class="nav-tabs nav nav-tabs d-print-none" role="tablist" data-v-78737a60><!--[--><!--]--></ul><div class="tab-content" data-v-78737a60><!--[--><div role="tabpanel" class="tab-pane active printable-tab-pane tab-pane-hide" data-v-65067870><div class="nav-tabs printable-tab-header" data-v-65067870><div class="nav-link active" data-v-65067870><!--[-->Mac / Linux<!--]--></div></div><!--[--> <p><strong>Backend:</strong></p> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Test suite</th> <th>Command</th> <th>Results</th></tr></thead> <tbody><tr><td>All component tests</td> <td><code class="hljs inline no-lang">./gradlew componentTests --continue</code></td> <td><code class="hljs inline no-lang">build/reports/tests/componentTests/index.html</code></td></tr> <tr><td>Individual test</td> <td><code class="hljs inline no-lang">./gradlew componentTests --tests TestClassName</code></td> <td><code class="hljs inline no-lang">build/reports/tests/componentTests/index.html</code></td></tr></tbody></table></div><p>To generate coverage data:</p> <pre><code class="hljs sh"><span>./gradlew componentTests jacocoReport
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><!--]--><hr data-v-65067870></div> <div role="tabpanel" class="tab-pane active printable-tab-pane tab-pane-hide" data-v-65067870><div class="nav-tabs printable-tab-header" data-v-65067870><div class="nav-link active" data-v-65067870><!--[-->Windows<!--]--></div></div><!--[--> <p><strong>Backend:</strong></p> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Test suite</th> <th>Command</th> <th>Results</th></tr></thead> <tbody><tr><td>All component tests</td> <td><code class="hljs inline no-lang">gradlew.bat componentTests --continue</code></td> <td><code class="hljs inline no-lang">build/reports/tests/componentTests/index.html</code></td></tr> <tr><td>Individual test</td> <td><code class="hljs inline no-lang">gradlew.bat componentTests --tests TestClassName</code></td> <td><code class="hljs inline no-lang">build/reports/tests/componentTests/index.html</code></td></tr></tbody></table></div><p>To generate coverage data:</p> <pre><code class="hljs sh"><span>gradlew.bat componentTests jacocoReport
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><!--]--><hr data-v-65067870></div><!--]--></div></div> <p>The report can be found in <code class="hljs inline no-lang">build/reports/jacoco/jacocoReport/</code>.</p> <h3 id="writing-component-tests">Writing Component Tests<a class="fa fa-anchor" href="#writing-component-tests" onclick="event.stopPropagation()"></a></h3> <h4 id="naming">Naming<a class="fa fa-anchor" href="#naming" onclick="event.stopPropagation()"></a></h4> <p>Frontend tests should follow the format: <code class="hljs inline no-lang">&quot;&lt;function-name&gt;: should ... when/if ...&quot;</code></p> <pre><code class="hljs javascript"><span>it(<span class="hljs-string">&quot;hasSection: should return false when there are no sections in the course&quot;</span>);
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><p>Backend tests should follow the format: <code class="hljs inline no-lang">test&lt;functionName&gt;_&lt;scenario&gt;_&lt;outcome&gt;</code></p> <pre><code class="hljs java"><span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testGetComment_commentDoesNotExist_returnsNull</span><span class="hljs-params">()</span></span>
+</span><span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testCreateComment_commentDoesNotExist_success</span><span class="hljs-params">()</span></span>
+</span><span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testCreateComment_commentAlreadyExists_throwsEntityAlreadyExistsException</span><span class="hljs-params">()</span></span>
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><h4 id="test-data">Test Data<a class="fa fa-anchor" href="#test-data" onclick="event.stopPropagation()"></a></h4> <p><strong>Frontend:</strong> Use the builder in <code class="hljs inline no-lang">src/web/test-helpers/generic-builder.ts</code> to include only relevant details:</p> <pre><code class="hljs javascript"><span><span class="hljs-keyword">const</span> instructorModelBuilder = createBuilder&lt;InstructorListInfoTableRowModel&gt;({
+</span><span>  <span class="hljs-attr">email</span>: <span class="hljs-string">&quot;instructor@gmail.com&quot;</span>,
+</span><span>  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Instructor&quot;</span>,
+</span><span>  <span class="hljs-attr">hasSubmittedSession</span>: <span class="hljs-literal">false</span>,
+</span><span>  <span class="hljs-attr">isSelected</span>: <span class="hljs-literal">false</span>,
+</span><span>});
+</span><span>
+</span><span>it(<span class="hljs-string">&quot;isAllInstructorsSelected: should return false if at least one instructor is not selected&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+</span><span>  component.instructorListInfoTableRowModels = [
+</span><span>    instructorModelBuilder.isSelected(<span class="hljs-literal">true</span>).build(),
+</span><span>    instructorModelBuilder.isSelected(<span class="hljs-literal">false</span>).build(),
+</span><span>  ];
+</span><span>  expect(component.isAllInstructorsSelected).toBeFalsy();
+</span><span>});
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><p><strong>Backend:</strong> Use the <code class="hljs inline no-lang">getTypicalX</code> functions in <code class="hljs inline no-lang">BaseTestCase</code>:</p> <pre><code class="hljs java"><span>Account account = getTypicalAccount();
+</span><span>account.setEmail(<span class="hljs-string">&quot;newemail@teammates.com&quot;</span>);
+</span><span>
+</span><span>Student student = getTypicalStudent();
+</span><span>student.setName(<span class="hljs-string">&quot;New Student Name&quot;</span>);
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><h3 id="snapshot-testing">Snapshot Testing<a class="fa fa-anchor" href="#snapshot-testing" onclick="event.stopPropagation()"></a></h3> <p>Snapshot testing compares large expected outputs (e.g. rendered HTML, email content, CSV files) against stored snapshots. It runs in two modes:</p> <ul><li><strong>Verification mode</strong> (default): compares the actual output against the stored snapshot.</li> <li><strong>Auto-update mode</strong>: overwrites the stored snapshot with the actual output. Use this when intentional changes are made, then manually verify that only the intended changes occurred.</li></ul> <p><strong>Frontend:</strong> Auto-update mode is activated by pressing <code class="hljs inline no-lang">u</code> in Jest watch mode.</p> <p><strong>Backend:</strong> Auto-update mode is activated by setting <code class="hljs inline no-lang">test.snapshot.update=true</code> in <code class="hljs inline no-lang">test.properties</code>.</p> <p>A few things to keep in mind:</p> <ul><li>Always run tests without auto-update mode after making changes to confirm nothing unexpected changed.</li> <li>Avoid creating or modifying snapshot files manually — always use auto-update mode.</li> <li>Snapshot testing complements unit tests but does not replace them.</li></ul> <hr> <h2 id="e2e-tests">E2E Tests<a class="fa fa-anchor" href="#e2e-tests" onclick="event.stopPropagation()"></a></h2> <p>E2E tests are black-box tests that simulate user workflows on the fully built application. Accessibility tests are a subset of E2E tests that check for WCAG compliance using <a href="https://github.com/dequelabs/axe-core-maven-html/blob/develop/selenium/README.md">axe-core</a>.</p> <ul><li>E2E tests are located in the package <code class="hljs inline no-lang">teammates.e2e</code>, configured in <code class="hljs inline no-lang">src/e2e/resources/testng-e2e.xml</code>.</li> <li>Accessibility tests are located in the package <code class="hljs inline no-lang">teammates.e2e.cases.axe</code>.</li></ul> <h3 id="prerequisites">Prerequisites<a class="fa fa-anchor" href="#prerequisites" onclick="event.stopPropagation()"></a></h3> <p>Before running E2E tests:</p> <ol><li>Start server:</li></ol> <div class="printable-tabs" data-v-78737a60><!-- Nav tabs --><ul class="nav-tabs nav nav-tabs d-print-none" role="tablist" data-v-78737a60><!--[--><!--]--></ul><div class="tab-content" data-v-78737a60><!--[--><div role="tabpanel" class="tab-pane active printable-tab-pane tab-pane-hide" data-v-65067870><div class="nav-tabs printable-tab-header" data-v-65067870><div class="nav-link active" data-v-65067870><!--[-->Mac / Linux<!--]--></div></div><!--[--> <pre><code class="hljs sh"><span>npm run build
+</span><span>./gradlew serverRun
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><div class="alert box-container alert-danger" style="" data-v-19514615><!--Icon and vertical divider for seamless header box--><!----><div class="header-and-body" data-v-19514615><!-- Header wrapper, not rendered if there is no header attribute --><!----><!-- Body wrapper --><div class="box-body-wrapper" data-v-19514615><!-- icon on the left, not shown if there is a header --><div class="icon-wrapper" style="" data-v-19514615><!--[--><i class="fas fa-flag" data-v-19514615></i><!--]--></div><!-- Icon -- content divider for seamless boxes without the header attribute --><!----><!-- Content wrapper --><div class="contents" style="" data-v-19514615><!--[-->
+If you run the frontend and backend separately update your URLs in test.properties:
+<pre><code class="hljs"><span>test.app.frontend.url=http://localhost:4200
+</span><span>test.app.backend.url=http://localhost:8080
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><p>Then start both the frontend and backend servers.</p> <pre><code class="hljs"><span>npm run start
+</span><span>./gradlew serverRun
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><!--]--></div><!-- dismiss button on the right, not shown if there is a header --><!----></div></div></div><!--]--><hr data-v-65067870></div> <div role="tabpanel" class="tab-pane active printable-tab-pane tab-pane-hide" data-v-65067870><div class="nav-tabs printable-tab-header" data-v-65067870><div class="nav-link active" data-v-65067870><!--[-->Windows<!--]--></div></div><!--[--> <pre><code class="hljs sh"><span>npm run build
+</span><span>gradlew.bat serverRun
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><div class="alert box-container alert-danger" style="" data-v-19514615><!--Icon and vertical divider for seamless header box--><!----><div class="header-and-body" data-v-19514615><!-- Header wrapper, not rendered if there is no header attribute --><!----><!-- Body wrapper --><div class="box-body-wrapper" data-v-19514615><!-- icon on the left, not shown if there is a header --><div class="icon-wrapper" style="" data-v-19514615><!--[--><i class="fas fa-flag" data-v-19514615></i><!--]--></div><!-- Icon -- content divider for seamless boxes without the header attribute --><!----><!-- Content wrapper --><div class="contents" style="" data-v-19514615><!--[-->
+If you run the frontend and backend separately update your URLs in test.properties:
+<pre><code class="hljs"><span>test.app.frontend.url=http://localhost:4200
+</span><span>test.app.backend.url=http://localhost:8080
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><p>Then start both the frontend and backend servers.</p> <pre><code class="hljs"><span>npm run start
+</span><span>gradlew.bat serverRun
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><!--]--></div><!-- dismiss button on the right, not shown if there is a header --><!----></div></div></div><!--]--><hr data-v-65067870></div><!--]--></div></div> <ol start="2"><li><p>Configure <code class="hljs inline no-lang">src/e2e/resources/test.properties</code>:</p> <ul><li>Browser to use (<code class="hljs inline no-lang">test.selenium.browser</code>)</li> <li>Server URLs (<code class="hljs inline no-lang">test.app.frontend.url</code>, <code class="hljs inline no-lang">test.app.backend.url</code>)</li> <li>Path to browser driver executable</li> <li>Test account credentials</li></ul></li> <li><p>Download the appropriate browser driver (see below).</p></li></ol> <h3 id="configuring-browsers">Configuring Browsers<a class="fa fa-anchor" href="#configuring-browsers" onclick="event.stopPropagation()"></a></h3> <div class="card-container" data-v-4484e25a><div class="card expandable-card" data-v-4484e25a><div class="card-header header-toggle bg-light" data-v-4484e25a><div class="caret-wrapper" data-v-4484e25a><!----></div><div class="header-wrapper card-title bg-light" data-v-4484e25a><!--[--><!--[--><h4 id="using-firefox">Using Firefox<a class="fa fa-anchor" href="#using-firefox" onclick="event.stopPropagation()"></a></h4><!--]--><!--]--></div><div class="button-wrapper" data-v-4484e25a><!--[--><button type="button" class="collapse-button btn btn-outline-secondary" style="" data-v-4484e25a><span class="collapse-icon glyphicon glyphicon-menu-down" aria-hidden="true"></span></button><button style="display:none;" type="button" class="btn-outline-secondary close-button btn" data-v-4484e25a><span class="glyphicon glyphicon-remove" aria-hidden="true" data-v-4484e25a></span></button><button style="display:none;" type="button" class="btn-outline-secondary popup-button btn" data-v-4484e25a><span class="glyphicon glyphicon-new-window" aria-hidden="true" data-v-4484e25a></span></button><!--]--></div></div><div class="card-collapse" data-v-4484e25a><!----><hr style="display:none;" data-v-4484e25a></div><!----></div></div> <div class="card-container" data-v-4484e25a><div class="card expandable-card" data-v-4484e25a><div class="card-header header-toggle bg-light" data-v-4484e25a><div class="caret-wrapper" data-v-4484e25a><!----></div><div class="header-wrapper card-title bg-light" data-v-4484e25a><!--[--><!--[--><h4 id="using-chrome">Using Chrome<a class="fa fa-anchor" href="#using-chrome" onclick="event.stopPropagation()"></a></h4><!--]--><!--]--></div><div class="button-wrapper" data-v-4484e25a><!--[--><button type="button" class="collapse-button btn btn-outline-secondary" style="" data-v-4484e25a><span class="collapse-icon glyphicon glyphicon-menu-down" aria-hidden="true"></span></button><button style="display:none;" type="button" class="btn-outline-secondary close-button btn" data-v-4484e25a><span class="glyphicon glyphicon-remove" aria-hidden="true" data-v-4484e25a></span></button><button style="display:none;" type="button" class="btn-outline-secondary popup-button btn" data-v-4484e25a><span class="glyphicon glyphicon-new-window" aria-hidden="true" data-v-4484e25a></span></button><!--]--></div></div><div class="card-collapse" data-v-4484e25a><!----><hr style="display:none;" data-v-4484e25a></div><!----></div></div> <div class="card-container" data-v-4484e25a><div class="card expandable-card" data-v-4484e25a><div class="card-header header-toggle bg-light" data-v-4484e25a><div class="caret-wrapper" data-v-4484e25a><!----></div><div class="header-wrapper card-title bg-light" data-v-4484e25a><!--[--><!--[--><h4 id="using-edge">Using Edge<a class="fa fa-anchor" href="#using-edge" onclick="event.stopPropagation()"></a></h4><!--]--><!--]--></div><div class="button-wrapper" data-v-4484e25a><!--[--><button type="button" class="collapse-button btn btn-outline-secondary" style="" data-v-4484e25a><span class="collapse-icon glyphicon glyphicon-menu-down" aria-hidden="true"></span></button><button style="display:none;" type="button" class="btn-outline-secondary close-button btn" data-v-4484e25a><span class="glyphicon glyphicon-remove" aria-hidden="true" data-v-4484e25a></span></button><button style="display:none;" type="button" class="btn-outline-secondary popup-button btn" data-v-4484e25a><span class="glyphicon glyphicon-new-window" aria-hidden="true" data-v-4484e25a></span></button><!--]--></div></div><div class="card-collapse" data-v-4484e25a><!----><hr style="display:none;" data-v-4484e25a></div><!----></div></div> <br> <h3 id="running-e2e-tests">Running E2E Tests<a class="fa fa-anchor" href="#running-e2e-tests" onclick="event.stopPropagation()"></a></h3> <div class="printable-tabs" data-v-78737a60><!-- Nav tabs --><ul class="nav-tabs nav nav-tabs d-print-none" role="tablist" data-v-78737a60><!--[--><!--]--></ul><div class="tab-content" data-v-78737a60><!--[--><div role="tabpanel" class="tab-pane active printable-tab-pane tab-pane-hide" data-v-65067870><div class="nav-tabs printable-tab-header" data-v-65067870><div class="nav-link active" data-v-65067870><!--[-->Mac / Linux<!--]--></div></div><!--[--> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Test suite</th> <th>Command</th> <th>Results</th></tr></thead> <tbody><tr><td>All E2E tests</td> <td><code class="hljs inline no-lang">./gradlew e2eTests</code></td> <td><code class="hljs inline no-lang">build/reports/e2e-test-try-{n}/index.html</code></td></tr> <tr><td>Individual test</td> <td><code class="hljs inline no-lang">./gradlew e2eTestTry1 --tests TestClassName</code></td> <td><code class="hljs inline no-lang">build/reports/e2e-test-try-1/index.html</code></td></tr> <tr><td>Accessibility tests</td> <td><code class="hljs inline no-lang">./gradlew axeTests</code></td> <td><code class="hljs inline no-lang">build/reports/axe-test/index.html</code></td></tr> <tr><td>Individual accessibility test</td> <td><code class="hljs inline no-lang">./gradlew axeTests --tests TestClassName</code></td> <td><code class="hljs inline no-lang">build/reports/axe-test/index.html</code></td></tr></tbody></table></div><!--]--><hr data-v-65067870></div> <div role="tabpanel" class="tab-pane active printable-tab-pane tab-pane-hide" data-v-65067870><div class="nav-tabs printable-tab-header" data-v-65067870><div class="nav-link active" data-v-65067870><!--[-->Windows<!--]--></div></div><!--[--> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Test suite</th> <th>Command</th> <th>Results</th></tr></thead> <tbody><tr><td>All E2E tests</td> <td><code class="hljs inline no-lang">gradlew.bat e2eTests</code></td> <td><code class="hljs inline no-lang">build/reports/e2e-test-try-{n}/index.html</code></td></tr> <tr><td>Individual test</td> <td><code class="hljs inline no-lang">gradlew.bat e2eTestTry1 --tests TestClassName</code></td> <td><code class="hljs inline no-lang">build/reports/e2e-test-try-1/index.html</code></td></tr> <tr><td>Accessibility tests</td> <td><code class="hljs inline no-lang">gradlew.bat axeTests</code></td> <td><code class="hljs inline no-lang">build/reports/axe-test/index.html</code></td></tr> <tr><td>Individual accessibility test</td> <td><code class="hljs inline no-lang">gradlew.bat axeTests --tests TestClassName</code></td> <td><code class="hljs inline no-lang">build/reports/axe-test/index.html</code></td></tr></tbody></table></div><!--]--><hr data-v-65067870></div><!--]--></div></div> <p>Some tests may fail intermittently due to timing issues — rerun them until they pass.</p> <h3 id="testing-against-a-production-server">Testing Against a Production Server<a class="fa fa-anchor" href="#testing-against-a-production-server" onclick="event.stopPropagation()"></a></h3> <ol><li>Edit <code class="hljs inline no-lang">src/e2e/resources/test.properties</code> as instructed in its comments. You will need a legitimate Gmail account for testing.</li> <li>If testing email sending, set up the Gmail API:
+<ul><li><a href="https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#setting-up-gmail-api-credentials">Obtain Gmail API credentials</a> and download them.</li> <li>Copy the file to <code class="hljs inline no-lang">src/e2e/resources/gmail-api/client_secret.json</code>.</li> <li>Run <code class="hljs inline no-lang">EmailAccountTest</code> to confirm the setup works.</li></ul></li> <li>Run the full test suite or any subset as you would on the dev server.</li></ol> <h3 id="writing-e2e-tests">Writing E2E Tests<a class="fa fa-anchor" href="#writing-e2e-tests" onclick="event.stopPropagation()"></a></h3> <p>Each test case should reflect a user workflow. For each page:</p> <ol><li>Identify the important user workflows.</li> <li>Simulate user actions by interacting with UI elements via <a href="https://www.selenium.dev/">Selenium</a>.</li> <li>Assert the expected conditions after each interaction.</li></ol> <p>All E2E test classes inherit from <code class="hljs inline no-lang">BaseE2ETestCase</code>. Use <code class="hljs inline no-lang">BackDoor</code> to verify database state without going through the UI.</p> <h4 id="page-object-pattern">Page Object Pattern<a class="fa fa-anchor" href="#page-object-pattern" onclick="event.stopPropagation()"></a></h4> <p>TEAMMATES uses the <a href="https://martinfowler.com/bliki/PageObject.html">Page Object Pattern</a> to make tests resilient to UI changes. Each page is represented by a page object class that exposes page functionality as methods, hiding the underlying UI elements.</p> <ul><li>All page object classes inherit from <code class="hljs inline no-lang">AppPage</code>.</li> <li>Interaction with UI elements should not occur outside page objects.</li> <li>Prefer methods like <code class="hljs inline no-lang">searchForInstructor</code> over exposing lower-level methods like <code class="hljs inline no-lang">fillSearchBox</code> and <code class="hljs inline no-lang">clickSearchButton</code>.</li></ul> <h4 id="things-to-avoid">Things to Avoid<a class="fa fa-anchor" href="#things-to-avoid" onclick="event.stopPropagation()"></a></h4> <ul><li><strong>Testing implementation details</strong> — focus on user actions and workflows, not internal code.</li> <li><strong>Excessive edge case testing</strong> — leave exhaustive testing to component tests. E2E tests should focus on the happy path and common exception paths.</li> <li><strong>Asking instead of telling</strong> — follow the &quot;Tell Don&#39;t Ask&quot; principle. Perform assertions inside page objects rather than extracting data and asserting in the test case.</li></ul></div> <nav id="page-nav" class="fixed-header-padding" data-v-6b1b63d2><!--[--><div class="nav-component slim-scroll"><nav id="mb-page-nav" class="nav nav-pills flex-column my-0 small no-flex-wrap" data-v-6b1b63d2><!--[--><a class="nav-link py-1" href="#testing">Testing‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap"><a class="nav-link py-1" href="#component-tests">Component Tests‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap"><a class="nav-link py-1" href="#running-component-tests">Running Component Tests‎</a> <a class="nav-link py-1" href="#writing-component-tests">Writing Component Tests‎</a> <a class="nav-link py-1" href="#snapshot-testing">Snapshot Testing‎</a></nav> <a class="nav-link py-1" href="#e2e-tests">E2E Tests‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap"><a class="nav-link py-1" href="#prerequisites">Prerequisites‎</a> <a class="nav-link py-1" href="#configuring-browsers">Configuring Browsers‎</a> <a class="nav-link py-1" href="#running-e2e-tests">Running E2E Tests‎</a> <a class="nav-link py-1" href="#testing-against-a-production-server">Testing Against a Production Server‎</a> <a class="nav-link py-1" href="#writing-e2e-tests">Writing E2E Tests‎</a></nav></nav><!--]--><!--v-if--></nav></div><!--]--><!--v-if--></nav></div> <footer><div class="text-center"><small>[Generated by <a href="https://markbind.org/">MarkBind 6.1.0</a> on Tue, 31 Mar 2026, 18:24:43 UTC]</small></div></footer><!--]--></div>
+</body><script src="/teammates/markbind/js/bootstrap-utility.min.js"></script>
+<script src="/teammates/markbind/js/polyfill.min.js"></script>
+<script src="/teammates/markbind/js/vue.global.prod.min.js"></script>
+<script src="/teammates/markbind/js/markbind.min.js"></script>
+<script src="testing.page-vue-render.js"></script>
+<script>
+  MarkBind.setupWithSearch()
+</script>
+    <script>
+    function copyCodeBlock(element) {
+        const pre = element.parentElement.parentElement;
+        const codeElement = pre.querySelector('code');
+        const copyButtonBody = element.querySelector('.function-btn-body');
+        const tooltipText = element.querySelector(".tooltiptext");
+
+        // create dummy text element to select() the text field
+        const textElement = document.createElement('textarea');
+        textElement.value = codeElement.textContent;
+        document.body.appendChild(textElement);
+        textElement.select();
+
+        document.execCommand('copy');
+        document.body.removeChild(textElement);
+        copyButtonBody.innerHTML = `
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="2 2 22 22"
+  >
+    <path d="M 19.28125 5.28125 L 9 15.5625 L 4.71875 11.28125 L 3.28125 12.71875 L 8.28125 17.71875 
+    L 9 18.40625 L 9.71875 17.71875 L 20.71875 6.71875 Z"></path>
+  </svg>
+`;
+        console.log("Running tooltip");
+        tooltipText.innerText  = `Copied!`;
+        setTimeout(() => {
+            copyButtonBody.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "/>
+    </g>
+</svg>
+`;
+            tooltipText.innerText  = `Copy`;
+        }, 3000);
+    }
+    </script>
+</html>

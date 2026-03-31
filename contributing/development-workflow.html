@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="MarkBind 6.1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>TEAMMATES - Development Workflow</title> <link rel="stylesheet" href="/teammates/markbind/css/bootstrap.min.css"> <link rel="stylesheet" href="/teammates/markbind/fontawesome/css/all.min.css"> <link rel="stylesheet" href="/teammates/markbind/glyphicons/css/bootstrap-glyphicons.min.css"><link rel="stylesheet" href="/teammates/markbind/css/codeblock-light.min.css"><link rel="stylesheet" href="/teammates/markbind/css/markbind.min.css"><link rel="stylesheet" href="/teammates/plugins/codeBlockCopyButtons/codeBlockButtons.css"><link rel="stylesheet" href="/teammates/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css"><link rel="stylesheet" href="/teammates/plugins/markbind-plugin-tree/markbind-plugin-tree.css">
+    
+  <link rel="stylesheet" href="/teammates/stylesheets/main.css">
+<link rel="icon" href="/teammates/images/teammatesIcon.png"></head>
+<script>
+  const baseUrl = '/teammates'
+</script>
+<body  data-bs-spy="scroll" data-bs-target="#mb-page-nav" data-bs-offset="100" >
+<div id="app"><!--[--><header sticky><div data-v-26aac3dc><nav class="navbar navbar-expand-md d-print-none navbar-dark bg-primary" data-v-26aac3dc><div class="container-fluid" data-v-26aac3dc><div class="navbar-left" data-v-26aac3dc><!--[--><a href="/teammates/index.html" title="Home" class="navbar-brand"><span class="image-wrapper" caption><img src="/teammates/images/teammateslogo.png" alt="Logo" width="150" height="" loading="eager" class="img-fluid rounded"><span class="image-caption"><!--[--><!--]--></span></span> <span style="font-style:italic;font-size:small;">[dev docs]</span></a><!--]--></div><div class="navbar-default" data-v-26aac3dc><ul class="navbar-nav me-auto mt-2 mt-lg-0" data-v-26aac3dc><!--[--> <li><a href="/teammates/index.html" class="nav-link">Home</a></li> <li><a href="/teammates/contributing/guidelines.html" class="nav-link">Contributing</a></li> <li><a href="https://teammatesv4.appspot.com/" target="_blank" class="nav-link">Product Website <span><span aria-hidden="true" class="glyphicon glyphicon-share-alt"></span></span></a></li> <li><a href="https://github.com/TEAMMATES/teammates" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li> <!--]--></ul></div><ul class="navbar-nav navbar-right" data-v-26aac3dc><!--[--><li><form class="navbar-form"><div style="position:relative;" class="dropdown" data-v-00e26d0a><!--[--><input value="" data-bs-toggle="dropdown" type="text" class="form-control" placeholder="Search" autocomplete="off" data-v-00e26d0a><div class="form-control placeholder-div-hidden" data-v-00e26d0a>Search</div><!--]--><ul class="dropdown-menu search-dropdown-menu dropdown-menu-hidden dropdown-menu-end" data-v-00e26d0a><!--[--><!--]--></ul></div></form></li><!--]--></ul></div></nav><div style="display:none;" class="lower-navbar-container" data-v-26aac3dc><!--[--><!----><!----><!--]--></div></div></header> <div id="flex-body"><nav id="site-nav" class="fixed-header-padding" data-v-6b1b63d2><!--[--><div class="nav-component slim-scroll"><div class="site-nav-root"><!--[--><ul class="site-nav-list site-nav-list-root" data-v-6b1b63d2><!--[--><li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/index.html">Introduction</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/getting-started.html">Getting Started</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">Contributing 
+
+<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/contributing/guidelines.html">Guidelines</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/contributing/development-guide.html">Development Guide</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/contributing/development-workflow.html">Development Workflow</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">Design
+
+<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/design/architecture.html">Architecture</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/design/api-design.html">API Design</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">Best Practices
+
+<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/accessibility.html">Accessibility</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/coding.html">Coding</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/mobile-friendliness.html">Mobile-Friendliness</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/best-practices/ui-design.html">UI Design</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)">How-to
+
+<div class="site-nav-dropdown-btn-container"><i class="site-nav-dropdown-btn-icon" onclick="handleSiteNavClick(this.parentNode.parentNode, false); event.stopPropagation();"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div></div><ul class="site-nav-dropdown-container site-nav-list"><li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/how-to/captcha.html">CAPTCHA</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/how-to/documentation.html">Documentation</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/how-to/emails.html">Emails</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/how-to/static-analysis.html">Static Analysis</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/teammates/how-to/testing.html">Testing</a></div></li></ul></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/troubleshooting-guide.html">Troubleshooting Guide</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/vision-principles.html">Vision &amp; Principles</a></div></li> <li><div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/teammates/glossary.html">Glossary</a></div></li><!--]--><!--v-if--></ul><!--]--></div></div><!--]--><!--v-if--></nav> <div id="content-wrapper" class="fixed-header-padding"><div data-v-ef898034><nav aria-label="breadcrumb" class="breadcrumb-divider" data-v-ef898034><ol class="breadcrumb" data-v-ef898034><li class="notlink breadcrumb-marker" data-v-ef898034> ››   </li><!--[--><!--]--></ol></nav></div> <h1 id="development-workflow">Development Workflow<a class="fa fa-anchor" href="#development-workflow" onclick="event.stopPropagation()"></a></h1> <p>This document describes the workflow for contributing code to TEAMMATES. It is assumed that you have already <a href="/teammates/getting-started.html">set up your development environment</a> and are familiar with the <a href="/teammates/contributing/development-guide.html">Development Guide</a>.</p> <h2 id="step-1-pick-an-issue">Step 1: Pick an Issue<a class="fa fa-anchor" href="#step-1-pick-an-issue" onclick="event.stopPropagation()"></a></h2> <p>Browse the <a href="https://github.com/TEAMMATES/teammates/issues">issue tracker</a> and pick an issue to work on. A few things to note:</p> <ul><li>You do not need to be assigned to an issue to work on it. We only assign issues to core team members.</li> <li>Indicate your interest by commenting on the issue thread to avoid duplicated effort.</li> <li>Avoid working on issues that are:
+<ul><li>Already assigned</li> <li>Labelled as on hold or core team only</li> <li>Have open PRs</li></ul></li> <li>You may discuss alternative solutions on the issue thread before starting work. This reduces the chance of a rejected fix.</li></ul> <h3 id="issue-labels">Issue Labels<a class="fa fa-anchor" href="#issue-labels" onclick="event.stopPropagation()"></a></h3> <p>The following labels can help you find suitable issues to work on.</p> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Label</th> <th>Purpose</th></tr></thead> <tbody><tr><td><code class="hljs inline no-lang">good first issue</code></td> <td>Good starting point for first-time contributors.</td></tr> <tr><td><code class="hljs inline no-lang">help wanted</code></td> <td>Moderate difficulty, localized scope.</td></tr> <tr><td><code class="hljs inline no-lang">committers only</code></td> <td>Difficult or broad in scope, not open to first-time contributors.</td></tr> <tr><td><code class="hljs inline no-lang">core team only</code></td> <td>Reserved for core team, not open to external contributions.</td></tr> <tr><td><code class="hljs inline no-lang">p.*</code></td> <td>Priority labels, set by maintainers.</td></tr> <tr><td><code class="hljs inline no-lang">a-*</code></td> <td>Aspect labels, indicating the area of the codebase affected.</td></tr></tbody></table></div><h2 id="step-2-create-branch">Step 2: Create Branch<a class="fa fa-anchor" href="#step-2-create-branch" onclick="event.stopPropagation()"></a></h2> <p>Start from an up-to-date <code class="hljs inline no-lang">master</code> branch and create a new branch for your fix:</p> <pre><code class="hljs sh"><span>git checkout master
+</span><span>git pull
+</span><span>git checkout -b {your-branch-name}
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><p>For example: <code class="hljs inline no-lang">3942-remove-unnecessary-println</code>.</p> <ul><li>Do not combine fixes for multiple unrelated issues in one branch.</li> <li>Your <code class="hljs inline no-lang">master</code> branch should never be ahead of the main repository&#39;s <code class="hljs inline no-lang">master</code> branch.</li></ul> <h2 id="step-3-fix-and-commit">Step 3: Fix and Commit<a class="fa fa-anchor" href="#step-3-fix-and-commit" onclick="event.stopPropagation()"></a></h2> <p>Make your changes and commit them:</p> <pre><code class="hljs sh"><span>git add -A
+</span><span>git commit
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><p>A few things to keep in mind:</p> <ul><li>Use meaningful commit messages, e.g. <code class="hljs inline no-lang">Add tests for the truncate method</code>. <a href="http://chris.beams.io/posts/git-commit/">This guide</a> is a good reference.</li> <li>Sync with the main repository frequently to avoid large merge conflicts:</li></ul> <pre><code class="hljs sh"><span>git checkout master
+</span><span>git pull upstream master
+</span><span>git checkout {your-branch-name}
+</span><span>git merge master
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><p>Before submitting, make sure:</p> <ul><li>Code passes static analysis:</li></ul> <div class="printable-tabs" data-v-78737a60><!-- Nav tabs --><ul class="nav-tabs nav nav-tabs d-print-none" role="tablist" data-v-78737a60><!--[--><!--]--></ul><div class="tab-content" data-v-78737a60><!--[--><div role="tabpanel" class="tab-pane active printable-tab-pane tab-pane-hide" data-v-65067870><div class="nav-tabs printable-tab-header" data-v-65067870><div class="nav-link active" data-v-65067870><!--[-->Mac / Linux<!--]--></div></div><!--[--> <pre><code class="hljs sh"><span>./gradlew lint --<span class="hljs-built_in">continue</span>
+</span><span>npm run lint
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><!--]--><hr data-v-65067870></div> <div role="tabpanel" class="tab-pane active printable-tab-pane tab-pane-hide" data-v-65067870><div class="nav-tabs printable-tab-header" data-v-65067870><div class="nav-link active" data-v-65067870><!--[-->Windows<!--]--></div></div><!--[--> <pre><code class="hljs sh"><span>gradlew.bat lint --<span class="hljs-built_in">continue</span>
+</span><span>npm run lint
+</span></code><div class="function-btn-container"><button onclick="copyCodeBlock(this)" class="function-btn d-print-none">
+    <div class="tooltip-container">
+    <span class="tooltiptext">Copy</span>
+    <div class="function-btn-body">
+    
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "></path>
+    </g>
+</svg>
+
+    </div>
+    </div>
+    </button></div></pre><!--]--><hr data-v-65067870></div><!--]--></div></div> <ul><li>All affected tests are passing.</li> <li>No unrelated changes are introduced.</li> <li>No unrelated changes, new code has tests, and documentation is updated where necessary.</li></ul> <h2 id="step-4-submit-a-pr">Step 4: Submit a PR<a class="fa fa-anchor" href="#step-4-submit-a-pr" onclick="event.stopPropagation()"></a></h2> <p><a href="https://help.github.com/articles/creating-a-pull-request/">Open a pull request</a> with the following:</p> <ul><li><strong>Base branch</strong>: <code class="hljs inline no-lang">master</code></li> <li><strong>Title</strong>: <code class="hljs inline no-lang">[#issue-number] Issue title</code>, e.g. <code class="hljs inline no-lang">[#3942] Remove unnecessary System.out.printlns from Java files</code></li> <li><strong>Description</strong>: <code class="hljs inline no-lang">Fixes #3942</code> — this automatically closes the issue when the PR is merged</li> <li><strong>Allow edits from maintainers</strong>: enabled</li></ul> <p>If the PR only partially addresses the issue, use <code class="hljs inline no-lang">Part of #3942</code> in the description instead.</p> <h2 id="step-5-follow-up">Step 5: Follow Up<a class="fa fa-anchor" href="#step-5-follow-up" onclick="event.stopPropagation()"></a></h2> <p>Once your PR is open:</p> <ul><li>Aim to complete it within 2 weeks. Inactive PRs may be closed.</li> <li>Ensure all GitHub Actions checks pass.</li> <li>Push updates to the same branch when asked to make changes, and comment when ready for re-review.</li></ul></div> <nav id="page-nav" class="fixed-header-padding" data-v-6b1b63d2><!--[--><div class="nav-component slim-scroll"><nav id="mb-page-nav" class="nav nav-pills flex-column my-0 small no-flex-wrap" data-v-6b1b63d2><!--[--><a class="nav-link py-1" href="#development-workflow">Development Workflow‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap"><a class="nav-link py-1" href="#step-1-pick-an-issue">Step 1: Pick an Issue‎</a> <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap"><a class="nav-link py-1" href="#issue-labels">Issue Labels‎</a></nav> <a class="nav-link py-1" href="#step-2-create-branch">Step 2: Create Branch‎</a> <a class="nav-link py-1" href="#step-3-fix-and-commit">Step 3: Fix and Commit‎</a> <a class="nav-link py-1" href="#step-4-submit-a-pr">Step 4: Submit a PR‎</a> <a class="nav-link py-1" href="#step-5-follow-up">Step 5: Follow Up‎</a></nav><!--]--><!--v-if--></nav></div><!--]--><!--v-if--></nav></div> <footer><div class="text-center"><small>[Generated by <a href="https://markbind.org/">MarkBind 6.1.0</a> on Tue, 31 Mar 2026, 18:24:43 UTC]</small></div></footer><!--]--></div>
+</body><script src="/teammates/markbind/js/bootstrap-utility.min.js"></script>
+<script src="/teammates/markbind/js/polyfill.min.js"></script>
+<script src="/teammates/markbind/js/vue.global.prod.min.js"></script>
+<script src="/teammates/markbind/js/markbind.min.js"></script>
+<script src="development-workflow.page-vue-render.js"></script>
+<script>
+  MarkBind.setupWithSearch()
+</script>
+    <script>
+    function copyCodeBlock(element) {
+        const pre = element.parentElement.parentElement;
+        const codeElement = pre.querySelector('code');
+        const copyButtonBody = element.querySelector('.function-btn-body');
+        const tooltipText = element.querySelector(".tooltiptext");
+
+        // create dummy text element to select() the text field
+        const textElement = document.createElement('textarea');
+        textElement.value = codeElement.textContent;
+        document.body.appendChild(textElement);
+        textElement.select();
+
+        document.execCommand('copy');
+        document.body.removeChild(textElement);
+        copyButtonBody.innerHTML = `
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="2 2 22 22"
+  >
+    <path d="M 19.28125 5.28125 L 9 15.5625 L 4.71875 11.28125 L 3.28125 12.71875 L 8.28125 17.71875 
+    L 9 18.40625 L 9.71875 17.71875 L 20.71875 6.71875 Z"></path>
+  </svg>
+`;
+        console.log("Running tooltip");
+        tooltipText.innerText  = `Copied!`;
+        setTimeout(() => {
+            copyButtonBody.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18" viewBox="0 0 18 18" version="1.1">
+    <g id="surface1">
+      <path d="M 11.273438 0 L 2.546875 0 C 1.746094 0 1.089844 0.613281 1.089844
+      1.363281 L 1.089844 10.910156 L 2.546875 10.910156 L 2.546875 1.363281 L 11.273438
+      1.363281 Z M 13.453125 2.726562 L 5.453125 2.726562 C 4.65625 2.726562 4 3.339844 4
+      4.089844 L 4 13.636719 C 4 14.386719 4.65625 15 5.453125 15 L 13.453125 15 C 14.253906
+      15 14.910156 14.386719 14.910156 13.636719 L 14.910156 4.089844 C 14.910156 3.339844
+      14.253906 2.726562 13.453125 2.726562 Z M 13.453125 13.636719 L 5.453125 13.636719 L
+      5.453125 4.089844 L 13.453125 4.089844 Z M 13.453125 13.636719 "/>
+    </g>
+</svg>
+`;
+            tooltipText.innerText  = `Copy`;
+        }, 3000);
+    }
+    </script>
+</html>
