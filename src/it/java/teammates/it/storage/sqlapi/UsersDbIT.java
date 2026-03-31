@@ -101,7 +101,8 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor by accountId that does not exist");
-        actualInstructor = usersDb.getInstructorByAccountId(instructor.getCourseId(), "invalid-account-id");
+        actualInstructor = usersDb.getInstructorByAccountId(instructor.getCourseId(),
+                "00000000-0000-4000-8000-00000000dead");
         assertNull(actualInstructor);
     }
 
@@ -137,7 +138,8 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         verifyEquals(student, actualStudent);
 
         ______TS("success: gets a student by accountId that does not exist");
-        actualStudent = usersDb.getStudentByAccountId(student.getCourseId(), "invalid-account-id");
+        actualStudent = usersDb.getStudentByAccountId(student.getCourseId(),
+                "00000000-0000-4000-8000-00000000dead");
         assertNull(actualStudent);
     }
 
@@ -204,16 +206,25 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student firstStudent = getTypicalStudent();
         firstStudent.setEmail("valid-student-1@email.tmt");
         firstStudent.setTeam(firstTeam);
+        Account accS1 = new Account("s1", "valid-student-1@email.tmt");
+        accountsDb.createAccount(accS1);
+        firstStudent.setAccount(accS1);
         usersDb.createStudent(firstStudent);
 
         Student secondStudent = getTypicalStudent();
         secondStudent.setEmail("valid-student-2@email.tmt");
         secondStudent.setTeam(firstTeam);
+        Account accS2 = new Account("s2", "valid-student-2@email.tmt");
+        accountsDb.createAccount(accS2);
+        secondStudent.setAccount(accS2);
         usersDb.createStudent(secondStudent);
 
         Student thirdStudent = getTypicalStudent();
         thirdStudent.setEmail("valid-student-3@email.tmt");
         thirdStudent.setTeam(secondTeam);
+        Account accS3 = new Account("s3", "valid-student-3@email.tmt");
+        accountsDb.createAccount(accS3);
+        thirdStudent.setAccount(accS3);
         usersDb.createStudent(thirdStudent);
 
         List<Student> expectedStudents = List.of(firstStudent, secondStudent);
@@ -243,16 +254,25 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student firstStudent = getTypicalStudent();
         firstStudent.setEmail("valid-student-1@email.tmt");
         firstStudent.setTeam(firstTeam);
+        Account accT1 = new Account("t1", "valid-student-1@email.tmt");
+        accountsDb.createAccount(accT1);
+        firstStudent.setAccount(accT1);
         usersDb.createStudent(firstStudent);
 
         Student secondStudent = getTypicalStudent();
         secondStudent.setEmail("valid-student-2@email.tmt");
         secondStudent.setTeam(firstTeam);
+        Account accT2 = new Account("t2", "valid-student-2@email.tmt");
+        accountsDb.createAccount(accT2);
+        secondStudent.setAccount(accT2);
         usersDb.createStudent(secondStudent);
 
         Student thirdStudent = getTypicalStudent();
         thirdStudent.setEmail("valid-student-3@email.tmt");
         thirdStudent.setTeam(secondTeam);
+        Account accT3 = new Account("t3", "valid-student-3@email.tmt");
+        accountsDb.createAccount(accT3);
+        thirdStudent.setAccount(accT3);
         usersDb.createStudent(thirdStudent);
 
         List<Student> expectedStudents = List.of(firstStudent, secondStudent);

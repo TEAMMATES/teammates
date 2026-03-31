@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.webapi.InvalidOperationException;
@@ -22,7 +21,6 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
     protected void setUp() throws Exception {
         super.setUp();
         persistDataBundle(typicalBundle);
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -41,13 +39,13 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         Student studentYetToJoinCourse = typicalBundle.students.get("student2YetToJoinCourse4");
         String student1RegKey =
                 getRegKeyForStudent(studentYetToJoinCourse.getCourseId(), studentYetToJoinCourse.getEmail());
-        String loggedInStudentAccountId = "AccLogicT.student.id";
+        String loggedInStudentAccountId = typicalBundle.accounts.get("joinStudentAccount").getAccountId();
 
         Instructor instructorYetToJoinCourse = typicalBundle.instructors.get("instructor2YetToJoinCourse4");
         String instructor1RegKey =
                 getRegKeyForInstructor(instructorYetToJoinCourse.getCourseId(), instructorYetToJoinCourse.getEmail());
 
-        String loggedInInstructorAccountId = "AccLogicT.instr.id";
+        String loggedInInstructorAccountId = typicalBundle.accounts.get("joinInstructorAccount").getAccountId();
 
         ______TS("success: student joins course");
 

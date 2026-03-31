@@ -2,6 +2,7 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
 
@@ -64,6 +65,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     @BeforeMethod
     void setUp() {
+        reset(mockLogic);
         mockHibernateUtil = mockStatic(HibernateUtil.class);
         mockHibernateUtil.when(HibernateUtil::flushSession).thenAnswer(Answers.RETURNS_DEFAULTS);
 

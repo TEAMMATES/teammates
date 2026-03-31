@@ -65,8 +65,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     void setUp() {
         stubStudent = getTypicalStudent();
         stubInstructor = getTypicalInstructor();
-        stubStudent.setAccount(getTypicalAccount());
-        stubInstructor.setAccount(getTypicalAccount());
         stubCourse = getTypicalCourse();
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
         stubFeedbackQuestion = getTypicalFeedbackQuestionForSession(stubFeedbackSession);

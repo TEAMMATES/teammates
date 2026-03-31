@@ -53,7 +53,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
     @Test
     protected void testExecute_typicalCase_shouldPass() throws Exception {
-        loginAsAdmin();
+        loginAsAdmin(adminInviter.getId().toString());
 
         Course course1 = typicalBundle.courses.get("course1");
 

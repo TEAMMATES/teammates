@@ -2,8 +2,6 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.when;
 
-import java.util.UUID;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -22,7 +20,8 @@ import teammates.ui.webapi.GetInstructorAction;
  */
 public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction> {
 
-    private static final String INSTRUCTOR_ACCOUNT_ID = "00000000-0000-4000-8000-0000000000c3";
+    /** Logged-in user id for mocks; aligns with {@link #TYPICAL_INSTRUCTOR_ACCOUNT_ID} (replaces legacy {@code user-id}). */
+    private static final String LOGGED_IN_INSTRUCTOR_ACCOUNT_ID = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     Course course;
     FeedbackSession feedbackSession;
@@ -40,7 +39,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @BeforeMethod
     void setUp() {
         course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-        loginAsInstructor(INSTRUCTOR_ACCOUNT_ID);
+        loginAsInstructor(LOGGED_IN_INSTRUCTOR_ACCOUNT_ID);
     }
 
     @Test
@@ -69,7 +68,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     void testExecute_unknownIntent_throwsInvalidHttpParameterException() {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        when(mockLogic.getInstructorByAccountId(course.getId(), "user-id")).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), LOGGED_IN_INSTRUCTOR_ACCOUNT_ID)).thenReturn(instructor);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
@@ -80,7 +79,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     void testExecute_instructorSubmission_success() {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        when(mockLogic.getInstructorByAccountId(course.getId(), "user-id")).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), LOGGED_IN_INSTRUCTOR_ACCOUNT_ID)).thenReturn(instructor);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -109,7 +108,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     void testExecute_instructorResult_success() {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        when(mockLogic.getInstructorByAccountId(course.getId(), "user-id")).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), LOGGED_IN_INSTRUCTOR_ACCOUNT_ID)).thenReturn(instructor);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
@@ -138,7 +137,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     void testExecute_fullDetail_success() {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        when(mockLogic.getInstructorByAccountId(course.getId(), "user-id")).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), LOGGED_IN_INSTRUCTOR_ACCOUNT_ID)).thenReturn(instructor);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
@@ -152,10 +151,10 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     void testExecute_fullDetailWithAccount_success() {
         Account account = new Account("name", "email@tm.tmt");
-        account.setId(UUID.fromString(INSTRUCTOR_ACCOUNT_ID));
+        account.setId(TYPICAL_INSTRUCTOR_ACCOUNT_ID);
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
         instructor.setAccount(account);
-        when(mockLogic.getInstructorByAccountId(course.getId(), "user-id")).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), LOGGED_IN_INSTRUCTOR_ACCOUNT_ID)).thenReturn(instructor);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
@@ -164,7 +163,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         GetInstructorAction getInstructorAction = getAction(params);
         InstructorData actionOutput = (InstructorData) getJsonResult(getInstructorAction).getOutput();
         InstructorData expected = new InstructorData(instructor);
-        expected.setAccountId(INSTRUCTOR_ACCOUNT_ID);
+        expected.setAccountId(LOGGED_IN_INSTRUCTOR_ACCOUNT_ID);
         assertEquals(JsonUtils.toJson(expected), JsonUtils.toJson(actionOutput));
     }
 
@@ -184,7 +183,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     void testSpecificAccessControl_loggedInAsInstuctor_canAccess() {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        when(mockLogic.getInstructorByAccountId(course.getId(), "user-id")).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), LOGGED_IN_INSTRUCTOR_ACCOUNT_ID)).thenReturn(instructor);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -196,7 +195,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     void testSpecificAccessControl_loggedInAsInstuctorFromAnotherCourse_cannotAccess() {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        when(mockLogic.getInstructorByAccountId(course.getId(), "user-id")).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), LOGGED_IN_INSTRUCTOR_ACCOUNT_ID)).thenReturn(instructor);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "different-course",
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -208,7 +207,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     void testSpecificAccessControl_loggedInAsInstuctorFullDetail_canAccess() {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        when(mockLogic.getInstructorByAccountId(course.getId(), "user-id")).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), LOGGED_IN_INSTRUCTOR_ACCOUNT_ID)).thenReturn(instructor);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "different-course",
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
@@ -221,7 +220,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     void testSpecificAccessControl_notLoggedInFullDetail_cannotAccess() {
         logoutUser();
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        when(mockLogic.getInstructorByAccountId(course.getId(), "user-id")).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), LOGGED_IN_INSTRUCTOR_ACCOUNT_ID)).thenReturn(instructor);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "different-course",
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),

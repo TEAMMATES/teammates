@@ -66,6 +66,12 @@ public class BaseTestCase {
     /** Account UUID reserved for tests that simulate an app maintainer list entry. */
     public static final UUID TEST_ACCOUNT_ID_MAINTAINER = UUID.fromString("00000000-0000-4000-8000-000000000011");
 
+    /** Distinct account UUIDs for multi-student / GetAccount SQL UI fixtures. */
+    public static final UUID TEST_ACCOUNT_ID_A1 = UUID.fromString("00000000-0000-4000-8000-0000000000a1");
+    public static final UUID TEST_ACCOUNT_ID_B2 = UUID.fromString("00000000-0000-4000-8000-0000000000b2");
+    public static final UUID TEST_ACCOUNT_ID_B3 = UUID.fromString("00000000-0000-4000-8000-0000000000b3");
+    public static final UUID TEST_ACCOUNT_ID_B4 = UUID.fromString("00000000-0000-4000-8000-0000000000b4");
+
     /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.

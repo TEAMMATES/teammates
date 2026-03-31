@@ -56,9 +56,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         typicalFeedbackSession.setSessionVisibleFromTime(Instant.now());
 
         typicalStudent = getTypicalStudent();
-        typicalStudent.setAccount(getTypicalAccount());
         typicalInstructor = getTypicalInstructor();
-        typicalInstructor.setAccount(getTypicalAccount());
 
         typicalRecipients = new HashMap<>();
         typicalRecipients.put("recipient1", new FeedbackQuestionRecipient("Recipient 1", "recipient1@teammates.tmt"));

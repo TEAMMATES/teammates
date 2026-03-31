@@ -4,8 +4,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.UUID;
-
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -18,7 +16,7 @@ import teammates.ui.webapi.GetAccountAction;
  * SUT: {@link GetAccountAction}.
  */
 public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
-    String accountId = "00000000-0000-4000-8000-0000000000b2";
+    private static final String ACCOUNT_ID = TEST_ACCOUNT_ID_B2.toString();
 
     @Override
     protected String getActionUri() {
@@ -34,26 +32,26 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     void testExecute_validParams_success() {
         loginAsAdmin();
         Account account = new Account("name", "email");
-        account.setId(UUID.fromString(accountId));
-        when(mockLogic.getAccountForId(accountId)).thenReturn(account);
+        account.setId(TEST_ACCOUNT_ID_B2);
+        when(mockLogic.getAccountForId(ACCOUNT_ID)).thenReturn(account);
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_ID, accountId,
+                Const.ParamsNames.INSTRUCTOR_ID, ACCOUNT_ID,
         };
         GetAccountAction a = getAction(params);
         AccountData output = (AccountData) getJsonResult(a).getOutput();
-        assertEquals(output.getAccountId(), accountId);
+        assertEquals(output.getAccountId(), ACCOUNT_ID);
     }
 
     @Test
     void testExecute_accountDoesNotExist_throwsEntityNotFoundException() {
         loginAsAdmin();
-        when(mockLogic.getAccountForId(accountId)).thenReturn(null);
+        when(mockLogic.getAccountForId(ACCOUNT_ID)).thenReturn(null);
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_ID, accountId,
+                Const.ParamsNames.INSTRUCTOR_ID, ACCOUNT_ID,
         };
         EntityNotFoundException e = verifyEntityNotFound(params);
         assertEquals("Account does not exist.", e.getMessage());
-        verify(mockLogic, times(1)).getAccountForId(accountId);
+        verify(mockLogic, times(1)).getAccountForId(ACCOUNT_ID);
     }
 
     @Test

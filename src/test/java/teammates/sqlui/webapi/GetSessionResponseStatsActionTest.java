@@ -38,7 +38,6 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
         stubCourse = getTypicalCourse();
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
         stubInstructor = getTypicalInstructor();
-        stubInstructor.setAccount(getTypicalAccount());
         stubFeedbackSessionStatsData = new FeedbackSessionStatsData(5, 10);
         reset(mockLogic);
     }
@@ -212,13 +211,13 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Test
     void testSpecificAccessControl_invalidInstructor_cannotAccess() {
-        loginAsInstructor("00000000-0000-4000-8000-0000000000f3");
+        loginAsInstructor("invalid-id");
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), "00000000-0000-4000-8000-0000000000f3"))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), "invalid-id"))
                 .thenReturn(null);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubCourse.getId()))
                 .thenReturn(stubFeedbackSession);
@@ -240,7 +239,6 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
         verifyCannotAccess(params);
 
         Instructor anotherInstructor = getTypicalInstructor();
-        anotherInstructor.setAccount(getTypicalAccount());
         anotherInstructor.setCourse(
                 new Course("another-course", "Another Course", Const.DEFAULT_TIME_ZONE, "teammates"));
         when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))

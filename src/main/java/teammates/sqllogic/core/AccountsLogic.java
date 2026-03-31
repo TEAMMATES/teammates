@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.FieldValidator;
 import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountIdentity;
@@ -250,7 +251,8 @@ public final class AccountsLogic {
     }
 
     private Instructor validateInstructorJoinRequest(String registrationKey, String accountId)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        validateAccountIdFormat(accountId);
         Instructor instructorForKey = usersLogic.getInstructorByRegistrationKey(registrationKey);
 
         if (instructorForKey == null) {
@@ -289,8 +291,8 @@ public final class AccountsLogic {
     }
 
     private Student validateStudentJoinRequest(String registrationKey, String accountId)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
-
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        validateAccountIdFormat(accountId);
         Student studentRole = usersLogic.getStudentByRegistrationKey(registrationKey);
 
         if (studentRole == null) {
@@ -319,5 +321,16 @@ public final class AccountsLogic {
         }
 
         return studentRole;
+    }
+
+    private void validateAccountIdFormat(String accountId) throws InvalidParametersException {
+        try {
+            UUID.fromString(accountId);
+        } catch (IllegalArgumentException e) {
+            InvalidParametersException ex =
+                    new InvalidParametersException("Account ID " + FieldValidator.REASON_INCORRECT_FORMAT);
+            ex.initCause(e);
+            throw ex;
+        }
     }
 }

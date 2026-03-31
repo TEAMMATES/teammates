@@ -107,9 +107,17 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
         }
 
+        String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        if (StringHelper.isEmpty(previewAsPerson)) {
+        if (!StringHelper.isEmpty(moderatedPerson)) {
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+            gateKeeper.verifyAccessible(
+                    sqlLogic.getInstructorByAccountId(feedbackSession.getCourse().getId(), userInfo.getId()),
+                    feedbackSession,
+                    student.getSectionName(),
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        } else if (StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyAccessible(student, feedbackSession);
             verifyMatchingAccountId(student.getAccountId());
         } else {

@@ -186,17 +186,17 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
     @Test
     void testExecute_deleteNonExistentInstructorByAccountId_failSilently() {
-        when(mockLogic.getInstructorByAccountId(course.getId(), "00000000-0000-4000-8000-00000000fa1e")).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(course.getId(), "fake-googleId")).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, "00000000-0000-4000-8000-00000000fa1e",
+                Const.ParamsNames.INSTRUCTOR_ID, "fake-googleId",
         };
 
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), "00000000-0000-4000-8000-00000000fa1e");
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), "fake-googleId");
         verify(mockLogic, never()).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }

@@ -75,7 +75,10 @@ public class GetStudentsAction extends Action {
             List<Student> studentsForTeam = sqlLogic.getStudentsByTeamName(teamName, courseId);
             StudentsData data = new StudentsData(studentsForTeam);
 
-            data.getStudents().forEach(StudentData::hideInformationForStudent);
+            data.getStudents().forEach(studentData -> {
+                studentData.setAccountId(null);
+                studentData.hideInformationForStudent();
+            });
 
             return new JsonResult(data);
         }

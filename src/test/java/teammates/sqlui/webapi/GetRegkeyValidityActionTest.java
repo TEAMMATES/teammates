@@ -37,12 +37,12 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
     void setUp() {
         logoutUser();
         stubInstructorWithAccount = getTypicalInstructor();
-        stubInstructorWithAccount.setAccount(getTypicalAccount());
         stubStudentWithAccount = getTypicalStudent();
-        stubStudentWithAccount.setAccount(getTypicalAccount());
 
         stubInstructorWithoutAccount = getTypicalInstructor();
+        stubInstructorWithoutAccount.setAccount(null);
         stubStudentWithoutAccount = getTypicalStudent();
+        stubStudentWithoutAccount.setAccount(null);
     }
 
     @Test
@@ -196,7 +196,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
     @Test
     void testExecute_studentIntentWrongUserLoggedInUsedKey_validUsedDisallowedKey() {
-        loginAsStudent("00000000-0000-4000-8000-0000000000f4");
+        loginAsStudent("another-id");
 
         String[] params = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -228,7 +228,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
     @Test
     void testExecute_instructorIntentWrongUserLoggedInUsedKey_validUsedDisallowedKey() {
-        loginAsInstructor("00000000-0000-4000-8000-0000000000f4");
+        loginAsInstructor("another-id");
 
         String[] params = {
                 Const.ParamsNames.REGKEY, stubRegkey,

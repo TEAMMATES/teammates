@@ -236,7 +236,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
-        loginAsStudent("00000000-0000-4000-8000-0000000000f5");
+        loginAsStudent("random-id");
         verifyCannotAccess(params);
 
         logoutUser();

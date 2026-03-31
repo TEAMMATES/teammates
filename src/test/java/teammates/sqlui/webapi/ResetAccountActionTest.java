@@ -42,10 +42,10 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
     void setUp() {
         stubStudent = getTypicalStudent();
         stubInstructor = getTypicalInstructor();
-        stubInstructor.setAccount(getTypicalAccount());
-        stubStudent.setAccount(getTypicalAccount());
         stubStudentAfterReset = getTypicalStudent();
+        stubStudentAfterReset.setAccount(null);
         stubInstructorAfterReset = getTypicalInstructor();
+        stubInstructorAfterReset.setAccount(null);
         reset(mockLogic, mockSqlEmailGenerator);
         logoutUser();
 

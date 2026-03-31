@@ -345,7 +345,6 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
     @Test
     void testSpecificAccessControl_noIntentStudentLoginSameCourse_canAccess() {
         Student stubStudent = getTypicalStudent();
-        stubStudent.setAccount(getTypicalAccount());
 
         loginAsStudent(stubStudent.getAccountId());
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
@@ -359,10 +358,8 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
     @Test
     void testSpecificAccessControl_noIntentStudentLoginDifferentCourse_cannotAccess() {
         Student stubStudent = getTypicalStudent();
-        stubStudent.setAccount(getTypicalAccount());
 
         Student anotherStudent = getTypicalStudent();
-        anotherStudent.setAccount(getTypicalAccount());
         anotherStudent.getCourse().setId("course");
 
         loginAsStudent(stubStudent.getAccountId());

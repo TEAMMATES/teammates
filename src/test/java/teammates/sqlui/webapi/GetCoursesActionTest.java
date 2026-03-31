@@ -1,6 +1,7 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -40,6 +41,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @BeforeMethod
     void setUp() {
+        reset(mockLogic);
         stubInstructor = getTypicalInstructor();
         stubInstructorList = new ArrayList<>();
         stubInstructorList.add(stubInstructor);
@@ -108,7 +110,8 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     @Test
     void testExecute_withStudentEntityType_success() {
         loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
-        when(mockLogic.getCoursesForStudentAccount("student")).thenReturn(stubCourseList);
+        when(mockLogic.getCoursesForStudentAccount(TYPICAL_STUDENT_ACCOUNT_ID.toString()))
+                .thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };

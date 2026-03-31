@@ -37,6 +37,7 @@ public class StudentData extends ApiOutput {
         this.email = student.getEmail();
         this.courseId = student.getCourseId();
         this.name = student.getName();
+        this.accountId = student.getAccountId();
         this.joinState = student.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
         this.comments = student.getComments();
         this.teamName = student.getTeamName();

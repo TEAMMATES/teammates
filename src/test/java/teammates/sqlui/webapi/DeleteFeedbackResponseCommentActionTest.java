@@ -2,6 +2,7 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
@@ -55,6 +56,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @BeforeMethod
     void setUpMethod() {
+        reset(mockLogic);
         typicalCourse = getTypicalCourse();
         typicalInstructor = getTypicalInstructor();
         typicalStudent = getTypicalStudent();
@@ -166,7 +168,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 .thenReturn(typicalFeedbackResponseComment);
         when(mockLogic.getInstructorByAccountId(any(String.class), any(String.class))).thenReturn(null);
 
-        loginAsUnregistered("00000000-0000-4000-8000-0000000000f6");
+        loginAsUnregistered("unreg.user");
 
         verifyCannotAccess(params);
     }
@@ -383,7 +385,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
 
-        loginAsUnregistered("00000000-0000-4000-8000-0000000000f7");
+        loginAsUnregistered("unreg");
 
         verifyCannotAccess(params);
     }

@@ -59,6 +59,8 @@ public class SearchStudentsAction extends Action {
                         sqlLogic.getCourseInstitute(s.getCourseId()),
                         s.getAccountId()
                 );
+            } else {
+                studentData.setAccountId(null);
             }
 
             studentDataList.add(studentData);

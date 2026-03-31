@@ -3,8 +3,6 @@ package teammates.sqlui.webapi;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.UUID;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -20,7 +18,7 @@ import teammates.ui.webapi.DeleteAccountAction;
  */
 public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction> {
 
-    private static final String ACCOUNT_ID = "00000000-0000-4000-8000-0000000000a1";
+    private static final String ACCOUNT_ID = TEST_ACCOUNT_ID_A1.toString();
 
     @Override
     protected String getActionUri() {
@@ -49,7 +47,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
     protected void testExecute_nonNullParams_success() {
         Course stubCourse = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         Account stubAccount = new Account("name", "instructoremail@tm.tmt");
-        stubAccount.setId(UUID.fromString(ACCOUNT_ID));
+        stubAccount.setId(TEST_ACCOUNT_ID_A1);
         Instructor instructor = new Instructor(stubCourse, "name", "instructoremail@tm.tmt",
                 false, "", null, new InstructorPrivileges());
         instructor.setAccount(stubAccount);

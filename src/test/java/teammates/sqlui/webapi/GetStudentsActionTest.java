@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Section;
@@ -81,10 +82,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         stubInstructorWithOnlyViewPrivilegesForDifferentSection = getTypicalInstructor();
         stubInstructorWithOnlyViewPrivilegesForDifferentSection.setPrivileges(customInstructorPrivileges2);
 
-        stubInstructorWithOnlyViewSectionPrivileges.setAccount(getTypicalAccount());
-        stubInstructorWithoutPrivileges.setAccount(getTypicalAccount());
-        stubInstructorWithAllPrivileges.setAccount(getTypicalAccount());
-
         // Instructor with privilege to view students in sections at course level
         InstructorPrivileges customInstructorPrivileges3 =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
@@ -110,7 +107,13 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         stubStudentOne = getTypicalStudent();
         stubStudentOne.setTeam(stubTeamOne);
         stubStudentTwo = new Student(stubCourse, "student-2", "student2@teammates.tmt", "comments", stubTeamTwo);
+        Account accStub2 = new Account("student-2", "student2@teammates.tmt");
+        accStub2.setId(TEST_ACCOUNT_ID_B2);
+        stubStudentTwo.setAccount(accStub2);
         Student stubStudentThree = new Student(stubCourse, "student-3", "student3@teammates.tmt", "comments", stubTeamTwo);
+        Account accStub3 = new Account("student-3", "student3@teammates.tmt");
+        accStub3.setId(TEST_ACCOUNT_ID_B3);
+        stubStudentThree.setAccount(accStub3);
         stubStudentListSectionOne.add(stubStudentOne);
         stubStudentListSectionOne.add(stubStudentTwo);
         stubStudentListSectionOne.add(stubStudentThree);
@@ -118,6 +121,9 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
         // Students in section two
         Student stubStudentFour = new Student(stubCourse, "student-4", "student4@teammates.tmt", "comments", stubTeamThree);
+        Account accStub4 = new Account("student-4", "student4@teammates.tmt");
+        accStub4.setId(TEST_ACCOUNT_ID_B4);
+        stubStudentFour.setAccount(accStub4);
         stubStudentListSectionTwo.add(stubStudentFour);
 
         // Students in the entire Course
@@ -261,14 +267,15 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
             assertEquals(expectedStudents.get(i).getSectionName(), actualStudentsData.getStudents().get(i).getSectionName());
             assertEquals(expectedStudents.get(i).getEmail(), actualStudentsData.getStudents().get(i).getEmail());
             assertEquals(expectedStudents.get(i).getName(), actualStudentsData.getStudents().get(i).getName());
-            assertEquals(expectedStudents.get(i).getAccountId(), actualStudentsData.getStudents().get(i).getAccountId());
-            assertNull(actualStudentsData.getStudents().get(i).getKey());
             if (type == Type.INSTRUCTOR) {
+                assertEquals(expectedStudents.get(i).getAccountId(), actualStudentsData.getStudents().get(i).getAccountId());
                 assertEquals(expectedStudents.get(i).getComments(), actualStudentsData.getStudents().get(i).getComments());
             } else {
+                assertNull(actualStudentsData.getStudents().get(i).getAccountId());
                 assertNull(actualStudentsData.getStudents().get(i).getJoinState());
                 assertNull(actualStudentsData.getStudents().get(i).getComments());
             }
+            assertNull(actualStudentsData.getStudents().get(i).getKey());
         }
     }
 

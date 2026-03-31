@@ -84,6 +84,8 @@ public class GetStudentAction extends Action {
                         .map(a -> a.getId().toString())
                         .orElse("")
             );
+        } else {
+            studentData.setAccountId(null);
         }
 
         if (studentEmail == null) {

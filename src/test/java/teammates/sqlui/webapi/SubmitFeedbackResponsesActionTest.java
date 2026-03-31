@@ -72,8 +72,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         stubStudent = getTypicalStudent();
         stubStudent.setTeam(getTypicalTeam());
         stubInstructor = getTypicalInstructor();
-        stubStudent.setAccount(getTypicalAccount());
-        stubInstructor.setAccount(getTypicalAccount());
         stubCourse = getTypicalCourse();
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
         spyFeedbackQuestion = spy(getTypicalFeedbackQuestionForSession(stubFeedbackSession));

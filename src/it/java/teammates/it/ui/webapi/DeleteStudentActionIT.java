@@ -80,7 +80,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         ______TS("Student does not exist, fails silently");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.ACCOUNT_ID, "non-existent-id",
+                Const.ParamsNames.ACCOUNT_ID, "00000000-0000-4000-8000-00000000dead",
         };
 
         deleteStudentAction = getAction(params);

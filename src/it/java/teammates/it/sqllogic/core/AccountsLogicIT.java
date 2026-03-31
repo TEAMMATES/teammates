@@ -89,7 +89,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student student3YetToJoinCourse = typicalDataBundle.students.get("student3YetToJoinCourse4");
         Student studentInCourse = typicalDataBundle.students.get("student1InCourse1");
 
-        String loggedInAccountId = "AccLogicT.student.id";
+        String loggedInAccountId = typicalDataBundle.accounts.get("joinStudentAccount").getAccountId();
 
         ______TS("failure: wrong key");
 
@@ -151,11 +151,12 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testJoinCourseForInstructor() throws Exception {
-        String instructorIdAlreadyJoinedCourse = "instructor1";
+        String instructorIdAlreadyJoinedCourse =
+                typicalDataBundle.instructors.get("instructor1OfCourse4").getAccountId();
         Instructor instructor2YetToJoinCourse = typicalDataBundle.instructors.get("instructor2YetToJoinCourse4");
         Instructor instructor3YetToJoinCourse = typicalDataBundle.instructors.get("instructor3YetToJoinCourse4");
 
-        String loggedInAccountId = "AccLogicT.instr.id";
+        String loggedInAccountId = typicalDataBundle.accounts.get("joinInstructorAccount").getAccountId();
         String[] key = new String[] {
                 getRegKeyForInstructor(instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail()),
                 getRegKeyForInstructor(instructor2YetToJoinCourse.getCourseId(), instructor3YetToJoinCourse.getEmail()),
@@ -200,7 +201,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("failure: key belongs to a different user");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForInstructor(key[0], "otherUserId"));
+                () -> accountsLogic.joinCourseForInstructor(key[0], "00000000-0000-4000-8000-00000000beef"));
         assertEquals("Instructor has already joined course", eaee.getMessage());
 
         ______TS("failure: invalid key");
