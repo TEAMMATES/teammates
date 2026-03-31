@@ -133,10 +133,11 @@ public class EmailTemplatesDbTest extends BaseTestCase {
         mockHibernateUtil.verify(() -> HibernateUtil.persist(any(EmailTemplate.class)), never());
         assertEquals("New Subject", result.getSubject());
         assertEquals("New Body", result.getBody());
+        assertNotNull(result.getUpdatedAt());
     }
 
     @Test
-    public void testUpsertEmailTemplate_newTemplate_persistsWhenNoRowUpdated()
+    public void testUpsertEmailTemplate_newTemplate_savesSuccessfully()
             throws InvalidParametersException {
         EmailTemplate newTemplate = new EmailTemplate("KEY", "Subject", "Body");
 
@@ -158,6 +159,7 @@ public class EmailTemplatesDbTest extends BaseTestCase {
         verify(mockQuery, times(1)).executeUpdate();
         mockHibernateUtil.verify(() -> HibernateUtil.persist(newTemplate));
         assertEquals(newTemplate, result);
+        assertNotNull(result.getUpdatedAt());
     }
 
     @Test

@@ -2,6 +2,7 @@ package teammates.sqlui.webapi;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Config;
@@ -12,6 +13,9 @@ import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
 import teammates.ui.webapi.ActionMappingException;
 import teammates.ui.webapi.GetAuthInfoAction;
+import teammates.ui.webapi.GetEmailTemplateAction;
+import teammates.ui.webapi.GetEmailTemplatesAction;
+import teammates.ui.webapi.UpdateEmailTemplateAction;
 
 /**
  * SUT: {@link ActionFactory}.
@@ -46,5 +50,32 @@ public class ActionFactoryTest extends BaseTestCase {
                 () -> ActionFactory.getAction(nonExistentMethodOnActionServletRequest, HttpPost.METHOD_NAME));
         assertTrue(("Method [" + HttpPost.METHOD_NAME + "] is not allowed for URI " + Const.ResourceURIs.AUTH + ".")
                 .equals(nonExistentMethodOnActionException.getMessage()));
+    }
+
+    @Test
+    void testGetAction_getEmailTemplate_success() throws Exception {
+        MockHttpServletRequest request = new MockHttpServletRequest(
+                HttpGet.METHOD_NAME, Const.ResourceURIs.EMAIL_TEMPLATE);
+        request.addHeader(Const.HeaderNames.BACKDOOR_KEY, Config.BACKDOOR_KEY);
+        Action action = ActionFactory.getAction(request, HttpGet.METHOD_NAME);
+        assertTrue(action instanceof GetEmailTemplateAction);
+    }
+
+    @Test
+    void testGetAction_putEmailTemplate_success() throws Exception {
+        MockHttpServletRequest request = new MockHttpServletRequest(
+                HttpPut.METHOD_NAME, Const.ResourceURIs.EMAIL_TEMPLATE);
+        request.addHeader(Const.HeaderNames.BACKDOOR_KEY, Config.BACKDOOR_KEY);
+        Action action = ActionFactory.getAction(request, HttpPut.METHOD_NAME);
+        assertTrue(action instanceof UpdateEmailTemplateAction);
+    }
+
+    @Test
+    void testGetAction_getEmailTemplates_success() throws Exception {
+        MockHttpServletRequest request = new MockHttpServletRequest(
+                HttpGet.METHOD_NAME, Const.ResourceURIs.EMAIL_TEMPLATES);
+        request.addHeader(Const.HeaderNames.BACKDOOR_KEY, Config.BACKDOOR_KEY);
+        Action action = ActionFactory.getAction(request, HttpGet.METHOD_NAME);
+        assertTrue(action instanceof GetEmailTemplatesAction);
     }
 }
