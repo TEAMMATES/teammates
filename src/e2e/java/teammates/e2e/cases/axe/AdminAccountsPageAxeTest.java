@@ -22,7 +22,7 @@ public class AdminAccountsPageAxeTest extends BaseAxeTestCase {
     @Override
     public void testAll() {
         AppUrl accountsPageUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.INSTRUCTOR_ID, "tm.e2e.AAccounts.instr2");
+                .withParam(Const.ParamsNames.INSTRUCTOR_ID, testData.accounts.get("AAccounts.instr2").getAccountId());
         AdminAccountsPage accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountsPage.class);
 
         Results results = getAxeBuilder().analyze(accountsPage.getBrowser().getDriver());
