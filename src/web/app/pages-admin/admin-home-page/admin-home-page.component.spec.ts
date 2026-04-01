@@ -144,7 +144,6 @@ describe('AdminHomePageComponent', () => {
     expect(spyAccountService).toHaveBeenCalledTimes(0);
   });
 
-
   it('should create account requests for all bulk details if valid format and split by vertical bars', () => {
     const spyAccountService: SpyInstance = jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(of({
       id: 'some.person@example.com%NUS',
