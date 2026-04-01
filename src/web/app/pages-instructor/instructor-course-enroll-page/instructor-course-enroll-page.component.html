@@ -138,7 +138,7 @@
                 <td>{{ student.email }}</td>
                 <td>{{ student.comments }}</td>
                 @if (enrollResultPanel.status === EnrollStatus.ERROR) {
-                <td>{{ unsuccessfulEnrolls[student.email] }}</td>
+                <td>{{ getUnsuccessfulEnrollError(student.email) }}</td>
                 }
               </tr>
               }

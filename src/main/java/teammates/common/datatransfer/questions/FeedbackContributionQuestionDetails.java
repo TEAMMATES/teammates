@@ -17,6 +17,7 @@ import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Student;
@@ -103,7 +104,16 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
             if (currentUserTeamResults != null) {
                 List<String> teamEmails = teamMembersEmail.get(currentUserTeam);
-                int currentUserIndex = teamEmails.indexOf(studentEmail);
+                int currentUserIndex = -1;
+                for (int i = 0; i < teamEmails.size(); i++) {
+                    if (SanitizationHelper.areEmailsEqual(teamEmails.get(i), studentEmail)) {
+                        currentUserIndex = i;
+                        break;
+                    }
+                }
+                if (currentUserIndex < 0) {
+                    return JsonUtils.toJson(output);
+                }
                 int[] claimedNumbers = currentUserTeamResults.claimed[currentUserIndex];
                 int[] perceivedNumbers = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex];
 

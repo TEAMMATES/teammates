@@ -62,7 +62,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
         InstructorCreateRequest instructorCreateRequest = new InstructorCreateRequest(
                 "00000000-0000-4000-8000-000000000006", "newInstructorName",
-                "newInstructorEmail@mail.com", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                "newinstructoremail@mail.com", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 "instructorDisplayName", false);
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
 
