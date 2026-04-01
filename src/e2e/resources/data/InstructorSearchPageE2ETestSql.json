@@ -3,27 +3,27 @@
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Instructor 1 of Course 1",
-      "email": "ISearch.instr1@gmail.tmt"
+      "email": "isearch.instr1@gmail.tmt"
     },
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000002",
       "name": "Student 1 in course 1",
-      "email": "ISearch.student1@gmail.tmt"
+      "email": "isearch.student1@gmail.tmt"
     },
     "student2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000003",
       "name": "Student in two courses",
-      "email": "ISearch.student2@gmail.tmt"
+      "email": "isearch.student2@gmail.tmt"
     },
     "student2.2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000004",
       "name": "Student in two courses",
-      "email": "ISearch.student2.2@gmail.tmt"
+      "email": "isearch.student2.2@gmail.tmt"
     },
     "student3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000005",
       "name": "Student 3 in course 1",
-      "email": "ISearch.student3@gmail.tmt"
+      "email": "isearch.student3@gmail.tmt"
     }
   },
   "accountRequests": {},
@@ -98,7 +98,7 @@
         "id": "tm.e2e.ISearch.course1"
       },
       "name": "Instructor1 Course1",
-      "email": "ISearch.instructor1@gmail.tmt",
+      "email": "isearch.instructor1@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -126,7 +126,7 @@
         "id": "tm.e2e.ISearch.course2"
       },
       "name": "Instructor1 Course2",
-      "email": "ISearch.instructor1@gmail.tmt",
+      "email": "isearch.instructor1@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -158,7 +158,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "ISearch.student1@gmail.tmt",
+      "email": "isearch.student1@gmail.tmt",
       "name": "student1 In Course1",
       "comments": "comment for student1InCourse1"
     },
@@ -173,7 +173,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "ISearch.student2@gmail.tmt",
+      "email": "isearch.student2@gmail.tmt",
       "name": "student2 In Course1",
       "comments": ""
     },
@@ -188,7 +188,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "ISearch.student2.2@gmail.tmt",
+      "email": "isearch.student2.2@gmail.tmt",
       "name": "student2 2 In Course1",
       "comments": ""
     },
@@ -203,7 +203,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
-      "email": "ISearch.student3@gmail.tmt",
+      "email": "isearch.student3@gmail.tmt",
       "name": "student3 In Course1",
       "comments": ""
     },
@@ -215,7 +215,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
-      "email": "ISearch.student1InCourse2@gmail.tmt",
+      "email": "isearch.student1incourse2@gmail.tmt",
       "name": "student1 In Course2",
       "comments": "comment for student1InCourse2"
     },
@@ -227,7 +227,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
-      "email": "ISearch.student2InCourse2@gmail.tmt",
+      "email": "isearch.student2incourse2@gmail.tmt",
       "name": "student2 In Course2",
       "comments": ""
     },
@@ -239,7 +239,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
-      "email": "ISearch.student2.2InCourse2@gmail.tmt",
+      "email": "isearch.student2.2incourse2@gmail.tmt",
       "name": "student2 2 In Course2",
       "comments": ""
     },
@@ -251,7 +251,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000304"
       },
-      "email": "ISearch.student3InCourse2@gmail.tmt",
+      "email": "isearch.student3incourse2@gmail.tmt",
       "name": "student3 In Course2",
       "comments": ""
     }

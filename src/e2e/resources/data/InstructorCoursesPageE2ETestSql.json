@@ -3,17 +3,17 @@
     "ICs.instructor": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Teammates Demo Instr",
-      "email": "ICs.instructor@gmail.tmt"
+      "email": "ics.instructor@gmail.tmt"
     },
     "tm.e2e.ICs.student1": {
       "id": "00000000-0000-4000-8000-000000000002",
       "name": "student1",
-      "email": "ICs.student1@gmail.tmt"
+      "email": "ics.student1@gmail.tmt"
     },
     "tm.e2e.ICs.student2": {
       "id": "00000000-0000-4000-8000-000000000003",
       "name": "student2",
-      "email": "ICs.student2@gmail.tmt"
+      "email": "ics.student2@gmail.tmt"
     }
   },
   "courses": {
@@ -92,7 +92,7 @@
         "id": "tm.e2e.ICs.CS1101"
       },
       "name": "Teammates Demo Instr",
-      "email": "ICs.instructor@gmail.tmt",
+      "email": "ics.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -120,7 +120,7 @@
         "id": "tm.e2e.ICs.CS1231"
       },
       "name": "Teammates Demo Instr",
-      "email": "ICs.instructor@gmail.tmt",
+      "email": "ics.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -148,7 +148,7 @@
         "id": "tm.e2e.ICs.CS2104"
       },
       "name": "Teammates Demo Instr",
-      "email": "ICs.instructor@gmail.tmt",
+      "email": "ics.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -176,7 +176,7 @@
         "id": "tm.e2e.ICs.CS2105"
       },
       "name": "Teammates Demo Inst",
-      "email": "ICs.instructor@gmail.tmt",
+      "email": "ics.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -208,7 +208,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "email": "ICs.student1@gmail.tmt",
+      "email": "ics.student1@gmail.tmt",
       "name": "student1",
       "comments": ""
     },
@@ -223,7 +223,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
-      "email": "ICs.student2@gmail.tmt",
+      "email": "ics.student2@gmail.tmt",
       "name": "student2",
       "comments": ""
     },
@@ -235,7 +235,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000203"
       },
-      "email": "ICs.student3@gmail.tmt",
+      "email": "ics.student3@gmail.tmt",
       "name": "student3",
       "comments": ""
     }

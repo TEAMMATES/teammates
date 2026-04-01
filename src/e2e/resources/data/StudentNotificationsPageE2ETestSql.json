@@ -3,7 +3,7 @@
     "SNotifs.student": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Alice B",
-      "email": "SNotifs.student@gmail.tmt"
+      "email": "snotifs.student@gmail.tmt"
     }
   },
   "accountRequests": {},
@@ -50,7 +50,7 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Amy Betsy</option></td></div>'\"",
-      "email": "SNotifs.student@gmail.tmt",
+      "email": "snotifs.student@gmail.tmt",
       "regKey": "233C274709B13E05FF165FEA45C1F586B7AA0A1C7C430FE89D40650DDE12E77DDA505EF421059709A1639A6D4F6E2DDEF4B5A1D9D0AF69E0E65F30FAF877B8A9"
     }
   },

@@ -12,11 +12,21 @@ public class SanitizationHelperTest extends BaseTestCase {
     @Test
     public void testSanitizeEmail() {
         String emailWithWhiteSpaces = "\tnormal@email.com \t\n";
+        String emailWithMixedCase = "\tNormal@Email.COM \t\n";
         String normalEmail = "normal@email.com";
 
         assertNull(SanitizationHelper.sanitizeEmail(null));
         assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(normalEmail));
         assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithWhiteSpaces));
+        assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithMixedCase));
+    }
+
+    @Test
+    public void testAreEmailsEqual() {
+        assertTrue(SanitizationHelper.areEmailsEqual(" Test@Email.COM ", "test@email.com"));
+        assertTrue(SanitizationHelper.areEmailsEqual(null, null));
+        assertFalse(SanitizationHelper.areEmailsEqual("test1@email.com", "test2@email.com"));
+        assertFalse(SanitizationHelper.areEmailsEqual("test@email.com", null));
     }
 
     @Test

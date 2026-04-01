@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -71,7 +72,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
-            if (comment.getGiver().equals(instructor.getEmail())) { // giver, allowed by default
+            if (SanitizationHelper.areEmailsEqual(comment.getGiver(), instructor.getEmail())) {
                 return;
             }
 

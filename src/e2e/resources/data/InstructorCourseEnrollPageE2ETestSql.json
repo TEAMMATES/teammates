@@ -3,7 +3,7 @@
     "instructorOfCourseICEnroll.CS2104": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Instructor of Course CS2104",
-      "email": "ICEnroll.instr1@gmail.tmt"
+      "email": "icenroll.instr1@gmail.tmt"
     }
   },
   "courses": {
@@ -24,7 +24,7 @@
         "id": "tm.e2e.ICEnroll.CS2104"
       },
       "name": "Instructor1 of ICEnroll Course CS2104",
-      "email": "ICEnroll.instr1@gmail.tmt",
+      "email": "icenroll.instr1@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",

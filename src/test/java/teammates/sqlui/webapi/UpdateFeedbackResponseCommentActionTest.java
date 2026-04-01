@@ -405,7 +405,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         FeedbackResponseComment typicalComment = getTypicalCommentFromInstructor();
 
         Student differentStudentFromSameCourse = getTypicalStudent();
-        differentStudentFromSameCourse.setEmail("differentStudent@teammates.tmt");
+        differentStudentFromSameCourse.setEmail("differentstudent@teammates.tmt");
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -480,7 +480,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         FeedbackResponseComment typicalComment = getTypicalCommentFromInstructorAsParticipant();
 
         Instructor differentInstructorInSameCourse = getTypicalInstructor();
-        differentInstructorInSameCourse.setEmail("differentInstructor@teammates.tmt");
+        differentInstructorInSameCourse.setEmail("differentinstructor@teammates.tmt");
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -513,7 +513,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         FeedbackResponseComment typicalComment = getTypicalCommentFromTeam();
 
         Instructor instructorWithPrivilege = getTypicalInstructor();
-        instructorWithPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
+        instructorWithPrivilege.setEmail("instructorwithprivilege@teammates.tmt");
         InstructorPrivileges privileges = new InstructorPrivileges();
         privileges.updatePrivilege("Section A",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
@@ -540,7 +540,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         FeedbackResponseComment typicalComment = getTypicalCommentFromTeam();
 
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
-        instructorWithoutPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
+        instructorWithoutPrivilege.setEmail("instructorwithprivilege@teammates.tmt");
         InstructorPrivileges privileges = new InstructorPrivileges();
         privileges.updatePrivilege("Section B",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
@@ -565,7 +565,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         FeedbackResponseComment typicalComment = getTypicalCommentFromTeam();
 
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
-        instructorWithoutPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
+        instructorWithoutPrivilege.setEmail("instructorwithprivilege@teammates.tmt");
         InstructorPrivileges privileges = new InstructorPrivileges();
         privileges.updatePrivilege("Section A",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);

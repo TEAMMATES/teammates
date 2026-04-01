@@ -18,17 +18,17 @@
     "IFSessionPage.danny": {
       "id": "00000001-0000-4000-8000-000000000004",
       "name": "Danny Engrid",
-      "email": "IFSessionPage.danny.tmms@gmail.tmt"
+      "email": "ifsessionpage.danny.tmms@gmail.tmt"
     },
     "IFSessionPage.emma": {
       "id": "00000001-0000-4000-8000-000000000005",
       "name": "Emma Farrell",
-      "email": "IFSessionPage.emma.tmms@gmail.tmt"
+      "email": "ifsessionpage.emma.tmms@gmail.tmt"
     },
     "IFSessionPage.instr1": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Instructor 1",
-      "email": "IFSessionPage.instr@gmail.tmt"
+      "email": "ifsessionpage.instr@gmail.tmt"
     }
   },
   "accountRequests": {},
@@ -96,7 +96,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Instructor 1",
-      "email": "IFSessionPage.instr@gmail.tmt",
+      "email": "ifsessionpage.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
@@ -124,7 +124,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Instructor 2",
-      "email": "IFSessionPage.instr2@gmail.tmt",
+      "email": "ifsessionpage.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
@@ -201,7 +201,7 @@
       "team": {
         "id": "00000000-0111-4000-8000-000000000002"
       },
-      "email": "IFSessionPage.danny.tmms@gmail.tmt",
+      "email": "ifsessionpage.danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid"
     },
@@ -216,14 +216,14 @@
       "team": {
         "id": "00000000-0111-4000-8000-000000000002"
       },
-      "email": "IFSessionPage.emma.tmms@gmail.tmt",
+      "email": "ifsessionpage.emma.tmms@gmail.tmt",
       "name": "Emma Farrell",
       "comments": "This student's name is Emma Farrell"
     }
   },
   "feedbackSessions": {
     "openSession": {
-      "creatorEmail": "IFSessionPage.instr@gmail.tmt",
+      "creatorEmail": "ifsessionpage.instr@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -248,7 +248,7 @@
       "name": "First Session"
     },
     "closedSession": {
-      "creatorEmail": "IFSessionPage.instr2@gmail.tmt",
+      "creatorEmail": "ifsessionpage.instr2@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",

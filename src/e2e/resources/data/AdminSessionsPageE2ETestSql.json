@@ -3,7 +3,7 @@
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Instructor1 of Course1",
-      "email": "ASess.instructor1@gmail.tmt",
+      "email": "asess.instructor1@gmail.tmt",
       "readNotifications": {}
     }
   },
@@ -25,7 +25,7 @@
         "id": "tm.e2e.ASess.idOfTypicalCourse1"
       },
       "name": "Instructor1 of Course1",
-      "email": "ASess.instructor1@gmail.tmt",
+      "email": "asess.instructor1@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -52,7 +52,7 @@
         "id": "tm.e2e.ASess.idOfTypicalCourse1"
       },
       "name": "Open feedback session",
-      "creatorEmail": "ASess.instructor1@gmail.tmt",
+      "creatorEmail": "asess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T22:00:00Z",
@@ -78,7 +78,7 @@
         "id": "tm.e2e.ASess.idOfTypicalCourse1"
       },
       "name": "Awaiting feedback session",
-      "creatorEmail": "ASess.instructor1@gmail.tmt",
+      "creatorEmail": "asess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T22:00:00Z",
@@ -104,7 +104,7 @@
         "id": "tm.e2e.ASess.idOfTypicalCourse1"
       },
       "name": "Future feedback session",
-      "creatorEmail": "ASess.instructor1@gmail.tmt",
+      "creatorEmail": "asess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T22:00:00Z",

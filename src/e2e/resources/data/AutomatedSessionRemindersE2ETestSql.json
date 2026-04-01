@@ -3,7 +3,7 @@
     "instructorWithEvals": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Test Ins for Aut Sessions Reminder",
-      "email": "AutSesRem.instructor@gmail.tmt"
+      "email": "autsesrem.instructor@gmail.tmt"
     }
   },
   "courses": {
@@ -24,7 +24,7 @@
         "id": "tm.e2e.AutSesRem.course"
       },
       "name": "Test Ins for Aut Sessions Reminder",
-      "email": "AutSesRem.instructor@gmail.tmt",
+      "email": "autsesrem.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
@@ -56,7 +56,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "email": "AutSesRem.student@gmail.tmt",
+      "email": "autsesrem.student@gmail.tmt",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "dummy comment</option></td></div>'\""
     }
@@ -86,7 +86,7 @@
         "id": "tm.e2e.AutSesRem.course"
       },
       "name": "AutSesRem Opening Session",
-      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
+      "creatorEmail": "autsesrem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-02T00:00:00Z",
@@ -111,7 +111,7 @@
         "id": "tm.e2e.AutSesRem.course"
       },
       "name": "AutSesRem Closing Session",
-      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
+      "creatorEmail": "autsesrem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-02T00:00:00Z",
@@ -136,7 +136,7 @@
         "id": "tm.e2e.AutSesRem.course"
       },
       "name": "AutSesRem Closed Session",
-      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
+      "creatorEmail": "autsesrem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-02T00:00:00Z",
@@ -161,7 +161,7 @@
         "id": "tm.e2e.AutSesRem.course"
       },
       "name": "AutSesRem Published Session",
-      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
+      "creatorEmail": "autsesrem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-02T00:00:00Z",

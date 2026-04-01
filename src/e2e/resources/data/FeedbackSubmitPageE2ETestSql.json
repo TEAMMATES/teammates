@@ -3,37 +3,37 @@
     "FSubmit.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Teammates Test",
-      "email": "FSubmit.instr@gmail.tmt"
+      "email": "fsubmit.instr@gmail.tmt"
     },
     "FSubmit.instr2": {
       "id": "00000000-0000-4000-8000-000000000002",
       "name": "Teammates Test2",
-      "email": "FSubmit.instr2@gmail.tmt"
+      "email": "fsubmit.instr2@gmail.tmt"
     },
     "FSubmit.alice.b": {
       "id": "00000000-0000-4000-8000-000000000003",
       "name": "Alice Betsy",
-      "email": "FSubmit.alice.b@gmail.tmt"
+      "email": "fsubmit.alice.b@gmail.tmt"
     },
     "FSubmit.benny.c": {
       "id": "00000000-0000-4000-8000-000000000004",
       "name": "Benny Charles",
-      "email": "FSubmit.benny.c@gmail.tmt"
+      "email": "fsubmit.benny.c@gmail.tmt"
     },
     "FSubmit.charlie.d": {
       "id": "00000000-0000-4000-8000-000000000005",
       "name": "Charlie Davis",
-      "email": "FSubmit.charlie.d@gmail.tmt"
+      "email": "fsubmit.charlie.d@gmail.tmt"
     },
     "FSubmit.danny.e": {
       "id": "00000000-0000-4000-8000-000000000006",
       "name": "Danny Engrid",
-      "email": "FSubmit.danny.e@gmail.tmt"
+      "email": "fsubmit.danny.e@gmail.tmt"
     },
     "FSubmit.emily.f": {
       "id": "00000000-0000-4000-8000-000000000007",
       "name": "Emily",
-      "email": "FSubmit.emily.f@gmail.tmt"
+      "email": "fsubmit.emily.f@gmail.tmt"
     }
   },
   "courses": {
@@ -54,7 +54,7 @@
         "id": "tm.e2e.FSubmit.CS2104"
       },
       "name": "Teammates Test",
-      "email": "FSubmit.instr@gmail.tmt",
+      "email": "fsubmit.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -82,7 +82,7 @@
         "id": "tm.e2e.FSubmit.CS2104"
       },
       "name": "Teammates Test2",
-      "email": "FSubmit.instr2@gmail.tmt",
+      "email": "fsubmit.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -146,7 +146,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "FSubmit.alice.b@gmail.tmt",
+      "email": "fsubmit.alice.b@gmail.tmt",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy"
     },
@@ -161,7 +161,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "FSubmit.benny.c@gmail.tmt",
+      "email": "fsubmit.benny.c@gmail.tmt",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles"
     },
@@ -176,7 +176,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
-      "email": "FSubmit.charlie.d@gmail.tmt",
+      "email": "fsubmit.charlie.d@gmail.tmt",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis"
     },
@@ -191,7 +191,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
-      "email": "FSubmit.danny.e@gmail.tmt",
+      "email": "fsubmit.danny.e@gmail.tmt",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid"
     },
@@ -206,7 +206,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
-      "email": "FSubmit.emily.f@gmail.tmt",
+      "email": "fsubmit.emily.f@gmail.tmt",
       "name": "Emily",
       "comments": "This student's name is Emily"
     }
@@ -218,7 +218,7 @@
         "id": "tm.e2e.FSubmit.CS2104"
       },
       "name": "First Session",
-      "creatorEmail": "FSubmit.instr@gmail.tmt",
+      "creatorEmail": "fsubmit.instr@gmail.tmt",
       "instructions": "Instructions for first session",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T16:00:00Z",
@@ -244,7 +244,7 @@
         "id": "tm.e2e.FSubmit.CS2104"
       },
       "name": "Grace Period Session",
-      "creatorEmail": "FSubmit.instr@gmail.tmt",
+      "creatorEmail": "fsubmit.instr@gmail.tmt",
       "instructions": "This is going to be a grace period session",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T16:00:00Z",
@@ -270,7 +270,7 @@
         "id": "tm.e2e.FSubmit.CS2104"
       },
       "name": "Closed Session",
-      "creatorEmail": "FSubmit.instr@gmail.tmt",
+      "creatorEmail": "fsubmit.instr@gmail.tmt",
       "instructions": "This is going to be a closed session",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-02T16:00:00Z",
@@ -522,8 +522,8 @@
       "recipientSection": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "giver": "FSubmit.benny.c@gmail.tmt",
-      "recipient": "FSubmit.alice.b@gmail.tmt",
+      "giver": "fsubmit.benny.c@gmail.tmt",
+      "recipient": "fsubmit.alice.b@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
         "answer": "Alice response."

@@ -3,21 +3,21 @@
     "ICJoinConf.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Teammates Test",
-      "email": "ICJoinConf.instr@gmail.tmt"
+      "email": "icjoinconf.instr@gmail.tmt"
     }
   },
   "accountRequests": {
     "ICJoinConf.instr.CS1101": {
       "id": "00000000-0000-4000-8000-000000000101",
       "name": "Teammates Test 2",
-      "email": "ICJoinConf.instr2@gmail.tmt",
+      "email": "icjoinconf.instr2@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "ICJoinConf.newinstr": {
       "id": "00000000-0000-4000-8000-000000000201",
       "name": "Teammates Test 3",
-      "email": "ICJoinConf.newinstr@gmail.tmt",
+      "email": "icjoinconf.newinstr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
@@ -37,7 +37,7 @@
         "id": "tm.e2e.ICJoinConf.CS1101"
       },
       "name": "Teammates Test 2",
-      "email": "ICJoinConf.instr2@gmail.tmt",
+      "email": "icjoinconf.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
@@ -65,7 +65,7 @@
         "id": "tm.e2e.ICJoinConf.CS1101"
       },
       "name": "Teammates Test",
-      "email": "ICJoinConf.instr@gmail.tmt",
+      "email": "icjoinconf.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",

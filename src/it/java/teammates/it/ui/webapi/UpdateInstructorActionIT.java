@@ -55,7 +55,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         };
 
         String newInstructorName = "newName";
-        String newInstructorEmail = "newEmail@email.com";
+        String newInstructorEmail = "newemail@email.com";
         String newInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
 
         InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
@@ -80,7 +80,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         ______TS("Failure case: edit failed due to invalid parameters");
 
-        String invalidEmail = "wrongEmail.com";
+        String invalidEmail = "wrongemail.com";
         reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.getName(),
                 invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 instructorDisplayName, true);
@@ -113,7 +113,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         loginAsAdmin();
 
         newInstructorName = "newName2";
-        newInstructorEmail = "newEmail2@email.com";
+        newInstructorEmail = "newemail2@email.com";
 
         reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,

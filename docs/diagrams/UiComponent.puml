@@ -35,14 +35,12 @@ component UI {
     }
 }
 
-rectangle "GAE\nServer" as GaeServer
 rectangle "Http\nServlet\nRequest" as HSR
 rectangle Browser {
     file WebPage
 }
 rectangle Logic
 
-GaeServer ..> HSR : sends >
 Browser ..> HSR : sends >
 HSR ..> WebApiServlet
 HSR ..> WebPageServlet

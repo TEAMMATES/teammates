@@ -18,12 +18,12 @@
     "tm.e2e.FCSumRcptQn.charlie.tmms": {
       "id": "00000000-0000-4000-8000-000000000004",
       "name": "Charlie Davis",
-      "email": "FCSumRcptQn.charlie.tmms@gmail.tmt"
+      "email": "fcsumrcptqn.charlie.tmms@gmail.tmt"
     },
     "tm.e2e.FCSumRcptQn.danny.tmms": {
       "id": "00000000-0000-4000-8000-000000000005",
       "name": "Danny Engrid",
-      "email": "FCSumRcptQn.danny.tmms@gmail.tmt"
+      "email": "fcsumrcptqn.danny.tmms@gmail.tmt"
     }
   },
   "courses": {
@@ -140,7 +140,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000203"
       },
-      "email": "FCSumRcptQn.charlie.tmms@gmail.tmt",
+      "email": "fcsumrcptqn.charlie.tmms@gmail.tmt",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis"
     },
@@ -155,7 +155,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000203"
       },
-      "email": "FCSumRcptQn.danny.tmms@gmail.tmt",
+      "email": "fcsumrcptqn.danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid"
     }

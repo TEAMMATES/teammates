@@ -3,12 +3,12 @@
     "AAccounts.instr2": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Teammates Instr2",
-      "email": "AAccounts.instr2@gmail.tmt"
+      "email": "aaccounts.instr2@gmail.tmt"
     },
     "AAccounts.instr3": {
       "id": "00000000-0000-4000-8000-000000000002",
       "name": "Teammates Instr3",
-      "email": "AAccounts.instr3@gmail.tmt"
+      "email": "aaccounts.instr3@gmail.tmt"
     }
   },
   "courses": {
@@ -41,7 +41,7 @@
         "id": "tm.e2e.AAccounts.CS2104"
       },
       "name": "Teammates Instr2",
-      "email": "AAccounts.instr2@gmail.tmt",
+      "email": "aaccounts.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
@@ -69,7 +69,7 @@
         "id": "tm.e2e.AAccounts.CS2103"
       },
       "name": "Teammates Instr2",
-      "email": "AAccounts.instr2@gmail.tmt",
+      "email": "aaccounts.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
@@ -97,7 +97,7 @@
         "id": "tm.e2e.AAccounts.CS1101"
       },
       "name": "Teammates Instr2",
-      "email": "AAccounts.instr2@gmail.tmt",
+      "email": "aaccounts.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
@@ -125,7 +125,7 @@
         "id": "tm.e2e.AAccounts.CS2103"
       },
       "name": "Teammates Instr3",
-      "email": "AAccounts.instr3@gmail.tmt",
+      "email": "aaccounts.instr3@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
@@ -157,7 +157,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "email": "AAccounts.instr2-student@gmail.tmt",
+      "email": "aaccounts.instr2-student@gmail.tmt",
       "name": "Teammates Instr2",
       "comments": "This is an instructor"
     },
@@ -172,7 +172,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
-      "email": "AAccounts.instr2-student@gmail.tmt",
+      "email": "aaccounts.instr2-student@gmail.tmt",
       "name": "Teammates Instr2",
       "comments": "This is an instructor"
     },
@@ -187,7 +187,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000203"
       },
-      "email": "AAccounts.instr2-student@gmail.tmt",
+      "email": "aaccounts.instr2-student@gmail.tmt",
       "name": "Teammates Instr2",
       "comments": "This is an instructor"
     }

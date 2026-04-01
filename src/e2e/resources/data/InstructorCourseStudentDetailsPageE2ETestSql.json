@@ -3,12 +3,12 @@
     "ICSDet.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Teammates Test",
-      "email": "ICSDet.instr@gmail.tmt"
+      "email": "icsdet.instr@gmail.tmt"
     },
     "José Gómez": {
       "id": "00000000-0000-4000-8000-000000000002",
       "name": "José Gómez",
-      "email": "ICSDet.jose.tmms@gmail.tmt"
+      "email": "icsdet.jose.tmms@gmail.tmt"
     }
   },
   "accountRequests": {},
@@ -63,7 +63,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Teammates Test",
-      "email": "ICSDet.instr@gmail.tmt",
+      "email": "icsdet.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
@@ -95,7 +95,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "ICSDet.jose.tmms@gmail.tmt",
+      "email": "icsdet.jose.tmms@gmail.tmt",
       "name": "José Gómez",
       "comments": "This student's name is José Gómez"
     },
@@ -107,7 +107,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "ICSDet.benny.c.tmms@gmail.tmt",
+      "email": "icsdet.benny.c.tmms@gmail.tmt",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles"
     }

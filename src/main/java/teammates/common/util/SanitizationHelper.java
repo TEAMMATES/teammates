@@ -1,6 +1,8 @@
 package teammates.common.util;
 
 import java.net.URLEncoder;
+import java.util.Locale;
+import java.util.Objects;
 
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
@@ -39,12 +41,20 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Sanitizes an email address by removing leading/trailing whitespace.
+     * Sanitizes an email address by removing leading/trailing whitespace and normalizing to lowercase.
      *
      * @return the sanitized email address or null (if the parameter was null).
      */
     public static String sanitizeEmail(String rawEmail) {
-        return StringHelper.trimIfNotNull(rawEmail);
+        String trimmedEmail = StringHelper.trimIfNotNull(rawEmail);
+        return trimmedEmail == null ? null : trimmedEmail.toLowerCase(Locale.ROOT);
+    }
+
+    /**
+     * Returns true if two email addresses are equal after trimming and lowercasing.
+     */
+    public static boolean areEmailsEqual(String firstEmail, String secondEmail) {
+        return Objects.equals(sanitizeEmail(firstEmail), sanitizeEmail(secondEmail));
     }
 
     /**
