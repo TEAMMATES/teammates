@@ -73,7 +73,7 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         ______TS("notification banner is not visible");
         assertFalse(notificationsPage.isBannerVisible());
 
-        AccountData updatedAccountFromDb = BACKDOOR.getAccountData(instructorAccount.getGoogleId());
+        AccountData updatedAccountFromDb = BACKDOOR.getAccountData(instructorAccount.getAccountId());
         Notification notification1 = testData.notifications.get("notification1");
         Notification notification3 = testData.notifications.get("notification3");
 
@@ -119,7 +119,7 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         ______TS("notification banner is not visible");
         assertFalse(notificationsPage.isBannerVisible());
 
-        AccountData updatedAccountFromDb = BACKDOOR.getAccountData(studentAccount.getGoogleId());
+        AccountData updatedAccountFromDb = BACKDOOR.getAccountData(studentAccount.getAccountId());
         Notification notification1 = testData.notifications.get("notification1");
         Notification notification2 = testData.notifications.get("notification2");
 
