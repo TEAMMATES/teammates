@@ -327,9 +327,7 @@ public final class AccountsLogic {
 
     private void validateAccountIdFormat(String accountId) throws InvalidParametersException {
         if (accountId == null) {
-            InvalidParametersException ex =
-                    new InvalidParametersException("Account ID " + FieldValidator.REASON_INCORRECT_FORMAT);
-            throw ex;
+            throw new InvalidParametersException("Account ID " + FieldValidator.REASON_INCORRECT_FORMAT);
         }
         try {
             UUID.fromString(accountId);
