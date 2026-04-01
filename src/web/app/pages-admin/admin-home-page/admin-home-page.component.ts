@@ -49,7 +49,7 @@ export class AdminHomePageComponent implements OnInit {
    */
   validateAndAddInstructorDetails(): void {
     const invalidLines: string[] = [];
-    const validRequests: { instructorDetail: string; instructorDetailSplit: string[] }[] = [];
+    const validRequests: { instructorDetail: string, instructorDetailSplit: string[] }[] = [];
 
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
