@@ -79,6 +79,7 @@ export class AdminHomePageComponent implements OnInit {
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
+          invalidLines.push(instructorDetail);
           pendingRequests -= 1;
           if (pendingRequests === 0 && hasSuccessfulRequest) {
             this.fetchAccountRequests();
