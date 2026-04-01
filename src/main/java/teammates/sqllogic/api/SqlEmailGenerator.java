@@ -27,12 +27,13 @@ import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlentity.EmailTemplate;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.EmailTemplate;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.ui.webapi.ConfigurableEmailTemplate;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.
@@ -871,8 +872,8 @@ public final class SqlEmailGenerator {
      *
      * <p>The email body and subject are sourced from the admin-configured template in the
      * database if one exists. If no custom template has been saved (or it has been reverted),
-     * the method falls back to the static HTML file and the default subject defined in
-     * {@link EmailType#NEW_INSTRUCTOR_ACCOUNT}.
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#NEW_INSTRUCTOR_ACCOUNT_WELCOME}.
      */
     public EmailWrapper generateNewInstructorAccountJoinEmail(
             String instructorEmail, String instructorName, String joinUrl) {
@@ -891,8 +892,11 @@ public final class SqlEmailGenerator {
                     "${userName}", sanitizedName,
                     "${joinUrl}", joinUrl);
         } else {
-            bodySource = EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME;
-            emailSubject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), sanitizedName);
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.NEW_INSTRUCTOR_ACCOUNT_WELCOME;
+            bodySource = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${userName}", sanitizedName,
+                    "${joinUrl}", joinUrl);
         }
 
         String emailBody = Templates.populateTemplate(bodySource,
