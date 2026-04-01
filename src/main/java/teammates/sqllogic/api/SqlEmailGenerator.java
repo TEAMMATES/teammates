@@ -22,10 +22,12 @@ import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
+import teammates.sqllogic.core.EmailTemplatesLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.EmailTemplate;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -866,18 +868,41 @@ public final class SqlEmailGenerator {
 
     /**
      * Generates the new instructor account join email for the given {@code instructor}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the static HTML file and the default subject defined in
+     * {@link EmailType#NEW_INSTRUCTOR_ACCOUNT}.
      */
     public EmailWrapper generateNewInstructorAccountJoinEmail(
             String instructorEmail, String instructorName, String joinUrl) {
 
-        String emailBody = Templates.populateTemplate(EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME,
-                "${userName}", SanitizationHelper.sanitizeForHtml(instructorName),
+        String sanitizedName = SanitizationHelper.sanitizeForHtml(instructorName);
+
+        EmailTemplate dbTemplate =
+                EmailTemplatesLogic.inst().getEmailTemplate("NEW_INSTRUCTOR_ACCOUNT_WELCOME");
+
+        String bodySource;
+        String emailSubject;
+
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                    "${userName}", sanitizedName,
+                    "${joinUrl}", joinUrl);
+        } else {
+            bodySource = EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME;
+            emailSubject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), sanitizedName);
+        }
+
+        String emailBody = Templates.populateTemplate(bodySource,
+                "${userName}", sanitizedName,
                 "${joinUrl}", joinUrl);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructorEmail);
         email.setBcc(Config.SUPPORT_EMAIL);
         email.setType(EmailType.NEW_INSTRUCTOR_ACCOUNT);
-        email.setSubjectFromType(SanitizationHelper.sanitizeForHtml(instructorName));
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }

@@ -38,6 +38,10 @@ export class AdminPageComponent implements OnInit {
       display: 'Notifications',
     },
     {
+      url: '/web/admin/email-templates',
+      display: 'Email Templates',
+    },
+    {
       url: '/web/admin/logs',
       display: 'Logs',
     },

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="teammates (generated)" id="1773792000000-1">
+        <createTable tableName="email_templates">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="email_templates_pkey" />
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" />
+            <column name="template_key" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"
+                    uniqueConstraintName="email_templates_template_key_key" />
+            </column>
+            <column name="subject" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="body" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
