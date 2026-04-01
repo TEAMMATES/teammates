@@ -45,7 +45,7 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         Course course = typicalBundle.courses.get("course1");
 
-        Instant recentTimestamp = Instant.now().minus(7, ChronoUnit.DAYS);
+        Instant recentTimestamp = Instant.now().minus(7, ChronoUnit.DAYS).truncatedTo(ChronoUnit.MILLIS);
         FeedbackSessionLog recentLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 recentTimestamp);
