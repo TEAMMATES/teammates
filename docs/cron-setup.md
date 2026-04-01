@@ -28,7 +28,7 @@ All schedules below use **Asia/Singapore**. Configure your scheduler to use this
 | `/auto/calculateUsageStatistics` | Gather usage statistics | Every hour at :01 |
 | `/auto/datastoreBackup` | Monthly backup | 1st Sunday of month, 05:30 |
 | `/auto/compileLogs` | Compile severe logs, send email | Every 5 minutes |
-| `/auto/updateFeedbackSessionLogs` | Process feedback session logs | Every 15 minutes |
+| `/auto/cleanupFeedbackSessionLogs` | Delete student activity logs older than 90 days | Every Sunday at 03:00 |
 
 ## Format 2: Copy-Paste (Unix Cron)
 
@@ -46,8 +46,16 @@ Use these expressions with your scheduler of choice (e.g. Google Cloud Scheduler
 1 * * * *     | /auto/calculateUsageStatistics
 30 5 1-7 * 0  | /auto/datastoreBackup
 */5 * * * *   | /auto/compileLogs
-1,16,31,46 * * * * | /auto/updateFeedbackSessionLogs
+0 3 * * 0     | /auto/cleanupFeedbackSessionLogs
 ```
+
+## Student Activity Logs
+
+Student activity logs are now written synchronously when the activity happens, so no scheduler is needed to ingest them.
+
+- Retention period: 90 days
+- Cleanup job: `/auto/cleanupFeedbackSessionLogs`
+- Recommended schedule: once a week in Asia/Singapore time
 
 ## Example: Google Cloud Scheduler
 
