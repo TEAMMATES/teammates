@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -25,7 +26,7 @@ public class SqlSessionResultsBundle {
     private final Map<FeedbackResponse, List<FeedbackResponseComment>> responseCommentsMap;
     private final Map<FeedbackResponse, Boolean> responseGiverVisibilityTable;
     private final Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable;
-    private final Map<Long, Boolean> commentGiverVisibilityTable;
+    private final Map<UUID, Boolean> commentGiverVisibilityTable;
     private final SqlCourseRoster roster;
 
     public SqlSessionResultsBundle(List<FeedbackQuestion> questions,
@@ -36,7 +37,7 @@ public class SqlSessionResultsBundle {
                                 Map<FeedbackResponse, Boolean> responseGiverVisibilityTable,
                                 Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable,
                                 Map<FeedbackResponse, List<FeedbackResponseComment>> responseCommentsMap,
-                                Map<Long, Boolean> commentGiverVisibilityTable,
+                                Map<UUID, Boolean> commentGiverVisibilityTable,
                                 SqlCourseRoster roster) {
 
         this.questions = questions;
@@ -158,7 +159,7 @@ public class SqlSessionResultsBundle {
         return responseRecipientVisibilityTable;
     }
 
-    public Map<Long, Boolean> getCommentGiverVisibilityTable() {
+    public Map<UUID, Boolean> getCommentGiverVisibilityTable() {
         return commentGiverVisibilityTable;
     }
 

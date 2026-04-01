@@ -28,6 +28,7 @@ import {
   GrqRgqViewResponsesComponent,
 } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
 
@@ -194,7 +195,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     const giverQuestions: QuestionOutput[] = structuredClone(results.questions);
     giverQuestions.forEach((questions: QuestionOutput) => {
       questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
-        !response.isMissingResponse && response.giverEmail === this.studentEmail);
+        !response.isMissingResponse && areEmailsEqual(response.giverEmail, this.studentEmail));
     });
     const responsesGivenByStudent: QuestionOutput[] =
       giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
@@ -202,7 +203,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     const recipientQuestions: QuestionOutput[] = structuredClone(results.questions);
     recipientQuestions.forEach((questions: QuestionOutput) => {
       questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
-        !response.isMissingResponse && response.recipientEmail === this.studentEmail);
+        !response.isMissingResponse && areEmailsEqual(response.recipientEmail, this.studentEmail));
     });
     const responsesReceivedByStudent: QuestionOutput[] =
       recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);

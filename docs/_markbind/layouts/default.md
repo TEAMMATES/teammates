@@ -5,35 +5,28 @@
     <div class="nav-component slim-scroll">
       <site-nav>
 
-* About TEAMMATES :expanded:
-  * [Introduction]({{ baseUrl }}/index.html)
-  * [Overview]({{ baseUrl }}/overview.html)
-* Getting Started :expanded:
-  * [Setting Up]({{ baseUrl }}/setting-up.html)
-* [Contributing]({{ baseUrl }}/contributing-doc.html)
-* Workflow :expanded:
-  * [Issues]({{ baseUrl }}/issues.html)
-  * [Process]({{ baseUrl }}/process.html)
-  * [Development]({{ baseUrl }}/development.html)
-* [Design]({{ baseUrl }}/design.html)
-* Best Practices :expanded:
-  * [Coding]({{ baseUrl }}/best-practices/coding.html)
-  * [Testing]({{ baseUrl }}/best-practices/testing.html)
-  * [Data Migration]({{ baseUrl }}/best-practices/data-migration.html)
-  * [UI Design]({{ baseUrl }}/best-practices/ui-design.html)
+* [Introduction]({{ baseUrl }}/index.html)
+* [Getting Started]({{ baseUrl }}/getting-started.html)
+* Contributing :expanded:
+  * [Guidelines]({{ baseUrl }}/contributing/guidelines.html)
+  * [Development Guide]({{ baseUrl }}/contributing/development-guide.html)
+  * [Development Workflow]({{ baseUrl }}/contributing/development-workflow.html)
+* Design
+  * [Architecture]({{ baseUrl }}/design/architecture.html)
+  * [API Design]({{ baseUrl }}/design/api-design.html)
+* Best Practices
   * [Accessibility]({{ baseUrl }}/best-practices/accessibility.html)
+  * [Coding]({{ baseUrl }}/best-practices/coding.html)
   * [Mobile-Friendliness]({{ baseUrl }}/best-practices/mobile-friendliness.html)
-* How-to :expanded:
-  * [Captcha]({{ baseUrl }}/captcha.html)
-  * [Documentation]({{ baseUrl }}/documentation.html)
-  * [Emails]({{ baseUrl }}/emails.html)
-  * [Unit Testing]({{ baseUrl }}/unit-testing.html)
-  * [End-to-End Testing]({{ baseUrl }}/e2e-testing.html)
-  * [Snapshot Testing]({{ baseUrl }}/snapshot-testing.html)
-  * [Accessibility Testing]({{ baseUrl }}/axe-testing.html)
-  * [Search]({{ baseUrl }}/search.html)
-  * [Static Analysis]({{ baseUrl }}/static-analysis.html)
+  * [UI Design]({{ baseUrl }}/best-practices/ui-design.html)
+* How-to
+  * [CAPTCHA]({{ baseUrl }}/how-to/captcha.html)
+  * [Documentation]({{ baseUrl }}/how-to/documentation.html)
+  * [Emails]({{ baseUrl }}/how-to/emails.html)
+  * [Static Analysis]({{ baseUrl }}/how-to/static-analysis.html)
+  * [Testing]({{ baseUrl }}/how-to/testing.html)
 * [Troubleshooting Guide]({{ baseUrl }}/troubleshooting-guide.html)
+* [Vision & Principles]({{ baseUrl }}/vision-principles.html)
 * [Glossary]({{ baseUrl }}/glossary.html)
       </site-nav>
     </div>
