@@ -98,7 +98,7 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         assertFalse("Old log with timestamp " + oldTimestamp + " should be deleted after cleanup",
                 logsAfter.stream().anyMatch(log -> log.getTimestamp().equals(oldTimestamp)));
 
-                // Verify all remaining logs are not older than the retention boundary.
+        // Verify all remaining logs are not older than the retention boundary (inclusive).
         for (FeedbackSessionLog log : logsAfter) {
             assertTrue("All remaining logs should be within 90 days",
                                         !log.getTimestamp().isBefore(retentionCutoff));
