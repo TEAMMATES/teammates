@@ -623,7 +623,8 @@ public abstract class AppPage {
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
         scrollElementToCenter(element);
-        element.click();
+        // Use script click so fixed navbars cannot intercept the click at the element's coordinates.
+        click(element);
     }
 
     /**

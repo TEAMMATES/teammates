@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Page Object Model for the course join confirmation page.
@@ -29,6 +30,7 @@ public class CourseJoinConfirmationPage extends AppPage {
 
     public <T extends AppPage> T confirmJoinCourse(Class<T> typeOfPage) {
         click(confirmButton);
+        waitFor(ExpectedConditions.not(ExpectedConditions.urlContains("/join")));
         waitForPageToLoad();
         return changePageType(typeOfPage);
     }

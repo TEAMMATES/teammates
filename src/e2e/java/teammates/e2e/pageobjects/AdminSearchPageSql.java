@@ -283,9 +283,18 @@ public class AdminSearchPageSql extends AppPage {
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
         String email = accountRequest.getEmail();
         String institute = accountRequest.getInstitute();
-        List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
+        List<WebElement> tables = browser.driver.findElements(By.id("search-table-account-request"));
+        if (tables.isEmpty()) {
+            return null;
+        }
+        WebElement table = tables.get(0);
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
+            // Skip expanded link rows (single colspan cell) and header rows.
+            if (columns.size() < ACCOUNT_REQUEST_COL_REGISTERED_AT) {
+                continue;
+            }
             if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
                     .getAttribute("innerHTML")).contains(email)
                     && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
