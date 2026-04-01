@@ -344,6 +344,10 @@ public final class Config {
         return new AppUrl(APP_FRONTEND_URL + relativeUrl);
     }
 
+    public static boolean isUsingFirebase() {
+        return AUTH_PROVIDER_TYPES.contains(Const.AuthProviderTypes.FIREBASE);
+    }
+
     /**
      * Returns db connection URL.
      */

@@ -16,7 +16,7 @@ import { NotificationBannerComponent } from './components/notification-banner/no
 import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
-import { ApiConst } from '../types/api-const';
+import { ApiStringConst } from '../types/api-const';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -97,6 +97,7 @@ export class PageComponent {
 
   showGoogleLogin: boolean = false;
   showMsEntraLogin: boolean = false;
+  showFirebaseLogin: boolean = false;
 
   private currentRole: 'student' | 'instructor' | null = null;
   private providerModalRef: NgbModalRef | null = null;
@@ -156,9 +157,12 @@ export class PageComponent {
     });
 
     this.authService.getAuthProviderTypes().subscribe({
-      next: (authTypes: string[]) => {
-        this.showGoogleLogin = authTypes.includes(ApiConst.AUTH_PROVIDER_GOOGLE);
-        this.showMsEntraLogin = authTypes.includes(ApiConst.AUTH_PROVIDER_MICROSOFT_ENTRA);
+      next: (response: { authProviderTypes: string[] }) => {
+        console.log('Supported auth provider types:', response);
+        const authTypes = response.authProviderTypes ?? [];
+        this.showGoogleLogin = authTypes.includes(ApiStringConst.AUTH_PROVIDER_GOOGLE);
+        this.showMsEntraLogin = authTypes.includes(ApiStringConst.AUTH_PROVIDER_MICROSOFT_ENTRA);
+        this.showFirebaseLogin = authTypes.includes(ApiStringConst.AUTH_PROVIDER_FIREBASE);
       },
     });
   }
@@ -224,14 +228,21 @@ export class PageComponent {
    * Logs in with Google provider.
    */
   loginWithGoogle(): void {
-    this.loginWithProvider(ApiConst.AUTH_PROVIDER_GOOGLE);
+    this.loginWithProvider(ApiStringConst.AUTH_PROVIDER_GOOGLE);
   }
 
   /**
    * Logs in with Microsoft Entra provider.
    */
   loginWithMsEntra(): void {
-    this.loginWithProvider(ApiConst.AUTH_PROVIDER_MICROSOFT_ENTRA);
+    this.loginWithProvider(ApiStringConst.AUTH_PROVIDER_MICROSOFT_ENTRA);
+  }
+
+  /**
+   * Logs in with Firebase provider.
+   */
+  loginWithFirebase(): void {
+    this.loginWithProvider(ApiStringConst.AUTH_PROVIDER_FIREBASE);
   }
 
   /**

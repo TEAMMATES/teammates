@@ -121,7 +121,7 @@ describe('PageComponent', () => {
       component.showMsEntraLogin = true;
       fixture.detectChanges();
 
-      component.openProviderModal('student');
+      component.openProviderModal('instructor');
       fixture.detectChanges();
 
       expect(document.querySelector('#provider-google-btn')).not.toBeNull();
@@ -133,7 +133,7 @@ describe('PageComponent', () => {
       component.showMsEntraLogin = false;
       fixture.detectChanges();
 
-      component.openProviderModal('student');
+      component.openProviderModal('instructor');
       fixture.detectChanges();
 
       expect(document.querySelector('#provider-google-btn')).toBeNull();

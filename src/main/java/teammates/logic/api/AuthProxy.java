@@ -16,7 +16,7 @@ public class AuthProxy {
 
     AuthProxy() {
         AuthService fs;
-        if (Config.ENABLE_DEVSERVER_LOGIN) {
+        if (Config.ENABLE_DEVSERVER_LOGIN || !Config.isUsingFirebase()) {
             fs = new EmptyAuthService();
         } else {
             try {
