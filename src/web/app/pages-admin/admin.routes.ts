@@ -45,6 +45,14 @@ const routes: Routes = [
       .then((m) => m.AdminNotificationsPageComponent),
   },
   {
+    path: 'email-templates',
+    loadComponent: () => import('./admin-email-templates-page/admin-email-templates-page.component')
+      .then((m) => m.AdminEmailTemplatesPageComponent),
+    data: {
+      pageTitle: 'Email Templates',
+    },
+  },
+  {
     path: 'logs',
     data: {
       isAdmin: true,
