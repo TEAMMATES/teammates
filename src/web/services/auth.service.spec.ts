@@ -32,7 +32,7 @@ describe('AuthService', () => {
   });
 
   it('should execute getAuthProviderTypes', () => {
-    service.getAuthProviderTypes(); 
+    service.getAuthProviderTypes();
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH_PROVIDER_TYPES);
   });
 

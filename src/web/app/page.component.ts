@@ -9,6 +9,7 @@ import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
+import { ApiStringConst } from '../types/api-const';
 import { NotificationTargetUser } from '../types/api-output';
 import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
@@ -16,7 +17,6 @@ import { NotificationBannerComponent } from './components/notification-banner/no
 import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
-import { ApiStringConst } from '../types/api-const';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -158,7 +158,6 @@ export class PageComponent {
 
     this.authService.getAuthProviderTypes().subscribe({
       next: (response: { authProviderTypes: string[] }) => {
-        console.log('Supported auth provider types:', response);
         const authTypes = response.authProviderTypes ?? [];
         this.showGoogleLogin = authTypes.includes(ApiStringConst.AUTH_PROVIDER_GOOGLE);
         this.showMsEntraLogin = authTypes.includes(ApiStringConst.AUTH_PROVIDER_MICROSOFT_ENTRA);
