@@ -1378,7 +1378,7 @@
       "feedbackSession": {
         "id" : "00000000-0000-4000-8000-000000000701"
       },
-      "feedbackSessionLogType": "ACCESS",
+      "feedbackSessionLogType": "access",
       "timestamp": "2012-01-01T12:00:00Z"
     },
     "student1Session2Log1": {
@@ -1389,7 +1389,7 @@
       "feedbackSession": {
         "id" : "00000000-0000-4000-8000-000000000702"
       },
-      "feedbackSessionLogType": "ACCESS",
+      "feedbackSessionLogType": "access",
       "timestamp": "2012-01-01T12:00:01Z"
     },
     "student1Session2Log2": {
@@ -1400,7 +1400,7 @@
       "feedbackSession": {
         "id" : "00000000-0000-4000-8000-000000000702"
       },
-      "feedbackSessionLogType": "SUBMISSION",
+      "feedbackSessionLogType": "submission",
       "timestamp": "2012-01-01T12:00:02Z"
     },
     "student2Session1Log1": {
@@ -1411,7 +1411,7 @@
       "feedbackSession": {
         "id" : "00000000-0000-4000-8000-000000000701"
       },
-      "feedbackSessionLogType": "ACCESS",
+      "feedbackSessionLogType": "access",
       "timestamp": "2012-01-01T12:00:03Z"
     },
     "student2Session1Log2": {
@@ -1422,7 +1422,7 @@
       "feedbackSession": {
         "id" : "00000000-0000-4000-8000-000000000701"
       },
-      "feedbackSessionLogType": "SUBMISSION",
+      "feedbackSessionLogType": "submission",
       "timestamp": "2012-01-01T12:00:04Z"
     },
     "student1InAnotherCourse": {
@@ -1433,7 +1433,7 @@
       "feedbackSession": {
         "id" : "00000000-0000-4000-8000-000000000707"
       },
-      "feedbackSessionLogType": "ACCESS",
+      "feedbackSessionLogType": "access",
       "timestamp": "2012-01-01T12:00:05Z"
     },
     "outOfRangeLog": {
@@ -1444,7 +1444,7 @@
       "feedbackSession": {
         "id" : "00000000-0000-4000-8000-000000000701"
       },
-      "feedbackSessionLogType": "ACCESS",
+      "feedbackSessionLogType": "access",
       "timestamp": "2010-01-01T00:00:00Z"
     }
   }
