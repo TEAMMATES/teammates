@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -39,7 +40,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + student.getTeam());
         } else if (question.getGiverType() == FeedbackParticipantType.STUDENTS
-                && !response.getGiver().equals(student.getEmail())) {
+                && !SanitizationHelper.areEmailsEqual(response.getGiver(), student.getEmail())) {
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + student.getName());
         }
@@ -50,7 +51,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      */
     void verifyResponseOwnerShipForInstructor(Instructor instructor, FeedbackResponse response)
             throws UnauthorizedAccessException {
-        if (!response.getGiver().equals(instructor.getEmail())) {
+        if (!SanitizationHelper.areEmailsEqual(response.getGiver(), instructor.getEmail())) {
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + instructor.getName());
         }

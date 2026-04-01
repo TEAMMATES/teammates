@@ -15,6 +15,7 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
+import { areEmailsEqual } from '../../teammates-common/email-utils';
 
 /**
  * Contribution question response.
@@ -48,7 +49,7 @@ export class ContributionQuestionResponseComponent
     this.answer = this.responseDetails.answer;
     if (this.statistics) {
       const statisticsObject: ContributionStatistics = JSON.parse(this.statistics);
-      if (this.giverEmail === this.recipientEmail) {
+      if (areEmailsEqual(this.giverEmail, this.recipientEmail)) {
         this.answer = statisticsObject.results[this.giverEmail].claimed;
       } else {
         this.answer = statisticsObject.results[this.giverEmail].claimedOthers[this.recipientEmail];

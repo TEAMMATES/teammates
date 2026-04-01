@@ -24,6 +24,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -147,7 +148,7 @@ public final class FeedbackQuestionsLogic {
                 fqDb.getFeedbackQuestionsForGiverType(
                     feedbackSession, FeedbackParticipantType.INSTRUCTORS));
 
-        if (feedbackSession.getCreatorEmail().equals(userEmail)) {
+        if (SanitizationHelper.areEmailsEqual(feedbackSession.getCreatorEmail(), userEmail)) {
             questions.addAll(
                     fqDb.getFeedbackQuestionsForGiverType(
                         feedbackSession, FeedbackParticipantType.SELF));
@@ -343,7 +344,8 @@ public final class FeedbackQuestionsLogic {
             }
 
             if (generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
-                studentList.removeIf(studentInList -> studentInList.getEmail().equals(emailOfEntityDoingQuestion));
+                studentList.removeIf(studentInList ->
+                        SanitizationHelper.areEmailsEqual(studentInList.getEmail(), emailOfEntityDoingQuestion));
             }
 
             for (Student student : studentList) {
@@ -387,7 +389,8 @@ public final class FeedbackQuestionsLogic {
                         courseId);
 
                 if (generateOptionsFor == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
-                    teamMembers.removeIf(teamMember -> teamMember.getEmail().equals(emailOfEntityDoingQuestion));
+                    teamMembers.removeIf(teamMember ->
+                            SanitizationHelper.areEmailsEqual(teamMember.getEmail(), emailOfEntityDoingQuestion));
                 }
 
                 teamMembers.forEach(teamMember -> optionList.add(teamMember.getName()));
@@ -577,7 +580,7 @@ public final class FeedbackQuestionsLogic {
                 students = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
             }
             for (Student student : students) {
-                if (!student.getEmail().equals(giverEmail)) {
+                if (!SanitizationHelper.areEmailsEqual(student.getEmail(), giverEmail)) {
                     recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
                             student.getSectionName(), student.getTeamName()));
                 }

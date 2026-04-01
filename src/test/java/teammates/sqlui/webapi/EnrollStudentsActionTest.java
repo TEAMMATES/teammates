@@ -102,7 +102,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         when(mockLogic.getTeamOrCreate(section, "team")).thenReturn(team);
         when(mockLogic.getSectionOrCreate(course.getId(), "section")).thenReturn(section);
         when(mockLogic.updateStudentCascade(
-                argThat(argument -> Objects.equals(argument.getName(), newStudent.getName())
+                argThat(argument -> argument != null
+                        && Objects.equals(argument.getName(), newStudent.getName())
                         && Objects.equals(argument.getEmail(), newStudent.getEmail())
                         && Objects.equals(argument.getTeam(), newStudent.getTeam())
                         && Objects.equals(argument.getSection(), newStudent.getSection())))).thenReturn(newStudent);
@@ -116,6 +117,42 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         List<StudentData> enrolledStudents = ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
         assertEquals(enrolledStudents.size(), 1);
         assertEquals(enrolledStudents.get(0).getName(), newStudent.getName());
+    }
+
+    @Test
+    public void testExecute_studentAlreadyEnrolled_caseInsensitiveEmail() throws Exception {
+        Instructor instructor = getTypicalInstructor();
+        instructor.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
+        loginAsInstructor(instructor.getGoogleId());
+
+        Student existingStudent = new Student(course, "oldName", "email.com", "", team);
+        Student requestStudent = new Student(course, "name", "Email.Com", "", team);
+        Student updatedStudent = new Student(course, "name", "email.com", "", team);
+
+        when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>(List.of(existingStudent)));
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        when(mockLogic.getStudentForEmail(course.getId(), "email.com")).thenReturn(existingStudent);
+        when(mockLogic.getInstructorForEmail(course.getId(), "email.com")).thenReturn(null);
+        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getTeamOrCreate(section, "team")).thenReturn(team);
+        when(mockLogic.getSectionOrCreate(course.getId(), "section")).thenReturn(section);
+        when(mockLogic.updateStudentCascade(
+                argThat(argument -> argument != null
+                        && Objects.equals(argument.getName(), requestStudent.getName())
+                        && Objects.equals(argument.getEmail(), "email.com")
+                        && Objects.equals(argument.getTeam(), requestStudent.getTeam())
+                        && Objects.equals(argument.getSection(), requestStudent.getSection())))).thenReturn(updatedStudent);
+
+        StudentsEnrollRequest req = prepareRequest(requestStudent);
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+        };
+        EnrollStudentsAction action = getAction(req, params);
+        JsonResult result = getJsonResult(action);
+
+        List<StudentData> enrolledStudents = ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
+        assertEquals(enrolledStudents.size(), 1);
+        assertEquals(enrolledStudents.get(0).getEmail(), "email.com");
     }
 
     @Test
