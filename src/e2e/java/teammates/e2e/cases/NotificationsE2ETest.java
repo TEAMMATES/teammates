@@ -63,6 +63,22 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
 
         notificationsPage.verifyNotShownNotifications(notShownNotifications);
         notificationsPage.verifyShownNotifications(shownNotifications, readNotificationsIds);
+
+        ______TS("mark all notifications as read");
+        notificationsPage.markAllNotificationsAsRead();
+        notificationsPage.verifyStatusMessage("All notifications marked as read!");
+
+        teammates.test.ThreadHelper.waitFor(2000);
+
+        ______TS("notification banner is not visible");
+        assertFalse(notificationsPage.isBannerVisible());
+
+        AccountData updatedAccountFromDb = BACKDOOR.getAccountData(instructorAccount.getGoogleId());
+        Notification notification1 = testData.notifications.get("notification1");
+        Notification notification3 = testData.notifications.get("notification3");
+
+        assertTrue(updatedAccountFromDb.getReadNotifications().containsKey(notification1.getId().toString()));
+        assertTrue(updatedAccountFromDb.getReadNotifications().containsKey(notification3.getId().toString()));
     }
 
     private void testStudent() {
@@ -93,10 +109,26 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
 
         notificationsPage.verifyNotShownNotifications(notShownNotifications);
         notificationsPage.verifyShownNotifications(shownNotifications, readNotificationsIds);
+
+        ______TS("mark all notifications as read");
+        notificationsPage.markAllNotificationsAsRead();
+        notificationsPage.verifyStatusMessage("All notifications marked as read!");
+
+        teammates.test.ThreadHelper.waitFor(2000);
+
+        ______TS("notification banner is not visible");
+        assertFalse(notificationsPage.isBannerVisible());
+
+        AccountData updatedAccountFromDb = BACKDOOR.getAccountData(studentAccount.getGoogleId());
+        Notification notification1 = testData.notifications.get("notification1");
+        Notification notification2 = testData.notifications.get("notification2");
+
+        assertTrue(updatedAccountFromDb.getReadNotifications().containsKey(notification1.getId().toString()));
+        assertTrue(updatedAccountFromDb.getReadNotifications().containsKey(notification2.getId().toString()));
     }
 
     private void testNotificationBanner() {
-        Account studentAccount = testData.accounts.get("notif.student");
+        Account studentAccount = testData.accounts.get("notif.studentBanner");
         AppUrl studentHomePageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE);
         StudentHomePage homePage = loginToPage(studentHomePageUrl, StudentHomePage.class,
                 studentAccount.getGoogleId());
