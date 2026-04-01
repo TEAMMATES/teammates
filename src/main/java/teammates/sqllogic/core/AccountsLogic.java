@@ -71,8 +71,17 @@ public final class AccountsLogic {
 
     /**
      * Resolves or creates an account from a verified OIDC login (issuer + subject).
+     * Sets the login identifier to the email by default.
      */
     public Account resolveOrCreateAccountFromOidc(String issuer, String subject, String email, String name)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return resolveOrCreateAccountFromOidc(issuer, subject, email, name, email);
+    }
+
+    /**
+     * Resolves or creates an account from a verified OIDC login (issuer + subject).
+     */
+    public Account resolveOrCreateAccountFromOidc(String issuer, String subject, String email, String name, String loginIdentifier)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert issuer != null;
         assert subject != null;
@@ -82,10 +91,10 @@ public final class AccountsLogic {
             return existing.getAccount();
         }
 
-        assert email != null : "OIDC email claim must be present to create an account";
+        assert loginIdentifier != null : "OIDC login identifier must be present to create an account";
         String safeName = name != null ? name : "";
         Account account = new Account(safeName, email);
-        AccountIdentity identity = new AccountIdentity(issuer, subject, email);
+        AccountIdentity identity = new AccountIdentity(issuer, subject, loginIdentifier);
         account.addIdentity(identity);
         return accountsDb.createAccount(account);
     }
