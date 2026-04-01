@@ -31,7 +31,7 @@
         <addUniqueConstraint
                 tableName="read_notifications"
                 columnNames="account_id, notification_id"
-                constraintName="uq_account_notification" />
+                constraintName="Unique account_id and notification_id" />
         <addNotNullConstraint tableName="read_notifications" columnName="account_id" />
         <addNotNullConstraint tableName="read_notifications" columnName="notification_id" />
     </changeSet>
