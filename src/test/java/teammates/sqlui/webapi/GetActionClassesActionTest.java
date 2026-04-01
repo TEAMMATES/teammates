@@ -84,7 +84,6 @@ import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.MarkNotificationAsReadAction;
 import teammates.ui.webapi.PublishFeedbackSessionAction;
 import teammates.ui.webapi.PutSqlDataBundleAction;
-import teammates.ui.webapi.QueryLogsAction;
 import teammates.ui.webapi.RegenerateInstructorKeyAction;
 import teammates.ui.webapi.RegenerateStudentKeyAction;
 import teammates.ui.webapi.RejectAccountRequestAction;
@@ -190,7 +189,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetAccountAction.class,
                 GetAccountsAction.class,
                 FeedbackSessionPublishedRemindersAction.class,
-                QueryLogsAction.class,
                 SessionLinksRecoveryAction.class,
                 SendJoinReminderEmailAction.class,
                 RegenerateInstructorKeyAction.class,
