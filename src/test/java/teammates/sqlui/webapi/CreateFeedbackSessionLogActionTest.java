@@ -126,7 +126,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         verify(mockLogic).createFeedbackSessionLog(argThat(log ->
                 student1InCourse1.equals(log.getStudent())
                         && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.ACCESS.equals(log.getFeedbackSessionLogType())));
+                        && FeedbackSessionLogType.ACCESS == log.getFeedbackSessionLogType()));
     }
 
     @Test
@@ -168,7 +168,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         verify(mockLogic).createFeedbackSessionLog(argThat(log ->
                 student1InCourse1.equals(log.getStudent())
                         && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION.equals(log.getFeedbackSessionLogType())));
+                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test
@@ -188,7 +188,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         verify(mockLogic).createFeedbackSessionLog(argThat(log ->
                 student2InCourse2.equals(log.getStudent())
                         && fsaCourseNoStudent.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION.equals(log.getFeedbackSessionLogType())));
+                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test
@@ -208,7 +208,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         verify(mockLogic).createFeedbackSessionLog(argThat(log ->
                 student1InCourse1.equals(log.getStudent())
                         && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION.equals(log.getFeedbackSessionLogType())));
+                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test
@@ -228,7 +228,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         verify(mockLogic).createFeedbackSessionLog(argThat(log ->
                 student1InCourse1.equals(log.getStudent())
                         && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION.equals(log.getFeedbackSessionLogType())));
+                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test
@@ -247,7 +247,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         verify(mockLogic).createFeedbackSessionLog(argThat(log ->
                 student3InCourse2.equals(log.getStudent())
                         && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION.equals(log.getFeedbackSessionLogType())));
+                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test

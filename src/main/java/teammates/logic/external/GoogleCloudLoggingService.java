@@ -19,7 +19,6 @@ import com.google.cloud.logging.Severity;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
-import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
@@ -103,24 +102,6 @@ public class GoogleCloudLoggingService implements LogService {
             return LogSeverity.DEBUG;
         }
         return LogSeverity.DEFAULT;
-    }
-
-    private List<LogEntry> getAllLogEntries(LogSearchParams logSearchParams) {
-        Logging logging = LoggingOptions.getDefaultInstance().getService();
-        List<EntryListOption> entryListOptions = convertLogSearchParams(logSearchParams, 0);
-        Page<LogEntry> entries = logging.listLogEntries(entryListOptions.toArray(new EntryListOption[] {}));
-
-        List<LogEntry> logEntries = new ArrayList<>();
-        for (LogEntry entry : entries.iterateAll()) {
-            logEntries.add(entry);
-        }
-
-        try {
-            logging.close();
-        } catch (Exception e) {
-            // ignore exception when closing resource
-        }
-        return logEntries;
     }
 
     private Page<LogEntry> getPageLogEntries(LogSearchParams logSearchParams, int pageSize) {
