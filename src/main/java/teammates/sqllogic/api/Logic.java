@@ -200,6 +200,14 @@ public class Logic {
     }
 
     /**
+     * Returns the login identifier for the first identity linked to the given account,
+     * or an empty string if none exists.
+     */
+    public String getLoginIdentifierForAccount(String accountId) {
+        return accountsLogic.getLoginIdentifierForAccount(accountId);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account

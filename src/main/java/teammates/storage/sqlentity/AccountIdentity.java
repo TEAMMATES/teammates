@@ -38,14 +38,18 @@ public class AccountIdentity extends BaseEntity {
     @Column(nullable = false, length = FieldValidator.OIDC_SUBJECT_MAX_LENGTH)
     private String subject;
 
+    @Column(nullable = false, length = 254)
+    private String loginIdentifier;
+
     protected AccountIdentity() {
         // Hibernate
     }
 
-    public AccountIdentity(String issuer, String subject) {
+    public AccountIdentity(String issuer, String subject, String loginIdentifier) {
         this.setId(UUID.randomUUID());
         this.setIssuer(issuer);
         this.setSubject(subject);
+        this.setLoginIdentifier(loginIdentifier);
     }
 
     public UUID getId() {
@@ -78,6 +82,14 @@ public class AccountIdentity extends BaseEntity {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getLoginIdentifier() {
+        return loginIdentifier;
+    }
+
+    public void setLoginIdentifier(String loginIdentifier) {
+        this.loginIdentifier = loginIdentifier;
     }
 
     @Override

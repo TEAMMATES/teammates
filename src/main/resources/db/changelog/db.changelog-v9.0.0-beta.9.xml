@@ -19,6 +19,9 @@
             <column name="account_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
+            <column name="login_identifier" type="VARCHAR(254)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
     <changeSet author="saibh (generated)" id="1775015917395-2">

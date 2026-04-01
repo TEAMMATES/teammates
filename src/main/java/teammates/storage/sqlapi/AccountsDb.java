@@ -63,6 +63,22 @@ public final class AccountsDb {
     }
 
     /**
+     * Returns the first {@link AccountIdentity} for the given account ID, or null if none exists.
+     * For accounts with a single identity (the common case) this is unambiguous.
+     */
+    public AccountIdentity getFirstAccountIdentityByAccountId(UUID accountId) {
+        assert accountId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<AccountIdentity> cr = cb.createQuery(AccountIdentity.class);
+        Root<AccountIdentity> root = cr.from(AccountIdentity.class);
+
+        cr.select(root).where(cb.equal(root.get("account").get("id"), accountId));
+
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
      * Gets accounts based on email.
      */
     public List<Account> getAccountsByEmail(String email) {

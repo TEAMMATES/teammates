@@ -82,10 +82,10 @@ public final class AccountsLogic {
             return existing.getAccount();
         }
 
+        assert email != null : "OIDC email claim must be present to create an account";
         String safeName = name != null ? name : "";
-        String safeEmail = email != null ? email : "";
-        Account account = new Account(safeName, safeEmail);
-        AccountIdentity identity = new AccountIdentity(issuer, subject);
+        Account account = new Account(safeName, email);
+        AccountIdentity identity = new AccountIdentity(issuer, subject, email);
         account.addIdentity(identity);
         return accountsDb.createAccount(account);
     }
@@ -93,15 +93,24 @@ public final class AccountsLogic {
     /**
      * Links an additional OIDC identity to an existing account.
      */
-    public AccountIdentity linkAccountIdentity(Account account, String issuer, String subject)
+    public AccountIdentity linkAccountIdentity(Account account, String issuer, String subject, String loginIdentifier)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
         if (accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject) != null) {
             throw new EntityAlreadyExistsException("Identity already linked to an account.");
         }
-        AccountIdentity identity = new AccountIdentity(issuer, subject);
+        AccountIdentity identity = new AccountIdentity(issuer, subject, loginIdentifier);
         account.addIdentity(identity);
         return accountsDb.createAccountIdentity(identity);
+    }
+
+    /**
+     * Returns the login identifier for the first identity linked to the given account,
+     * or an empty string if none exists.
+     */
+    public String getLoginIdentifierForAccount(String accountId) {
+        AccountIdentity identity = accountsDb.getFirstAccountIdentityByAccountId(UUID.fromString(accountId));
+        return identity != null ? identity.getLoginIdentifier() : "";
     }
 
     /**

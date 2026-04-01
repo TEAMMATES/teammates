@@ -27,6 +27,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     private static final String ACCT_UNREG_STUDENT = "00000000-0000-4000-8000-0000000000e1";
     private static final String ACCT_UNREG_INSTRUCTOR = "00000000-0000-4000-8000-0000000000e2";
     private static final String ACCT_UNREG_USER = "00000000-0000-4000-8000-0000000000e3";
+    private static final String STUB_LOGIN_IDENTIFIER = "unreg@login.tmt";
 
     private Student stubStudent;
     private Instructor stubInstructor;
@@ -78,8 +79,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.getStudentByRegistrationKey("registered-key-student")).thenReturn(stubStudent);
         when(mockLogic.joinCourseForStudent("registered-key-student", ACCT_UNREG_STUDENT)).thenReturn(stubStudent);
         when(mockLogic.getCourse(stubStudent.getCourseId())).thenReturn(stubCourse);
+        when(mockLogic.getLoginIdentifierForAccount(ACCT_UNREG_STUDENT)).thenReturn(STUB_LOGIN_IDENTIFIER);
         when(mockSqlEmailGenerator.generateUserCourseRegisteredEmail(stubStudent.getName(), stubStudent.getEmail(),
-                false, stubCourse)).thenReturn(stubEmailWrapper);
+                STUB_LOGIN_IDENTIFIER, false, stubCourse)).thenReturn(stubEmailWrapper);
         String[] params = {
                 Const.ParamsNames.REGKEY, "registered-key-student",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
@@ -150,8 +152,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.joinCourseForInstructor("registered-key-instructor", ACCT_UNREG_INSTRUCTOR))
                 .thenReturn(stubInstructor);
         when(mockLogic.getCourse(stubInstructor.getCourseId())).thenReturn(stubCourse);
+        when(mockLogic.getLoginIdentifierForAccount(ACCT_UNREG_INSTRUCTOR)).thenReturn(STUB_LOGIN_IDENTIFIER);
         when(mockSqlEmailGenerator.generateUserCourseRegisteredEmail(stubInstructor.getName(), stubInstructor.getEmail(),
-                true, stubCourse)).thenReturn(stubEmailWrapper);
+                STUB_LOGIN_IDENTIFIER, true, stubCourse)).thenReturn(stubEmailWrapper);
         String[] params = {
                 Const.ParamsNames.REGKEY, "registered-key-instructor",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,

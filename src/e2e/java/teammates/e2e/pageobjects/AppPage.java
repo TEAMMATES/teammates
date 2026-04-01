@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -623,8 +624,30 @@ public abstract class AppPage {
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
         scrollElementToCenter(element);
-        // Use script click so fixed navbars cannot intercept the click at the element's coordinates.
-        click(element);
+        try {
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            // Firefox can still report a header overlap after scrolling even when the element is visible.
+            executeScript(
+                    "const element = arguments[0];"
+                    + "const rect = element.getBoundingClientRect();"
+                    + "const eventInit = {"
+                    + "  bubbles: true,"
+                    + "  cancelable: true,"
+                    + "  composed: true,"
+                    + "  clientX: rect.left + rect.width / 2,"
+                    + "  clientY: rect.top + rect.height / 2,"
+                    + "  button: 0,"
+                    + "  buttons: 1"
+                    + "};"
+                    + "if (typeof element.focus === 'function') {"
+                    + "  element.focus();"
+                    + "}"
+                    + "['mousedown', 'mouseup', 'click'].forEach("
+                    + "  type => element.dispatchEvent(new MouseEvent(type, eventInit))"
+                    + ");",
+                    element);
+        }
     }
 
     /**

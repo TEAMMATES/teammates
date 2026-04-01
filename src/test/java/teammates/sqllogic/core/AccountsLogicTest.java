@@ -212,7 +212,7 @@ public class AccountsLogicTest extends BaseTestCase {
         String issuer = "https://accounts.google.com";
         String subject = "oidc-subject-existing";
         Account existingAccount = getTypicalAccount();
-        AccountIdentity identity = new AccountIdentity(issuer, subject);
+        AccountIdentity identity = new AccountIdentity(issuer, subject, "other@email.com");
         identity.setAccount(existingAccount);
 
         when(accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject)).thenReturn(identity);
@@ -241,6 +241,7 @@ public class AccountsLogicTest extends BaseTestCase {
         assertEquals(1, result.getIdentities().size());
         assertEquals(issuer, result.getIdentities().get(0).getIssuer());
         assertEquals(subject, result.getIdentities().get(0).getSubject());
+        assertEquals(email, result.getIdentities().get(0).getLoginIdentifier());
         assertSame(result, result.getIdentities().get(0).getAccount());
         verify(accountsDb, times(1)).createAccount(result);
     }
@@ -256,10 +257,12 @@ public class AccountsLogicTest extends BaseTestCase {
         when(accountsDb.createAccountIdentity(any(AccountIdentity.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        AccountIdentity linked = accountsLogic.linkAccountIdentity(account, issuer, subject);
+        String loginIdentifier = "ms-user@example.com";
+        AccountIdentity linked = accountsLogic.linkAccountIdentity(account, issuer, subject, loginIdentifier);
 
         assertEquals(issuer, linked.getIssuer());
         assertEquals(subject, linked.getSubject());
+        assertEquals(loginIdentifier, linked.getLoginIdentifier());
         assertSame(account, linked.getAccount());
         verify(accountsDb, times(1)).createAccountIdentity(linked);
     }
@@ -270,12 +273,12 @@ public class AccountsLogicTest extends BaseTestCase {
         Account account = getTypicalAccount();
         String issuer = "https://accounts.google.com";
         String subject = "dup-subject";
-        AccountIdentity existing = new AccountIdentity(issuer, subject);
+        AccountIdentity existing = new AccountIdentity(issuer, subject, "dup@example.com");
 
         when(accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject)).thenReturn(existing);
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.linkAccountIdentity(account, issuer, subject));
+                () -> accountsLogic.linkAccountIdentity(account, issuer, subject, "dup@example.com"));
         assertEquals("Identity already linked to an account.", ex.getMessage());
         verify(accountsDb, never()).createAccountIdentity(any(AccountIdentity.class));
     }

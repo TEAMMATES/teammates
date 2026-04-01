@@ -86,8 +86,9 @@ public class JoinCourseAction extends Action {
 
     private void sendJoinEmail(String courseId, String userName, String userEmail, boolean isInstructor) {
         Course course = sqlLogic.getCourse(courseId);
+        String loginIdentifier = sqlLogic.getLoginIdentifierForAccount(userInfo.id);
         EmailWrapper email = sqlEmailGenerator.generateUserCourseRegisteredEmail(
-                userName, userEmail, isInstructor, course);
+                userName, userEmail, loginIdentifier, isInstructor, course);
         emailSender.sendEmail(email);
     }
 }
