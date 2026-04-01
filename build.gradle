@@ -243,19 +243,22 @@ task execScript(type: JavaExec) {
 apply from: 'gradle/seeddb.gradle'
 
 task createConfigs {
-    description = "Sets up the project by obtaining necessary files and configurations points."
+    description = "Sets up the project by obtaining necessary files and configurations points. " +
+            "Use -PproductionConfigs to skip creating build-dev.properties."
     group = "Setup"
     doLast {
         def templatesToCopy = [
             "gradle.template.properties",
             "src/main/resources/build.template.properties",
-            "src/main/resources/build-dev.template.properties",
             "src/web/environments/config.template.ts",
             "src/test/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
             "src/client/resources/client.template.properties",
             "src/main/appengine/app.template.yaml"
         ]
+        if (!project.hasProperty("productionConfigs")) {
+            templatesToCopy.add(2, "src/main/resources/build-dev.template.properties")
+        }
         templatesToCopy.findAll {
             !(new File(it.replace(".template", ""))).exists()
         }.each {

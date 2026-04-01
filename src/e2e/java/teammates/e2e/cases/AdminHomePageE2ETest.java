@@ -25,7 +25,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         ______TS("Test adding instructors with both valid and invalid details");
 
         String name = "AHPUiT Instrúctör WithPlusInEmail";
-        String email = "AHPUiT+++_.instr1!@gmail.tmt";
+        String email = "ahpuit+++_.instr1!@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
 
         homePage.queueInstructorForAdding(name, email, institute);

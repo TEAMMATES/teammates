@@ -6,37 +6,37 @@
 
 The goal is to make the user guide unnecessary.
 
-## Be forgiving in processing input
+## Be Forgiving
 
-* Forgive extra blank lines and extra white space.
-* Auto-correct if possible.
-* Allow 'cancel' at any step where it makes sense.
+- Forgive extra whitespace and blank lines in input.
+- Auto-correct where possible.
+- Allow cancellation at any step where it makes sense.
 
-## Be descriptive
+## Be Descriptive
 
-* Errors should be explained in as much details as possible. Also explain how to correct it.
-* After an action, give a description of what happened, e.g. after a mass enroll operation, you can explain which students were added, which were modified, and how many remained the same.
-* Keep user informed of what is happening, e.g. inform user about sending emails to users.
-* Disable (rather than hide) unavailable functions so that users know they exist.
+- Explain errors in detail, including how to correct them.
+- After an action, describe what happened (e.g. after a bulk enroll, show how many students were added, modified, or unchanged).
+- Keep users informed of background actions (e.g. when emails are being sent).
+- Disable rather than hide unavailable functions so users know they exist.
 
-## Minimize work (to be done by the user)
+## Minimise User Effort
 
-User convenience is **far** more important than developer convenience, e.g.
+User convenience is far more important than developer convenience.
 
-* Submitting a page should take the user to the next logical page while showing feedback about the previous action at the same time.
-* When possible, give an 'undo' instead of asking to confirm every action.
-* Use defaults so that users are not forced to enter values for each field. This applies to sorting as well (i.e. sort by default using the most likely sorting order).
-* If only one option is available, choose it by default.
+- After submitting a form, take the user to the next logical page while showing feedback about the previous action.
+- Prefer undo over asking for confirmation on every action.
+- Use sensible defaults so users are not forced to fill every field.
+- If only one option is available, select it by default.
 
-## Take the user's point of view
+## Use the User's Language
 
-* Use terms from user domain.
-* Use terms that show 'user intent' rather than mechanism, e.g. 'leave this course' instead of 'delete'.
+- Use terms from the user's domain, not technical terms.
+- Use intent-based language rather than mechanism-based, e.g. "leave this course" instead of "delete".
 
-## Be consistent
+## Be Consistent
 
-* Keep a neutral color scheme across the site.
-* Where possible, use Bootstrap CSS classes instead of custom CSS.
-* Use Bootstrap color utility classes meaningfully (e.g. `warning` color for user warnings).
-* Use consistent naming guidelines for links, page names and page titles.
-* Use consistent styles for components (e.g. buttons, links) that have the same behavior.
+- Maintain a neutral colour scheme across the site.
+- Use Bootstrap CSS classes instead of custom CSS where possible.
+- Use Bootstrap colour utility classes meaningfully (e.g. `warning` for user warnings).
+- Use consistent naming for links, page names, and titles.
+- Use consistent styles for components with the same behaviour.

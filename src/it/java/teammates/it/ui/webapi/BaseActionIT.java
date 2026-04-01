@@ -345,7 +345,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     void verifyInaccessibleForStudents(Course course, String... params)
             throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("Students cannot access");
-        Student student = createTypicalStudent(course, "InaccessibleForStudents@teammates.tmt");
+        Student student = createTypicalStudent(course, "inaccessibleforstudents@teammates.tmt");
 
         loginAsStudent(student.getAccount().getGoogleId());
         verifyCannotAccess(params);
@@ -355,7 +355,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     void verifyInaccessibleForInstructors(Course course, String... params)
             throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("Instructors cannot access");
-        Instructor instructor = createTypicalInstructor(course, "InaccessibleForInstructors@teammates.tmt");
+        Instructor instructor = createTypicalInstructor(course, "inaccessibleforinstructors@teammates.tmt");
 
         loginAsInstructor(instructor.getAccount().getGoogleId());
         verifyCannotAccess(params);
@@ -381,7 +381,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
             throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("admin can access");
         Instructor instructor = createTypicalInstructor(course,
-                "AccessibleForAdminToMasqueradeAsInstructor@teammates.tmt");
+                "accessibleforadmintomasqueradeasinstructor@teammates.tmt");
 
         loginAsAdmin();
         mockUserProvision.setAdmin(true);
@@ -398,7 +398,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         ______TS("without Modify-Session privilege cannot access");
 
         Instructor instructor = createTypicalInstructor(course,
-                "InaccessibleWithoutModifySessionPrivilege@teammates.tmt");
+                "inaccessiblewithoutmodifysessionprivilege@teammates.tmt");
 
         loginAsInstructor(instructor.getAccount().getGoogleId());
         verifyCannotAccess(submissionParams);
@@ -409,7 +409,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         ______TS("without Submit-Session-In-Sections privilege cannot access");
 
         Instructor instructor = createTypicalInstructor(course,
-                "InaccessibleWithoutSubmitSessionInSectionsPrivilege@teammates.tmt");
+                "inaccessiblewithoutsubmitsessioninsectionsprivilege@teammates.tmt");
 
         loginAsInstructor(instructor.getAccount().getGoogleId());
         verifyCannotAccess(submissionParams);
@@ -418,7 +418,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     void verifyInaccessibleWithoutCorrectCoursePrivilege(Course course, String privilege, String[] submissionParams)
             throws Exception {
         Instructor instructor = createTypicalInstructor(course,
-                "InaccessibleWithoutCorrectCoursePrivilege@teammates.tmt");
+                "inaccessiblewithoutcorrectcourseprivilege@teammates.tmt");
 
         ______TS("without correct course privilege cannot access");
 
@@ -442,11 +442,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         assert !course.getId().equals(courseOther.getId());
 
         Instructor instructorSameCourse = createTypicalInstructor(course,
-                "AccessibleForInstructorsOfTheSameCourse-instructor@teammates.tmt");
+                "accessibleforinstructorsofthesamecourse-instructor@teammates.tmt");
         Student studentSameCourse = createTypicalStudent(course,
-                "AccessibleForInstructorsOfTheSameCourse-student@teammates.tmt");
+                "accessibleforinstructorsofthesamecourse-student@teammates.tmt");
         Instructor instructorOtherCourse = createTypicalInstructor(courseOther,
-                "AccessibleForInstructorsOfTheSameCourse-OtherInstructor@teammates.tmt");
+                "accessibleforinstructorsofthesamecourse-otherinstructor@teammates.tmt");
 
         loginAsInstructor(instructorSameCourse.getAccount().getGoogleId());
         verifyCanAccess(submissionParams);
@@ -463,11 +463,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         assert !course.getId().equals(courseOther.getId());
 
         Instructor instructorSameCourse = createTypicalInstructor(course,
-                "AccessibleForInstructorsOfOtherCourse-instructor@teammates.tmt");
+                "accessibleforinstructorsofothercourse-instructor@teammates.tmt");
         Student studentSameCourse = createTypicalStudent(course,
-                "AccessibleForInstructorsOfOtherCourse-student@teammates.tmt");
+                "accessibleforinstructorsofothercourse-student@teammates.tmt");
         Instructor instructorOtherCourse = createTypicalInstructor(courseOther,
-                "AccessibleForInstructorsOfOtherCourse-OtherInstructor@teammates.tmt");
+                "accessibleforinstructorsofothercourse-otherinstructor@teammates.tmt");
 
         loginAsInstructor(instructorOtherCourse.getAccount().getGoogleId());
         verifyCanAccess(submissionParams);
@@ -479,7 +479,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     void verifyAccessibleForStudentsOfTheSameCourse(Course course, String[] submissionParams)
             throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("course students can access");
-        Student student = createTypicalStudent(course, "AccessibleForStudentsOfTheSameCourse@teammates.tmt");
+        Student student = createTypicalStudent(course, "accessibleforstudentsofthesamecourse@teammates.tmt");
         loginAsStudent(student.getAccount().getGoogleId());
         verifyCanAccess(submissionParams);
     }
@@ -489,7 +489,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         ______TS("other course student cannot access");
         Course courseOther = createTestCourseOther();
         Student otherStudent = createTypicalStudent(courseOther,
-                "InaccessibleForStudentsOfOtherCourse-other@teammates.tmt");
+                "inaccessibleforstudentsofothercourse-other@teammates.tmt");
         assert !course.getId().equals(courseOther.getId());
 
         loginAsStudent(otherStudent.getAccount().getGoogleId());
@@ -501,7 +501,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         ______TS("other course instructor cannot access");
         Course courseOther = createTestCourseOther();
         Instructor otherInstructor = createTypicalInstructor(courseOther,
-                "InaccessibleForInstructorsOfOtherCourses@teammates.tmt");
+                "inaccessibleforinstructorsofothercourses@teammates.tmt");
         assert !course.getId().equals(courseOther.getId());
 
         loginAsInstructor(otherInstructor.getAccount().getGoogleId());

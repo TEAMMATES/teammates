@@ -153,7 +153,7 @@ public class BaseTestCase {
                 "typical-giver", FeedbackParticipantType.RECEIVER, getTypicalSection(), getTypicalSection(),
                 "typical-comment", true, true, List.of(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
                 List.of(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.INSTRUCTORS), "email");
-        feedbackResponseComment.setId(10L);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
         feedbackResponseComment.setCreatedAt(Instant.now());
         feedbackResponseComment.setUpdatedAt(Instant.now());
         return feedbackResponseComment;
@@ -192,7 +192,7 @@ public class BaseTestCase {
         return new FeedbackTextResponseDetails();
     }
 
-    protected FeedbackResponseComment getTypicalResponseComment(Long id) {
+    protected FeedbackResponseComment getTypicalResponseComment(UUID id) {
         FeedbackResponseComment comment = new FeedbackResponseComment(null, "",
                 FeedbackParticipantType.STUDENTS, null, null, "",
                 false, false,

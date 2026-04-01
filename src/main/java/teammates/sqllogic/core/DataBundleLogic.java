@@ -175,6 +175,10 @@ public final class DataBundleLogic {
         }
 
         for (FeedbackResponseComment responseComment : responseComments) {
+            responseComment.setId(UUID.randomUUID());
+        }
+
+        for (FeedbackResponseComment responseComment : responseComments) {
             FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
             Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
             Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
@@ -317,7 +321,6 @@ public final class DataBundleLogic {
         }
 
         for (FeedbackResponseComment responseComment : responseComments) {
-            responseComment.setId(null);
             frcLogic.createFeedbackResponseComment(responseComment);
         }
 

@@ -8,7 +8,7 @@
     },
     "SCDet.alice": {
       "googleId": "tm.e2e.SCDet.alice",
-      "email": "SCDet.alice@gmail.tmt",
+      "email": "scdet.alice@gmail.tmt",
       "name": "Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000002"
     }
@@ -70,7 +70,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Teammates Test",
-      "email": "SCDet.instr@gmail.tmt"
+      "email": "scdet.instr@gmail.tmt"
     },
     "SCDet.instr2": {
       "isDisplayedToStudents": true,
@@ -96,7 +96,7 @@
         "id": "tm.e2e.SCDet.CS2104"
       },
       "name": "Teammates Test 2",
-      "email": "SCDet.instr2@gmail.tmt"
+      "email": "scdet.instr2@gmail.tmt"
     }
   },
   "students": {
@@ -114,7 +114,7 @@
         "id": "00000000-0000-4000-8000-000000000002"
       },
       "name": "Alice Betsy",
-      "email": "SCDet.alice@gmail.tmt"
+      "email": "scdet.alice@gmail.tmt"
     },
     "SCDet.benny": {
       "comments": "This student's name is Benny Charles",
@@ -127,7 +127,7 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Benny Charles",
-      "email": "SCDet.benny@gmail.tmt"
+      "email": "scdet.benny@gmail.tmt"
     },
     "SCDet.charlie": {
       "comments": "This student's name is Charlie Davis",
@@ -140,7 +140,7 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Charlie Davis",
-      "email": "SCDet.charlie@gmail.tmt"
+      "email": "scdet.charlie@gmail.tmt"
     }
   },
   "feedbackSessions": {},

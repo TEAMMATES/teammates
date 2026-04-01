@@ -16,13 +16,13 @@
       "id": "00000000-0000-4000-8000-000000000004",
       "googleId": "InstructorOfUnregisteredCourse",
       "name": "Instructor Of Unregistered Course",
-      "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt"
+      "email": "instructorofunregisteredcourse@unregisteredcourse.tmt"
     },
     "instructorOfCourse2WithUniqueDisplayName": {
       "id": "00000000-0000-4000-8000-000000000005",
       "googleId": "instructorOfCourse2WithUniqueDisplayName",
       "name": "Instructor Of Course 2 With Unique Display Name",
-      "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt"
+      "email": "instructorofcourse2withuniquedisplayname@teammates.tmt"
     },
     "unregisteredInstructor1": {
       "id": "00000000-0000-4000-8000-000000000006",
@@ -320,7 +320,7 @@
         "id": "unregistered-course"
       },
       "name": "Instructor Of Unregistered Course",
-      "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt",
+      "email": "instructorofunregisteredcourse@unregisteredcourse.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -348,7 +348,7 @@
         "id": "course-2"
       },
       "name": "Instructor Of Course 2 With Unique Display Name",
-      "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt",
+      "email": "instructorofcourse2withuniquedisplayname@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Wilson Kurniawan",
@@ -401,7 +401,7 @@
         "id": "course-1"
       },
       "name": "Unregistered Instructor",
-      "email": "unregisteredInstructor@teammates.tmt",
+      "email": "unregisteredinstructor@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "Unregistered Instructor",
@@ -479,7 +479,7 @@
         "id": "course-4"
       },
       "name": "Instructor 3",
-      "email": "instructor3YetToJoinCourse4@teammates.tmt",
+      "email": "instructor3yettojoincourse4@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -577,7 +577,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "unregisteredStudentInCourse1@teammates.tmt",
+      "email": "unregisteredstudentincourse1@teammates.tmt",
       "name": "Unregistered Student In Course1",
       "comments": ""
     },
@@ -604,7 +604,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
-      "email": "student2YetToJoinCourse4@teammates.tmt",
+      "email": "student2yettojoincourse4@teammates.tmt",
       "name": "student2YetToJoinCourse In Course4",
       "comments": ""
     },
@@ -616,7 +616,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
-      "email": "student3YetToJoinCourse4@teammates.tmt",
+      "email": "student3yettojoincourse4@teammates.tmt",
       "name": "student3YetToJoinCourse In Course4",
       "comments": ""
     }

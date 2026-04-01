@@ -3,6 +3,7 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import teammates.common.util.Const;
@@ -42,7 +43,7 @@ public class SqlCourseRoster {
      * Checks whether a student is in course.
      */
     public boolean isStudentInCourse(String studentEmail) {
-        return studentListByEmail.containsKey(studentEmail);
+        return studentListByEmail.containsKey(normalizeEmail(studentEmail));
     }
 
     /**
@@ -56,7 +57,7 @@ public class SqlCourseRoster {
      * Checks whether a student is in team.
      */
     public boolean isStudentInTeam(String studentEmail, String targetTeamName) {
-        Student student = studentListByEmail.get(studentEmail);
+        Student student = studentListByEmail.get(normalizeEmail(studentEmail));
         return student != null && student.getTeamName().equals(targetTeamName);
     }
 
@@ -64,8 +65,8 @@ public class SqlCourseRoster {
      * Checks whether two students are in the same team.
      */
     public boolean isStudentsInSameTeam(String studentEmail1, String studentEmail2) {
-        Student student1 = studentListByEmail.get(studentEmail1);
-        Student student2 = studentListByEmail.get(studentEmail2);
+        Student student1 = studentListByEmail.get(normalizeEmail(studentEmail1));
+        Student student2 = studentListByEmail.get(normalizeEmail(studentEmail2));
         return student1 != null && student2 != null
                 && student1.getTeam() != null && student1.getTeam().equals(student2.getTeam());
     }
@@ -74,14 +75,14 @@ public class SqlCourseRoster {
      * Returns the student object for the given email.
      */
     public Student getStudentForEmail(String email) {
-        return studentListByEmail.get(email);
+        return studentListByEmail.get(normalizeEmail(email));
     }
 
     /**
      * Returns the instructor object for the given email.
      */
     public Instructor getInstructorForEmail(String email) {
-        return instructorListByEmail.get(email);
+        return instructorListByEmail.get(normalizeEmail(email));
     }
 
     private void populateStudentListByEmail(List<Student> students) {
@@ -91,7 +92,7 @@ public class SqlCourseRoster {
         }
 
         for (Student s : students) {
-            studentListByEmail.put(s.getEmail(), s);
+            studentListByEmail.put(normalizeEmail(s.getEmail()), s);
         }
     }
 
@@ -102,8 +103,12 @@ public class SqlCourseRoster {
         }
 
         for (Instructor i : instructors) {
-            instructorListByEmail.put(i.getEmail(), i);
+            instructorListByEmail.put(normalizeEmail(i.getEmail()), i);
         }
+    }
+
+    private static String normalizeEmail(String email) {
+        return email == null ? null : email.toLowerCase(Locale.ROOT);
     }
 
     /**
