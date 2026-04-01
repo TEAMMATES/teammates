@@ -7,7 +7,6 @@ import java.util.Set;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 
 /**
@@ -54,8 +53,9 @@ public class GetStudentsAction extends Action {
         if (teamName == null && hasCoursePrivilege) {
             // request to get all course students by instructor with course privilege
             List<Student> studentsForCourse = sqlLogic.getStudentsForCourse(courseId);
-
-            return new JsonResult(new StudentsData(studentsForCourse));
+            StudentsData data = new StudentsData(studentsForCourse);
+            data.getStudents().forEach(sd -> sd.setAccountId(null));
+            return new JsonResult(data);
         } else if (teamName == null && hasSectionPrivilege) {
             // request to get students by instructor with section privilege
             List<Student> studentsForCourse = sqlLogic.getStudentsForCourse(courseId);
@@ -69,7 +69,9 @@ public class GetStudentsAction extends Action {
                 }
             });
 
-            return new JsonResult(new StudentsData(studentsToReturn));
+            StudentsData data = new StudentsData(studentsToReturn);
+            data.getStudents().forEach(sd -> sd.setAccountId(null));
+            return new JsonResult(data);
         } else {
             // request to get team members by current student
             List<Student> studentsForTeam = sqlLogic.getStudentsByTeamName(teamName, courseId);

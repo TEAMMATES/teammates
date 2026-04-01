@@ -268,7 +268,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
             assertEquals(expectedStudents.get(i).getEmail(), actualStudentsData.getStudents().get(i).getEmail());
             assertEquals(expectedStudents.get(i).getName(), actualStudentsData.getStudents().get(i).getName());
             if (type == Type.INSTRUCTOR) {
-                assertEquals(expectedStudents.get(i).getAccountId(), actualStudentsData.getStudents().get(i).getAccountId());
+                assertNull(actualStudentsData.getStudents().get(i).getAccountId());
                 assertEquals(expectedStudents.get(i).getComments(), actualStudentsData.getStudents().get(i).getComments());
             } else {
                 assertNull(actualStudentsData.getStudents().get(i).getAccountId());

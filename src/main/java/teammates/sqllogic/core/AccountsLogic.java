@@ -252,7 +252,6 @@ public final class AccountsLogic {
 
     private Instructor validateInstructorJoinRequest(String registrationKey, String accountId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        validateAccountIdFormat(accountId);
         Instructor instructorForKey = usersLogic.getInstructorByRegistrationKey(registrationKey);
 
         if (instructorForKey == null) {
@@ -268,6 +267,8 @@ public final class AccountsLogic {
         if (course.isCourseDeleted()) {
             throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
         }
+
+        validateAccountIdFormat(accountId);
 
         if (instructorForKey.isRegistered()) {
             if (accountId.equals(instructorForKey.getAccountId())) {
@@ -292,7 +293,6 @@ public final class AccountsLogic {
 
     private Student validateStudentJoinRequest(String registrationKey, String accountId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        validateAccountIdFormat(accountId);
         Student studentRole = usersLogic.getStudentByRegistrationKey(registrationKey);
 
         if (studentRole == null) {
@@ -309,6 +309,8 @@ public final class AccountsLogic {
             throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
         }
 
+        validateAccountIdFormat(accountId);
+
         if (studentRole.isRegistered()) {
             throw new EntityAlreadyExistsException("Student has already joined course");
         }
@@ -324,6 +326,11 @@ public final class AccountsLogic {
     }
 
     private void validateAccountIdFormat(String accountId) throws InvalidParametersException {
+        if (accountId == null) {
+            InvalidParametersException ex =
+                    new InvalidParametersException("Account ID " + FieldValidator.REASON_INCORRECT_FORMAT);
+            throw ex;
+        }
         try {
             UUID.fromString(accountId);
         } catch (IllegalArgumentException e) {

@@ -725,7 +725,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     private void loginAsAdminAndMasqueradeAsInstructor(Instructor instructor, boolean canMasquerade, String... params) {
         loginAsAdmin();
         mockUserProvision.setAdmin(false);
-        mockUserProvision.setInstructor(true);
+        // Masqueraded role comes from MockUserProvision flags; only mark as instructor when the test expects access.
+        mockUserProvision.setInstructor(canMasquerade);
         mockUserProvision.setStudent(false);
         mockUserProvision.setMaintainer(false);
         when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructor);
