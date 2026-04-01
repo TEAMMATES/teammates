@@ -11,7 +11,7 @@
         [
           "java.base/java.util.Iterator.remove(Iterator.java:102)",
           "java.base/java.util.Collection.removeIf(Collection.java:545)",
-          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:XX)",
+          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:51)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
           "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
@@ -56,7 +56,7 @@
         [
           "java.base/java.util.Iterator.remove(Iterator.java:102)",
           "java.base/java.util.Collection.removeIf(Collection.java:545)",
-          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:XX)",
+          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:51)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
           "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
