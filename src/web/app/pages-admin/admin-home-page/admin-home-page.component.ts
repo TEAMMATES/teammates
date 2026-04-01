@@ -47,6 +47,8 @@ export class AdminHomePageComponent implements OnInit {
    */
   validateAndAddInstructorDetails(): void {
     const invalidLines: string[] = [];
+    let pendingRequests: number = 0;
+    let hasSuccessfulRequest: boolean = false;
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
@@ -59,6 +61,7 @@ export class AdminHomePageComponent implements OnInit {
         invalidLines.push(instructorDetail);
         continue;
       }
+      pendingRequests += 1;
       const instructorName: string = instructorDetailSplit[0];
       this.accountService.createAccountRequest({
         instructorName,
@@ -66,12 +69,20 @@ export class AdminHomePageComponent implements OnInit {
         instructorInstitution: instructorDetailSplit[2],
       }).subscribe({
         next: () => {
+          hasSuccessfulRequest = true;
           this.statusMessageService.showSuccessToast(
             `Account request for instructor "${instructorName}" has been successfully submitted and is pending approval`);
-          this.fetchAccountRequests();
+          pendingRequests -= 1;
+          if (pendingRequests === 0 && hasSuccessfulRequest) {
+            this.fetchAccountRequests();
+          }
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
+          pendingRequests -= 1;
+          if (pendingRequests === 0 && hasSuccessfulRequest) {
+            this.fetchAccountRequests();
+          }
         },
       });
     }
@@ -98,14 +109,14 @@ export class AdminHomePageComponent implements OnInit {
         this.statusMessageService.showSuccessToast(
           `Account request for instructor "${instructorName}" has been successfully submitted and is pending approval`);
         this.fetchAccountRequests();
+        this.instructorName = '';
+        this.instructorEmail = '';
+        this.instructorInstitution = '';
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
-    this.instructorName = '';
-    this.instructorEmail = '';
-    this.instructorInstitution = '';
   }
 
   private formatAccountRequests(requests: AccountRequests): AccountRequestTableRowModel[] {
