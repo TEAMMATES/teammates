@@ -81,7 +81,8 @@ public final class AccountsLogic {
     /**
      * Resolves or creates an account from a verified OIDC login (issuer + subject).
      */
-    public Account resolveOrCreateAccountFromOidc(String issuer, String subject, String email, String name, String loginIdentifier)
+    public Account resolveOrCreateAccountFromOidc(
+            String issuer, String subject, String email, String name, String loginIdentifier)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert issuer != null;
         assert subject != null;
