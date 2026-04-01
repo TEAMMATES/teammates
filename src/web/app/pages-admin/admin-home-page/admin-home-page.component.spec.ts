@@ -136,7 +136,10 @@ describe('AdminHomePageComponent', () => {
     const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
 
-    expect(spyStatusMessageService).toHaveBeenCalledWith('You are missing fields (in one or more lines)');
+    expect(spyStatusMessageService).toHaveBeenCalledWith(
+      '3 line(s) with missing or invalid fields. '
+      + 'Format required: Name | Email | Institution',
+    );
     expect(component.instructorDetails).toEqual(instructorDetails);
     expect(spyAccountService).toHaveBeenCalledTimes(0);
   });
@@ -211,8 +214,10 @@ describe('AdminHomePageComponent', () => {
         });
     const spyFetchAccountRequests: SpyInstance = jest.spyOn(accountService, 'getPendingAccountRequests')
         .mockReturnValue(of({ accountRequests: [] }));
-    component.instructorDetails = `Instructor A   \t  instructora@example.com \t  Sample Institution A\n
-     Instructor B \t instructorb@example.com \t Sample Institution B`;
+    component.instructorDetails = [
+      'Instructor A   \t  instructora@example.com \t  Sample Institution A',
+      'Instructor B \t instructorb@example.com \t Sample Institution B',
+    ].join('\n');
 
     fixture.detectChanges();
 

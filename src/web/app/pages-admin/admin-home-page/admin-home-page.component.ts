@@ -54,11 +54,11 @@ export class AdminHomePageComponent implements OnInit {
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
-        invalidLinesCount++;
+        invalidLinesCount += 1;
         continue;
       }
       if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]) {
-        invalidLinesCount++;
+        invalidLinesCount += 1;
         continue;
       }
       validRequests.push({ instructorDetail, instructorDetailSplit });
@@ -71,7 +71,7 @@ export class AdminHomePageComponent implements OnInit {
           + ' Format required: Name | Email | Institution');
       return;
     }
-    
+
     forkJoin(
       validRequests.map(({ instructorDetail, instructorDetailSplit }) => {
         const instructorName: string = instructorDetailSplit[0];
