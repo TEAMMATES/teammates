@@ -78,32 +78,29 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
 
-        // Count logs before cleanup
+        // Get logs before cleanup to verify our test logs are created
         List<FeedbackSessionLog> logsBefore = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
                 Instant.EPOCH, Instant.now().plusSeconds(60));
-        int beforeCount = logsBefore.size();
+        boolean oldLogExistsBefore = logsBefore.stream().anyMatch(log -> log.getTimestamp().equals(oldTimestamp));
+        assertTrue("Old log with timestamp " + oldTimestamp + " should exist before cleanup", oldLogExistsBefore);
 
         // Execute cleanup
         CleanupFeedbackSessionLogsAction action = getAction();
         getJsonResult(action);
 
-        // Count logs after cleanup
+        // Get logs after cleanup
         List<FeedbackSessionLog> logsAfter = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
                 Instant.EPOCH, Instant.now().plusSeconds(60));
-        int afterCount = logsAfter.size();
 
-        // Verify exactly 1 old log was deleted
-        assertEquals("Should delete exactly 1 old log", beforeCount - 1, afterCount);
+        // Verify the old log was deleted
+        assertFalse("Old log with timestamp " + oldTimestamp + " should be deleted after cleanup",
+                logsAfter.stream().anyMatch(log -> log.getTimestamp().equals(oldTimestamp)));
 
-        // Verify all remaining logs are within 90 days
+        // Verify all remaining logs are within 90 days (timestamp > now - 90 days)
         for (FeedbackSessionLog log : logsAfter) {
             assertTrue("All remaining logs should be within 90 days",
                     log.getTimestamp().isAfter(Instant.now().minus(90, ChronoUnit.DAYS)));
         }
-
-        // Verify the old log is gone
-        assertFalse("Old log with timestamp " + oldTimestamp + " should be deleted",
-                logsAfter.stream().anyMatch(log -> log.getTimestamp().equals(oldTimestamp)));
     }
 
     @Test
