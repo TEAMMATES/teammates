@@ -11,8 +11,7 @@
         [
           "java.base/java.util.Iterator.remove(Iterator.java:102)",
           "java.base/java.util.Collection.removeIf(Collection.java:545)",
-          "teammates.ui.webapi.GetFeedbackSessionLogsAction.parseSeverities(GetFeedbackSessionLogsAction.java:83)",
-          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:42)",
+          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:XX)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
           "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
@@ -57,8 +56,7 @@
         [
           "java.base/java.util.Iterator.remove(Iterator.java:102)",
           "java.base/java.util.Collection.removeIf(Collection.java:545)",
-          "teammates.ui.webapi.GetFeedbackSessionLogsAction.parseSeverities(GetFeedbackSessionLogsAction.java:83)",
-          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:42)",
+          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:XX)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
           "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
@@ -328,9 +326,10 @@
       "event": "REQUEST_LOG",
       "requestUrl": "/webapi/logs/session",
       "requestParams": {
-        "endtime": "1627315140000",
-        "minseverity": "INFO",
-        "starttime": "1627228740000"
+        "courseid": "john.gma-demo",
+        "fslendtime": "1627315140000",
+        "fslstarttime": "1627228740000",
+        "fsltype": "access,submission"
       },
       "message": "[200] [4798ms] [GET /webapi/logs/session] GetFeedbackSessionLogsAction",
       "responseTime": 4798,
@@ -354,7 +353,7 @@
         "Accept-Language": "en;q=0.8,en-US;q=0.7",
         "ngsw-bypass": "true",
         "X-AppEngine-Country": "SG",
-        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/courses/student-activity-logs?courseid=john.gma-demo",
         "X-Client-Data": "CgSM6ZsV",
         "X-AppEngine-Timeout-Ms": "599999",
         "X-AppEngine-Region": "?",
@@ -408,7 +407,7 @@
         "X-Client-Data": "CgSM6ZsV",
         "traceparent": "00-90c752d425907fa195d43ea4d69dec53-0e2d1327bdcebf2e-00",
         "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
-        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/courses/student-activity-logs?courseid=john.gma-demo",
         "X-AppEngine-City": "singapore",
         "X-Cloud-Trace-Context": "90c752d425907fa195d43ea4d69dec53/1021493751892066094",
         "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
@@ -530,7 +529,7 @@
         "traceparent": "00-d61fb3f22fc3bd21c5ccd958ff31a5e8-c492dafc7cf32710-00",
         "X-AppEngine-Request-Log-Id": "1234548200ff00fffd6ddbdd315200016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
         "X-AppEngine-Country": "SG",
-        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/courses/student-activity-logs?courseid=john.gma-demo",
         "Accept-Language": "en;q=0.8,en-US;q=0.7",
         "X-Forwarded-Proto": "https",
         "sec-fetch-site": "same-origin",
@@ -565,9 +564,10 @@
       "requestUrl": "/webapi/logs/session",
       "requestMethod": "GET",
       "requestParams": {
-        "endtime": "1627280460000",
-        "starttime": "1627276860000",
-        "logevent": "REQUEST_LOG"
+        "courseid": "john.gma-demo",
+        "fslendtime": "1627280460000",
+        "fslstarttime": "1627276860000",
+        "fsltype": "access"
       },
       "actionClass": "GetFeedbackSessionLogsAction"
     },
@@ -598,7 +598,7 @@
         "X-Cloud-Trace-Context": "f8873a234ed8ea3d59c7a2a9d42be2d8/1447767642330079431;o=1",
         "X-AppEngine-Region": "?",
         "sec-fetch-dest": "empty",
-        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/courses/student-activity-logs?courseid=john.gma-demo",
         "X-AppEngine-CityLatLong": "1.234567,100.123456",
         "Accept-Language": "en;q=0.8,en-US;q=0.7",
         "X-Client-Data": "CgSM6ZsV",
@@ -632,9 +632,10 @@
         "googleId": "john"
       },
       "requestParams": {
-        "endtime": "1627280460000",
-        "starttime": "1627276860000",
-        "minseverity": "INFO"
+        "courseid": "john.gma-demo",
+        "fslendtime": "1627280460000",
+        "fslstarttime": "1627276860000",
+        "fsltype": "view result"
       },
       "responseTime": 2525,
       "actionClass": "GetFeedbackSessionLogsAction"
