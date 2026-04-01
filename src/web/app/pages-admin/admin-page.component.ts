@@ -38,10 +38,6 @@ export class AdminPageComponent implements OnInit {
       display: 'Notifications',
     },
     {
-      url: '/web/admin/logs',
-      display: 'Logs',
-    },
-    {
       display: 'More',
       children: [
          {

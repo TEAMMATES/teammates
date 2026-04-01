@@ -22,6 +22,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -882,7 +883,7 @@ public final class FeedbackResponsesLogic {
                 return true;
             }
         } else {
-            if (response.getGiver().equals(userEmail)) {
+            if (SanitizationHelper.areEmailsEqual(response.getGiver(), userEmail)) {
                 return true;
             }
         }
@@ -920,7 +921,7 @@ public final class FeedbackResponsesLogic {
                     }
                     break;
                     // Response to individual
-                } else if (response.getRecipient().equals(userEmail)) {
+                } else if (SanitizationHelper.areEmailsEqual(response.getRecipient(), userEmail)) {
                     return true;
                 } else {
                     break;
@@ -959,9 +960,9 @@ public final class FeedbackResponsesLogic {
 
         boolean isVisibleResponse = false;
         if (isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                || response.getRecipient().equals(userEmail)
+                || SanitizationHelper.areEmailsEqual(response.getRecipient(), userEmail)
                 && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                || response.getGiver().equals(userEmail)
+                || SanitizationHelper.areEmailsEqual(response.getGiver(), userEmail)
                 || !isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
         } else if (studentsEmailInTeam != null && !isInstructor) {
@@ -1115,7 +1116,7 @@ public final class FeedbackResponsesLogic {
 
         if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
             for (Student studentInTeam : courseRoster.getTeamToMembersTable().get(student.getTeamName())) {
-                if (studentInTeam.getEmail().equals(student.getEmail())) {
+                if (SanitizationHelper.areEmailsEqual(studentInTeam.getEmail(), student.getEmail())) {
                     continue;
                 }
                 List<FeedbackResponse> responses =
