@@ -24,6 +24,7 @@ import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
 
 /**
  * Holds functions for operations related to logs reading/writing in local dev environment.
@@ -189,7 +190,8 @@ public class LocalLoggingService implements LogService {
         if (regkeyFilter != null && (userInfo == null || !regkeyFilter.equals(userInfo.getRegkey()))) {
             return false;
         }
-        if (emailFilter != null && (userInfo == null || !emailFilter.equals(userInfo.getEmail()))) {
+        if (emailFilter != null && (userInfo == null
+                || !SanitizationHelper.areEmailsEqual(emailFilter, userInfo.getEmail()))) {
             return false;
         }
         return googleIdFilter == null || userInfo != null && googleIdFilter.equals(userInfo.getGoogleId());
