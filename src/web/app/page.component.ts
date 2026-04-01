@@ -5,7 +5,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/ro
 import { NgbModal, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import uaParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
@@ -147,7 +147,7 @@ export class PageComponent {
   }
 
   private checkBrowserVersion(): void {
-    const browser: any = uaParser(navigator.userAgent).browser;
+    const browser: any = UAParser(navigator.userAgent).browser;
     this.browser = `${browser.name} ${browser.version}`;
     this.isUnsupportedBrowser = !this.minimumVersions[browser.name]
         || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
