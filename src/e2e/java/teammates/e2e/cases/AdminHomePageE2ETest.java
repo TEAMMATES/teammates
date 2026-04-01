@@ -29,7 +29,8 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         String institute = "TEAMMATES Test Institute 1";
 
         homePage.addInstructor(name, email, institute);
-        homePage.verifyStatusMessage("Instructor \"" + name + "\" has been successfully created");
+        homePage.verifyStatusMessage("Account request for instructor \"" + name
+                + "\" has been successfully submitted and is pending approval");
 
         ______TS("Verify that newly added instructor appears in account request table");
 

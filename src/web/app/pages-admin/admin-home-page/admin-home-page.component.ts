@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { forkJoin, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -47,8 +49,8 @@ export class AdminHomePageComponent implements OnInit {
    */
   validateAndAddInstructorDetails(): void {
     const invalidLines: string[] = [];
-    let pendingRequests: number = 0;
-    let hasSuccessfulRequest: boolean = false;
+    const validRequests: { instructorDetail: string; instructorDetailSplit: string[] }[] = [];
+
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
@@ -61,33 +63,41 @@ export class AdminHomePageComponent implements OnInit {
         invalidLines.push(instructorDetail);
         continue;
       }
-      pendingRequests += 1;
-      const instructorName: string = instructorDetailSplit[0];
-      this.accountService.createAccountRequest({
-        instructorName,
-        instructorEmail: instructorDetailSplit[1],
-        instructorInstitution: instructorDetailSplit[2],
-      }).subscribe({
-        next: () => {
-          hasSuccessfulRequest = true;
-          this.statusMessageService.showSuccessToast(
-            `Account request for instructor "${instructorName}" has been successfully submitted and is pending approval`);
-          pendingRequests -= 1;
-          if (pendingRequests === 0 && hasSuccessfulRequest) {
-            this.fetchAccountRequests();
-          }
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-          invalidLines.push(instructorDetail);
-          pendingRequests -= 1;
-          if (pendingRequests === 0 && hasSuccessfulRequest) {
-            this.fetchAccountRequests();
-          }
-        },
-      });
+      validRequests.push({ instructorDetail, instructorDetailSplit });
     }
-    this.instructorDetails = invalidLines.join('\r\n');
+
+    if (validRequests.length === 0) {
+      this.instructorDetails = invalidLines.join('\r\n');
+      return;
+    }
+
+    forkJoin(
+      validRequests.map(({ instructorDetail, instructorDetailSplit }) => {
+        const instructorName: string = instructorDetailSplit[0];
+        return this.accountService.createAccountRequest({
+          instructorName,
+          instructorEmail: instructorDetailSplit[1],
+          instructorInstitution: instructorDetailSplit[2],
+        }).pipe(
+          map(() => {
+            this.statusMessageService.showSuccessToast(
+              `Account request for instructor "${instructorName}" has been successfully submitted`
+                + ' and is pending approval');
+            return true;
+          }),
+          catchError((resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+            invalidLines.push(instructorDetail);
+            return of(false);
+          }),
+        );
+      }),
+    ).subscribe((results: boolean[]) => {
+      this.instructorDetails = invalidLines.join('\r\n');
+      if (results.some(Boolean)) {
+        this.fetchAccountRequests();
+      }
+    });
   }
 
   /**
@@ -108,7 +118,8 @@ export class AdminHomePageComponent implements OnInit {
     }).subscribe({
       next: () => {
         this.statusMessageService.showSuccessToast(
-          `Account request for instructor "${instructorName}" has been successfully submitted and is pending approval`);
+          `Account request for instructor "${instructorName}" has been successfully submitted`
+            + ' and is pending approval');
         this.fetchAccountRequests();
         this.instructorName = '';
         this.instructorEmail = '';
