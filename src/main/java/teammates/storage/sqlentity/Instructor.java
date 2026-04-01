@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -24,6 +25,7 @@ import teammates.common.util.SanitizationHelper;
  */
 @Entity
 @Table(name = "Instructors")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 public class Instructor extends User {
     @Column(nullable = false)
     private boolean isDisplayedToStudents;

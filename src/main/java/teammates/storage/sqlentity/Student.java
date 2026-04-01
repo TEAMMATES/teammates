@@ -3,6 +3,7 @@ package teammates.storage.sqlentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -17,6 +18,7 @@ import teammates.common.util.SanitizationHelper;
  */
 @Entity
 @Table(name = "Students")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 public class Student extends User {
     @Column(nullable = false)
     private String comments;
