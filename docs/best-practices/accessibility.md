@@ -4,28 +4,28 @@
 
 # Accessibility Best Practices
 
-TEAMMATES aims to be compliant to the [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/). On top of the full list of WCAG guidelines, we have compiled some general guidelines below.
+TEAMMATES aims to comply with the [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/WAI/standards-guidelines/wcag/).
 
 ## Content
 
-* Language used should be plain and easy to understand. Avoid using complicated figures of speech.
-* Content flow should be logical.
-* Headings should be used in a logical sequence (e.g. descending order, no skipping levels) to split the page into sections, and not used purely for visual design.
+- Use plain, easy-to-understand language.
+- Ensure content flows logically.
+- Use headings in a logical sequence (no skipping levels) to structure the page, not for visual styling.
 
-## Images/Icons
+## Images & Icons
 
-* Images that convey meaning should have a descriptive `alt` attribute.
-* Decorative images should have an empty `alt` attribute.
-* Icons used in controls (e.g. buttons) should have a descriptive label if they convey meaning, and should be hidden from assistive technologies (e.g. `aria-hidden` attribute set to `true`) if they are purely descriptive.
+- Meaningful images should have a descriptive `alt` attribute.
+- Decorative images should have an empty `alt` attribute.
+- Icons in controls should have a descriptive label if they convey meaning, or `aria-hidden="true"` if purely decorative.
 
 ## Keyboard
 
-* All interactive elements (e.g. buttons, links, inputs) should be focusable by the keyboard (e.g. when tabbing).
-* The keyboard focus/tabbing order should match the visual layout of the page.
-* Focusable elements that are hidden from the current view should be removed from the focus order.
+- All interactive elements (buttons, links, inputs) should be keyboard-focusable.
+- Tab order should match the visual layout of the page.
+- Elements hidden from the current view should be removed from the focus order.
 
-## Controls/Inputs
+## Controls & Inputs
 
-* All inputs should have a corresponding label.
-* The contents of controls (e.g. buttons, links) and input labels should be descriptive.
-* Custom controls/inputs should have an appropriate role assigned (e.g. dropdown, button).
+- All inputs should have a corresponding label.
+- Button and link text should be descriptive.
+- Custom controls should have an appropriate ARIA role assigned.

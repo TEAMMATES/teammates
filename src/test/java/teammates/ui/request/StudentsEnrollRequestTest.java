@@ -45,6 +45,21 @@ public class StudentsEnrollRequestTest extends BaseTestCase {
                 "Error, duplicated email addresses detected in the input: " + duplicatedEmail);
     }
 
+    @Test
+    public void testValidate_withDuplicateEmailDifferingOnlyInCase_shouldFail() {
+        StudentsEnrollRequest.StudentEnrollRequest requestOne = getTypicalStudentEnrollRequest(0);
+        StudentsEnrollRequest.StudentEnrollRequest requestTwo =
+                new StudentsEnrollRequest.StudentEnrollRequest("typical name", "Typical0@Email.com",
+                        "typical team", "typical section", "typical comment");
+        StudentsEnrollRequest enrollRequest = new StudentsEnrollRequest(Arrays.asList(requestOne, requestTwo));
+
+        InvalidHttpRequestBodyException actualException =
+                assertThrows(InvalidHttpRequestBodyException.class, enrollRequest::validate);
+
+        assertEquals(actualException.getMessage(),
+                "Error, duplicated email addresses detected in the input: Typical0@Email.com");
+    }
+
     private StudentsEnrollRequest.StudentEnrollRequest getTypicalStudentEnrollRequest(int index) {
         return new StudentsEnrollRequest.StudentEnrollRequest("typical name",
                 String.format("typical%d@email.com", index), "typical team",
