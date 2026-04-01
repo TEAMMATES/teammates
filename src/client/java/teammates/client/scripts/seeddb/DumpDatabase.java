@@ -37,7 +37,7 @@ import teammates.test.FileHelper;
  * Dumps the current development database state to a JSON databundle file.
  *
  * <p>If {@code --dumpFile} is not specified, dumps to the default path at
- * {@code build/dumps/Dumped_Databundle_<timestamp>.json}
+ * {@code db-dumps/databundle/Dumped_Databundle_<timestamp>.json}
  *
  * <p>Usage: {@code ./gradlew dumpDatabase [--dumpFile <path>]}
  *
