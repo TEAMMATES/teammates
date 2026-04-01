@@ -59,14 +59,15 @@ export class AdminHomePageComponent implements OnInit {
         invalidLines.push(instructorDetail);
         continue;
       }
+      const instructorName: string = instructorDetailSplit[0];
       this.accountService.createAccountRequest({
-        instructorName: instructorDetailSplit[0],
+        instructorName,
         instructorEmail: instructorDetailSplit[1],
         instructorInstitution: instructorDetailSplit[2],
       }).subscribe({
         next: () => {
           this.statusMessageService.showSuccessToast(
-              `Instructor "${instructorDetailSplit[0]}" has been successfully created`);
+            `Account request for instructor "${instructorName}" has been successfully submitted and is pending approval`);
           this.fetchAccountRequests();
         },
         error: (resp: ErrorMessageOutput) => {
@@ -85,14 +86,17 @@ export class AdminHomePageComponent implements OnInit {
       // Todo handle error
       return;
     }
-    const name: string = this.instructorName;
+    const instructorName: string = this.instructorName;
+    const instructorEmail: string = this.instructorEmail;
+    const instructorInstitution: string = this.instructorInstitution;
     this.accountService.createAccountRequest({
-      instructorName: this.instructorName,
-      instructorEmail: this.instructorEmail,
-      instructorInstitution: this.instructorInstitution,
+      instructorName,
+      instructorEmail,
+      instructorInstitution,
     }).subscribe({
       next: () => {
-        this.statusMessageService.showSuccessToast(`Instructor "${name}" has been successfully created`);
+        this.statusMessageService.showSuccessToast(
+          `Account request for instructor "${instructorName}" has been successfully submitted and is pending approval`);
         this.fetchAccountRequests();
       },
       error: (resp: ErrorMessageOutput) => {
