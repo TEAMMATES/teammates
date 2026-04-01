@@ -2,21 +2,35 @@ package teammates.sqllogic.api;
 
 import java.io.IOException;
 
+import org.mockito.Mockito;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Templates;
+import teammates.sqllogic.core.EmailTemplatesLogic;
+import teammates.storage.sqlapi.EmailTemplatesDb;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.EmailTemplate;
 import teammates.test.BaseTestCase;
 import teammates.test.EmailChecker;
+import teammates.ui.webapi.ConfigurableEmailTemplate;
 
 /**
  * SUT: {@link SqlEmailGenerator}.
  */
 public class SqlEmailGeneratorTest extends BaseTestCase {
     private final SqlEmailGenerator sqlEmailGenerator = SqlEmailGenerator.inst();
+    private EmailTemplatesDb mockEmailTemplatesDb;
+
+    @BeforeMethod
+    void setUpEmailTemplatesDb() {
+        mockEmailTemplatesDb = Mockito.mock(EmailTemplatesDb.class);
+        EmailTemplatesLogic.inst().initLogicDependencies(mockEmailTemplatesDb);
+    }
 
     @Test
     void testGenerateNewAccountRequestAdminAlertEmail_withComments_generatesSuccessfully() throws IOException {
@@ -85,6 +99,44 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
                 "TEAMMATES: " + title,
                 Config.SUPPORT_EMAIL,
                 "/instructorAccountRequestRejectionEmail.html");
+    }
+
+    @Test
+    void testGenerateNewInstructorAccountJoinEmail_noDbTemplate_usesConfigurableEmailTemplateDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("NEW_INSTRUCTOR_ACCOUNT_WELCOME")).thenReturn(null);
+
+        EmailWrapper email = sqlEmailGenerator.generateNewInstructorAccountJoinEmail(
+                "luke@jedi.org", "Luke Skywalker", "https://teammates.example.com/join?key=abc");
+
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.NEW_INSTRUCTOR_ACCOUNT_WELCOME.getDefaultSubject(),
+                "${userName}", "Luke Skywalker",
+                "${joinUrl}", "https://teammates.example.com/join?key=abc");
+
+        assertEquals("luke@jedi.org", email.getRecipient());
+        assertEquals(EmailType.NEW_INSTRUCTOR_ACCOUNT, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertEquals(Config.SUPPORT_EMAIL, email.getBcc());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateNewInstructorAccountJoinEmail_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "NEW_INSTRUCTOR_ACCOUNT_WELCOME",
+                "Welcome ${userName} — your custom subject",
+                "<p>Join here: <a href=\"${joinUrl}\">${joinUrl}</a></p>");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("NEW_INSTRUCTOR_ACCOUNT_WELCOME"))
+                .thenReturn(customTemplate);
+
+        EmailWrapper email = sqlEmailGenerator.generateNewInstructorAccountJoinEmail(
+                "leia@rebellion.org", "Leia Organa", "https://teammates.example.com/join?key=xyz");
+
+        assertEquals("leia@rebellion.org", email.getRecipient());
+        assertEquals(EmailType.NEW_INSTRUCTOR_ACCOUNT, email.getType());
+        assertEquals("Welcome Leia Organa — your custom subject", email.getSubject());
+        assertEquals(Config.SUPPORT_EMAIL, email.getBcc());
+        assertFalse(email.getContent().contains("${"));
     }
 
     private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,
