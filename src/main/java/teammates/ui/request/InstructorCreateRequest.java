@@ -1,7 +1,5 @@
 package teammates.ui.request;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -21,9 +19,11 @@ public class InstructorCreateRequest extends BasicRequest {
     private String displayName;
     private Boolean isDisplayedToStudent;
 
-    @JsonCreator
-    public InstructorCreateRequest(String id, String name, String email,
-                                   @JsonProperty("role") String roleName,
+    private InstructorCreateRequest() {
+        // for Jackson deserialization
+    }
+
+    public InstructorCreateRequest(String id, String name, String email, String roleName,
                                    String displayName, Boolean isDisplayedToStudent) {
         this.id = id;
         this.name = name;
