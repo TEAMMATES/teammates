@@ -161,8 +161,6 @@ export class UserNotificationsListComponent implements OnInit {
       });
   }
 
-  private hasMarkAllReadError = false;
-
   get hasUnreadNotifications(): boolean {
     return this.notificationTabs.some((tab) => !tab.isRead);
   }
@@ -177,53 +175,31 @@ export class UserNotificationsListComponent implements OnInit {
       return;
     }
 
+    const requests = unreadTabs.map((tab) =>
+      this.notificationService.markNotificationAsRead({
+        notificationId: tab.notification.notificationId,
+        endTimestamp: tab.notification.endTimestamp,
+      }),
+    );
+
     unreadTabs.forEach((tab) => {
       tab.hasTabExpanded = false;
       tab.isRead = true;
     });
 
-    this.statusMessageService.showSuccessToast(
-      'All notifications marked as read!',
-    );
-    this.hasMarkAllReadError = false;
-
-    this.processMarkAsReadSequentially(unreadTabs, 0);
-  }
-
-  private processMarkAsReadSequentially(tabs: any[], index: number): void {
-    if (index >= tabs.length) {
-      return;
-    }
-
-    const tab = tabs[index];
-
-    this.notificationService
-      .markNotificationAsRead({
-        notificationId: tab.notification.notificationId,
-        endTimestamp: tab.notification.endTimestamp,
-      })
-      .subscribe({
-        next: () => {
-          setTimeout(
-            () => this.processMarkAsReadSequentially(tabs, index + 1),
-            600,
-          );
-        },
-        error: () => {
-          tab.isRead = false;
-
-          if (!this.hasMarkAllReadError) {
-            this.hasMarkAllReadError = true;
-            this.statusMessageService.showErrorToast(
-              'Some notifications could not be marked as read and may reappear on refresh.',
-            );
-          }
-          setTimeout(
-            () => this.processMarkAsReadSequentially(tabs, index + 1),
-            600,
-          );
-        },
-      });
+    forkJoin(requests).subscribe({
+      next: () => {
+        this.statusMessageService.showSuccessToast(
+          'All notifications marked as read!',
+        );
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(
+          'Some notifications could not be marked as read. Please refresh.',
+        );
+        console.error('Batch mark-as-read failed:', resp);
+      },
+    });
   }
 
   getBodyTextClass(notificationTab: NotificationTab): string {
