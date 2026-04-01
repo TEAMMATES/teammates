@@ -46,30 +46,32 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         Student student = typicalBundle.students.get("student1InCourse1");
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         Course course = typicalBundle.courses.get("course1");
+        Instant referenceNow = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+        Instant retentionCutoff = referenceNow.minus(Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD);
 
         // Create log older than 90 days (should be deleted)
-        Instant oldTimestamp = Instant.now().minus(100, ChronoUnit.DAYS).truncatedTo(ChronoUnit.MILLIS);
+        Instant oldTimestamp = referenceNow.minus(100, ChronoUnit.DAYS);
         FeedbackSessionLog oldLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 oldTimestamp);
         logic.createFeedbackSessionLog(oldLog);
 
-        // Create log at exactly 90 days boundary (should be preserved)
-        Instant boundaryTimestamp = Instant.now().minus(90, ChronoUnit.DAYS).truncatedTo(ChronoUnit.MILLIS);
+        // Create log just inside the 90-day boundary (should be preserved)
+        Instant boundaryTimestamp = retentionCutoff.plusMillis(1);
         FeedbackSessionLog boundaryLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 boundaryTimestamp);
         logic.createFeedbackSessionLog(boundaryLog);
 
         // Create log within 90 days (should be preserved)
-        Instant recentTimestamp = Instant.now().minus(30, ChronoUnit.DAYS).truncatedTo(ChronoUnit.MILLIS);
+        Instant recentTimestamp = referenceNow.minus(30, ChronoUnit.DAYS);
         FeedbackSessionLog recentLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 recentTimestamp);
         logic.createFeedbackSessionLog(recentLog);
 
         // Create very recent log (should be preserved)
-        Instant veryRecentTimestamp = Instant.now().minus(1, ChronoUnit.DAYS).truncatedTo(ChronoUnit.MILLIS);
+        Instant veryRecentTimestamp = referenceNow.minus(1, ChronoUnit.DAYS);
         FeedbackSessionLog veryRecentLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 veryRecentTimestamp);
@@ -80,7 +82,7 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
 
         // Get logs before cleanup to verify our test logs are created
         List<FeedbackSessionLog> logsBefore = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
-                Instant.EPOCH, Instant.now().plusSeconds(60));
+                Instant.EPOCH, referenceNow.plusSeconds(60));
         boolean oldLogExistsBefore = logsBefore.stream().anyMatch(log -> log.getTimestamp().equals(oldTimestamp));
         assertTrue("Old log with timestamp " + oldTimestamp + " should exist before cleanup", oldLogExistsBefore);
 
@@ -90,16 +92,16 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
 
         // Get logs after cleanup
         List<FeedbackSessionLog> logsAfter = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
-                Instant.EPOCH, Instant.now().plusSeconds(60));
+                Instant.EPOCH, referenceNow.plusSeconds(60));
 
         // Verify the old log was deleted
         assertFalse("Old log with timestamp " + oldTimestamp + " should be deleted after cleanup",
                 logsAfter.stream().anyMatch(log -> log.getTimestamp().equals(oldTimestamp)));
 
-        // Verify all remaining logs are within 90 days (timestamp > now - 90 days)
+                // Verify all remaining logs are not older than the retention boundary.
         for (FeedbackSessionLog log : logsAfter) {
             assertTrue("All remaining logs should be within 90 days",
-                    log.getTimestamp().isAfter(Instant.now().minus(90, ChronoUnit.DAYS)));
+                                        !log.getTimestamp().isBefore(retentionCutoff));
         }
     }
 
