@@ -174,7 +174,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     @Test
     void testExecute_typicalSubmission_shouldSucceed() {
         String[] paramsSuccessfulSubmission = {
-                                Const.ParamsNames.COURSE_ID, courseNoStudent.getId(),
+                Const.ParamsNames.COURSE_ID, courseNoStudent.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourseNoStudentName,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourseNoStudentId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
