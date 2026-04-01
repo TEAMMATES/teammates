@@ -49,6 +49,7 @@ import teammates.ui.webapi.GetAccountRequestsAction;
 import teammates.ui.webapi.GetAccountsAction;
 import teammates.ui.webapi.GetActionClassesAction;
 import teammates.ui.webapi.GetAuthInfoAction;
+import teammates.ui.webapi.GetAuthProviderTypesAction;
 import teammates.ui.webapi.GetCourseAction;
 import teammates.ui.webapi.GetCourseJoinStatusAction;
 import teammates.ui.webapi.GetCourseSectionNamesAction;
@@ -235,7 +236,8 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 SendLoginEmailAction.class,
                 PutSqlDataBundleAction.class,
                 DeleteSqlDataBundleAction.class,
-                UpdateFeedbackSessionLogsAction.class
+                UpdateFeedbackSessionLogsAction.class,
+                GetAuthProviderTypesAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)
