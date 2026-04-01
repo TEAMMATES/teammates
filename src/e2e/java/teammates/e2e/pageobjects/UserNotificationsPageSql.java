@@ -27,9 +27,6 @@ public class UserNotificationsPageSql extends AppPage {
     @FindBy(id = "notifications-timezone")
     private WebElement notificationsTimezone;
 
-    @FindBy(id = "mark-all-read")
-    private WebElement markAllAsReadButton;
-
     public UserNotificationsPageSql(Browser browser) {
         super(browser);
     }
@@ -97,11 +94,6 @@ public class UserNotificationsPageSql extends AppPage {
     public void markNotificationAsRead(Notification notification) {
         WebElement notificationTab = notificationTabs.findElement(By.id(notification.getId().toString()));
         click(notificationTab.findElement(By.className("btn-mark-as-read")));
-        waitForPageToLoad(true);
-    }
-
-    public void markAllNotificationsAsRead() {
-        click(markAllAsReadButton);
         waitForPageToLoad(true);
     }
 
