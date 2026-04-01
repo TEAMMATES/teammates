@@ -102,8 +102,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   readonly castAsInputElement = castAsInputElement;
 
   LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
-  LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
-  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL: number = ApiConst.STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL;
+  STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD: number = ApiConst.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD;
   LOG_TYPES: LogType[] = [
     { label: 'session access', value: 'access' },
     { label: 'session submission', value: 'submission' },
@@ -141,7 +140,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading: boolean = true;
   isSearching: boolean = false;
-  lastUpdated: string = '';
 
   constructor(private route: ActivatedRoute,
               private courseService: CourseService,
@@ -171,7 +169,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     this.dateToday.day = today.getDate();
 
     const earliestSearchDate: Date = new Date(Date.now()
-      - this.LOGS_RETENTION_PERIOD * Milliseconds.IN_ONE_DAY);
+      - this.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD * Milliseconds.IN_ONE_DAY);
     this.earliestSearchDate.year = earliestSearchDate.getFullYear();
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
@@ -273,7 +271,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         .subscribe({
           next: (course: Course) => {
             this.course = course;
-            this.setLastUpdated();
           },
           error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
         });
@@ -434,16 +431,5 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       ...this.formModel,
       [field]: data,
     };
-  }
-
-  private setLastUpdated(): void {
-    // 15 mins buffer to allow cron job to finish adding all logs to the database
-    const CRON_JOB_BUFFER = 15;
-    const now: Date = new Date();
-    const minsPastQuarter = now.getMinutes() % 15;
-
-    const lastUpdated = now.getTime() - ((CRON_JOB_BUFFER + minsPastQuarter) * Milliseconds.IN_ONE_MINUTE);
-
-    this.lastUpdated = this.timezoneService.formatToString(lastUpdated, this.course.timeZone, 'DD MMM YYYY, hh:mm A');
   }
 }

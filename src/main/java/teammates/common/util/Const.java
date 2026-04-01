@@ -31,6 +31,7 @@ public final class Const {
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
+    public static final Duration STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD = Duration.ofDays(90);
     public static final Duration COOKIE_VALIDITY_PERIOD = Duration.ofDays(7);
 
     public static final int SEARCH_QUERY_SIZE_LIMIT = 50;
@@ -40,7 +41,6 @@ public final class Const {
 
     public static final String MISSING_RESPONSE_TEXT = "No Response";
 
-    public static final Duration STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = Duration.ofMinutes(15);
     public static final Duration STUDENT_ACTIVITY_LOGS_FILTER_WINDOW = Duration.ofSeconds(2);
 
     // These constants are used as variable values to mean that the variable is in a 'special' state.
