@@ -50,10 +50,12 @@ export class AdminHomePageComponent implements OnInit {
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
+        //  TODO handle error
         invalidLines.push(instructorDetail);
         continue;
       }
       if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]) {
+        // TODO handle error
         invalidLines.push(instructorDetail);
         continue;
       }
@@ -80,6 +82,7 @@ export class AdminHomePageComponent implements OnInit {
    */
   validateAndAddInstructorDetail(): void {
     if (!this.instructorName || !this.instructorEmail || !this.instructorInstitution) {
+      // Todo handle error
       return;
     }
     const name: string = this.instructorName;
