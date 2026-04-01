@@ -3,7 +3,6 @@ package teammates.sqlui.webapi;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 
-import java.time.Duration;
 import java.time.Instant;
 
 import org.testng.annotations.Test;
@@ -39,7 +38,7 @@ public class CleanupFeedbackSessionLogsActionTest extends BaseActionTest<Cleanup
 
         verify(mockLogic).deleteFeedbackSessionLogsOlderThan(argThat(cutoffTime ->
                 Math.abs(cutoffTime.toEpochMilli()
-                        - Instant.now().minus(Duration.ofDays(90)).toEpochMilli())
+                - Instant.now().minus(Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD).toEpochMilli())
                         < 5000));
     }
 }
