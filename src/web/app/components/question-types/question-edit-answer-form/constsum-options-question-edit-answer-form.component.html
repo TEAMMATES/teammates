@@ -1,5 +1,5 @@
 <div [attr.aria-label]="getAriaLabel()">
-  @for (option of questionDetails.constSumOptions; track option; let i = $index) {
+  @for (option of questionDetails.constSumOptions; track $index; let i = $index) {
     <div class="form-group row text-start">
       <div class="col-md-5 col-xs-12 text-md-end col-form-label">
         <strong>{{ option }}</strong>
