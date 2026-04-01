@@ -81,7 +81,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         student2InCourse2 = getTypicalStudent();
         student3InCourse2 = getTypicalStudent();
         student1InCourse1.setCourse(course1);
-        student2InCourse2.setCourse(course1);
+        student2InCourse2.setCourse(courseNoStudent);
         student3InCourse2.setCourse(course2);
         student1Email = student1InCourse1.getEmail();
         student2Email = student2InCourse2.getEmail();
@@ -174,7 +174,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     @Test
     void testExecute_typicalSubmission_shouldSucceed() {
         String[] paramsSuccessfulSubmission = {
-                Const.ParamsNames.COURSE_ID, courseId1,
+                                Const.ParamsNames.COURSE_ID, courseNoStudent.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourseNoStudentName,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourseNoStudentId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
@@ -192,7 +192,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_invalidSessionName_shouldStillSucceed() {
+        void testExecute_invalidSessionName_shouldStillSucceedWithoutPersisting() {
         String nonExistentSessionName = "non-existent-feedback-session-name";
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -205,14 +205,11 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsNonExistentFsName));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-                student1InCourse1.equals(log.getStudent())
-                        && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
+        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
 
     @Test
-    void testExecute_invalidEmail_shouldStillSucceed() {
+        void testExecute_invalidEmail_shouldStillSucceedWithoutPersisting() {
         String nonExistentEmail = "non-existent-student@email.com";
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -225,14 +222,11 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsNonExistentStudentEmail));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-                student1InCourse1.equals(log.getStudent())
-                        && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
+        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
 
     @Test
-    void testExecute_studentHasNoAccessToCourseFeedback_shouldStillSucceed() {
+        void testExecute_studentHasNoAccessToCourseFeedback_shouldStillSucceedWithoutPersisting() {
         String[] paramsWithoutAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
@@ -244,10 +238,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsWithoutAccess));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-                student3InCourse2.equals(log.getStudent())
-                        && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
+        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
 
     @Test
