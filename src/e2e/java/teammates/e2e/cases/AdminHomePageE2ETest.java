@@ -22,7 +22,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_HOME_PAGE);
         AdminHomePage homePage = loginAdminToPage(url, AdminHomePage.class);
 
-        ______TS("Test adding instructors with both valid and invalid details");
+        ______TS("Test adding instructors with valid details");
 
         String name = "AHPUiT Instrúctör WithPlusInEmail";
         String email = "ahpuit+++_.instr1!@gmail.tmt";
