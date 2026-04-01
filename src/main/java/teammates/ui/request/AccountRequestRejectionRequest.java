@@ -2,8 +2,9 @@ package teammates.ui.request;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.annotation.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.util.SanitizationHelper;
 

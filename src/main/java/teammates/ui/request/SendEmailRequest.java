@@ -1,6 +1,7 @@
 package teammates.ui.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.util.EmailWrapper;
 
 /**

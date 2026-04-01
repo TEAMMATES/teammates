@@ -21,6 +21,10 @@ public class NotificationData extends ApiOutput {
     private String message;
     private boolean shown;
 
+    private NotificationData() {
+        // for Jackson deserialization
+    }
+
     public NotificationData(Notification notification) {
         this.notificationId = notification.getId().toString();
         this.startTimestamp = notification.getStartTime().toEpochMilli();

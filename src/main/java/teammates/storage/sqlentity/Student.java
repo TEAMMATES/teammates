@@ -3,10 +3,11 @@ package teammates.storage.sqlentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;

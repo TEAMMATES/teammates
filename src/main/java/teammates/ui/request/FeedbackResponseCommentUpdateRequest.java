@@ -3,6 +3,7 @@ package teammates.ui.request;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.ui.output.CommentVisibilityType;
 
 /**

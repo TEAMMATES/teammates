@@ -2,6 +2,8 @@ package teammates.ui.output;
 
 import jakarta.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.storage.sqlentity.Instructor;
 
@@ -25,6 +27,13 @@ public class InstructorData extends ApiOutput {
     private String key;
     @Nullable
     private String institute;
+
+    @JsonCreator
+    private InstructorData(String courseId, String email, String name) {
+        this.courseId = courseId;
+        this.email = email;
+        this.name = name;
+    }
 
     public InstructorData(Instructor instructor) {
         this.courseId = instructor.getCourseId();

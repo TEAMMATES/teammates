@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.ui.output.CommentVisibilityType;
 

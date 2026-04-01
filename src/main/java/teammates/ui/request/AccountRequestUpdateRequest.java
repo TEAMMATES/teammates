@@ -1,6 +1,5 @@
 package teammates.ui.request;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
