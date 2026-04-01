@@ -48,29 +48,30 @@ export class AdminHomePageComponent implements OnInit {
    * Validates and adds the instructor details filled with first form.
    */
   validateAndAddInstructorDetails(): void {
-    const invalidLines: string[] = [];
+    let invalidLinesCount = 0;
     const validRequests: { instructorDetail: string, instructorDetailSplit: string[] }[] = [];
 
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
-        //  TODO handle error
-        invalidLines.push(instructorDetail);
+        invalidLinesCount++;
         continue;
       }
       if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]) {
-        // TODO handle error
-        invalidLines.push(instructorDetail);
+        invalidLinesCount++;
         continue;
       }
       validRequests.push({ instructorDetail, instructorDetailSplit });
     }
 
-    if (validRequests.length === 0) {
-      this.instructorDetails = invalidLines.join('\r\n');
+    // Do not proceed with backend calls if there are invalid lines
+    if (invalidLinesCount > 0) {
+      this.statusMessageService.showWarningToast(
+        `${invalidLinesCount} line(s) with missing or invalid fields.`
+          + ' Format required: Name | Email | Institution');
       return;
     }
-
+    
     forkJoin(
       validRequests.map(({ instructorDetail, instructorDetailSplit }) => {
         const instructorName: string = instructorDetailSplit[0];
@@ -79,23 +80,23 @@ export class AdminHomePageComponent implements OnInit {
           instructorEmail: instructorDetailSplit[1],
           instructorInstitution: instructorDetailSplit[2],
         }).pipe(
-          map(() => {
-            this.statusMessageService.showSuccessToast(
-              `Account request for instructor "${instructorName}" has been successfully submitted`
-                + ' and is pending approval');
-            return true;
-          }),
-          catchError((resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-            invalidLines.push(instructorDetail);
-            return of(false);
-          }),
+          map(() => ({ success: true, instructorDetail })),
+          catchError(() => of({ success: false, instructorDetail })),
         );
       }),
-    ).subscribe((results: boolean[]) => {
-      this.instructorDetails = invalidLines.join('\r\n');
-      if (results.some(Boolean)) {
+    ).subscribe((results: { success: boolean, instructorDetail: string }[]) => {
+      const failedLines: string[] = results.filter((r) => !r.success).map((r) => r.instructorDetail);
+      const successCount: number = results.length - failedLines.length;
+      this.instructorDetails = failedLines.join('\r\n');
+      if (successCount > 0) {
+        const message: string = failedLines.length > 0
+          ? `${successCount} account request(s) created, ${failedLines.length} failed`
+          : `${successCount} account request(s) were successfully created`;
+        this.statusMessageService.showSuccessToast(message);
         this.fetchAccountRequests();
+      } else {
+        this.statusMessageService.showErrorToast(
+          'Failed to create account requests. Use single add to identify errors.');
       }
     });
   }
@@ -105,7 +106,7 @@ export class AdminHomePageComponent implements OnInit {
    */
   validateAndAddInstructorDetail(): void {
     if (!this.instructorName || !this.instructorEmail || !this.instructorInstitution) {
-      // Todo handle error
+      this.statusMessageService.showWarningToast('Please fill in all fields: Name, Email, and Institution.');
       return;
     }
     const instructorName: string = this.instructorName;
@@ -117,9 +118,7 @@ export class AdminHomePageComponent implements OnInit {
       instructorInstitution,
     }).subscribe({
       next: () => {
-        this.statusMessageService.showSuccessToast(
-          `Account request for instructor "${instructorName}" has been successfully submitted`
-            + ' and is pending approval');
+        this.statusMessageService.showSuccessToast('Account request was successfully created');
         this.fetchAccountRequests();
         this.instructorName = '';
         this.instructorEmail = '';
