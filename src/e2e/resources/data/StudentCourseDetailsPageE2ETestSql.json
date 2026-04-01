@@ -6,7 +6,7 @@
       "id": "00000000-0000-4000-8000-000000000001"
     },
     "SCDet.alice": {
-      "email": "SCDet.alice@gmail.tmt",
+      "email": "scdet.alice@gmail.tmt",
       "name": "Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000002"
     }
@@ -125,7 +125,7 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Benny Charles",
-      "email": "SCDet.benny@gmail.tmt"
+      "email": "scdet.benny@gmail.tmt"
     },
     "SCDet.charlie": {
       "comments": "This student's name is Charlie Davis",
@@ -138,7 +138,7 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Charlie Davis",
-      "email": "SCDet.charlie@gmail.tmt"
+      "email": "scdet.charlie@gmail.tmt"
     }
   },
   "feedbackSessions": {},

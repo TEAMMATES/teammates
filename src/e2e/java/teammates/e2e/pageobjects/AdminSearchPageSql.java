@@ -3,6 +3,7 @@ package teammates.e2e.pageobjects;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
@@ -587,6 +588,8 @@ public class AdminSearchPageSql extends AppPage {
 
     public void verifyAccountRequestRowContent(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
+        assertNotNull(accountRequestRow,
+                "Account request row not found for email: " + accountRequest.getEmail());
         String actualName = getAccountRequestName(accountRequestRow);
         String actualEmail = getAccountRequestEmail(accountRequestRow);
         String actualInstitute = getAccountRequestInstitute(accountRequestRow);
