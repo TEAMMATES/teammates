@@ -28,7 +28,7 @@ public class InstructorCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase
     @Override
     public void testAll() {
         String pendingInstructorUserId =
-                testData.accountRequests.get("ICJoinConf.instr.CS1101").getId().toString();
+                testData.accounts.get("ICJoinConf.pendingInstr").getId().toString();
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(getKeyForInstructor(
                         testData.courses.get("ICJoinConf.CS1101").getId(), newInstructor.getEmail()))

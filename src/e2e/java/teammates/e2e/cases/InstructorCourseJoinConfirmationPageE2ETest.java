@@ -26,9 +26,9 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
     @Override
     public void testAll() {
         String pendingInstructorUserId =
-                testData.accountRequests.get("ICJoinConf.instr.CS1101").getId().toString();
+                testData.accounts.get("ICJoinConf.pendingInstr").getId().toString();
         String newAccountRequestUserId =
-                testData.accountRequests.get("ICJoinConf.newinstr").getId().toString();
+                testData.accounts.get("ICJoinConf.newInstr").getId().toString();
 
         ______TS("Click join link: invalid key");
         String invalidKey = "invalidKey";
