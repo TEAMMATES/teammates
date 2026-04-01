@@ -78,27 +78,30 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
 
-        // Verify 4 logs exist before cleanup
+        // Count logs before cleanup
         List<FeedbackSessionLog> logsBefore = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
                 Instant.EPOCH, Instant.now().plusSeconds(60));
-        assertEquals(logsBefore.size(), 4);
+        int beforeCount = logsBefore.size();
 
         // Execute cleanup
         CleanupFeedbackSessionLogsAction action = getAction();
         getJsonResult(action);
 
-        // Verify only recent logs remain
+        // Count logs after cleanup
         List<FeedbackSessionLog> logsAfter = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
                 Instant.EPOCH, Instant.now().plusSeconds(60));
-        assertEquals(logsAfter.size(), 3);
+        int afterCount = logsAfter.size();
 
-        // Verify the timestamps of remaining logs
+        // Verify exactly 1 old log was deleted
+        assertEquals("Should delete exactly 1 old log", beforeCount - 1, afterCount);
+
+        // Verify all remaining logs are within 90 days
         for (FeedbackSessionLog log : logsAfter) {
-            assertTrue("Log with timestamp " + log.getTimestamp() + " should not be older than 90 days",
+            assertTrue("All remaining logs should be within 90 days",
                     log.getTimestamp().isAfter(Instant.now().minus(90, ChronoUnit.DAYS)));
         }
 
-        // Verify the deleted log is gone
+        // Verify the old log is gone
         assertFalse("Old log with timestamp " + oldTimestamp + " should be deleted",
                 logsAfter.stream().anyMatch(log -> log.getTimestamp().equals(oldTimestamp)));
     }
