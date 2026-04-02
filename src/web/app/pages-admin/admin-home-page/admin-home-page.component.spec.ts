@@ -216,7 +216,8 @@ describe('AdminHomePageComponent', () => {
     component.instructorDetails = [
       'Instructor A   \t  instructora@example.com \t  Sample Institution A',
       'Instructor B \t instructorb@example.com \t Sample Institution B',
-    ].join('\n') + `\n`;
+      '',
+    ].join('\n');
 
     fixture.detectChanges();
 
