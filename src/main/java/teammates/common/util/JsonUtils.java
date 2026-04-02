@@ -13,7 +13,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -25,6 +28,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -68,6 +72,11 @@ public final class JsonUtils {
         mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
+        // TODO: remove unknown properties in databundles, then remove the following line
+        // This is required because many databundles e.g. typicalDataBundle contain unknown properties like "timeZone"
+        // which caused Jackson to fail
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
         // Treat @OneToMany fields as @JsonIgnore
         mapper.setAnnotationIntrospector(new HibernateAnnotationIntrospector());
         mapper.registerModule(new JavaTimeModule()); // Format Instant as ISO 8601 string and ZoneId
@@ -81,7 +90,10 @@ public final class JsonUtils {
         module.addDeserializer(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsJacksonDeserializer());
         module.addDeserializer(FeedbackResponseDetails.class, new FeedbackResponseDetailsJacksonDeserializer());
         mapper.registerModule(module);
+        mapper.registerModule(new ParameterNamesModule());
+
         if (prettyPrint) {
+            mapper.setDefaultPrettyPrinter(new CustomPrettyPrinter());
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
         }
         return mapper;
@@ -182,6 +194,50 @@ public final class JsonUtils {
             return MAPPER.readTree(json);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * A pretty-printer that modifies Jackson's default.
+     * - ": " separator instead of " : "
+     * - array elements on separate lines
+     * - no space inside empty objects or arrays ({} and [] instead of { } and [ ])
+     */
+    private static final class CustomPrettyPrinter extends DefaultPrettyPrinter {
+        CustomPrettyPrinter() {
+            indentArraysWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
+        }
+
+        @Override
+        public void writeObjectFieldValueSeparator(JsonGenerator g) throws IOException {
+            g.writeRaw(": ");
+        }
+
+        @Override
+        public void writeEndObject(JsonGenerator g, int nrOfEntries) throws IOException {
+            if (!_objectIndenter.isInline()) {
+                --_nesting;
+            }
+            if (nrOfEntries > 0) {
+                _objectIndenter.writeIndentation(g, _nesting);
+            }
+            g.writeRaw('}');
+        }
+
+        @Override
+        public void writeEndArray(JsonGenerator g, int nrOfValues) throws IOException {
+            if (!_arrayIndenter.isInline()) {
+                --_nesting;
+            }
+            if (nrOfValues > 0) {
+                _arrayIndenter.writeIndentation(g, _nesting);
+            }
+            g.writeRaw(']');
+        }
+
+        @Override
+        public CustomPrettyPrinter createInstance() {
+            return new CustomPrettyPrinter();
         }
     }
 
