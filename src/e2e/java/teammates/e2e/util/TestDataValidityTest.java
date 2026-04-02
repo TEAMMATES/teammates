@@ -77,6 +77,9 @@ public class TestDataValidityTest extends BaseTestCase {
                 SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
 
                 dataBundle.accounts.forEach((bundleKey, account) -> {
+                    // Fallback to bundle key if account ID is not present
+                    // This will cause isValidTestAccountId to fail,
+                    // but it will be caught and reported as an error instead of causing an NPE
                     String accountId = account.getId() != null ? account.getId().toString() : bundleKey;
                     if (!isValidTestAccountId(accountId)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
@@ -109,6 +112,11 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.instructors.forEach((id, instructor) -> {
+                    if (!isValidTestAccountId(instructor.getAccountId())) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("Invalid instructor account id: " + instructor.getAccountId());
+                    }
+
                     if (!isValidTestEmail(instructor.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid instructor email: " + instructor.getEmail());

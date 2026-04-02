@@ -117,11 +117,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                     feedbackSession,
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        } else if (StringHelper.isEmpty(previewAsPerson)) {
+        } else if (!StringHelper.isEmpty(previewAsPerson)) {
+            checkAccessControlForPreview(feedbackSession, false);
+        } else {
             gateKeeper.verifyAccessible(student, feedbackSession);
             verifyMatchingAccountId(student.getAccountId());
-        } else {
-            checkAccessControlForPreview(feedbackSession, false);
         }
     }
 

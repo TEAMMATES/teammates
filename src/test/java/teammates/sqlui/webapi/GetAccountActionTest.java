@@ -4,6 +4,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.UUID;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -32,7 +34,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     void testExecute_validParams_success() {
         loginAsAdmin();
         Account account = new Account("name", "email");
-        account.setId(TEST_ACCOUNT_ID_B2);
+        account.setId(UUID.fromString(ACCOUNT_ID));
         when(mockLogic.getAccountForId(ACCOUNT_ID)).thenReturn(account);
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, ACCOUNT_ID,

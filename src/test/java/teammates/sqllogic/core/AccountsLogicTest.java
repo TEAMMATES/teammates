@@ -33,6 +33,8 @@ public class AccountsLogicTest extends BaseTestCase {
 
     private AccountsLogic accountsLogic = AccountsLogic.inst();
 
+    private CoursesLogic coursesLogic;
+
     private AccountsDb accountsDb;
 
     private NotificationsLogic notificationsLogic;
@@ -44,7 +46,7 @@ public class AccountsLogicTest extends BaseTestCase {
         accountsDb = mock(AccountsDb.class);
         notificationsLogic = mock(NotificationsLogic.class);
         usersLogic = mock(UsersLogic.class);
-        CoursesLogic coursesLogic = mock(CoursesLogic.class);
+        coursesLogic = mock(CoursesLogic.class);
         accountsLogic.initLogicDependencies(accountsDb, notificationsLogic, usersLogic, coursesLogic);
     }
 
