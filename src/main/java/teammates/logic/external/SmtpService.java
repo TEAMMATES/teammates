@@ -17,12 +17,12 @@ import jakarta.mail.internet.MimeMultipart;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.angus.mail.smtp.SMTPSendFailedException;
-import org.jsoup.Jsoup;
 
 import teammates.common.exception.EmailSendingException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.HtmlHelper;
 import teammates.common.util.StringHelper;
 
 /**
@@ -151,7 +151,7 @@ public class SmtpService implements EmailSenderService {
         // Set email content in text and HTML part
         Multipart multipart = new MimeMultipart("alternative");
         MimeBodyPart textPart = new MimeBodyPart();
-        textPart.setText(Jsoup.parse(wrapper.getContent()).text(), TEXT_ENCODING_UTF8);
+        textPart.setText(HtmlHelper.htmlToPlainText(wrapper.getContent()), TEXT_ENCODING_UTF8);
         multipart.addBodyPart(textPart);
         MimeBodyPart htmlPart = new MimeBodyPart();
         htmlPart.setContent(wrapper.getContent(), String.format("text/html; charset=%s", TEXT_ENCODING_UTF8));
