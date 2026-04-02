@@ -197,7 +197,7 @@ describe('AdminHomePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should create account requests for all bulk details if valid format and split by tabs', () => {
+  it('should create account requests for all bulk details if valid format and split by tabs with empty lines', () => {
     const spyAccountService: SpyInstance = jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(of({
       id: 'some.person@example.com%NUS',
       email: 'some.person@example.com',
@@ -216,7 +216,7 @@ describe('AdminHomePageComponent', () => {
     component.instructorDetails = [
       'Instructor A   \t  instructora@example.com \t  Sample Institution A',
       'Instructor B \t instructorb@example.com \t Sample Institution B',
-    ].join('\n');
+    ].join('\n') + '\n';
 
     fixture.detectChanges();
 
