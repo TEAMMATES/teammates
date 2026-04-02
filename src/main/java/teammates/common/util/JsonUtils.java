@@ -144,7 +144,6 @@ public final class JsonUtils {
     /**
      * Serializes the specified object into its equivalent JSON string and stream into a writer.
      * This is done to reduce the memory consumption when creating object across call stack.
-     * Note: writer must be a {@link java.io.Writer} at runtime (e.g. PrintWriter).
      */
     public static void toCompactJson(Object src, Writer writer) {
         try {
