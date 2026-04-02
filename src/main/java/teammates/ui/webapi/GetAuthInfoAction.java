@@ -70,7 +70,7 @@ public class GetAuthInfoAction extends Action {
 
     private static boolean isMatchingCsrfToken(String existingCsrfToken, String sessionId) {
         try {
-            return sessionId.startsWith(StringHelper.decrypt(existingCsrfToken));
+            return sessionId.equals(StringHelper.decrypt(existingCsrfToken));
         } catch (InvalidParametersException e) {
             return false;
         }
