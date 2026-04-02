@@ -78,6 +78,17 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
+    public void testGenerateSha256Hmac_isDeterministic() {
+        String data = "sample-data";
+        String hmac1 = StringHelper.generateSha256Hmac(data);
+        String hmac2 = StringHelper.generateSha256Hmac(data);
+        String hmac3 = StringHelper.generateSha256Hmac("another-data");
+
+        assertEquals(hmac1, hmac2);
+        assertNotEquals(hmac1, hmac3);
+    }
+
+    @Test
     public void testDecryptingInvalidCiphertextThrowsException() {
         // The decrypt function converts a hex string into an array of bytes before decryption.
         // E.g AF is the byte 10101111

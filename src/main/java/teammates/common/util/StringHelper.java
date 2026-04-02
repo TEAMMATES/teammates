@@ -12,6 +12,7 @@ import java.util.stream.IntStream;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.Mac;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -145,6 +146,25 @@ public final class StringHelper {
             throw new InvalidParametersException(e);
         } catch (Exception e) {
             throw new IllegalStateException("Failed to decrypt message", e);
+        }
+    }
+
+    /**
+     * Generates a deterministic HMAC SHA-256 signature for the supplied string.
+     *
+     * @param data the plaintext as a string
+     * @return the HMAC SHA-256 signature as a hex-string
+     * @throws IllegalStateException if signature generation fails.
+     */
+    public static String generateSha256Hmac(String data) {
+        try {
+            SecretKeySpec signingKey = new SecretKeySpec(getMasterKey(), "HmacSHA256");
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(signingKey);
+            byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
+            return byteArrayToHexString(value);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to generate HMAC-SHA256 signature", e);
         }
     }
 
