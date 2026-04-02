@@ -102,8 +102,7 @@ public final class StringHelper {
             System.arraycopy(encrypted, 0, encryptedWithIv, iv.length, encrypted.length);
             return byteArrayToHexString(encryptedWithIv);
         } catch (Exception e) {
-            assert false;
-            return null;
+            throw new RuntimeException("Failed to encrypt value", e);
         }
     }
 
@@ -120,12 +119,13 @@ public final class StringHelper {
         try {
             encryptedWithIv = hexStringToByteArray(message);
         } catch (NumberFormatException e) {
-            log.warning("Attempted to decrypt invalid ciphertext: " + message);
+            log.warning("Attempted to decrypt invalid ciphertext, input length: "
+                    + (message == null ? -1 : message.length()));
             throw new InvalidParametersException(e);
         }
 
         if (encryptedWithIv.length <= AES_GCM_IV_LENGTH_BYTES) {
-            log.warning("Attempted to decrypt invalid ciphertext: " + message);
+            log.warning("Attempted to decrypt invalid ciphertext, byte length: " + encryptedWithIv.length);
             throw new InvalidParametersException("Ciphertext does not contain IV and payload");
         }
 
@@ -138,11 +138,10 @@ public final class StringHelper {
                     encryptedWithIv.length - AES_GCM_IV_LENGTH_BYTES);
             return new String(decrypted, Const.ENCODING);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
-            log.warning("Attempted to decrypt invalid ciphertext: " + message);
+            log.warning("Attempted to decrypt invalid ciphertext, byte length: " + encryptedWithIv.length);
             throw new InvalidParametersException(e);
         } catch (Exception e) {
-            assert false;
-            return null;
+            throw new RuntimeException("Failed to decrypt message", e);
         }
     }
 
