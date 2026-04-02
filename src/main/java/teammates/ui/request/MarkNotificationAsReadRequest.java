@@ -10,7 +10,7 @@ public class MarkNotificationAsReadRequest extends BasicRequest {
     private long endTimestamp;
 
     @JsonCreator
-    public MarkNotificationAsReadRequest(String notificationId, Long endTimestamp) {
+    public MarkNotificationAsReadRequest(String notificationId, long endTimestamp) {
         this.notificationId = notificationId;
         this.endTimestamp = endTimestamp;
     }
