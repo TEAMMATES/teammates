@@ -30,10 +30,17 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
         super.setUp();
         dataBundle = loadDataBundle("/SqlEmailGeneratorTest.json");
 
+        FeedbackSession awaitingSession = dataBundle.feedbackSessions.get("awaiting.session");
         FeedbackSession session1InCourse3 = dataBundle.feedbackSessions.get("session1InCourse3");
         FeedbackSession session2InCourse3 = dataBundle.feedbackSessions.get("session2InCourse3");
         FeedbackSession session1InCourse4 = dataBundle.feedbackSessions.get("session1InCourse4");
         FeedbackSession session2InCourse4 = dataBundle.feedbackSessions.get("session2InCourse4");
+
+        // awaiting session in Course 1 - set to future so no sessions found for student1InCourse1
+        awaitingSession.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(10));
+        awaitingSession.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(20));
+        dataBundle.feedbackSessions.put("awaiting.session", awaitingSession);
+
         // opened and unpublished.
         session1InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-20));
         dataBundle.feedbackSessions.put("session1InCourse3", session1InCourse3);
