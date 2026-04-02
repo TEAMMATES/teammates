@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.ui.output.AccountData;
 
 /**
@@ -19,7 +20,11 @@ public class GetAccountAction extends AdminOnlyAction {
             throw new EntityNotFoundException("Account does not exist.");
         }
 
-        AccountData output = new AccountData(account);
+        AccountIdentity identity = sqlLogic.getFirstIdentityForAccount(accountId);
+        String loginIdentifier = identity != null ? identity.getLoginIdentifier() : "";
+        String loginProvider = identity != null ? identity.getProviderName() : "";
+
+        AccountData output = new AccountData(account, loginIdentifier, loginProvider);
         return new JsonResult(output);
     }
 

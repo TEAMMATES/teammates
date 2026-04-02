@@ -73,7 +73,9 @@ public final class AccountsDb {
         CriteriaQuery<AccountIdentity> cr = cb.createQuery(AccountIdentity.class);
         Root<AccountIdentity> root = cr.from(AccountIdentity.class);
 
-        cr.select(root).where(cb.equal(root.get("account").get("id"), accountId));
+        cr.select(root)
+                .where(cb.equal(root.get("account").get("id"), accountId))
+                .orderBy(cb.asc(root.get("createdAt")));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }

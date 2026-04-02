@@ -5,6 +5,7 @@ import java.util.List;
 
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
@@ -30,10 +31,14 @@ public class SearchInstructorsAction extends AdminOnlyAction {
         // Add instructors from sql db
         for (Instructor instructor : instructors) {
             InstructorData instructorData = new InstructorData(instructor);
+            String accountId = instructor.getAccountId();
+            AccountIdentity identity = accountId != null ? sqlLogic.getFirstIdentityForAccount(accountId) : null;
             instructorData.addAdditionalInformationForAdminSearch(
                     instructor.getRegKey(),
                     sqlLogic.getCourseInstitute(instructor.getCourseId()),
-                    instructor.getAccountId());
+                    accountId,
+                    identity != null ? identity.getLoginIdentifier() : "",
+                    identity != null ? identity.getProviderName() : "");
 
             instructorDataList.add(instructorData);
         }

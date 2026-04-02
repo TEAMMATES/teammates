@@ -28,6 +28,10 @@ public class StudentData extends ApiOutput {
     private String institute;
     @Nullable
     private JoinState joinState;
+    @Nullable
+    private String loginIdentifier;
+    @Nullable
+    private String loginProvider;
 
     private final String teamName;
     private final String sectionName;
@@ -108,6 +112,22 @@ public class StudentData extends ApiOutput {
         this.institute = institute;
     }
 
+    public String getLoginIdentifier() {
+        return loginIdentifier;
+    }
+
+    public void setLoginIdentifier(String loginIdentifier) {
+        this.loginIdentifier = loginIdentifier;
+    }
+
+    public String getLoginProvider() {
+        return loginProvider;
+    }
+
+    public void setLoginProvider(String loginProvider) {
+        this.loginProvider = loginProvider;
+    }
+
     /**
      * Hides some attributes to student.
      */
@@ -121,10 +141,15 @@ public class StudentData extends ApiOutput {
      * @param key The registration key
      * @param institute The institute of the student
      * @param accountId The account id of the student
+     * @param loginIdentifier Login identifier of the student
+     * @param loginProvider Login provider of the student
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute, String accountId) {
+    public void addAdditionalInformationForAdminSearch(
+            String key, String institute, String accountId, String loginIdentifier, String loginProvider) {
         this.setKey(key);
         this.setInstitute(institute);
         this.setAccountId(accountId);
+        this.setLoginIdentifier(loginIdentifier);
+        this.setLoginProvider(loginProvider);
     }
 }

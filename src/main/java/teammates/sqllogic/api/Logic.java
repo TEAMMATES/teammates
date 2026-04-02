@@ -37,6 +37,7 @@ import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -200,11 +201,11 @@ public class Logic {
     }
 
     /**
-     * Returns the login identifier for the first identity linked to the given account,
-     * or an empty string if none exists.
+     * Returns the first (earliest-created) {@link AccountIdentity} linked to the given account,
+     * or null if none exists.
      */
-    public String getLoginIdentifierForAccount(String accountId) {
-        return accountsLogic.getLoginIdentifierForAccount(accountId);
+    public AccountIdentity getFirstIdentityForAccount(String accountId) {
+        return accountsLogic.getFirstIdentityForAccount(accountId);
     }
 
     /**

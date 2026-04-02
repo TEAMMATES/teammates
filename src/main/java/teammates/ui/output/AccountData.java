@@ -11,12 +11,16 @@ import teammates.storage.sqlentity.Account;
 public class AccountData extends ApiOutput {
 
     private final String accountId;
+    private final String loginIdentifier;
+    private final String loginProvider;
     private final String name;
     private final String email;
     private final Map<String, Long> readNotifications;
 
-    public AccountData(Account account) {
+    public AccountData(Account account, String loginIdentifier, String loginProvider) {
         this.accountId = account.getId().toString();
+        this.loginIdentifier = loginIdentifier;
+        this.loginProvider = loginProvider;
         this.name = account.getName();
         this.email = account.getEmail();
         this.readNotifications = account.getReadNotifications()
@@ -33,6 +37,14 @@ public class AccountData extends ApiOutput {
 
     public String getAccountId() {
         return accountId;
+    }
+
+    public String getLoginIdentifier() {
+        return loginIdentifier;
+    }
+
+    public String getLoginProvider() {
+        return loginProvider;
     }
 
     public String getName() {

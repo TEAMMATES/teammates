@@ -41,15 +41,19 @@ public class AccountIdentity extends BaseEntity {
     @Column(nullable = false, length = 254)
     private String loginIdentifier;
 
+    @Column(length = 255)
+    private String providerName;
+
     protected AccountIdentity() {
         // Hibernate
     }
 
-    public AccountIdentity(String issuer, String subject, String loginIdentifier) {
+    public AccountIdentity(String issuer, String subject, String loginIdentifier, String providerName) {
         this.setId(UUID.randomUUID());
         this.setIssuer(issuer);
         this.setSubject(subject);
         this.setLoginIdentifier(loginIdentifier);
+        this.setProviderName(providerName);
     }
 
     public UUID getId() {
@@ -90,6 +94,14 @@ public class AccountIdentity extends BaseEntity {
 
     public void setLoginIdentifier(String loginIdentifier) {
         this.loginIdentifier = loginIdentifier;
+    }
+
+    public String getProviderName() {
+        return providerName;
+    }
+
+    public void setProviderName(String providerName) {
+        this.providerName = providerName;
     }
 
     @Override

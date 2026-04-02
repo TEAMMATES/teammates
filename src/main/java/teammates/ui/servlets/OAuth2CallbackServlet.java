@@ -22,6 +22,7 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -130,7 +131,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         try {
-            Account account = AccountsLogic.inst().resolveOrCreateAccountFromOidc(iss, sub, email, name);
+            Account account = AccountsLogic.inst().resolveOrCreateAccountFromOidc(iss, sub, email, name, Const.LoginProviders.GOOGLE);
             return new AuthResult(account.getId().toString(), nextUrl);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             log.warning("Failed to resolve account from Google login", e);
@@ -157,7 +158,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             String projectId = FirebaseApp.getInstance().getOptions().getProjectId();
             String issuer = "https://securetoken.google.com/" + projectId;
             Account account = AccountsLogic.inst().resolveOrCreateAccountFromOidc(
-                    issuer, uid, email, email);
+                    issuer, uid, email, email, Const.LoginProviders.GOOGLE);
             return new AuthResult(account.getId().toString(), nextUrl);
         } catch (FirebaseAuthException | InvalidParametersException | EntityAlreadyExistsException e) {
             log.warning("Invalid Firebase ID token or account resolution failed", e);

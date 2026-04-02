@@ -402,4 +402,12 @@ public final class Const {
         public static final String SEND_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
     }
 
+    /**
+     * Display names for login identity providers.
+     */
+    public static class LoginProviders {
+        public static final String GOOGLE = "Google";
+        public static final String MICROSOFT = "Microsoft";
+    }
+
 }

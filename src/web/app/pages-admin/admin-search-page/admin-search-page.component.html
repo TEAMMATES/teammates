@@ -28,7 +28,8 @@
           <tr>
             <th>Course</th>
             <th>Name</th>
-            <th>Account ID</th>
+            <th>Login Identifier</th>
+            <th>Provider</th>
             <th>Institute</th>
             <th>Options</th>
           </tr>
@@ -56,10 +57,9 @@
                   </div>
                 </td>
                 <td [innerHtml]="instructor.name | highlighter:searchString:true"></td>
-                <td><a href="{{ instructor.homePageLink }}" (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="instructor.accountId | highlighter:searchString:true">
-                </a>
-              </td>
-              <td [innerHtml]="instructor.institute | highlighter:searchString:true"></td>
+                <td [innerHtml]="instructor.loginIdentifier | highlighter:searchString:true"></td>
+                <td [innerHtml]="instructor.loginProvider | highlighter:searchString:true"></td>
+                <td [innerHtml]="instructor.institute | highlighter:searchString:true"></td>
               <td>
                 @if (instructor.manageAccountLink) {
                   <a href="{{ instructor.manageAccountLink }}"
@@ -81,12 +81,18 @@
                 </tr>
                 @if (instructor.showLinks) {
                   <tr>
-                    <td colspan="5">
+                    <td colspan="6">
                       <ul class="list-group">
                         <li class="list-group-item list-group-item-success has-success">
                           <strong>Email</strong>
                           <input [value]="instructor.email" disabled class="form-control">
                         </li>
+                        @if (instructor.accountId) {
+                          <li class="list-group-item list-group-item-secondary">
+                            <strong>Account ID</strong>
+                            <input [value]="instructor.accountId" disabled class="form-control">
+                          </li>
+                        }
                         <li class="list-group-item list-group-item-info">
                           <strong>Course Join Link</strong>
                           <input [value]="instructor.courseJoinLink" disabled class="form-control">
@@ -141,7 +147,8 @@
               <tr>
                 <th>Course [Section] (Team)</th>
                 <th>Name</th>
-                <th>Account ID</th>
+                <th>Login Identifier</th>
+                <th>Provider</th>
                 <th>Institute</th>
                 <th>Comments</th>
                 <th>Options</th>
@@ -173,11 +180,8 @@
                     <td><a href="{{ student.profilePageLink }}"
                       (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.name | highlighter:searchString:true">
                     </a></td>
-                    <td>@if (student.accountId) {
-                      <a href="{{ student.homePageLink }}"
-                        (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.accountId | highlighter:searchString:true">
-                      </a>
-                    }</td>
+                    <td [innerHtml]="student.loginIdentifier | highlighter:searchString:true"></td>
+                    <td [innerHtml]="student.loginProvider | highlighter:searchString:true"></td>
                     <td [innerHtml]="student.institute | highlighter:searchString:true"></td>
                     <td [innerHtml]="student.comments | highlighter:searchString:true"></td>
                     <td>
@@ -200,13 +204,19 @@
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                           @if (student.showLinks) {
                             <ul class="list-group" @collapseAnim>
                               <li class="list-group-item list-group-item-success has-success">
                                 <strong>Email</strong>
                                 <input [value]="student.email" disabled class="form-control">
                               </li>
+                              @if (student.accountId) {
+                                <li class="list-group-item list-group-item-secondary">
+                                  <strong>Account ID</strong>
+                                  <input [value]="student.accountId" disabled class="form-control">
+                                </li>
+                              }
                               <li class="list-group-item list-group-item-info">
                                 <strong>Course Join Link</strong>
                                 <button id="send-course-join-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openCourseJoinEmail(student.courseId, student.email)">Send mail</button>

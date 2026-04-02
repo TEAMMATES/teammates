@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.ui.output.AccountData;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetAccountAction;
@@ -35,13 +36,18 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         loginAsAdmin();
         Account account = new Account("name", "email");
         account.setId(UUID.fromString(ACCOUNT_ID));
+        AccountIdentity identity = new AccountIdentity(
+                "https://securetoken.google.com/project", "uid123", "user@example.com", Const.LoginProviders.GOOGLE);
         when(mockLogic.getAccountForId(ACCOUNT_ID)).thenReturn(account);
+        when(mockLogic.getFirstIdentityForAccount(ACCOUNT_ID)).thenReturn(identity);
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, ACCOUNT_ID,
         };
         GetAccountAction a = getAction(params);
         AccountData output = (AccountData) getJsonResult(a).getOutput();
         assertEquals(output.getAccountId(), ACCOUNT_ID);
+        assertEquals(output.getLoginIdentifier(), "user@example.com");
+        assertEquals(output.getLoginProvider(), Const.LoginProviders.GOOGLE);
     }
 
     @Test

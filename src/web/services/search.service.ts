@@ -146,6 +146,8 @@ export class SearchService {
       profilePageLink: '',
       courseJoinLink: '',
       accountId: '',
+      loginIdentifier: '',
+      loginProvider: '',
       showLinks: false,
     };
     const {
@@ -156,8 +158,10 @@ export class SearchService {
       sectionName: section,
       accountId = '',
       institute = '',
+      loginIdentifier = '',
+      loginProvider = '',
     }: Student = student;
-    studentResult = { ...studentResult, email, name, comments, team, section, accountId, institute };
+    studentResult = { ...studentResult, email, name, comments, team, section, accountId, institute, loginIdentifier, loginProvider };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
@@ -225,14 +229,16 @@ export class SearchService {
       homePageLink: '',
       courseJoinLink: '',
       accountId: '',
+      loginIdentifier: '',
+      loginProvider: '',
       showLinks: false,
       awaitingSessions: {},
       openSessions: {},
       notOpenSessions: {},
       publishedSessions: {},
     };
-    const { email, name, accountId = '', institute = '' }: Instructor = instructor;
-    instructorResult = { ...instructorResult, email, name, accountId, institute };
+    const { email, name, accountId = '', institute = '', loginIdentifier = '', loginProvider = '' }: Instructor = instructor;
+    instructorResult = { ...instructorResult, email, name, accountId, institute, loginIdentifier, loginProvider };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     instructorResult = { ...instructorResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
@@ -491,6 +497,8 @@ export interface InstructorAccountSearchResult {
   name: string;
   email: string;
   accountId: string;
+  loginIdentifier: string;
+  loginProvider: string;
   courseId: string;
   courseName: string;
   isCourseDeleted: boolean;

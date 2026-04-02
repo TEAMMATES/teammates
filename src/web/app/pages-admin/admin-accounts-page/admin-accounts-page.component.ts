@@ -28,6 +28,8 @@ export class AdminAccountsPageComponent implements OnInit {
   studentCourses: Course[] = [];
   accountInfo: Account = {
     accountId: '',
+    loginIdentifier: '',
+    loginProvider: '',
     name: '',
     email: '',
     readNotifications: {},

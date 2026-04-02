@@ -11,6 +11,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -79,7 +80,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.getStudentByRegistrationKey("registered-key-student")).thenReturn(stubStudent);
         when(mockLogic.joinCourseForStudent("registered-key-student", ACCT_UNREG_STUDENT)).thenReturn(stubStudent);
         when(mockLogic.getCourse(stubStudent.getCourseId())).thenReturn(stubCourse);
-        when(mockLogic.getLoginIdentifierForAccount(ACCT_UNREG_STUDENT)).thenReturn(STUB_LOGIN_IDENTIFIER);
+        AccountIdentity stubStudentIdentity = new AccountIdentity("https://securetoken.google.com/project",
+                "uid-student", STUB_LOGIN_IDENTIFIER, Const.LoginProviders.GOOGLE);
+        when(mockLogic.getFirstIdentityForAccount(ACCT_UNREG_STUDENT)).thenReturn(stubStudentIdentity);
         when(mockSqlEmailGenerator.generateUserCourseRegisteredEmail(stubStudent.getName(), stubStudent.getEmail(),
                 STUB_LOGIN_IDENTIFIER, false, stubCourse)).thenReturn(stubEmailWrapper);
         String[] params = {
@@ -152,7 +155,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.joinCourseForInstructor("registered-key-instructor", ACCT_UNREG_INSTRUCTOR))
                 .thenReturn(stubInstructor);
         when(mockLogic.getCourse(stubInstructor.getCourseId())).thenReturn(stubCourse);
-        when(mockLogic.getLoginIdentifierForAccount(ACCT_UNREG_INSTRUCTOR)).thenReturn(STUB_LOGIN_IDENTIFIER);
+        AccountIdentity stubInstructorIdentity = new AccountIdentity("https://securetoken.google.com/project",
+                "uid-instructor", STUB_LOGIN_IDENTIFIER, Const.LoginProviders.GOOGLE);
+        when(mockLogic.getFirstIdentityForAccount(ACCT_UNREG_INSTRUCTOR)).thenReturn(stubInstructorIdentity);
         when(mockSqlEmailGenerator.generateUserCourseRegisteredEmail(stubInstructor.getName(), stubInstructor.getEmail(),
                 STUB_LOGIN_IDENTIFIER, true, stubCourse)).thenReturn(stubEmailWrapper);
         String[] params = {

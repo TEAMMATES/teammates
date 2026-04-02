@@ -73,16 +73,17 @@ public final class AccountsLogic {
      * Resolves or creates an account from a verified OIDC login (issuer + subject).
      * Sets the login identifier to the email by default.
      */
-    public Account resolveOrCreateAccountFromOidc(String issuer, String subject, String email, String name)
+    public Account resolveOrCreateAccountFromOidc(
+            String issuer, String subject, String email, String name, String providerName)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return resolveOrCreateAccountFromOidc(issuer, subject, email, name, email);
+        return resolveOrCreateAccountFromOidc(issuer, subject, email, name, email, providerName);
     }
 
     /**
      * Resolves or creates an account from a verified OIDC login (issuer + subject).
      */
     public Account resolveOrCreateAccountFromOidc(
-            String issuer, String subject, String email, String name, String loginIdentifier)
+            String issuer, String subject, String email, String name, String loginIdentifier, String providerName)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert issuer != null;
         assert subject != null;
@@ -95,7 +96,7 @@ public final class AccountsLogic {
         assert loginIdentifier != null : "OIDC login identifier must be present to create an account";
         String safeName = name != null ? name : "";
         Account account = new Account(safeName, email);
-        AccountIdentity identity = new AccountIdentity(issuer, subject, loginIdentifier);
+        AccountIdentity identity = new AccountIdentity(issuer, subject, loginIdentifier, providerName);
         account.addIdentity(identity);
         return accountsDb.createAccount(account);
     }
@@ -103,24 +104,24 @@ public final class AccountsLogic {
     /**
      * Links an additional OIDC identity to an existing account.
      */
-    public AccountIdentity linkAccountIdentity(Account account, String issuer, String subject, String loginIdentifier)
+    public AccountIdentity linkAccountIdentity(
+            Account account, String issuer, String subject, String loginIdentifier, String providerName)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
         if (accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject) != null) {
             throw new EntityAlreadyExistsException("Identity already linked to an account.");
         }
-        AccountIdentity identity = new AccountIdentity(issuer, subject, loginIdentifier);
+        AccountIdentity identity = new AccountIdentity(issuer, subject, loginIdentifier, providerName);
         account.addIdentity(identity);
         return accountsDb.createAccountIdentity(identity);
     }
 
     /**
-     * Returns the login identifier for the first identity linked to the given account,
-     * or an empty string if none exists.
+     * Returns the first (earliest-created) {@link AccountIdentity} linked to the given account,
+     * or null if none exists.
      */
-    public String getLoginIdentifierForAccount(String accountId) {
-        AccountIdentity identity = accountsDb.getFirstAccountIdentityByAccountId(UUID.fromString(accountId));
-        return identity != null ? identity.getLoginIdentifier() : "";
+    public AccountIdentity getFirstIdentityForAccount(String accountId) {
+        return accountsDb.getFirstAccountIdentityByAccountId(UUID.fromString(accountId));
     }
 
     /**

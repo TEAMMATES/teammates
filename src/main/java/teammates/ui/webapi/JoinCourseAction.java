@@ -8,6 +8,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -86,7 +87,8 @@ public class JoinCourseAction extends Action {
 
     private void sendJoinEmail(String courseId, String userName, String userEmail, boolean isInstructor) {
         Course course = sqlLogic.getCourse(courseId);
-        String loginIdentifier = sqlLogic.getLoginIdentifierForAccount(userInfo.id);
+        AccountIdentity identity = sqlLogic.getFirstIdentityForAccount(userInfo.id);
+        String loginIdentifier = identity != null ? identity.getLoginIdentifier() : "";
         EmailWrapper email = sqlEmailGenerator.generateUserCourseRegisteredEmail(
                 userName, userEmail, loginIdentifier, isInstructor, course);
         emailSender.sendEmail(email);

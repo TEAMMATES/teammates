@@ -22,6 +22,7 @@
             <column name="login_identifier" type="VARCHAR(254)">
                 <constraints nullable="false"/>
             </column>
+            <column name="provider_name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
     <changeSet author="saibh (generated)" id="1775015917395-2">
