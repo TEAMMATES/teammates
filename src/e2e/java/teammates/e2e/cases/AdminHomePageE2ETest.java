@@ -38,12 +38,13 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         ______TS("Test adding multiple instructors with invalid details");
 
         String invalidMultipleInstructorDetails = String.join("\n",
-            "Instructor A | instructora@example.com | Institution A",
-            "Instructor B | instructorb@example.com",
-            "| instructorc@example.com | Institution C");
+                "Instructor A | instructora@example.com | Institution A",
+                "Instructor B | instructorb@example.com",
+                "| instructorc@example.com | Institution C");
 
         homePage.addInstructor(invalidMultipleInstructorDetails);
-        homePage.verifyStatusMessage("2 line(s) with missing or invalid fields. Format required: Name | Email | Institution");
+        homePage.verifyStatusMessage("2 line(s) with missing or invalid fields. "
+                + "Format required: Name | Email | Institution");
         homePage.verifyMultipleInstructorDetails(invalidMultipleInstructorDetails);
 
     }

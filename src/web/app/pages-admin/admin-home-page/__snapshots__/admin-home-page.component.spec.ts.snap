@@ -9,6 +9,8 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   instructorEmail=""
   instructorInstitution=""
   instructorName=""
+  isAddingMultipleInstructors="false"
+  isAddingSingleInstructor="false"
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
 >
