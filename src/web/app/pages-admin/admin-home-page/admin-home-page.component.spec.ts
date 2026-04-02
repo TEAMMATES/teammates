@@ -112,7 +112,7 @@ describe('AdminHomePageComponent', () => {
     expect(spyAccountService).not.toHaveBeenCalled();
   });
 
-  it('should not create any account request if bulk details contain invalid format', () => {
+  it('should not create any account request if multiple instructor details contain invalid format', () => {
     const spyAccountService: SpyInstance = jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(of({
       id: 'some.person@example.com%NUS',
       email: 'some.person@example.com',
@@ -144,7 +144,7 @@ describe('AdminHomePageComponent', () => {
     expect(spyAccountService).toHaveBeenCalledTimes(0);
   });
 
-  it('should create account requests for all bulk details if valid format and split by vertical bars', () => {
+  it('should create account requests for all multiple instructor details split by vertical bars', () => {
     const spyAccountService: SpyInstance = jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(of({
       id: 'some.person@example.com%NUS',
       email: 'some.person@example.com',
@@ -197,7 +197,7 @@ describe('AdminHomePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should create account requests for all bulk details if valid format and split by tabs with empty lines', () => {
+  it('should create account requests for all multiple instructor details split by tabs with empty lines', () => {
     const spyAccountService: SpyInstance = jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(of({
       id: 'some.person@example.com%NUS',
       email: 'some.person@example.com',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -30,6 +30,8 @@ export class AdminHomePageComponent implements OnInit {
   instructorName: string = '';
   instructorEmail: string = '';
   instructorInstitution: string = '';
+  isAddingMultipleInstructors: boolean = false;
+  isAddingSingleInstructor: boolean = false;
 
   accountReqs: AccountRequestTableRowModel[] = [];
 
@@ -75,6 +77,8 @@ export class AdminHomePageComponent implements OnInit {
       return;
     }
 
+    this.isAddingMultipleInstructors = true;
+
     forkJoin(
       validRequests.map(({ instructorDetail, instructorDetailSplit }) => {
         const instructorName: string = instructorDetailSplit[0];
@@ -87,6 +91,8 @@ export class AdminHomePageComponent implements OnInit {
           catchError(() => of({ success: false, instructorDetail })),
         );
       }),
+    ).pipe(
+      finalize(() => { this.isAddingMultipleInstructors = false; }),
     ).subscribe((results: { success: boolean, instructorDetail: string }[]) => {
       const failedLines: string[] = results.filter((r) => !r.success).map((r) => r.instructorDetail);
       const successCount: number = results.length - failedLines.length;
@@ -115,11 +121,14 @@ export class AdminHomePageComponent implements OnInit {
     const instructorName: string = this.instructorName;
     const instructorEmail: string = this.instructorEmail;
     const instructorInstitution: string = this.instructorInstitution;
+    this.isAddingSingleInstructor = true;
     this.accountService.createAccountRequest({
       instructorName,
       instructorEmail,
       instructorInstitution,
-    }).subscribe({
+    }).pipe(
+      finalize(() => { this.isAddingSingleInstructor = false; }),
+    ).subscribe({
       next: () => {
         this.statusMessageService.showSuccessToast('Account request was successfully created');
         this.fetchAccountRequests();

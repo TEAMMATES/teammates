@@ -9,7 +9,8 @@
     </div>
 
     <div class="top-padded">
-      <button class="btn btn-primary" id="add-instructor-single-line" (click)="validateAndAddInstructorDetails()">Add Instructors</button>
+      <button class="btn btn-primary" id="add-instructor-single-line"
+        (click)="validateAndAddInstructorDetails()" [disabled]="isAddingMultipleInstructors">Add Instructors</button>
     </div>
   </div>
 </div>
@@ -42,7 +43,8 @@
     </div>
 
     <div class="top-padded">
-      <button class="btn btn-primary" id="add-instructor" (click)="validateAndAddInstructorDetail()">Add Instructor</button>
+      <button class="btn btn-primary" id="add-instructor"
+        (click)="validateAndAddInstructorDetail()" [disabled]="isAddingSingleInstructor">Add Instructor</button>
     </div>
   </div>
 </div>
