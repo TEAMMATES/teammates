@@ -25,6 +25,7 @@ import teammates.common.exception.InvalidParametersException;
 
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
     private static final int MASTER_KEY_LENGTH_BYTES = 32;
     private static final int AES_GCM_IV_LENGTH_BYTES = 12;
     private static final int AES_GCM_TAG_LENGTH_BITS = 128;
@@ -86,14 +87,15 @@ public final class StringHelper {
      *
      * @param value the plaintext as a string
      * @return the ciphertext
-     * @throws RuntimeException if the encryption fails for some reason, such as {@code Cipher} initialization failure.
+    * @throws IllegalStateException if the encryption fails for some reason,
+    *         such as {@code Cipher} initialization failure.
      */
     public static String encrypt(String value) {
         try {
             SecretKeySpec sks = new SecretKeySpec(getMasterKey(), "AES");
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             byte[] iv = new byte[AES_GCM_IV_LENGTH_BYTES];
-            new SecureRandom().nextBytes(iv);
+            SECURE_RANDOM.nextBytes(iv);
             cipher.init(Cipher.ENCRYPT_MODE, sks, new GCMParameterSpec(AES_GCM_TAG_LENGTH_BITS, iv));
             byte[] encrypted = cipher.doFinal(value.getBytes(Const.ENCODING));
 
@@ -102,7 +104,7 @@ public final class StringHelper {
             System.arraycopy(encrypted, 0, encryptedWithIv, iv.length, encrypted.length);
             return byteArrayToHexString(encryptedWithIv);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to encrypt value", e);
+            throw new IllegalStateException("Failed to encrypt value", e);
         }
     }
 
@@ -112,7 +114,8 @@ public final class StringHelper {
      * @param message the ciphertext as a hexadecimal string
      * @return the plaintext
      * @throws InvalidParametersException if the ciphertext is invalid.
-     * @throws RuntimeException if the decryption fails for any other reason, such as {@code Cipher} initialization failure.
+    * @throws IllegalStateException if the decryption fails for any other reason,
+    *         such as {@code Cipher} initialization failure.
      */
     public static String decrypt(String message) throws InvalidParametersException {
         byte[] encryptedWithIv;
@@ -141,7 +144,7 @@ public final class StringHelper {
             log.warning("Attempted to decrypt invalid ciphertext, byte length: " + encryptedWithIv.length);
             throw new InvalidParametersException(e);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to decrypt message", e);
+            throw new IllegalStateException("Failed to decrypt message", e);
         }
     }
 
