@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
@@ -64,6 +65,10 @@ public class AdminHomePage extends AppPage {
             fillTextBox(detailsSingleLineTextBox, instructorDetails);
         }
         click(submitButtonDetailsSingleLineForm);
+    }
+
+    public void verifyMultipleInstructorDetails(String expectedInstructorDetails) {
+        assertEquals(expectedInstructorDetails, detailsSingleLineTextBox.getAttribute("value"));
     }
 
     public void clickMoreInfoButtonForRegisteredInstructor(int i) {
