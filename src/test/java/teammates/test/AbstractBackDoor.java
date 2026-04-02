@@ -223,7 +223,7 @@ public abstract class AbstractBackDoor {
                     + putRequestOutput.responseBody);
         }
 
-        JsonNode jsonObject = JsonUtils.parseJackson(putRequestOutput.responseBody);
+        JsonNode jsonObject = JsonUtils.parse(putRequestOutput.responseBody);
         // data bundle is nested under message key
         String message = jsonObject.get("message").asText();
         return JsonUtils.fromJson(message, SqlDataBundle.class);

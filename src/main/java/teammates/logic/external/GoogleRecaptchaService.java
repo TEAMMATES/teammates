@@ -41,7 +41,7 @@ public class GoogleRecaptchaService implements RecaptchaService {
 
         try {
             String response = getApiResponse(captchaResponse, secretKey);
-            JsonNode responseInJson = JsonUtils.parseJackson(response);
+            JsonNode responseInJson = JsonUtils.parse(response);
 
             if (responseInJson.has("error-codes")) {
                 log.warning("Error codes during reCAPTCHA verification: " + responseInJson.get("error-codes"));

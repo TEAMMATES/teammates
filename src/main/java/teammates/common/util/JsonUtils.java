@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
@@ -83,12 +84,12 @@ public final class JsonUtils {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         SimpleModule module = new SimpleModule();
-        module.addSerializer(Duration.class, new DurationMinutesJacksonSerializer());
-        module.addDeserializer(Duration.class, new DurationMinutesJacksonDeserializer());
-        module.addDeserializer(FeedbackQuestion.class, new FeedbackQuestionJacksonDeserializer());
-        module.addDeserializer(FeedbackResponse.class, new FeedbackResponseJacksonDeserializer());
-        module.addDeserializer(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsJacksonDeserializer());
-        module.addDeserializer(FeedbackResponseDetails.class, new FeedbackResponseDetailsJacksonDeserializer());
+        module.addSerializer(Duration.class, new DurationMinutesSerializer());
+        module.addDeserializer(Duration.class, new DurationMinutesDeserializer());
+        module.addDeserializer(FeedbackQuestion.class, new FeedbackQuestionDeserializer());
+        module.addDeserializer(FeedbackResponse.class, new FeedbackResponseDeserializer());
+        module.addDeserializer(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsDeserializer());
+        module.addDeserializer(FeedbackResponseDetails.class, new FeedbackResponseDetailsDeserializer());
         mapper.registerModule(module);
         mapper.registerModule(new ParameterNamesModule());
 
@@ -189,7 +190,7 @@ public final class JsonUtils {
     /**
      * Parses the specified JSON string into a {@link JsonNode} object.
      */
-    public static JsonNode parseJackson(String json) {
+    public static JsonNode parse(String json) {
         try {
             return MAPPER.readTree(json);
         } catch (IOException e) {
@@ -248,8 +249,8 @@ public final class JsonUtils {
         }
     }
 
-    private static final class DurationMinutesJacksonSerializer extends StdSerializer<Duration> {
-        DurationMinutesJacksonSerializer() {
+    private static final class DurationMinutesSerializer extends StdSerializer<Duration> {
+        DurationMinutesSerializer() {
             super(Duration.class);
         }
 
@@ -259,25 +260,25 @@ public final class JsonUtils {
         }
     }
 
-    private static final class DurationMinutesJacksonDeserializer extends StdDeserializer<Duration> {
-        DurationMinutesJacksonDeserializer() {
+    private static final class DurationMinutesDeserializer extends StdDeserializer<Duration> {
+        DurationMinutesDeserializer() {
             super(Duration.class);
         }
 
         @Override
-        public Duration deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctx)
+        public Duration deserialize(JsonParser p, DeserializationContext ctx)
                 throws IOException {
             return Duration.ofMinutes(p.getLongValue());
         }
     }
 
-    private static final class FeedbackQuestionJacksonDeserializer extends StdDeserializer<FeedbackQuestion> {
-        FeedbackQuestionJacksonDeserializer() {
+    private static final class FeedbackQuestionDeserializer extends StdDeserializer<FeedbackQuestion> {
+        FeedbackQuestionDeserializer() {
             super(FeedbackQuestion.class);
         }
 
         @Override
-        public FeedbackQuestion deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctx)
+        public FeedbackQuestion deserialize(JsonParser p, DeserializationContext ctx)
                 throws IOException {
             ObjectNode node = p.readValueAsTree();
             String qt = node.path("questionDetails").path("questionType").asText();
@@ -312,14 +313,14 @@ public final class JsonUtils {
         }
     }
 
-    private static final class FeedbackQuestionDetailsJacksonDeserializer
+    private static final class FeedbackQuestionDetailsDeserializer
             extends StdDeserializer<FeedbackQuestionDetails> {
-        FeedbackQuestionDetailsJacksonDeserializer() {
+        FeedbackQuestionDetailsDeserializer() {
             super(FeedbackQuestionDetails.class);
         }
 
         @Override
-        public FeedbackQuestionDetails deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctx)
+        public FeedbackQuestionDetails deserialize(JsonParser p, DeserializationContext ctx)
                 throws IOException {
             ObjectNode node = p.readValueAsTree();
             String qt = node.path("questionType").asText();
@@ -332,14 +333,14 @@ public final class JsonUtils {
         }
     }
 
-    private static final class FeedbackResponseDetailsJacksonDeserializer
+    private static final class FeedbackResponseDetailsDeserializer
             extends StdDeserializer<FeedbackResponseDetails> {
-        FeedbackResponseDetailsJacksonDeserializer() {
+        FeedbackResponseDetailsDeserializer() {
             super(FeedbackResponseDetails.class);
         }
 
         @Override
-        public FeedbackResponseDetails deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctx)
+        public FeedbackResponseDetails deserialize(JsonParser p, DeserializationContext ctx)
                 throws IOException {
             ObjectNode node = p.readValueAsTree();
             String qt = node.path("questionType").asText();
@@ -352,13 +353,13 @@ public final class JsonUtils {
         }
     }
 
-    private static final class FeedbackResponseJacksonDeserializer extends StdDeserializer<FeedbackResponse> {
-        FeedbackResponseJacksonDeserializer() {
+    private static final class FeedbackResponseDeserializer extends StdDeserializer<FeedbackResponse> {
+        FeedbackResponseDeserializer() {
             super(FeedbackResponse.class);
         }
 
         @Override
-        public FeedbackResponse deserialize(com.fasterxml.jackson.core.JsonParser p, DeserializationContext ctx)
+        public FeedbackResponse deserialize(JsonParser p, DeserializationContext ctx)
                 throws IOException {
             ObjectNode node = p.readValueAsTree();
             String qt = node.path("answer").path("questionType").asText();
