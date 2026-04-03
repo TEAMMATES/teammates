@@ -5,14 +5,14 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <!-- Add bucket column -->
-    <changeSet id="1">
+    <changeSet author="refactor-student-activity-logs" id="add-dedup-bucket-column">
         <addColumn tableName="feedback_session_logs">
             <column name="dedup_window_bucket" type="BIGINT"/>
         </addColumn>
     </changeSet>
 
     <!-- Backfill existing rows -->
-    <changeSet id="2">
+    <changeSet author="refactor-student-activity-logs" id="backfill-dedup-bucket">
         <sql>
             UPDATE feedback_session_logs
             SET dedup_window_bucket = FLOOR(EXTRACT(EPOCH FROM "timestamp") * 1000 / 2000)::BIGINT
@@ -21,7 +21,7 @@
     </changeSet>
 
     <!-- Remove existing duplicates -->
-    <changeSet id="3">
+    <changeSet author="refactor-student-activity-logs" id="remove-duplicate-dedup-bucket-rows">
         <sql>
             DELETE FROM feedback_session_logs
             WHERE id IN (
@@ -40,13 +40,13 @@
     </changeSet>
 
     <!-- Make column non-null -->
-    <changeSet id="4">
+    <changeSet author="refactor-student-activity-logs" id="dedup-bucket-not-null">
         <addNotNullConstraint tableName="feedback_session_logs"
             columnName="dedup_window_bucket" columnDataType="BIGINT"/>
     </changeSet>
 
     <!-- Every row must have bucket -->
-    <changeSet id="5">
+    <changeSet author="refactor-student-activity-logs" id="add-dedup-bucket-unique-constraint">
         <addUniqueConstraint tableName="feedback_session_logs"
             columnNames="student_id, session_id, feedback_session_log_type, dedup_window_bucket"
             constraintName="uq_fsl_student_session_type_bucket"/>
