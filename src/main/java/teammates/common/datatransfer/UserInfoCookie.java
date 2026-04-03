@@ -2,8 +2,6 @@ package teammates.common.datatransfer;
 
 import java.time.Instant;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JsonException;
 import teammates.common.util.Const;
@@ -20,17 +18,14 @@ public class UserInfoCookie {
 
     private long expiryTime;
 
+    private UserInfoCookie() {
+        // for Jackson deserialization
+    }
+
     public UserInfoCookie(String userId) {
         this.userId = userId;
         this.verificationCode = StringHelper.generateSignature(userId);
         this.expiryTime = Instant.now().plus(Const.COOKIE_VALIDITY_PERIOD).toEpochMilli();
-    }
-
-    @JsonCreator
-    private UserInfoCookie(String userId, String verificationCode, long expiryTime) {
-        this.userId = userId;
-        this.verificationCode = verificationCode;
-        this.expiryTime = expiryTime;
     }
 
     /**

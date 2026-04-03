@@ -4,8 +4,6 @@ import java.util.Objects;
 
 import jakarta.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -18,7 +16,10 @@ public class AccountRequestRejectionRequest extends BasicRequest {
     @Nullable
     private String reasonBody;
 
-    @JsonCreator
+    private AccountRequestRejectionRequest() {
+        // for Jackson deserialization
+    }
+
     public AccountRequestRejectionRequest(String reasonTitle, String reasonBody) {
         this.reasonTitle = SanitizationHelper.sanitizeTitle(reasonTitle);
         this.reasonBody = SanitizationHelper.sanitizeForRichText(reasonBody);
