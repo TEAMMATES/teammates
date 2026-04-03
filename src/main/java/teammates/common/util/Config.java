@@ -55,6 +55,9 @@ public final class Config {
     /** The value of the "app.encryption.key" in build.properties file. */
     public static final String ENCRYPTION_KEY;
 
+    /** The value of the "app.hmac.key" in build.properties file. */
+    public static final String HMAC_KEY;
+
     /** The value of the "app.auth.type" in build.properties file. */
     public static final String AUTH_TYPE;
 
@@ -161,7 +164,8 @@ public final class Config {
         POSTGRES_USERNAME = getProperty(properties, devProperties, "app.postgres.username");
         POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
-        ENCRYPTION_KEY = validateEncryptionKey(getProperty(properties, devProperties, "app.encryption.key"));
+        ENCRYPTION_KEY = validateHexKey(getProperty(properties, devProperties, "app.encryption.key"), "app.encryption.key");
+        HMAC_KEY = validateHexKey(getProperty(properties, devProperties, "app.hmac.key"), "app.hmac.key");
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
         OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
         OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
@@ -192,27 +196,27 @@ public final class Config {
         // access static fields directly
     }
 
-    private static String validateEncryptionKey(String encryptionKey) {
-        if (encryptionKey == null) {
-            throw new IllegalStateException("Missing app.encryption.key in build.properties/build-dev.properties");
+    private static String validateHexKey(String key, String propertyName) {
+        if (key == null) {
+            throw new IllegalStateException("Missing " + propertyName + " in build.properties/build-dev.properties");
         }
 
-        if (!encryptionKey.matches("[0-9A-Fa-f]+") || encryptionKey.length() % 2 != 0) {
-            throw new IllegalStateException("app.encryption.key must be a valid hexadecimal string with 64 chars "
+        if (!key.matches("[0-9A-Fa-f]+") || key.length() % 2 != 0) {
+            throw new IllegalStateException(propertyName + " must be a valid hexadecimal string with 64 chars "
                     + "(32 bytes)");
         }
 
-        if (encryptionKey.length() == LEGACY_ENCRYPTION_KEY_HEX_LENGTH) {
+        if (key.length() == LEGACY_ENCRYPTION_KEY_HEX_LENGTH && "app.encryption.key".equals(propertyName)) {
             // TODO: Remove this migration guard after all active environments have switched to 32-byte keys.
             throw new IllegalStateException("Detected legacy 16-byte app.encryption.key (32 hex chars). "
                     + "Update app.encryption.key to 32 bytes (64 hex chars) and reset the DB.");
         }
 
-        if (encryptionKey.length() != ENCRYPTION_KEY_HEX_LENGTH) {
-            throw new IllegalStateException("app.encryption.key must be exactly 64 hex chars (32 bytes)");
+        if (key.length() != ENCRYPTION_KEY_HEX_LENGTH) {
+            throw new IllegalStateException(propertyName + " must be exactly 64 hex chars (32 bytes)");
         }
 
-        return encryptionKey;
+        return key;
     }
 
     /**
