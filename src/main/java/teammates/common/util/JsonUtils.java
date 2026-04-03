@@ -113,6 +113,9 @@ public final class JsonUtils {
 
     /**
      * Serializes and pretty-prints the specified object into its equivalent JSON string.
+     *
+     * @see ObjectMapper#writerFor(JavaType)
+     * @see ObjectWriter#writeValueAsString(Object)
      */
     public static String toJson(Object src, Type typeOfSrc) {
         try {
@@ -125,6 +128,8 @@ public final class JsonUtils {
 
     /**
      * Serializes and pretty-prints the specified object into its equivalent JSON string.
+     *
+     * @see ObjectMapper#writeValueAsString(Object)
      */
     public static String toJson(Object src) {
         try {
@@ -136,6 +141,8 @@ public final class JsonUtils {
 
     /**
      * Serializes the specified object into its equivalent JSON string.
+     *
+     * @see ObjectMapper#writeValueAsString(Object)
      */
     public static String toCompactJson(Object src) {
         try {
@@ -148,6 +155,8 @@ public final class JsonUtils {
     /**
      * Serializes the specified object into its equivalent JSON string and stream into a writer.
      * This is done to reduce the memory consumption when creating object across call stack.
+     *
+     * @see ObjectMapper#writeValue(Writer, Object)
      */
     public static void toCompactJson(Object src, Writer writer) {
         try {
@@ -161,6 +170,8 @@ public final class JsonUtils {
 
     /**
      * Deserializes the specified JSON string into an object of the specified type.
+     *
+     * @see ObjectMapper#readValue(String, JavaType)
      */
     public static <T> T fromJson(String json, Type typeOfT) {
         try {
@@ -172,6 +183,8 @@ public final class JsonUtils {
 
     /**
      * Deserializes the specified JSON string into an object of the specified class.
+     *
+     * @see ObjectMapper#readValue(String, Class)
      */
     public static <T> T fromJson(String json, Class<T> classOfT) {
         try {
@@ -183,6 +196,8 @@ public final class JsonUtils {
 
     /**
      * Deserializes the specified JSON string into an object of the specified {@link TypeReference}.
+     *
+     * @see ObjectMapper#readValue(String, TypeReference)
      */
     public static <T> T fromJson(String json, TypeReference<T> typeRef) {
         try {
@@ -194,6 +209,8 @@ public final class JsonUtils {
 
     /**
      * Parses the specified JSON string into a {@link JsonNode} object.
+     *
+     * @see ObjectMapper#readTree(String)
      */
     public static JsonNode parse(String json) {
         try {
