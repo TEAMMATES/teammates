@@ -13,7 +13,10 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+import org.hibernate.query.NativeQuery;
+
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
@@ -125,22 +128,21 @@ public final class FeedbackSessionLogsDb {
     public boolean createFeedbackSessionLogIfNotDuplicate(FeedbackSessionLog log) {
         assert log != null;
 
-        String sql = "INSERT INTO feedback_session_logs "
-                + "(id, created_at, feedback_session_log_type, timestamp, session_id, student_id, dedup_window_bucket) "
-                + "VALUES (:id, :createdAt, :feedbackSessionLogType, :timestamp, :sessionId, "
-                + ":studentId, :dedupWindowBucket) ON CONFLICT DO NOTHING";
+        String lockKey = String.format("%s:%s:%s:%d", log.getStudent().getId(), log.getFeedbackSession().getId(),
+                log.getFeedbackSessionLogType().name(), log.getDedupWindowBucket());
 
-        int rowsAffected = HibernateUtil.createNativeMutationQuery(sql)
-                .setParameter("id", log.getId())
-                .setParameter("createdAt", log.getCreatedAt() == null ? Instant.now() : log.getCreatedAt())
-                .setParameter("feedbackSessionLogType", log.getFeedbackSessionLogType().name())
-                .setParameter("timestamp", log.getTimestamp())
-                .setParameter("sessionId", log.getFeedbackSession().getId())
-                .setParameter("studentId", log.getStudent().getId())
-                .setParameter("dedupWindowBucket", log.getDedupWindowBucket())
-                .executeUpdate();
+        NativeQuery<Object> lockQuery = HibernateUtil.createNativeQuery("SELECT pg_advisory_xact_lock(hashtext(:lockKey))");
+        lockQuery.setParameter("lockKey", lockKey).getSingleResult();
 
-        return rowsAffected == 1;
+        FeedbackSessionLog latestLog = getLatestFeedbackSessionLog(log.getStudent().getId(),
+                log.getFeedbackSession().getId(), log.getFeedbackSessionLogType());
+        if (latestLog == null || log.getTimestamp().toEpochMilli() - latestLog.getTimestamp().toEpochMilli()
+                > Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis()) {
+            createFeedbackSessionLog(log);
+            return true;
+        }
+
+        return false;
     }
 
     /**
