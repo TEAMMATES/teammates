@@ -65,7 +65,7 @@ public final class JsonUtils {
      */
     private static Gson getGsonInstance(boolean prettyPrint) {
         GsonBuilder builder = new GsonBuilder()
-                .setExclusionStrategies(new HibernateExclusionStrategy())
+                .addSerializationExclusionStrategy(new HibernateExclusionStrategy())
                 .registerTypeAdapter(User.class, new UserAdapter())
                 .registerTypeAdapter(Instant.class, new InstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new ZoneIdAdapter())
