@@ -26,6 +26,12 @@ The supported authentication providers are:
 
 ## Authentication Flows
 
+### OAuth2 Sequence (Google and Microsoft Entra ID)
+
+The following sequence diagram illustrates the generalized OAuth2 authentication flow used by both the Google OAuth and Microsoft Entra ID providers.
+
+<puml src="../diagrams/OAuth2AuthSequence.puml"/>
+
 ### Google OAuth
 
 1. The user initiates login with `provider=google`. `LoginServlet` constructs a Google authorization URL with a redirect URI and an encrypted `AuthState` containing the next URL, session ID, and provider type.
