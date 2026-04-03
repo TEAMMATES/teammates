@@ -75,11 +75,11 @@ public final class Config {
     /** Value of {@code app.auth.type}. */
     public static final String AUTH_TYPE;
 
-    /** Value of {@code app.oauth2.client.id}. */
-    public static final String OAUTH2_CLIENT_ID;
+    /** Value of {@code app.oauth2.google.client.id}. */
+    public static final String GOOGLE_OAUTH2_CLIENT_ID;
 
-    /** Value of {@code app.oauth2.client.secret}. */
-    public static final String OAUTH2_CLIENT_SECRET;
+    /** Value of {@code app.oauth2.google.client.secret}. */
+    public static final String GOOGLE_OAUTH2_CLIENT_SECRET;
 
     /** Value of {@code app.captcha.secretkey}. */
     public static final String CAPTCHA_SECRET_KEY;
@@ -194,8 +194,8 @@ public final class Config {
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
         ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
-        OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
-        OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
+        GOOGLE_OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.google.client.id");
+        GOOGLE_OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.google.client.secret");
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
         APP_ADMINS = Collections.unmodifiableList(
                 Arrays.asList(getProperty(properties, devProperties, "app.admins", "").split(",")));

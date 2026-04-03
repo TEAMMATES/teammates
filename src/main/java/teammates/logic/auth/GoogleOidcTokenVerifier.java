@@ -22,7 +22,7 @@ public final class GoogleOidcTokenVerifier {
 
     private static final GoogleIdTokenVerifier VERIFIER = new GoogleIdTokenVerifier.Builder(
             new NetHttpTransport(), GsonFactory.getDefaultInstance())
-            .setAudience(Collections.singletonList(Config.OAUTH2_CLIENT_ID))
+            .setAudience(Collections.singletonList(Config.GOOGLE_OAUTH2_CLIENT_ID))
             .build();
 
     private GoogleOidcTokenVerifier() {
