@@ -14,6 +14,7 @@
 * Design
   * [Architecture]({{ baseUrl }}/design/architecture.html)
   * [API Design]({{ baseUrl }}/design/api-design.html)
+  * [Authentication]({{ baseUrl }}/design/authentication.html)
 * Best Practices
   * [Accessibility]({{ baseUrl }}/best-practices/accessibility.html)
   * [Coding]({{ baseUrl }}/best-practices/coding.html)
