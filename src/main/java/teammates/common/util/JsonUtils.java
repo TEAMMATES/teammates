@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
@@ -34,6 +35,7 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.exception.JsonException;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
@@ -114,8 +116,8 @@ public final class JsonUtils {
         try {
             return PRETTY_MAPPER.writerFor(PRETTY_MAPPER.getTypeFactory().constructType(typeOfSrc))
                     .writeValueAsString(src);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        } catch (JsonProcessingException e) {
+            throw new JsonException(e);
         }
     }
 
@@ -125,8 +127,8 @@ public final class JsonUtils {
     public static String toJson(Object src) {
         try {
             return PRETTY_MAPPER.writeValueAsString(src);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        } catch (JsonProcessingException e) {
+            throw new JsonException(e);
         }
     }
 
@@ -136,8 +138,8 @@ public final class JsonUtils {
     public static String toCompactJson(Object src) {
         try {
             return MAPPER.writeValueAsString(src);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        } catch (JsonProcessingException e) {
+            throw new JsonException(e);
         }
     }
 
@@ -147,7 +149,9 @@ public final class JsonUtils {
      */
     public static void toCompactJson(Object src, Writer writer) {
         try {
-            MAPPER.writeValue((Writer) writer, src);
+            MAPPER.writeValue(writer, src);
+        } catch (JsonProcessingException e) {
+            throw new JsonException(e);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -159,8 +163,8 @@ public final class JsonUtils {
     public static <T> T fromJson(String json, Type typeOfT) {
         try {
             return MAPPER.readValue(json, MAPPER.getTypeFactory().constructType(typeOfT));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        } catch (JsonProcessingException e) {
+            throw new JsonException(e);
         }
     }
 
@@ -170,8 +174,8 @@ public final class JsonUtils {
     public static <T> T fromJson(String json, Class<T> classOfT) {
         try {
             return MAPPER.readValue(json, classOfT);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        } catch (JsonProcessingException e) {
+            throw new JsonException(e);
         }
     }
 
@@ -181,8 +185,8 @@ public final class JsonUtils {
     public static <T> T fromJson(String json, TypeReference<T> typeRef) {
         try {
             return MAPPER.readValue(json, typeRef);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        } catch (JsonProcessingException e) {
+            throw new JsonException(e);
         }
     }
 
@@ -192,8 +196,8 @@ public final class JsonUtils {
     public static JsonNode parse(String json) {
         try {
             return MAPPER.readTree(json);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        } catch (JsonProcessingException e) {
+            throw new JsonException(e);
         }
     }
 

@@ -1,12 +1,12 @@
 package teammates.common.datatransfer;
 
-import java.io.UncheckedIOException;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JsonException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
@@ -47,7 +47,7 @@ public class UserInfoCookie {
         try {
             String decryptedCookie = StringHelper.decrypt(cookie);
             return JsonUtils.fromJson(decryptedCookie, UserInfoCookie.class);
-        } catch (InvalidParametersException | UncheckedIOException e) {
+        } catch (InvalidParametersException | JsonException e) {
             return null;
         }
     }

@@ -1,7 +1,6 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -21,6 +20,7 @@ import com.google.firebase.auth.FirebaseToken;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JsonException;
 import teammates.common.util.Config;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
@@ -97,7 +97,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
                 logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
                 return null;
             }
-        } catch (UncheckedIOException | InvalidParametersException e) {
+        } catch (JsonException | InvalidParametersException e) {
             log.warning("Failed to parse state object", e);
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Bad state object");
             return null;
@@ -116,7 +116,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             if (parsedResponse.containsKey("email")) {
                 email = String.valueOf(parsedResponse.get("email"));
             }
-        } catch (URISyntaxException | IOException | UncheckedIOException e) {
+        } catch (URISyntaxException | IOException | JsonException e) {
             // if any of the operation fail, googleId is kept at null
             log.warning("Failed to get Google ID", e);
         }
