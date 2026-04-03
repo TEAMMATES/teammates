@@ -148,6 +148,15 @@ public final class AccountsLogic {
     }
 
     /**
+     * Persists a pre-built {@link AccountIdentity} directly (used for test data setup).
+     */
+    public AccountIdentity createAccountIdentity(AccountIdentity identity)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert identity != null;
+        return accountsDb.createAccountIdentity(identity);
+    }
+
+    /**
      * Deletes account by internal id.
      *
      * <p>Fails silently if the account doesn't exist.</p>

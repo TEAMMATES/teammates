@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -27,6 +28,7 @@ import teammates.storage.sqlentity.Team;
 // CHECKSTYLE.OFF:JavadocVariable each field represents different entity types
 public class SqlDataBundle {
     public Map<String, Account> accounts = new LinkedHashMap<>();
+    public Map<String, AccountIdentity> accountIdentities = new LinkedHashMap<>();
     public Map<String, AccountRequest> accountRequests = new LinkedHashMap<>();
     public Map<String, Course> courses = new LinkedHashMap<>();
     public Map<String, Section> sections = new LinkedHashMap<>();

@@ -106,6 +106,7 @@ public final class DataBundleLogic {
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
+        Collection<AccountIdentity> accountIdentities = dataBundle.accountIdentities.values();
 
         // Mapping of IDs or placeholder IDs to actual entity
         Map<String, Course> coursesMap = new HashMap<>();
@@ -192,10 +193,12 @@ public final class DataBundleLogic {
             UUID placeholderId = account.getId();
             account.setId(UUID.randomUUID());
             accountsMap.put(placeholderId, account);
-            for (AccountIdentity identity : account.getIdentities()) {
-                identity.setId(UUID.randomUUID());
-                identity.setAccount(account);
-            }
+        }
+
+        for (AccountIdentity identity : accountIdentities) {
+            identity.setId(UUID.randomUUID());
+            Account account = accountsMap.get(identity.getAccount().getId());
+            identity.setAccount(account);
         }
 
         for (Instructor instructor : instructors) {
@@ -290,6 +293,7 @@ public final class DataBundleLogic {
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
+        Collection<AccountIdentity> accountIdentities = dataBundle.accountIdentities.values();
 
         for (AccountRequest accountRequest : accountRequests) {
             accountRequestsLogic.createAccountRequest(accountRequest);
@@ -329,6 +333,10 @@ public final class DataBundleLogic {
 
         for (Account account : accounts) {
             accountsLogic.createAccount(account);
+        }
+
+        for (AccountIdentity identity : accountIdentities) {
+            accountsLogic.createAccountIdentity(identity);
         }
 
         for (Instructor instructor : instructors) {
@@ -390,6 +398,7 @@ public final class DataBundleLogic {
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
+        Collection<AccountIdentity> accountIdentities = dataBundle.accountIdentities.values();
 
         // Mapping of IDs or placeholder IDs to actual entity
         Map<String, Course> coursesMap = new HashMap<>();
@@ -453,12 +462,14 @@ public final class DataBundleLogic {
 
         for (Account account : accounts) {
             accountsMap.put(account.getId(), account);
-            for (AccountIdentity identity : account.getIdentities()) {
-                if (identity.getId() == null) {
-                    identity.setId(UUID.randomUUID());
-                }
-                identity.setAccount(account);
+        }
+
+        for (AccountIdentity identity : accountIdentities) {
+            if (identity.getId() == null) {
+                identity.setId(UUID.randomUUID());
             }
+            Account account = accountsMap.get(identity.getAccount().getId());
+            identity.setAccount(account);
         }
 
         for (Instructor instructor : instructors) {

@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 import com.google.gson.ExclusionStrategy;
@@ -27,7 +26,6 @@ import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
@@ -67,8 +65,7 @@ public final class JsonUtils {
      */
     private static Gson getGsonInstance(boolean prettyPrint) {
         GsonBuilder builder = new GsonBuilder()
-                .addSerializationExclusionStrategy(new HibernateExclusionStrategy())
-                .addDeserializationExclusionStrategy(new HibernateDeserializationExclusionStrategy())
+                .setExclusionStrategies(new HibernateExclusionStrategy())
                 .registerTypeAdapter(User.class, new UserAdapter())
                 .registerTypeAdapter(Instant.class, new InstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new ZoneIdAdapter())
@@ -160,33 +157,7 @@ public final class JsonUtils {
 
         @Override
         public boolean shouldSkipField(FieldAttributes f) {
-            // Exclude @OneToMany fields to avoid circular references, except Account.identities
-            // which must be serialized so identities reach the backend during test data setup
-            if (f.getAnnotation(OneToMany.class) != null && !f.getName().equals("identities")) {
-                return true;
-            }
-            // Exclude the @ManyToOne back-reference in AccountIdentity to prevent the
-            // Account → identities → AccountIdentity → account circular loop
-            if (AccountIdentity.class.equals(f.getDeclaringClass())
-                    && f.getAnnotation(ManyToOne.class) != null) {
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public boolean shouldSkipClass(Class<?> clazz) {
-            return false;
-        }
-    }
-
-    private static final class HibernateDeserializationExclusionStrategy implements ExclusionStrategy {
-
-        @Override
-        public boolean shouldSkipField(FieldAttributes f) {
-            // Exclude @OneToMany fields during deserialization except for Account.identities,
-            // which must be populated from test data JSON
-            return f.getAnnotation(OneToMany.class) != null && !f.getName().equals("identities");
+            return f.getAnnotation(OneToMany.class) != null;
         }
 
         @Override

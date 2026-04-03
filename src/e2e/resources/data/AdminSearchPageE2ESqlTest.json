@@ -3,16 +3,7 @@
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
       "name": "Instructor1 of Course1",
-      "email": "asearch.instructor1@gmail.tmt",
-      "identities": [
-        {
-          "id": "00000000-0000-4000-8000-000000000101",
-          "issuer": "https://securetoken.google.com/project",
-          "subject": "subject-instructor1OfCourse1",
-          "loginIdentifier": "asearch.instructor1@gmail.tmt",
-          "providerName": "Google"
-        }
-      ]
+      "email": "asearch.instructor1@gmail.tmt"
     },
     "instructor2OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000002",
@@ -22,16 +13,29 @@
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000003",
       "name": "Student1 in course1",
-      "email": "asearch.student@gmail.tmt",
-      "identities": [
-        {
-          "id": "00000000-0000-4000-8000-000000000103",
-          "issuer": "https://securetoken.google.com/project",
-          "subject": "subject-student1InCourse1",
-          "loginIdentifier": "asearch.student@gmail.tmt",
-          "providerName": "Google"
-        }
-      ]
+      "email": "asearch.student@gmail.tmt"
+    }
+  },
+  "accountIdentities": {
+    "instructor1OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "issuer": "https://securetoken.google.com/project",
+      "subject": "subject-instructor1OfCourse1",
+      "loginIdentifier": "asearch.instructor1@gmail.tmt",
+      "providerName": "Google",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    "student1InCourse1": {
+      "id": "00000000-0000-4000-8000-000000000103",
+      "issuer": "https://securetoken.google.com/project",
+      "subject": "subject-student1InCourse1",
+      "loginIdentifier": "asearch.student@gmail.tmt",
+      "providerName": "Google",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000003"
+      }
     }
   },
   "accountRequests": {
