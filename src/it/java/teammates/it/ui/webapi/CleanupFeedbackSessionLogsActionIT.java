@@ -41,9 +41,9 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         return GET;
     }
 
-        @Test
-        @Override
-        protected void testExecute() throws Exception {
+    @Test
+    @Override
+    protected void testExecute() throws Exception {
         ______TS("Should delete logs older than 90 days and preserve recent logs");
 
         Student student = typicalBundle.students.get("student1InCourse1");
@@ -123,10 +123,10 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
                 logsAfter.stream().anyMatch(log -> log.getTimestamp().equals(boundaryTimestamp)));
 
         // Verify all remaining logs are not older than the retention boundary (inclusive).
-                for (FeedbackSessionLog log : logsAfter) {
-                        assertTrue("All remaining logs should be within 90 days",
-                                        !log.getTimestamp().isBefore(retentionCutoff));
-                }
+        for (FeedbackSessionLog log : logsAfter) {
+            assertTrue("All remaining logs should be within 90 days",
+                    !log.getTimestamp().isBefore(retentionCutoff));
+        }
     }
 
     @Test
