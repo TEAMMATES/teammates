@@ -27,11 +27,7 @@ public class MailgunService implements EmailSenderService {
 
     private static final Logger log = Logger.getLogger();
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public FormDataMultiPart parseToEmail(EmailWrapper wrapper) {
+    FormDataMultiPart parseToEmail(EmailWrapper wrapper) {
         FormDataMultiPart formData = new FormDataMultiPart();
 
         String sender = wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()

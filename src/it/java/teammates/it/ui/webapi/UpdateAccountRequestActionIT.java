@@ -53,7 +53,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
                 "institute", AccountRequestStatus.PENDING, "comments");
         UUID id = accountRequest.getId();
         String name = "newName";
-        String email = "newEmail@email.com";
+        String email = "newemail@email.com";
         String institute = "newInstitute";
         String comments = "newComments";
         AccountRequestStatus status = accountRequest.getStatus();
@@ -97,7 +97,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         accountRequest = logic.createAccountRequest("name", "email@email.com",
                 "institute", AccountRequestStatus.PENDING, "comments");
         id = accountRequest.getId();
-        email = "newEmail";
+        email = "newemail";
         status = accountRequest.getStatus();
 
         requestBody = new AccountRequestUpdateRequest(name, email, institute, status, comments);
@@ -111,7 +111,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ______TS("invalid name alphanumeric");
         name = "@$@#$#@#@$#@$";
-        email = "newEmail@email.com";
+        email = "newemail@email.com";
 
         requestBody = new AccountRequestUpdateRequest(name, email, institute, status, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};

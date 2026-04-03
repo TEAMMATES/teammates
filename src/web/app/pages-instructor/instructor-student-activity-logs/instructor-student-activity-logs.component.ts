@@ -35,6 +35,7 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../components/sortable-table/sortable-table.component';
+import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { TimepickerComponent } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -331,7 +332,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
             if (
               this.formModel.selectedStudent.studentEmail !== ''
-              && student.email !== this.formModel.selectedStudent.studentEmail
+              && !areEmailsEqual(student.email, this.formModel.selectedStudent.studentEmail)
             ) {
               return false;
             }

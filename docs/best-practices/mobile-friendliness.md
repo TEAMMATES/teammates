@@ -4,18 +4,15 @@
 
 # Mobile-Friendliness Best Practices
 
-TEAMMATES aims to be easy to use on mobile devices on top of desktop devices. Mobile-friendliness can be subjective, but we have compiled some general guidelines below.
-
-Note that the smallest screen width TEAMMATES supports is 360px.
+TEAMMATES supports screen widths from 360px and up.
 
 ## Content
 
-* Content should be responsive to different screen sizes (e.g. mobile, tablet, desktop).
-* Content should not overflow on smaller screen sizes.
-* Horizontal scrolling should be reduced as much as possible.
-* Content should be clearly readable on smaller screen sizes.
+- Content should be responsive across mobile, tablet, and desktop screen sizes.
+- Content should not overflow or require horizontal scrolling on smaller screens.
+- Text should remain clearly readable at all screen sizes.
 
-## Interactive elements (e.g. buttons, links, tooltips)
+## Interactive Elements
 
-* Interactive elements should be spaced far apart enough that users can easily tap them on mobile devices.
-* Tooltips that appear on hover should also be accessible on mobile devices (e.g. tap and hold).
+- Buttons, links, and other interactive elements should be spaced far enough apart for comfortable tapping on mobile.
+- Tooltips that appear on hover should also be accessible on mobile (e.g. via tap and hold).
