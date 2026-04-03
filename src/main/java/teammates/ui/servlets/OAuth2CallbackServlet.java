@@ -23,6 +23,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -131,7 +132,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         try {
-            Account account = AccountsLogic.inst().resolveOrCreateAccountFromOidc(
+            Account account = resolveOrCreateAccountFromOidc(
                     iss, sub, email, name, Const.LoginProviders.GOOGLE);
             return new AuthResult(account.getId().toString(), nextUrl);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
@@ -158,12 +159,27 @@ public class OAuth2CallbackServlet extends AuthServlet {
             String uid = userToken.getUid();
             String projectId = FirebaseApp.getInstance().getOptions().getProjectId();
             String issuer = "https://securetoken.google.com/" + projectId;
-            Account account = AccountsLogic.inst().resolveOrCreateAccountFromOidc(
+            Account account = resolveOrCreateAccountFromOidc(
                     issuer, uid, email, email, Const.LoginProviders.GOOGLE);
             return new AuthResult(account.getId().toString(), nextUrl);
         } catch (FirebaseAuthException | InvalidParametersException | EntityAlreadyExistsException e) {
             log.warning("Invalid Firebase ID token or account resolution failed", e);
             return new AuthResult(null, nextUrl);
+        }
+    }
+
+    private Account resolveOrCreateAccountFromOidc(
+            String issuer, String subject, String email, String name, String providerName)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        try {
+            HibernateUtil.beginTransaction();
+            Account account = AccountsLogic.inst().resolveOrCreateAccountFromOidc(
+                    issuer, subject, email, name, providerName);
+            HibernateUtil.commitTransaction();
+            return account;
+        } catch (RuntimeException | InvalidParametersException | EntityAlreadyExistsException e) {
+            HibernateUtil.rollbackTransaction();
+            throw e;
         }
     }
 

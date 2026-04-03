@@ -893,9 +893,9 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         final int maxAttempts = 3;
         final int waitMs = 2000;
         for (int attempt = 0; attempt < maxAttempts; attempt++) {
-            List<WebElement> teamPanels = sectionPanel.findElements(By.id("team-panel"));
+            List<WebElement> teamPanels = sectionPanel.findElements(By.xpath(".//*[@id='team-panel']"));
             for (WebElement teamPanel : teamPanels) {
-                List<WebElement> teamHeaders = teamPanel.findElements(By.id("team-header"));
+                List<WebElement> teamHeaders = teamPanel.findElements(By.xpath(".//*[@id='team-header']"));
                 for (WebElement teamHeader : teamHeaders) {
                     String headerText = teamHeader.getText().trim();
                     if (headerText.startsWith(teamName)) {
