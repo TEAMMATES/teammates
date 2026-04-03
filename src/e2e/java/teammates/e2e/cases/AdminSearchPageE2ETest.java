@@ -45,9 +45,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         String studentDetails = getExpectedStudentDetails(student);
         String studentManageAccountLink = getExpectedStudentManageAccountLink(student);
         String studentProfileLink = getExpectedStudentProfileLink(student);
+        String studentProvider = getExpectedProvider(student);
         int numExpandedRows = getExpectedNumExpandedRows(student);
         searchPage.verifyStudentRowContent(student, course, studentDetails, studentManageAccountLink,
-                studentProfileLink);
+                studentProfileLink, studentProvider);
         searchPage.verifyStudentExpandedLinks(student, numExpandedRows);
 
         ______TS("Typical case: Reset student account");
@@ -69,8 +70,9 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         String instructorManageAccountLink = getExpectedInstructorManageAccountLink(instructor);
         String instructorHomePageLink = getExpectedInstructorHomePageLink(instructor);
+        String instructorProvider = getExpectedProvider(instructor);
         searchPage.verifyInstructorRowContent(instructor, course, instructorManageAccountLink,
-                instructorHomePageLink);
+                instructorHomePageLink, instructorProvider);
         searchPage.verifyInstructorExpandedLinks(instructor);
 
         ______TS("Typical case: Reset instructor account");
@@ -237,6 +239,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
                 : "";
     }
 
+    private String getExpectedProvider(Student student) {
+        return student.isRegistered() ? Const.LoginProviders.GOOGLE : "";
+    }
+
     private int getExpectedNumExpandedRows(Student student) {
         int expectedNumExpandedRows = 2 + (student.isRegistered() ? 1 : 0);
         for (FeedbackSession sessions : testData.feedbackSessions.values()) {
@@ -262,6 +268,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                 .withUserId(accountId)
                 .toAbsoluteString();
+    }
+
+    private String getExpectedProvider(Instructor instructor) {
+        return instructor.isRegistered() ? Const.LoginProviders.GOOGLE : "";
     }
 
     @AfterClass

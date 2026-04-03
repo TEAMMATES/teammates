@@ -61,6 +61,7 @@
                   @if (instructor.homePageLink) {
                     <a href="{{ instructor.homePageLink }}"
                       (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer"
+                      [attr.aria-label]="instructor.loginIdentifier || ('Open home page for ' + instructor.name)"
                       [innerHtml]="instructor.loginIdentifier | highlighter:searchString:true">
                     </a>
                   }
@@ -188,16 +189,19 @@
                       </div>
                     </td>
                     <td><a href="{{ student.profilePageLink }}"
-                      (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.name | highlighter:searchString:true">
+                      (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer"
+                      [attr.aria-label]="student.name || ('Open profile for ' + student.email)"
+                      [innerHtml]="student.name | highlighter:searchString:true">
                     </a></td>
                     <td>
-                      @if (student.profilePageLink) {
-                        <a href="{{ student.profilePageLink }}"
+                      @if (student.homePageLink) {
+                        <a href="{{ student.homePageLink }}"
                           (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer"
+                          [attr.aria-label]="student.loginIdentifier || ('Open home page for ' + student.name)"
                           [innerHtml]="student.loginIdentifier | highlighter:searchString:true">
                         </a>
                       }
-                      @if (!student.profilePageLink) {
+                      @if (!student.homePageLink) {
                         <span [innerHtml]="student.loginIdentifier | highlighter:searchString:true"></span>
                       }
                     </td>

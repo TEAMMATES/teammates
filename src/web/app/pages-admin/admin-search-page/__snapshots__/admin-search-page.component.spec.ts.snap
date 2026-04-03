@@ -142,6 +142,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
             </td>
             <td>
               <a
+                aria-label="Open home page for instructor"
                 href="home-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -277,7 +278,8 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
             </td>
             <td>
               <a
-                href="profile-page-link"
+                aria-label="student"
+                href="home-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -286,7 +288,8 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
             </td>
             <td>
               <a
-                href="profile-page-link"
+                aria-label="student-login@gmail.tmt"
+                href="home-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -539,6 +542,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
             </td>
             <td>
               <a
+                aria-label="tester-login@tester.com"
                 href="home-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -813,6 +817,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
             </td>
             <td>
               <a
+                aria-label="Alice Betsy"
                 href="profile-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -822,6 +827,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
             </td>
             <td>
               <a
+                aria-label="student-login@gmail.tmt"
                 href="profile-page-link"
                 rel="noopener noreferrer"
                 target="_blank"

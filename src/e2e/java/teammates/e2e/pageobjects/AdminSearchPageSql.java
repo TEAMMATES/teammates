@@ -193,6 +193,10 @@ public class AdminSearchPageSql extends AppPage {
         return getColumnText(studentRow, STUDENT_COL_INSTITUTE);
     }
 
+    public String getStudentProvider(WebElement studentRow) {
+        return getColumnText(studentRow, STUDENT_COL_PROVIDER);
+    }
+
     public String getStudentComments(WebElement studentRow) {
         return getColumnText(studentRow, STUDENT_COL_COMMENTS);
     }
@@ -256,6 +260,10 @@ public class AdminSearchPageSql extends AppPage {
 
     public String getInstructorInstitute(WebElement instructorRow) {
         return getColumnText(instructorRow, INSTRUCTOR_COL_INSTITUTE);
+    }
+
+    public String getInstructorProvider(WebElement instructorRow) {
+        return getColumnText(instructorRow, INSTRUCTOR_COL_PROVIDER);
     }
 
     public String getInstructorManageAccountLink(WebElement instructorRow) {
@@ -482,11 +490,12 @@ public class AdminSearchPageSql extends AppPage {
 
     public void verifyStudentRowContent(Student student, Course course,
                                         String expectedDetails, String expectedManageAccountLink,
-                                        String expectedProfileLink) {
+                                        String expectedProfileLink, String expectedProvider) {
         WebElement studentRow = getStudentRow(student);
         String actualDetails = getStudentDetails(studentRow);
         String actualName = getStudentName(studentRow);
         String actualProfileLink = getStudentProfileLink(studentRow);
+        String actualProvider = getStudentProvider(studentRow);
         String actualInstitute = getStudentInstitute(studentRow);
         String actualComment = getStudentComments(studentRow);
         String actualManageAccountLink = getStudentManageAccountLink(studentRow);
@@ -498,6 +507,7 @@ public class AdminSearchPageSql extends AppPage {
         assertEquals(expectedDetails, actualDetails);
         assertEquals(expectedName, actualName);
         assertEquals(expectedProfileLink, actualProfileLink);
+        assertEquals(expectedProvider, actualProvider);
         assertEquals(expectedInstitute, actualInstitute);
         assertEquals(expectedComment, actualComment);
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
@@ -536,11 +546,13 @@ public class AdminSearchPageSql extends AppPage {
     }
 
     public void verifyInstructorRowContent(Instructor instructor, Course course,
-                                           String expectedManageAccountLink, String expectedHomePageLink) {
+                                           String expectedManageAccountLink, String expectedHomePageLink,
+                                           String expectedProvider) {
         WebElement instructorRow = getInstructorRow(instructor);
         String actualCourseId = getInstructorCourseId(instructorRow);
         String actualName = getInstructorName(instructorRow);
         String actualHomePageLink = getInstructorHomePageLink(instructorRow);
+        String actualProvider = getInstructorProvider(instructorRow);
         String actualInstitute = getInstructorInstitute(instructorRow);
         String actualManageAccountLink = getInstructorManageAccountLink(instructorRow);
 
@@ -551,6 +563,7 @@ public class AdminSearchPageSql extends AppPage {
         assertEquals(expectedCourseId, actualCourseId);
         assertEquals(expectedName, actualName);
         assertEquals(expectedHomePageLink, actualHomePageLink);
+        assertEquals(expectedProvider, actualProvider);
         assertEquals(expectedInstitute, actualInstitute);
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
     }
