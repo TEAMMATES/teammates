@@ -12,6 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -191,6 +192,10 @@ public final class DataBundleLogic {
             UUID placeholderId = account.getId();
             account.setId(UUID.randomUUID());
             accountsMap.put(placeholderId, account);
+            for (AccountIdentity identity : account.getIdentities()) {
+                identity.setId(UUID.randomUUID());
+                identity.setAccount(account);
+            }
         }
 
         for (Instructor instructor : instructors) {
@@ -448,6 +453,12 @@ public final class DataBundleLogic {
 
         for (Account account : accounts) {
             accountsMap.put(account.getId(), account);
+            for (AccountIdentity identity : account.getIdentities()) {
+                if (identity.getId() == null) {
+                    identity.setId(UUID.randomUUID());
+                }
+                identity.setAccount(account);
+            }
         }
 
         for (Instructor instructor : instructors) {

@@ -243,6 +243,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         return student.isRegistered() ? Const.LoginProviders.GOOGLE : "";
     }
 
+    private String getExpectedProvider(Instructor instructor) {
+        return instructor.isRegistered() ? Const.LoginProviders.GOOGLE : "";
+    }
+
     private int getExpectedNumExpandedRows(Student student) {
         int expectedNumExpandedRows = 2 + (student.isRegistered() ? 1 : 0);
         for (FeedbackSession sessions : testData.feedbackSessions.values()) {
@@ -268,10 +272,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                 .withUserId(accountId)
                 .toAbsoluteString();
-    }
-
-    private String getExpectedProvider(Instructor instructor) {
-        return instructor.isRegistered() ? Const.LoginProviders.GOOGLE : "";
     }
 
     @AfterClass
