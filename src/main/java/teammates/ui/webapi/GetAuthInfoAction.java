@@ -57,11 +57,11 @@ public class GetAuthInfoAction extends Action {
             output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE);
         }
 
-        String csrfToken = StringHelper.encrypt(req.getSession().getId());
         String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
         if (existingCsrfToken != null && isMatchingCsrfToken(existingCsrfToken, req.getSession().getId())) {
             return new JsonResult(output);
         }
+        String csrfToken = StringHelper.encrypt(req.getSession().getId());
         Cookie csrfTokenCookie = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, csrfToken);
         csrfTokenCookie.setPath("/");
         List<Cookie> cookieList = Collections.singletonList(csrfTokenCookie);
