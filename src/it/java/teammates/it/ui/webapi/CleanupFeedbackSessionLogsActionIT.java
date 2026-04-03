@@ -41,8 +41,8 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         return GET;
     }
 
-    @Test
-    @Override
+        @Test
+        @Override
         protected void testExecute() throws Exception {
         ______TS("Should delete logs older than 90 days and preserve recent logs");
 
@@ -94,7 +94,10 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         List<FeedbackSessionLog> logsBefore = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
                 Instant.EPOCH, referenceNow.plusSeconds(60));
         boolean oldLogExistsBefore = logsBefore.stream().anyMatch(log -> log.getTimestamp().equals(oldTimestamp));
+        boolean atCutoffLogExistsBefore = logsBefore.stream()
+                .anyMatch(log -> log.getTimestamp().equals(atCutoffTimestamp));
         assertTrue("Old log with timestamp " + oldTimestamp + " should exist before cleanup", oldLogExistsBefore);
+        assertTrue("Log with timestamp exactly at cutoff should exist before cleanup", atCutoffLogExistsBefore);
 
         // Execute cleanup
         CleanupFeedbackSessionLogsAction action = getAction();
@@ -120,10 +123,10 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
                 logsAfter.stream().anyMatch(log -> log.getTimestamp().equals(boundaryTimestamp)));
 
         // Verify all remaining logs are not older than the retention boundary (inclusive).
-        for (FeedbackSessionLog log : logsAfter) {
-            assertTrue("All remaining logs should be within 90 days",
+                for (FeedbackSessionLog log : logsAfter) {
+                        assertTrue("All remaining logs should be within 90 days",
                                         !log.getTimestamp().isBefore(retentionCutoff));
-        }
+                }
     }
 
     @Test
