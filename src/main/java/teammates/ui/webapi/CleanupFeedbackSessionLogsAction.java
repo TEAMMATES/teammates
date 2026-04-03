@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.time.Clock;
 import java.time.Instant;
 
 import teammates.common.util.Const;
@@ -9,9 +10,11 @@ import teammates.common.util.Const;
  */
 public class CleanupFeedbackSessionLogsAction extends AdminOnlyAction {
 
+    private Clock clock = Clock.systemUTC();
+
     @Override
     public JsonResult execute() {
-        Instant cutoffTime = Instant.now().minus(Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD);
+        Instant cutoffTime = Instant.now(clock).minus(Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD);
         sqlLogic.deleteFeedbackSessionLogsOlderThan(cutoffTime);
         return new JsonResult("Successful");
     }
