@@ -1,6 +1,6 @@
 # Contributing to TEAMMATES
 
-Before opening an issue or pull request, please read our [Contributor Guide](https://teammates.github.io/teammates/contributing.html) in full. Contributions that do not follow the outlined process will be closed without review.
+Before opening an issue or pull request, please read our [Contributing Guidelines](https://teammates.github.io/teammates/contributing/guidelines.html) and [Development Workflow](https://teammates.github.io/teammates/contributing/development-workflow.html) in full. Contributions that do not follow the outlined process will be closed without review.
 
 ## Code of Conduct
 
@@ -14,7 +14,8 @@ By participating in this project, you agree to uphold the [TEAMMATES Code of Con
 ## Submitting a Pull Request
 
 - Ensure your PR addresses an open issue in the issue tracker. If one does not exist, open an issue first and wait for the team to confirm before starting work.
-- Follow the development process outlined in the [Contributor Guide](https://teammates.github.io/teammates/contributing.html).
+- Do not submit pull requests for issues that are already assigned.
+- Follow the development process outlined in the [Development Workflow](https://teammates.github.io/teammates/contributing/development-workflow.html).
 
 By submitting a PR, you agree to license your work under the [GNU GPL v2 License](https://github.com/TEAMMATES/teammates/blob/master/LICENSE).
 
