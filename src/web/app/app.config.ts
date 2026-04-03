@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms';
 import {
   provideProtractorTestingSupport,
 } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {
@@ -44,7 +43,6 @@ export const appConfig: ApplicationConfig = {
     ),
     customUrlSerializerProvider,
     provideHttpClient(withInterceptorsFromDi()),
-    provideAnimations(),
     provideProtractorTestingSupport(),
     provideRouter(routes),
   ],
