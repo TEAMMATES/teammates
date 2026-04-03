@@ -17,7 +17,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingRetryComponent } from '../loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { NotificationStyleClassPipe } from '../teammates-common/notification-style-class.pipe';
 
 export interface NotificationTab {
@@ -35,7 +34,6 @@ export interface NotificationTab {
   selector: 'tm-user-notifications-list',
   templateUrl: './user-notifications-list.component.html',
   styleUrls: ['./user-notifications-list.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,

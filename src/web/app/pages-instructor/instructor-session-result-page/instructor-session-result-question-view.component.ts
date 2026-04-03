@@ -15,7 +15,6 @@ import {
 import {
   QuestionTextWithInfoComponent,
 } from '../../components/question-text-with-info/question-text-with-info.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
  * Instructor sessions results page question view.
@@ -24,7 +23,6 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
   selector: 'tm-instructor-session-result-question-view',
   templateUrl: './instructor-session-result-question-view.component.html',
   styleUrls: ['./instructor-session-result-question-view.component.scss'],
-  animations: [collapseAnim],
   imports: [
     QuestionTextWithInfoComponent,
     PanelChevronComponent,

@@ -81,7 +81,7 @@
         </div>
       </button>
       @if (!model.isCollapsed) {
-        <div @collapseAnim>
+        <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
           <div class="card-body">
             <div class="background-color-light-blue">
               <div class="row">

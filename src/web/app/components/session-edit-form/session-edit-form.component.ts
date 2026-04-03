@@ -27,7 +27,6 @@ import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
 import { DatepickerComponent } from '../datepicker/datepicker.component';
 import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
@@ -41,7 +40,6 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
   templateUrl: './session-edit-form.component.html',
   styleUrls: ['./session-edit-form.component.scss'],
   providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
-  animations: [collapseAnim],
   imports: [
     FormsModule,
     TeammatesRouterDirective,

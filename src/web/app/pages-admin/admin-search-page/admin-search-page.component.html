@@ -202,7 +202,7 @@
                       <tr>
                         <td colspan="6">
                           @if (student.showLinks) {
-                            <ul class="list-group" @collapseAnim>
+                            <ul class="list-group" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                               <li class="list-group-item list-group-item-success has-success">
                                 <strong>Email</strong>
                                 <input [value]="student.email" disabled class="form-control">

@@ -42,11 +42,9 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
       </span>
     </button>
   </div><div
-    class="margin-top-30px ng-trigger ng-trigger-collapseAnim ng-animating"
+    class="margin-top-30px"
   >
-    <tm-notification-edit-form
-      style=""
-    >
+    <tm-notification-edit-form>
       <div
         class="card card-plain"
       >

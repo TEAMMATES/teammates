@@ -11,7 +11,6 @@ import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../
 import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface OngoingSessionModel {
@@ -28,7 +27,6 @@ interface OngoingSessionModel {
   selector: 'tm-admin-sessions-page',
   templateUrl: './admin-sessions-page.component.html',
   styleUrls: ['./admin-sessions-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     FormsModule,
     NgbInputDatepicker,

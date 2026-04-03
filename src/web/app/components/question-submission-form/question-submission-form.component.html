@@ -13,7 +13,7 @@
   </div>
 
   @if (shouldTabExpand()) {
-    <div @collapseAnim>
+    <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
       <div class="card-body" *tmIsLoading="model.isLoading">
         @if (model.questionDescription) {
           <div class="card mb-3">

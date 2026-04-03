@@ -99,13 +99,9 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
             </tm-panel-chevron>
           </div>
         </div>
-        <div
-          class="ng-trigger ng-trigger-collapseAnim ng-animating"
-        >
+        <div>
           <tm-loading-retry>
-            <div
-              style=""
-            >
+            <div>
               <div
                 class="card-body"
               >

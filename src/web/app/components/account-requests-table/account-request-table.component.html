@@ -130,7 +130,7 @@
                 <tr>
                   <td colspan="100">
                     @if (accountRequest.showLinks) {
-                      <ul class="list-group" @collapseAnim>
+                      <ul class="list-group" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                         <li class="list-group-item list-group-item-info">
                           <strong>Account Registration Link</strong>
                           <input [value]="accountRequest.registrationLink" disabled class="form-control">

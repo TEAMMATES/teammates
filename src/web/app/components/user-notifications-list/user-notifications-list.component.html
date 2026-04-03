@@ -35,7 +35,7 @@
               </div>
             </div>
             @if (notificationTab.hasTabExpanded) {
-              <div class="mb-0" @collapseAnim>
+              <div class="mb-0" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                 <div [ngClass]="getBodyTextClass(notificationTab)">
                   <div class="notification-message" [innerHtml]="notificationTab.notification.message"></div>
                 </div>

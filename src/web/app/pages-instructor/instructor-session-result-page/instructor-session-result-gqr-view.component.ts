@@ -9,7 +9,6 @@ import { PanelChevronComponent } from '../../components/panel-chevron/panel-chev
 import {
   GqrRqgViewResponsesComponent,
 } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
  * Instructor sessions results page GQR view.
@@ -18,7 +17,6 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
   selector: 'tm-instructor-session-result-gqr-view',
   templateUrl: './instructor-session-result-gqr-view.component.html',
   styleUrls: ['./instructor-session-result-gqr-view.component.scss'],
-  animations: [collapseAnim],
   imports: [
     PanelChevronComponent,
     LoadingSpinnerDirective,

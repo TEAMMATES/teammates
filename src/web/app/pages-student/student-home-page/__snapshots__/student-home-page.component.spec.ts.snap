@@ -199,12 +199,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           <div
             class="table-responsive"
           >
-            <div
-              class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            >
+            <div>
               <table
                 class="table table-striped table-bordered margin-0"
-                style=""
               >
                 <thead>
                   <tr>
@@ -365,12 +362,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           <div
             class="table-responsive"
           >
-            <div
-              class="ng-trigger ng-trigger-collapseAnim ng-animating"
-            >
+            <div>
               <table
                 class="table table-striped table-bordered margin-0"
-                style=""
               >
                 <thead>
                   <tr>

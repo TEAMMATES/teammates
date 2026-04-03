@@ -10,7 +10,7 @@
             </div>
           </h6>
           @if (teamExpanded[teamInfo.key]) {
-            <div @collapseAnim class="background-color-warning">
+            <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave" class="background-color-warning">
               <div class="card-body">
                 @for (userInfo of teamInfo.value; track userInfo) {
                   <div>
@@ -73,7 +73,7 @@
       </div>
     </h6>
     @if (userExpanded[userInfo]) {
-      <div @collapseAnim>
+      <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
         <div class="card-body">
           @if (userHasRealResponses[userInfo]) {
             @for (other of responsesToShow[userInfo] | keyvalue; track other.key; let isLast = $last) {

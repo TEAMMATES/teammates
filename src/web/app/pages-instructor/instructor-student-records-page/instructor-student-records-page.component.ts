@@ -27,7 +27,6 @@ import { PanelChevronComponent } from '../../components/panel-chevron/panel-chev
 import {
   GrqRgqViewResponsesComponent,
 } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
@@ -46,7 +45,6 @@ interface SessionTab {
   selector: 'tm-instructor-student-records-page',
   templateUrl: './instructor-student-records-page.component.html',
   styleUrls: ['./instructor-student-records-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,

@@ -46,7 +46,6 @@ import {
   RecycleBinFeedbackSessionRowModel,
   SessionsRecycleBinTableComponent,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
-import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import { ViewResultsPanelComponent } from '../../../components/view-results-panel/view-results-panel.component';
 import { VisibilityPanelComponent } from '../../../components/visibility-panel/visibility-panel.component';
@@ -76,7 +75,6 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-sessions-section',
   templateUrl: './instructor-help-sessions-section.component.html',
   styleUrls: ['./instructor-help-sessions-section.component.scss'],
-  animations: [collapseAnim],
   imports: [
     InstructorHelpPanelComponent,
     ExampleBoxComponent,

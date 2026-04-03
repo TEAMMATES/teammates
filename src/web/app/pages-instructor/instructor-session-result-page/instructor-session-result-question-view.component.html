@@ -21,7 +21,7 @@
       </div>
     </div>
     @if (question.isTabExpanded) {
-      <div @collapseAnim>
+      <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
         <div *tmIsLoading="!question.hasPopulated && !question.errorMessage"></div>
         <tm-loading-retry
           class="m-3"

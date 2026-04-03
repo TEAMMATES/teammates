@@ -313,3 +313,31 @@ a i.fa-info-circle {
 .table-responsive {
   -webkit-overflow-scrolling: auto;
 }
+
+// Collapse animations
+@keyframes tm-collapse-enter {
+  from { grid-template-rows: 0fr; opacity: 0; }
+  to   { grid-template-rows: 1fr; opacity: 1; }
+}
+
+@keyframes tm-collapse-leave {
+  from { grid-template-rows: 1fr; opacity: 1; }
+  to   { grid-template-rows: 0fr; opacity: 0; }
+}
+
+.tm-collapse {
+  display: grid;
+  overflow: hidden;
+}
+
+.tm-collapse > * {
+  overflow: hidden;
+}
+
+.tm-collapse-enter {
+  animation: tm-collapse-enter 300ms ease-in-out forwards;
+}
+
+.tm-collapse-leave {
+  animation: tm-collapse-leave 300ms ease-in-out forwards;
+}

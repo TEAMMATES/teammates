@@ -29,7 +29,7 @@
     </div>
   </div>
   @if (isTabExpanded) {
-    <div @collapseAnim>
+    <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
       <div *tmIsLoading="!isNoResponseStudentsLoaded" class="card-body">
         @if (noResponseStudentsInSection.length) {
           <div>

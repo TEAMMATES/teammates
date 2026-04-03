@@ -65,7 +65,6 @@ import { CourseEditFormComponent } from '../../components/course-edit-form/cours
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
@@ -86,7 +85,6 @@ interface InstructorEditPanelDetail {
   selector: 'tm-instructor-course-edit-page',
   templateUrl: './instructor-course-edit-page.component.html',
   styleUrls: ['./instructor-course-edit-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,

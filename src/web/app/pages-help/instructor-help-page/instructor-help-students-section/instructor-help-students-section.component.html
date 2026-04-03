@@ -28,7 +28,7 @@
       </li>
     </ol>
     @if (questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]) {
-      <tm-example-box @collapseAnim>
+      <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
         <tm-course-related-info [student]="exampleStudentAttributes" [isDisplayOnly]="true"></tm-course-related-info>
       </tm-example-box>
     }
@@ -80,7 +80,7 @@
         Note that moving a student to a different team (i.e. changing the student's Team ID) will change the student's team in all existing sessions in the course.
       </p>
       @if (questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]) {
-        <tm-example-box @collapseAnim>
+        <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
           <tm-instructor-course-student-edit-page [isEnabled]="false"></tm-instructor-course-student-edit-page>
         </tm-example-box>
       }
@@ -114,7 +114,7 @@
         You can search for students from the <span class="ui-text">Search</span> page. Click the <span class="ui-text">Search</span> tab in the navigation bar at the top of the page. You should see a search bar similar to the one below:
       </p>
       @if (questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]) {
-        <tm-example-box @collapseAnim><tm-instructor-search-bar></tm-instructor-search-bar></tm-example-box>
+        <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave"><tm-instructor-search-bar></tm-instructor-search-bar></tm-example-box>
       }
       <p>
         To search for a student:
@@ -138,7 +138,7 @@
         If you search for <code>alice</code>, the search results would show something like this (assuming such a student exists):
       </p>
       @if (questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]) {
-        <tm-example-box @collapseAnim>
+        <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
           <tm-student-result-table [studentTables]="exampleSingleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
         </tm-example-box>
       }
@@ -147,7 +147,7 @@
         For example, if you search for <code>alice Section A Team B jack&#64;email.com</code>, the search would result in something similar to this (assuming the corresponding data exists):
       </p>
       @if (questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]) {
-        <tm-example-box @collapseAnim>
+        <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
           <tm-student-result-table [studentTables]="exampleMultipleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
         </tm-example-box>
       }

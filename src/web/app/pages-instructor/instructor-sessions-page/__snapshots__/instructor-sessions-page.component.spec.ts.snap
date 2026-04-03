@@ -390,13 +390,11 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
        Add New Feedback Session 
     </button>
   </div><div
-    class="margin-top-30px ng-trigger ng-trigger-collapseAnim ng-animating"
+    class="margin-top-30px"
     id="add-session-section"
   >
     <div>
-      <tm-session-edit-form
-        style=""
-      >
+      <tm-session-edit-form>
         <div
           class="card card-plain"
           id="session-edit-form"

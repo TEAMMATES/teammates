@@ -261,7 +261,7 @@
             </div>
           }
           @if (model.hasVisibleSettingsPanelExpanded) {
-            <div class="card border-primary margin-top-20px" @collapseAnim>
+            <div class="card border-primary margin-top-20px" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
               <div class="card-body">
                 <div class="row align-items-start">
                   <div class="col-md-6 text-center text-md-start">
@@ -360,7 +360,7 @@
             </div>
           }
           @if (model.hasEmailSettingsPanelExpanded) {
-            <div class="card border-primary margin-top-20px" @collapseAnim>
+            <div class="card border-primary margin-top-20px" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
               <div class="card-body">
                 <div class="col-12 font-bold">
                   Send emails for

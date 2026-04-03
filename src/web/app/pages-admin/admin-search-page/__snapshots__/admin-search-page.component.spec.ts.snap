@@ -838,7 +838,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               colspan="6"
             >
               <ul
-                class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
+                class="list-group"
               >
                 <li
                   class="list-group-item list-group-item-success has-success"
@@ -871,7 +871,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 </li>
                 <li
                   class="list-group-item list-group-item-light"
-                  style=""
                 >
                   <strong>
                     sessionName startTime - endTime
@@ -890,7 +889,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 </li>
                 <li
                   class="list-group-item list-group-item-warning"
-                  style=""
                 >
                   <strong>
                     sessionName startTime - endTime
@@ -909,7 +907,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 </li>
                 <li
                   class="list-group-item list-group-item-danger"
-                  style=""
                 >
                   <strong>
                     sessionName startTime - endTime
@@ -928,7 +925,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 </li>
                 <li
                   class="list-group-item list-group-item-success"
-                  style=""
                 >
                   <strong>
                     sessionName startTime - endTime
