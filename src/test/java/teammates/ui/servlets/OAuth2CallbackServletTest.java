@@ -18,7 +18,7 @@ import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
-import com.google.api.client.auth.oauth2.TokenRequest;
+import com.google.api.client.auth.oauth2.AuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.firebase.FirebaseApp;
@@ -46,7 +46,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
     @Test
     public void testDoGet_googleCallback_resolvesAccountWithinTransaction() throws Exception {
         AuthorizationCodeFlow authorizationFlow = mock(AuthorizationCodeFlow.class);
-        TokenRequest tokenRequest = mock(TokenRequest.class);
+        AuthorizationCodeTokenRequest tokenRequest = mock(AuthorizationCodeTokenRequest.class);
         GoogleTokenResponse tokenResponse = mock(GoogleTokenResponse.class);
         GoogleIdToken idToken = mock(GoogleIdToken.class);
         GoogleIdToken.Payload payload = mock(GoogleIdToken.Payload.class);
@@ -67,7 +67,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
                 "https://accounts.google.com", "subject-123", "user@example.com",
                 "Test User", Const.LoginProviders.GOOGLE))
                 .thenAnswer(invocation -> {
-                    assertTrue(transactionActive.get(), "Account resolution should occur inside an active transaction");
+                    assertTrue("Account resolution should occur inside an active transaction", transactionActive.get());
                     return account;
                 });
 
@@ -127,7 +127,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
                 "https://securetoken.google.com/test-project", "firebase-uid", "user@example.com",
                 "user@example.com", Const.LoginProviders.GOOGLE))
                 .thenAnswer(invocation -> {
-                    assertTrue(transactionActive.get(), "Account resolution should occur inside an active transaction");
+                    assertTrue("Account resolution should occur inside an active transaction", transactionActive.get());
                     return account;
                 });
 
