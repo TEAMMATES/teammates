@@ -62,10 +62,7 @@ public class StudentsEnrollRequest extends BasicRequest {
         private String section;
         private String comments;
 
-        public StudentEnrollRequest() {
-            // for Jackson deserialization
-        }
-
+        @JsonCreator
         public StudentEnrollRequest(String name, String email, String team, String section, String comments) {
             this.name = name;
             this.email = email;
