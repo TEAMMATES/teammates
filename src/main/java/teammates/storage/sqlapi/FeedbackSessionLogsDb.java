@@ -128,8 +128,7 @@ public final class FeedbackSessionLogsDb {
         String sql = "INSERT INTO feedback_session_logs "
                 + "(id, created_at, feedback_session_log_type, timestamp, session_id, student_id, dedup_window_bucket) "
                 + "VALUES (:id, :createdAt, :feedbackSessionLogType, :timestamp, :sessionId, "
-                + ":studentId, :dedupWindowBucket) "
-                + "ON CONFLICT ON CONSTRAINT uq_fsl_student_session_type_bucket DO NOTHING";
+                + ":studentId, :dedupWindowBucket) ON CONFLICT DO NOTHING";
 
         int rowsAffected = HibernateUtil.createNativeMutationQuery(sql)
                 .setParameter("id", log.getId())
