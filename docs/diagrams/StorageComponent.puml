@@ -9,8 +9,9 @@ skinparam arrowColor #000000
 
 
 component Storage {
-    package "storage::entity" as Entity {
+    package "storage::sqlentity" as Entity {
         rectangle Account
+        rectangle AccountIdentity
         rectangle AccountRequest
         rectangle CourseStudent
         rectangle Instructor
@@ -21,7 +22,8 @@ component Storage {
         rectangle "~*Entity"
     }
 
-    package "storage::api" as Api {
+    package "storage::sqlapi" as Api {
+        rectangle AccountsDb
         rectangle EntitiesDb
         rectangle CoursesDb
         rectangle InstructorsDb
@@ -33,6 +35,8 @@ component Storage {
 rectangle Logic
 database "PostgreSQL" as db STORAGE_COLOR_T1
 
+AccountIdentity --> Account
+AccountsDb -> EntitiesDb
 CoursesDb -> EntitiesDb
 InstructorsDb -> EntitiesDb
 StudentsDb -> EntitiesDb
@@ -46,5 +50,6 @@ Api ..> db
 EntitiesDb -[hidden]right- InstructorsDb
 CoursesDb -[hidden]down- InstructorsDb
 InstructorsDb -[hidden]down- StudentsDb
+Account -[hidden]right- AccountIdentity
 
 @enduml

@@ -55,6 +55,11 @@ The Web API is protected by two layers of access control:
 - **Origin check**: Mitigates [CSRF attacks](https://owasp.org/www-community/attacks/csrf).
 - **Authentication and authorization check**: Verifies the logged-in user has sufficient privileges.
 
+Authentication is centered on the internal `Account` UUID stored in the session cookie. External logins are
+resolved through `AccountIdentity`, which binds an OpenID Connect (OIDC) `issuer` + `subject` pair to an
+`Account`. This keeps account profile data separate from login-provider-specific identity data and allows multiple
+identities to be linked to the same account.
+
 ### Template Method pattern
 
 We use the [Template Method pattern](http://en.wikipedia.org/wiki/Template_method_pattern) to abstract the process flow into the `Action` classes.
@@ -71,7 +76,9 @@ We use the [Template Method pattern](http://en.wikipedia.org/wiki/Template_metho
 
 <puml src="../diagrams/LogicComponent.puml"/>
 
-The `Logic` component handles the business logic of TEAMMATES, including validating business constraints, sanitizing input from the UI, and integrating with third-party services such as email providers.
+The `Logic` component handles the business logic of TEAMMATES, including validating business constraints,
+sanitizing input from the UI, resolving authenticated users from OIDC identities, and integrating with
+third-party services such as email providers.
 
 Package overview:
 

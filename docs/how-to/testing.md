@@ -111,6 +111,16 @@ Student student = getTypicalStudent();
 student.setName("New Student Name");
 ```
 
+For tests that exercise login or account-display behavior, also attach an `AccountIdentity` rather than assuming
+account login data lives on `Account` itself:
+
+```java
+Account account = getTypicalAccount();
+AccountIdentity identity = new AccountIdentity(
+        "https://accounts.google.com", "subject-123", account.getEmail(), Const.LoginProviders.GOOGLE);
+account.addIdentity(identity);
+```
+
 ### Snapshot Testing
 
 Snapshot testing compares large expected outputs (e.g. rendered HTML, email content, CSV files) against stored snapshots. It runs in two modes:
