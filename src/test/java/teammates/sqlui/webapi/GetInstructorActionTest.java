@@ -20,7 +20,7 @@ import teammates.ui.webapi.GetInstructorAction;
  */
 public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction> {
 
-    /** Logged-in user id for mocks; aligns with {@link #TYPICAL_INSTRUCTOR_ACCOUNT_ID} */
+    /** Logged-in user id for mocks; aligns with {@link #TYPICAL_INSTRUCTOR_ACCOUNT_ID}. */
     private static final String LOGGED_IN_INSTRUCTOR_ACCOUNT_ID = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     Course course;

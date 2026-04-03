@@ -34,8 +34,6 @@ public class AccountsLogicTest extends BaseTestCase {
 
     private AccountsLogic accountsLogic = AccountsLogic.inst();
 
-    private CoursesLogic coursesLogic;
-
     private AccountsDb accountsDb;
 
     private NotificationsLogic notificationsLogic;
@@ -47,7 +45,7 @@ public class AccountsLogicTest extends BaseTestCase {
         accountsDb = mock(AccountsDb.class);
         notificationsLogic = mock(NotificationsLogic.class);
         usersLogic = mock(UsersLogic.class);
-        coursesLogic = mock(CoursesLogic.class);
+        CoursesLogic coursesLogic = mock(CoursesLogic.class);
         accountsLogic.initLogicDependencies(accountsDb, notificationsLogic, usersLogic, coursesLogic);
     }
 
@@ -215,12 +213,14 @@ public class AccountsLogicTest extends BaseTestCase {
         String issuer = "https://accounts.google.com";
         String subject = "oidc-subject-existing";
         Account existingAccount = getTypicalAccount();
-        AccountIdentity identity = new AccountIdentity(issuer, subject, "other@email.com", Const.LoginProviders.GOOGLE);
+        AccountIdentity identity = new AccountIdentity(
+                issuer, subject, "other@email.com", Const.LoginProviders.GOOGLE);
         identity.setAccount(existingAccount);
 
         when(accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject)).thenReturn(identity);
 
-        Account result = accountsLogic.resolveOrCreateAccountFromOidc(issuer, subject, "other@email.com", "Other", Const.LoginProviders.GOOGLE);
+        Account result = accountsLogic.resolveOrCreateAccountFromOidc(
+                issuer, subject, "other@email.com", "Other", Const.LoginProviders.GOOGLE);
 
         assertSame(existingAccount, result);
         verify(accountsDb, never()).createAccount(any(Account.class));
@@ -235,9 +235,11 @@ public class AccountsLogicTest extends BaseTestCase {
         String name = "New User";
 
         when(accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject)).thenReturn(null);
-        when(accountsDb.createAccount(any(Account.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(accountsDb.createAccount(any(Account.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
 
-        Account result = accountsLogic.resolveOrCreateAccountFromOidc(issuer, subject, email, name, Const.LoginProviders.GOOGLE);
+        Account result = accountsLogic.resolveOrCreateAccountFromOidc(
+                issuer, subject, email, name, Const.LoginProviders.GOOGLE);
 
         assertEquals(email, result.getEmail());
         assertEquals(name, result.getName());
@@ -245,7 +247,8 @@ public class AccountsLogicTest extends BaseTestCase {
         assertEquals(issuer, result.getIdentities().get(0).getIssuer());
         assertEquals(subject, result.getIdentities().get(0).getSubject());
         assertEquals(email, result.getIdentities().get(0).getLoginIdentifier());
-        assertEquals(Const.LoginProviders.GOOGLE, result.getIdentities().get(0).getProviderName());
+        assertEquals(
+                Const.LoginProviders.GOOGLE, result.getIdentities().get(0).getProviderName());
         assertSame(result, result.getIdentities().get(0).getAccount());
         verify(accountsDb, times(1)).createAccount(result);
     }
@@ -262,7 +265,8 @@ public class AccountsLogicTest extends BaseTestCase {
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         String loginIdentifier = "ms-user@example.com";
-        AccountIdentity linked = accountsLogic.linkAccountIdentity(account, issuer, subject, loginIdentifier, Const.LoginProviders.MICROSOFT);
+        AccountIdentity linked = accountsLogic.linkAccountIdentity(
+                account, issuer, subject, loginIdentifier, Const.LoginProviders.MICROSOFT);
 
         assertEquals(issuer, linked.getIssuer());
         assertEquals(subject, linked.getSubject());
@@ -278,12 +282,14 @@ public class AccountsLogicTest extends BaseTestCase {
         Account account = getTypicalAccount();
         String issuer = "https://accounts.google.com";
         String subject = "dup-subject";
-        AccountIdentity existing = new AccountIdentity(issuer, subject, "dup@example.com", Const.LoginProviders.GOOGLE);
+        AccountIdentity existing = new AccountIdentity(
+                issuer, subject, "dup@example.com", Const.LoginProviders.GOOGLE);
 
         when(accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject)).thenReturn(existing);
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.linkAccountIdentity(account, issuer, subject, "dup@example.com", Const.LoginProviders.GOOGLE));
+                () -> accountsLogic.linkAccountIdentity(
+                        account, issuer, subject, "dup@example.com", Const.LoginProviders.GOOGLE));
         assertEquals("Identity already linked to an account.", ex.getMessage());
         verify(accountsDb, never()).createAccountIdentity(any(AccountIdentity.class));
     }

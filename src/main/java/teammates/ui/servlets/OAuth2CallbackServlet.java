@@ -131,7 +131,8 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         try {
-            Account account = AccountsLogic.inst().resolveOrCreateAccountFromOidc(iss, sub, email, name, Const.LoginProviders.GOOGLE);
+            Account account = AccountsLogic.inst().resolveOrCreateAccountFromOidc(
+                    iss, sub, email, name, Const.LoginProviders.GOOGLE);
             return new AuthResult(account.getId().toString(), nextUrl);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             log.warning("Failed to resolve account from Google login", e);
