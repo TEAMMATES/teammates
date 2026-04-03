@@ -6,7 +6,6 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
-  hasMarkAllReadError="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
@@ -23,14 +22,41 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
     <p>
       All dates are displayed in UTC time.
     </p>
+  </div><div
+    class="row mb-3"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="float-end"
+      >
+        <strong
+          class="d-inline"
+        >
+           Sort By: 
+        </strong>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            id="sort-end-time"
+          >
+            End Time
+          </button>
+          <button
+            class="btn btn-light"
+            id="sort-start-time"
+          >
+            Start Time
+          </button>
+        </div>
+      </div>
+    </div>
   </div><tm-loading-retry>
     <div>
-      <div
-        class="alert alert-warning margin-top-30px"
-        role="alert"
-      >
-         There are no unread notifications. 
-      </div>
     </div>
     <div
       id="notification-tabs"
@@ -112,7 +138,6 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed={[Function Boolean]}
-  hasMarkAllReadError="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
@@ -158,7 +183,6 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
-  hasMarkAllReadError="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
@@ -176,15 +200,17 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
       All dates are displayed in UTC time.
     </p>
   </div><div
-    class="row mb-2"
+    class="row mb-3"
   >
     <div
-      class="col-12 d-flex justify-content-between align-items-center"
+      class="col-12"
     >
       <div
-        class="d-flex align-items-center gap-2"
+        class="float-end"
       >
-        <strong>
+        <strong
+          class="d-inline"
+        >
            Sort By: 
         </strong>
         <div
@@ -205,13 +231,6 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
           </button>
         </div>
       </div>
-      <button
-        class="btn btn-success"
-        id="mark-all-read"
-        type="button"
-      >
-         Mark All as Read 
-      </button>
     </div>
   </div><tm-loading-retry>
     <div>
@@ -344,7 +363,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
-  hasMarkAllReadError="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
@@ -362,15 +380,17 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
       All dates are displayed in UTC time.
     </p>
   </div><div
-    class="row mb-2"
+    class="row mb-3"
   >
     <div
-      class="col-12 d-flex justify-content-between align-items-center"
+      class="col-12"
     >
       <div
-        class="d-flex align-items-center gap-2"
+        class="float-end"
       >
-        <strong>
+        <strong
+          class="d-inline"
+        >
            Sort By: 
         </strong>
         <div
@@ -392,13 +412,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
           </button>
         </div>
       </div>
-      <button
-        class="btn btn-success"
-        id="mark-all-read"
-        type="button"
-      >
-         Mark All as Read 
-      </button>
     </div>
   </div><tm-loading-retry>
     <div>
@@ -531,7 +544,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
-  hasMarkAllReadError="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
@@ -549,15 +561,17 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
       All dates are displayed in UTC time.
     </p>
   </div><div
-    class="row mb-2"
+    class="row mb-3"
   >
     <div
-      class="col-12 d-flex justify-content-between align-items-center"
+      class="col-12"
     >
       <div
-        class="d-flex align-items-center gap-2"
+        class="float-end"
       >
-        <strong>
+        <strong
+          class="d-inline"
+        >
            Sort By: 
         </strong>
         <div
@@ -579,13 +593,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
           </button>
         </div>
       </div>
-      <button
-        class="btn btn-success"
-        id="mark-all-read"
-        type="button"
-      >
-         Mark All as Read 
-      </button>
     </div>
   </div><tm-loading-retry>
     <div>
@@ -718,7 +725,6 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
-  hasMarkAllReadError="false"
   isLoadingNotifications={[Function Boolean]}
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
@@ -765,7 +771,6 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
-  hasMarkAllReadError="false"
   isLoadingNotifications="false"
   notificationService={[Function NotificationService]}
   notificationTabs={[Function Array]}
@@ -788,7 +793,7 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
         class="alert alert-warning margin-top-30px"
         role="alert"
       >
-         There are no unread notifications. 
+         There are no active notifications. 
       </div>
     </div>
     <div
