@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- Add bucket column -->
+    <changeSet id="1">
+        <addColumn tableName="feedback_session_logs">
+            <column name="dedup_window_bucket" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+
+    <!-- Backfill existing rows -->
+    <changeSet id="2">
+        <sql>
+            UPDATE feedback_session_logs
+            SET dedup_window_bucket = FLOOR(EXTRACT(EPOCH FROM "timestamp") * 1000 / 2000)::BIGINT
+            WHERE dedup_window_bucket IS NULL;
+        </sql>
+    </changeSet>
+
+    <!-- Remove existing duplicates -->
+    <changeSet id="3">
+        <sql>
+            DELETE FROM feedback_session_logs
+            WHERE id IN (
+                SELECT id
+                FROM (
+                    SELECT id,
+                           ROW_NUMBER() OVER (
+                               PARTITION BY student_id, session_id, feedback_session_log_type, dedup_window_bucket
+                               ORDER BY "timestamp" ASC, id ASC
+                           ) AS rn
+                    FROM feedback_session_logs
+                ) duplicate_rows
+                WHERE duplicate_rows.rn &gt; 1
+            );
+        </sql>
+    </changeSet>
+
+    <!-- Make column non-null -->
+    <changeSet id="4">
+        <addNotNullConstraint tableName="feedback_session_logs"
+            columnName="dedup_window_bucket" columnDataType="BIGINT"/>
+    </changeSet>
+
+    <!-- Every row must have bucket -->
+    <changeSet id="5">
+        <addUniqueConstraint tableName="feedback_session_logs"
+            columnNames="student_id, session_id, feedback_session_log_type, dedup_window_bucket"
+            constraintName="uq_fsl_student_session_type_bucket"/>
+    </changeSet>
+</databaseChangeLog>

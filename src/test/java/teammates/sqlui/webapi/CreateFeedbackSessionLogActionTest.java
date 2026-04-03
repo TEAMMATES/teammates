@@ -6,8 +6,6 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.Instant;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -16,7 +14,6 @@ import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.CreateFeedbackSessionLogAction;
@@ -123,19 +120,14 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(action);
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
+        verify(mockLogic).createFeedbackSessionLogIfNotDuplicate(argThat(log ->
                 student1InCourse1.equals(log.getStudent())
                         && fsaCourse1.equals(log.getFeedbackSession())
                         && FeedbackSessionLogType.ACCESS == log.getFeedbackSessionLogType()));
     }
 
     @Test
-    void testExecute_duplicateLogWithinSpamWindow_shouldStillSucceedWithoutPersisting() {
-        when(mockLogic.getLatestFeedbackSessionLog(student1InCourse1.getId(), fsaCourse1.getId(),
-                FeedbackSessionLogType.ACCESS)).thenReturn(new FeedbackSessionLog(student1InCourse1, fsaCourse1,
-                FeedbackSessionLogType.ACCESS, Instant.now().minusMillis(
-                        Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis() - 1)));
-
+    void testExecute_duplicateLogWithinSpamWindow_shouldStillSucceed() {
         String[] paramsSuccessfulAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
@@ -148,7 +140,10 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsSuccessfulAccess));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
+        verify(mockLogic).createFeedbackSessionLogIfNotDuplicate(argThat(log ->
+                student1InCourse1.equals(log.getStudent())
+                        && fsaCourse1.equals(log.getFeedbackSession())
+                        && FeedbackSessionLogType.ACCESS == log.getFeedbackSessionLogType()));
     }
 
     @Test
@@ -165,7 +160,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsSuccessfulSubmission));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
+        verify(mockLogic).createFeedbackSessionLogIfNotDuplicate(argThat(log ->
                 student1InCourse1.equals(log.getStudent())
                         && fsaCourse1.equals(log.getFeedbackSession())
                         && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
@@ -185,7 +180,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsSuccessfulSubmission));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
+        verify(mockLogic).createFeedbackSessionLogIfNotDuplicate(argThat(log ->
                 student2InCourse2.equals(log.getStudent())
                         && fsaCourseNoStudent.equals(log.getFeedbackSession())
                         && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
@@ -205,7 +200,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsNonExistentFsName));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
+        verify(mockLogic, never()).createFeedbackSessionLogIfNotDuplicate(argThat(log -> true));
     }
 
     @Test
@@ -222,7 +217,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsNonExistentStudentEmail));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
+        verify(mockLogic, never()).createFeedbackSessionLogIfNotDuplicate(argThat(log -> true));
     }
 
     @Test
@@ -238,7 +233,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsWithoutAccess));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
+        verify(mockLogic, never()).createFeedbackSessionLogIfNotDuplicate(argThat(log -> true));
     }
 
     @Test
@@ -254,7 +249,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsMissingFeedbackSession));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
+        verify(mockLogic, never()).createFeedbackSessionLogIfNotDuplicate(argThat(log -> true));
     }
 
     @Test
@@ -270,7 +265,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsMissingStudent));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
+        verify(mockLogic, never()).createFeedbackSessionLogIfNotDuplicate(argThat(log -> true));
     }
 
     @Test

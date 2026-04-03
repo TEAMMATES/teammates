@@ -12,7 +12,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -115,6 +114,32 @@ public final class FeedbackSessionLogsDb {
         HibernateUtil.persist(log);
 
         return log;
+    }
+
+    /**
+     * Creates a feedback session log if there is no duplicate in the same deduplication window.
+     *
+     * @return true if the log is inserted, false if it is filtered as a duplicate.
+     */
+    public boolean createFeedbackSessionLogIfNotDuplicate(FeedbackSessionLog log) {
+        assert log != null;
+
+        String sql = "INSERT INTO feedback_session_logs "
+                + "(id, created_at, feedback_session_log_type, timestamp, session_id, student_id, dedup_window_bucket) "
+                + "VALUES (:id, :createdAt, :feedbackSessionLogType, :timestamp, :sessionId, :studentId, :dedupWindowBucket) "
+                + "ON CONFLICT ON CONSTRAINT uq_fsl_student_session_type_bucket DO NOTHING";
+
+        int rowsAffected = HibernateUtil.createNativeMutationQuery(sql)
+                .setParameter("id", log.getId())
+                .setParameter("createdAt", log.getCreatedAt() == null ? Instant.now() : log.getCreatedAt())
+                .setParameter("feedbackSessionLogType", log.getFeedbackSessionLogType().name())
+                .setParameter("timestamp", log.getTimestamp())
+                .setParameter("sessionId", log.getFeedbackSession().getId())
+                .setParameter("studentId", log.getStudent().getId())
+                .setParameter("dedupWindowBucket", log.getDedupWindowBucket())
+                .executeUpdate();
+
+        return rowsAffected == 1;
     }
 
     /**

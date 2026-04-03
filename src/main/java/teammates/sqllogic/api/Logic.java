@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
-
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
@@ -1797,6 +1796,13 @@ public class Logic {
      */
     public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) {
         feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSessionLog);
+    }
+
+    /**
+     * Creates a feedback session log if there is no duplicate in the deduplication window.
+     */
+    public boolean createFeedbackSessionLogIfNotDuplicate(FeedbackSessionLog feedbackSessionLog) {
+        return feedbackSessionLogsLogic.createFeedbackSessionLogIfNotDuplicate(feedbackSessionLog);
     }
 
     /**

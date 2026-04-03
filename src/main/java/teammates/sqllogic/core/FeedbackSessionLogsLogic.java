@@ -64,6 +64,18 @@ public final class FeedbackSessionLogsLogic {
     }
 
     /**
+     * Creates feedback session log if there is no duplicate in the deduplication window.
+     */
+    public boolean createFeedbackSessionLogIfNotDuplicate(FeedbackSessionLog fsLog) {
+        try {
+            return fslDb.createFeedbackSessionLogIfNotDuplicate(fsLog);
+        } catch (ObjectNotFoundException e) {
+            log.severe(String.format(ERROR_FAILED_TO_CREATE_LOG), e);
+            return false;
+        }
+    }
+
+    /**
      * Deletes feedback session logs older than the given cutoff time.
      */
     public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
