@@ -365,6 +365,7 @@ task copyExplodedWarToStagedApp {
             from explodeWar.destinationDir
             into "${buildDir}/staged-app"
         }
+        delete "${buildDir}/staged-app/WEB-INF/classes/build-dev.properties"
     }
 }
 
