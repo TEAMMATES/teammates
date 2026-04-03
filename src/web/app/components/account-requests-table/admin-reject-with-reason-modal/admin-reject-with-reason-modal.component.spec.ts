@@ -25,6 +25,8 @@ const instructorAccountSearchResultBuilder = createBuilder<InstructorAccountSear
   name: 'name',
   email: 'email',
   accountId: '00000000-0000-4000-8000-0000000000e1',
+  loginIdentifier: 'login@example.com',
+  loginProvider: 'google',
   courseId: 'courseId',
   courseName: 'courseName',
   isCourseDeleted: false,

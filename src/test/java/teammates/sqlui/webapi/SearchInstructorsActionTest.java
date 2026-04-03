@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
@@ -61,6 +62,11 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         when(mockLogic.searchInstructorsInWholeSystem(searchKey)).thenReturn(instructors);
         for (Instructor instructor : instructors) {
             when(mockLogic.getCourseInstitute(instructor.getCourseId())).thenReturn(instructor.getCourse().getInstitute());
+            when(mockLogic.getFirstIdentityForAccount(instructor.getAccountId())).thenReturn(new AccountIdentity(
+                    "https://securetoken.google.com/project",
+                    "subject-" + instructor.getAccountId(),
+                    instructor.getAccount().getEmail(),
+                    Const.LoginProviders.GOOGLE));
         }
 
         String[] params = {
@@ -73,6 +79,9 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         verify(mockLogic, times(1)).searchInstructorsInWholeSystem(searchKey);
         verify(mockLogic, times(instructors.size())).getCourseInstitute(argThat(courseId ->
                 instructors.stream().map(Instructor::getCourseId).anyMatch(id -> id.equals(courseId))
+        ));
+        verify(mockLogic, times(instructors.size())).getFirstIdentityForAccount(argThat(accountId ->
+                instructors.stream().map(Instructor::getAccountId).anyMatch(id -> id.equals(accountId))
         ));
         verifyNoMoreInteractions(mockLogic);
 
@@ -93,6 +102,8 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
                     instructor.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED,
                     instructorData.getJoinState()
             );
+            assertEquals(instructor.getAccount().getEmail(), instructorData.getLoginIdentifier());
+            assertEquals(Const.LoginProviders.GOOGLE, instructorData.getLoginProvider());
             assertEquals(instructor.getRegKey(), instructorData.getKey());
             assertEquals(instructor.getCourse().getInstitute(), instructorData.getInstitute());
         }
