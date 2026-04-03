@@ -316,13 +316,27 @@ a i.fa-info-circle {
 
 // Collapse animations
 @keyframes tm-collapse-enter {
-  from { grid-template-rows: 0fr; opacity: 0; }
-  to   { grid-template-rows: 1fr; opacity: 1; }
+  from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
+  to {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
 }
 
 @keyframes tm-collapse-leave {
-  from { grid-template-rows: 1fr; opacity: 1; }
-  to   { grid-template-rows: 0fr; opacity: 0; }
+  from {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  to {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
 }
 
 .tm-collapse {
