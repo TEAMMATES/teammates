@@ -62,7 +62,7 @@ export class AdminPageComponent implements OnInit {
     this.authService.getAuthUser().subscribe({
       next: (res: AuthInfo) => {
         if (res.user) {
-          this.user = res.user.id;
+          this.user = res.user.loginIdentifier;
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;

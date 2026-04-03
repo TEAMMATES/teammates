@@ -71,7 +71,7 @@ export class StaticPageComponent implements OnInit {
     this.authService.getAuthUser().subscribe({
       next: (res: AuthInfo) => {
         if (res.user) {
-          this.user = res.user.id;
+          this.user = res.user.loginIdentifier;
           if (res.masquerade) {
             this.user += ' (M)';
           }

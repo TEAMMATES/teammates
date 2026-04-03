@@ -92,7 +92,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
                 return null;
             });
 
-            OAuth2CallbackServlet servlet = new TestOAuth2CallbackServlet(authorizationFlow);
+            OAuth2CallbackServlet servlet = new StubOAuth2CallbackServlet(authorizationFlow);
             MockHttpServletRequest request = new QueryStringMockHttpServletRequest(
                     "GET", "https://localhost/oauth2callback", buildGoogleQueryString("/next"));
             MockHttpServletResponse response = new RedirectFriendlyMockHttpServletResponse();
@@ -154,7 +154,7 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
                 return null;
             });
 
-            OAuth2CallbackServlet servlet = new TestOAuth2CallbackServlet(null);
+            OAuth2CallbackServlet servlet = new StubOAuth2CallbackServlet(null);
             MockHttpServletRequest request = new MockHttpServletRequest("GET", "https://localhost/oauth2callback");
             request.addParam("idToken", "firebase-token");
             request.addParam("nextUrl", "/firebase-next");
@@ -176,10 +176,10 @@ public class OAuth2CallbackServletTest extends BaseTestCase {
         return "code=test-code&state=" + URLEncoder.encode(state, StandardCharsets.UTF_8);
     }
 
-    private static final class TestOAuth2CallbackServlet extends OAuth2CallbackServlet {
+    private static final class StubOAuth2CallbackServlet extends OAuth2CallbackServlet {
         private final AuthorizationCodeFlow authorizationFlow;
 
-        private TestOAuth2CallbackServlet(AuthorizationCodeFlow authorizationFlow) {
+        private StubOAuth2CallbackServlet(AuthorizationCodeFlow authorizationFlow) {
             this.authorizationFlow = authorizationFlow;
         }
 

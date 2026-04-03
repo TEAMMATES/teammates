@@ -47,7 +47,7 @@ export class MaintainerPageComponent implements OnInit {
       this.authService.getAuthUser(queryParams.user).subscribe({
         next: (res: AuthInfo) => {
           if (res.user) {
-            this.user = res.user.id;
+            this.user = res.user.loginIdentifier;
             if (res.masquerade) {
               this.user += ' (M)';
             }

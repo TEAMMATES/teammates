@@ -176,6 +176,7 @@ describe('UserJoinPageComponent', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
       user: {
         id: 'user',
+        loginIdentifier: 'user@example.com',
         isAdmin: false,
         isInstructor: false,
         isStudent: false,
@@ -200,6 +201,7 @@ describe('UserJoinPageComponent', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
       user: {
         id: 'user',
+        loginIdentifier: 'user@example.com',
         isAdmin: false,
         isInstructor: false,
         isStudent: false,
@@ -300,6 +302,7 @@ describe('UserJoinPageComponent creating account', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
       user: {
         id: 'user',
+        loginIdentifier: 'user@example.com',
         isAdmin: false,
         isInstructor: false,
         isStudent: false,
@@ -324,6 +327,7 @@ describe('UserJoinPageComponent creating account', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
       user: {
         id: 'user',
+        loginIdentifier: 'user@example.com',
         isAdmin: false,
         isInstructor: false,
         isStudent: false,

@@ -2,8 +2,8 @@ package teammates.common.datatransfer;
 
 /**
  * Represents a logged-in user.
- * <br> Contains the internal account id (UUID string) and flags to indicate whether the user
- * is an admin, instructor, student, or maintainer.
+ * <br> Contains the internal account id (UUID string), the login identifier,
+ * and flags to indicate whether the user is an admin, instructor, student, or maintainer.
  */
 public class UserInfo {
 
@@ -11,6 +11,11 @@ public class UserInfo {
      * Internal {@link teammates.storage.sqlentity.Account} id (UUID string).
      */
     public String id;
+
+    /**
+     * Login identifier of the user (e.g. email address from OIDC provider).
+     */
+    public String loginIdentifier;
 
     /**
      * Indicates whether the user has admin privilege.
@@ -38,6 +43,10 @@ public class UserInfo {
 
     public String getId() {
         return id;
+    }
+
+    public String getLoginIdentifier() {
+        return loginIdentifier;
     }
 
     public boolean getIsAdmin() {

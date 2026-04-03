@@ -107,8 +107,15 @@ public class Account extends BaseEntity {
         return identities;
     }
 
+    /**
+     * Replaces the linked identities while keeping both sides of the relationship in sync.
+     */
     public void setIdentities(List<AccountIdentity> identities) {
-        this.identities = identities;
+        this.identities = new ArrayList<>();
+        if (identities == null) {
+            return;
+        }
+        identities.forEach(this::addIdentity);
     }
 
     public List<ReadNotification> getReadNotifications() {

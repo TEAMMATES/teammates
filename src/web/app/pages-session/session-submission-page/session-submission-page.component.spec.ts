@@ -592,6 +592,7 @@ describe('SessionSubmissionPageComponent', () => {
     masquerade: false,
     user: {
       id: 'user-id',
+      loginIdentifier: 'user@example.com',
       isAdmin: false,
       isInstructor: false,
       isStudent: true,

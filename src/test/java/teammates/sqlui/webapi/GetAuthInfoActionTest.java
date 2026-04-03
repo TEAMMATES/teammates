@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.when;
 import static teammates.ui.webapi.GetAuthInfoAction.createLoginUrl;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.ui.output.AuthInfo;
 import teammates.ui.webapi.GetAuthInfoAction;
 import teammates.ui.webapi.JsonResult;
@@ -71,7 +73,11 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     @Test
     void testExecute_loggedInAsInstructor() {
         String instructorAccountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
+        String instructorLoginIdentifier = "instructor@example.com";
         loginAsInstructor(instructorAccountId);
+        when(mockLogic.getFirstIdentityForAccount(instructorAccountId)).thenReturn(
+                new AccountIdentity("https://securetoken.google.com/project", "subject-instructor",
+                        instructorLoginIdentifier, Const.LoginProviders.GOOGLE));
 
         GetAuthInfoAction a = getAction();
         JsonResult r = getJsonResult(a);
@@ -88,12 +94,14 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertTrue(user.isInstructor);
         assertFalse(user.isStudent);
         assertEquals(instructorAccountId, user.id);
+        assertEquals(instructorLoginIdentifier, user.loginIdentifier);
     }
 
     @Test
     void testExecute_loggedInAsUnregisteredUser() {
         String unregisteredAccountId = TEST_UNREGISTERED_ACCOUNT_ID.toString();
         loginAsUnregistered(unregisteredAccountId);
+        when(mockLogic.getFirstIdentityForAccount(unregisteredAccountId)).thenReturn(null);
 
         GetAuthInfoAction a = getAction();
         JsonResult r = getJsonResult(a);
@@ -110,6 +118,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertFalse(user.isInstructor);
         assertFalse(user.isStudent);
         assertEquals(unregisteredAccountId, user.id);
+        assertEquals("", user.loginIdentifier);
     }
 
     @Test
