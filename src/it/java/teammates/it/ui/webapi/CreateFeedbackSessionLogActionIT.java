@@ -123,10 +123,6 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         assertEquals(persistedSubmissionLogs.size(), 1);
         assertEquals(persistedSubmissionLogs.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
-        System.out.println("DEBUG all logs after two successful inserts: "
-                + logic.getOrderedFeedbackSessionLogs(courseId1, null, null,
-                Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)));
-
         ______TS("Success case: should not create for inconsistent course id");
         String[] paramsNonExistentCourseId = {
                 Const.ParamsNames.COURSE_ID, "non-existent-course-id",
