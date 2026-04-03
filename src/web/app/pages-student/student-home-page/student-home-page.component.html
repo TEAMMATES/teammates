@@ -56,7 +56,7 @@
               (retryEvent)="loadFeedbackSessionsForCourse(studentCourse.course.courseId)">
               <div class="table-responsive" *tmIsLoading="studentCourse.isFeedbackSessionsLoading">
                 @if (studentCourse.isTabExpanded) {
-                  <div @collapseAnim>
+                  <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                     @if (studentCourse.feedbackSessions && studentCourse.feedbackSessions.length) {
                       <table class="table table-striped table-bordered margin-0">
                         <thead>

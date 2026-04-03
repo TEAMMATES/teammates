@@ -1037,12 +1037,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -1344,12 +1341,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -1602,12 +1596,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -1713,12 +1704,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               MSQ question
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -2041,12 +2029,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               numerical scale question
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -2256,12 +2241,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               constant sum question
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -2485,12 +2467,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               contribution question
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -2944,12 +2923,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -3303,12 +3279,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -3585,12 +3558,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -4074,12 +4044,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -4383,12 +4350,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -4643,12 +4607,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -4754,12 +4715,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               MSQ question
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -5088,12 +5046,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               numerical scale question
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -5305,12 +5260,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               constant sum question
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -5536,12 +5488,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               contribution question
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -5997,12 +5946,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -6367,12 +6313,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -6651,12 +6594,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               question brief
             </h2>
           </div>
-          <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
-          >
+          <div>
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"

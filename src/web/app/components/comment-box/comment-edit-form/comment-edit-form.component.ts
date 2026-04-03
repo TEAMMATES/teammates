@@ -12,7 +12,6 @@ import {
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { castAsInputElement } from '../../../../types/event-target-caster';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
-import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import { CommentVisibilityControlNamePipe, CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe } from '../comment-visibility-setting.pipe';
@@ -35,7 +34,6 @@ export interface CommentEditFormModel {
   selector: 'tm-comment-edit-form',
   templateUrl: './comment-edit-form.component.html',
   styleUrls: ['./comment-edit-form.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgbTooltip,
     RichTextEditorComponent,

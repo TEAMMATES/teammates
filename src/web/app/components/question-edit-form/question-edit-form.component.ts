@@ -28,7 +28,6 @@ import { RankRecipientsQuestionEditDetailsFormComponent } from '../question-type
 import { RubricQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/rubric-question-edit-details-form.component';
 import { TextQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/text-question-edit-details-form.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { QuestionTypeNamePipe } from '../teammates-common/question-type-name.pipe';
 import { VisibilityPanelComponent } from '../visibility-panel/visibility-panel.component';
 
@@ -60,7 +59,6 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
   selector: 'tm-question-edit-form',
   templateUrl: './question-edit-form.component.html',
   styleUrls: ['./question-edit-form.component.scss'],
-  animations: [collapseAnim],
   imports: [
     PanelChevronComponent,
     FormsModule,

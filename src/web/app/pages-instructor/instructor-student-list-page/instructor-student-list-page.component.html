@@ -32,7 +32,7 @@
               </div>
             </div>
             @if (courseTab.hasTabExpanded) {
-              <div @collapseAnim>
+              <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                 <tm-loading-retry [shouldShowRetry]="courseTab.hasLoadingFailed" [message]="'Failed to load students'" (retryEvent)="loadStudents(courseTab)">
                   <div *tmIsLoading="!courseTab.hasStudentLoaded">
                     @if (!courseTab.hasLoadingFailed) {

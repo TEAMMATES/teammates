@@ -18,7 +18,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 
 /**
  * Account requests table component.
@@ -27,7 +26,6 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
   selector: 'tm-account-request-table',
   templateUrl: './account-request-table.component.html',
   styleUrls: ['./account-request-table.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgbTooltip,
     AjaxLoadingComponent,

@@ -50,7 +50,6 @@ import {
   SortableEvent,
   SortableTableHeaderColorScheme,
 } from '../../components/sortable-table/sortable-table.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -78,7 +77,6 @@ export interface CourseTabModel {
   selector: 'tm-instructor-home-page',
   templateUrl: './instructor-home-page.component.html',
   styleUrls: ['./instructor-home-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingSpinnerDirective,
     TeammatesRouterDirective,

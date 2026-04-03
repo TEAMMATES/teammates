@@ -22,7 +22,6 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -53,7 +52,6 @@ interface StudentSession {
   selector: 'tm-student-home-page',
   templateUrl: './student-home-page.component.html',
   styleUrls: ['./student-home-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,

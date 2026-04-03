@@ -114,7 +114,7 @@
               }
             </div>
             @if (courseTabModel.isTabExpanded) {
-              <div class="card-body padding-0 table-responsive" @collapseAnim>
+              <div class="card-body padding-0 table-responsive" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                 <tm-loading-retry [shouldShowRetry]="courseTabModel.hasLoadingFailed"
                   [message]="'Error loading feedback sessions'" (retryEvent)="loadFeedbackSessions(idx)">
                   <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"

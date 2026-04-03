@@ -26,7 +26,6 @@ import {
 import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 
@@ -37,7 +36,6 @@ import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter
   selector: 'tm-admin-search-page',
   templateUrl: './admin-search-page.component.html',
   styleUrls: ['./admin-search-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     FormsModule,
     NgClass,

@@ -55,7 +55,6 @@ import {
 } from '../../../components/question-submission-form/question-submission-form.component';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import {
   InstructorSessionResultQuestionViewComponent,
@@ -76,7 +75,6 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-questions-section',
   templateUrl: './instructor-help-questions-section.component.html',
   styleUrls: ['./instructor-help-questions-section.component.scss'],
-  animations: [collapseAnim],
   imports: [
     InstructorHelpPanelComponent,
     ExampleBoxComponent,

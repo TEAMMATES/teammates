@@ -8,7 +8,7 @@
       <tm-panel-chevron [isExpanded]="isPanelExpanded"></tm-panel-chevron>
     </div>
   </div>
-  <div class="panel-content card-body" [@collapseAnim]="isPanelExpanded ? 'expanded' : 'collapsed'">
+  <div class="panel-content card-body" [class.expanded]="isPanelExpanded" [class.collapsed]="!isPanelExpanded">
     <ng-content></ng-content>
   </div>
 </div>

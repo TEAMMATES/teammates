@@ -22,7 +22,6 @@ import { ProgressBarComponent } from '../../components/progress-bar/progress-bar
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { StatusMessage } from '../../components/status-message/status-message';
 import { StatusMessageComponent } from '../../components/status-message/status-message.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { areEmailsEqual, normalizeEmail } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -39,7 +38,6 @@ interface EnrollResultPanel {
   selector: 'tm-instructor-course-enroll-page',
   templateUrl: './instructor-course-enroll-page.component.html',
   styleUrls: ['./instructor-course-enroll-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingSpinnerDirective,
     LoadingRetryComponent,

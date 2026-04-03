@@ -21,7 +21,6 @@ import {
 import {
   ReminderResponseModel,
 } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 
 /**
@@ -31,7 +30,6 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   selector: 'tm-instructor-session-no-response-panel',
   templateUrl: './instructor-session-no-response-panel.component.html',
   styleUrls: ['./instructor-session-no-response-panel.component.scss'],
-  animations: [collapseAnim],
   imports: [
     TeammatesRouterDirective,
     PanelChevronComponent,

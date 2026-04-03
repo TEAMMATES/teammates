@@ -13,7 +13,7 @@
           </div>
         </div>
         @if (!session.isCollapsed) {
-          <div class="card-body" @collapseAnim>
+          <div class="card-body" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
             @if (session.responsesReceivedByStudent.length > 0) {
               <tm-grq-rgq-view-responses
                 [session]="session.feedbackSession"

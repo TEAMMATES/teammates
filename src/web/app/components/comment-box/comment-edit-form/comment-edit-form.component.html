@@ -33,7 +33,7 @@
   }
 
   @if (isVisibilityTableExpanded) {
-    <div @collapseAnim>
+    <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
       <table class="table margin-bottom-0 background-color-white table-striped table-responsive-md">
         <thead>
           <tr>

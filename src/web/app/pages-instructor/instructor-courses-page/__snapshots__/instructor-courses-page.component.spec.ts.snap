@@ -547,7 +547,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
        Add New Course 
     </button>
   </div><div
-    class="course-section ng-trigger ng-trigger-collapseAnim ng-animating"
+    class="course-section"
     id="add-course-section"
   >
     <tm-course-edit-form>
@@ -557,9 +557,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
         <div
           class="card-header bg-primary text-white add-mode"
         >
-          <strong
-            style=""
-          >
+          <strong>
             Create a new Course
           </strong>
           <div
@@ -569,7 +567,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
               class="btn btn-primary btn-sm"
               disabled=""
               id="btn-copy-course"
-              style=""
             >
               <i
                 aria-hidden="true"
@@ -580,7 +577,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
             <button
               class="btn btn-primary btn-sm"
               id="btn-close-form"
-              style=""
             >
               <i
                 aria-hidden="true"
@@ -672,7 +668,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                 <span
                   class="ngb-tooltip-class"
                   ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
-                  style=""
                 >
                    Course institute: 
                 </span>
@@ -718,25 +713,21 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     required=""
                   >
                     <option
-                      style=""
                       value="Jamaica"
                     >
                       Jamaica (UTC -05:00)
                     </option>
                     <option
-                      style=""
                       value="Portugal"
                     >
                       Portugal (UTC)
                     </option>
                     <option
-                      style=""
                       value="Singapore"
                     >
                       Singapore (UTC +08:00)
                     </option>
                     <option
-                      style=""
                       value="Turkey"
                     >
                       Turkey (UTC +03:00)
@@ -765,7 +756,6 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                   class="btn btn-success"
                   disabled=""
                   id="btn-submit-course"
-                  style=""
                   type="submit"
                 >
                    Add Course 

@@ -51,7 +51,6 @@ import {
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -69,7 +68,6 @@ interface CourseModel {
   selector: 'tm-instructor-courses-page',
   templateUrl: './instructor-courses-page.component.html',
   styleUrls: ['./instructor-courses-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     CourseEditFormComponent,
     ProgressBarComponent,

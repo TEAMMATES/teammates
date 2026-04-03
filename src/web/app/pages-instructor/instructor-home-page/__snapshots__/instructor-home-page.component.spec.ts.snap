@@ -268,12 +268,10 @@ exports[`InstructorHomePageComponent should snap with one course with error load
             </b>
           </div>
           <div
-            class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="card-body padding-0 table-responsive"
           >
             <tm-loading-retry>
-              <tm-loading-spinner
-                style=""
-              >
+              <tm-loading-spinner>
                 <div
                   class="loading-container"
                 >
@@ -555,12 +553,11 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="card-body padding-0 table-responsive"
           >
             <tm-loading-retry>
               <tm-sessions-table
                 id="sessions-table-0"
-                style=""
               >
                 <div>
                   <tm-sortable-table>
@@ -1124,12 +1121,11 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="card-body padding-0 table-responsive"
           >
             <tm-loading-retry>
               <tm-sessions-table
                 id="sessions-table-0"
-                style=""
               >
                 <div>
                   <tm-sortable-table>
@@ -2160,12 +2156,10 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="card-body padding-0 table-responsive"
           >
             <tm-loading-retry>
-              <tm-loading-spinner
-                style=""
-              >
+              <tm-loading-spinner>
                 <div
                   class="loading-container"
                 >
@@ -2447,12 +2441,11 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="card-body padding-0 table-responsive"
           >
             <tm-loading-retry>
               <tm-sessions-table
                 id="sessions-table-0"
-                style=""
               >
                 <div
                   class="no-session-message"

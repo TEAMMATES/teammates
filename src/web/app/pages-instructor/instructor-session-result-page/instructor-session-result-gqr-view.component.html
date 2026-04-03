@@ -8,7 +8,7 @@
         </div>
       </div>
       @if (sectionInfo.value.isTabExpanded) {
-        <div @collapseAnim>
+        <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
           <div *tmIsLoading="!sectionInfo.value.hasPopulated && !sectionInfo.value.errorMessage"></div>
           <tm-loading-retry
             class="m-3"

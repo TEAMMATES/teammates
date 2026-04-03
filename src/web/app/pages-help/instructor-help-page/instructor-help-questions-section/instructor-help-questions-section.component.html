@@ -33,7 +33,7 @@
       </li>
     </ol>
     @if (questionsToCollapsed[QuestionsSectionQuestions.ESSAY]) {
-      <tm-example-box @collapseAnim>
+      <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
         <tm-question-edit-form
           [formModel]="exampleEssayQuestionModel"
           [formMode]="QuestionEditFormMode.EDIT"
@@ -76,7 +76,7 @@
       </li>
     </ol>
     @if (questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]) {
-      <tm-example-box @collapseAnim>
+      <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
         <tm-question-edit-form
           [formModel]="exampleMCQQuestionWithoutWeightsModel"
           [formMode]="QuestionEditFormMode.EDIT"
@@ -96,7 +96,7 @@
       if there are existing responses for that question, the additional statistics will automatically get calculated for the question.
     </p>
     @if (questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]) {
-      <tm-example-box @collapseAnim>
+      <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
         <tm-question-edit-form
           [formModel]="exampleMCQQuestionWithWeightsModel"
           [formMode]="QuestionEditFormMode.EDIT"
@@ -152,7 +152,7 @@
         </li>
       </ol>
       @if (questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]) {
-        <tm-example-box @collapseAnim>
+        <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
           <tm-question-edit-form
             [formModel]="exampleNumericalScaleQuestionModel"
             [formMode]="QuestionEditFormMode.EDIT"
@@ -165,7 +165,7 @@
         TEAMMATES calculates the mean, minimum and maximum values based on all responses given.
       </p>
       @if (questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]) {
-        <tm-example-box @collapseAnim>
+        <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
           <tm-instructor-session-result-question-view
             [questions]="exampleNumericalScaleQuestions"
             [session]="exampleFeedbackSession"
@@ -206,7 +206,7 @@
         </li>
       </ol>
       @if (questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]) {
-        <tm-example-box @collapseAnim>
+        <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
           <tm-question-edit-form
             [formModel]="exampleDistributedPointOptionModel"
             [formMode]="QuestionEditFormMode.EDIT"
@@ -218,7 +218,7 @@
         In the results view, TEAMMATES provides statistics on the average number of points each option received.
       </p>
       @if (questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]) {
-        <tm-example-box @collapseAnim>
+        <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
           <tm-instructor-session-result-question-view
             [questions]="exampleDistributePointOptionQuestions"
             [session]="exampleFeedbackSession"
@@ -257,7 +257,7 @@
         </li>
       </ol>
       @if (questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]) {
-        <tm-example-box @collapseAnim>
+        <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
           <tm-question-edit-form
             [formModel]="exampleDistributedPointRecipientModel"
             [formMode]="QuestionEditFormMode.EDIT"
@@ -294,7 +294,7 @@
           The feedback path for this question type is fixed: the feedback giver must be a student, and the student must give feedback about his/her team members and himself.
         </p>
         @if (questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]) {
-          <tm-example-box @collapseAnim>
+          <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
             <tm-question-edit-form
               [formModel]="exampleTeamContributionQuestionModel"
               [formMode]="QuestionEditFormMode.EDIT"
@@ -512,7 +512,7 @@
                                                             'Normalize' here means scale up/down the values so that the <code>(sum of contributions) = ( n x Equal Share)</code> where <code>n</code> is the number of students being reviewed.
                                                           </p>
                                                           @if (questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]) {
-                                                            <tm-example-box @collapseAnim>
+                                                            <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                                                               <tm-instructor-session-result-question-view
                                                                 [questions]="exampleTeamContributionQuestions"
                                                                 [session]="exampleFeedbackSession"
@@ -590,7 +590,7 @@
                                                             To respondents, a rubric question will appear as a table that looks similar to the example below. Respondents can choose one answer per row.
                                                           </p>
                                                           @if (questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]) {
-                                                            <tm-example-box @collapseAnim>
+                                                            <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                                                               <tm-question-submission-form
                                                                 [formModel]="exampleResponderRubricSubmissionFormModel"
                                                                 [isSubmissionDisabled]="true"
@@ -625,7 +625,7 @@
                                                             </li>
                                                           </ol>
                                                           @if (questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]) {
-                                                            <tm-example-box @collapseAnim>
+                                                            <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                                                               <tm-question-edit-form
                                                                 [formModel]="exampleRubricQuestionModel"
                                                                 [formMode]="QuestionEditFormMode.EDIT"
@@ -663,7 +663,7 @@
                                                             the response count of that choice, total and average points for the sub-question is calculated for each recipient.
                                                           </p>
                                                           @if (questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]) {
-                                                            <tm-example-box @collapseAnim>
+                                                            <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                                                               <tm-instructor-session-result-question-view
                                                                 [questions]="exampleRubricQuestionQuestions"
                                                                 [session]="exampleFeedbackSession"
@@ -742,7 +742,7 @@
                                                               </li>
                                                             </ol>
                                                             @if (questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]) {
-                                                              <tm-example-box @collapseAnim>
+                                                              <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                                                                 <tm-question-edit-form
                                                                   [formModel]="exampleRankRecipientQuestionModel"
                                                                   [formMode]="QuestionEditFormMode.EDIT"
@@ -786,7 +786,7 @@
                                                               </ul>
                                                             </ng-template>
                                                             @if (questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]) {
-                                                              <tm-example-box @collapseAnim>
+                                                              <tm-example-box animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                                                                 <tm-instructor-session-result-question-view
                                                                   [questions]="exampleRankRecipientQuestions"
                                                                   [session]="exampleFeedbackSession"

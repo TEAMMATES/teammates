@@ -121,7 +121,7 @@
                   </div>
                 </div>
                 @if (institutionPanelsStatus[mapping.key]) {
-                  <div class="card-body session-table-body" @collapseAnim>
+                  <div class="card-body session-table-body" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
                     <div class="table-responsive">
                       <table class="table table-striped data-table session-table" id="ongoing-sessions-table">
                         <thead>

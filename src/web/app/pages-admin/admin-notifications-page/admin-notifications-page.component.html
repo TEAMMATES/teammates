@@ -16,7 +16,7 @@
 </div>
 
 @if (isNotificationEditFormExpanded && !isNotificationLoading) {
-  <div class="margin-top-30px" @collapseAnim>
+  <div class="margin-top-30px" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
     <tm-notification-edit-form [formMode]="currentNotificationEditFormMode"
       [(model)]="notificationEditFormModel"
       [guessTimezone]="guessTimezone"
