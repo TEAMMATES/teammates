@@ -48,8 +48,7 @@ public class LocalLoggingService implements LogService {
         long earliestTimestamp = currentTimestamp - 60 * 60 * 1000;
         try {
             String jsonString = FileHelper.readResourceFile("logsForLocalDev.json");
-            Collection<GeneralLogEntry> logEntriesCollection =
-                    JsonUtils.fromJson(jsonString, new TypeReference<>(){});
+            Collection<GeneralLogEntry> logEntriesCollection = JsonUtils.fromJson(jsonString, new TypeReference<>(){});
             return logEntriesCollection.stream()
                     .map(log -> {
                         long timestamp = new RandomDataGenerator().nextLong(earliestTimestamp, currentTimestamp);
