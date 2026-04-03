@@ -23,7 +23,9 @@ import org.hibernate.annotations.SQLInsert;
 @Entity
 @Table(
         name = "ReadNotifications",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"account_id", "notification_id"}))
+        uniqueConstraints = @UniqueConstraint(
+                name = "Unique account_id and notification_id",
+                columnNames = {"account_id", "notification_id"}))
 @SQLInsert(
         sql = """
                 INSERT INTO read_notifications (account_id, created_at, notification_id, id)
