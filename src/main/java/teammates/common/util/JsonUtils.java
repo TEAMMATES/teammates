@@ -180,7 +180,7 @@ public final class JsonUtils {
     }
 
     /**
-     * Jackson overload for callers using {@link TypeReference} instead of Gson TypeToken.
+     * Deserializes the specified JSON string into an object of the specified {@link TypeReference}
      */
     public static <T> T fromJson(String json, TypeReference<T> typeRef) {
         try {
