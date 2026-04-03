@@ -1,7 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommentTableComponent } from './comment-table.component';
 
 describe('CommentTableComponent', () => {
@@ -10,9 +9,6 @@ describe('CommentTableComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
