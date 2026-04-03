@@ -88,18 +88,6 @@ public class SmtpService implements EmailSenderService {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public MimeMessage parseToEmail(EmailWrapper wrapper) {
-        try {
-            return createMimeMessage(wrapper);
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
-
-    /**
      * Sends the given {@link MimeMessage} via SMTP transport.
      * Allows mocking of SMTP transport sending behaviour in tests.
      */
@@ -110,7 +98,7 @@ public class SmtpService implements EmailSenderService {
     @Override
     public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws EmailSendingException {
         try {
-            MimeMessage message = createMimeMessage(wrapper);
+            MimeMessage message = parseToEmail(wrapper);
             sendMessageWithTransport(message);
             return new EmailSendingStatus(HttpStatus.SC_OK, "Email sent successfully");
         } catch (SMTPSendFailedException sfe) {
@@ -132,7 +120,7 @@ public class SmtpService implements EmailSenderService {
         }
     }
 
-    private MimeMessage createMimeMessage(EmailWrapper wrapper) throws MessagingException, UnsupportedEncodingException {
+    MimeMessage parseToEmail(EmailWrapper wrapper) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = new MimeMessage(session);
 
         // Set sender, recipient, reply-to, and subject
