@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -126,7 +127,8 @@ public final class FeedbackSessionLogsDb {
 
         String sql = "INSERT INTO feedback_session_logs "
                 + "(id, created_at, feedback_session_log_type, timestamp, session_id, student_id, dedup_window_bucket) "
-                + "VALUES (:id, :createdAt, :feedbackSessionLogType, :timestamp, :sessionId, :studentId, :dedupWindowBucket) "
+                + "VALUES (:id, :createdAt, :feedbackSessionLogType, :timestamp, :sessionId, "
+                + ":studentId, :dedupWindowBucket) "
                 + "ON CONFLICT ON CONSTRAINT uq_fsl_student_session_type_bucket DO NOTHING";
 
         int rowsAffected = HibernateUtil.createNativeMutationQuery(sql)
