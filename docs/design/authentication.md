@@ -32,23 +32,19 @@ The following sequence diagram illustrates the generalized OAuth2 authentication
 
 <puml src="../diagrams/OAuth2AuthSequence.puml"/>
 
-### Google OAuth
+### Google OAuth and Microsoft Entra ID
 
-1. The user initiates login with `provider=google`. `LoginServlet` constructs a Google authorization URL with a redirect URI and an encrypted `AuthState` containing the next URL, session ID, and provider type.
-2. The user is redirected to Google's sign-in page to select a Google account.
-3. After authentication, Google redirects to `OAuth2CallbackServlet` with an authorization code in the URL.
-4. The servlet exchanges the authorization code for an access token via Google's token endpoint.
-5. The access token is used to request the user's email from Google's resource server.
-6. The email is used to create a `UserInfoCookie`, which is set as the session cookie. The user is then redirected to the original destination.
+Both providers follow the same OAuth2 authorization code flow:
 
-### Microsoft Entra ID
+1. The user initiates login with the chosen provider. `LoginServlet` constructs an authorization URL with a redirect URI and an encrypted `AuthState` (next URL, session ID, provider type), then redirects the user to the provider's sign-in page.
+2. The user selects an account and grants consent. The provider redirects back to `OAuth2CallbackServlet` with an authorization code and the encrypted state.
+3. The servlet decrypts and validates the `AuthState`, exchanges the authorization code for an access token, and uses the token to retrieve the user's email.
+4. The email is used to create a `UserInfoCookie`, which is set as the session cookie. The user is redirected to the original destination.
 
-1. The user initiates login with `provider=microsoft_entra`. `LoginServlet` constructs a Microsoft authorization URL with a redirect URI, the `openid` and `email` scopes, a `FORM_POST` response mode, and an encrypted `AuthState`.
-2. The user is redirected to Microsoft's sign-in page to select a Microsoft account.
-3. After authentication, Microsoft redirects to `OAuth2CallbackServlet` with an authorization code.
-4. The servlet exchanges the authorization code for an access token via Microsoft's token endpoint.
-5. The access token is used to request the user's email from Microsoft's resource server.
-6. The email is used to create a `UserInfoCookie`, which is set as the session cookie. The user is then redirected to the original destination.
+Provider-specific differences:
+
+- **Google** (`provider=google`): Requests the `userinfo.email` scope. The user's email is fetched from the Google userinfo endpoint using the access token.
+- **Microsoft Entra ID** (`provider=microsoft_entra`): Requests the `openid` and `email` scopes with a `FORM_POST` response mode. The user's email is extracted from the validated ID token returned by MSAL4J.
 
 ### Firebase
 
