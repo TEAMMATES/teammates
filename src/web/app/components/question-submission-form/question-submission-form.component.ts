@@ -273,18 +273,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       this.isSaved = false;
     }
 
-    if (this.isSubmitAllClicked) {
-      if (this.model.recipientSubmissionForms.some((response) => response.responseId.length > 0)) {
-        this.isSaved = true;
-      } else if (this.model.recipientSubmissionForms.every((form) => form.responseId.length === 0)) {
-        this.isSaved = false;
-      }
-
-      this.model.hasResponseChangedForRecipients.forEach((_hasResponseChanged: boolean, recipientId: string) => {
-        this.model.hasResponseChangedForRecipients.set(recipientId, false);
-      });
-    }
-
     this.model.hasResponseChangedForRecipients.forEach((hasResponseChanged: boolean) => {
       if (hasResponseChanged) {
         this.isSaved = false;
@@ -513,12 +501,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Triggers saving of responses for the specific question.
    */
   saveFeedbackResponses(): void {
-    this.isSaved = true;
-    this.hasResponseChanged = false;
-    this.model.hasResponseChangedForRecipients.forEach(
-        (_hasResponseChangedForRecipient: boolean, recipientId: string) => {
-        this.model.hasResponseChangedForRecipients.set(recipientId, false);
-    });
     this.responsesSave.emit(this.model);
   }
 

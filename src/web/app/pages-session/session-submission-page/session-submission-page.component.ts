@@ -1,5 +1,5 @@
 import { KeyValuePipe } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnInit, DOCUMENT } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, DOCUMENT, ViewChildren, QueryList } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -91,6 +91,9 @@ interface FeedbackQuestionsResponse {
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   readonly castAsSelectElement = castAsSelectElement;
+
+  @ViewChildren(QuestionSubmissionFormComponent)
+  questionSubmissionFormComponents!: QueryList<QuestionSubmissionFormComponent>;
 
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
@@ -872,6 +875,26 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           modalRef.componentInstance.answers = answers;
           modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
           modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
+
+          this.isSubmitAllClicked = false;
+
+          this.questionSubmissionFormComponents.forEach((component: QuestionSubmissionFormComponent) => {
+            const wasSubmitted = questionSubmissionForms.some((q) => q.questionNumber === component.model.questionNumber);
+            if (wasSubmitted) {
+              if (failToSaveQuestions[component.model.questionNumber]) {
+                component.isSaved = false;
+                component.hasResponseChanged = true;
+              } else if (!notYetAnsweredQuestions.has(component.model.questionNumber)) {
+                component.isSaved = true;
+                component.hasResponseChanged = false;
+                component.model.hasResponseChangedForRecipients.forEach(
+                  (_: boolean, rId: string) => {
+                    component.model.hasResponseChangedForRecipients.set(rId, false);
+                  }
+                );
+              }
+            }
+          });
 
           if (recipientId) {
             this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {

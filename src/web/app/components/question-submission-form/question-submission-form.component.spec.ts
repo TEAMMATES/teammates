@@ -323,24 +323,12 @@ describe('QuestionSubmissionFormComponent', () => {
       expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
     });
 
-  it('ngDoCheck: sets isSaved to false if hasResponseChanged is true and isSubmitAllClicked is false', () => {
+  it('ngDoCheck: sets isSaved to false if hasResponseChanged is true', () => {
     component.hasResponseChanged = true;
 
     component.ngDoCheck();
 
     expect(component.isSaved).toBeFalsy();
-  });
-
-  it('ngDoCheck: sets isSaved to true if hasResponseChanged is true and isSubmitAllClicked is true'
-  + 'and some responses have responseId', () => {
-    component.hasResponseChanged = true;
-    component.isSubmitAllClicked = true;
-    const model: QuestionSubmissionFormModel = JSON.parse(
-      JSON.stringify(testNumscaleQuestionSubmissionForm, mapReplacer), mapReviver);
-    component.formModel = model;
-    component.ngDoCheck();
-
-    expect(component.isSaved).toBeTruthy();
   });
 
   it('hasSectionTeam: should return false if QuestionSubmissionFormMode is not FLEXIBLE_RECIPIENT', () => {
@@ -554,30 +542,17 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(formModelChangeSpy).not.toHaveBeenCalled();
   });
 
-  it('saveFeedbackResponses: should set isSaved to true, hasResponseChanged to false'
-  + 'and set model.hasResponseChangedForRecipients all to false', () => {
+  it('saveFeedbackResponses: should emit responsesSave with model', () => {
     component.isSaved = false;
     component.hasResponseChanged = true;
-    component.model.hasResponseChangedForRecipients = new Map<string, boolean>([
-      ['id1', true],
-      ['id2', false],
-      ['id3', true],
-    ]);
 
     let emittedModel: QuestionSubmissionFormModel | undefined;
     testEventEmission(component.responsesSave, (value) => { emittedModel = value; });
 
     component.saveFeedbackResponses();
 
-    expect(component.isSaved).toBeTruthy();
-    expect(component.hasResponseChanged).toBeFalsy();
-
-    const expectedHasResponseChangedForRecipients = new Map<string, boolean>([
-      ['id1', false],
-      ['id2', false],
-      ['id3', false],
-    ]);
-    expect(component.model.hasResponseChangedForRecipients).toStrictEqual(expectedHasResponseChangedForRecipients);
+    expect(component.isSaved).toBeFalsy();
+    expect(component.hasResponseChanged).toBeTruthy();
     expect(emittedModel).toStrictEqual(component.model);
   });
 
