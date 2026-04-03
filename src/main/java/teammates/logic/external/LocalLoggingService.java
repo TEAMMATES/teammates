@@ -237,8 +237,7 @@ public class LocalLoggingService implements LogService {
             GeneralLogEntry copiedEntry = new GeneralLogEntry(logEntry.getSeverity(),
                     logEntry.getTrace(), logEntry.getInsertId(), logEntry.getResourceIdentifier(),
                     logEntry.getSourceLocation(), logEntry.getTimestamp());
-            copiedEntry.setDetails(
-                    JsonUtils.fromJson(JsonUtils.toCompactJson(logEntry.getDetails()), LogDetails.class));
+            copiedEntry.setDetails(JsonUtils.fromJson(JsonUtils.toCompactJson(logEntry.getDetails()), LogDetails.class));
             copiedEntry.setMessage(logEntry.getMessage());
             result.add(copiedEntry);
         }

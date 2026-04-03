@@ -82,6 +82,8 @@ public final class JsonUtils {
 
         // Treat @OneToMany fields as @JsonIgnore
         mapper.setAnnotationIntrospector(new HibernateAnnotationIntrospector());
+
+        mapper.registerModule(new ParameterNamesModule());
         mapper.registerModule(new JavaTimeModule()); // Format Instant as ISO 8601 string and ZoneId
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
@@ -93,12 +95,12 @@ public final class JsonUtils {
         module.addDeserializer(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsDeserializer());
         module.addDeserializer(FeedbackResponseDetails.class, new FeedbackResponseDetailsDeserializer());
         mapper.registerModule(module);
-        mapper.registerModule(new ParameterNamesModule());
 
         if (prettyPrint) {
             mapper.setDefaultPrettyPrinter(new CustomPrettyPrinter());
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
         }
+
         return mapper;
     }
 
@@ -180,7 +182,7 @@ public final class JsonUtils {
     }
 
     /**
-     * Deserializes the specified JSON string into an object of the specified {@link TypeReference}
+     * Deserializes the specified JSON string into an object of the specified {@link TypeReference}.
      */
     public static <T> T fromJson(String json, TypeReference<T> typeRef) {
         try {
@@ -286,36 +288,55 @@ public final class JsonUtils {
             ObjectNode node = p.readValueAsTree();
             String qt = node.path("questionDetails").path("questionType").asText();
             try {
-                switch (FeedbackQuestionType.valueOf(qt)) {
-                case MCQ:
-                    return MAPPER.treeToValue(node, FeedbackMcqQuestion.class);
-                case MSQ:
-                    return MAPPER.treeToValue(node, FeedbackMsqQuestion.class);
-                case TEXT:
-                    return MAPPER.treeToValue(node, FeedbackTextQuestion.class);
-                case RUBRIC:
-                    return MAPPER.treeToValue(node, FeedbackRubricQuestion.class);
-                case CONTRIB:
-                    return MAPPER.treeToValue(node, FeedbackContributionQuestion.class);
-                case CONSTSUM:
-                case CONSTSUM_OPTIONS:
-                case CONSTSUM_RECIPIENTS:
-                    return MAPPER.treeToValue(node, FeedbackConstantSumQuestion.class);
-                case NUMSCALE:
-                    return MAPPER.treeToValue(node, FeedbackNumericalScaleQuestion.class);
-                case RANK_OPTIONS:
-                    return MAPPER.treeToValue(node, FeedbackRankOptionsQuestion.class);
-                case RANK_RECIPIENTS:
-                    return MAPPER.treeToValue(node, FeedbackRankRecipientsQuestion.class);
-                default:
-                    return null;
-                }
+                return switch (FeedbackQuestionType.valueOf(qt)) {
+                case MCQ -> MAPPER.treeToValue(node, FeedbackMcqQuestion.class);
+                case MSQ -> MAPPER.treeToValue(node, FeedbackMsqQuestion.class);
+                case TEXT -> MAPPER.treeToValue(node, FeedbackTextQuestion.class);
+                case RUBRIC -> MAPPER.treeToValue(node, FeedbackRubricQuestion.class);
+                case CONTRIB -> MAPPER.treeToValue(node, FeedbackContributionQuestion.class);
+                case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS ->
+                        MAPPER.treeToValue(node, FeedbackConstantSumQuestion.class);
+                case NUMSCALE -> MAPPER.treeToValue(node, FeedbackNumericalScaleQuestion.class);
+                case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsQuestion.class);
+                case RANK_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackRankRecipientsQuestion.class);
+                };
             } catch (IllegalArgumentException e) {
                 return null;
             }
         }
     }
 
+    private static final class FeedbackResponseDeserializer extends StdDeserializer<FeedbackResponse> {
+        FeedbackResponseDeserializer() {
+            super(FeedbackResponse.class);
+        }
+
+        @Override
+        public FeedbackResponse deserialize(JsonParser p, DeserializationContext ctx)
+                throws IOException {
+            ObjectNode node = p.readValueAsTree();
+            String qt = node.path("answer").path("questionType").asText();
+            try {
+                return switch (FeedbackQuestionType.valueOf(qt)) {
+                case MCQ -> MAPPER.treeToValue(node, FeedbackMcqResponse.class);
+                case MSQ -> MAPPER.treeToValue(node, FeedbackMsqResponse.class);
+                case TEXT -> MAPPER.treeToValue(node, FeedbackTextResponse.class);
+                case RUBRIC -> MAPPER.treeToValue(node, FeedbackRubricResponse.class);
+                case CONTRIB -> MAPPER.treeToValue(node, FeedbackContributionResponse.class);
+                case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS ->
+                        MAPPER.treeToValue(node, FeedbackConstantSumResponse.class);
+                case NUMSCALE -> MAPPER.treeToValue(node, FeedbackNumericalScaleResponse.class);
+                case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsResponse.class);
+                case RANK_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackRankRecipientsResponse.class);
+                };
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        }
+    }
+
+    // These are used instead of JsonTypeInfo annotations on FQDetails and FRDetails so that
+    // the generated type info for the frontend uses enum instead of string union for questionType.
     private static final class FeedbackQuestionDetailsDeserializer
             extends StdDeserializer<FeedbackQuestionDetails> {
         FeedbackQuestionDetailsDeserializer() {
@@ -350,47 +371,6 @@ public final class JsonUtils {
             try {
                 FeedbackQuestionType type = FeedbackQuestionType.valueOf(qt);
                 return MAPPER.treeToValue(node, type.getResponseDetailsClass());
-            } catch (IllegalArgumentException e) {
-                return null;
-            }
-        }
-    }
-
-    private static final class FeedbackResponseDeserializer extends StdDeserializer<FeedbackResponse> {
-        FeedbackResponseDeserializer() {
-            super(FeedbackResponse.class);
-        }
-
-        @Override
-        public FeedbackResponse deserialize(JsonParser p, DeserializationContext ctx)
-                throws IOException {
-            ObjectNode node = p.readValueAsTree();
-            String qt = node.path("answer").path("questionType").asText();
-            try {
-                switch (FeedbackQuestionType.valueOf(qt)) {
-                case MCQ:
-                    return MAPPER.treeToValue(node, FeedbackMcqResponse.class);
-                case MSQ:
-                    return MAPPER.treeToValue(node, FeedbackMsqResponse.class);
-                case TEXT:
-                    return MAPPER.treeToValue(node, FeedbackTextResponse.class);
-                case RUBRIC:
-                    return MAPPER.treeToValue(node, FeedbackRubricResponse.class);
-                case CONTRIB:
-                    return MAPPER.treeToValue(node, FeedbackContributionResponse.class);
-                case CONSTSUM:
-                case CONSTSUM_OPTIONS:
-                case CONSTSUM_RECIPIENTS:
-                    return MAPPER.treeToValue(node, FeedbackConstantSumResponse.class);
-                case NUMSCALE:
-                    return MAPPER.treeToValue(node, FeedbackNumericalScaleResponse.class);
-                case RANK_OPTIONS:
-                    return MAPPER.treeToValue(node, FeedbackRankOptionsResponse.class);
-                case RANK_RECIPIENTS:
-                    return MAPPER.treeToValue(node, FeedbackRankRecipientsResponse.class);
-                default:
-                    return null;
-                }
             } catch (IllegalArgumentException e) {
                 return null;
             }
