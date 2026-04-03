@@ -161,7 +161,18 @@ export class SearchService {
       loginIdentifier = '',
       loginProvider = '',
     }: Student = student;
-    studentResult = { ...studentResult, email, name, comments, team, section, accountId, institute, loginIdentifier, loginProvider };
+    studentResult = {
+      ...studentResult,
+      email,
+      name,
+      comments,
+      team,
+      section,
+      accountId,
+      institute,
+      loginIdentifier,
+      loginProvider,
+    };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };

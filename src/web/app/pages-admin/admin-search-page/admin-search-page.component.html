@@ -57,7 +57,17 @@
                   </div>
                 </td>
                 <td [innerHtml]="instructor.name | highlighter:searchString:true"></td>
-                <td [innerHtml]="instructor.loginIdentifier | highlighter:searchString:true"></td>
+                <td>
+                  @if (instructor.homePageLink) {
+                    <a href="{{ instructor.homePageLink }}"
+                      (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer"
+                      [innerHtml]="instructor.loginIdentifier | highlighter:searchString:true">
+                    </a>
+                  }
+                  @if (!instructor.homePageLink) {
+                    <span [innerHtml]="instructor.loginIdentifier | highlighter:searchString:true"></span>
+                  }
+                </td>
                 <td [innerHtml]="instructor.loginProvider | highlighter:searchString:true"></td>
                 <td [innerHtml]="instructor.institute | highlighter:searchString:true"></td>
               <td>
@@ -180,7 +190,17 @@
                     <td><a href="{{ student.profilePageLink }}"
                       (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.name | highlighter:searchString:true">
                     </a></td>
-                    <td [innerHtml]="student.loginIdentifier | highlighter:searchString:true"></td>
+                    <td>
+                      @if (student.profilePageLink) {
+                        <a href="{{ student.profilePageLink }}"
+                          (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer"
+                          [innerHtml]="student.loginIdentifier | highlighter:searchString:true">
+                        </a>
+                      }
+                      @if (!student.profilePageLink) {
+                        <span [innerHtml]="student.loginIdentifier | highlighter:searchString:true"></span>
+                      }
+                    </td>
                     <td [innerHtml]="student.loginProvider | highlighter:searchString:true"></td>
                     <td [innerHtml]="student.institute | highlighter:searchString:true"></td>
                     <td [innerHtml]="student.comments | highlighter:searchString:true"></td>

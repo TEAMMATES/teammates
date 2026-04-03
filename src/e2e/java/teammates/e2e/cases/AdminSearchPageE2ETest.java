@@ -44,10 +44,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         String studentDetails = getExpectedStudentDetails(student);
         String studentManageAccountLink = getExpectedStudentManageAccountLink(student);
-        String studentHomePageLink = getExpectedStudentHomePageLink(student);
+        String studentProfileLink = getExpectedStudentProfileLink(student);
         int numExpandedRows = getExpectedNumExpandedRows(student);
         searchPage.verifyStudentRowContent(student, course, studentDetails, studentManageAccountLink,
-                studentHomePageLink);
+                studentProfileLink);
         searchPage.verifyStudentExpandedLinks(student, numExpandedRows);
 
         ______TS("Typical case: Reset student account");
@@ -223,13 +223,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
                 student.getTeam().getName());
     }
 
-    private String getExpectedStudentHomePageLink(Student student) {
-        return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
-                .withUserId(student.getAccountId())
-                .toAbsoluteString()
-                : "";
-    }
-
     private String getExpectedStudentManageAccountLink(Student student) {
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.getAccountId())
@@ -237,8 +230,15 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
                 : "";
     }
 
+    private String getExpectedStudentProfileLink(Student student) {
+        return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
+                .withUserId(student.getAccountId())
+                .toAbsoluteString()
+                : "";
+    }
+
     private int getExpectedNumExpandedRows(Student student) {
-        int expectedNumExpandedRows = 2;
+        int expectedNumExpandedRows = 2 + (student.isRegistered() ? 1 : 0);
         for (FeedbackSession sessions : testData.feedbackSessions.values()) {
             if (sessions.getCourse().equals(student.getCourse())) {
                 expectedNumExpandedRows += 1;
@@ -250,17 +250,17 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         return expectedNumExpandedRows;
     }
 
-    private String getExpectedInstructorHomePageLink(Instructor instructor) {
-        String accountId = instructor.isRegistered() ? instructor.getAccountId() : "";
-        return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                .withUserId(accountId)
-                .toAbsoluteString();
-    }
-
     private String getExpectedInstructorManageAccountLink(Instructor instructor) {
         String accountId = instructor.isRegistered() ? instructor.getAccountId() : "";
         return createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, accountId)
+                .toAbsoluteString();
+    }
+
+    private String getExpectedInstructorHomePageLink(Instructor instructor) {
+        String accountId = instructor.isRegistered() ? instructor.getAccountId() : "";
+        return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
+                .withUserId(accountId)
                 .toAbsoluteString();
     }
 

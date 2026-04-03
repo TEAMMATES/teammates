@@ -96,7 +96,10 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               Name
             </th>
             <th>
-              Account ID
+              Login Identifier
+            </th>
+            <th>
+              Provider
             </th>
             <th>
               Institute
@@ -143,8 +146,11 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                00000000-0000-4000-8000-0000000000d2
+                instructor-login@tester.com
               </a>
+            </td>
+            <td>
+              google
             </td>
             <td>
               institute
@@ -227,7 +233,10 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               Name
             </th>
             <th>
-              Account ID
+              Login Identifier
+            </th>
+            <th>
+              Provider
             </th>
             <th>
               Institute
@@ -277,12 +286,15 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
             </td>
             <td>
               <a
-                href="home-page-link"
+                href="profile-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                00000000-0000-4000-8000-0000000000d3
+                student-login@gmail.tmt
               </a>
+            </td>
+            <td>
+              google
             </td>
             <td>
               institute
@@ -322,7 +334,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           </tr>
           <tr>
             <td
-              colspan="6"
+              colspan="7"
             >
             </td>
           </tr>
@@ -484,7 +496,10 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
               Name
             </th>
             <th>
-              Account ID
+              Login Identifier
+            </th>
+            <th>
+              Provider
             </th>
             <th>
               Institute
@@ -528,8 +543,11 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                00000000-0000-4000-8000-0000000000d4
+                tester-login@tester.com
               </a>
+            </td>
+            <td>
+              google
             </td>
             <td>
               institute
@@ -566,7 +584,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           </tr>
           <tr>
             <td
-              colspan="5"
+              colspan="6"
             >
               <ul
                 class="list-group"
@@ -576,6 +594,17 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 >
                   <strong>
                     Email
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-secondary"
+                >
+                  <strong>
+                    Account ID
                   </strong>
                   <input
                     class="form-control"
@@ -743,7 +772,10 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               Name
             </th>
             <th>
-              Account ID
+              Login Identifier
+            </th>
+            <th>
+              Provider
             </th>
             <th>
               Institute
@@ -790,12 +822,15 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
             </td>
             <td>
               <a
-                href="home-page-link"
+                href="profile-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                00000000-0000-4000-8000-0000000000d3
+                alice-login@gmail.tmt
               </a>
+            </td>
+            <td>
+              google
             </td>
             <td>
               institute
@@ -835,7 +870,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           </tr>
           <tr>
             <td
-              colspan="6"
+              colspan="7"
             >
               <ul
                 class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
@@ -845,6 +880,18 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 >
                   <strong>
                     Email
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-secondary"
+                  style=""
+                >
+                  <strong>
+                    Account ID
                   </strong>
                   <input
                     class="form-control"
