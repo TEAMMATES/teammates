@@ -394,20 +394,6 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateTeamInvalidName_throwInvalidParametersException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
-        Team team = getTypicalTeam();
-        team.setName(null);
-
-        when(coursesDb.createTeam(team)).thenThrow(new InvalidParametersException(team.getInvalidityInfo()));
-
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> coursesLogic.createTeam(team));
-
-        assertEquals("The provided team name is not acceptable to TEAMMATES as it cannot be empty.", ex.getMessage());
-    }
-
-    @Test
     public void testGetTeamsForSection_shouldReturnListOfTeams_success() {
         Section section = getTypicalSection();
 
@@ -508,6 +494,24 @@ public class CoursesLogicTest extends BaseTestCase {
                 + " The value of a/an institute name should be no longer than 128 characters."
                 + " It should not be empty.";
 
+        assertEquals(expectedMessage, ex.getMessage());
+    }
+
+    @Test
+    public void testValidateTeam_validTeam_noExceptionThrown() {
+        Team team = getTypicalTeam();
+        assertDoesNotThrow(() -> coursesLogic.validateTeam(team));
+    }
+
+    @Test
+    public void testValidateTeam_invalidTeamName_throwInvalidParametersException() {
+        Team team = getTypicalTeam();
+        team.setName(null);
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.validateTeam(team));
+
+        String expectedMessage = "The provided team name is not acceptable to TEAMMATES as it cannot be empty.";
         assertEquals(expectedMessage, ex.getMessage());
     }
 }

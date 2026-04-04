@@ -286,6 +286,7 @@ public final class CoursesLogic {
      * Creates a team.
      */
     public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
+        validateTeam(team);
         return coursesDb.createTeam(team);
     }
 
@@ -319,6 +320,14 @@ public final class CoursesLogic {
 
         if (!errors.isEmpty()) {
             throw new InvalidParametersException(errors);
+        }
+    }
+
+    void validateTeam(Team team) throws InvalidParametersException {
+        String error = FieldValidator.getValidityInfoForNonNullField("team name", team.getName());
+
+        if (!error.isEmpty()) {
+            throw new InvalidParametersException(error);
         }
     }
 }

@@ -75,11 +75,7 @@ public class Team extends BaseEntity {
 
     @Override
     public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("team name", name), errors);
-
-        return errors;
+        return new ArrayList<>();
     }
 
     public UUID getId() {

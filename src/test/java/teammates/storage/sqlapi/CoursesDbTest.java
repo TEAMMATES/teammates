@@ -128,17 +128,6 @@ public class CoursesDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateTeam_teamInvalid_throwsInvalidParametersException() {
-        Course c = new Course("course-id", "new-course-name", null, "institute");
-        Section s = new Section(c, "new-section");
-        Team t = new Team(s, null);
-
-        assertThrows(InvalidParametersException.class, () -> coursesDb.createTeam(t));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(t), never());
-    }
-
-    @Test
     public void testCreateTeam_teamAlreadyExists_throwsEntityAlreadyExistsException() {
         Course c = new Course("course-id", "new-course-name", null, "institute");
         Section s = new Section(c, "new-section");
@@ -152,7 +141,7 @@ public class CoursesDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateTeam_success() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateTeam_success() throws EntityAlreadyExistsException {
         Course c = new Course("course-id", "new-course-name", null, "institute");
         Section s = new Section(c, "new-section");
         Team t = new Team(s, "new-team");

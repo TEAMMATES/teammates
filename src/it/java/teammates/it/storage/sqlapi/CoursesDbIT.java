@@ -222,10 +222,6 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Team actualTeam = coursesDb.getTeamByName(section.getId(), team.getName());
         verifyEquals(team, actualTeam);
 
-        ______TS("failure: invalid team details");
-        Team invalidTeam = new Team(section, null);
-        assertThrows(InvalidParametersException.class, () -> coursesDb.createTeam(invalidTeam));
-
         ______TS("failure: create team that already exist, execption thrown");
         assertThrows(EntityAlreadyExistsException.class, () -> coursesDb.createTeam(team));
     }

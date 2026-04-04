@@ -180,12 +180,8 @@ public final class CoursesDb {
     /**
      * Creates a team.
      */
-    public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Team createTeam(Team team) throws EntityAlreadyExistsException {
         assert team != null;
-
-        if (!team.isValid()) {
-            throw new InvalidParametersException(team.getInvalidityInfo());
-        }
 
         if (getTeamByName(team.getSection().getId(), team.getName()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, team.toString()));
