@@ -24,24 +24,6 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
            You can search for students (by section name, team name, student name, or email) from all your courses here. 
         </div>
         <div
-          class="text-muted"
-        >
-           Search Tips:
-          <br />
-          <ul>
-            <li>
-              Put more keywords to search for more precise results.
-            </li>
-            <li>
-              Put quotation marks around words 
-              <b>
-                "[any word]"
-              </b>
-               to search for an exact phrase in an exact order. e.g. "John Doe".
-            </li>
-          </ul>
-        </div>
-        <div
           class="form-group"
         >
           <div
@@ -94,24 +76,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
           class="text-muted"
         >
            You can search for students (by section name, team name, student name, or email) from all your courses here. 
-        </div>
-        <div
-          class="text-muted"
-        >
-           Search Tips:
-          <br />
-          <ul>
-            <li>
-              Put more keywords to search for more precise results.
-            </li>
-            <li>
-              Put quotation marks around words 
-              <b>
-                "[any word]"
-              </b>
-               to search for an exact phrase in an exact order. e.g. "John Doe".
-            </li>
-          </ul>
         </div>
         <div
           class="form-group"
@@ -593,24 +557,6 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
           class="text-muted"
         >
            You can search for students (by section name, team name, student name, or email) from all your courses here. 
-        </div>
-        <div
-          class="text-muted"
-        >
-           Search Tips:
-          <br />
-          <ul>
-            <li>
-              Put more keywords to search for more precise results.
-            </li>
-            <li>
-              Put quotation marks around words 
-              <b>
-                "[any word]"
-              </b>
-               to search for an exact phrase in an exact order. e.g. "John Doe".
-            </li>
-          </ul>
         </div>
         <div
           class="form-group"
