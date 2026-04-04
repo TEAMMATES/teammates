@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -48,7 +47,6 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         course.addSection(section);
         Team team = new Team(section, "test-team");
         section.addTeam(team);
-        coursesDb.updateCourse(course);
 
         Account instructorAccount = new Account("instructor-account", "instructor-name", "valid-instructor@email.tmt");
         accountsDb.createAccount(instructorAccount);
@@ -187,7 +185,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetStudentsForSection()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("success: typical case");
         Section firstSection = new Section(course, "section-name1");
         course.addSection(firstSection);
@@ -198,8 +196,6 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         course.addSection(secondSection);
         Team secondTeam = new Team(secondSection, "team-name2");
         secondSection.addTeam(secondTeam);
-
-        coursesDb.updateCourse(course);
 
         Student firstStudent = getTypicalStudent();
         firstStudent.setEmail("valid-student-1@email.tmt");
@@ -226,7 +222,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetStudentsForTeam()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("success: typical case");
         Section firstSection = new Section(course, "section-name1");
         course.addSection(firstSection);
@@ -237,8 +233,6 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         course.addSection(secondSection);
         Team secondTeam = new Team(secondSection, "team-name2");
         secondSection.addTeam(secondTeam);
-
-        coursesDb.updateCourse(course);
 
         Student firstStudent = getTypicalStudent();
         firstStudent.setEmail("valid-student-1@email.tmt");

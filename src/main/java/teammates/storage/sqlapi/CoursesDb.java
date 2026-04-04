@@ -1,7 +1,6 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +13,6 @@ import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
@@ -50,12 +48,8 @@ public final class CoursesDb {
     /**
      * Creates a course.
      */
-    public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Course createCourse(Course course) throws EntityAlreadyExistsException {
         assert course != null;
-
-        if (!course.isValid()) {
-            throw new InvalidParametersException(course.getInvalidityInfo());
-        }
 
         if (getCourse(course.getId()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()));
@@ -64,23 +58,6 @@ public final class CoursesDb {
         HibernateUtil.persist(course);
         HibernateUtil.flushSession();
         return course;
-    }
-
-    /**
-     * Saves an updated {@code Course} to the db.
-     */
-    public Course updateCourse(Course course) throws InvalidParametersException, EntityDoesNotExistException {
-        assert course != null;
-
-        if (!course.isValid()) {
-            throw new InvalidParametersException(course.getInvalidityInfo());
-        }
-
-        if (getCourse(course.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        return HibernateUtil.merge(course);
     }
 
     /**

@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -456,5 +457,57 @@ public class CoursesLogicTest extends BaseTestCase {
         List<Team> expectedTeams = List.of(t1, t2);
 
         assertEquals(expectedTeams, returnedTeams);
+    }
+
+    @Test
+    public void testValidateCourse_validCourse_noExceptionThrown() {
+        Course course = getTypicalCourse();
+
+        assertDoesNotThrow(() -> coursesLogic.validateCourse(course));
+    }
+
+    @Test
+    public void testValidateCourse_invalidCourseId_throwInvalidParametersException() {
+        Course course = getTypicalCourse();
+        course.setId("");
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.validateCourse(course));
+
+        String expectedMessage = "The field 'course ID' is empty. "
+                + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
+                + "It cannot be longer than 64 characters, cannot be empty and cannot contain spaces.";
+
+        assertEquals(expectedMessage, ex.getMessage());
+    }
+
+    @Test
+    public void testValidateCourse_invalidCourseName_throwInvalidParametersException() {
+        Course course = getTypicalCourse();
+        course.setName("");
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.validateCourse(course));
+
+        String expectedMessage = "The field 'course name' is empty."
+                + " The value of a/an course name should be no longer than 80 characters."
+                + " It should not be empty.";
+
+        assertEquals(expectedMessage, ex.getMessage());
+    }
+
+    @Test
+    public void testValidateCourse_invalidCourseInstitute_throwInvalidParametersException() {
+        Course course = getTypicalCourse();
+        course.setInstitute("");
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.validateCourse(course));
+
+        String expectedMessage = "The field 'institute name' is empty."
+                + " The value of a/an institute name should be no longer than 128 characters."
+                + " It should not be empty.";
+
+        assertEquals(expectedMessage, ex.getMessage());
     }
 }

@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -13,6 +14,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -65,6 +67,7 @@ public final class CoursesLogic {
      *                                      database.
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
+        validateCourse(course);
         return coursesDb.createCourse(course);
     }
 
@@ -305,5 +308,17 @@ public final class CoursesLogic {
      */
     public static void sortById(List<Course> courses) {
         courses.sort(Comparator.comparing(Course::getId));
+    }
+
+    void validateCourse(Course course) throws InvalidParametersException {
+        List<String> errors = Stream.of(
+                    FieldValidator.getInvalidityInfoForCourseId(course.getId()),
+                    FieldValidator.getInvalidityInfoForCourseName(course.getName()),
+                    FieldValidator.getInvalidityInfoForInstituteName(course.getInstitute())
+                ).filter(error -> !error.isEmpty()).toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
     }
 }
