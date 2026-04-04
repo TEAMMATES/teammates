@@ -127,7 +127,7 @@ public class EnrollStudentsAction extends Action {
                             normalizedEmail, enrollRequest.getComments(), team);
                     newStudent = sqlLogic.createStudent(newStudent);
                     enrolledStudents.add(newStudent);
-                } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
+                } catch (InvalidParametersException exception) {
                     // Unsuccessfully enrolled students will not be returned.
                     failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(requestEmail,
                             exception.getMessage()));

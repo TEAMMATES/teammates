@@ -203,8 +203,6 @@ public final class UsersLogic {
      *
      * @return the created student
      * @throws InvalidParametersException   if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the
-     *                                      database.
      */
     public Student createStudent(Student student) throws InvalidParametersException {
         validateStudent(student);
