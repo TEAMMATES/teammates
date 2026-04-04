@@ -9,7 +9,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SqlCourseRoster;
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.Const;
@@ -367,7 +367,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 new ArrayList<>(responseBundle.feedbackResponses.values()),
                 new ArrayList<>(),
                 new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
-                new SqlCourseRoster(new ArrayList<>(responseBundle.students.values()),
+                new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                         new ArrayList<>(responseBundle.instructors.values())));
 
         FeedbackContributionQuestion sqlFqa;

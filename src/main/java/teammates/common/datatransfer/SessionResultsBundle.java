@@ -27,7 +27,7 @@ public class SessionResultsBundle {
     private final Map<FeedbackResponse, Boolean> responseGiverVisibilityTable;
     private final Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable;
     private final Map<UUID, Boolean> commentGiverVisibilityTable;
-    private final SqlCourseRoster roster;
+    private final CourseRoster roster;
 
     public SessionResultsBundle(List<FeedbackQuestion> questions,
                                 Set<FeedbackQuestion> questionsNotVisibleForPreviewSet,
@@ -38,7 +38,7 @@ public class SessionResultsBundle {
                                 Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable,
                                 Map<FeedbackResponse, List<FeedbackResponseComment>> responseCommentsMap,
                                 Map<UUID, Boolean> commentGiverVisibilityTable,
-                                SqlCourseRoster roster) {
+                                CourseRoster roster) {
 
         this.questions = questions;
         this.questionsNotVisibleForPreviewSet = questionsNotVisibleForPreviewSet;
@@ -147,7 +147,7 @@ public class SessionResultsBundle {
         return responseCommentsMap;
     }
 
-    public SqlCourseRoster getRoster() {
+    public CourseRoster getRoster() {
         return roster;
     }
 

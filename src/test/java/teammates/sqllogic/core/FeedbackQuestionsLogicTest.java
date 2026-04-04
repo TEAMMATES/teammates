@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SqlCourseRoster;
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
@@ -264,7 +264,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         Student s2 = getTypicalStudent();
         List<Student> studentsInCourse = List.of(s1, s2);
 
-        SqlCourseRoster courseRoster = new SqlCourseRoster(studentsInCourse, null);
+        CourseRoster courseRoster = new CourseRoster(studentsInCourse, null);
 
         when(usersLogic.getStudentsForCourse("course-1")).thenReturn(studentsInCourse);
 

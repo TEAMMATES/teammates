@@ -12,7 +12,7 @@ import java.util.Set;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SqlCourseRoster;
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -299,7 +299,7 @@ public class SessionResultsData extends ApiOutput {
         FeedbackQuestion question = response.getFeedbackQuestion();
         FeedbackParticipantType participantType = question.getGiverType();
 
-        SqlCourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getGiver());
+        CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getGiver());
         String name = userInfo.getName();
 
         if (!bundle.isResponseGiverVisible(response)) {
@@ -322,7 +322,7 @@ public class SessionResultsData extends ApiOutput {
             participantType = question.getGiverType();
         }
 
-        SqlCourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getRecipient());
+        CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getRecipient());
         String name = userInfo.getName();
         if (Const.GENERAL_QUESTION.equals(response.getRecipient())) {
             // for general question

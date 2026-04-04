@@ -40,7 +40,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
                         new HashMap<>(),
                         new HashMap<>(),
                         new HashMap<>(),
-                        new SqlCourseRoster(new ArrayList<>(responseBundle.students.values()),
+                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values()))
                 );
 
@@ -78,7 +78,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
                         new HashMap<>(),
                         new HashMap<>(),
                         new HashMap<>(),
-                        new SqlCourseRoster(new ArrayList<>(responseBundle.students.values()),
+                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values()))
                 );
 
@@ -135,7 +135,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
                         responseRecipientVisibilityTable,
                         new HashMap<>(),
                         new HashMap<>(),
-                        new SqlCourseRoster(new ArrayList<>(responseBundle.students.values()),
+                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values()))
                 );
 
@@ -171,7 +171,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
                         new HashMap<>(),
                         new HashMap<>(),
                         commentGiverVisibilityTable,
-                        new SqlCourseRoster(new ArrayList<>(responseBundle.students.values()),
+                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values()))
                 );
 
