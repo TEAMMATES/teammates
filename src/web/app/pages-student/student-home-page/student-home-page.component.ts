@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
@@ -60,6 +60,7 @@ interface StudentSession {
     NgbTooltip,
     NgClass,
     ResponseStatusPipe,
+    NgbCollapse,
 ],
 })
 export class StudentHomePageComponent implements OnInit {

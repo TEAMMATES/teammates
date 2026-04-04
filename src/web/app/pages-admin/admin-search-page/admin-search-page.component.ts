@@ -1,7 +1,7 @@
 import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
@@ -44,6 +44,7 @@ import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter
     AccountRequestTableComponent,
     KeyValuePipe,
     SearchTermsHighlighterPipe,
+    NgbCollapse,
 ],
 })
 export class AdminSearchPageComponent {

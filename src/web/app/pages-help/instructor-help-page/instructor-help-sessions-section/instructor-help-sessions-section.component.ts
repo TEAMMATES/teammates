@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import {
   EXAMPLE_COMMENT_EDIT_FORM_MODEL,
   EXAMPLE_COURSE_CANDIDATES,
@@ -91,6 +92,7 @@ import { Sections } from '../sections';
     QuestionResponsePanelComponent,
     CommentEditFormComponent,
     SessionsRecycleBinTableComponent,
+    NgbCollapse,
 ],
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {

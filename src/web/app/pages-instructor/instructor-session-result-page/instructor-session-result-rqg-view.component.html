@@ -7,31 +7,29 @@
           <tm-panel-chevron [isExpanded]="sectionInfo.value.isTabExpanded"></tm-panel-chevron>
         </div>
       </div>
-      @if (sectionInfo.value.isTabExpanded) {
-        <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
-          <div *tmIsLoading="!sectionInfo.value.hasPopulated && !sectionInfo.value.errorMessage"></div>
-          <tm-loading-retry
-            class="m-3"
-            [shouldShowRetry]="!!sectionInfo.value.errorMessage"
-            [message]="sectionInfo.value.errorMessage"
-            (retryEvent)="loadSection.emit(sectionInfo.key)"
-            >
-            @if (sectionInfo.value.hasPopulated) {
-              <div class="card-body">
-                <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [sectionOfView]="sectionInfo.key" [section]="section" [sectionType]="sectionType"
-                  [indicateMissingResponses]="indicateMissingResponses"
-                  [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="false" [session]="session"
-                  [instructorCommentTableModel]="instructorCommentTableModel" [isExpandAll]="isExpandAll"
-                  (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
-                  (updateCommentEvent)="triggerUpdateCommentEvent($event)"
-                  (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
-                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-                style="margin-bottom: 20px;"></tm-gqr-rqg-view-responses>
-              </div>
-            }
-          </tm-loading-retry>
-        </div>
-      }
+      <div [ngbCollapse]="!sectionInfo.value.isTabExpanded">
+        <div *tmIsLoading="!sectionInfo.value.hasPopulated && !sectionInfo.value.errorMessage"></div>
+        <tm-loading-retry
+          class="m-3"
+          [shouldShowRetry]="!!sectionInfo.value.errorMessage"
+          [message]="sectionInfo.value.errorMessage"
+          (retryEvent)="loadSection.emit(sectionInfo.key)"
+          >
+          @if (sectionInfo.value.hasPopulated) {
+            <div class="card-body">
+              <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [sectionOfView]="sectionInfo.key" [section]="section" [sectionType]="sectionType"
+                [indicateMissingResponses]="indicateMissingResponses"
+                [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="false" [session]="session"
+                [instructorCommentTableModel]="instructorCommentTableModel" [isExpandAll]="isExpandAll"
+                (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
+                (updateCommentEvent)="triggerUpdateCommentEvent($event)"
+                (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
+                (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
+              style="margin-bottom: 20px;"></tm-gqr-rqg-view-responses>
+            </div>
+          }
+        </tm-loading-retry>
+      </div>
     </div>
   </div>
 }

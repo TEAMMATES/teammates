@@ -414,6 +414,128 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
                                         </div>
                                       </tm-comment-row>
                                     </li>
+                                    <li
+                                      class="list-group-item collapse"
+                                    >
+                                      <tm-comment-row>
+                                        <tm-comment-edit-form>
+                                          <div
+                                            class="row"
+                                          >
+                                            <div
+                                              class="col-6"
+                                            >
+                                               Giver: giver1 (team1)
+                                              <br />
+                                               Recipient: recipient3 (team2) 
+                                            </div>
+                                            <div
+                                              class="col-6"
+                                            >
+                                              <div
+                                                class="float-end"
+                                              >
+                                                <span>
+                                                  <button
+                                                    class="btn btn-info btn-sm"
+                                                  >
+                                                    <i
+                                                      class="fas fa-eye"
+                                                    />
+                                                     Show Visibility Options
+                                                  </button>
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <p>
+                                            You may change comment's visibility using the visibility options on the right hand side.
+                                          </p>
+                                          <div
+                                            class="collapse"
+                                          >
+                                            <table
+                                              class="table margin-bottom-0 background-color-white table-striped table-responsive-md"
+                                            >
+                                              <thead>
+                                                <tr>
+                                                  <th
+                                                    class="text-start"
+                                                    scope="col"
+                                                  >
+                                                    User/Group
+                                                  </th>
+                                                  <th
+                                                    class="text-center"
+                                                    scope="col"
+                                                  >
+                                                    Can see this comment
+                                                  </th>
+                                                  <th
+                                                    class="text-center"
+                                                    scope="col"
+                                                  >
+                                                    Can see comment giver's name
+                                                  </th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td>
+                                                    <span
+                                                      class="ngb-tooltip-class"
+                                                      container="body"
+                                                    >
+                                                      Response Giver(s)
+                                                    </span>
+                                                  </td>
+                                                  <td
+                                                    class="text-center"
+                                                  >
+                                                    <input
+                                                      type="checkbox"
+                                                    />
+                                                  </td>
+                                                  <td
+                                                    class="text-center"
+                                                  >
+                                                    <input
+                                                      type="checkbox"
+                                                    />
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                          <div
+                                            style="margin: 10px 0;"
+                                          >
+                                            <tm-rich-text-editor
+                                              placeholdertext="Enter your comment here"
+                                            >
+                                              <div
+                                                inviewport=""
+                                              >
+                                              </div>
+                                            </tm-rich-text-editor>
+                                          </div>
+                                          <div
+                                            class="d-flex justify-content-end"
+                                          >
+                                            <button
+                                              aria-label="Save comment"
+                                              class="btn btn-success btn-sm"
+                                              type="button"
+                                            >
+                                              <i
+                                                class="fas fa-save"
+                                              />
+                                               Add 
+                                            </button>
+                                          </div>
+                                        </tm-comment-edit-form>
+                                      </tm-comment-row>
+                                    </li>
                                   </ul>
                                 </div>
                               </tm-comment-table>
@@ -954,6 +1076,128 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
                                             </div>
                                           </div>
                                         </div>
+                                      </tm-comment-row>
+                                    </li>
+                                    <li
+                                      class="list-group-item collapse"
+                                    >
+                                      <tm-comment-row>
+                                        <tm-comment-edit-form>
+                                          <div
+                                            class="row"
+                                          >
+                                            <div
+                                              class="col-6"
+                                            >
+                                               Giver: giver1 (team1)
+                                              <br />
+                                               Recipient: recipient3 (team2) 
+                                            </div>
+                                            <div
+                                              class="col-6"
+                                            >
+                                              <div
+                                                class="float-end"
+                                              >
+                                                <span>
+                                                  <button
+                                                    class="btn btn-info btn-sm"
+                                                  >
+                                                    <i
+                                                      class="fas fa-eye"
+                                                    />
+                                                     Show Visibility Options
+                                                  </button>
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <p>
+                                            You may change comment's visibility using the visibility options on the right hand side.
+                                          </p>
+                                          <div
+                                            class="collapse"
+                                          >
+                                            <table
+                                              class="table margin-bottom-0 background-color-white table-striped table-responsive-md"
+                                            >
+                                              <thead>
+                                                <tr>
+                                                  <th
+                                                    class="text-start"
+                                                    scope="col"
+                                                  >
+                                                    User/Group
+                                                  </th>
+                                                  <th
+                                                    class="text-center"
+                                                    scope="col"
+                                                  >
+                                                    Can see this comment
+                                                  </th>
+                                                  <th
+                                                    class="text-center"
+                                                    scope="col"
+                                                  >
+                                                    Can see comment giver's name
+                                                  </th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr>
+                                                  <td>
+                                                    <span
+                                                      class="ngb-tooltip-class"
+                                                      container="body"
+                                                    >
+                                                      Response Giver(s)
+                                                    </span>
+                                                  </td>
+                                                  <td
+                                                    class="text-center"
+                                                  >
+                                                    <input
+                                                      type="checkbox"
+                                                    />
+                                                  </td>
+                                                  <td
+                                                    class="text-center"
+                                                  >
+                                                    <input
+                                                      type="checkbox"
+                                                    />
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                          <div
+                                            style="margin: 10px 0;"
+                                          >
+                                            <tm-rich-text-editor
+                                              placeholdertext="Enter your comment here"
+                                            >
+                                              <div
+                                                inviewport=""
+                                              >
+                                              </div>
+                                            </tm-rich-text-editor>
+                                          </div>
+                                          <div
+                                            class="d-flex justify-content-end"
+                                          >
+                                            <button
+                                              aria-label="Save comment"
+                                              class="btn btn-success btn-sm"
+                                              type="button"
+                                            >
+                                              <i
+                                                class="fas fa-save"
+                                              />
+                                               Add 
+                                            </button>
+                                          </div>
+                                        </tm-comment-edit-form>
                                       </tm-comment-row>
                                     </li>
                                   </ul>

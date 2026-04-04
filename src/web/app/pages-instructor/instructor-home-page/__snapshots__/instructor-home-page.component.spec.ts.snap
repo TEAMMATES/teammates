@@ -268,7 +268,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
             </b>
           </div>
           <div
-            class="card-body padding-0 table-responsive"
+            class="card-body padding-0 table-responsive collapse show"
           >
             <tm-loading-retry>
               <tm-loading-spinner>
@@ -553,7 +553,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive"
+            class="card-body padding-0 table-responsive collapse show"
           >
             <tm-loading-retry>
               <tm-sessions-table
@@ -1121,7 +1121,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive"
+            class="card-body padding-0 table-responsive collapse show"
           >
             <tm-loading-retry>
               <tm-sessions-table
@@ -1891,6 +1891,27 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
               </tm-panel-chevron>
             </div>
           </div>
+          <div
+            class="card-body padding-0 table-responsive collapse"
+          >
+            <tm-loading-retry>
+              <tm-loading-spinner>
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="row spinner-border text-primary"
+                    role="status"
+                  />
+                  <div
+                    class="row text-secondary"
+                  >
+                    Loading...
+                  </div>
+                </div>
+              </tm-loading-spinner>
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     </div>
@@ -2156,7 +2177,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive"
+            class="card-body padding-0 table-responsive collapse show"
           >
             <tm-loading-retry>
               <tm-loading-spinner>
@@ -2441,7 +2462,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive"
+            class="card-body padding-0 table-responsive collapse show"
           >
             <tm-loading-retry>
               <tm-sessions-table

@@ -1,5 +1,6 @@
 import { NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
   FeedbackParticipantType, FeedbackQuestionType,
@@ -39,6 +40,7 @@ interface QuestionTab {
     ResponseModerationButtonComponent,
     PerQuestionViewResponsesComponent,
     KeyValuePipe,
+    NgbCollapse,
 ],
 })
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {

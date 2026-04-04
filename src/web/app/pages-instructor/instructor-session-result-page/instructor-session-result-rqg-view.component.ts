@@ -1,5 +1,6 @@
 import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import { SectionTabModel } from './instructor-session-tab.model';
@@ -23,6 +24,7 @@ import {
     LoadingRetryComponent,
     GqrRqgViewResponsesComponent,
     KeyValuePipe,
+    NgbCollapse,
 ],
 })
 export class InstructorSessionResultRqgViewComponent extends InstructorSessionResultView {

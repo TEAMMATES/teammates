@@ -31,18 +31,16 @@
       </li>
     }
     <!-- "Add new comment" row -->
-    @if (!model.isReadOnly && model.isAddingNewComment) {
-      <li class="list-group-item" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
-        <tm-comment-row [model]="model.newCommentRow" [isDisabled]="false" [isVisibilityOptionEnabled]="true"
-          [mode]="CommentRowMode.ADD"
-          [questionShowResponsesTo]="questionShowResponsesTo"
-          [response]="response"
-          [shouldHideClosingButton]="shouldHideClosingButtonForNewComment"
-          (modelChange)="triggerModelChange('newCommentRow', $event)"
-          (saveCommentEvent)="triggerSaveNewCommentEvent()"
-          (closeEditingEvent)="triggerModelChange('isAddingNewComment', false)"
-        ></tm-comment-row>
-      </li>
-    }
+    <li class="list-group-item" [ngbCollapse]="!(!model.isReadOnly && model.isAddingNewComment)">
+      <tm-comment-row [model]="model.newCommentRow" [isDisabled]="false" [isVisibilityOptionEnabled]="true"
+        [mode]="CommentRowMode.ADD"
+        [questionShowResponsesTo]="questionShowResponsesTo"
+        [response]="response"
+        [shouldHideClosingButton]="shouldHideClosingButtonForNewComment"
+        (modelChange)="triggerModelChange('newCommentRow', $event)"
+        (saveCommentEvent)="triggerSaveNewCommentEvent()"
+        (closeEditingEvent)="triggerModelChange('isAddingNewComment', false)"
+      ></tm-comment-row>
+    </li>
   </ul>
 </div>

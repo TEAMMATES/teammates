@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
@@ -50,6 +51,7 @@ interface SessionTab {
     LoadingSpinnerDirective,
     PanelChevronComponent,
     GrqRgqViewResponsesComponent,
+    NgbCollapse,
 ],
   providers: [
     CommentsToCommentTableModelPipe,

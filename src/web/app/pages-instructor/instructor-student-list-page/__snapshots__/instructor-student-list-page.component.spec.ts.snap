@@ -99,7 +99,9 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
             </tm-panel-chevron>
           </div>
         </div>
-        <div>
+        <div
+          class="collapse show"
+        >
           <tm-loading-retry>
             <div>
               <div

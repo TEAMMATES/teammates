@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import { QuestionTabModel } from './instructor-session-tab.model';
@@ -30,6 +31,7 @@ import {
     LoadingRetryComponent,
     SingleStatisticsComponent,
     PerQuestionViewResponsesComponent,
+    NgbCollapse,
 ],
 })
 export class InstructorSessionResultQuestionViewComponent

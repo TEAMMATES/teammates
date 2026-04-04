@@ -15,16 +15,14 @@
   </button>
 </div>
 
-@if (isNotificationEditFormExpanded && !isNotificationLoading) {
-  <div class="margin-top-30px" animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
-    <tm-notification-edit-form [formMode]="currentNotificationEditFormMode"
-      [(model)]="notificationEditFormModel"
-      [guessTimezone]="guessTimezone"
-      (addNewNotificationEvent)="addNewNotificationHandler()"
-      (editExistingNotificationEvent)="editExistingNotificationHandler()"
-    (cancelEditingNotificationEvent)="initNotificationEditFormModel()"></tm-notification-edit-form>
-  </div>
-}
+<div class="margin-top-30px" [ngbCollapse]="!(isNotificationEditFormExpanded && !isNotificationLoading)">
+  <tm-notification-edit-form [formMode]="currentNotificationEditFormMode"
+    [(model)]="notificationEditFormModel"
+    [guessTimezone]="guessTimezone"
+    (addNewNotificationEvent)="addNewNotificationHandler()"
+    (editExistingNotificationEvent)="editExistingNotificationHandler()"
+  (cancelEditingNotificationEvent)="initNotificationEditFormModel()"></tm-notification-edit-form>
+</div>
 
 <tm-loading-retry [shouldShowRetry]="hasNotificationLoadingFailed" [message]="'Failed to load data'"
   (retryEvent)="retryLoadingAllData()">

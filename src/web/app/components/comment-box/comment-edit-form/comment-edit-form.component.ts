@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { StringHelper } from '../../../../services/string-helper';
@@ -41,6 +41,7 @@ export interface CommentEditFormModel {
     CommentVisibilityControlNamePipe,
     CommentVisibilityTypeDescriptionPipe,
     CommentVisibilityTypeNamePipe,
+    NgbCollapse,
 ],
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {

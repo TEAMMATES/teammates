@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -78,6 +78,7 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
     FeedbackPathPanelComponent,
     VisibilityPanelComponent,
     QuestionTypeNamePipe,
+    NgbCollapse,
 ],
 })
 export class QuestionEditFormComponent {

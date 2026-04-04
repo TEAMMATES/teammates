@@ -28,67 +28,65 @@
       <tm-panel-chevron [isExpanded]="isTabExpanded"></tm-panel-chevron>
     </div>
   </div>
-  @if (isTabExpanded) {
-    <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
-      <div *tmIsLoading="!isNoResponseStudentsLoaded" class="card-body">
-        @if (noResponseStudentsInSection.length) {
-          <div>
-            <table id="no-response-table" class="table table-striped">
-              <thead>
-                <tr>
-                  <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
-                    Team
-                    <span class="fa-stack"><i class="fas fa-sort"></i>
-                    @if (sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.DESC) {
-                      <i class="fas fa-sort-down"></i>
-                    }
-                    @if (sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.ASC) {
-                      <i class="fas fa-sort-up"></i>
-                    }
-                  </span>
-                </th>
-                <th id="sort-by-name" class="cursor-pointer" (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
-                  Name
+  <div [ngbCollapse]="!isTabExpanded">
+    <div *tmIsLoading="!isNoResponseStudentsLoaded" class="card-body">
+      @if (noResponseStudentsInSection.length) {
+        <div>
+          <table id="no-response-table" class="table table-striped">
+            <thead>
+              <tr>
+                <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
+                  Team
                   <span class="fa-stack"><i class="fas fa-sort"></i>
-                  @if (sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC) {
+                  @if (sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.DESC) {
                     <i class="fas fa-sort-down"></i>
                   }
-                  @if (sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.ASC) {
+                  @if (sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.ASC) {
                     <i class="fas fa-sort-up"></i>
                   }
                 </span>
               </th>
-              <th>Actions</th>
+              <th id="sort-by-name" class="cursor-pointer" (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
+                Name
+                <span class="fa-stack"><i class="fas fa-sort"></i>
+                @if (sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC) {
+                  <i class="fas fa-sort-down"></i>
+                }
+                @if (sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.ASC) {
+                  <i class="fas fa-sort-up"></i>
+                }
+              </span>
+            </th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (noResponseStudent of noResponseStudentsInSection; track noResponseStudent) {
+            <tr>
+              <td>{{ noResponseStudent.teamName }}</td>
+              <td>{{ noResponseStudent.name }} ({{noResponseStudent.email}})</td>
+              <td>
+                @if (!isDisplayOnly) {
+                  <a tmRouterLink="/web/sessions/submission" rel="noopener noreferrer" target="_blank"
+                    [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
+                    class="btn btn-light btn-sm button">
+                    Submit responses
+                  </a>
+                } @else {
+                  <a class="btn btn-light btn-sm button">Submit response</a>
+                }
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            @for (noResponseStudent of noResponseStudentsInSection; track noResponseStudent) {
-              <tr>
-                <td>{{ noResponseStudent.teamName }}</td>
-                <td>{{ noResponseStudent.name }} ({{noResponseStudent.email}})</td>
-                <td>
-                  @if (!isDisplayOnly) {
-                    <a tmRouterLink="/web/sessions/submission" rel="noopener noreferrer" target="_blank"
-                      [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
-                      class="btn btn-light btn-sm button">
-                      Submit responses
-                    </a>
-                  } @else {
-                    <a class="btn btn-light btn-sm button">Submit response</a>
-                  }
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    }
-    @if (!noResponseStudentsInSection.length) {
-      <div>
-        <i>All students have responded to some questions in this session.</i>
-      </div>
-    }
-  </div>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (!noResponseStudentsInSection.length) {
+    <div>
+      <i>All students have responded to some questions in this session.</i>
+    </div>
+  }
 </div>
-}
+</div>
 </div>

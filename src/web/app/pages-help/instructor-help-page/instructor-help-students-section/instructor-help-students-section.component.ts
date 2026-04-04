@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import {
   EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,
   EXAMPLE_SINGLE_STUDENT_RESULT_TABLES,
@@ -37,6 +38,7 @@ import { Sections } from '../sections';
     InstructorCourseStudentEditPageComponent,
     InstructorSearchBarComponent,
     StudentResultTableComponent,
+    NgbCollapse,
 ],
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {

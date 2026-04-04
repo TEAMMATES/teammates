@@ -324,6 +324,111 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
             <td
               colspan="6"
             >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-success has-success"
+                >
+                  <strong>
+                    Email
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Course Join Link
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-course-join-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-light"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-awaiting-session-reminder-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-warning"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-open-session-reminder-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-danger"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-not-open-session-reminder-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-success"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-published-session-reminder-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
             </td>
           </tr>
         </tbody>
@@ -838,7 +943,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               colspan="6"
             >
               <ul
-                class="list-group"
+                class="list-group collapse show"
               >
                 <li
                   class="list-group-item list-group-item-success has-success"

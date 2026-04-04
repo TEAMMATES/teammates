@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal/admin-edit-request-modal-model';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
@@ -33,6 +33,7 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
     NgbDropdownToggle,
     NgbDropdownMenu,
     SearchTermsHighlighterPipe,
+    NgbCollapse,
 ],
 })
 
