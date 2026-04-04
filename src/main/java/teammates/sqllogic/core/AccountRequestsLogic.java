@@ -2,11 +2,12 @@ package teammates.sqllogic.core;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
+import teammates.common.util.FieldValidator;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
 
@@ -50,7 +51,7 @@ public final class AccountRequestsLogic {
     public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
             String comments) throws InvalidParametersException {
         AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
-
+        validateAccountRequest(toCreate);
         return accountRequestDb.createAccountRequest(toCreate);
     }
 
@@ -66,6 +67,7 @@ public final class AccountRequestsLogic {
      */
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
+        validateAccountRequest(accountRequest);
         return accountRequestDb.updateAccountRequest(accountRequest);
     }
 
@@ -109,6 +111,7 @@ public final class AccountRequestsLogic {
                     + "the given id cannot be found.");
         }
         accountRequest.setRegisteredAt(null);
+        validateAccountRequest(accountRequest);
 
         return accountRequestDb.updateAccountRequest(accountRequest);
     }
@@ -133,8 +136,21 @@ public final class AccountRequestsLogic {
      *
      * @return A list of {@link AccountRequest} or {@code null} if no match found.
      */
-    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
         return accountRequestDb.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    void validateAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
+        List<String> errors = Stream.of(
+                    FieldValidator.getInvalidityInfoForEmail(accountRequest.getEmail()),
+                    FieldValidator.getInvalidityInfoForPersonName(accountRequest.getName()),
+                    FieldValidator.getInvalidityInfoForInstituteName(accountRequest.getInstitute())
+                )
+                .filter(error -> !error.isEmpty())
+                .toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
     }
 }

@@ -16,7 +16,6 @@ import jakarta.persistence.criteria.Root;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
@@ -54,9 +53,6 @@ public final class AccountRequestsDb {
     public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
         assert accountRequest != null;
 
-        if (!accountRequest.isValid()) {
-            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
-        }
         HibernateUtil.persist(accountRequest);
         return accountRequest;
     }
@@ -144,12 +140,8 @@ public final class AccountRequestsDb {
      * Updates or creates (if does not exist) the AccountRequest in the database.
      */
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         assert accountRequest != null;
-
-        if (!accountRequest.isValid()) {
-            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
-        }
 
         if (getAccountRequest(accountRequest.getId()) == null) {
             throw new EntityDoesNotExistException(
@@ -174,9 +166,7 @@ public final class AccountRequestsDb {
      *
      * <p>This is used by admin to search account requests in the whole system.
      */
-    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
-            throws SearchServiceException {
-
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }

@@ -20,7 +20,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -73,13 +72,7 @@ public class AccountRequest extends BaseEntity {
 
     @Override
     public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
-
-        return errors;
+        return new ArrayList<>();
     }
 
     /**

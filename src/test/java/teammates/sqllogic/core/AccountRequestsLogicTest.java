@@ -85,7 +85,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
 
     @Test
     public void testUpdateAccountRequest_requestNotFound_failure()
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         AccountRequest arNotFound = getTypicalAccountRequest();
         when(accountRequestsDb.updateAccountRequest(arNotFound)).thenThrow(new EntityDoesNotExistException("test message"));
 
@@ -125,7 +125,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetAccountRequestByRegistrationKey_nonexistentRequest_shouldReturnNull() throws Exception {
+    public void testGetAccountRequestByRegistrationKey_nonexistentRequest_shouldReturnNull() {
         String nonexistentRegkey = "not_exist";
         when(accountRequestsDb.getAccountRequestByRegistrationKey(nonexistentRegkey)).thenReturn(null);
 
@@ -149,7 +149,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
 
     @Test
     public void testResetAccountRequest_nonexistentRequest_failure()
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         AccountRequest accountRequest = getTypicalAccountRequest();
         accountRequest.setRegisteredAt(Const.TIME_REPRESENTS_NOW);
         when(accountRequestsDb.getAccountRequest(accountRequest.getId()))
@@ -178,5 +178,53 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
         verify(accountRequestsDb).getAccountRequest(id);
         assertEquals(expectedAccountRequest, actualAccountRequest);
+    }
+
+    @Test
+    public void testValidateAccountRequest_validAccountRequest_success() throws InvalidParametersException {
+        AccountRequest accountRequest = getTypicalAccountRequest();
+
+        accountRequestsLogic.validateAccountRequest(accountRequest);
+    }
+
+    @Test
+    public void testValidateAccountRequest_invalidEmail_failure() {
+        AccountRequest accountRequest = getTypicalAccountRequest();
+        accountRequest.setEmail("invalid email");
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountRequestsLogic.validateAccountRequest(accountRequest));
+
+        assertEquals("\"invalid email\" is not acceptable to TEAMMATES as a/an email "
+                + "because it is not in the correct format. An email address contains some text "
+                + "followed by one '@' sign followed by some more text, and should end with a top level "
+                + "domain address like .com. It cannot be longer than 254 characters, cannot be empty and "
+                + "cannot contain spaces.", ipe.getMessage());
+    }
+
+    @Test
+    public void testValidateAccountRequest_emptyName_failure() {
+        AccountRequest accountRequest = getTypicalAccountRequest();
+        accountRequest.setName("");
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountRequestsLogic.validateAccountRequest(accountRequest));
+
+        assertEquals("The field 'person name' is empty. "
+                + "The value of a/an person name should be no longer than 100 characters. "
+                + "It should not be empty.", ipe.getMessage());
+    }
+
+    @Test
+    public void testValidateAccountRequest_emptyInstitute_failure() {
+        AccountRequest accountRequest = getTypicalAccountRequest();
+        accountRequest.setInstitute("");
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountRequestsLogic.validateAccountRequest(accountRequest));
+
+        assertEquals("The field 'institute name' is empty. "
+                + "The value of a/an institute name should be no longer than 128 characters. "
+                + "It should not be empty.", ipe.getMessage());
     }
 }
