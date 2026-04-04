@@ -129,10 +129,11 @@ The frontend will be available at `http://localhost:4200`.
 To test TEAMMATES locally, you will need an instructor and a student account.
 
 1. Visit [/web/admin/home](http://localhost:4200/web/admin/home) and log in as admin (`app_admin@gmail.com`).
-2. Add an instructor account and use the generated join link to activate it.
-3. From the instructor home page at [/web/instructor/home](http://localhost:4200/web/instructor/home), enroll a test student.
-4. Use the admin search feature at [/web/admin/search](http://localhost:4200/web/admin/search) to find the student, expand the row, and retrieve the course join link to activate the student account.
-5. You now have access to all TEAMMATES features.
+2. Add an instructor account.
+3. Use the admin search feature at [/web/admin/search](http://localhost:4200/web/admin/search) to find the account request, expand the row, and retrieve the account registration link to activate the instructor.
+4. From the instructor home page at [/web/instructor/home](http://localhost:4200/web/instructor/home), enroll a test student.
+5. Use the admin search feature to find the student, expand the row, and retrieve the course join link to activate the student account.
+6. You now have access to all TEAMMATES features.
 
 ## Step 6: Next Steps
 
