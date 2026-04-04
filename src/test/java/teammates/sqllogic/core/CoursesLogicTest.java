@@ -131,8 +131,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetSectionNamesForCourse_courseDoesNotExist_throwEntityDoesNotExistException()
-            throws EntityDoesNotExistException {
+    public void testGetSectionNamesForCourse_courseDoesNotExist_throwEntityDoesNotExistException() {
         String courseId = getTypicalCourse().getId();
 
         when(coursesDb.getCourse(courseId)).thenReturn(null);
@@ -158,7 +157,7 @@ public class CoursesLogicTest extends BaseTestCase {
 
     @Test
     public void testCreateDuplicateCourse_throwEntityAlreadyExistsException()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws EntityAlreadyExistsException {
         Course course = getTypicalCourse();
 
         when(coursesDb.createCourse(course))
@@ -239,8 +238,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateCourse_throwEntityDoesNotExistException()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateCourse_throwEntityDoesNotExistException() {
         Course course = getTypicalCourse();
         String courseId = course.getId();
 
@@ -253,8 +251,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateCourse_throwInvalidParametersException()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateCourse_throwInvalidParametersException() {
         Course course = getTypicalCourse();
         String courseId = course.getId();
 
@@ -285,7 +282,7 @@ public class CoursesLogicTest extends BaseTestCase {
 
     @Test
     public void testCreateDuplicateSection_throwEntityAlreadyExistsException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+            throws EntityAlreadyExistsException {
         Section section = getTypicalSection();
 
         when(coursesDb.createSection(section))
@@ -296,20 +293,6 @@ public class CoursesLogicTest extends BaseTestCase {
                 () -> coursesLogic.createSection(section));
 
         assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, section.toString()), ex.getMessage());
-    }
-
-    @Test
-    public void testCreateSectionInvalidName_throwInvalidParametersException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
-        Section section = getTypicalSection();
-        section.setName(null);
-
-        when(coursesDb.createSection(section)).thenThrow(new InvalidParametersException(section.getInvalidityInfo()));
-
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> coursesLogic.createSection(section));
-
-        assertEquals("The provided section name is not acceptable to TEAMMATES as it cannot be empty.", ex.getMessage());
     }
 
     @Test
@@ -380,7 +363,7 @@ public class CoursesLogicTest extends BaseTestCase {
 
     @Test
     public void testCreateDuplicateTeam_throwEntityAlreadyExistsException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+            throws EntityAlreadyExistsException {
         Team team = getTypicalTeam();
 
         when(coursesDb.createTeam(team)).thenThrow(
@@ -512,6 +495,24 @@ public class CoursesLogicTest extends BaseTestCase {
                 () -> coursesLogic.validateTeam(team));
 
         String expectedMessage = "The provided team name is not acceptable to TEAMMATES as it cannot be empty.";
+        assertEquals(expectedMessage, ex.getMessage());
+    }
+
+    @Test
+    public void testValidateSection_validSection_noExceptionThrown() {
+        Section section = getTypicalSection();
+        assertDoesNotThrow(() -> coursesLogic.validateSection(section));
+    }
+
+    @Test
+    public void testValidateSection_invalidSectionName_throwInvalidParametersException() {
+        Section section = getTypicalSection();
+        section.setName(null);
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.validateSection(section));
+
+        String expectedMessage = "The provided section name is not acceptable to TEAMMATES as it cannot be empty.";
         assertEquals(expectedMessage, ex.getMessage());
     }
 }

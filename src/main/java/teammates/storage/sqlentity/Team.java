@@ -17,8 +17,6 @@ import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
-import teammates.common.util.FieldValidator;
-
 /**
  * Represents a Team.
  */

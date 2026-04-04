@@ -13,7 +13,6 @@ import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Section;
@@ -72,12 +71,8 @@ public final class CoursesDb {
     /**
      * Creates a section.
      */
-    public Section createSection(Section section) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Section createSection(Section section) throws EntityAlreadyExistsException {
         assert section != null;
-
-        if (!section.isValid()) {
-            throw new InvalidParametersException(section.getInvalidityInfo());
-        }
 
         if (getSectionByName(section.getCourse().getId(), section.getName()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, section.toString()));

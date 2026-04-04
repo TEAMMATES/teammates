@@ -94,16 +94,6 @@ public class CoursesDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateSection_sectionInvalid_throwsInvalidParametersException() {
-        Course c = new Course("course-id", "new-course-name", null, "institute");
-        Section s = new Section(c, null);
-
-        assertThrows(InvalidParametersException.class, () -> coursesDb.createSection(s));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(s), never());
-    }
-
-    @Test
     public void testCreateSection_sectionAlreadyExists_throwsEntityAlreadyExistsException() {
         Course c = new Course("course-id", "new-course-name", null, "institute");
         Section s = new Section(c, "new-section");

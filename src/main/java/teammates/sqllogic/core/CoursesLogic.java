@@ -232,9 +232,7 @@ public final class CoursesLogic {
         course.setName(name);
         course.setTimeZone(timezone);
 
-        if (!course.isValid()) {
-            throw new InvalidParametersException(course.getInvalidityInfo());
-        }
+        validateCourse(course);
 
         return course;
     }
@@ -243,6 +241,7 @@ public final class CoursesLogic {
      * Creates a section.
      */
     public Section createSection(Section section) throws InvalidParametersException, EntityAlreadyExistsException {
+        validateSection(section);
         return coursesDb.createSection(section);
     }
 
@@ -325,6 +324,14 @@ public final class CoursesLogic {
 
     void validateTeam(Team team) throws InvalidParametersException {
         String error = FieldValidator.getValidityInfoForNonNullField("team name", team.getName());
+
+        if (!error.isEmpty()) {
+            throw new InvalidParametersException(error);
+        }
+    }
+
+    void validateSection(Section section) throws InvalidParametersException {
+        String error = FieldValidator.getValidityInfoForNonNullField("section name", section.getName());
 
         if (!error.isEmpty()) {
             throw new InvalidParametersException(error);

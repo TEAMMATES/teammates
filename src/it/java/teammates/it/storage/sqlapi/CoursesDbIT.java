@@ -6,7 +6,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
@@ -80,10 +79,6 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("failure: null section assertion exception thrown");
         assertThrows(AssertionError.class, () -> coursesDb.createSection(null));
 
-        ______TS("failure: invalid section details");
-        Section invalidSection = new Section(course, null);
-        assertThrows(InvalidParametersException.class, () -> coursesDb.createSection(invalidSection));
-
         ______TS("failure: create section that already exist, execption thrown");
         assertThrows(EntityAlreadyExistsException.class, () -> coursesDb.createSection(section));
     }
@@ -111,7 +106,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetSectionByCourseIdAndTeam() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetSectionByCourseIdAndTeam() throws EntityAlreadyExistsException {
         Course course = getTypicalCourse();
         Section section = new Section(course, "section-name");
         course.addSection(section);
@@ -131,7 +126,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetTeamsForSection() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetTeamsForSection() throws EntityAlreadyExistsException {
         Course course = getTypicalCourse();
         Section section = new Section(course, "section-name");
         course.addSection(section);
@@ -174,7 +169,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetTeamsForCourse() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetTeamsForCourse() throws EntityAlreadyExistsException {
         Course course = getTypicalCourse();
 
         Section section1 = new Section(course, "section-name1");
