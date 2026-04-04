@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.sqlapi.UsersDb;
@@ -85,8 +86,7 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testResetInstructorGoogleId_instructorDoesNotExists_throwsEntityDoesNotExistException()
-            throws EntityDoesNotExistException {
+    public void testResetInstructorGoogleId_instructorDoesNotExists_throwsEntityDoesNotExistException() {
         String courseId = instructor.getCourseId();
         String email = instructor.getEmail();
         String googleId = account.getGoogleId();
@@ -118,8 +118,7 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testResetStudentGoogleId_entityDoesNotExists_throwsEntityDoesNotExistException()
-            throws EntityDoesNotExistException {
+    public void testResetStudentGoogleId_entityDoesNotExists_throwsEntityDoesNotExistException() {
         String courseId = student.getCourseId();
         String email = student.getEmail();
         String googleId = account.getGoogleId();
@@ -166,4 +165,71 @@ public class UsersLogicTest extends BaseTestCase {
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 
+    @Test
+    public void testValidateStudent_validStudent_noExceptionThrown() throws InvalidParametersException {
+        Student validStudent = getTypicalStudent();
+        usersLogic.validateStudent(validStudent);
+    }
+
+    @Test
+    public void testValidateStudent_invalidEmail_throwsInvalidParametersException() {
+        Student invalidStudent = getTypicalStudent();
+        invalidStudent.setEmail("invalid-email");
+
+        InvalidParametersException exception = assertThrows(InvalidParametersException.class,
+                () -> usersLogic.validateStudent(invalidStudent));
+
+        assertEquals("\"invalid-email\" is not acceptable to TEAMMATES "
+                + "as a/an email because it is not in the correct format. "
+                + "An email address contains some text followed by one '@' sign followed by some more text, "
+                + "and should end with a top level domain address like .com. It cannot be longer than 254 characters, "
+                + "cannot be empty and cannot contain spaces.", exception.getMessage());
+    }
+
+    @Test
+    public void testValidateStudent_emptyName_throwsInvalidParametersException() {
+        Student invalidStudent = getTypicalStudent();
+        invalidStudent.setName("");
+
+        InvalidParametersException exception = assertThrows(InvalidParametersException.class,
+                () -> usersLogic.validateStudent(invalidStudent));
+
+        assertEquals("The field 'person name' is empty. "
+                + "The value of a/an person name should be no longer than 100 characters. "
+                + "It should not be empty.", exception.getMessage());
+    }
+
+    @Test
+    public void testValidateInstructor_validInstructor_noExceptionThrown() throws InvalidParametersException {
+        Instructor validInstructor = getTypicalInstructor();
+        usersLogic.validateInstructor(validInstructor);
+    }
+
+    @Test
+    public void testValidateInstructor_invalidEmail_throwsInvalidParametersException() {
+        Instructor invalidInstructor = getTypicalInstructor();
+        invalidInstructor.setEmail("invalid-email");
+
+        InvalidParametersException exception = assertThrows(InvalidParametersException.class,
+                () -> usersLogic.validateInstructor(invalidInstructor));
+
+        assertEquals("\"invalid-email\" is not acceptable to TEAMMATES "
+                + "as a/an email because it is not in the correct format. "
+                + "An email address contains some text followed by one '@' sign followed by some more text, "
+                + "and should end with a top level domain address like .com. It cannot be longer than 254 characters, "
+                + "cannot be empty and cannot contain spaces.", exception.getMessage());
+    }
+
+    @Test
+    public void testValidateInstructor_emptyName_throwsInvalidParametersException() {
+        Instructor invalidInstructor = getTypicalInstructor();
+        invalidInstructor.setName("");
+
+        InvalidParametersException exception = assertThrows(InvalidParametersException.class,
+                () -> usersLogic.validateInstructor(invalidInstructor));
+
+        assertEquals("The field 'person name' is empty. "
+                + "The value of a/an person name should be no longer than 100 characters. "
+                + "It should not be empty.", exception.getMessage());
+    }
 }

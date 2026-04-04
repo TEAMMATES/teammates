@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +15,6 @@ import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -51,13 +46,8 @@ public final class UsersDb {
     /**
      * Creates an instructor.
      */
-    public Instructor createInstructor(Instructor instructor)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public Instructor createInstructor(Instructor instructor) {
         assert instructor != null;
-
-        if (!instructor.isValid()) {
-            throw new InvalidParametersException(instructor.getInvalidityInfo());
-        }
 
         HibernateUtil.persist(instructor);
         return instructor;
@@ -66,13 +56,8 @@ public final class UsersDb {
     /**
      * Creates a student.
      */
-    public Student createStudent(Student student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public Student createStudent(Student student) {
         assert student != null;
-
-        if (!student.isValid()) {
-            throw new InvalidParametersException(student.getInvalidityInfo());
-        }
 
         HibernateUtil.persist(student);
         return student;
@@ -765,32 +750,6 @@ public final class UsersDb {
         }
 
         return team;
-    }
-
-    /**
-     * Updates a student.
-     */
-    public Student updateStudent(Student student)
-            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        checkBeforeUpdateStudent(student);
-
-        return HibernateUtil.merge(student);
-    }
-
-    /**
-     * Performs checks on student without updating.
-     */
-    public void checkBeforeUpdateStudent(Student student)
-            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        assert student != null;
-
-        if (!student.isValid()) {
-            throw new InvalidParametersException(student.getInvalidityInfo());
-        }
-
-        if (getStudent(student.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
     }
 
 }

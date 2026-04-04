@@ -16,7 +16,6 @@ import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -108,14 +107,7 @@ public class Instructor extends User {
 
     @Override
     public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(super.getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(super.getEmail()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(displayName), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForRole(role.getRoleName()), errors);
-
-        return errors;
+        return new ArrayList<>();
     }
 
     public String getRegistrationUrl() {

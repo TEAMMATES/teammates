@@ -473,21 +473,6 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if {@code role} is one of the recognized roles {@link #ROLE_ACCEPTED_VALUES}.
-     *
-     * @return An explanation of why the {@code role} is not acceptable.
-     *         Returns an empty string if the {@code role} is acceptable.
-     */
-    public static String getInvalidityInfoForRole(String role) {
-        assert role != null;
-
-        if (!ROLE_ACCEPTED_VALUES.contains(role)) {
-            return String.format(ROLE_ERROR_MESSAGE, role);
-        }
-        return "";
-    }
-
-    /**
      * Checks if the given name (including person name, institute name, course name, feedback session and team name)
      * is a non-null non-empty string no longer than the specified length {@code maxLength},
      * and also does not contain any invalid characters (| or %).

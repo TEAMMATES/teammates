@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -22,6 +23,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
@@ -94,9 +96,12 @@ public final class UsersLogic {
      */
     public Instructor createInstructor(Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        validateInstructor(instructor);
+
         if (getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()) != null) {
             throw new EntityAlreadyExistsException("Instructor already exists.");
         }
+
         return usersDb.createInstructor(instructor);
     }
 
@@ -146,9 +151,7 @@ public final class UsersLogic {
             needsCascade = true;
         }
 
-        if (!instructor.isValid()) {
-            throw new InvalidParametersException(instructor.getInvalidityInfo());
-        }
+        validateInstructor(instructor);
 
         if (needsCascade) {
             // cascade responses
@@ -203,7 +206,8 @@ public final class UsersLogic {
      * @throws EntityAlreadyExistsException if the student already exists in the
      *                                      database.
      */
-    public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Student createStudent(Student student) throws InvalidParametersException {
+        validateStudent(student);
         return usersDb.createStudent(student);
     }
 
@@ -765,7 +769,8 @@ public final class UsersLogic {
         boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
         // update student
-        usersDb.checkBeforeUpdateStudent(student);
+        validateStudent(student);
+
         originalStudent.setName(student.getName());
         originalStudent.setTeam(student.getTeam());
         originalStudent.setEmail(student.getEmail());
@@ -976,6 +981,34 @@ public final class UsersLogic {
                 .filter(Instructor::hasCoownerPrivileges)
                 .map(instructor -> instructor.getCourse())
                 .anyMatch(course -> institute.equals(course.getInstitute()));
+    }
+
+    void validateStudent(Student student) throws InvalidParametersException {
+        List<String> errors = Stream.of(
+                    FieldValidator.getInvalidityInfoForEmail(student.getEmail()),
+                    FieldValidator.getInvalidityInfoForStudentRoleComments(student.getComments()),
+                    FieldValidator.getInvalidityInfoForPersonName(student.getName())
+                )
+                .filter(error -> !error.isEmpty())
+                .toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
+    }
+
+    void validateInstructor(Instructor instructor) throws InvalidParametersException {
+        List<String> errors = Stream.of(
+                    FieldValidator.getInvalidityInfoForPersonName(instructor.getName()),
+                    FieldValidator.getInvalidityInfoForEmail(instructor.getEmail()),
+                    FieldValidator.getInvalidityInfoForPersonName(instructor.getDisplayName())
+                )
+                .filter(error -> !error.isEmpty())
+                .toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
     }
 
     /**

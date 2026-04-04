@@ -184,8 +184,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetStudentsForSection()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetStudentsForSection() {
         ______TS("success: typical case");
         Section firstSection = new Section(course, "section-name1");
         course.addSection(firstSection);
@@ -221,8 +220,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetStudentsForTeam()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetStudentsForTeam() {
         ______TS("success: typical case");
         Section firstSection = new Section(course, "section-name1");
         course.addSection(firstSection);
@@ -259,7 +257,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetStudentsByGoogleId()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+            throws EntityAlreadyExistsException {
         Course course2 = new Course("course-id-2", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         Student student2 = getTypicalStudent();
         Account account = new Account("google-id", student.getName(), student.getEmail());

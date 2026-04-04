@@ -263,32 +263,6 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForRole_null_throwException() {
-        assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForRole(null));
-    }
-
-    @Test
-    public void testGetInvalidityInfoForRole_valid_returnEmptyString() {
-        String validRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        String actual = FieldValidator.getInvalidityInfoForRole(validRole);
-        assertEquals("Valid role should return empty string", "", actual);
-    }
-
-    @Test
-    public void testGetInvalidityInfoForRole_invalid_returnErrorString() {
-        String invalidRole = "student leader";
-        String actual = FieldValidator.getInvalidityInfoForRole(invalidRole);
-        assertEquals("Invalid role should return appropriate error string",
-                String.format(FieldValidator.ROLE_ERROR_MESSAGE, invalidRole),
-                actual);
-
-        invalidRole = "<script> alert('hi!'); </script>";
-        actual = FieldValidator.getInvalidityInfoForRole(invalidRole);
-        assertEquals("Unsanitized, invalid role should return appropriate error string",
-                String.format(FieldValidator.ROLE_ERROR_MESSAGE, invalidRole), actual);
-    }
-
-    @Test
     public void testGetInvalidityInfoForGoogleId_null_throwException() {
         assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForGoogleId(null));
     }

@@ -9,7 +9,6 @@ import jakarta.persistence.Table;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -73,15 +72,7 @@ public class Student extends User {
 
     @Override
     public List<String> getInvalidityInfo() {
-        assert comments != null;
-
-        List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(super.getEmail()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForStudentRoleComments(comments), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(super.getName()), errors);
-
-        return errors;
+        return new ArrayList<>();
     }
 
     public String getRegistrationUrl() {
