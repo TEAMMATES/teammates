@@ -54,11 +54,10 @@ public class RequestTraceFilter implements Filter {
             }
         }
 
-        // Worker requests (from Cloud Tasks with bearer token) may run longer.
-        // For worker requests, we set the limit to 10 minutes minus a small grace period.
+        // Worker / Cron requests (from Cloud Tasks with bearer token) may run longer.
+        // For these requests, we set the limit to 10 minutes minus a small grace period.
         // For other requests, we keep the time limit at 1 minute.
-        boolean isWorkerRequest = InternalRequestAuth.isTrustedCronOrWorkerRequest(request)
-                && InternalRequestAuth.isWorkerRequestPath(request);
+        boolean isWorkerRequest = InternalRequestAuth.isTrustedCronOrWorkerRequest(request);
         int timeoutInSeconds = isWorkerRequest ? 10 * 60 - 5 : 60;
 
         RequestTracer.init(traceId, spanId, timeoutInSeconds);

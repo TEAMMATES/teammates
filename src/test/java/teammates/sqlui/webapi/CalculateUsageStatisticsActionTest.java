@@ -37,7 +37,7 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
 
     @Test
     void testAccessControl() {
-        verifyOnlyAdminsCanAccess();
+        verifyOnlyAdminsOrInternalServicesCanAccess();
         verifyMaintainersCannotAccess();
     }
 

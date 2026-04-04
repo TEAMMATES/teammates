@@ -32,8 +32,21 @@ public class UserInfo {
      */
     public boolean isMaintainer;
 
+    /**
+     * True only for verified cron/worker internal callers (bearer + path), not for human app admins.
+     * See {@link teammates.common.util.InternalRequestAuth#isTrustedCronOrWorkerRequest}.
+     */
+    public boolean isInternalService;
+
     public UserInfo(String googleId) {
         this.id = googleId;
+    }
+
+    /**
+     * Whether the caller may use endpoints shared by human app administrators and verified internal jobs.
+     */
+    public boolean canAccessAsAdminOrInternalService() {
+        return isAdmin || isInternalService;
     }
 
     public String getId() {

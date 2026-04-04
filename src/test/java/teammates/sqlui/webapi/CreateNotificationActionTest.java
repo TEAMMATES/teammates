@@ -85,6 +85,13 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     }
 
     @Test
+    void testAccessControl_internalServiceCannotAccess() {
+        logoutUser();
+        loginAsInternalService();
+        verifyCannotAccess();
+    }
+
+    @Test
     void testExecute_invalidStyle_throwsInvalidHttpParameterException() {
         testReq = getTypicalCreateRequest();
         testReq.setStyle(null);

@@ -20,7 +20,7 @@ import teammates.storage.sqlentity.Student;
  * Process feedback session logs from GCP in the past defined time period and
  * store in the database.
  */
-public class UpdateFeedbackSessionLogsAction extends AdminOnlyAction {
+public class UpdateFeedbackSessionLogsAction extends InternalServiceAction {
 
     static final long COLLECTION_TIME_PERIOD = Const.STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL.toMinutes();
     static final long SPAM_FILTER = Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis();

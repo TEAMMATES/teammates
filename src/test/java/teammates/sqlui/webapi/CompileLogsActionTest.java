@@ -44,7 +44,8 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
 
     @Test
     void testAccessControl() {
-        verifyOnlyAdminsCanAccess();
+        // InternalServiceAction: human admins and internal cron/worker principals
+        verifyOnlyAdminsOrInternalServicesCanAccess();
     }
 
     @Test

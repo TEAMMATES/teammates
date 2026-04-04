@@ -109,6 +109,14 @@ public class InternalRequestAuthTest extends BaseTestCase {
     }
 
     @Test
+    public void testIsTrustedCronOrWorkerRequest_bearerSchemeCaseInsensitive() {
+        HttpServletRequest lower = mockTrustedRootContextRequest("/auto/sync", "bearer " + TEST_CRON_WORKER_SECRET);
+        HttpServletRequest upper = mockTrustedRootContextRequest("/auto/sync", "BEARER " + TEST_CRON_WORKER_SECRET);
+        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(lower, TEST_CRON_WORKER_SECRET));
+        assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(upper, TEST_CRON_WORKER_SECRET));
+    }
+
+    @Test
     public void testIsTrustedCronOrWorkerRequest_correctToken_workerPath() {
         HttpServletRequest req = mockTrustedRootContextRequest("/worker/execute", "Bearer " + TEST_CRON_WORKER_SECRET);
         assertTrue(InternalRequestAuth.isTrustedCronOrWorkerRequest(req, TEST_CRON_WORKER_SECRET));

@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.test.BaseTestCase;
 
@@ -288,6 +289,33 @@ public class UserProvisionTest extends BaseTestCase {
         verifyNoInteractions(mockUsersLogic);
     }
 
+    @Test
+    public void testGetInternalServiceUser_returnsUserInfoWithOnlyIsInternalServiceTrue() {
+        String serviceId = Const.InternalService.CRON_SERVICE_USER_ID;
+
+        UserInfo user = userProvision.getInternalServiceUser(serviceId);
+
+        assertEquals(serviceId, user.id);
+        assertHasRoles(user, Role.INTERNAL_SERVICE);
+        verifyNoInteractions(mockUsersLogic);
+    }
+
+    @Test
+    public void testCanAccessAsAdminOrInternalService() {
+        UserInfo user = new UserInfo("u");
+        assertFalse(user.canAccessAsAdminOrInternalService());
+
+        user.isAdmin = true;
+        assertTrue(user.canAccessAsAdminOrInternalService());
+
+        user.isAdmin = false;
+        user.isInternalService = true;
+        assertTrue(user.canAccessAsAdminOrInternalService());
+
+        user.isInternalService = false;
+        assertFalse(user.canAccessAsAdminOrInternalService());
+    }
+
     private static UserInfoCookie createMockValidCookie(String userId) {
         UserInfoCookie cookie = mock(UserInfoCookie.class);
         when(cookie.isValid()).thenReturn(true);
@@ -313,10 +341,11 @@ public class UserProvisionTest extends BaseTestCase {
         assertEquals(expected.contains(Role.INSTRUCTOR), user.isInstructor);
         assertEquals(expected.contains(Role.STUDENT), user.isStudent);
         assertEquals(expected.contains(Role.MAINTAINER), user.isMaintainer);
+        assertEquals(expected.contains(Role.INTERNAL_SERVICE), user.isInternalService);
     }
 
     private enum Role {
-        ADMIN, INSTRUCTOR, STUDENT, MAINTAINER
+        ADMIN, INSTRUCTOR, STUDENT, MAINTAINER, INTERNAL_SERVICE
     }
 
 }

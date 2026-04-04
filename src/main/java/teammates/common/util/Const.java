@@ -206,10 +206,19 @@ public final class Const {
      * Represents custom header names used by the system.
      */
     public static class HeaderNames {
+        public static final String COOKIE_KEY = "Cookie";
         public static final String BACKDOOR_KEY = "Backdoor-Key";
         public static final String CSRF_KEY = "CSRF-Key";
         public static final String WEB_VERSION = "X-WEB-VERSION";
         public static final String CSRF_TOKEN = "X-CSRF-TOKEN";
+        public static final String AUTHORIZATION_KEY = "Authorization";
+    }
+
+    /**
+     * HTTP authentication scheme names (RFC 6750; scheme matching is case-insensitive).
+     */
+    public static class HttpAuthScheme {
+        public static final String BEARER_SCHEME = "Bearer";
     }
 
     /**
@@ -311,7 +320,6 @@ public final class Const {
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
         public static final String SQL_DATABUNDLE = URI_PREFIX + "/databundle/sql";
         public static final String DEADLINE_EXTENSION = URI_PREFIX + "/deadlineextension";
-        public static final String EXCEPTION = URI_PREFIX + "/exception";
         public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
         public static final String AUTH = URI_PREFIX + "/auth";
         public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
@@ -367,6 +375,14 @@ public final class Const {
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
         public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
         public static final String USER_COOKIE = URI_PREFIX + "/cookie";
+    }
+
+    /**
+     * User principal identifiers for verified internal cron/worker API callers.
+     */
+    public static class InternalService {
+        public static final String CRON_SERVICE_USER_ID = "Cron-Service";
+        public static final String WORKER_SERVICE_USER_ID = "Worker-Service";
     }
 
     /**
