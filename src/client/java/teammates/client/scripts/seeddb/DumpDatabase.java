@@ -11,7 +11,7 @@ import java.util.List;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Config;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
@@ -71,7 +71,7 @@ public final class DumpDatabase {
             dumpOk = false;
 
             log.info("Querying database...");
-            SqlDataBundle bundle = buildBundle();
+            DataBundle bundle = buildBundle();
 
             log.info("Writing dump to: " + dumpFile);
             Path outputPath = Paths.get(dumpFile);
@@ -95,8 +95,8 @@ public final class DumpDatabase {
         }
     }
 
-    private static SqlDataBundle buildBundle() {
-        SqlDataBundle bundle = new SqlDataBundle();
+    private static DataBundle buildBundle() {
+        DataBundle bundle = new DataBundle();
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
 
         for (Account e : queryAll(cb, Account.class)) {

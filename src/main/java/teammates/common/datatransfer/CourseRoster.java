@@ -15,13 +15,13 @@ import teammates.storage.sqlentity.Student;
  * a copy of student and instructor details of a course instead of reading
  * them from the database multiple times.
  */
-public class SqlCourseRoster {
+public class CourseRoster {
 
     private final Map<String, Student> studentListByEmail = new HashMap<>();
     private final Map<String, Instructor> instructorListByEmail = new HashMap<>();
     private final Map<String, List<Student>> teamToMembersTable;
 
-    public SqlCourseRoster(List<Student> students, List<Instructor> instructors) {
+    public CourseRoster(List<Student> students, List<Instructor> instructors) {
         populateStudentListByEmail(students);
         populateInstructorListByEmail(instructors);
         teamToMembersTable = buildTeamToMembersTable(getStudents());

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -87,8 +87,8 @@ public final class DataBundleLogic {
      *         For other entities, replaces the given ids with randomly generated UUIDs.
      * @return newly created DataBundle
      */
-    public static SqlDataBundle deserializeDataBundle(String jsonString) {
-        SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
+    public static DataBundle deserializeDataBundle(String jsonString) {
+        DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
 
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
@@ -264,7 +264,7 @@ public final class DataBundleLogic {
      * @throws EntityDoesNotExistException if an entity was not found.
      *         (ReadNotification requires Account and Notification to be created)
      */
-    public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
+    public DataBundle persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Null data bundle");
@@ -353,7 +353,7 @@ public final class DataBundleLogic {
     /**
      * Removes the items in the data bundle from the database.
      */
-    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+    public void removeDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Data bundle is null");
         }
@@ -373,7 +373,7 @@ public final class DataBundleLogic {
         });
     }
 
-    private static void linkEntities(SqlDataBundle dataBundle) {
+    private static void linkEntities(DataBundle dataBundle) {
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<Course> courses = dataBundle.courses.values();
         Collection<Section> sections = dataBundle.sections.values();
