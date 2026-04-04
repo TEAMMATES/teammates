@@ -47,6 +47,7 @@ export class StudentListComponent implements OnInit {
   @Input() tableSortBy: SortBy = SortBy.NONE;
   @Input() tableSortOrder: SortOrder = SortOrder.ASC;
   @Input() searchString: string = '';
+  @Input() isSearchTermsHighlighted: boolean = false;
   @Input() headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.OTHERS;
   @Input() customHeaderStyle: string = 'bg-light';
 
@@ -138,22 +139,26 @@ export class StudentListComponent implements OnInit {
       const rowData: SortableTableCellData[] = [
         {
           value: studentModel.student.sectionName,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.sectionName, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+              studentModel.student.sectionName, this.searchString, this.isSearchTermsHighlighted),
         },
         {
           value: studentModel.student.teamName,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.teamName, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+              studentModel.student.teamName, this.searchString, this.isSearchTermsHighlighted),
         },
         {
           value: studentModel.student.name,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.name, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+              studentModel.student.name, this.searchString, this.isSearchTermsHighlighted),
         },
         {
           value: studentModel.student.joinState === JoinState.JOINED ? 'Joined' : 'Yet to Join',
         },
         {
           value: studentModel.student.email,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.email, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+              studentModel.student.email, this.searchString, this.isSearchTermsHighlighted),
         },
         this.createActionsCell(studentModel),
       ];

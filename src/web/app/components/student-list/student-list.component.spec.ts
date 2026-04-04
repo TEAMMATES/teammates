@@ -531,4 +531,26 @@ describe('StudentListComponent', () => {
 
     expect(statusMessageServiceSpy).toHaveBeenLastCalledWith(errorMessage);
   });
+
+  it('setRowData: should highlight partial matches when enabled', () => {
+    component.isSearchTermsHighlighted = true;
+    component.searchString = 'te';
+    component.studentModels = [
+      {
+        student: {
+          name: 'Tester',
+          teamName: 'Team 1',
+          email: 'tester@example.com',
+          joinState: JoinState.JOINED,
+          sectionName: 'Section 1',
+          courseId: 'test-exa.demo',
+        },
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+    ];
+
+    expect(component.rowsData[0][2].displayValue)
+        .toBe('<span class="highlighted-text">Te</span>ster');
+  });
 });
