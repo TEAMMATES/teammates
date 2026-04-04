@@ -1,4 +1,4 @@
-package teammates.logic.api;
+package teammates.logic.external;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,9 +11,6 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HtmlHelper;
-import teammates.logic.external.MailgunService;
-import teammates.logic.external.MailjetService;
-import teammates.logic.external.SendgridService;
 import teammates.test.BaseTestCase;
 
 /**
