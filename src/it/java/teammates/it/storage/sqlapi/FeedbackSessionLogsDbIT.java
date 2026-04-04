@@ -3,6 +3,11 @@ package teammates.it.storage.sqlapi;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -57,6 +62,70 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertEquals(actualLogs.size(), 1);
         assertEquals(expected, actualLogs.get(0));
+    }
+
+    @Test
+    public void test_pgAdvisoryLock_shouldSerializeDuplicateWindowAccess()
+            throws Exception {
+        Student student = typicalDataBundle.students.get("student1InCourse1");
+        FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+
+        Instant logTimestamp = Instant.parse("2011-01-01T00:00:00Z");
+        FeedbackSessionLog log = new FeedbackSessionLog(student, feedbackSession, FeedbackSessionLogType.ACCESS,
+                logTimestamp);
+        String lockKey = String.format("%s:%s:%s:%d", student.getId(), feedbackSession.getId(),
+                FeedbackSessionLogType.ACCESS.name(), log.getDedupWindowBucket());
+
+        CountDownLatch lockAcquiredLatch = new CountDownLatch(1);
+        CountDownLatch releaseLatch = new CountDownLatch(1);
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+        try {
+            Future<Boolean> lockHolderResult = executorService.submit(() -> {
+                HibernateUtil.beginTransaction();
+                try {
+                    Object acquired = HibernateUtil.createNativeQuery(
+                            "SELECT pg_try_advisory_xact_lock(hashtext(:lockKey))")
+                            .setParameter("lockKey", lockKey)
+                            .getSingleResult();
+                    assertTrue(Boolean.TRUE.equals(acquired));
+                    lockAcquiredLatch.countDown();
+                    assertTrue(releaseLatch.await(5, TimeUnit.SECONDS));
+                    HibernateUtil.commitTransaction();
+                    return Boolean.TRUE.equals(acquired);
+                } catch (Exception e) {
+                    HibernateUtil.rollbackTransaction();
+                    throw e;
+                }
+            });
+
+            Future<Boolean> contenderResult = executorService.submit(() -> {
+                assertTrue(lockAcquiredLatch.await(5, TimeUnit.SECONDS));
+                HibernateUtil.beginTransaction();
+                try {
+                    Object acquired = HibernateUtil.createNativeQuery("SELECT pg_try_advisory_xact_lock(hashtext(:lockKey))")
+                            .setParameter("lockKey", lockKey)
+                            .getSingleResult();
+                    HibernateUtil.commitTransaction();
+                    return Boolean.TRUE.equals(acquired);
+                } catch (Exception e) {
+                    HibernateUtil.rollbackTransaction();
+                    throw e;
+                }
+            });
+
+            assertFalse(contenderResult.get(10, TimeUnit.SECONDS));
+            releaseLatch.countDown();
+            assertTrue(lockHolderResult.get(10, TimeUnit.SECONDS));
+
+            Object reacquired = HibernateUtil.createNativeQuery(
+                    "SELECT pg_try_advisory_xact_lock(hashtext(:lockKey))")
+                    .setParameter("lockKey", lockKey)
+                    .getSingleResult();
+            assertTrue(Boolean.TRUE.equals(reacquired));
+        } finally {
+            executorService.shutdownNow();
+        }
     }
 
     @Test

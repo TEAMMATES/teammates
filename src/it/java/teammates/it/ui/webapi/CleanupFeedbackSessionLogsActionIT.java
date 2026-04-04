@@ -64,6 +64,7 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
                 oldTimestamp);
         logic.createFeedbackSessionLog(oldLog);
 
+        // Create log at cutoff boundary (should be preserved)
         FeedbackSessionLog atCutoffLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 atCutoffTimestamp);
