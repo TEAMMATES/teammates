@@ -218,7 +218,7 @@ public abstract class AbstractBackDoor {
     public DataBundle removeAndRestoreDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
         removeDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
-                executePostRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+                executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
         if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
             throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
                     + putRequestOutput.responseBody);
@@ -236,7 +236,7 @@ public abstract class AbstractBackDoor {
      * <p>If given entities have already been deleted, it fails silently.
      */
     public void removeDataBundle(DataBundle dataBundle) {
-        executePutRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+        executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
     }
 
     /**
