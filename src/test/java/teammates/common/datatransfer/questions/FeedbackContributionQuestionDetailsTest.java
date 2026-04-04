@@ -361,7 +361,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
 
         DataBundle responseBundle = loadDataBundle("/FeedbackContributionQuestionTestSql.json");
 
-        SessionResultsBundle sqlBundle = new SessionResultsBundle(
+        SessionResultsBundle resultsBundle = new SessionResultsBundle(
                 new ArrayList<>(responseBundle.feedbackQuestions.values()),
                 new HashSet<>(), new HashSet<>(),
                 new ArrayList<>(responseBundle.feedbackResponses.values()),
@@ -370,10 +370,10 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                         new ArrayList<>(responseBundle.instructors.values())));
 
-        FeedbackContributionQuestion sqlFqa;
+        FeedbackContributionQuestion fqa;
 
         ______TS("(student email specified): all students have response");
-        sqlFqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         assertEquals("{\n"
                 + "  \"results\": {\n"
                 + "    \"student1incourse1@gmail.tmt\": {\n"
@@ -390,11 +390,11 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 + "    }\n"
                 + "  }\n"
                 + "}",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(sqlFqa,
-                        "student1incourse1@gmail.tmt", sqlBundle));
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
+                        "student1incourse1@gmail.tmt", resultsBundle));
 
         ______TS("(student email specified): mix of students with responses and students without responses");
-        sqlFqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
         assertEquals("{\n"
                 + "  \"results\": {\n"
                 + "    \"student5incourse1@gmail.tmt\": {\n"
@@ -411,19 +411,19 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 + "    }\n"
                 + "  }\n"
                 + "}",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(sqlFqa,
-                        "student5incourse1@gmail.tmt", sqlBundle));
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
+                        "student5incourse1@gmail.tmt", resultsBundle));
 
         ______TS("(student email specified): all students do not have responses");
-        sqlFqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
         assertEquals("{\n"
                 + "  \"results\": {}\n"
                 + "}",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(sqlFqa,
-                        "student8incourse1@gmail.tmt", sqlBundle));
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
+                        "student8incourse1@gmail.tmt", resultsBundle));
 
         ______TS("(student email not specified): qn1");
-        sqlFqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         assertEquals("{\n"
                 + "  \"results\": {\n"
                 + "    \"student8incourse1@gmail.tmt\": {\n"
@@ -520,11 +520,11 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 + "    }\n"
                 + "  }\n"
                 + "}",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(sqlFqa, null,
-                        sqlBundle));
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
+                        resultsBundle));
 
         ______TS("(student email not specified): qn2");
-        sqlFqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
         assertEquals("{\n"
                 + "  \"results\": {\n"
                 + "    \"student8incourse1@gmail.tmt\": {\n"
@@ -621,11 +621,11 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 + "    }\n"
                 + "  }\n"
                 + "}",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(sqlFqa, null,
-                        sqlBundle));
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
+                        resultsBundle));
 
         ______TS("(student email not specified): qn3");
-        sqlFqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
         assertEquals("{\n"
                 + "  \"results\": {\n"
                 + "    \"student8incourse1@gmail.tmt\": {\n"
@@ -722,8 +722,8 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 + "    }\n"
                 + "  }\n"
                 + "}",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(sqlFqa, null,
-                        sqlBundle));
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
+                        resultsBundle));
 
     }
 
