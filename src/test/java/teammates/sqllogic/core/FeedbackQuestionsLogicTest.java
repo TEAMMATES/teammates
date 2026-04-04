@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -271,7 +272,29 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         ______TS("response to students except self");
         assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, null).size(), studentsInCourse.size() - 1);
         assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, courseRoster).size(), studentsInCourse.size() - 1);
+    }
 
+    @Test
+    public void testValidateFeedbackQuestion_validQuestion_noExceptionThrown() {
+        Course c = getTypicalCourse();
+        FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
+        FeedbackQuestion fq = getTypicalFeedbackQuestionForSession(fs);
+
+        assertDoesNotThrow(() -> fqLogic.validateFeedbackQuestion(fq));
+    }
+
+    @Test
+    public void testCreateFeedbackQuestion_invalidGiverType_throwsException() throws EntityAlreadyExistsException {
+        Course c = getTypicalCourse();
+        FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
+        FeedbackQuestion fq = getTypicalFeedbackQuestionForSession(fs);
+        fq.setGiverType(FeedbackParticipantType.RECEIVER);
+
+        when(fqDb.createFeedbackQuestion(fq)).thenReturn(fq);
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> fqLogic.createFeedbackQuestion(fq));
+        assertEquals("RECEIVER is not a valid feedback giver.", ipe.getMessage());
     }
 
     private List<FeedbackQuestion> createQuestionList(FeedbackSession fs, int numOfQuestions) {

@@ -1,6 +1,7 @@
 package teammates.sqllogic.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import jakarta.annotation.Nullable;
 
@@ -23,6 +25,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
@@ -79,6 +82,7 @@ public final class FeedbackQuestionsLogic {
      */
     public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        validateFeedbackQuestion(feedbackQuestion);
         FeedbackQuestion createdQuestion = fqDb.createFeedbackQuestion(feedbackQuestion);
 
         List<FeedbackQuestion> questionsBefore = getFeedbackQuestionsForSession(feedbackQuestion.getFeedbackSession());
@@ -734,6 +738,22 @@ public final class FeedbackQuestionsLogic {
         }
 
         return completeGiverRecipientMap;
+    }
+
+    void validateFeedbackQuestion(FeedbackQuestion feedbackQuestion) throws InvalidParametersException {
+        List<String> errors = Stream.of(
+                    FieldValidator.getValidityInfoForFeedbackParticipantType(feedbackQuestion.getGiverType(),
+                        feedbackQuestion.getRecipientType()),
+                    FieldValidator.getValidityInfoForFeedbackResponseVisibility(feedbackQuestion.getShowResponsesTo(),
+                        feedbackQuestion.getShowGiverNameTo(), feedbackQuestion.getShowRecipientNameTo())
+                )
+                .flatMap(Collection::stream)
+                .filter(error -> !error.isEmpty())
+                .toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
     }
 
     /**
