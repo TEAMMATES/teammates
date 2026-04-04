@@ -1,17 +1,15 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
- * Persists a data bundle into the DB.
+ * Deletes a data bundle from the DB.
  */
-public class PutSqlDataBundleAction extends Action {
+public class DeleteDataBundleAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -26,19 +24,15 @@ public class PutSqlDataBundleAction extends Action {
     }
 
     @Override
-    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
 
         try {
-            dataBundle = sqlLogic.persistDataBundle(dataBundle);
+            sqlLogic.removeDataBundle(dataBundle);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
-        } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException("Some entities in the databundle already exist", e);
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
         }
-
-        return new JsonResult(JsonUtils.toJson(dataBundle));
+        return new JsonResult("Data bundle successfully persisted.");
     }
+
 }

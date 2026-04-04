@@ -29,9 +29,9 @@ public final class ActionFactory {
     private static final String DELETE = HttpDelete.METHOD_NAME;
 
     static {
-        map(ResourceURIs.DATABUNDLE, POST, PutSqlDataBundleAction.class);
+        map(ResourceURIs.DATABUNDLE, POST, PutDataBundleAction.class);
         // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
-        map(ResourceURIs.DATABUNDLE, PUT, DeleteSqlDataBundleAction.class);
+        map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
         // Exception-test action is dev-only; omit routes in production to shrink internal surface area.
         if (Config.IS_DEV_SERVER) {
             map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
