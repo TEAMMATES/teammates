@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.storage.sqlentity.DeadlineExtension;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -753,35 +751,13 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if the session end time is before all extended deadlines.
-     * @return Error string if any deadline in {@code deadlines} is before {@code sessionEnd}, an empty one otherwise.
+     * Checks if the session end time is before the extended deadline.
+     * @return Error string if the {@code extendedDeadline} is before {@code sessionEnd}, an empty one otherwise.
      */
-    public static String getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-            Instant sessionEnd, Map<String, Instant> deadlines) {
-        return deadlines.entrySet()
-                .stream()
-                .map(entry -> getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(sessionEnd, entry.getValue(),
-                        SESSION_NAME, SESSION_END_TIME_FIELD_NAME, EXTENDED_DEADLINES_FIELD_NAME))
-                .filter(invalidityInfo -> !invalidityInfo.isEmpty())
-                .findFirst()
-                .orElse("");
-    }
-
-    /**
-     * Checks if the session end time is before all extended deadlines.
-     * @return Error string if any deadline in {@code deadlines} is before {@code sessionEnd}, an empty one otherwise.
-     */
-    public static String getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-            Instant sessionEnd, List<DeadlineExtension> deadlineExtensions) {
-        for (DeadlineExtension de : deadlineExtensions) {
-            String err = getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(sessionEnd, de.getEndTime(),
+    public static String getInvalidityInfoForTimeForSessionEndAndExtendedDeadline(
+            Instant sessionEnd, Instant extendedDeadline) {
+        return getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(sessionEnd, extendedDeadline,
                     SESSION_NAME, SESSION_END_TIME_FIELD_NAME, EXTENDED_DEADLINES_FIELD_NAME);
-
-            if (!err.isEmpty()) {
-                return err;
-            }
-        }
-        return "";
     }
 
     /**

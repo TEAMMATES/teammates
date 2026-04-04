@@ -3,8 +3,6 @@ package teammates.common.util;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -659,32 +657,28 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForTimeForSessionEndAndExtendedDeadlines_valid_returnEmptyString() {
+    public void testGetInvalidityInfoForTimeForSessionEndAndExtendedDeadline_valid_returnEmptyString() {
         Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
-        Map<String, Instant> extendedDeadlines = new HashMap<>();
-        extendedDeadlines.put("participant@email.com", TimeHelperExtension.getInstantHoursOffsetFromNow(1));
+        Instant extendedDeadline = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         assertEquals("",
-                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-                        sessionEnd, extendedDeadlines));
+                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadline(
+                        sessionEnd, extendedDeadline));
     }
 
     @Test
-    public void testGetInvalidityInfoForTimeForSessionEndAndExtendedDeadlines_invalid_returnErrorString() {
-        ______TS("extended deadline earlier than the end time");
+    public void testGetInvalidityInfoForTimeForSessionEndAndExtendedDeadline_invalid_returnErrorString() {
         Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
-        Map<String, Instant> extendedDeadlines = new HashMap<>();
-        extendedDeadlines.put("participant@email.com", TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
-        assertEquals("The extended deadlines for this feedback session cannot be earlier than or at the same time as "
-                        + "the end time.",
-                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-                        sessionEnd, extendedDeadlines));
+        Instant extendedDeadline = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
+        assertEquals("The extended deadlines for this feedback session cannot be earlier "
+                        + "than or at the same time as the end time.",
+                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadline(
+                        sessionEnd, extendedDeadline));
 
-        ______TS("extended deadline at the same time as the end time");
-        extendedDeadlines.put("participant@email.com", sessionEnd);
-        assertEquals("The extended deadlines for this feedback session cannot be earlier than or at the same time as "
-                        + "the end time.",
-                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-                        sessionEnd, extendedDeadlines));
+        extendedDeadline = sessionEnd;
+        assertEquals("The extended deadlines for this feedback session cannot be earlier "
+                        + "than or at the same time as the end time.",
+                FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadline(
+                        sessionEnd, extendedDeadline));
     }
 
     @Test

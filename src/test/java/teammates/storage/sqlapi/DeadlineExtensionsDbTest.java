@@ -19,7 +19,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -46,8 +45,7 @@ public class DeadlineExtensionsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateDeadlineExtension_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateDeadlineExtension_success() throws EntityAlreadyExistsException {
         DeadlineExtension de = getValidDeadlineExtension();
 
         doReturn(null).when(deadlineExtensionsDb).getDeadlineExtension(de.getId());
@@ -67,17 +65,6 @@ public class DeadlineExtensionsDbTest extends BaseTestCase {
                 () -> deadlineExtensionsDb.createDeadlineExtension(de));
 
         assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, de.toString()), eaee.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(de), never());
-    }
-
-    @Test
-    public void testCreateDeadlineExtension_invalidDeadlineExtension_throwsInvalidParametersException() {
-        DeadlineExtension de = getInvalidDeadlineExtension();
-
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> deadlineExtensionsDb.createDeadlineExtension(de));
-
-        assertTrue(ipe.getMessage().contains("extended deadlines"));
         mockHibernateUtil.verify(() -> HibernateUtil.persist(de), never());
     }
 
@@ -107,8 +94,7 @@ public class DeadlineExtensionsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateDeadlineExtension_success()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateDeadlineExtension_success() throws EntityDoesNotExistException {
         DeadlineExtension de = getValidDeadlineExtension();
 
         doReturn(de).when(deadlineExtensionsDb).getDeadlineExtension(de.getId());
@@ -118,17 +104,6 @@ public class DeadlineExtensionsDbTest extends BaseTestCase {
 
         mockHibernateUtil.verify(() -> HibernateUtil.merge(de), times(1));
         assertEquals(de, result);
-    }
-
-    @Test
-    public void testUpdateDeadlineExtension_invalidDeadlineExtension_throwsInvalidParametersException() {
-        DeadlineExtension de = getInvalidDeadlineExtension();
-
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> deadlineExtensionsDb.updateDeadlineExtension(de));
-
-        assertTrue(ipe.getMessage().contains("extended deadlines"));
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(de), never());
     }
 
     @Test
@@ -169,21 +144,6 @@ public class DeadlineExtensionsDbTest extends BaseTestCase {
 
         // Set extension endTime to be AFTER the session end time
         Instant extensionEndTime = Instant.now().plusSeconds(8 * 24 * 60 * 60);
-        DeadlineExtension de = new DeadlineExtension(student, session, extensionEndTime);
-        session.getDeadlineExtensions().add(de);
-
-        return de;
-    }
-
-    /**
-     * Creates an invalid DeadlineExtension with endTime before or equal to the feedback session's end time.
-     */
-    private DeadlineExtension getInvalidDeadlineExtension() {
-        Student student = getTypicalStudent();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-
-        // Set extension endTime to be BEFORE the session end time (violates validation rule)
-        Instant extensionEndTime = Instant.now().plusSeconds(6 * 24 * 60 * 60);
         DeadlineExtension de = new DeadlineExtension(student, session, extensionEndTime);
         session.getDeadlineExtensions().add(de);
 

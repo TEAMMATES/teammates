@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.FieldValidator;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -83,6 +84,7 @@ public final class DeadlineExtensionsLogic {
     public DeadlineExtension createDeadlineExtension(DeadlineExtension deadlineExtension)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert deadlineExtension != null;
+        validateDeadlineExtension(deadlineExtension);
         return deadlineExtensionsDb.createDeadlineExtension(deadlineExtension);
     }
 
@@ -101,6 +103,7 @@ public final class DeadlineExtensionsLogic {
      */
     public DeadlineExtension updateDeadlineExtension(DeadlineExtension de)
             throws InvalidParametersException, EntityDoesNotExistException {
+        validateDeadlineExtension(de);
         return deadlineExtensionsDb.updateDeadlineExtension(de);
     }
 
@@ -131,5 +134,14 @@ public final class DeadlineExtensionsLogic {
                 deleteDeadlineExtension(deadlineExtension);
             }
         });
+    }
+
+    void validateDeadlineExtension(DeadlineExtension deadlineExtension) throws InvalidParametersException {
+        FeedbackSession feedbackSession = deadlineExtension.getFeedbackSession();
+        String error = FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadline(
+                feedbackSession.getEndTime(), deadlineExtension.getEndTime());
+        if (!error.isEmpty()) {
+            throw new InvalidParametersException(error);
+        }
     }
 }
