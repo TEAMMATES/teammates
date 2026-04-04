@@ -61,7 +61,9 @@ dependencies {
     implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
-    implementation("com.google.code.gson:gson:2.13.2")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.21.2")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-parameter-names:2.21.2")
     implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("com.google.guava:guava:33.5.0-jre")
     implementation("commons-lang:commons-lang:2.6")
@@ -291,6 +293,7 @@ task downloadLinters {
 // RUN SERVER TASKS
 
 compileJava.options.encoding = "UTF-8"
+compileJava.options.compilerArgs += ["-parameters"]
 compileTestJava.options.encoding = "UTF-8"
 
 processResources {

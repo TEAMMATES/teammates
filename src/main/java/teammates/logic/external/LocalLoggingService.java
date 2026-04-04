@@ -1,6 +1,5 @@
 package teammates.logic.external;
 
-import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,8 +13,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
@@ -26,6 +24,7 @@ import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
+import teammates.common.exception.JsonException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -49,8 +48,7 @@ public class LocalLoggingService implements LogService {
         long earliestTimestamp = currentTimestamp - 60 * 60 * 1000;
         try {
             String jsonString = FileHelper.readResourceFile("logsForLocalDev.json");
-            Type type = new TypeToken<Collection<GeneralLogEntry>>(){}.getType();
-            Collection<GeneralLogEntry> logEntriesCollection = JsonUtils.fromJson(jsonString, type);
+            Collection<GeneralLogEntry> logEntriesCollection = JsonUtils.fromJson(jsonString, new TypeReference<>(){});
             return logEntriesCollection.stream()
                     .map(log -> {
                         long timestamp = new RandomDataGenerator().nextLong(earliestTimestamp, currentTimestamp);
@@ -62,7 +60,7 @@ public class LocalLoggingService implements LogService {
                         return logEntryWithUpdatedTimestamp;
                     })
                     .collect(Collectors.toList());
-        } catch (JsonParseException e) {
+        } catch (JsonException e) {
             return new ArrayList<>();
         }
     }

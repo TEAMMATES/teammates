@@ -11,17 +11,16 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.JsonException;
 import teammates.common.util.Config;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
@@ -98,7 +97,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
                 logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
                 return null;
             }
-        } catch (JsonParseException | InvalidParametersException e) {
+        } catch (JsonException | InvalidParametersException e) {
             log.warning("Failed to parse state object", e);
             logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Bad state object");
             return null;
@@ -113,11 +112,11 @@ public class OAuth2CallbackServlet extends AuthServlet {
                             + token.getAccessToken()));
 
             Map<String, Object> parsedResponse =
-                    JsonUtils.fromJson(userInfoResponse, new TypeToken<Map<String, Object>>(){}.getType());
+                    JsonUtils.fromJson(userInfoResponse, new TypeReference<>(){});
             if (parsedResponse.containsKey("email")) {
                 email = String.valueOf(parsedResponse.get("email"));
             }
-        } catch (URISyntaxException | IOException | JsonSyntaxException e) {
+        } catch (URISyntaxException | IOException | JsonException e) {
             // if any of the operation fail, googleId is kept at null
             log.warning("Failed to get Google ID", e);
         }

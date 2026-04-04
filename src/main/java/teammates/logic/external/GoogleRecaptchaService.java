@@ -5,8 +5,7 @@ import java.net.URISyntaxException;
 
 import org.apache.http.client.utils.URIBuilder;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
@@ -42,14 +41,13 @@ public class GoogleRecaptchaService implements RecaptchaService {
 
         try {
             String response = getApiResponse(captchaResponse, secretKey);
-            JsonObject responseInJson = JsonUtils.parse(response).getAsJsonObject();
+            JsonNode responseInJson = JsonUtils.parse(response);
 
             if (responseInJson.has("error-codes")) {
-                JsonArray errorCodes = responseInJson.get("error-codes").getAsJsonArray();
-                log.warning("Error codes during reCAPTCHA verification: " + errorCodes.toString());
+                log.warning("Error codes during reCAPTCHA verification: " + responseInJson.get("error-codes"));
             }
 
-            return Boolean.parseBoolean(responseInJson.get("success").toString());
+            return responseInJson.path("success").asBoolean(false);
         } catch (Exception e) {
             log.severe("", e);
             return false;

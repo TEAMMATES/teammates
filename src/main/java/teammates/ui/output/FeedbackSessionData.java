@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -61,6 +63,20 @@ public class FeedbackSessionData extends ApiOutput {
 
     private Map<String, Long> studentDeadlines;
     private Map<String, Long> instructorDeadlines;
+
+    @JsonCreator
+    private FeedbackSessionData(UUID feedbackSessionId, String courseId, String timeZone,
+            String feedbackSessionName, String instructions, Long submissionStartTimestamp,
+            Long submissionEndTimestamp, Long deletedAtTimestamp) {
+        this.feedbackSessionId = feedbackSessionId;
+        this.courseId = courseId;
+        this.timeZone = timeZone;
+        this.feedbackSessionName = feedbackSessionName;
+        this.instructions = instructions;
+        this.submissionStartTimestamp = submissionStartTimestamp;
+        this.submissionEndTimestamp = submissionEndTimestamp;
+        this.deletedAtTimestamp = deletedAtTimestamp;
+    }
 
     public FeedbackSessionData(FeedbackSession feedbackSession) {
         assert feedbackSession != null;

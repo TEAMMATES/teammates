@@ -10,7 +10,7 @@ import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import com.google.common.reflect.TypeToken;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.InstanceLogDetails;
@@ -90,7 +90,8 @@ public final class Logger {
         payload.put("severity", LogSeverity.INFO);
 
         Map<String, Object> detailsSpecificPayload =
-                JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+                JsonUtils.fromJson(JsonUtils.toCompactJson(details),
+                        new TypeReference<>(){});
         payload.putAll(detailsSpecificPayload);
 
         // Need to use println as the logger is disabled when the instance is shutting down
@@ -148,7 +149,8 @@ public final class Logger {
         } else {
             Map<String, Object> payload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
             Map<String, Object> detailsSpecificPayload =
-                    JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+                    JsonUtils.fromJson(JsonUtils.toCompactJson(details),
+                            new TypeReference<>(){});
             payload.putAll(detailsSpecificPayload);
 
             logMessage = JsonUtils.toCompactJson(payload);
@@ -231,7 +233,8 @@ public final class Logger {
         }
 
         Map<String, Object> detailsSpecificPayload =
-                JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+                JsonUtils.fromJson(JsonUtils.toCompactJson(details),
+                        new TypeReference<>(){});
         payload.putAll(detailsSpecificPayload);
 
         return JsonUtils.toCompactJson(payload);

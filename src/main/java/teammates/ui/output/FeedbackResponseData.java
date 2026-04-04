@@ -2,6 +2,8 @@ package teammates.ui.output;
 
 import jakarta.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.sqlentity.FeedbackResponse;
 
@@ -20,6 +22,15 @@ public class FeedbackResponseData extends ApiOutput {
 
     @Nullable
     private FeedbackResponseCommentData giverComment;
+
+    @JsonCreator
+    private FeedbackResponseData(String feedbackResponseId, String giverIdentifier,
+            String recipientIdentifier, FeedbackResponseDetails responseDetails) {
+        this.feedbackResponseId = feedbackResponseId;
+        this.giverIdentifier = giverIdentifier;
+        this.recipientIdentifier = recipientIdentifier;
+        this.responseDetails = responseDetails;
+    }
 
     public FeedbackResponseData(FeedbackResponse feedbackResponse) {
         this.feedbackResponseId = feedbackResponse.getId().toString();
