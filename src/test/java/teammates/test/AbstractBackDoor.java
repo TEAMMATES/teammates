@@ -215,7 +215,7 @@ public abstract class AbstractBackDoor {
     /**
      * Removes and restores given data in the database. This method is to be called on test startup.
      */
-    public DataBundle removeAndRestoreSqlDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
+    public DataBundle removeAndRestoreDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
         removeSqlDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
                 executePostRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));

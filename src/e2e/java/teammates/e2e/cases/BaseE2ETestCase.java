@@ -90,7 +90,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     protected DataBundle removeAndRestoreDataBundle(DataBundle testData) {
         DataBundle dataBundle = null;
         try {
-            dataBundle = BACKDOOR.removeAndRestoreSqlDataBundle(testData);
+            dataBundle = BACKDOOR.removeAndRestoreDataBundle(testData);
         } catch (HttpRequestFailedException e) {
             throw new RuntimeException(e);
         }
