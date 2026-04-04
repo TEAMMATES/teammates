@@ -3,9 +3,8 @@
 exports[`InstructorStudentActivityLogsComponent should snap when page is still loading 1`] = `
 <tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
-  LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
-  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
+  STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   castAsInputElement={[Function Function]}
   course={[Function Object]}
@@ -17,7 +16,6 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   formModel={[Function Object]}
   isLoading={[Function Boolean]}
   isSearching="false"
-  lastUpdated=""
   logsService={[Function LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
@@ -30,28 +28,17 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   <h1>
     Student Activity Logs For 
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or viewed session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
      for the course. The earliest date you can search for is 
     <b>
-      30 days
+      90 days
     </b>
      before today.
   </p><p>
-    Please note that recent activity after 
-    <b>
-    </b>
-     may 
-    <b>
-      NOT
-    </b>
-     be shown as the information is updated in 
-    <b>
-      15 minute
-    </b>
-     intervals.
+    Student activity logs are available immediately after the activity is performed.
   </p><hr /><tm-loading-spinner>
     <div
       class="loading-container"
@@ -78,9 +65,8 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
 exports[`InstructorStudentActivityLogsComponent should snap when searching for details in search form 1`] = `
 <tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
-  LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
-  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
+  STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   castAsInputElement={[Function Function]}
   course={[Function Object]}
@@ -92,7 +78,6 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   formModel={[Function Object]}
   isLoading="false"
   isSearching={[Function Boolean]}
-  lastUpdated=""
   logsService={[Function LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
@@ -105,28 +90,17 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   <h1>
     Student Activity Logs For CS9999
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or viewed session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
      for the course. The earliest date you can search for is 
     <b>
-      30 days
+      90 days
     </b>
      before today.
   </p><p>
-    Please note that recent activity after 
-    <b>
-    </b>
-     may 
-    <b>
-      NOT
-    </b>
-     be shown as the information is updated in 
-    <b>
-      15 minute
-    </b>
-     intervals.
+    Student activity logs are available immediately after the activity is performed.
   </p><hr /><div
     class="card bg-form no-border"
   >
@@ -663,9 +637,8 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
 exports[`InstructorStudentActivityLogsComponent should snap with default fields 1`] = `
 <tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
-  LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
-  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
+  STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   castAsInputElement={[Function Function]}
   course={[Function Object]}
@@ -677,7 +650,6 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   formModel={[Function Object]}
   isLoading={[Function Boolean]}
   isSearching="false"
-  lastUpdated=""
   logsService={[Function LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
@@ -690,28 +662,17 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   <h1>
     Student Activity Logs For 
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or viewed session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
      for the course. The earliest date you can search for is 
     <b>
-      30 days
+      90 days
     </b>
      before today.
   </p><p>
-    Please note that recent activity after 
-    <b>
-    </b>
-     may 
-    <b>
-      NOT
-    </b>
-     be shown as the information is updated in 
-    <b>
-      15 minute
-    </b>
-     intervals.
+    Student activity logs are available immediately after the activity is performed.
   </p><hr /><tm-loading-spinner>
     <div
       class="loading-container"
@@ -738,9 +699,8 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
 exports[`InstructorStudentActivityLogsComponent should snap with results of a search 1`] = `
 <tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
-  LOGS_RETENTION_PERIOD={[Function Number]}
   LOG_TYPES={[Function Array]}
-  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL={[Function Number]}
+  STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
   castAsInputElement={[Function Function]}
   course={[Function Object]}
@@ -752,7 +712,6 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   formModel={[Function Object]}
   isLoading="false"
   isSearching="false"
-  lastUpdated=""
   logsService={[Function LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
@@ -765,28 +724,17 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   <h1>
     Student Activity Logs For 
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session or view a session results. Note that you can only view student logs if you have 
+    This page allows you to find when your students have accessed or submitted a particular feedback session or viewed session results. Note that you can only view student logs if you have 
     <b>
       owner or manager privileges
     </b>
      for the course. The earliest date you can search for is 
     <b>
-      30 days
+      90 days
     </b>
      before today.
   </p><p>
-    Please note that recent activity after 
-    <b>
-    </b>
-     may 
-    <b>
-      NOT
-    </b>
-     be shown as the information is updated in 
-    <b>
-      15 minute
-    </b>
-     intervals.
+    Student activity logs are available immediately after the activity is performed.
   </p><hr /><div
     class="card bg-form no-border"
   >

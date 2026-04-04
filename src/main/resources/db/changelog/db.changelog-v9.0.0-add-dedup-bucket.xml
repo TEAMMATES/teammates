@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- Add bucket column -->
+    <changeSet author="refactor-student-activity-logs" id="add-dedup-bucket-column">
+        <addColumn tableName="feedback_session_logs">
+            <column name="dedup_window_bucket" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+
+    <!-- Backfill existing rows -->
+    <changeSet author="refactor-student-activity-logs" id="backfill-dedup-bucket">
+        <sql>
+            UPDATE feedback_session_logs
+            SET dedup_window_bucket = FLOOR(EXTRACT(EPOCH FROM "timestamp") * 1000 / 2000)::BIGINT
+            WHERE dedup_window_bucket IS NULL;
+        </sql>
+    </changeSet>
+
+    <!-- Remove existing duplicates -->
+    <changeSet author="refactor-student-activity-logs" id="remove-duplicate-dedup-bucket-rows">
+        <sql>
+            DELETE FROM feedback_session_logs
+            WHERE id IN (
+                SELECT id
+                FROM (
+                    SELECT id,
+                           ROW_NUMBER() OVER (
+                               PARTITION BY student_id, session_id, feedback_session_log_type, dedup_window_bucket
+                               ORDER BY "timestamp" ASC, id ASC
+                           ) AS rn
+                    FROM feedback_session_logs
+                ) duplicate_rows
+                WHERE duplicate_rows.rn &gt; 1
+            );
+        </sql>
+    </changeSet>
+
+    <!-- Make column non-null -->
+    <changeSet author="refactor-student-activity-logs" id="dedup-bucket-not-null">
+        <addNotNullConstraint tableName="feedback_session_logs"
+            columnName="dedup_window_bucket" columnDataType="BIGINT"/>
+    </changeSet>
+
+</databaseChangeLog>

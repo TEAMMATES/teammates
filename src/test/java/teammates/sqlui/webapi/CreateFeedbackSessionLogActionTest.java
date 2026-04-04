@@ -1,5 +1,12 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -71,7 +78,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         student2InCourse2 = getTypicalStudent();
         student3InCourse2 = getTypicalStudent();
         student1InCourse1.setCourse(course1);
-        student2InCourse2.setCourse(course1);
+        student2InCourse2.setCourse(courseNoStudent);
         student3InCourse2.setCourse(course2);
         student1Email = student1InCourse1.getEmail();
         student2Email = student2InCourse2.getEmail();
@@ -82,6 +89,16 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
 
         accessLabel = FeedbackSessionLogType.ACCESS.getLabel();
         submissionLabel = FeedbackSessionLogType.SUBMISSION.getLabel();
+    }
+
+    @BeforeMethod
+    void setUp() {
+        reset(mockLogic);
+        when(mockLogic.getStudent(student1InCourse1.getId())).thenReturn(student1InCourse1);
+        when(mockLogic.getStudent(student2InCourse2.getId())).thenReturn(student2InCourse2);
+        when(mockLogic.getStudent(student3InCourse2.getId())).thenReturn(student3InCourse2);
+        when(mockLogic.getFeedbackSession(fsaCourse1.getId())).thenReturn(fsaCourse1);
+        when(mockLogic.getFeedbackSession(fsaCourseNoStudent.getId())).thenReturn(fsaCourseNoStudent);
     }
 
     @Test
@@ -103,12 +120,56 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(action);
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
+        verify(mockLogic).createFeedbackSessionLogIfNotDuplicate(argThat(log ->
+                student1InCourse1.equals(log.getStudent())
+                        && fsaCourse1.equals(log.getFeedbackSession())
+                        && FeedbackSessionLogType.ACCESS == log.getFeedbackSessionLogType()));
+    }
+
+    @Test
+    void testExecute_duplicateLogWithinSpamWindow_shouldStillSucceed() {
+        String[] paramsSuccessfulAccess = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, accessLabel,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
+        };
+
+        JsonResult response = getJsonResult(getAction(paramsSuccessfulAccess));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+        verify(mockLogic).createFeedbackSessionLogIfNotDuplicate(argThat(log ->
+                student1InCourse1.equals(log.getStudent())
+                        && fsaCourse1.equals(log.getFeedbackSession())
+                        && FeedbackSessionLogType.ACCESS == log.getFeedbackSessionLogType()));
+    }
+
+    @Test
+    void testExecute_duplicateLogWithDifferentType_shouldPersist() {
+        String[] paramsSuccessfulSubmission = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
+        };
+
+        JsonResult response = getJsonResult(getAction(paramsSuccessfulSubmission));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+        verify(mockLogic).createFeedbackSessionLogIfNotDuplicate(argThat(log ->
+                student1InCourse1.equals(log.getStudent())
+                        && fsaCourse1.equals(log.getFeedbackSession())
+                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test
     void testExecute_typicalSubmission_shouldSucceed() {
         String[] paramsSuccessfulSubmission = {
-                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.COURSE_ID, courseNoStudent.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourseNoStudentName,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourseNoStudentId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
@@ -119,10 +180,14 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsSuccessfulSubmission));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
+        verify(mockLogic).createFeedbackSessionLogIfNotDuplicate(argThat(log ->
+                student2InCourse2.equals(log.getStudent())
+                        && fsaCourseNoStudent.equals(log.getFeedbackSession())
+                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test
-    void testExecute_invalidSessionName_shouldStillSucceed() {
+        void testExecute_invalidSessionName_shouldStillSucceedWithoutPersisting() {
         String nonExistentSessionName = "non-existent-feedback-session-name";
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -135,10 +200,11 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsNonExistentFsName));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
+        verify(mockLogic, never()).createFeedbackSessionLogIfNotDuplicate(argThat(log -> true));
     }
 
     @Test
-    void testExecute_invalidEmail_shouldStillSucceed() {
+        void testExecute_invalidEmail_shouldStillSucceedWithoutPersisting() {
         String nonExistentEmail = "non-existent-student@email.com";
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -151,10 +217,11 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsNonExistentStudentEmail));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
+        verify(mockLogic, never()).createFeedbackSessionLogIfNotDuplicate(argThat(log -> true));
     }
 
     @Test
-    void testExecute_studentHasNoAccessToCourseFeedback_shouldStillSucceed() {
+        void testExecute_studentHasNoAccessToCourseFeedback_shouldStillSucceedWithoutPersisting() {
         String[] paramsWithoutAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
@@ -166,6 +233,39 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsWithoutAccess));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
+        verify(mockLogic, never()).createFeedbackSessionLogIfNotDuplicate(argThat(log -> true));
+    }
+
+    @Test
+    void testExecute_missingFeedbackSession_shouldStillSucceedWithoutPersisting() {
+        String[] paramsMissingFeedbackSession = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, "00000000-0000-0000-0000-000000000000",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
+        };
+        JsonResult response = getJsonResult(getAction(paramsMissingFeedbackSession));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+        verify(mockLogic, never()).createFeedbackSessionLogIfNotDuplicate(argThat(log -> true));
+    }
+
+    @Test
+    void testExecute_missingStudent_shouldStillSucceedWithoutPersisting() {
+        String[] paramsMissingStudent = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
+        };
+        JsonResult response = getJsonResult(getAction(paramsMissingStudent));
+        MessageOutput output = (MessageOutput) response.getOutput();
+        assertEquals("Successful", output.getMessage());
+        verify(mockLogic, never()).createFeedbackSessionLogIfNotDuplicate(argThat(log -> true));
     }
 
     @Test

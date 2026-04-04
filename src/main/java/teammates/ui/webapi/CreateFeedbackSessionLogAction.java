@@ -1,11 +1,16 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.FeedbackSessionLog;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Action: creates a feedback session log for the purposes of tracking and auditing.
@@ -50,11 +55,34 @@ public class CreateFeedbackSessionLogAction extends Action {
         details.setStudentId(studentId.toString());
         details.setFeedbackSessionId(fsId.toString());
 
-        // Necessary to assist local testing. For production usage, this will be a no-op.
-        logsProcessor.createFeedbackSessionLog(courseId, studentId, fsId, fslType);
+        Student student = sqlLogic.getStudent(studentId);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsId);
+        if (isValidLogContext(student, feedbackSession, courseId, fsName, studentEmail)) {
+            Instant now = Instant.now();
+            FeedbackSessionLog feedbackSessionLog =
+                    new FeedbackSessionLog(student, feedbackSession, convertedFslType, now);
+            sqlLogic.createFeedbackSessionLogIfNotDuplicate(feedbackSessionLog);
+        }
 
         log.event("Feedback session audit event: " + fslType, details);
 
         return new JsonResult("Successful");
+    }
+
+    /**
+     * Validates that request context is internally consistent before writing student activity logs.
+     */
+    private boolean isValidLogContext(Student student, FeedbackSession feedbackSession,
+                                      String courseId, String fsName, String studentEmail) {
+        if (student == null || feedbackSession == null) {
+            return false;
+        }
+
+        boolean isStudentCourseMatch = Objects.equals(student.getCourse().getId(), courseId);
+        boolean isSessionCourseMatch = Objects.equals(feedbackSession.getCourse().getId(), courseId);
+        boolean isSessionNameMatch = Objects.equals(feedbackSession.getName(), fsName);
+        boolean isStudentEmailMatch = Objects.equals(student.getEmail(), studentEmail);
+
+        return isStudentCourseMatch && isSessionCourseMatch && isSessionNameMatch && isStudentEmailMatch;
     }
 }

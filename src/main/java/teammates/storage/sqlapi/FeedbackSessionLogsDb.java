@@ -5,12 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+import org.hibernate.query.NativeQuery;
+
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
@@ -74,6 +80,36 @@ public final class FeedbackSessionLogsDb {
     }
 
     /**
+     * Gets the latest feedback session log for the given student, feedback session, and log type.
+     */
+    public FeedbackSessionLog getLatestFeedbackSessionLog(UUID studentId, UUID feedbackSessionId,
+            FeedbackSessionLogType feedbackSessionLogType) {
+        assert studentId != null;
+        assert feedbackSessionId != null;
+        assert feedbackSessionLogType != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSessionLog> cr = cb.createQuery(FeedbackSessionLog.class);
+        Root<FeedbackSessionLog> root = cr.from(FeedbackSessionLog.class);
+        Join<FeedbackSessionLog, FeedbackSession> feedbackSessionJoin = root.join("feedbackSession");
+        Join<FeedbackSessionLog, Student> studentJoin = root.join("student");
+
+        cr.select(root)
+                .where(
+                        cb.equal(studentJoin.get("id"), studentId),
+                        cb.equal(feedbackSessionJoin.get("id"), feedbackSessionId),
+                        cb.equal(root.get("feedbackSessionLogType"), feedbackSessionLogType)
+                )
+                .orderBy(cb.desc(root.get("timestamp")));
+
+        try {
+            return HibernateUtil.createQuery(cr).setMaxResults(1).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
      * Creates feedback session logs.
      */
     public FeedbackSessionLog createFeedbackSessionLog(FeedbackSessionLog log) {
@@ -82,5 +118,44 @@ public final class FeedbackSessionLogsDb {
         HibernateUtil.persist(log);
 
         return log;
+    }
+
+    /**
+     * Creates a feedback session log if there is no duplicate in the same deduplication window.
+     *
+     * @return true if the log is inserted, false if it is filtered as a duplicate.
+     */
+    public boolean createFeedbackSessionLogIfNotDuplicate(FeedbackSessionLog log) {
+        assert log != null;
+
+        String lockKey = String.format("%s:%s:%s:%d", log.getStudent().getId(), log.getFeedbackSession().getId(),
+                log.getFeedbackSessionLogType().name(), log.getDedupWindowBucket());
+
+        NativeQuery<Object> lockQuery = HibernateUtil.createNativeQuery("SELECT pg_advisory_xact_lock(hashtext(:lockKey))");
+        lockQuery.setParameter("lockKey", lockKey).getSingleResult();
+
+        FeedbackSessionLog latestLog = getLatestFeedbackSessionLog(log.getStudent().getId(),
+                log.getFeedbackSession().getId(), log.getFeedbackSessionLogType());
+        if (latestLog == null || log.getTimestamp().toEpochMilli() - latestLog.getTimestamp().toEpochMilli()
+                > Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis()) {
+            createFeedbackSessionLog(log);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Deletes feedback session logs older than the given cutoff time.
+     */
+    public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
+        assert cutoffTime != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaDelete<FeedbackSessionLog> cd = cb.createCriteriaDelete(FeedbackSessionLog.class);
+        Root<FeedbackSessionLog> root = cd.from(FeedbackSessionLog.class);
+        cd.where(cb.lessThan(root.get("timestamp"), cutoffTime));
+
+        return HibernateUtil.createMutationQuery(cd).executeUpdate();
     }
 }

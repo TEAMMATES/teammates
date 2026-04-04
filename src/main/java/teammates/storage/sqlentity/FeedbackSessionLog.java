@@ -21,6 +21,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.util.Const;
 
 /**
  * Represents a feedback session log.
@@ -50,6 +51,9 @@ public class FeedbackSessionLog extends BaseEntity {
     @Column(nullable = false)
     private Instant timestamp;
 
+    @Column(nullable = false)
+    private long dedupWindowBucket;
+
     protected FeedbackSessionLog() {
         // required by Hibernate
     }
@@ -61,6 +65,14 @@ public class FeedbackSessionLog extends BaseEntity {
         this.feedbackSession = feedbackSession;
         this.feedbackSessionLogType = feedbackSessionLogType;
         this.timestamp = timestamp;
+        this.dedupWindowBucket = getWindowBucket(timestamp);
+    }
+
+    /**
+     * Returns the deduplication bucket index for this timestamp.
+     */
+    public static long getWindowBucket(Instant timestamp) {
+        return Math.floorDiv(timestamp.toEpochMilli(), Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis());
     }
 
     public UUID getId() {
@@ -103,10 +115,19 @@ public class FeedbackSessionLog extends BaseEntity {
         this.timestamp = timestamp;
     }
 
+    public long getDedupWindowBucket() {
+        return dedupWindowBucket;
+    }
+
+    public void setDedupWindowBucket(long dedupWindowBucket) {
+        this.dedupWindowBucket = dedupWindowBucket;
+    }
+
     @Override
     public String toString() {
         return "FeedbackSessionLog [id=" + id + ", student=" + student + ", feedbackSession=" + feedbackSession
-                + ", feedbackSessionLogType=" + feedbackSessionLogType.getLabel() + ", timestamp=" + timestamp + "]";
+                + ", feedbackSessionLogType=" + feedbackSessionLogType.getLabel() + ", timestamp=" + timestamp
+                + ", dedupWindowBucket=" + dedupWindowBucket + "]";
     }
 
     @Override

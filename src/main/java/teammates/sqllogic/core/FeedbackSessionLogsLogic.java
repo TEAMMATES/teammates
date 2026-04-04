@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.hibernate.ObjectNotFoundException;
 
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Logger;
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
 import teammates.storage.sqlentity.FeedbackSessionLog;
@@ -60,6 +61,33 @@ public final class FeedbackSessionLogsLogic {
         } catch (ObjectNotFoundException e) {
             log.severe(String.format(ERROR_FAILED_TO_CREATE_LOG), e);
         }
+    }
+
+    /**
+     * Creates feedback session log if there is no duplicate in the deduplication window.
+     */
+    public boolean createFeedbackSessionLogIfNotDuplicate(FeedbackSessionLog fsLog) {
+        try {
+            return fslDb.createFeedbackSessionLogIfNotDuplicate(fsLog);
+        } catch (ObjectNotFoundException e) {
+            log.severe(String.format(ERROR_FAILED_TO_CREATE_LOG), e);
+            return false;
+        }
+    }
+
+    /**
+     * Deletes feedback session logs older than the given cutoff time.
+     */
+    public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
+        return fslDb.deleteFeedbackSessionLogsOlderThan(cutoffTime);
+    }
+
+    /**
+     * Gets the latest feedback session log for the given student, feedback session, and log type.
+     */
+    public FeedbackSessionLog getLatestFeedbackSessionLog(UUID studentId, UUID feedbackSessionId,
+            FeedbackSessionLogType feedbackSessionLogType) {
+        return fslDb.getLatestFeedbackSessionLog(studentId, feedbackSessionId, feedbackSessionLogType);
     }
 
     /**
