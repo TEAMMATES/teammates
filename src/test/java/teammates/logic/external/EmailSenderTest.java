@@ -1,8 +1,7 @@
-package teammates.logic.api;
+package teammates.logic.external;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
 
 import com.mailjet.client.MailjetRequest;
@@ -11,9 +10,7 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
 import teammates.common.util.EmailWrapper;
-import teammates.logic.external.MailgunService;
-import teammates.logic.external.MailjetService;
-import teammates.logic.external.SendgridService;
+import teammates.common.util.HtmlHelper;
 import teammates.test.BaseTestCase;
 
 /**
@@ -55,7 +52,7 @@ public class EmailSenderTest extends BaseTestCase {
         assertEquals(wrapper.getReplyTo(), email.getReplyto().getEmail());
         assertEquals(wrapper.getSubject(), email.getSubject());
         assertEquals("text/plain", email.getContent().get(0).getType());
-        assertEquals(Jsoup.parse(wrapper.getContent()).text(), email.getContent().get(0).getValue());
+        assertEquals(HtmlHelper.htmlToPlainText(wrapper.getContent()), email.getContent().get(0).getValue());
         assertEquals("text/html", email.getContent().get(1).getType());
         assertEquals(wrapper.getContent(), email.getContent().get(1).getValue());
     }
@@ -91,6 +88,7 @@ public class EmailSenderTest extends BaseTestCase {
                      ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
         assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));
         assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
+        assertEquals(HtmlHelper.htmlToPlainText(wrapper.getContent()), email.get(Email.TEXTPART));
     }
 
 }
