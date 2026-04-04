@@ -1,0 +1,58 @@
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.options.Option
+
+abstract class SeedDatabaseTask extends JavaExec {
+    @Internal boolean reset, noSeed
+    @Internal String seedFile
+
+    @Option(option = 'reset', description = 'Truncate all tables before seeding')
+    void setReset(boolean v)    { reset = v }
+    @Option(option = 'noSeed', description = 'Truncate only, skip seeding (requires --reset)')
+    void setNoSeed(boolean v)   { noSeed = v }
+    @Option(option = 'seedFile', description = 'Path to custom JSON databundle seed file')
+    void setSeedFile(String v)  { seedFile = v }
+
+    @Override
+    void exec() {
+        if (noSeed && seedFile != null) {
+            throw new IllegalArgumentException('--noSeed and --seedFile are mutually exclusive')
+        }
+        if (noSeed && !reset) {
+            throw new IllegalArgumentException('--noSeed requires --reset')
+        }
+
+        if (reset)    args '--reset'
+        if (noSeed)   args '--noSeed'
+        if (seedFile) args '--seedFile', seedFile
+        super.exec()
+    }
+}
+
+abstract class DumpDatabaseTask extends JavaExec {
+    @Internal String dumpFile
+
+    @Option(option = 'dumpFile', description = 'Output path for the JSON dump file')
+    void setDumpFile(String v) { dumpFile = v }
+
+    @Override
+    void exec() {
+        if (dumpFile) args '--dumpFile', dumpFile
+        super.exec()
+    }
+}
+
+task seedDatabase(type: SeedDatabaseTask) {
+    description = 'Seed the development database with mock data'
+    group = 'Development'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'teammates.client.scripts.seeddb.SeedDatabase'
+    jvmArgs '-Djava.util.logging.SimpleFormatter.format=%4$s: %5$s%n%6$s'
+}
+
+task dumpDatabase(type: DumpDatabaseTask) {
+    description = 'Dump the current database state to a JSON databundle file'
+    group = 'Development'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'teammates.client.scripts.seeddb.DumpDatabase'
+    jvmArgs '-Djava.util.logging.SimpleFormatter.format=%4$s: %5$s%n%6$s'
+}
