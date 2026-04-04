@@ -551,6 +551,6 @@ describe('StudentListComponent', () => {
     ];
 
     expect(component.rowsData[0][2].displayValue)
-        .toBe('<span class="highlighted-text">Te</span>ster');
+        .toBe('<span class="highlighted-text">Te</span>s<span class="highlighted-text">te</span>r');
   });
 });
