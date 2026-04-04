@@ -2,13 +2,11 @@
   "accounts": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "idOfInstructor1",
       "name": "Instructor 1",
       "email": "instr1@course1.tmt"
     },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "idOfStudent1",
       "name": "student 1",
       "email": "student1@gmail.tmt"
     }

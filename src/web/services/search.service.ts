@@ -145,7 +145,9 @@ export class SearchService {
       homePageLink: '',
       profilePageLink: '',
       courseJoinLink: '',
-      googleId: '',
+      accountId: '',
+      loginIdentifier: '',
+      loginProvider: '',
       showLinks: false,
     };
     const {
@@ -154,30 +156,43 @@ export class SearchService {
       comments = '',
       teamName: team,
       sectionName: section,
-      googleId = '',
+      accountId = '',
       institute = '',
+      loginIdentifier = '',
+      loginProvider = '',
     }: Student = student;
-    studentResult = { ...studentResult, email, name, comments, team, section, googleId, institute };
+    studentResult = {
+      ...studentResult,
+      email,
+      name,
+      comments,
+      team,
+      section,
+      accountId,
+      institute,
+      loginIdentifier,
+      loginProvider,
+    };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
 
-    let masqueradeGoogleId: string = '';
+    let masqueradeAccountId: string = '';
     for (const instructor of instructors.instructors) {
-      if (instructor.googleId
+      if (instructor.accountId
           && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
-        masqueradeGoogleId = instructor.googleId;
+        masqueradeAccountId = instructor.accountId;
         break;
       }
     }
     // no instructor with co-owner privileges
     // there is usually at least one instructor with "modify instructor" permission
-    if (masqueradeGoogleId === '') {
+    if (masqueradeAccountId === '') {
       for (const instructor of instructors.instructors) {
         const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
-        if (instructor.googleId
+        if (instructor.accountId
             && (instructorPrivilege && instructorPrivilege.privileges.courseLevel.canModifyInstructor)) {
-          masqueradeGoogleId = instructor.googleId;
+          masqueradeAccountId = instructor.accountId;
           break;
         }
       }
@@ -191,10 +206,10 @@ export class SearchService {
     // Generate links for students
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLink(student, 'student');
     studentResult.homePageLink = this.linkService
-      .generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
-    studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeGoogleId);
+      .generateHomePageLink(accountId, this.linkService.STUDENT_HOME_PAGE);
+    studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeAccountId);
     studentResult.manageAccountLink = this.linkService
-      .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
+      .generateManageAccountLink(accountId, this.linkService.ADMIN_ACCOUNTS_PAGE);
 
     return studentResult;
   }
@@ -224,15 +239,17 @@ export class SearchService {
       manageAccountLink: '',
       homePageLink: '',
       courseJoinLink: '',
-      googleId: '',
+      accountId: '',
+      loginIdentifier: '',
+      loginProvider: '',
       showLinks: false,
       awaitingSessions: {},
       openSessions: {},
       notOpenSessions: {},
       publishedSessions: {},
     };
-    const { email, name, googleId = '', institute = '' }: Instructor = instructor;
-    instructorResult = { ...instructorResult, email, name, googleId, institute };
+    const { email, name, accountId = '', institute = '', loginIdentifier = '', loginProvider = '' }: Instructor = instructor;
+    instructorResult = { ...instructorResult, email, name, accountId, institute, loginIdentifier, loginProvider };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     instructorResult = { ...instructorResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
@@ -245,9 +262,9 @@ export class SearchService {
     // Generate links for instructors
     instructorResult.courseJoinLink = this.linkService.generateCourseJoinLink(instructor, 'instructor');
     instructorResult.homePageLink = this.linkService
-      .generateHomePageLink(googleId, this.linkService.INSTRUCTOR_HOME_PAGE);
+      .generateHomePageLink(accountId, this.linkService.INSTRUCTOR_HOME_PAGE);
     instructorResult.manageAccountLink = this.linkService
-      .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
+      .generateManageAccountLink(accountId, this.linkService.ADMIN_ACCOUNTS_PAGE);
 
     return instructorResult;
   }
@@ -490,7 +507,9 @@ export interface AccountRequestSearchResult {
 export interface InstructorAccountSearchResult {
   name: string;
   email: string;
-  googleId: string;
+  accountId: string;
+  loginIdentifier: string;
+  loginProvider: string;
   courseId: string;
   courseName: string;
   isCourseDeleted: boolean;

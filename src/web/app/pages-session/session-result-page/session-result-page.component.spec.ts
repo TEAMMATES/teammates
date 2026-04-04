@@ -54,6 +54,7 @@ describe('SessionResultPageComponent', () => {
     masquerade: false,
     user: {
       id: 'user-id',
+      loginIdentifier: 'user@example.com',
       isAdmin: false,
       isInstructor: true,
       isStudent: false,

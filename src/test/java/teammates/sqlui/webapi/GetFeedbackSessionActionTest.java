@@ -2,9 +2,11 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.when;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -48,12 +50,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         feedbackSession1 = generateSession1InCourse(course1);
 
         when(mockLogic.getFeedbackSession(feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession1);
-        when(mockLogic.getStudentByGoogleId(course1.getId(), student1.getAccount().getGoogleId())).thenReturn(student1);
+        when(mockLogic.getStudentByAccountId(course1.getId(), student1.getAccount().getId().toString()))
+                .thenReturn(student1);
     }
 
     @Test
     protected void textExecute_studentSubmissionNoExtensionAndBeforeEndTime_statusOpen() {
-        loginAsStudent(student1.getAccount().getGoogleId());
+        loginAsStudent(student1.getAccount().getId().toString());
 
         String courseId = feedbackSession1.getCourse().getId();
         String feedbackSessionName = feedbackSession1.getName();
@@ -124,7 +127,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void textExecute_studentSubmissionNoExtensionAfterEndTimeWithinGracePeriod_statusGracePeriod() {
 
-        loginAsStudent(student1.getAccount().getGoogleId());
+        loginAsStudent(student1.getAccount().getId().toString());
 
         String courseId = feedbackSession1.getCourse().getId();
         String feedbackSessionName = feedbackSession1.getName();
@@ -166,7 +169,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void textExecute_studentSubmissionNoExtensionAfterEndTimeBeyondGracePeriod_statusClosed() {
 
-        loginAsStudent(student1.getAccount().getGoogleId());
+        loginAsStudent(student1.getAccount().getId().toString());
 
         String courseId = feedbackSession1.getCourse().getId();
         String feedbackSessionName = feedbackSession1.getName();
@@ -208,7 +211,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void textExecute_studentSubmissionWithExtensionBeforeEndTime_statusOpen() {
 
-        loginAsStudent(student1.getAccount().getGoogleId());
+        loginAsStudent(student1.getAccount().getId().toString());
 
         String courseId = feedbackSession1.getCourse().getId();
         String feedbackSessionName = feedbackSession1.getName();
@@ -254,7 +257,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void textExecute_studentSubmissionWithExtensionAfterEndTimeBeforeExtendedDeadline_statusOpen() {
 
-        loginAsStudent(student1.getAccount().getGoogleId());
+        loginAsStudent(student1.getAccount().getId().toString());
 
         String courseId = feedbackSession1.getCourse().getId();
         String feedbackSessionName = feedbackSession1.getName();
@@ -300,7 +303,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void textExecute_studentSubmissionWithExtensionAfterExtendedDeadlineWithinGracePeriod_statusGracePeriod() {
 
-        loginAsStudent(student1.getAccount().getGoogleId());
+        loginAsStudent(student1.getAccount().getId().toString());
 
         String courseId = feedbackSession1.getCourse().getId();
         String feedbackSessionName = feedbackSession1.getName();
@@ -346,7 +349,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Test
     protected void textExecute_studentSubmissionWithExtensionAfterExtendedDeadlineBeyondGracePeriod_statusClosed() {
 
-        loginAsStudent(student1.getAccount().getGoogleId());
+        loginAsStudent(student1.getAccount().getId().toString());
 
         String courseId = feedbackSession1.getCourse().getId();
         String feedbackSessionName = feedbackSession1.getName();
@@ -400,9 +403,10 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     private Student generateStudent1InCourse(Course courseStudentIsIn) {
         String email = "student1@gmail.com";
         String name = "student-1";
-        String googleId = "student-1";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
-        s.setAccount(new Account(googleId, name, email));
+        Account acc = new Account(name, email);
+        acc.setId(UUID.nameUUIDFromBytes("student-1".getBytes(StandardCharsets.UTF_8)));
+        s.setAccount(acc);
         return s;
     }
 

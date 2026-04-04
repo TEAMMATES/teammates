@@ -111,8 +111,8 @@ public class InstructorCourseEditPageSql extends AppPage {
 
     public void verifyInstructorDetails(Instructor instructor) {
         int instrNum = getIntrNum(instructor.getEmail());
-        if (instructor.getGoogleId() != null) {
-            assertEquals(instructor.getGoogleId(), getInstructorGoogleId(instrNum));
+        if (instructor.getAccountId() != null) {
+            assertEquals(instructor.getAccountId(), getInstructorAccountId(instrNum));
         }
         assertEquals(instructor.getName(), getInstructorName(instrNum));
         assertEquals(instructor.getEmail(), getInstructorEmail(instrNum));
@@ -465,8 +465,8 @@ public class InstructorCourseEditPageSql extends AppPage {
         return browser.driver.findElement(By.id("displayed-name-instructor-" + instrNum));
     }
 
-    public String getInstructorGoogleId(int instrNum) {
-        return browser.driver.findElement(By.id("google-id-instructor-" + instrNum)).getAttribute("value");
+    public String getInstructorAccountId(int instrNum) {
+        return browser.driver.findElement(By.id("account-id-instructor-" + instrNum)).getAttribute("value");
     }
 
     public String getInstructorName(int instrNum) {

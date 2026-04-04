@@ -27,7 +27,7 @@ import teammates.ui.webapi.JsonResult;
  */
 public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
-    String googleId = "user-googleId";
+    String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
     @Override
@@ -52,7 +52,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
     @Test (enabled = false)
     void testExecute_courseDoesNotExist_success() throws InvalidParametersException, EntityAlreadyExistsException {
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt", false, "", null, null);
 
@@ -60,7 +60,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         expectedCourse.setCreatedAt(Instant.parse("2022-01-01T00:00:00Z"));
 
         when(mockLogic.createCourse(course)).thenReturn(expectedCourse);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), accountId)).thenReturn(instructor);
         mockHibernateUtil.when(HibernateUtil::flushSession).thenAnswer(Answers.RETURNS_DEFAULTS);
 
         CourseCreateRequest request = new CourseCreateRequest();
@@ -125,8 +125,8 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
     @Test (enabled = false)
     void testSpecificAccessControl_asInstructorAndCanCreateCourse_canAccess() {
         String institute = "institute";
-        loginAsInstructor(googleId);
-        when(mockLogic.canInstructorCreateCourse(googleId, institute)).thenReturn(true);
+        loginAsInstructor(accountId);
+        when(mockLogic.canInstructorCreateCourse(accountId, institute)).thenReturn(true);
 
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute,
@@ -138,8 +138,8 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
     @Test (enabled = false)
     void testSpecificAccessControl_asInstructorAndCannotCreateCourse_cannotAccess() {
         String institute = "institute";
-        loginAsInstructor(googleId);
-        when(mockLogic.canInstructorCreateCourse(googleId, institute)).thenReturn(false);
+        loginAsInstructor(accountId);
+        when(mockLogic.canInstructorCreateCourse(accountId, institute)).thenReturn(false);
 
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute,
@@ -153,7 +153,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, "institute",
         };
-        loginAsStudent(googleId);
+        loginAsStudent(accountId);
         verifyCannotAccess(params);
 
         logoutUser();

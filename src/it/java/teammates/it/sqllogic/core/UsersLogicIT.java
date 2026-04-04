@@ -46,7 +46,7 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testResetInstructorGoogleId()
+    public void testResetInstructorAccountId()
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Instructor instructor = getTypicalInstructor();
         instructor.setCourse(course);
@@ -54,20 +54,20 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         String email = instructor.getEmail();
         String courseId = instructor.getCourseId();
-        String googleId = instructor.getGoogleId();
+        String accountId = instructor.getAccountId();
 
         ______TS("success: reset instructor that does not exist");
         assertThrows(EntityDoesNotExistException.class,
-                () -> usersLogic.resetInstructorGoogleId(email, courseId, googleId));
+                () -> usersLogic.resetInstructorAccountId(email, courseId, accountId));
 
         ______TS("success: reset instructor that exists");
         usersLogic.createInstructor(instructor);
-        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
+        usersLogic.resetInstructorAccountId(email, courseId, accountId);
 
         assertNull(instructor.getAccount());
         assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
 
-        ______TS("found at least one other user with same googleId, should not delete account");
+        ______TS("found at least one other user with same accountId, should not delete account");
         Account anotherAccount = getTypicalAccount();
         accountsLogic.createAccount(anotherAccount);
 
@@ -79,14 +79,14 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         anotherUser.setAccount(anotherAccount);
 
         usersLogic.createStudent(anotherUser);
-        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
+        usersLogic.resetInstructorAccountId(email, courseId, accountId);
 
         assertNull(instructor.getAccount());
-        assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
+        assertEquals(anotherAccount, accountsLogic.getAccountById(accountId));
     }
 
     @Test
-    public void testResetStudentGoogleId()
+    public void testResetStudentAccountId()
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Student student = getTypicalStudent();
         student.setCourse(course);
@@ -94,20 +94,20 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         String email = student.getEmail();
         String courseId = student.getCourseId();
-        String googleId = student.getGoogleId();
+        String accountId = student.getAccountId();
 
         ______TS("success: reset student that does not exist");
         assertThrows(EntityDoesNotExistException.class,
-                () -> usersLogic.resetStudentGoogleId(email, courseId, googleId));
+                () -> usersLogic.resetStudentAccountId(email, courseId, accountId));
 
         ______TS("success: reset student that exists");
         usersLogic.createStudent(student);
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+        usersLogic.resetStudentAccountId(email, courseId, accountId);
 
         assertNull(student.getAccount());
         assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
 
-        ______TS("found at least one other user with same googleId, should not delete account");
+        ______TS("found at least one other user with same accountId, should not delete account");
         Account anotherAccount = getTypicalAccount();
         accountsLogic.createAccount(anotherAccount);
 
@@ -119,10 +119,10 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         anotherUser.setAccount(anotherAccount);
 
         usersLogic.createInstructor(anotherUser);
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+        usersLogic.resetStudentAccountId(email, courseId, accountId);
 
         assertNull(student.getAccount());
-        assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
+        assertEquals(anotherAccount, accountsLogic.getAccountById(accountId));
     }
 
     @Test

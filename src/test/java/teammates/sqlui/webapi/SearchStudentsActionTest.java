@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.JoinState;
@@ -87,13 +88,17 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
             assertEquals(student.getSectionName(), studentData.getSectionName());
 
             if (isAdmin) {
-                assertEquals(student.getGoogleId(), studentData.getGoogleId());
+                assertEquals(student.getAccountId(), studentData.getAccountId());
                 assertEquals(student.getRegKey(), studentData.getKey());
                 assertEquals(student.getCourse().getInstitute(), studentData.getInstitute());
+                assertEquals(student.getEmail(), studentData.getLoginIdentifier());
+                assertEquals(Const.LoginProviders.GOOGLE, studentData.getLoginProvider());
             } else {
-                assertNull(studentData.getGoogleId());
+                assertNull(studentData.getAccountId());
                 assertNull(studentData.getKey());
                 assertNull(studentData.getInstitute());
+                assertNull(studentData.getLoginIdentifier());
+                assertNull(studentData.getLoginProvider());
             }
         }
     }
@@ -103,7 +108,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsInstructor(instructorId);
         List<Instructor> instructors = setupInstructors();
 
-        when(mockLogic.getInstructorsForGoogleId(instructorId)).thenReturn(instructors);
+        when(mockLogic.getInstructorsForAccountId(instructorId)).thenReturn(instructors);
         when(mockLogic.searchStudents(searchKey, instructors)).thenReturn(students);
 
         String[] params = {
@@ -114,7 +119,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorsForGoogleId(instructorId);
+        verify(mockLogic, times(1)).getInstructorsForAccountId(instructorId);
         verify(mockLogic, times(1)).searchStudents(searchKey, instructors);
         verify(mockLogic, never()).searchStudentsInWholeSystem(any());
         verify(mockLogic, never()).getCourseInstitute(any());
@@ -128,7 +133,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsInstructor(instructorId);
         List<Instructor> instructors = setupInstructors();
 
-        when(mockLogic.getInstructorsForGoogleId(instructorId)).thenReturn(instructors);
+        when(mockLogic.getInstructorsForAccountId(instructorId)).thenReturn(instructors);
         when(mockLogic.searchStudents(searchKey, instructors)).thenReturn(List.of());
 
         String[] params = {
@@ -139,7 +144,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorsForGoogleId(instructorId);
+        verify(mockLogic, times(1)).getInstructorsForAccountId(instructorId);
         verify(mockLogic, times(1)).searchStudents(searchKey, instructors);
         verify(mockLogic, never()).searchStudentsInWholeSystem(any());
         verify(mockLogic, never()).getCourseInstitute(any());
@@ -155,6 +160,11 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         when(mockLogic.searchStudentsInWholeSystem(searchKey)).thenReturn(students);
         for (Student student : students) {
             when(mockLogic.getCourseInstitute(student.getCourseId())).thenReturn(student.getCourse().getInstitute());
+            when(mockLogic.getFirstIdentityForAccount(student.getAccountId())).thenReturn(new AccountIdentity(
+                    "https://securetoken.google.com/project",
+                    "subject-" + student.getAccountId(),
+                    student.getEmail(),
+                    Const.LoginProviders.GOOGLE));
         }
 
         String[] params = {
@@ -165,11 +175,14 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, never()).getInstructorsForGoogleId(any());
+        verify(mockLogic, never()).getInstructorsForAccountId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
         verify(mockLogic, times(students.size())).getCourseInstitute(argThat(courseId ->
                 students.stream().map(Student::getCourseId).anyMatch(id -> id.equals(courseId))
+        ));
+        verify(mockLogic, times(students.size())).getFirstIdentityForAccount(argThat(accountId ->
+                students.stream().map(Student::getAccountId).anyMatch(id -> id.equals(accountId))
         ));
         verifyNoMoreInteractions(mockLogic);
 
@@ -190,7 +203,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, never()).getInstructorsForGoogleId(any());
+        verify(mockLogic, never()).getInstructorsForAccountId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
         verify(mockLogic, never()).getCourseInstitute(any());
@@ -238,7 +251,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action, 500).getOutput();
 
-        verify(mockLogic, never()).getInstructorsForGoogleId(any());
+        verify(mockLogic, never()).getInstructorsForAccountId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
         verify(mockLogic, never()).getCourseInstitute(any());

@@ -22,7 +22,7 @@ import com.google.common.io.BaseEncoding;
 /**
  * Provides an access to real Gmail inbox used for testing.
  *
- * <p>Authentication via a real username (Google ID) and password is required.
+ * <p>Authentication via a real username and password is required.
  */
 public final class EmailAccount {
 

@@ -2,7 +2,6 @@
   "accounts": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.ASess.instr1",
       "name": "Instructor1 of Course1",
       "email": "asess.instructor1@gmail.tmt",
       "readNotifications": {}

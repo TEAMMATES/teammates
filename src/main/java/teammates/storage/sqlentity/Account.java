@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,7 +21,8 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
 /**
- * Represents a unique account in the system.
+ * Represents a unique account in the system (profile data). External login identities
+ * are stored in {@link AccountIdentity}.
  */
 @Entity
 @Table(name = "Accounts")
@@ -30,14 +30,15 @@ public class Account extends BaseEntity {
     @Id
     private UUID id;
 
-    @NaturalId
-    private String googleId;
-
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
     private String email;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<AccountIdentity> identities = new ArrayList<>();
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -50,9 +51,8 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(String googleId, String name, String email) {
+    public Account(String name, String email) {
         this.setId(UUID.randomUUID());
-        this.setGoogleId(googleId);
         this.setName(name);
         this.setEmail(email);
     }
@@ -64,20 +64,27 @@ public class Account extends BaseEntity {
         readNotifications.add(readNotification);
     }
 
+    /**
+     * Associates an identity with this account (typically before persisting the account).
+     */
+    public void addIdentity(AccountIdentity identity) {
+        identities.add(identity);
+        identity.setAccount(this);
+    }
+
     public UUID getId() {
         return id;
     }
 
+    /**
+     * Returns the internal account id as a string (same value as used in sessions and APIs).
+     */
+    public String getAccountId() {
+        return getId().toString();
+    }
+
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getGoogleId() {
-        return googleId;
-    }
-
-    public void setGoogleId(String googleId) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
     }
 
     public String getName() {
@@ -94,6 +101,21 @@ public class Account extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = SanitizationHelper.sanitizeEmail(email);
+    }
+
+    public List<AccountIdentity> getIdentities() {
+        return identities;
+    }
+
+    /**
+     * Replaces the linked identities while keeping both sides of the relationship in sync.
+     */
+    public void setIdentities(List<AccountIdentity> identities) {
+        this.identities = new ArrayList<>();
+        if (identities == null) {
+            return;
+        }
+        identities.forEach(this::addIdentity);
     }
 
     public List<ReadNotification> getReadNotifications() {
@@ -116,7 +138,6 @@ public class Account extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
@@ -144,7 +165,7 @@ public class Account extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Account [id=" + id + ", googleId=" + googleId + ", name=" + name + ", email=" + email
+        return "Account [id=" + id + ", name=" + name + ", email=" + email
                 + ", readNotifications=" + readNotifications + ", createdAt=" + getCreatedAt()
                 + ",updatedAt=" + updatedAt + "]";
     }

@@ -36,7 +36,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
                 .withStudentEmail(student.getEmail());
         InstructorCourseStudentDetailsEditPageSql editPage =
                 loginToPage(editPageUrl, InstructorCourseStudentDetailsEditPageSql.class,
-                        testData.instructors.get("ICSDetEdit.instr").getGoogleId());
+                        testData.instructors.get("ICSDetEdit.instr").getAccountId());
 
         ______TS("verify loaded data");
         editPage.verifyStudentDetails(student);
@@ -60,7 +60,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         ______TS("edit email and resend links");
         String newEmail = TestProperties.TEST_EMAIL;
         student.setEmail(newEmail);
-        student.setGoogleId(null);
+        student.setAccount(null);
         editPage.editStudentEmailAndResendLinks(newEmail);
 
         editPage.verifyStatusMessage("Student has been updated and email sent");

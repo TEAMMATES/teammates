@@ -22,7 +22,7 @@ public class UpdateInstructorPrivilegeAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(
                 instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }

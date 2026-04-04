@@ -96,7 +96,10 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               Name
             </th>
             <th>
-              Google ID
+              Login Identifier
+            </th>
+            <th>
+              Provider
             </th>
             <th>
               Institute
@@ -139,12 +142,16 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
             </td>
             <td>
               <a
+                aria-label="instructor-login@tester.com"
                 href="home-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                ins-google-id
+                instructor-login@tester.com
               </a>
+            </td>
+            <td>
+              google
             </td>
             <td>
               institute
@@ -168,7 +175,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Google ID 
+                 Reset account 
               </a>
               <br />
               <button
@@ -227,7 +234,10 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               Name
             </th>
             <th>
-              Google ID
+              Login Identifier
+            </th>
+            <th>
+              Provider
             </th>
             <th>
               Institute
@@ -268,6 +278,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
             </td>
             <td>
               <a
+                aria-label="student"
                 href="profile-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -277,12 +288,16 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
             </td>
             <td>
               <a
+                aria-label="student-login@gmail.tmt"
                 href="home-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                student-google-id
+                student-login@gmail.tmt
               </a>
+            </td>
+            <td>
+              google
             </td>
             <td>
               institute
@@ -309,7 +324,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Google ID 
+                 Reset account 
               </a>
               <br />
               <button
@@ -322,7 +337,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           </tr>
           <tr>
             <td
-              colspan="6"
+              colspan="7"
             >
             </td>
           </tr>
@@ -484,7 +499,10 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
               Name
             </th>
             <th>
-              Google ID
+              Login Identifier
+            </th>
+            <th>
+              Provider
             </th>
             <th>
               Institute
@@ -524,12 +542,16 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
             </td>
             <td>
               <a
+                aria-label="tester-login@tester.com"
                 href="home-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                instructor-google-id
+                tester-login@tester.com
               </a>
+            </td>
+            <td>
+              google
             </td>
             <td>
               institute
@@ -553,7 +575,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Google ID 
+                 Reset account 
               </a>
               <br />
               <button
@@ -566,7 +588,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           </tr>
           <tr>
             <td
-              colspan="5"
+              colspan="6"
             >
               <ul
                 class="list-group"
@@ -576,6 +598,17 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 >
                   <strong>
                     Email
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-secondary"
+                >
+                  <strong>
+                    Account ID
                   </strong>
                   <input
                     class="form-control"
@@ -743,7 +776,10 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               Name
             </th>
             <th>
-              Google ID
+              Login Identifier
+            </th>
+            <th>
+              Provider
             </th>
             <th>
               Institute
@@ -781,6 +817,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
             </td>
             <td>
               <a
+                aria-label="Alice Betsy"
                 href="profile-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -790,12 +827,16 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
             </td>
             <td>
               <a
+                aria-label="alice-login@gmail.tmt"
                 href="home-page-link"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                student-google-id
+                alice-login@gmail.tmt
               </a>
+            </td>
+            <td>
+              google
             </td>
             <td>
               institute
@@ -822,7 +863,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 <i
                   class="fas fa-sync"
                 />
-                 Reset Google ID 
+                 Reset account 
               </a>
               <br />
               <button
@@ -835,7 +876,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           </tr>
           <tr>
             <td
-              colspan="6"
+              colspan="7"
             >
               <ul
                 class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
@@ -845,6 +886,18 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 >
                   <strong>
                     Email
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-secondary"
+                  style=""
+                >
+                  <strong>
+                    Account ID
                   </strong>
                   <input
                     class="form-control"

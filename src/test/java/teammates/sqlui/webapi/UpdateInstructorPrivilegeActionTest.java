@@ -21,7 +21,7 @@ import teammates.ui.webapi.UpdateInstructorPrivilegeAction;
  */
 public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateInstructorPrivilegeAction> {
 
-    String googleId = "user-googleId";
+    String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     String instructorEmail = "instructoremail@tm.tmt";
     String helperEmail = "helperemail@tm.tmt";
 
@@ -59,9 +59,9 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         helper = new Instructor(course, "name", helperEmail,
                 false, "", null, helperPrivileges);
 
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), accountId)).thenReturn(instructor);
         when(mockLogic.getInstructorForEmail(course.getId(), instructorEmail)).thenReturn(instructor);
         when(mockLogic.getInstructorForEmail(course.getId(), helperEmail)).thenReturn(helper);
     }
@@ -316,9 +316,9 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, instructorPrivileges);
 
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), accountId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -332,9 +332,9 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course-id",
         };
-        when(mockLogic.getInstructorByGoogleId("course-id", googleId)).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId("course-id", accountId)).thenReturn(null);
 
-        loginAsStudent(googleId);
+        loginAsStudent(accountId);
         verifyCannotAccess(params);
 
         logoutUser();

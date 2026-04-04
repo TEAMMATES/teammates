@@ -45,7 +45,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         Student student = typicalBundle.students.get("student1InCourse1");
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         ______TS("Typical Success Case with only course id, logged in as instructor");
         String[] params = new String[] {
@@ -61,13 +61,13 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
 
         StudentData firstStudentInStudents = students.get(0);
 
-        assertNull(firstStudentInStudents.getGoogleId());
+        assertNull(firstStudentInStudents.getAccountId());
         assertNull(firstStudentInStudents.getKey());
         assertEquals(student.getName(), firstStudentInStudents.getName());
         assertEquals(student.getCourseId(), firstStudentInStudents.getCourseId());
 
         logoutUser();
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
 
         ______TS("Typical Success Case with course id and team name, logged in as student");
         params = new String[] {
@@ -86,7 +86,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
 
         StudentData actualOtherTeamMember = students.get(1);
 
-        assertNull(actualOtherTeamMember.getGoogleId());
+        assertNull(actualOtherTeamMember.getAccountId());
         assertNull(actualOtherTeamMember.getKey());
         assertEquals(expectedOtherTeamMember.getName(), actualOtherTeamMember.getName());
         assertEquals(expectedOtherTeamMember.getCourseId(), actualOtherTeamMember.getCourseId());
@@ -104,7 +104,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         verifyCanAccess(params);
 
@@ -115,12 +115,12 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
                 Const.ParamsNames.TEAM_NAME, student.getTeamName(),
         };
 
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
 
         verifyCanAccess(params);
 
         ______TS("Unknown login entity");
-        loginAsUnregistered("does-not-exist-id");
+        loginAsUnregistered("00000000-0000-4000-8000-0000000000f1");
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),

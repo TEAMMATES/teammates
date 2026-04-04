@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.Mockito.when;
 import static teammates.ui.webapi.GetAuthInfoAction.createLoginUrl;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.ui.output.AuthInfo;
 import teammates.ui.webapi.GetAuthInfoAction;
 import teammates.ui.webapi.JsonResult;
@@ -70,7 +72,12 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
     @Test
     void testExecute_loggedInAsInstructor() {
-        loginAsInstructor("idOfInstructor1OfCourse1");
+        String instructorAccountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
+        String instructorLoginIdentifier = "instructor@example.com";
+        loginAsInstructor(instructorAccountId);
+        when(mockLogic.getFirstIdentityForAccount(instructorAccountId)).thenReturn(
+                new AccountIdentity("https://securetoken.google.com/project", "subject-instructor",
+                        instructorLoginIdentifier, Const.LoginProviders.GOOGLE));
 
         GetAuthInfoAction a = getAction();
         JsonResult r = getJsonResult(a);
@@ -86,12 +93,15 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertFalse(user.isAdmin);
         assertTrue(user.isInstructor);
         assertFalse(user.isStudent);
-        assertEquals("idOfInstructor1OfCourse1", user.id);
+        assertEquals(instructorAccountId, user.id);
+        assertEquals(instructorLoginIdentifier, user.loginIdentifier);
     }
 
     @Test
     void testExecute_loggedInAsUnregisteredUser() {
-        loginAsUnregistered("unregisteredId");
+        String unregisteredAccountId = TEST_UNREGISTERED_ACCOUNT_ID.toString();
+        loginAsUnregistered(unregisteredAccountId);
+        when(mockLogic.getFirstIdentityForAccount(unregisteredAccountId)).thenReturn(null);
 
         GetAuthInfoAction a = getAction();
         JsonResult r = getJsonResult(a);
@@ -107,7 +117,8 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertFalse(user.isAdmin);
         assertFalse(user.isInstructor);
         assertFalse(user.isStudent);
-        assertEquals("unregisteredId", user.id);
+        assertEquals(unregisteredAccountId, user.id);
+        assertEquals("", user.loginIdentifier);
     }
 
     @Test
@@ -135,7 +146,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         ______TS("User logged in with non existing csrf token");
 
-        loginAsInstructor("idOfInstructor1OfCourse1");
+        loginAsInstructor(TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString());
 
         a = getAction(emptyParams);
         r = getJsonResult(a);
@@ -144,7 +155,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         ______TS("User logged in with matched CSRF token cookies");
 
-        loginAsInstructor("idOfInstructor1OfCourse1");
+        loginAsInstructor(TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString());
 
         cookieToAdd = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME,
                 StringHelper.encrypt("1234"));

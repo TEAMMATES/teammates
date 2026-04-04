@@ -38,7 +38,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
     private long startTime;
     private long endTime;
 
-    private String googleId = "google-id";
+    private String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     String getActionUri() {
@@ -285,9 +285,9 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, new InstructorPrivileges());
 
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), accountId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -305,9 +305,9 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
                 false, "", null, instructorPrivileges);
 
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), accountId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -321,7 +321,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
-        loginAsStudent(googleId);
+        loginAsStudent(accountId);
         verifyCannotAccess(params);
 
         logoutUser();

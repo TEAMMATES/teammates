@@ -1,11 +1,11 @@
 package teammates.ui.webapi;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountsData;
 
@@ -21,7 +21,13 @@ public class GetAccountsAction extends AdminOnlyAction {
 
         List<Account> accounts = sqlLogic.getAccountsForEmail(email);
         List<AccountData> accountDataList = accounts.stream()
-                .map(AccountData::new).collect(Collectors.toList());
+                .map(account -> {
+                    AccountIdentity identity = sqlLogic.getFirstIdentityForAccount(account.getAccountId());
+                    String loginIdentifier = identity != null ? identity.getLoginIdentifier() : "";
+                    String loginProvider = identity != null ? identity.getProviderName() : "";
+                    return new AccountData(account, loginIdentifier, loginProvider);
+                })
+                .toList();
 
         return new JsonResult(new AccountsData(accountDataList));
     }

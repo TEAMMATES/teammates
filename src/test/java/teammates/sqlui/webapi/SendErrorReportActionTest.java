@@ -13,7 +13,7 @@ import teammates.ui.webapi.SendErrorReportAction;
  * SUT: {@link SendErrorReportAction}.
  */
 public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAction> {
-    private static final String GOOGLE_ID = "user-googleId";
+    private static final String TEST_USER_ID = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     private static final String REQUEST_ID = "REQUESTID";
     private static final String SUBJECT = "Email subject";
     private static final String CONTENT = "Email content";
@@ -52,7 +52,7 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
 
     @Test
     void testExecute_loggedInTypicalCase_success() {
-        loginAsUnregistered(GOOGLE_ID);
+        loginAsUnregistered(TEST_USER_ID);
 
         ErrorReportRequest report = new ErrorReportRequest(REQUEST_ID, SUBJECT,
                 CONTENT);
@@ -61,7 +61,7 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
         MessageOutput output = (MessageOutput) result.getOutput();
 
         String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
-                + "USER: " + GOOGLE_ID + System.lineSeparator()
+                + "USER: " + TEST_USER_ID + System.lineSeparator()
                 + "REQUEST ID: " + REQUEST_ID + System.lineSeparator()
                 + "SUBJECT: " + SUBJECT + System.lineSeparator()
                 + "CONTENT: " + CONTENT;

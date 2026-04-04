@@ -2,13 +2,11 @@
   "accounts": {
     "ICSDetEdit.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.ICSDetEdit.instr",
       "name": "Teammates Test",
       "email": "icsdetedit.instr@gmail.tmt"
     },
     "José Gómez": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.ICSDetEdit.jose.tmms",
       "name": "José Gómez",
       "email": "icsdetedit.jose.tmms@gmail.tmt"
     }

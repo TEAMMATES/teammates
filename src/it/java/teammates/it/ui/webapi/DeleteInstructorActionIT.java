@@ -43,11 +43,11 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
     }
 
     @Test
-    protected void testExecute_typicalCaseByGoogleId_shouldPass() {
+    protected void testExecute_typicalCaseByAccountId_shouldPass() {
         loginAsAdmin();
 
         Instructor instructor = typicalBundle.instructors.get("instructor2OfCourse1");
-        String instructorId = instructor.getGoogleId();
+        String instructorId = instructor.getAccountId();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
@@ -67,7 +67,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
     public void testExecute_deleteInstructorByEmail_shouldPass() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor2OfCourse1.getEmail(),
@@ -87,11 +87,11 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
     }
 
     @Test
-    protected void testExecute_adminDeletesLastInstructorByGoogleId_shouldFail() {
+    protected void testExecute_adminDeletesLastInstructorByAccountId_shouldFail() {
         loginAsAdmin();
 
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse3");
-        String instructorId = instructor.getGoogleId();
+        String instructorId = instructor.getAccountId();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
@@ -105,17 +105,17 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         assertNotNull(logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()));
-        assertNotNull(logic.getInstructorByGoogleId(instructor.getCourseId(), instructor.getGoogleId()));
+        assertNotNull(logic.getInstructorByAccountId(instructor.getCourseId(), instructor.getAccountId()));
     }
 
     @Test
-    protected void testExecute_instructorDeleteOwnRoleByGoogleId_shouldPass() {
+    protected void testExecute_instructorDeleteOwnRoleByAccountId_shouldPass() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        loginAsInstructor(instructor2OfCourse1.getGoogleId());
+        loginAsInstructor(instructor2OfCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor2OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructor2OfCourse1.getAccountId(),
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
@@ -132,15 +132,15 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
     }
 
     @Test
-    protected void testExecute_deleteLastInstructorByGoogleId_shouldFail() {
+    protected void testExecute_deleteLastInstructorByAccountId_shouldFail() {
         Instructor instructorToDelete = typicalBundle.instructors.get("instructor1OfCourse3");
         String courseId = instructorToDelete.getCourseId();
 
-        loginAsInstructor(instructorToDelete.getGoogleId());
+        loginAsInstructor(instructorToDelete.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.getAccountId(),
         };
 
         assertEquals(logic.getInstructorsByCourse(courseId).size(), 1);
@@ -150,11 +150,11 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         assertNotNull(logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail()));
-        assertNotNull(logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
+        assertNotNull(logic.getInstructorByAccountId(instructorToDelete.getCourseId(), instructorToDelete.getAccountId()));
     }
 
     @Test
-    protected void testExecute_deleteLastInstructorInMasqueradeByGoogleId_shouldFail() {
+    protected void testExecute_deleteLastInstructorInMasqueradeByAccountId_shouldFail() {
         Instructor instructorToDelete = typicalBundle.instructors.get("instructor1OfCourse3");
         String courseId = instructorToDelete.getCourseId();
 
@@ -162,28 +162,28 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.getAccountId(),
         };
 
         assertEquals(logic.getInstructorsByCourse(courseId).size(), 1);
 
         InvalidOperationException ioe = verifyInvalidOperation(
-                addUserIdToParams(instructorToDelete.getGoogleId(), submissionParams));
+                addUserIdToParams(instructorToDelete.getAccountId(), submissionParams));
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         assertNotNull(logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail()));
-        assertNotNull(logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
+        assertNotNull(logic.getInstructorByAccountId(instructorToDelete.getCourseId(), instructorToDelete.getAccountId()));
     }
 
     @Test
-    protected void testExecute_deleteInstructorInMasqueradeByGoogleId_shouldPass() {
+    protected void testExecute_deleteInstructorInMasqueradeByAccountId_shouldPass() {
         Instructor instructorToDelete = typicalBundle.instructors.get("instructor2OfCourse1");
         String courseId = instructorToDelete.getCourseId();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.getAccountId(),
         };
 
         loginAsAdmin();
@@ -191,7 +191,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         assertTrue(logic.getInstructorsByCourse(courseId).size() > 1);
 
         DeleteInstructorAction deleteInstructorAction =
-                getAction(addUserIdToParams(instructorToDelete.getGoogleId(), submissionParams));
+                getAction(addUserIdToParams(instructorToDelete.getAccountId(), submissionParams));
         JsonResult response = getJsonResult(deleteInstructorAction);
 
         MessageOutput messageOutput = (MessageOutput) response.getOutput();
@@ -203,7 +203,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
     @Test
     protected void testExecute_notEnoughParameters_shouldFail() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.getGoogleId();
+        String instructorId = instructor1OfCourse1.getAccountId();
 
         String[] onlyInstructorParameter = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
@@ -230,25 +230,26 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
     protected void testExecute_noSuchInstructor_shouldFail() {
         loginAsAdmin();
 
-        attemptToDeleteFakeInstructorByGoogleId();
+        attemptToDeleteFakeInstructorByAccountId();
         attemptToDeleteFakeInstructorByEmail();
 
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getAccountId());
 
-        attemptToDeleteFakeInstructorByGoogleId();
+        attemptToDeleteFakeInstructorByAccountId();
         attemptToDeleteFakeInstructorByEmail();
     }
 
-    private void attemptToDeleteFakeInstructorByGoogleId() {
+    private void attemptToDeleteFakeInstructorByAccountId() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, "fake-googleId",
+                Const.ParamsNames.INSTRUCTOR_ID, "00000000-0000-4000-8000-00000000fa1e",
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        assertNull(logic.getInstructorByGoogleId(instructor1OfCourse1.getCourseId(), "fake-googleId"));
+        assertNull(logic.getInstructorByAccountId(instructor1OfCourse1.getCourseId(),
+                "00000000-0000-4000-8000-00000000fa1e"));
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
@@ -279,7 +280,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         loginAsAdmin();
 
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.getGoogleId();
+        String instructorId = instructor1OfCourse1.getAccountId();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,

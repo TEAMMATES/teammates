@@ -3,7 +3,6 @@ package teammates.it.ui.webapi;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
@@ -20,6 +19,9 @@ import teammates.ui.webapi.JsonResult;
  */
 public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorAction> {
 
+    /** Admin account row; session id must match this for {@code getAccountForId(userInfo.id)} when sending mail. */
+    private Account adminInviter;
+
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
@@ -27,9 +29,8 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         persistDataBundle(typicalBundle);
 
         // Ensure the admin account exists for email sending
-        String adminId = Config.APP_ADMINS.get(0);
-        Account inviter = new Account(adminId, "Admin", "admin@test.tmt");
-        logic.createAccount(inviter);
+        adminInviter = new Account("Admin", "admin@test.tmt");
+        logic.createAccount(adminInviter);
 
         HibernateUtil.flushSession();
     }
@@ -52,7 +53,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
     @Test
     protected void testExecute_typicalCase_shouldPass() throws Exception {
-        loginAsAdmin();
+        loginAsAdmin(adminInviter.getId().toString());
 
         Course course1 = typicalBundle.courses.get("course1");
 
@@ -84,7 +85,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
     @Test
     protected void testExecute_uniqueEmailClash_shouldFail() throws Exception {
-        loginAsAdmin();
+        loginAsAdmin(adminInviter.getId().toString());
 
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 

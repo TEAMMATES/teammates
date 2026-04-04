@@ -195,13 +195,13 @@ public class UpdateFeedbackSessionLogsActionTest
 
     @Test
     public void testSpecificAccessControl_isInstructor_cannotAccess() {
-        loginAsInstructor("user-id");
+        loginAsInstructor(TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString());
         verifyCannotAccess();
     }
 
     @Test
     public void testSpecificAccessControl_isStudent_cannotAccess() {
-        loginAsStudent("user-id");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         verifyCannotAccess();
     }
 

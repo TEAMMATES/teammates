@@ -13,8 +13,8 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
   courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  currInstructorAccountId=""
   currInstructorCoursePrivilege={[Function Object]}
-  currInstructorGoogleId=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
@@ -104,8 +104,8 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
   courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  currInstructorAccountId=""
   currInstructorCoursePrivilege={[Function Object]}
-  currInstructorGoogleId=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
@@ -195,8 +195,8 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
   courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  currInstructorAccountId=""
   currInstructorCoursePrivilege={[Function Object]}
-  currInstructorGoogleId=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
@@ -286,8 +286,8 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
   courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function CourseService]}
+  currInstructorAccountId=""
   currInstructorCoursePrivilege={[Function Object]}
-  currInstructorGoogleId=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
@@ -387,16 +387,16 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
             >
               <label
                 class="col-sm-2 control-label"
-                for="google-id-instructor-1"
+                for="account-id-instructor-1"
               >
-                 Google ID: 
+                 Account ID: 
               </label>
               <div
                 class="col-sm-9"
               >
                 <input
                   class="form-control ng-untouched ng-pristine ng-valid"
-                  id="google-id-instructor-1"
+                  id="account-id-instructor-1"
                   maxlength="254"
                 />
               </div>

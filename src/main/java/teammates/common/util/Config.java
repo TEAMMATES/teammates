@@ -75,19 +75,22 @@ public final class Config {
     /** Value of {@code app.auth.type}. */
     public static final String AUTH_TYPE;
 
-    /** Value of {@code app.oauth2.client.id}. */
-    public static final String OAUTH2_CLIENT_ID;
+    /** Value of {@code app.oauth2.google.client.id}. */
+    public static final String GOOGLE_OAUTH2_CLIENT_ID;
 
-    /** Value of {@code app.oauth2.client.secret}. */
-    public static final String OAUTH2_CLIENT_SECRET;
+    /** Value of {@code app.oauth2.google.client.secret}. */
+    public static final String GOOGLE_OAUTH2_CLIENT_SECRET;
 
     /** Value of {@code app.captcha.secretkey}. */
     public static final String CAPTCHA_SECRET_KEY;
 
-    /** Value of {@code app.admins} (comma-separated in the property file). */
+    /** Value of {@code app.admins}: comma-separated internal account UUID strings (SQL {@code accounts.id}). */
     public static final List<String> APP_ADMINS;
 
-    /** Value of {@code app.maintainers} (comma-separated in the property file). */
+    /**
+     * Value of {@code app.maintainers}: comma-separated internal account UUID strings
+     * (same format as {@link #APP_ADMINS}).
+     */
     public static final List<String> APP_MAINTAINERS;
 
     /** Value of {@code app.crashreport.email}. */
@@ -191,8 +194,8 @@ public final class Config {
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
         ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
-        OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
-        OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
+        GOOGLE_OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.google.client.id");
+        GOOGLE_OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.google.client.secret");
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
         APP_ADMINS = Collections.unmodifiableList(
                 Arrays.asList(getProperty(properties, devProperties, "app.admins", "").split(",")));
@@ -307,7 +310,7 @@ public final class Config {
     }
 
     /**
-     * Returns the list of admin Google IDs from {@code app.admins}.
+     * Returns the list of admin account ids (internal UUID strings) from {@code app.admins}.
      * TODO: refactor all direct accesses to the field to this method call for consistency.
      */
     public static List<String> getAppAdmins() {
@@ -315,7 +318,7 @@ public final class Config {
     }
 
     /**
-     * Returns the list of maintainer Google IDs from {@code app.maintainers}.
+     * Returns the list of maintainer account ids (internal UUID strings) from {@code app.maintainers}.
      * TODO: refactor all direct accesses to the field with this method call for consistency.
      */
     public static List<String> getAppMaintainers() {

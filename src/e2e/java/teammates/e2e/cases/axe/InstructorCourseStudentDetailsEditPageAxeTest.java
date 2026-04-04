@@ -27,7 +27,7 @@ public class InstructorCourseStudentDetailsEditPageAxeTest extends BaseAxeTestCa
                 .withStudentEmail(testData.students.get("ICSDetEdit.jose.tmms").getEmail());
         InstructorCourseStudentDetailsEditPageSql editPage =
                 loginToPage(editPageUrl, InstructorCourseStudentDetailsEditPageSql.class,
-                        testData.instructors.get("ICSDetEdit.instr").getGoogleId());
+                        testData.instructors.get("ICSDetEdit.instr").getAccountId());
 
         Results results = getAxeBuilder().analyze(editPage.getBrowser().getDriver());
         assertViolationFree(results);

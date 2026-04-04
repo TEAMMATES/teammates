@@ -27,7 +27,8 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     public void testAll() {
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE);
-        StudentHomePage homePage = loginToPage(url, StudentHomePage.class, "tm.e2e.SHome.student");
+        String studentAccountId = testData.accounts.get("SHome.student").getAccountId();
+        StudentHomePage homePage = loginToPage(url, StudentHomePage.class, studentAccountId);
 
         ______TS("courses visible to student are shown");
         List<String> courseIds = getAllVisibleCourseIds();
@@ -48,7 +49,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         List<String> courseIds = new ArrayList<>();
 
         for (Student student : testData.students.values()) {
-            if ("tm.e2e.SHome.student".equals(student.getGoogleId())) {
+            if ("tm.e2e.SHome.student".equals(student.getAccountId())) {
                 courseIds.add(student.getCourse().getId());
             }
         }

@@ -24,8 +24,8 @@ component Logic {
 }
 
 component Storage {
-    folder "storage::entity" as StorageEntity
-    folder "storage::api" as StorageApi
+    folder "storage::sqlentity" as StorageEntity
+    folder "storage::sqlapi" as StorageApi
 }
 
 component E2E {

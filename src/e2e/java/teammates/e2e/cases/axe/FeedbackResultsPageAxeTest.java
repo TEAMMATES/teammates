@@ -25,7 +25,7 @@ public class FeedbackResultsPageAxeTest extends BaseAxeTestCase {
                 .withCourseId(testData.courses.get("FRes.CS2104").getId())
                 .withSessionName(testData.feedbackSessions.get("Open Session").getName());
         FeedbackResultsPageSql resultsPage = loginToPage(url, FeedbackResultsPageSql.class,
-                testData.students.get("Alice").getGoogleId());
+                testData.students.get("Alice").getAccountId());
 
         Results results = getAxeBuilder().analyze(resultsPage.getBrowser().getDriver());
         assertViolationFree(results);

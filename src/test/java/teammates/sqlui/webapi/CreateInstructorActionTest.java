@@ -7,6 +7,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.common.datatransfer.InstructorPermissionRole.getEnum;
 
+import java.util.UUID;
+
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -50,7 +52,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         typicalInstructor = getTypicalInstructor();
         typicalCourse = getTypicalCourse();
-        inviterAccount = new Account(typicalInstructor.getGoogleId(), "Inviter Name", "inviter@teammates.tmt");
+        inviterAccount = new Account("Inviter Name", "inviter@teammates.tmt");
+        inviterAccount.setId(UUID.fromString(typicalInstructor.getAccountId()));
     }
 
     @Test
@@ -66,19 +69,19 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 false, null, getEnum(newInstructorRole),
                 new InstructorPrivileges(newInstructorRole));
 
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getGoogleId(),
+        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getAccountId(),
                 newInstructorName, newInstructorEmail, newInstructorRole,
                 null, false);
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenReturn(newInstructor);
-        when(mockLogic.getAccountForGoogleId(typicalInstructor.getGoogleId())).thenReturn(inviterAccount);
+        when(mockLogic.getAccountForId(typicalInstructor.getAccountId())).thenReturn(inviterAccount);
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
         when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, newInstructor, typicalCourse))
                 .thenReturn(mockEmail);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         CreateInstructorAction action = getAction(requestBody, params);
         JsonResult r = getJsonResult(action);
@@ -103,14 +106,14 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         String existingInstructorEmail = "valid@teammates.tmt";
         String existingInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
 
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getGoogleId(),
+        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getAccountId(),
                 existingInstructorName, existingInstructorEmail, existingInstructorRole,
                 null, false);
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenThrow(EntityAlreadyExistsException.class);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         InvalidOperationException ioe = verifyInvalidOperation(requestBody, params);
         assertEquals("An instructor with the same email address already exists in the course.",
@@ -132,14 +135,14 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         String invalidInstructorEmail = "newInvalidInstructor.email.tmt";
         String newInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
 
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getGoogleId(),
+        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getAccountId(),
                 newInstructorName, invalidInstructorEmail, newInstructorRole,
                 null, false);
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenThrow(InvalidParametersException.class);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyHttpRequestBodyFailure(requestBody, params);
 
@@ -162,13 +165,13 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 false, null, getEnum(newInstructorRole),
                 new InstructorPrivileges(newInstructorRole));
 
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getGoogleId(),
+        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getAccountId(),
                 newInstructorName, newInstructorEmail, newInstructorRole,
                 null, false);
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenReturn(newInstructor);
-        when(mockLogic.getAccountForGoogleId(Mockito.anyString())).thenReturn(inviterAccount);
+        when(mockLogic.getAccountForId(Mockito.anyString())).thenReturn(inviterAccount);
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
         when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(

@@ -1,6 +1,7 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -40,6 +41,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @BeforeMethod
     void setUp() {
+        reset(mockLogic);
         stubInstructor = getTypicalInstructor();
         stubInstructorList = new ArrayList<>();
         stubInstructorList.add(stubInstructor);
@@ -52,12 +54,12 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withInstructorAndActiveCourses_success() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        when(mockLogic.getInstructorsForGoogleId(stubInstructor.getGoogleId()))
+        loginAsInstructor(stubInstructor.getAccountId());
+        when(mockLogic.getInstructorsForAccountId(stubInstructor.getAccountId()))
                 .thenReturn(stubInstructorList);
         when(mockLogic.getCoursesForInstructors(argThat(
-                argument -> Objects.equals(argument.get(0).getGoogleId(),
-                        stubInstructor.getGoogleId()))))
+                argument -> Objects.equals(argument.get(0).getAccountId(),
+                        stubInstructor.getAccountId()))))
                 .thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -71,12 +73,12 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withInstructorAndSoftDeletedCourses_success() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        when(mockLogic.getInstructorsForGoogleId(stubInstructor.getGoogleId()))
+        loginAsInstructor(stubInstructor.getAccountId());
+        when(mockLogic.getInstructorsForAccountId(stubInstructor.getAccountId()))
                 .thenReturn(stubInstructorList);
         when(mockLogic.getSoftDeletedCoursesForInstructors(argThat(
-                argument -> Objects.equals(argument.get(0).getGoogleId(),
-                        stubInstructor.getGoogleId()))))
+                argument -> Objects.equals(argument.get(0).getAccountId(),
+                        stubInstructor.getAccountId()))))
                 .thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -90,7 +92,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withInstructorAndInvalidCourseStatus_throwsException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, "invalid",
@@ -107,8 +109,9 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withStudentEntityType_success() {
-        loginAsStudent("student");
-        when(mockLogic.getCoursesForStudentAccount("student")).thenReturn(stubCourseList);
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
+        when(mockLogic.getCoursesForStudentAccount(TYPICAL_STUDENT_ACCOUNT_ID.toString()))
+                .thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
@@ -120,7 +123,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withInvalidEntityType_throwsException() {
-        loginAsStudent("student");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, "invalid",
         };
@@ -183,14 +186,14 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testSpecificAccessControl_loginUserAndEntityMismatch_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
         verifyCannotAccess(params);
 
         logoutUser();
-        loginAsStudent("student");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         String[] params2 = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,

@@ -1,0 +1,40 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="saibh (generated)" id="1775015917395-1">
+        <createTable tableName="account_identities">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="account_identities_pkey"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="issuer" type="VARCHAR(2048)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login_identifier" type="VARCHAR(254)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="provider_name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="saibh (generated)" id="1775015917395-2">
+        <addUniqueConstraint columnNames="issuer, subject" constraintName="Unique issuer and subject" tableName="account_identities"/>
+    </changeSet>
+    <changeSet author="saibh (generated)" id="1775015917395-3">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="account_identities" constraintName="fkeh7pte6hchmrix6qede0wq7lq" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="accounts" validate="true"/>
+    </changeSet>
+    <changeSet author="saibh (generated)" id="1775015917395-4">
+        <dropUniqueConstraint constraintName="uk_22fvt0prnafepjuqjhs2da68e" tableName="accounts"/>
+    </changeSet>
+    <changeSet author="saibh (generated)" id="1775015917395-5">
+        <dropColumn columnName="google_id" tableName="accounts"/>
+    </changeSet>
+</databaseChangeLog>

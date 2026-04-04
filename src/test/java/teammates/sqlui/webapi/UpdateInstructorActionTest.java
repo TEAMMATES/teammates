@@ -7,6 +7,9 @@ import static org.mockito.Mockito.when;
 import static teammates.common.datatransfer.InstructorPermissionRole.getEnum;
 import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -14,6 +17,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -48,7 +52,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_typicalCase_success() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
+        String instructorToUpdateId = typicalInstructorToUpdate.getAccountId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
         loginAsInstructor(instructorToUpdateId);
@@ -85,7 +89,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_invalidEmail_throwsInvalidHttpRequestBodyException() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
+        String instructorToUpdateId = typicalInstructorToUpdate.getAccountId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
         loginAsInstructor(instructorToUpdateId);
@@ -111,7 +115,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_noInstructorDisplayed_throwsInvalidOperationException() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
+        String instructorToUpdateId = typicalInstructorToUpdate.getAccountId();
 
         loginAsInstructor(instructorToUpdateId);
 
@@ -136,7 +140,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_adminToMasqueradeAsInstructor_success() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
+        String instructorToUpdateId = typicalInstructorToUpdate.getAccountId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
         loginAsAdmin();
@@ -183,7 +187,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_nullInstructorEmail_throwsInvalidHttpRequestBodyException() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
+        String instructorToUpdateId = typicalInstructorToUpdate.getAccountId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
         loginAsInstructor(instructorToUpdateId);
@@ -222,7 +226,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
         };
 
-        loginAsUnregistered("unregistered user");
+        loginAsUnregistered(TEST_UNREGISTERED_ACCOUNT_ID.toString());
         verifyCannotAccess(params);
     }
 
@@ -233,7 +237,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
         };
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
         verifyCannotAccess(params);
     }
 
@@ -243,17 +247,19 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 "teammates");
         Instructor instructorFromDifferentCourse = getTypicalInstructor();
         instructorFromDifferentCourse.setCourse(differentCourse);
-        instructorFromDifferentCourse.setGoogleId("different google id");
+        Account accDiff = new Account(instructorFromDifferentCourse.getName(), instructorFromDifferentCourse.getEmail());
+        accDiff.setId(UUID.nameUUIDFromBytes("different account id".getBytes(StandardCharsets.UTF_8)));
+        instructorFromDifferentCourse.setAccount(accDiff);
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
         };
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByGoogleId(differentCourse.getId(), instructorFromDifferentCourse.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(differentCourse.getId(), instructorFromDifferentCourse.getAccountId()))
                 .thenReturn(instructorFromDifferentCourse);
 
-        loginAsInstructor(instructorFromDifferentCourse.getGoogleId());
+        loginAsInstructor(instructorFromDifferentCourse.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -261,7 +267,10 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
     @Test
     void testAccessControl_instructorWithoutCorrectCoursePrivilege_cannotAccess() {
         Instructor instructorWithoutCorrectPrivilege = getTypicalInstructor();
-        instructorWithoutCorrectPrivilege.setGoogleId("no privilege");
+        Account accNp = new Account(instructorWithoutCorrectPrivilege.getName(),
+                instructorWithoutCorrectPrivilege.getEmail());
+        accNp.setId(UUID.nameUUIDFromBytes("no privilege".getBytes(StandardCharsets.UTF_8)));
+        instructorWithoutCorrectPrivilege.setAccount(accNp);
         instructorWithoutCorrectPrivilege.setEmail("helper@teammates.tmt");
         instructorWithoutCorrectPrivilege.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
 
@@ -270,10 +279,10 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         };
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getAccountId()))
                 .thenReturn(instructorWithoutCorrectPrivilege);
 
-        loginAsInstructor(instructorWithoutCorrectPrivilege.getGoogleId());
+        loginAsInstructor(instructorWithoutCorrectPrivilege.getAccountId());
 
         verifyCannotAccess(params);
     }

@@ -8,6 +8,7 @@ import jakarta.servlet.http.Cookie;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.ui.output.AuthInfo;
 
 /**
@@ -53,6 +54,8 @@ public class GetAuthInfoAction extends Action {
                 );
             }
         } else {
+            AccountIdentity identity = sqlLogic.getFirstIdentityForAccount(userInfo.id);
+            userInfo.loginIdentifier = identity != null ? identity.getLoginIdentifier() : "";
             output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE);
         }
 

@@ -31,14 +31,17 @@ abstract class AuthServlet extends HttpServlet {
     private static final MemoryDataStoreFactory DATA_STORE_FACTORY = MemoryDataStoreFactory.getDefaultInstance();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final List<String> SCOPES = Arrays.asList("https://www.googleapis.com/auth/userinfo.email");
+    private static final List<String> SCOPES = Arrays.asList(
+            "openid",
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile");
 
     /**
      * Gets the authorization code flow to be used across all HTTP servlet requests.
      */
     AuthorizationCodeFlow getAuthorizationFlow() throws IOException {
         return new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, Config.OAUTH2_CLIENT_ID, Config.OAUTH2_CLIENT_SECRET, SCOPES)
+                HTTP_TRANSPORT, JSON_FACTORY, Config.GOOGLE_OAUTH2_CLIENT_ID, Config.GOOGLE_OAUTH2_CLIENT_SECRET, SCOPES)
                 .setDataStoreFactory(DATA_STORE_FACTORY)
                 .setAccessType("offline")
                 .build();

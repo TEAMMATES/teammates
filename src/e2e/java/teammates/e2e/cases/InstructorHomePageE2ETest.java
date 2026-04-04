@@ -71,7 +71,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
-        InstructorHomePageSql homePage = loginToPage(url, InstructorHomePageSql.class, instructor.getGoogleId());
+        InstructorHomePageSql homePage = loginToPage(url, InstructorHomePageSql.class, instructor.getAccountId());
 
         ______TS("verify loaded data");
         homePage.sortCoursesById();
@@ -208,7 +208,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         FeedbackSession[] otherCourseSessionsWithCopyTwo = { copiedSession, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopyTwo);
         assertNotNull(getSoftDeletedSession(copiedSession2.getName(),
-                instructor.getGoogleId()));
+                instructor.getAccountId()));
 
         ______TS("delete course");
         otherCourseIndex = 1;

@@ -42,7 +42,7 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor otherInstructor = typicalBundle.instructors.get("instructor2OfCourse1");
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         ______TS("Typical Success Case fetching privilege of self");
         String[] params = new String[] {
@@ -93,7 +93,7 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         ______TS("Typical Success Case fetching privilege of another instructor by id");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_ID, otherInstructor.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_ID, otherInstructor.getAccountId(),
         };
 
         getInstructorPrivilegeAction = getAction(params);
@@ -116,7 +116,7 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         ______TS("Fetch privilege of non-existent instructor, should fail");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_ID, "invalidId",
+                Const.ParamsNames.INSTRUCTOR_ID, "00000000-0000-4000-8000-00000000dead",
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);

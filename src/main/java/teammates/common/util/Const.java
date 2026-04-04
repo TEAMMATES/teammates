@@ -148,8 +148,7 @@ public final class Const {
         public static final String PREVIEWAS = "previewas";
 
         public static final String STUDENT_SQL_ID = "studentid";
-        public static final String STUDENT_ID = "googleid";
-        public static final String INVITER_ID = "invitergoogleid";
+        public static final String ACCOUNT_ID = "accountid";
 
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
@@ -401,6 +400,14 @@ public final class Const {
         public static final String PRIORITY_EMAIL_QUEUE_NAME = "priority-email-queue";
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
+    }
+
+    /**
+     * Display names for login identity providers.
+     */
+    public static class LoginProviders {
+        public static final String GOOGLE = "Google";
+        public static final String MICROSOFT = "Microsoft";
     }
 
 }

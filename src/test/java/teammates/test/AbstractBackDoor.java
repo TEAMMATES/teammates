@@ -254,9 +254,9 @@ public abstract class AbstractBackDoor {
     /**
      * Gets account data from the database.
      */
-    public AccountData getAccountData(String googleId) {
+    public AccountData getAccountData(String accountId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.INSTRUCTOR_ID, googleId);
+        params.put(Const.ParamsNames.INSTRUCTOR_ID, accountId);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -431,13 +431,13 @@ public abstract class AbstractBackDoor {
      *
      * @param commentId the ID of the comment to update
      * @param commentText the new comment text
-     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     * @param instructorAccountId account id of an instructor with permission to modify comments
      */
-    public void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorGoogleId) {
+    public void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorAccountId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
-        params.put(Const.ParamsNames.USER_ID, instructorGoogleId);
+        params.put(Const.ParamsNames.USER_ID, instructorAccountId);
 
         FeedbackResponseCommentUpdateRequest body = new FeedbackResponseCommentUpdateRequest(
                 commentText,

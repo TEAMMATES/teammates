@@ -204,7 +204,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
         };
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyEntityNotFoundAcl(params);
     }

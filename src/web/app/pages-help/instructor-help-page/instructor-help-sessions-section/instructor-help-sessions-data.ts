@@ -164,7 +164,7 @@ export const EXAMPLE_STUDENTS: Student[] = [
  */
 export const EXAMPLE_INSTRUCTORS: Instructor[] = [
   {
-    googleId: 'bob@email.com',
+    accountId: '00000000-0000-4000-8000-0000000000eb',
     courseId: 'test.exa-demo',
     email: 'bob@email.com',
     isDisplayedToStudents: true,

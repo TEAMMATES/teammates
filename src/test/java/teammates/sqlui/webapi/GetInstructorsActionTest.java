@@ -81,17 +81,17 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         expectedInstructorsData.getInstructors().get(0).setKey(stubInstructorWithPermission.getRegKey());
         expectedInstructorsData.getInstructors().get(1).setKey(stubInstructorWithoutPermission.getRegKey());
         expectedInstructorsData.getInstructors().get(2).setKey(stubInstructorWithOnlyModifyInstructorPrivilege.getRegKey());
-        expectedInstructorsData.getInstructors().get(0).setGoogleId(stubInstructorWithPermission.getGoogleId());
-        expectedInstructorsData.getInstructors().get(1).setGoogleId(stubInstructorWithoutPermission.getGoogleId());
-        expectedInstructorsData.getInstructors().get(2).setGoogleId(stubInstructorWithOnlyModifyInstructorPrivilege
-                .getGoogleId());
+        expectedInstructorsData.getInstructors().get(0).setAccountId(stubInstructorWithPermission.getAccountId());
+        expectedInstructorsData.getInstructors().get(1).setAccountId(stubInstructorWithoutPermission.getAccountId());
+        expectedInstructorsData.getInstructors().get(2).setAccountId(stubInstructorWithOnlyModifyInstructorPrivilege
+                .getAccountId());
 
         reset(mockLogic);
     }
 
     @Test
     void testExecute_invalidParams_throwsInvalidHttpParameterException() {
-        loginAsInstructor(stubInstructorWithPermission.getGoogleId());
+        loginAsInstructor(stubInstructorWithPermission.getAccountId());
         String[] params1 = {};
         verifyHttpParameterFailure(params1);
 
@@ -109,7 +109,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     void testExecute_withoutIntentInstructorsDisplayedToStudents_shouldReturnPartialData() {
-        loginAsStudent("student-id");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
@@ -123,7 +123,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     void testExecute_withoutIntentInstructorsNotDisplayedToStudents_shouldReturnNoData() {
-        loginAsStudent("student-id");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
@@ -154,68 +154,69 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     void testExecute_fullDetailIntentInstructorWithPrivileges_shouldReturnFullDataWithoutKey() {
-        loginAsInstructor(stubInstructorWithPermission.getGoogleId());
+        loginAsInstructor(stubInstructorWithPermission.getAccountId());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.INTENT, "FULL_DETAIL",
         };
 
         when(mockLogic.getInstructorsByCourse(stubCourse.getId())).thenReturn(stubInstructors);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithPermission.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithPermission.getAccountId()))
                 .thenReturn(stubInstructorWithPermission);
         GetInstructorsAction action = getAction(params);
         InstructorsData actualInstructorsData = (InstructorsData) getJsonResult(action).getOutput();
         verifyInstructorsData(expectedInstructorsData, actualInstructorsData, false, false, true);
         verify(mockLogic, times(1)).getInstructorsByCourse(stubCourse.getId());
-        verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithPermission.getGoogleId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(stubCourse.getId(),
+                stubInstructorWithPermission.getAccountId());
     }
 
     @Test
     void testExecute_fullDetailIntentInstructorWithNoPrivileges_shouldReturnPartialData() {
-        loginAsInstructor(stubInstructorWithoutPermission.getGoogleId());
+        loginAsInstructor(stubInstructorWithoutPermission.getAccountId());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.INTENT, "FULL_DETAIL",
         };
 
         when(mockLogic.getInstructorsByCourse(stubCourse.getId())).thenReturn(stubInstructors);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithoutPermission.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithoutPermission.getAccountId()))
                 .thenReturn(stubInstructorWithoutPermission);
         GetInstructorsAction action = getAction(params);
         InstructorsData actualInstructorsData = (InstructorsData) getJsonResult(action).getOutput();
         verifyInstructorsData(expectedInstructorsData, actualInstructorsData, false, false, false);
         verify(mockLogic, times(1)).getInstructorsByCourse(stubCourse.getId());
-        verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(),
-                stubInstructorWithoutPermission.getGoogleId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(stubCourse.getId(),
+                stubInstructorWithoutPermission.getAccountId());
     }
 
     @Test
     void testExecute_fullDetailIntentInstructorWithModifyPrivilegesOnly_shouldReturnFullDataWithoutKey() {
-        loginAsInstructor(stubInstructorWithOnlyModifyInstructorPrivilege.getGoogleId());
+        loginAsInstructor(stubInstructorWithOnlyModifyInstructorPrivilege.getAccountId());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.INTENT, "FULL_DETAIL",
         };
 
         when(mockLogic.getInstructorsByCourse(stubCourse.getId())).thenReturn(stubInstructors);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithOnlyModifyInstructorPrivilege
-                .getGoogleId())).thenReturn(stubInstructorWithOnlyModifyInstructorPrivilege);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithOnlyModifyInstructorPrivilege
+                .getAccountId())).thenReturn(stubInstructorWithOnlyModifyInstructorPrivilege);
         GetInstructorsAction action = getAction(params);
         InstructorsData actualInstructorsData = (InstructorsData) getJsonResult(action).getOutput();
         verifyInstructorsData(expectedInstructorsData, actualInstructorsData, false, false, true);
         verify(mockLogic, times(1)).getInstructorsByCourse(stubCourse.getId());
-        verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(),
-                stubInstructorWithOnlyModifyInstructorPrivilege.getGoogleId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(stubCourse.getId(),
+                stubInstructorWithOnlyModifyInstructorPrivilege.getAccountId());
     }
 
     private void verifyInstructorsData(InstructorsData expectedInstructorsData, InstructorsData actualInstructorsData,
-                                       boolean isNullIntent, boolean isAdmin, boolean isGoogleIdSetForFullDetail) {
+                                       boolean isNullIntent, boolean isAdmin, boolean isAccountIdSetForFullDetail) {
         List<InstructorData> expectedInstructors = expectedInstructorsData.getInstructors();
         List<InstructorData> actualInstructors = actualInstructorsData.getInstructors();
         assertEquals(expectedInstructors.size(), actualInstructors.size());
         for (int i = 0; i < expectedInstructors.size(); i++) {
             if (isNullIntent) {
-                assertNull(actualInstructors.get(i).getGoogleId());
+                assertNull(actualInstructors.get(i).getAccountId());
                 assertNull(actualInstructors.get(i).getJoinState());
                 assertNull(actualInstructors.get(i).getIsDisplayedToStudents());
                 assertNull(actualInstructors.get(i).getRole());
@@ -236,11 +237,11 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
                     assertNull(actualInstructors.get(i).getKey());
                 }
 
-                if (isGoogleIdSetForFullDetail) {
-                    assertNotNull(actualInstructors.get(i).getGoogleId());
-                    assertEquals(expectedInstructors.get(i).getGoogleId(), actualInstructors.get(i).getGoogleId());
+                if (isAccountIdSetForFullDetail) {
+                    assertNotNull(actualInstructors.get(i).getAccountId());
+                    assertEquals(expectedInstructors.get(i).getAccountId(), actualInstructors.get(i).getAccountId());
                 } else {
-                    assertNull(actualInstructors.get(i).getGoogleId());
+                    assertNull(actualInstructors.get(i).getAccountId());
                 }
                 assertEquals(expectedInstructors.get(i).getName(), actualInstructors.get(i).getName());
                 assertEquals(expectedInstructors.get(i).getEmail(), actualInstructors.get(i).getEmail());
@@ -256,7 +257,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     void testSpecificAccessControl_missingParams_throwsInvalidHttpParameterException() {
-        loginAsInstructor(stubInstructorWithPermission.getGoogleId());
+        loginAsInstructor(stubInstructorWithPermission.getAccountId());
         String[] params1 = {};
         verifyHttpParameterFailureAcl(params1);
 
@@ -273,7 +274,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     void testSpecificAccessControl_invalidCourseParams_throwsEntityNotFoundException() {
-        loginAsInstructor(stubInstructorWithPermission.getGoogleId());
+        loginAsInstructor(stubInstructorWithPermission.getAccountId());
         when(mockLogic.getCourse("invalid-course-id")).thenReturn(null);
         String[] params1 = {
                 Const.ParamsNames.COURSE_ID, "invalid-course-id",
@@ -295,7 +296,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     void testSpecificAccessControl_unknownIntent_throwsInvalidHttpParameterException() {
-        loginAsInstructor(stubInstructorWithPermission.getGoogleId());
+        loginAsInstructor(stubInstructorWithPermission.getAccountId());
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
@@ -306,31 +307,31 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     void testSpecificAccessControl_unregisteredUserLogin_cannotAccess() {
-        loginAsUnregistered("unregistered");
+        loginAsUnregistered(TEST_UNREGISTERED_ACCOUNT_ID.toString());
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
         String[] params1 = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "unregistered")).thenReturn(null);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), "unregistered")).thenReturn(null);
         verifyCannotAccess(params1);
 
         String[] params2 = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.INTENT, "FULL_DETAIL",
         };
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "unregistered")).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), "unregistered")).thenReturn(null);
         verifyCannotAccess(params2);
     }
 
     @Test
     void testSpecificAccessControl_fullDetailIntentInstructorLoginSameCourse_canAccess() {
-        loginAsInstructor(stubInstructorWithPermission.getGoogleId());
+        loginAsInstructor(stubInstructorWithPermission.getAccountId());
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.INTENT, "FULL_DETAIL",
         };
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithPermission.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithPermission.getAccountId()))
                 .thenReturn(stubInstructorWithPermission);
         verifyCanAccess(params);
     }
@@ -344,32 +345,29 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
     @Test
     void testSpecificAccessControl_noIntentStudentLoginSameCourse_canAccess() {
         Student stubStudent = getTypicalStudent();
-        stubStudent.setAccount(getTypicalAccount());
 
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(stubStudent);
         verifyCanAccess(params);
     }
 
     @Test
     void testSpecificAccessControl_noIntentStudentLoginDifferentCourse_cannotAccess() {
         Student stubStudent = getTypicalStudent();
-        stubStudent.setAccount(getTypicalAccount());
 
         Student anotherStudent = getTypicalStudent();
-        anotherStudent.setAccount(getTypicalAccount());
         anotherStudent.getCourse().setId("course");
 
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         when(mockLogic.getCourse("course")).thenReturn(anotherStudent.getCourse());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course",
         };
-        when(mockLogic.getStudentByGoogleId("course", stubStudent.getGoogleId())).thenReturn(null);
+        when(mockLogic.getStudentByAccountId("course", stubStudent.getAccountId())).thenReturn(null);
         verifyCannotAccess(params);
     }
 
@@ -378,13 +376,13 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         Instructor anotherInstructor = getTypicalInstructor();
         anotherInstructor.getCourse().setId("course");
 
-        loginAsInstructor(stubInstructorWithPermission.getGoogleId());
+        loginAsInstructor(stubInstructorWithPermission.getAccountId());
         when(mockLogic.getCourse("course")).thenReturn(anotherInstructor.getCourse());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course",
                 Const.ParamsNames.INTENT, "FULL_DETAIL",
         };
-        when(mockLogic.getInstructorByGoogleId("course", stubInstructorWithPermission.getGoogleId())).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId("course", stubInstructorWithPermission.getAccountId())).thenReturn(null);
         verifyCannotAccess(params);
     }
 }

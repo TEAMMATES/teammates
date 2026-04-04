@@ -49,7 +49,7 @@ public class GetUsageStatisticsActionTest extends BaseActionTest<GetUsageStatist
     @Test
     void testAccessControl_student_cannotAccess() {
         logoutUser();
-        loginAsStudent(Const.ParamsNames.STUDENT_ID);
+        loginAsStudent(Const.ParamsNames.ACCOUNT_ID);
         verifyCannotAccess();
     }
 

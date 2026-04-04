@@ -27,7 +27,7 @@ public class CreateFeedbackQuestionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        Instructor instructorDetailForCourse = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructorDetailForCourse = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(instructorDetailForCourse,
                 getNonNullFeedbackSession(feedbackSessionName, courseId),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);

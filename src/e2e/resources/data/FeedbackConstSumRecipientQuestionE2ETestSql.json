@@ -2,31 +2,26 @@
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.FCSumRcptQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt"
     },
     "tm.e2e.FCSumRcptQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.FCSumRcptQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt"
     },
     "tm.e2e.FCSumRcptQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.FCSumRcptQn.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.tmms@gmail.tmt"
     },
     "tm.e2e.FCSumRcptQn.charlie.tmms": {
       "id": "00000000-0000-4000-8000-000000000004",
-      "googleId": "tm.e2e.FCSumRcptQn.charlie.tmms",
       "name": "Charlie Davis",
       "email": "fcsumrcptqn.charlie.tmms@gmail.tmt"
     },
     "tm.e2e.FCSumRcptQn.danny.tmms": {
       "id": "00000000-0000-4000-8000-000000000005",
-      "googleId": "tm.e2e.FCSumRcptQn.danny.tmms",
       "name": "Danny Engrid",
       "email": "fcsumrcptqn.danny.tmms@gmail.tmt"
     }

@@ -16,6 +16,7 @@ import org.hibernate.query.MutationQuery;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
@@ -63,6 +64,7 @@ public final class HibernateUtil {
             Course.class,
             FeedbackSession.class,
             Account.class,
+            AccountIdentity.class,
             Notification.class,
             ReadNotification.class,
             User.class,

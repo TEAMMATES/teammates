@@ -54,12 +54,12 @@ public class UserProvision {
     /**
      * Gets the information of the current masqueraded user.
      */
-    public UserInfo getMasqueradeUser(String googleId) {
-        UserInfo userInfo = new UserInfo(googleId);
+    public UserInfo getMasqueradeUser(String accountId) {
+        UserInfo userInfo = new UserInfo(accountId);
         userInfo.isAdmin = false;
-        userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(googleId);
-        userInfo.isStudent = usersLogic.isStudentInAnyCourse(googleId);
-        userInfo.isMaintainer = Config.getAppMaintainers().contains(googleId);
+        userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(accountId);
+        userInfo.isStudent = usersLogic.isStudentInAnyCourse(accountId);
+        userInfo.isMaintainer = Config.getAppMaintainers().contains(accountId);
         return userInfo;
     }
 

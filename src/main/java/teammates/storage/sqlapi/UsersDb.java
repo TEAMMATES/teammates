@@ -101,9 +101,9 @@ public final class UsersDb {
     }
 
     /**
-     * Gets an instructor by {@code googleId}.
+     * Gets an instructor by {@code accountId} (internal account UUID string).
      */
-    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
+    public Instructor getInstructorByAccountId(String courseId, String accountId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
@@ -111,7 +111,7 @@ public final class UsersDb {
 
         cr.select(instructorRoot).where(cb.and(
                 cb.equal(instructorRoot.get("courseId"), courseId),
-                cb.equal(accountsJoin.get("googleId"), googleId)));
+                cb.equal(accountsJoin.get("id"), UUID.fromString(accountId))));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
@@ -163,9 +163,9 @@ public final class UsersDb {
     }
 
     /**
-     * Gets a student by {@code googleId}.
+     * Gets a student by {@code accountId} (internal account UUID string).
      */
-    public Student getStudentByGoogleId(String courseId, String googleId) {
+    public Student getStudentByAccountId(String courseId, String accountId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
@@ -173,21 +173,21 @@ public final class UsersDb {
 
         cr.select(studentRoot).where(cb.and(
                 cb.equal(studentRoot.get("courseId"), courseId),
-                cb.equal(accountsJoin.get("googleId"), googleId)));
+                cb.equal(accountsJoin.get("id"), UUID.fromString(accountId))));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
     /**
-     * Gets all students by {@code googleId}.
+     * Gets all students by {@code accountId} (internal account UUID string).
      */
-    public List<Student> getStudentsByGoogleId(String googleId) {
+    public List<Student> getStudentsByAccountId(String accountId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
         Join<Student, Account> accountsJoin = studentRoot.join("account");
 
-        cr.select(studentRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+        cr.select(studentRoot).where(cb.equal(accountsJoin.get("id"), UUID.fromString(accountId)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -212,43 +212,43 @@ public final class UsersDb {
     }
 
     /**
-     * Gets all instructors and students by {@code googleId}.
+     * Gets all instructors and students by {@code accountId} (internal account UUID string).
      */
-    public List<User> getAllUsersByGoogleId(String googleId) {
+    public List<User> getAllUsersByAccountId(String accountId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<User> usersCr = cb.createQuery(User.class);
         Root<User> usersRoot = usersCr.from(User.class);
         Join<User, Account> accountsJoin = usersRoot.join("account");
 
-        usersCr.select(usersRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+        usersCr.select(usersRoot).where(cb.equal(accountsJoin.get("id"), UUID.fromString(accountId)));
 
         return HibernateUtil.createQuery(usersCr).getResultList();
     }
 
     /**
-     * Gets all instructors by {@code googleId}.
+     * Gets all instructors by {@code accountId} (internal account UUID string).
      */
-    public List<Instructor> getAllInstructorsByGoogleId(String googleId) {
+    public List<Instructor> getAllInstructorsByAccountId(String accountId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> instructorsCr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorsRoot = instructorsCr.from(Instructor.class);
         Join<Instructor, Account> accountsJoin = instructorsRoot.join("account");
 
-        instructorsCr.select(instructorsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+        instructorsCr.select(instructorsRoot).where(cb.equal(accountsJoin.get("id"), UUID.fromString(accountId)));
 
         return HibernateUtil.createQuery(instructorsCr).getResultList();
     }
 
     /**
-     * Gets all students by {@code googleId}.
+     * Gets all students by {@code accountId} (internal account UUID string).
      */
-    public List<Student> getAllStudentsByGoogleId(String googleId) {
+    public List<Student> getAllStudentsByAccountId(String accountId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> studentsCr = cb.createQuery(Student.class);
         Root<Student> studentsRoot = studentsCr.from(Student.class);
         Join<Student, Account> accountsJoin = studentsRoot.join("account");
 
-        studentsCr.select(studentsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+        studentsCr.select(studentsRoot).where(cb.equal(accountsJoin.get("id"), UUID.fromString(accountId)));
 
         return HibernateUtil.createQuery(studentsCr).getResultList();
     }
@@ -301,7 +301,7 @@ public final class UsersDb {
                 cb.like(cb.lower(instructorRoot.get("email")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(instructorRoot.get("courseId")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(cb.coalesce(accountsJoin.get("googleId"), "")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(cb.coalesce(accountsJoin.get("id").as(String.class), "")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(instructorRoot.get("role").as(String.class)), wildcardQuery, escapeChar));
 
@@ -614,17 +614,17 @@ public final class UsersDb {
     }
 
     /**
-     * Gets all instructors associated with a googleId.
+     * Gets all instructors associated with an account id (internal UUID string).
      */
-    public List<Instructor> getInstructorsForGoogleId(String googleId) {
-        assert googleId != null;
+    public List<Instructor> getInstructorsForAccountId(String accountId) {
+        assert accountId != null;
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
         Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
 
-        cr.select(instructorRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
+        cr.select(instructorRoot).where(cb.equal(accountsJoin.get("id"), UUID.fromString(accountId)));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

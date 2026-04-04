@@ -30,11 +30,8 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         Account firstAccount = getTypicalAccount();
 
-        Account secondAccount = getTypicalAccount();
-        secondAccount.setGoogleId(firstAccount.getGoogleId() + "-2");
-
-        Account thirdAccount = getTypicalAccount();
-        thirdAccount.setGoogleId(firstAccount.getGoogleId() + "-3");
+        Account secondAccount = new Account(firstAccount.getName(), firstAccount.getEmail());
+        Account thirdAccount = new Account(firstAccount.getName(), firstAccount.getEmail());
 
         String email = firstAccount.getEmail();
 
@@ -52,7 +49,7 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testCreateAccount() throws Exception {
         ______TS("Create account, does not exists, succeeds");
 
-        Account account = new Account("google-id", "name", "email@teammates.com");
+        Account account = new Account("name", "email@teammates.com");
 
         accountsDb.createAccount(account);
         HibernateUtil.flushSession();
@@ -63,7 +60,7 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testUpdateAccount() throws Exception {
-        Account account = new Account("google-id", "name", "email@teammates.com");
+        Account account = new Account("name", "email@teammates.com");
         accountsDb.createAccount(account);
         HibernateUtil.flushSession();
 
@@ -78,7 +75,7 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testDeleteAccount() throws InvalidParametersException, EntityAlreadyExistsException {
-        Account account = new Account("google-id", "name", "email@teammates.com");
+        Account account = new Account("name", "email@teammates.com");
         accountsDb.createAccount(account);
         HibernateUtil.flushSession();
 

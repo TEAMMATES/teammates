@@ -28,7 +28,7 @@ public class SendJoinReminderEmailActionTest
     private Course course;
     private Student student;
     private Instructor instructor;
-    private String instructorGoogleId;
+    private String instructorAccountId;
 
     @Override
     protected String getActionUri() {
@@ -48,8 +48,8 @@ public class SendJoinReminderEmailActionTest
         student = new Student(course, "student name", "student_email@tm.tmt", null);
         instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
 
-        instructorGoogleId = "user-id";
-        loginAsInstructor(instructorGoogleId);
+        instructorAccountId = "user-id";
+        loginAsInstructor(instructorAccountId);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class SendJoinReminderEmailActionTest
         Account inviterAccount = mock(Account.class);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
-        when(mockLogic.getAccountForGoogleId(instructorGoogleId)).thenReturn(inviterAccount);
+        when(mockLogic.getAccountForId(instructorAccountId)).thenReturn(inviterAccount);
         when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, instructor, course))
                 .thenReturn(mock(EmailWrapper.class));
 
@@ -136,7 +136,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(canModifyStudentPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorAccountId)).thenReturn(instructor);
 
         verifyCanAccess(params);
     }
@@ -154,7 +154,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(cannotModifyStudentPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorAccountId)).thenReturn(instructor);
 
         verifyCannotAccess(params);
     }
@@ -171,7 +171,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(canModifyStudentPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorAccountId)).thenReturn(instructor);
 
         verifyCanAccess(params);
     }
@@ -188,7 +188,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(cannotModifyStudentPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorAccountId)).thenReturn(instructor);
 
         verifyCannotAccess(params);
     }
@@ -206,7 +206,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(canModifyInstructorPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorAccountId)).thenReturn(instructor);
 
         verifyCanAccess(params);
     }
@@ -224,7 +224,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(cannotModifyInstructorPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorAccountId)).thenReturn(instructor);
 
         verifyCannotAccess(params);
     }

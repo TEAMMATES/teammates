@@ -63,18 +63,18 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testUpdateReadNotifications()
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         ______TS("success: mark notification as read");
-        Account account = new Account("google-id", "name", "email@teammates.com");
+        Account account = new Account("name", "email@teammates.com");
         Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
         accountsDb.createAccount(account);
         notificationsLogic.createNotification(notification);
 
-        String googleId = account.getGoogleId();
+        String accountId = account.getAccountId();
         UUID notificationId = notification.getId();
-        accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+        accountsLogic.updateReadNotifications(accountId, notificationId, notification.getEndTime());
 
-        Account actualAccount = accountsDb.getAccountByGoogleId(googleId);
+        Account actualAccount = accountsDb.getAccount(UUID.fromString(accountId));
         List<ReadNotification> accountReadNotifications = actualAccount.getReadNotifications();
         assertEquals(1, accountReadNotifications.size());
         assertSame(actualAccount, accountReadNotifications.get(0).getAccount());
@@ -89,13 +89,13 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student student3YetToJoinCourse = typicalDataBundle.students.get("student3YetToJoinCourse4");
         Student studentInCourse = typicalDataBundle.students.get("student1InCourse1");
 
-        String loggedInGoogleId = "AccLogicT.student.id";
+        String loggedInAccountId = typicalDataBundle.accounts.get("joinStudentAccount").getAccountId();
 
         ______TS("failure: wrong key");
 
         String wrongKey = StringHelper.encrypt("wrongkey");
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.joinCourseForStudent(wrongKey, loggedInGoogleId));
+                () -> accountsLogic.joinCourseForStudent(wrongKey, loggedInAccountId));
         assertEquals("No student with given registration key: " + wrongKey, ednee.getMessage());
 
         ______TS("failure: invalid parameters");
@@ -104,37 +104,37 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                 () -> accountsLogic.joinCourseForStudent(student2YetToJoinCourse.getRegKey(), "wrong student"));
         AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT, ipe.getMessage());
 
-        ______TS("failure: googleID belongs to an existing student in the course");
+        ______TS("failure: account ID belongs to an existing student in the course");
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourseForStudent(student2YetToJoinCourse.getRegKey(),
-                studentInCourse.getGoogleId()));
+                studentInCourse.getAccountId()));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("success: with encryption and new account to be created");
 
-        accountsLogic.joinCourseForStudent(student2YetToJoinCourse.getRegKey(), loggedInGoogleId);
-        Account accountCreated = accountsLogic.getAccountForGoogleId(loggedInGoogleId);
+        accountsLogic.joinCourseForStudent(student2YetToJoinCourse.getRegKey(), loggedInAccountId);
+        Account accountCreated = accountsLogic.getAccountById(loggedInAccountId);
 
-        assertEquals(loggedInGoogleId, usersLogic.getStudentForEmail(
-                student2YetToJoinCourse.getCourseId(), student2YetToJoinCourse.getEmail()).getGoogleId());
+        assertEquals(loggedInAccountId, usersLogic.getStudentForEmail(
+                student2YetToJoinCourse.getCourseId(), student2YetToJoinCourse.getEmail()).getAccountId());
         assertNotNull(accountCreated);
 
         ______TS("success: student joined but account already exists");
 
-        String existingAccountId = "existingAccountId";
-        Account existingAccount = new Account(existingAccountId, "accountName", student3YetToJoinCourse.getEmail());
+        Account existingAccount = new Account("accountName", student3YetToJoinCourse.getEmail());
         accountsDb.createAccount(existingAccount);
+        String existingAccountId = existingAccount.getAccountId();
 
         accountsLogic.joinCourseForStudent(student3YetToJoinCourse.getRegKey(), existingAccountId);
 
         assertEquals(existingAccountId, usersLogic.getStudentForEmail(
-                student3YetToJoinCourse.getCourseId(), student3YetToJoinCourse.getEmail()).getGoogleId());
+                student3YetToJoinCourse.getCourseId(), student3YetToJoinCourse.getEmail()).getAccountId());
 
         ______TS("failure: already joined");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForStudent(student2YetToJoinCourse.getRegKey(), loggedInGoogleId));
+                () -> accountsLogic.joinCourseForStudent(student2YetToJoinCourse.getRegKey(), loggedInAccountId));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("failure: course is deleted");
@@ -145,23 +145,24 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> accountsLogic.joinCourseForStudent(student2YetToJoinCourse.getRegKey(),
-                        loggedInGoogleId));
+                        loggedInAccountId));
         assertEquals("The course you are trying to join has been deleted by an instructor", ednee.getMessage());
     }
 
     @Test
     public void testJoinCourseForInstructor() throws Exception {
-        String instructorIdAlreadyJoinedCourse = "instructor1";
+        String instructorIdAlreadyJoinedCourse =
+                typicalDataBundle.instructors.get("instructor1OfCourse4").getAccountId();
         Instructor instructor2YetToJoinCourse = typicalDataBundle.instructors.get("instructor2YetToJoinCourse4");
         Instructor instructor3YetToJoinCourse = typicalDataBundle.instructors.get("instructor3YetToJoinCourse4");
 
-        String loggedInGoogleId = "AccLogicT.instr.id";
+        String loggedInAccountId = typicalDataBundle.accounts.get("joinInstructorAccount").getAccountId();
         String[] key = new String[] {
                 getRegKeyForInstructor(instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail()),
                 getRegKeyForInstructor(instructor2YetToJoinCourse.getCourseId(), instructor3YetToJoinCourse.getEmail()),
         };
 
-        ______TS("failure: googleID belongs to an existing instructor in the course");
+        ______TS("failure: account ID belongs to an existing instructor in the course");
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourseForInstructor(
@@ -170,37 +171,37 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("success: instructor joined and new account be created");
 
-        accountsLogic.joinCourseForInstructor(key[0], loggedInGoogleId);
+        accountsLogic.joinCourseForInstructor(key[0], loggedInAccountId);
 
         Instructor joinedInstructor = usersLogic.getInstructorForEmail(
                         instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail());
-        assertEquals(loggedInGoogleId, joinedInstructor.getGoogleId());
+        assertEquals(loggedInAccountId, joinedInstructor.getAccountId());
 
-        Account accountCreated = accountsLogic.getAccountForGoogleId(loggedInGoogleId);
+        Account accountCreated = accountsLogic.getAccountById(loggedInAccountId);
         assertNotNull(accountCreated);
 
         ______TS("success: instructor joined but account already exists");
 
-        String existingAccountId = "existingAccountId";
-        Account existingAccount = new Account(existingAccountId, "accountName", instructor3YetToJoinCourse.getEmail());
+        Account existingAccount = new Account("accountName", instructor3YetToJoinCourse.getEmail());
         accountsDb.createAccount(existingAccount);
+        String existingAccountId = existingAccount.getAccountId();
 
-        accountsLogic.joinCourseForInstructor(key[1], existingAccount.getGoogleId());
+        accountsLogic.joinCourseForInstructor(key[1], existingAccount.getAccountId());
 
         joinedInstructor = usersLogic.getInstructorForEmail(
                         instructor3YetToJoinCourse.getCourseId(), existingAccount.getEmail());
-        assertEquals(existingAccountId, joinedInstructor.getGoogleId());
+        assertEquals(existingAccountId, joinedInstructor.getAccountId());
 
         ______TS("failure: instructor already joined");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForInstructor(key[0], loggedInGoogleId));
+                () -> accountsLogic.joinCourseForInstructor(key[0], loggedInAccountId));
         assertEquals("Instructor has already joined course", eaee.getMessage());
 
         ______TS("failure: key belongs to a different user");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForInstructor(key[0], "otherUserId"));
+                () -> accountsLogic.joinCourseForInstructor(key[0], "00000000-0000-4000-8000-00000000beef"));
         assertEquals("Instructor has already joined course", eaee.getMessage());
 
         ______TS("failure: invalid key");
@@ -208,7 +209,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         String invalidKey = StringHelper.encrypt("invalidKey");
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId));
+                () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInAccountId));
         assertEquals("No instructor with given registration key: " + invalidKey,
                 ednee.getMessage());
 
@@ -220,7 +221,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> accountsLogic.joinCourseForInstructor(instructor2YetToJoinCourse.getRegKey(),
-                    instructor2YetToJoinCourse.getGoogleId()));
+                    instructor2YetToJoinCourse.getAccountId()));
         assertEquals("The course you are trying to join has been deleted by an instructor", ednee.getMessage());
     }
 

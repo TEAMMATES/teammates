@@ -26,7 +26,7 @@ public class InstructorFeedbackReportPageAxeTest extends BaseAxeTestCase {
                 .withCourseId(testData.courses.get("tm.e2e.IFRep.CS2104").getId())
                 .withSessionName(testData.feedbackSessions.get("Open Session").getName());
         InstructorFeedbackResultsPageSql resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class,
-                testData.instructors.get("IFRep.instr.CS2104").getGoogleId());
+                testData.instructors.get("IFRep.instr.CS2104").getAccountId());
 
         Results results = getAxeBuilder().analyze(resultsPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

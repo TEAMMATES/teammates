@@ -24,7 +24,7 @@ public class InstructorCourseEditPageAxeTest extends BaseAxeTestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(testData.courses.get("ICEdit.CS2104").getId());
         InstructorCourseEditPageSql editPage = loginToPage(url, InstructorCourseEditPageSql.class,
-                testData.instructors.get("ICEdit.coowner.CS2104").getGoogleId());
+                testData.instructors.get("ICEdit.coowner.CS2104").getAccountId());
 
         Results results = getAxeBuilder().analyze(editPage.getBrowser().getDriver());
         assertViolationFree(results);

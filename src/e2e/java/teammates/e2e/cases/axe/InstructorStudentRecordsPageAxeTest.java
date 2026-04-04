@@ -28,7 +28,7 @@ public class InstructorStudentRecordsPageAxeTest extends BaseAxeTestCase {
 
         InstructorStudentRecordsPageSql recordsPage =
                 loginToPage(recordsPageUrl, InstructorStudentRecordsPageSql.class,
-                testData.instructors.get("teammates.test.CS2104").getGoogleId());
+                testData.instructors.get("teammates.test.CS2104").getAccountId());
 
         Results results = getAxeBuilder().analyze(recordsPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

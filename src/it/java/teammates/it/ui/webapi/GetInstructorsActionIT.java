@@ -43,7 +43,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     protected void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         ______TS("Typical Success Case with FULL_DETAIL");
         String[] params = new String[] {
@@ -74,7 +74,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         assertEquals(3, instructors.size());
 
         for (InstructorData instructorData : instructors) {
-            assertNull(instructorData.getGoogleId());
+            assertNull(instructorData.getAccountId());
             assertNull(instructorData.getJoinState());
             assertNull(instructorData.getIsDisplayedToStudents());
             assertNull(instructorData.getRole());
@@ -96,7 +96,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         Student student = typicalBundle.students.get("student1InCourse1");
 
         ______TS("Course not found, logged in as instructor, intent FULL_DETAIL");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, "does-not-exist-id",
@@ -106,7 +106,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyEntityNotFoundAcl(params);
 
         ______TS("Course not found, logged in as student, intent undefined");
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, "does-not-exist-id",
@@ -115,7 +115,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyEntityNotFoundAcl(params);
 
         ______TS("Unknown login entity, intent FULL_DETAIL");
-        loginAsUnregistered("unregistered");
+        loginAsUnregistered(TEST_UNREGISTERED_ACCOUNT_ID.toString());
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
@@ -132,7 +132,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyCannotAccess(params);
 
         ______TS("Unknown intent, logged in as instructor");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
@@ -150,7 +150,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyOnlyInstructorsOfTheSameCourseCanAccess(instructor.getCourse(), params);
 
         ______TS("Intent undefined, should authenticate as student, access own course");
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, student.getCourseId(),

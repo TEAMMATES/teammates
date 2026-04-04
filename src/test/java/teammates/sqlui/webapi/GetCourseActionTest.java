@@ -19,7 +19,7 @@ import teammates.ui.webapi.GetCourseAction;
  */
 public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
-    String googleId = "user-googleId";
+    String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     protected String getActionUri() {
@@ -33,7 +33,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
     @Test
     void testSpecificAccessControl_courseDoesNotExist_cannotAccess() {
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         when(mockLogic.getCourse("course-id")).thenReturn(null);
 
         String[] params = {
@@ -48,9 +48,9 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt", false, "", null, null);
 
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), accountId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -79,13 +79,13 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
     @Test
     void testSpecificAccessControl_asStudent_canAccess() {
-        loginAsStudent(googleId);
+        loginAsStudent(accountId);
 
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         Student student = new Student(course, "name", "studen_email@tm.tmt", "student comments");
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentByGoogleId(course.getId(), googleId)).thenReturn(student);
+        when(mockLogic.getStudentByAccountId(course.getId(), accountId)).thenReturn(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),

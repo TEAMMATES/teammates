@@ -37,12 +37,12 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
     void setUp() {
         logoutUser();
         stubInstructorWithAccount = getTypicalInstructor();
-        stubInstructorWithAccount.setAccount(getTypicalAccount());
         stubStudentWithAccount = getTypicalStudent();
-        stubStudentWithAccount.setAccount(getTypicalAccount());
 
         stubInstructorWithoutAccount = getTypicalInstructor();
+        stubInstructorWithoutAccount.setAccount(null);
         stubStudentWithoutAccount = getTypicalStudent();
+        stubStudentWithoutAccount.setAccount(null);
     }
 
     @Test
@@ -60,13 +60,13 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         String[] params3 = {};
         verifyHttpParameterFailure(params3);
 
-        loginAsStudent(stubStudentWithAccount.getGoogleId());
+        loginAsStudent(stubStudentWithAccount.getAccountId());
         verifyHttpParameterFailure(params1);
         verifyHttpParameterFailure(params2);
         verifyHttpParameterFailure(params3);
 
         logoutUser();
-        loginAsInstructor(stubInstructorWithAccount.getGoogleId());
+        loginAsInstructor(stubInstructorWithAccount.getAccountId());
         verifyHttpParameterFailure(params1);
         verifyHttpParameterFailure(params2);
         verifyHttpParameterFailure(params3);
@@ -132,7 +132,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
     @Test
     void testExecute_studentIntentLoggedInUsedKey_validUsedAllowedKey() {
-        loginAsStudent(stubStudentWithAccount.getGoogleId());
+        loginAsStudent(stubStudentWithAccount.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -164,7 +164,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
     @Test
     void testExecute_instructorIntentLoggedInUsedKey_validUsedAllowedKey() {
-        loginAsInstructor(stubInstructorWithAccount.getGoogleId());
+        loginAsInstructor(stubInstructorWithAccount.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -320,7 +320,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
     @Test
     void testExecute_studentIntentLoggedInUnusedKey_validUnusedAllowed() {
-        loginAsStudent(stubStudentWithAccount.getGoogleId());
+        loginAsStudent(stubStudentWithAccount.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -352,7 +352,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
     @Test
     void testExecute_instructorIntentLoggedInUnusedKey_validUnusedAllowed() {
-        loginAsInstructor(stubInstructorWithAccount.getGoogleId());
+        loginAsInstructor(stubInstructorWithAccount.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -463,11 +463,11 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         verifyCanAccess();
 
         logoutUser();
-        loginAsStudent(stubStudentWithAccount.getGoogleId());
+        loginAsStudent(stubStudentWithAccount.getAccountId());
         verifyCanAccess();
 
         logoutUser();
-        loginAsInstructor(stubInstructorWithAccount.getGoogleId());
+        loginAsInstructor(stubInstructorWithAccount.getAccountId());
         verifyCanAccess();
 
         logoutUser();
@@ -475,11 +475,11 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         verifyCanAccess();
 
         logoutUser();
-        loginAsUnregistered(stubStudentWithAccount.getGoogleId());
+        loginAsUnregistered(stubStudentWithAccount.getAccountId());
         verifyCanAccess();
 
         logoutUser();
-        loginAsStudentInstructor(stubStudentWithAccount.getGoogleId());
+        loginAsStudentInstructor(stubStudentWithAccount.getAccountId());
         verifyCanAccess();
     }
 }

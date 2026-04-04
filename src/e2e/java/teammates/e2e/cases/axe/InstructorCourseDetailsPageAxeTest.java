@@ -25,7 +25,7 @@ public class InstructorCourseDetailsPageAxeTest extends BaseAxeTestCase {
         AppUrl detailsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withCourseId(testData.courses.get("ICDet.CS2104").getId());
         InstructorCourseDetailsPageSql detailsPage = loginToPage(detailsPageUrl, InstructorCourseDetailsPageSql.class,
-                testData.instructors.get("ICDet.instr").getGoogleId());
+                testData.instructors.get("ICDet.instr").getAccountId());
 
         Results results = getAxeBuilder().analyze(detailsPage.getBrowser().getDriver());
         assertViolationFree(results);

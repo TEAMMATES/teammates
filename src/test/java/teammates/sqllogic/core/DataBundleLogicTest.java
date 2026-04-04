@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -16,6 +17,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -113,6 +115,28 @@ public class DataBundleLogicTest extends BaseTestCase {
         assertEquals(dataBundle, result);
         assertEquals(1, result.accounts.size());
         assertEquals(account, result.accounts.get("account1"));
+        verify(accountsLogic, times(1)).createAccount(account);
+    }
+
+    @Test
+    public void testPersistDataBundle_withAccountIdentity_linksIdentityToAccount()
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        SqlDataBundle dataBundle = new SqlDataBundle();
+        Account account = getTypicalAccount();
+        AccountIdentity identity = new AccountIdentity(
+                "https://securetoken.google.com/project",
+                "subject-account1",
+                account.getEmail(),
+                "Google");
+        account.setIdentities(List.of(identity));
+        dataBundle.accounts.put("account1", account);
+
+        SqlDataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
+
+        assertNotNull(result);
+        assertEquals(account, result.accounts.get("account1"));
+        assertEquals(1, account.getIdentities().size());
+        assertEquals(account, account.getIdentities().get(0).getAccount());
         verify(accountsLogic, times(1)).createAccount(account);
     }
 
@@ -321,7 +345,7 @@ public class DataBundleLogicTest extends BaseTestCase {
         assertEquals(notification, result.notifications.get("notification1"));
         assertEquals(readNotification, result.readNotifications.get("readNotification1"));
         verify(accountsLogic, times(1)).updateReadNotifications(
-                eq(account.getGoogleId()), eq(notification.getId()), eq(notification.getEndTime()));
+                eq(account.getId().toString()), eq(notification.getId()), eq(notification.getEndTime()));
     }
 
     @Test
@@ -368,7 +392,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         verify(coursesLogic, times(1)).deleteCourseCascade(course.getId());
         verify(notificationsLogic, times(1)).deleteNotification(notification.getId());
-        verify(accountsLogic, times(1)).deleteAccount(account.getGoogleId());
+        verify(accountsLogic, times(1)).deleteAccount(account.getId());
         verify(accountRequestsLogic, times(1)).deleteAccountRequest(accountRequest.getId());
     }
 
@@ -391,7 +415,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         dataBundleLogic.removeDataBundle(dataBundle);
 
-        verify(accountsLogic, times(1)).deleteAccount(account.getGoogleId());
+        verify(accountsLogic, times(1)).deleteAccount(account.getId());
     }
 
     @Test

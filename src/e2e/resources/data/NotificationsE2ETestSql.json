@@ -2,13 +2,11 @@
   "accounts": {
     "notif.instructor": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.notif.instructor",
       "name": "Teammates Test Instructor",
       "email": "notif.instructor@gmail.tmt"
     },
     "notif.student": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.notif.student",
       "name": "Teammates Test Student",
       "email": "notif.student@gmail.tmt"
     }

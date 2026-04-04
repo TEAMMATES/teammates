@@ -7,7 +7,6 @@ import java.util.Set;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 
 /**
@@ -27,12 +26,12 @@ public class GetStudentsAction extends Action {
 
         if (teamName == null) {
             // request to get all students of a course by instructor
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+            Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
             gateKeeper.verifyAccessible(instructor, sqlLogic.getCourse(courseId),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
             // request to get team member by current student
-            Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.id);
+            Student student = sqlLogic.getStudentByAccountId(courseId, userInfo.id);
             if (student == null || !teamName.equals(student.getTeamName())) {
                 throw new UnauthorizedAccessException("You are not part of the team");
             }
@@ -44,7 +43,7 @@ public class GetStudentsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String teamName = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
         String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS;
         boolean hasCoursePrivilege = instructor != null
                 && instructor.isAllowedForPrivilege(privilegeName);
@@ -54,8 +53,9 @@ public class GetStudentsAction extends Action {
         if (teamName == null && hasCoursePrivilege) {
             // request to get all course students by instructor with course privilege
             List<Student> studentsForCourse = sqlLogic.getStudentsForCourse(courseId);
-
-            return new JsonResult(new StudentsData(studentsForCourse));
+            StudentsData data = new StudentsData(studentsForCourse);
+            data.getStudents().forEach(sd -> sd.setAccountId(null));
+            return new JsonResult(data);
         } else if (teamName == null && hasSectionPrivilege) {
             // request to get students by instructor with section privilege
             List<Student> studentsForCourse = sqlLogic.getStudentsForCourse(courseId);
@@ -69,13 +69,18 @@ public class GetStudentsAction extends Action {
                 }
             });
 
-            return new JsonResult(new StudentsData(studentsToReturn));
+            StudentsData data = new StudentsData(studentsToReturn);
+            data.getStudents().forEach(sd -> sd.setAccountId(null));
+            return new JsonResult(data);
         } else {
             // request to get team members by current student
             List<Student> studentsForTeam = sqlLogic.getStudentsByTeamName(teamName, courseId);
             StudentsData data = new StudentsData(studentsForTeam);
 
-            data.getStudents().forEach(StudentData::hideInformationForStudent);
+            data.getStudents().forEach(studentData -> {
+                studentData.setAccountId(null);
+                studentData.hideInformationForStudent();
+            });
 
             return new JsonResult(data);
         }

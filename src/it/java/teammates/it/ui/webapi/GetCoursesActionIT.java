@@ -46,7 +46,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     @Test
     public void testGetCoursesAction_withNoParameter_shouldThrowHttpParameterException() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         verifyHttpParameterFailure();
     }
 
@@ -54,7 +54,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     public void testGetCoursesAction_withInvalidEntityType_shouldReturnBadResponse() {
         String[] params = new String[] { Const.ParamsNames.ENTITY_TYPE, "invalid_entity_type" };
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         verifyHttpParameterFailure(params);
     }
 
@@ -62,7 +62,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     public void testGetCoursesAction_withInstructorEntityTypeAndNoCourseStatus_shouldThrowParameterFailure() {
         String[] params = { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR, };
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         verifyHttpParameterFailure(params);
     }
 
@@ -74,7 +74,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         };
 
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         verifyHttpParameterFailure(params);
     }
 
@@ -85,7 +85,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
         };
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         CoursesData courses = getValidCourses(params);
         assertEquals(3, courses.getCourses().size());
@@ -105,7 +105,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         };
 
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         CoursesData courses = getValidCourses(params);
         assertEquals(2, courses.getCourses().size());
@@ -119,7 +119,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     public void testGetCoursesAction_withStudentEntityType_shouldReturnCorrectCourses() {
         String[] params = { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT };
         Student student = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
 
         CoursesData courses = getValidCourses(params);
         courses.getCourses().sort((c1, c2) -> c1.getCourseId().compareTo(c2.getCourseId()));
@@ -173,12 +173,12 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         Student student = typicalBundle.students.get("student1InCourse1");
 
         ______TS("Login as instructor, only instructor entity type can access");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         verifyCanAccess(instructorParams);
         verifyCannotAccess(studentParams);
 
         ______TS("Login as student, only student entity type can access");
-        loginAsStudent(student.getGoogleId());
+        loginAsStudent(student.getAccountId());
         verifyCanAccess(studentParams);
         verifyCannotAccess(instructorParams);
     }

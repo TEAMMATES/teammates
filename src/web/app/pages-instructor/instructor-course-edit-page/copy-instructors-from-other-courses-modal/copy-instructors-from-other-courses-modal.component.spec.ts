@@ -16,7 +16,7 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
 describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
 
   const testInstructor1: Instructor = {
-    googleId: 'googleIdOfIns1',
+    accountId: '00000000-0000-4000-8000-0000000000b1',
     courseId: 'FAN0001',
     email: 'ins1@fan.tmt',
     isDisplayedToStudents: true,
@@ -29,7 +29,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   };
 
   const testInstructor2: Instructor = {
-    googleId: 'googleIdOfIns2',
+    accountId: '00000000-0000-4000-8000-0000000000b2',
     courseId: 'FAN0001',
     email: 'ins2@fan.tmt',
     isDisplayedToStudents: false,
@@ -42,7 +42,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   };
 
   const testInstructor3: Instructor = {
-    googleId: 'googleIdOfIns3',
+    accountId: '00000000-0000-4000-8000-0000000000b3',
     courseId: 'FAN0002',
     email: 'ins1@fan.tmt',
     isDisplayedToStudents: true,
@@ -55,7 +55,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   };
 
   const testInstructor4: Instructor = {
-    googleId: 'googleIdOfIns4',
+    accountId: '00000000-0000-4000-8000-0000000000b4',
     courseId: 'FAN0002',
     email: 'ins4@fan.tmt',
     isDisplayedToStudents: false,
@@ -201,10 +201,10 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     expect(component.courses[0].hasInstructorsLoaded).toBeTruthy();
     expect(component.courses[0].hasLoadingFailed).toBeFalsy();
     expect(component.courses[0].instructorCandidates.length).toBe(2);
-    expect(component.courses[0].instructorCandidates[0].instructor.googleId)
-      .toBe(testInstructor1.googleId);
-    expect(component.courses[0].instructorCandidates[1].instructor.googleId)
-      .toBe(testInstructor2.googleId);
+    expect(component.courses[0].instructorCandidates[0].instructor.accountId)
+      .toBe(testInstructor1.accountId);
+    expect(component.courses[0].instructorCandidates[1].instructor.accountId)
+      .toBe(testInstructor2.accountId);
   });
 
   it('should not allow copying when no instructors are selected', () => {

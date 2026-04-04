@@ -25,7 +25,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     private static final int DELETE_LIMIT = 3;
     private Course course;
     private Instructor instructor;
-    private String instructorId = "instructor-googleId";
+    private String instructorId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
 
     @Override
     protected String getActionUri() {
@@ -49,7 +49,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     private void setupMockLogic() {
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorId)).thenReturn(instructor);
     }
 
     @Test
@@ -124,7 +124,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @Test
     void testSpecificAccessControl_instructorInDifferentCourse_cannotAccess() {
-        loginAsInstructor("instructor2-googleId");
+        loginAsInstructor(TEST_OTHER_INSTRUCTOR_ACCOUNT_ID.toString());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -136,7 +136,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @Test
     void testSpecificAccessControl_student_cannotAccess() {
-        loginAsStudent("student-googleId");
+        loginAsStudent(TYPICAL_STUDENT_ACCOUNT_ID.toString());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),

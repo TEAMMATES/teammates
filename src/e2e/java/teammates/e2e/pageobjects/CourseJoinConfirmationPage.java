@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Page Object Model for the course join confirmation page.
@@ -23,12 +24,13 @@ public class CourseJoinConfirmationPage extends AppPage {
         return true;
     }
 
-    public void verifyJoiningUser(String googleId) {
-        assertEquals(browser.driver.findElement(By.id("user-id")).getText(), googleId);
+    public void verifyJoiningUser(String accountId) {
+        assertEquals(browser.driver.findElement(By.id("user-id")).getText(), accountId);
     }
 
     public <T extends AppPage> T confirmJoinCourse(Class<T> typeOfPage) {
         click(confirmButton);
+        waitFor(ExpectedConditions.not(ExpectedConditions.urlContains("/join")));
         waitForPageToLoad();
         return changePageType(typeOfPage);
     }

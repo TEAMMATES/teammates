@@ -106,7 +106,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
   courseId: string = '';
-  currInstructorGoogleId: string = '';
+  currInstructorAccountId: string = '';
   currInstructorCoursePrivilege: InstructorPermissionSet = {
     canModifyCourse: true,
     canModifySession: true,
@@ -123,7 +123,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   isAddingNewInstructor: boolean = false;
   isCopyingInstructor: boolean = false;
   newInstructorPanel: InstructorEditPanel = {
-    googleId: '',
+    accountId: '',
     courseId: '',
     email: '',
     isDisplayedToStudents: true,
@@ -227,7 +227,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   loadCurrInstructorInfo(): void {
     this.authService.getAuthUser().subscribe({
       next: (res: AuthInfo) => {
-        this.currInstructorGoogleId = res.user === undefined ? '' : res.user.id;
+        this.currInstructorAccountId = res.user === undefined ? '' : res.user.id;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -313,7 +313,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
      * typed as such to accommodate for a use case in SearchService.
      */
     return {
-      googleId: i.googleId,
+      accountId: i.accountId,
       courseId: i.courseId,
       email: i.email,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -390,7 +390,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     panelDetail.editPanel.isSavingInstructorEdit = true;
     const reqBody: InstructorCreateRequest = {
       id: panelDetail.originalInstructor.joinState === JoinState.JOINED
-          ? panelDetail.originalInstructor.googleId : undefined,
+          ? panelDetail.originalInstructor.accountId : undefined,
       name: panelDetail.editPanel.name,
       email: panelDetail.originalInstructor.joinState === JoinState.JOINED
           ? panelDetail.editPanel.email : panelDetail.originalInstructor.email,
@@ -431,7 +431,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   deleteInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    const isDeletingSelf: boolean = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
+    const isDeletingSelf: boolean = panelDetail.originalInstructor.accountId === this.currInstructorAccountId;
     const modalContent: string = isDeletingSelf
         ? `Are you sure you want to delete your instructor role
         from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
@@ -449,7 +449,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         instructorEmail: panelDetail.originalInstructor.email,
       }).subscribe({
         next: () => {
-          if (panelDetail.originalInstructor.googleId === this.currInstructorGoogleId) {
+          if (panelDetail.originalInstructor.accountId === this.currInstructorAccountId) {
             this.navigationService.navigateWithSuccessMessage(
                 '/web/instructor/courses', 'Instructor is successfully deleted.');
           } else {
@@ -523,7 +523,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
             this.isAddingNewInstructor = false;
             this.newInstructorPanel = {
-              googleId: '',
+              accountId: '',
               courseId: '',
               email: '',
               isDisplayedToStudents: true,

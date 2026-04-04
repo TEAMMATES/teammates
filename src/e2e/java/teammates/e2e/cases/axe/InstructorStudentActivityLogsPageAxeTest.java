@@ -26,7 +26,7 @@ public class InstructorStudentActivityLogsPageAxeTest extends BaseAxeTestCase {
                 .withCourseId("tm.e2e.ISActLogs.CS2104");
         InstructorStudentActivityLogsPage studentActivityLogsPage =
                 loginToPage(url, InstructorStudentActivityLogsPage.class,
-                testData.instructors.get("instructor").getGoogleId());
+                testData.instructors.get("instructor").getAccountId());
 
         Results results = getAxeBuilder().analyze(studentActivityLogsPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

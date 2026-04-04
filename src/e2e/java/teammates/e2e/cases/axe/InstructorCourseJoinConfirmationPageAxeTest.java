@@ -14,8 +14,6 @@ import teammates.storage.sqlentity.Instructor;
  */
 public class InstructorCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
 
-    private static final String NEW_INSTRUCTOR_GOOGLE_ID = "tm.e2e.ICJoinConf.instr2";
-
     private Instructor newInstructor;
 
     @Override
@@ -29,12 +27,14 @@ public class InstructorCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase
     @Test
     @Override
     public void testAll() {
+        String pendingInstructorUserId =
+                testData.accounts.get("ICJoinConf.pendingInstr").getId().toString();
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(getKeyForInstructor(
                         testData.courses.get("ICJoinConf.CS1101").getId(), newInstructor.getEmail()))
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         CourseJoinConfirmationPage confirmationPage = loginToPage(
-                joinLink, CourseJoinConfirmationPage.class, NEW_INSTRUCTOR_GOOGLE_ID);
+                joinLink, CourseJoinConfirmationPage.class, pendingInstructorUserId);
 
         Results results = getAxeBuilder().analyze(confirmationPage.getBrowser().getDriver());
         assertViolationFree(results);

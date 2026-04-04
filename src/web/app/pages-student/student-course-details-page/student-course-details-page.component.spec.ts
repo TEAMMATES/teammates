@@ -17,7 +17,7 @@ const student: Student = {
 };
 
 const instructorDetails: Instructor[] = [{
-  googleId: '',
+  accountId: '',
   courseId: '1.1.c-demo2',
   displayedToStudentsAs: 'Instructor',
   isDisplayedToStudents: true,

@@ -72,8 +72,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         stubStudent = getTypicalStudent();
         stubStudent.setTeam(getTypicalTeam());
         stubInstructor = getTypicalInstructor();
-        stubStudent.setAccount(getTypicalAccount());
-        stubInstructor.setAccount(getTypicalAccount());
         stubCourse = getTypicalCourse();
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
         spyFeedbackQuestion = spy(getTypicalFeedbackQuestionForSession(stubFeedbackSession));
@@ -102,8 +100,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 any(FeedbackQuestion.class), anyString(), anyString(), anyString());
 
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(stubStudent);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
                 .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
@@ -114,7 +112,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_insufficientParams_throwsInvalidHttpParameterException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] params1 = {};
         verifyHttpParameterFailure(params1);
@@ -127,7 +125,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_invalidIntent_throwsInvalidHttpParameterException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] paramsStudentResult = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -150,7 +148,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_noRequestBody_throwsInvalidHttpRequestBodyException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -162,7 +160,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_nullRecipient_throwsInvalidOperationException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -187,7 +185,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_emptyRecipient_throwsInvalidOperationException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -212,7 +210,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_invalidRecipient_throwsInvalidOperationException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -237,7 +235,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_studentSubmissionNoExistingResponses_success() throws Exception {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -289,7 +287,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_instructorSubmissionNoExistingResponses_success() throws Exception {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -341,7 +339,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_withExistingResponses_success() throws Exception {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -404,7 +402,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_teamGiverType_success() throws Exception {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         spyFeedbackQuestion.setGiverType(FeedbackParticipantType.TEAMS);
 
         String[] params = {
@@ -445,7 +443,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_questionSpecificValidationFails_throwsInvalidHttpRequestBodyException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -478,7 +476,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_tooManyRecipients_success() throws Exception {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         spyFeedbackQuestion.setNumOfEntitiesToGiveFeedbackTo(1);
 
         String[] params = {
@@ -520,7 +518,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_multipleRecipients_success() throws Exception {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -562,7 +560,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_teamBasedRecipients_success() throws Exception {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         spyFeedbackQuestion.setRecipientType(FeedbackParticipantType.TEAMS);
 
         String[] params = {
@@ -602,7 +600,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_idCannotBeConvertedToUuid_throwsInvalidHttpParameterException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "invalid-uuid",
@@ -624,7 +622,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testExecute_maxPossibleRecipients_success() throws Exception {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         spyFeedbackQuestion.setNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS);
 
         String[] params = {
@@ -666,7 +664,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_questionDoesNotExist_throwsEntityNotFoundException() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
 
         when(mockLogic.getFeedbackQuestion(spyFeedbackQuestion.getId())).thenReturn(null);
 
@@ -682,7 +680,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_notAnswerableForStudent_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
 
         String[] params = {
@@ -701,7 +699,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_notAnswerableForInstructor_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -719,7 +717,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_instructorWithoutSubmitPrivilege_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now().minus(Duration.ofDays(2)));
         stubFeedbackSession.setStartTime(Instant.now().minus(Duration.ofDays(1)));
         stubFeedbackSession.setEndTime(Instant.now().plus(Duration.ofDays(1)));
@@ -741,10 +739,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_studentEntityDoesNotExist_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
 
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(null);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(null);
 
         spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
 
@@ -758,9 +756,9 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_instructorEntityDoesNotExist_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId())).thenReturn(null);
 
         spyFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
 
@@ -774,7 +772,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_sessionNotOpen_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
         stubFeedbackSession.setStartTime(Instant.now().plusSeconds(86400));
         stubFeedbackSession.setEndTime(Instant.now().plusSeconds(172800));
@@ -794,7 +792,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_sessionClosed_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now().minusSeconds(172800));
         stubFeedbackSession.setStartTime(Instant.now().minusSeconds(86400));
         stubFeedbackSession.setEndTime(Instant.now().minusSeconds(3600));
@@ -814,7 +812,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_submissionWithinGracePeriod_canAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now().minus(Duration.ofDays(2)));
         stubFeedbackSession.setStartTime(Instant.now().minus(Duration.ofDays(1)));
         stubFeedbackSession.setEndTime(Instant.now().minus(Duration.ofMinutes(10)));
@@ -835,7 +833,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_submissionAfterDeadlineExtension_canAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now().minus(Duration.ofDays(2)));
         stubFeedbackSession.setStartTime(Instant.now().minus(Duration.ofDays(1)));
         stubFeedbackSession.setEndTime(Instant.now().minus(Duration.ofMinutes(10)));
@@ -856,7 +854,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_previewMode_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         spyFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
 
@@ -871,7 +869,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_typicalStudentAccess_canAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now().minus(Duration.ofDays(2)));
         stubFeedbackSession.setStartTime(Instant.now().minus(Duration.ofDays(1)));
         stubFeedbackSession.setEndTime(Instant.now().plus(Duration.ofDays(1)));
@@ -891,7 +889,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_typicalInstructorAccess_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now().minus(Duration.ofDays(2)));
         stubFeedbackSession.setStartTime(Instant.now().minus(Duration.ofDays(1)));
         stubFeedbackSession.setEndTime(Instant.now().plus(Duration.ofDays(1)));
@@ -911,7 +909,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
     @Test
     void testSpecificAccessControl_instructorWithModeratorPrivilege_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         spyFeedbackQuestion.setShowGiverNameTo(List.of(FeedbackParticipantType.INSTRUCTORS));
         spyFeedbackQuestion.setShowRecipientNameTo(List.of(FeedbackParticipantType.INSTRUCTORS));
         spyFeedbackQuestion.setShowResponsesTo(List.of(FeedbackParticipantType.INSTRUCTORS));
@@ -945,15 +943,15 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.USER_ID, stubStudent.getGoogleId(),
+                Const.ParamsNames.USER_ID, stubStudent.getAccountId(),
         };
 
-        verifyCanMasquerade(stubStudent.getGoogleId(), params);
+        verifyCanMasquerade(stubStudent.getAccountId(), params);
     }
 
     @Test
     void testSpecificAccessControl_studentModerationAttempt_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
 
         spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);

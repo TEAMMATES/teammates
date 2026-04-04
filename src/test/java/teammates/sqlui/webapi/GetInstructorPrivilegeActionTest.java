@@ -3,6 +3,9 @@ package teammates.sqlui.webapi;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -10,6 +13,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorPrivilegeData;
@@ -41,9 +45,13 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         testInstructor1OfCourse1 = getTypicalInstructor();
         testInstructor2OfCourse1 = getTypicalInstructor();
         testInstructor1OfCourse1.setCourse(c1);
-        testInstructor1OfCourse1.setGoogleId("user-googleId-1");
+        Account acc1 = new Account(testInstructor1OfCourse1.getName(), testInstructor1OfCourse1.getEmail());
+        acc1.setId(UUID.nameUUIDFromBytes("user-accountId-1".getBytes(StandardCharsets.UTF_8)));
+        testInstructor1OfCourse1.setAccount(acc1);
         testInstructor2OfCourse1.setCourse(c1);
-        testInstructor2OfCourse1.setGoogleId("user-googleId-2");
+        Account acc2 = new Account(testInstructor2OfCourse1.getName(), testInstructor2OfCourse1.getEmail());
+        acc2.setId(UUID.nameUUIDFromBytes("user-accountId-2".getBytes(StandardCharsets.UTF_8)));
+        testInstructor2OfCourse1.setAccount(acc2);
 
         InstructorPrivileges privileges = testInstructor1OfCourse1.getPrivileges();
         // update section privilege for testing purpose.
@@ -91,7 +99,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     void testAccessControl_students_cannotAccess() {
-        loginAsStudent(Const.ParamsNames.STUDENT_ID);
+        loginAsStudent(Const.ParamsNames.ACCOUNT_ID);
 
         String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
         verifyCannotAccess(submissionParams);
@@ -101,7 +109,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     void testAccessControl_instructorsOfDifferentCourses_cannotAccess() {
         loginAsInstructor(Const.ParamsNames.INSTRUCTOR_ID);
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(null);
 
         String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
         verifyCannotAccess(submissionParams);
@@ -123,7 +131,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     void testExecute_fetchPrivilegeOfNonExistInstructor_shouldFail() {
-        loginAsInstructor(testInstructor1OfCourse1.getGoogleId());
+        loginAsInstructor(testInstructor1OfCourse1.getAccountId());
 
         // course id is used for instructor identify verification here.
         String[] invalidInstructorParams = {
@@ -137,7 +145,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     void testExecute_fetchPrivilegeOfAnotherInstructorByEmail_shouldSucceed() {
-        loginAsInstructor(testInstructor2OfCourse1.getGoogleId());
+        loginAsInstructor(testInstructor2OfCourse1.getAccountId());
 
         // course id is used for instructor identify verification here.
         String[] anotherInstructorParams = {
@@ -156,16 +164,16 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     protected void testExecute_fetchPrivilegeOfAnotherInstructor_shouldSucceed() {
-        loginAsInstructor(testInstructor2OfCourse1.getGoogleId());
+        loginAsInstructor(testInstructor2OfCourse1.getAccountId());
 
         // course id is used for instructor identify verification here.
         String[] anotherInstructorParams = {
                 Const.ParamsNames.COURSE_ID, testInstructor2OfCourse1.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_ID, testInstructor1OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_ID, testInstructor1OfCourse1.getAccountId(),
         };
 
-        when(mockLogic.getInstructorByGoogleId(testInstructor2OfCourse1.getCourseId(),
-                testInstructor1OfCourse1.getGoogleId())).thenReturn(testInstructor1OfCourse1);
+        when(mockLogic.getInstructorByAccountId(testInstructor2OfCourse1.getCourseId(),
+                testInstructor1OfCourse1.getAccountId())).thenReturn(testInstructor1OfCourse1);
 
         GetInstructorPrivilegeAction a = getAction(anotherInstructorParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
@@ -176,21 +184,21 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     protected void testExecute_notEnoughParameters_shouldFail() {
-        loginAsInstructor(testInstructor1OfCourse1.getGoogleId());
+        loginAsInstructor(testInstructor1OfCourse1.getAccountId());
 
         verifyHttpParameterFailure();
     }
 
     @Test
     protected void testExecute_fetchPrivilegeOfSelf_shouldSucceed() {
-        loginAsInstructor(testInstructor1OfCourse1.getGoogleId());
+        loginAsInstructor(testInstructor1OfCourse1.getAccountId());
 
         String[] courseIdParam = {
                 Const.ParamsNames.COURSE_ID, testInstructor1OfCourse1.getCourseId(),
         };
 
-        when(mockLogic.getInstructorByGoogleId(testInstructor1OfCourse1.getCourseId(),
-                testInstructor1OfCourse1.getGoogleId())).thenReturn(testInstructor1OfCourse1);
+        when(mockLogic.getInstructorByAccountId(testInstructor1OfCourse1.getCourseId(),
+                testInstructor1OfCourse1.getAccountId())).thenReturn(testInstructor1OfCourse1);
 
         GetInstructorPrivilegeAction a = getAction(courseIdParam);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();

@@ -200,6 +200,6 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getName());
 
-        return loginToPage(url, InstructorSessionIndividualExtensionPageSql.class, instructor.getGoogleId());
+        return loginToPage(url, InstructorSessionIndividualExtensionPageSql.class, instructor.getAccountId());
     }
 }

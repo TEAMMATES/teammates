@@ -38,7 +38,6 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
         stubCourse = getTypicalCourse();
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
         stubInstructor = getTypicalInstructor();
-        stubInstructor.setAccount(getTypicalAccount());
         stubFeedbackSessionStatsData = new FeedbackSessionStatsData(5, 10);
         reset(mockLogic);
     }
@@ -80,7 +79,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Test
     void testExecute_instructorAccessOwnStats_getStats() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
@@ -101,7 +100,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Test
     void testExecute_nonExistentFeedbackSession_throwsEntityDoesNotExistException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "nonexistentFeedbackSession",
@@ -113,7 +112,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Test
     void testExecute_nonExistentCourse_throwsEntityDoesNotExistException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
@@ -167,13 +166,13 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Test
     void testSpecificAccessControl_instructorValidParamsOwnCourse_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
                 .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubCourse.getId()))
                 .thenReturn(stubFeedbackSession);
@@ -182,13 +181,13 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Test
     void testSpecificAccessControl_instructorNonExistentCourse_throwsEntityNotFoundException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
                 Const.ParamsNames.COURSE_ID, "non-existent-course",
         };
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
                 .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), "non-existent-course"))
                 .thenReturn(null);
@@ -197,13 +196,13 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Test
     void testSpecificAccessControl_instructorNonExistentFeedbackSession_throwsEntityNotFoundException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent-feedback-session",
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
                 .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession("non-existent-feedback-session", stubCourse.getId()))
                 .thenReturn(null);
@@ -218,7 +217,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "invalid-id"))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), "invalid-id"))
                 .thenReturn(null);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubCourse.getId()))
                 .thenReturn(stubFeedbackSession);
@@ -227,23 +226,22 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
     @Test
     void testSpecificAccessControl_instructorAccessNotOwnCourse_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, stubFeedbackSession.getName(),
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
                 .thenReturn(null);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubCourse.getId()))
                 .thenReturn(stubFeedbackSession);
         verifyCannotAccess(params);
 
         Instructor anotherInstructor = getTypicalInstructor();
-        anotherInstructor.setAccount(getTypicalAccount());
         anotherInstructor.setCourse(
                 new Course("another-course", "Another Course", Const.DEFAULT_TIME_ZONE, "teammates"));
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getAccountId()))
                 .thenReturn(anotherInstructor);
         verifyCannotAccess(params);
     }

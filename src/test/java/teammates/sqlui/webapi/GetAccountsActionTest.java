@@ -34,7 +34,7 @@ public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
         for (int i = 0; i < accountDataList.size(); i++) {
             AccountData accountData = accountDataList.get(i);
             Account account = accounts.get(i);
-            assertEquals(accountData.getGoogleId(), account.getGoogleId());
+            assertEquals(accountData.getAccountId(), account.getId().toString());
             assertEquals(accountData.getEmail(), account.getEmail());
             assertEquals(accountData.getName(), account.getName());
         }
@@ -44,8 +44,7 @@ public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
     void testExecute_multipleAccountsWithEmail_multipleAccountsFetched() {
         List<Account> accounts = new ArrayList<>();
         Account accountStub = getTypicalAccount();
-        Account anotherAccountStub = new Account("anotherGoogleId", "anotherEmail",
-                accountStub.getEmail());
+        Account anotherAccountStub = new Account("anotherEmail", accountStub.getEmail());
         accounts.add(accountStub);
         accounts.add(anotherAccountStub);
         when(mockLogic.getAccountsForEmail(accountStub.getEmail())).thenReturn(accounts);

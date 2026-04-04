@@ -38,7 +38,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
     @Test
     protected void testExecute() {
 
-        loginAsUnregistered("unreg.user");
+        loginAsUnregistered("00000000-0000-4000-8000-0000000000f2");
 
         ______TS("Not enough parameters");
 

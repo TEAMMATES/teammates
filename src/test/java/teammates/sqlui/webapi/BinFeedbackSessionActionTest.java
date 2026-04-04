@@ -58,7 +58,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
     @Test
     void testExecute_typicalCase_success() throws Exception {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId(),
@@ -84,7 +84,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
     @Test
     void testExecute_invalidHttpParameters_throwsInvalidHttpParameterException() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId());
@@ -93,7 +93,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
     @Test
     void testAccessControl_nonExistentFeedbackSession_throwsEntityNotFoundException() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId(),

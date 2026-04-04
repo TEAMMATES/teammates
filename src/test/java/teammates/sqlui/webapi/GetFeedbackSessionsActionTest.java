@@ -2,10 +2,12 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.when;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
@@ -53,14 +55,14 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         sessionsInCourse1.add(generateSession1InCourse(course1, "feedbacksession-2"));
 
         when(mockLogic.getFeedbackSessionsForCourse(course1.getId())).thenReturn(sessionsInCourse1);
-        when(mockLogic.getStudentsByGoogleId(student1.getAccount().getGoogleId())).thenReturn(List.of(student1));
-        when(mockLogic.getInstructorByGoogleId(
-                instructor1.getAccount().getGoogleId(), course1.getId())).thenReturn(instructor1);
+        when(mockLogic.getStudentsByAccountId(student1.getAccount().getId().toString())).thenReturn(List.of(student1));
+        when(mockLogic.getInstructorByAccountId(
+                instructor1.getAccount().getId().toString(), course1.getId())).thenReturn(instructor1);
     }
 
     @Test
     protected void textExecute() {
-        loginAsStudent(student1.getAccount().getGoogleId());
+        loginAsStudent(student1.getAccount().getId().toString());
 
         String[] submissionParam = {
                 Const.ParamsNames.IS_IN_RECYCLE_BIN, "false",
@@ -175,9 +177,10 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     private Student generateStudent1InCourse(Course courseStudentIsIn) {
         String email = "student1@gmail.com";
         String name = "student-1";
-        String googleId = "student-1";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
-        s.setAccount(new Account(googleId, name, email));
+        Account acc = new Account(name, email);
+        acc.setId(UUID.nameUUIDFromBytes("student-1".getBytes(StandardCharsets.UTF_8)));
+        s.setAccount(acc);
         return s;
     }
 
@@ -195,7 +198,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
     private Instructor generateInstructor1InCourse(Course course) {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        instructor.setAccount(new Account("instructor-1", instructor.getName(), instructor.getEmail()));
+        Account acc = new Account(instructor.getName(), instructor.getEmail());
+        acc.setId(UUID.nameUUIDFromBytes("instructor-1".getBytes(StandardCharsets.UTF_8)));
+        instructor.setAccount(acc);
         return instructor;
     }
 }

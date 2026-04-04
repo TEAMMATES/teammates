@@ -291,79 +291,101 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForGoogleId_null_throwException() {
-        assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForGoogleId(null));
+    public void testGetInvalidityInfoForOidcIssuer_null_throwException() {
+        assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForOidcIssuer(null));
     }
 
     @Test
-    public void testGetInvalidityInfoForGoogleId_valid_returnEmptyString() {
-        String typicalId = "valid9.Goo-gle.id_";
-        assertEquals("Valid Google ID (typical) should return empty string", "",
-                     FieldValidator.getInvalidityInfoForGoogleId(typicalId));
+    public void testGetInvalidityInfoForOidcIssuer_valid_returnEmptyString() {
+        String typicalIssuer = "https://accounts.google.com";
+        assertEquals("Valid OIDC issuer (typical URL) should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcIssuer(typicalIssuer));
 
-        String shortId = "e";
-        assertEquals("Valid Google ID (short) should return empty string", "",
-                     FieldValidator.getInvalidityInfoForGoogleId(shortId));
+        String shortIssuer = "x";
+        assertEquals("Valid OIDC issuer (short) should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcIssuer(shortIssuer));
 
-        String emailAsId = "someone@yahoo.com";
-        assertEquals("Valid Google ID (typical email) should return empty string", "",
-                     FieldValidator.getInvalidityInfoForGoogleId(emailAsId));
-
-        String shortEmailAsId = "e@y.c";
-        assertEquals("Valid Google ID (short email) should return empty string", "",
-                     FieldValidator.getInvalidityInfoForGoogleId(shortEmailAsId));
-
-        String maxLengthId = StringHelperExtension.generateStringOfLength(FieldValidator.GOOGLE_ID_MAX_LENGTH);
-        assertEquals("Valid Google ID (max length) should return empty string", "",
-                     FieldValidator.getInvalidityInfoForGoogleId(maxLengthId));
+        String maxLengthIssuer = StringHelperExtension.generateStringOfLength(FieldValidator.OIDC_ISSUER_MAX_LENGTH);
+        assertEquals("Valid OIDC issuer (max length) should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcIssuer(maxLengthIssuer));
     }
 
     @Test
-    public void testGetInvalidityInfoForGoogleId_invalid_returnErrorString() {
-        String emptyId = "";
-        assertEquals("Invalid Google ID (empty) should return appropriate error message",
-                     "The field 'Google ID' is empty. A Google ID must be a valid id "
-                         + "already registered with Google. It cannot be longer than "
-                         + "254 characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(emptyId));
+    public void testGetInvalidityInfoForOidcIssuer_invalid_returnErrorString() {
+        String emptyIssuer = "";
+        assertEquals("Invalid OIDC issuer (empty) should return appropriate error string",
+                "The field 'OIDC issuer' is empty. The value of a/an OIDC issuer should be no longer than "
+                        + FieldValidator.OIDC_ISSUER_MAX_LENGTH + " characters. It should not be empty.",
+                FieldValidator.getInvalidityInfoForOidcIssuer(emptyIssuer));
 
-        String whitespaceId = "     ";
-        assertEquals("Invalid Google ID (contains whitespaces only) should return appropriate error message",
-                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
-                        "${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME),
-                     FieldValidator.getInvalidityInfoForGoogleId(whitespaceId));
+        String whitespaceIssuer = "     ";
+        assertEquals("Invalid OIDC issuer (whitespace only) should return appropriate error string",
+                FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                        "${fieldName}", FieldValidator.OIDC_ISSUER_FIELD_NAME),
+                FieldValidator.getInvalidityInfoForOidcIssuer(whitespaceIssuer));
 
-        String untrimmedId = "  googleIdWithSpacesAround    ";
-        assertEquals("Invalid Google ID (leading/trailing whitespaces) should return appropriate error message",
-                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
-                        "${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME),
-                     FieldValidator.getInvalidityInfoForGoogleId(untrimmedId));
+        String untrimmedIssuer = "  https://issuer.example  ";
+        assertEquals("Invalid OIDC issuer (leading/trailing whitespace) should return appropriate error string",
+                FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                        "${fieldName}", FieldValidator.OIDC_ISSUER_FIELD_NAME),
+                FieldValidator.getInvalidityInfoForOidcIssuer(untrimmedIssuer));
 
-        String tooLongId = StringHelperExtension.generateStringOfLength(FieldValidator.GOOGLE_ID_MAX_LENGTH + 1);
-        assertEquals("Invalid Google ID (too long) should return appropriate error message",
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaa\" is not acceptable to TEAMMATES as a/an Google ID because it is too "
-                         + "long. A Google ID must be a valid id already registered with Google. It cannot "
-                         + "be longer than 254 characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(tooLongId));
+        String tooLongIssuer = StringHelperExtension.generateStringOfLength(FieldValidator.OIDC_ISSUER_MAX_LENGTH + 1);
+        String expectedTooLong = "\"" + tooLongIssuer + "\" is not acceptable to TEAMMATES as a/an "
+                + FieldValidator.OIDC_ISSUER_FIELD_NAME + " because it " + FieldValidator.REASON_TOO_LONG + ". "
+                + "The value of a/an " + FieldValidator.OIDC_ISSUER_FIELD_NAME + " should be no longer than "
+                + FieldValidator.OIDC_ISSUER_MAX_LENGTH + " characters. It should not be empty.";
+        assertEquals("Invalid OIDC issuer (too long) should return appropriate error string",
+                expectedTooLong, FieldValidator.getInvalidityInfoForOidcIssuer(tooLongIssuer));
+    }
 
-        String idWithSpaces = "invalid google id with spaces";
-        assertEquals("Invalid Google ID (with spaces) should return appropriate error message",
-                     "\"invalid google id with spaces\" is not acceptable to TEAMMATES as a/an Google ID "
-                         + "because it is not in the correct format. A Google ID must be a valid id already "
-                         + "registered with Google. It cannot be longer than 254 characters, cannot be empty "
-                         + "and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(idWithSpaces));
+    @Test
+    public void testGetInvalidityInfoForOidcSubject_null_throwException() {
+        assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForOidcSubject(null));
+    }
 
-        String idWithInvalidHtmlChar = "invalid google id with HTML/< special characters";
-        assertEquals("Invalid Google ID (contains HTML characters) should return appropriate error message",
-                     "\"invalid google id with HTML/< special characters\" is not acceptable to "
-                         + "TEAMMATES as a/an Google ID because it is not in the correct format. A Google ID "
-                         + "must be a valid id already registered with Google. It cannot be longer than 254 "
-                         + "characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar));
+    @Test
+    public void testGetInvalidityInfoForOidcSubject_valid_returnEmptyString() {
+        String typicalSubject = "sub|tenant|opaque-user-id";
+        assertEquals("Valid OIDC subject (typical) should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcSubject(typicalSubject));
+
+        String shortSubject = "s";
+        assertEquals("Valid OIDC subject (short) should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcSubject(shortSubject));
+
+        String maxLengthSubject = StringHelperExtension.generateStringOfLength(FieldValidator.OIDC_SUBJECT_MAX_LENGTH);
+        assertEquals("Valid OIDC subject (max length) should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcSubject(maxLengthSubject));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForOidcSubject_invalid_returnErrorString() {
+        String emptySubject = "";
+        assertEquals("Invalid OIDC subject (empty) should return appropriate error string",
+                "The field 'OIDC subject' is empty. The value of a/an OIDC subject should be no longer than "
+                        + FieldValidator.OIDC_SUBJECT_MAX_LENGTH + " characters. It should not be empty.",
+                FieldValidator.getInvalidityInfoForOidcSubject(emptySubject));
+
+        String whitespaceSubject = "     ";
+        assertEquals("Invalid OIDC subject (whitespace only) should return appropriate error string",
+                FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                        "${fieldName}", FieldValidator.OIDC_SUBJECT_FIELD_NAME),
+                FieldValidator.getInvalidityInfoForOidcSubject(whitespaceSubject));
+
+        String untrimmedSubject = "  subject-value  ";
+        assertEquals("Invalid OIDC subject (leading/trailing whitespace) should return appropriate error string",
+                FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                        "${fieldName}", FieldValidator.OIDC_SUBJECT_FIELD_NAME),
+                FieldValidator.getInvalidityInfoForOidcSubject(untrimmedSubject));
+
+        String tooLongSubject = StringHelperExtension.generateStringOfLength(FieldValidator.OIDC_SUBJECT_MAX_LENGTH + 1);
+        String expectedTooLong = "\"" + tooLongSubject + "\" is not acceptable to TEAMMATES as a/an "
+                + FieldValidator.OIDC_SUBJECT_FIELD_NAME + " because it " + FieldValidator.REASON_TOO_LONG + ". "
+                + "The value of a/an " + FieldValidator.OIDC_SUBJECT_FIELD_NAME + " should be no longer than "
+                + FieldValidator.OIDC_SUBJECT_MAX_LENGTH + " characters. It should not be empty.";
+        assertEquals("Invalid OIDC subject (too long) should return appropriate error string",
+                expectedTooLong, FieldValidator.getInvalidityInfoForOidcSubject(tooLongSubject));
     }
 
     @Test
@@ -832,25 +854,6 @@ public class FieldValidatorTest extends BaseTestCase {
         ______TS("failure: contains invalid character");
         courseId = "CS101+B";
         assertFalse(StringHelper.isMatching(courseId, FieldValidator.REGEX_COURSE_ID));
-    }
-
-    @Test
-    public void testRegexGoogleIdNonEmail() {
-        ______TS("success: typical google id");
-        String googleId = "teammates.instr";
-        assertTrue(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
-
-        ______TS("success: google id with all accepted characters");
-        googleId = "teammates.new_instr-3";
-        assertTrue(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
-
-        ______TS("failure: is email");
-        googleId = "teammates.instr@email.com";
-        assertFalse(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
-
-        ______TS("failure: contains invalid character");
-        googleId = "teammates.$instr";
-        assertFalse(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
     }
 
 }

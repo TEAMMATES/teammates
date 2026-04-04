@@ -10,7 +10,7 @@ import teammates.storage.sqlentity.Instructor;
  */
 public class InstructorData extends ApiOutput {
     @Nullable
-    private String googleId;
+    private String accountId;
     private final String courseId;
     private final String email;
     @Nullable
@@ -25,6 +25,10 @@ public class InstructorData extends ApiOutput {
     private String key;
     @Nullable
     private String institute;
+    @Nullable
+    private String loginIdentifier;
+    @Nullable
+    private String loginProvider;
 
     public InstructorData(Instructor instructor) {
         this.courseId = instructor.getCourseId();
@@ -37,12 +41,12 @@ public class InstructorData extends ApiOutput {
         this.institute = instructor.getCourse().getInstitute();
     }
 
-    public String getGoogleId() {
-        return googleId;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setGoogleId(String googleId) {
-        this.googleId = googleId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getCourseId() {
@@ -105,16 +109,37 @@ public class InstructorData extends ApiOutput {
         this.institute = institute;
     }
 
+    public String getLoginIdentifier() {
+        return loginIdentifier;
+    }
+
+    public void setLoginIdentifier(String loginIdentifier) {
+        this.loginIdentifier = loginIdentifier;
+    }
+
+    public String getLoginProvider() {
+        return loginProvider;
+    }
+
+    public void setLoginProvider(String loginProvider) {
+        this.loginProvider = loginProvider;
+    }
+
     /**
      * Adds additional attributes only for search result for admin.
      *
      * @param key Registration key
      * @param institute Institute of the instructor
-     * @param googleId Google ID of the instructor
+     * @param accountId Account id of the instructor
+     * @param loginIdentifier Login identifier of the instructor
+     * @param loginProvider Login provider of the instructor
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute, String googleId) {
+    public void addAdditionalInformationForAdminSearch(
+            String key, String institute, String accountId, String loginIdentifier, String loginProvider) {
         setKey(key);
         setInstitute(institute);
-        setGoogleId(googleId);
+        setAccountId(accountId);
+        setLoginIdentifier(loginIdentifier);
+        setLoginProvider(loginProvider);
     }
 }

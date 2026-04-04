@@ -29,7 +29,9 @@ const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
 const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   name: 'name',
   email: 'email',
-  googleId: 'googleId',
+  accountId: '00000000-0000-4000-8000-0000000000d1',
+  loginIdentifier: 'student-login@example.com',
+  loginProvider: 'google',
   courseId: 'courseId',
   courseName: 'courseName',
   isCourseDeleted: false,
@@ -51,7 +53,9 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
 const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
   name: 'name',
   email: 'email',
-  googleId: 'googleId',
+  accountId: '00000000-0000-4000-8000-0000000000d1',
+  loginIdentifier: 'instructor-login@example.com',
+  loginProvider: 'google',
   courseId: 'courseId',
   courseName: 'courseName',
   isCourseDeleted: false,
@@ -123,7 +127,9 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'instructor',
         email: 'instructor@tester.com',
-        googleId: 'ins-google-id',
+        accountId: '00000000-0000-4000-8000-0000000000d2',
+        loginIdentifier: 'instructor-login@tester.com',
+        loginProvider: 'google',
         courseId: 'deleted-course',
         courseName: 'deleted',
         isCourseDeleted: true,
@@ -142,7 +148,9 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'student',
         email: 'student@gmail.tmt',
-        googleId: 'student-google-id',
+        accountId: '00000000-0000-4000-8000-0000000000d3',
+        loginIdentifier: 'student-login@gmail.tmt',
+        loginProvider: 'google',
         courseId: 'deleted-course',
         courseName: 'deleted',
         isCourseDeleted: true,
@@ -171,7 +179,9 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'tester',
         email: 'tester@tester.com',
-        googleId: 'instructor-google-id',
+        accountId: '00000000-0000-4000-8000-0000000000d4',
+        loginIdentifier: 'tester-login@tester.com',
+        loginProvider: 'google',
         courseId: 'test-exa.demo',
         courseName: 'demo',
         isCourseDeleted: false,
@@ -196,7 +206,9 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'Alice Betsy',
         email: 'alice.b.tmms@gmail.tmt',
-        googleId: 'student-google-id',
+        accountId: '00000000-0000-4000-8000-0000000000d3',
+        loginIdentifier: 'alice-login@gmail.tmt',
+        loginProvider: 'google',
         courseId: 'test-exa.demo',
         courseName: 'demo',
         isCourseDeleted: false,
@@ -261,7 +273,9 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'name1',
         email: 'email1',
-        googleId: 'googleId1',
+        accountId: '00000000-0000-4000-8000-0000000000a1',
+        loginIdentifier: 'login1@example.com',
+        loginProvider: 'google',
         courseId: 'courseId1',
         courseName: 'courseName1',
         isCourseDeleted: false,
@@ -278,7 +292,9 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'name2',
         email: 'email2',
-        googleId: 'googleId2',
+        accountId: '00000000-0000-4000-8000-0000000000a2',
+        loginIdentifier: 'login2@example.com',
+        loginProvider: 'microsoft',
         courseId: 'courseId2',
         courseName: 'courseName2',
         isCourseDeleted: false,
@@ -316,7 +332,9 @@ describe('AdminSearchPageComponent', () => {
       {
         name: 'name1',
         email: 'email1',
-        googleId: 'googleId1',
+        accountId: '00000000-0000-4000-8000-0000000000a1',
+        loginIdentifier: 'student1@example.com',
+        loginProvider: 'google',
         courseId: 'courseId1',
         courseName: 'courseName1',
         isCourseDeleted: false,
@@ -336,7 +354,9 @@ describe('AdminSearchPageComponent', () => {
       }, {
         name: 'name2',
         email: 'email2',
-        googleId: 'googleId2',
+        accountId: '00000000-0000-4000-8000-0000000000a2',
+        loginIdentifier: 'student2@example.com',
+        loginProvider: 'microsoft',
         courseId: 'courseId2',
         courseName: 'courseName2',
         isCourseDeleted: false,
@@ -377,7 +397,9 @@ describe('AdminSearchPageComponent', () => {
     const instructorResult: InstructorAccountSearchResult = {
       name: 'name',
       email: 'email',
-      googleId: 'googleId',
+      accountId: '00000000-0000-4000-8000-0000000000d1',
+      loginIdentifier: 'instructor-login@example.com',
+      loginProvider: 'google',
       courseId: 'courseId',
       courseName: 'courseName',
       isCourseDeleted: false,
@@ -409,11 +431,13 @@ describe('AdminSearchPageComponent', () => {
     expect(component.students[0].showLinks).toEqual(true);
   });
 
-  it('should show success message if successfully reset instructor google id', () => {
+  it('should show success message if successfully reset instructor account', () => {
     const instructorResult: InstructorAccountSearchResult = {
       name: 'name',
       email: 'email',
-      googleId: 'googleId',
+      accountId: '00000000-0000-4000-8000-0000000000d1',
+      loginIdentifier: 'instructor-login@example.com',
+      loginProvider: 'google',
       courseId: 'courseId',
       courseName: 'courseName',
       isCourseDeleted: false,
@@ -441,7 +465,7 @@ describe('AdminSearchPageComponent', () => {
     }));
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
         .mockImplementation((args: string) => {
-          expect(args).toEqual('The instructor\'s Google ID has been reset.');
+          expect(args).toEqual('The instructor\'s account has been reset.');
         });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
@@ -454,7 +478,9 @@ describe('AdminSearchPageComponent', () => {
     const instructorResult: InstructorAccountSearchResult = {
       name: 'name',
       email: 'email',
-      googleId: 'googleId',
+      accountId: '00000000-0000-4000-8000-0000000000d1',
+      loginIdentifier: 'instructor-login@example.com',
+      loginProvider: 'google',
       courseId: 'courseId',
       courseName: 'courseName',
       isCourseDeleted: false,
@@ -494,7 +520,7 @@ describe('AdminSearchPageComponent', () => {
     expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
-  it('should show success message if successfully reset student google id', () => {
+  it('should show success message if successfully reset student account', () => {
     const studentResult: StudentAccountSearchResult = DEFAULT_STUDENT_SEARCH_RESULT;
     component.students = [studentResult];
     fixture.detectChanges();
@@ -511,7 +537,7 @@ describe('AdminSearchPageComponent', () => {
 
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
         .mockImplementation((args: string) => {
-          expect(args).toEqual('The student\'s Google ID has been reset.');
+          expect(args).toEqual('The student\'s account has been reset.');
         });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
@@ -520,11 +546,13 @@ describe('AdminSearchPageComponent', () => {
     expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
-  it('should show error message if fail to reset student google id', () => {
+  it('should show error message if fail to reset student account', () => {
     const studentResult: StudentAccountSearchResult = {
       name: 'name',
       email: 'email',
-      googleId: 'googleId',
+      accountId: '00000000-0000-4000-8000-0000000000d1',
+      loginIdentifier: 'student-login@example.com',
+      loginProvider: 'google',
       courseId: 'courseId',
       courseName: 'courseName',
       isCourseDeleted: false,

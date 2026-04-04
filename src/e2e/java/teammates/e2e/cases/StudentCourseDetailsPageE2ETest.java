@@ -26,7 +26,7 @@ public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
                 .withCourseId("tm.e2e.SCDet.CS2104");
         StudentCourseDetailsPageSql detailsPage = loginToPage(url, StudentCourseDetailsPageSql.class,
-                testData.accounts.get("SCDet.alice").getGoogleId());
+                testData.accounts.get("SCDet.alice").getAccountId());
 
         ______TS("verify loaded data");
         Instructor[] instructors = { testData.instructors.get("SCDet.instr"),

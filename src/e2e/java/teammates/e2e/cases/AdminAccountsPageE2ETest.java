@@ -14,8 +14,6 @@ import teammates.ui.output.AccountData;
  */
 public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
 
-    String googleId = "tm.e2e.AAccounts.instr2";
-
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(loadDataBundle("/AdminAccountsPageE2ETestSql.json"));
@@ -24,12 +22,13 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
+        String accountId = testData.accounts.get("AAccounts.instr2").getAccountId();
         ______TS("verify loaded data");
         AppUrl accountsPageUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId);
+                .withParam(Const.ParamsNames.INSTRUCTOR_ID, accountId);
         AdminAccountsPage accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountsPage.class);
 
-        AccountData account = getAccount(googleId);
+        AccountData account = getAccount(accountId);
         accountsPage.verifyAccountDetails(account);
 
         ______TS("action: remove instructor from course");
@@ -57,9 +56,9 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(student3);
 
         accountsPage.clickDeleteAccount();
-        accountsPage.verifyStatusMessage("Account \"" + googleId + "\" is successfully deleted.");
+        accountsPage.verifyStatusMessage("Account for " + account.getEmail() + " has been successfully deleted.");
 
-        assertNull(getAccount(googleId));
+        assertNull(getAccount(accountId));
 
         // student entities should be deleted
         verifyAbsentInDatabase(student2);

@@ -2,9 +2,18 @@
   "accounts": {
     "ICJoinConf.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.ICJoinConf.instr",
       "name": "Teammates Test",
       "email": "icjoinconf.instr@gmail.tmt"
+    },
+    "ICJoinConf.pendingInstr": {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "name": "Teammates Test 2",
+      "email": "icjoinconf.instr2@gmail.tmt"
+    },
+    "ICJoinConf.newInstr": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "name": "Teammates Test 3",
+      "email": "icjoinconf.newinstr@gmail.tmt"
     }
   },
   "accountRequests": {

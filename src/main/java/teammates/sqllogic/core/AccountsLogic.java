@@ -8,8 +8,10 @@ import java.util.stream.Collectors;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.FieldValidator;
 import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
@@ -60,12 +62,66 @@ public final class AccountsLogic {
     }
 
     /**
-     * Gets an account by googleId.
+     * Gets an account by internal account id (UUID string).
      */
-    public Account getAccountForGoogleId(String googleId) {
-        assert googleId != null;
+    public Account getAccountById(String accountId) {
+        assert accountId != null;
+        return getAccount(UUID.fromString(accountId));
+    }
 
-        return accountsDb.getAccountByGoogleId(googleId);
+    /**
+     * Resolves or creates an account from a verified OIDC login (issuer + subject).
+     * Sets the login identifier to the email by default.
+     */
+    public Account resolveOrCreateAccountFromOidc(
+            String issuer, String subject, String email, String name, String providerName)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return resolveOrCreateAccountFromOidc(issuer, subject, email, name, email, providerName);
+    }
+
+    /**
+     * Resolves or creates an account from a verified OIDC login (issuer + subject).
+     */
+    public Account resolveOrCreateAccountFromOidc(
+            String issuer, String subject, String email, String name, String loginIdentifier, String providerName)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert issuer != null;
+        assert subject != null;
+
+        AccountIdentity existing = accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject);
+        if (existing != null) {
+            return existing.getAccount();
+        }
+
+        assert loginIdentifier != null : "OIDC login identifier must be present to create an account";
+        String safeName = name != null ? name : "";
+        Account account = new Account(safeName, email);
+        AccountIdentity identity = new AccountIdentity(issuer, subject, loginIdentifier, providerName);
+        account.addIdentity(identity);
+        return accountsDb.createAccount(account);
+    }
+
+    /**
+     * Links an additional OIDC identity to an existing account.
+     */
+    public AccountIdentity linkAccountIdentity(
+            Account account, String issuer, String subject, String loginIdentifier, String providerName)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert account != null;
+        if (accountsDb.getAccountIdentityByIssuerAndSubject(issuer, subject) != null) {
+            throw new EntityAlreadyExistsException("Identity already linked to an account.");
+        }
+        AccountIdentity identity = new AccountIdentity(issuer, subject, loginIdentifier, providerName);
+        account.addIdentity(identity);
+        return accountsDb.createAccountIdentity(identity);
+    }
+
+    /**
+     * Returns the first (earliest-created) {@link AccountIdentity} linked to the given account,
+     * or null if none exists.
+     */
+    public AccountIdentity getFirstIdentityForAccount(String accountId) {
+        return accountsDb.getFirstAccountIdentityByAccountId(UUID.fromString(accountId));
     }
 
     /**
@@ -78,7 +134,7 @@ public final class AccountsLogic {
     }
 
     /**
-     * Creates an account.
+     * Creates an account (typically with {@link Account#addIdentity} already populated).
      *
      * @return the created account
      * @throws InvalidParametersException   if the account is not valid
@@ -92,38 +148,54 @@ public final class AccountsLogic {
     }
 
     /**
-     * Deletes account associated with the {@code googleId}.
-     *
-     * <p>Fails silently if the account doesn't exist.</p>
+     * Persists a pre-built {@link AccountIdentity} directly (used for test data setup).
      */
-    public void deleteAccount(String googleId) {
-        assert googleId != null;
-
-        Account account = getAccountForGoogleId(googleId);
-        accountsDb.deleteAccount(account);
+    public AccountIdentity createAccountIdentity(AccountIdentity identity)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert identity != null;
+        return accountsDb.createAccountIdentity(identity);
     }
 
     /**
-     * Deletes account and all users associated with the {@code googleId}.
+     * Deletes account by internal id.
      *
      * <p>Fails silently if the account doesn't exist.</p>
      */
-    public void deleteAccountCascade(String googleId) {
-        assert googleId != null;
+    public void deleteAccount(UUID accountId) {
+        assert accountId != null;
 
-        List<User> usersToDelete = usersLogic.getAllUsersByGoogleId(googleId);
+        Account account = getAccount(accountId);
+        if (account != null) {
+            accountsDb.deleteAccount(account);
+        }
+    }
+
+    /**
+     * Deletes account and all users associated with the account id.
+     *
+     * <p>Fails silently if the account doesn't exist.</p>
+     */
+    public void deleteAccountCascade(String accountId) {
+        assert accountId != null;
+
+        Account acc = getAccountById(accountId);
+        if (acc == null) {
+            return;
+        }
+        String canonicalId = acc.getId().toString();
+        List<User> usersToDelete = usersLogic.getAllUsersByAccountId(canonicalId);
 
         for (User user : usersToDelete) {
             usersLogic.deleteUser(user);
         }
 
-        deleteAccount(googleId);
+        deleteAccount(acc.getId());
     }
 
     /**
      * Updates the readNotifications of an account.
      *
-     * @param googleId       google ID of the user who read the notification.
+     * @param accountId      internal account UUID string
      * @param notificationId ID of notification to be marked as read.
      * @param endTime        the expiry time of the notification, i.e. notification
      *                       will not be shown after this time.
@@ -132,9 +204,9 @@ public final class AccountsLogic {
      * @throws EntityDoesNotExistException if account or notification does not
      *                                     exist.
      */
-    public List<UUID> updateReadNotifications(String googleId, UUID notificationId, Instant endTime)
+    public List<UUID> updateReadNotifications(String accountId, UUID notificationId, Instant endTime)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Account account = accountsDb.getAccountByGoogleId(googleId);
+        Account account = accountsDb.getAccount(UUID.fromString(accountId));
         if (account == null) {
             throw new EntityDoesNotExistException("Trying to update the read notifications of a non-existent account.");
         }
@@ -158,8 +230,8 @@ public final class AccountsLogic {
     /**
      * Gets ids of read notifications in an account.
      */
-    public List<UUID> getReadNotificationsId(String googleId) {
-        return accountsDb.getAccountByGoogleId(googleId).getReadNotifications().stream()
+    public List<UUID> getReadNotificationsId(String accountId) {
+        return accountsDb.getAccount(UUID.fromString(accountId)).getReadNotifications().stream()
                 .map(n -> n.getNotification().getId())
                 .collect(Collectors.toList());
     }
@@ -167,15 +239,13 @@ public final class AccountsLogic {
     /**
      * Joins the user as a student.
      */
-    public Student joinCourseForStudent(String registrationKey, String googleId)
+    public Student joinCourseForStudent(String registrationKey, String accountId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        Student student = validateStudentJoinRequest(registrationKey, googleId);
+        Student student = validateStudentJoinRequest(registrationKey, accountId);
 
-        Account account = accountsDb.getAccountByGoogleId(googleId);
-        // Create an account if it doesn't exist
+        Account account = getAccountById(accountId);
         if (account == null) {
-            account = new Account(googleId, student.getName(), student.getEmail());
-            createAccount(account);
+            throw new EntityDoesNotExistException("No account found for the current user.");
         }
 
         if (student.getAccount() == null) {
@@ -188,23 +258,18 @@ public final class AccountsLogic {
     /**
      * Joins the user as an instructor.
      */
-    public Instructor joinCourseForInstructor(String key, String googleId)
+    public Instructor joinCourseForInstructor(String key, String accountId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        Instructor instructor = validateInstructorJoinRequest(key, googleId);
+        Instructor instructor = validateInstructorJoinRequest(key, accountId);
 
-        Account account = accountsDb.getAccountByGoogleId(googleId);
+        Account account = getAccountById(accountId);
         if (account == null) {
-            try {
-                account = new Account(googleId, instructor.getName(), instructor.getEmail());
-                createAccount(account);
-            } catch (EntityAlreadyExistsException e) {
-                assert false : "Account already exists.";
-            }
+            throw new EntityDoesNotExistException("No account found for the current user.");
         }
 
         instructor.setAccount(account);
 
-        // Update the googleId of the student entity for the instructor which was created from sample data.
+        // Update the account of the student entity for the instructor which was created from sample data.
         Student student = usersLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null) {
             student.setAccount(account);
@@ -214,8 +279,8 @@ public final class AccountsLogic {
         return instructor;
     }
 
-    private Instructor validateInstructorJoinRequest(String registrationKey, String googleId)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+    private Instructor validateInstructorJoinRequest(String registrationKey, String accountId)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Instructor instructorForKey = usersLogic.getInstructorByRegistrationKey(registrationKey);
 
         if (instructorForKey == null) {
@@ -232,9 +297,11 @@ public final class AccountsLogic {
             throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
         }
 
+        validateAccountIdFormat(accountId);
+
         if (instructorForKey.isRegistered()) {
-            if (instructorForKey.getGoogleId().equals(googleId)) {
-                Account existingAccount = accountsDb.getAccountByGoogleId(googleId);
+            if (accountId.equals(instructorForKey.getAccountId())) {
+                Account existingAccount = getAccountById(accountId);
                 if (existingAccount != null) {
                     throw new EntityAlreadyExistsException("Instructor has already joined course");
                 }
@@ -242,9 +309,8 @@ public final class AccountsLogic {
                 throw new EntityAlreadyExistsException("Instructor has already joined course");
             }
         } else {
-            // Check if this Google ID has already joined this course
             Instructor existingInstructor =
-                    usersLogic.getInstructorByGoogleId(instructorForKey.getCourseId(), googleId);
+                    usersLogic.getInstructorByAccountId(instructorForKey.getCourseId(), accountId);
 
             if (existingInstructor != null) {
                 throw new EntityAlreadyExistsException("Instructor has already joined course");
@@ -254,9 +320,8 @@ public final class AccountsLogic {
         return instructorForKey;
     }
 
-    private Student validateStudentJoinRequest(String registrationKey, String googleId)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
-
+    private Student validateStudentJoinRequest(String registrationKey, String accountId)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Student studentRole = usersLogic.getStudentByRegistrationKey(registrationKey);
 
         if (studentRole == null) {
@@ -273,18 +338,33 @@ public final class AccountsLogic {
             throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
         }
 
+        validateAccountIdFormat(accountId);
+
         if (studentRole.isRegistered()) {
             throw new EntityAlreadyExistsException("Student has already joined course");
         }
 
-        // Check if this Google ID has already joined this course
         Student existingStudent =
-                usersLogic.getStudentByGoogleId(studentRole.getCourseId(), googleId);
+                usersLogic.getStudentByAccountId(studentRole.getCourseId(), accountId);
 
         if (existingStudent != null) {
             throw new EntityAlreadyExistsException("Student has already joined course");
         }
 
         return studentRole;
+    }
+
+    private void validateAccountIdFormat(String accountId) throws InvalidParametersException {
+        if (accountId == null) {
+            throw new InvalidParametersException("Account ID " + FieldValidator.REASON_INCORRECT_FORMAT);
+        }
+        try {
+            UUID.fromString(accountId);
+        } catch (IllegalArgumentException e) {
+            InvalidParametersException ex =
+                    new InvalidParametersException("Account ID " + FieldValidator.REASON_INCORRECT_FORMAT);
+            ex.initCause(e);
+            throw ex;
+        }
     }
 }

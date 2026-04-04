@@ -29,6 +29,8 @@ public final class EmailChecker {
         try {
             String expected = FileHelper.readFile(filePath);
             expected = injectTestProperties(expected);
+            expected = expected.replace("\r\n", "\n");
+            actual = actual.replace("\r\n", "\n");
             if (!expected.equals(actual)) {
                 assertEquals("<expected>" + System.lineSeparator() + expected + "</expected>",
                         "<actual>" + System.lineSeparator() + actual + "</actual>");

@@ -5,6 +5,7 @@ import java.util.List;
 
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.StudentData;
@@ -37,7 +38,7 @@ public class SearchStudentsAction extends Action {
 
         try {
             if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entity)) {
-                List<Instructor> instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
+                List<Instructor> instructors = sqlLogic.getInstructorsForAccountId(userInfo.id);
                 students = sqlLogic.searchStudents(searchKey, instructors);
             } else if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
                 students = sqlLogic.searchStudentsInWholeSystem(searchKey);
@@ -54,11 +55,16 @@ public class SearchStudentsAction extends Action {
             StudentData studentData = new StudentData(s);
 
             if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
+                String accountId = s.getAccountId();
+                AccountIdentity identity = accountId != null ? sqlLogic.getFirstIdentityForAccount(accountId) : null;
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getRegKey(),
                         sqlLogic.getCourseInstitute(s.getCourseId()),
-                        s.getGoogleId()
-                );
+                        accountId,
+                        identity != null ? identity.getLoginIdentifier() : "",
+                        identity != null ? identity.getProviderName() : "");
+            } else {
+                studentData.setAccountId(null);
             }
 
             studentDataList.add(studentData);

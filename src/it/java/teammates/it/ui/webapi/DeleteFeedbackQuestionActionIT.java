@@ -49,7 +49,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
                 logic.getFeedbackQuestion(fq1.getId());
         assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionDetailsCopy().getQuestionType());
 
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
+        loginAsInstructor(instructor1ofCourse1.getAccountId());
 
         ______TS("Not enough parameters");
 
@@ -82,7 +82,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
 
         FeedbackQuestion typicalQuestion = logic.getFeedbackQuestion(fq1.getId());
 
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getAccountId());
 
         ______TS("inaccessible without ModifySessionPrivilege");
 

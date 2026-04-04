@@ -19,7 +19,7 @@ public class StudentData extends ApiOutput {
 
     private final String name;
     @Nullable
-    private String googleId;
+    private String accountId;
     @Nullable
     private String comments;
     @Nullable
@@ -28,6 +28,10 @@ public class StudentData extends ApiOutput {
     private String institute;
     @Nullable
     private JoinState joinState;
+    @Nullable
+    private String loginIdentifier;
+    @Nullable
+    private String loginProvider;
 
     private final String teamName;
     private final String sectionName;
@@ -37,6 +41,7 @@ public class StudentData extends ApiOutput {
         this.email = student.getEmail();
         this.courseId = student.getCourseId();
         this.name = student.getName();
+        this.accountId = student.getAccountId();
         this.joinState = student.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
         this.comments = student.getComments();
         this.teamName = student.getTeamName();
@@ -59,8 +64,8 @@ public class StudentData extends ApiOutput {
         return name;
     }
 
-    public String getGoogleId() {
-        return googleId;
+    public String getAccountId() {
+        return accountId;
     }
 
     public String getComments() {
@@ -87,8 +92,8 @@ public class StudentData extends ApiOutput {
         return institute;
     }
 
-    public void setGoogleId(String googleId) {
-        this.googleId = googleId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public void setComments(String comments) {
@@ -107,6 +112,22 @@ public class StudentData extends ApiOutput {
         this.institute = institute;
     }
 
+    public String getLoginIdentifier() {
+        return loginIdentifier;
+    }
+
+    public void setLoginIdentifier(String loginIdentifier) {
+        this.loginIdentifier = loginIdentifier;
+    }
+
+    public String getLoginProvider() {
+        return loginProvider;
+    }
+
+    public void setLoginProvider(String loginProvider) {
+        this.loginProvider = loginProvider;
+    }
+
     /**
      * Hides some attributes to student.
      */
@@ -119,11 +140,16 @@ public class StudentData extends ApiOutput {
      * Adds additional information only for search result for admin.
      * @param key The registration key
      * @param institute The institute of the student
-     * @param googleId The googleId of the student
+     * @param accountId The account id of the student
+     * @param loginIdentifier Login identifier of the student
+     * @param loginProvider Login provider of the student
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute, String googleId) {
+    public void addAdditionalInformationForAdminSearch(
+            String key, String institute, String accountId, String loginIdentifier, String loginProvider) {
         this.setKey(key);
         this.setInstitute(institute);
-        this.setGoogleId(googleId);
+        this.setAccountId(accountId);
+        this.setLoginIdentifier(loginIdentifier);
+        this.setLoginProvider(loginProvider);
     }
 }

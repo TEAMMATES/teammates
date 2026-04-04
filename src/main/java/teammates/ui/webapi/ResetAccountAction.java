@@ -38,12 +38,12 @@ public class ResetAccountAction extends AdminOnlyAction {
             }
 
             try {
-                if (existingStudent.getGoogleId() != null) {
-                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, existingStudent.getGoogleId());
+                if (existingStudent.getAccountId() != null) {
+                    sqlLogic.resetStudentAccountId(studentEmail, courseId, existingStudent.getAccountId());
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = sqlEmailGenerator
-                        .generateStudentCourseRejoinEmailAfterGoogleIdReset(course, existingStudent);
+                        .generateStudentCourseRejoinEmailAfterAccountReset(course, existingStudent);
                 List<EmailWrapper> emails = new ArrayList<>();
                 emails.add(email);
                 taskQueuer.scheduleEmailsForPrioritySending(emails);
@@ -58,12 +58,12 @@ public class ResetAccountAction extends AdminOnlyAction {
             }
 
             try {
-                if (existingInstructor.getGoogleId() != null) {
-                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, existingInstructor.getGoogleId());
+                if (existingInstructor.getAccountId() != null) {
+                    sqlLogic.resetInstructorAccountId(instructorEmail, courseId, existingInstructor.getAccountId());
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = sqlEmailGenerator
-                        .generateInstructorCourseRejoinEmailAfterGoogleIdReset(existingInstructor, course);
+                        .generateInstructorCourseRejoinEmailAfterAccountReset(existingInstructor, course);
                 List<EmailWrapper> emails = new ArrayList<>();
                 emails.add(email);
                 taskQueuer.scheduleEmailsForPrioritySending(emails);

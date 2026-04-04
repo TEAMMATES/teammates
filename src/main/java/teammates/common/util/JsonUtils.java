@@ -157,7 +157,6 @@ public final class JsonUtils {
 
         @Override
         public boolean shouldSkipField(FieldAttributes f) {
-            // Exclude certain fields to avoid circular references when serializing hibernate entities
             return f.getAnnotation(OneToMany.class) != null;
         }
 

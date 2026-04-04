@@ -21,7 +21,7 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetNotificationsAction}.
  */
 public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsAction> {
-    private static final String GOOGLE_ID = "user-googleId";
+    private static final String TEST_USER_ID = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     private static final int READ_NOTIFICATION_COUNT = 5;
     private static final int UNREAD_NOTIFICATION_COUNT = 10;
 
@@ -37,7 +37,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     void testAccessControl_instructorAccessStudentNotification_shouldFail() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -47,7 +47,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     void testAccessControl_instructorAccessInstructorNotification_shouldSucceed() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -57,7 +57,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     void testAccessControl_studentAccessInstructorNotification_shouldFail() {
-        loginAsStudent(GOOGLE_ID);
+        loginAsStudent(TEST_USER_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -67,7 +67,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     void testAccessControl_studentAccessStudentNotification_shouldSucceed() {
-        loginAsStudent(GOOGLE_ID);
+        loginAsStudent(TEST_USER_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -77,7 +77,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     void testAccessControl_unknownTargetUser_shouldFail() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, "unknown",
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -99,7 +99,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     void testExecute_withValidUserTypeForNonAdmin_shouldReturnData() {
         List<Notification> testNotifications = new ArrayList<>();
 
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         int expectedNumberOfNotifications = UNREAD_NOTIFICATION_COUNT + READ_NOTIFICATION_COUNT;
 
@@ -167,7 +167,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     public void testExecute_withoutUserTypeForNonAdmin_shouldFail() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
@@ -179,7 +179,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     public void testExecute_invalidUserType_shouldFail() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         // when usertype is GENERAL
         verifyHttpParameterFailure(Const.ParamsNames.NOTIFICATION_TARGET_USER,
@@ -196,7 +196,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     public void testExecute_withFalseIsFetchingAll_shouldUpdateShownAndReturnUnreadNotifications() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         List<Notification> testAllNotifications = new ArrayList<>();
         List<Notification> testUnreadNotifications = new ArrayList<>();
@@ -249,7 +249,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         List<Notification> testUnreadNotifications = new ArrayList<>();
         Set<String> readNotificationsId;
 
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         for (int i = 0; i < READ_NOTIFICATION_COUNT; i++) {
             Notification readNotification = getTypicalNotificationWithId();
@@ -278,7 +278,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @Test
     public void testExecute_withInvalidIsFetchingAll_shouldFail() {
-        loginAsInstructor(GOOGLE_ID);
+        loginAsInstructor(TEST_USER_ID);
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),

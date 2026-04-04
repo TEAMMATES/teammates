@@ -289,7 +289,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         } else if (expected instanceof Account) {
             Account expectedAccount = (Account) expected;
             AccountData actualAccount = (AccountData) actual;
-            assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
+            assertEquals(expectedAccount.getId().toString(), actualAccount.getAccountId());
             assertEquals(expectedAccount.getName(), actualAccount.getName());
             assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         } else if (expected instanceof Course) {
@@ -425,17 +425,17 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the account data for the given Google ID.
+     * Gets the account data for the given account id (internal UUID string).
      */
-    protected AccountData getAccount(String googleId) {
-        return BACKDOOR.getAccountData(googleId);
+    protected AccountData getAccount(String accountId) {
+        return BACKDOOR.getAccountData(accountId);
     }
 
     /**
      * Gets the account data for the given account.
      */
     protected AccountData getAccount(Account account) {
-        return getAccount(account.getGoogleId());
+        return getAccount(account.getId().toString());
     }
 
     /**
@@ -609,9 +609,9 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      *
      * @param commentId the ID of the comment to update
      * @param commentText the new comment text
-     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     * @param instructorAccountId account id of an instructor with permission to modify comments
      */
-    protected void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorGoogleId) {
-        BACKDOOR.updateFeedbackResponseComment(commentId, commentText, instructorGoogleId);
+    protected void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorAccountId) {
+        BACKDOOR.updateFeedbackResponseComment(commentId, commentText, instructorAccountId);
     }
 }

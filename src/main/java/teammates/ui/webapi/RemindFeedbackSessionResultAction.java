@@ -27,7 +27,7 @@ public class RemindFeedbackSessionResultAction extends Action {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(instructor, feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
@@ -49,7 +49,7 @@ public class RemindFeedbackSessionResultAction extends Action {
         // Generate reminder emails for specified users
         List<Student> studentsToEmailList = new ArrayList<>();
         List<Instructor> instructorsToEmailList = new ArrayList<>();
-        Instructor instructorToNotify = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructorToNotify = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
 
         for (String userEmail : usersToEmail) {
             Student student = sqlLogic.getStudentForEmail(courseId, userEmail);

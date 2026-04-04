@@ -130,9 +130,9 @@ public abstract class Action {
     public RequestLogUser getUserInfoForLogging() {
         RequestLogUser user = new RequestLogUser();
 
-        String googleId = userInfo == null ? null : userInfo.getId();
+        String accountId = userInfo == null ? null : userInfo.getId();
 
-        user.setGoogleId(googleId);
+        user.setAccountId(accountId);
         if (unregisteredSqlStudent == null && unregisteredSqlInstructor == null) {
             user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
         } else if (unregisteredSqlStudent != null) {
@@ -313,7 +313,7 @@ public abstract class Action {
             if (userInfo == null) {
                 return null;
             }
-            return sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            return sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
         });
     }
 
@@ -322,7 +322,7 @@ public abstract class Action {
             if (userInfo == null) {
                 return null;
             }
-            return sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+            return sqlLogic.getStudentByAccountId(courseId, userInfo.getId());
         });
     }
 

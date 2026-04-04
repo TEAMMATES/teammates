@@ -12,6 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.AccountIdentity;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -105,6 +106,7 @@ public final class DataBundleLogic {
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
+        Collection<AccountIdentity> accountIdentities = dataBundle.accountIdentities.values();
 
         // Mapping of IDs or placeholder IDs to actual entity
         Map<String, Course> coursesMap = new HashMap<>();
@@ -191,6 +193,12 @@ public final class DataBundleLogic {
             UUID placeholderId = account.getId();
             account.setId(UUID.randomUUID());
             accountsMap.put(placeholderId, account);
+        }
+
+        for (AccountIdentity identity : accountIdentities) {
+            identity.setId(UUID.randomUUID());
+            Account account = accountsMap.get(identity.getAccount().getId());
+            identity.setAccount(account);
         }
 
         for (Instructor instructor : instructors) {
@@ -287,6 +295,7 @@ public final class DataBundleLogic {
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
+        Collection<AccountIdentity> accountIdentities = dataBundle.accountIdentities.values();
 
         for (AccountRequest accountRequest : accountRequests) {
             accountRequestsLogic.createAccountRequest(accountRequest);
@@ -328,6 +337,10 @@ public final class DataBundleLogic {
             accountsLogic.createAccount(account);
         }
 
+        for (AccountIdentity identity : accountIdentities) {
+            accountsLogic.createAccountIdentity(identity);
+        }
+
         for (Instructor instructor : instructors) {
             usersLogic.createInstructor(instructor);
         }
@@ -339,7 +352,7 @@ public final class DataBundleLogic {
         fslLogic.createFeedbackSessionLogs(new ArrayList<>(sessionLogs));
 
         for (ReadNotification readNotification : readNotifications) {
-            accountsLogic.updateReadNotifications(readNotification.getAccount().getGoogleId(),
+            accountsLogic.updateReadNotifications(readNotification.getAccount().getId().toString(),
                     readNotification.getNotification().getId(), readNotification.getNotification().getEndTime());
         }
 
@@ -366,7 +379,7 @@ public final class DataBundleLogic {
             notificationsLogic.deleteNotification(notification.getId());
         });
         dataBundle.accounts.values().forEach(account -> {
-            accountsLogic.deleteAccount(account.getGoogleId());
+            accountsLogic.deleteAccount(account.getId());
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
             accountRequestsLogic.deleteAccountRequest(accountRequest.getId());
@@ -388,6 +401,7 @@ public final class DataBundleLogic {
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
+        Collection<AccountIdentity> accountIdentities = dataBundle.accountIdentities.values();
 
         // Mapping of IDs or placeholder IDs to actual entity
         Map<String, Course> coursesMap = new HashMap<>();
@@ -451,6 +465,14 @@ public final class DataBundleLogic {
 
         for (Account account : accounts) {
             accountsMap.put(account.getId(), account);
+        }
+
+        for (AccountIdentity identity : accountIdentities) {
+            if (identity.getId() == null) {
+                identity.setId(UUID.randomUUID());
+            }
+            Account account = accountsMap.get(identity.getAccount().getId());
+            identity.setAccount(account);
         }
 
         for (Instructor instructor : instructors) {

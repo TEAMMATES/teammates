@@ -28,7 +28,7 @@ public class InstructorStudentRecordsPageE2ETest extends BaseE2ETestCase {
         Instructor instructor = testData.instructors.get("teammates.test.CS2104");
         Student student = testData.students.get("benny.c.tmms@ISR.CS2104");
 
-        String instructorId = instructor.getGoogleId();
+        String instructorId = instructor.getAccountId();
         String courseId = instructor.getCourseId();
         String studentEmail = student.getEmail();
 

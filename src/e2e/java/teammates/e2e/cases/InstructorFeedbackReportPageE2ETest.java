@@ -124,7 +124,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         // Update the comment via API to ensure updatedAt differs from createdAt
         // (The frontend only shows "edited by" when lastEditedAt !== createdAt)
         String updatedCommentText = sqlComment.getCommentText() + " (edited)";
-        updateFeedbackResponseComment(sqlComment.getId(), updatedCommentText, instructor.getGoogleId());
+        updateFeedbackResponseComment(sqlComment.getId(), updatedCommentText, instructor.getAccountId());
         // Update local object to match the new comment text in the database
         sqlComment.setCommentText(updatedCommentText);
         comment = sqlComment;
@@ -138,7 +138,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testQuestionView() {
         logout();
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getAccountId());
 
         ______TS("Question view: no missing responses");
         resultsPage.includeMissingResponses(false);
@@ -177,7 +177,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testGrqView() {
         logout();
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getAccountId());
 
         ______TS("GRQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -212,7 +212,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testRgqView() {
         logout();
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getAccountId());
 
         ______TS("RGQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -248,7 +248,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testGqrView() {
         logout();
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getAccountId());
 
         ______TS("GQR view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -292,7 +292,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testRqgView() {
         logout();
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getAccountId());
 
         ______TS("RQG view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -342,7 +342,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getName());
-        resultsPage = loginToPage(url, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(url, InstructorFeedbackResultsPageSql.class, instructor.getAccountId());
 
         ______TS("verify loaded session details");
         // Sync resultsVisibleFromTime from database as it may differ from JSON test data

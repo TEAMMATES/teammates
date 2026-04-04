@@ -70,7 +70,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     @Test
     void testExecute_instructorWithNonExistentCourse_throwsEntityNotFoundException() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, "non-existent course",
@@ -83,7 +83,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     @Test
     void testExecute_instructorWithNonExistentFeedbackQuestion_throwsEntityNotFoundException() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000",
@@ -96,7 +96,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     @Test
     void testExecute_instructorGetRespondentsInCourse_success() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalInstructor.getCourseId(),
@@ -120,7 +120,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     @Test
     void testExecute_instructorGetRespondentsForQuestion_success() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
@@ -145,7 +145,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     @Test
     void testExecute_instructorWithQuestionIdAndCourseId_preferQuestionId() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
@@ -177,7 +177,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     @Test
     void testExecute_studentWithNonExistentFeedbackSession_throwsEntityNotFoundException() {
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalStudent.getCourseId(),
@@ -194,7 +194,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     @Test
     void testExecute_studentGetHasRespondedForSession_success() {
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalStudent.getCourseId(),
@@ -204,7 +204,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalStudent.getCourseId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId()))
                 .thenReturn(typicalStudent);
 
         // mock that the student has responded
@@ -221,7 +221,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verify(mockLogic, times(1))
                 .getFeedbackSession(typicalFeedbackSession.getName(), typicalStudent.getCourseId());
         verify(mockLogic, times(1))
-                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
+                .getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId());
         verify(mockLogic, times(1))
                 .isFeedbackSessionAttemptedByStudent(
                         typicalFeedbackSession, typicalStudent.getEmail(), typicalStudent.getTeamName());
@@ -229,7 +229,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     @Test
     void testExecute_studentGetHasRespondedForSessionWithoutFeedbackSessionNameParam_success() {
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
         List<FeedbackSession> feedbackSessions = getTypicalFeedbackSessions(typicalCourse);
 
         String[] params = new String[] {
@@ -238,7 +238,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         };
 
         when(mockLogic.getFeedbackSessionsForCourse(typicalCourse.getId())).thenReturn(feedbackSessions);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId()))
                 .thenReturn(typicalStudent);
 
         // mock that student has responded to all feedback sessions
@@ -264,7 +264,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         verify(mockLogic, times(1)).getFeedbackSessionsForCourse(typicalCourse.getId());
         verify(mockLogic, times(1))
-                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
+                .getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId());
         for (FeedbackSession feedbackSession : feedbackSessions) {
             if ("invisible session".equals(feedbackSession.getName())) {
                 // invisible session is skipped
@@ -298,23 +298,23 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         ______TS("Non-registered users cannot access");
 
-        loginAsUnregistered("unregistered user");
+        loginAsUnregistered(TEST_UNREGISTERED_ACCOUNT_ID.toString());
 
         verifyCannotAccess(paramsWithCourse);
         verifyCannotAccess(paramsWithFeedbackQuestion);
 
         verify(mockLogic, times(2))
-                .getInstructorByGoogleId(typicalCourse.getId(), "unregistered user");
+                .getInstructorByAccountId(typicalCourse.getId(), TEST_UNREGISTERED_ACCOUNT_ID.toString());
 
         ______TS("Students cannot access");
 
-        loginAsStudent(getTypicalStudent().getGoogleId());
+        loginAsStudent(getTypicalStudent().getAccountId());
 
         verifyCannotAccess(paramsWithCourse);
         verifyCannotAccess(paramsWithFeedbackQuestion);
 
         verify(mockLogic, times(2))
-                .getInstructorByGoogleId(typicalCourse.getId(), getTypicalStudent().getGoogleId());
+                .getInstructorByAccountId(typicalCourse.getId(), getTypicalStudent().getAccountId());
 
         // check that getCourse and getFeedbackQuestion are run once per test for logged in users
         verify(mockLogic, times(2)).getCourse(typicalCourse.getId());
@@ -341,13 +341,13 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.DEFAULT_TIME_ZONE, "teammates");
         instructorOfOtherCourse.setCourse(otherCourse);
 
-        loginAsInstructor(instructorOfOtherCourse.getGoogleId());
+        loginAsInstructor(instructorOfOtherCourse.getAccountId());
 
         verifyCannotAccess(paramsWithCourse);
         verifyCannotAccess(paramsWithFeedbackQuestion);
 
         verify(mockLogic, times(2))
-                .getInstructorByGoogleId(typicalCourse.getId(), instructorOfOtherCourse.getGoogleId());
+                .getInstructorByAccountId(typicalCourse.getId(), instructorOfOtherCourse.getAccountId());
         verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
     }
@@ -366,23 +366,23 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyCanAccess(paramsWithCourse);
         verifyCanAccess(paramsWithFeedbackQuestion);
 
         verify(mockLogic, times(2))
-                .getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId());
+                .getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getAccountId());
         verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
     }
 
     @Test
     void testAccessControl_studentOfSameCourse_canAccessStudentGetHasResponded() {
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalStudent.getCourseId(),
@@ -390,7 +390,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId()))
                 .thenReturn(typicalFeedbackSession);
@@ -398,14 +398,14 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verifyCanAccess(params);
 
         verify(mockLogic, times(1))
-                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
+                .getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId());
         verify(mockLogic, times(1))
                 .getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId());
     }
 
     @Test
     void testAccessControl_studentOfSameCourse_canAccessStudentGetHasRespondedWithoutFsParam() {
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
         List<FeedbackSession> feedbackSessions = getTypicalFeedbackSessions(typicalCourse);
 
         String[] params = new String[] {
@@ -413,7 +413,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getFeedbackSessionsForCourse(typicalCourse.getId())).thenReturn(feedbackSessions);
 
@@ -421,18 +421,18 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         verify(mockLogic, times(1)).getFeedbackSessionsForCourse(typicalCourse.getId());
         verify(mockLogic, times(3))
-                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
+                .getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getAccountId());
     }
 
     @Test
     void testAccessControl_notEnoughParameters_throwsInvalidHttpParameterException() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
         verifyHttpParameterFailure();
     }
 
     @Test
     void testAccessControl_wrongEntityType_cannotAccess() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalInstructor.getCourseId(),

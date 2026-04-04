@@ -19,7 +19,7 @@ import teammates.ui.webapi.DeleteFeedbackSessionAction;
  * SUT: {@link DeleteFeedbackSessionAction}.
  */
 public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedbackSessionAction> {
-    private String googleId = "user-googleId";
+    private String accountId = TYPICAL_INSTRUCTOR_ACCOUNT_ID.toString();
     private Course course;
     private FeedbackSession session;
 
@@ -49,7 +49,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
                 false,
                 false,
                 false);
-        loginAsInstructor(googleId);
+        loginAsInstructor(accountId);
     }
 
     @Test

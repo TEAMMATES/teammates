@@ -109,9 +109,6 @@ public final class FieldValidator {
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
     public static final String TIME_ZONE_FIELD_NAME = "time zone";
 
-    public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
-    public static final int GOOGLE_ID_MAX_LENGTH = 254;
-
     public static final String ROLE_FIELD_NAME = "access-level";
     public static final List<String> ROLE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
@@ -196,14 +193,6 @@ public final class FieldValidator {
     public static final String COURSE_ID_ERROR_MESSAGE_EMPTY_STRING =
             EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
 
-    public static final String HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID =
-            "A Google ID must be a valid id already registered with Google. "
-            + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
-    public static final String GOOGLE_ID_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
-    public static final String GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING =
-            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
-
     public static final String HINT_FOR_CORRECT_TIME_ZONE =
             "The value must be one of the values from the time zone dropdown selector.";
     public static final String TIME_ZONE_ERROR_MESSAGE =
@@ -238,6 +227,13 @@ public final class FieldValidator {
 
     public static final String NOT_EXACT_HOUR_ERROR_MESSAGE = "The %s for this feedback session must be at exact hour mark.";
 
+    /** Max length for OIDC issuer URL (e.g. https://login.microsoftonline.com/.../v2.0). */
+    public static final int OIDC_ISSUER_MAX_LENGTH = 2048;
+    /** Max length for OIDC subject claim. */
+    public static final int OIDC_SUBJECT_MAX_LENGTH = 255;
+    public static final String OIDC_ISSUER_FIELD_NAME = "OIDC issuer";
+    public static final String OIDC_SUBJECT_FIELD_NAME = "OIDC subject";
+
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
     ///////////////////////////////////////
@@ -262,11 +258,6 @@ public final class FieldValidator {
      */
     public static final String REGEX_EMAIL = "^[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+"
                                             + "@([A-Za-z0-9-]+\\.)+[A-Za-z]+$";
-
-    /**
-     * Allows English alphabet, numbers, underscore,  dot and hyphen.
-     */
-    public static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
 
     private FieldValidator() {
         // utility class
@@ -315,30 +306,39 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if {@code googleId} is not null, not empty, not longer than {@code GOOGLE_ID_MAX_LENGTH}, does
-     * not contain any invalid characters (| or %), AND is either a Google username (without the "@gmail.com")
-     * or a valid email address.
-     * @return An explanation of why the {@code googleId} is not acceptable.
-     *         Returns an empty string if the {@code googleId} is acceptable.
+     * Validates a non-null OIDC issuer string.
      */
-    public static String getInvalidityInfoForGoogleId(String googleId) {
+    public static String getInvalidityInfoForOidcIssuer(String issuer) {
+        assert issuer != null;
+        if (issuer.isEmpty()) {
+            return getPopulatedEmptyStringErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                    OIDC_ISSUER_FIELD_NAME, OIDC_ISSUER_MAX_LENGTH);
+        }
+        if (isUntrimmed(issuer)) {
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", OIDC_ISSUER_FIELD_NAME);
+        }
+        if (issuer.length() > OIDC_ISSUER_MAX_LENGTH) {
+            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, issuer, OIDC_ISSUER_FIELD_NAME,
+                    REASON_TOO_LONG, OIDC_ISSUER_MAX_LENGTH);
+        }
+        return "";
+    }
 
-        assert googleId != null;
-
-        boolean isValidFullEmail = isValidEmailAddress(googleId);
-        boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
-
-        if (googleId.isEmpty()) {
-            return getPopulatedEmptyStringErrorMessage(GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
-                                            GOOGLE_ID_FIELD_NAME, GOOGLE_ID_MAX_LENGTH);
-        } else if (isUntrimmed(googleId)) {
-            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
-        } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
-            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
-                                            REASON_TOO_LONG, GOOGLE_ID_MAX_LENGTH);
-        } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
-            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
-                                            REASON_INCORRECT_FORMAT, GOOGLE_ID_MAX_LENGTH);
+    /**
+     * Validates a non-null OIDC subject string.
+     */
+    public static String getInvalidityInfoForOidcSubject(String subject) {
+        assert subject != null;
+        if (subject.isEmpty()) {
+            return getPopulatedEmptyStringErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
+                    OIDC_SUBJECT_FIELD_NAME, OIDC_SUBJECT_MAX_LENGTH);
+        }
+        if (isUntrimmed(subject)) {
+            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", OIDC_SUBJECT_FIELD_NAME);
+        }
+        if (subject.length() > OIDC_SUBJECT_MAX_LENGTH) {
+            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, subject, OIDC_SUBJECT_FIELD_NAME,
+                    REASON_TOO_LONG, OIDC_SUBJECT_MAX_LENGTH);
         }
         return "";
     }
