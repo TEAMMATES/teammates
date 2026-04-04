@@ -81,6 +81,15 @@ describe('SearchTermsHighlighterPipe', () => {
         expect(highlighterPipe.transform(sampleValue, sampleSearch)).toBe(sampleValue);
     });
 
+    it('should escape regex special characters in search terms', () => {
+        const sampleSearch = 'C++ [guide]';
+        const sampleValue = 'Learn C++ from the [guide] today';
+        expect(highlighterPipe.transform(sampleValue, sampleSearch, true)).toBe(
+            'Learn <span class="highlighted-text">C++</span> from the '
+            + '<span class="highlighted-text">[guide]</span> today'
+        );
+    });
+
     it('should not highlight text if there is only partial match and partial parameter not specified', () => {
         const sampleSearch = 's t u dent';
         const sampleValue = 'student';
