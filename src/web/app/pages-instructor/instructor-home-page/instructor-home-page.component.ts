@@ -6,6 +6,7 @@ import {
   NgbDropdownToggle,
   NgbDropdownMenu,
   NgbTooltip,
+  NgbCollapse,
 } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -89,6 +90,7 @@ export interface CourseTabModel {
     PanelChevronComponent,
     SessionsTableComponent,
     ModifiedTimestampModalComponent,
+    NgbCollapse,
 ],
 })
 export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {

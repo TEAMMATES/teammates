@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { RecycleBinTableFormatDatePipe } from './recycle-bin-table-format-date.pipe';
 import { FeedbackSession } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -27,6 +27,7 @@ export interface RecycleBinFeedbackSessionRowModel {
     AjaxLoadingComponent,
     FormatDateDetailPipe,
     RecycleBinTableFormatDatePipe,
+    NgbCollapse,
 ],
 })
 export class SessionsRecycleBinTableComponent {

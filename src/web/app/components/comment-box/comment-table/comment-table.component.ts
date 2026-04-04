@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { CommentTableModel } from './comment-table.model';
 import {
   FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
@@ -17,6 +18,7 @@ import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-mo
   styleUrls: ['./comment-table.component.scss'],
   imports: [
     CommentRowComponent,
+    NgbCollapse,
 ],
   providers: [
     CommentToCommentRowModelPipe,

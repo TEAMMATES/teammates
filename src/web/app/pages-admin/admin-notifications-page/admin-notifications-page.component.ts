@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
 import {
@@ -31,6 +32,7 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     NotificationsTableComponent,
+    NgbCollapse,
 ],
 })
 export class AdminNotificationsPageComponent implements OnInit {

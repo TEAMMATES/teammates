@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionsService, TemplateQuestion } from '../../../../services/feedback-questions.service';
 import { FeedbackQuestion } from '../../../../types/api-output';
 import {
@@ -24,6 +24,7 @@ interface TemplateQuestionModel {
   imports: [
     FormsModule,
     QuestionEditFormComponent,
+    NgbCollapse,
 ],
 })
 export class TemplateQuestionModalComponent {

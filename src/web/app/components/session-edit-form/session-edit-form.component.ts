@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbCalendar, NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbCollapse, NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 import { DateTimeService } from '../../../services/datetime.service';
@@ -51,6 +51,7 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
     TimepickerComponent,
     SubmissionStatusNamePipe,
     PublishStatusNamePipe,
+    NgbCollapse,
 ],
 })
 export class SessionEditFormComponent {

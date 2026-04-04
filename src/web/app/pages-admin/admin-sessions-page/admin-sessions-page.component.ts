@@ -1,7 +1,7 @@
 import { KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -34,6 +34,7 @@ interface OngoingSessionModel {
     LoadingSpinnerDirective,
     PanelChevronComponent,
     KeyValuePipe,
+    NgbCollapse,
 ],
 })
 export class AdminSessionsPageComponent implements OnInit {

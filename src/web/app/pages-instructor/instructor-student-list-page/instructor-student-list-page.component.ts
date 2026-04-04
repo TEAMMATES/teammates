@@ -1,5 +1,6 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -52,6 +53,7 @@ export interface CourseTab {
     LoadingSpinnerDirective,
     PanelChevronComponent,
     StudentListComponent,
+    NgbCollapse,
 ],
 })
 export class InstructorStudentListPageComponent implements OnInit {

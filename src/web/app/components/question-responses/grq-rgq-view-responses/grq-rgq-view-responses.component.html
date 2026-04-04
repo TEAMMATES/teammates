@@ -9,20 +9,18 @@
               <tm-panel-chevron [isExpanded]="teamExpanded[teamInfo.key]"></tm-panel-chevron>
             </div>
           </h6>
-          @if (teamExpanded[teamInfo.key]) {
-            <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave" class="background-color-warning">
-              <div class="card-body">
-                @for (userInfo of teamInfo.value; track userInfo) {
-                  <div>
-                    <ng-container
-                      [ngTemplateOutlet]="userTab"
-                      [ngTemplateOutletContext]="{userInfo:userInfo}">
-                    </ng-container>
-                  </div>
-                }
-              </div>
+          <div [ngbCollapse]="!teamExpanded[teamInfo.key]" class="background-color-warning">
+            <div class="card-body">
+              @for (userInfo of teamInfo.value; track userInfo) {
+                <div>
+                  <ng-container
+                    [ngTemplateOutlet]="userTab"
+                    [ngTemplateOutletContext]="{userInfo:userInfo}">
+                  </ng-container>
+                </div>
+              }
             </div>
-          }
+          </div>
         </div>
       </div>
     }
@@ -72,33 +70,31 @@
         <tm-panel-chevron [isExpanded]="userExpanded[userInfo]"></tm-panel-chevron>
       </div>
     </h6>
-    @if (userExpanded[userInfo]) {
-      <div animate.enter="tm-collapse-enter" animate.leave="tm-collapse-leave">
-        <div class="card-body">
-          @if (userHasRealResponses[userInfo]) {
-            @for (other of responsesToShow[userInfo] | keyvalue; track other.key; let isLast = $last) {
-              <div id="grouped-responses" class="top-padded">
-                <tm-grouped-responses [responses]="other.value"
-                  [isGrq]="isGrq" [session]="session"
-                  [instructorCommentTableModel]="instructorCommentTableModel"
-                  [userToEmail]="userToEmail"
-                  (instructorCommentTableModelChange)="triggerModelChange($event)"
-                  (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
-                  (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
-                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-                  [isLastGroupedResponses]="isLast"></tm-grouped-responses>
-              </div>
-            }
-          }
-          @if (!userHasRealResponses[userInfo]) {
-            <div id="no-responses" class="top-padded">
-              <i>
-                There are no responses {{ isGrq ? 'given' : 'received' }} by this user or you may not have the permission to see the responses.
-              </i>
+    <div [ngbCollapse]="!userExpanded[userInfo]">
+      <div class="card-body">
+        @if (userHasRealResponses[userInfo]) {
+          @for (other of responsesToShow[userInfo] | keyvalue; track other.key; let isLast = $last) {
+            <div id="grouped-responses" class="top-padded">
+              <tm-grouped-responses [responses]="other.value"
+                [isGrq]="isGrq" [session]="session"
+                [instructorCommentTableModel]="instructorCommentTableModel"
+                [userToEmail]="userToEmail"
+                (instructorCommentTableModelChange)="triggerModelChange($event)"
+                (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
+                (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
+                (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
+                [isLastGroupedResponses]="isLast"></tm-grouped-responses>
             </div>
           }
-        </div>
+        }
+        @if (!userHasRealResponses[userInfo]) {
+          <div id="no-responses" class="top-padded">
+            <i>
+              There are no responses {{ isGrq ? 'given' : 'received' }} by this user or you may not have the permission to see the responses.
+            </i>
+          </div>
+        }
       </div>
-    }
+    </div>
   </div>
 </ng-template>

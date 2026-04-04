@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
@@ -40,6 +41,7 @@ export interface NotificationTab {
     NgClass,
     PanelChevronComponent,
     NotificationStyleClassPipe,
+    NgbCollapse,
 ],
 })
 export class UserNotificationsListComponent implements OnInit {

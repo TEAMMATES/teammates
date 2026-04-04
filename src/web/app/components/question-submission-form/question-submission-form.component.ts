@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -112,6 +112,7 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
     VisibilityEntityNamePipe,
     VisibilityCapabilityPipe,
     RecipientTypeNamePipe,
+    NgbCollapse,
 ],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {

@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, Notifications, NotificationTargetUser } from '../../../types/api-output';
@@ -16,6 +17,7 @@ import { NotificationStyleClassPipe } from '../teammates-common/notification-sty
   imports: [
     NgClass,
     NotificationStyleClassPipe,
+    NgbCollapse,
 ],
 })
 export class NotificationBannerComponent implements OnInit, OnChanges {

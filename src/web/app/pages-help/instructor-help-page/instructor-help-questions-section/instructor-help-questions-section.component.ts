@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   EXAMPLE_CONTRIBUTION_STATISTICS,
   EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL,
@@ -83,6 +83,7 @@ import { Sections } from '../sections';
     InstructorSessionResultQuestionViewComponent,
     NgbTooltip,
     QuestionSubmissionFormComponent,
+    NgbCollapse,
 ],
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
