@@ -216,7 +216,7 @@ public abstract class AbstractBackDoor {
      * Removes and restores given data in the database. This method is to be called on test startup.
      */
     public DataBundle removeAndRestoreDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
-        removeSqlDataBundle(dataBundle);
+        removeDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
                 executePostRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
         if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
@@ -235,7 +235,7 @@ public abstract class AbstractBackDoor {
      *
      * <p>If given entities have already been deleted, it fails silently.
      */
-    public void removeSqlDataBundle(DataBundle dataBundle) {
+    public void removeDataBundle(DataBundle dataBundle) {
         executePutRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
     }
 
