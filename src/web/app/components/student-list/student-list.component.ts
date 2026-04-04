@@ -17,8 +17,6 @@ import {
   SortableTableComponent,
 } from '../sortable-table/sortable-table.component';
 
-const partialMatchHighlightingEnabledProperty: string = 'isPartialMatchHighlightingEnabledInternal';
-
 /**
  * Model of row of student data containing details about a student and their section.
  */
@@ -39,6 +37,8 @@ export interface StudentListRowModel {
     providers: [SearchTermsHighlighterPipe],
 })
 export class StudentListComponent implements OnInit {
+  private isPartialMatchHighlightingEnabledInternal: boolean = false;
+
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
@@ -54,16 +54,11 @@ export class StudentListComponent implements OnInit {
 
   @Input('isSearchTermsHighlighted')
   set isPartialMatchHighlightingEnabled(value: boolean) {
-    Object.defineProperty(this, partialMatchHighlightingEnabledProperty, {
-      value,
-      writable: true,
-      configurable: true,
-      enumerable: false,
-    });
+    this.isPartialMatchHighlightingEnabledInternal = value;
   }
 
   get isPartialMatchHighlightingEnabled(): boolean {
-    return (this as Record<string, boolean>)[partialMatchHighlightingEnabledProperty] ?? false;
+    return this.isPartialMatchHighlightingEnabledInternal;
   }
 
   @Input() set studentModels(studentRowModels: StudentListRowModel[]) {
