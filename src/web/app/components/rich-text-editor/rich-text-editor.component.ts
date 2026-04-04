@@ -76,6 +76,7 @@ export class RichTextEditorComponent implements OnInit {
       relative_urls: false,
       convert_urls: false,
       remove_linebreaks: false,
+      entity_encoding: 'raw',
       placeholder: this.placeholderText,
       plugins: [
         'advlist', 'autolink', 'autoresize', 'lists', 'link', 'image', 'charmap', 'anchor',
