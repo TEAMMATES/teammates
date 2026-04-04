@@ -17,7 +17,6 @@ import jakarta.persistence.criteria.Subquery;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -115,12 +114,8 @@ public final class FeedbackResponsesDb {
      * Creates a feedbackResponse.
      */
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws EntityAlreadyExistsException {
         assert feedbackResponse != null;
-
-        if (!feedbackResponse.isValid()) {
-            throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
-        }
 
         if (getFeedbackResponse(feedbackResponse.getId()) != null) {
             throw new EntityAlreadyExistsException(
@@ -244,15 +239,10 @@ public final class FeedbackResponsesDb {
      * Updates a feedbackResponse.
      *
      * @throws EntityDoesNotExistException if the feedbackResponse does not exist
-     * @throws InvalidParametersException if the feedbackResponse is not valid
      */
     public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         assert feedbackResponse != null;
-
-        if (!feedbackResponse.isValid()) {
-            throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
-        }
 
         if (getFeedbackResponse(feedbackResponse.getId()) == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);

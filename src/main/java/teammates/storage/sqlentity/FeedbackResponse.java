@@ -241,11 +241,6 @@ public abstract class FeedbackResponse extends BaseEntity {
     }
 
     @Override
-    public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
-    }
-
-    @Override
     public String toString() {
         return "FeedbackResponse [id=" + id + ", giver=" + giver + ", recipient=" + recipient
                 + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";

@@ -24,7 +24,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -158,62 +157,6 @@ public class FeedbackSession extends BaseEntity {
         fs.setDeadlineExtensions(getDeadlineExtensions());
 
         return fs;
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        // Check for null fields.
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
-                FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME, name), errors);
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("instructions to students", instructions),
-                errors);
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
-                "time for the session to become visible", sessionVisibleFromTime), errors);
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
-
-        // Early return if any null fields
-        if (!errors.isEmpty()) {
-            return errors;
-        }
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForFeedbackSessionName(name), errors);
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(creatorEmail), errors);
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("submission opening time", startTime), errors);
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("submission closing time", endTime), errors);
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
-                "time for the responses to become visible", resultsVisibleFromTime), errors);
-
-        // Early return if any null fields
-        if (!errors.isEmpty()) {
-            return errors;
-        }
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionStartAndEnd(startTime, endTime), errors);
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                sessionVisibleFromTime, startTime), errors);
-
-        Instant actualSessionVisibleFromTime = sessionVisibleFromTime;
-
-        if (actualSessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            actualSessionVisibleFromTime = startTime;
-        }
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
-                actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
-
-        return errors;
     }
 
     public UUID getId() {

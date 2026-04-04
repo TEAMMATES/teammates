@@ -1,8 +1,6 @@
 package teammates.storage.sqlentity;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -139,10 +137,5 @@ public class DeadlineExtension extends BaseEntity {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
     }
 }

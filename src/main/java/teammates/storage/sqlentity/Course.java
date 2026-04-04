@@ -16,7 +16,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -57,17 +56,6 @@ public class Course extends BaseEntity {
         this.setName(name);
         this.setTimeZone(StringUtils.defaultIfEmpty(timeZone, Const.DEFAULT_TIME_ZONE));
         this.setInstitute(institute);
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(getId()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForCourseName(getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
-
-        return errors;
     }
 
     /**

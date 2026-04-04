@@ -1,8 +1,6 @@
 package teammates.storage.sqlentity;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -130,10 +128,5 @@ public class UsageStatistics extends BaseEntity {
     @Override
     public int hashCode() {
         return this.getId().hashCode();
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
     }
 }

@@ -1,7 +1,6 @@
 package teammates.storage.sqlentity;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -19,7 +18,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -215,18 +213,6 @@ public class FeedbackResponseComment extends BaseEntity {
      */
     public boolean checkIsVisibleTo(FeedbackParticipantType viewerType) {
         return showCommentTo.contains(viewerType);
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForCommentGiverType(giverType), errors);
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForVisibilityOfFeedbackParticipantComments(
-                isCommentFromFeedbackParticipant, isVisibilityFollowingFeedbackQuestion), errors);
-
-        return errors;
     }
 
     @Override

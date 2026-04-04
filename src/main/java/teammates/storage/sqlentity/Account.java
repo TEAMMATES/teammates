@@ -112,11 +112,6 @@ public class Account extends BaseEntity {
     }
 
     @Override
-    public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
-    }
-
-    @Override
     public boolean equals(Object other) {
         if (other == null) {
             return false;

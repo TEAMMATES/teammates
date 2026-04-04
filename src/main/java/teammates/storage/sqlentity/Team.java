@@ -71,11 +71,6 @@ public class Team extends BaseEntity {
         }
     }
 
-    @Override
-    public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
-    }
-
     public UUID getId() {
         return id;
     }

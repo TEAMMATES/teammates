@@ -77,11 +77,6 @@ public class Section extends BaseEntity {
         }
     }
 
-    @Override
-    public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
-    }
-
     /**
      * Adds a team to the section.
      */

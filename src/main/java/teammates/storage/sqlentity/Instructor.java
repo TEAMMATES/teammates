@@ -1,7 +1,5 @@
 package teammates.storage.sqlentity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import jakarta.persistence.Column;
@@ -103,11 +101,6 @@ public class Instructor extends User {
         return "Instructor [id=" + super.getId() + ", isDisplayedToStudents=" + isDisplayedToStudents
                 + ", displayName=" + displayName + ", role=" + role + ", instructorPrivileges=" + privileges
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
     }
 
     public String getRegistrationUrl() {

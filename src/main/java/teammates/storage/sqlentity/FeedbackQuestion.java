@@ -24,7 +24,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.util.FieldValidator;
 import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
 import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
 import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
@@ -196,19 +195,6 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
             break;
         }
         return feedbackQuestion;
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        errors.addAll(FieldValidator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
-
-        errors.addAll(FieldValidator.getValidityInfoForFeedbackResponseVisibility(showResponsesTo,
-                showGiverNameTo,
-                showRecipientNameTo));
-
-        return errors;
     }
 
     /**

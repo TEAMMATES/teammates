@@ -2,8 +2,6 @@ package teammates.storage.sqlentity;
 
 import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -68,11 +66,6 @@ public class AccountRequest extends BaseEntity {
         this.generateNewRegistrationKey();
         this.setCreatedAt(Instant.now());
         this.setRegisteredAt(null);
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
     }
 
     /**

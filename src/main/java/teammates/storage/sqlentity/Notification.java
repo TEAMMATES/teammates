@@ -81,11 +81,6 @@ public class Notification extends BaseEntity {
         // required by Hibernate
     }
 
-    @Override
-    public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
-    }
-
     public UUID getId() {
         return id;
     }

@@ -237,7 +237,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         }
 
         instructor.setPrivileges(instructorPrivileges);
-        assert instructor.isValid();
     }
 
     // The next few methods are for testing access control

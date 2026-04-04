@@ -1,7 +1,5 @@
 package teammates.storage.sqlentity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -58,11 +56,6 @@ public class ReadNotification extends BaseEntity {
 
     public void setNotification(Notification notification) {
         this.notification = notification;
-    }
-
-    @Override
-    public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
     }
 
     @Override
