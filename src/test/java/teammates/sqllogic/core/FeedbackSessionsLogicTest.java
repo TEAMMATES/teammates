@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -457,5 +458,23 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         assertEquals(1, result.size());
         assertEquals(session, result.get(0));
         assertNotNull(result.get(0).getDeletedAt());
+    }
+
+    @Test
+    public void testValidateFeedbackSession_validSession_success() {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+
+        // Should not throw any exceptions
+        assertDoesNotThrow(() -> fsLogic.validateFeedbackSession(session));
+    }
+
+    @Test
+    public void testValidateFeedbackSession_invalidSessionName_throwsInvalidParametersException() {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        session.setName(""); // Set an invalid session name
+
+        assertThrows(InvalidParametersException.class, () -> fsLogic.validateFeedbackSession(session));
     }
 }

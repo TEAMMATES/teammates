@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
@@ -226,6 +228,7 @@ public final class FeedbackSessionsLogic {
     public FeedbackSession createFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert session != null;
+        validateFeedbackSession(session);
         return fsDb.createFeedbackSession(session);
     }
 
@@ -238,6 +241,7 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSession updateFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityDoesNotExistException {
+        validateFeedbackSession(session);
         return fsDb.updateFeedbackSession(session);
     }
 
@@ -570,5 +574,62 @@ public final class FeedbackSessionsLogic {
      */
     public int getActualTotalSubmission(FeedbackSession fs) {
         return getGiverSetThatAnsweredFeedbackSession(fs).size();
+    }
+
+    void validateFeedbackSession(FeedbackSession session) throws InvalidParametersException {
+        List<String> errors;
+
+        errors = Stream.of(
+                FieldValidator.getValidityInfoForNonNullField(FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                    session.getName()),
+                FieldValidator.getValidityInfoForNonNullField(
+                    "instructions to students",
+                    session.getInstructions()),
+                FieldValidator.getValidityInfoForNonNullField(
+                    "time for the session to become visible",
+                    session.getSessionVisibleFromTime()),
+                FieldValidator.getValidityInfoForNonNullField(
+                    "creator's email",
+                    session.getCreatorEmail()),
+                FieldValidator.getValidityInfoForNonNullField(
+                    "submission opening time",
+                    session.getStartTime()),
+                FieldValidator.getValidityInfoForNonNullField(
+                    "submission closing time",
+                    session.getEndTime()),
+                FieldValidator.getValidityInfoForNonNullField(
+                    "time for the responses to become visible",
+                    session.getResultsVisibleFromTime())
+            )
+            .filter(error -> !error.isEmpty())
+            .toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
+
+        Instant actualSessionVisibleFromTime = session.getSessionVisibleFromTime();
+
+        if (actualSessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
+            actualSessionVisibleFromTime = session.getStartTime();
+        }
+
+        errors = Stream.of(
+                FieldValidator.getInvalidityInfoForFeedbackSessionName(session.getName()),
+                FieldValidator.getInvalidityInfoForEmail(session.getCreatorEmail()),
+                FieldValidator.getInvalidityInfoForGracePeriod(session.getGracePeriod()),
+                FieldValidator.getInvalidityInfoForTimeForSessionStartAndEnd(
+                    session.getStartTime(), session.getEndTime()),
+                FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                    session.getSessionVisibleFromTime(), session.getStartTime()),
+                FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+                    actualSessionVisibleFromTime, session.getResultsVisibleFromTime())
+            )
+            .filter(error -> !error.isEmpty())
+            .toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
     }
 }

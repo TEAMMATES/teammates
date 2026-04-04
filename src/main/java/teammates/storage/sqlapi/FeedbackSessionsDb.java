@@ -15,7 +15,6 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
@@ -149,12 +148,8 @@ public final class FeedbackSessionsDb {
      * Creates a feedback session.
      */
     public FeedbackSession createFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws EntityAlreadyExistsException {
         assert session != null;
-
-        if (!session.isValid()) {
-            throw new InvalidParametersException(session.getInvalidityInfo());
-        }
 
         if (getFeedbackSession(session.getId()) != null
                 || getFeedbackSession(session.getName(), session.getCourseId()) != null) {
@@ -169,16 +164,11 @@ public final class FeedbackSessionsDb {
      * Saves an updated {@code FeedbackSession} to the db.
      *
      * @return updated feedback session
-     * @throws InvalidParametersException  if attributes to update are not valid
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
     public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         assert feedbackSession != null;
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
 
         if (getFeedbackSession(feedbackSession.getId()) == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
