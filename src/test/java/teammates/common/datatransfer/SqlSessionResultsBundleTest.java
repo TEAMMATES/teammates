@@ -190,7 +190,13 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         String anonName = SqlSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "");
         assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
 
-        anonName = SqlSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
-        assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
+        String anonName1 = SqlSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
+        String anonName2 = SqlSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
+        String anotherAnonName = SqlSessionResultsBundle.getAnonName(
+                        FeedbackParticipantType.STUDENTS, "different@gmail.com");
+
+        assertTrue(anonName1.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
+        assertEquals(anonName1, anonName2);
+        assertNotEquals(anonName1, anotherAnonName);
     }
 }
