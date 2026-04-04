@@ -14,10 +14,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.test.BaseTestCase;
@@ -48,7 +46,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
 
     @Test
     public void testCreateComment_commentDoesNotExist_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws EntityAlreadyExistsException {
         FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
 
         feedbackResponseCommentsDb.createFeedbackResponseComment(comment);
@@ -102,17 +100,6 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateComment_commentInvalid_throwsInvalidParametersException() {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
-        comment.setGiverType(FeedbackParticipantType.SELF);
-
-        assertThrows(InvalidParametersException.class,
-                () -> feedbackResponseCommentsDb.updateFeedbackResponseComment(comment));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(comment), never());
-    }
-
-    @Test
     public void testUpdateComment_commentDoesNotExist_throwsEntityDoesNotExistException() {
         FeedbackResponseComment comment = getTypicalResponseComment(NOT_TYPICAL_ID);
 
@@ -123,7 +110,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateCourse_success() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateCourse_success() throws EntityDoesNotExistException {
         FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
         comment.setCommentText("Placeholder Text");
 

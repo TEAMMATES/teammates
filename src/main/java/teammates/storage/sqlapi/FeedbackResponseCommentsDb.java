@@ -13,7 +13,6 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Course;
@@ -53,12 +52,8 @@ public final class FeedbackResponseCommentsDb {
      * Creates a feedbackResponseComment.
      */
     public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws EntityAlreadyExistsException {
         assert feedbackResponseComment != null;
-
-        if (!feedbackResponseComment.isValid()) {
-            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
-        }
 
         if (getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
             throw new EntityAlreadyExistsException(
@@ -195,12 +190,8 @@ public final class FeedbackResponseCommentsDb {
      * Updates the feedback response comment.
      */
     public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
         assert feedbackResponseComment != null;
-
-        if (!feedbackResponseComment.isValid()) {
-            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
-        }
 
         if (getFeedbackResponseComment(feedbackResponseComment.getId()) == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);

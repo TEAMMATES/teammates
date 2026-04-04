@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -96,7 +97,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
     @Test
     public void testCreateComment_commentAlreadyExists_throwsEntityAlreadyExistsException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+            throws EntityAlreadyExistsException {
         FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
 
         when(frcDb.createFeedbackResponseComment(comment)).thenThrow(EntityAlreadyExistsException.class);
@@ -182,4 +183,23 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
         assertEquals("Trying to update a feedback response comment that does not exist.", ex.getMessage());
     }
+
+    @Test
+    public void testValidateFeedbackResponseComment_validComment_success() {
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+
+        assertDoesNotThrow(() -> frcLogic.validateFeedbackResponseComment(comment));
+    }
+
+    @Test
+    public void testValidateFeedbackResponseComment_invalidCommentGiverType_throwsInvalidParametersException() {
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+        comment.setGiverType(FeedbackParticipantType.SELF);
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> frcLogic.validateFeedbackResponseComment(comment));
+
+        assertEquals("Invalid comment giver type: SELF", ex.getMessage());
+    }
+
 }

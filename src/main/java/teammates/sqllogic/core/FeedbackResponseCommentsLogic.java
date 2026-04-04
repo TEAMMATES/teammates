@@ -3,6 +3,7 @@ package teammates.sqllogic.core;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import jakarta.annotation.Nullable;
 
@@ -11,6 +12,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -85,6 +87,7 @@ public final class FeedbackResponseCommentsLogic {
      */
     public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment frc)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        validateFeedbackResponseComment(frc);
         return frcDb.createFeedbackResponseComment(frc);
     }
 
@@ -105,6 +108,7 @@ public final class FeedbackResponseCommentsLogic {
     public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
             throws InvalidParametersException, EntityDoesNotExistException {
 
+        validateFeedbackResponseComment(feedbackResponseComment);
         return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
     }
 
@@ -145,6 +149,8 @@ public final class FeedbackResponseCommentsLogic {
         for (FeedbackResponseComment comment : comments) {
             comment.setGiverSection(response.getGiverSection());
             comment.setRecipientSection(response.getRecipientSection());
+
+            validateFeedbackResponseComment(comment);
             frcDb.updateFeedbackResponseComment(comment);
         }
     }
@@ -289,6 +295,20 @@ public final class FeedbackResponseCommentsLogic {
         }
 
         return checkIsFeedbackParticipantNameVisibleToUser(response, userEmail, roster, showNameTo);
+    }
+
+    void validateFeedbackResponseComment(FeedbackResponseComment frc) throws InvalidParametersException {
+        List<String> errors = Stream.of(
+                    FieldValidator.getInvalidityInfoForCommentGiverType(frc.getGiverType()),
+                    FieldValidator.getInvalidityInfoForVisibilityOfFeedbackParticipantComments(
+                        frc.getIsCommentFromFeedbackParticipant(), frc.getIsVisibilityFollowingFeedbackQuestion())
+                )
+                .filter(error -> !error.isEmpty())
+                .toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
     }
 
     private boolean checkIsFeedbackParticipantNameVisibleToUser(FeedbackResponse response,
