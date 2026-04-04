@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 
 import com.google.gson.JsonSyntaxException;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -104,7 +104,7 @@ public final class SeedDatabase {
             if (isUsingDefaultSeedFile) {
                 jsonString = applyDateTokens(jsonString);
             }
-            SqlDataBundle bundle = DataBundleLogic.deserializeDataBundle(jsonString);
+            DataBundle bundle = DataBundleLogic.deserializeDataBundle(jsonString);
 
             // All read notifications have been put inside the account and will be persisted when account
             // is persisted. We need to empty the read noitfications list to prevent duplicate insertions.
@@ -139,7 +139,7 @@ public final class SeedDatabase {
         }
     }
 
-    private static void seedDemoCourses(Logic logic, SqlDataBundle seedBundle)
+    private static void seedDemoCourses(Logic logic, DataBundle seedBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Instant now = Instant.now();
         String d1 = DATE_FMT.format(now.minus(7, ChronoUnit.DAYS));
@@ -174,7 +174,7 @@ public final class SeedDatabase {
                     "demo.date1", d1, "demo.date2", d2, "demo.date3", d3,
                     "demo.date4", d4, "demo.date5", d5);
 
-            SqlDataBundle demoBundle = DataBundleLogic.deserializeDataBundle(json);
+            DataBundle demoBundle = DataBundleLogic.deserializeDataBundle(json);
             logic.persistDataBundle(demoBundle);
 
             List<Instructor> instructors = logic.getInstructorsByCourse(courseId);
