@@ -11,8 +11,8 @@ import java.util.Set;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
