@@ -18,7 +18,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -114,13 +113,7 @@ public class Account extends BaseEntity {
 
     @Override
     public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
-
-        return errors;
+        return new ArrayList<>();
     }
 
     @Override

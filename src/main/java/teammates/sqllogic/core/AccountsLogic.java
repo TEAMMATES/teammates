@@ -4,10 +4,12 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.FieldValidator;
 import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -88,6 +90,7 @@ public final class AccountsLogic {
     public Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
+        validateAccount(account);
         return accountsDb.createAccount(account);
     }
 
@@ -212,6 +215,20 @@ public final class AccountsLogic {
         }
 
         return instructor;
+    }
+
+    void validateAccount(Account account) throws InvalidParametersException {
+        List<String> errors = Stream.of(
+                    FieldValidator.getInvalidityInfoForGoogleId(account.getGoogleId()),
+                    FieldValidator.getInvalidityInfoForPersonName(account.getName()),
+                    FieldValidator.getInvalidityInfoForEmail(account.getEmail())
+                )
+                .filter(error -> !error.isEmpty())
+                .toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
     }
 
     private Instructor validateInstructorJoinRequest(String registrationKey, String googleId)
