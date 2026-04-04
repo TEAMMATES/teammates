@@ -268,7 +268,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateGiverRecipientVisibilitySql() {
+    public void testValidateGiverRecipientVisibility() {
         FeedbackContributionQuestionDetails details = new FeedbackContributionQuestionDetails();
         FeedbackContributionQuestion feedbackQuestion = new FeedbackContributionQuestion(
                 null, 1, "description",
@@ -356,7 +356,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetQuestionResultStatisticsJsonSql() {
+    public void testGetQuestionResultStatisticsJson() {
         FeedbackContributionQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
 
         DataBundle responseBundle = loadDataBundle("/FeedbackContributionQuestionTestSql.json");
