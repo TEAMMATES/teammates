@@ -30,7 +30,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -215,7 +215,7 @@ public abstract class AbstractBackDoor {
     /**
      * Removes and restores given data in the database. This method is to be called on test startup.
      */
-    public SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle dataBundle) throws HttpRequestFailedException {
+    public DataBundle removeAndRestoreSqlDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
         removeSqlDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
                 executePostRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
@@ -227,7 +227,7 @@ public abstract class AbstractBackDoor {
         JsonObject jsonObject = JsonParser.parseString(putRequestOutput.responseBody).getAsJsonObject();
         // data bundle is nested under message key
         String message = jsonObject.get("message").getAsString();
-        return JsonUtils.fromJson(message, SqlDataBundle.class);
+        return JsonUtils.fromJson(message, DataBundle.class);
     }
 
     /**
@@ -235,7 +235,7 @@ public abstract class AbstractBackDoor {
      *
      * <p>If given entities have already been deleted, it fails silently.
      */
-    public void removeSqlDataBundle(SqlDataBundle dataBundle) {
+    public void removeSqlDataBundle(DataBundle dataBundle) {
         executePutRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
     }
 

@@ -23,7 +23,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionResponseMap() {
-        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         List<String> allExpectedResponses = new ArrayList<>();
         allExpectedResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
@@ -61,7 +61,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionMissingResponseMap() {
-        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         List<String> expectedMissingResponses = new ArrayList<>();
         expectedMissingResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
@@ -100,7 +100,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
     @Test
     public void testIsResponseGiverRecipientVisible_typicalCase_shouldReturnCorrectValues() {
 
-        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         FeedbackSession session1Course1 = getTypicalFeedbackSessionForCourse(getTypicalCourse());
 
@@ -152,7 +152,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testIsCommentGiverVisible_typicalCase_shouldReturnCorrectValues() {
-        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         UUID commentId1 = UUID.fromString("00000000-0000-4000-8000-000000000001");
         UUID commentId2 = UUID.fromString("00000000-0000-4000-8000-000000000002");

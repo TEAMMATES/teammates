@@ -19,7 +19,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -77,11 +77,11 @@ public class BaseTestCase {
         return TestProperties.TEST_DATA_FOLDER;
     }
 
-    protected SqlDataBundle getTypicalDataBundle() {
+    protected DataBundle getTypicalDataBundle() {
         return loadDataBundle("/typicalDataBundle.json");
     }
 
-    protected SqlDataBundle loadDataBundle(String jsonFileName) {
+    protected DataBundle loadDataBundle(String jsonFileName) {
         try {
             String pathToJsonFile = getTestDataFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);

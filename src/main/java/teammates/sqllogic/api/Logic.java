@@ -13,7 +13,7 @@ import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -1455,7 +1455,7 @@ public class Logic {
     /**
      * Persists the given data bundle to the database.
      */
-    public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
+    public DataBundle persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         return dataBundleLogic.persistDataBundle(dataBundle);
     }
@@ -1463,7 +1463,7 @@ public class Logic {
     /**
      * Removes the given data bundle from the database.
      */
-    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+    public void removeDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         dataBundleLogic.removeDataBundle(dataBundle);
     }
 

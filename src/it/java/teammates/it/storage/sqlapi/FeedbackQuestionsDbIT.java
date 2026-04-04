@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -25,7 +25,7 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
 
-    private SqlDataBundle typicalDataBundle;
+    private DataBundle typicalDataBundle;
 
     @BeforeClass
     public void setupClass() {

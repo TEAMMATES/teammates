@@ -14,7 +14,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -57,7 +57,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testCreateDataBundle_typicalValues_createdCorrectly() throws Exception {
         String pathToJsonFile = getTestDataFolder() + "/DataBundleLogicIT.json";
         String jsonString = FileHelper.readFile(pathToJsonFile);
-        SqlDataBundle dataBundle = DataBundleLogic.deserializeDataBundle(jsonString);
+        DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(jsonString);
 
         ______TS("verify account requests deserialized correctly");
 
@@ -210,7 +210,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testPersistDataBundle_typicalValues_persistedToDbCorrectly() throws Exception {
-        SqlDataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
+        DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
         dataBundleLogic.persistDataBundle(dataBundle);
 
         ______TS("verify notifications persisted correctly");
@@ -241,7 +241,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testRemoveDataBundle_typicalValues_removedCorrectly()
                 throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        SqlDataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
+        DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
         dataBundleLogic.persistDataBundle(dataBundle);
 
         ______TS("verify notifications persisted correctly");

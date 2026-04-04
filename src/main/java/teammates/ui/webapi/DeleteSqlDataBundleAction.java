@@ -1,6 +1,6 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
@@ -25,7 +25,7 @@ public class DeleteSqlDataBundleAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
-        SqlDataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), SqlDataBundle.class);
+        DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
 
         try {
             sqlLogic.removeDataBundle(dataBundle);
