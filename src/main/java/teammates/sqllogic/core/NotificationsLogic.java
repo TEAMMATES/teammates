@@ -5,12 +5,14 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.FieldValidator;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Notification;
 
@@ -49,9 +51,7 @@ public final class NotificationsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert notification != null;
 
-        if (!notification.isValid()) {
-            throw new InvalidParametersException(notification.getInvalidityInfo());
-        }
+        validateNotification(notification);
         return notificationsDb.createNotification(notification);
     }
 
@@ -90,9 +90,7 @@ public final class NotificationsLogic {
         notification.setTitle(title);
         notification.setMessage(message);
 
-        if (!notification.isValid()) {
-            throw new InvalidParametersException(notification.getInvalidityInfo());
-        }
+        validateNotification(notification);
 
         notificationsDb.updateNotification(notification);
 
@@ -126,5 +124,33 @@ public final class NotificationsLogic {
     public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
         assert targetUser != null;
         return notificationsDb.getActiveNotificationsByTargetUser(targetUser);
+    }
+
+    void validateNotification(Notification notification) throws InvalidParametersException {
+        List<String> errors;
+        errors = Stream.of(
+                FieldValidator.getValidityInfoForNonNullField("notification visible time", notification.getStartTime()),
+                FieldValidator.getValidityInfoForNonNullField("notification expiry time", notification.getEndTime())
+        )
+        .filter(info -> !info.isEmpty())
+        .toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
+
+        errors = Stream.of(
+                FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(
+                        notification.getStartTime(),
+                        notification.getEndTime()),
+                FieldValidator.getInvalidityInfoForNotificationTitle(notification.getTitle()),
+                FieldValidator.getInvalidityInfoForNotificationBody(notification.getMessage())
+        )
+        .filter(info -> !info.isEmpty())
+        .toList();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidParametersException(errors);
+        }
     }
 }

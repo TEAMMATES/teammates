@@ -584,22 +584,6 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if {@code style} is one of the recognized notification style {@link #NOTIFICATION_STYLE_ACCEPTED_VALUES}.
-     *
-     * @return An explanation of why the {@code style} is not acceptable.
-     *         Returns an empty string if the {@code style} is acceptable.
-     */
-    public static String getInvalidityInfoForNotificationStyle(String style) {
-        assert style != null;
-        try {
-            NotificationStyle.valueOf(style);
-        } catch (IllegalArgumentException e) {
-            return String.format(NOTIFICATION_STYLE_ERROR_MESSAGE, style);
-        }
-        return "";
-    }
-
-    /**
      * Checks if {@code targetUser} is one of the
      * recognized notification target user groups {@link #NOTIFICATION_TARGET_USER_ACCEPTED_VALUES}.
      *

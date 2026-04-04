@@ -21,7 +21,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -84,17 +83,7 @@ public class Notification extends BaseEntity {
 
     @Override
     public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification visible time", startTime), errors);
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification expiry time", endTime), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(startTime, endTime), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationStyle(style.name()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser.name()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTitle(title), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationBody(message), errors);
-
-        return errors;
+        return new ArrayList<>();
     }
 
     public UUID getId() {

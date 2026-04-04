@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -170,5 +171,85 @@ public class NotificationsLogicTest extends BaseTestCase {
                         "<p>Deprecation happens in three seconds</p>"));
 
         assertEquals("Trying to update non-existent Entity: " + Notification.class, ex.getMessage());
+    }
+
+    @Test
+    public void validateNotification_validNotification_noExceptionThrown() {
+        Notification notification = getTypicalNotificationWithId();
+
+        assertDoesNotThrow(() -> notificationsLogic.validateNotification(notification));
+    }
+
+    @Test
+    public void validateNotification_nullStartTime_throwsInvalidParametersException() {
+        Notification invalidNotification = getTypicalNotificationWithId();
+        invalidNotification.setStartTime(null);
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> notificationsLogic.validateNotification(invalidNotification));
+
+        assertEquals("The provided notification visible time is not acceptable to TEAMMATES "
+                + "as it cannot be empty.", ex.getMessage());
+    }
+
+    @Test
+    public void validateNotification_nullEndTime_throwsInvalidParametersException() {
+        Notification invalidNotification = getTypicalNotificationWithId();
+        invalidNotification.setEndTime(null);
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> notificationsLogic.validateNotification(invalidNotification));
+
+        assertEquals("The provided notification expiry time is not acceptable to TEAMMATES "
+                + "as it cannot be empty.", ex.getMessage());
+    }
+
+    @Test
+    public void validateNotification_endTimeBeforeStartTime_throwsInvalidParametersException() {
+        Notification invalidNotification = getTypicalNotificationWithId();
+        invalidNotification.setStartTime(Instant.parse("2011-01-01T00:00:01Z"));
+        invalidNotification.setEndTime(Instant.parse("2011-01-01T00:00:00Z"));
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> notificationsLogic.validateNotification(invalidNotification));
+
+        assertEquals("The time when the notification will expire for this notification "
+                + "cannot be earlier than the time when the notification will be visible.", ex.getMessage());
+    }
+
+    @Test
+    public void validateNotification_emptyTitle_throwsInvalidParametersException() {
+        Notification invalidNotification = getTypicalNotificationWithId();
+        invalidNotification.setTitle("");
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> notificationsLogic.validateNotification(invalidNotification));
+
+        assertEquals("The field 'notification title' is empty.", ex.getMessage());
+    }
+
+    @Test
+    public void validateNotification_titleTooLong_throwsInvalidParametersException() {
+        Notification invalidNotification = getTypicalNotificationWithId();
+        invalidNotification.setTitle("A".repeat(81));
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> notificationsLogic.validateNotification(invalidNotification));
+
+        assertEquals("\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\" "
+                + "is not acceptable to TEAMMATES as a/an notification title because it is too long. "
+                + "The value of a/an notification title should be no longer than 80 characters. "
+                + "It should not be empty.", ex.getMessage());
+    }
+
+    @Test
+    public void validateNotification_emptyMessage_throwsInvalidParametersException() {
+        Notification invalidNotification = getTypicalNotificationWithId();
+        invalidNotification.setMessage("");
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> notificationsLogic.validateNotification(invalidNotification));
+
+        assertEquals("The field 'notification message' is empty.", ex.getMessage());
     }
 }
