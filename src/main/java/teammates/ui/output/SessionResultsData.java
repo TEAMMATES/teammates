@@ -13,7 +13,7 @@ import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlCourseRoster;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.Const;
@@ -41,7 +41,7 @@ public class SessionResultsData extends ApiOutput {
     /**
      * Factory method to construct API output for instructor.
      */
-    public static SessionResultsData initForInstructor(SqlSessionResultsBundle bundle) {
+    public static SessionResultsData initForInstructor(SessionResultsBundle bundle) {
         SessionResultsData sessionResultsData = new SessionResultsData();
 
         Map<FeedbackQuestion, List<FeedbackResponse>> questionsWithResponses =
@@ -68,7 +68,7 @@ public class SessionResultsData extends ApiOutput {
     /**
      * Factory method to construct API output for student.
      */
-    public static SessionResultsData initForStudent(SqlSessionResultsBundle bundle, Student student) {
+    public static SessionResultsData initForStudent(SessionResultsBundle bundle, Student student) {
         SessionResultsData sessionResultsData = new SessionResultsData();
 
         Map<FeedbackQuestion, List<FeedbackResponse>> questionsWithResponses =
@@ -132,7 +132,7 @@ public class SessionResultsData extends ApiOutput {
     }
 
     private static ResponseOutput buildSingleResponseForStudent(
-            FeedbackResponse response, SqlSessionResultsBundle bundle, Student student) {
+            FeedbackResponse response, SessionResultsBundle bundle, Student student) {
         FeedbackQuestion question = response.getFeedbackQuestion();
         boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeamName());
 
@@ -206,7 +206,7 @@ public class SessionResultsData extends ApiOutput {
     }
 
     private static List<ResponseOutput> buildResponsesForInstructor(
-            List<FeedbackResponse> responses, SqlSessionResultsBundle bundle, boolean areMissingResponses) {
+            List<FeedbackResponse> responses, SessionResultsBundle bundle, boolean areMissingResponses) {
         List<ResponseOutput> output = new ArrayList<>();
 
         for (FeedbackResponse response : responses) {
@@ -217,7 +217,7 @@ public class SessionResultsData extends ApiOutput {
     }
 
     private static ResponseOutput buildSingleResponseForInstructor(
-            FeedbackResponse response, SqlSessionResultsBundle bundle, boolean isMissingResponse) {
+            FeedbackResponse response, SessionResultsBundle bundle, boolean isMissingResponse) {
         // process giver
         String giverEmail = null;
         String relatedGiverEmail = null;
@@ -295,7 +295,7 @@ public class SessionResultsData extends ApiOutput {
      *
      * <p>Anonymized the name if necessary.
      */
-    private static String getGiverNameOfResponse(FeedbackResponse response, SqlSessionResultsBundle bundle) {
+    private static String getGiverNameOfResponse(FeedbackResponse response, SessionResultsBundle bundle) {
         FeedbackQuestion question = response.getFeedbackQuestion();
         FeedbackParticipantType participantType = question.getGiverType();
 
@@ -303,7 +303,7 @@ public class SessionResultsData extends ApiOutput {
         String name = userInfo.getName();
 
         if (!bundle.isResponseGiverVisible(response)) {
-            name = SqlSessionResultsBundle.getAnonName(participantType, name);
+            name = SessionResultsBundle.getAnonName(participantType, name);
         }
 
         return name;
@@ -314,7 +314,7 @@ public class SessionResultsData extends ApiOutput {
      *
      * <p>Anonymized the name if necessary.
      */
-    private static String getRecipientNameOfResponse(FeedbackResponse response, SqlSessionResultsBundle bundle) {
+    private static String getRecipientNameOfResponse(FeedbackResponse response, SessionResultsBundle bundle) {
         FeedbackQuestion question = response.getFeedbackQuestion();
         FeedbackParticipantType participantType = question.getRecipientType();
         if (participantType == FeedbackParticipantType.SELF) {
@@ -329,14 +329,14 @@ public class SessionResultsData extends ApiOutput {
             name = Const.USER_NOBODY_TEXT;
         }
         if (!bundle.isResponseRecipientVisible(response)) {
-            name = SqlSessionResultsBundle.getAnonName(participantType, name);
+            name = SessionResultsBundle.getAnonName(participantType, name);
         }
 
         return name;
     }
 
     private static Queue<CommentOutput> buildComments(List<FeedbackResponseComment> feedbackResponseComments,
-                                                      SqlSessionResultsBundle bundle) {
+                                                      SessionResultsBundle bundle) {
         LinkedList<CommentOutput> outputs = new LinkedList<>();
 
         CommentOutput participantComment = null;

@@ -16,7 +16,7 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 /**
  * Represents detailed results for a feedback session.
  */
-public class SqlSessionResultsBundle {
+public class SessionResultsBundle {
 
     private final List<FeedbackQuestion> questions;
     private final Set<FeedbackQuestion> questionsNotVisibleForPreviewSet;
@@ -29,7 +29,7 @@ public class SqlSessionResultsBundle {
     private final Map<UUID, Boolean> commentGiverVisibilityTable;
     private final SqlCourseRoster roster;
 
-    public SqlSessionResultsBundle(List<FeedbackQuestion> questions,
+    public SessionResultsBundle(List<FeedbackQuestion> questions,
                                 Set<FeedbackQuestion> questionsNotVisibleForPreviewSet,
                                 Set<FeedbackQuestion> questionsWithCommentNotVisibleForPreviewSet,
                                 List<FeedbackResponse> responses,

@@ -17,9 +17,9 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@link SqlSessionResultsBundle}.
+ * SUT: {@link SessionResultsBundle}.
  */
-public class SqlSessionResultsBundleTest extends BaseTestCase {
+public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionResponseMap() {
@@ -29,8 +29,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         allExpectedResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
         allExpectedResponses.add(responseBundle.feedbackResponses.get("response2ForQ1").toString());
 
-        SqlSessionResultsBundle bundle =
-                new SqlSessionResultsBundle(
+        SessionResultsBundle bundle =
+                new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
                         new HashSet<>(),
@@ -67,8 +67,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         expectedMissingResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
         expectedMissingResponses.add(responseBundle.feedbackResponses.get("response2ForQ1").toString());
 
-        SqlSessionResultsBundle bundle =
-                new SqlSessionResultsBundle(
+        SessionResultsBundle bundle =
+                new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
                         new HashSet<>(),
@@ -124,8 +124,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         responseRecipientVisibilityTable.put(response1ForQ2S1C1, true);
         responseRecipientVisibilityTable.put(response2ForQ2S1C1, false);
 
-        SqlSessionResultsBundle bundle =
-                new SqlSessionResultsBundle(
+        SessionResultsBundle bundle =
+                new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
                         new HashSet<>(),
@@ -160,8 +160,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         commentGiverVisibilityTable.put(commentId1, true);
         commentGiverVisibilityTable.put(commentId2, false);
 
-        SqlSessionResultsBundle bundle =
-                new SqlSessionResultsBundle(
+        SessionResultsBundle bundle =
+                new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
                         new HashSet<>(),
@@ -187,10 +187,10 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetAnonName_typicalCase_shouldGenerateCorrectly() {
-        String anonName = SqlSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "");
+        String anonName = SessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "");
         assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
 
-        anonName = SqlSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
+        anonName = SessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
         assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
     }
 }

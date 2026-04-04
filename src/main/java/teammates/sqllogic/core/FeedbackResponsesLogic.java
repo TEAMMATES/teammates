@@ -14,7 +14,7 @@ import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SqlCourseRoster;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -556,7 +556,7 @@ public final class FeedbackResponsesLogic {
         return fq == null ? Collections.emptyList() : Collections.singletonList(fq);
     }
 
-    private SqlSessionResultsBundle buildResultsBundle(
+    private SessionResultsBundle buildResultsBundle(
             boolean isCourseWide, FeedbackSession feedbackSession, String courseId, String sectionName, UUID questionId,
             boolean isInstructor, String userEmail, Instructor instructor, Student student,
             SqlCourseRoster roster, List<FeedbackQuestion> allQuestions,
@@ -686,7 +686,7 @@ public final class FeedbackResponsesLogic {
         }
         RequestTracer.checkRemainingTime();
 
-        return new SqlSessionResultsBundle(relatedQuestions, relatedQuestionsNotVisibleForPreviewSet,
+        return new SessionResultsBundle(relatedQuestions, relatedQuestionsNotVisibleForPreviewSet,
                 relatedQuestionsWithCommentNotVisibleForPreview, existingResponses, missingResponses,
                 responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,
                 commentVisibilityTable, roster);
@@ -703,7 +703,7 @@ public final class FeedbackResponsesLogic {
      * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
      * @return the session result bundle
      */
-    public SqlSessionResultsBundle getSessionResultsForCourse(
+    public SessionResultsBundle getSessionResultsForCourse(
             FeedbackSession feedbackSession, String courseId, String instructorEmail,
             @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
 
@@ -743,7 +743,7 @@ public final class FeedbackResponsesLogic {
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
-    public SqlSessionResultsBundle getSessionResultsForUser(
+    public SessionResultsBundle getSessionResultsForUser(
             FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
             @Nullable UUID questionId, boolean isPreviewResults) {
         SqlCourseRoster roster = new SqlCourseRoster(

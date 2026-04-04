@@ -14,7 +14,7 @@ import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -1424,7 +1424,7 @@ public class Logic {
      *      FeedbackSession, String, String, String, Section,
      *      FeedbackResultFetchType)
      */
-    public SqlSessionResultsBundle getSessionResultsForCourse(
+    public SessionResultsBundle getSessionResultsForCourse(
             FeedbackSession feedbackSession, String courseId, String userEmail,
             @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
         assert feedbackSession != null;
@@ -1441,7 +1441,7 @@ public class Logic {
      * @see FeedbackResponsesLogic#getSessionResultsForUser(FeedbackSession, String,
      *      String, boolean, String)
      */
-    public SqlSessionResultsBundle getSessionResultsForUser(
+    public SessionResultsBundle getSessionResultsForUser(
             FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
             @Nullable UUID questionId, boolean isPreviewResults) {
         assert feedbackSession != null;

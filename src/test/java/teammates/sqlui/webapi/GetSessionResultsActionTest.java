@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.SqlCourseRoster;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Course;
@@ -43,7 +43,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     private String googleId = "user-googleId";
     private Course course;
     private FeedbackSession session;
-    private SqlSessionResultsBundle resultsStub;
+    private SessionResultsBundle resultsStub;
     private SessionResultsData expectedResults;
 
     @Override
@@ -65,7 +65,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         session.setResultsVisibleFromTime(Instant.MIN);
         List<FeedbackQuestion> questionsStub = new ArrayList<>();
         questionsStub.add(getTypicalFeedbackQuestionForSession(session));
-        resultsStub = new SqlSessionResultsBundle(questionsStub,
+        resultsStub = new SessionResultsBundle(questionsStub,
                 new HashSet<>(), new HashSet<>(), new ArrayList<>(),
                 new ArrayList<>(), new HashMap<>(), new HashMap<>(),
                 new HashMap<>(), new HashMap<>(), new SqlCourseRoster(new ArrayList<>(), new ArrayList<>()));

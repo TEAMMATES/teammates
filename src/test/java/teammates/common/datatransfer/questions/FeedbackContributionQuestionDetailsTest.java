@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
 import teammates.test.BaseTestCase;
@@ -361,7 +361,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
 
         SqlDataBundle responseBundle = loadDataBundle("/FeedbackContributionQuestionTestSql.json");
 
-        SqlSessionResultsBundle sqlBundle = new SqlSessionResultsBundle(
+        SessionResultsBundle sqlBundle = new SessionResultsBundle(
                 new ArrayList<>(responseBundle.feedbackQuestions.values()),
                 new HashSet<>(), new HashSet<>(),
                 new ArrayList<>(responseBundle.feedbackResponses.values()),
