@@ -17,6 +17,8 @@ import {
   SortableTableComponent,
 } from '../sortable-table/sortable-table.component';
 
+const partialMatchHighlightingEnabledProperty: string = 'isPartialMatchHighlightingEnabledInternal';
+
 /**
  * Model of row of student data containing details about a student and their section.
  */
@@ -47,9 +49,22 @@ export class StudentListComponent implements OnInit {
   @Input() tableSortBy: SortBy = SortBy.NONE;
   @Input() tableSortOrder: SortOrder = SortOrder.ASC;
   @Input() searchString: string = '';
-  @Input() isSearchTermsHighlighted: boolean = false;
   @Input() headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.OTHERS;
   @Input() customHeaderStyle: string = 'bg-light';
+
+  @Input('isSearchTermsHighlighted')
+  set isPartialMatchHighlightingEnabled(value: boolean) {
+    Object.defineProperty(this, partialMatchHighlightingEnabledProperty, {
+      value,
+      writable: true,
+      configurable: true,
+      enumerable: false,
+    });
+  }
+
+  get isPartialMatchHighlightingEnabled(): boolean {
+    return (this as Record<string, boolean>)[partialMatchHighlightingEnabledProperty] ?? false;
+  }
 
   @Input() set studentModels(studentRowModels: StudentListRowModel[]) {
     this.students = studentRowModels;
@@ -140,17 +155,17 @@ export class StudentListComponent implements OnInit {
         {
           value: studentModel.student.sectionName,
           displayValue: this.searchTermsHighlighterPipe.transform(
-              studentModel.student.sectionName, this.searchString, this.isSearchTermsHighlighted),
+            studentModel.student.sectionName, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.teamName,
           displayValue: this.searchTermsHighlighterPipe.transform(
-              studentModel.student.teamName, this.searchString, this.isSearchTermsHighlighted),
+            studentModel.student.teamName, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.name,
           displayValue: this.searchTermsHighlighterPipe.transform(
-              studentModel.student.name, this.searchString, this.isSearchTermsHighlighted),
+            studentModel.student.name, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.joinState === JoinState.JOINED ? 'Joined' : 'Yet to Join',
@@ -158,7 +173,7 @@ export class StudentListComponent implements OnInit {
         {
           value: studentModel.student.email,
           displayValue: this.searchTermsHighlighterPipe.transform(
-              studentModel.student.email, this.searchString, this.isSearchTermsHighlighted),
+            studentModel.student.email, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         this.createActionsCell(studentModel),
       ];
