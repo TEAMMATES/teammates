@@ -43,7 +43,7 @@ public class LogicStarter implements ServletContextListener {
         UsersLogic usersLogic = UsersLogic.inst();
 
         accountRequestsLogic.initLogicDependencies(AccountRequestsDb.inst());
-        accountsLogic.initLogicDependencies(AccountsDb.inst(), notificationsLogic, usersLogic, coursesLogic);
+        accountsLogic.initLogicDependencies(AccountsDb.inst(), usersLogic, coursesLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), fsLogic, usersLogic, accountsLogic);
         dataBundleLogic.initLogicDependencies(accountsLogic, accountRequestsLogic, coursesLogic,
                 deadlineExtensionsLogic, fsLogic, fslLogic, fqLogic, frLogic, frcLogic,

@@ -873,20 +873,6 @@ public class Logic {
     }
 
     /**
-     * Updates user read status for notification with ID {@code notificationId} and
-     * expiry time {@code endTime}.
-     *
-     * <p>
-     * Preconditions:
-     * </p>
-     * * All parameters are non-null. {@code endTime} must be after current moment.
-     */
-    public List<UUID> updateReadNotifications(String id, UUID notificationId, Instant endTime)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return accountsLogic.updateReadNotifications(id, notificationId, endTime);
-    }
-
-    /**
      * Gets instructor associated with {@code id}.
      *
      * @param id Id of Instructor.
