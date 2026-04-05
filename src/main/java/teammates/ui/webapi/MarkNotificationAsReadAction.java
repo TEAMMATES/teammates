@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -36,8 +35,7 @@ public class MarkNotificationAsReadAction extends Action {
         try {
             List<UUID> readNotifications =
                     sqlLogic.updateReadNotifications(userInfo.getId(), notificationId, endTime);
-            ReadNotificationsData output = new ReadNotificationsData(
-                    readNotifications.stream().map(UUID::toString).collect(Collectors.toList()));
+            ReadNotificationsData output = new ReadNotificationsData(readNotifications);
             return new JsonResult(output);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

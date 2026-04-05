@@ -51,6 +51,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   @Input() noResponseStudents: Student[] = [];
   @Input() section: string = '';
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
