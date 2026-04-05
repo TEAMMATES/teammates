@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbCollapse, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
 import {
@@ -92,7 +92,6 @@ interface InstructorEditPanelDetail {
     TeammatesRouterDirective,
     InstructorEditPanelComponent,
     AjaxLoadingComponent,
-    NgbCollapse,
 ],
 })
 export class InstructorCourseEditPageComponent implements OnInit {

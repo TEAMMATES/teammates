@@ -8,7 +8,6 @@ import {
   NgbDropdown,
   NgbDropdownToggle,
   NgbDropdownMenu,
-  NgbCollapse,
 } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
@@ -83,7 +82,6 @@ interface CourseModel {
     PanelChevronComponent,
     ModifiedTimestampModalComponent,
     DatePipe,
-    NgbCollapse,
 ],
 })
 export class InstructorCoursesPageComponent implements OnInit {

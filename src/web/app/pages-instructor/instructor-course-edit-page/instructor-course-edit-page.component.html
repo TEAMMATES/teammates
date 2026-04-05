@@ -44,11 +44,13 @@
       </button>
     </div>
   }
-  <div [ngbCollapse]="!isAddingNewInstructor">
-    <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
-      [isSavingNewInstructor]="isSavingNewInstructor"
-      [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
-      (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
-      (saveInstructor)="addNewInstructor()" (cancelEditing)="isAddingNewInstructor = false;"
-    [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-instructor-edit-panel>
-  </div>
+  @if (isAddingNewInstructor) {
+    <div>
+      <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
+        [isSavingNewInstructor]="isSavingNewInstructor"
+        [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
+        (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
+        (saveInstructor)="addNewInstructor()" (cancelEditing)="isAddingNewInstructor = false;"
+      [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-instructor-edit-panel>
+    </div>
+  }

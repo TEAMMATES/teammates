@@ -4,12 +4,14 @@
   </button>
 </div>
 
-<div id="add-course-section" [ngbCollapse]="!(isAddNewCourseFormExpanded && !isLoadingCourses)">
-  <tm-course-edit-form [formMode]="CourseEditFormMode.ADD" [formModel]="courseFormModel"
-    [resetFormEvent]="resetCourseForm" (closeFormEvent)="isAddNewCourseFormExpanded = false"
-    (createNewCourseEvent)="createNewCourse()" (copyCourseEvent)="createCopiedCourse($event)">
-  </tm-course-edit-form>
-</div>
+@if (isAddNewCourseFormExpanded && !isLoadingCourses) {
+  <div id="add-course-section" class="course-section">
+    <tm-course-edit-form [formMode]="CourseEditFormMode.ADD" [formModel]="courseFormModel"
+      [resetFormEvent]="resetCourseForm" (closeFormEvent)="isAddNewCourseFormExpanded = false"
+      (createNewCourseEvent)="createNewCourse()" (copyCourseEvent)="createCopiedCourse($event)">
+    </tm-course-edit-form>
+  </div>
+}
 
 @if (isCopyingCourse) {
   <div class="margin-top-30px">
@@ -310,7 +312,8 @@
               <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
             </div>
           </div>
-          <div class="card-body recycle-bin-body table-responsive" [ngbCollapse]="!isRecycleBinExpanded">
+          @if (isRecycleBinExpanded) {
+            <div class="card-body recycle-bin-body table-responsive">
             <table id="deleted-courses-table"
               class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
               <thead>
@@ -435,7 +438,8 @@
                 }
               </tbody>
             </table>
-          </div>
+            </div>
+          }
         </div>
       } @else {
         <div class="alert alert-warning margin-top-30px" role="alert">

@@ -201,7 +201,8 @@
                       </tr>
                       <tr>
                         <td colspan="6">
-                          <ul class="list-group" [ngbCollapse]="!student.showLinks">
+                          @if (student.showLinks) {
+                            <ul class="list-group">
                             <li class="list-group-item list-group-item-success has-success">
                               <strong>Email</strong>
                               <input [value]="student.email" disabled class="form-control">
@@ -239,7 +240,8 @@
                                 <input [value]="publishedFs.value.feedbackSessionUrl" disabled class="form-control">
                               </li>
                             }
-                          </ul>
+                            </ul>
+                          }
                         </td>
                       </tr>
                     }

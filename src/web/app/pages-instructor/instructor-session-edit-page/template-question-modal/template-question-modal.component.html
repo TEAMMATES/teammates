@@ -12,11 +12,13 @@
         </label>&nbsp;
         <span [innerHTML]="templateQuestionModel.description" class="template-description"></span>
       </div>
-      <div [ngbCollapse]="!templateQuestionModel.isShowDetails">
-        <div class="card-body">
-          <tm-question-edit-form [formModel]="templateQuestionModel.model" [isDisplayOnly]="true"></tm-question-edit-form>
+      @if (templateQuestionModel.isShowDetails) {
+        <div>
+          <div class="card-body">
+            <tm-question-edit-form [formModel]="templateQuestionModel.model" [isDisplayOnly]="true"></tm-question-edit-form>
+          </div>
         </div>
-      </div>
+      }
     </div>
   }
 </div>
