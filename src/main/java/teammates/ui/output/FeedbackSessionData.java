@@ -284,48 +284,10 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     /**
-     * Hides some attributes to student.
+     * Hides some attributes to students and instructors.
      */
-    public void hideInformationForStudent() {
+    public void hideInformation() {
         hideInformationForStudentAndInstructor();
-        hideSessionVisibilityTimestamps();
-    }
-
-    /**
-     * Hides some attributes to student.
-     */
-    public void hideInformationForStudent(String studentEmail) {
-        hideInformationForStudentAndInstructor();
-        hideSessionVisibilityTimestamps();
-    }
-
-    /**
-     * Hides some attributes to instructor without appropriate privilege.
-     */
-    public void hideInformationForInstructor() {
-        hideInformationForStudentAndInstructor();
-    }
-
-    /**
-     * Hides some attributes to instructor without appropriate privilege.
-     */
-    public void hideInformationForInstructor(String instructorEmail) {
-        hideInformationForStudentAndInstructor();
-    }
-
-    /**
-     * Hides some attributes for instructor who is submitting feedback session.
-     */
-    public void hideInformationForInstructorSubmission() {
-        hideInformationForInstructor();
-        hideSessionVisibilityTimestamps();
-    }
-
-    /**
-     * Hides some attributes for instructor who is submitting feedback session.
-     */
-    public void hideInformationForInstructorSubmission(String userEmail) {
-        hideInformationForInstructor(userEmail);
         hideSessionVisibilityTimestamps();
     }
 
