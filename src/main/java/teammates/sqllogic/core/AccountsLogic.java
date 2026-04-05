@@ -156,15 +156,6 @@ public final class AccountsLogic {
     }
 
     /**
-     * Gets ids of read notifications in an account.
-     */
-    public List<UUID> getReadNotificationsId(String googleId) {
-        return accountsDb.getAccountByGoogleId(googleId).getReadNotifications().stream()
-                .map(n -> n.getNotification().getId())
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Joins the user as a student.
      */
     public Student joinCourseForStudent(String registrationKey, String googleId)

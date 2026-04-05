@@ -168,39 +168,4 @@ public class AccountsLogicTest extends BaseTestCase {
                 () -> accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime()));
         assertEquals("Trying to mark an expired notification as read.", ex.getMessage());
     }
-
-    @Test
-    public void testGetReadNotificationsId_doesNotHaveReadNotifications_success() {
-        Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
-        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
-
-        List<UUID> readNotifications = accountsLogic.getReadNotificationsId(googleId);
-
-        assertEquals(0, readNotifications.size());
-    }
-
-    @Test
-    public void testGetReadNotificationsId_hasReadNotifications_success() {
-        Account account = getTypicalAccount();
-        List<ReadNotification> readNotifications = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Notification notification = getTypicalNotificationWithId();
-            ReadNotification readNotification = new ReadNotification(account, notification);
-            readNotifications.add(readNotification);
-        }
-        account.setReadNotifications(readNotifications);
-
-        String googleId = account.getGoogleId();
-        when(accountsDb.getAccountByGoogleId(googleId)).thenReturn(account);
-
-        List<UUID> actualReadNotifications = accountsLogic.getReadNotificationsId(googleId);
-
-        assertEquals(10, actualReadNotifications.size());
-
-        for (int i = 0; i < 10; i++) {
-            assertEquals(readNotifications.get(i).getNotification().getId(),
-                    actualReadNotifications.get(i));
-        }
-    }
 }

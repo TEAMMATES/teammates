@@ -859,13 +859,6 @@ public class Logic {
     }
 
     /**
-     * Get a list of IDs of the read notifications of the account.
-     */
-    public List<UUID> getReadNotificationsId(String id) {
-        return accountsLogic.getReadNotificationsId(id);
-    }
-
-    /**
      * Gets a list of notifications that have been read by the account with {@code accountId}.
      */
     public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
