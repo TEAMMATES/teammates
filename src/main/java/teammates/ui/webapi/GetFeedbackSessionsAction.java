@@ -125,10 +125,9 @@ public class GetFeedbackSessionsAction extends Action {
         if (Const.EntityType.STUDENT.equals(entityType)) {
             // hide sessions not visible to student
             sessionToDeadline.keySet().removeIf(session -> !session.isVisible());
-            responseData = new FeedbackSessionsData(sessionToDeadline);
-        } else {
-            responseData = new FeedbackSessionsData(sessionToDeadline);
         }
+
+        responseData = new FeedbackSessionsData(sessionToDeadline);
 
         for (String studentEmail : studentEmails) {
             responseData.hideInformationForStudent(studentEmail);
