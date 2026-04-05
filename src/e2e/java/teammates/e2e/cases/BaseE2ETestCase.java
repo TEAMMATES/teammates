@@ -45,6 +45,7 @@ import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.NotificationData;
@@ -594,6 +595,14 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      */
     protected String getKeyForStudent(Student student) {
         return getStudent(student).getKey();
+    }
+
+    /**
+     * Gets feedback session deadline extensions data from the database.
+     */
+    protected FeedbackSessionDeadlineExtensionsData getFeedbackSessionDeadlineExtensions(
+            String courseId, String feedbackSessionName) {
+        return BACKDOOR.getFeedbackSessionDeadlineExtensionsData(courseId, feedbackSessionName);
     }
 
     /**
