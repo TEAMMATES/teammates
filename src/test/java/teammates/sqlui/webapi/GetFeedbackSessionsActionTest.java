@@ -72,13 +72,13 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
         assertEquals(2, response.getFeedbackSessions().size());
-        assertAllStudentSessionsMatch(response, sessionsInCourse1, student1.getEmail());
+        assertAllStudentSessionsMatch(response, sessionsInCourse1);
 
         logoutUser();
     }
 
     private void assertAllStudentSessionsMatch(
-            FeedbackSessionsData sessionsData, List<FeedbackSession> expectedSessions, String emailAddress) {
+            FeedbackSessionsData sessionsData, List<FeedbackSession> expectedSessions) {
 
         assertEquals(sessionsData.getFeedbackSessions().size(), expectedSessions.size());
         for (FeedbackSessionData sessionData : sessionsData.getFeedbackSessions()) {

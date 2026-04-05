@@ -89,7 +89,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         individualExtensionPage.extendDeadlineByOneDay(true);
 
-        updatedExtensionsData = getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
+        updatedExtensionsData =
+                getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
@@ -109,7 +110,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         individualExtensionPage.deleteDeadlines(true);
 
-        updatedExtensionsData = getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
+        updatedExtensionsData =
+                getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
@@ -130,7 +132,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         individualExtensionPage.extendDeadlineToOneDayAway(feedbackSession, false);
 
-        updatedExtensionsData = getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
+        updatedExtensionsData =
+                getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
@@ -146,7 +149,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         individualExtensionPage.deleteDeadlines(false);
 
-        updatedExtensionsData = getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
+        updatedExtensionsData =
+                getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
