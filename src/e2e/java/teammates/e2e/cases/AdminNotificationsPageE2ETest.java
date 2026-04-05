@@ -40,7 +40,7 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.verifyNotificationsTableRow(notifications[0]);
         notificationsPage.verifyNotificationsTableRow(notifications[1]);
         NotificationData notif = getNotification(notifications[0].getId().toString());
-        assertEquals(notif.getNotificationId().toString(), notifications[0].getId().toString());
+        assertEquals(notif.getNotificationId(), notifications[0].getId());
         assertEquals(notif.getMessage(), notifications[0].getMessage());
         assertEquals(notif.getTitle(), notifications[0].getTitle());
         notif = getNotification(notifications[1].getId().toString());
