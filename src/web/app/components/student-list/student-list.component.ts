@@ -37,6 +37,8 @@ export interface StudentListRowModel {
     providers: [SearchTermsHighlighterPipe],
 })
 export class StudentListComponent implements OnInit {
+  private isPartialMatchHighlightingEnabledInternal: boolean = false;
+
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
@@ -49,6 +51,15 @@ export class StudentListComponent implements OnInit {
   @Input() searchString: string = '';
   @Input() headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.OTHERS;
   @Input() customHeaderStyle: string = 'bg-light';
+
+  @Input('isSearchTermsHighlighted')
+  set isPartialMatchHighlightingEnabled(value: boolean) {
+    this.isPartialMatchHighlightingEnabledInternal = value;
+  }
+
+  get isPartialMatchHighlightingEnabled(): boolean {
+    return this.isPartialMatchHighlightingEnabledInternal;
+  }
 
   @Input() set studentModels(studentRowModels: StudentListRowModel[]) {
     this.students = studentRowModels;
@@ -138,22 +149,26 @@ export class StudentListComponent implements OnInit {
       const rowData: SortableTableCellData[] = [
         {
           value: studentModel.student.sectionName,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.sectionName, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+            studentModel.student.sectionName, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.teamName,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.teamName, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+            studentModel.student.teamName, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.name,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.name, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+            studentModel.student.name, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.joinState === JoinState.JOINED ? 'Joined' : 'Yet to Join',
         },
         {
           value: studentModel.student.email,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.email, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+            studentModel.student.email, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         this.createActionsCell(studentModel),
       ];

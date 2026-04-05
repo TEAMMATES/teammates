@@ -1,9 +1,5 @@
 <div class="card bg-light top-padded">
   <div class="card-body">
-    <p class="text-muted">
-      Tips: Surround key word to search a whole string or string contains punctuation like "-" "."
-    </p>
-
     <div class="input-group">
       <input id="search-box" type="text" class="form-control" aria-label="Search" [(ngModel)]="searchQuery"
         (keyup.enter)="search()" [maxlength]="characterLimit">
