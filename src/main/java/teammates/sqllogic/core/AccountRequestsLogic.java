@@ -130,7 +130,7 @@ public final class AccountRequestsLogic {
     /**
      * Searches for account requests in the whole system.
      *
-     * @return A list of {@link AccountRequest} or {@code null} if no match found.
+     * @return A list of {@link AccountRequest}, or an empty list if no match is found.
      */
     public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
         return accountRequestDb.searchAccountRequestsInWholeSystem(queryString);

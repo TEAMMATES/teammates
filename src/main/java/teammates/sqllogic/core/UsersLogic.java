@@ -254,7 +254,7 @@ public final class UsersLogic {
     /**
      * Searches instructors in the whole system. Used by admin only.
      *
-     * @return List of found instructors in the whole system. Null if no result found.
+     * @return List of found instructors in the whole system. Returns an empty list if no results are found.
      */
     public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
         return usersDb.searchInstructorsInWholeSystem(queryString);
@@ -553,7 +553,7 @@ public final class UsersLogic {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
-     * @return null if no result found
+     * @return an empty list if no result is found
      */
     public List<Student> searchStudentsInWholeSystem(String queryString) {
         return usersDb.searchStudentsInWholeSystem(queryString);

@@ -1012,8 +1012,8 @@ public class Logic {
     /**
      * Searches instructors in the whole system. Used by admin only.
      *
-     * @return List of found instructors in the whole system. Null if no result
-     *         found.
+     * @return List of found instructors in the whole system. Returns an empty list
+     *         if no results are found.
      */
     public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
         assert queryString != null;
@@ -1168,7 +1168,7 @@ public class Logic {
      *
      * @param instructors a list of Instructors associated to a googleId,
      *                    used for filtering of search result
-     * @return Null if no match found
+     * @return an empty list if no match is found
      */
     public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
         assert queryString != null;
@@ -1183,7 +1183,7 @@ public class Logic {
      * to
      * search students in the whole system.
      *
-     * @return Null if no match found.
+     * @return an empty list if no match is found.
      */
     public List<Student> searchStudentsInWholeSystem(String queryString) {
         assert queryString != null;
@@ -1757,7 +1757,7 @@ public class Logic {
     /**
      * This is used by admin to search account requests in the whole system.
      *
-     * @return A list of {@link AccountRequest} or {@code null} if no match found.
+     * @return A list of matching {@link AccountRequest}s, or an empty list if no match is found.
      */
     public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
         assert queryString != null;
