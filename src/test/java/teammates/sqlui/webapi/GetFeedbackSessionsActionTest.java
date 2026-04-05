@@ -56,6 +56,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         when(mockLogic.getStudentsByGoogleId(student1.getAccount().getGoogleId())).thenReturn(List.of(student1));
         when(mockLogic.getInstructorByGoogleId(
                 instructor1.getAccount().getGoogleId(), course1.getId())).thenReturn(instructor1);
+        for (FeedbackSession session : sessionsInCourse1) {
+            when(mockLogic.getDeadlineForUser(session, student1)).thenReturn(session.getEndTime());
+        }
     }
 
     @Test
@@ -74,6 +77,60 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         assertEquals(2, response.getFeedbackSessions().size());
         assertAllStudentSessionsMatch(response, sessionsInCourse1, student1.getEmail());
+
+        logoutUser();
+    }
+
+    @Test
+    protected void testExecute_studentWithDeadlineExtension_closedSessionShownAsOpen() {
+        FeedbackSession closedSession = generateClosedFeedbackSessionInCourse(student1.getCourse(), "closed-session");
+
+        Instant extendedDeadline = Instant.parse("2028-01-01T00:00:00Z");
+
+        when(mockLogic.getFeedbackSessionsForCourse(student1.getCourse().getId()))
+                .thenReturn(List.of(closedSession));
+        when(mockLogic.getDeadlineForUser(closedSession, student1))
+                .thenReturn(extendedDeadline);
+
+        loginAsStudent(student1.getAccount().getGoogleId());
+
+        String[] submissionParams = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+
+        GetFeedbackSessionsAction a = getAction(submissionParams);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
+
+        assertEquals(1, response.getFeedbackSessions().size());
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
+
+        logoutUser();
+    }
+
+    @Test
+    protected void testExecute_studentWithoutDeadlineExtension_closedSessionShownAsClosed() {
+        FeedbackSession closedSession = generateClosedFeedbackSessionInCourse(student1.getCourse(), "closed-session");
+
+        when(mockLogic.getFeedbackSessionsForCourse(student1.getCourse().getId()))
+                .thenReturn(List.of(closedSession));
+        when(mockLogic.getDeadlineForUser(closedSession, student1))
+                .thenReturn(closedSession.getEndTime());
+
+        loginAsStudent(student1.getAccount().getGoogleId());
+
+        String[] submissionParams = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+
+        GetFeedbackSessionsAction a = getAction(submissionParams);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
+
+        assertEquals(1, response.getFeedbackSessions().size());
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, sessionData.getSubmissionStatus());
 
         logoutUser();
     }
@@ -197,5 +254,19 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
         instructor.setAccount(new Account("instructor-1", instructor.getName(), instructor.getEmail()));
         return instructor;
+    }
+
+    private FeedbackSession generateClosedFeedbackSessionInCourse(Course course, String name) {
+        FeedbackSession closedSession = new FeedbackSession(
+                name, course,
+                "instructor1@gmail.com", "generic instructions",
+                Instant.parse("2012-04-01T22:00:00Z"),
+                Instant.parse("2025-01-01T00:00:00Z"),
+                Instant.parse("2012-03-28T22:00:00Z"),
+                Instant.parse("2027-05-01T22:00:00Z"),
+                Duration.ofHours(10), true, true, true);
+        closedSession.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
+        closedSession.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
+        return closedSession;
     }
 }
