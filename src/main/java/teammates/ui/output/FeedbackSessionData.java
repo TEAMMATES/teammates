@@ -15,7 +15,6 @@ import teammates.storage.sqlentity.FeedbackSession;
  */
 public class FeedbackSessionData extends ApiOutput {
 
-    @Nullable
     private final UUID feedbackSessionId;
 
     private final String courseId;

@@ -343,7 +343,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.moderatedPerson || this.previewAsPerson,
             this.regKey,
         ).subscribe((student: Student) => {
-          this.studentId = student.studentId;
+          this.studentId = student.userId;
           this.personName = student.name;
           this.personEmail = student.email;
           this.logStudentAccess();

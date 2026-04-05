@@ -133,6 +133,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   isExpandAll: boolean = false;
 
   session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',

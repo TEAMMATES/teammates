@@ -52,7 +52,7 @@ public class GetFeedbackResponseCommentActionIT extends BaseActionIT<GetFeedback
 
         FeedbackResponseCommentData output = (FeedbackResponseCommentData) result.getOutput();
 
-        assertEquals(expectedComment.getId().toString(), output.getFeedbackResponseCommentId());
+        assertEquals(expectedComment.getId(), output.getFeedbackResponseCommentId());
     }
 
     @Test
