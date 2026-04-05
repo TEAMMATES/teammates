@@ -25,7 +25,7 @@ public class GetReadNotificationsAction extends Action {
         List<UUID> readNotifications =
                 sqlLogic.getReadNotificationsId(userInfo.getId());
         ReadNotificationsData output = new ReadNotificationsData(
-                readNotifications.stream().map(UUID::toString).collect(Collectors.toList()));
+                readNotifications.stream().toList());
         return new JsonResult(output);
     }
 }

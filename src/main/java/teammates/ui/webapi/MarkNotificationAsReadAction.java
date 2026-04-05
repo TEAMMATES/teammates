@@ -37,7 +37,7 @@ public class MarkNotificationAsReadAction extends Action {
             List<UUID> readNotifications =
                     sqlLogic.updateReadNotifications(userInfo.getId(), notificationId, endTime);
             ReadNotificationsData output = new ReadNotificationsData(
-                    readNotifications.stream().map(UUID::toString).collect(Collectors.toList()));
+                    readNotifications.stream().toList());
             return new JsonResult(output);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
