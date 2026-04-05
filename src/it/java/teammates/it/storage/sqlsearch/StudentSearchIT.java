@@ -6,7 +6,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.UsersDb;
@@ -19,7 +19,7 @@ import teammates.test.AssertHelper;
  */
 public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final SqlDataBundle typicalBundle = getTypicalDataBundle();
+    private final DataBundle typicalBundle = getTypicalDataBundle();
     private final UsersDb usersDb = UsersDb.inst();
 
     @Override

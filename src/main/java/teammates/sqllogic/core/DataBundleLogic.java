@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -87,8 +87,8 @@ public final class DataBundleLogic {
      *         For other entities, replaces the given ids with randomly generated UUIDs.
      * @return newly created DataBundle
      */
-    public static SqlDataBundle deserializeDataBundle(String jsonString) {
-        SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
+    public static DataBundle deserializeDataBundle(String jsonString) {
+        DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
 
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
@@ -223,9 +223,11 @@ public final class DataBundleLogic {
 
         for (FeedbackSessionLog log : sessionLogs) {
             log.setId(UUID.randomUUID());
-            FeedbackSession fs = sessionsMap.get(log.getFeedbackSession().getId());
+            FeedbackSession fs = log.getFeedbackSession() == null
+                    ? null : sessionsMap.get(log.getFeedbackSession().getId());
             log.setFeedbackSession(fs);
-            Student student = (Student) usersMap.get(log.getStudent().getId());
+            Student student = log.getStudent() == null
+                    ? null : (Student) usersMap.get(log.getStudent().getId());
             log.setStudent(student);
         }
 
@@ -262,7 +264,7 @@ public final class DataBundleLogic {
      * @throws EntityDoesNotExistException if an entity was not found.
      *         (ReadNotification requires Account and Notification to be created)
      */
-    public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
+    public DataBundle persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Null data bundle");
@@ -351,7 +353,7 @@ public final class DataBundleLogic {
     /**
      * Removes the items in the data bundle from the database.
      */
-    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+    public void removeDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Data bundle is null");
         }
@@ -371,7 +373,7 @@ public final class DataBundleLogic {
         });
     }
 
-    private static void linkEntities(SqlDataBundle dataBundle) {
+    private static void linkEntities(DataBundle dataBundle) {
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<Course> courses = dataBundle.courses.values();
         Collection<Section> sections = dataBundle.sections.values();
@@ -379,6 +381,7 @@ public final class DataBundleLogic {
         Collection<Instructor> instructors = dataBundle.instructors.values();
         Collection<Student> students = dataBundle.students.values();
         Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
+        Collection<FeedbackSessionLog> sessionLogs = dataBundle.feedbackSessionLogs.values();
         Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
         Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
@@ -472,6 +475,15 @@ public final class DataBundleLogic {
                 student.setAccount(account);
             }
             student.generateNewRegistrationKey();
+        }
+
+        for (FeedbackSessionLog log : sessionLogs) {
+            FeedbackSession fs = log.getFeedbackSession() == null
+                    ? null : sessionsMap.get(log.getFeedbackSession().getId());
+            log.setFeedbackSession(fs);
+            Student student = log.getStudent() == null
+                    ? null : (Student) usersMap.get(log.getStudent().getId());
+            log.setStudent(student);
         }
 
         for (Notification notification : notifications) {

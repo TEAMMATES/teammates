@@ -30,7 +30,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -215,10 +215,10 @@ public abstract class AbstractBackDoor {
     /**
      * Removes and restores given data in the database. This method is to be called on test startup.
      */
-    public SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle dataBundle) throws HttpRequestFailedException {
-        removeSqlDataBundle(dataBundle);
+    public DataBundle removeAndRestoreDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
+        removeDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
-                executePostRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+                executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
         if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
             throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
                     + putRequestOutput.responseBody);
@@ -227,7 +227,7 @@ public abstract class AbstractBackDoor {
         JsonObject jsonObject = JsonParser.parseString(putRequestOutput.responseBody).getAsJsonObject();
         // data bundle is nested under message key
         String message = jsonObject.get("message").getAsString();
-        return JsonUtils.fromJson(message, SqlDataBundle.class);
+        return JsonUtils.fromJson(message, DataBundle.class);
     }
 
     /**
@@ -235,8 +235,8 @@ public abstract class AbstractBackDoor {
      *
      * <p>If given entities have already been deleted, it fails silently.
      */
-    public void removeSqlDataBundle(SqlDataBundle dataBundle) {
-        executePutRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+    public void removeDataBundle(DataBundle dataBundle) {
+        executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
     }
 
     /**

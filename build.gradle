@@ -241,6 +241,7 @@ task execScript(type: JavaExec) {
 }
 
 // SETUP TASKS
+apply from: 'gradle/seeddb.gradle'
 
 task createConfigs {
     description = "Sets up the project by obtaining necessary files and configurations points. " +

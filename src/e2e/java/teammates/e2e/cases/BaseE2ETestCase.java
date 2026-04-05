@@ -10,7 +10,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.HttpRequestFailedException;
@@ -67,7 +67,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * DataBundle used in tests.
      */
-    protected SqlDataBundle testData;
+    protected DataBundle testData;
 
     private Browser browser;
 
@@ -87,10 +87,10 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Removes and restores the databundle.
      */
-    protected SqlDataBundle removeAndRestoreDataBundle(SqlDataBundle testData) {
-        SqlDataBundle dataBundle = null;
+    protected DataBundle removeAndRestoreDataBundle(DataBundle testData) {
+        DataBundle dataBundle = null;
         try {
-            dataBundle = BACKDOOR.removeAndRestoreSqlDataBundle(testData);
+            dataBundle = BACKDOOR.removeAndRestoreDataBundle(testData);
         } catch (HttpRequestFailedException e) {
             throw new RuntimeException(e);
         }
