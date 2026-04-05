@@ -11,7 +11,7 @@ import teammates.storage.sqlentity.Student;
  */
 public class StudentData extends ApiOutput {
     // TODO: separate the output format from the edit form model.
-    // This user ID is nullable because we use the output as the model for edit forms. 
+    // This user ID is nullable because we use the output as the model for edit forms.
     // When creating a new student, the user ID is not yet generated and thus is null.
     @Nullable
     private final UUID userId;
