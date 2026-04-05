@@ -865,6 +865,9 @@ public class Logic {
         return accountsLogic.getReadNotificationsId(id);
     }
 
+    /**
+     * Gets a list of notifications that have been read by the account with {@code accountId}.
+     */
     public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
         return notificationsLogic.getReadNotificationsByAccountId(accountId);
     }

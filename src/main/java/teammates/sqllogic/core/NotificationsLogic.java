@@ -129,6 +129,9 @@ public final class NotificationsLogic {
         return notificationsDb.getActiveNotificationsByTargetUser(targetUser);
     }
 
+    /**
+     * Gets a list of notifications that have been read by the account with {@code accountId}.
+     */
     public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
         assert accountId != null;
         return notificationsDb.getReadNotificationsByAccountId(accountId);
