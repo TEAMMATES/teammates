@@ -47,6 +47,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -862,6 +863,10 @@ public class Logic {
      */
     public List<UUID> getReadNotificationsId(String id) {
         return accountsLogic.getReadNotificationsId(id);
+    }
+
+    public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
+        return notificationsLogic.getReadNotificationsByAccountId(accountId);
     }
 
     /**

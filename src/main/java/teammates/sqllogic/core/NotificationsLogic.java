@@ -13,6 +13,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 
 /**
  * Handles the logic related to notifications.
@@ -126,5 +127,10 @@ public final class NotificationsLogic {
     public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
         assert targetUser != null;
         return notificationsDb.getActiveNotificationsByTargetUser(targetUser);
+    }
+
+    public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
+        assert accountId != null;
+        return notificationsDb.getReadNotificationsByAccountId(accountId);
     }
 }
