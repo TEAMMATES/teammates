@@ -98,8 +98,6 @@ describe('SearchService', () => {
       responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
       isClosingSoonEmailEnabled: false,
       isPublishedEmailEnabled: false,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     },
     {
       courseId: 'dog.gma-demo',
@@ -116,8 +114,6 @@ describe('SearchService', () => {
       responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
       isClosingSoonEmailEnabled: false,
       isPublishedEmailEnabled: false,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     },
   ];
 

@@ -118,8 +118,6 @@ describe('CopyCourseModalComponent', () => {
       isClosingSoonEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     };
     component.selectedFeedbackSessions.add(testFeedbackSession);
     fixture.detectChanges();
@@ -237,8 +235,6 @@ describe('CopyCourseModalComponent', () => {
       isClosingSoonEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     };
     const testFeedbackSession2: FeedbackSession = {
       courseId: 'testId',
@@ -255,8 +251,6 @@ describe('CopyCourseModalComponent', () => {
       isClosingSoonEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     };
     const testFeedbackSessions = [testFeedbackSession1, testFeedbackSession2];
     component.courseToFeedbackSession = {
@@ -299,8 +293,6 @@ describe('CopyCourseModalComponent', () => {
       isClosingSoonEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     };
     component.oldCourseId = 'testId1';
     component.courseToFeedbackSession = {

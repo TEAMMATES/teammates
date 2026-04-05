@@ -66,8 +66,6 @@ export class QuestionResponsePanelComponent {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   @Input()

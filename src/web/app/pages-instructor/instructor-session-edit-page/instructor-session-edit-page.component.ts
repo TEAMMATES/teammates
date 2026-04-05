@@ -37,6 +37,7 @@ import {
   FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackSession,
+  FeedbackSessionDeadlineExtensions,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackTextQuestionDetails, FeedbackVisibilityType,
@@ -228,17 +229,23 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       next: (course: Course) => {
         this.courseName = course.courseName;
 
-        this.feedbackSessionsService.getFeedbackSession({
-          courseId: this.courseId,
-          feedbackSessionName: this.feedbackSessionName,
-          intent: Intent.FULL_DETAIL,
-        }).pipe(finalize(() => {
+        forkJoin([
+          this.feedbackSessionsService.getFeedbackSession({
+            courseId: this.courseId,
+            feedbackSessionName: this.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+          }),
+          this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
+            this.courseId, this.feedbackSessionName),
+        ]).pipe(finalize(() => {
           this.isLoadingFeedbackSession = false;
         }))
             .subscribe({
-              next: (feedbackSession: FeedbackSession) => {
+              next: ([feedbackSession, deadlineExtensions]: [FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
                 this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
                 this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
+                this.studentDeadlines = deadlineExtensions.studentDeadlines;
+                this.instructorDeadlines = deadlineExtensions.instructorDeadlines;
               },
               error: (resp: ErrorMessageOutput) => {
                 this.hasLoadingFeedbackSessionFailed = true;
@@ -352,9 +359,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingSoonEmailEnabled
           || !feedbackSession.isPublishedEmailEnabled,
     };
-
-    this.studentDeadlines = feedbackSession.studentDeadlines;
-    this.instructorDeadlines = feedbackSession.instructorDeadlines;
 
     if (feedbackSession.customSessionVisibleTimestamp) {
       const customSessionVisible: { date: DateFormat, time: TimeFormat } =

@@ -65,8 +65,6 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
   isTabExpanded: boolean = false;
 
