@@ -45,7 +45,7 @@
     </div>
   }
   @if (isAddingNewInstructor) {
-    <div @collapseAnim>
+    <div>
       <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
         [isSavingNewInstructor]="isSavingNewInstructor"
         [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"

@@ -100,12 +100,10 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
           </div>
         </div>
         <div
-          class="ng-trigger ng-trigger-collapseAnim ng-animating"
+          class="collapse show"
         >
           <tm-loading-retry>
-            <div
-              style=""
-            >
+            <div>
               <div
                 class="card-body"
               >

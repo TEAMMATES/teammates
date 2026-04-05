@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import { QuestionTabModel } from './instructor-session-tab.model';
@@ -15,7 +16,6 @@ import {
 import {
   QuestionTextWithInfoComponent,
 } from '../../components/question-text-with-info/question-text-with-info.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
  * Instructor sessions results page question view.
@@ -24,7 +24,6 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
   selector: 'tm-instructor-session-result-question-view',
   templateUrl: './instructor-session-result-question-view.component.html',
   styleUrls: ['./instructor-session-result-question-view.component.scss'],
-  animations: [collapseAnim],
   imports: [
     QuestionTextWithInfoComponent,
     PanelChevronComponent,
@@ -32,6 +31,7 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
     LoadingRetryComponent,
     SingleStatisticsComponent,
     PerQuestionViewResponsesComponent,
+    NgbCollapse,
 ],
 })
 export class InstructorSessionResultQuestionViewComponent

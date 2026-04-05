@@ -132,15 +132,13 @@
               <p>
                 This is the form used to set up sessions.
               </p>
-              @if (questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]) {
-                <tm-example-box @collapseAnim>
-                  <tm-session-edit-form [formMode]="SessionEditFormMode.ADD"
-                    [model]="exampleSessionEditFormModel"
-                    [courseCandidates]="exampleCourseCandidates"
-                    [templateSessions]="exampleTemplateSessions">
-                  </tm-session-edit-form>
-                </tm-example-box>
-              }
+              <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]">
+                <tm-session-edit-form [formMode]="SessionEditFormMode.ADD"
+                  [model]="exampleSessionEditFormModel"
+                  [courseCandidates]="exampleCourseCandidates"
+                  [templateSessions]="exampleTemplateSessions">
+                </tm-session-edit-form>
+              </tm-example-box>
             </tm-instructor-help-panel>
             <!-- Question -->
             <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_QUESTIONS)"
@@ -167,11 +165,9 @@
                   Save changes to the question when you have finished creating the question
                 </li>
               </ol>
-              @if (questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]) {
-                <tm-example-box @collapseAnim>
-                  <tm-adding-question-panel [isLinkDisabled]="true"></tm-adding-question-panel>
-                </tm-example-box>
-              }
+              <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]">
+                <tm-adding-question-panel [isLinkDisabled]="true"></tm-adding-question-panel>
+              </tm-example-box>
               <p>
                 TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
                 <a (click)="jumpTo('questions')" [tmRouterLink]="">question types</a>,
@@ -195,12 +191,10 @@
                 The team member receiving feedback can see the feedback, but not who gave the feedback.
                 Instructors can see who received what feedback, and who gave the feedback.
               </p>
-              @if (questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]) {
-                <tm-example-box @collapseAnim>
-                  <tm-feedback-path-panel></tm-feedback-path-panel>
-                  <tm-visibility-panel></tm-visibility-panel>
-                </tm-example-box>
-              }
+              <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]">
+                <tm-feedback-path-panel></tm-feedback-path-panel>
+                <tm-visibility-panel></tm-visibility-panel>
+              </tm-example-box>
             </tm-instructor-help-panel>
             <!-- Question -->
             <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SET_QUESTION_COMPULSORY)"
@@ -211,13 +205,11 @@
               <p>
                 Not at the moment. But you can mention in the question description that it is a compulsory question (TEAMMATES will not enforce it though).
               </p>
-              @if (questionsToCollapsed[SessionsSectionQuestions.SET_QUESTION_COMPULSORY]) {
-                <tm-example-box @collapseAnim>
-                  <tm-question-edit-brief-description-form [brief]="'How many hours did you spend on the project?'" [isBriefDisabled]="true"
-                    [description]="'<p><strong>This question is </strong><span style=\'color: rgb(255, 0, 0); background-color: rgb(255, 255, 0);\'><strong>compulsory</strong></span><strong>!</strong></p>'"
-                  ></tm-question-edit-brief-description-form>
-                </tm-example-box>
-              }
+              <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.SET_QUESTION_COMPULSORY]">
+                <tm-question-edit-brief-description-form [brief]="'How many hours did you spend on the project?'" [isBriefDisabled]="true"
+                  [description]="'<p><strong>This question is </strong><span style=\'color: rgb(255, 0, 0); background-color: rgb(255, 255, 0);\'><strong>compulsory</strong></span><strong>!</strong></p>'"
+                ></tm-question-edit-brief-description-form>
+              </tm-example-box>
             </tm-instructor-help-panel>
             <!-- Question -->
             <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_PREVIEW)"
@@ -233,14 +225,12 @@
                 To access the preview panel of a specific session, click the <button class="btn btn-sm btn-light">Edit</button> button for that session in the <span class="ui-text">Home</span> or <span class="ui-text">Sessions</span> page. The preview
                 panel is located at the bottom of the Edit Feedback Session page.
               </p>
-              @if (questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]) {
-                <tm-example-box @collapseAnim>
-                  <tm-preview-session-panel [emailOfStudentToPreview]="exampleStudents[0].email" [emailOfInstructorToPreview]="exampleInstructors[0].email"
-                    [studentsOfCourse]="exampleStudents" [instructorsCanBePreviewedAs]="exampleInstructors"
-                    [forDisplayOnly]="true"
-                  ></tm-preview-session-panel>
-                </tm-example-box>
-              }
+              <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
+                <tm-preview-session-panel [emailOfStudentToPreview]="exampleStudents[0].email" [emailOfInstructorToPreview]="exampleInstructors[0].email"
+                  [studentsOfCourse]="exampleStudents" [instructorsCanBePreviewedAs]="exampleInstructors"
+                  [forDisplayOnly]="true"
+                ></tm-preview-session-panel>
+              </tm-example-box>
             </tm-instructor-help-panel>
             <!-- Question -->
             <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.LET_STUDENT_KNOW_SESSION)"
@@ -436,43 +426,37 @@
                   5 different views are available, each denoting the order in which responses are grouped.
                   Additionally, you can group the results by team, show or hide statistics, view missing responses and filter responses from a particular section.
                 </p>
-                @if (questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]) {
-                  <tm-example-box @collapseAnim>
-                    <tm-view-results-panel></tm-view-results-panel>
-                  </tm-example-box>
-                }
+                <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
+                  <tm-view-results-panel></tm-view-results-panel>
+                </tm-example-box>
                 <p>
                   In the example below, results are sorted by <span class="ui-text">Giver &#8594; Recipient &#8594; Question</span>. Additionally, missing responses have been recorded.
                 </p>
-                @if (questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]) {
-                  <tm-example-box @collapseAnim>
-                    <tm-instructor-session-result-grq-view [session]="this.exampleFeedbackSession"
-                      [section]="'Section A'"
-                      [sectionType]="InstructorSessionResultSectionType.EITHER"
-                      [groupByTeam]="true"
-                      [showStatistics]="true"
-                      [indicateMissingResponses]="true"
-                      [isExpandAll]="true"
-                      [instructorCommentTableModel]="exampleInstructorCommentTableModel"
-                      [responses]="exampleGrqResponses"
-                    ></tm-instructor-session-result-grq-view>
-                    <tm-instructor-session-no-response-panel [session]="exampleFeedbackSession"
-                      [section]="'Section A'"
-                      [allStudents]="exampleStudents"
-                      [noResponseStudents]="exampleStudents"
-                      [isDisplayOnly]="true"
-                    ></tm-instructor-session-no-response-panel>
-                  </tm-example-box>
-                }
+                <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
+                  <tm-instructor-session-result-grq-view [session]="this.exampleFeedbackSession"
+                    [section]="'Section A'"
+                    [sectionType]="InstructorSessionResultSectionType.EITHER"
+                    [groupByTeam]="true"
+                    [showStatistics]="true"
+                    [indicateMissingResponses]="true"
+                    [isExpandAll]="true"
+                    [instructorCommentTableModel]="exampleInstructorCommentTableModel"
+                    [responses]="exampleGrqResponses"
+                  ></tm-instructor-session-result-grq-view>
+                  <tm-instructor-session-no-response-panel [session]="exampleFeedbackSession"
+                    [section]="'Section A'"
+                    [allStudents]="exampleStudents"
+                    [noResponseStudents]="exampleStudents"
+                    [isDisplayOnly]="true"
+                  ></tm-instructor-session-no-response-panel>
+                </tm-example-box>
                 <p>If you choose to publish the results of the session, students will receive an email with a link to access the
                   session's results. What they can see is governed by the visibility levels you set when setting up the session.
                   Here is an example of what a student might see:
                 </p>
-                @if (questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]) {
-                  <tm-example-box @collapseAnim>
-                    <tm-question-response-panel [questions]="exampleQuestionsWithResponses"></tm-question-response-panel>
-                  </tm-example-box>
-                }
+                <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
+                  <tm-question-response-panel [questions]="exampleQuestionsWithResponses"></tm-question-response-panel>
+                </tm-example-box>
               </tm-instructor-help-panel>
               <!-- Question -->
               <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_ALL_RESPONSES)"
@@ -582,23 +566,21 @@
                     Fill in the form, which will appear similar to the example below.
                   </li>
                 </ol>
-                @if (questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]) {
-                  <tm-example-box @collapseAnim>
-                    <div class="card-body">
-                      <tm-comment-edit-form
-                        [mode]="CommentRowMode.ADD"
-                        [model]="exampleCommentEditFormModel"
-                        [isFeedbackParticipantComment]="false"
-                        [response]="exampleResponse"
-                        [questionShowResponsesTo]="[]"
-                        [isDisabled]="false"
-                        [shouldHideSavingButton]="false"
-                        [shouldHideClosingButton]="false"
-                        [isVisibilityOptionEnabled]="true">
-                      </tm-comment-edit-form>
-                    </div>
-                  </tm-example-box>
-                }
+                <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]">
+                  <div class="card-body">
+                    <tm-comment-edit-form
+                      [mode]="CommentRowMode.ADD"
+                      [model]="exampleCommentEditFormModel"
+                      [isFeedbackParticipantComment]="false"
+                      [response]="exampleResponse"
+                      [questionShowResponsesTo]="[]"
+                      [isDisabled]="false"
+                      [shouldHideSavingButton]="false"
+                      [shouldHideClosingButton]="false"
+                      [isVisibilityOptionEnabled]="true">
+                    </tm-comment-edit-form>
+                  </div>
+                </tm-example-box>
               </tm-instructor-help-panel>
               <!-- Question -->
               <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EDIT_DEL_COMMENT)"
@@ -643,14 +625,12 @@
                   You can view all your deleted feedback sessions by navigating to the <span class="ui-text">Sessions</span> page.<br>
                   Scroll to the <span class="ui-text">Deleted feedback sessions</span> heading, which looks similar to this:
                 </p>
-                @if (questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]) {
-                  <tm-example-box @collapseAnim>
-                    <tm-sessions-recycle-bin-table
-                      [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
-                      [isRecycleBinExpanded]="false">
-                    </tm-sessions-recycle-bin-table>
-                  </tm-example-box>
-                }
+                <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]">
+                  <tm-sessions-recycle-bin-table
+                    [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
+                    [isRecycleBinExpanded]="false">
+                  </tm-sessions-recycle-bin-table>
+                </tm-example-box>
                 <p>
                   The feedback sessions you have previously deleted are listed here.
                   In order to access information in a deleted session, <a (click)="jumpTo(SessionsSectionQuestions.RESTORE_SESSION); questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION] = true" [tmRouterLink]="">restore the session</a>.
@@ -666,14 +646,12 @@
                   To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to restore in the <span class="ui-text">Sessions</span> page.<br>
                   Then, click on the <button class="btn btn-light btn-sm">Restore</button> button corresponding to the session you want to restore.
                 </p>
-                @if (questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]) {
-                  <tm-example-box @collapseAnim>
-                    <tm-sessions-recycle-bin-table
-                      [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
-                      [isRecycleBinExpanded]="true">
-                    </tm-sessions-recycle-bin-table>
-                  </tm-example-box>
-                }
+                <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
+                  <tm-sessions-recycle-bin-table
+                    [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
+                    [isRecycleBinExpanded]="true">
+                  </tm-sessions-recycle-bin-table>
+                </tm-example-box>
                 <p>
                   After restoring the session, all the information relevant to the session (e.g. questions, responses, comments) will also be restored.
                 </p>
@@ -688,14 +666,12 @@
                   To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to permanently delete in the <span class="ui-text">Sessions</span> page.<br>
                   Then, click on the <button class="btn btn-sm btn-light text-danger">Delete Permanently</button> button corresponding to the session you want to delete.
                 </p>
-                @if (questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]) {
-                  <tm-example-box @collapseAnim>
-                    <tm-sessions-recycle-bin-table
-                      [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
-                      [isRecycleBinExpanded]="true">
-                    </tm-sessions-recycle-bin-table>
-                  </tm-example-box>
-                }
+                <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
+                  <tm-sessions-recycle-bin-table
+                    [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
+                    [isRecycleBinExpanded]="true">
+                  </tm-sessions-recycle-bin-table>
+                </tm-example-box>
                 <p>
                   After deleting the session, all the information relevant to the session (e.g. questions, responses, comments) will also be permanently deleted.
                 </p>
@@ -711,13 +687,11 @@
                   To restore all sessions, click on the <button class="btn btn-sm btn-secondary"><i class="fas fa-check"></i> Restore All</button> button in <span class="ui-text">Deleted feedback sessions</span> heading;
                   to delete all sessions, click on the <button class="btn btn-sm btn-secondary"><i class="fas fa-times"></i> Delete All</button> button in <span class="ui-text">Deleted feedback sessions</span> heading.
                 </p>
-                @if (questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]) {
-                  <tm-example-box @collapseAnim>
-                    <tm-sessions-recycle-bin-table
-                      [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
-                      [isRecycleBinExpanded]="false">
-                    </tm-sessions-recycle-bin-table>
-                  </tm-example-box>
-                }
+                <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]">
+                  <tm-sessions-recycle-bin-table
+                    [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
+                    [isRecycleBinExpanded]="false">
+                  </tm-sessions-recycle-bin-table>
+                </tm-example-box>
               </tm-instructor-help-panel>
             </div>

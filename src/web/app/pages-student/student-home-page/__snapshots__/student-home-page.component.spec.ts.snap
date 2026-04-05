@@ -200,11 +200,10 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             class="table-responsive"
           >
             <div
-              class="ng-trigger ng-trigger-collapseAnim ng-animating"
+              class="collapse show"
             >
               <table
                 class="table table-striped table-bordered margin-0"
-                style=""
               >
                 <thead>
                   <tr>
@@ -366,11 +365,10 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             class="table-responsive"
           >
             <div
-              class="ng-trigger ng-trigger-collapseAnim ng-animating"
+              class="collapse show"
             >
               <table
                 class="table table-striped table-bordered margin-0"
-                style=""
               >
                 <thead>
                   <tr>
@@ -606,6 +604,127 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
           <div
             class="table-responsive"
           >
+            <div
+              class="collapse"
+            >
+              <table
+                class="table table-striped table-bordered margin-0"
+              >
+                <thead>
+                  <tr>
+                    <th>
+                      Session Name
+                    </th>
+                    <th>
+                      Deadline
+                    </th>
+                    <th>
+                      Submissions
+                    </th>
+                    <th>
+                      Responses
+                    </th>
+                    <th>
+                      Action(s)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td
+                      class="text-break"
+                    >
+                      First Session
+                    </td>
+                    <td>
+                      <span>
+                         Sat, 02 Feb 2019, 04:15 PM +08 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Submitted 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Published 
+                      </span>
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <a
+                        class="btn btn-light btn-sm btn-margin-right custom-button"
+                        href="/web/student/sessions/result?courseid=CS2103&fsname=First%20Session"
+                        id="view-responses-btn-0"
+                        tmrouterlink="/web/student/sessions/result"
+                      >
+                         View Responses 
+                      </a>
+                      <a
+                        class="btn btn-light btn-sm custom-button"
+                        href="/web/student/sessions/submission?courseid=CS2103&fsname=First%20Session"
+                        id="edit-submit-btn-0"
+                        tmrouterlink="/web/student/sessions/submission"
+                      >
+                         Edit Submission 
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="text-break"
+                    >
+                      Second Session
+                    </td>
+                    <td>
+                      <span>
+                         Sat, 02 Feb 2019, 04:15 PM +08 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Pending 
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        class="ngb-tooltip-class"
+                      >
+                         Not Published 
+                      </span>
+                    </td>
+                    <td
+                      class="text-center"
+                    >
+                      <a
+                        class="btn btn-light btn-sm btn-margin-right custom-button disabled"
+                        href="/web/student/sessions/result?courseid=CS2103&fsname=Second%20Session"
+                        id="view-responses-btn-1"
+                        tmrouterlink="/web/student/sessions/result"
+                      >
+                         View Responses 
+                      </a>
+                      <a
+                        class="btn btn-light btn-sm custom-button"
+                        href="/web/student/sessions/submission?courseid=CS2103&fsname=Second%20Session"
+                        id="start-submit-btn-1"
+                        tmrouterlink="/web/student/sessions/submission"
+                      >
+                         Start Submission 
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </tm-loading-retry>
       </div>
@@ -763,6 +882,10 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
           <div
             class="table-responsive"
           >
+            <div
+              class="collapse"
+            >
+            </div>
           </div>
         </tm-loading-retry>
       </div>
@@ -806,6 +929,10 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
           <div
             class="table-responsive"
           >
+            <div
+              class="collapse"
+            >
+            </div>
           </div>
         </tm-loading-retry>
       </div>
@@ -881,6 +1008,10 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
           <div
             class="table-responsive"
           >
+            <div
+              class="collapse"
+            >
+            </div>
           </div>
         </tm-loading-retry>
       </div>

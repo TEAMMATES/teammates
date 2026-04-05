@@ -120,46 +120,44 @@
                     <tm-panel-chevron [isExpanded]="institutionPanelsStatus[mapping.key]"></tm-panel-chevron>
                   </div>
                 </div>
-                @if (institutionPanelsStatus[mapping.key]) {
-                  <div class="card-body session-table-body" @collapseAnim>
-                    <div class="table-responsive">
-                      <table class="table table-striped data-table session-table" id="ongoing-sessions-table">
-                        <thead>
+                <div class="card-body session-table-body" [ngbCollapse]="!institutionPanelsStatus[mapping.key]">
+                  <div class="table-responsive">
+                    <table class="table table-striped data-table session-table" id="ongoing-sessions-table">
+                      <thead>
+                        <tr>
+                          <th>Status</th>
+                          <th>[Course ID] Session Name</th>
+                          <th>Response Rate</th>
+                          <th>Start Time</th>
+                          <th>End Time</th>
+                          <th>Creator</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (session of mapping.value; track session) {
                           <tr>
-                            <th>Status</th>
-                            <th>[Course ID] Session Name</th>
-                            <th>Response Rate</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Creator</th>
+                            <td>{{ session.ongoingSession.sessionStatus }}</td>
+                            <td class="text-break">
+                              <strong>[{{ session.ongoingSession.courseId }}]</strong>
+                              {{ session.ongoingSession.feedbackSessionName }}
+                            </td>
+                            <td>
+                              @if (session.responseRate) {
+                                <span>{{ session.responseRate }}</span>
+                              }
+                              @if (!session.responseRate) {
+                                <span><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>
+                              }
+                            </td>
+                            <td>{{ session.startTimeString }}</td>
+                            <td>{{ session.endTimeString }}</td>
+                            <td><a target="_blank" rel="noopener noreferrer" [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          @for (session of mapping.value; track session) {
-                            <tr>
-                              <td>{{ session.ongoingSession.sessionStatus }}</td>
-                              <td class="text-break">
-                                <strong>[{{ session.ongoingSession.courseId }}]</strong>
-                                {{ session.ongoingSession.feedbackSessionName }}
-                              </td>
-                              <td>
-                                @if (session.responseRate) {
-                                  <span>{{ session.responseRate }}</span>
-                                }
-                                @if (!session.responseRate) {
-                                  <span><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>
-                                }
-                              </td>
-                              <td>{{ session.startTimeString }}</td>
-                              <td>{{ session.endTimeString }}</td>
-                              <td><a target="_blank" rel="noopener noreferrer" [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
-                            </tr>
-                          }
-                        </tbody>
-                      </table>
-                    </div>
+                        }
+                      </tbody>
+                    </table>
                   </div>
-                }
+                </div>
               </div>
             }
           </div>

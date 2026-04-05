@@ -1,5 +1,6 @@
 import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import { SectionTabModel } from './instructor-session-tab.model';
@@ -9,7 +10,6 @@ import { PanelChevronComponent } from '../../components/panel-chevron/panel-chev
 import {
   GrqRgqViewResponsesComponent,
 } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
  * Instructor sessions results page GRQ view.
@@ -18,13 +18,13 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
   selector: 'tm-instructor-session-result-grq-view',
   templateUrl: './instructor-session-result-grq-view.component.html',
   styleUrls: ['./instructor-session-result-grq-view.component.scss'],
-  animations: [collapseAnim],
   imports: [
     PanelChevronComponent,
     LoadingSpinnerDirective,
     LoadingRetryComponent,
     GrqRgqViewResponsesComponent,
     KeyValuePipe,
+    NgbCollapse,
 ],
 })
 export class InstructorSessionResultGrqViewComponent extends InstructorSessionResultView {

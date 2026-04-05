@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
@@ -17,7 +18,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingRetryComponent } from '../loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { NotificationStyleClassPipe } from '../teammates-common/notification-style-class.pipe';
 
 export interface NotificationTab {
@@ -35,13 +35,13 @@ export interface NotificationTab {
   selector: 'tm-user-notifications-list',
   templateUrl: './user-notifications-list.component.html',
   styleUrls: ['./user-notifications-list.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     NgClass,
     PanelChevronComponent,
     NotificationStyleClassPipe,
+    NgbCollapse,
 ],
 })
 export class UserNotificationsListComponent implements OnInit {

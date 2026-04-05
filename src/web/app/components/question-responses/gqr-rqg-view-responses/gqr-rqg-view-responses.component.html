@@ -10,7 +10,7 @@
             </div>
           </h6>
           @if (teamExpanded[teamInfo.key]) {
-            <div @collapseAnim>
+            <div>
               <div class="card-body background-color-warning">
                 @if (teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length && showStatistics) {
                   <div>
@@ -91,7 +91,7 @@
       </div>
     </h6>
     @if (userExpanded[userInfo]) {
-      <div @collapseAnim>
+      <div>
         <div class="card-body top-padded-0">
           @for (question of responsesToShow[userInfo]; track question) {
             <div id="question-panel-{{ question.questionOutput.feedbackQuestion.questionNumber }}" class="card top-padded alert-primary-border">
@@ -104,7 +104,7 @@
                 </div>
               </div>
               @if (question.isTabExpanded) {
-                <div @collapseAnim>
+                <div>
                   <div class="card-body top-padded-small table-responsive">
                     @if (showStatistics) {
                       <tm-single-statistics

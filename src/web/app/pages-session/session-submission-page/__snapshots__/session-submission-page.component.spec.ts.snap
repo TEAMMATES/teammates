@@ -1038,11 +1038,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -1345,11 +1344,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -1507,6 +1505,110 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               </div>
                             </div>
                             <div
+                              class="collapse"
+                            >
+                              <table
+                                class="table margin-bottom-0 background-color-white table-striped table-responsive-md"
+                              >
+                                <thead>
+                                  <tr>
+                                    <th
+                                      class="text-start"
+                                      scope="col"
+                                    >
+                                      User/Group
+                                    </th>
+                                    <th
+                                      class="text-center"
+                                      scope="col"
+                                    >
+                                      Can see this comment
+                                    </th>
+                                    <th
+                                      class="text-center"
+                                      scope="col"
+                                    >
+                                      Can see comment giver's name
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>
+                                      <span
+                                        class="ngb-tooltip-class"
+                                        container="body"
+                                      >
+                                        Response Giver(s)
+                                      </span>
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <span
+                                        class="ngb-tooltip-class"
+                                        container="body"
+                                      >
+                                        Response Giver's Team Members
+                                      </span>
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <span
+                                        class="ngb-tooltip-class"
+                                        container="body"
+                                      >
+                                        Instructors
+                                      </span>
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div
                               style="margin: 10px 0;"
                             >
                               <tm-rich-text-editor
@@ -1603,11 +1705,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -1714,11 +1815,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -2042,11 +2142,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -2257,11 +2356,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -2486,11 +2584,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -2945,11 +3042,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -3304,11 +3400,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -3586,11 +3681,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -4075,11 +4169,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -4384,11 +4477,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -4546,6 +4638,110 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               </div>
                             </div>
                             <div
+                              class="collapse"
+                            >
+                              <table
+                                class="table margin-bottom-0 background-color-white table-striped table-responsive-md"
+                              >
+                                <thead>
+                                  <tr>
+                                    <th
+                                      class="text-start"
+                                      scope="col"
+                                    >
+                                      User/Group
+                                    </th>
+                                    <th
+                                      class="text-center"
+                                      scope="col"
+                                    >
+                                      Can see this comment
+                                    </th>
+                                    <th
+                                      class="text-center"
+                                      scope="col"
+                                    >
+                                      Can see comment giver's name
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>
+                                      <span
+                                        class="ngb-tooltip-class"
+                                        container="body"
+                                      >
+                                        Response Giver(s)
+                                      </span>
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <span
+                                        class="ngb-tooltip-class"
+                                        container="body"
+                                      >
+                                        Response Giver's Team Members
+                                      </span>
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <span
+                                        class="ngb-tooltip-class"
+                                        container="body"
+                                      >
+                                        Instructors
+                                      </span>
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                    <td
+                                      class="text-center"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div
                               style="margin: 10px 0;"
                             >
                               <tm-rich-text-editor
@@ -4644,11 +4840,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -4755,11 +4950,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -5089,11 +5283,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -5306,11 +5499,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -5537,11 +5729,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -5998,11 +6189,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -6368,11 +6558,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
@@ -6652,11 +6841,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </h2>
           </div>
           <div
-            class="ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="collapse show"
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"

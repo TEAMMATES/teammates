@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { StringHelper } from '../../../../services/string-helper';
@@ -12,7 +12,6 @@ import {
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { castAsInputElement } from '../../../../types/event-target-caster';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
-import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import { CommentVisibilityControlNamePipe, CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe } from '../comment-visibility-setting.pipe';
@@ -35,7 +34,6 @@ export interface CommentEditFormModel {
   selector: 'tm-comment-edit-form',
   templateUrl: './comment-edit-form.component.html',
   styleUrls: ['./comment-edit-form.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgbTooltip,
     RichTextEditorComponent,
@@ -43,6 +41,7 @@ export interface CommentEditFormModel {
     CommentVisibilityControlNamePipe,
     CommentVisibilityTypeDescriptionPipe,
     CommentVisibilityTypeNamePipe,
+    NgbCollapse,
 ],
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {

@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -64,7 +64,6 @@ import { NumScaleQuestionInstructionComponent } from '../question-types/question
 import { RankOptionsQuestionInstructionComponent } from '../question-types/question-instruction/rank-options-question-instruction.component';
 import { RankRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/rank-recipients-question-instruction.component';
 import { TextQuestionInstructionComponent } from '../question-types/question-instruction/text-question-instruction.component';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 import { SafeHtmlPipe } from '../teammates-common/safe-html.pipe';
 import { VisibilityCapabilityPipe } from '../visibility-messages/visibility-capability.pipe';
@@ -77,7 +76,6 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
   selector: 'tm-question-submission-form',
   templateUrl: './question-submission-form.component.html',
   styleUrls: ['./question-submission-form.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgClass,
     PanelChevronComponent,
@@ -114,6 +112,7 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
     VisibilityEntityNamePipe,
     VisibilityCapabilityPipe,
     RecipientTypeNamePipe,
+    NgbCollapse,
 ],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {

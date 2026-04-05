@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { RecycleBinTableFormatDatePipe } from './recycle-bin-table-format-date.pipe';
 import { FeedbackSession } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 
 /**
@@ -22,13 +21,13 @@ export interface RecycleBinFeedbackSessionRowModel {
   selector: 'tm-sessions-recycle-bin-table',
   templateUrl: './sessions-recycle-bin-table.component.html',
   styleUrls: ['./sessions-recycle-bin-table.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgbTooltip,
     PanelChevronComponent,
     AjaxLoadingComponent,
     FormatDateDetailPipe,
     RecycleBinTableFormatDatePipe,
+    NgbCollapse,
 ],
 })
 export class SessionsRecycleBinTableComponent {

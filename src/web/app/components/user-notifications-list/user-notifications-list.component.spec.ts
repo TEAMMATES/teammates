@@ -2,7 +2,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import moment from 'moment-timezone';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
@@ -63,9 +62,6 @@ describe('UserNotificationsListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),

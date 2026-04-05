@@ -14,7 +14,6 @@ import {
 import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
 import { PanelChevronComponent } from '../../panel-chevron/panel-chevron.component';
 import { QuestionTextWithInfoComponent } from '../../question-text-with-info/question-text-with-info.component';
-import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 import { PerQuestionViewResponsesComponent } from '../per-question-view-responses/per-question-view-responses.component';
 import { SingleStatisticsComponent } from '../single-statistics/single-statistics.component';
@@ -32,7 +31,6 @@ interface QuestionTab {
   selector: 'tm-gqr-rqg-view-responses',
   templateUrl: './gqr-rqg-view-responses.component.html',
   styleUrls: ['./gqr-rqg-view-responses.component.scss'],
-  animations: [collapseAnim],
   imports: [
     PanelChevronComponent,
     QuestionTextWithInfoComponent,

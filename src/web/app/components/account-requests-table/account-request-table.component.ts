@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal/admin-edit-request-modal-model';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
@@ -18,7 +18,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 
 /**
  * Account requests table component.
@@ -27,7 +26,6 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
   selector: 'tm-account-request-table',
   templateUrl: './account-request-table.component.html',
   styleUrls: ['./account-request-table.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgbTooltip,
     AjaxLoadingComponent,
@@ -35,6 +33,7 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
     NgbDropdownToggle,
     NgbDropdownMenu,
     SearchTermsHighlighterPipe,
+    NgbCollapse,
 ],
 })
 

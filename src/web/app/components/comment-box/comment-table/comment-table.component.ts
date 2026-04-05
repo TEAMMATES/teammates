@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { CommentTableModel } from './comment-table.model';
 import {
   FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
-import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { CommentRowModel, CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import { CommentToCommentRowModelPipe } from '../comment-to-comment-row-model.pipe';
@@ -16,9 +16,9 @@ import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-mo
   selector: 'tm-comment-table',
   templateUrl: './comment-table.component.html',
   styleUrls: ['./comment-table.component.scss'],
-  animations: [collapseAnim],
   imports: [
     CommentRowComponent,
+    NgbCollapse,
 ],
   providers: [
     CommentToCommentRowModelPipe,

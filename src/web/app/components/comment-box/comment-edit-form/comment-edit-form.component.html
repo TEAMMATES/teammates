@@ -32,35 +32,33 @@
     <p>You may change comment's visibility using the visibility options on the right hand side.</p>
   }
 
-  @if (isVisibilityTableExpanded) {
-    <div @collapseAnim>
-      <table class="table margin-bottom-0 background-color-white table-striped table-responsive-md">
-        <thead>
-          <tr>
-            <th scope="col" class="text-start">User/Group</th>
-            @for (commentVisibilityControl of CommentVisibilityControl | enumToArray; track commentVisibilityControl) {
-              <th scope="col" class="text-center">{{ commentVisibilityControl | commentVisibilityControlName }}</th>
-            }
-          </tr>
-        </thead>
-        <tbody>
-          @for (commentVisibilityType of CommentVisibilityType | enumToArray; track commentVisibilityType) {
-            @if (visibilityStateMachine.isVisibilityTypeApplicable(commentVisibilityType)) {
-              <tr>
-                <td><span container="body" class="ngb-tooltip-class" [ngbTooltip]="commentVisibilityType | commentVisibilityTypeDescription">{{ commentVisibilityType | commentVisibilityTypeName }}</span></td>
-                @for (commentVisibilityControl of CommentVisibilityControl | enumToArray; track commentVisibilityControl) {
-                  <td class="text-center">
-                    <input type="checkbox" [checked]="visibilityStateMachine.isVisible(commentVisibilityType, commentVisibilityControl)"
-                      (click)="modifyVisibilityControl(castAsInputElement($event.target).checked, commentVisibilityType, commentVisibilityControl)">
-                  </td>
-                }
-              </tr>
-            }
+  <div [ngbCollapse]="!isVisibilityTableExpanded">
+    <table class="table margin-bottom-0 background-color-white table-striped table-responsive-md">
+      <thead>
+        <tr>
+          <th scope="col" class="text-start">User/Group</th>
+          @for (commentVisibilityControl of CommentVisibilityControl | enumToArray; track commentVisibilityControl) {
+            <th scope="col" class="text-center">{{ commentVisibilityControl | commentVisibilityControlName }}</th>
           }
-        </tbody>
-      </table>
-    </div>
-  }
+        </tr>
+      </thead>
+      <tbody>
+        @for (commentVisibilityType of CommentVisibilityType | enumToArray; track commentVisibilityType) {
+          @if (visibilityStateMachine.isVisibilityTypeApplicable(commentVisibilityType)) {
+            <tr>
+              <td><span container="body" class="ngb-tooltip-class" [ngbTooltip]="commentVisibilityType | commentVisibilityTypeDescription">{{ commentVisibilityType | commentVisibilityTypeName }}</span></td>
+              @for (commentVisibilityControl of CommentVisibilityControl | enumToArray; track commentVisibilityControl) {
+                <td class="text-center">
+                  <input type="checkbox" [checked]="visibilityStateMachine.isVisible(commentVisibilityType, commentVisibilityControl)"
+                    (click)="modifyVisibilityControl(castAsInputElement($event.target).checked, commentVisibilityType, commentVisibilityControl)">
+                </td>
+              }
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
 
   <div style="margin: 10px 0;">
     <tm-rich-text-editor [richText]="model.commentText" (richTextChange)="triggerModelChange('commentText', $event)"
