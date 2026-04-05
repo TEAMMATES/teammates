@@ -1,13 +1,15 @@
 package teammates.sqllogic.core;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
 
+import org.mockito.MockedStatic;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,6 +17,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
@@ -34,6 +37,8 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     private final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
+    private MockedStatic<HibernateUtil> mockHibernateUtil;
+
     private AccountsLogic accountsLogic;
     private AccountRequestsLogic accountRequestsLogic;
     private CoursesLogic coursesLogic;
@@ -43,6 +48,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @BeforeMethod
     public void setUpMethod() {
+        mockHibernateUtil = mockStatic(HibernateUtil.class);
         accountsLogic = mock(AccountsLogic.class);
         accountRequestsLogic = mock(AccountRequestsLogic.class);
         coursesLogic = mock(CoursesLogic.class);
@@ -60,6 +66,11 @@ public class DataBundleLogicTest extends BaseTestCase {
                 fsLogic, fslLogic, fqLogic, frLogic, frcLogic, notificationsLogic, usersLogic);
     }
 
+    @AfterMethod
+    public void tearDown() {
+        mockHibernateUtil.close();
+    }
+
     @Test
     public void testPersistDataBundle_nullBundle_throwsException() {
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
@@ -69,7 +80,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_emptyBundle_success()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         DataBundle emptyBundle = new DataBundle();
 
         DataBundle result = dataBundleLogic.persistDataBundle(emptyBundle);
@@ -83,7 +94,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withCourse_createsCourse()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         DataBundle dataBundle = new DataBundle();
         Course course = getTypicalCourse();
         dataBundle.courses.put("course1", course);
@@ -102,7 +113,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withAccount_createsAccount()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         DataBundle dataBundle = new DataBundle();
         Account account = getTypicalAccount();
         dataBundle.accounts.put("account1", account);
@@ -118,7 +129,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withNotification_createsNotification()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         DataBundle dataBundle = new DataBundle();
         Notification notification = getTypicalNotificationWithId();
         dataBundle.notifications.put("notification1", notification);
@@ -137,7 +148,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withAccountRequest_createsAccountRequest()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         DataBundle dataBundle = new DataBundle();
         AccountRequest accountRequest = getTypicalAccountRequest();
         dataBundle.accountRequests.put("accountRequest1", accountRequest);
@@ -155,7 +166,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withMultipleEntities_createsAllEntities()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         DataBundle dataBundle = new DataBundle();
 
         Course course = getTypicalCourse();
@@ -197,7 +208,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withSectionsAndTeams_createsHierarchy()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         DataBundle dataBundle = new DataBundle();
         Course course = getTypicalCourse();
         Section section = new Section(course, "Section 1");
@@ -232,7 +243,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withStudentsAndInstructors_createsUsers()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         DataBundle dataBundle = new DataBundle();
         Course course = getTypicalCourse();
         Section section = new Section(course, "Section 1");
@@ -273,7 +284,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withFeedbackSession_createsSession()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         DataBundle dataBundle = new DataBundle();
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
@@ -295,7 +306,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withReadNotifications_updatesReadNotifications()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         DataBundle dataBundle = new DataBundle();
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
@@ -320,8 +331,8 @@ public class DataBundleLogicTest extends BaseTestCase {
         assertEquals(account, result.accounts.get("account1"));
         assertEquals(notification, result.notifications.get("notification1"));
         assertEquals(readNotification, result.readNotifications.get("readNotification1"));
-        verify(accountsLogic, times(1)).updateReadNotifications(
-                eq(account.getGoogleId()), eq(notification.getId()), eq(notification.getEndTime()));
+
+        mockHibernateUtil.verify(() -> HibernateUtil.persist(readNotification), times(1));
     }
 
     @Test
