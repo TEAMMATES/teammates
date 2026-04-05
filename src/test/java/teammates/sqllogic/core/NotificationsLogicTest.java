@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -194,5 +195,20 @@ public class NotificationsLogicTest extends BaseTestCase {
         assertSame(notification1, readNotifications.get(0).getNotification());
         assertSame(account, readNotifications.get(1).getAccount());
         assertSame(notification2, readNotifications.get(1).getNotification());
+    }
+
+    @Test
+    public void testCreateReadNotification_success() {
+        Account account = getTypicalAccount();
+        Notification notification = getTypicalNotificationWithId();
+
+        when(HibernateUtil.getReference(Account.class, account.getId())).thenReturn(account);
+        when(HibernateUtil.getReference(Notification.class, notification.getId())).thenReturn(notification);
+        when(notificationsDb.createReadNotification(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ReadNotification result = notificationsLogic.createReadNotification(account.getId(), notification.getId());
+        verify(notificationsDb, times(1)).createReadNotification(any());
+        assertEquals(account.getId(), result.getAccount().getId());
+        assertEquals(notification.getId(), result.getNotification().getId());
     }
 }

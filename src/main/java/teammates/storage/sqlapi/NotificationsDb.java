@@ -123,6 +123,14 @@ public final class NotificationsDb {
     }
 
     /**
+     * Creates a read notification.
+     */
+    public ReadNotification createReadNotification(ReadNotification readNotification) {
+        HibernateUtil.persist(readNotification);
+        return readNotification;
+    }
+
+    /**
      * Gets read notifications by account ID.
      *
      * @return a list of read notifications for the specified account ID.

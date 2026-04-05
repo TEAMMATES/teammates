@@ -11,7 +11,9 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.NotificationsDb;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
 
@@ -135,5 +137,20 @@ public final class NotificationsLogic {
     public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
         assert accountId != null;
         return notificationsDb.getReadNotificationsByAccountId(accountId);
+    }
+
+    /**
+     * Create a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
+     */
+    public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
+        assert accountId != null;
+        assert notificationId != null;
+
+        Account account = HibernateUtil.getReference(Account.class, accountId);
+        Notification notification = HibernateUtil.getReference(Notification.class, notificationId);
+
+        ReadNotification readNotification = new ReadNotification(account, notification);
+
+        return notificationsDb.createReadNotification(readNotification);
     }
 }

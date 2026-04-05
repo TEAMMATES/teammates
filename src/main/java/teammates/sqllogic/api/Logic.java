@@ -859,6 +859,13 @@ public class Logic {
     }
 
     /**
+     * Create a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
+     */
+    public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
+        return notificationsLogic.createReadNotification(accountId, notificationId);
+    }
+
+    /**
      * Gets a list of notifications that have been read by the account with {@code accountId}.
      */
     public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
