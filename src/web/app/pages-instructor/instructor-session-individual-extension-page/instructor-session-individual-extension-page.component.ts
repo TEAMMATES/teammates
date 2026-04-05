@@ -135,7 +135,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.isLoadingFeedbackSession = true;
     this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingAllInstructors = true;
-    this.hasLoadedAllStudentsFailed = false;
+    this.hasLoadedAllInstructorsFailed = false;
     forkJoin([
       this.courseService.getCourseAsInstructor(this.courseId),
       this.feedbackSessionsService.getFeedbackSession({
@@ -152,7 +152,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         this.isLoadingAllInstructors = false;
       }))
       .subscribe({
-        next: ([course, feedbackSession, deadlineExtensions]: [Course, FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
+        next: ([course, feedbackSession, deadlineExtensions]:
+            [Course, FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
           this.courseName = course.courseName;
           this.setFeedbackSessionDetails(feedbackSession);
           this.studentDeadlines = deadlineExtensions.studentDeadlines;
