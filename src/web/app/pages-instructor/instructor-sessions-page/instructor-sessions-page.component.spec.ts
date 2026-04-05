@@ -65,8 +65,6 @@ describe('InstructorSessionsPageComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const testFeedbackSession2: FeedbackSession = {
@@ -84,8 +82,6 @@ describe('InstructorSessionsPageComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const testFeedbackSession3: FeedbackSession = {
@@ -104,8 +100,6 @@ describe('InstructorSessionsPageComponent', () => {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     deletedAtTimestamp: 1611580917000, // Monday, 25 January 2021 21:21:57 GMT+08:00
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const testFeedbackSession4: FeedbackSession = {
@@ -124,8 +118,6 @@ describe('InstructorSessionsPageComponent', () => {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
     deletedAtTimestamp: 1612958400, // Wednesday, February 10, 2021 20:00:00 GMT+08:00
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const testTutorPrivilege: any = {

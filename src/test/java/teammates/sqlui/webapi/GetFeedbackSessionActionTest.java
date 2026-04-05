@@ -4,7 +4,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -13,7 +12,6 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.FeedbackSessionData;
@@ -115,9 +113,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(0, response.getCreatedAtTimestamp());
         assertNull(response.getDeletedAtTimestamp());
 
-        assertTrue(response.getStudentDeadlines().isEmpty());
-        assertTrue(response.getInstructorDeadlines().isEmpty());
-
         logoutUser();
     }
 
@@ -154,8 +149,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertTrue(response.getStudentDeadlines().isEmpty());
-        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
@@ -196,8 +189,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertTrue(response.getStudentDeadlines().isEmpty());
-        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
@@ -229,8 +220,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         feedbackSession1.setStartTime(newStartTime);
         feedbackSession1.setEndTime(newEndTime);
         feedbackSession1.setGracePeriod(newGracePeriod);
-        feedbackSession1.setDeadlineExtensions(new ArrayList<>());
-        feedbackSession1.getDeadlineExtensions().add(new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
 
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
@@ -241,9 +230,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertTrue(response.getStudentDeadlines().containsKey(student1.getEmail()));
-        assertEquals(1, response.getStudentDeadlines().size());
-        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
@@ -275,8 +261,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         feedbackSession1.setStartTime(newStartTime);
         feedbackSession1.setEndTime(newEndTime);
         feedbackSession1.setGracePeriod(newGracePeriod);
-        feedbackSession1.setDeadlineExtensions(new ArrayList<>());
-        feedbackSession1.getDeadlineExtensions().add(new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
 
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
@@ -287,9 +271,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertTrue(response.getStudentDeadlines().containsKey(student1.getEmail()));
-        assertEquals(1, response.getStudentDeadlines().size());
-        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
@@ -321,8 +302,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         feedbackSession1.setStartTime(newStartTime);
         feedbackSession1.setEndTime(newEndTime);
         feedbackSession1.setGracePeriod(newGracePeriod);
-        feedbackSession1.setDeadlineExtensions(new ArrayList<>());
-        feedbackSession1.getDeadlineExtensions().add(new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
 
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
@@ -333,9 +312,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertTrue(response.getStudentDeadlines().containsKey(student1.getEmail()));
-        assertEquals(1, response.getStudentDeadlines().size());
-        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
@@ -367,8 +343,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         feedbackSession1.setStartTime(newStartTime);
         feedbackSession1.setEndTime(newEndTime);
         feedbackSession1.setGracePeriod(newGracePeriod);
-        feedbackSession1.setDeadlineExtensions(new ArrayList<>());
-        feedbackSession1.getDeadlineExtensions().add(new DeadlineExtension(student1, feedbackSession1, extendedEndTime));
 
         // mock deadline extension exists for student1
         when(mockLogic.getDeadlineForUser(feedbackSession1, student1)).thenReturn(extendedEndTime);
@@ -379,9 +353,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertTrue(response.getStudentDeadlines().containsKey(student1.getEmail()));
-        assertEquals(1, response.getStudentDeadlines().size());
-        assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
                         .toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());

@@ -124,7 +124,7 @@ public class GetFeedbackSessionsAction extends Action {
         }
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
-            responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformationForStudent);
+            responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformation);
         } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             responseData.getFeedbackSessions().forEach(session -> {
                 Instructor instructor = courseIdToInstructor.get(session.getCourseId());

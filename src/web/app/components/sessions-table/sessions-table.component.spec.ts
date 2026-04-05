@@ -58,8 +58,6 @@ describe('SessionsTableComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 1554967204,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const feedbackSession2: FeedbackSession = {
@@ -77,8 +75,6 @@ describe('SessionsTableComponent', () => {
     isClosingSoonEmailEnabled: false,
     isPublishedEmailEnabled: false,
     createdAtTimestamp: 1554967204,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const instructorCanEverything: InstructorPermissionSet = {

@@ -21,7 +21,7 @@ public class FeedbackSessionsData extends ApiOutput {
      */
     public void hideInformationForStudent(String email) {
         for (FeedbackSessionData fs : feedbackSessions) {
-            fs.hideInformationForStudent(email);
+            fs.hideInformation();
         }
     }
 
