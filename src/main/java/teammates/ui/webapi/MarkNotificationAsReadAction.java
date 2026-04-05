@@ -2,6 +2,8 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
+import org.apache.http.HttpStatus;
+
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.ReadNotification;
 import teammates.ui.output.ReadNotificationData;
@@ -30,6 +32,10 @@ public class MarkNotificationAsReadAction extends Action {
         UUID notificationId = UUID.fromString(readNotificationCreateRequest.getNotificationId());
 
         Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
+        if (account == null) {
+            // This should not happen as the user is authenticated
+            return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
         ReadNotification readNotification = sqlLogic.createReadNotification(account.getId(), notificationId);
         ReadNotificationData output = new ReadNotificationData(readNotification);
 
