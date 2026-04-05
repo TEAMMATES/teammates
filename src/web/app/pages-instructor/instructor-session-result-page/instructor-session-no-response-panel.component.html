@@ -28,7 +28,7 @@
       <tm-panel-chevron [isExpanded]="isTabExpanded"></tm-panel-chevron>
     </div>
   </div>
-  <div [ngbCollapse]="!isTabExpanded">
+  <div [ngbCollapse]="!isTabExpanded" [animation]="false">
     <div *tmIsLoading="!isNoResponseStudentsLoaded" class="card-body">
       @if (noResponseStudentsInSection.length) {
         <div>

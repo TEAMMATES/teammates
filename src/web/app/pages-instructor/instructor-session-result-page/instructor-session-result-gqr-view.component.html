@@ -7,7 +7,7 @@
           <tm-panel-chevron [isExpanded]="sectionInfo.value.isTabExpanded"></tm-panel-chevron>
         </div>
       </div>
-      <div [ngbCollapse]="!sectionInfo.value.isTabExpanded">
+      <div [ngbCollapse]="!sectionInfo.value.isTabExpanded" [animation]="false">
         <div *tmIsLoading="!sectionInfo.value.hasPopulated && !sectionInfo.value.errorMessage"></div>
         <tm-loading-retry
           class="m-3"

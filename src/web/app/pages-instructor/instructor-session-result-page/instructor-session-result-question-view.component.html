@@ -20,7 +20,7 @@
         <tm-panel-chevron chevronColor="black" [isExpanded]="question.isTabExpanded"></tm-panel-chevron>
       </div>
     </div>
-    <div [ngbCollapse]="!question.isTabExpanded">
+    <div [ngbCollapse]="!question.isTabExpanded" [animation]="false">
       <div *tmIsLoading="!question.hasPopulated && !question.errorMessage"></div>
       <tm-loading-retry
         class="m-3"
