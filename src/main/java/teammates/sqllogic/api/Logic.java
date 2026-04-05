@@ -47,6 +47,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -858,24 +859,17 @@ public class Logic {
     }
 
     /**
-     * Get a list of IDs of the read notifications of the account.
+     * Create a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
      */
-    public List<UUID> getReadNotificationsId(String id) {
-        return accountsLogic.getReadNotificationsId(id);
+    public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
+        return notificationsLogic.createReadNotification(accountId, notificationId);
     }
 
     /**
-     * Updates user read status for notification with ID {@code notificationId} and
-     * expiry time {@code endTime}.
-     *
-     * <p>
-     * Preconditions:
-     * </p>
-     * * All parameters are non-null. {@code endTime} must be after current moment.
+     * Gets a list of notifications that have been read by the account with {@code accountId}.
      */
-    public List<UUID> updateReadNotifications(String id, UUID notificationId, Instant endTime)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return accountsLogic.updateReadNotifications(id, notificationId, endTime);
+    public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
+        return notificationsLogic.getReadNotificationsByAccountId(accountId);
     }
 
     /**

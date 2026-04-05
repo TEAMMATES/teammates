@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -22,7 +23,7 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetNotificationsAction}.
  */
 public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsAction> {
-    private static final String GOOGLE_ID = "user-googleId";
+    private static final String GOOGLE_ID = "google-id";
     private static final int READ_NOTIFICATION_COUNT = 5;
     private static final int UNREAD_NOTIFICATION_COUNT = 10;
 
@@ -34,6 +35,11 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     @Override
     String getRequestMethod() {
         return GET;
+    }
+
+    @BeforeMethod
+    public void setUpMethod() {
+        when(mockLogic.getAccountForGoogleId(GOOGLE_ID)).thenReturn(getTypicalAccount());
     }
 
     @Test
