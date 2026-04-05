@@ -19,6 +19,7 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   Course,
   FeedbackSession,
+  FeedbackSessionDeadlineExtensions,
   FeedbackSessionSubmittedGiverSet,
   Instructors,
   Students,
@@ -142,6 +143,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.FULL_DETAIL,
       }),
+      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
+        this.courseId, this.feedbackSessionName),
     ])
       .pipe(finalize(() => {
         this.isLoadingFeedbackSession = false;
@@ -149,9 +152,11 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         this.isLoadingAllInstructors = false;
       }))
       .subscribe({
-        next: ([course, feedbackSession]: [Course, FeedbackSession]) => {
+        next: ([course, feedbackSession, deadlineExtensions]: [Course, FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
           this.courseName = course.courseName;
           this.setFeedbackSessionDetails(feedbackSession);
+          this.studentDeadlines = deadlineExtensions.studentDeadlines;
+          this.instructorDeadlines = deadlineExtensions.instructorDeadlines;
           this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
           this.getAllInstructorsOfCourse();
         },
@@ -203,8 +208,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     };
     this.feedbackSessionEndingTimestamp = feedbackSession.submissionEndTimestamp;
     this.feedbackSessionTimeZone = feedbackSession.timeZone;
-    this.studentDeadlines = feedbackSession.studentDeadlines ?? {};
-    this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
   }
 
   private initialSortOfStudents(): void {
