@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.User;
 import teammates.ui.output.DeadlineExtensionData;
@@ -36,9 +37,9 @@ public class GetDeadlineExtensionAction extends Action {
         User user = isInstructor
                 ? sqlLogic.getInstructorForEmail(courseId, userEmail)
                 : sqlLogic.getStudentForEmail(courseId, userEmail);
-        Instant deadlineExtensionEndTime = sqlLogic.getExtendedDeadlineForUser(feedbackSession, user);
+        DeadlineExtension deadlineExtension = sqlLogic.getDeadlineExtensionEntityForUser(feedbackSession, user);
 
-        if (deadlineExtensionEndTime == null) {
+        if (deadlineExtension == null) {
             throw new EntityNotFoundException(
                     "Deadline extension for course id: " + courseId
                     + " and feedback session name: " + feedbackSessionName
@@ -48,7 +49,6 @@ public class GetDeadlineExtensionAction extends Action {
         }
 
         // set sentClosingSoonEmail as false by default since it is removed.
-        return new JsonResult(new DeadlineExtensionData(courseId, feedbackSessionName,
-                userEmail, isInstructor, false, deadlineExtensionEndTime));
+        return new JsonResult(new DeadlineExtensionData(deadlineExtension));
     }
 }
