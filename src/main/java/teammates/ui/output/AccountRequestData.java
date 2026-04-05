@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
@@ -9,7 +11,7 @@ import teammates.storage.sqlentity.AccountRequest;
  * Output format of account request data.
  */
 public class AccountRequestData extends ApiOutput {
-    private final String id;
+    private final UUID accountRequestId;
     private final String email;
     private final String name;
     private final String institute;
@@ -22,7 +24,7 @@ public class AccountRequestData extends ApiOutput {
     private final long createdAt;
 
     public AccountRequestData(AccountRequest accountRequest) {
-        this.id = accountRequest.getId().toString();
+        this.accountRequestId = accountRequest.getId();
         this.name = accountRequest.getName();
         this.email = accountRequest.getEmail();
         this.institute = accountRequest.getInstitute();
@@ -38,8 +40,8 @@ public class AccountRequestData extends ApiOutput {
         }
     }
 
-    public String getId() {
-        return id;
+    public UUID getAccountRequestId() {
+        return accountRequestId;
     }
 
     public String getInstitute() {
