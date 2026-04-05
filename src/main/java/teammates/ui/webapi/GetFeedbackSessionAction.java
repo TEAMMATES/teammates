@@ -77,7 +77,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             response = new FeedbackSessionData(feedbackSession,
                     sqlLogic.getDeadlineForUser(feedbackSession,
                     instructorResult));
-            response.hideInformation();
+            response.hideInformationForStudentAndInstructor();
             break;
         case FULL_DETAIL:
             response = new FeedbackSessionData(feedbackSession);
