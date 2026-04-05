@@ -20,7 +20,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.sqllogic.core.AccountRequestsLogic;
@@ -1016,8 +1015,7 @@ public class Logic {
      * @return List of found instructors in the whole system. Null if no result
      *         found.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
         assert queryString != null;
 
         return usersLogic.searchInstructorsInWholeSystem(queryString);
@@ -1172,8 +1170,7 @@ public class Logic {
      *                    used for filtering of search result
      * @return Null if no match found
      */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
-            throws SearchServiceException {
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
         assert queryString != null;
         assert instructors != null;
         return usersLogic.searchStudents(queryString, instructors);
@@ -1188,8 +1185,7 @@ public class Logic {
      *
      * @return Null if no match found.
      */
-    public List<Student> searchStudentsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Student> searchStudentsInWholeSystem(String queryString) {
         assert queryString != null;
 
         return usersLogic.searchStudentsInWholeSystem(queryString);
@@ -1763,8 +1759,7 @@ public class Logic {
      *
      * @return A list of {@link AccountRequest} or {@code null} if no match found.
      */
-    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
         assert queryString != null;
 
         return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);

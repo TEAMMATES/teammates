@@ -6,7 +6,6 @@ import java.util.UUID;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
 
@@ -133,8 +132,7 @@ public final class AccountRequestsLogic {
      *
      * @return A list of {@link AccountRequest} or {@code null} if no match found.
      */
-    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
         return accountRequestDb.searchAccountRequestsInWholeSystem(queryString);
     }
 }

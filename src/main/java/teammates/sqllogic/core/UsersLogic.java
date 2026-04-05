@@ -19,7 +19,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
@@ -257,8 +256,7 @@ public final class UsersLogic {
      *
      * @return List of found instructors in the whole system. Null if no result found.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
         return usersDb.searchInstructorsInWholeSystem(queryString);
     }
 
@@ -547,8 +545,7 @@ public final class UsersLogic {
      *
      * @param instructors the constraint that restricts the search result
      */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
-            throws SearchServiceException {
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
         return usersDb.searchStudents(queryString, instructors);
     }
 
@@ -558,8 +555,7 @@ public final class UsersLogic {
      * search students in the whole system.
      * @return null if no result found
      */
-    public List<Student> searchStudentsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Student> searchStudentsInWholeSystem(String queryString) {
         return usersDb.searchStudentsInWholeSystem(queryString);
     }
 
