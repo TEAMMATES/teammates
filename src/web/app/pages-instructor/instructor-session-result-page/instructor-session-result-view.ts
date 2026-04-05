@@ -23,6 +23,7 @@ export abstract class InstructorSessionResultView {
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',

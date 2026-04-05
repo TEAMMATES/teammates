@@ -11,7 +11,8 @@ import teammates.storage.sqlentity.AccountRequest;
  * Output format of account request data.
  */
 public class AccountRequestData extends ApiOutput {
-    private final UUID accountRequestId;
+    // TODO: rename to accountRequestId for consistency.
+    private final UUID id;
     private final String email;
     private final String name;
     private final String institute;
@@ -24,7 +25,7 @@ public class AccountRequestData extends ApiOutput {
     private final long createdAt;
 
     public AccountRequestData(AccountRequest accountRequest) {
-        this.accountRequestId = accountRequest.getId();
+        this.id = accountRequest.getId();
         this.name = accountRequest.getName();
         this.email = accountRequest.getEmail();
         this.institute = accountRequest.getInstitute();
@@ -40,8 +41,8 @@ public class AccountRequestData extends ApiOutput {
         }
     }
 
-    public UUID getAccountRequestId() {
-        return accountRequestId;
+    public UUID getId() {
+        return id;
     }
 
     public String getInstitute() {

@@ -55,6 +55,7 @@ export class SessionResultPageComponent implements OnInit {
   Intent: typeof Intent = Intent;
 
   session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -249,7 +250,7 @@ export class SessionResultPageComponent implements OnInit {
           this.previewAsPerson,
           this.regKey,
         ).subscribe((student: Student) => {
-          this.studentId = student.studentId;
+          this.studentId = student.userId;
           this.personName = student.name;
           this.personEmail = student.email;
           this.logStudentView();

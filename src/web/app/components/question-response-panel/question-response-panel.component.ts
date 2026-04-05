@@ -52,6 +52,7 @@ export class QuestionResponsePanelComponent {
 
   @Input()
   session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',

@@ -57,7 +57,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     },
   };
   const emptyStudent: Student = {
-    courseId: '', email: '', name: '', sectionName: '', teamName: '',
+    courseId: '', email: '', name: '', sectionName: '', teamName: '', userId: '',
   };
   const testStudent: Student = {
     email: 'doejohn@email.com',
@@ -67,6 +67,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     sectionName: 'section 1',
   };
   const testFeedbackSession: FeedbackSession = {
+    feedbackSessionId: '00000000-0000-4000-8000-000000000001',
     feedbackSessionName: 'Feedback Session 1',
     courseId: 'CS9999',
     timeZone: 'Asia/Singapore',
@@ -88,6 +89,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     feedbackSessionData: testFeedbackSession,
     feedbackSessionLogEntries: [
       {
+        feedbackSessionLogEntryId: '00000000-0000-4000-8000-000000000001',
         studentData: testStudent,
         feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
         timestamp: 0,
@@ -98,6 +100,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     feedbackSessionData: testFeedbackSession,
     feedbackSessionLogEntries: [
       {
+        feedbackSessionLogEntryId: '00000000-0000-4000-8000-000000000002',
         studentData: testStudent,
         feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
         timestamp: 0,

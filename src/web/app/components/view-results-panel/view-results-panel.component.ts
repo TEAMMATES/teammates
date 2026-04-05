@@ -49,6 +49,7 @@ export class ViewResultsPanelComponent {
 
   @Input()
   session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
