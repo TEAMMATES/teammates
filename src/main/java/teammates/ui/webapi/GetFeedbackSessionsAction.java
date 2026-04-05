@@ -114,13 +114,20 @@ public class GetFeedbackSessionsAction extends Action {
         Map<String, Instructor> courseIdToInstructor = new HashMap<>();
         instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
+        if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
+            for (FeedbackSession session : feedbackSessions) {
+                Instructor instructor = courseIdToInstructor.get(session.getCourse().getId());
+                sessionToDeadline.put(session, sqlLogic.getDeadlineForUser(session, instructor));
+            }
+        }
+
         FeedbackSessionsData responseData;
         if (Const.EntityType.STUDENT.equals(entityType)) {
             // hide sessions not visible to student
             sessionToDeadline.keySet().removeIf(session -> !session.isVisible());
             responseData = new FeedbackSessionsData(sessionToDeadline);
         } else {
-            responseData = new FeedbackSessionsData(feedbackSessions);
+            responseData = new FeedbackSessionsData(sessionToDeadline);
         }
 
         for (String studentEmail : studentEmails) {

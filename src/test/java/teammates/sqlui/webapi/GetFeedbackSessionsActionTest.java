@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Account;
@@ -105,6 +106,70 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         assertEquals(1, response.getFeedbackSessions().size());
         FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
+
+        logoutUser();
+    }
+
+    @Test
+    protected void testExecute_instructorWithDeadlineExtension_closedSessionShownAsOpen() {
+        Course course = student1.getCourse();
+        Instructor instructor = generateInstructor1InCourse(course);
+        FeedbackSession closedSession = generateClosedFeedbackSessionInCourse(course, "closed-session");
+
+        Instant extendedDeadline = Instant.parse("2028-01-01T00:00:00Z");
+
+        when(mockLogic.getInstructorsForGoogleId(instructor.getAccount().getGoogleId()))
+                .thenReturn(List.of(instructor));
+        when(mockLogic.getFeedbackSessionsForInstructors(List.of(instructor)))
+                .thenReturn(List.of(closedSession));
+        when(mockLogic.getDeadlineForUser(closedSession, instructor))
+                .thenReturn(extendedDeadline);
+
+        loginAsInstructor(instructor.getAccount().getGoogleId());
+
+        String[] submissionParams = {
+                Const.ParamsNames.IS_IN_RECYCLE_BIN, "false",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
+
+        GetFeedbackSessionsAction a = getAction(submissionParams);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
+
+        assertEquals(1, response.getFeedbackSessions().size());
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
+
+        logoutUser();
+    }
+
+    @Test
+    protected void testExecute_instructorWithoutDeadlineExtension_closedSessionShownAsClosed() {
+        Course course = student1.getCourse();
+        Instructor instructor = generateInstructor1InCourse(course);
+        FeedbackSession closedSession = generateClosedFeedbackSessionInCourse(course, "closed-session");
+
+        when(mockLogic.getInstructorsForGoogleId(instructor.getAccount().getGoogleId()))
+                .thenReturn(List.of(instructor));
+        when(mockLogic.getFeedbackSessionsForInstructors(List.of(instructor)))
+                .thenReturn(List.of(closedSession));
+        when(mockLogic.getDeadlineForUser(closedSession, instructor))
+                .thenReturn(closedSession.getEndTime());
+
+        loginAsInstructor(instructor.getAccount().getGoogleId());
+
+        String[] submissionParams = {
+                Const.ParamsNames.IS_IN_RECYCLE_BIN, "false",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
+
+        GetFeedbackSessionsAction a = getAction(submissionParams);
+        JsonResult r = getJsonResult(a);
+        FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
+
+        assertEquals(1, response.getFeedbackSessions().size());
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, sessionData.getSubmissionStatus());
 
         logoutUser();
     }
@@ -251,7 +316,8 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     }
 
     private Instructor generateInstructor1InCourse(Course course) {
-        Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
+        Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null,
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         instructor.setAccount(new Account("instructor-1", instructor.getName(), instructor.getEmail()));
         return instructor;
     }
