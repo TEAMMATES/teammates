@@ -23,8 +23,7 @@ public class GetReadNotificationsAction extends Action {
     public ActionResult execute() {
         List<UUID> readNotifications =
                 sqlLogic.getReadNotificationsId(userInfo.getId());
-        ReadNotificationsData output = new ReadNotificationsData(
-                readNotifications.stream().toList());
+        ReadNotificationsData output = new ReadNotificationsData(readNotifications);
         return new JsonResult(output);
     }
 }
