@@ -79,6 +79,17 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(1, accountReadNotifications.size());
         assertSame(actualAccount, accountReadNotifications.get(0).getAccount());
         assertSame(notification, accountReadNotifications.get(0).getNotification());
+
+        ______TS("success: mark the same notification as read multiple times");
+        accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+        accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+        accountsLogic.updateReadNotifications(googleId, notificationId, notification.getEndTime());
+
+        actualAccount = accountsDb.getAccountByGoogleId(googleId);
+        accountReadNotifications = actualAccount.getReadNotifications();
+        assertEquals(1, accountReadNotifications.size());
+        assertSame(actualAccount, accountReadNotifications.get(0).getAccount());
+        assertSame(notification, accountReadNotifications.get(0).getNotification());
     }
 
     @Test
