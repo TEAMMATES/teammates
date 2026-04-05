@@ -102,8 +102,6 @@ describe('SearchService', () => {
       responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
       isClosingSoonEmailEnabled: false,
       isPublishedEmailEnabled: false,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     },
     {
       feedbackSessionId: '00000000-0000-4000-8000-000000000002',
@@ -121,8 +119,6 @@ describe('SearchService', () => {
       responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
       isClosingSoonEmailEnabled: false,
       isPublishedEmailEnabled: false,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     },
   ];
 

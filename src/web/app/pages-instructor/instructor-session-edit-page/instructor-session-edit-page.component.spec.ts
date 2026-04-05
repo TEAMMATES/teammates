@@ -30,6 +30,7 @@ import {
   FeedbackQuestionType,
   FeedbackRankRecipientsQuestionDetails,
   FeedbackSession,
+  FeedbackSessionDeadlineExtensions,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackTextQuestionDetails,
@@ -87,8 +88,6 @@ describe('InstructorSessionEditPageComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const testFeedbackQuestion1: FeedbackQuestion = {
@@ -350,8 +349,10 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should load correct feedback session for a given API output', () => {
+    const testDeadlineExtensions: FeedbackSessionDeadlineExtensions = { studentDeadlines: {}, instructorDeadlines: {} };
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
 
     component.loadFeedbackSession();
 
