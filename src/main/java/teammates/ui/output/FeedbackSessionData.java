@@ -300,6 +300,9 @@ public class FeedbackSessionData extends ApiOutput {
         setCustomResponseVisibleTimestamp(null);
     }
 
+    /**
+     * Hide some attributes to students and instructors.
+     */
     public void hideInformationForStudentAndInstructor() {
         setClosingSoonEmailEnabled(null);
         setPublishedEmailEnabled(null);
