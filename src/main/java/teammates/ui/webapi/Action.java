@@ -228,7 +228,7 @@ public abstract class Action {
     /**
      * Returns the first value or null for the specified parameter expected to be present in the HTTP request as UUID.
      */
-    public UUID getNullableUuidRequestParamValue(String paramName) {
+    UUID getNullableUuidRequestParamValue(String paramName) {
         String value = getRequestParamValue(paramName);
         if (value == null) {
             return null;
