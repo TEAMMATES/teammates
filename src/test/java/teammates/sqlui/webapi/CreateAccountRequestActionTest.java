@@ -160,7 +160,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
     }
 
     private void verifyAccountRequestCreated(AccountRequestData output, AccountRequest accountRequest) {
-        assertEquals(output.getAccountRequestId(), accountRequest.getId().toString());
+        assertEquals(output.getAccountRequestId(), accountRequest.getId());
         assertEquals(output.getEmail(), accountRequest.getEmail());
         assertEquals(output.getName(), accountRequest.getName());
         assertEquals(output.getInstitute(), accountRequest.getInstitute());

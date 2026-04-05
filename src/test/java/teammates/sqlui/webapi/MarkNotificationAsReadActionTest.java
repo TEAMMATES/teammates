@@ -63,9 +63,9 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
         JsonResult actionOutput = getJsonResult(action);
 
         ReadNotificationsData response = (ReadNotificationsData) actionOutput.getOutput();
-        List<String> readNotifications = response.getReadNotifications();
+        List<UUID> readNotifications = response.getReadNotifications();
 
-        assertTrue(readNotifications.contains(testNotification.getId().toString()));
+        assertTrue(readNotifications.contains(testNotification.getId()));
     }
 
     @Test

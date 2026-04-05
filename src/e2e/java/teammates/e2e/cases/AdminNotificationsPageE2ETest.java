@@ -40,11 +40,11 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.verifyNotificationsTableRow(notifications[0]);
         notificationsPage.verifyNotificationsTableRow(notifications[1]);
         NotificationData notif = getNotification(notifications[0].getId().toString());
-        assertEquals(notif.getNotificationId(), notifications[0].getId().toString());
+        assertEquals(notif.getNotificationId().toString(), notifications[0].getId().toString());
         assertEquals(notif.getMessage(), notifications[0].getMessage());
         assertEquals(notif.getTitle(), notifications[0].getTitle());
         notif = getNotification(notifications[1].getId().toString());
-        assertEquals(notif.getNotificationId(), notifications[1].getId().toString());
+        assertEquals(notif.getNotificationId(), notifications[1].getId());
         assertEquals(notif.getMessage(), notifications[1].getMessage());
         assertEquals(notif.getTitle(), notifications[1].getTitle());
 
@@ -70,7 +70,7 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         // Checks that notification is in the database first
         // so that newNotification is updated with the created time before checking table row
         notif = getNotification(newestNotificationId);
-        assertEquals(notif.getNotificationId(), newestNotificationId);
+        assertEquals(notif.getNotificationId().toString(), newestNotificationId);
         assertEquals(notif.getMessage(), newNotification.getMessage());
         assertEquals(notif.getTitle(), newNotification.getTitle());
         notificationsPage.verifyNotificationsTableRow(newNotification);

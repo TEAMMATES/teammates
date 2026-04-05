@@ -74,7 +74,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
             Student student = expectedStudents.get(i);
             StudentData studentData = actualStudentsData.getStudents().get(i);
 
-            assertEquals(student.getId(), studentData.getStudentId());
+            assertEquals(student.getId(), studentData.getUserId());
             assertEquals(student.getEmail(), studentData.getEmail());
             assertEquals(student.getCourseId(), studentData.getCourseId());
             assertEquals(student.getName(), studentData.getName());

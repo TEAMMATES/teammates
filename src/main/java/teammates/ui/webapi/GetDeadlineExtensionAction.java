@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
-
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.DeadlineExtension;

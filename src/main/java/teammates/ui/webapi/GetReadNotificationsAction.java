@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import teammates.ui.output.ReadNotificationsData;
 

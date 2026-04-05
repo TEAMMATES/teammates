@@ -15,7 +15,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
     String commentGiver;
     String lastEditorEmail;
 
-    private UUID feedbackResponseCommentId;    
+    private UUID feedbackResponseCommentId;
     private String commentText;
     private long createdAt;
     private long lastEditedAt;
