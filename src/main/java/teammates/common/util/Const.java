@@ -314,6 +314,7 @@ public final class Const {
         public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
         public static final String AUTH = URI_PREFIX + "/auth";
         public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
+        public static final String AUTH_PROVIDER_TYPES = URI_PREFIX + "/auth/providertypes";
         public static final String ACCOUNT = URI_PREFIX + "/account";
         public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
         public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
@@ -400,6 +401,15 @@ public final class Const {
         public static final String PRIORITY_EMAIL_QUEUE_NAME = "priority-email-queue";
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
+    }
+
+    /**
+     * Represents authentication provider types.
+     */
+    public static class AuthProviderTypes {
+        public static final String GOOGLE = "google";
+        public static final String MICROSOFT_ENTRA = "msentra";
+        public static final String FIREBASE = "firebase";
     }
 
 }

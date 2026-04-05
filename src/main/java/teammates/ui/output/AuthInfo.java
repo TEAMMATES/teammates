@@ -62,5 +62,4 @@ public class AuthInfo extends ApiOutput {
     public boolean isMasquerade() {
         return masquerade;
     }
-
 }

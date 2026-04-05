@@ -41,6 +41,13 @@ export class AuthService {
   }
 
   /**
+   * Returns an observable of the supported auth type strings (e.g. 'google', 'msentra').
+   */
+  getAuthProviderTypes(): Observable<{ authProviderTypes: string[] }> {
+    return this.httpRequestService.get(ResourceEndpoints.AUTH_PROVIDER_TYPES);
+  }
+
+  /**
    * Gets the validity of the given registration key for user.
    */
   getAuthRegkeyValidity(key: string, intent: Intent): Observable<RegkeyValidity> {

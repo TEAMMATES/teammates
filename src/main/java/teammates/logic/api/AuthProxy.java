@@ -50,7 +50,7 @@ public class AuthProxy {
      * Indicates whether login email is to be enabled.
      */
     public boolean isLoginEmailEnabled() {
-        return !Config.ENABLE_DEVSERVER_LOGIN && Config.isUsingFirebase();
+        return !Config.ENABLE_DEVSERVER_LOGIN && service instanceof FirebaseAuthService;
     }
 
 }

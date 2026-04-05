@@ -1,0 +1,56 @@
+@startuml
+!include style.puml
+
+actor User USER_COLOR
+box Ui UI_COLOR_T1
+participant ":Browser" as Browser UI_COLOR
+participant ":LoginServlet" as Login UI_COLOR
+participant ":OAuth2Callback\nServlet" as Callback UI_COLOR
+end box
+
+box External EXTERNAL_COLOR_T1
+participant "Auth Provider\n(Google / MS Entra)" as Provider EXTERNAL_COLOR
+end box
+
+User -> Browser : Click login
+activate Browser
+
+Browser -> Login : GET /login?provider=<provider>
+activate Login
+
+Login -> Login : Build authorization URL\nwith encrypted AuthState\n(nextUrl, sessionId, provider)
+Login --> Browser : 302 Redirect to Auth Provider
+deactivate Login
+
+Browser -> Provider : GET authorization URL
+activate Provider
+
+User -> Provider : Select account\nand grant consent
+
+Provider --> Browser : 302 Redirect to /oauth2callback\nwith authorization code + state
+deactivate Provider
+
+Browser -> Callback : GET /oauth2callback?code=<code>&state=<state>
+activate Callback
+
+Callback -> Callback : Decrypt AuthState\nand validate session ID
+
+Callback -> Provider : Exchange code\nfor access token
+activate Provider
+Provider --> Callback : Access token
+deactivate Provider
+
+Callback -> Provider : Request user email\nusing access token
+activate Provider
+Provider --> Callback : User email
+deactivate Provider
+
+Callback -> Callback : Create UserInfoCookie\nfrom email
+
+Callback --> Browser : 302 Redirect to nextUrl\n+ Set session cookie
+deactivate Callback
+
+Browser --> User : Logged in
+deactivate Browser
+
+@enduml

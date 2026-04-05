@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,10 +21,12 @@ import com.google.firebase.auth.FirebaseToken;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.microsoft.aad.msal4j.AuthorizationCodeParameters;
+import com.microsoft.aad.msal4j.IAuthenticationResult;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -37,17 +41,35 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        AuthResult authResult;
-        if (Config.isUsingFirebase()) {
-            authResult = getFirebaseAuthResult(req, resp);
-        } else {
-            authResult = getGoogleOauth2AuthResult(req, resp);
+        String provider = determineAuthProvider(req);
+        if (provider == null) {
+            log.warning("Failed to determine OAuth2 provider from state parameter.");
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid state parameter");
+            return;
         }
+
+        AuthResult authResult;
+        switch (provider) {
+        case Const.AuthProviderTypes.FIREBASE:
+            authResult = getFirebaseAuthResult(req, resp);
+            break;
+        case Const.AuthProviderTypes.MICROSOFT_ENTRA:
+            authResult = getMicrosoftEntraAuthResult(req, resp);
+            break;
+        case Const.AuthProviderTypes.GOOGLE:
+            authResult = getGoogleOauth2AuthResult(req, resp);
+            break;
+        default:
+            log.warning("Unknown auth provider: " + provider);
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Unknown auth provider: " + provider);
+            return;
+        }
+
         if (authResult == null) {
             return;
         }
-        Cookie cookie;
 
+        Cookie cookie;
         if (authResult.email == null) {
             // invalid google ID
             req.getSession().invalidate();
@@ -64,6 +86,83 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
         resp.addCookie(cookie);
         resp.sendRedirect(authResult.nextUrl);
+    }
+
+    private String determineAuthProvider(HttpServletRequest req) {
+        // Firebase flow posts idToken directly without a state parameter
+        if (req.getParameter("idToken") != null) {
+            return Const.AuthProviderTypes.FIREBASE;
+        }
+
+        String state = req.getParameter("state");
+        if (state == null) {
+            log.warning("Missing state parameter in OAuth2 callback");
+            return null;
+        }
+
+        try {
+            AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
+            if (authState.getProvider() != null) {
+                return authState.getProvider();
+            }
+        } catch (Exception e) {
+            log.warning("Failed to extract provider from state, falling back to global config");
+        }
+        return null;
+    }
+
+    private AuthResult getMicrosoftEntraAuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String code = req.getParameter("code");
+        String state = req.getParameter("state");
+        String error = req.getParameter("error");
+        if (error != null) {
+            String errorDescription = req.getParameter("error_description");
+            String message = errorDescription == null ? error : error + ": " + errorDescription;
+            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, message);
+            return null;
+        }
+
+        if (code == null || state == null) {
+            log.warning("Missing Microsoft authorization code or state. Query string: " + req.getQueryString());
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing authorization code");
+            return null;
+        }
+
+        String nextUrl = "/";
+        try {
+            AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
+            if (authState.getNextUrl() != null) {
+                nextUrl = authState.getNextUrl();
+            }
+            String sessionId = authState.getSessionId();
+            if (!sessionId.equals(req.getSession().getId())) {
+                log.warning(String.format("Different session ID: expected %s, got %s",
+                        sessionId, req.getSession().getId()));
+                logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
+                return null;
+            }
+        } catch (JsonParseException | InvalidParametersException e) {
+            log.warning("Failed to parse state object", e);
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Bad state object");
+            return null;
+        }
+
+        String email = null;
+        try {
+            AuthorizationCodeParameters params = AuthorizationCodeParameters
+                    .builder(code, new URI(getMicrosoftRedirectUri(req)))
+                    .scopes(Set.of("openid", "email"))
+                    .build();
+            IAuthenticationResult result = getMicrosoftClient().acquireToken(params).get();
+            // username() returns the verified email/UPN from the validated ID token
+            email = result.account().username();
+        } catch (URISyntaxException | ExecutionException e) {
+            log.warning("Failed to acquire Microsoft token", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.warning("Microsoft token acquisition interrupted", e);
+        }
+        return new AuthResult(email, nextUrl);
     }
 
     private AuthResult getGoogleOauth2AuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -105,7 +204,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         String redirectUri = getRedirectUri(req);
-        TokenResponse token = getAuthorizationFlow().newTokenRequest(code).setRedirectUri(redirectUri).execute();
+        TokenResponse token = getGoogleAuthorizationFlow().newTokenRequest(code).setRedirectUri(redirectUri).execute();
         String email = null;
         try {
             String userInfoResponse = HttpRequest.executeGetRequest(

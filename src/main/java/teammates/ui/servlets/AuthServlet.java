@@ -1,6 +1,7 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.MemoryDataStoreFactory;
+import com.microsoft.aad.msal4j.ClientCredentialFactory;
+import com.microsoft.aad.msal4j.ConfidentialClientApplication;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
@@ -31,16 +34,31 @@ abstract class AuthServlet extends HttpServlet {
     private static final MemoryDataStoreFactory DATA_STORE_FACTORY = MemoryDataStoreFactory.getDefaultInstance();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final List<String> SCOPES = Arrays.asList("https://www.googleapis.com/auth/userinfo.email");
+    private static final List<String> GOOGLE_SCOPES = Arrays.asList("https://www.googleapis.com/auth/userinfo.email");
+    private static final String MICROSOFT_AUTHORITY_BASE = "https://login.microsoftonline.com/";
 
     /**
-     * Gets the authorization code flow to be used across all HTTP servlet requests.
+     * Gets the authorization code flow to be used for Google OAuth2 authentication.
      */
-    AuthorizationCodeFlow getAuthorizationFlow() throws IOException {
+    AuthorizationCodeFlow getGoogleAuthorizationFlow() throws IOException {
         return new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, Config.OAUTH2_CLIENT_ID, Config.OAUTH2_CLIENT_SECRET, SCOPES)
+                HTTP_TRANSPORT, JSON_FACTORY, Config.OAUTH2_GOOGLE_CLIENT_ID,
+                    Config.OAUTH2_GOOGLE_CLIENT_SECRET, GOOGLE_SCOPES)
                 .setDataStoreFactory(DATA_STORE_FACTORY)
                 .setAccessType("offline")
+                .build();
+    }
+
+    /**
+     * Creates a Microsoft Entra ID confidential client application (MSAL).
+     * Uses a client secret as authentication credential.
+     * The returned instance performs full JWT signature verification against Microsoft's JWKS.
+     */
+    ConfidentialClientApplication getMicrosoftClient() throws MalformedURLException {
+        return ConfidentialClientApplication
+                .builder(Config.OAUTH2_MS_ENTRA_CLIENT_ID,
+                        ClientCredentialFactory.createFromSecret(Config.OAUTH2_MS_ENTRA_CLIENT_SECRET))
+                .authority(MICROSOFT_AUTHORITY_BASE + "common") // To allow users from any tenant to sign in
                 .build();
     }
 
@@ -48,7 +66,17 @@ abstract class AuthServlet extends HttpServlet {
      * Returns the redirect URI for the given HTTP servlet request.
      */
     String getRedirectUri(HttpServletRequest req) {
-        GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
+        GenericUrl url = new GenericUrl(getSecureRequestUrl(req));
+        url.setRawPath("/oauth2callback");
+        url.set("ngsw-bypass", "true");
+        return url.build();
+    }
+
+    /**
+     * Returns the redirect URI for Microsoft Entra ID for the given HTTP servlet request.
+     */
+    String getMicrosoftRedirectUri(HttpServletRequest req) {
+        GenericUrl url = new GenericUrl(getSecureRequestUrl(req));
         url.setRawPath("/oauth2callback");
         url.set("ngsw-bypass", "true");
         return url.build();
@@ -73,16 +101,26 @@ abstract class AuthServlet extends HttpServlet {
         return cookie;
     }
 
+    String getSecureRequestUrl(HttpServletRequest req) {
+        return req.getRequestURL().toString().replaceFirst("^http://", "https://");
+    }
+
     /**
      * Represents the state object to be persisted during the callback.
      */
     static class AuthState {
         private final String nextUrl;
         private final String sessionId;
+        private final String provider;
 
         AuthState(String nextUrl, String sessionId) {
+            this(nextUrl, sessionId, null);
+        }
+
+        AuthState(String nextUrl, String sessionId, String provider) {
             this.nextUrl = nextUrl;
             this.sessionId = sessionId;
+            this.provider = provider;
         }
 
         String getNextUrl() {
@@ -91,6 +129,10 @@ abstract class AuthServlet extends HttpServlet {
 
         public String getSessionId() {
             return sessionId;
+        }
+
+        String getProvider() {
+            return provider;
         }
     }
 

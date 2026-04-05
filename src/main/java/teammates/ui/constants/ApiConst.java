@@ -30,7 +30,6 @@ public enum ApiConst {
     LOGS_RETENTION_PERIOD(Const.LOGS_RETENTION_PERIOD.toDays()),
     SEARCH_QUERY_SIZE_LIMIT(Const.SEARCH_QUERY_SIZE_LIMIT),
     STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL(Const.STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL.toMinutes());
-
     // CHECKSTYLE.ON:JavadocVariable
 
     private final Object value;
