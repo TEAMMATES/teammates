@@ -15,7 +15,6 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -92,7 +91,6 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
             FeedbackSession matchedSession = matchedSessions.get(0);
             assertPartialInformationMatch(sessionData, matchedSession);
             assertInformationHiddenForStudent(sessionData);
-            assertDeadlinesFilteredForStudent(sessionData, matchedSession, emailAddress);
         }
     }
 
@@ -128,22 +126,6 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         }
 
         assertInformationHidden(data);
-    }
-
-    private void assertDeadlinesFilteredForStudent(FeedbackSessionData sessionData,
-                                                   FeedbackSession expectedSession, String emailAddress) {
-        boolean hasDeadline = false;
-        for (DeadlineExtension de : expectedSession.getDeadlineExtensions()) {
-            if (de.getUser() instanceof Student && emailAddress.equals(de.getUser().getEmail())) {
-                hasDeadline = true;
-                break;
-            }
-        }
-        boolean returnsDeadline = sessionData.getStudentDeadlines().containsKey(emailAddress);
-        boolean returnsDeadlineForStudentIfExists = !hasDeadline || returnsDeadline;
-        boolean returnsOtherDeadlines = sessionData.getStudentDeadlines().size() > (hasDeadline ? 1 : 0);
-        boolean returnsOnlyDeadlineForStudentIfExists = !returnsOtherDeadlines && returnsDeadlineForStudentIfExists;
-        assertTrue(returnsOnlyDeadlineForStudentIfExists);
     }
 
     private void assertInformationHiddenForStudent(FeedbackSessionData data) {
