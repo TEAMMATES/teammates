@@ -81,8 +81,7 @@ public class ReadNotification extends BaseEntity {
             return true;
         } else if (this.getClass() == other.getClass()) {
             ReadNotification otherReadNotification = (ReadNotification) other;
-            return Objects.equals(this.getAccount(), otherReadNotification.getAccount())
-                    && Objects.equals(this.getNotification(), otherReadNotification.getNotification());
+            return Objects.equals(this.getId(), otherReadNotification.getId());
         } else {
             return false;
         }
@@ -90,7 +89,7 @@ public class ReadNotification extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getAccount(), this.getNotification());
+        return this.getId().hashCode();
     }
 
     @Override
