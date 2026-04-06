@@ -16,6 +16,7 @@ import { NotificationBannerComponent } from './components/notification-banner/no
 import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
+import { APP_VERSION } from './constants/version';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -88,7 +89,7 @@ export class PageComponent {
   isCookieDisabled: boolean = false;
   browser: string = '';
   isNetworkOnline$: Observable<boolean>;
-  version: string = environment.version;
+  version: string = APP_VERSION;
   logoutUrl: string = `${environment.backendUrl}/logout`;
   toast: Toast | null = null;
 
