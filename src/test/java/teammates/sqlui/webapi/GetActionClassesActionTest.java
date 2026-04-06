@@ -59,6 +59,7 @@ import teammates.ui.webapi.GetFeedbackQuestionsAction;
 import teammates.ui.webapi.GetFeedbackResponseCommentAction;
 import teammates.ui.webapi.GetFeedbackResponsesAction;
 import teammates.ui.webapi.GetFeedbackSessionAction;
+import teammates.ui.webapi.GetFeedbackSessionDeadlineExtensionsAction;
 import teammates.ui.webapi.GetFeedbackSessionLogsAction;
 import teammates.ui.webapi.GetFeedbackSessionSubmittedGiverSetAction;
 import teammates.ui.webapi.GetFeedbackSessionsAction;
@@ -233,7 +234,8 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 SendLoginEmailAction.class,
                 PutDataBundleAction.class,
                 DeleteDataBundleAction.class,
-                UpdateFeedbackSessionLogsAction.class
+                UpdateFeedbackSessionLogsAction.class,
+                GetFeedbackSessionDeadlineExtensionsAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)

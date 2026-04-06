@@ -1,6 +1,7 @@
 package teammates.ui.output;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.storage.sqlentity.Account;
@@ -10,12 +11,14 @@ import teammates.storage.sqlentity.Account;
  */
 public class AccountData extends ApiOutput {
 
+    private final UUID accountId;
     private final String googleId;
     private final String name;
     private final String email;
     private final Map<String, Long> readNotifications;
 
     public AccountData(Account account) {
+        this.accountId = account.getId();
         this.googleId = account.getGoogleId();
         this.name = account.getName();
         this.email = account.getEmail();
@@ -25,6 +28,10 @@ public class AccountData extends ApiOutput {
                         readNotification -> readNotification.getNotification().getId().toString(),
                         readNotification ->
                                 readNotification.getNotification().getEndTime().toEpochMilli()));
+    }
+
+    public UUID getAccountId() {
+        return accountId;
     }
 
     public String getEmail() {

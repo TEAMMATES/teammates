@@ -51,10 +51,10 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
 
         ReadNotificationsData output = (ReadNotificationsData) jsonResult.getOutput();
 
-        List<String> readNotificationsData = output.getReadNotifications();
+        List<UUID> readNotificationsData = output.getReadNotifications();
 
         readNotificationsData.forEach(notificationId ->
-                assertTrue(testNotificationIds.contains(UUID.fromString(notificationId))));
+                assertTrue(testNotificationIds.contains(notificationId)));
         assertEquals(READ_NOTIFICATION_COUNT, readNotificationsData.size());
     }
 }

@@ -164,6 +164,7 @@ export const EXAMPLE_STUDENTS: Student[] = [
  */
 export const EXAMPLE_INSTRUCTORS: Instructor[] = [
   {
+    userId: '00000000-0000-4000-8000-000000000001',
     googleId: 'bob@email.com',
     courseId: 'test.exa-demo',
     email: 'bob@email.com',
@@ -180,6 +181,7 @@ export const EXAMPLE_INSTRUCTORS: Instructor[] = [
  * Structure of example feedback session
  */
 export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
+  feedbackSessionId: '00000000-0000-4000-8000-000000000001',
   courseId: 'CS2103T',
   timeZone: 'UTC',
   feedbackSessionName: 'Project Feedback 1',
@@ -194,8 +196,6 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
-  studentDeadlines: {},
-  instructorDeadlines: {},
 };
 
 /**
