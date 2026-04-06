@@ -45,6 +45,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',

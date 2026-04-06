@@ -21,6 +21,7 @@ export class ResponseModerationButtonComponent {
 
   @Input()
   session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',

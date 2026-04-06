@@ -44,6 +44,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',

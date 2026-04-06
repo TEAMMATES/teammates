@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
@@ -8,17 +10,20 @@ import teammates.storage.sqlentity.Student;
  * The session log of a student for a single feedback session.
  */
 public class FeedbackSessionLogEntryData {
+    private final UUID feedbackSessionLogEntryId;
     private final StudentData studentData;
     private final FeedbackSessionLogType feedbackSessionLogType;
     private final long timestamp;
 
     public FeedbackSessionLogEntryData(FeedbackSessionLog logEntry, Student student) {
-        StudentData studentData = new StudentData(student);
-        FeedbackSessionLogType logType = logEntry.getFeedbackSessionLogType();
-        long timestamp = logEntry.getTimestamp().toEpochMilli();
-        this.studentData = studentData;
-        this.feedbackSessionLogType = logType;
-        this.timestamp = timestamp;
+        this.feedbackSessionLogEntryId = logEntry.getId();
+        this.studentData = new StudentData(student);
+        this.feedbackSessionLogType = logEntry.getFeedbackSessionLogType();
+        this.timestamp = logEntry.getTimestamp().toEpochMilli();
+    }
+
+    public UUID getFeedbackSessionLogEntryId() {
+        return feedbackSessionLogEntryId;
     }
 
     public StudentData getStudentData() {
