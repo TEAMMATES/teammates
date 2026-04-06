@@ -26,6 +26,13 @@ buildscript {
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:3.2.1263") {
             exclude group: "org.gradle"
         }
+
+        // TODO: update typescript-generator when it fully supports Jackson 3 and uses jackson-annotations 2.21
+        // Force jackson-annotations 2.21 so Jackson 3 (tools.jackson.databind:3.1.1) can access
+        // JsonFormat.Shape.POJO, which was added in 2.21 but absent in the 2.14.2 brought in by
+        // typescript-generator. Without this, the QuestionTypeStructures static initializer throws
+        // NoSuchFieldError when generateTypes loads the class.
+        classpath "com.fasterxml.jackson.core:jackson-annotations:2.21"
         classpath "com.google.guava:guava:33.5.0-jre"
         classpath "org.liquibase:liquibase-gradle-plugin:3.1.0"
         classpath "org.liquibase:liquibase-core:4.27.0"
