@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import tools.jackson.core.type.TypeReference;
 
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;

@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 
 import org.apache.http.client.utils.URIBuilder;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;

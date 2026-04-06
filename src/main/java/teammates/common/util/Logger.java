@@ -10,7 +10,7 @@ import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import tools.jackson.core.type.TypeReference;
 
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.InstanceLogDetails;
