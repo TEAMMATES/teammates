@@ -3,7 +3,7 @@ package teammates.common.exception;
  * Exception thrown when an unexpected server-side error occurs.
  * This is used for centralized error handling and maps to HTTP 500 responses.
  */
-public class UnexpectedServerException extends Exception {
+public class UnexpectedServerException extends RuntimeException {
 
     public UnexpectedServerException(String message) {
         super(message);
