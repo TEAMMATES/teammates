@@ -8,8 +8,8 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
@@ -261,11 +261,9 @@ public final class DataBundleLogic {
      * Persists data in the given {@link DataBundle} to the database.
      *
      * @throws InvalidParametersException if invalid data is encountered.
-     * @throws EntityDoesNotExistException if an entity was not found.
-     *         (ReadNotification requires Account and Notification to be created)
      */
     public DataBundle persistDataBundle(DataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Null data bundle");
         }
@@ -339,8 +337,10 @@ public final class DataBundleLogic {
         fslLogic.createFeedbackSessionLogs(new ArrayList<>(sessionLogs));
 
         for (ReadNotification readNotification : readNotifications) {
-            accountsLogic.updateReadNotifications(readNotification.getAccount().getGoogleId(),
-                    readNotification.getNotification().getId(), readNotification.getNotification().getEndTime());
+            if (!readNotification.isValid()) {
+                throw new InvalidParametersException(readNotification.getInvalidityInfo());
+            }
+            HibernateUtil.persist(readNotification);
         }
 
         for (DeadlineExtension deadlineExtension : deadlineExtensions) {
