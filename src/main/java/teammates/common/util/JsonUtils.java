@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.exception.JsonException;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
@@ -33,7 +32,6 @@ import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
 import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
-import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonGenerator;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.type.TypeReference;
@@ -115,12 +113,7 @@ public final class JsonUtils {
      * @see ObjectMapper#writeValueAsString(Object)
      */
     public static String toJson(Object src, Type typeOfSrc) {
-        try {
-            return PRETTY_MAPPER.writerFor(PRETTY_MAPPER.getTypeFactory().constructType(typeOfSrc))
-                    .writeValueAsString(src);
-        } catch (JacksonException e) {
-            throw new JsonException(e);
-        }
+        return PRETTY_MAPPER.writerFor(PRETTY_MAPPER.getTypeFactory().constructType(typeOfSrc)).writeValueAsString(src);
     }
 
     /**
@@ -129,11 +122,7 @@ public final class JsonUtils {
      * @see ObjectMapper#writeValueAsString(Object)
      */
     public static String toJson(Object src) {
-        try {
-            return PRETTY_MAPPER.writeValueAsString(src);
-        } catch (JacksonException e) {
-            throw new JsonException(e);
-        }
+        return PRETTY_MAPPER.writeValueAsString(src);
     }
 
     /**
@@ -142,11 +131,7 @@ public final class JsonUtils {
      * @see ObjectMapper#writeValueAsString(Object)
      */
     public static String toCompactJson(Object src) {
-        try {
-            return MAPPER.writeValueAsString(src);
-        } catch (JacksonException e) {
-            throw new JsonException(e);
-        }
+        return MAPPER.writeValueAsString(src);
     }
 
     /**
@@ -156,11 +141,7 @@ public final class JsonUtils {
      * @see ObjectMapper#writeValue(Writer, Object)
      */
     public static void toCompactJson(Object src, Writer writer) {
-        try {
-            MAPPER.writeValue(writer, src);
-        } catch (JacksonException e) {
-            throw new JsonException(e);
-        }
+        MAPPER.writeValue(writer, src);
     }
 
     /**
@@ -169,11 +150,7 @@ public final class JsonUtils {
      * @see ObjectMapper#readValue(String, TypeReference)
      */
     public static <T> T fromJson(String json, Type typeOfT) {
-        try {
-            return MAPPER.readValue(json, MAPPER.getTypeFactory().constructType(typeOfT));
-        } catch (JacksonException e) {
-            throw new JsonException(e);
-        }
+        return MAPPER.readValue(json, MAPPER.getTypeFactory().constructType(typeOfT));
     }
 
     /**
@@ -182,11 +159,7 @@ public final class JsonUtils {
      * @see ObjectMapper#readValue(String, Class)
      */
     public static <T> T fromJson(String json, Class<T> classOfT) {
-        try {
-            return MAPPER.readValue(json, classOfT);
-        } catch (JacksonException e) {
-            throw new JsonException(e);
-        }
+        return MAPPER.readValue(json, classOfT);
     }
 
     /**
@@ -195,11 +168,7 @@ public final class JsonUtils {
      * @see ObjectMapper#readValue(String, TypeReference)
      */
     public static <T> T fromJson(String json, TypeReference<T> typeRef) {
-        try {
-            return MAPPER.readValue(json, typeRef);
-        } catch (JacksonException e) {
-            throw new JsonException(e);
-        }
+        return MAPPER.readValue(json, typeRef);
     }
 
     /**
@@ -208,11 +177,7 @@ public final class JsonUtils {
      * @see ObjectMapper#readTree(String)
      */
     public static JsonNode parse(String json) {
-        try {
-            return MAPPER.readTree(json);
-        } catch (JacksonException e) {
-            throw new JsonException(e);
-        }
+        return MAPPER.readTree(json);
     }
 
     /**

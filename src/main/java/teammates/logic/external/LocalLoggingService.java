@@ -22,11 +22,11 @@ import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
-import teammates.common.exception.JsonException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 
 /**
@@ -60,7 +60,7 @@ public class LocalLoggingService implements LogService {
                         return logEntryWithUpdatedTimestamp;
                     })
                     .collect(Collectors.toList());
-        } catch (JsonException e) {
+        } catch (JacksonException e) {
             return new ArrayList<>();
         }
     }

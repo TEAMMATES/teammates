@@ -3,10 +3,11 @@ package teammates.common.datatransfer;
 import java.time.Instant;
 
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.JsonException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+
+import tools.jackson.core.JacksonException;
 
 /**
  * Represents user credential info to be persisted within cookies.
@@ -38,7 +39,7 @@ public class UserInfoCookie {
         try {
             String decryptedCookie = StringHelper.decrypt(cookie);
             return JsonUtils.fromJson(decryptedCookie, UserInfoCookie.class);
-        } catch (InvalidParametersException | JsonException e) {
+        } catch (InvalidParametersException | JacksonException e) {
             return null;
         }
     }
