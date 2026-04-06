@@ -1,7 +1,5 @@
 package teammates.common.util;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.time.Duration;
@@ -11,26 +9,6 @@ import jakarta.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.core.util.DefaultIndenter;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.JsonException;
@@ -55,6 +33,29 @@ import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
 import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
 import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.core.util.DefaultIndenter;
+import tools.jackson.core.util.DefaultPrettyPrinter;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.cfg.MapperConfig;
+import tools.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.databind.introspect.AnnotatedMember;
+import tools.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.ser.std.StdSerializer;
+
 /**
  * Provides means to handle, manipulate, and convert JSON objects to/from strings.
  */
@@ -68,10 +69,12 @@ public final class JsonUtils {
     }
 
     private static ObjectMapper buildMapper(boolean prettyPrint) {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(PropertyAccessor.ALL, Visibility.NONE);
-        mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        JsonMapper.Builder mapper = JsonMapper.builder()
+                .changeDefaultVisibility(v -> v
+                        .withVisibility(PropertyAccessor.ALL, Visibility.NONE)
+                        .withVisibility(PropertyAccessor.FIELD, Visibility.ANY))
+                .changeDefaultPropertyInclusion(v -> v
+                        .withValueInclusion(JsonInclude.Include.NON_NULL));
 
         // TODO: remove unknown properties in databundles, then remove the following line
         // This is required because many databundles e.g. typicalDataBundle contain unknown properties like "timeZone"
@@ -79,29 +82,28 @@ public final class JsonUtils {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         // Treat @OneToMany fields as @JsonIgnore
-        mapper.setAnnotationIntrospector(new HibernateAnnotationIntrospector());
+        mapper.annotationIntrospector(new HibernateAnnotationIntrospector());
 
-        mapper.registerModule(new ParameterNamesModule());
-        mapper.registerModule(new JavaTimeModule()); // Format Instant as ISO 8601 string and ZoneId
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
+        mapper.disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         SimpleModule module = new SimpleModule();
         module.addSerializer(Duration.class, new DurationMinutesSerializer());
         module.addDeserializer(Duration.class, new DurationMinutesDeserializer());
         module.addDeserializer(FeedbackQuestion.class, new FeedbackQuestionDeserializer());
         module.addDeserializer(FeedbackResponse.class, new FeedbackResponseDeserializer());
-        mapper.registerModule(module);
+        mapper.addModule(module);
 
         if (prettyPrint) {
-            mapper.setDefaultPrettyPrinter(new CustomPrettyPrinter());
+            mapper.defaultPrettyPrinter(new CustomPrettyPrinter());
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
         }
 
-        return mapper;
+        return mapper.build();
     }
 
     /**
-     * This creates an {@code ObjectNode} that can be reformatted to modify JSON output.
+     * Creates an {@code ObjectNode} that can be reformatted to modify JSON output.
      */
     public static ObjectNode toObjectNode(Object src) {
         return PRETTY_MAPPER.valueToTree(src);
@@ -110,14 +112,13 @@ public final class JsonUtils {
     /**
      * Serializes and pretty-prints the specified object into its equivalent JSON string.
      *
-     * @see ObjectMapper#writerFor(JavaType)
-     * @see ObjectWriter#writeValueAsString(Object)
+     * @see ObjectMapper#writeValueAsString(Object)
      */
     public static String toJson(Object src, Type typeOfSrc) {
         try {
             return PRETTY_MAPPER.writerFor(PRETTY_MAPPER.getTypeFactory().constructType(typeOfSrc))
                     .writeValueAsString(src);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new JsonException(e);
         }
     }
@@ -130,7 +131,7 @@ public final class JsonUtils {
     public static String toJson(Object src) {
         try {
             return PRETTY_MAPPER.writeValueAsString(src);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new JsonException(e);
         }
     }
@@ -143,7 +144,7 @@ public final class JsonUtils {
     public static String toCompactJson(Object src) {
         try {
             return MAPPER.writeValueAsString(src);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new JsonException(e);
         }
     }
@@ -157,22 +158,20 @@ public final class JsonUtils {
     public static void toCompactJson(Object src, Writer writer) {
         try {
             MAPPER.writeValue(writer, src);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new JsonException(e);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
         }
     }
 
     /**
      * Deserializes the specified JSON string into an object of the specified type.
      *
-     * @see ObjectMapper#readValue(String, JavaType)
+     * @see ObjectMapper#readValue(String, TypeReference)
      */
     public static <T> T fromJson(String json, Type typeOfT) {
         try {
             return MAPPER.readValue(json, MAPPER.getTypeFactory().constructType(typeOfT));
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new JsonException(e);
         }
     }
@@ -185,7 +184,7 @@ public final class JsonUtils {
     public static <T> T fromJson(String json, Class<T> classOfT) {
         try {
             return MAPPER.readValue(json, classOfT);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new JsonException(e);
         }
     }
@@ -198,7 +197,7 @@ public final class JsonUtils {
     public static <T> T fromJson(String json, TypeReference<T> typeRef) {
         try {
             return MAPPER.readValue(json, typeRef);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new JsonException(e);
         }
     }
@@ -211,7 +210,7 @@ public final class JsonUtils {
     public static JsonNode parse(String json) {
         try {
             return MAPPER.readTree(json);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new JsonException(e);
         }
     }
@@ -228,12 +227,12 @@ public final class JsonUtils {
         }
 
         @Override
-        public void writeObjectFieldValueSeparator(JsonGenerator g) throws IOException {
+        public void writeObjectNameValueSeparator(JsonGenerator g) {
             g.writeRaw(": ");
         }
 
         @Override
-        public void writeEndObject(JsonGenerator g, int nrOfEntries) throws IOException {
+        public void writeEndObject(JsonGenerator g, int nrOfEntries) {
             if (!_objectIndenter.isInline()) {
                 --_nesting;
             }
@@ -244,7 +243,7 @@ public final class JsonUtils {
         }
 
         @Override
-        public void writeEndArray(JsonGenerator g, int nrOfValues) throws IOException {
+        public void writeEndArray(JsonGenerator g, int nrOfValues) {
             if (!_arrayIndenter.isInline()) {
                 --_nesting;
             }
@@ -261,9 +260,10 @@ public final class JsonUtils {
     }
 
     private static final class HibernateAnnotationIntrospector extends JacksonAnnotationIntrospector {
+
         @Override
-        public boolean hasIgnoreMarker(AnnotatedMember m) {
-            return m.hasAnnotation(OneToMany.class) || super.hasIgnoreMarker(m);
+        public boolean hasIgnoreMarker(MapperConfig<?> config, AnnotatedMember m) {
+            return m.hasAnnotation(OneToMany.class) || super.hasIgnoreMarker(config, m);
         }
     }
 
@@ -273,7 +273,7 @@ public final class JsonUtils {
         }
 
         @Override
-        public void serialize(Duration value, JsonGenerator gen, SerializerProvider p) throws IOException {
+        public void serialize(Duration value, JsonGenerator gen, SerializationContext ctx) {
             gen.writeNumber(value.toMinutes());
         }
     }
@@ -284,8 +284,7 @@ public final class JsonUtils {
         }
 
         @Override
-        public Duration deserialize(JsonParser p, DeserializationContext ctx)
-                throws IOException {
+        public Duration deserialize(JsonParser p, DeserializationContext ctx) {
             return Duration.ofMinutes(p.getLongValue());
         }
     }
@@ -296,8 +295,7 @@ public final class JsonUtils {
         }
 
         @Override
-        public FeedbackQuestion deserialize(JsonParser p, DeserializationContext ctx)
-                throws IOException {
+        public FeedbackQuestion deserialize(JsonParser p, DeserializationContext ctx) {
             ObjectNode node = p.readValueAsTree();
             String qt = node.path("questionDetails").path("questionType").asText();
             try {
@@ -325,8 +323,7 @@ public final class JsonUtils {
         }
 
         @Override
-        public FeedbackResponse deserialize(JsonParser p, DeserializationContext ctx)
-                throws IOException {
+        public FeedbackResponse deserialize(JsonParser p, DeserializationContext ctx) {
             ObjectNode node = p.readValueAsTree();
             String qt = node.path("answer").path("questionType").asText();
             try {
