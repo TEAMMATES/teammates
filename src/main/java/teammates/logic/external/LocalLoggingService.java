@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 
- import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
