@@ -13,9 +13,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 
-import tools.jackson.core.type.TypeReference;
-
-import teammates.common.datatransfer.FeedbackSessionLogEntry;
+ import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
@@ -28,6 +26,8 @@ import teammates.common.exception.JsonException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
+
+import tools.jackson.core.type.TypeReference;
 
 /**
  * Holds functions for operations related to logs reading/writing in local dev environment.

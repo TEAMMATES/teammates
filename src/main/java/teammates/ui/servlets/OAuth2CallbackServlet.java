@@ -17,8 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
-import tools.jackson.core.type.TypeReference;
-
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JsonException;
@@ -27,6 +25,8 @@ import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+
+import tools.jackson.core.type.TypeReference;
 
 /**
  * Servlet that handles the OAuth2 callback.

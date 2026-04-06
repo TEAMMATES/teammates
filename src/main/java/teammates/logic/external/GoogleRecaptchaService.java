@@ -5,11 +5,11 @@ import java.net.URISyntaxException;
 
 import org.apache.http.client.utils.URIBuilder;
 
-import tools.jackson.databind.JsonNode;
-
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+
+import tools.jackson.databind.JsonNode;
 
 /**
  * Google-based reCAPTCHA verifier service.

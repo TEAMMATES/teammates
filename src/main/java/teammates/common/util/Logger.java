@@ -10,8 +10,6 @@ import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import tools.jackson.core.type.TypeReference;
-
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.InstanceLogDetails;
 import teammates.common.datatransfer.logs.LogDetails;
@@ -19,6 +17,8 @@ import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
+
+import tools.jackson.core.type.TypeReference;
 
 /**
  * Allows any component of the application to log messages at appropriate levels.

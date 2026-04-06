@@ -11,14 +11,14 @@ import jakarta.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import tools.jackson.core.type.TypeReference;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.JsonUtils;
+
+import tools.jackson.core.type.TypeReference;
 
 /**
  * Base class for all entities.
