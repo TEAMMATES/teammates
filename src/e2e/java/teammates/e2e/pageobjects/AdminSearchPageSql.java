@@ -286,6 +286,9 @@ public class AdminSearchPageSql extends AppPage {
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
+            if (columns.size() < ACCOUNT_REQUEST_COL_INSTITUTE) {
+                continue;
+            }
             if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
                     .getAttribute("innerHTML")).contains(email)
                     && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
@@ -323,6 +326,8 @@ public class AdminSearchPageSql extends AppPage {
     public void clickDeleteAccountRequestButton(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='delete-account-request-']"));
+        scrollElementToCenter(deleteButton);
+        waitForElementToBeClickable(deleteButton);
         deleteButton.click();
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
@@ -340,10 +345,13 @@ public class AdminSearchPageSql extends AppPage {
     public void clickRejectAccountRequestButton(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         WebElement rejectButton = accountRequestRow.findElement(By.cssSelector("[id^='reject-account-request-']"));
+        scrollElementToCenter(rejectButton);
+        waitForElementToBeClickable(rejectButton);
         rejectButton.click();
-        waitForPageToLoad();
-        WebElement rejectWithoutReasonButton = browser.driver.findElement(By.cssSelector("[id^='reject-request-']"));
-        rejectWithoutReasonButton.click();
+        waitForElementVisibility(By.cssSelector(".dropdown-menu.show [id^='reject-request-']"));
+        WebElement rejectWithoutReasonButton = browser.driver.findElement(
+            By.cssSelector(".dropdown-menu.show [id^='reject-request-']"));
+        click(rejectWithoutReasonButton);
         waitForPageToLoad();
     }
 
@@ -353,10 +361,10 @@ public class AdminSearchPageSql extends AppPage {
         scrollElementToCenter(rejectButton);
         waitForElementToBeClickable(rejectButton);
         rejectButton.click();
-        waitForPageToLoad();
-        WebElement rejectWithReasonButton = browser.driver.findElement(By.cssSelector("[id^='reject-request-with-reason']"));
-        waitForElementToBeClickable(rejectWithReasonButton);
-        rejectWithReasonButton.click();
+        waitForElementVisibility(By.cssSelector(".dropdown-menu.show [id^='reject-request-with-reason']"));
+        WebElement rejectWithReasonButton = browser.driver.findElement(
+            By.cssSelector(".dropdown-menu.show [id^='reject-request-with-reason']"));
+        click(rejectWithReasonButton);
         waitForPageToLoad();
         waitForElementPresence(By.cssSelector("tm-reject-with-reason-modal"));
     }
@@ -392,6 +400,8 @@ public class AdminSearchPageSql extends AppPage {
     public void clickEditAccountRequestButton(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         WebElement editButton = accountRequestRow.findElement(By.cssSelector("[id^='edit-account-request-']"));
+        scrollElementToCenter(editButton);
+        waitForElementToBeClickable(editButton);
         editButton.click();
         waitForElementPresence(By.cssSelector("tm-edit-request-modal"));
     }
@@ -427,6 +437,8 @@ public class AdminSearchPageSql extends AppPage {
     public void clickViewAccountRequestAndVerifyCommentsButton(AccountRequest accountRequest, String comments) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         WebElement viewCommentsButton = accountRequestRow.findElement(By.cssSelector("[id^='view-account-request-']"));
+        scrollElementToCenter(viewCommentsButton);
+        waitForElementToBeClickable(viewCommentsButton);
         viewCommentsButton.click();
         waitForElementVisibility(By.className("modal-btn-ok"));
         WebElement modal = browser.driver.findElement(By.className("modal-body"));
@@ -437,15 +449,21 @@ public class AdminSearchPageSql extends AppPage {
 
     public void clickResetAccountRequestButton(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement deleteButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
-        deleteButton.click();
+        WebElement resetButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
+        scrollElementToCenter(resetButton);
+        waitForElementToBeClickable(resetButton);
+        click(resetButton);
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
     }
 
     public int getNumExpandedRows(WebElement row) {
+        waitUntilAnimationFinish();
         String xpath = "following-sibling::tr[1]/td/ul/li";
-        return row.findElements(By.xpath(xpath)).size();
+        return (int) row.findElements(By.xpath(xpath))
+                            .stream()
+                            .filter(WebElement::isDisplayed)
+                            .count();
     }
 
     private String getColumnText(WebElement row, int columnNum) {
