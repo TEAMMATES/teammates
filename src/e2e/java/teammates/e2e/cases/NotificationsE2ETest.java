@@ -14,7 +14,6 @@ import teammates.e2e.pageobjects.StudentHomePage;
 import teammates.e2e.pageobjects.StudentNotificationsPage;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
-import teammates.ui.output.AccountData;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_NOTIFICATIONS_PAGE}.
@@ -131,9 +130,25 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         } else {
             assertFalse(homePage.isBannerVisible());
         }
-        AccountData accountFromDb = BACKDOOR.getAccountData(studentAccount.getGoogleId());
-        assertTrue(accountFromDb.getReadNotifications().containsKey(firstNotificationId));
-        assertTrue(accountFromDb.getReadNotifications().containsKey(secondNotificationId));
+
+        ______TS("verify that the notifications marked as read are reflected in the notifications page");
+        AppUrl studentNotificationsPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_NOTIFICATIONS_PAGE);
+        StudentNotificationsPage notificationsPage = loginToPage(studentNotificationsPageUrl, StudentNotificationsPage.class,
+                studentAccount.getGoogleId());
+
+        Notification[] shownNotifications = {
+                testData.notifications.get("notification1"),
+                testData.notifications.get("notification2"),
+                testData.notifications.get("notification4"),
+        };
+
+        Set<String> readNotificationIds = Stream.of(
+                testData.notifications.get("notification1"),
+                testData.notifications.get("notification2"),
+                testData.notifications.get("notification4") // notification 4 is already read when test starts
+        ).map(notification -> notification.getId().toString()).collect(Collectors.toSet());
+
+        notificationsPage.verifyShownNotifications(shownNotifications, readNotificationIds);
     }
 
     @AfterClass
