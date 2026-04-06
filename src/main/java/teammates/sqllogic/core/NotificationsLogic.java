@@ -153,4 +153,16 @@ public final class NotificationsLogic {
 
         return notificationsDb.createReadNotification(readNotification);
     }
+
+    /**
+     * Deletes a read notification associated with the {@code readNotificationId}.
+     *
+     * <p>Fails silently if the read notification doesn't exist.</p>
+     */
+    public void deleteReadNotification(UUID readNotificationId) {
+        assert readNotificationId != null;
+
+        ReadNotification readNotification = HibernateUtil.getReference(ReadNotification.class, readNotificationId);
+        notificationsDb.deleteReadNotification(readNotification);
+    }
 }

@@ -143,4 +143,15 @@ public final class NotificationsDb {
         TypedQuery<ReadNotification> query = HibernateUtil.createQuery(cq);
         return query.getResultList();
     }
+
+    /**
+     * Deletes a read notification.
+     *
+     * <p>Fails silently if {@code readNotification} is null.
+     */
+    public void deleteReadNotification(ReadNotification readNotification) {
+        if (readNotification != null) {
+            HibernateUtil.remove(readNotification);
+        }
+    }
 }
