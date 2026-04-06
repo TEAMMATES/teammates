@@ -34,6 +34,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   // data
   student: Student = {
+    userId: '',
     email: '',
     courseId: '',
     name: '',
