@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -167,7 +167,7 @@ public class CreateAccountAction extends Action {
             dataBundleString = replaceAdjustedTimeAndTimezone(dataBundleString, timezone);
         }
 
-        SqlDataBundle dataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
+        DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
 
         sqlLogic.persistDataBundle(dataBundle);
 

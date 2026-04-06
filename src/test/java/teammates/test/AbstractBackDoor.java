@@ -27,7 +27,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -41,6 +41,7 @@ import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
 import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
@@ -214,10 +215,10 @@ public abstract class AbstractBackDoor {
     /**
      * Removes and restores given data in the database. This method is to be called on test startup.
      */
-    public SqlDataBundle removeAndRestoreSqlDataBundle(SqlDataBundle dataBundle) throws HttpRequestFailedException {
-        removeSqlDataBundle(dataBundle);
+    public DataBundle removeAndRestoreDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
+        removeDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
-                executePostRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+                executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
         if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
             throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
                     + putRequestOutput.responseBody);
@@ -226,7 +227,7 @@ public abstract class AbstractBackDoor {
         JsonNode jsonObject = JsonUtils.parse(putRequestOutput.responseBody);
         // data bundle is nested under message key
         String message = jsonObject.get("message").asText();
-        return JsonUtils.fromJson(message, SqlDataBundle.class);
+        return JsonUtils.fromJson(message, DataBundle.class);
     }
 
     /**
@@ -234,8 +235,8 @@ public abstract class AbstractBackDoor {
      *
      * <p>If given entities have already been deleted, it fails silently.
      */
-    public void removeSqlDataBundle(SqlDataBundle dataBundle) {
-        executePutRequest(Const.ResourceURIs.SQL_DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+    public void removeDataBundle(DataBundle dataBundle) {
+        executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
     }
 
     /**
@@ -525,6 +526,23 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId.toString());
         executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
+    /**
+     * Gets feedback session deadline extensions data from the database.
+     */
+    public FeedbackSessionDeadlineExtensionsData getFeedbackSessionDeadlineExtensionsData(
+            String courseId, String feedbackSessionName) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSION_DEADLINE_EXTENSIONS, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        return JsonUtils.fromJson(response.responseBody, FeedbackSessionDeadlineExtensionsData.class);
     }
 
     /**

@@ -1,7 +1,6 @@
 package teammates.ui.output;
 
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -12,29 +11,29 @@ import teammates.storage.sqlentity.Account;
  */
 public class AccountData extends ApiOutput {
 
+    private final UUID accountId;
     private final String googleId;
     private final String name;
     private final String email;
-    private final Map<String, Long> readNotifications;
 
     @JsonCreator
-    private AccountData(String googleId, String name, String email, Map<String, Long> readNotifications) {
+    private AccountData(
+            UUID accountId, String googleId, String name, String email) {
+        this.accountId = accountId;
         this.googleId = googleId;
         this.name = name;
         this.email = email;
-        this.readNotifications = readNotifications;
     }
 
     public AccountData(Account account) {
+        this.accountId = account.getId();
         this.googleId = account.getGoogleId();
         this.name = account.getName();
         this.email = account.getEmail();
-        this.readNotifications = account.getReadNotifications()
-                .stream()
-                .collect(Collectors.toMap(
-                        readNotification -> readNotification.getNotification().getId().toString(),
-                        readNotification ->
-                                readNotification.getNotification().getEndTime().toEpochMilli()));
+    }
+
+    public UUID getAccountId() {
+        return accountId;
     }
 
     public String getEmail() {
@@ -47,10 +46,6 @@ public class AccountData extends ApiOutput {
 
     public String getName() {
         return name;
-    }
-
-    public Map<String, Long> getReadNotifications() {
-        return this.readNotifications;
     }
 
 }

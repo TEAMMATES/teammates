@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -11,6 +13,7 @@ import teammates.storage.sqlentity.Instructor;
  * The API output format of an instructor.
  */
 public class InstructorData extends ApiOutput {
+    private final UUID userId;
     @Nullable
     private String googleId;
     private final String courseId;
@@ -29,13 +32,15 @@ public class InstructorData extends ApiOutput {
     private String institute;
 
     @JsonCreator
-    private InstructorData(String courseId, String email, String name) {
+    private InstructorData(UUID userId, String courseId, String email, String name) {
+        this.userId = userId;
         this.courseId = courseId;
         this.email = email;
         this.name = name;
     }
 
     public InstructorData(Instructor instructor) {
+        this.userId = instructor.getId();
         this.courseId = instructor.getCourseId();
         this.email = instructor.getEmail();
         this.role = instructor.getRole();
@@ -44,6 +49,10 @@ public class InstructorData extends ApiOutput {
         this.name = instructor.getName();
         this.joinState = instructor.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED;
         this.institute = instructor.getCourse().getInstitute();
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 
     public String getGoogleId() {

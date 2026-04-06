@@ -7,25 +7,18 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  */
 public class MarkNotificationAsReadRequest extends BasicRequest {
     private String notificationId;
-    private long endTimestamp;
 
     @JsonCreator
-    public MarkNotificationAsReadRequest(String notificationId, Long endTimestamp) {
+    public MarkNotificationAsReadRequest(String notificationId) {
         this.notificationId = notificationId;
-        this.endTimestamp = endTimestamp;
     }
 
     public String getNotificationId() {
         return this.notificationId;
     }
 
-    public Long getEndTimestamp() {
-        return this.endTimestamp;
-    }
-
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(notificationId != null, "Notification id should not be null.");
-        assertTrue(endTimestamp > 0L, "End timestamp should be more than zero");
     }
 }

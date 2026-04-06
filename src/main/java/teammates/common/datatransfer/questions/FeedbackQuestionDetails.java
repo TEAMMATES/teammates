@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.FeedbackQuestion;
 
@@ -53,7 +53,7 @@ public abstract class FeedbackQuestionDetails {
     */
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, String studentEmail, SqlSessionResultsBundle bundle) {
+            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle) {
         // Statistics are calculated in the front-end as it is dependent on the responses being filtered.
         // The only exception is contribution question, where there is only one statistics for the entire question.
         // It is also necessary to calculate contribution question statistics here

@@ -2,6 +2,7 @@ package teammates.ui.output;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -20,7 +21,7 @@ import teammates.storage.sqlentity.FeedbackQuestion;
  * The API output format of {@link FeedbackQuestion}.
  */
 public class FeedbackQuestionData extends ApiOutput {
-    private final String feedbackQuestionId;
+    private final UUID feedbackQuestionId;
     private int questionNumber;
     private final String questionBrief;
     private final String questionDescription;
@@ -39,7 +40,7 @@ public class FeedbackQuestionData extends ApiOutput {
     private List<FeedbackVisibilityType> showRecipientNameTo;
 
     @JsonCreator
-    private FeedbackQuestionData(String feedbackQuestionId, String questionBrief,
+    private FeedbackQuestionData(UUID feedbackQuestionId, String questionBrief,
             String questionDescription, FeedbackQuestionDetails questionDetails,
             FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             NumberOfEntitiesToGiveFeedbackToSetting numberOfEntitiesToGiveFeedbackToSetting,
@@ -57,7 +58,7 @@ public class FeedbackQuestionData extends ApiOutput {
     public FeedbackQuestionData(FeedbackQuestion feedbackQuestion) {
         FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestion.getQuestionDetailsCopy();
 
-        this.feedbackQuestionId = feedbackQuestion.getId().toString();
+        this.feedbackQuestionId = feedbackQuestion.getId();
         this.questionNumber = feedbackQuestion.getQuestionNumber();
         this.questionBrief = feedbackQuestionDetails.getQuestionText();
         this.questionDescription = feedbackQuestion.getDescription();
@@ -129,7 +130,7 @@ public class FeedbackQuestionData extends ApiOutput {
         }).collect(Collectors.toList());
     }
 
-    public String getFeedbackQuestionId() {
+    public UUID getFeedbackQuestionId() {
         return feedbackQuestionId;
     }
 

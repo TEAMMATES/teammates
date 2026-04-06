@@ -30,10 +30,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String feedbackResponseIdParam =
-                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        UUID feedbackResponseId = getUuidFromString(Const.ParamsNames.FEEDBACK_RESPONSE_ID,
-                feedbackResponseIdParam);
+        UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 
         FeedbackResponse feedbackResponse = null;
 
@@ -100,10 +97,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        String feedbackResponseIdParam =
-                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
-        UUID feedbackResponseId = getUuidFromString(Const.ParamsNames.FEEDBACK_RESPONSE_ID,
-                feedbackResponseIdParam);
+        UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 
         FeedbackResponse feedbackResponse = null;
 

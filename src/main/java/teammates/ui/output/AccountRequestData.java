@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -11,7 +13,8 @@ import teammates.storage.sqlentity.AccountRequest;
  * Output format of account request data.
  */
 public class AccountRequestData extends ApiOutput {
-    private final String id;
+    // TODO: rename to accountRequestId for consistency.
+    private final UUID id;
     private final String email;
     private final String name;
     private final String institute;
@@ -24,7 +27,7 @@ public class AccountRequestData extends ApiOutput {
     private final long createdAt;
 
     @JsonCreator
-    private AccountRequestData(String id, String email, String name, String institute, String registrationKey,
+    private AccountRequestData(UUID id, String email, String name, String institute, String registrationKey,
                                 AccountRequestStatus status, String comments, Long registeredAt, long createdAt) {
         this.id = id;
         this.email = email;
@@ -38,7 +41,7 @@ public class AccountRequestData extends ApiOutput {
     }
 
     public AccountRequestData(AccountRequest accountRequest) {
-        this.id = accountRequest.getId().toString();
+        this.id = accountRequest.getId();
         this.name = accountRequest.getName();
         this.email = accountRequest.getEmail();
         this.institute = accountRequest.getInstitute();
@@ -54,7 +57,7 @@ public class AccountRequestData extends ApiOutput {
         }
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 

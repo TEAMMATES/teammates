@@ -1,7 +1,6 @@
 package teammates.it.ui.webapi;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -96,8 +95,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
 
         assertEquals("this is the description", questionResponse.getQuestionDescription());
         assertNotNull(questionResponse.getFeedbackQuestionId());
-        FeedbackQuestion question =
-                logic.getFeedbackQuestion(UUID.fromString(questionResponse.getFeedbackQuestionId()));
+        FeedbackQuestion question = logic.getFeedbackQuestion(questionResponse.getFeedbackQuestionId());
         // verify question is created
         assertEquals("this is the description", question.getDescription());
 
@@ -115,8 +113,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
 
         assertEquals(100, questionResponse.getCustomNumberOfEntitiesToGiveFeedbackTo().intValue());
         assertNotNull(questionResponse.getFeedbackQuestionId());
-        question =
-                logic.getFeedbackQuestion(UUID.fromString(questionResponse.getFeedbackQuestionId()));
+        question = logic.getFeedbackQuestion(questionResponse.getFeedbackQuestionId());
         // verify question is created
         assertEquals(100, question.getNumOfEntitiesToGiveFeedbackTo().intValue());
     }
