@@ -86,7 +86,7 @@ describe('SearchTermsHighlighterPipe', () => {
         const sampleValue = 'Learn C++ from the [guide] today';
         expect(highlighterPipe.transform(sampleValue, sampleSearch, true)).toBe(
             'Learn <span class="highlighted-text">C++</span> from the '
-            + '<span class="highlighted-text">[guide]</span> today'
+            + '<span class="highlighted-text">[guide]</span> today',
         );
     });
 
