@@ -9,9 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 import org.hibernate.HibernateException;
 
-import teammates.common.exception.UnexpectedServerException;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.DeadlineExceededException;
+import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.Logger;
@@ -86,11 +86,7 @@ public class WebApiServlet extends HttpServlet {
             statusCode = HttpStatus.SC_GATEWAY_TIMEOUT;
             log.severe(dee.getClass().getSimpleName() + " caught by WebApiServlet", dee);
             throwError(resp, statusCode, "The request exceeded the server timeout limit. Please try again later.");
-        } catch (HibernateException e) {
-            statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
-            throwError(resp, statusCode, e.getMessage());
-        } catch (UnexpectedServerException e) {
+        } catch (HibernateException | UnexpectedServerException e) {
             statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
             throwError(resp, statusCode, e.getMessage());
