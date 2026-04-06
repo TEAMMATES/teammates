@@ -140,7 +140,7 @@ public final class NotificationsLogic {
     }
 
     /**
-     * Create a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
+     * Creates a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
      */
     public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
         assert accountId != null;
