@@ -1,7 +1,16 @@
 package teammates.it.test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.UUID;
 
+import liquibase.Contexts;
+import liquibase.LabelExpression;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.ClassLoaderResourceAccessor;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -47,9 +56,23 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     protected static void setUpSuite() throws Exception {
         PGSQL.start();
 
+        runLiquibaseMigrations(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
+
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
 
         LogicStarter.initializeDependencies();
+    }
+
+    @SuppressWarnings("deprecation")
+    private static void runLiquibaseMigrations(String jdbcUrl, String username, String password) throws Exception {
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+            Database database = DatabaseFactory.getInstance()
+                    .findCorrectDatabaseImplementation(new JdbcConnection(connection));
+            try (Liquibase liquibase = new Liquibase("db/changelog/db.changelog-root.xml",
+                    new ClassLoaderResourceAccessor(), database)) {
+                liquibase.update(new Contexts(), new LabelExpression());
+            }
+        }
     }
 
     @AfterSuite

@@ -127,7 +127,7 @@ public final class HibernateUtil {
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
                 .addPackage("teammates.storage.sqlentity");
 
-            if ("migrate".equalsIgnoreCase(System.getProperty("schemaMode"))) {
+        if ("migrate".equalsIgnoreCase(System.getProperty("schemaMode"))) {
             config.setProperty("hibernate.hbm2ddl.auto", "update");
         }
 
