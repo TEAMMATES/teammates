@@ -26,14 +26,10 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { areEmailsEqual, normalizeEmail } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-interface EnrollPageStudent extends Omit<Student, 'userId'> {
-  userId: string | null;
-}
-
 interface EnrollResultPanel {
   status: EnrollStatus;
   messageForEnrollmentStatus: string;
-  studentList: EnrollPageStudent[];
+  studentList: Student[];
 }
 
 /**
@@ -385,7 +381,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
                                         enrollRequests: Map<number, StudentEnrollRequest>): EnrollResultPanel[] {
 
     const panels: EnrollResultPanel[] = [];
-    const studentLists: EnrollPageStudent[][] = [];
+    const studentLists: Student[][] = [];
     const statuses: (string | EnrollStatus)[] = Object.values(EnrollStatus)
         .filter((value: string | EnrollStatus) => typeof value === 'string');
 
@@ -437,7 +433,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
       if (enrolledStudent === undefined) {
         studentLists[EnrollStatus.ERROR].push({
-          userId: null,
+          userId: '',
           email: request.email,
           courseId: this.courseId,
           name: request.name,
@@ -446,7 +442,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           comments: request.comments,
           joinState: JoinState.NOT_JOINED,
         });
-
       }
     }
 
