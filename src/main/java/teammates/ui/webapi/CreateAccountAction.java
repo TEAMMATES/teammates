@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.exception.UnexpectedServerException;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -73,7 +74,7 @@ public class CreateAccountAction extends Action {
         } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
             // There should not be any invalid parameter or entity conflict here
             log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+             throw new UnexpectedServerException(e);
         }
 
         List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
@@ -88,7 +89,7 @@ public class CreateAccountAction extends Action {
             // conflict with generated entities in new demo course.
             // InvalidParametersException should not be thrown as as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(e);
         }
 
         try {
@@ -97,7 +98,7 @@ public class CreateAccountAction extends Action {
             // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(e);
         }
 
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
