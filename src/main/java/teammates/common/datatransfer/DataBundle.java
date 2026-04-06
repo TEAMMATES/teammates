@@ -25,7 +25,7 @@ import teammates.storage.sqlentity.Team;
  * <p>This class is mainly used for serializing JSON strings.
  */
 // CHECKSTYLE.OFF:JavadocVariable each field represents different entity types
-public class SqlDataBundle {
+public class DataBundle {
     public Map<String, Account> accounts = new LinkedHashMap<>();
     public Map<String, AccountRequest> accountRequests = new LinkedHashMap<>();
     public Map<String, Course> courses = new LinkedHashMap<>();

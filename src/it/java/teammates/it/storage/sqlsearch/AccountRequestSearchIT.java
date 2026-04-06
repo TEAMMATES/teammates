@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
@@ -19,7 +19,7 @@ import teammates.test.AssertHelper;
  */
 public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final SqlDataBundle typicalBundle = getTypicalDataBundle();
+    private final DataBundle typicalBundle = getTypicalDataBundle();
     private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
 
     @Override
