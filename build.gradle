@@ -326,8 +326,15 @@ task copyDistToExplodedWar {
 task serverRun(type: JavaExec) {
     classpath "${explodeWar.destinationDir}/WEB-INF/lib/*", "${explodeWar.destinationDir}/WEB-INF/classes/."
     mainClass = "teammates.main.Application"
-    jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties",
+    def serverJvmArgs = [
+            "-ea",
+            "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties",
             "-Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider"
+    ]
+    if (project.hasProperty("schemaMode")) {
+        serverJvmArgs.add("-DschemaMode=${project.property('schemaMode')}")
+    }
+    jvmArgs serverJvmArgs
     dependsOn explodeWar, copyDistToExplodedWar
 }
 
