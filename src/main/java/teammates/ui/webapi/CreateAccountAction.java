@@ -74,7 +74,7 @@ public class CreateAccountAction extends Action {
         } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
             // There should not be any invalid parameter or entity conflict here
             log.severe("Unexpected error", e);
-            throw new UnexpectedServerException(e);
+            throw new UnexpectedServerException(e.getMessage(), e);
         }
 
         List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
@@ -89,7 +89,7 @@ public class CreateAccountAction extends Action {
             // conflict with generated entities in new demo course.
             // InvalidParametersException should not be thrown as as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
-            throw new UnexpectedServerException(e);
+            throw new UnexpectedServerException(e.getMessage(), e);
         }
 
         try {
@@ -98,7 +98,7 @@ public class CreateAccountAction extends Action {
             // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
-            throw new UnexpectedServerException(e);
+            throw new UnexpectedServerException(e.getMessage(), e);
         }
 
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
