@@ -47,7 +47,7 @@ export class StudentListComponent implements OnInit {
   @Input() tableSortBy: SortBy = SortBy.NONE;
   @Input() tableSortOrder: SortOrder = SortOrder.ASC;
   @Input() searchString: string = '';
-  @Input() isSearchTermsHighlighted: boolean = false;
+  @Input() isPartialMatchHighlightingEnabled: boolean = false;
   @Input() headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.OTHERS;
   @Input() customHeaderStyle: string = 'bg-light';
 
@@ -140,17 +140,17 @@ export class StudentListComponent implements OnInit {
         {
           value: studentModel.student.sectionName,
           displayValue: this.searchTermsHighlighterPipe.transform(
-              studentModel.student.sectionName, this.searchString, this.isSearchTermsHighlighted),
+            studentModel.student.sectionName, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.teamName,
           displayValue: this.searchTermsHighlighterPipe.transform(
-              studentModel.student.teamName, this.searchString, this.isSearchTermsHighlighted),
+            studentModel.student.teamName, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.name,
           displayValue: this.searchTermsHighlighterPipe.transform(
-              studentModel.student.name, this.searchString, this.isSearchTermsHighlighted),
+            studentModel.student.name, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.joinState === JoinState.JOINED ? 'Joined' : 'Yet to Join',
@@ -158,7 +158,7 @@ export class StudentListComponent implements OnInit {
         {
           value: studentModel.student.email,
           displayValue: this.searchTermsHighlighterPipe.transform(
-              studentModel.student.email, this.searchString, this.isSearchTermsHighlighted),
+            studentModel.student.email, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         this.createActionsCell(studentModel),
       ];

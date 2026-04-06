@@ -533,7 +533,7 @@ describe('StudentListComponent', () => {
   });
 
   it('setRowData: should highlight partial matches when enabled', () => {
-    component.isSearchTermsHighlighted = true;
+    component.isPartialMatchHighlightingEnabled = true;
     component.searchString = 'te';
     component.studentModels = [
       {

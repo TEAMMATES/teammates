@@ -3,7 +3,7 @@
 <div *tmIsLoading="isSearching">
   @if (studentsListRowTables && studentsListRowTables.length) {
     <tm-student-result-table [studentTables]="studentsListRowTables"
-      [isSearchTermsHighlighted]="true" [searchString]="searchString" (removeStudentFromCourseEvent)="removeStudentFromCourse($event)">
+      [isPartialMatchHighlightingEnabled]="true" [searchString]="searchString" (removeStudentFromCourseEvent)="removeStudentFromCourse($event)">
     </tm-student-result-table>
   }
 </div>
