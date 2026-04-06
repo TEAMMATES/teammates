@@ -32,9 +32,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.JsonException;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -92,8 +90,6 @@ public final class JsonUtils {
         module.addDeserializer(Duration.class, new DurationMinutesDeserializer());
         module.addDeserializer(FeedbackQuestion.class, new FeedbackQuestionDeserializer());
         module.addDeserializer(FeedbackResponse.class, new FeedbackResponseDeserializer());
-        module.addDeserializer(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsDeserializer());
-        module.addDeserializer(FeedbackResponseDetails.class, new FeedbackResponseDetailsDeserializer());
         mapper.registerModule(module);
 
         if (prettyPrint) {
@@ -346,48 +342,6 @@ public final class JsonUtils {
                 case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsResponse.class);
                 case RANK_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackRankRecipientsResponse.class);
                 };
-            } catch (IllegalArgumentException e) {
-                return null;
-            }
-        }
-    }
-
-    // These are used instead of JsonTypeInfo annotations on FQDetails and FRDetails so that
-    // the generated type info for the frontend uses enum instead of string union for questionType.
-    private static final class FeedbackQuestionDetailsDeserializer
-            extends StdDeserializer<FeedbackQuestionDetails> {
-        FeedbackQuestionDetailsDeserializer() {
-            super(FeedbackQuestionDetails.class);
-        }
-
-        @Override
-        public FeedbackQuestionDetails deserialize(JsonParser p, DeserializationContext ctx)
-                throws IOException {
-            ObjectNode node = p.readValueAsTree();
-            String qt = node.path("questionType").asText();
-            try {
-                FeedbackQuestionType type = FeedbackQuestionType.valueOf(qt);
-                return MAPPER.treeToValue(node, type.getQuestionDetailsClass());
-            } catch (IllegalArgumentException e) {
-                return null;
-            }
-        }
-    }
-
-    private static final class FeedbackResponseDetailsDeserializer
-            extends StdDeserializer<FeedbackResponseDetails> {
-        FeedbackResponseDetailsDeserializer() {
-            super(FeedbackResponseDetails.class);
-        }
-
-        @Override
-        public FeedbackResponseDetails deserialize(JsonParser p, DeserializationContext ctx)
-                throws IOException {
-            ObjectNode node = p.readValueAsTree();
-            String qt = node.path("questionType").asText();
-            try {
-                FeedbackQuestionType type = FeedbackQuestionType.valueOf(qt);
-                return MAPPER.treeToValue(node, type.getResponseDetailsClass());
             } catch (IllegalArgumentException e) {
                 return null;
             }

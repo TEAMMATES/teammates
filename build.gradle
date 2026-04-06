@@ -183,6 +183,10 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
         creatorVisibility: "NONE",
     ]
     mapEnum = "asEnum"
+    disableTaggedUnionAnnotations = [
+            "com.fasterxml.jackson.annotation.JsonTypeInfo",
+            "com.fasterxml.jackson.annotation.JsonSubTypes"
+    ]
     nonConstEnums = true
     noFileComment = true
 }
