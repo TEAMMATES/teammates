@@ -82,8 +82,6 @@ describe('SessionSubmissionPageComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const testComment: FeedbackResponseComment = {

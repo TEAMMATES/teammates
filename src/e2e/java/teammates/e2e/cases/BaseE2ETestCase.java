@@ -10,7 +10,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.HttpRequestFailedException;
@@ -45,6 +45,7 @@ import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.NotificationData;
@@ -67,7 +68,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * DataBundle used in tests.
      */
-    protected SqlDataBundle testData;
+    protected DataBundle testData;
 
     private Browser browser;
 
@@ -87,10 +88,10 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Removes and restores the databundle.
      */
-    protected SqlDataBundle removeAndRestoreDataBundle(SqlDataBundle testData) {
-        SqlDataBundle dataBundle = null;
+    protected DataBundle removeAndRestoreDataBundle(DataBundle testData) {
+        DataBundle dataBundle = null;
         try {
-            dataBundle = BACKDOOR.removeAndRestoreSqlDataBundle(testData);
+            dataBundle = BACKDOOR.removeAndRestoreDataBundle(testData);
         } catch (HttpRequestFailedException e) {
             throw new RuntimeException(e);
         }
@@ -594,6 +595,14 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      */
     protected String getKeyForStudent(Student student) {
         return getStudent(student).getKey();
+    }
+
+    /**
+     * Gets feedback session deadline extensions data from the database.
+     */
+    protected FeedbackSessionDeadlineExtensionsData getFeedbackSessionDeadlineExtensions(
+            String courseId, String feedbackSessionName) {
+        return BACKDOOR.getFeedbackSessionDeadlineExtensionsData(courseId, feedbackSessionName);
     }
 
     /**

@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
-import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -438,7 +438,7 @@ public final class FeedbackQuestionsLogic {
     public Map<String, FeedbackQuestionRecipient> getRecipientsOfQuestion(
             FeedbackQuestion question,
             @Nullable Instructor instructorGiver, @Nullable Student studentGiver,
-            @Nullable SqlCourseRoster courseRoster) {
+            @Nullable CourseRoster courseRoster) {
         assert instructorGiver != null || studentGiver != null;
 
         String courseId = question.getCourseId();
@@ -540,14 +540,14 @@ public final class FeedbackQuestionsLogic {
                 } else {
                     teamStudents = usersLogic.getStudentsForCourse(courseId);
                 }
-                teamToTeamMembersTable = SqlCourseRoster.buildTeamToMembersTable(teamStudents);
+                teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
             } else {
                 if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
                     final String finalGiverSection = giverSection;
                     teamStudents = courseRoster.getStudents().stream()
                             .filter(student -> student.getSectionName().equals(finalGiverSection))
                             .collect(Collectors.toList());
-                    teamToTeamMembersTable = SqlCourseRoster.buildTeamToMembersTable(teamStudents);
+                    teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
                 } else {
                     teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
                 }
@@ -684,7 +684,7 @@ public final class FeedbackQuestionsLogic {
      * @return a map from giver to recipient for the question.
      */
     public Map<String, Set<String>> buildCompleteGiverRecipientMap(
-            FeedbackQuestion relatedQuestion, SqlCourseRoster courseRoster) {
+            FeedbackQuestion relatedQuestion, CourseRoster courseRoster) {
         Map<String, Set<String>> completeGiverRecipientMap = new HashMap<>();
 
         List<String> possibleGiverEmails = getPossibleGivers(relatedQuestion, courseRoster);
@@ -744,7 +744,7 @@ public final class FeedbackQuestionsLogic {
      * @return a list of giver identifier
      */
     private List<String> getPossibleGivers(
-            FeedbackQuestion fq, SqlCourseRoster courseRoster) {
+            FeedbackQuestion fq, CourseRoster courseRoster) {
         FeedbackParticipantType giverType = fq.getGiverType();
         List<String> possibleGivers = new ArrayList<>();
 

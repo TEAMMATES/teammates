@@ -47,6 +47,7 @@ describe('SearchService', () => {
   };
 
   const mockInstructorA: Instructor = {
+    userId: '00000000-0000-4000-8000-000000000001',
     googleId: 'test@example.com',
     courseId: 'dog.gma-demo',
     email: 'dog@gmail.com',
@@ -59,6 +60,7 @@ describe('SearchService', () => {
   };
 
   const mockInstructorB: Instructor = {
+    userId: '00000000-0000-4000-8000-000000000002',
     googleId: 'insB',
     courseId: 'dog.gma-demo',
     email: 'cat@gmail.com',
@@ -71,6 +73,7 @@ describe('SearchService', () => {
   };
 
   const mockInstructorC: Instructor = {
+    userId: '00000000-0000-4000-8000-000000000003',
     googleId: 'insC',
     courseId: 'dog.gma-demo',
     email: 'animal@gmail.com',
@@ -84,6 +87,7 @@ describe('SearchService', () => {
 
   const mockSessions: FeedbackSession[] = [
     {
+      feedbackSessionId: '00000000-0000-4000-8000-000000000001',
       courseId: 'dog.gma-demo',
       timeZone: 'Asia/Singapore',
       feedbackSessionName: 'First team feedback session',
@@ -98,10 +102,9 @@ describe('SearchService', () => {
       responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
       isClosingSoonEmailEnabled: false,
       isPublishedEmailEnabled: false,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     },
     {
+      feedbackSessionId: '00000000-0000-4000-8000-000000000002',
       courseId: 'dog.gma-demo',
       timeZone: 'Asia/Singapore',
       feedbackSessionName: 'Second team feedback session',
@@ -116,8 +119,6 @@ describe('SearchService', () => {
       responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
       isClosingSoonEmailEnabled: false,
       isPublishedEmailEnabled: false,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     },
   ];
 
