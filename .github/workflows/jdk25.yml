@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feature/custom-email-templates
   workflow_dispatch:
 
 concurrency:
