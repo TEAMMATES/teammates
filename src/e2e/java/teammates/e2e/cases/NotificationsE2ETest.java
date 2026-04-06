@@ -143,10 +143,10 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         };
 
         Set<String> readNotificationIds = Stream.of(
-                testData.notifications.get("notification1"),
-                testData.notifications.get("notification2"),
-                testData.notifications.get("notification4") // notification 4 is already read when test starts
-        ).map(notification -> notification.getId().toString()).collect(Collectors.toSet());
+                firstNotificationId,
+                secondNotificationId,
+                testData.notifications.get("notification4").getId().toString() // notification 4 is already read when test starts
+        ).collect(Collectors.toSet());
 
         notificationsPage.verifyShownNotifications(shownNotifications, readNotificationIds);
     }
