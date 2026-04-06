@@ -16,7 +16,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 public class FeedbackSessionsData extends ApiOutput {
     private final List<FeedbackSessionData> feedbackSessions;
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     private FeedbackSessionsData(FeedbackSessionData[] feedbackSessions) {
         this.feedbackSessions = Arrays.asList(feedbackSessions);
     }

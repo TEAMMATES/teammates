@@ -9,7 +9,7 @@ public class MessageOutput extends ApiOutput {
 
     private final String message;
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public MessageOutput(String message) {
         this.message = message;
     }
