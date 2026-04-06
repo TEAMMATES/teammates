@@ -433,6 +433,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
       if (enrolledStudent === undefined) {
         studentLists[EnrollStatus.ERROR].push({
+          userId: '',
           email: request.email,
           courseId: this.courseId,
           name: request.name,
@@ -441,7 +442,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           comments: request.comments,
           joinState: JoinState.NOT_JOINED,
         });
-
       }
     }
 

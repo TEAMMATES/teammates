@@ -7,6 +7,7 @@ import {
  * Structure of example of student attributes.
  */
 export const EXAMPLE_STUDENT_ATTRIBUTES: Student = {
+  userId: '00000000-0000-4000-9000-000000000001',
   email: 'alice@email.com',
   courseId: 'test.exa-demo',
   name: 'Alice Betsy',
@@ -34,6 +35,7 @@ export const EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[
   students: [
     {
       student: {
+        userId: '00000000-0000-4000-9000-000000000001',
         sectionName: 'Section A',
         name: 'Alice Betsy',
         email: 'alice@email.com',
@@ -47,6 +49,7 @@ export const EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[
     },
     {
       student: {
+        userId: '00000000-0000-4000-9000-000000000002',
         name: 'Jean Grey',
         email: 'jean@email.com',
         joinState: JoinState.JOINED,
@@ -60,6 +63,7 @@ export const EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[
     },
     {
       student: {
+        userId: '00000000-0000-4000-9000-000000000003',
         name: 'Oliver Gates',
         email: 'oliver@email.com',
         joinState: JoinState.JOINED,
@@ -72,6 +76,7 @@ export const EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[
     },
     {
       student: {
+        userId: '00000000-0000-4000-9000-000000000004',
         name: 'Thora Parker',
         email: 'thora@email.com',
         joinState: JoinState.JOINED,
@@ -84,6 +89,7 @@ export const EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES: SearchStudentsListRowTable[
     },
     {
       student: {
+        userId: '00000000-0000-4000-9000-000000000005',
         name: 'Jack Wayne',
         email: 'jack@email.com',
         joinState: JoinState.JOINED,

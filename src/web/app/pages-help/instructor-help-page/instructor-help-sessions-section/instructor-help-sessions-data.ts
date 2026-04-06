@@ -150,6 +150,7 @@ export const EXAMPLE_TEMPLATE_SESSIONS: TemplateSession[] = [
  */
 export const EXAMPLE_STUDENTS: Student[] = [
   {
+    userId: '00000000-0000-4000-9000-000000000001',
     email: 'alice@email.com',
     courseId: 'test.exa-demo',
     name: 'Alice Betsy',
