@@ -81,19 +81,8 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        UUID studentId = null;
-        UUID feedbackSessionId = null;
-        String studentIdString = getRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
-        String feedbackSessionIdString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-
-        if (studentIdString != null) {
-            studentId = getUuidFromString(Const.ParamsNames.STUDENT_SQL_ID, studentIdString);
-        }
-
-        if (feedbackSessionIdString != null) {
-            feedbackSessionId = getUuidFromString(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionIdString);
-        }
+        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+        UUID feedbackSessionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
         if (sqlLogic.getCourse(courseId) == null) {
             throw new EntityNotFoundException("Course not found");
