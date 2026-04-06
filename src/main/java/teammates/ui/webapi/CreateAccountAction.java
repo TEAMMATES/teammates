@@ -9,12 +9,12 @@ import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.exception.UnexpectedServerException;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
@@ -74,7 +74,7 @@ public class CreateAccountAction extends Action {
         } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
             // There should not be any invalid parameter or entity conflict here
             log.severe("Unexpected error", e);
-             throw new UnexpectedServerException(e);
+            throw new UnexpectedServerException(e);
         }
 
         List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
