@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 
 /**
@@ -22,6 +23,23 @@ public enum ConfigurableEmailTemplate {
     NEW_INSTRUCTOR_ACCOUNT_WELCOME(
             "TEAMMATES: Welcome to TEAMMATES! ${userName}",
             EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME,
+            List.of("${joinUrl}")),
+
+    NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT(
+            "TEAMMATES: Acknowledgement of Instructor Account Request",
+            EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
+            List.of()),
+
+    STUDENT_COURSE_JOIN(
+            "TEAMMATES: Invitation to join course [${courseName}][Course ID: ${courseId}]",
+            Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
+                    "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN),
+            List.of("${joinUrl}")),
+
+    INSTRUCTOR_COURSE_JOIN(
+            "TEAMMATES: Invitation to join course as an instructor [${courseName}][Course ID: ${courseId}]",
+            Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
+                    "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN),
             List.of("${joinUrl}"));
 
     // CHECKSTYLE.ON:JavadocVariable

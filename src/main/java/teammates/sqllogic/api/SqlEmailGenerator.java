@@ -913,19 +913,47 @@ public final class SqlEmailGenerator {
 
     /**
      * Generates the course join email for the given {@code student} in {@code course}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#STUDENT_COURSE_JOIN}.
      */
     public EmailWrapper generateStudentCourseJoinEmail(Course course, Student student) {
 
-        String emailBody = Templates.populateTemplate(
-                fillUpStudentJoinFragment(student),
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedCourseId = SanitizationHelper.sanitizeForHtml(course.getId());
+        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+
+        EmailTemplate dbTemplate =
+                EmailTemplatesLogic.inst().getEmailTemplate("STUDENT_COURSE_JOIN");
+
+        String bodySource;
+        String emailSubject;
+
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.STUDENT_COURSE_JOIN;
+            bodySource = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        }
+
+        String emailBody = Templates.populateTemplate(bodySource,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseName}", sanitizedCourseName,
+                "${joinUrl}", joinUrl,
                 "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.getEmail());
         email.setType(EmailType.STUDENT_COURSE_JOIN);
-        email.setSubjectFromType(course.getName(), course.getId());
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
@@ -953,21 +981,48 @@ public final class SqlEmailGenerator {
     /**
      * Generates the course join email for the given {@code instructor} in {@code course}.
      * Also specifies contact information of {@code inviter}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#INSTRUCTOR_COURSE_JOIN}.
      */
     public EmailWrapper generateInstructorCourseJoinEmail(Account inviter,
             Instructor instructor, Course course) {
 
-        String emailBody = Templates.populateTemplate(
-                fillUpInstructorJoinFragment(instructor),
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedCourseId = SanitizationHelper.sanitizeForHtml(course.getId());
+
+        EmailTemplate dbTemplate =
+                EmailTemplatesLogic.inst().getEmailTemplate("INSTRUCTOR_COURSE_JOIN");
+
+        String bodySource;
+        String emailSubject;
+
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.INSTRUCTOR_COURSE_JOIN;
+            bodySource = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        }
+
+        String emailBody = Templates.populateTemplate(bodySource,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseName}", sanitizedCourseName,
                 "${inviterName}", SanitizationHelper.sanitizeForHtml(inviter.getName()),
                 "${inviterEmail}", SanitizationHelper.sanitizeForHtml(inviter.getEmail()),
+                "${joinUrl}", getInstructorCourseJoinUrl(instructor),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(EmailType.INSTRUCTOR_COURSE_JOIN);
-        email.setSubjectFromType(course.getName(), course.getId());
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
@@ -1020,6 +1075,11 @@ public final class SqlEmailGenerator {
 
     /**
      * Generates the acknowledgement email to be sent to the person who submitted {@code accountRequest}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT}.
      */
     public EmailWrapper generateNewAccountRequestAcknowledgementEmail(AccountRequest accountRequest) {
         String name = SanitizationHelper.sanitizeForHtml(accountRequest.getName());
@@ -1029,18 +1089,32 @@ public final class SqlEmailGenerator {
         if (comments == null) {
             comments = "";
         }
-        String[] templateKeyValuePairs = new String[] {
+
+        EmailTemplate dbTemplate =
+                EmailTemplatesLogic.inst().getEmailTemplate("NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT");
+
+        String bodySource;
+        String emailSubject;
+
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = dbTemplate.getSubject();
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT;
+            bodySource = registry.getDefaultBody();
+            emailSubject = registry.getDefaultSubject();
+        }
+
+        String content = Templates.populateTemplate(bodySource,
                 "${name}", name,
                 "${institute}", institute,
                 "${emailAddress}", emailAddress,
                 "${comments}", comments,
-                "${supportEmail}", Config.SUPPORT_EMAIL,
-        };
-        String content = Templates.populateTemplate(
-                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+
         EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
         email.setType(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT);
-        email.setSubjectFromType();
+        email.setSubject(emailSubject);
         email.setContent(content);
         return email;
     }
