@@ -194,7 +194,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                           {
                             courseid: createdFeedbackSession.courseId,
                             fsname: createdFeedbackSession.feedbackSessionName,
-                            ...(createdFeedbackSession.feedbackSessionId ? { fsid: createdFeedbackSession.feedbackSessionId } : {}),
+                            ...(createdFeedbackSession.feedbackSessionId
+                                ? { fsid: createdFeedbackSession.feedbackSessionId } : {}),
                           }),
                     });
               } else {
@@ -203,7 +204,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                     {
                       courseid: createdFeedbackSession.courseId,
                       fsname: createdFeedbackSession.feedbackSessionName,
-                      ...(createdFeedbackSession.feedbackSessionId ? { fsid: createdFeedbackSession.feedbackSessionId } : {}),
+                      ...(createdFeedbackSession.feedbackSessionId
+                          ? { fsid: createdFeedbackSession.feedbackSessionId } : {}),
                     });
               }
             },
