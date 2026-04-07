@@ -15,7 +15,7 @@ import {
  * Model for edit instructor panel.
  */
 export interface InstructorEditPanel {
-  googleId?: string;
+  accountId?: string;
   courseId: string;
   email: string;
   isDisplayedToStudents: boolean;
@@ -77,7 +77,7 @@ export class InstructorEditPanelComponent {
 
   @Input()
   instructor: InstructorEditPanel = {
-    googleId: '',
+    accountId: '',
     courseId: '',
     email: '',
     isDisplayedToStudents: true,

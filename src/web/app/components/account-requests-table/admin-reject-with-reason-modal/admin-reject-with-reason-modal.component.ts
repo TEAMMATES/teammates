@@ -30,7 +30,7 @@ export class RejectWithReasonModalComponent implements OnInit {
   existingAccount: InstructorAccountSearchResult = {
     name: '',
     email: '',
-    googleId: '',
+    accountId: '',
     courseId: '',
     courseName: '',
     isCourseDeleted: false,
@@ -57,7 +57,7 @@ export class RejectWithReasonModalComponent implements OnInit {
   + '<strong>Remedy:</strong> If you are a student but you still need an instructor account, '
   + 'please send your justification to {supportEmail}</p>\n\n'
   + '<p><strong>Reason:</strong> You already have an account for this email address and this institution.<br />'
-  + '<strong>Remedy:</strong> You can login to TEAMMATES using your Google account: {googleId} </p>\n\n'
+  + '<strong>Remedy:</strong> You can login to TEAMMATES using your Google account: {accountId} </p>\n\n'
   + '<p>If you are logged into multiple Google accounts, remember to logout from other Google accounts first, '
   + 'or use an incognito Browser window. Let us know (with a screenshot) if that doesn\'t work.</p>'
   + '<p>If you need further clarification or would like to appeal this decision, please '
@@ -76,35 +76,35 @@ export class RejectWithReasonModalComponent implements OnInit {
     this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountRequestName}', this.accountRequestName);
     this.rejectionReasonBody = this.rejectionReasonBody.replaceAll('{supportEmail}', environment.supportEmail);
 
-    this.replaceGoogleId();
+    this.replaceAccountId();
   }
 
   onRejectionReasonBodyChange(updatedText: string): void {
     this.rejectionReasonBody = updatedText;
   }
 
-  replaceGoogleId(): void {
+  replaceAccountId(): void {
     this.searchService.searchAdmin(this.accountRequestEmail)
     .subscribe({
       next: (resp: AdminSearchResult) => {
         const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
 
         if (!hasInstructors) {
-          this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', 'NO_GOOGLEID');
+          this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountId}', 'NO_ACCOUNTID');
           return;
         }
 
         for (const instructor of resp.instructors) {
-          if (instructor.googleId !== '') {
+          if (instructor.accountId !== '') {
             this.existingAccount = instructor;
           }
         }
 
-        if (this.existingAccount.googleId === '') {
-          // When an instructor account exists, but for some reason does not have a googleId
-          this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', 'NO_GOOGLEID');
+        if (this.existingAccount.accountId === '') {
+          // When an instructor account exists, but for some reason does not have an accountId
+          this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountId}', 'NO_ACCOUNTID');
         } else {
-          this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', this.existingAccount.googleId);
+          this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountId}', this.existingAccount.accountId);
         }
       },
       error: (resp: ErrorMessageOutput) => {

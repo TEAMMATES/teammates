@@ -48,7 +48,7 @@
         </label>
         @if (instructor.joinState === JoinState.JOINED) {
           <div class="col-sm-9">
-            <input id="google-id-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" [ngModel]="instructor.googleId" disabled>
+            <input id="google-id-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" [ngModel]="instructor.accountId" disabled>
           </div>
         }
         @if (instructor.joinState === JoinState.NOT_JOINED) {
