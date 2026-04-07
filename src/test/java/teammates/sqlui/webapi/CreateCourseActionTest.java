@@ -60,7 +60,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         expectedCourse.setCreatedAt(Instant.parse("2022-01-01T00:00:00Z"));
 
         when(mockLogic.createCourse(course)).thenReturn(expectedCourse);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), googleId)).thenReturn(instructor);
         mockHibernateUtil.when(HibernateUtil::flushSession).thenAnswer(Answers.RETURNS_DEFAULTS);
 
         CourseCreateRequest request = new CourseCreateRequest();

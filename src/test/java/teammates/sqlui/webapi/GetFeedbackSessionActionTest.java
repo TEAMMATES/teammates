@@ -46,7 +46,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         feedbackSession1 = generateSession1InCourse(course1);
 
         when(mockLogic.getFeedbackSession(feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession1);
-        when(mockLogic.getStudentByGoogleId(course1.getId(), student1.getAccount().getGoogleId())).thenReturn(student1);
+        when(mockLogic.getStudentByAccountId(course1.getId(), student1.getAccount().getGoogleId())).thenReturn(student1);
     }
 
     @Test

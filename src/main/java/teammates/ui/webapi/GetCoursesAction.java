@@ -60,7 +60,7 @@ public class GetCoursesAction extends Action {
     private JsonResult getInstructorCourses() {
         String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
 
-        List<Instructor> instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
+        List<Instructor> instructors = sqlLogic.getInstructorsForAccountId(userInfo.id);
         List<Course> courses;
 
         switch (courseStatus) {

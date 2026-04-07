@@ -50,7 +50,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), googleId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -85,7 +85,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         Student student = new Student(course, "name", "studen_email@tm.tmt", "student comments");
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentByGoogleId(course.getId(), googleId)).thenReturn(student);
+        when(mockLogic.getStudentByAccountId(course.getId(), googleId)).thenReturn(student);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),

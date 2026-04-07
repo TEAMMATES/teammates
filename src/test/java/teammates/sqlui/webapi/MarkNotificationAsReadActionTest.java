@@ -45,7 +45,7 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
                 account.getId(),
                 testNotification.getId()
         )).thenReturn(readNotification);
-        when(mockLogic.getAccountForGoogleId(account.getGoogleId())).thenReturn(account);
+        when(mockLogic.getAccountForId(account.getGoogleId())).thenReturn(account);
 
         MarkNotificationAsReadRequest reqBody = new MarkNotificationAsReadRequest(
                 testNotification.getId().toString());

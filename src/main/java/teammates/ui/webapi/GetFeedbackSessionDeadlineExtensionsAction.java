@@ -30,7 +30,7 @@ public class GetFeedbackSessionDeadlineExtensionsAction extends Action {
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }

@@ -32,7 +32,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     void testExecute_validParams_success() {
         loginAsAdmin();
         Account account = new Account(googleId, "name", "email");
-        when(mockLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        when(mockLogic.getAccountForId(googleId)).thenReturn(account);
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, googleId,
         };
@@ -44,13 +44,13 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     @Test
     void testExecute_accountDoesNotExist_throwsEntityNotFoundException() {
         loginAsAdmin();
-        when(mockLogic.getAccountForGoogleId(googleId)).thenReturn(null);
+        when(mockLogic.getAccountForId(googleId)).thenReturn(null);
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, googleId,
         };
         EntityNotFoundException e = verifyEntityNotFound(params);
         assertEquals("Account does not exist.", e.getMessage());
-        verify(mockLogic, times(1)).getAccountForGoogleId(googleId);
+        verify(mockLogic, times(1)).getAccountForId(googleId);
     }
 
     @Test

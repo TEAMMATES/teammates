@@ -509,7 +509,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
     @Test
     void testSpecificAccessControl_nonExistentInstructorId_cannotAccess() {
         String nonExistentInstructorId = "RANDOM_ID";
-        when(mockLogic.getInstructorByGoogleId(course.getId(), nonExistentInstructorId)).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(course.getId(), nonExistentInstructorId)).thenReturn(null);
         loginAsInstructor(nonExistentInstructorId);
 
         String[] params = {
@@ -518,7 +518,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         verifyCannotAccess(params);
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), nonExistentInstructorId);
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), nonExistentInstructorId);
         verify(mockLogic, times(1)).getCourse(course.getId());
         verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
     }
@@ -528,7 +528,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         String instructorId = "instructor-googleId";
         // Instructor with co-owner role can modify student
         Instructor instructor = getTypicalInstructor();
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorId)).thenReturn(instructor);
         loginAsInstructor(instructorId);
 
         String[] params = {
@@ -537,7 +537,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         verifyCanAccess(params);
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructorId);
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), instructorId);
         verify(mockLogic, times(1)).getCourse(course.getId());
         verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
     }
@@ -550,7 +550,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         InstructorPrivileges instructorPrivileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
         instructor.setPrivileges(instructorPrivileges);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorId)).thenReturn(instructor);
         loginAsInstructor(instructorId);
 
         String[] params = {
@@ -559,7 +559,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         verifyCannotAccess(params);
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructorId);
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), instructorId);
         verify(mockLogic, times(1)).getCourse(course.getId());
         verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
     }

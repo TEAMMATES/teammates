@@ -76,7 +76,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getRecipientsOfQuestion(
                 argThat(arg -> arg.getId().equals(typicalFeedbackQuestion.getId())),
@@ -103,7 +103,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId()))
                 .thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getRecipientsOfQuestion(
                 argThat(arg -> arg.getId().equals(typicalFeedbackQuestion.getId())),
@@ -179,7 +179,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         selfRecipients.put("self", new FeedbackQuestionRecipient(typicalStudent.getName(), typicalStudent.getEmail()));
 
         when(mockLogic.getFeedbackQuestion(selfQuestion.getId())).thenReturn(selfQuestion);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getRecipientsOfQuestion(any(), any(), any())).thenReturn(selfRecipients);
 
@@ -245,7 +245,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         ______TS("Student accessing own feedback - can access");
         loginAsStudent(typicalStudent.getGoogleId());
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         verifyCanAccess(params);
 
@@ -270,7 +270,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
                 typicalFeedbackQuestion.getCourseId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
         ______TS("Instructor accessing own feedback - can access");

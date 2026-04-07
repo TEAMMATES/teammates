@@ -60,7 +60,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         instructor = generateInstructor1InCourse(course);
         feedbackSession = generateSession1InCourse(course, instructor);
 
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getFeedbackSession(feedbackSession.getName(), course.getId())).thenReturn(feedbackSession);
     }

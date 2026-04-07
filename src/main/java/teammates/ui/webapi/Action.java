@@ -324,7 +324,7 @@ public abstract class Action {
             if (userInfo == null) {
                 return null;
             }
-            return sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            return sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
         });
     }
 
@@ -333,7 +333,7 @@ public abstract class Action {
             if (userInfo == null) {
                 return null;
             }
-            return sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+            return sqlLogic.getStudentByAccountId(courseId, userInfo.getId());
         });
     }
 

@@ -51,9 +51,9 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
     private void setupMockLogic() {
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentByGoogleId(course.getId(), studentId)).thenReturn(student);
+        when(mockLogic.getStudentByAccountId(course.getId(), studentId)).thenReturn(student);
         when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorId)).thenReturn(instructor);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, never()).getStudentByGoogleId(any(), any());
+        verify(mockLogic, never()).getStudentByAccountId(any(), any());
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), student.getEmail());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
@@ -81,7 +81,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getStudentByGoogleId(course.getId(), studentId);
+        verify(mockLogic, times(1)).getStudentByAccountId(course.getId(), studentId);
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), student.getEmail());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
@@ -98,14 +98,14 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getStudentByGoogleId("RANDOM_COURSE", studentId);
+        verify(mockLogic, times(1)).getStudentByAccountId("RANDOM_COURSE", studentId);
         verify(mockLogic, never()).deleteStudentCascade(any(), any());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
     void testExecute_nonExistentStudentId_failSilently() {
-        when(mockLogic.getStudentByGoogleId(course.getId(), "RANDOM_STUDENT")).thenReturn(null);
+        when(mockLogic.getStudentByAccountId(course.getId(), "RANDOM_STUDENT")).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -115,7 +115,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getStudentByGoogleId(course.getId(), "RANDOM_STUDENT");
+        verify(mockLogic, times(1)).getStudentByAccountId(course.getId(), "RANDOM_STUDENT");
         verify(mockLogic, never()).deleteStudentCascade(any(), any());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
@@ -132,7 +132,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, never()).getStudentByGoogleId(any(), any());
+        verify(mockLogic, never()).getStudentByAccountId(any(), any());
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), "RANDOM_EMAIL");
         verify(mockLogic, times(1)).deleteStudentCascade(any(), any());
         verify(mockLogic, never()).deleteStudentCascade(course.getId(), student.getEmail());

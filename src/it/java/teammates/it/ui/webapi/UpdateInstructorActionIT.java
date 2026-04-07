@@ -67,7 +67,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
-        Instructor editedInstructor = logic.getInstructorByGoogleId(courseId, instructorId);
+        Instructor editedInstructor = logic.getInstructorByAccountId(courseId, instructorId);
         assertEquals(newInstructorName, editedInstructor.getName());
         assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, editedInstructor.getEmail());
@@ -124,7 +124,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         response = (InstructorData) actionOutput.getOutput();
 
-        editedInstructor = logic.getInstructorByGoogleId(courseId, instructorId);
+        editedInstructor = logic.getInstructorByAccountId(courseId, instructorId);
         assertEquals(newInstructorEmail, editedInstructor.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
         assertEquals(newInstructorName, editedInstructor.getName());

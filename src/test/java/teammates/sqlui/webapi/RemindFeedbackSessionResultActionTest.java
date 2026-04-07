@@ -57,7 +57,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
 
         loginAsInstructor(instructor.getGoogleId());
 
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);

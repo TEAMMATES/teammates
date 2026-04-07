@@ -81,7 +81,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, session, feedbackResponse.getGiverSection().getName(),
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, feedbackResponse.getRecipientSection().getName(),
@@ -144,7 +144,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             commentGiverType = FeedbackParticipantType.INSTRUCTORS;
             break;
         case INSTRUCTOR_RESULT:
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
             email = instructor.getEmail();
             isFromParticipant = false;
             isFollowingQuestionVisibility = false;

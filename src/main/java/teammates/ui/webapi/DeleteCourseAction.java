@@ -23,7 +23,7 @@ public class DeleteCourseAction extends Action {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Course course = sqlLogic.getCourse(idOfCourseToDelete);
 
-        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToDelete, userInfo.id),
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByAccountId(idOfCourseToDelete, userInfo.id),
                 course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 

@@ -69,9 +69,9 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
     private void setupMockLogic() {
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor2.getGoogleId())).thenReturn(instructor2);
-        when(mockLogic.getStudentByGoogleId(course.getId(), studentId)).thenReturn(student);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor2.getGoogleId())).thenReturn(instructor2);
+        when(mockLogic.getStudentByAccountId(course.getId(), studentId)).thenReturn(student);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor2.getEmail())).thenReturn(instructor2);
         when(mockLogic.getInstructorsByCourse(course.getId())).thenReturn(List.of(instructor, instructor2));
@@ -88,7 +88,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor2.getGoogleId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), instructor2.getGoogleId());
         verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor2.getEmail());
         verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
@@ -126,7 +126,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), instructor.getGoogleId());
         verify(mockLogic, never()).deleteInstructorCascade(any(), any());
     }
 
@@ -143,7 +143,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), instructor.getGoogleId());
         verify(mockLogic, never()).deleteInstructorCascade(any(), any());
     }
 
@@ -160,7 +160,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), instructor.getGoogleId());
         verify(mockLogic, never()).deleteInstructorCascade(any(), any());
     }
 
@@ -176,7 +176,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), instructor.getGoogleId());
         verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor.getEmail());
         verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
@@ -184,7 +184,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
     @Test
     void testExecute_deleteNonExistentInstructorByGoogleId_failSilently() {
-        when(mockLogic.getInstructorByGoogleId(course.getId(), "fake-googleId")).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(course.getId(), "fake-googleId")).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -194,7 +194,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), "fake-googleId");
+        verify(mockLogic, times(1)).getInstructorByAccountId(course.getId(), "fake-googleId");
         verify(mockLogic, never()).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
@@ -230,7 +230,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(nonExistentCourseId, instructor.getGoogleId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(nonExistentCourseId, instructor.getGoogleId());
         verify(mockLogic, never()).deleteInstructorCascade(any(), any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }

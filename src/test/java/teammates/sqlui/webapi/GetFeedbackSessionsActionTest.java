@@ -53,8 +53,8 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         sessionsInCourse1.add(generateSession1InCourse(course1, "feedbacksession-2"));
 
         when(mockLogic.getFeedbackSessionsForCourse(course1.getId())).thenReturn(sessionsInCourse1);
-        when(mockLogic.getStudentsByGoogleId(student1.getAccount().getGoogleId())).thenReturn(List.of(student1));
-        when(mockLogic.getInstructorByGoogleId(
+        when(mockLogic.getStudentsByAccountId(student1.getAccount().getGoogleId())).thenReturn(List.of(student1));
+        when(mockLogic.getInstructorByAccountId(
                 instructor1.getAccount().getGoogleId(), course1.getId())).thenReturn(instructor1);
         for (FeedbackSession session : sessionsInCourse1) {
             when(mockLogic.getDeadlineForUser(session, student1)).thenReturn(session.getEndTime());
@@ -117,7 +117,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         Instant extendedDeadline = Instant.parse("2028-01-01T00:00:00Z");
 
-        when(mockLogic.getInstructorsForGoogleId(instructor.getAccount().getGoogleId()))
+        when(mockLogic.getInstructorsForAccountId(instructor.getAccount().getGoogleId()))
                 .thenReturn(List.of(instructor));
         when(mockLogic.getFeedbackSessionsForInstructors(List.of(instructor)))
                 .thenReturn(List.of(closedSession));
@@ -148,7 +148,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         Instructor instructor = generateInstructor1InCourse(course);
         FeedbackSession closedSession = generateClosedFeedbackSessionInCourse(course, "closed-session");
 
-        when(mockLogic.getInstructorsForGoogleId(instructor.getAccount().getGoogleId()))
+        when(mockLogic.getInstructorsForAccountId(instructor.getAccount().getGoogleId()))
                 .thenReturn(List.of(instructor));
         when(mockLogic.getFeedbackSessionsForInstructors(List.of(instructor)))
                 .thenReturn(List.of(closedSession));

@@ -39,7 +39,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
     @BeforeMethod
     public void setUpMethod() {
-        when(mockLogic.getAccountForGoogleId(GOOGLE_ID)).thenReturn(getTypicalAccount());
+        when(mockLogic.getAccountForId(GOOGLE_ID)).thenReturn(getTypicalAccount());
     }
 
     @Test
