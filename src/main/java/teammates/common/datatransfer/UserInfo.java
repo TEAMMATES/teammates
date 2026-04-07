@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import java.util.UUID;
+
 /**
  * Represents a user type.
  * <br> Contains user's Account ID and flags to indicate whether the user
@@ -10,7 +12,7 @@ public class UserInfo {
     /**
      * The user's Account ID.
      */
-    public String id;
+    public UUID id;
 
     /**
      * Indicates whether the user has admin privilege.
@@ -32,11 +34,11 @@ public class UserInfo {
      */
     public boolean isMaintainer;
 
-    public UserInfo(String accountId) {
+    public UserInfo(UUID accountId) {
         this.id = accountId;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
