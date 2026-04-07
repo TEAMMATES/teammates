@@ -5,6 +5,7 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -72,13 +73,13 @@ public final class CoursesLogic {
      * Creates a course and an associated instructor for the course.
      *
      * <br/>Preconditions: <br/>
-     * * {@code instructorGoogleId} already has an account and instructor privileges.
+     * * {@code instructorAccountId} already has an account and instructor privileges.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, Course courseToCreate)
+    public void createCourseAndInstructor(UUID instructorAccountId, Course courseToCreate)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        Account courseCreator = accountsLogic.getAccountForAccountId(instructorGoogleId);
-        assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorGoogleId;
+        Account courseCreator = accountsLogic.getAccountForAccountId(instructorAccountId);
+        assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorAccountId;
 
         Course createdCourse = createCourse(courseToCreate);
 
@@ -117,10 +118,10 @@ public final class CoursesLogic {
     /**
      * Returns a list of {@link Course} for all courses a given student is enrolled in.
      *
-     * @param googleId The Google ID of the student
+     * @param accountId The account ID of the student
      */
-    public List<Course> getCoursesForStudentAccount(String googleId) {
-        List<Student> students = usersLogic.getAllStudentsByAccountId(googleId);
+    public List<Course> getCoursesForStudentAccount(UUID accountId) {
+        List<Student> students = usersLogic.getAllStudentsByAccountId(accountId);
 
         return students
                 .stream()
