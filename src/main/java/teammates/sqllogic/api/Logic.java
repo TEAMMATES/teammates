@@ -242,7 +242,7 @@ public class Logic {
      * Gets all students associated with the {@code accountId}.
      */
     public List<Student> getStudentsByAccountId(UUID accountId) {
-        return usersLogic.getStudentsByGoogleId(accountId);
+        return usersLogic.getStudentsByAccountId(accountId);
     }
 
     /**
@@ -893,14 +893,14 @@ public class Logic {
      * Gets an instructor by associated {@code accountId}.
      */
     public Instructor getInstructorByAccountId(String courseId, UUID accountId) {
-        return usersLogic.getInstructorByGoogleId(courseId, accountId);
+        return usersLogic.getInstructorByAccountId(courseId, accountId);
     }
 
     /**
      * Gets list of instructors by {@code accountId}.
      */
     public List<Instructor> getInstructorsForAccountId(String accountId) {
-        return usersLogic.getInstructorsForGoogleId(accountId);
+        return usersLogic.getInstructorsForAccountId(accountId);
     }
 
     /**
@@ -989,7 +989,7 @@ public class Logic {
             throw new EntityAlreadyExistsException("Instructor has already joined course");
         } else {
             // Check if this account ID has already joined this course with courseId
-            Instructor existingInstructor = usersLogic.getInstructorByGoogleId(instructor.getCourseId(), accountId);
+            Instructor existingInstructor = usersLogic.getInstructorByAccountId(instructor.getCourseId(), accountId);
             if (existingInstructor != null) {
                 throw new EntityAlreadyExistsException("Instructor has already joined course");
             }
@@ -1108,7 +1108,7 @@ public class Logic {
      * Gets a student by associated {@code accountId}.
      */
     public Student getStudentByAccountId(String courseId, String accountId) {
-        return usersLogic.getStudentByGoogleId(courseId, accountId);
+        return usersLogic.getStudentByAccountId(courseId, accountId);
     }
 
     /**
@@ -1237,7 +1237,7 @@ public class Logic {
      * Gets all instructors and students by associated {@code accountId}.
      */
     public List<User> getAllUsersByAccountId(String accountId) {
-        return usersLogic.getAllUsersByGoogleId(accountId);
+        return usersLogic.getAllUsersByAccountId(accountId);
     }
 
     /**

@@ -120,7 +120,7 @@ public final class CoursesLogic {
      * @param googleId The Google ID of the student
      */
     public List<Course> getCoursesForStudentAccount(String googleId) {
-        List<Student> students = usersLogic.getAllStudentsByGoogleId(googleId);
+        List<Student> students = usersLogic.getAllStudentsByAccountId(googleId);
 
         return students
                 .stream()

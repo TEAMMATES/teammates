@@ -58,7 +58,7 @@ public class AccountsLogicTest extends BaseTestCase {
             users.add(getTypicalStudent());
         }
 
-        when(usersLogic.getAllUsersByGoogleId(googleId)).thenReturn(users);
+        when(usersLogic.getAllUsersByAccountId(googleId)).thenReturn(users);
         when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
 
         accountsLogic.deleteAccountCascade(googleId);

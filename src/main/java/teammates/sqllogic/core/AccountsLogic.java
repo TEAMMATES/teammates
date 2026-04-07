@@ -104,7 +104,7 @@ public final class AccountsLogic {
     public void deleteAccountCascade(String googleId) {
         assert googleId != null;
 
-        List<User> usersToDelete = usersLogic.getAllUsersByGoogleId(googleId);
+        List<User> usersToDelete = usersLogic.getAllUsersByAccountId(googleId);
 
         for (User user : usersToDelete) {
             usersLogic.deleteUser(user);
@@ -193,7 +193,7 @@ public final class AccountsLogic {
         } else {
             // Check if this Google ID has already joined this course
             Instructor existingInstructor =
-                    usersLogic.getInstructorByGoogleId(instructorForKey.getCourseId(), googleId);
+                    usersLogic.getInstructorByAccountId(instructorForKey.getCourseId(), googleId);
 
             if (existingInstructor != null) {
                 throw new EntityAlreadyExistsException("Instructor has already joined course");
@@ -228,7 +228,7 @@ public final class AccountsLogic {
 
         // Check if this Google ID has already joined this course
         Student existingStudent =
-                usersLogic.getStudentByGoogleId(studentRole.getCourseId(), googleId);
+                usersLogic.getStudentByAccountId(studentRole.getCourseId(), googleId);
 
         if (existingStudent != null) {
             throw new EntityAlreadyExistsException("Student has already joined course");
