@@ -22,7 +22,7 @@ public class StudentsEnrollRequest extends BasicRequest {
     // Initialize to handle users make a http request with empty body.
     private List<StudentEnrollRequest> studentEnrollRequests;
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public StudentsEnrollRequest(List<StudentEnrollRequest> studentEnrollRequests) {
         this.studentEnrollRequests = studentEnrollRequests;
     }

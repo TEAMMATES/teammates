@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public class MarkNotificationAsReadRequest extends BasicRequest {
     private String notificationId;
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public MarkNotificationAsReadRequest(String notificationId) {
         this.notificationId = notificationId;
     }

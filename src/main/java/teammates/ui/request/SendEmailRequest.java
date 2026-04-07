@@ -10,7 +10,7 @@ import teammates.common.util.EmailWrapper;
 public class SendEmailRequest extends BasicRequest {
     private final EmailWrapper email;
 
-    @JsonCreator
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public SendEmailRequest(EmailWrapper email) {
         this.email = email;
     }
