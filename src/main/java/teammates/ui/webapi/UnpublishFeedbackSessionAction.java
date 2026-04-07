@@ -2,14 +2,11 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
@@ -18,7 +15,6 @@ import teammates.ui.output.FeedbackSessionData;
  * Unpublish a feedback session.
  */
 public class UnpublishFeedbackSessionAction extends Action {
-
 
     @Override
     AuthType getMinAuthLevel() {
