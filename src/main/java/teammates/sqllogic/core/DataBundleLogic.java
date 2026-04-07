@@ -362,6 +362,9 @@ public final class DataBundleLogic {
         dataBundle.courses.values().forEach(course -> {
             coursesLogic.deleteCourseCascade(course.getId());
         });
+        dataBundle.readNotifications.values().forEach(readNotification -> {
+            notificationsLogic.deleteReadNotification(readNotification.getId());
+        });
         dataBundle.notifications.values().forEach(notification -> {
             notificationsLogic.deleteNotification(notification.getId());
         });
