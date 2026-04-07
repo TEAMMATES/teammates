@@ -6,6 +6,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -18,7 +19,6 @@ import teammates.ui.output.FeedbackSessionData;
  */
 public class UnpublishFeedbackSessionAction extends Action {
 
-    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -64,8 +64,7 @@ public class UnpublishFeedbackSessionAction extends Action {
             throw new EntityNotFoundException(e);
         } catch (InvalidParametersException e) {
             // There should not be any invalid parameter here
-            log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(e.getMessage(), e);
         }
     }
 }
