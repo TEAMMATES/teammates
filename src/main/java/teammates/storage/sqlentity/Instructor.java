@@ -11,8 +11,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -26,7 +24,6 @@ import teammates.common.util.SanitizationHelper;
  */
 @Entity
 @Table(name = "Instructors")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 public class Instructor extends User {
     @Column(nullable = false)
     private boolean isDisplayedToStudents;

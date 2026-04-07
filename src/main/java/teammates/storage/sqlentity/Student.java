@@ -7,8 +7,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -19,7 +17,6 @@ import teammates.common.util.SanitizationHelper;
  */
 @Entity
 @Table(name = "Students")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 public class Student extends User {
     @Column(nullable = false)
     private String comments;

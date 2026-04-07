@@ -3,16 +3,22 @@ package teammates.common.util;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.time.Duration;
+import java.util.List;
 
 import jakarta.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.User;
 import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
 import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
 import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
@@ -91,6 +97,7 @@ public final class JsonUtils {
         module.addDeserializer(FeedbackQuestion.class, new FeedbackQuestionDeserializer());
         module.addDeserializer(FeedbackResponse.class, new FeedbackResponseDeserializer());
         mapper.addModule(module);
+        mapper.addModule(new PolymorphicSubtypeModule());
 
         if (prettyPrint) {
             mapper.defaultPrettyPrinter(new CustomPrettyPrinter());
@@ -178,6 +185,33 @@ public final class JsonUtils {
      */
     public static JsonNode parse(String json) {
         return MAPPER.readTree(json);
+    }
+
+    /**
+     * Registers {@code @JsonTypeInfo(use = Id.NONE)} as a mix-in for every concrete subtype of each
+     * polymorphic root listed in {@code POLYMORPHIC_ROOTS}. This prevents Jackson from attempting
+     * subtype resolution when a concrete class is the direct deserialization target, while leaving
+     * normal polymorphic resolution intact when deserializing through the superclass class.
+     */
+    private static final class PolymorphicSubtypeModule extends SimpleModule {
+
+        @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
+        private interface DirectDeserializeMixIn {
+        }
+
+        private static final List<Class<?>> POLYMORPHIC_ROOTS = List.of(
+                User.class,
+                FeedbackQuestionDetails.class,
+                FeedbackResponseDetails.class
+        );
+
+        PolymorphicSubtypeModule() {
+            for (Class<?> root : POLYMORPHIC_ROOTS) {
+                for (JsonSubTypes.Type subtype : root.getAnnotation(JsonSubTypes.class).value()) {
+                    setMixInAnnotation(subtype.value(), DirectDeserializeMixIn.class);
+                }
+            }
+        }
     }
 
     /**
