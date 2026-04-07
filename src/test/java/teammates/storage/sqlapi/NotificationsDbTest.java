@@ -102,17 +102,11 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testDeleteReadNotification_entityExists_success() {
+    public void testDeleteReadNotification_success() {
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
         ReadNotification readNotification = new ReadNotification(account, notification);
         notificationsDb.deleteReadNotification(readNotification);
         mockHibernateUtil.verify(() -> HibernateUtil.remove(readNotification));
-    }
-
-    @Test
-    public void testDeleteReadNotification_entityDoesNotExists_success() {
-        notificationsDb.deleteReadNotification(null);
-        mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
     }
 }

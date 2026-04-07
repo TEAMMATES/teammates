@@ -146,12 +146,8 @@ public final class NotificationsDb {
 
     /**
      * Deletes a read notification.
-     *
-     * <p>Fails silently if {@code readNotification} is null.
      */
     public void deleteReadNotification(ReadNotification readNotification) {
-        if (readNotification != null) {
-            HibernateUtil.remove(readNotification);
-        }
+        HibernateUtil.remove(readNotification);
     }
 }
