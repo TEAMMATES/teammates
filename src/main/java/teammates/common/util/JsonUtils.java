@@ -78,26 +78,17 @@ public final class JsonUtils {
                         .withVisibility(PropertyAccessor.ALL, Visibility.NONE)
                         .withVisibility(PropertyAccessor.FIELD, Visibility.ANY))
                 .changeDefaultPropertyInclusion(v -> v
-                        .withValueInclusion(JsonInclude.Include.NON_NULL));
+                        .withValueInclusion(JsonInclude.Include.NON_NULL))
+                .disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+                .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .annotationIntrospector(new HibernateAnnotationIntrospector())
+                .addModule(new CustomSerializerAndDeserializer())
+                .addModule(new CustomPolymorphicSubtypeModule());
 
         // TODO: remove unknown properties in databundles, then remove the following line
         // This is required because many databundles e.g. typicalDataBundle contain unknown properties like "timeZone"
         // which caused Jackson to fail
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        // Treat @OneToMany fields as @JsonIgnore
-        mapper.annotationIntrospector(new HibernateAnnotationIntrospector());
-
-        mapper.disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
-        mapper.disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Duration.class, new DurationMinutesSerializer());
-        module.addDeserializer(Duration.class, new DurationMinutesDeserializer());
-        module.addDeserializer(FeedbackQuestion.class, new FeedbackQuestionDeserializer());
-        module.addDeserializer(FeedbackResponse.class, new FeedbackResponseDeserializer());
-        mapper.addModule(module);
-        mapper.addModule(new PolymorphicSubtypeModule());
 
         if (prettyPrint) {
             mapper.defaultPrettyPrinter(new CustomPrettyPrinter());
@@ -188,16 +179,24 @@ public final class JsonUtils {
     }
 
     /**
-     * Registers {@code @JsonTypeInfo(use = Id.NONE)} as a mix-in for every concrete subtype of each
-     * polymorphic root listed in {@code POLYMORPHIC_ROOTS}. This prevents Jackson from attempting
-     * subtype resolution when a concrete class is the direct deserialization target, while leaving
-     * normal polymorphic resolution intact when deserializing through the superclass class.
+     * Aggregates all custom serializers and deserializers.
      */
-    private static final class PolymorphicSubtypeModule extends SimpleModule {
-
-        @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
-        private interface DirectDeserializeMixIn {
+    private static final class CustomSerializerAndDeserializer extends SimpleModule {
+        CustomSerializerAndDeserializer() {
+            addSerializer(Duration.class, new DurationMinutesSerializer());
+            addDeserializer(Duration.class, new DurationMinutesDeserializer());
+            addDeserializer(FeedbackQuestion.class, new FeedbackQuestionDeserializer());
+            addDeserializer(FeedbackResponse.class, new FeedbackResponseDeserializer());
         }
+    }
+
+    /**
+     * Registers {@code @JsonTypeInfo(use = Id.NONE)} as a mix-in for every concrete subtype of each
+     * polymorphic root listed in {@code POLYMORPHIC_ROOTS}. This allows deserializing a conrete subtype
+     * without requiring the type discriminator field e.g. {@code questionType} when deserializing a
+     * {@code FeedbackTextQuestionDetails}.
+     */
+    private static final class CustomPolymorphicSubtypeModule extends SimpleModule {
 
         private static final List<Class<?>> POLYMORPHIC_ROOTS = List.of(
                 User.class,
@@ -205,13 +204,16 @@ public final class JsonUtils {
                 FeedbackResponseDetails.class
         );
 
-        PolymorphicSubtypeModule() {
+        CustomPolymorphicSubtypeModule() {
             for (Class<?> root : POLYMORPHIC_ROOTS) {
                 for (JsonSubTypes.Type subtype : root.getAnnotation(JsonSubTypes.class).value()) {
                     setMixInAnnotation(subtype.value(), DirectDeserializeMixIn.class);
                 }
             }
         }
+
+        @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
+        private interface DirectDeserializeMixIn {}
     }
 
     /**
@@ -258,6 +260,9 @@ public final class JsonUtils {
         }
     }
 
+    /**
+     * Treats @OneToMany as @JsonIgnore too.
+     */
     private static final class HibernateAnnotationIntrospector extends JacksonAnnotationIntrospector {
 
         @Override
