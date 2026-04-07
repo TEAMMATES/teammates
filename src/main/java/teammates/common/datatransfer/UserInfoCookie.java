@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -14,14 +15,14 @@ import teammates.common.util.StringHelper;
  */
 public class UserInfoCookie {
 
-    private String userId;
+    private UUID accountId;
     private String verificationCode;
 
     private long expiryTime;
 
-    public UserInfoCookie(String userId) {
-        this.userId = userId;
-        this.verificationCode = StringHelper.generateSignature(userId);
+    public UserInfoCookie(UUID accountId) {
+        this.accountId = accountId;
+        this.verificationCode = StringHelper.generateSignature(accountId.toString());
         this.expiryTime = Instant.now().plus(Const.COOKIE_VALIDITY_PERIOD).toEpochMilli();
     }
 
@@ -40,12 +41,12 @@ public class UserInfoCookie {
         }
     }
 
-    public String getUserId() {
-        return userId;
+    public UUID getAccountId() {
+        return accountId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
 
     public String getVerificationCode() {
@@ -68,7 +69,7 @@ public class UserInfoCookie {
      * Returns true if the object represents a valid user info and the object has not expired.
      */
     public boolean isValid() {
-        return StringHelper.isCorrectSignature(userId, verificationCode)
+        return StringHelper.isCorrectSignature(accountId.toString(), verificationCode)
                 && Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
     }
 
