@@ -18,6 +18,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionId=""
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -109,6 +110,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionId=""
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -200,6 +202,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionId=""
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -294,6 +297,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionId=""
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -385,6 +389,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionId=""
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -476,6 +481,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionId=""
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -3154,6 +3160,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackSessionId=""
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
