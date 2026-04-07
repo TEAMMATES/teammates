@@ -72,7 +72,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         when(usersLogic.getInstructorForEmail(courseId, email)).thenReturn(instructor);
         when(usersDb.getAllUsersByGoogleId(googleId)).thenReturn(Collections.emptyList());
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        when(accountsLogic.getAccountForAccountId(googleId)).thenReturn(account);
 
         List<Instructor> instructorsList = new ArrayList<>();
         instructorsList.add(instructor);
@@ -109,7 +109,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         when(usersLogic.getStudentForEmail(courseId, email)).thenReturn(student);
         when(usersDb.getAllUsersByGoogleId(googleId)).thenReturn(Collections.emptyList());
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        when(accountsLogic.getAccountForAccountId(googleId)).thenReturn(account);
 
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
 

@@ -363,7 +363,7 @@ public final class UsersLogic {
 
         // setting account for instructor sets it as registered
         if (instructor.getAccount() == null) {
-            Account dbAccount = accountsLogic.getAccountForGoogleId(accountId);
+            Account dbAccount = accountsLogic.getAccountForAccountId(accountId);
             if (dbAccount != null) {
                 instructor.setAccount(dbAccount);
             } else {

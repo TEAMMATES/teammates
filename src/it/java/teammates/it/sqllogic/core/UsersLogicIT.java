@@ -82,7 +82,7 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
 
         assertNull(instructor.getAccount());
-        assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
+        assertEquals(anotherAccount, accountsLogic.getAccountForAccountId(googleId));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
 
         assertNull(student.getAccount());
-        assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
+        assertEquals(anotherAccount, accountsLogic.getAccountForAccountId(googleId));
     }
 
     @Test
