@@ -407,13 +407,21 @@ export abstract class InstructorSessionBasePageComponent {
               {
                 onClosed: () => this.navigationService.navigateByURLWithParamEncoding(
                     '/web/instructor/sessions/edit',
-                    { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName }),
+                    {
+                      courseid: createdSession.courseId,
+                      fsname: createdSession.feedbackSessionName,
+                      ...(createdSession.feedbackSessionId ? { fsid: createdSession.feedbackSessionId } : {}),
+                    }),
               });
         } else {
           this.navigationService.navigateWithSuccessMessage(
               '/web/instructor/sessions/edit',
               'The feedback session has been copied. Please modify settings/questions as necessary.',
-              { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
+              {
+                courseid: createdSession.courseId,
+                fsname: createdSession.feedbackSessionName,
+                ...(createdSession.feedbackSessionId ? { fsid: createdSession.feedbackSessionId } : {}),
+              });
         }
       },
       error: (resp: ErrorMessageOutput) => {
@@ -446,7 +454,11 @@ export abstract class InstructorSessionBasePageComponent {
   submitSessionAsInstructor(model: SessionsTableRowModel): void {
     this.navigationService.navigateByURLWithParamEncoding(
         '/web/instructor/sessions/submission',
-        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
+        {
+          courseid: model.feedbackSession.courseId,
+          fsname: model.feedbackSession.feedbackSessionName,
+          ...(model.feedbackSession.feedbackSessionId ? { fsid: model.feedbackSession.feedbackSessionId } : {}),
+        });
   }
 
   /**
