@@ -74,9 +74,13 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
-                               FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
-                               DeadlineExtensionsLogic deadlineExtensionsLogic) {
+    /**
+     * Initializes the logic dependencies for this logic class.
+     */
+    public void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
+            FeedbackResponsesLogic feedbackResponsesLogic,
+            FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
+            DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;

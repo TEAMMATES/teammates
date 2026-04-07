@@ -21,7 +21,7 @@ public class EmailTemplateUpdateRequestTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidate_withResetToDefaultTrue_nullSubjectAndBody_shouldPass() throws Exception {
+    public void testValidate_withResetToDefault_shouldPass() throws Exception {
         EmailTemplateUpdateRequest request = new EmailTemplateUpdateRequest(
                 TYPICAL_TEMPLATE_KEY, null, null, true);
         request.validate();
