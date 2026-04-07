@@ -48,7 +48,7 @@
         <div class="col-12">
           <select id="student-name-dropdown" class="form-control form-select col-12" [(ngModel)]="formModel.selectedStudent">
             @for (student of students; track student) {
-              <option [ngValue]="{studentEmail: student.email || '', studentId: student.studentId}">
+              <option [ngValue]="{studentEmail: student.email || '', studentId: student.userId}">
                 {{student.name}} {{student.email ? '<' + student.email + '>' : ''}}
               </option>
             }

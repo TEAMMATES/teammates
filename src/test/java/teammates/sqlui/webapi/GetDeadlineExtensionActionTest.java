@@ -76,7 +76,7 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         when(mockLogic.getFeedbackSession(deadlineExtension.getFeedbackSession().getName(),
                 deadlineExtension.getFeedbackSession().getCourseId()))
                 .thenReturn(getTypicalDeadlineExtensionStudent().getFeedbackSession());
-        when(mockLogic.getExtendedDeadlineForUser(isA(FeedbackSession.class), isA(User.class)))
+        when(mockLogic.getDeadlineExtensionEntityForUser(isA(FeedbackSession.class), isA(User.class)))
                 .thenReturn(null);
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
@@ -96,8 +96,8 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         when(mockLogic.getStudentForEmail(deadlineExtension.getFeedbackSession().getCourseId(),
                 deadlineExtension.getUser().getEmail()))
                 .thenReturn(getTypicalStudent());
-        when(mockLogic.getExtendedDeadlineForUser(isA(FeedbackSession.class), isA(User.class)))
-                .thenReturn(deadlineExtension.getEndTime());
+        when(mockLogic.getDeadlineExtensionEntityForUser(isA(FeedbackSession.class), isA(User.class)))
+                .thenReturn(deadlineExtension);
 
         GetDeadlineExtensionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
@@ -117,8 +117,8 @@ public class GetDeadlineExtensionActionTest extends BaseActionTest<GetDeadlineEx
         when(mockLogic.getInstructorForEmail(deadlineExtension.getFeedbackSession().getCourseId(),
                 deadlineExtension.getUser().getEmail()))
                 .thenReturn(getTypicalInstructor());
-        when(mockLogic.getExtendedDeadlineForUser(isA(FeedbackSession.class), isA(User.class)))
-                .thenReturn(deadlineExtension.getEndTime());
+        when(mockLogic.getDeadlineExtensionEntityForUser(isA(FeedbackSession.class), isA(User.class)))
+                .thenReturn(deadlineExtension);
 
         GetDeadlineExtensionAction a = getAction(params);
         JsonResult r = getJsonResult(a);

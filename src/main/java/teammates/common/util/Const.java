@@ -12,8 +12,6 @@ import java.time.Instant;
  */
 public final class Const {
 
-    // This section holds constants that are defined as constants primarily because they are repeated in many places.
-
     public static final String USER_NOBODY_TEXT = "-";
 
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
@@ -44,8 +42,6 @@ public final class Const {
 
     public static final Duration STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = Duration.ofMinutes(15);
     public static final Duration STUDENT_ACTIVITY_LOGS_FILTER_WINDOW = Duration.ofSeconds(2);
-
-    public static final String ACCOUNT_REQUEST_NOT_FOUND = "Account request with id = %s not found";
 
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
@@ -248,24 +244,6 @@ public final class Const {
     }
 
     /**
-     * Represents URIs of accessible pages in the front-end in past versions (V6 and before).
-     */
-    @Deprecated
-    public static class LegacyURIs {
-
-        public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
-        public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
-        public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
-        public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
-        public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
-        public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
-        public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
-        public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
-
-    }
-
-    /**
      * Represents URIs of accessible pages in the front-end.
      */
     public static class WebPageURIs {
@@ -331,7 +309,6 @@ public final class Const {
         private static final String URI_PREFIX = "/webapi";
 
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
-        public static final String SQL_DATABUNDLE = URI_PREFIX + "/databundle/sql";
         public static final String DEADLINE_EXTENSION = URI_PREFIX + "/deadlineextension";
         public static final String EXCEPTION = URI_PREFIX + "/exception";
         public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
@@ -387,7 +364,6 @@ public final class Const {
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String LOGIN_EMAIL = URI_PREFIX + "/email/login";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
-        public static final String LOGS = URI_PREFIX + "/logs/query";
         public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
         public static final String USER_COOKIE = URI_PREFIX + "/cookie";
     }
@@ -396,7 +372,7 @@ public final class Const {
      * Represents URIs of endpoints used by cron jobs.
      */
     public static class CronJobURIs {
-        private static final String URI_PREFIX = "/auto";
+        public static final String URI_PREFIX = "/auto";
 
         public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
         public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =
@@ -421,37 +397,9 @@ public final class Const {
     public static class TaskQueue {
         public static final String URI_PREFIX = "/worker";
 
-        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =
-                "feedback-session-published-email-queue";
-        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionPublishedEmail";
-
-        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME =
-                "feedback-session-resend-published-email-queue";
-        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionResendPublishedEmail";
-
-        public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
-        public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = URI_PREFIX + "/feedbackSessionRemindEmail";
-
-        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME =
-                "feedback-session-remind-particular-users-email-queue";
-        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionRemindParticularUsersEmail";
-
-        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME =
-                "feedback-session-unpublished-email-queue";
-        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionUnpublishedEmail";
-
-        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
-        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/instructorCourseJoinEmail";
-
+        public static final String PRIORITY_EMAIL_QUEUE_NAME = "priority-email-queue";
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
         public static final String SEND_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
-
-        public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
-        public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/studentCourseJoinEmail";
     }
 
 }

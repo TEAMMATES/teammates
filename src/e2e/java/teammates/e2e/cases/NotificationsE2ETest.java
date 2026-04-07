@@ -14,7 +14,6 @@ import teammates.e2e.pageobjects.StudentHomePage;
 import teammates.e2e.pageobjects.StudentNotificationsPage;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
-import teammates.ui.output.AccountData;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_NOTIFICATIONS_PAGE}.
@@ -111,14 +110,46 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         homePage.reloadPage();
         assertTrue(homePage.isBannerVisible());
 
-        ______TS("mark notification as read");
-        String notificationId = homePage.getNotificationId();
+        ______TS("mark first notification as read - next unread notification should appear immediately");
+        String firstNotificationId = homePage.getNotificationId();
         homePage.clickMarkAsReadButton();
 
         homePage.verifyStatusMessage("Notification marked as read.");
-        assertFalse(homePage.isBannerVisible());
-        AccountData accountFromDb = BACKDOOR.getAccountData(studentAccount.getGoogleId());
-        assertTrue(accountFromDb.getReadNotifications().containsKey(notificationId));
+        assertTrue(homePage.isBannerVisible());
+        String secondNotificationId = homePage.getNotificationId();
+        assertNotEquals(firstNotificationId, secondNotificationId);
+
+        ______TS("mark second notification as read - banner should disappear");
+        homePage.clickMarkAsReadButton();
+
+        homePage.verifyStatusMessage("Notification marked as read.");
+        if (homePage.isBannerVisible()) {
+            String nextNotificationId = homePage.getNotificationId();
+            assertNotEquals(firstNotificationId, nextNotificationId);
+            assertNotEquals(secondNotificationId, nextNotificationId);
+        } else {
+            assertFalse(homePage.isBannerVisible());
+        }
+
+        ______TS("verify that the notifications marked as read are reflected in the notifications page");
+        AppUrl studentNotificationsPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_NOTIFICATIONS_PAGE);
+        StudentNotificationsPage notificationsPage = loginToPage(studentNotificationsPageUrl, StudentNotificationsPage.class,
+                studentAccount.getGoogleId());
+
+        Notification[] shownNotifications = {
+                testData.notifications.get("notification1"),
+                testData.notifications.get("notification2"),
+                testData.notifications.get("notification4"),
+        };
+
+        Set<String> readNotificationIds = Stream.of(
+                firstNotificationId,
+                secondNotificationId,
+                // notification 4 is already read when test starts
+                testData.notifications.get("notification4").getId().toString()
+        ).collect(Collectors.toSet());
+
+        notificationsPage.verifyShownNotifications(shownNotifications, readNotificationIds);
     }
 
     @AfterClass

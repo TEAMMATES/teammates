@@ -35,6 +35,7 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../components/sortable-table/sortable-table.component';
+import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { TimepickerComponent } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -301,7 +302,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           .pipe(finalize(() => { this.isLoading = false; }))
           .subscribe(({ students }: { students: Student[] }) => {
             const emptyStudent: Student = {
-              courseId: '', email: '', name: '', sectionName: '', teamName: '',
+              userId: '', courseId: '', email: '', name: '', sectionName: '', teamName: '',
             };
             students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
 
@@ -331,7 +332,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
             if (
               this.formModel.selectedStudent.studentEmail !== ''
-              && student.email !== this.formModel.selectedStudent.studentEmail
+              && !areEmailsEqual(student.email, this.formModel.selectedStudent.studentEmail)
             ) {
               return false;
             }

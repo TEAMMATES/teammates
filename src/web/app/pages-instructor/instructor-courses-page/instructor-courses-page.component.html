@@ -215,7 +215,7 @@
                               Copy
                             </button>
                           }
-                          @if (course.course.privileges?.canModifyInstructor && course.course.isMigrated) {
+                          @if (course.course.privileges?.canModifyInstructor) {
                             <a class="btn btn-primary btn-sm dropdown-item clickable"
                               tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: course.course.courseId}">
                               View Logs

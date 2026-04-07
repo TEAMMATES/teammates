@@ -17,6 +17,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   FeedbackSession,
+  FeedbackSessionDeadlineExtensions,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
@@ -56,6 +57,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+  };
+
+  const testDeadlineExtensions: FeedbackSessionDeadlineExtensions = {
     studentDeadlines: { 'alice@tmms.com': 1510000000000 },
     instructorDeadlines: { 'tester2@tester.com': 1510000000000 },
   };
@@ -190,6 +194,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of({ students: [] }));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
 
     component.ngOnInit();
@@ -202,6 +207,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({ instructors: [] }));
 
     component.ngOnInit();
@@ -219,6 +225,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     );
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
@@ -239,6 +246,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(
       throwError(() => ({
         status: 404,
@@ -269,6 +277,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         error: { message: 'This is a test message' },
       })),
     );
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
@@ -291,6 +300,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
 
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(
       throwError(() => ({
@@ -298,6 +308,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         error: { message: 'This is a test message' },
       })),
     );
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
 
@@ -323,6 +334,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       })),
     );
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
@@ -345,6 +357,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -359,6 +372,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
     fixture.detectChanges();
@@ -375,6 +389,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
     fixture.detectChanges();
@@ -391,6 +406,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
     component.isLoadingAllInstructors = false;
@@ -427,6 +443,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -443,6 +460,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     component.ngOnInit();
     component.studentsOfCourse[1].isSelected = true; // Bob has no extension
     fixture.detectChanges();
@@ -460,6 +478,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     component.ngOnInit();
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
     fixture.detectChanges();
@@ -477,6 +496,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     component.ngOnInit();
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
     component.studentsOfCourse[1].isSelected = true; // Bob does not
@@ -495,6 +515,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
       .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
     component.ngOnInit();
@@ -522,6 +543,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
       .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
     component.ngOnInit();
@@ -544,6 +566,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
       .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
     component.ngOnInit();
@@ -573,6 +596,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
       .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
     component.ngOnInit();
@@ -608,6 +632,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
 
     const giverSet: FeedbackSessionSubmittedGiverSet = {
       giverIdentifiers: [testStudent2.email, testInstructor1.email],
@@ -650,6 +675,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
 
     const giverSet: FeedbackSessionSubmittedGiverSet = {
       giverIdentifiers: [testInstructor1.email],

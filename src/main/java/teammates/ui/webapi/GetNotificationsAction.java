@@ -1,12 +1,16 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
 import teammates.ui.output.NotificationsData;
 
@@ -73,11 +77,20 @@ public class GetNotificationsAction extends Action {
         }
 
         // Filter unread notifications
-        List<UUID> readNotifications = sqlLogic.getReadNotificationsId(userInfo.getId());
+        // TODO: This should be a single query to the database instead of fetching all notifications and filtering in memory
+        Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
+        if (account == null) {
+            // This should not happen as the user is authenticated
+            return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
+        Set<UUID> readNotifications = sqlLogic.getReadNotificationsByAccountId(account.getId())
+                .stream()
+                .map(n -> n.getNotification().getId())
+                .collect(Collectors.toSet());
         notifications = notifications
                 .stream()
                 .filter(n -> !readNotifications.contains(n.getId()))
-                .collect(Collectors.toList());
+                .toList();
 
         if (userInfo.isAdmin) {
             return new JsonResult(new NotificationsData(notifications));
@@ -90,6 +103,7 @@ public class GetNotificationsAction extends Action {
             }
             n.setShown();
         }
+
         return new JsonResult(new NotificationsData(notifications));
     }
 }

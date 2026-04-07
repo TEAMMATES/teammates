@@ -133,7 +133,7 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession getCopyForUser(String userEmail) {
         FeedbackSession copy = getCopy();
         for (DeadlineExtension de : copy.getDeadlineExtensions()) {
-            if (!de.getUser().getEmail().equals(userEmail)) {
+            if (!SanitizationHelper.areEmailsEqual(de.getUser().getEmail(), userEmail)) {
                 de.setEndTime(copy.getEndTime());
             }
         }
@@ -252,7 +252,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public void setCreatorEmail(String creatorEmail) {
-        this.creatorEmail = creatorEmail;
+        this.creatorEmail = SanitizationHelper.sanitizeEmail(creatorEmail);
     }
 
     public String getInstructions() {
@@ -540,7 +540,7 @@ public class FeedbackSession extends BaseEntity {
      * Checks if user with {@code userEmail} is the creator.
      */
     public boolean isCreator(String userEmail) {
-        return creatorEmail.equals(userEmail);
+        return SanitizationHelper.areEmailsEqual(creatorEmail, userEmail);
     }
 
     /**

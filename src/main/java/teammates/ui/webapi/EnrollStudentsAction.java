@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -60,11 +61,12 @@ public class EnrollStudentsAction extends Action {
 
         List<Student> studentsToEnroll = new ArrayList<>();
         studentEnrollRequests.forEach(studentEnrollRequest -> {
+            String normalizedEmail = normalizeEmail(studentEnrollRequest.getEmail());
             Section section = new Section(course, studentEnrollRequest.getSection());
             Team team = new Team(section, studentEnrollRequest.getTeam());
             studentsToEnroll.add(new Student(
                     course, studentEnrollRequest.getName(),
-                    studentEnrollRequest.getEmail(), studentEnrollRequest.getComments(), team));
+                    normalizedEmail, studentEnrollRequest.getComments(), team));
         });
         try {
             sqlLogic.validateSectionsAndTeams(studentsToEnroll, courseId);
@@ -77,36 +79,42 @@ public class EnrollStudentsAction extends Action {
         Set<String> existingStudentsEmail;
 
         List<Student> existingStudents = sqlLogic.getStudentsForCourse(courseId);
-        existingStudentsEmail =
-                existingStudents.stream().map(Student::getEmail).collect(Collectors.toSet());
+        existingStudentsEmail = existingStudents.stream()
+                .map(Student::getEmail)
+                .map(EnrollStudentsAction::normalizeEmail)
+                .collect(Collectors.toSet());
 
         for (StudentsEnrollRequest.StudentEnrollRequest enrollRequest : studentEnrollRequests) {
             RequestTracer.checkRemainingTime();
 
+            String requestEmail = enrollRequest.getEmail();
+            String normalizedEmail = normalizeEmail(requestEmail);
+
             // Check if email already belongs to an instructor in this course
-            Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, enrollRequest.getEmail());
+            Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, normalizedEmail);
             if (existingInstructor != null) {
-                failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(enrollRequest.getEmail(),
-                        "Cannot enroll student with email " + enrollRequest.getEmail()
+                failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(requestEmail,
+                        "Cannot enroll student with email " + requestEmail
                         + " as this email is already used by an instructor in course " + courseId));
                 continue;
             }
 
-            if (existingStudentsEmail.contains(enrollRequest.getEmail())) {
+            if (existingStudentsEmail.contains(normalizedEmail)) {
                 // The student has been enrolled in the course.
                 try {
                     Section section = sqlLogic.getSectionOrCreate(courseId, enrollRequest.getSection());
                     Team team = sqlLogic.getTeamOrCreate(section, enrollRequest.getTeam());
+                    Student existingStudent = sqlLogic.getStudentForEmail(courseId, normalizedEmail);
                     Student newStudent = new Student(
                             course, enrollRequest.getName(),
-                            enrollRequest.getEmail(), enrollRequest.getComments(), team);
-                    newStudent.setId(sqlLogic.getStudentForEmail(courseId, enrollRequest.getEmail()).getId());
+                            normalizedEmail, enrollRequest.getComments(), team);
+                    newStudent.setId(existingStudent.getId());
                     Student updatedStudent = sqlLogic.updateStudentCascade(newStudent);
                     enrolledStudents.add(updatedStudent);
                 } catch (InvalidParametersException | EntityDoesNotExistException
                         | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(enrollRequest.getEmail(),
+                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(requestEmail,
                             exception.getMessage()));
                 }
             } else {
@@ -116,12 +124,12 @@ public class EnrollStudentsAction extends Action {
                     Team team = sqlLogic.getTeamOrCreate(section, enrollRequest.getTeam());
                     Student newStudent = new Student(
                             course, enrollRequest.getName(),
-                            enrollRequest.getEmail(), enrollRequest.getComments(), team);
+                            normalizedEmail, enrollRequest.getComments(), team);
                     newStudent = sqlLogic.createStudent(newStudent);
                     enrolledStudents.add(newStudent);
                 } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(enrollRequest.getEmail(),
+                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(requestEmail,
                             exception.getMessage()));
                 }
             }
@@ -136,5 +144,9 @@ public class EnrollStudentsAction extends Action {
         data.setStudents(studentDataList);
 
         return new JsonResult(new EnrollStudentsData(data, failToEnrollStudents));
+    }
+
+    private static String normalizeEmail(String email) {
+        return email == null ? null : email.toLowerCase(Locale.ROOT);
     }
 }
