@@ -26,7 +26,6 @@ buildscript {
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:4.0.0") {
             exclude group: "org.gradle"
         }
-
         classpath "com.google.guava:guava:33.5.0-jre"
         classpath "org.liquibase:liquibase-gradle-plugin:3.1.0"
         classpath "org.liquibase:liquibase-core:4.27.0"
@@ -166,7 +165,18 @@ liquibase {
     runList = project.ext.runList
 }
 
+// TODO: remove this workaround after cz.habarta.typescript.generator is patched to fix this issue
+// Jackson3Configuration is not Serializable, but GenerateTask (in the ts-generator code) annotates the property with
+// @Input, which requires Gradle to serialize the value for caching.
+// Wrapping it in a Serializable subclass is the minimal fix until the plugin is patched.
+class SerializableJackson3Configuration extends cz.habarta.typescript.generator.Jackson3Configuration
+        implements java.io.Serializable {}
+
 tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
+    projectName = project.name
+    classpath.from(sourceSets.main.output.classesDirs, sourceSets.main.compileClasspath)
+    outputFileProperty.fileProvider(getOutputFile().map { project.file(it) })
+
     jsonLibrary = "jackson3"
     optionalAnnotations = [
         "jakarta.annotation.Nullable"
@@ -174,13 +184,13 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     outputFileType = "implementationFile"
     outputKind = "module"
     indentString = "  "
-    jackson3Configuration = new cz.habarta.typescript.generator.Jackson3Configuration(
+    jackson3Configuration = [
         fieldVisibility: "ANY",
         getterVisibility: "NONE",
         isGetterVisibility: "NONE",
         setterVisibility: "NONE",
         creatorVisibility: "NONE",
-    )
+    ] as SerializableJackson3Configuration
     mapEnum = "asEnum"
     disableTaggedUnionAnnotations = [
             "com.fasterxml.jackson.annotation.JsonTypeInfo",
