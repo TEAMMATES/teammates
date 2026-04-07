@@ -105,7 +105,8 @@ export class LinkService {
   /**
    * Generates submit url for a feedback session.
    */
-  generateSubmitUrl(entity: Student | Instructor, fsname: string, isInstructor: boolean): string {
+  generateSubmitUrl(entity: Student | Instructor, fsname: string, isInstructor: boolean,
+      feedbackSessionId?: string): string {
     const frontendUrl: string = window.location.origin;
     const courseId: string = entity.courseId;
     const key: string = entity.key || '';
@@ -116,6 +117,10 @@ export class LinkService {
       fsname,
       courseid: courseId,
     };
+    if (feedbackSessionId) {
+      params['fsid'] = feedbackSessionId;
+    }
+
     if (isInstructor) {
       params['entitytype'] = 'instructor';
     }
@@ -128,7 +133,8 @@ export class LinkService {
   /**
    * Generates a result url for a feedback session.
    */
-  generateResultUrl(entity: Student | Instructor, fsname: string, isInstructor: boolean): string {
+  generateResultUrl(entity: Student | Instructor, fsname: string, isInstructor: boolean,
+      feedbackSessionId?: string): string {
     const frontendUrl: string = window.location.origin;
     const courseId: string = entity.courseId;
     const key: string = entity.key || '';
@@ -139,6 +145,10 @@ export class LinkService {
       fsname,
       courseid: courseId,
     };
+    if (feedbackSessionId) {
+      params['fsid'] = feedbackSessionId;
+    }
+
     if (isInstructor) {
       params['entitytype'] = 'instructor';
     }

@@ -194,12 +194,19 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                           {
                             courseid: createdFeedbackSession.courseId,
                             fsname: createdFeedbackSession.feedbackSessionName,
+                            ...(createdFeedbackSession.feedbackSessionId
+                                ? { fsid: createdFeedbackSession.feedbackSessionId } : {}),
                           }),
                     });
               } else {
                 this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions/edit',
                     'The feedback session has been copied. Please modify settings/questions as necessary.',
-                    { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
+                    {
+                      courseid: createdFeedbackSession.courseId,
+                      fsname: createdFeedbackSession.feedbackSessionName,
+                      ...(createdFeedbackSession.feedbackSessionId
+                          ? { fsid: createdFeedbackSession.feedbackSessionId } : {}),
+                    });
               }
             },
             error: (resp: ErrorMessageOutput) => {
@@ -369,6 +376,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                   .navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
                     courseid: feedbackSession.courseId,
                     fsname: feedbackSession.feedbackSessionName,
+                    ...(feedbackSession.feedbackSessionId ? { fsid: feedbackSession.feedbackSessionId } : {}),
                   })
                   .then(() => {
                     this.statusMessageService.showSuccessToast(
