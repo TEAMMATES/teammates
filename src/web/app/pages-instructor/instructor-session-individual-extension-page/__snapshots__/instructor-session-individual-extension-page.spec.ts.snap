@@ -9,6 +9,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -487,6 +488,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -1031,6 +1033,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -1575,6 +1578,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -2119,6 +2123,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -2419,6 +2424,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -2899,6 +2905,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -3345,6 +3352,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -3891,6 +3899,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -4200,6 +4209,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -4494,6 +4504,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -4797,6 +4808,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -5034,6 +5046,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -5337,6 +5350,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -5753,6 +5767,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -6120,6 +6135,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -6565,6 +6581,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId=""
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}

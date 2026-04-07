@@ -99,6 +99,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   courseId: string = '';
   fsName: string = '';
+  feedbackSessionId: string = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
   section: string = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
@@ -177,6 +178,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.fsName = queryParams.fsname;
+      this.feedbackSessionId = queryParams.fsid || '';
       this.loadFeedbackSessionResults(this.courseId, this.fsName);
     });
   }
@@ -193,6 +195,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     }).subscribe({
       next: (feedbackSession: FeedbackSession) => {
         this.session = feedbackSession;
+        this.feedbackSessionId = feedbackSession.feedbackSessionId || this.feedbackSessionId;
         this.formattedSessionOpeningTime = this.timezoneService
             .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
         this.formattedSessionClosingTime = this.timezoneService
@@ -663,7 +666,11 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   navigateToIndividualSessionResultPage(): void {
     this.navigationService.navigateByURL('/web/instructor/sessions/result',
-        { courseid: this.courseId, fsname: this.fsName });
+        {
+          courseid: this.courseId,
+          fsname: this.fsName,
+          ...(this.feedbackSessionId ? { fsid: this.feedbackSessionId } : {}),
+        });
   }
 
 }

@@ -113,6 +113,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // url param
   courseId: string = '';
   feedbackSessionName: string = '';
+  feedbackSessionId: string = '';
   isEditingMode: boolean = false;
 
   courseName: string = '';
@@ -209,6 +210,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.feedbackSessionId = queryParams.fsid || '';
       this.isEditingMode = queryParams.editingMode === 'true';
 
       this.loadFeedbackSession();
