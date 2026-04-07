@@ -194,8 +194,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                           {
                             courseid: createdFeedbackSession.courseId,
                             fsname: createdFeedbackSession.feedbackSessionName,
-                            ...(createdFeedbackSession.feedbackSessionId
-                                ? { fsid: createdFeedbackSession.feedbackSessionId } : {}),
+                            fsid: createdFeedbackSession.feedbackSessionId,
                           }),
                     });
               } else {
@@ -204,8 +203,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                     {
                       courseid: createdFeedbackSession.courseId,
                       fsname: createdFeedbackSession.feedbackSessionName,
-                      ...(createdFeedbackSession.feedbackSessionId
-                          ? { fsid: createdFeedbackSession.feedbackSessionId } : {}),
+                      fsid: createdFeedbackSession.feedbackSessionId,
                     });
               }
             },
@@ -376,7 +374,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                   .navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
                     courseid: feedbackSession.courseId,
                     fsname: feedbackSession.feedbackSessionName,
-                    ...(feedbackSession.feedbackSessionId ? { fsid: feedbackSession.feedbackSessionId } : {}),
+                    fsid: feedbackSession.feedbackSessionId,
                   })
                   .then(() => {
                     this.statusMessageService.showSuccessToast(

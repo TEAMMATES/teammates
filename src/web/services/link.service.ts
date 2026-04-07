@@ -106,7 +106,7 @@ export class LinkService {
    * Generates submit url for a feedback session.
    */
   generateSubmitUrl(entity: Student | Instructor, fsname: string, isInstructor: boolean,
-      feedbackSessionId?: string): string {
+      feedbackSessionId: string): string {
     const frontendUrl: string = window.location.origin;
     const courseId: string = entity.courseId;
     const key: string = entity.key || '';
@@ -116,10 +116,8 @@ export class LinkService {
       key,
       fsname,
       courseid: courseId,
+      fsid: feedbackSessionId,
     };
-    if (feedbackSessionId) {
-      params['fsid'] = feedbackSessionId;
-    }
 
     if (isInstructor) {
       params['entitytype'] = 'instructor';
@@ -134,7 +132,7 @@ export class LinkService {
    * Generates a result url for a feedback session.
    */
   generateResultUrl(entity: Student | Instructor, fsname: string, isInstructor: boolean,
-      feedbackSessionId?: string): string {
+      feedbackSessionId: string): string {
     const frontendUrl: string = window.location.origin;
     const courseId: string = entity.courseId;
     const key: string = entity.key || '';
@@ -144,10 +142,8 @@ export class LinkService {
       key,
       fsname,
       courseid: courseId,
+      fsid: feedbackSessionId,
     };
-    if (feedbackSessionId) {
-      params['fsid'] = feedbackSessionId;
-    }
 
     if (isInstructor) {
       params['entitytype'] = 'instructor';

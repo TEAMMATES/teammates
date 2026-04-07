@@ -96,7 +96,7 @@ export class SessionResultPageComponent implements OnInit {
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
-  feedbackSessionId: string | undefined = '';
+  feedbackSessionId: string = '';
   studentId: string | undefined = '';
 
   private backendUrl: string = environment.backendUrl;
@@ -125,7 +125,7 @@ export class SessionResultPageComponent implements OnInit {
     ).subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
-      this.feedbackSessionId = queryParams.fsid || '';
+      this.feedbackSessionId = queryParams.fsid;
       this.regKey = queryParams.key || '';
       this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
       if (queryParams.entitytype === 'instructor') {
@@ -158,7 +158,7 @@ export class SessionResultPageComponent implements OnInit {
                         {
                           courseid: this.courseId,
                           fsname: this.feedbackSessionName,
-                          ...(this.feedbackSessionId ? { fsid: this.feedbackSessionId } : {}),
+                          fsid: this.feedbackSessionId,
                         });
                   } else {
                     // Valid, unused registration key; load information based on the key
@@ -354,7 +354,7 @@ export class SessionResultPageComponent implements OnInit {
         {
           courseid: this.courseId,
           fsname: this.feedbackSessionName,
-          ...(this.feedbackSessionId ? { fsid: this.feedbackSessionId } : {}),
+          fsid: this.feedbackSessionId,
         });
   }
 

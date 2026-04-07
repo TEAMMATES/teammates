@@ -410,7 +410,7 @@ export abstract class InstructorSessionBasePageComponent {
                     {
                       courseid: createdSession.courseId,
                       fsname: createdSession.feedbackSessionName,
-                      ...(createdSession.feedbackSessionId ? { fsid: createdSession.feedbackSessionId } : {}),
+                      fsid: createdSession.feedbackSessionId,
                     }),
               });
         } else {
@@ -420,7 +420,7 @@ export abstract class InstructorSessionBasePageComponent {
               {
                 courseid: createdSession.courseId,
                 fsname: createdSession.feedbackSessionName,
-                ...(createdSession.feedbackSessionId ? { fsid: createdSession.feedbackSessionId } : {}),
+                fsid: createdSession.feedbackSessionId,
               });
         }
       },
@@ -457,7 +457,7 @@ export abstract class InstructorSessionBasePageComponent {
         {
           courseid: model.feedbackSession.courseId,
           fsname: model.feedbackSession.feedbackSessionName,
-          ...(model.feedbackSession.feedbackSessionId ? { fsid: model.feedbackSession.feedbackSessionId } : {}),
+          fsid: model.feedbackSession.feedbackSessionId,
         });
   }
 
