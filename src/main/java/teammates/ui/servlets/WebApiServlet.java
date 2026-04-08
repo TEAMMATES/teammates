@@ -6,13 +6,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
 import org.hibernate.HibernateException;
 
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.HttpStatus;
 import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.Logger;
 import teammates.ui.request.InvalidHttpRequestBodyException;
