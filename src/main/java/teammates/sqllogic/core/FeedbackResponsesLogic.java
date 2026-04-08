@@ -11,10 +11,10 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResultFetchType;
-import teammates.common.datatransfer.SqlCourseRoster;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -172,7 +172,7 @@ public final class FeedbackResponsesLogic {
     }
 
     private List<FeedbackResponse> getFeedbackResponsesFromTeamForQuestion(
-            UUID feedbackQuestionId, String courseId, String teamName, @Nullable SqlCourseRoster courseRoster) {
+            UUID feedbackQuestionId, String courseId, String teamName, @Nullable CourseRoster courseRoster) {
 
         List<FeedbackResponse> responses = new ArrayList<>();
         List<Student> studentsInTeam = courseRoster == null
@@ -329,7 +329,7 @@ public final class FeedbackResponsesLogic {
     public void updateRankRecipientQuestionResponsesAfterDeletingStudent(String courseId) {
         List<FeedbackQuestion> filteredQuestions =
                 fqLogic.getFeedbackQuestionForCourseWithType(courseId, FeedbackQuestionType.RANK_RECIPIENTS);
-        SqlCourseRoster roster = new SqlCourseRoster(
+        CourseRoster roster = new CourseRoster(
                 usersLogic.getStudentsForCourse(courseId),
                 usersLogic.getInstructorsForCourse(courseId));
 
@@ -347,7 +347,7 @@ public final class FeedbackResponsesLogic {
      * </p>
      */
     private void makeRankRecipientQuestionResponsesConsistent(
-            FeedbackQuestion question, SqlCourseRoster roster) {
+            FeedbackQuestion question, CourseRoster roster) {
         assert question.getQuestionDetailsCopy().getQuestionType() == FeedbackQuestionType.RANK_RECIPIENTS;
 
         FeedbackParticipantType giverType = question.getGiverType();
@@ -556,10 +556,10 @@ public final class FeedbackResponsesLogic {
         return fq == null ? Collections.emptyList() : Collections.singletonList(fq);
     }
 
-    private SqlSessionResultsBundle buildResultsBundle(
+    private SessionResultsBundle buildResultsBundle(
             boolean isCourseWide, FeedbackSession feedbackSession, String courseId, String sectionName, UUID questionId,
             boolean isInstructor, String userEmail, Instructor instructor, Student student,
-            SqlCourseRoster roster, List<FeedbackQuestion> allQuestions,
+            CourseRoster roster, List<FeedbackQuestion> allQuestions,
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
 
         Set<FeedbackQuestion> questionsNotVisibleToInstructors = new HashSet<>();
@@ -686,7 +686,7 @@ public final class FeedbackResponsesLogic {
         }
         RequestTracer.checkRemainingTime();
 
-        return new SqlSessionResultsBundle(relatedQuestions, relatedQuestionsNotVisibleForPreviewSet,
+        return new SessionResultsBundle(relatedQuestions, relatedQuestionsNotVisibleForPreviewSet,
                 relatedQuestionsWithCommentNotVisibleForPreview, existingResponses, missingResponses,
                 responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,
                 commentVisibilityTable, roster);
@@ -703,11 +703,11 @@ public final class FeedbackResponsesLogic {
      * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
      * @return the session result bundle
      */
-    public SqlSessionResultsBundle getSessionResultsForCourse(
+    public SessionResultsBundle getSessionResultsForCourse(
             FeedbackSession feedbackSession, String courseId, String instructorEmail,
             @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
 
-        SqlCourseRoster roster = new SqlCourseRoster(
+        CourseRoster roster = new CourseRoster(
                 usersLogic.getStudentsForCourse(courseId),
                 usersLogic.getInstructorsForCourse(courseId));
 
@@ -743,10 +743,10 @@ public final class FeedbackResponsesLogic {
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
-    public SqlSessionResultsBundle getSessionResultsForUser(
+    public SessionResultsBundle getSessionResultsForUser(
             FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
             @Nullable UUID questionId, boolean isPreviewResults) {
-        SqlCourseRoster roster = new SqlCourseRoster(
+        CourseRoster roster = new CourseRoster(
                 usersLogic.getStudentsForCourse(courseId),
                 usersLogic.getInstructorsForCourse(courseId));
 
@@ -789,7 +789,7 @@ public final class FeedbackResponsesLogic {
     private List<FeedbackResponse> buildMissingResponses(
             Instructor instructor, Map<FeedbackResponse, Boolean> responseGiverVisibilityTable,
             Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable, List<FeedbackQuestion> relatedQuestions,
-            List<FeedbackResponse> existingResponses, SqlCourseRoster courseRoster, @Nullable String sectionName) {
+            List<FeedbackResponse> existingResponses, CourseRoster courseRoster, @Nullable String sectionName) {
 
         // first get all possible giver recipient pairs
         Map<FeedbackQuestion, Map<String, Set<String>>> questionCompleteGiverRecipientMap = new HashMap<>();
@@ -822,11 +822,11 @@ public final class FeedbackResponsesLogic {
                     : currGiverRecipientMapEntry.getValue().entrySet()) {
                 // giver
                 String giverIdentifier = giverRecipientEntry.getKey();
-                SqlCourseRoster.ParticipantInfo giverInfo = courseRoster.getInfoForIdentifier(giverIdentifier);
+                CourseRoster.ParticipantInfo giverInfo = courseRoster.getInfoForIdentifier(giverIdentifier);
 
                 for (String recipientIdentifier : giverRecipientEntry.getValue()) {
                     // recipient
-                    SqlCourseRoster.ParticipantInfo recipientInfo = courseRoster.getInfoForIdentifier(recipientIdentifier);
+                    CourseRoster.ParticipantInfo recipientInfo = courseRoster.getInfoForIdentifier(recipientIdentifier);
 
                     // skip responses not in current section
                     if (sectionName != null
@@ -870,7 +870,7 @@ public final class FeedbackResponsesLogic {
             FeedbackQuestion question,
             FeedbackResponse response,
             String userEmail,
-            boolean isInstructor, boolean isGiverName, SqlCourseRoster roster) {
+            boolean isInstructor, boolean isGiverName, CourseRoster roster) {
 
         if (question == null) {
             return false;
@@ -894,7 +894,7 @@ public final class FeedbackResponsesLogic {
 
     private boolean isFeedbackParticipantNameVisibleToUser(
             FeedbackQuestion question, FeedbackResponse response,
-            String userEmail, boolean isInstructor, boolean isGiverName, SqlCourseRoster roster) {
+            String userEmail, boolean isInstructor, boolean isGiverName, CourseRoster roster) {
         List<FeedbackParticipantType> showNameTo = isGiverName
                                                  ? question.getShowGiverNameTo()
                                                  : question.getShowRecipientNameTo();
@@ -1075,7 +1075,7 @@ public final class FeedbackResponsesLogic {
      * Returns viewable feedback responses for a student.
      */
     private List<FeedbackResponse> getViewableFeedbackResponsesForStudentForQuestion(
-            FeedbackQuestion question, Student student, SqlCourseRoster courseRoster) {
+            FeedbackQuestion question, Student student, CourseRoster courseRoster) {
         Set<FeedbackResponse> viewableResponses = new HashSet<>();
 
         // Add responses that the student submitted him/herself

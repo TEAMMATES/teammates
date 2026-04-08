@@ -39,8 +39,6 @@ describe('QuestionResponsePanelComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const testQuestion1: FeedbackQuestion = {

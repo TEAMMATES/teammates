@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
@@ -25,7 +25,7 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private final FeedbackSessionLogsDb fslDb = FeedbackSessionLogsDb.inst();
 
-    private SqlDataBundle typicalDataBundle;
+    private DataBundle typicalDataBundle;
 
     @BeforeClass
     public void setupClass() {

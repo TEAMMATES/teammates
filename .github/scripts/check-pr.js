@@ -28,7 +28,7 @@ module.exports = async ({ github, context }) => {
     }
   }
   let body = `Hi @${pr.data.user.login}, thank you for your interest in contributing to TEAMMATES!
-              However, your PR does not appear to follow our [contributing guidelines](https://teammates.github.io/contributing/guidelines.html):\n\n`;
+              However, your PR does not appear to follow our [contributing guidelines](https://teammates.github.io/teammates/contributing/guidelines.html):\n\n`;
   if (!isTitleValid) {
     body +=
       '- Title must start with the issue number the PR is fixing in square brackets, e.g. `[#<issue-number>]`\n';

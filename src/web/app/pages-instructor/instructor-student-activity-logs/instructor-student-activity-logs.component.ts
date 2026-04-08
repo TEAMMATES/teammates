@@ -299,7 +299,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           .pipe(finalize(() => { this.isLoading = false; }))
           .subscribe(({ students }: { students: Student[] }) => {
             const emptyStudent: Student = {
-              courseId: '', email: '', name: '', sectionName: '', teamName: '',
+              userId: '', courseId: '', email: '', name: '', sectionName: '', teamName: '',
             };
             students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
 

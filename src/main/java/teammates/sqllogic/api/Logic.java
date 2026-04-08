@@ -9,13 +9,12 @@ import java.util.UUID;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
-import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -48,6 +47,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -859,24 +859,17 @@ public class Logic {
     }
 
     /**
-     * Get a list of IDs of the read notifications of the account.
+     * Creates a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
      */
-    public List<UUID> getReadNotificationsId(String id) {
-        return accountsLogic.getReadNotificationsId(id);
+    public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
+        return notificationsLogic.createReadNotification(accountId, notificationId);
     }
 
     /**
-     * Updates user read status for notification with ID {@code notificationId} and
-     * expiry time {@code endTime}.
-     *
-     * <p>
-     * Preconditions:
-     * </p>
-     * * All parameters are non-null. {@code endTime} must be after current moment.
+     * Gets a list of notifications that have been read by the account with {@code accountId}.
      */
-    public List<UUID> updateReadNotifications(String id, UUID notificationId, Instant endTime)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return accountsLogic.updateReadNotifications(id, notificationId, endTime);
+    public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
+        return notificationsLogic.getReadNotificationsByAccountId(accountId);
     }
 
     /**
@@ -1425,7 +1418,7 @@ public class Logic {
      *      FeedbackSession, String, String, String, Section,
      *      FeedbackResultFetchType)
      */
-    public SqlSessionResultsBundle getSessionResultsForCourse(
+    public SessionResultsBundle getSessionResultsForCourse(
             FeedbackSession feedbackSession, String courseId, String userEmail,
             @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
         assert feedbackSession != null;
@@ -1442,7 +1435,7 @@ public class Logic {
      * @see FeedbackResponsesLogic#getSessionResultsForUser(FeedbackSession, String,
      *      String, boolean, String)
      */
-    public SqlSessionResultsBundle getSessionResultsForUser(
+    public SessionResultsBundle getSessionResultsForUser(
             FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
             @Nullable UUID questionId, boolean isPreviewResults) {
         assert feedbackSession != null;
@@ -1456,7 +1449,7 @@ public class Logic {
     /**
      * Persists the given data bundle to the database.
      */
-    public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
+    public DataBundle persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         return dataBundleLogic.persistDataBundle(dataBundle);
     }
@@ -1464,7 +1457,7 @@ public class Logic {
     /**
      * Removes the given data bundle from the database.
      */
-    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+    public void removeDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         dataBundleLogic.removeDataBundle(dataBundle);
     }
 

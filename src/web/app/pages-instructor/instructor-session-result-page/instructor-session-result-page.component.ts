@@ -133,6 +133,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   isExpandAll: boolean = false;
 
   session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -147,8 +148,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?:

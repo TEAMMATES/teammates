@@ -134,7 +134,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(any())).thenReturn(expectedComment);
 
         FeedbackResponseCommentData actualComment = getFeedbackResponseComments(submissionParams);
-        assertEquals(actualComment.getFeedbackCommentText(), expectedComment.getCommentText());
+        assertEquals(actualComment.getCommentText(), expectedComment.getCommentText());
         assertEquals(actualComment.getCommentGiver(), expectedComment.getGiver());
     }
 
@@ -152,7 +152,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(any())).thenReturn(expectedComment);
 
         FeedbackResponseCommentData actualComment = getFeedbackResponseComments(submissionParams);
-        assertEquals(actualComment.getFeedbackCommentText(), expectedComment.getCommentText());
+        assertEquals(actualComment.getCommentText(), expectedComment.getCommentText());
         assertEquals(actualComment.getCommentGiver(), expectedComment.getGiver());
     }
 
