@@ -1,6 +1,9 @@
 package teammates.it.ui.webapi;
 
+import java.lang.reflect.Field;
+import java.time.Clock;
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -183,7 +186,14 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 0);
 
         ______TS("Success case: duplicate log in spam window should not be persisted");
-        response = getJsonResult(getAction(paramsSuccessfulAccess));
+        FeedbackSessionLog latestAccessLog = logic.getLatestFeedbackSessionLog(student1.getId(), fs1.getId(),
+                FeedbackSessionLogType.ACCESS);
+        Instant fixedNow = latestAccessLog.getTimestamp().plusMillis(1);
+        CreateFeedbackSessionLogAction duplicateAction = getAction(paramsSuccessfulAccess);
+        Field clockField = CreateFeedbackSessionLogAction.class.getDeclaredField("clock");
+        clockField.setAccessible(true);
+        clockField.set(duplicateAction, Clock.fixed(fixedNow, ZoneOffset.UTC));
+        response = getJsonResult(duplicateAction);
         output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student1.getId(), fs1.getId(),

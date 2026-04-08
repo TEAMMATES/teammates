@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
@@ -18,6 +19,7 @@ import teammates.storage.sqlentity.Student;
 public class CreateFeedbackSessionLogAction extends Action {
 
     private static final Logger log = Logger.getLogger();
+    private Clock clock = Clock.systemUTC();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -56,7 +58,7 @@ public class CreateFeedbackSessionLogAction extends Action {
         Student student = sqlLogic.getStudent(studentId);
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsId);
         if (isValidLogContext(student, feedbackSession, courseId, fsName, studentEmail)) {
-            Instant now = Instant.now();
+            Instant now = Instant.now(clock);
             FeedbackSessionLog latestLog = sqlLogic.getLatestFeedbackSessionLog(studentId, fsId, convertedFslType);
             if (latestLog == null
                     || now.toEpochMilli() - latestLog.getTimestamp().toEpochMilli()

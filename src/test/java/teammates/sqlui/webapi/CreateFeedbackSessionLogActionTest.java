@@ -6,7 +6,10 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Field;
+import java.time.Clock;
 import java.time.Instant;
+import java.time.ZoneOffset;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -131,9 +134,10 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
 
     @Test
     void testExecute_duplicateLogWithinSpamWindow_shouldStillSucceedWithoutPersisting() {
+        Instant fixedNow = Instant.parse("2026-01-01T00:00:00Z");
         when(mockLogic.getLatestFeedbackSessionLog(student1InCourse1.getId(), fsaCourse1.getId(),
                 FeedbackSessionLogType.ACCESS)).thenReturn(new FeedbackSessionLog(student1InCourse1, fsaCourse1,
-                FeedbackSessionLogType.ACCESS, Instant.now().minusMillis(
+                FeedbackSessionLogType.ACCESS, fixedNow.minusMillis(
                         Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis() - 1)));
 
         String[] paramsSuccessfulAccess = {
@@ -145,7 +149,16 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
 
-        JsonResult response = getJsonResult(getAction(paramsSuccessfulAccess));
+                CreateFeedbackSessionLogAction action = getAction(paramsSuccessfulAccess);
+                try {
+                        Field clockField = CreateFeedbackSessionLogAction.class.getDeclaredField("clock");
+                        clockField.setAccessible(true);
+                        clockField.set(action, Clock.fixed(fixedNow, ZoneOffset.UTC));
+                } catch (ReflectiveOperationException e) {
+                        throw new RuntimeException(e);
+                }
+
+                JsonResult response = getJsonResult(action);
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
         verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
