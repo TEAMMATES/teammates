@@ -129,12 +129,12 @@ public enum ConfigurableEmailTemplate {
             List.of("${submitUrl}", "${oldEndTime}", "${newEndTime}", "${additionalContactInformation}")),
 
     STUDENT_COURSE_LINKS_REGENERATED(
-            "TEAMMATES: Your links for course [${courseName}][Course ID: ${courseId}] have been updated",
+            "TEAMMATES: Your updated links for course [${courseName}][Course ID: ${courseId}]",
             EmailTemplates.USER_STUDENT_COURSE_LINKS_REGENERATED,
             List.of("${linksFragment}", "${joinFragment}", "${additionalContactInformation}")),
 
     INSTRUCTOR_COURSE_LINKS_REGENERATED(
-            "TEAMMATES: Your links for course [${courseName}][Course ID: ${courseId}] have been updated",
+            "TEAMMATES: Your updated links for course [${courseName}][Course ID: ${courseId}]",
             EmailTemplates.USER_INSTRUCTOR_COURSE_LINKS_REGENERATED,
             List.of("${linksFragment}", "${joinFragment}", "${additionalContactInformation}")),
 
