@@ -362,7 +362,11 @@ public class InstructorCourseEditPageSql extends AppPage {
     }
 
     private int getNumInstructors() {
-        return browser.driver.findElements(By.cssSelector(".card-header")).size() - 1;
+        waitUntilAnimationFinish();
+        return (int) browser.driver.findElements(By.cssSelector(".card-header"))
+                            .stream()
+                            .filter(WebElement::isDisplayed)
+                            .count() - 1;
     }
 
     // Methods for clicking buttons and links
@@ -430,6 +434,7 @@ public class InstructorCourseEditPageSql extends AppPage {
     }
 
     private WebElement getEditInstructorButton(int instrNum) {
+        waitUntilAnimationFinish();
         return browser.driver.findElement(By.id("btn-edit-instructor-" + instrNum));
     }
 
@@ -446,6 +451,7 @@ public class InstructorCourseEditPageSql extends AppPage {
     }
 
     private WebElement getSaveInstructorButton(int instrNum) {
+        waitUntilAnimationFinish();
         return browser.driver.findElement(By.id("btn-save-instructor-" + instrNum));
     }
 
