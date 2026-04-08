@@ -36,10 +36,11 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackSession session1InCourse4 = dataBundle.feedbackSessions.get("session1InCourse4");
         FeedbackSession session2InCourse4 = dataBundle.feedbackSessions.get("session2InCourse4");
 
-        // awaiting - must remain a future session so it never appears in session link recovery emails
+        // awaiting - must remain a future session so it never appears in session link recovery emails.
+        // sessionVisibleFromTime must be <= startTime; resultsVisibleFromTime must be >= endTime.
+        awaitingSession.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(29));
         awaitingSession.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(30));
         awaitingSession.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(57));
-        awaitingSession.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(30));
         awaitingSession.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(58));
         dataBundle.feedbackSessions.put("awaiting.session", awaitingSession);
 
