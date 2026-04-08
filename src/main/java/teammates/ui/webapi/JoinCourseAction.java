@@ -51,7 +51,7 @@ public class JoinCourseAction extends Action {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
-            throw new UnexpectedServerException("Invalid account", ipe);
+            throw new UnexpectedServerException(ipe);
         }
 
         sendJoinEmail(student.getCourseId(), student.getName(), student.getEmail(), false);
@@ -70,7 +70,7 @@ public class JoinCourseAction extends Action {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
-            throw new UnexpectedServerException("Invalid account", ipe);
+            throw new UnexpectedServerException(ipe);
         }
 
         sendJoinEmail(instructor.getCourseId(), instructor.getName(), instructor.getEmail(), true);
