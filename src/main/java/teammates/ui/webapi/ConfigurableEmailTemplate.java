@@ -139,7 +139,7 @@ public enum ConfigurableEmailTemplate {
             List.of("${linksFragment}", "${joinFragment}", "${additionalContactInformation}")),
 
     STUDENT_EMAIL_CHANGED(
-            "TEAMMATES: Your links for course [${courseName}][Course ID: ${courseId}] have been updated",
+            "TEAMMATES: Summary of course [${courseName}][Course ID: ${courseId}]",
             EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
             List.of("${linksFragment}", "${joinFragment}", "${additionalContactInformation}"));
 
