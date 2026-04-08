@@ -1,8 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { HttpRequestService } from './http-request.service';
 import { EmailTemplateService } from './email-template.service';
+import { HttpRequestService } from './http-request.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { EmailTemplateUpdateRequest } from '../types/api-request';
@@ -10,6 +10,7 @@ import { EmailTemplateUpdateRequest } from '../types/api-request';
 const validUpdateRequest: EmailTemplateUpdateRequest = {
   templateKey: 'NEW_INSTRUCTOR_ACCOUNT_WELCOME',
   subject: 'Custom Subject',
+  // eslint-disable-next-line no-template-curly-in-string
   body: '<p>Please visit <a href="${joinUrl}">${joinUrl}</a> to join.</p>',
   resetToDefault: false,
 };

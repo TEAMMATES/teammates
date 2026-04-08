@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { finalize } from 'rxjs/operators';
 import { EmailTemplateService } from '../../../services/email-template.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { EmailTemplate, EmailTemplates } from '../../../types/api-output';
 import { EmailTemplateUpdateRequest } from '../../../types/api-request';
-import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
+import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface EmailTemplateModel {
