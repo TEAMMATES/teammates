@@ -25,7 +25,6 @@ import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
-import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
@@ -342,53 +341,6 @@ public final class UsersLogic {
         assert institute != null;
 
         return usersDb.getInstructorByEmailAndInstitute(email, institute);
-    }
-
-    /**
-     * Make the instructor join the course, i.e. associate an account to the instructor with the given accountId.
-     * Creates an account for the instructor if no existing account is found.
-     * Preconditions:
-     * Parameters regkey and accountId are non-null.
-     * @throws EntityAlreadyExistsException if the instructor already exists in the database.
-     * @throws InvalidParametersException if the instructor parameters are not valid
-     */
-    public Instructor joinCourseForInstructor(UUID accountId, Instructor instructor)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        if (accountId == null) {
-            throw new InvalidParametersException("Instructor's accountId cannot be null");
-        }
-        if (instructor == null) {
-            throw new InvalidParametersException("Instructor cannot be null");
-        }
-
-        // setting account for instructor sets it as registered
-        if (instructor.getAccount() == null) {
-            Account dbAccount = accountsLogic.getAccount(accountId);
-            if (dbAccount != null) {
-                instructor.setAccount(dbAccount);
-            } else {
-                Account account = new Account(accountId, instructor.getName(), instructor.getEmail());
-                instructor.setAccount(account);
-                accountsLogic.createAccount(account);
-            }
-        } else {
-            instructor.setAccountId(accountId);
-        }
-        usersDb.updateUser(instructor);
-
-        // Update the accountId of the student entity for the instructor which was created from sample data.
-        Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
-        if (student != null) {
-            if (student.getAccount() == null) {
-                Account account = new Account(accountId, student.getName(), student.getEmail());
-                student.setAccount(account);
-            } else {
-                student.getAccount().setAccountId(accountId);
-            }
-            usersDb.updateUser(student);
-        }
-
-        return instructor;
     }
 
     /**

@@ -942,27 +942,6 @@ public class Logic {
     }
 
     /**
-     * Validates that the join course request is valid, then
-     * makes the instructor join the course, i.e. associate an account to the
-     * instructor with the given accountId.
-     * Creates an account for the instructor if no existing account is found.
-     * Preconditions:
-     * Parameters regkey and accountId are non-null.
-     */
-    public Instructor joinCourseForInstructor(UUID accountId, Instructor instructor)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        if (accountId == null) {
-            throw new InvalidParametersException("Instructor's accountId cannot be null");
-        }
-        if (instructor == null) {
-            throw new InvalidParametersException("Instructor cannot be null");
-        }
-
-        validateJoinCourseRequest(accountId, instructor);
-        return usersLogic.joinCourseForInstructor(accountId, instructor);
-    }
-
-    /**
      * Validates that the instructor can join the course it has as courseId field.
      *
      * @return true if the instructor can join the course.
