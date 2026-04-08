@@ -21,7 +21,7 @@ public class GetEmailTemplateAction extends AdminOnlyAction {
         try {
             configTemplate = ConfigurableEmailTemplate.valueOf(templateKey);
         } catch (IllegalArgumentException e) {
-            throw new EntityNotFoundException("Email template with key '" + templateKey + "' does not exist.");
+            throw new EntityNotFoundException("Email template with key '" + templateKey + "' does not exist.", e);
         }
 
         EmailTemplate emailTemplate = sqlLogic.getEmailTemplate(templateKey);

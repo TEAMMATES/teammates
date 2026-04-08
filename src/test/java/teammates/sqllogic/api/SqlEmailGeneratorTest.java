@@ -45,7 +45,6 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
     private final SqlEmailGenerator sqlEmailGenerator = SqlEmailGenerator.inst();
     private EmailTemplatesDb mockEmailTemplatesDb;
     private UsersDb mockUsersDb;
-    private DeadlineExtensionsDb mockDeadlineExtensionsDb;
     private CoursesDb mockCoursesDb;
     private FeedbackSessionsDb mockFeedbackSessionsDb;
 
@@ -59,8 +58,7 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
                 .thenReturn(new java.util.ArrayList<>());
         UsersLogic.inst().initLogicDependencies(mockUsersDb, null, null, null, null);
 
-        mockDeadlineExtensionsDb = Mockito.mock(DeadlineExtensionsDb.class);
-        DeadlineExtensionsLogic.inst().initLogicDependencies(mockDeadlineExtensionsDb, null);
+        DeadlineExtensionsLogic.inst().initLogicDependencies(Mockito.mock(DeadlineExtensionsDb.class), null);
 
         mockCoursesDb = Mockito.mock(CoursesDb.class);
         CoursesLogic.inst().initLogicDependencies(mockCoursesDb, null, null, null);
@@ -1197,20 +1195,6 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
         assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
         assertEquals(expectedEmailType, email.getType());
         assertEquals(expectedSubject, email.getSubject());
-        String emailContent = email.getContent();
-        EmailChecker.verifyEmailContent(emailContent, expectedEmailContentFilePathname);
-        verifyEmailContentHasNoPlaceholders(emailContent);
-    }
-
-    private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,
-            String expectedSubject, String expectedBcc, String expectedEmailContentFilePathname) throws IOException {
-        assertEquals(expectedRecipientEmailAddress, email.getRecipient());
-        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
-        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
-        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
-        assertEquals(expectedEmailType, email.getType());
-        assertEquals(expectedSubject, email.getSubject());
-        assertEquals(expectedBcc, email.getBcc());
         String emailContent = email.getContent();
         EmailChecker.verifyEmailContent(emailContent, expectedEmailContentFilePathname);
         verifyEmailContentHasNoPlaceholders(emailContent);

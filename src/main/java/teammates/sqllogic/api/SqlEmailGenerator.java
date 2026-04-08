@@ -46,19 +46,6 @@ public final class SqlEmailGenerator {
     // feedback action strings
     private static final String FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW = "submit, edit or view";
     private static final String FEEDBACK_ACTION_VIEW = "view";
-    private static final String FEEDBACK_ACTION_SUBMIT_OR_UPDATE =
-                            ", in case you have not submitted yet or wish to update your submission. ";
-    private static final String HTML_NO_ACTION_REQUIRED = "<mark>No action is required if you have already submitted</mark>";
-
-    // status-related strings
-    private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions"
-                                            + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
-    private static final String FEEDBACK_STATUS_SESSION_OPENED = "is now open";
-    private static final String FEEDBACK_STATUS_SESSION_CLOSING_SOON = "is closing soon"
-                                            + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
-    private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
-    private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
-
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
     private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 90;
@@ -1566,40 +1553,8 @@ public final class SqlEmailGenerator {
         return email;
     }
 
-    private String fillUpStudentJoinFragment(Student student) {
-        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
-
-        return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
-            "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
-            "${joinUrl}", joinUrl);
-    }
-
-    private String fillUpStudentRejoinAfterGoogleIdResetFragment(Student student) {
-        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
-
-        return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
-            "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
-            "${joinUrl}", joinUrl,
-            "${supportEmail}", Config.SUPPORT_EMAIL);
-    }
-
     private String getInstructorCourseJoinUrl(Instructor instructor) {
         return Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
-    }
-
-    private String fillUpInstructorJoinFragment(Instructor instructor) {
-        return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
-            "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN,
-            "${joinUrl}", getInstructorCourseJoinUrl(instructor));
-    }
-
-    private String fillUpInstructorRejoinAfterGoogleIdResetFragment(Instructor instructor) {
-        String joinUrl = Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
-
-        return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
-            "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
-            "${joinUrl}", joinUrl,
-            "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
     private String fillUpInstructorPreamble(Course course, FeedbackSession session) {

@@ -86,7 +86,7 @@ public class GetEmailTemplateActionTest extends BaseActionTest<GetEmailTemplateA
 
     @Test
     void testExecute_missingTemplateKey_throwsInvalidHttpParameterException() {
-        GetEmailTemplateAction action = getAction(new String[] { Const.ParamsNames.TEMPLATE_KEY, null });
+        GetEmailTemplateAction action = getAction(Const.ParamsNames.TEMPLATE_KEY, (String) null);
         assertThrows(InvalidHttpParameterException.class, action::execute);
     }
 }
