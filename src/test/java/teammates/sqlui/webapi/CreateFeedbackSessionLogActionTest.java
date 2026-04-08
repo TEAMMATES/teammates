@@ -25,6 +25,9 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link CreateFeedbackSessionLogAction}.
  */
 public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFeedbackSessionLogAction> {
+        private static final String MATCHING_STUDENT_USER_ID = "matching.student";
+        private static final String NON_MATCHING_STUDENT_USER_ID = "nonmatching.student";
+
     Course course1;
     Course course2;
     Course courseNoStudent;
@@ -99,13 +102,40 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         when(mockLogic.getStudent(student1InCourse1.getId())).thenReturn(student1InCourse1);
         when(mockLogic.getStudent(student2InCourse2.getId())).thenReturn(student2InCourse2);
         when(mockLogic.getStudent(student3InCourse2.getId())).thenReturn(student3InCourse2);
+        when(mockLogic.getStudentByGoogleId(courseId1, MATCHING_STUDENT_USER_ID)).thenReturn(student1InCourse1);
+        when(mockLogic.getStudentByGoogleId(courseId1, NON_MATCHING_STUDENT_USER_ID)).thenReturn(student2InCourse2);
         when(mockLogic.getFeedbackSession(fsaCourse1.getId())).thenReturn(fsaCourse1);
         when(mockLogic.getFeedbackSession(fsaCourseNoStudent.getId())).thenReturn(fsaCourseNoStudent);
     }
 
     @Test
     void testAccessControl() {
-        verifyAnyUserCanAccess();
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, accessLabel,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
+        };
+
+        loginAsStudent(MATCHING_STUDENT_USER_ID);
+        verifyCanAccess(params);
+
+        loginAsStudent(NON_MATCHING_STUDENT_USER_ID);
+        verifyCannotAccess(params);
+
+        loginAsAdmin();
+        verifyCannotAccess(params);
+
+        loginAsInstructor("instructor.user");
+        verifyCannotAccess(params);
+
+        loginAsUnregistered("unregistered.user");
+        verifyCannotAccess(params);
+
+        logoutUser();
+        verifyCannotAccess(params);
     }
 
     @Test

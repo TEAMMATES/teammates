@@ -23,12 +23,22 @@ public class CreateFeedbackSessionLogAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
+        return AuthType.LOGGED_IN;
     }
 
     @Override
-    void checkSpecificAccessControl() {
-        // No specific access control restrictions on creating feedback session logs
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        if (!userInfo.isStudent) {
+            throw new UnauthorizedAccessException("Only students can create feedback session logs.");
+        }
+
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+        Student requestedStudent = sqlLogic.getStudent(studentId);
+        Student currentStudent = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+        if (requestedStudent == null || currentStudent == null || !requestedStudent.getId().equals(currentStudent.getId())) {
+            throw new UnauthorizedAccessException("You are not allowed to create logs for this student.");
+        }
     }
 
     @Override

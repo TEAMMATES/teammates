@@ -217,6 +217,27 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        verifyAnyUserCanAccess();
+        Student student1 = typicalBundle.students.get("student1InCourse1");
+        Student student2 = typicalBundle.students.get("student2InCourse1");
+        FeedbackSession fs1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, student1.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.getLabel(),
+                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
+        };
+
+        loginAsStudent(student1.getAccount().getGoogleId());
+        verifyCanAccess(params);
+
+        loginAsStudent(student2.getAccount().getGoogleId());
+        verifyCannotAccess(params);
+
+        verifyInaccessibleForUnregisteredUsers(params);
+        verifyInaccessibleWithoutLogin(params);
+        verifyInaccessibleForAdmin(params);
+        verifyInaccessibleForInstructors(student1.getCourse(), params);
     }
 }
