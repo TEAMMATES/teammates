@@ -4,13 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.UUID;
 
-import liquibase.Contexts;
-import liquibase.LabelExpression;
-import liquibase.Liquibase;
-import liquibase.database.Database;
-import liquibase.database.DatabaseFactory;
-import liquibase.database.jvm.JdbcConnection;
-import liquibase.resource.ClassLoaderResourceAccessor;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -42,6 +35,14 @@ import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.test.BaseTestCase;
+
+import liquibase.Contexts;
+import liquibase.LabelExpression;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.ClassLoaderResourceAccessor;
 
 /**
  * Base test case for tests that access the database.
