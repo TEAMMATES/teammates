@@ -103,6 +103,8 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         clockField.setAccessible(true);
         clockField.set(action, Clock.fixed(referenceNow, ZoneOffset.UTC));
         getJsonResult(action);
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
 
         // Get logs after cleanup
         List<FeedbackSessionLog> logsAfter = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
