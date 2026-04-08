@@ -1,0 +1,20 @@
+name: Auto-reply to Issue Assignment Requests
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  auto-reply:
+    # Only run on issue comments, not PR comments
+    if: github.event.issue.pull_request == null
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Check and respond to assignment requests
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const script = require('./.github/scripts/assignment-detector.js');
+            await script({ github, context, core });
