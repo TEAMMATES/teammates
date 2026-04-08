@@ -64,14 +64,9 @@ public class CreateFeedbackSessionLogAction extends Action {
         }
 
         Instant now = Instant.now(clock);
-        FeedbackSessionLog latestLog = sqlLogic.getLatestFeedbackSessionLog(studentId, fsId, convertedFslType);
-        if (latestLog == null
-                || now.toEpochMilli() - latestLog.getTimestamp().toEpochMilli()
-                        > Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis()) {
-            FeedbackSessionLog feedbackSessionLog =
-                    new FeedbackSessionLog(student, feedbackSession, convertedFslType, now);
-            sqlLogic.createFeedbackSessionLog(feedbackSessionLog);
-        }
+        FeedbackSessionLog feedbackSessionLog =
+                new FeedbackSessionLog(student, feedbackSession, convertedFslType, now);
+        sqlLogic.createFeedbackSessionLog(feedbackSessionLog);
 
         log.event("Feedback session audit event: " + fslType, details);
 

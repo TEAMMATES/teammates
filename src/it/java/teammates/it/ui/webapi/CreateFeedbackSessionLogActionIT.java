@@ -180,7 +180,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student3.getId(), fs1.getId(),
                 Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 0);
 
-        ______TS("Success case: duplicate log in spam window should not be persisted");
+        ______TS("Success case: duplicate log should still be persisted");
         FeedbackSessionLog latestAccessLog = logic.getLatestFeedbackSessionLog(student1.getId(), fs1.getId(),
                 FeedbackSessionLogType.ACCESS);
         Instant fixedNow = latestAccessLog.getTimestamp().plusMillis(1);
@@ -192,7 +192,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student1.getId(), fs1.getId(),
-                Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 2);
+                Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 3);
 
         ______TS("Success case: different log type should still be persisted");
         String[] paramsViewResult = {
@@ -209,7 +209,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
 
         List<FeedbackSessionLog> allStudent1Session1Logs = logic.getOrderedFeedbackSessionLogs(courseId1,
                 student1.getId(), fs1.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60));
-        assertEquals(allStudent1Session1Logs.size(), 3);
+        assertEquals(allStudent1Session1Logs.size(), 4);
         assertTrue(allStudent1Session1Logs.stream()
                 .anyMatch(logEntry -> logEntry.getFeedbackSessionLogType() == FeedbackSessionLogType.VIEW_RESULT));
     }

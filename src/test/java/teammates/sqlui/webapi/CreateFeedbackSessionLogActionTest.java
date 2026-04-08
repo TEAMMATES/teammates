@@ -7,11 +7,6 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Field;
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneOffset;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -21,7 +16,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.CreateFeedbackSessionLogAction;
@@ -135,12 +129,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_duplicateLogWithinSpamWindow_shouldStillSucceedWithoutPersisting() {
-        Instant fixedNow = Instant.parse("2026-01-01T00:00:00Z");
-        when(mockLogic.getLatestFeedbackSessionLog(student1InCourse1.getId(), fsaCourse1.getId(),
-                FeedbackSessionLogType.ACCESS)).thenReturn(new FeedbackSessionLog(student1InCourse1, fsaCourse1,
-                FeedbackSessionLogType.ACCESS, fixedNow.minusMillis(1)));
-
+    void testExecute_duplicateLog_shouldStillPersist() {
         String[] paramsSuccessfulAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
@@ -150,19 +139,13 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
 
-        CreateFeedbackSessionLogAction action = getAction(paramsSuccessfulAccess);
-        try {
-            Field clockField = CreateFeedbackSessionLogAction.class.getDeclaredField("clock");
-            clockField.setAccessible(true);
-            clockField.set(action, Clock.fixed(fixedNow, ZoneOffset.UTC));
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
-
-        JsonResult response = getJsonResult(action);
+        JsonResult response = getJsonResult(getAction(paramsSuccessfulAccess));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
+        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
+                student1InCourse1.equals(log.getStudent())
+                        && fsaCourse1.equals(log.getFeedbackSession())
+                        && FeedbackSessionLogType.ACCESS == log.getFeedbackSessionLogType()));
     }
 
     @Test
