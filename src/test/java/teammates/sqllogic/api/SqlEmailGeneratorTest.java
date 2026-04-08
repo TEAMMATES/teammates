@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
@@ -16,11 +17,15 @@ import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Templates;
+import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
 import teammates.sqllogic.core.EmailTemplatesLogic;
+import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.sqllogic.core.UsersLogic;
+import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlapi.EmailTemplatesDb;
+import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlapi.UsersDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
@@ -41,6 +46,8 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
     private EmailTemplatesDb mockEmailTemplatesDb;
     private UsersDb mockUsersDb;
     private DeadlineExtensionsDb mockDeadlineExtensionsDb;
+    private CoursesDb mockCoursesDb;
+    private FeedbackSessionsDb mockFeedbackSessionsDb;
 
     @BeforeMethod
     void setUpLogicDependencies() {
@@ -54,6 +61,12 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
 
         mockDeadlineExtensionsDb = Mockito.mock(DeadlineExtensionsDb.class);
         DeadlineExtensionsLogic.inst().initLogicDependencies(mockDeadlineExtensionsDb, null);
+
+        mockCoursesDb = Mockito.mock(CoursesDb.class);
+        CoursesLogic.inst().initLogicDependencies(mockCoursesDb, null, null, null);
+
+        mockFeedbackSessionsDb = Mockito.mock(FeedbackSessionsDb.class);
+        FeedbackSessionsLogic.inst().initLogicDependencies(mockFeedbackSessionsDb, null, null, null, null);
     }
 
     @Test
@@ -610,6 +623,569 @@ public class SqlEmailGeneratorTest extends BaseTestCase {
         assertEquals("snap@resistance.org", email.getRecipient());
         assertEquals(EmailType.FEEDBACK_OPENED, email.getType());
         assertEquals("Team Feedback in Data Structures and Algorithms is now open", email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateFeedbackSessionReminderEmails_noDbTemplate_usesConfigurableDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("FEEDBACK_SESSION_REMINDER")).thenReturn(null);
+
+        Course course = new Course("CS2103T", "Software Engineering", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Sprint Review", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().plusSeconds(3600),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(7200),
+                Duration.ofMinutes(15), true, false, true);
+        Student student = new Student(course, "Ahsoka Tano", "ahsoka@togruta.org", "");
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
+                session, List.of(student), List.of(), null);
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.FEEDBACK_SESSION_REMINDER.getDefaultSubject(),
+                "${courseName}", "Software Engineering",
+                "${feedbackSessionName}", "Sprint Review");
+        assertEquals("ahsoka@togruta.org", email.getRecipient());
+        assertEquals(EmailType.FEEDBACK_SESSION_REMINDER, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateFeedbackSessionReminderEmails_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "FEEDBACK_SESSION_REMINDER",
+                "Reminder: ${feedbackSessionName} in ${courseName} is still open",
+                "<p>Hi ${userName}, don't forget ${feedbackSessionName}. "
+                        + "<a href=\"${submitUrl}\">${submitUrl}</a></p>"
+                        + "${instructorPreamble}${additionalContactInformation}");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("FEEDBACK_SESSION_REMINDER"))
+                .thenReturn(customTemplate);
+
+        Course course = new Course("CS3219", "Software Engineering Principles", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Team Survey", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().plusSeconds(3600),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(7200),
+                Duration.ofMinutes(15), true, false, true);
+        Student student = new Student(course, "Captain Rex", "rex@501st.org", "");
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
+                session, List.of(student), List.of(), null);
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        assertEquals("rex@501st.org", email.getRecipient());
+        assertEquals(EmailType.FEEDBACK_SESSION_REMINDER, email.getType());
+        assertEquals("Reminder: Team Survey in Software Engineering Principles is still open", email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateFeedbackSessionClosingSoonEmails_noDbTemplate_usesConfigurableDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("FEEDBACK_CLOSING_SOON")).thenReturn(null);
+
+        Course course = new Course("CS4225", "Big Data Systems", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Peer Feedback", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().plusSeconds(3600),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(7200),
+                Duration.ofMinutes(15), true, false, true);
+        Student student = new Student(course, "Cad Bane", "bane@bounty.org", "");
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionClosingSoonEmails(
+                session, List.of(student), List.of(), List.of());
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.FEEDBACK_CLOSING_SOON.getDefaultSubject(),
+                "${courseName}", "Big Data Systems",
+                "${feedbackSessionName}", "Peer Feedback");
+        assertEquals("bane@bounty.org", email.getRecipient());
+        assertEquals(EmailType.FEEDBACK_CLOSING_SOON, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateFeedbackSessionClosingSoonEmails_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "FEEDBACK_CLOSING_SOON",
+                "${feedbackSessionName} in ${courseName} is closing soon",
+                "<p>Hi ${userName}, ${feedbackSessionName} closes soon. "
+                        + "<a href=\"${submitUrl}\">${submitUrl}</a></p>"
+                        + "${instructorPreamble}${additionalContactInformation}");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("FEEDBACK_CLOSING_SOON"))
+                .thenReturn(customTemplate);
+
+        Course course = new Course("CS5228", "Knowledge Discovery", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Exit Survey", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().plusSeconds(3600),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(7200),
+                Duration.ofMinutes(15), true, false, true);
+        Student student = new Student(course, "Hondo Ohnaka", "hondo@pirates.org", "");
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionClosingSoonEmails(
+                session, List.of(student), List.of(), List.of());
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        assertEquals("hondo@pirates.org", email.getRecipient());
+        assertEquals(EmailType.FEEDBACK_CLOSING_SOON, email.getType());
+        assertEquals("Exit Survey in Knowledge Discovery is closing soon", email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateFeedbackSessionOpeningSoonEmails_noDbTemplate_usesConfigurableDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("FEEDBACK_OPENING_SOON")).thenReturn(null);
+
+        Course course = new Course("CS6101", "Exploration of Computer Science Research", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Research Feedback", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().plusSeconds(3600), Instant.now().plusSeconds(7200),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(10800),
+                Duration.ofMinutes(15), true, false, true);
+        Instructor coOwner = new Instructor(course, "Mace Windu", "mace@jedi.org",
+                true, "Mace", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.getRoleName()));
+        Account account = new Account("macewindu", "Mace Windu", "mace@jedi.org");
+        coOwner.setAccount(account);
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionOpeningSoonEmails(
+                session, List.of(coOwner));
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.FEEDBACK_OPENING_SOON.getDefaultSubject(),
+                "${courseName}", "Exploration of Computer Science Research",
+                "${feedbackSessionName}", "Research Feedback");
+        assertEquals("mace@jedi.org", email.getRecipient());
+        assertEquals(EmailType.FEEDBACK_OPENING_SOON, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateFeedbackSessionOpeningSoonEmails_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "FEEDBACK_OPENING_SOON",
+                "${feedbackSessionName} in ${courseName} opens soon",
+                "<p>Hi ${userName}, ${feedbackSessionName} opens soon.</p>${additionalNotes}");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("FEEDBACK_OPENING_SOON"))
+                .thenReturn(customTemplate);
+
+        Course course = new Course("CS6220", "Distributed Machine Learning", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("ML Survey", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().plusSeconds(3600), Instant.now().plusSeconds(7200),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(10800),
+                Duration.ofMinutes(15), true, false, true);
+        Instructor coOwner = new Instructor(course, "Kit Fisto", "kit@jedi.org",
+                true, "Kit", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.getRoleName()));
+        Account account = new Account("kitfisto", "Kit Fisto", "kit@jedi.org");
+        coOwner.setAccount(account);
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionOpeningSoonEmails(
+                session, List.of(coOwner));
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        assertEquals("kit@jedi.org", email.getRecipient());
+        assertEquals(EmailType.FEEDBACK_OPENING_SOON, email.getType());
+        assertEquals("ML Survey in Distributed Machine Learning opens soon", email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateFeedbackSessionClosedEmails_noDbTemplate_usesConfigurableDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("FEEDBACK_CLOSED")).thenReturn(null);
+
+        Course course = new Course("CS6285", "Semantic Networks", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Final Survey", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().minusSeconds(3600),
+                Instant.now().minusSeconds(7200), Instant.now().plusSeconds(3600),
+                Duration.ofMinutes(15), true, false, true);
+        Instructor coOwner = new Instructor(course, "Aayla Secura", "aayla@jedi.org",
+                true, "Aayla", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.getRoleName()));
+        Account account = new Account("aaylasecura", "Aayla Secura", "aayla@jedi.org");
+        coOwner.setAccount(account);
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionClosedEmails(
+                session, List.of(coOwner));
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.FEEDBACK_CLOSED.getDefaultSubject(),
+                "${courseName}", "Semantic Networks",
+                "${feedbackSessionName}", "Final Survey");
+        assertEquals("aayla@jedi.org", email.getRecipient());
+        assertEquals(EmailType.FEEDBACK_CLOSED, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateFeedbackSessionClosedEmails_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "FEEDBACK_CLOSED",
+                "${feedbackSessionName} in ${courseName} is now closed",
+                "<p>Hi ${userName}, ${feedbackSessionName} is closed.</p>${additionalNotes}");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("FEEDBACK_CLOSED"))
+                .thenReturn(customTemplate);
+
+        Course course = new Course("CS6210", "Advanced OS", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Exit Poll", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().minusSeconds(3600),
+                Instant.now().minusSeconds(7200), Instant.now().plusSeconds(3600),
+                Duration.ofMinutes(15), true, false, true);
+        Instructor coOwner = new Instructor(course, "Shaak Ti", "shaak@jedi.org",
+                true, "Shaak", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.getRoleName()));
+        Account account = new Account("shaakti", "Shaak Ti", "shaak@jedi.org");
+        coOwner.setAccount(account);
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionClosedEmails(
+                session, List.of(coOwner));
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        assertEquals("shaak@jedi.org", email.getRecipient());
+        assertEquals(EmailType.FEEDBACK_CLOSED, email.getType());
+        assertEquals("Exit Poll in Advanced OS is now closed", email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateDeadlineExtensionGrantedEmail_noDbTemplate_usesConfigurableDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("DEADLINE_EXTENSION_GRANTED")).thenReturn(null);
+
+        Course course = new Course("CS2106", "Operating Systems", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("OS Survey", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().plusSeconds(7200),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(10800),
+                Duration.ofMinutes(15), true, false, true);
+        Student student = new Student(course, "Barriss Offee", "barriss@jedi.org", "");
+        Mockito.when(mockUsersDb.getStudentForEmail("CS2106", "barriss@jedi.org")).thenReturn(student);
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateDeadlineGrantedEmails(
+                course, session, Map.of("barriss@jedi.org", Instant.now().plusSeconds(14400)), false);
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.DEADLINE_EXTENSION_GRANTED.getDefaultSubject(),
+                "${courseName}", "Operating Systems",
+                "${feedbackSessionName}", "OS Survey");
+        assertEquals("barriss@jedi.org", email.getRecipient());
+        assertEquals(EmailType.DEADLINE_EXTENSION_GRANTED, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateDeadlineExtensionGrantedEmail_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "DEADLINE_EXTENSION_GRANTED",
+                "Deadline extension for ${feedbackSessionName} in ${courseName}",
+                "<p>Hi ${userName}, your deadline for ${feedbackSessionName} is extended. "
+                        + "Old: ${oldEndTime}, New: ${newEndTime}. "
+                        + "<a href=\"${submitUrl}\">${submitUrl}</a></p>${additionalContactInformation}");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("DEADLINE_EXTENSION_GRANTED"))
+                .thenReturn(customTemplate);
+
+        Course course = new Course("CS3103", "Computer Networks", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Net Survey", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().plusSeconds(7200),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(10800),
+                Duration.ofMinutes(15), true, false, true);
+        Student student = new Student(course, "Luminara Unduli", "luminara@mirialan.org", "");
+        Mockito.when(mockUsersDb.getStudentForEmail("CS3103", "luminara@mirialan.org")).thenReturn(student);
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateDeadlineGrantedEmails(
+                course, session, Map.of("luminara@mirialan.org", Instant.now().plusSeconds(14400)), false);
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        assertEquals("luminara@mirialan.org", email.getRecipient());
+        assertEquals(EmailType.DEADLINE_EXTENSION_GRANTED, email.getType());
+        assertEquals("Deadline extension for Net Survey in Computer Networks", email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateDeadlineExtensionUpdatedEmail_noDbTemplate_usesConfigurableDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("DEADLINE_EXTENSION_UPDATED")).thenReturn(null);
+
+        Course course = new Course("CS3241", "Computer Graphics", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Graphics Survey", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().plusSeconds(7200),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(10800),
+                Duration.ofMinutes(15), true, false, true);
+        Student student = new Student(course, "Even Piell", "even@jedi.org", "");
+        Mockito.when(mockUsersDb.getStudentForEmail("CS3241", "even@jedi.org")).thenReturn(student);
+        Instant oldDeadline = Instant.now().plusSeconds(3600);
+        Instant newDeadline = Instant.now().plusSeconds(14400);
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateDeadlineUpdatedEmails(
+                course, session, Map.of("even@jedi.org", newDeadline), Map.of("even@jedi.org", oldDeadline), false);
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.DEADLINE_EXTENSION_UPDATED.getDefaultSubject(),
+                "${courseName}", "Computer Graphics",
+                "${feedbackSessionName}", "Graphics Survey");
+        assertEquals("even@jedi.org", email.getRecipient());
+        assertEquals(EmailType.DEADLINE_EXTENSION_UPDATED, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateDeadlineExtensionUpdatedEmail_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "DEADLINE_EXTENSION_UPDATED",
+                "Updated deadline for ${feedbackSessionName} in ${courseName}",
+                "<p>Hi ${userName}, your deadline changed. "
+                        + "Old: ${oldEndTime}, New: ${newEndTime}. "
+                        + "<a href=\"${submitUrl}\">${submitUrl}</a></p>${additionalContactInformation}");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("DEADLINE_EXTENSION_UPDATED"))
+                .thenReturn(customTemplate);
+
+        Course course = new Course("CS3343", "Software Testing", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Testing Survey", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().plusSeconds(7200),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(10800),
+                Duration.ofMinutes(15), true, false, true);
+        Student student = new Student(course, "Coleman Kcaj", "kcaj@jedi.org", "");
+        Mockito.when(mockUsersDb.getStudentForEmail("CS3343", "kcaj@jedi.org")).thenReturn(student);
+        Instant oldDeadline = Instant.now().plusSeconds(3600);
+        Instant newDeadline = Instant.now().plusSeconds(14400);
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateDeadlineUpdatedEmails(
+                course, session, Map.of("kcaj@jedi.org", newDeadline), Map.of("kcaj@jedi.org", oldDeadline), false);
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        assertEquals("kcaj@jedi.org", email.getRecipient());
+        assertEquals(EmailType.DEADLINE_EXTENSION_UPDATED, email.getType());
+        assertEquals("Updated deadline for Testing Survey in Software Testing", email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateDeadlineExtensionRevokedEmail_noDbTemplate_usesConfigurableDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("DEADLINE_EXTENSION_REVOKED")).thenReturn(null);
+
+        Course course = new Course("CS4243", "Computer Vision", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("Vision Survey", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().plusSeconds(7200),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(10800),
+                Duration.ofMinutes(15), true, false, true);
+        Student student = new Student(course, "Depa Billaba", "depa@jedi.org", "");
+        Mockito.when(mockUsersDb.getStudentForEmail("CS4243", "depa@jedi.org")).thenReturn(student);
+        Instant revokedDeadline = Instant.now().plusSeconds(14400);
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateDeadlineRevokedEmails(
+                course, session, Map.of("depa@jedi.org", revokedDeadline), false);
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.DEADLINE_EXTENSION_REVOKED.getDefaultSubject(),
+                "${courseName}", "Computer Vision",
+                "${feedbackSessionName}", "Vision Survey");
+        assertEquals("depa@jedi.org", email.getRecipient());
+        assertEquals(EmailType.DEADLINE_EXTENSION_REVOKED, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateDeadlineExtensionRevokedEmail_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "DEADLINE_EXTENSION_REVOKED",
+                "Deadline extension revoked for ${feedbackSessionName} in ${courseName}",
+                "<p>Hi ${userName}, your extension was revoked. "
+                        + "Old: ${oldEndTime}, New: ${newEndTime}. "
+                        + "<a href=\"${submitUrl}\">${submitUrl}</a></p>${additionalContactInformation}");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("DEADLINE_EXTENSION_REVOKED"))
+                .thenReturn(customTemplate);
+
+        Course course = new Course("CS4246", "AI Planning", "UTC", "NUS");
+        FeedbackSession session = new FeedbackSession("AI Survey", course, "prof@nus.edu.sg",
+                "instructions", Instant.now().minusSeconds(7200), Instant.now().plusSeconds(7200),
+                Instant.now().minusSeconds(3600), Instant.now().plusSeconds(10800),
+                Duration.ofMinutes(15), true, false, true);
+        Student student = new Student(course, "Plo Koon", "plo@jedi.org", "");
+        Mockito.when(mockUsersDb.getStudentForEmail("CS4246", "plo@jedi.org")).thenReturn(student);
+        Instant revokedDeadline = Instant.now().plusSeconds(14400);
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateDeadlineRevokedEmails(
+                course, session, Map.of("plo@jedi.org", revokedDeadline), false);
+
+        assertEquals(1, emails.size());
+        EmailWrapper email = emails.get(0);
+        assertEquals("plo@jedi.org", email.getRecipient());
+        assertEquals(EmailType.DEADLINE_EXTENSION_REVOKED, email.getType());
+        assertEquals("Deadline extension revoked for AI Survey in AI Planning", email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateStudentCourseLinksRegeneratedEmail_noDbTemplate_usesConfigurableDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("STUDENT_COURSE_LINKS_REGENERATED")).thenReturn(null);
+
+        Course course = new Course("CS5331", "Web Information Retrieval", "UTC", "NUS");
+        Student student = new Student(course, "Quinlan Vos", "quinlan@jedi.org", "");
+        Mockito.when(mockCoursesDb.getCourse("CS5331")).thenReturn(course);
+        Mockito.when(mockUsersDb.getStudentForEmail("CS5331", "quinlan@jedi.org")).thenReturn(student);
+        Mockito.when(mockFeedbackSessionsDb.getFeedbackSessionEntitiesForCourse("CS5331"))
+                .thenReturn(new java.util.ArrayList<>());
+
+        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+                "CS5331", "quinlan@jedi.org", EmailType.STUDENT_COURSE_LINKS_REGENERATED);
+
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.STUDENT_COURSE_LINKS_REGENERATED.getDefaultSubject(),
+                "${courseName}", "Web Information Retrieval",
+                "${courseId}", "CS5331");
+        assertEquals("quinlan@jedi.org", email.getRecipient());
+        assertEquals(EmailType.STUDENT_COURSE_LINKS_REGENERATED, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateStudentCourseLinksRegeneratedEmail_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "STUDENT_COURSE_LINKS_REGENERATED",
+                "Your links for ${courseName} [${courseId}] updated",
+                "<p>Hi ${userName}, your links for ${courseName} are updated. "
+                        + "${joinFragment}<br>${linksFragment}</p>${additionalContactInformation}");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("STUDENT_COURSE_LINKS_REGENERATED"))
+                .thenReturn(customTemplate);
+
+        Course course = new Course("CS5340", "Uncertainty Modelling", "UTC", "NUS");
+        Student student = new Student(course, "Sharad Srinivasan", "sharad@nus.edu.sg", "");
+        Mockito.when(mockCoursesDb.getCourse("CS5340")).thenReturn(course);
+        Mockito.when(mockUsersDb.getStudentForEmail("CS5340", "sharad@nus.edu.sg")).thenReturn(student);
+        Mockito.when(mockFeedbackSessionsDb.getFeedbackSessionEntitiesForCourse("CS5340"))
+                .thenReturn(new java.util.ArrayList<>());
+
+        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+                "CS5340", "sharad@nus.edu.sg", EmailType.STUDENT_COURSE_LINKS_REGENERATED);
+
+        assertEquals("sharad@nus.edu.sg", email.getRecipient());
+        assertEquals(EmailType.STUDENT_COURSE_LINKS_REGENERATED, email.getType());
+        assertEquals("Your links for Uncertainty Modelling [CS5340] updated", email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateInstructorCourseLinksRegeneratedEmail_noDbTemplate_usesConfigurableDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("INSTRUCTOR_COURSE_LINKS_REGENERATED")).thenReturn(null);
+
+        Course course = new Course("CS5346", "Information Retrieval", "UTC", "NUS");
+        Instructor instructor = new Instructor(course, "Sifo Dyas", "sifo@jedi.org",
+                true, "Sifo", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.getRoleName()));
+        Mockito.when(mockCoursesDb.getCourse("CS5346")).thenReturn(course);
+        Mockito.when(mockUsersDb.getInstructorForEmail("CS5346", "sifo@jedi.org")).thenReturn(instructor);
+        Mockito.when(mockFeedbackSessionsDb.getFeedbackSessionEntitiesForCourse("CS5346"))
+                .thenReturn(new java.util.ArrayList<>());
+
+        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+                "CS5346", "sifo@jedi.org", EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
+
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.INSTRUCTOR_COURSE_LINKS_REGENERATED.getDefaultSubject(),
+                "${courseName}", "Information Retrieval",
+                "${courseId}", "CS5346");
+        assertEquals("sifo@jedi.org", email.getRecipient());
+        assertEquals(EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateInstructorCourseLinksRegeneratedEmail_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "INSTRUCTOR_COURSE_LINKS_REGENERATED",
+                "Instructor links for ${courseName} [${courseId}] updated",
+                "<p>Hi ${userName}, your instructor links for ${courseName} are updated. "
+                        + "${joinFragment}<br>${linksFragment}</p>${additionalContactInformation}");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("INSTRUCTOR_COURSE_LINKS_REGENERATED"))
+                .thenReturn(customTemplate);
+
+        Course course = new Course("CS5422", "Human Computer Interaction", "UTC", "NUS");
+        Instructor instructor = new Instructor(course, "Tera Sinube", "tera@jedi.org",
+                true, "Tera", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.getRoleName()));
+        Mockito.when(mockCoursesDb.getCourse("CS5422")).thenReturn(course);
+        Mockito.when(mockUsersDb.getInstructorForEmail("CS5422", "tera@jedi.org")).thenReturn(instructor);
+        Mockito.when(mockFeedbackSessionsDb.getFeedbackSessionEntitiesForCourse("CS5422"))
+                .thenReturn(new java.util.ArrayList<>());
+
+        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+                "CS5422", "tera@jedi.org", EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED);
+
+        assertEquals("tera@jedi.org", email.getRecipient());
+        assertEquals(EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED, email.getType());
+        assertEquals("Instructor links for Human Computer Interaction [CS5422] updated", email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateStudentEmailChangedEmail_noDbTemplate_usesConfigurableDefaults() {
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("STUDENT_EMAIL_CHANGED")).thenReturn(null);
+
+        Course course = new Course("CS5424", "Distributed Systems", "UTC", "NUS");
+        Student student = new Student(course, "Jocasta Nu", "jocasta@jediarchives.org", "");
+        Mockito.when(mockCoursesDb.getCourse("CS5424")).thenReturn(course);
+        Mockito.when(mockUsersDb.getStudentForEmail("CS5424", "jocasta@jediarchives.org")).thenReturn(student);
+        Mockito.when(mockFeedbackSessionsDb.getFeedbackSessionEntitiesForCourse("CS5424"))
+                .thenReturn(new java.util.ArrayList<>());
+
+        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+                "CS5424", "jocasta@jediarchives.org", EmailType.STUDENT_EMAIL_CHANGED);
+
+        String expectedSubject = Templates.populateTemplate(
+                ConfigurableEmailTemplate.STUDENT_EMAIL_CHANGED.getDefaultSubject(),
+                "${courseName}", "Distributed Systems",
+                "${courseId}", "CS5424");
+        assertEquals("jocasta@jediarchives.org", email.getRecipient());
+        assertEquals(EmailType.STUDENT_EMAIL_CHANGED, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertFalse(email.getContent().contains("${"));
+    }
+
+    @Test
+    void testGenerateStudentEmailChangedEmail_withDbTemplate_usesCustomSubjectAndBody() {
+        EmailTemplate customTemplate = new EmailTemplate(
+                "STUDENT_EMAIL_CHANGED",
+                "Email changed — links for ${courseName} [${courseId}]",
+                "<p>Hi ${userName}, your email changed. Here are your links for ${courseName}. "
+                        + "${joinFragment}<br>${linksFragment}</p>${additionalContactInformation}");
+        Mockito.when(mockEmailTemplatesDb.getEmailTemplate("STUDENT_EMAIL_CHANGED"))
+                .thenReturn(customTemplate);
+
+        Course course = new Course("CS5461", "High Performance Computing", "UTC", "NUS");
+        Student student = new Student(course, "Dooku Comes", "dooku@sith.org", "");
+        Mockito.when(mockCoursesDb.getCourse("CS5461")).thenReturn(course);
+        Mockito.when(mockUsersDb.getStudentForEmail("CS5461", "dooku@sith.org")).thenReturn(student);
+        Mockito.when(mockFeedbackSessionsDb.getFeedbackSessionEntitiesForCourse("CS5461"))
+                .thenReturn(new java.util.ArrayList<>());
+
+        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+                "CS5461", "dooku@sith.org", EmailType.STUDENT_EMAIL_CHANGED);
+
+        assertEquals("dooku@sith.org", email.getRecipient());
+        assertEquals(EmailType.STUDENT_EMAIL_CHANGED, email.getType());
+        assertEquals("Email changed — links for High Performance Computing [CS5461]", email.getSubject());
         assertFalse(email.getContent().contains("${"));
     }
 
