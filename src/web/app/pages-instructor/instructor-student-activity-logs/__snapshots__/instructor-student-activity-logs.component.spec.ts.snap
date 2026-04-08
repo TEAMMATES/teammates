@@ -37,8 +37,6 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
       90 days
     </b>
      before today.
-  </p><p>
-    Student activity logs are available immediately after the activity is performed.
   </p><hr /><tm-loading-spinner>
     <div
       class="loading-container"
@@ -99,8 +97,6 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
       90 days
     </b>
      before today.
-  </p><p>
-    Student activity logs are available immediately after the activity is performed.
   </p><hr /><div
     class="card bg-form no-border"
   >
@@ -671,8 +667,6 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
       90 days
     </b>
      before today.
-  </p><p>
-    Student activity logs are available immediately after the activity is performed.
   </p><hr /><tm-loading-spinner>
     <div
       class="loading-container"
@@ -733,8 +727,6 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
       90 days
     </b>
      before today.
-  </p><p>
-    Student activity logs are available immediately after the activity is performed.
   </p><hr /><div
     class="card bg-form no-border"
   >
