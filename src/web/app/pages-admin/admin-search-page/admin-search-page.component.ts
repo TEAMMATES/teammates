@@ -185,25 +185,25 @@ export class AdminSearchPageComponent {
   }
 
   /**
-   * Resets the instructor's Google ID.
+   * Resets the instructor's account ID.
    */
-  resetInstructorGoogleId(instructor: InstructorAccountSearchResult, event: any): void {
+  resetInstructorAccountId(instructor: InstructorAccountSearchResult, event: any): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
 
-    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for
+    const modalContent: string = `Are you sure you want to reset the account ID currently associated for
         <strong>${instructor.name}</strong> in the course <strong>${instructor.courseId}</strong>?
-        The user will need to re-associate their account with a new Google ID.`;
+        The user will need to re-associate their account with a new account ID.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset <strong>${instructor.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent);
+        `Reset <strong>${instructor.name}</strong>'s account ID?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe({
         next: () => {
           this.search();
-          this.statusMessageService.showSuccessToast('The instructor\'s Google ID has been reset.');
+          this.statusMessageService.showSuccessToast('The instructor\'s account ID has been reset.');
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -213,24 +213,24 @@ export class AdminSearchPageComponent {
   }
 
   /**
-   * Resets the student's Google ID.
+   * Resets the student's account ID.
    */
-  resetStudentGoogleId(student: StudentAccountSearchResult, event: any): void {
+  resetStudentAccountId(student: StudentAccountSearchResult, event: any): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
-    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for
+    const modalContent: string = `Are you sure you want to reset the account ID currently associated for
         <strong>${student.name}</strong> in the course <strong>${student.courseId}</strong>?
-        The user will need to re-associate their account with a new Google ID.`;
+        The user will need to re-associate their account with a new account ID.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset <strong>${student.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent);
+        `Reset <strong>${student.name}</strong>'s account ID?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.accountService.resetStudentAccount(student.courseId, student.email).subscribe({
         next: () => {
-          student.googleId = '';
-          this.statusMessageService.showSuccessToast('The student\'s Google ID has been reset.');
+          student.accountId = '';
+          this.statusMessageService.showSuccessToast('The student\'s account ID has been reset.');
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
