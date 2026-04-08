@@ -7,8 +7,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -17,7 +15,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
@@ -30,8 +27,6 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Creates a new instructor account with sample courses.
  */
 public class CreateAccountAction extends Action {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -73,8 +68,7 @@ public class CreateAccountAction extends Action {
             courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
         } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
             // There should not be any invalid parameter or entity conflict here
-            log.severe("Unexpected error", e);
-            throw new UnexpectedServerException(e.getMessage(), e);
+            throw new UnexpectedServerException(e.getMessage(), e.getMessage(), e);
         }
 
         List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
@@ -88,7 +82,6 @@ public class CreateAccountAction extends Action {
             // EntityAlreadyExistsException should not be thrown as updated entities should not have
             // conflict with generated entities in new demo course.
             // InvalidParametersException should not be thrown as as there should not be any invalid parameters.
-            log.severe("Unexpected error", e);
             throw new UnexpectedServerException(e.getMessage(), e);
         }
 
@@ -97,7 +90,6 @@ public class CreateAccountAction extends Action {
         } catch (EntityDoesNotExistException | InvalidParametersException e) {
             // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
-            log.severe("Unexpected error", e);
             throw new UnexpectedServerException(e.getMessage(), e);
         }
 

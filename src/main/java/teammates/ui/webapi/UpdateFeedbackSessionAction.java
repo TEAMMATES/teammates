@@ -3,13 +3,11 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -21,8 +19,6 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Updates a feedback session.
  */
 public class UpdateFeedbackSessionAction extends Action {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -98,8 +94,7 @@ public class UpdateFeedbackSessionAction extends Action {
             throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException ednee) {
             // Entity existence has been verified before, and this exception should not happen
-            log.severe("Unexpected error", ednee);
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(ednee.getMessage(), ednee);
         }
 
         return new JsonResult(new FeedbackSessionData(feedbackSession));
