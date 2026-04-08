@@ -220,9 +220,9 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
         verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-            student1InCourse1.equals(log.getStudent())
-                && fsaCourse1.equals(log.getFeedbackSession())
-                && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
+                student1InCourse1.equals(log.getStudent())
+                        && fsaCourse1.equals(log.getFeedbackSession())
+                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test
@@ -240,9 +240,9 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
         verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-            student1InCourse1.equals(log.getStudent())
-                && fsaCourse1.equals(log.getFeedbackSession())
-                && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
+                student1InCourse1.equals(log.getStudent())
+                        && fsaCourse1.equals(log.getFeedbackSession())
+                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test
@@ -275,7 +275,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
-            assertThrows(teammates.ui.webapi.InvalidOperationException.class,
+        assertThrows(teammates.ui.webapi.InvalidOperationException.class,
                 () -> getAction(paramsMissingFeedbackSession).execute());
         verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
@@ -293,7 +293,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
         };
-            assertThrows(teammates.ui.webapi.InvalidOperationException.class,
+        assertThrows(teammates.ui.webapi.InvalidOperationException.class,
                 () -> getAction(paramsMissingStudent).execute());
         verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }

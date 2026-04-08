@@ -60,7 +60,7 @@ public class CreateFeedbackSessionLogAction extends Action {
         try {
             sqlLogic.validateFeedbackSessionLogContext(student, feedbackSession);
         } catch (InvalidParametersException ipe) {
-            throw new InvalidOperationException(ipe.getMessage());
+            throw new InvalidOperationException(ipe);
         }
 
         Instant now = Instant.now(clock);
