@@ -1,9 +1,10 @@
 package teammates.ui.webapi;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -17,7 +18,7 @@ import teammates.storage.sqlentity.Student;
 public class JoinCourseAction extends Action {
 
     private static final Logger log = Logger.getLogger();
-    
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -54,7 +55,7 @@ public class JoinCourseAction extends Action {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             log.severe("Unexpected error", ipe);
-            throw new UnexpectedServerException(ipe.getMessage(), ipe);
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         sendJoinEmail(student.getCourseId(), student.getName(), student.getEmail(), false);
@@ -73,7 +74,7 @@ public class JoinCourseAction extends Action {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             log.severe("Unexpected error", ipe);
-            throw new UnexpectedServerException(ipe.getMessage(), ipe);
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         sendJoinEmail(instructor.getCourseId(), instructor.getName(), instructor.getEmail(), true);
