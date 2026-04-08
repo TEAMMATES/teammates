@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
@@ -48,13 +49,14 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         Student student = typicalBundle.students.get("student1InCourse1");
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         Course course = typicalBundle.courses.get("course1");
-        Instant referenceNow = Instant.now();
+        // Align to whole seconds to avoid precision differences across database backends.
+        Instant referenceNow = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         Instant retentionCutoff = referenceNow.minus(Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD);
 
         // Create logs around retention boundary for exact cutoff behavior checks.
-        Instant oldTimestamp = retentionCutoff.minusMillis(1);
+        Instant oldTimestamp = retentionCutoff.minusSeconds(1);
         Instant atCutoffTimestamp = retentionCutoff;
-        Instant boundaryTimestamp = retentionCutoff.plusMillis(1);
+        Instant boundaryTimestamp = retentionCutoff.plusSeconds(1);
         Instant recentTimestamp = referenceNow.minus(Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD).plusSeconds(1);
         Instant veryRecentTimestamp = referenceNow.minusSeconds(60);
 
