@@ -10,6 +10,14 @@
             DELETE FROM read_notifications
             WHERE account_id IS NULL OR notification_id IS NULL;
         </sql>
+        <rollback>
+            <sql>
+                DO $$
+                BEGIN
+                    RAISE EXCEPTION 'Rollback not supported: deleted read_notifications rows with NULL account_id or notification_id cannot be restored automatically.';
+                END $$;
+            </sql>
+        </rollback>
     </changeSet>
 
     <changeSet id="v9.0.0-beta.8-remove-duplicate-read-notification-entries" author="Florian Viorel Tanely">
@@ -25,6 +33,14 @@
             DELETE FROM read_notifications
             WHERE id IN (SELECT id FROM numbered WHERE duplicate_rank > 1);
         </sql>
+        <rollback>
+            <sql>
+                DO $$
+                BEGIN
+                    RAISE EXCEPTION 'Rollback not supported: deleted duplicate read_notifications rows cannot be restored automatically.';
+                END $$;
+            </sql>
+        </rollback>
     </changeSet>
 
     <changeSet id="v9.0.0-beta.8-add-unique-constraint-to-read-notifications" author="Florian Viorel Tanely">
@@ -34,6 +50,11 @@
                 constraintName="Unique account_id and notification_id" />
         <addNotNullConstraint tableName="read_notifications" columnName="account_id" />
         <addNotNullConstraint tableName="read_notifications" columnName="notification_id" />
+        <rollback>
+            <dropNotNullConstraint tableName="read_notifications" columnName="notification_id" columnDataType="UUID"/>
+            <dropNotNullConstraint tableName="read_notifications" columnName="account_id" columnDataType="UUID"/>
+            <dropUniqueConstraint tableName="read_notifications" constraintName="Unique account_id and notification_id"/>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>

@@ -138,8 +138,7 @@ if (!project.hasProperty("runList")) {
 }
 
 def liquibaseDiffTimestamp = new Date().format("yyyyMMddHHmmss")
-def liquibaseDiffChangelogFile = "src/main/resources/db/changelog/migrations/"
-    + "${liquibaseDiffTimestamp}-new-migration.xml"
+def liquibaseDiffChangelogFile = "src/main/resources/db/changelog/migrations/${liquibaseDiffTimestamp}-new-migration.xml"
 
 liquibase {
     activities {
