@@ -6,6 +6,7 @@ import java.util.UUID;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.AccountsDb;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
@@ -53,15 +54,6 @@ public final class AccountsLogic {
     }
 
     /**
-     * Gets an account by accountId.
-     */
-    public Account getAccountForAccountId(UUID accountId) {
-        assert accountId != null;
-
-        return accountsDb.getAccount(accountId);
-    }
-
-    /**
      * Gets accounts associated with email.
      */
     public List<Account> getAccountsForEmail(String email) {
@@ -92,7 +84,7 @@ public final class AccountsLogic {
     public void deleteAccount(UUID accountId) {
         assert accountId != null;
 
-        Account account = getAccountForAccountId(accountId);
+        Account account = HibernateUtil.getReference(Account.class, accountId);
         accountsDb.deleteAccount(account);
     }
 

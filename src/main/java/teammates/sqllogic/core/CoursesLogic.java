@@ -78,7 +78,7 @@ public final class CoursesLogic {
     public void createCourseAndInstructor(UUID instructorAccountId, Course courseToCreate)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        Account courseCreator = accountsLogic.getAccountForAccountId(instructorAccountId);
+        Account courseCreator = accountsLogic.getAccount(instructorAccountId);
         assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorAccountId;
 
         Course createdCourse = createCourse(courseToCreate);
