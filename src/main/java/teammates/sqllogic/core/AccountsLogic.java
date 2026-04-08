@@ -109,7 +109,7 @@ public final class AccountsLogic {
      * Joins the user as a student.
      */
     public Student joinCourseForStudent(String registrationKey, UUID accountId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
         Student student = validateStudentJoinRequest(registrationKey, accountId);
         Account account = accountsDb.getAccount(accountId);
         if (student.getAccount() == null) {

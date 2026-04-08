@@ -928,7 +928,6 @@ public class Logic {
     /**
      * Make the instructor join the course, i.e. associate the {@code accountId} to the
      * instructor.<br>
-     * Creates an account for the instructor if no existing account is found.
      * Preconditions: <br>
      * * Parameters regkey and accountId are non-null.
      */
