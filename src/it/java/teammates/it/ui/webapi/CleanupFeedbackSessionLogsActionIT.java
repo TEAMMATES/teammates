@@ -49,7 +49,7 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         Student student = typicalBundle.students.get("student1InCourse1");
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         Course course = typicalBundle.courses.get("course1");
-        // Align to whole seconds to avoid precision differences across database backends.
+        // Align to whole seconds to avoid precision differences across database and backend
         Instant referenceNow = Instant.now().truncatedTo(ChronoUnit.SECONDS);
         Instant retentionCutoff = referenceNow.minus(Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD);
 
