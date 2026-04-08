@@ -1274,9 +1274,7 @@ public class Logic {
     }
 
     /**
-     * TODO: I think this might need to be changed to unlinking the Google / Entra account for a specific
-     * student / instructor, cannot just translate to "resetInstructorAccountId" as this does not makes sense
-     * Resets the googleId associated with the instructor.
+     * Resets the accountId associated with the instructor.
      *
      * <br/>
      * Preconditions: <br/>
@@ -1285,13 +1283,13 @@ public class Logic {
      * @throws EntityDoesNotExistException If instructor cannot be found with given
      *                                     email and courseId.
      */
-    public void resetInstructorGoogleId(String email, String courseId, String googleId)
+    public void resetInstructorAccountId(String email, String courseId, UUID accountId)
             throws EntityDoesNotExistException {
-        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
+        usersLogic.resetInstructorAccountId(email, courseId, accountId);
     }
 
     /**
-     * Resets the googleId associated with the student.
+     * Resets the accountId associated with the student.
      *
      * <br/>
      * Preconditions: <br/>
@@ -1300,9 +1298,9 @@ public class Logic {
      * @throws EntityDoesNotExistException If student cannot be found with given
      *                                     email and courseId.
      */
-    public void resetStudentGoogleId(String email, String courseId, String googleId)
+    public void resetStudentAcccountId(String email, String courseId, UUID accountId)
             throws EntityDoesNotExistException {
-        usersLogic.resetStudentAccountId(email, courseId, googleId);
+        usersLogic.resetStudentAccountId(email, courseId, accountId);
     }
 
     /**

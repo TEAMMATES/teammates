@@ -795,7 +795,7 @@ public final class UsersLogic {
     /**
      * Resets the accountId associated with the instructor.
      */
-    public void resetInstructorGoogleId(String email, String courseId, String accountId)
+    public void resetInstructorAccountId(String email, String courseId, UUID accountId)
             throws EntityDoesNotExistException {
         assert email != null;
         assert courseId != null;
