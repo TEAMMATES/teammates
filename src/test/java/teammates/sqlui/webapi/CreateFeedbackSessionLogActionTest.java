@@ -149,16 +149,16 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
 
-                CreateFeedbackSessionLogAction action = getAction(paramsSuccessfulAccess);
-                try {
-                        Field clockField = CreateFeedbackSessionLogAction.class.getDeclaredField("clock");
-                        clockField.setAccessible(true);
-                        clockField.set(action, Clock.fixed(fixedNow, ZoneOffset.UTC));
-                } catch (ReflectiveOperationException e) {
-                        throw new RuntimeException(e);
-                }
+        CreateFeedbackSessionLogAction action = getAction(paramsSuccessfulAccess);
+        try {
+            Field clockField = CreateFeedbackSessionLogAction.class.getDeclaredField("clock");
+            clockField.setAccessible(true);
+            clockField.set(action, Clock.fixed(fixedNow, ZoneOffset.UTC));
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
 
-                JsonResult response = getJsonResult(action);
+        JsonResult response = getJsonResult(action);
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
         verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
