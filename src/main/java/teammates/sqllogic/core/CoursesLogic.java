@@ -48,8 +48,11 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic, UsersLogic usersLogic,
-                               AccountsLogic accountsLogic) {
+    /**
+     * Initializes the logic dependencies for this logic class.
+     */
+    public void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic, UsersLogic usersLogic,
+                                      AccountsLogic accountsLogic) {
         this.coursesDb = coursesDb;
         this.fsLogic = fsLogic;
         this.usersLogic = usersLogic;

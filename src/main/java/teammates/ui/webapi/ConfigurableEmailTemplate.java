@@ -51,18 +51,18 @@ public enum ConfigurableEmailTemplate {
             "TEAMMATES: Feedback session results published"
                     + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
             EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED,
-            List.of()),
+            List.of("${instructorPreamble}", "${additionalContactInformation}")),
 
     FEEDBACK_UNPUBLISHED(
             "TEAMMATES: Feedback session results unpublished"
                     + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
             EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED,
-            List.of()),
+            List.of("${instructorPreamble}", "${additionalContactInformation}")),
 
     FEEDBACK_OPENED(
             "TEAMMATES: Feedback session now open [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
             Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_OPENED, "${status}", "is now open"),
-            List.of()),
+            List.of("${instructorPreamble}", "${additionalContactInformation}")),
 
     USER_COURSE_REGISTER(
             "TEAMMATES: Registered for Course [${courseName}][Course ID: ${courseId}]",
@@ -84,7 +84,64 @@ public enum ConfigurableEmailTemplate {
     NEW_ACCOUNT_REQUEST_ADMIN_ALERT(
             "TEAMMATES (Action Needed): New Account Request Received",
             EmailTemplates.ADMIN_NEW_ACCOUNT_REQUEST_ALERT,
-            List.of("${adminAccountRequestsPageUrl}"));
+            List.of("${adminAccountRequestsPageUrl}")),
+
+    FEEDBACK_SESSION_REMINDER(
+            "TEAMMATES: Feedback session reminder"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_FEEDBACK_SESSION_REMINDER,
+            List.of("${submitUrl}", "${instructorPreamble}", "${additionalContactInformation}")),
+
+    FEEDBACK_CLOSING_SOON(
+            "TEAMMATES: Feedback session closing soon"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_FEEDBACK_SESSION_CLOSING_SOON,
+            List.of("${submitUrl}", "${instructorPreamble}", "${additionalContactInformation}")),
+
+    FEEDBACK_OPENING_SOON(
+            "TEAMMATES: Feedback session opening soon"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON,
+            List.of("${additionalNotes}")),
+
+    FEEDBACK_CLOSED(
+            "TEAMMATES: Feedback session closed"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.OWNER_FEEDBACK_SESSION_CLOSED,
+            List.of("${additionalNotes}")),
+
+    DEADLINE_EXTENSION_GRANTED(
+            "TEAMMATES: Deadline extension granted"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_DEADLINE_EXTENSION_GRANTED,
+            List.of("${submitUrl}", "${oldEndTime}", "${newEndTime}", "${additionalContactInformation}")),
+
+    DEADLINE_EXTENSION_UPDATED(
+            "TEAMMATES: Deadline extension updated"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_DEADLINE_EXTENSION_UPDATED,
+            List.of("${submitUrl}", "${oldEndTime}", "${newEndTime}", "${additionalContactInformation}")),
+
+    DEADLINE_EXTENSION_REVOKED(
+            "TEAMMATES: Deadline extension revoked"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_DEADLINE_EXTENSION_REVOKED,
+            List.of("${submitUrl}", "${oldEndTime}", "${newEndTime}", "${additionalContactInformation}")),
+
+    STUDENT_COURSE_LINKS_REGENERATED(
+            "TEAMMATES: Your links for course [${courseName}][Course ID: ${courseId}] have been updated",
+            EmailTemplates.USER_STUDENT_COURSE_LINKS_REGENERATED,
+            List.of("${linksFragment}", "${joinFragment}", "${additionalContactInformation}")),
+
+    INSTRUCTOR_COURSE_LINKS_REGENERATED(
+            "TEAMMATES: Your links for course [${courseName}][Course ID: ${courseId}] have been updated",
+            EmailTemplates.USER_INSTRUCTOR_COURSE_LINKS_REGENERATED,
+            List.of("${linksFragment}", "${joinFragment}", "${additionalContactInformation}")),
+
+    STUDENT_EMAIL_CHANGED(
+            "TEAMMATES: Your links for course [${courseName}][Course ID: ${courseId}] have been updated",
+            EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
+            List.of("${linksFragment}", "${joinFragment}", "${additionalContactInformation}"));
 
     // CHECKSTYLE.ON:JavadocVariable
 
