@@ -1134,7 +1134,7 @@ public final class SqlEmailGenerator {
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(type);
         email.setIsCopy(true);
-        email.setSubject(emailSubject);
+        email.setSubject(EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + emailSubject);
         email.setContent(emailBody);
         return email;
     }
