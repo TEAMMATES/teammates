@@ -192,7 +192,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-        void testExecute_invalidSessionName_shouldStillSucceedWithoutPersisting() {
+    void testExecute_invalidSessionName_shouldStillSucceedWithoutPersisting() {
         String nonExistentSessionName = "non-existent-feedback-session-name";
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -209,7 +209,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-        void testExecute_invalidEmail_shouldStillSucceedWithoutPersisting() {
+    void testExecute_invalidEmail_shouldStillSucceedWithoutPersisting() {
         String nonExistentEmail = "non-existent-student@email.com";
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -226,7 +226,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-        void testExecute_studentHasNoAccessToCourseFeedback_shouldStillSucceedWithoutPersisting() {
+    void testExecute_studentHasNoAccessToCourseFeedback_shouldStillSucceedWithoutPersisting() {
         String[] paramsWithoutAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
