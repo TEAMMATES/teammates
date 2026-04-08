@@ -166,7 +166,7 @@ public final class AccountsLogic {
         }
 
         if (instructorForKey.isRegistered()) {
-            if (instructorForKey.getGoogleId().equals(accountId)) {
+            if (instructorForKey.getAccountId().equals(accountId)) {
                 Account existingAccount = accountsDb.getAccount(accountId);
                 if (existingAccount != null) {
                     throw new EntityAlreadyExistsException("Instructor has already joined course");

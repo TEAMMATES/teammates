@@ -101,7 +101,7 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testResetStudentGoogleId_studentExistsWithEmptyUsersListFromGoogleId_success()
+    public void testResetStudentGoogleId_studentExistsWithEmptyUsersListFromAccountId_success()
             throws EntityDoesNotExistException {
         String courseId = student.getCourseId();
         String email = student.getEmail();
@@ -111,14 +111,14 @@ public class UsersLogicTest extends BaseTestCase {
         when(usersDb.getAllUsersByGoogleId(googleId)).thenReturn(Collections.emptyList());
         when(accountsLogic.getAccountForAccountId(googleId)).thenReturn(account);
 
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+        usersLogic.resetStudentAccountId(email, courseId, googleId);
 
         assertNull(student.getAccount());
         verify(accountsLogic, times(1)).deleteAccountCascade(googleId);
     }
 
     @Test
-    public void testResetStudentGoogleId_entityDoesNotExists_throwsEntityDoesNotExistException()
+    public void testResetStudentAccountId_entityDoesNotExists_throwsEntityDoesNotExistException()
             throws EntityDoesNotExistException {
         String courseId = student.getCourseId();
         String email = student.getEmail();
@@ -127,7 +127,7 @@ public class UsersLogicTest extends BaseTestCase {
         when(usersLogic.getStudentForEmail(courseId, email)).thenReturn(null);
 
         EntityDoesNotExistException exception = assertThrows(EntityDoesNotExistException.class,
-                () -> usersLogic.resetStudentGoogleId(email, courseId, googleId));
+                () -> usersLogic.resetStudentAccountId(email, courseId, googleId));
 
         assertEquals(ERROR_UPDATE_NON_EXISTENT
                 + "Student [courseId=" + courseId + ", email=" + email + "]", exception.getMessage());

@@ -1302,7 +1302,7 @@ public class Logic {
      */
     public void resetStudentGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+        usersLogic.resetStudentAccountId(email, courseId, googleId);
     }
 
     /**

@@ -86,7 +86,7 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testResetStudentGoogleId()
+    public void testResetStudentAccountId()
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Student student = getTypicalStudent();
         student.setCourse(course);
@@ -98,11 +98,11 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("success: reset student that does not exist");
         assertThrows(EntityDoesNotExistException.class,
-                () -> usersLogic.resetStudentGoogleId(email, courseId, googleId));
+                () -> usersLogic.resetStudentAccountId(email, courseId, googleId));
 
         ______TS("success: reset student that exists");
         usersLogic.createStudent(student);
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+        usersLogic.resetStudentAccountId(email, courseId, googleId);
 
         assertNull(student.getAccount());
         assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
@@ -119,7 +119,7 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         anotherUser.setAccount(anotherAccount);
 
         usersLogic.createInstructor(anotherUser);
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+        usersLogic.resetStudentAccountId(email, courseId, googleId);
 
         assertNull(student.getAccount());
         assertEquals(anotherAccount, accountsLogic.getAccountForAccountId(googleId));

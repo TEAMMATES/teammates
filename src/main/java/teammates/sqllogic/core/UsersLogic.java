@@ -249,7 +249,7 @@ public final class UsersLogic {
         assert courseId != null;
         assert accountId != null;
 
-        return usersDb.getInstructorByGoogleId(courseId, accountId);
+        return usersDb.getInstructorByAccountId(courseId, accountId);
     }
 
     /**
@@ -331,7 +331,7 @@ public final class UsersLogic {
      */
     public List<Instructor> getInstructorsForAccountId(UUID accountId) {
         assert accountId != null;
-        return usersDb.getInstructorsForGoogleId(accountId);
+        return usersDb.getInstructorsForAccountId(accountId);
     }
 
     /**
@@ -372,7 +372,7 @@ public final class UsersLogic {
                 accountsLogic.createAccount(account);
             }
         } else {
-            instructor.setGoogleId(accountId);
+            instructor.setAccountId(accountId);
         }
         usersDb.updateUser(instructor);
 
@@ -383,7 +383,7 @@ public final class UsersLogic {
                 Account account = new Account(accountId, student.getName(), student.getEmail());
                 student.setAccount(account);
             } else {
-                student.getAccount().setGoogleId(accountId);
+                student.getAccount().setAccountId(accountId);
             }
             usersDb.updateUser(student);
         }
@@ -453,7 +453,7 @@ public final class UsersLogic {
      * Returns true if the user associated with the accountId is an instructor in any course in the system.
      */
     public boolean isInstructorInAnyCourse(UUID accountId) {
-        return !usersDb.getAllInstructorsByGoogleId(accountId).isEmpty();
+        return !usersDb.getAllInstructorsByAccountId(accountId).isEmpty();
     }
 
     /**
@@ -513,7 +513,7 @@ public final class UsersLogic {
      * Gets all students associated with a accountId.
      */
     public List<Student> getAllStudentsByAccountId(UUID accountId) {
-        return usersDb.getAllStudentsByGoogleId(accountId);
+        return usersDb.getAllStudentsByAccountId(accountId);
     }
 
     /**
@@ -596,7 +596,7 @@ public final class UsersLogic {
         assert courseId != null;
         assert accountId != null;
 
-        return usersDb.getStudentByGoogleId(courseId, accountId);
+        return usersDb.getStudentByAccountId(courseId, accountId);
     }
 
     /**
@@ -605,7 +605,7 @@ public final class UsersLogic {
     public List<Student> getStudentsByAccountId(UUID accountId) {
         assert accountId != null;
 
-        return usersDb.getStudentsByGoogleId(accountId);
+        return usersDb.getStudentsByAccountId(accountId);
     }
 
     /**
@@ -613,7 +613,7 @@ public final class UsersLogic {
      * course in the system.
      */
     public boolean isStudentInAnyCourse(UUID accountId) {
-        return !usersDb.getAllStudentsByGoogleId(accountId).isEmpty();
+        return !usersDb.getAllStudentsByAccountId(accountId).isEmpty();
     }
 
     /**
@@ -622,7 +622,7 @@ public final class UsersLogic {
     public List<User> getAllUsersByAccountId(UUID accountId) {
         assert accountId != null;
 
-        return usersDb.getAllUsersByGoogleId(accountId);
+        return usersDb.getAllUsersByAccountId(accountId);
     }
 
     /**
@@ -668,8 +668,8 @@ public final class UsersLogic {
         boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
                 && instrWithModifyInstructorPrivilege != null
                 && (!instrWithModifyInstructorPrivilege.isRegistered()
-                || instrWithModifyInstructorPrivilege.getGoogleId()
-                .equals(instructorToEdit.getGoogleId()));
+                || instrWithModifyInstructorPrivilege.getAccountId()
+                .equals(instructorToEdit.getAccountId()));
         if (isLastRegInstructorWithPrivilege) {
             instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         }
@@ -793,13 +793,13 @@ public final class UsersLogic {
     }
 
     /**
-     * Resets the googleId associated with the instructor.
+     * Resets the accountId associated with the instructor.
      */
-    public void resetInstructorGoogleId(String email, String courseId, String googleId)
+    public void resetInstructorGoogleId(String email, String courseId, String accountId)
             throws EntityDoesNotExistException {
         assert email != null;
         assert courseId != null;
-        assert googleId != null;
+        assert accountId != null;
 
         Instructor instructor = getInstructorForEmail(courseId, email);
 
@@ -810,8 +810,8 @@ public final class UsersLogic {
 
         instructor.setAccount(null);
 
-        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
-            accountsLogic.deleteAccountCascade(googleId);
+        if (usersDb.getAllUsersByAccountId(accountId).isEmpty()) {
+            accountsLogic.deleteAccountCascade(accountId);
         }
     }
 
@@ -932,13 +932,13 @@ public final class UsersLogic {
     }
 
     /**
-     * Resets the googleId associated with the student.
+     * Resets the accountId associated with the student.
      */
-    public void resetStudentGoogleId(String email, String courseId, String googleId)
+    public void resetStudentAccountId(String email, String courseId, UUID accountId)
             throws EntityDoesNotExistException {
         assert email != null;
         assert courseId != null;
-        assert googleId != null;
+        assert accountId != null;
 
         Student student = getStudentForEmail(courseId, email);
 
@@ -949,8 +949,8 @@ public final class UsersLogic {
 
         student.setAccount(null);
 
-        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
-            accountsLogic.deleteAccountCascade(googleId);
+        if (usersDb.getAllUsersByAccountId(accountId).isEmpty()) {
+            accountsLogic.deleteAccountCascade(accountId);
         }
     }
 
