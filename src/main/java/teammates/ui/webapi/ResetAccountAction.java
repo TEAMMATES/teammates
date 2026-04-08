@@ -39,7 +39,7 @@ public class ResetAccountAction extends AdminOnlyAction {
 
             try {
                 if (existingStudent.getGoogleId() != null) {
-                    sqlLogic.resetStudentAcccountId(studentEmail, courseId, existingStudent.getGoogleId());
+                    sqlLogic.resetStudentAccountId(studentEmail, courseId, existingStudent.getGoogleId());
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = sqlEmailGenerator

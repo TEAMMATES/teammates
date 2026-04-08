@@ -173,7 +173,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         assertEquals("Account is successfully reset.", output.getMessage());
         verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
         verify(mockLogic, times(1))
-                .resetStudentAcccountId(stubStudent.getEmail(), stubStudent.getCourseId(), stubStudent.getGoogleId());
+                .resetStudentAccountId(stubStudent.getEmail(), stubStudent.getCourseId(), stubStudent.getGoogleId());
     }
 
     @Test
@@ -195,7 +195,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         assertEquals("Account is successfully reset.", output.getMessage());
         verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
         verify(mockLogic, times(0))
-                .resetStudentAcccountId(stubStudent.getEmail(), stubStudent.getCourseId(), stubStudent.getGoogleId());
+                .resetStudentAccountId(stubStudent.getEmail(), stubStudent.getCourseId(), stubStudent.getGoogleId());
     }
 
     @Test
@@ -231,7 +231,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         };
         when(mockLogic.getStudentForEmail(stubStudent.getCourseId(), stubStudent.getEmail()))
                 .thenReturn(stubStudent);
-        doThrow(EntityDoesNotExistException.class).when(mockLogic).resetStudentAcccountId(stubStudent.getEmail(),
+        doThrow(EntityDoesNotExistException.class).when(mockLogic).resetStudentAccountId(stubStudent.getEmail(),
                 stubStudent.getCourseId(), stubStudent.getGoogleId());
         verifyEntityNotFound(params);
         assertEquals(0, mockTaskQueuer.getTasksAdded().size());

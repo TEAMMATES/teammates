@@ -1276,7 +1276,7 @@ public class Logic {
      * @throws EntityDoesNotExistException If student cannot be found with given
      *                                     email and courseId.
      */
-    public void resetStudentAcccountId(String email, String courseId, UUID accountId)
+    public void resetStudentAccountId(String email, String courseId, UUID accountId)
             throws EntityDoesNotExistException {
         usersLogic.resetStudentAccountId(email, courseId, accountId);
     }
