@@ -92,9 +92,8 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         // Get logs before cleanup to verify our test logs are created
         List<FeedbackSessionLog> logsBefore = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
                 Instant.EPOCH, referenceNow.plusSeconds(60));
-        boolean oldLogExistsBefore = logsBefore.stream().anyMatch(log -> log.getTimestamp().equals(oldTimestamp));
-        boolean atCutoffLogExistsBefore = logsBefore.stream()
-                .anyMatch(log -> log.getTimestamp().equals(atCutoffTimestamp));
+        boolean oldLogExistsBefore = logsBefore.stream().anyMatch(log -> log.getId().equals(oldLog.getId()));
+        boolean atCutoffLogExistsBefore = logsBefore.stream().anyMatch(log -> log.getId().equals(atCutoffLog.getId()));
         assertTrue("Old log with timestamp " + oldTimestamp + " should exist before cleanup", oldLogExistsBefore);
         assertTrue("Log with timestamp exactly at cutoff should exist before cleanup", atCutoffLogExistsBefore);
 
@@ -111,15 +110,15 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
 
         // Verify the old log was deleted
         assertFalse("Old log with timestamp " + oldTimestamp + " should be deleted after cleanup",
-                logsAfter.stream().anyMatch(log -> log.getTimestamp().equals(oldTimestamp)));
+                logsAfter.stream().anyMatch(log -> log.getId().equals(oldLog.getId())));
 
         // Verify log at exact cutoff is preserved because deletion is strictly older than cutoff.
         assertTrue("Log with timestamp exactly at cutoff should be preserved",
-                logsAfter.stream().anyMatch(log -> log.getTimestamp().equals(atCutoffTimestamp)));
+                logsAfter.stream().anyMatch(log -> log.getId().equals(atCutoffLog.getId())));
 
         // Verify log just inside boundary is preserved.
         assertTrue("Log just inside cutoff should be preserved",
-                logsAfter.stream().anyMatch(log -> log.getTimestamp().equals(boundaryTimestamp)));
+                logsAfter.stream().anyMatch(log -> log.getId().equals(boundaryLog.getId())));
 
         // Verify all remaining logs are not older than the retention boundary (inclusive).
         for (FeedbackSessionLog log : logsAfter) {
