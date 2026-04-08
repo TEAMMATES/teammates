@@ -137,8 +137,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         Instant fixedNow = Instant.parse("2026-01-01T00:00:00Z");
         when(mockLogic.getLatestFeedbackSessionLog(student1InCourse1.getId(), fsaCourse1.getId(),
                 FeedbackSessionLogType.ACCESS)).thenReturn(new FeedbackSessionLog(student1InCourse1, fsaCourse1,
-                FeedbackSessionLogType.ACCESS, fixedNow.minusMillis(
-                        Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis() - 1)));
+                FeedbackSessionLogType.ACCESS, fixedNow.minusMillis(1)));
 
         String[] paramsSuccessfulAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
