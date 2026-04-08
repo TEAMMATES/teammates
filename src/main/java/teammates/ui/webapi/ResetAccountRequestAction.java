@@ -33,7 +33,7 @@ public class ResetAccountRequestAction extends AdminOnlyAction {
         } catch (InvalidParametersException | EntityDoesNotExistException ue) {
             // InvalidParametersException and EntityDoesNotExistException should not be thrown as
             // validity of params has been verified when fetching entity.
-            throw new UnexpectedServerException(e.getMessage(), ue);
+            throw new UnexpectedServerException(ue.getMessage(), ue);
         }
 
         String joinLink = accountRequest.getRegistrationUrl();

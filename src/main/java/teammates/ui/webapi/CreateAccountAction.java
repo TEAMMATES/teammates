@@ -7,6 +7,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -68,7 +70,7 @@ public class CreateAccountAction extends Action {
             courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
         } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
             // There should not be any invalid parameter or entity conflict here
-            throw new UnexpectedServerException(e.getMessage(), e.getMessage(), e);
+            throw new UnexpectedServerException(e.getMessage(), e);
         }
 
         List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
