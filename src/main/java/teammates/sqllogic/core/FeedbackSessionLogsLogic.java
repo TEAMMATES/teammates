@@ -2,14 +2,18 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.hibernate.ObjectNotFoundException;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Handles operations related to feedback sessions.
@@ -76,6 +80,25 @@ public final class FeedbackSessionLogsLogic {
     public FeedbackSessionLog getLatestFeedbackSessionLog(UUID studentId, UUID feedbackSessionId,
             FeedbackSessionLogType feedbackSessionLogType) {
         return fslDb.getLatestFeedbackSessionLog(studentId, feedbackSessionId, feedbackSessionLogType);
+    }
+
+    /**
+     * Validates that feedback session log entities belong to the same course.
+     */
+    public void validateFeedbackSessionLogContext(Student student, FeedbackSession feedbackSession)
+            throws InvalidParametersException {
+        if (student == null) {
+            throw new InvalidParametersException("Student for feedback session log does not exist");
+        }
+        if (feedbackSession == null) {
+            throw new InvalidParametersException("Feedback session for feedback session log does not exist");
+        }
+
+        String studentCourseId = student.getCourse().getId();
+        String feedbackSessionCourseId = feedbackSession.getCourse().getId();
+        if (!Objects.equals(studentCourseId, feedbackSessionCourseId)) {
+            throw new InvalidParametersException("Student and feedback session belong to different courses");
+        }
     }
 
     /**

@@ -1,6 +1,7 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -16,6 +17,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -204,7 +206,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_invalidSessionName_shouldStillSucceedWithoutPersisting() {
+    void testExecute_invalidSessionName_shouldStillSucceed() {
         String nonExistentSessionName = "non-existent-feedback-session-name";
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -217,11 +219,14 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsNonExistentFsName));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
+        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
+            student1InCourse1.equals(log.getStudent())
+                && fsaCourse1.equals(log.getFeedbackSession())
+                && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test
-    void testExecute_invalidEmail_shouldStillSucceedWithoutPersisting() {
+    void testExecute_invalidEmail_shouldStillSucceed() {
         String nonExistentEmail = "non-existent-student@email.com";
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -234,11 +239,17 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(getAction(paramsNonExistentStudentEmail));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
+        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
+            student1InCourse1.equals(log.getStudent())
+                && fsaCourse1.equals(log.getFeedbackSession())
+                && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
     }
 
     @Test
-    void testExecute_studentHasNoAccessToCourseFeedback_shouldStillSucceedWithoutPersisting() {
+    void testExecute_studentHasNoAccessToCourseFeedback_shouldFail() throws Exception {
+        doThrow(new InvalidParametersException("Student and feedback session belong to different courses"))
+            .when(mockLogic).validateFeedbackSessionLogContext(student3InCourse2, fsaCourse1);
+
         String[] paramsWithoutAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
@@ -247,14 +258,15 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_EMAIL, student3Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student3Id,
         };
-        JsonResult response = getJsonResult(getAction(paramsWithoutAccess));
-        MessageOutput output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
+        assertThrows(teammates.ui.webapi.InvalidOperationException.class, () -> getAction(paramsWithoutAccess).execute());
         verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
 
     @Test
-    void testExecute_missingFeedbackSession_shouldStillSucceedWithoutPersisting() {
+    void testExecute_missingFeedbackSession_shouldFail() throws Exception {
+        doThrow(new InvalidParametersException("Feedback session for feedback session log does not exist"))
+                .when(mockLogic).validateFeedbackSessionLogContext(student1InCourse1, null);
+
         String[] paramsMissingFeedbackSession = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
@@ -263,14 +275,16 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
-        JsonResult response = getJsonResult(getAction(paramsMissingFeedbackSession));
-        MessageOutput output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
+            assertThrows(teammates.ui.webapi.InvalidOperationException.class,
+                () -> getAction(paramsMissingFeedbackSession).execute());
         verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
 
     @Test
-    void testExecute_missingStudent_shouldStillSucceedWithoutPersisting() {
+    void testExecute_missingStudent_shouldFail() throws Exception {
+        doThrow(new InvalidParametersException("Student for feedback session log does not exist"))
+            .when(mockLogic).validateFeedbackSessionLogContext(null, fsaCourse1);
+
         String[] paramsMissingStudent = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
@@ -279,9 +293,8 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
         };
-        JsonResult response = getJsonResult(getAction(paramsMissingStudent));
-        MessageOutput output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
+            assertThrows(teammates.ui.webapi.InvalidOperationException.class,
+                () -> getAction(paramsMissingStudent).execute());
         verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
 

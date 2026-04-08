@@ -2,11 +2,11 @@ package teammates.ui.webapi;
 
 import java.time.Clock;
 import java.time.Instant;
-import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -32,7 +32,7 @@ public class CreateFeedbackSessionLogAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidOperationException {
         String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
         if (convertedFslType == null) {
@@ -57,37 +57,24 @@ public class CreateFeedbackSessionLogAction extends Action {
 
         Student student = sqlLogic.getStudent(studentId);
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsId);
-        if (isValidLogContext(student, feedbackSession, courseId, fsName, studentEmail)) {
-            Instant now = Instant.now(clock);
-            FeedbackSessionLog latestLog = sqlLogic.getLatestFeedbackSessionLog(studentId, fsId, convertedFslType);
-            if (latestLog == null
-                    || now.toEpochMilli() - latestLog.getTimestamp().toEpochMilli()
-                            > Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis()) {
-                FeedbackSessionLog feedbackSessionLog =
-                        new FeedbackSessionLog(student, feedbackSession, convertedFslType, now);
-                sqlLogic.createFeedbackSessionLog(feedbackSessionLog);
-            }
+        try {
+            sqlLogic.validateFeedbackSessionLogContext(student, feedbackSession);
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidOperationException(ipe.getMessage());
+        }
+
+        Instant now = Instant.now(clock);
+        FeedbackSessionLog latestLog = sqlLogic.getLatestFeedbackSessionLog(studentId, fsId, convertedFslType);
+        if (latestLog == null
+                || now.toEpochMilli() - latestLog.getTimestamp().toEpochMilli()
+                        > Const.STUDENT_ACTIVITY_LOGS_FILTER_WINDOW.toMillis()) {
+            FeedbackSessionLog feedbackSessionLog =
+                    new FeedbackSessionLog(student, feedbackSession, convertedFslType, now);
+            sqlLogic.createFeedbackSessionLog(feedbackSessionLog);
         }
 
         log.event("Feedback session audit event: " + fslType, details);
 
         return new JsonResult("Successful");
-    }
-
-    /**
-     * Validates that request context is internally consistent before writing student activity logs.
-     */
-    private boolean isValidLogContext(Student student, FeedbackSession feedbackSession,
-                                      String courseId, String fsName, String studentEmail) {
-        if (student == null || feedbackSession == null) {
-            return false;
-        }
-
-        boolean isStudentCourseMatch = Objects.equals(student.getCourse().getId(), courseId);
-        boolean isSessionCourseMatch = Objects.equals(feedbackSession.getCourse().getId(), courseId);
-        boolean isSessionNameMatch = Objects.equals(feedbackSession.getName(), fsName);
-        boolean isStudentEmailMatch = Objects.equals(student.getEmail(), studentEmail);
-
-        return isStudentCourseMatch && isSessionCourseMatch && isSessionNameMatch && isStudentEmailMatch;
     }
 }

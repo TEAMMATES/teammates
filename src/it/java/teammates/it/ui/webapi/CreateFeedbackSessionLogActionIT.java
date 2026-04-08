@@ -126,7 +126,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         assertEquals(persistedSubmissionLogs.size(), 1);
         assertEquals(persistedSubmissionLogs.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
-        ______TS("Success case: should not create for inconsistent course id");
+        ______TS("Success case: should create even for invalid parameters");
         String[] paramsNonExistentCourseId = {
                 Const.ParamsNames.COURSE_ID, "non-existent-course-id",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
@@ -139,9 +139,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
-                Instant.now().plusSeconds(60)).size(), 2);
+                Instant.now().plusSeconds(60)).size(), 3);
 
-        ______TS("Success case: should not create for inconsistent feedback session name");
+        ______TS("Failure case: should fail for missing feedback session");
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent-feedback-session-name",
@@ -150,12 +150,11 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, UUID.randomUUID().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
-        response = getJsonResult(getAction(paramsNonExistentFsName));
-        output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
+        verifyInvalidOperation(paramsNonExistentFsName);
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
-                Instant.now().plusSeconds(60)).size(), 2);
+                Instant.now().plusSeconds(60)).size(), 3);
 
+        ______TS("Failure case: should fail for missing student");
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
@@ -164,13 +163,11 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, UUID.randomUUID().toString(),
         };
-        response = getJsonResult(getAction(paramsNonExistentStudentEmail));
-        output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
+        verifyInvalidOperation(paramsNonExistentStudentEmail);
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
-                Instant.now().plusSeconds(60)).size(), 2);
+                Instant.now().plusSeconds(60)).size(), 3);
 
-        ______TS("Success case: should not create when student does not belong to the course");
+        ______TS("Failure case: should fail when student does not belong to feedback session course");
         String[] paramsWithoutAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
@@ -179,9 +176,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student3.getId().toString(),
         };
-        response = getJsonResult(getAction(paramsWithoutAccess));
-        output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
+        verifyInvalidOperation(paramsWithoutAccess);
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student3.getId(), fs1.getId(),
                 Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 0);
 
@@ -197,7 +192,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student1.getId(), fs1.getId(),
-                Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 1);
+                Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 2);
 
         ______TS("Success case: different log type should still be persisted");
         String[] paramsViewResult = {
@@ -214,8 +209,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
 
         List<FeedbackSessionLog> allStudent1Session1Logs = logic.getOrderedFeedbackSessionLogs(courseId1,
                 student1.getId(), fs1.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60));
-        assertEquals(allStudent1Session1Logs.size(), 2);
-        assertEquals(allStudent1Session1Logs.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.VIEW_RESULT);
+        assertEquals(allStudent1Session1Logs.size(), 3);
+        assertTrue(allStudent1Session1Logs.stream()
+                .anyMatch(logEntry -> logEntry.getFeedbackSessionLogType() == FeedbackSessionLogType.VIEW_RESULT));
     }
 
     @Test

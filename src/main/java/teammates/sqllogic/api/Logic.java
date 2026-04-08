@@ -1809,6 +1809,14 @@ public class Logic {
     }
 
     /**
+     * Validates feedback session log context before writing activity logs.
+     */
+    public void validateFeedbackSessionLogContext(Student student, FeedbackSession feedbackSession)
+            throws InvalidParametersException {
+        feedbackSessionLogsLogic.validateFeedbackSessionLogContext(student, feedbackSession);
+    }
+
+    /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp. Logs with the same timestamp will be ordered by the
      * student's email.
