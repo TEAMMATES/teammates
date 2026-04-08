@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import org.mockito.MockedStatic;
@@ -22,7 +24,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.NotificationsDb;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 import teammates.test.BaseTestCase;
 
 /**
@@ -170,5 +174,41 @@ public class NotificationsLogicTest extends BaseTestCase {
                         "<p>Deprecation happens in three seconds</p>"));
 
         assertEquals("Trying to update non-existent Entity: " + Notification.class, ex.getMessage());
+    }
+
+    @Test
+    public void testGetReadNotificationsByAccountId_success() {
+        Account account = getTypicalAccount();
+        Notification notification1 = getTypicalNotificationWithId();
+        Notification notification2 = getTypicalNotificationWithId();
+
+        when(notificationsDb.getReadNotificationsByAccountId(account.getId())).thenReturn(List.of(
+                new ReadNotification(account, notification1),
+                new ReadNotification(account, notification2)
+        ));
+
+        List<ReadNotification> readNotifications = notificationsLogic.getReadNotificationsByAccountId(account.getId());
+        verify(notificationsDb, times(1)).getReadNotificationsByAccountId(account.getId());
+
+        assertEquals(2, readNotifications.size());
+        assertSame(account, readNotifications.get(0).getAccount());
+        assertSame(notification1, readNotifications.get(0).getNotification());
+        assertSame(account, readNotifications.get(1).getAccount());
+        assertSame(notification2, readNotifications.get(1).getNotification());
+    }
+
+    @Test
+    public void testCreateReadNotification_success() {
+        Account account = getTypicalAccount();
+        Notification notification = getTypicalNotificationWithId();
+
+        when(HibernateUtil.getReference(Account.class, account.getId())).thenReturn(account);
+        when(HibernateUtil.getReference(Notification.class, notification.getId())).thenReturn(notification);
+        when(notificationsDb.createReadNotification(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ReadNotification result = notificationsLogic.createReadNotification(account.getId(), notification.getId());
+        verify(notificationsDb, times(1)).createReadNotification(any());
+        assertEquals(account.getId(), result.getAccount().getId());
+        assertEquals(notification.getId(), result.getNotification().getId());
     }
 }

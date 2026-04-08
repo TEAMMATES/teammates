@@ -16,7 +16,9 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 import teammates.test.BaseTestCase;
 
 /**
@@ -99,4 +101,12 @@ public class NotificationsDbTest extends BaseTestCase {
         mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
     }
 
+    @Test
+    public void testDeleteReadNotification_success() {
+        Account account = getTypicalAccount();
+        Notification notification = getTypicalNotificationWithId();
+        ReadNotification readNotification = new ReadNotification(account, notification);
+        notificationsDb.deleteReadNotification(readNotification);
+        mockHibernateUtil.verify(() -> HibernateUtil.remove(readNotification));
+    }
 }

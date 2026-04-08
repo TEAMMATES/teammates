@@ -5,13 +5,12 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.ReadNotification;
 import teammates.ui.output.ReadNotificationsData;
 import teammates.ui.webapi.GetReadNotificationsAction;
 import teammates.ui.webapi.JsonResult;
@@ -35,16 +34,16 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
 
     @Test
     protected void testExecute_getReadNotificationsAsInstructor_shouldSucceed() {
-        Instructor instructor = getTypicalInstructor();
-        List<Notification> testNotifications = new ArrayList<>();
+        Account account = getTypicalAccount();
+        List<ReadNotification> testReadNotifications = new ArrayList<>();
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(account.getGoogleId());
         for (int i = 0; i < READ_NOTIFICATION_COUNT; i++) {
-            testNotifications.add(getTypicalNotificationWithId());
+            testReadNotifications.add(new ReadNotification(account, getTypicalNotificationWithId()));
         }
 
-        List<UUID> testNotificationIds = testNotifications.stream().map(Notification::getId).collect(Collectors.toList());
-        when(mockLogic.getReadNotificationsId(instructor.getGoogleId())).thenReturn(testNotificationIds);
+        when(mockLogic.getAccountForGoogleId(account.getGoogleId())).thenReturn(account);
+        when(mockLogic.getReadNotificationsByAccountId(account.getId())).thenReturn(testReadNotifications);
 
         GetReadNotificationsAction action = getAction();
         JsonResult jsonResult = getJsonResult(action);
@@ -53,8 +52,9 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
 
         List<UUID> readNotificationsData = output.getReadNotifications();
 
-        readNotificationsData.forEach(notificationId ->
-                assertTrue(testNotificationIds.contains(notificationId)));
         assertEquals(READ_NOTIFICATION_COUNT, readNotificationsData.size());
+        readNotificationsData.forEach(notificationId ->
+                assertTrue(testReadNotifications.stream()
+                        .anyMatch(readNotification -> readNotification.getNotification().getId().equals(notificationId))));
     }
 }
