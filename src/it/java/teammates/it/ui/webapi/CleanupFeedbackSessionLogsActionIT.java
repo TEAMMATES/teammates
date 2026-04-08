@@ -42,7 +42,7 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
 
     @Test
     @Override
-        protected void testExecute() throws Exception {
+    protected void testExecute() throws Exception {
         ______TS("Should delete logs older than 90 days and preserve recent logs");
 
         Student student = typicalBundle.students.get("student1InCourse1");
