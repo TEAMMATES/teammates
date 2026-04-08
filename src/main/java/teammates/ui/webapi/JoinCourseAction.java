@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.Course;
@@ -49,10 +47,7 @@ public class JoinCourseAction extends Action {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
-        } catch (InvalidParametersException ipe) {
-            // There should not be any invalid parameter here
-            throw new UnexpectedServerException(ipe);
-        }
+        } 
 
         sendJoinEmail(student.getCourseId(), student.getName(), student.getEmail(), false);
 
@@ -68,9 +63,6 @@ public class JoinCourseAction extends Action {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
-        } catch (InvalidParametersException ipe) {
-            // There should not be any invalid parameter here
-            throw new UnexpectedServerException(ipe);
         }
 
         sendJoinEmail(instructor.getCourseId(), instructor.getName(), instructor.getEmail(), true);
