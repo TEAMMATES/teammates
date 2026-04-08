@@ -44,6 +44,8 @@ import teammates.ui.webapi.FeedbackSessionOpeningSoonRemindersAction;
 import teammates.ui.webapi.FeedbackSessionPublishedRemindersAction;
 import teammates.ui.webapi.GenerateEmailAction;
 import teammates.ui.webapi.GetAccountAction;
+import teammates.ui.webapi.GetEmailTemplateAction;
+import teammates.ui.webapi.GetEmailTemplatesAction;
 import teammates.ui.webapi.GetAccountRequestAction;
 import teammates.ui.webapi.GetAccountRequestsAction;
 import teammates.ui.webapi.GetAccountsAction;
@@ -105,6 +107,7 @@ import teammates.ui.webapi.SubmitFeedbackResponsesAction;
 import teammates.ui.webapi.UnpublishFeedbackSessionAction;
 import teammates.ui.webapi.UpdateAccountRequestAction;
 import teammates.ui.webapi.UpdateCourseAction;
+import teammates.ui.webapi.UpdateEmailTemplateAction;
 import teammates.ui.webapi.UpdateFeedbackQuestionAction;
 import teammates.ui.webapi.UpdateFeedbackResponseCommentAction;
 import teammates.ui.webapi.UpdateFeedbackSessionAction;
@@ -235,7 +238,10 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 SendLoginEmailAction.class,
                 PutSqlDataBundleAction.class,
                 DeleteSqlDataBundleAction.class,
-                UpdateFeedbackSessionLogsAction.class
+                UpdateFeedbackSessionLogsAction.class,
+                GetEmailTemplateAction.class,
+                GetEmailTemplatesAction.class,
+                UpdateEmailTemplateAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)
