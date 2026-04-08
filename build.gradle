@@ -137,6 +137,10 @@ if (!project.hasProperty("runList")) {
     project.ext.set("runList", "main")
 }
 
+def liquibaseDiffTimestamp = new Date().format("yyyyMMddHHmmss")
+def liquibaseDiffChangelogFile = "src/main/resources/db/changelog/migrations/"
+    + "${liquibaseDiffTimestamp}-new-migration.xml"
+
 liquibase {
     activities {
         main {
@@ -155,7 +159,7 @@ liquibase {
         }
         diffMain {
             searchPath "${projectDir}"
-            changelogFile "src/main/resources/db/changelog/db.changelog-new.xml"
+            changelogFile liquibaseDiffChangelogFile
             referenceUrl  project.properties['liquibaseDbUrl']
             referenceUsername project.properties['liquibaseUsername']
             referencePassword project.properties['liquibasePassword']

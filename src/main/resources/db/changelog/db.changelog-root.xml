@@ -9,4 +9,5 @@
     <include file="src/main/resources/db/changelog/db.changelog-v9.0.0-beta.7.xml" />
     <include file="src/main/resources/db/changelog/db.changelog-add-gin.xml"/>
     <include file="src/main/resources/db/changelog/db.changelog-enforce-unique-read-notification.xml"/>
+    <includeAll path="src/main/resources/db/changelog/migrations"/>
 </databaseChangeLog>
