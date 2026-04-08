@@ -25,8 +25,8 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link CreateFeedbackSessionLogAction}.
  */
 public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFeedbackSessionLogAction> {
-        private static final String MATCHING_STUDENT_USER_ID = "matching.student";
-        private static final String NON_MATCHING_STUDENT_USER_ID = "nonmatching.student";
+    private static final String MATCHING_STUDENT_USER_ID = "matching.student";
+    private static final String NON_MATCHING_STUDENT_USER_ID = "nonmatching.student";
 
     Course course1;
     Course course2;
