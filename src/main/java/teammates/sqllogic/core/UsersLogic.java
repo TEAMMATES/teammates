@@ -245,7 +245,7 @@ public final class UsersLogic {
     /**
      * Gets an instructor by associated {@code accountId}.
      */
-    public Instructor getInstructorByAccountId(String courseId, String accountId) {
+    public Instructor getInstructorByAccountId(String courseId, UUID accountId) {
         assert courseId != null;
         assert accountId != null;
 
@@ -329,7 +329,7 @@ public final class UsersLogic {
     /**
      * Gets all instructors associated with a accountId.
      */
-    public List<Instructor> getInstructorsForAccountId(String accountId) {
+    public List<Instructor> getInstructorsForAccountId(UUID accountId) {
         assert accountId != null;
         return usersDb.getInstructorsForGoogleId(accountId);
     }
@@ -352,7 +352,7 @@ public final class UsersLogic {
      * @throws EntityAlreadyExistsException if the instructor already exists in the database.
      * @throws InvalidParametersException if the instructor parameters are not valid
      */
-    public Instructor joinCourseForInstructor(String accountId, Instructor instructor)
+    public Instructor joinCourseForInstructor(UUID accountId, Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
         if (accountId == null) {
             throw new InvalidParametersException("Instructor's accountId cannot be null");
@@ -592,7 +592,7 @@ public final class UsersLogic {
     /**
      * Gets a student by associated {@code accountId}.
      */
-    public Student getStudentByAccountId(String courseId, String accountId) {
+    public Student getStudentByAccountId(String courseId, UUID accountId) {
         assert courseId != null;
         assert accountId != null;
 
@@ -602,7 +602,7 @@ public final class UsersLogic {
     /**
      * Gets all students associated with a accountId.
      */
-    public List<Student> getStudentsByAccountId(String accountId) {
+    public List<Student> getStudentsByAccountId(UUID accountId) {
         assert accountId != null;
 
         return usersDb.getStudentsByGoogleId(accountId);
@@ -612,14 +612,14 @@ public final class UsersLogic {
      * Returns true if the user associated with the accountId is a student in any
      * course in the system.
      */
-    public boolean isStudentInAnyCourse(String accountId) {
+    public boolean isStudentInAnyCourse(UUID accountId) {
         return !usersDb.getAllStudentsByGoogleId(accountId).isEmpty();
     }
 
     /**
      * Gets all instructors and students by {@code accountId}.
      */
-    public List<User> getAllUsersByAccountId(String accountId) {
+    public List<User> getAllUsersByAccountId(UUID accountId) {
         assert accountId != null;
 
         return usersDb.getAllUsersByGoogleId(accountId);
@@ -966,7 +966,7 @@ public final class UsersLogic {
      * {@code institute}
      * (ie. has an existing course(s) with the same {@code institute}).
      */
-    public boolean canInstructorCreateCourse(String accountId, String institute) {
+    public boolean canInstructorCreateCourse(UUID accountId, String institute) {
         assert accountId != null;
         assert institute != null;
 

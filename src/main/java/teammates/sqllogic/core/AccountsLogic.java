@@ -101,7 +101,7 @@ public final class AccountsLogic {
      *
      * <p>Fails silently if the account doesn't exist.</p>
      */
-    public void deleteAccountCascade(String accountId) {
+    public void deleteAccountCascade(UUID accountId{
         assert accountId != null;
 
         List<User> usersToDelete = usersLogic.getAllUsersByAccountId(accountId);
@@ -116,7 +116,7 @@ public final class AccountsLogic {
     /**
      * Joins the user as a student.
      */
-    public Student joinCourseForStudent(String registrationKey, String accountId)
+    public Student joinCourseForStudent(String registrationKey, UUID accountId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Student student = validateStudentJoinRequest(registrationKey, accountId);
 
@@ -137,7 +137,7 @@ public final class AccountsLogic {
     /**
      * Joins the user as an instructor.
      */
-    public Instructor joinCourseForInstructor(String key, String accountId)
+    public Instructor joinCourseForInstructor(String key, UUID accountId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         Instructor instructor = validateInstructorJoinRequest(key, accountId);
 
@@ -163,7 +163,7 @@ public final class AccountsLogic {
         return instructor;
     }
 
-    private Instructor validateInstructorJoinRequest(String registrationKey, String accountId)
+    private Instructor validateInstructorJoinRequest(String registrationKey, UUID accountId)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
         Instructor instructorForKey = usersLogic.getInstructorByRegistrationKey(registrationKey);
 
@@ -203,7 +203,7 @@ public final class AccountsLogic {
         return instructorForKey;
     }
 
-    private Student validateStudentJoinRequest(String registrationKey, String accountId)
+    private Student validateStudentJoinRequest(String registrationKey, UUID accountId)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
         Student studentRole = usersLogic.getStudentByRegistrationKey(registrationKey);

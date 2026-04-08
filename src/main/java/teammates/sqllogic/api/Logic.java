@@ -333,7 +333,7 @@ public class Logic {
      * @throws InvalidParametersException   if the course is not valid.
      * @throws EntityAlreadyExistsException if the course already exists.
      */
-    public void createCourseAndInstructor(String instructorAccountId, Course course)
+    public void createCourseAndInstructor(UUID instructorAccountId, Course course)
             throws InvalidParametersException, EntityAlreadyExistsException {
         coursesLogic.createCourseAndInstructor(instructorAccountId, course);
     }
@@ -899,7 +899,7 @@ public class Logic {
     /**
      * Gets list of instructors by {@code accountId}.
      */
-    public List<Instructor> getInstructorsForAccountId(String accountId) {
+    public List<Instructor> getInstructorsForAccountId(UUID accountId) {
         return usersLogic.getInstructorsForAccountId(accountId);
     }
 
@@ -932,7 +932,7 @@ public class Logic {
      * Preconditions: <br>
      * * Parameters regkey and accountId are non-null.
      */
-    public Instructor joinCourseForInstructor(String regkey, String accountId)
+    public Instructor joinCourseForInstructor(String regkey, UUID accountId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert accountId != null;
@@ -949,7 +949,7 @@ public class Logic {
      * Preconditions:
      * Parameters regkey and accountId are non-null.
      */
-    public Instructor joinCourseForInstructor(String accountId, Instructor instructor)
+    public Instructor joinCourseForInstructor(UUID accountId, Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         if (accountId == null) {
             throw new InvalidParametersException("Instructor's accountId cannot be null");
@@ -968,7 +968,7 @@ public class Logic {
      * @return true if the instructor can join the course.
      * @throws Exception if the instructor cannot join the course.
      */
-    private boolean validateJoinCourseRequest(String accountId, Instructor instructor)
+    private boolean validateJoinCourseRequest(UUID accountId, Instructor instructor)
             throws EntityAlreadyExistsException, EntityDoesNotExistException {
         if (instructor == null) {
             throw new EntityDoesNotExistException("Instructor not found");
@@ -1030,7 +1030,7 @@ public class Logic {
      * Checks if an instructor with {@code accountId} can create a course with
      * {@code institute}.
      */
-    public boolean canInstructorCreateCourse(String accountId, String institute) {
+    public boolean canInstructorCreateCourse(UUID accountId, String institute) {
         return usersLogic.canInstructorCreateCourse(accountId, institute);
     }
 
@@ -1107,7 +1107,7 @@ public class Logic {
     /**
      * Gets a student by associated {@code accountId}.
      */
-    public Student getStudentByAccountId(String courseId, String accountId) {
+    public Student getStudentByAccountId(String courseId, UUID accountId) {
         return usersLogic.getStudentByAccountId(courseId, accountId);
     }
 
@@ -1223,7 +1223,7 @@ public class Logic {
      *
      * @param key the registration key
      */
-    public Student joinCourseForStudent(String key, String accountId)
+    public Student joinCourseForStudent(String key, UUID accountId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert accountId != null;
@@ -1236,7 +1236,7 @@ public class Logic {
     /**
      * Gets all instructors and students by associated {@code accountId}.
      */
-    public List<User> getAllUsersByAccountId(String accountId) {
+    public List<User> getAllUsersByAccountId(UUID accountId) {
         return usersLogic.getAllUsersByAccountId(accountId);
     }
 
