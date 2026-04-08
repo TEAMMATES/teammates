@@ -40,7 +40,51 @@ public enum ConfigurableEmailTemplate {
             "TEAMMATES: Invitation to join course as an instructor [${courseName}][Course ID: ${courseId}]",
             Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
                     "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN),
-            List.of("${joinUrl}"));
+            List.of("${joinUrl}")),
+
+    LOGIN(
+            "TEAMMATES: Log in to TEAMMATES",
+            EmailTemplates.LOGIN_EMAIL,
+            List.of("${loginLink}")),
+
+    FEEDBACK_PUBLISHED(
+            "TEAMMATES: Feedback session results published"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED,
+            List.of()),
+
+    FEEDBACK_UNPUBLISHED(
+            "TEAMMATES: Feedback session results unpublished"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED,
+            List.of()),
+
+    FEEDBACK_OPENED(
+            "TEAMMATES: Feedback session now open [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_OPENED, "${status}", "is now open"),
+            List.of()),
+
+    USER_COURSE_REGISTER(
+            "TEAMMATES: Registered for Course [${courseName}][Course ID: ${courseId}]",
+            EmailTemplates.USER_COURSE_REGISTER,
+            List.of()),
+
+    STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET(
+            "TEAMMATES: Your account has been reset for course [${courseName}][Course ID: ${courseId}]",
+            Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
+                    "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET),
+            List.of("${joinUrl}")),
+
+    INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET(
+            "TEAMMATES: Your account has been reset for course [${courseName}][Course ID: ${courseId}]",
+            Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
+                    "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET),
+            List.of("${joinUrl}")),
+
+    NEW_ACCOUNT_REQUEST_ADMIN_ALERT(
+            "TEAMMATES (Action Needed): New Account Request Received",
+            EmailTemplates.ADMIN_NEW_ACCOUNT_REQUEST_ALERT,
+            List.of("${adminAccountRequestsPageUrl}"));
 
     // CHECKSTYLE.ON:JavadocVariable
 

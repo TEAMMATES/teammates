@@ -34,7 +34,11 @@ public final class DeadlineExtensionsLogic {
         return instance;
     }
 
-    void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb, FeedbackSessionsLogic feedbackSessionsLogic) {
+    /**
+     * Initializes the logic dependencies for this logic class.
+     */
+    public void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb,
+            FeedbackSessionsLogic feedbackSessionsLogic) {
         this.deadlineExtensionsDb = deadlineExtensionsDb;
         this.feedbackSessionsLogic = feedbackSessionsLogic;
     }
