@@ -32,8 +32,4 @@ public class InvalidOperationException extends Exception {
         super(message, cause);
     }
 
-    public InvalidOperationException(Throwable cause) {
-        super(cause.getMessage(), cause);
-    }
-
 }

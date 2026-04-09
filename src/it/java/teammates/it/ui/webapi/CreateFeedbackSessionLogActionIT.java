@@ -13,11 +13,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.sqllogic.core.FeedbackSessionLogsLogic;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
-import teammates.sqllogic.core.FeedbackSessionLogsLogic;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.CreateFeedbackSessionLogAction;
 import teammates.ui.webapi.JsonResult;
@@ -27,7 +27,7 @@ import teammates.ui.webapi.JsonResult;
  */
 public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbackSessionLogAction> {
 
-        private final FeedbackSessionLogsLogic fslLogic = FeedbackSessionLogsLogic.inst();
+    private final FeedbackSessionLogsLogic fslLogic = FeedbackSessionLogsLogic.inst();
 
     @Override
     @BeforeMethod
@@ -153,7 +153,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, UUID.randomUUID().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
-        verifyInvalidOperation(paramsNonExistentFsName);
+        verifyHttpParameterFailure(paramsNonExistentFsName);
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
                 Instant.now().plusSeconds(60)).size(), 3);
 
@@ -166,7 +166,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, UUID.randomUUID().toString(),
         };
-        verifyInvalidOperation(paramsNonExistentStudentEmail);
+        verifyHttpParameterFailure(paramsNonExistentStudentEmail);
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
                 Instant.now().plusSeconds(60)).size(), 3);
 
@@ -179,7 +179,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student3.getId().toString(),
         };
-        verifyInvalidOperation(paramsWithoutAccess);
+        verifyHttpParameterFailure(paramsWithoutAccess);
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student3.getId(), fs1.getId(),
                 Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 0);
 

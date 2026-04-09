@@ -64,7 +64,7 @@ public class CreateFeedbackSessionLogAction extends Action {
         try {
             sqlLogic.createFeedbackSessionLog(feedbackSessionLog);
         } catch (InvalidParametersException ipe) {
-            throw new InvalidOperationException(ipe);
+            throw new InvalidHttpParameterException(ipe);
         }
 
         return new JsonResult("Successful");

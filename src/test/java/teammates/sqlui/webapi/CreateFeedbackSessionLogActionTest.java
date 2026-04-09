@@ -273,7 +273,8 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_EMAIL, student3Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student3Id,
         };
-        assertThrows(teammates.ui.webapi.InvalidOperationException.class, () -> getAction(paramsWithoutAccess).execute());
+        assertThrows(teammates.ui.webapi.InvalidHttpParameterException.class,
+                () -> getAction(paramsWithoutAccess).execute());
         verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
 
@@ -292,7 +293,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
-        assertThrows(teammates.ui.webapi.InvalidOperationException.class,
+        assertThrows(teammates.ui.webapi.InvalidHttpParameterException.class,
                 () -> getAction(paramsMissingFeedbackSession).execute());
         verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
@@ -312,7 +313,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
         };
-        assertThrows(teammates.ui.webapi.InvalidOperationException.class,
+        assertThrows(teammates.ui.webapi.InvalidHttpParameterException.class,
                 () -> getAction(paramsMissingStudent).execute());
         verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
