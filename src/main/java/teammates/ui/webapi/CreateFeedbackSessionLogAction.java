@@ -19,11 +19,15 @@ public class CreateFeedbackSessionLogAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
+        return AuthType.PUBLIC;
     }
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        if (userInfo == null) {
+            return;
+        }
+
         if (!userInfo.isStudent) {
             throw new UnauthorizedAccessException("Only students can create feedback session logs.");
         }

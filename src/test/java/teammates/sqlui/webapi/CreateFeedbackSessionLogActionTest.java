@@ -135,7 +135,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         verifyCannotAccess(params);
 
         logoutUser();
-        verifyCannotAccess(params);
+        verifyCanAccess(params);
     }
 
     @Test
