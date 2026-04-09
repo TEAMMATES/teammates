@@ -116,7 +116,7 @@ public class LocalLoggingService implements LogService {
         RequestLogUser userInfoFilter = queryLogsParams.getUserInfoParams();
         String regkeyFilter = userInfoFilter.getRegkey();
         String emailFilter = userInfoFilter.getEmail();
-        String googleIdFilter = userInfoFilter.getGoogleId();
+        String googleIdFilter = userInfoFilter.getAccountId();
 
         if (actionClassFilter == null && exceptionClassFilter == null && logEventFilter == null
                 && latencyFilter == null && statusFilter == null && regkeyFilter == null
@@ -201,7 +201,7 @@ public class LocalLoggingService implements LogService {
                 || !SanitizationHelper.areEmailsEqual(emailFilter, userInfo.getEmail()))) {
             return false;
         }
-        return googleIdFilter == null || userInfo != null && googleIdFilter.equals(userInfo.getGoogleId());
+        return googleIdFilter == null || userInfo != null && googleIdFilter.equals(userInfo.getAccountId());
     }
 
     @Override

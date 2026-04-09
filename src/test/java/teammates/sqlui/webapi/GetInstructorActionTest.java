@@ -159,7 +159,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         GetInstructorAction getInstructorAction = getAction(params);
         InstructorData actionOutput = (InstructorData) getJsonResult(getInstructorAction).getOutput();
         InstructorData expected = new InstructorData(instructor);
-        expected.setGoogleId("google-id");
+        expected.setAccountId("google-id");
         assertEquals(JsonUtils.toJson(expected), JsonUtils.toJson(actionOutput));
     }
 

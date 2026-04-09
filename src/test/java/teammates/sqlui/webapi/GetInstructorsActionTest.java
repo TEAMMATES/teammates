@@ -81,9 +81,9 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         expectedInstructorsData.getInstructors().get(0).setKey(stubInstructorWithPermission.getRegKey());
         expectedInstructorsData.getInstructors().get(1).setKey(stubInstructorWithoutPermission.getRegKey());
         expectedInstructorsData.getInstructors().get(2).setKey(stubInstructorWithOnlyModifyInstructorPrivilege.getRegKey());
-        expectedInstructorsData.getInstructors().get(0).setGoogleId(stubInstructorWithPermission.getGoogleId());
-        expectedInstructorsData.getInstructors().get(1).setGoogleId(stubInstructorWithoutPermission.getGoogleId());
-        expectedInstructorsData.getInstructors().get(2).setGoogleId(stubInstructorWithOnlyModifyInstructorPrivilege
+        expectedInstructorsData.getInstructors().get(0).setAccountId(stubInstructorWithPermission.getGoogleId());
+        expectedInstructorsData.getInstructors().get(1).setAccountId(stubInstructorWithoutPermission.getGoogleId());
+        expectedInstructorsData.getInstructors().get(2).setAccountId(stubInstructorWithOnlyModifyInstructorPrivilege
                 .getGoogleId());
 
         reset(mockLogic);
@@ -215,7 +215,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         assertEquals(expectedInstructors.size(), actualInstructors.size());
         for (int i = 0; i < expectedInstructors.size(); i++) {
             if (isNullIntent) {
-                assertNull(actualInstructors.get(i).getGoogleId());
+                assertNull(actualInstructors.get(i).getAccountId());
                 assertNull(actualInstructors.get(i).getJoinState());
                 assertNull(actualInstructors.get(i).getIsDisplayedToStudents());
                 assertNull(actualInstructors.get(i).getRole());
@@ -237,10 +237,10 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
                 }
 
                 if (isGoogleIdSetForFullDetail) {
-                    assertNotNull(actualInstructors.get(i).getGoogleId());
-                    assertEquals(expectedInstructors.get(i).getGoogleId(), actualInstructors.get(i).getGoogleId());
+                    assertNotNull(actualInstructors.get(i).getAccountId());
+                    assertEquals(expectedInstructors.get(i).getAccountId(), actualInstructors.get(i).getAccountId());
                 } else {
-                    assertNull(actualInstructors.get(i).getGoogleId());
+                    assertNull(actualInstructors.get(i).getAccountId());
                 }
                 assertEquals(expectedInstructors.get(i).getName(), actualInstructors.get(i).getName());
                 assertEquals(expectedInstructors.get(i).getEmail(), actualInstructors.get(i).getEmail());

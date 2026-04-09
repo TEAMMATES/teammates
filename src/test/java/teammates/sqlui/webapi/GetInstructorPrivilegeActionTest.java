@@ -91,7 +91,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     void testAccessControl_students_cannotAccess() {
-        loginAsStudent(Const.ParamsNames.STUDENT_ID);
+        loginAsStudent(Const.ParamsNames.STUDENT_ACCOUNT_ID);
 
         String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
         verifyCannotAccess(submissionParams);

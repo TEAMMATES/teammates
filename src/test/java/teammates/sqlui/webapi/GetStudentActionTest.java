@@ -176,7 +176,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
         stubStudentData = new StudentData(stubStudent);
         stubStudentData.setKey(stubStudent.getRegKey());
-        stubStudentData.setGoogleId(stubStudent.getAccount().getGoogleId());
+        stubStudentData.setAccountId(stubStudent.getAccount().getGoogleId());
 
         GetStudentAction action = getAction(params);
         StudentData studentData = (StudentData) getJsonResult(action).getOutput();
@@ -269,7 +269,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         switch (reqEntity) {
         case STUDENT:
-            assertNull(actualStudentData.getGoogleId());
+            assertNull(actualStudentData.getAccountId());
             assertNull(actualStudentData.getKey());
             assertNull(actualStudentData.getComments());
             assertNull(actualStudentData.getJoinState());
@@ -277,7 +277,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             assertEquals(expectedStudentData.getInstitute(), actualStudentData.getInstitute());
             break;
         case INSTRUCTOR:
-            assertNull(actualStudentData.getGoogleId());
+            assertNull(actualStudentData.getAccountId());
             assertNull(actualStudentData.getKey());
 
             assertNotNull(actualStudentData.getComments());
@@ -286,13 +286,13 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             assertEquals(expectedStudentData.getJoinState(), actualStudentData.getJoinState());
             break;
         case ADMIN:
-            assertNotNull(actualStudentData.getGoogleId());
+            assertNotNull(actualStudentData.getAccountId());
             assertNotNull(actualStudentData.getKey());
             assertNotNull(actualStudentData.getComments());
             assertNotNull(actualStudentData.getJoinState());
 
             assertEquals(expectedStudentData.getKey(), actualStudentData.getKey());
-            assertEquals(expectedStudentData.getGoogleId(), actualStudentData.getGoogleId());
+            assertEquals(expectedStudentData.getAccountId(), actualStudentData.getAccountId());
             assertEquals(expectedStudentData.getComments(), actualStudentData.getComments());
             assertEquals(expectedStudentData.getJoinState(), actualStudentData.getJoinState());
             break;

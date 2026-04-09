@@ -75,7 +75,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     void testExecute_deleteStudentById_success() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, studentId,
+                Const.ParamsNames.STUDENT_ACCOUNT_ID, studentId,
         };
 
         DeleteStudentAction action = getAction(params);
@@ -92,7 +92,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "RANDOM_COURSE",
-                Const.ParamsNames.STUDENT_ID, studentId,
+                Const.ParamsNames.STUDENT_ACCOUNT_ID, studentId,
         };
 
         DeleteStudentAction action = getAction(params);
@@ -109,7 +109,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, "RANDOM_STUDENT",
+                Const.ParamsNames.STUDENT_ACCOUNT_ID, "RANDOM_STUDENT",
         };
 
         DeleteStudentAction action = getAction(params);
@@ -156,7 +156,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     @Test
     void testExecute_missingCourseIdWithStudentId_throwsInvalidHttpParameterException() {
         String[] params = {
-                Const.ParamsNames.STUDENT_ID, studentId,
+                Const.ParamsNames.STUDENT_ACCOUNT_ID, studentId,
         };
 
         verifyHttpParameterFailure(params);
@@ -175,7 +175,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, studentId,
+                Const.ParamsNames.STUDENT_ACCOUNT_ID, studentId,
         };
 
         verifyAdminsCanAccess(params);
