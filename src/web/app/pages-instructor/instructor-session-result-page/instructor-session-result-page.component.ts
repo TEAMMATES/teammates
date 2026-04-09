@@ -26,6 +26,7 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   CourseSectionNames,
+  FeedbackResponseComment,
   FeedbackQuestions,
   FeedbackSession,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -39,7 +40,10 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
+import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -55,7 +59,6 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ViewResultsPanelComponent } from '../../components/view-results-panel/view-results-panel.component';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorCommentsComponent } from '../instructor-comments.component';
 import { SectionTabModel, QuestionTabModel } from './instructor-session-tab.model';
 
 const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
@@ -87,7 +90,7 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     CommentToCommentRowModelPipe,
   ],
 })
-export class InstructorSessionResultPageComponent extends InstructorCommentsComponent implements OnInit {
+export class InstructorSessionResultPageComponent implements OnInit {
 
   // enum
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
@@ -130,6 +133,12 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   allInstructorsInCourse: Instructor[] = [];
   emailOfInstructorToPreview: string = '';
 
+  currInstructorName?: string;
+
+  // this is a separate model for instructor comments
+  // from responseID to comment table model
+  instructorCommentTableModel: Record<string, CommentTableModel> = {};
+
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
 
@@ -166,12 +175,123 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private simpleModalService: SimpleModalService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
               private navigationService: NavigationService,
-              statusMessageService: StatusMessageService,
-              commentService: FeedbackResponseCommentService,
-              commentToCommentRowModel: CommentToCommentRowModelPipe,
-              tableComparatorService: TableComparatorService) {
-    super(commentToCommentRowModel, commentService, statusMessageService, tableComparatorService);
+              private statusMessageService: StatusMessageService,
+              private commentService: FeedbackResponseCommentService,
+              private commentToCommentRowModel: CommentToCommentRowModelPipe,
+              private tableComparatorService: TableComparatorService) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
+  }
+
+  /**
+   * Deletes an instructor comment.
+   */
+  deleteComment(data: { responseId: string, index: number }): void {
+    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
+    const commentToDelete: FeedbackResponseComment =
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        this.instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
+
+    this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
+        .subscribe({
+          next: () => {
+            commentTableModel.commentRows.splice(data.index, 1);
+            this.instructorCommentTableModel[data.responseId] = {
+              ...commentTableModel,
+            };
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+  }
+
+  /**
+   * Updates an instructor comment.
+   */
+  updateComment(data: { responseId: string, index: number }, timezone: string): void {
+    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
+    const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
+
+    this.commentService.updateComment({
+      commentText: commentRowToUpdate.commentEditFormModel.commentText,
+      showCommentTo: commentRowToUpdate.commentEditFormModel.showCommentTo,
+      showGiverNameTo: commentRowToUpdate.commentEditFormModel.showGiverNameTo,
+    }, commentToUpdate.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
+        .subscribe({
+          next: (commentResponse: FeedbackResponseComment) => {
+            commentTableModel.commentRows[data.index] = this.commentToCommentRowModel.transform({
+              ...commentResponse,
+              commentGiverName: commentRowToUpdate.commentGiverName,
+              // the current instructor will become the last editor
+              lastEditorName: this.currInstructorName,
+            }, timezone);
+            this.instructorCommentTableModel[data.responseId] = {
+              ...commentTableModel,
+            };
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+  }
+
+  /**
+   * Saves an instructor comment.
+   */
+  addComment(responseId: string, timezone: string): void {
+    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[responseId];
+    const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
+
+    this.commentService.createComment({
+      commentText: commentRowToAdd.commentEditFormModel.commentText,
+      showCommentTo: commentRowToAdd.commentEditFormModel.showCommentTo,
+      showGiverNameTo: commentRowToAdd.commentEditFormModel.showGiverNameTo,
+    }, responseId, Intent.INSTRUCTOR_RESULT)
+        .subscribe({
+          next: (commentResponse: FeedbackResponseComment) => {
+            commentTableModel.commentRows.push(this.commentToCommentRowModel.transform({
+              ...commentResponse,
+              // the giver and editor name will be the current login instructor
+              commentGiverName: this.currInstructorName,
+              lastEditorName: this.currInstructorName,
+            }, timezone));
+            this.instructorCommentTableModel[responseId] = {
+              ...commentTableModel,
+              newCommentRow: {
+                commentEditFormModel: {
+                  commentText: '',
+                  isUsingCustomVisibilities: false,
+                  showCommentTo: [],
+                  showGiverNameTo: [],
+                },
+                isEditing: false,
+              },
+              isAddingNewComment: false,
+            };
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+  }
+
+  // Kept for compatibility with existing template bindings.
+  saveNewComment(responseId: string, timezone: string): void {
+    this.addComment(responseId, timezone);
+  }
+
+  /**
+   * Sorts instructor's comments according to creation date.
+   */
+  sortComments(commentTable: CommentTableModel): void {
+    commentTable.commentRows.sort((a: CommentRowModel, b: CommentRowModel) => {
+      return this.tableComparatorService.compare(
+          SortBy.COMMENTS_CREATION_DATE,
+          SortOrder.ASC,
+          String(a.originalComment?.createdAt), String(b.originalComment?.createdAt));
+    });
   }
 
   ngOnInit(): void {
