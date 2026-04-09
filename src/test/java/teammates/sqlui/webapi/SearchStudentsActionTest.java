@@ -87,11 +87,11 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
             assertEquals(student.getSectionName(), studentData.getSectionName());
 
             if (isAdmin) {
-                assertEquals(student.getGoogleId(), studentData.getGoogleId());
+                assertEquals(student.getGoogleId(), studentData.getAccountId());
                 assertEquals(student.getRegKey(), studentData.getKey());
                 assertEquals(student.getCourse().getInstitute(), studentData.getInstitute());
             } else {
-                assertNull(studentData.getGoogleId());
+                assertNull(studentData.getAccountId());
                 assertNull(studentData.getKey());
                 assertNull(studentData.getInstitute());
             }

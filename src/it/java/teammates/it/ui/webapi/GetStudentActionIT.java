@@ -113,7 +113,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
 
         assertEquals(student.getName(), response.getName());
         assertEquals(student.getRegKey(), response.getKey());
-        assertEquals(student.getGoogleId(), response.getGoogleId());
+        assertEquals(student.getGoogleId(), response.getAccountId());
     }
 
     @Test

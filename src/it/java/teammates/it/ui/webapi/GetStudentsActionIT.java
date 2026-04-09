@@ -61,7 +61,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
 
         StudentData firstStudentInStudents = students.get(0);
 
-        assertNull(firstStudentInStudents.getGoogleId());
+        assertNull(firstStudentInStudents.getAccountId());
         assertNull(firstStudentInStudents.getKey());
         assertEquals(student.getName(), firstStudentInStudents.getName());
         assertEquals(student.getCourseId(), firstStudentInStudents.getCourseId());
@@ -86,7 +86,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
 
         StudentData actualOtherTeamMember = students.get(1);
 
-        assertNull(actualOtherTeamMember.getGoogleId());
+        assertNull(actualOtherTeamMember.getAccountId());
         assertNull(actualOtherTeamMember.getKey());
         assertEquals(expectedOtherTeamMember.getName(), actualOtherTeamMember.getName());
         assertEquals(expectedOtherTeamMember.getCourseId(), actualOtherTeamMember.getCourseId());

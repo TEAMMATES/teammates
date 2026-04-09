@@ -55,7 +55,7 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
         assertEquals(instructor.getName(), response.getName());
-        assertNull(response.getGoogleId());
+        assertNull(response.getAccountId());
         assertNull(response.getKey());
 
         ______TS("Typical Success Case with FULL_DETAIL");
