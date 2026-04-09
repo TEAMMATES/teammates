@@ -7,7 +7,7 @@ public class RequestLogUser {
 
     private String regkey;
     private String email;
-    private String accountId;
+    private String googleId;
 
     public String getRegkey() {
         return regkey;
@@ -25,12 +25,12 @@ public class RequestLogUser {
         this.email = email;
     }
 
-    public String getAccountId() {
-        return accountId;
+    public String getGoogleId() {
+        return googleId;
     }
 
-    public void getAccountId(String accountId) {
-        this.accountId = accountId;
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 
 }
