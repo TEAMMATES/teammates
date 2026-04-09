@@ -82,7 +82,7 @@ public class GetStudentAction extends Action {
             studentData.setKey(student.getRegKey());
             studentData.setGoogleId(
                     Optional.ofNullable(student.getAccount())
-                        .map(Account::getGoogleId)
+                        .map(Account::getAccountId)
                         .orElse("")
             );
         }

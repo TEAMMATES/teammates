@@ -133,7 +133,7 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
     private String getRegisteredInstructorGoogleIdFromInstructors(List<Instructor> instructors) {
         for (Instructor instructor : instructors) {
             if (instructor.isRegistered()) {
-                return instructor.getGoogleId();
+                return instructor.getAccountId();
             }
         }
         return null;

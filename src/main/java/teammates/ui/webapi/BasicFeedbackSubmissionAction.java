@@ -88,7 +88,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                 if (userInfo == null) {
                     // Student is associated with an account; even if registration key is passed, do not allow access
                     throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!userInfo.id.equals(student.getAccount().getGoogleId())) {
+                } else if (!userInfo.id.equals(student.getAccount().getAccountId())) {
                     // Logged in student is not the same as the student registered for the given key, do not allow access
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
                 }
@@ -109,7 +109,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
         if (StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyAccessible(student, feedbackSession);
-            verifyMatchingGoogleId(student.getGoogleId());
+            verifyMatchingGoogleId(student.getAccountId());
         } else {
             checkAccessControlForPreview(feedbackSession, false);
         }
@@ -159,7 +159,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                 if (userInfo == null) {
                     // Instructor is associated to an account; even if registration key is passed, do not allow access
                     throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!userInfo.id.equals(instructor.getAccount().getGoogleId())) {
+                } else if (!userInfo.id.equals(instructor.getAccount().getAccountId())) {
                     // Logged in instructor is not the same as the instructor registered for the given key,
                     // do not allow access
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
@@ -182,7 +182,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyAccessible(instructor, feedbackSession,
                     Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-            verifyMatchingGoogleId(instructor.getGoogleId());
+            verifyMatchingGoogleId(instructor.getAccountId());
         } else {
             checkAccessControlForPreview(feedbackSession, true);
         }

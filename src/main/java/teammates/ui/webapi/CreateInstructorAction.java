@@ -84,7 +84,7 @@ public class CreateInstructorAction extends Action {
         Instructor createdInstructor = sqlLogic.createInstructor(instructorToAdd);
 
         // Generate and queue invitation email to priority queue (user-triggered)
-        Account inviter = sqlLogic.getAccountForId(userInfo.id);
+        Account inviter = sqlLogic.getAccount(userInfo.id);
         if (inviter == null) {
             throw new EntityNotFoundException("Inviter account does not exist.");
         }

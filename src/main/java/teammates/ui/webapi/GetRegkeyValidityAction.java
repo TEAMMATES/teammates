@@ -36,13 +36,13 @@ public class GetRegkeyValidityAction extends Action {
             Student student = sqlLogic.getStudentByRegistrationKey(regKey);
             if (student != null) {
                 isValid = true;
-                googleId = student.getGoogleId();
+                googleId = student.getAccountId();
             }
         } else if (intent == Intent.INSTRUCTOR_SUBMISSION || intent == Intent.INSTRUCTOR_RESULT) {
             Instructor instructor = sqlLogic.getInstructorByRegistrationKey(regKey);
             if (instructor != null) {
                 isValid = true;
-                googleId = instructor.getGoogleId();
+                googleId = instructor.getAccountId();
             }
         }
 

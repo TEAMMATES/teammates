@@ -38,8 +38,8 @@ public class ResetAccountAction extends AdminOnlyAction {
             }
 
             try {
-                if (existingStudent.getGoogleId() != null) {
-                    sqlLogic.resetStudentAccountId(studentEmail, courseId, existingStudent.getGoogleId());
+                if (existingStudent.getAccountId() != null) {
+                    sqlLogic.resetStudentAccountId(studentEmail, courseId, existingStudent.getAccountId());
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = sqlEmailGenerator
@@ -58,8 +58,8 @@ public class ResetAccountAction extends AdminOnlyAction {
             }
 
             try {
-                if (existingInstructor.getGoogleId() != null) {
-                    sqlLogic.resetInstructorAccountId(instructorEmail, courseId, existingInstructor.getGoogleId());
+                if (existingInstructor.getAccountId() != null) {
+                    sqlLogic.resetInstructorAccountId(instructorEmail, courseId, existingInstructor.getAccountId());
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = sqlEmailGenerator

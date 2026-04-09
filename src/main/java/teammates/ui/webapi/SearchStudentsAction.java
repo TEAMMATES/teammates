@@ -57,7 +57,7 @@ public class SearchStudentsAction extends Action {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getRegKey(),
                         sqlLogic.getCourseInstitute(s.getCourseId()),
-                        s.getGoogleId()
+                        s.getAccountId()
                 );
             }
 

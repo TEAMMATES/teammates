@@ -78,7 +78,7 @@ public class GetNotificationsAction extends Action {
 
         // Filter unread notifications
         // TODO: This should be a single query to the database instead of fetching all notifications and filtering in memory
-        Account account = sqlLogic.getAccountForId(userInfo.getId());
+        Account account = sqlLogic.getAccount(userInfo.getId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
