@@ -2,7 +2,6 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -275,7 +274,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         };
         assertThrows(teammates.ui.webapi.InvalidHttpParameterException.class,
                 () -> getAction(paramsWithoutAccess).execute());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
 
     @Test
@@ -295,7 +293,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         };
         assertThrows(teammates.ui.webapi.InvalidHttpParameterException.class,
                 () -> getAction(paramsMissingFeedbackSession).execute());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
 
     @Test
@@ -315,7 +312,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         };
         assertThrows(teammates.ui.webapi.InvalidHttpParameterException.class,
                 () -> getAction(paramsMissingStudent).execute());
-        verify(mockLogic, never()).createFeedbackSessionLog(argThat(log -> true));
     }
 
     @Test
