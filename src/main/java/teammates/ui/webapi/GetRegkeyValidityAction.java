@@ -30,19 +30,19 @@ public class GetRegkeyValidityAction extends Action {
         String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 
         boolean isValid = false;
-        String googleId = null;
+        String accountId = null;
 
         if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
             Student student = sqlLogic.getStudentByRegistrationKey(regKey);
             if (student != null) {
                 isValid = true;
-                googleId = student.getAccountId();
+                accountId = student.getAccountId();
             }
         } else if (intent == Intent.INSTRUCTOR_SUBMISSION || intent == Intent.INSTRUCTOR_RESULT) {
             Instructor instructor = sqlLogic.getInstructorByRegistrationKey(regKey);
             if (instructor != null) {
                 isValid = true;
-                googleId = instructor.getAccountId();
+                accountId = instructor.getAccountId();
             }
         }
 
@@ -50,14 +50,14 @@ public class GetRegkeyValidityAction extends Action {
         boolean isAllowedAccess = false;
 
         if (isValid) {
-            if (StringHelper.isEmpty(googleId)) {
+            if (StringHelper.isEmpty(accountId)) {
                 // If registration key has not been used, always allow access
                 isAllowedAccess = true;
             } else {
                 isUsed = true;
                 // If the registration key has been used to register, the logged in user needs to match
                 // Block access to not logged in user and mismatched user
-                isAllowedAccess = userInfo != null && googleId.equals(userInfo.id);
+                isAllowedAccess = userInfo != null && accountId.equals(userInfo.id);
             }
         }
 

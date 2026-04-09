@@ -109,7 +109,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
         if (StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyAccessible(student, feedbackSession);
-            verifyMatchingGoogleId(student.getAccountId());
+            verifyMatchingAccountId(student.getAccountId());
         } else {
             checkAccessControlForPreview(feedbackSession, false);
         }
@@ -182,18 +182,18 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyAccessible(instructor, feedbackSession,
                     Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-            verifyMatchingGoogleId(instructor.getAccountId());
+            verifyMatchingAccountId(instructor.getAccountId());
         } else {
             checkAccessControlForPreview(feedbackSession, true);
         }
     }
 
-    private void verifyMatchingGoogleId(String googleId) throws UnauthorizedAccessException {
-        if (!StringHelper.isEmpty(googleId)) {
+    private void verifyMatchingAccountId(String accountId) throws UnauthorizedAccessException {
+        if (!StringHelper.isEmpty(accountId)) {
             if (userInfo == null) {
                 // Student/Instructor is associated to a google ID; even if registration key is passed, do not allow access
                 throw new UnauthorizedAccessException("Login is required to access this feedback session");
-            } else if (!userInfo.id.equals(googleId)) {
+            } else if (!userInfo.id.equals(accountId)) {
                 // Logged in student/instructor is not the same as the student/instructor registered for the given key,
                 // do not allow access
                 throw new UnauthorizedAccessException("You are not authorized to access this feedback session");

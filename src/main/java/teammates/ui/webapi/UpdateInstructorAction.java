@@ -51,7 +51,7 @@ public class UpdateInstructorAction extends Action {
         sqlLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
 
         InstructorData newInstructorData = new InstructorData(updatedInstructor);
-        newInstructorData.setGoogleId(updatedInstructor.getAccountId());
+        newInstructorData.setAccountId(updatedInstructor.getAccountId());
 
         return new JsonResult(newInstructorData);
     }

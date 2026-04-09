@@ -9,9 +9,9 @@ public class DeleteAccountAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        String accountId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
-        sqlLogic.deleteAccountCascade(googleId);
+        sqlLogic.deleteAccountCascade(accountId);
 
         return new JsonResult("Account is successfully deleted.");
     }

@@ -130,9 +130,9 @@ public abstract class Action {
     public RequestLogUser getUserInfoForLogging() {
         RequestLogUser user = new RequestLogUser();
 
-        String googleId = userInfo == null ? null : userInfo.getId();
+        String accountId = userInfo == null ? null : userInfo.getId();
 
-        user.setGoogleId(googleId);
+        user.getAccountId(accountId);
         if (unregisteredSqlStudent == null && unregisteredSqlInstructor == null) {
             user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
         } else if (unregisteredSqlStudent != null) {

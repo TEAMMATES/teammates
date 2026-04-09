@@ -80,7 +80,7 @@ public class GetStudentAction extends Action {
         StudentData studentData = new StudentData(student);
         if (userInfo != null && userInfo.isAdmin) {
             studentData.setKey(student.getRegKey());
-            studentData.setGoogleId(
+            studentData.setAccountId(
                     Optional.ofNullable(student.getAccount())
                         .map(Account::getAccountId)
                         .orElse("")

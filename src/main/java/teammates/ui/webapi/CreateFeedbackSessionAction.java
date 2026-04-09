@@ -54,7 +54,7 @@ public class CreateFeedbackSessionAction extends Action {
         }
         Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
         if (instructor == null) {
-            throw new InvalidHttpParameterException("Failed to find instructor with the given courseId and googleId.");
+            throw new InvalidHttpParameterException("Failed to find instructor with the given courseId and accountId.");
         }
 
         String timeZone = course.getTimeZone();
