@@ -85,7 +85,7 @@ public class SendJoinReminderEmailActionTest
         Account inviterAccount = mock(Account.class);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
-        when(mockLogic.getAccountForGoogleId(instructorGoogleId)).thenReturn(inviterAccount);
+        when(mockLogic.getAccountForId(instructorGoogleId)).thenReturn(inviterAccount);
         when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, instructor, course))
                 .thenReturn(mock(EmailWrapper.class));
 
@@ -136,7 +136,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(canModifyStudentPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorGoogleId)).thenReturn(instructor);
 
         verifyCanAccess(params);
     }
@@ -154,7 +154,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(cannotModifyStudentPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorGoogleId)).thenReturn(instructor);
 
         verifyCannotAccess(params);
     }
@@ -171,7 +171,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(canModifyStudentPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorGoogleId)).thenReturn(instructor);
 
         verifyCanAccess(params);
     }
@@ -188,7 +188,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(cannotModifyStudentPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorGoogleId)).thenReturn(instructor);
 
         verifyCannotAccess(params);
     }
@@ -206,7 +206,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(canModifyInstructorPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorGoogleId)).thenReturn(instructor);
 
         verifyCanAccess(params);
     }
@@ -224,7 +224,7 @@ public class SendJoinReminderEmailActionTest
         instructor.setPrivileges(cannotModifyInstructorPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorGoogleId)).thenReturn(instructor);
 
         verifyCannotAccess(params);
     }

@@ -128,7 +128,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutAccess.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutAccess.getGoogleId()))
                 .thenReturn(instructorWithoutAccess);
 
         loginAsInstructor(instructorWithoutAccess.getGoogleId());
@@ -164,7 +164,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(any(String.class), any(String.class))).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(any(String.class), any(String.class))).thenReturn(null);
 
         loginAsUnregistered("unreg.user");
 
@@ -199,7 +199,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
@@ -223,7 +223,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorInSameCourse.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorInSameCourse.getGoogleId()))
                 .thenReturn(instructorInSameCourse);
 
         verifyCanAccess(params);
@@ -240,7 +240,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(any(String.class), any(String.class)))
+        when(mockLogic.getInstructorByAccountId(any(String.class), any(String.class)))
                 .thenReturn(typicalInstructor);
 
         loginAsAdmin();
@@ -267,7 +267,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
                 .thenReturn(instructorWithoutPrivilege);
 
         loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
@@ -286,7 +286,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, typicalInstructor))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
@@ -310,7 +310,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), differentInstructorInSameCourse.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), differentInstructorInSameCourse.getGoogleId()))
                 .thenReturn(differentInstructorInSameCourse);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentInstructorInSameCourse))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
@@ -333,7 +333,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, typicalStudent))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
@@ -359,7 +359,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), differentStudentFromSameCourse.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), differentStudentFromSameCourse.getGoogleId()))
                 .thenReturn(differentStudentFromSameCourse);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentStudentFromSameCourse))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
@@ -407,7 +407,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), differentStudentInDifferentTeam.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), differentStudentInDifferentTeam.getGoogleId()))
                 .thenReturn(differentStudentInDifferentTeam);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentStudentInDifferentTeam))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
@@ -436,7 +436,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), differentStudentInSameTeam.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), differentStudentInSameTeam.getGoogleId()))
                 .thenReturn(differentStudentInSameTeam);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentStudentInSameTeam))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
@@ -466,7 +466,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithPrivilege.getGoogleId()))
                 .thenReturn(instructorWithPrivilege);
 
         loginAsInstructor(instructorWithPrivilege.getGoogleId());
@@ -492,7 +492,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
                 .thenReturn(instructorWithoutPrivilege);
 
         loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
@@ -518,7 +518,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
                 .thenReturn(instructorWithoutPrivilege);
 
         loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
@@ -540,7 +540,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalInstructor))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(10)));
@@ -564,7 +564,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalInstructor))
                 .thenReturn(Instant.now().minus(Duration.ofHours(1)));
@@ -589,7 +589,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalStudent))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(10)));
@@ -614,7 +614,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalStudent))
                 .thenReturn(Instant.now().minus(Duration.ofHours(1)));

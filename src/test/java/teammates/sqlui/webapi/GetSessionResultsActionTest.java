@@ -83,7 +83,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         // Specific mocked methods
         switch (intent) {
         case FULL_DETAIL:
-            when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
+            when(mockLogic.getInstructorByAccountId(session.getCourseId(), googleId)).thenReturn(instructorStub);
             when(mockLogic.getSessionResultsForCourse(argThat(
                     argument -> Objects.equals(argument.getName(), session.getName())),
                     eq(course.getId()), eq(instructorStub.getEmail()), isNull(), isNull(),
@@ -91,7 +91,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
             break;
         case INSTRUCTOR_RESULT:
             when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
-            when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
+            when(mockLogic.getInstructorByAccountId(session.getCourseId(), googleId)).thenReturn(instructorStub);
             when(mockLogic.getSessionResultsForUser(argThat(
                             argument -> Objects.equals(argument.getName(), session.getName())),
                     eq(course.getId()), eq(instructorStub.getEmail()),
@@ -99,7 +99,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
             break;
         case STUDENT_RESULT:
             Student studentStub = getTypicalStudent();
-            when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(studentStub);
+            when(mockLogic.getStudentByAccountId(session.getCourseId(), googleId)).thenReturn(studentStub);
             when(mockLogic.getSessionResultsForUser(argThat(
                             argument -> Objects.equals(argument.getName(), session.getName())),
                     eq(course.getId()), eq(studentStub.getEmail()),
@@ -200,7 +200,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorForEmail(course.getId(), instructorStub.getEmail())).thenReturn(instructorStub);
-        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
+        when(mockLogic.getInstructorByAccountId(session.getCourseId(), googleId)).thenReturn(instructorStub);
         when(mockLogic.getSessionResultsForCourse(argThat(
                         argument -> Objects.equals(argument.getName(), session.getName())),
                 eq(course.getId()), eq(instructorStub.getEmail()), eq(questionStub.getId()), eq("sectionName"),
@@ -229,7 +229,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorForEmail(course.getId(), instructorStub.getEmail())).thenReturn(instructorStub);
-        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
+        when(mockLogic.getInstructorByAccountId(session.getCourseId(), googleId)).thenReturn(instructorStub);
         when(mockLogic.getSessionResultsForUser(argThat(
                         argument -> Objects.equals(argument.getName(), session.getName())),
                 eq(course.getId()), eq(instructorStub.getEmail()),
@@ -256,7 +256,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getStudentForEmail(course.getId(), studentStub.getEmail())).thenReturn(studentStub);
-        when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(studentStub);
+        when(mockLogic.getStudentByAccountId(session.getCourseId(), googleId)).thenReturn(studentStub);
         when(mockLogic.getSessionResultsForUser(argThat(
                         argument -> Objects.equals(argument.getName(), session.getName())),
                 eq(course.getId()), eq(studentStub.getEmail()),
@@ -349,7 +349,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), googleId)).thenReturn(instructor);
 
         verifyCanAccess(params);
     }
@@ -384,7 +384,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId())).thenReturn(session);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), googleId)).thenReturn(instructor);
 
         verifyCanAccess(params);
     }
@@ -407,7 +407,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(course);
-        when(mockLogic.getStudentByGoogleId(eq(session.getCourseId()), any()))
+        when(mockLogic.getStudentByAccountId(eq(session.getCourseId()), any()))
                 .thenReturn(sameCourseStudent);
 
         verifyStudentsOfTheSameCourseCanAccess(course, buildParams(STUDENT_RESULT));
@@ -472,7 +472,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
                 .thenReturn(session);
-        when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId))
+        when(mockLogic.getInstructorByAccountId(session.getCourseId(), googleId))
                 .thenReturn(instructor);
 
         verifyHttpParameterFailureAcl(buildParams(Intent.INSTRUCTOR_SUBMISSION));
@@ -502,7 +502,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 .thenReturn(session);
         when(mockLogic.getStudentForEmail(student.getCourseId(), student.getEmail()))
                 .thenReturn(student);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(course.getId(), googleId))
                 .thenReturn(getTypicalInstructor());
 
         String[] params1 = buildParamsWithPreview(
@@ -525,11 +525,11 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         String[] params = buildParams(STUDENT_RESULT);
 
-        when(mockLogic.getStudentByGoogleId(course.getId(), googleId))
+        when(mockLogic.getStudentByAccountId(course.getId(), googleId))
                 .thenReturn(null);
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
                 .thenReturn(session);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(course.getId(), googleId))
                 .thenReturn(getTypicalInstructor());
 
         verifyCannotAccess(params);
@@ -545,7 +545,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         when(mockLogic.getFeedbackSession(session.getName(), session.getCourseId()))
                 .thenReturn(session);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(course.getId(), googleId))
                 .thenReturn(instructor);
 
         verifyCannotAccess(params);

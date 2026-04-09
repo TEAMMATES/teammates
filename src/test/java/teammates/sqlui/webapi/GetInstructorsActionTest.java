@@ -161,13 +161,13 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         };
 
         when(mockLogic.getInstructorsByCourse(stubCourse.getId())).thenReturn(stubInstructors);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithPermission.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithPermission.getGoogleId()))
                 .thenReturn(stubInstructorWithPermission);
         GetInstructorsAction action = getAction(params);
         InstructorsData actualInstructorsData = (InstructorsData) getJsonResult(action).getOutput();
         verifyInstructorsData(expectedInstructorsData, actualInstructorsData, false, false, true);
         verify(mockLogic, times(1)).getInstructorsByCourse(stubCourse.getId());
-        verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithPermission.getGoogleId());
+        verify(mockLogic, times(1)).getInstructorByAccountId(stubCourse.getId(), stubInstructorWithPermission.getGoogleId());
     }
 
     @Test
@@ -179,13 +179,13 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         };
 
         when(mockLogic.getInstructorsByCourse(stubCourse.getId())).thenReturn(stubInstructors);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithoutPermission.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithoutPermission.getGoogleId()))
                 .thenReturn(stubInstructorWithoutPermission);
         GetInstructorsAction action = getAction(params);
         InstructorsData actualInstructorsData = (InstructorsData) getJsonResult(action).getOutput();
         verifyInstructorsData(expectedInstructorsData, actualInstructorsData, false, false, false);
         verify(mockLogic, times(1)).getInstructorsByCourse(stubCourse.getId());
-        verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(),
+        verify(mockLogic, times(1)).getInstructorByAccountId(stubCourse.getId(),
                 stubInstructorWithoutPermission.getGoogleId());
     }
 
@@ -198,13 +198,13 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         };
 
         when(mockLogic.getInstructorsByCourse(stubCourse.getId())).thenReturn(stubInstructors);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithOnlyModifyInstructorPrivilege
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithOnlyModifyInstructorPrivilege
                 .getGoogleId())).thenReturn(stubInstructorWithOnlyModifyInstructorPrivilege);
         GetInstructorsAction action = getAction(params);
         InstructorsData actualInstructorsData = (InstructorsData) getJsonResult(action).getOutput();
         verifyInstructorsData(expectedInstructorsData, actualInstructorsData, false, false, true);
         verify(mockLogic, times(1)).getInstructorsByCourse(stubCourse.getId());
-        verify(mockLogic, times(1)).getInstructorByGoogleId(stubCourse.getId(),
+        verify(mockLogic, times(1)).getInstructorByAccountId(stubCourse.getId(),
                 stubInstructorWithOnlyModifyInstructorPrivilege.getGoogleId());
     }
 
@@ -311,14 +311,14 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         String[] params1 = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), "unregistered")).thenReturn(null);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), "unregistered")).thenReturn(null);
         verifyCannotAccess(params1);
 
         String[] params2 = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.INTENT, "FULL_DETAIL",
         };
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), "unregistered")).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), "unregistered")).thenReturn(null);
         verifyCannotAccess(params2);
     }
 
@@ -330,7 +330,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.INTENT, "FULL_DETAIL",
         };
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructorWithPermission.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithPermission.getGoogleId()))
                 .thenReturn(stubInstructorWithPermission);
         verifyCanAccess(params);
     }
@@ -351,7 +351,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         verifyCanAccess(params);
     }
 
@@ -369,7 +369,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course",
         };
-        when(mockLogic.getStudentByGoogleId("course", stubStudent.getGoogleId())).thenReturn(null);
+        when(mockLogic.getStudentByAccountId("course", stubStudent.getGoogleId())).thenReturn(null);
         verifyCannotAccess(params);
     }
 
@@ -384,7 +384,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
                 Const.ParamsNames.COURSE_ID, "course",
                 Const.ParamsNames.INTENT, "FULL_DETAIL",
         };
-        when(mockLogic.getInstructorByGoogleId("course", stubInstructorWithPermission.getGoogleId())).thenReturn(null);
+        when(mockLogic.getInstructorByAccountId("course", stubInstructorWithPermission.getGoogleId())).thenReturn(null);
         verifyCannotAccess(params);
     }
 }

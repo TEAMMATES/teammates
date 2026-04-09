@@ -49,7 +49,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     private void setupMockLogic() {
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructorId)).thenReturn(instructor);
     }
 
     @Test

@@ -64,7 +64,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        assertNull(logic.getStudentByGoogleId(courseId, student2InCourse1.getGoogleId()));
+        assertNull(logic.getStudentByAccountId(courseId, student2InCourse1.getGoogleId()));
 
         ______TS("Course does not exist, fails silently");
         params = new String[] {
@@ -75,7 +75,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        assertNotNull(logic.getStudentByGoogleId(student3InCourse1.getCourseId(), student3InCourse1.getGoogleId()));
+        assertNotNull(logic.getStudentByAccountId(student3InCourse1.getCourseId(), student3InCourse1.getGoogleId()));
 
         ______TS("Student does not exist, fails silently");
         params = new String[] {

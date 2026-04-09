@@ -114,7 +114,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
 
         loginAsUnregistered(googleId);
@@ -132,7 +132,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
 
         loginAsStudent(googleId);
@@ -150,7 +150,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
 
         loginAsInstructor(googleId);
@@ -167,7 +167,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
         loginAsInstructor(typicalInstructor.getGoogleId());

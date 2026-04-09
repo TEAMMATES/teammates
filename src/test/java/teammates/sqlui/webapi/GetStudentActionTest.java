@@ -106,7 +106,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
 
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         stubStudentData.setInstitute(stubStudent.getCourse().getInstitute());
         GetStudentAction action = getAction(params);
         StudentData studentData = (StudentData) getJsonResult(action).getOutput();
@@ -313,7 +313,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             student.setAccount(acc);
             student.setCourse(course);
             return student;
-        }).when(mockLogic).getStudentByGoogleId(eq(course.getId()), anyString());
+        }).when(mockLogic).getStudentByAccountId(eq(course.getId()), anyString());
     }
 
     private void stubSelfLookupAsOtherCourse(Course requestedCourse, Course otherCourse, Student student) {
@@ -325,7 +325,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             student.setAccount(acc);
             student.setCourse(otherCourse);
             return student;
-        }).when(mockLogic).getStudentByGoogleId(eq(requestedCourse.getId()), anyString());
+        }).when(mockLogic).getStudentByAccountId(eq(requestedCourse.getId()), anyString());
     }
 
     private String[] regKeyParams(String key) {

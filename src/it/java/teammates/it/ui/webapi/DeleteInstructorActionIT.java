@@ -105,7 +105,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         assertNotNull(logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()));
-        assertNotNull(logic.getInstructorByGoogleId(instructor.getCourseId(), instructor.getGoogleId()));
+        assertNotNull(logic.getInstructorByAccountId(instructor.getCourseId(), instructor.getGoogleId()));
     }
 
     @Test
@@ -150,7 +150,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         assertNotNull(logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail()));
-        assertNotNull(logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
+        assertNotNull(logic.getInstructorByAccountId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
     }
 
     @Test
@@ -173,7 +173,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         assertNotNull(logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail()));
-        assertNotNull(logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
+        assertNotNull(logic.getInstructorByAccountId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
     }
 
     @Test
@@ -248,7 +248,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        assertNull(logic.getInstructorByGoogleId(instructor1OfCourse1.getCourseId(), "fake-googleId"));
+        assertNull(logic.getInstructorByAccountId(instructor1OfCourse1.getCourseId(), "fake-googleId"));
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);

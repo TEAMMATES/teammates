@@ -59,7 +59,7 @@ public class RemindFeedbackSessionSubmissionActionTest
 
         loginAsInstructor(instructor.getGoogleId());
 
-        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
     }
 

@@ -181,7 +181,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
         };
 
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
@@ -199,7 +199,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
         };
 
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
@@ -217,7 +217,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
         };
 
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
@@ -237,7 +237,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
         };
 
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
@@ -254,7 +254,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
         };
 
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
