@@ -82,7 +82,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: with encryption and new account to be created");
 
         accountsLogic.joinCourseForStudent(student2YetToJoinCourse.getRegKey(), loggedInGoogleId);
-        Account accountCreated = accountsLogic.getAccountForGoogleId(loggedInGoogleId);
+        Account accountCreated = accountsLogic.getAccountForAccountId(loggedInGoogleId);
 
         assertEquals(loggedInGoogleId, usersLogic.getStudentForEmail(
                 student2YetToJoinCourse.getCourseId(), student2YetToJoinCourse.getEmail()).getGoogleId());
@@ -144,7 +144,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                         instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail());
         assertEquals(loggedInGoogleId, joinedInstructor.getGoogleId());
 
-        Account accountCreated = accountsLogic.getAccountForGoogleId(loggedInGoogleId);
+        Account accountCreated = accountsLogic.getAccountForAccountId(loggedInGoogleId);
         assertNotNull(accountCreated);
 
         ______TS("success: instructor joined but account already exists");

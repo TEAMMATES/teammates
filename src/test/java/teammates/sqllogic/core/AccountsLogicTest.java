@@ -40,7 +40,7 @@ public class AccountsLogicTest extends BaseTestCase {
         Account account = getTypicalAccount();
         String googleId = account.getGoogleId();
 
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        when(accountsLogic.getAccountForAccountId(googleId)).thenReturn(account);
 
         accountsLogic.deleteAccount(googleId);
 
@@ -59,7 +59,7 @@ public class AccountsLogicTest extends BaseTestCase {
         }
 
         when(usersLogic.getAllUsersByAccountId(googleId)).thenReturn(users);
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        when(accountsLogic.getAccountForAccountId(googleId)).thenReturn(account);
 
         accountsLogic.deleteAccountCascade(googleId);
 
