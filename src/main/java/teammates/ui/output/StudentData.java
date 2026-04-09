@@ -17,7 +17,7 @@ public class StudentData extends ApiOutput {
 
     private final String name;
     @Nullable
-    private String accountId;
+    private UUID accountId;
     @Nullable
     private String comments;
     @Nullable
@@ -57,7 +57,7 @@ public class StudentData extends ApiOutput {
         return name;
     }
 
-    public String getAccountId() {
+    public UUID getAccountId() {
         return accountId;
     }
 
@@ -85,7 +85,7 @@ public class StudentData extends ApiOutput {
         return institute;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(UUID accountId) {
         this.accountId = accountId;
     }
 
@@ -119,7 +119,7 @@ public class StudentData extends ApiOutput {
      * @param institute The institute of the student
      * @param accountId The accountId of the student
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute, String accountId) {
+    public void addAdditionalInformationForAdminSearch(String key, String institute, UUID accountId) {
         this.setKey(key);
         this.setInstitute(institute);
         this.setAccountId(accountId);
