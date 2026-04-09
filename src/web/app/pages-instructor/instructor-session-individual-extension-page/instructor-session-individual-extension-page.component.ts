@@ -77,6 +77,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   courseId: string = '';
   courseName: string = '';
   feedbackSessionName: string = '';
+  feedbackSessionId: string = '';
 
   studentsOfCourse: StudentExtensionTableColumnModel[] = [];
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
@@ -108,6 +109,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.feedbackSessionId = queryParams.fsid;
       this.isAllYetToSubmitInstructorsSelected = queryParams.preselectnonsubmitters === 'true';
       this.isAllYetToSubmitStudentsSelected = queryParams.preselectnonsubmitters === 'true';
       this.loadFeedbackSessionAndIndividuals();
