@@ -15,6 +15,7 @@ import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.Logger;
+import teammates.common.util.StringHelper;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
@@ -89,7 +90,7 @@ public class WebApiServlet extends HttpServlet {
         } catch (HibernateException | UnexpectedServerException e) {
             statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
             String message;
-            if (e.getMessage() != null && !e.getMessage().isEmpty()) {
+            if (!StringHelper.isEmpty(e.getMessage())) {
                 message = e.getMessage();
             } else {
                 message = "An unexpected server error occurred";

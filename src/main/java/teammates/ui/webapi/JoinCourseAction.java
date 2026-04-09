@@ -54,6 +54,7 @@ public class JoinCourseAction extends Action {
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
+            // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
@@ -73,6 +74,7 @@ public class JoinCourseAction extends Action {
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
+            // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
