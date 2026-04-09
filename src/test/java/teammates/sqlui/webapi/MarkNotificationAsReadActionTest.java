@@ -35,7 +35,7 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
     void setUp() {
         account = getTypicalAccount();
         testNotification = getTypicalNotificationWithId();
-        loginAsInstructor(account.getGoogleId());
+        loginAsInstructor(account.getId());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
                 account.getId(),
                 testNotification.getId()
         )).thenReturn(readNotification);
-        when(mockLogic.getAccountForId(account.getGoogleId())).thenReturn(account);
+        when(mockLogic.getAccountForId(account.getId())).thenReturn(account);
 
         MarkNotificationAsReadRequest reqBody = new MarkNotificationAsReadRequest(
                 testNotification.getId().toString());

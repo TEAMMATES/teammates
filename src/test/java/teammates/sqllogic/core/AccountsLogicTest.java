@@ -38,7 +38,7 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testDeleteAccount_accountExists_success() {
         Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
+        String googleId = account.getId();
 
         when(accountsLogic.getAccountForAccountId(googleId)).thenReturn(account);
 
@@ -50,7 +50,7 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testDeleteAccountCascade_googleIdExists_success() {
         Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
+        String googleId = account.getId();
         List<User> users = new ArrayList<>();
 
         for (int i = 0; i < 2; ++i) {

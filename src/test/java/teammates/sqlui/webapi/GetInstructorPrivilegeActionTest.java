@@ -123,7 +123,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     void testExecute_fetchPrivilegeOfNonExistInstructor_shouldFail() {
-        loginAsInstructor(testInstructor1OfCourse1.getGoogleId());
+        loginAsInstructor(testInstructor1OfCourse1.getAccountId());
 
         // course id is used for instructor identify verification here.
         String[] invalidInstructorParams = {
@@ -137,7 +137,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     void testExecute_fetchPrivilegeOfAnotherInstructorByEmail_shouldSucceed() {
-        loginAsInstructor(testInstructor2OfCourse1.getGoogleId());
+        loginAsInstructor(testInstructor2OfCourse1.getAccountId());
 
         // course id is used for instructor identify verification here.
         String[] anotherInstructorParams = {
@@ -156,16 +156,16 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     protected void testExecute_fetchPrivilegeOfAnotherInstructor_shouldSucceed() {
-        loginAsInstructor(testInstructor2OfCourse1.getGoogleId());
+        loginAsInstructor(testInstructor2OfCourse1.getAccountId());
 
         // course id is used for instructor identify verification here.
         String[] anotherInstructorParams = {
                 Const.ParamsNames.COURSE_ID, testInstructor2OfCourse1.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_ID, testInstructor1OfCourse1.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_ID, testInstructor1OfCourse1.getAccountId(),
         };
 
         when(mockLogic.getInstructorByAccountId(testInstructor2OfCourse1.getCourseId(),
-                testInstructor1OfCourse1.getGoogleId())).thenReturn(testInstructor1OfCourse1);
+                testInstructor1OfCourse1.getAccountId())).thenReturn(testInstructor1OfCourse1);
 
         GetInstructorPrivilegeAction a = getAction(anotherInstructorParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
@@ -176,21 +176,21 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     protected void testExecute_notEnoughParameters_shouldFail() {
-        loginAsInstructor(testInstructor1OfCourse1.getGoogleId());
+        loginAsInstructor(testInstructor1OfCourse1.getAccountId());
 
         verifyHttpParameterFailure();
     }
 
     @Test
     protected void testExecute_fetchPrivilegeOfSelf_shouldSucceed() {
-        loginAsInstructor(testInstructor1OfCourse1.getGoogleId());
+        loginAsInstructor(testInstructor1OfCourse1.getAccountId());
 
         String[] courseIdParam = {
                 Const.ParamsNames.COURSE_ID, testInstructor1OfCourse1.getCourseId(),
         };
 
         when(mockLogic.getInstructorByAccountId(testInstructor1OfCourse1.getCourseId(),
-                testInstructor1OfCourse1.getGoogleId())).thenReturn(testInstructor1OfCourse1);
+                testInstructor1OfCourse1.getAccountId())).thenReturn(testInstructor1OfCourse1);
 
         GetInstructorPrivilegeAction a = getAction(courseIdParam);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();

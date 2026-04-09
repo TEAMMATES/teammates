@@ -48,7 +48,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_typicalCase_success() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
+        String instructorToUpdateId = typicalInstructorToUpdate.getAccountId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
         loginAsInstructor(instructorToUpdateId);
@@ -85,7 +85,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_invalidEmail_throwsInvalidHttpRequestBodyException() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
+        String instructorToUpdateId = typicalInstructorToUpdate.getAccountId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
         loginAsInstructor(instructorToUpdateId);
@@ -111,7 +111,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_noInstructorDisplayed_throwsInvalidOperationException() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
+        String instructorToUpdateId = typicalInstructorToUpdate.getAccountId();
 
         loginAsInstructor(instructorToUpdateId);
 
@@ -136,7 +136,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_adminToMasqueradeAsInstructor_success() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
+        String instructorToUpdateId = typicalInstructorToUpdate.getAccountId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
         loginAsAdmin();
@@ -183,7 +183,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_nullInstructorEmail_throwsInvalidHttpRequestBodyException() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
+        String instructorToUpdateId = typicalInstructorToUpdate.getAccountId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
         loginAsInstructor(instructorToUpdateId);
@@ -233,7 +233,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
         };
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
         verifyCannotAccess(params);
     }
 
@@ -250,10 +250,10 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         };
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByAccountId(differentCourse.getId(), instructorFromDifferentCourse.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(differentCourse.getId(), instructorFromDifferentCourse.getAccountId()))
                 .thenReturn(instructorFromDifferentCourse);
 
-        loginAsInstructor(instructorFromDifferentCourse.getGoogleId());
+        loginAsInstructor(instructorFromDifferentCourse.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -270,10 +270,10 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         };
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getAccountId()))
                 .thenReturn(instructorWithoutCorrectPrivilege);
 
-        loginAsInstructor(instructorWithoutCorrectPrivilege.getGoogleId());
+        loginAsInstructor(instructorWithoutCorrectPrivilege.getAccountId());
 
         verifyCannotAccess(params);
     }

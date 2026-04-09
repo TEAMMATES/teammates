@@ -167,10 +167,10 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyCanAccess(params);
     }

@@ -43,7 +43,7 @@ public class UpdateFeedbackResponseCommentActionIT extends BaseActionIT<UpdateFe
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackResponseComment frc = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
         ______TS("Typical successful case for INSTRUCTOR_RESULT");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
         String [] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
@@ -74,7 +74,7 @@ public class UpdateFeedbackResponseCommentActionIT extends BaseActionIT<UpdateFe
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
         };
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         verifyCanAccess(submissionParams);
     }
 

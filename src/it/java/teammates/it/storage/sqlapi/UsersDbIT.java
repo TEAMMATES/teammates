@@ -97,7 +97,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("success: gets an instructor by googleId");
         actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(),
-                instructor.getAccount().getGoogleId());
+                instructor.getAccount().getId());
         verifyEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor by googleId that does not exist");
@@ -133,7 +133,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNull(actualStudent);
 
         ______TS("success: gets a student by googleId");
-        actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), student.getAccount().getGoogleId());
+        actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), student.getAccount().getId());
         verifyEquals(student, actualStudent);
 
         ______TS("success: gets a student by googleId that does not exist");
@@ -167,15 +167,15 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         usersDb.createStudent(secondStudent);
         secondStudent.setAccount(userSharedAccount);
 
-        List<User> users = usersDb.getAllUsersByGoogleId(userSharedAccount.getGoogleId());
+        List<User> users = usersDb.getAllUsersByGoogleId(userSharedAccount.getId());
         assertEquals(4, users.size());
         assertTrue(List.of(firstInstructor, secondInstructor, firstStudent, secondStudent).containsAll(users));
 
-        List<Instructor> instructors = usersDb.getAllInstructorsByGoogleId(userSharedAccount.getGoogleId());
+        List<Instructor> instructors = usersDb.getAllInstructorsByGoogleId(userSharedAccount.getId());
         assertEquals(2, instructors.size());
         assertTrue(List.of(firstInstructor, secondInstructor).containsAll(instructors));
 
-        List<Student> students = usersDb.getAllStudentsByGoogleId(userSharedAccount.getGoogleId());
+        List<Student> students = usersDb.getAllStudentsByGoogleId(userSharedAccount.getId());
         assertEquals(2, students.size());
         assertTrue(List.of(firstStudent, secondStudent).containsAll(students));
 
@@ -279,7 +279,7 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         List<Student> expectedStudents = List.of(student, student2);
 
-        List<Student> actualStudents = usersDb.getStudentsByGoogleId(student.getGoogleId());
+        List<Student> actualStudents = usersDb.getStudentsByGoogleId(student.getAccountId());
 
         assertEquals(expectedStudents.size(), actualStudents.size());
         assertTrue(expectedStudents.containsAll(actualStudents));

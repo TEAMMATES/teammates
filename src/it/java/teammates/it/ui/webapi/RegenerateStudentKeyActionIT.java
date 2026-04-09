@@ -117,7 +117,7 @@ public class RegenerateStudentKeyActionIT extends BaseActionIT<RegenerateStudent
         verifyOnlyAdminCanAccess(course, submissionParams);
 
         ______TS("Students cannot access");
-        loginAsStudent(student.getAccount().getGoogleId());
+        loginAsStudent(student.getAccount().getId());
 
         verifyInaccessibleForStudents(course, submissionParams);
     }

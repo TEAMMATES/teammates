@@ -213,14 +213,14 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
         when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
                 typicalFeedbackQuestion.getCourseId())).thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
 
         String[] submissionParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
         };
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
         verifyCanAccess(submissionParams);
     }
 
@@ -233,14 +233,14 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
         when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),
                 typicalFeedbackQuestion.getCourseId())).thenReturn(typicalFeedbackSession);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getAccountId()))
                 .thenReturn(instructorWithoutAccess);
 
         String[] submissionParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
         };
 
-        loginAsInstructor(instructorWithoutAccess.getGoogleId());
+        loginAsInstructor(instructorWithoutAccess.getAccountId());
         verifyCannotAccess(submissionParams);
     }
 

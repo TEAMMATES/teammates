@@ -101,12 +101,12 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     @Test
     void testExecute_validParamsRegisteredStudentLoggedIn_success() {
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
 
-        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getAccountId())).thenReturn(stubStudent);
         stubStudentData.setInstitute(stubStudent.getCourse().getInstitute());
         GetStudentAction action = getAction(params);
         StudentData studentData = (StudentData) getJsonResult(action).getOutput();
@@ -136,7 +136,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         when(mockLogic.getStudentForEmail("random-course", stubStudent.getEmail())).thenReturn(null);
         verifyEntityNotFound(params);
 
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         verifyEntityNotFound(params);
     }
 
@@ -158,7 +158,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         };
         verifyHttpParameterFailure(params);
 
-        loginAsStudent(stubStudent.getGoogleId());
+        loginAsStudent(stubStudent.getAccountId());
         verifyHttpParameterFailure(params);
     }
 
@@ -176,7 +176,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
         stubStudentData = new StudentData(stubStudent);
         stubStudentData.setKey(stubStudent.getRegKey());
-        stubStudentData.setAccountId(stubStudent.getAccount().getGoogleId());
+        stubStudentData.setAccountId(stubStudent.getAccount().getId());
 
         GetStudentAction action = getAction(params);
         StudentData studentData = (StudentData) getJsonResult(action).getOutput();
@@ -215,7 +215,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     @Test
     void testExecute_validParamsInstructor_success() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
@@ -229,7 +229,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     @Test
     void testExecute_invalidCourseIdParamsInstructor_throwsEntityNotFoundException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "random-course",
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
@@ -241,7 +241,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     @Test
     void testExecute_invalidStudentEmailParamsInstructor_throwsEntityNotFoundException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.STUDENT_EMAIL, "invalid_email",
@@ -253,7 +253,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     @Test
     void testExecute_incompleteParamsInstructor_throwsInvalidHttpParameterException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params1 = {
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
         };

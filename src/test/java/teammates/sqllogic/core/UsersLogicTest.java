@@ -68,7 +68,7 @@ public class UsersLogicTest extends BaseTestCase {
             throws EntityDoesNotExistException {
         String courseId = instructor.getCourseId();
         String email = instructor.getEmail();
-        String googleId = account.getGoogleId();
+        String googleId = account.getId();
 
         when(usersLogic.getInstructorForEmail(courseId, email)).thenReturn(instructor);
         when(usersDb.getAllUsersByGoogleId(googleId)).thenReturn(Collections.emptyList());
@@ -89,7 +89,7 @@ public class UsersLogicTest extends BaseTestCase {
             throws EntityDoesNotExistException {
         String courseId = instructor.getCourseId();
         String email = instructor.getEmail();
-        String googleId = account.getGoogleId();
+        String googleId = account.getId();
 
         when(usersLogic.getInstructorForEmail(courseId, email)).thenReturn(null);
 
@@ -105,7 +105,7 @@ public class UsersLogicTest extends BaseTestCase {
             throws EntityDoesNotExistException {
         String courseId = student.getCourseId();
         String email = student.getEmail();
-        String googleId = account.getGoogleId();
+        String googleId = account.getId();
 
         when(usersLogic.getStudentForEmail(courseId, email)).thenReturn(student);
         when(usersDb.getAllUsersByGoogleId(googleId)).thenReturn(Collections.emptyList());
@@ -122,7 +122,7 @@ public class UsersLogicTest extends BaseTestCase {
             throws EntityDoesNotExistException {
         String courseId = student.getCourseId();
         String email = student.getEmail();
-        String googleId = account.getGoogleId();
+        String googleId = account.getId();
 
         when(usersLogic.getStudentForEmail(courseId, email)).thenReturn(null);
 

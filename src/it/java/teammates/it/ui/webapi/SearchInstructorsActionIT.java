@@ -93,7 +93,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
     @Test
     protected void testExecute_searchGoogleId_shouldSucceed() {
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getGoogleId() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getAccountId() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();

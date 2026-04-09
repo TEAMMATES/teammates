@@ -48,7 +48,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.getAccount().getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getAccount().getId());
 
         ______TS("Not enough parameters");
 
@@ -131,7 +131,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcRandomSession",
         };
 
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getAccountId());
         verifyEntityNotFoundAcl(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");

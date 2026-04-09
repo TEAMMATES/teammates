@@ -53,7 +53,7 @@ public class AccountsDbTest extends BaseTestCase {
     @Test
     public void testGetAccountByGoogleId_accountExists_success() {
         Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
+        String googleId = account.getId();
 
         mockHibernateUtil
                 .when(() -> HibernateUtil.getBySimpleNaturalId(Account.class, googleId))

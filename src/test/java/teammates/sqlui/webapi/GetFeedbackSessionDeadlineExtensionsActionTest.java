@@ -72,22 +72,22 @@ public class GetFeedbackSessionDeadlineExtensionsActionTest
 
     @Test
     void testExecute_noParameters_shouldFail() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
         verifyHttpParameterFailure();
     }
 
     @Test
     void testExecute_sessionNotFound_throwsEntityNotFoundException() {
         when(mockLogic.getFeedbackSession(FEEDBACK_SESSION_NAME, COURSE_ID)).thenReturn(null);
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyEntityNotFoundAcl(getTypicalParams());
     }
 
     @Test
     void testExecute_noDeadlineExtensions_returnsEmptyMaps() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
-        when(mockLogic.getInstructorByAccountId(COURSE_ID, typicalInstructor.getGoogleId()))
+        loginAsInstructor(typicalInstructor.getAccountId());
+        when(mockLogic.getInstructorByAccountId(COURSE_ID, typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
 
         GetFeedbackSessionDeadlineExtensionsAction action = getAction(getTypicalParams());
@@ -106,8 +106,8 @@ public class GetFeedbackSessionDeadlineExtensionsActionTest
         typicalFeedbackSession.setDeadlineExtensions(List.of(studentDeadline));
 
         when(mockLogic.getStudentsForCourse(COURSE_ID)).thenReturn(List.of(typicalStudent));
-        loginAsInstructor(typicalInstructor.getGoogleId());
-        when(mockLogic.getInstructorByAccountId(COURSE_ID, typicalInstructor.getGoogleId()))
+        loginAsInstructor(typicalInstructor.getAccountId());
+        when(mockLogic.getInstructorByAccountId(COURSE_ID, typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
 
         GetFeedbackSessionDeadlineExtensionsAction action = getAction(getTypicalParams());
@@ -128,8 +128,8 @@ public class GetFeedbackSessionDeadlineExtensionsActionTest
         typicalFeedbackSession.setDeadlineExtensions(List.of(instructorDeadline));
 
         when(mockLogic.getInstructorsByCourse(COURSE_ID)).thenReturn(List.of(typicalInstructor));
-        loginAsInstructor(typicalInstructor.getGoogleId());
-        when(mockLogic.getInstructorByAccountId(COURSE_ID, typicalInstructor.getGoogleId()))
+        loginAsInstructor(typicalInstructor.getAccountId());
+        when(mockLogic.getInstructorByAccountId(COURSE_ID, typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
 
         GetFeedbackSessionDeadlineExtensionsAction action = getAction(getTypicalParams());

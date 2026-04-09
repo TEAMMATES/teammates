@@ -50,7 +50,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
                 false, "", null, new InstructorPrivileges());
         instructor.setAccount(stubAccount);
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+                Const.ParamsNames.INSTRUCTOR_ID, instructor.getAccountId(),
         };
         DeleteAccountAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();

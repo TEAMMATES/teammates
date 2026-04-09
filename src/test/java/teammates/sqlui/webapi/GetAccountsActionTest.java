@@ -34,7 +34,7 @@ public class GetAccountsActionTest extends BaseActionTest<GetAccountsAction> {
         for (int i = 0; i < accountDataList.size(); i++) {
             AccountData accountData = accountDataList.get(i);
             Account account = accounts.get(i);
-            assertEquals(accountData.getGoogleId(), account.getGoogleId());
+            assertEquals(accountData.getGoogleId(), account.getId());
             assertEquals(accountData.getEmail(), account.getEmail());
             assertEquals(accountData.getName(), account.getName());
         }

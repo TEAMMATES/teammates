@@ -57,9 +57,9 @@ public class RemindFeedbackSessionSubmissionActionTest
         instructor = generateInstructor1InCourse(course);
         student = generateStudent1InCourse(course);
 
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
 
-        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
     }
 

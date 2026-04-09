@@ -117,7 +117,7 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
         verifyOnlyAdminCanAccess(course, submissionParams);
 
         ______TS("Instructors cannot access");
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor.getAccount().getId());
 
         verifyInaccessibleForInstructors(course, submissionParams);
     }

@@ -31,10 +31,10 @@ public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Account firstAccount = getTypicalAccount();
 
         Account secondAccount = getTypicalAccount();
-        secondAccount.setGoogleId(firstAccount.getGoogleId() + "-2");
+        secondAccount.setGoogleId(firstAccount.getId() + "-2");
 
         Account thirdAccount = getTypicalAccount();
-        thirdAccount.setGoogleId(firstAccount.getGoogleId() + "-3");
+        thirdAccount.setGoogleId(firstAccount.getId() + "-3");
 
         String email = firstAccount.getEmail();
 

@@ -52,12 +52,12 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withInstructorAndActiveCourses_success() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        when(mockLogic.getInstructorsForAccountId(stubInstructor.getGoogleId()))
+        loginAsInstructor(stubInstructor.getAccountId());
+        when(mockLogic.getInstructorsForAccountId(stubInstructor.getAccountId()))
                 .thenReturn(stubInstructorList);
         when(mockLogic.getCoursesForInstructors(argThat(
-                argument -> Objects.equals(argument.get(0).getGoogleId(),
-                        stubInstructor.getGoogleId()))))
+                argument -> Objects.equals(argument.get(0).getAccountId(),
+                        stubInstructor.getAccountId()))))
                 .thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -71,12 +71,12 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withInstructorAndSoftDeletedCourses_success() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        when(mockLogic.getInstructorsForAccountId(stubInstructor.getGoogleId()))
+        loginAsInstructor(stubInstructor.getAccountId());
+        when(mockLogic.getInstructorsForAccountId(stubInstructor.getAccountId()))
                 .thenReturn(stubInstructorList);
         when(mockLogic.getSoftDeletedCoursesForInstructors(argThat(
-                argument -> Objects.equals(argument.get(0).getGoogleId(),
-                        stubInstructor.getGoogleId()))))
+                argument -> Objects.equals(argument.get(0).getAccountId(),
+                        stubInstructor.getAccountId()))))
                 .thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -90,7 +90,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withInstructorAndInvalidCourseStatus_throwsException() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.COURSE_STATUS, "invalid",
@@ -183,7 +183,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testSpecificAccessControl_loginUserAndEntityMismatch_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
+        loginAsInstructor(stubInstructor.getAccountId());
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };

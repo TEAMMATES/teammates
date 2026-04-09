@@ -214,11 +214,11 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         ______TS("Only instructors with modify student, session and instructor privilege can access");
         verifyCannotAccess(submissionParams);
 
-        loginAsInstructor(helper.getGoogleId());
+        loginAsInstructor(helper.getAccountId());
         verifyCannotAccess(submissionParams);
 
         ______TS("Only instructors of the same course can access");
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         verifyCanAccess(submissionParams);
     }
 

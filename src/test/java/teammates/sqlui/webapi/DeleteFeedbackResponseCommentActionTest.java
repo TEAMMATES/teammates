@@ -82,7 +82,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         DeleteFeedbackResponseCommentAction action = getAction(params);
         JsonResult r = getJsonResult(action);
@@ -103,7 +103,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         when(mockLogic.getFeedbackResponseComment(nonExistentCommentId))
                 .thenReturn(null);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         DeleteFeedbackResponseCommentAction action = getAction(params);
         JsonResult r = getJsonResult(action);
@@ -128,10 +128,10 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutAccess.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutAccess.getAccountId()))
                 .thenReturn(instructorWithoutAccess);
 
-        loginAsInstructor(instructorWithoutAccess.getGoogleId());
+        loginAsInstructor(instructorWithoutAccess.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -183,7 +183,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -199,10 +199,10 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyCanAccess(params);
     }
@@ -219,11 +219,11 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
-        loginAsInstructor(instructorInSameCourse.getGoogleId());
+        loginAsInstructor(instructorInSameCourse.getAccountId());
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorInSameCourse.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorInSameCourse.getAccountId()))
                 .thenReturn(instructorInSameCourse);
 
         verifyCanAccess(params);
@@ -245,7 +245,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         loginAsAdmin();
 
-        verifyCanMasquerade(typicalInstructor.getGoogleId(), params);
+        verifyCanMasquerade(typicalInstructor.getAccountId(), params);
     }
 
     @Test
@@ -267,10 +267,10 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutPrivilege.getAccountId()))
                 .thenReturn(instructorWithoutPrivilege);
 
-        loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
+        loginAsInstructor(instructorWithoutPrivilege.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -286,12 +286,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, typicalInstructor))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyCanAccess(params);
     }
@@ -310,12 +310,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), differentInstructorInSameCourse.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), differentInstructorInSameCourse.getAccountId()))
                 .thenReturn(differentInstructorInSameCourse);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentInstructorInSameCourse))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
 
-        loginAsInstructor(differentInstructorInSameCourse.getGoogleId());
+        loginAsInstructor(differentInstructorInSameCourse.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -333,12 +333,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getAccountId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, typicalStudent))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         verifyCanAccess(params);
     }
@@ -359,12 +359,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), differentStudentFromSameCourse.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), differentStudentFromSameCourse.getAccountId()))
                 .thenReturn(differentStudentFromSameCourse);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentStudentFromSameCourse))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
 
-        loginAsStudent(differentStudentFromSameCourse.getGoogleId());
+        loginAsStudent(differentStudentFromSameCourse.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -407,12 +407,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), differentStudentInDifferentTeam.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), differentStudentInDifferentTeam.getAccountId()))
                 .thenReturn(differentStudentInDifferentTeam);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentStudentInDifferentTeam))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
 
-        loginAsStudent(differentStudentInDifferentTeam.getGoogleId());
+        loginAsStudent(differentStudentInDifferentTeam.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -436,12 +436,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), differentStudentInSameTeam.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), differentStudentInSameTeam.getAccountId()))
                 .thenReturn(differentStudentInSameTeam);
         when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentStudentInSameTeam))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
 
-        loginAsStudent(differentStudentInSameTeam.getGoogleId());
+        loginAsStudent(differentStudentInSameTeam.getAccountId());
 
         verifyCanAccess(params);
     }
@@ -466,10 +466,10 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithPrivilege.getAccountId()))
                 .thenReturn(instructorWithPrivilege);
 
-        loginAsInstructor(instructorWithPrivilege.getGoogleId());
+        loginAsInstructor(instructorWithPrivilege.getAccountId());
 
         verifyCanAccess(params);
     }
@@ -492,10 +492,10 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutPrivilege.getAccountId()))
                 .thenReturn(instructorWithoutPrivilege);
 
-        loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
+        loginAsInstructor(instructorWithoutPrivilege.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -518,10 +518,10 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutPrivilege.getAccountId()))
                 .thenReturn(instructorWithoutPrivilege);
 
-        loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
+        loginAsInstructor(instructorWithoutPrivilege.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -540,12 +540,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalInstructor))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(10)));
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyCanAccess(params);
     }
@@ -564,12 +564,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getAccountId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalInstructor))
                 .thenReturn(Instant.now().minus(Duration.ofHours(1)));
 
-        loginAsInstructor(typicalInstructor.getGoogleId());
+        loginAsInstructor(typicalInstructor.getAccountId());
 
         verifyCannotAccess(params);
     }
@@ -589,12 +589,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getAccountId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalStudent))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(10)));
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         verifyCanAccess(params);
     }
@@ -614,12 +614,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
                 .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getAccountId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalStudent))
                 .thenReturn(Instant.now().minus(Duration.ofHours(1)));
 
-        loginAsStudent(typicalStudent.getGoogleId());
+        loginAsStudent(typicalStudent.getAccountId());
 
         verifyCannotAccess(params);
     }

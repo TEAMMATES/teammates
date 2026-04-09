@@ -61,14 +61,14 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         instructor = generateInstructor1InCourse(course);
         feedbackSession = generateSession1InCourse(course, instructor);
 
-        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getAccountId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.createFeedbackSession(isA(FeedbackSession.class))).thenReturn(feedbackSession);
     }
 
     @Test
     protected void testExecute_insufficientParams_failure() {
-        loginAsInstructor(instructor.getGoogleId());
+        loginAsInstructor(instructor.getAccountId());
         verifyHttpParameterFailure();
     }
 
@@ -76,7 +76,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
     protected void testExecute_createFeedbackSession_success()
             throws InvalidParametersException, EntityAlreadyExistsException {
         try (MockedStatic<HibernateUtil> mockedHibernate = Mockito.mockStatic(HibernateUtil.class)) {
-            loginAsInstructor(instructor.getGoogleId());
+            loginAsInstructor(instructor.getAccountId());
             String[] params = {
                     Const.ParamsNames.COURSE_ID, course.getId(),
             };

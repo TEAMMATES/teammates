@@ -76,7 +76,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourseForStudent(student2YetToJoinCourse.getRegKey(),
-                studentInCourse.getGoogleId()));
+                studentInCourse.getAccountId()));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("success: with encryption and new account to be created");
@@ -85,7 +85,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         Account accountCreated = accountsLogic.getAccountForAccountId(loggedInGoogleId);
 
         assertEquals(loggedInGoogleId, usersLogic.getStudentForEmail(
-                student2YetToJoinCourse.getCourseId(), student2YetToJoinCourse.getEmail()).getGoogleId());
+                student2YetToJoinCourse.getCourseId(), student2YetToJoinCourse.getEmail()).getAccountId());
         assertNotNull(accountCreated);
 
         ______TS("success: student joined but account already exists");
@@ -97,7 +97,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         accountsLogic.joinCourseForStudent(student3YetToJoinCourse.getRegKey(), existingAccountId);
 
         assertEquals(existingAccountId, usersLogic.getStudentForEmail(
-                student3YetToJoinCourse.getCourseId(), student3YetToJoinCourse.getEmail()).getGoogleId());
+                student3YetToJoinCourse.getCourseId(), student3YetToJoinCourse.getEmail()).getAccountId());
 
         ______TS("failure: already joined");
 
@@ -142,7 +142,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         Instructor joinedInstructor = usersLogic.getInstructorForEmail(
                         instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail());
-        assertEquals(loggedInGoogleId, joinedInstructor.getGoogleId());
+        assertEquals(loggedInGoogleId, joinedInstructor.getAccountId());
 
         Account accountCreated = accountsLogic.getAccountForAccountId(loggedInGoogleId);
         assertNotNull(accountCreated);
@@ -153,11 +153,11 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         Account existingAccount = new Account(existingAccountId, "accountName", instructor3YetToJoinCourse.getEmail());
         accountsDb.createAccount(existingAccount);
 
-        accountsLogic.joinCourseForInstructor(key[1], existingAccount.getGoogleId());
+        accountsLogic.joinCourseForInstructor(key[1], existingAccount.getId());
 
         joinedInstructor = usersLogic.getInstructorForEmail(
                         instructor3YetToJoinCourse.getCourseId(), existingAccount.getEmail());
-        assertEquals(existingAccountId, joinedInstructor.getGoogleId());
+        assertEquals(existingAccountId, joinedInstructor.getAccountId());
 
         ______TS("failure: instructor already joined");
 
@@ -188,7 +188,7 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> accountsLogic.joinCourseForInstructor(instructor2YetToJoinCourse.getRegKey(),
-                    instructor2YetToJoinCourse.getGoogleId()));
+                    instructor2YetToJoinCourse.getAccountId()));
         assertEquals("The course you are trying to join has been deleted by an instructor", ednee.getMessage());
     }
 

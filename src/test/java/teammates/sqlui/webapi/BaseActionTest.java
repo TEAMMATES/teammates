@@ -730,9 +730,9 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructor);
 
         if (canMasquerade) {
-            verifyCanMasquerade(instructor.getGoogleId(), params);
+            verifyCanMasquerade(instructor.getAccountId(), params);
         } else {
-            verifyCannotMasquerade(instructor.getGoogleId(), params);
+            verifyCannotMasquerade(instructor.getAccountId(), params);
         }
 
         mockUserProvision.setInstructor(false);

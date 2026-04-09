@@ -148,8 +148,8 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
      void testExecute_instructorWithPermission_success() {
-        loginAsInstructor(stubInstructorWithAllPrivileges.getGoogleId());
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithAllPrivileges.getGoogleId()))
+        loginAsInstructor(stubInstructorWithAllPrivileges.getAccountId());
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithAllPrivileges.getAccountId()))
                 .thenReturn(stubInstructorWithAllPrivileges);
         when(mockLogic.getStudentsForCourse(stubCourse.getId())).thenReturn(stubStudentListAll);
 
@@ -166,9 +166,9 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testExecute_instructorWithSameSectionPrivilegesAsStudents_success() {
-        loginAsInstructor(stubInstructorWithOnlyViewSectionPrivileges.getGoogleId());
+        loginAsInstructor(stubInstructorWithOnlyViewSectionPrivileges.getAccountId());
         when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithOnlyViewSectionPrivileges
-                .getGoogleId())).thenReturn(stubInstructorWithOnlyViewSectionPrivileges);
+                .getAccountId())).thenReturn(stubInstructorWithOnlyViewSectionPrivileges);
         when(mockLogic.getStudentsForCourse(stubCourse.getId())).thenReturn(stubStudentListAll);
 
         String[] params = {
@@ -196,8 +196,8 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testExecute_instructorWithOnlyViewSectionCourseLevelPrivilege_success() {
-        loginAsInstructor(stubInstructorWithCourseLevelPrivilege.getGoogleId());
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithCourseLevelPrivilege.getGoogleId()))
+        loginAsInstructor(stubInstructorWithCourseLevelPrivilege.getAccountId());
+        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructorWithCourseLevelPrivilege.getAccountId()))
                 .thenReturn(stubInstructorWithCourseLevelPrivilege);
         when(mockLogic.getStudentsForCourse(stubCourse.getId())).thenReturn(stubStudentListAll);
 
@@ -214,9 +214,9 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testExecute_instructorWithDifferentSectionPrivilegesAsStudents_emptyList() {
-        loginAsInstructor(stubInstructorWithOnlyViewPrivilegesForDifferentSection.getGoogleId());
+        loginAsInstructor(stubInstructorWithOnlyViewPrivilegesForDifferentSection.getAccountId());
         when(mockLogic.getInstructorByAccountId(stubCourse.getId(),
-                stubInstructorWithOnlyViewPrivilegesForDifferentSection.getGoogleId()))
+                stubInstructorWithOnlyViewPrivilegesForDifferentSection.getAccountId()))
                 .thenReturn(stubInstructorWithOnlyViewPrivilegesForDifferentSection);
         when(mockLogic.getStudentsForCourse(stubCourse.getId())).thenReturn(stubStudentListAll);
 
@@ -234,7 +234,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testExecute_student_success() {
-        loginAsStudent(stubStudentOne.getGoogleId());
+        loginAsStudent(stubStudentOne.getAccountId());
         when(mockLogic.getStudentsByTeamName(stubStudentOne.getTeam().getName(),
                 stubStudentOne.getCourse().getId())).thenReturn(stubStudentListSectionOneTeamOne);
 
@@ -261,7 +261,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
             assertEquals(expectedStudents.get(i).getSectionName(), actualStudentsData.getStudents().get(i).getSectionName());
             assertEquals(expectedStudents.get(i).getEmail(), actualStudentsData.getStudents().get(i).getEmail());
             assertEquals(expectedStudents.get(i).getName(), actualStudentsData.getStudents().get(i).getName());
-            assertEquals(expectedStudents.get(i).getGoogleId(), actualStudentsData.getStudents().get(i).getAccountId());
+            assertEquals(expectedStudents.get(i).getAccountId(), actualStudentsData.getStudents().get(i).getAccountId());
             assertNull(actualStudentsData.getStudents().get(i).getKey());
             if (type == Type.INSTRUCTOR) {
                 assertEquals(expectedStudents.get(i).getComments(), actualStudentsData.getStudents().get(i).getComments());
@@ -401,10 +401,10 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     void testGetStudents_invalidCourse_cannotAccess() {
-        loginAsInstructor(stubInstructorWithAllPrivileges.getGoogleId());
+        loginAsInstructor(stubInstructorWithAllPrivileges.getAccountId());
         when(mockLogic.getInstructorByAccountId(
                 "invalid-course-id",
-                stubInstructorWithAllPrivileges.getGoogleId()))
+                stubInstructorWithAllPrivileges.getAccountId()))
                 .thenReturn(stubInstructorWithAllPrivileges);
         when(mockLogic.getCourse("invalid-course-id")).thenReturn(null);
         verifyCannotAccess(

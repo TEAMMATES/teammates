@@ -378,7 +378,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         verify(coursesLogic, times(1)).deleteCourseCascade(course.getId());
         verify(notificationsLogic, times(1)).deleteNotification(notification.getId());
-        verify(accountsLogic, times(1)).deleteAccount(account.getGoogleId());
+        verify(accountsLogic, times(1)).deleteAccount(account.getId());
         verify(accountRequestsLogic, times(1)).deleteAccountRequest(accountRequest.getId());
     }
 
@@ -401,7 +401,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         dataBundleLogic.removeDataBundle(dataBundle);
 
-        verify(accountsLogic, times(1)).deleteAccount(account.getGoogleId());
+        verify(accountsLogic, times(1)).deleteAccount(account.getId());
     }
 
     @Test

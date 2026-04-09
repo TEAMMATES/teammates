@@ -77,7 +77,7 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
 
         ______TS("Normal case: Wrong logged in user for a used regkey; should be valid/used/disallowed");
 
-        loginAsInstructor(typicalBundle.instructors.get("instructor2OfCourse1").getGoogleId());
+        loginAsInstructor(typicalBundle.instructors.get("instructor2OfCourse1").getAccountId());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, instructor1Key,
@@ -94,7 +94,7 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
 
         ______TS("Normal case: Correct logged in user for a used regkey; should be valid/used/allowed");
 
-        loginAsStudent(student1.getGoogleId());
+        loginAsStudent(student1.getAccountId());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, student1Key,
@@ -109,7 +109,7 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         assertTrue(output.isUsed());
         assertTrue(output.isAllowedAccess());
 
-        loginAsInstructor(instructor1.getGoogleId());
+        loginAsInstructor(instructor1.getAccountId());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, instructor1Key,
@@ -127,8 +127,8 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         ______TS("Normal case: No logged in user for an unused regkey; should be valid/unused/allowed");
 
         try {
-            logic.resetStudentAccountId(student1.getEmail(), student1.getCourseId(), student1.getGoogleId());
-            logic.resetInstructorAccountId(instructor1.getEmail(), instructor1.getCourseId(), instructor1.getGoogleId());
+            logic.resetStudentAccountId(student1.getEmail(), student1.getCourseId(), student1.getAccountId());
+            logic.resetInstructorAccountId(instructor1.getEmail(), instructor1.getCourseId(), instructor1.getAccountId());
         } catch (EntityDoesNotExistException e) {
             e.printStackTrace();
         }
@@ -163,7 +163,7 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
 
         ______TS("Normal case: Any logged in user for an unused regkey; should be valid/unused/allowed");
 
-        loginAsInstructor(typicalBundle.instructors.get("instructor2OfCourse1").getGoogleId());
+        loginAsInstructor(typicalBundle.instructors.get("instructor2OfCourse1").getAccountId());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, instructor1Key,

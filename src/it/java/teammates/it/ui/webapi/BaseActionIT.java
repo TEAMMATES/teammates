@@ -347,7 +347,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         ______TS("Students cannot access");
         Student student = createTypicalStudent(course, "inaccessibleforstudents@teammates.tmt");
 
-        loginAsStudent(student.getAccount().getGoogleId());
+        loginAsStudent(student.getAccount().getId());
         verifyCannotAccess(params);
 
     }
@@ -357,7 +357,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         ______TS("Instructors cannot access");
         Instructor instructor = createTypicalInstructor(course, "inaccessibleforinstructors@teammates.tmt");
 
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor.getAccount().getId());
         verifyCannotAccess(params);
 
     }
@@ -373,7 +373,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         mockUserProvision.setMaintainer(false);
 
         // not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
+        verifyCanMasquerade(instructor.getAccount().getId(), submissionParams);
         mockUserProvision.setInstructor(false);
     }
 
@@ -389,7 +389,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         mockUserProvision.setStudent(false);
         mockUserProvision.setMaintainer(false);
         // not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
+        verifyCanMasquerade(instructor.getAccount().getId(), submissionParams);
         mockUserProvision.setInstructor(false);
     }
 
@@ -400,7 +400,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         Instructor instructor = createTypicalInstructor(course,
                 "inaccessiblewithoutmodifysessionprivilege@teammates.tmt");
 
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor.getAccount().getId());
         verifyCannotAccess(submissionParams);
     }
 
@@ -411,7 +411,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         Instructor instructor = createTypicalInstructor(course,
                 "inaccessiblewithoutsubmitsessioninsectionsprivilege@teammates.tmt");
 
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor.getAccount().getId());
         verifyCannotAccess(submissionParams);
     }
 
@@ -422,7 +422,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
 
         ______TS("without correct course privilege cannot access");
 
-        loginAsInstructor(instructor.getAccount().getGoogleId());
+        loginAsInstructor(instructor.getAccount().getId());
         verifyCannotAccess(submissionParams);
 
         ______TS("only instructor with correct course privilege should pass");
@@ -448,11 +448,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         Instructor instructorOtherCourse = createTypicalInstructor(courseOther,
                 "accessibleforinstructorsofthesamecourse-otherinstructor@teammates.tmt");
 
-        loginAsInstructor(instructorSameCourse.getAccount().getGoogleId());
+        loginAsInstructor(instructorSameCourse.getAccount().getId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(studentSameCourse.getAccount().getGoogleId(), submissionParams);
-        verifyCannotMasquerade(instructorOtherCourse.getAccount().getGoogleId(), submissionParams);
+        verifyCannotMasquerade(studentSameCourse.getAccount().getId(), submissionParams);
+        verifyCannotMasquerade(instructorOtherCourse.getAccount().getId(), submissionParams);
 
     }
 
@@ -469,18 +469,18 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
         Instructor instructorOtherCourse = createTypicalInstructor(courseOther,
                 "accessibleforinstructorsofothercourse-otherinstructor@teammates.tmt");
 
-        loginAsInstructor(instructorOtherCourse.getAccount().getGoogleId());
+        loginAsInstructor(instructorOtherCourse.getAccount().getId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(studentSameCourse.getAccount().getGoogleId(), submissionParams);
-        verifyCannotMasquerade(instructorSameCourse.getAccount().getGoogleId(), submissionParams);
+        verifyCannotMasquerade(studentSameCourse.getAccount().getId(), submissionParams);
+        verifyCannotMasquerade(instructorSameCourse.getAccount().getId(), submissionParams);
     }
 
     void verifyAccessibleForStudentsOfTheSameCourse(Course course, String[] submissionParams)
             throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("course students can access");
         Student student = createTypicalStudent(course, "accessibleforstudentsofthesamecourse@teammates.tmt");
-        loginAsStudent(student.getAccount().getGoogleId());
+        loginAsStudent(student.getAccount().getId());
         verifyCanAccess(submissionParams);
     }
 
@@ -492,7 +492,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
                 "inaccessibleforstudentsofothercourse-other@teammates.tmt");
         assert !course.getId().equals(courseOther.getId());
 
-        loginAsStudent(otherStudent.getAccount().getGoogleId());
+        loginAsStudent(otherStudent.getAccount().getId());
         verifyCannotAccess(submissionParams);
     }
 
@@ -504,7 +504,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
                 "inaccessibleforinstructorsofothercourses@teammates.tmt");
         assert !course.getId().equals(courseOther.getId());
 
-        loginAsInstructor(otherInstructor.getAccount().getGoogleId());
+        loginAsInstructor(otherInstructor.getAccount().getId());
         verifyCannotAccess(submissionParams);
     }
 

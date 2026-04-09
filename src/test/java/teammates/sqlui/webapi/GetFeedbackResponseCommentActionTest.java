@@ -94,7 +94,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testExecute_notEnoughParameters_shouldFail() {
-        loginAsInstructor(instructorOfCourse1.getGoogleId());
+        loginAsInstructor(instructorOfCourse1.getAccountId());
 
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
@@ -102,7 +102,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     protected void testExecute_invalidIntent_shouldFail() {
-        loginAsInstructor(instructorOfCourse1.getGoogleId());
+        loginAsInstructor(instructorOfCourse1.getAccountId());
 
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ1);
 
@@ -112,7 +112,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         };
         verifyHttpParameterFailure(submissionParams);
 
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
@@ -122,7 +122,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testExecute_studentSubmissionTypicalSuccessCase_shouldPass() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -140,7 +140,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testExecute_instructorSubmissionTypicalSuccessCase_shouldPass() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -158,7 +158,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testExecute_commnetDoesNotExist_shouldFail() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -175,7 +175,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testExecute_responseDoesNotExist_shouldThrowException() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -191,7 +191,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testAccessControl() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
@@ -203,7 +203,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         verifyCanAccess(submissionParams);
 
-        loginAsInstructor(instructorOfCourse1.getGoogleId());
+        loginAsInstructor(instructorOfCourse1.getAccountId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ2.getId().toString(),
@@ -217,7 +217,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testAccessControl_invalidIntent_shouldFail() {
-        loginAsStudent(studentInCourse1.getGoogleId());
+        loginAsStudent(studentInCourse1.getAccountId());
         String[] studentInvalidIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
@@ -228,7 +228,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         verifyHttpParameterFailureAcl(studentInvalidIntentParams);
 
-        loginAsInstructor(instructorOfCourse1.getGoogleId());
+        loginAsInstructor(instructorOfCourse1.getAccountId());
         String[] instructorInvalidIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
@@ -239,7 +239,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     void testAccessControl_responseDoesNotExist_shouldFail() {
-        loginAsInstructor(instructorOfCourse1.getGoogleId());
+        loginAsInstructor(instructorOfCourse1.getAccountId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -254,7 +254,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
     void testAccessControl_accessAcrossCourses_shouldFail() {
 
         // instructor access other instructor's response from different course
-        loginAsInstructor(instructorOfCourse2.getGoogleId());
+        loginAsInstructor(instructorOfCourse2.getAccountId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ2.getId().toString(),
@@ -267,7 +267,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         verifyCannotAccess(submissionParams);
 
         // students access other students' response from different course
-        loginAsStudent(studentInCourse2.getGoogleId());
+        loginAsStudent(studentInCourse2.getAccountId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),

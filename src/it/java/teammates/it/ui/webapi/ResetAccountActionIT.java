@@ -57,7 +57,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         assertEquals(response.getMessage(), "Account is successfully reset.");
         assertNotNull(student);
         assertNull(student.getAccount());
-        assertNull(student.getGoogleId());
+        assertNull(student.getAccountId());
 
         ______TS("Student Email param given but Student is non existent");
         String invalidEmail = "does-not-exist-email@teammates.tmt";
@@ -82,7 +82,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         assertEquals(response.getMessage(), "Account is successfully reset.");
         assertNotNull(instructor);
         assertNull(instructor.getAccount());
-        assertNull(instructor.getGoogleId());
+        assertNull(instructor.getAccountId());
 
         ______TS("Instructor Email param given but Instructor is non existent");
         invalidParams = new String[] {
