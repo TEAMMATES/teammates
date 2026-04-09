@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.logs;
 
+import java.util.UUID;
+
 /**
  * Represents a user who invokes the HTTP request.
  */
@@ -7,7 +9,7 @@ public class RequestLogUser {
 
     private String regkey;
     private String email;
-    private String accountId;
+    private UUID accountId;
 
     public String getRegkey() {
         return regkey;
@@ -25,11 +27,11 @@ public class RequestLogUser {
         this.email = email;
     }
 
-    public String getAccountId() {
+    public UUID getAccountId() {
         return accountId;
     }
 
-    public void getAccountId(String accountId) {
+    public void setAccountId(UUID accountId) {
         this.accountId = accountId;
     }
 
