@@ -1788,7 +1788,7 @@ public class Logic {
     /**
      * Create feedback session log.
      */
-    public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) {
+    public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) throws InvalidParametersException {
         feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSessionLog);
     }
 
@@ -1797,14 +1797,6 @@ public class Logic {
      */
     public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
         return feedbackSessionLogsLogic.deleteFeedbackSessionLogsOlderThan(cutoffTime);
-    }
-
-    /**
-     * Validates feedback session log context before writing activity logs.
-     */
-    public void validateFeedbackSessionLogContext(Student student, FeedbackSession feedbackSession)
-            throws InvalidParametersException {
-        feedbackSessionLogsLogic.validateFeedbackSessionLogContext(student, feedbackSession);
     }
 
     /**

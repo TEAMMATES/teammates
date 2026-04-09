@@ -59,7 +59,8 @@ public final class FeedbackSessionLogsLogic {
     /**
      * Creates feedback session log.
      */
-    public void createFeedbackSessionLog(FeedbackSessionLog fsLog) {
+    public void createFeedbackSessionLog(FeedbackSessionLog fsLog) throws InvalidParametersException {
+        validateFeedbackSessionLogContext(fsLog.getStudent(), fsLog.getFeedbackSession());
         try {
             fslDb.createFeedbackSessionLog(fsLog);
         } catch (ObjectNotFoundException e) {
@@ -85,7 +86,7 @@ public final class FeedbackSessionLogsLogic {
     /**
      * Validates that feedback session log entities belong to the same course.
      */
-    public void validateFeedbackSessionLogContext(Student student, FeedbackSession feedbackSession)
+    private void validateFeedbackSessionLogContext(Student student, FeedbackSession feedbackSession)
             throws InvalidParametersException {
         if (student == null) {
             throw new InvalidParametersException("Student for feedback session log does not exist");

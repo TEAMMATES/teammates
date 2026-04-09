@@ -52,18 +52,16 @@ public class CreateFeedbackSessionLogAction extends Action {
         UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
         UUID fsId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
+        Instant now = Instant.now(clock);
         Student student = sqlLogic.getStudent(studentId);
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsId);
+        FeedbackSessionLog feedbackSessionLog =
+                new FeedbackSessionLog(student, feedbackSession, convertedFslType, now);
         try {
-            sqlLogic.validateFeedbackSessionLogContext(student, feedbackSession);
+            sqlLogic.createFeedbackSessionLog(feedbackSessionLog);
         } catch (InvalidParametersException ipe) {
             throw new InvalidOperationException(ipe);
         }
-
-        Instant now = Instant.now(clock);
-        FeedbackSessionLog feedbackSessionLog =
-                new FeedbackSessionLog(student, feedbackSession, convertedFslType, now);
-        sqlLogic.createFeedbackSessionLog(feedbackSessionLog);
 
         return new JsonResult("Successful");
     }

@@ -139,7 +139,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_typicalAccess_shouldSucceed() {
+        void testExecute_typicalAccess_shouldSucceed() throws Exception {
         String[] paramsSuccessfulAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
@@ -159,7 +159,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_duplicateLog_shouldStillPersist() {
+        void testExecute_duplicateLog_shouldStillPersist() throws Exception {
         String[] paramsSuccessfulAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
@@ -179,7 +179,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_duplicateLogWithDifferentType_shouldPersist() {
+        void testExecute_duplicateLogWithDifferentType_shouldPersist() throws Exception {
         String[] paramsSuccessfulSubmission = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
@@ -199,7 +199,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_typicalSubmission_shouldSucceed() {
+        void testExecute_typicalSubmission_shouldSucceed() throws Exception {
         String[] paramsSuccessfulSubmission = {
                 Const.ParamsNames.COURSE_ID, courseNoStudent.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourseNoStudentName,
@@ -219,7 +219,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_invalidSessionName_shouldStillSucceed() {
+        void testExecute_invalidSessionName_shouldStillSucceed() throws Exception {
         String nonExistentSessionName = "non-existent-feedback-session-name";
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -239,7 +239,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_invalidEmail_shouldStillSucceed() {
+        void testExecute_invalidEmail_shouldStillSucceed() throws Exception {
         String nonExistentEmail = "non-existent-student@email.com";
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -261,7 +261,9 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     @Test
     void testExecute_studentHasNoAccessToCourseFeedback_shouldFail() throws Exception {
         doThrow(new InvalidParametersException("Student and feedback session belong to different courses"))
-            .when(mockLogic).validateFeedbackSessionLogContext(student3InCourse2, fsaCourse1);
+                .when(mockLogic).createFeedbackSessionLog(argThat(log ->
+                        student3InCourse2.equals(log.getStudent())
+                                && fsaCourse1.equals(log.getFeedbackSession())));
 
         String[] paramsWithoutAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -278,7 +280,9 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     @Test
     void testExecute_missingFeedbackSession_shouldFail() throws Exception {
         doThrow(new InvalidParametersException("Feedback session for feedback session log does not exist"))
-                .when(mockLogic).validateFeedbackSessionLogContext(student1InCourse1, null);
+                .when(mockLogic).createFeedbackSessionLog(argThat(log ->
+                        student1InCourse1.equals(log.getStudent())
+                                && log.getFeedbackSession() == null));
 
         String[] paramsMissingFeedbackSession = {
                 Const.ParamsNames.COURSE_ID, courseId1,
@@ -296,7 +300,9 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     @Test
     void testExecute_missingStudent_shouldFail() throws Exception {
         doThrow(new InvalidParametersException("Student for feedback session log does not exist"))
-            .when(mockLogic).validateFeedbackSessionLogContext(null, fsaCourse1);
+                .when(mockLogic).createFeedbackSessionLog(argThat(log ->
+                        log.getStudent() == null
+                                && fsaCourse1.equals(log.getFeedbackSession())));
 
         String[] paramsMissingStudent = {
                 Const.ParamsNames.COURSE_ID, courseId1,
