@@ -60,7 +60,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         doNothing().when(mockLogic).restoreFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID);
         when(mockLogic.getFeedbackSession(FEEDBACK_SESSION_NAME, COURSE_ID))
                 .thenReturn(stubFeedbackSession);
-        when(mockLogic.getInstructorByAccountId(COURSE_ID, GOOGLE_ID)).thenReturn(stubInstructor);
+        when(mockLogic.getInstructorByGoogleId(COURSE_ID, GOOGLE_ID)).thenReturn(stubInstructor);
 
         loginAsInstructor(GOOGLE_ID);
 

@@ -42,7 +42,7 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
 
     @Test
     void testAccessControl_student_cannotAccess() {
-        loginAsStudent(Const.ParamsNames.STUDENT_ACCOUNT_ID);
+        loginAsStudent(Const.ParamsNames.STUDENT_ID);
         verifyCannotAccess();
     }
 

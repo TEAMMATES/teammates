@@ -250,7 +250,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         };
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByAccountId(differentCourse.getId(), instructorFromDifferentCourse.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(differentCourse.getId(), instructorFromDifferentCourse.getGoogleId()))
                 .thenReturn(instructorFromDifferentCourse);
 
         loginAsInstructor(instructorFromDifferentCourse.getGoogleId());
@@ -270,7 +270,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         };
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getGoogleId()))
                 .thenReturn(instructorWithoutCorrectPrivilege);
 
         loginAsInstructor(instructorWithoutCorrectPrivilege.getGoogleId());

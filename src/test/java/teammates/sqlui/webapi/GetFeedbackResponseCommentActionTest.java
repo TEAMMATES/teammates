@@ -199,7 +199,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ1);
-        when(mockLogic.getStudentByAccountId(any(), any())).thenReturn(studentInCourse1);
+        when(mockLogic.getStudentByGoogleId(any(), any())).thenReturn(studentInCourse1);
 
         verifyCanAccess(submissionParams);
 
@@ -210,7 +210,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ2);
-        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructorOfCourse1);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructorOfCourse1);
 
         verifyCanAccess(submissionParams);
     }
@@ -262,7 +262,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ2);
-        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructorOfCourse2);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructorOfCourse2);
 
         verifyCannotAccess(submissionParams);
 
@@ -275,7 +275,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ1);
-        when(mockLogic.getStudentByAccountId(any(), any())).thenReturn(studentInCourse2);
+        when(mockLogic.getStudentByGoogleId(any(), any())).thenReturn(studentInCourse2);
 
         verifyCannotAccess(submissionParams);
     }

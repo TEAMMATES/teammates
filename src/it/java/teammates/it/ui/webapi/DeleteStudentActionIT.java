@@ -58,29 +58,29 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         ______TS("Typical Success Case delete a student by id");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_ACCOUNT_ID, student2InCourse1.getGoogleId(),
+                Const.ParamsNames.STUDENT_ID, student2InCourse1.getGoogleId(),
         };
 
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        assertNull(logic.getStudentByAccountId(courseId, student2InCourse1.getGoogleId()));
+        assertNull(logic.getStudentByGoogleId(courseId, student2InCourse1.getGoogleId()));
 
         ______TS("Course does not exist, fails silently");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, "non-existent-course",
-                Const.ParamsNames.STUDENT_ACCOUNT_ID, student3InCourse1.getGoogleId(),
+                Const.ParamsNames.STUDENT_ID, student3InCourse1.getGoogleId(),
         };
 
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        assertNotNull(logic.getStudentByAccountId(student3InCourse1.getCourseId(), student3InCourse1.getGoogleId()));
+        assertNotNull(logic.getStudentByGoogleId(student3InCourse1.getCourseId(), student3InCourse1.getGoogleId()));
 
         ______TS("Student does not exist, fails silently");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_ACCOUNT_ID, "non-existent-id",
+                Const.ParamsNames.STUDENT_ID, "non-existent-id",
         };
 
         deleteStudentAction = getAction(params);
@@ -102,7 +102,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         verifyHttpParameterFailure(params);
 
         params = new String[] {
-                Const.ParamsNames.STUDENT_ACCOUNT_ID, student1InCourse1.getGoogleId(),
+                Const.ParamsNames.STUDENT_ID, student1InCourse1.getGoogleId(),
         };
 
         verifyAccessibleForAdmin(params);

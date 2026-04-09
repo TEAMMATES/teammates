@@ -727,7 +727,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         mockUserProvision.setInstructor(true);
         mockUserProvision.setStudent(false);
         mockUserProvision.setMaintainer(false);
-        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
 
         if (canMasquerade) {
             verifyCanMasquerade(instructor.getGoogleId(), params);
@@ -742,7 +742,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Instructor sameCourseInstructor = getTypicalInstructor();
         sameCourseInstructor.setCourse(thisCourse);
 
-        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(sameCourseInstructor);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(sameCourseInstructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         logoutUser();
@@ -754,7 +754,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
 
-        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(otherCourseInstructor);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(otherCourseInstructor);
 
         logoutUser();
         loginAsInstructor(otherCourseInstructor.getId().toString());
@@ -773,7 +773,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Instructor instructor = getTypicalInstructor();
         instructor.setAccount(new Account("instructor-googleId", instructor.getName(), instructor.getEmail()));
 
-        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         instructor.setCourse(thisCourse);
@@ -805,7 +805,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
         Instructor instructor = getTypicalInstructor();
 
-        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         instructor.setCourse(thisCourse);

@@ -204,7 +204,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalStudent.getCourseId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
 
         // mock that the student has responded
@@ -221,7 +221,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verify(mockLogic, times(1))
                 .getFeedbackSession(typicalFeedbackSession.getName(), typicalStudent.getCourseId());
         verify(mockLogic, times(1))
-                .getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
+                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
         verify(mockLogic, times(1))
                 .isFeedbackSessionAttemptedByStudent(
                         typicalFeedbackSession, typicalStudent.getEmail(), typicalStudent.getTeamName());
@@ -238,7 +238,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         };
 
         when(mockLogic.getFeedbackSessionsForCourse(typicalCourse.getId())).thenReturn(feedbackSessions);
-        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
 
         // mock that student has responded to all feedback sessions
@@ -264,7 +264,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         verify(mockLogic, times(1)).getFeedbackSessionsForCourse(typicalCourse.getId());
         verify(mockLogic, times(1))
-                .getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
+                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
         for (FeedbackSession feedbackSession : feedbackSessions) {
             if ("invisible session".equals(feedbackSession.getName())) {
                 // invisible session is skipped
@@ -304,7 +304,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verifyCannotAccess(paramsWithFeedbackQuestion);
 
         verify(mockLogic, times(2))
-                .getInstructorByAccountId(typicalCourse.getId(), "unregistered user");
+                .getInstructorByGoogleId(typicalCourse.getId(), "unregistered user");
 
         ______TS("Students cannot access");
 
@@ -314,7 +314,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verifyCannotAccess(paramsWithFeedbackQuestion);
 
         verify(mockLogic, times(2))
-                .getInstructorByAccountId(typicalCourse.getId(), getTypicalStudent().getGoogleId());
+                .getInstructorByGoogleId(typicalCourse.getId(), getTypicalStudent().getGoogleId());
 
         // check that getCourse and getFeedbackQuestion are run once per test for logged in users
         verify(mockLogic, times(2)).getCourse(typicalCourse.getId());
@@ -347,7 +347,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verifyCannotAccess(paramsWithFeedbackQuestion);
 
         verify(mockLogic, times(2))
-                .getInstructorByAccountId(typicalCourse.getId(), instructorOfOtherCourse.getGoogleId());
+                .getInstructorByGoogleId(typicalCourse.getId(), instructorOfOtherCourse.getGoogleId());
         verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
     }
@@ -366,7 +366,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
@@ -375,7 +375,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verifyCanAccess(paramsWithFeedbackQuestion);
 
         verify(mockLogic, times(2))
-                .getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId());
+                .getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId());
         verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
     }
@@ -390,7 +390,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId()))
                 .thenReturn(typicalFeedbackSession);
@@ -398,7 +398,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verifyCanAccess(params);
 
         verify(mockLogic, times(1))
-                .getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
+                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
         verify(mockLogic, times(1))
                 .getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId());
     }
@@ -413,7 +413,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        when(mockLogic.getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getFeedbackSessionsForCourse(typicalCourse.getId())).thenReturn(feedbackSessions);
 
@@ -421,7 +421,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         verify(mockLogic, times(1)).getFeedbackSessionsForCourse(typicalCourse.getId());
         verify(mockLogic, times(3))
-                .getStudentByAccountId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
+                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
     }
 
     @Test

@@ -61,7 +61,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByAccountId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
         when(mockLogic.getInstructorForEmail(course.getId(), instructorEmail)).thenReturn(instructor);
         when(mockLogic.getInstructorForEmail(course.getId(), helperEmail)).thenReturn(helper);
     }
@@ -318,7 +318,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getInstructorByAccountId(course.getId(), googleId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
@@ -332,7 +332,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course-id",
         };
-        when(mockLogic.getInstructorByAccountId("course-id", googleId)).thenReturn(null);
+        when(mockLogic.getInstructorByGoogleId("course-id", googleId)).thenReturn(null);
 
         loginAsStudent(googleId);
         verifyCannotAccess(params);

@@ -149,7 +149,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS));
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenThrow(EntityAlreadyExistsException.class);
@@ -176,7 +176,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenReturn(typicalComment);
@@ -208,7 +208,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenReturn(typicalComment);
@@ -239,7 +239,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenReturn(typicalComment);
@@ -270,7 +270,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenReturn(typicalComment);
@@ -301,7 +301,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenReturn(typicalComment);
@@ -332,7 +332,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenReturn(typicalComment);
@@ -363,7 +363,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenReturn(typicalComment);
@@ -395,7 +395,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenReturn(typicalComment);
@@ -426,7 +426,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseComment typicalComment = getTypicalCommentForInstructorSubmission();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenReturn(typicalComment);
@@ -456,7 +456,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseComment typicalComment = getTypicalCommentForStudentSubmission();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.createFeedbackResponseComment(any(FeedbackResponseComment.class)))
                 .thenReturn(typicalComment);
@@ -474,7 +474,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Test
     void testAccessControl_typicalCaseForInstructorResult_canAccess() {
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         loginAsInstructor(typicalInstructor.getGoogleId());
 
@@ -514,7 +514,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         };
 
         when(mockLogic.getFeedbackResponse(contributionResponse.getId())).thenReturn(contributionResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
@@ -537,7 +537,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Test
     void testAccessControl_submitCommentForOthersResponse_cannotAccess() {
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
 
         String[] params = new String[] {
@@ -562,7 +562,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
 
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutAccess.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutAccess.getGoogleId()))
                 .thenReturn(instructorWithoutAccess);
 
         loginAsInstructor(instructorWithoutAccess.getGoogleId());
@@ -585,7 +585,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         };
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
                 .thenReturn(instructorWithoutPrivilege);
 
         loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
@@ -634,7 +634,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         };
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), instructorInSameCourse.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorInSameCourse.getGoogleId()))
                 .thenReturn(instructorInSameCourse);
 
         verifyCanAccess(params);
@@ -643,7 +643,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Test
     void testAccessControl_adminToMasqueradeAsInstructor_canAccess() {
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
-        when(mockLogic.getInstructorByAccountId(any(String.class), any(String.class)))
+        when(mockLogic.getInstructorByGoogleId(any(String.class), any(String.class)))
                 .thenReturn(typicalInstructor);
 
         loginAsAdmin();
@@ -669,7 +669,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 getTypicalFeedbackResponseDetails());
 
         when(mockLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
         // mock the extended deadline to be 10 minutes ago with a 15 minute grace period
@@ -699,7 +699,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 getTypicalFeedbackResponseDetails());
 
         when(mockLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
-        when(mockLogic.getInstructorByAccountId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
+        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalInstructor))
                 .thenReturn(feedbackSessionPastEndTime.getEndTime());
@@ -728,7 +728,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 getTypicalFeedbackResponseDetails());
 
         when(mockLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
-        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
 
         // mock the extended deadline to be 10 minutes in the future
@@ -759,7 +759,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 getTypicalFeedbackResponseDetails());
 
         when(mockLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
-        when(mockLogic.getStudentByAccountId(typicalCourse.getId(), typicalStudent.getGoogleId()))
+        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
         when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalStudent))
                 .thenReturn(feedbackSessionPastEndTime.getEndTime());

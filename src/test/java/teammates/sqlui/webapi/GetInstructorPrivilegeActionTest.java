@@ -91,7 +91,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     void testAccessControl_students_cannotAccess() {
-        loginAsStudent(Const.ParamsNames.STUDENT_ACCOUNT_ID);
+        loginAsStudent(Const.ParamsNames.STUDENT_ID);
 
         String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
         verifyCannotAccess(submissionParams);
@@ -101,7 +101,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     void testAccessControl_instructorsOfDifferentCourses_cannotAccess() {
         loginAsInstructor(Const.ParamsNames.INSTRUCTOR_ID);
 
-        when(mockLogic.getInstructorByAccountId(any(), any())).thenReturn(null);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(null);
 
         String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
         verifyCannotAccess(submissionParams);
@@ -164,7 +164,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.INSTRUCTOR_ID, testInstructor1OfCourse1.getGoogleId(),
         };
 
-        when(mockLogic.getInstructorByAccountId(testInstructor2OfCourse1.getCourseId(),
+        when(mockLogic.getInstructorByGoogleId(testInstructor2OfCourse1.getCourseId(),
                 testInstructor1OfCourse1.getGoogleId())).thenReturn(testInstructor1OfCourse1);
 
         GetInstructorPrivilegeAction a = getAction(anotherInstructorParams);
@@ -189,7 +189,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.COURSE_ID, testInstructor1OfCourse1.getCourseId(),
         };
 
-        when(mockLogic.getInstructorByAccountId(testInstructor1OfCourse1.getCourseId(),
+        when(mockLogic.getInstructorByGoogleId(testInstructor1OfCourse1.getCourseId(),
                 testInstructor1OfCourse1.getGoogleId())).thenReturn(testInstructor1OfCourse1);
 
         GetInstructorPrivilegeAction a = getAction(courseIdParam);

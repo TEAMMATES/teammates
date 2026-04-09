@@ -74,7 +74,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         assertEquals(3, instructors.size());
 
         for (InstructorData instructorData : instructors) {
-            assertNull(instructorData.getAccountId());
+            assertNull(instructorData.getGoogleId());
             assertNull(instructorData.getJoinState());
             assertNull(instructorData.getIsDisplayedToStudents());
             assertNull(instructorData.getRole());

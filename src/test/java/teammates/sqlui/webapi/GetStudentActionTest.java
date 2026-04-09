@@ -106,7 +106,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
         };
 
-        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         stubStudentData.setInstitute(stubStudent.getCourse().getInstitute());
         GetStudentAction action = getAction(params);
         StudentData studentData = (StudentData) getJsonResult(action).getOutput();
@@ -176,7 +176,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
         stubStudentData = new StudentData(stubStudent);
         stubStudentData.setKey(stubStudent.getRegKey());
-        stubStudentData.setAccountId(stubStudent.getAccount().getGoogleId());
+        stubStudentData.setGoogleId(stubStudent.getAccount().getGoogleId());
 
         GetStudentAction action = getAction(params);
         StudentData studentData = (StudentData) getJsonResult(action).getOutput();
@@ -269,7 +269,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         switch (reqEntity) {
         case STUDENT:
-            assertNull(actualStudentData.getAccountId());
+            assertNull(actualStudentData.getGoogleId());
             assertNull(actualStudentData.getKey());
             assertNull(actualStudentData.getComments());
             assertNull(actualStudentData.getJoinState());
@@ -277,7 +277,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             assertEquals(expectedStudentData.getInstitute(), actualStudentData.getInstitute());
             break;
         case INSTRUCTOR:
-            assertNull(actualStudentData.getAccountId());
+            assertNull(actualStudentData.getGoogleId());
             assertNull(actualStudentData.getKey());
 
             assertNotNull(actualStudentData.getComments());
@@ -286,13 +286,13 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             assertEquals(expectedStudentData.getJoinState(), actualStudentData.getJoinState());
             break;
         case ADMIN:
-            assertNotNull(actualStudentData.getAccountId());
+            assertNotNull(actualStudentData.getGoogleId());
             assertNotNull(actualStudentData.getKey());
             assertNotNull(actualStudentData.getComments());
             assertNotNull(actualStudentData.getJoinState());
 
             assertEquals(expectedStudentData.getKey(), actualStudentData.getKey());
-            assertEquals(expectedStudentData.getAccountId(), actualStudentData.getAccountId());
+            assertEquals(expectedStudentData.getGoogleId(), actualStudentData.getGoogleId());
             assertEquals(expectedStudentData.getComments(), actualStudentData.getComments());
             assertEquals(expectedStudentData.getJoinState(), actualStudentData.getJoinState());
             break;
@@ -313,7 +313,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             student.setAccount(acc);
             student.setCourse(course);
             return student;
-        }).when(mockLogic).getStudentByAccountId(eq(course.getId()), anyString());
+        }).when(mockLogic).getStudentByGoogleId(eq(course.getId()), anyString());
     }
 
     private void stubSelfLookupAsOtherCourse(Course requestedCourse, Course otherCourse, Student student) {
@@ -325,7 +325,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
             student.setAccount(acc);
             student.setCourse(otherCourse);
             return student;
-        }).when(mockLogic).getStudentByAccountId(eq(requestedCourse.getId()), anyString());
+        }).when(mockLogic).getStudentByGoogleId(eq(requestedCourse.getId()), anyString());
     }
 
     private String[] regKeyParams(String key) {

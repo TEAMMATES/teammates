@@ -51,9 +51,9 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
     private void setupMockLogic() {
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentByAccountId(course.getId(), studentId)).thenReturn(student);
+        when(mockLogic.getStudentByGoogleId(course.getId(), studentId)).thenReturn(student);
         when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
-        when(mockLogic.getInstructorByAccountId(course.getId(), instructorId)).thenReturn(instructor);
+        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, never()).getStudentByAccountId(any(), any());
+        verify(mockLogic, never()).getStudentByGoogleId(any(), any());
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), student.getEmail());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
@@ -75,13 +75,13 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     void testExecute_deleteStudentById_success() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ACCOUNT_ID, studentId,
+                Const.ParamsNames.STUDENT_ID, studentId,
         };
 
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getStudentByAccountId(course.getId(), studentId);
+        verify(mockLogic, times(1)).getStudentByGoogleId(course.getId(), studentId);
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), student.getEmail());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
@@ -92,30 +92,30 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "RANDOM_COURSE",
-                Const.ParamsNames.STUDENT_ACCOUNT_ID, studentId,
+                Const.ParamsNames.STUDENT_ID, studentId,
         };
 
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getStudentByAccountId("RANDOM_COURSE", studentId);
+        verify(mockLogic, times(1)).getStudentByGoogleId("RANDOM_COURSE", studentId);
         verify(mockLogic, never()).deleteStudentCascade(any(), any());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
     void testExecute_nonExistentStudentId_failSilently() {
-        when(mockLogic.getStudentByAccountId(course.getId(), "RANDOM_STUDENT")).thenReturn(null);
+        when(mockLogic.getStudentByGoogleId(course.getId(), "RANDOM_STUDENT")).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ACCOUNT_ID, "RANDOM_STUDENT",
+                Const.ParamsNames.STUDENT_ID, "RANDOM_STUDENT",
         };
 
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getStudentByAccountId(course.getId(), "RANDOM_STUDENT");
+        verify(mockLogic, times(1)).getStudentByGoogleId(course.getId(), "RANDOM_STUDENT");
         verify(mockLogic, never()).deleteStudentCascade(any(), any());
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
@@ -132,7 +132,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, never()).getStudentByAccountId(any(), any());
+        verify(mockLogic, never()).getStudentByGoogleId(any(), any());
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), "RANDOM_EMAIL");
         verify(mockLogic, times(1)).deleteStudentCascade(any(), any());
         verify(mockLogic, never()).deleteStudentCascade(course.getId(), student.getEmail());
@@ -156,7 +156,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     @Test
     void testExecute_missingCourseIdWithStudentId_throwsInvalidHttpParameterException() {
         String[] params = {
-                Const.ParamsNames.STUDENT_ACCOUNT_ID, studentId,
+                Const.ParamsNames.STUDENT_ID, studentId,
         };
 
         verifyHttpParameterFailure(params);
@@ -175,7 +175,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
     void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ACCOUNT_ID, studentId,
+                Const.ParamsNames.STUDENT_ID, studentId,
         };
 
         verifyAdminsCanAccess(params);

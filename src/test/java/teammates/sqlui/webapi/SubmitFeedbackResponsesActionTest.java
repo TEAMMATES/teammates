@@ -102,8 +102,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 any(FeedbackQuestion.class), anyString(), anyString(), anyString());
 
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
-        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getGoogleId()))
+        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
+        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
                 .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
@@ -744,7 +744,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         loginAsStudent(stubStudent.getGoogleId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
 
-        when(mockLogic.getStudentByAccountId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(null);
+        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(null);
 
         spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
 
@@ -760,7 +760,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     void testSpecificAccessControl_instructorEntityDoesNotExist_cannotAccess() {
         loginAsInstructor(stubInstructor.getGoogleId());
 
-        when(mockLogic.getInstructorByAccountId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(null);
+        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(null);
 
         spyFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
 

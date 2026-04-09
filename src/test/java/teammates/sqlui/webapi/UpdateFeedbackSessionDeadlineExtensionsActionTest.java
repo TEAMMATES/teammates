@@ -63,7 +63,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
         course = generateCourse1();
         instructor = generateInstructor1InCourse(course);
 
-        when(mockLogic.getInstructorByAccountId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
+        when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(new ArrayList<>());
         when(mockLogic.getInstructorsByCourse(course.getId())).thenReturn(new ArrayList<>(List.of(instructor)));
