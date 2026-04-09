@@ -145,7 +145,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   ungroupableQuestions: Set<number> = new Set();
   ungroupableQuestionsSorted: number[] = [];
 
-  feedbackSessionId: string | undefined = '';
+  feedbackSessionId: string = '';
   studentId: string | undefined = '';
 
   private backendUrl: string = environment.backendUrl;
@@ -180,6 +180,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     ).subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.feedbackSessionId = queryParams.fsid;
       this.regKey = queryParams.key ? queryParams.key : '';
       this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
       this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
@@ -209,7 +210,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     // The logged in user matches the registration key; redirect to the logged in URL
                     this.navigationService.navigateByURLWithParamEncoding(
                         `/web/${this.entityType}/sessions/submission`,
-                        { courseid: this.courseId, fsname: this.feedbackSessionName });
+                        {
+                          courseid: this.courseId,
+                          fsname: this.feedbackSessionName,
+                          fsid: this.feedbackSessionId,
+                        });
                   } else {
                     // Valid, unused registration key; load information based on the key
                     this.loadCourseInfo();
