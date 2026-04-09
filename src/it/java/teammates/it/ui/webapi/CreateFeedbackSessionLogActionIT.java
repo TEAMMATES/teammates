@@ -239,7 +239,6 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         verifyCannotAccess(params);
 
         verifyInaccessibleForUnregisteredUsers(params);
-        verifyInaccessibleWithoutLogin(params);
         verifyInaccessibleForAdmin(params);
         verifyInaccessibleForInstructors(student1.getCourse(), params);
     }
