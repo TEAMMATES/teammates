@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Required for correct column type mapping -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- Matches HibernateUtil: config.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy()) -->
+        <property name="hibernate.physical_naming_strategy">
+            org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        </property>
+
+        <!-- Matches HibernateUtil: config.addPackage("teammates.storage.sqlentity") -->
+        <!-- Registers @Converter classes declared in BaseEntity -->
+        <mapping package="teammates.storage.sqlentity"/>
+
+        <!-- All entity classes — same order as HibernateUtil.ANNOTATED_CLASSES -->
+        <mapping class="teammates.storage.sqlentity.AccountRequest"/>
+        <mapping class="teammates.storage.sqlentity.Course"/>
+        <mapping class="teammates.storage.sqlentity.FeedbackSession"/>
+        <mapping class="teammates.storage.sqlentity.Account"/>
+        <mapping class="teammates.storage.sqlentity.Notification"/>
+        <mapping class="teammates.storage.sqlentity.ReadNotification"/>
+        <mapping class="teammates.storage.sqlentity.User"/>
+        <mapping class="teammates.storage.sqlentity.Instructor"/>
+        <mapping class="teammates.storage.sqlentity.Student"/>
+        <mapping class="teammates.storage.sqlentity.UsageStatistics"/>
+        <mapping class="teammates.storage.sqlentity.Section"/>
+        <mapping class="teammates.storage.sqlentity.Team"/>
+        <mapping class="teammates.storage.sqlentity.FeedbackQuestion"/>
+        <mapping class="teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion"/>
+        <mapping class="teammates.storage.sqlentity.questions.FeedbackContributionQuestion"/>
+        <mapping class="teammates.storage.sqlentity.questions.FeedbackMcqQuestion"/>
+        <mapping class="teammates.storage.sqlentity.questions.FeedbackMsqQuestion"/>
+        <mapping class="teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion"/>
+        <mapping class="teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion"/>
+        <mapping class="teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion"/>
+        <mapping class="teammates.storage.sqlentity.questions.FeedbackRubricQuestion"/>
+        <mapping class="teammates.storage.sqlentity.questions.FeedbackTextQuestion"/>
+        <mapping class="teammates.storage.sqlentity.DeadlineExtension"/>
+        <mapping class="teammates.storage.sqlentity.FeedbackResponse"/>
+        <mapping class="teammates.storage.sqlentity.responses.FeedbackConstantSumResponse"/>
+        <mapping class="teammates.storage.sqlentity.responses.FeedbackContributionResponse"/>
+        <mapping class="teammates.storage.sqlentity.responses.FeedbackMcqResponse"/>
+        <mapping class="teammates.storage.sqlentity.responses.FeedbackMsqResponse"/>
+        <mapping class="teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse"/>
+        <mapping class="teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse"/>
+        <mapping class="teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse"/>
+        <mapping class="teammates.storage.sqlentity.responses.FeedbackRubricResponse"/>
+        <mapping class="teammates.storage.sqlentity.responses.FeedbackTextResponse"/>
+        <mapping class="teammates.storage.sqlentity.FeedbackResponseComment"/>
+        <mapping class="teammates.storage.sqlentity.FeedbackSessionLog"/>
+    </session-factory>
+</hibernate-configuration>

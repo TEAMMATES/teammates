@@ -101,6 +101,7 @@ dependencies {
     testImplementation("com.google.apis:google-api-services-gmail:v1-rev20260112-2.0.0")
 
     liquibaseRuntime("info.picocli:picocli:4.7.7")
+    liquibaseRuntime("org.liquibase.ext:liquibase-hibernate6:4.27.0")
     liquibaseRuntime(sourceSets.main.output)
 }
 
@@ -149,20 +150,13 @@ liquibase {
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
         }
-        snapshot {
-            url project.properties['liquibaseDbUrl']
-            username project.properties['liquibaseUsername']
-            password project.properties['liquibasePassword']
-            snapshotFormat "json"
-            outputFile "liquibase-snapshot.json"
-        }
         diffMain {
             searchPath "${projectDir}"
             changelogFile liquibaseDiffChangelogFile
-            referenceUrl  project.properties['liquibaseDbUrl']
-            referenceUsername project.properties['liquibaseUsername']
-            referencePassword project.properties['liquibasePassword']
-            url "offline:postgresql?snapshot=liquibase-snapshot.json"
+            referenceUrl "hibernate:classic:hibernate.cfg.xml"
+            url project.properties['liquibaseDbUrl']
+            username project.properties['liquibaseUsername']
+            password project.properties['liquibasePassword']
         }
     }
     runList = project.ext.runList
@@ -329,15 +323,8 @@ task copyDistToExplodedWar {
 task serverRun(type: JavaExec) {
     classpath "${explodeWar.destinationDir}/WEB-INF/lib/*", "${explodeWar.destinationDir}/WEB-INF/classes/."
     mainClass = "teammates.main.Application"
-    def serverJvmArgs = [
-            "-ea",
-            "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties",
+    jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties",
             "-Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider"
-    ]
-    if (project.hasProperty("schemaMode")) {
-        serverJvmArgs.add("-DschemaMode=${project.property('schemaMode')}")
-    }
-    jvmArgs serverJvmArgs
     dependsOn explodeWar, copyDistToExplodedWar
 }
 

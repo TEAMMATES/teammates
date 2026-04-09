@@ -338,9 +338,17 @@
                     primaryKeyName="read_notifications_pkey" />
             </column>
             <column name="created_at" type="TIMESTAMP WITH TIME ZONE" />
-            <column name="account_id" type="UUID" />
-            <column name="notification_id" type="UUID" />
+            <column name="account_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+            <column name="notification_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
         </createTable>
+        <addUniqueConstraint
+            tableName="read_notifications"
+            columnNames="account_id, notification_id"
+            constraintName="Unique account_id and notification_id" />
     </changeSet>
     <changeSet author="NicolasCwy (generated)" id="1711160431792-19">
         <createTable tableName="sections">
