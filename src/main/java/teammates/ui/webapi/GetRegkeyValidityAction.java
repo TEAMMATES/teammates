@@ -7,6 +7,8 @@ import teammates.storage.sqlentity.Student;
 import teammates.ui.output.RegkeyValidityData;
 import teammates.ui.request.Intent;
 
+import java.util.UUID;
+
 /**
  * Action: checks whether the provided registration key is valid for the logged in user.
  *
@@ -30,7 +32,7 @@ public class GetRegkeyValidityAction extends Action {
         String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 
         boolean isValid = false;
-        String accountId = null;
+        UUID accountId = null;
 
         if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
             Student student = sqlLogic.getStudentByRegistrationKey(regKey);
@@ -50,7 +52,7 @@ public class GetRegkeyValidityAction extends Action {
         boolean isAllowedAccess = false;
 
         if (isValid) {
-            if (StringHelper.isEmpty(accountId)) {
+            if (accountId == null) {
                 // If registration key has not been used, always allow access
                 isAllowedAccess = true;
             } else {

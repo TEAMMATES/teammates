@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
@@ -188,10 +189,10 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
-    private void verifyMatchingAccountId(String accountId) throws UnauthorizedAccessException {
-        if (!StringHelper.isEmpty(accountId)) {
+    private void verifyMatchingAccountId(UUID accountId) throws UnauthorizedAccessException {
+        if (accountId != null) {
             if (userInfo == null) {
-                // Student/Instructor is associated to a google ID; even if registration key is passed, do not allow access
+                // Student/Instructor is associated to an account; even if registration key is passed, do not allow access
                 throw new UnauthorizedAccessException("Login is required to access this feedback session");
             } else if (!userInfo.id.equals(accountId)) {
                 // Logged in student/instructor is not the same as the student/instructor registered for the given key,

@@ -1,10 +1,7 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import teammates.common.util.Const;
@@ -87,7 +84,7 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
             String courseId = courseIdFeedbackSessionList.getKey();
             List<FeedbackSession> feedbackSessions = courseIdFeedbackSessionList.getValue();
             List<Instructor> instructors = sqlLogic.getInstructorsByCourse(courseId);
-            String accountId = getRegisteredInstructorAccountIdFromInstructors(instructors);
+            UUID accountId = getRegisteredInstructorAccountIdFromInstructors(instructors);
             String institute = sqlLogic.getCourse(courseId).getInstitute();
             List<OngoingSession> sessions = feedbackSessions.stream()
                     .map(session -> new OngoingSession(session, accountId))
@@ -130,7 +127,7 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
         return output;
     }
 
-    private String getRegisteredInstructorAccountIdFromInstructors(List<Instructor> instructors) {
+    private UUID getRegisteredInstructorAccountIdFromInstructors(List<Instructor> instructors) {
         for (Instructor instructor : instructors) {
             if (instructor.isRegistered()) {
                 return instructor.getAccountId();
