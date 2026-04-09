@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { FeedbackResponseCommentService } from '../../services/feedback-response-comment.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
@@ -10,9 +11,13 @@ import { CommentToCommentRowModelPipe } from '../components/comment-box/comment-
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
- * Base class for instructor comment CRUD operations.
+ * Reusable handler for instructor comment CRUD operations.
+ *
+ * This handler is intended to be provided at component level so each consumer
+ * gets an isolated comment state.
  */
-export abstract class InstructorCommentsComponent {
+@Injectable()
+export class InstructorCommentsHandler {
 
   currInstructorName?: string;
 
@@ -20,11 +25,11 @@ export abstract class InstructorCommentsComponent {
   // from responseID to comment table model
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
-  protected constructor(
-        protected commentToCommentRowModel: CommentToCommentRowModelPipe,
-        protected commentService: FeedbackResponseCommentService,
-        protected statusMessageService: StatusMessageService,
-        protected tableComparatorService: TableComparatorService) { }
+  constructor(
+        private commentToCommentRowModel: CommentToCommentRowModelPipe,
+        private commentService: FeedbackResponseCommentService,
+        private statusMessageService: StatusMessageService,
+        private tableComparatorService: TableComparatorService) { }
 
   /**
    * Deletes an instructor comment.
@@ -84,7 +89,7 @@ export abstract class InstructorCommentsComponent {
   /**
    * Saves an instructor comment.
    */
-  saveNewComment(responseId: string, timezone: string): void {
+  addComment(responseId: string, timezone: string): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[responseId];
     const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
 
@@ -119,6 +124,11 @@ export abstract class InstructorCommentsComponent {
             this.statusMessageService.showErrorToast(resp.error.message);
           },
         });
+  }
+
+  // Kept for compatibility with existing saveNewComment bindings.
+  saveNewComment(responseId: string, timezone: string): void {
+    this.addComment(responseId, timezone);
   }
 
   /**

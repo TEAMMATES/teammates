@@ -18,10 +18,10 @@
               <tm-grq-rgq-view-responses
                 [session]="session.feedbackSession"
                 [responses]="session.responsesReceivedByStudent" [groupByTeam]="false"
-                [isGrq]="false" [instructorCommentTableModel]="instructorCommentTableModel"
-                (saveNewCommentEvent)="saveNewComment($event, session.feedbackSession.timeZone)"
-                (deleteCommentEvent)="deleteComment($event)"
-                (updateCommentEvent)="updateComment($event, session.feedbackSession.timeZone)"
+                [isGrq]="false" [instructorCommentTableModel]="comments.instructorCommentTableModel"
+                (saveNewCommentEvent)="comments.saveNewComment($event, session.feedbackSession.timeZone)"
+                (deleteCommentEvent)="comments.deleteComment($event)"
+                (updateCommentEvent)="comments.updateComment($event, session.feedbackSession.timeZone)"
                 [isExpandAll]="true">
               </tm-grq-rgq-view-responses>
             }
@@ -34,10 +34,10 @@
               <tm-grq-rgq-view-responses
                 [session]="session.feedbackSession"
                 [responses]="session.responsesGivenByStudent" [groupByTeam]="false"
-                [isGrq]="true" [instructorCommentTableModel]="instructorCommentTableModel"
-                (saveNewCommentEvent)="saveNewComment($event, session.feedbackSession.timeZone)"
-                (deleteCommentEvent)="deleteComment($event)"
-                (updateCommentEvent)="updateComment($event, session.feedbackSession.timeZone)"
+                [isGrq]="true" [instructorCommentTableModel]="comments.instructorCommentTableModel"
+                (saveNewCommentEvent)="comments.saveNewComment($event, session.feedbackSession.timeZone)"
+                (deleteCommentEvent)="comments.deleteComment($event)"
+                (updateCommentEvent)="comments.updateComment($event, session.feedbackSession.timeZone)"
                 [isExpandAll]="true"
               ></tm-grq-rgq-view-responses>
             }

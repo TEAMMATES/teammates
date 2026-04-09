@@ -2,14 +2,11 @@
 
 exports[`InstructorStudentRecordsPageComponent should snap when student results are still loading 1`] = `
 <tm-instructor-student-records-page
-  commentService={[Function FeedbackResponseCommentService]}
-  commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
+  comments={[Function InstructorCommentsHandler]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
-  currInstructorName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
-  instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
   isStudentResultsLoading={[Function Boolean]}
   route={[Function Object]}
@@ -54,14 +51,11 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
 
 exports[`InstructorStudentRecordsPageComponent should snap with default fields 1`] = `
 <tm-instructor-student-records-page
-  commentService={[Function FeedbackResponseCommentService]}
-  commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
+  comments={[Function InstructorCommentsHandler]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
-  currInstructorName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
-  instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
   isStudentResultsLoading={[Function Boolean]}
   route={[Function Object]}
@@ -106,14 +100,11 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
 
 exports[`InstructorStudentRecordsPageComponent should snap with populated fields 1`] = `
 <tm-instructor-student-records-page
-  commentService={[Function FeedbackResponseCommentService]}
-  commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
+  comments={[Function InstructorCommentsHandler]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
-  currInstructorName="undefined"
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
-  instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
   isStudentResultsLoading="false"
   route={[Function Object]}
