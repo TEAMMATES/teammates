@@ -6,8 +6,8 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -276,7 +276,7 @@ public final class FeedbackResponseCommentsLogic {
      * Returns true if the comment's giver name is visible to certain user.
      */
     public boolean checkIsNameVisibleToUser(FeedbackResponseComment comment, FeedbackResponse response,
-                                   String userEmail, SqlCourseRoster roster) {
+                                   String userEmail, CourseRoster roster) {
         List<FeedbackParticipantType> showNameTo = comment.getShowGiverNameTo();
         //in the old ver, name is always visible
         if (showNameTo == null || comment.getIsVisibilityFollowingFeedbackQuestion()) {
@@ -292,7 +292,7 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     private boolean checkIsFeedbackParticipantNameVisibleToUser(FeedbackResponse response,
-            String userEmail, SqlCourseRoster roster, List<FeedbackParticipantType> showNameTo) {
+            String userEmail, CourseRoster roster, List<FeedbackParticipantType> showNameTo) {
         String responseGiverTeam = "giverTeam";
         if (roster.getStudentForEmail(response.getGiver()) != null) {
             responseGiverTeam = roster.getStudentForEmail(response.getGiver()).getTeamName();

@@ -19,6 +19,7 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   Course,
   FeedbackSession,
+  FeedbackSessionDeadlineExtensions,
   FeedbackSessionSubmittedGiverSet,
   Instructors,
   Students,
@@ -76,6 +77,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   courseId: string = '';
   courseName: string = '';
   feedbackSessionName: string = '';
+  feedbackSessionId: string = '';
 
   studentsOfCourse: StudentExtensionTableColumnModel[] = [];
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
@@ -107,6 +109,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.feedbackSessionId = queryParams.fsid;
       this.isAllYetToSubmitInstructorsSelected = queryParams.preselectnonsubmitters === 'true';
       this.isAllYetToSubmitStudentsSelected = queryParams.preselectnonsubmitters === 'true';
       this.loadFeedbackSessionAndIndividuals();
@@ -134,7 +137,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.isLoadingFeedbackSession = true;
     this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingAllInstructors = true;
-    this.hasLoadedAllStudentsFailed = false;
+    this.hasLoadedAllInstructorsFailed = false;
     forkJoin([
       this.courseService.getCourseAsInstructor(this.courseId),
       this.feedbackSessionsService.getFeedbackSession({
@@ -142,6 +145,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.FULL_DETAIL,
       }),
+      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
+        this.courseId, this.feedbackSessionName),
     ])
       .pipe(finalize(() => {
         this.isLoadingFeedbackSession = false;
@@ -149,9 +154,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         this.isLoadingAllInstructors = false;
       }))
       .subscribe({
-        next: ([course, feedbackSession]: [Course, FeedbackSession]) => {
+        next: ([course, feedbackSession, deadlineExtensions]:
+            [Course, FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
           this.courseName = course.courseName;
           this.setFeedbackSessionDetails(feedbackSession);
+          this.studentDeadlines = deadlineExtensions.studentDeadlines;
+          this.instructorDeadlines = deadlineExtensions.instructorDeadlines;
           this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
           this.getAllInstructorsOfCourse();
         },
@@ -203,8 +211,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     };
     this.feedbackSessionEndingTimestamp = feedbackSession.submissionEndTimestamp;
     this.feedbackSessionTimeZone = feedbackSession.timeZone;
-    this.studentDeadlines = feedbackSession.studentDeadlines ?? {};
-    this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
   }
 
   private initialSortOfStudents(): void {

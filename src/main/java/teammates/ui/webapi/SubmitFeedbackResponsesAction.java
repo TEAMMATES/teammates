@@ -44,8 +44,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        UUID feedbackQuestionId = getUuidFromString(Const.ParamsNames.FEEDBACK_QUESTION_ID,
-                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID));
+        UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
         final FeedbackQuestion feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
 
@@ -89,8 +88,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        UUID feedbackQuestionId = getUuidFromString(Const.ParamsNames.FEEDBACK_QUESTION_ID,
-                getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID));
+        UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
         final FeedbackQuestion feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
 
