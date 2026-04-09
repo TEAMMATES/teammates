@@ -252,5 +252,8 @@
           }
 
           @if (accountRequests.length) {
-            <tm-account-request-table [accountRequests]="accountRequests" [searchString]="searchString"></tm-account-request-table>
+            <tm-account-request-search-table 
+  [accountRequests]="accountRequests" 
+  [searchString]="searchString">
+</tm-account-request-search-table>
           }
