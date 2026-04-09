@@ -49,14 +49,6 @@ Use these expressions with your scheduler of choice (e.g. Google Cloud Scheduler
 0 3 * * 0     | /auto/cleanupFeedbackSessionLogs
 ```
 
-## Student Activity Logs
-
-Student activity logs are now written synchronously when the activity happens, so no scheduler is needed to ingest them.
-
-- Retention period: 90 days
-- Cleanup job: `/auto/cleanupFeedbackSessionLogs`
-- Recommended schedule: once a week in Asia/Singapore time
-
 ## Example: Google Cloud Scheduler
 
 1. Create a job with HTTP target.

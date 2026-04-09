@@ -17,6 +17,7 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
+import teammates.sqllogic.core.FeedbackSessionLogsLogic;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.CreateFeedbackSessionLogAction;
 import teammates.ui.webapi.JsonResult;
@@ -25,6 +26,8 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link CreateFeedbackSessionLogAction}.
  */
 public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbackSessionLogAction> {
+
+        private final FeedbackSessionLogsLogic fslLogic = FeedbackSessionLogsLogic.inst();
 
     @Override
     @BeforeMethod
@@ -181,7 +184,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 0);
 
         ______TS("Success case: duplicate log should still be persisted");
-        FeedbackSessionLog latestAccessLog = logic.getLatestFeedbackSessionLog(student1.getId(), fs1.getId(),
+        FeedbackSessionLog latestAccessLog = fslLogic.getLatestFeedbackSessionLog(student1.getId(), fs1.getId(),
                 FeedbackSessionLogType.ACCESS);
         Instant fixedNow = latestAccessLog.getTimestamp().plusMillis(1);
         CreateFeedbackSessionLogAction duplicateAction = getAction(paramsSuccessfulAccess);

@@ -15,7 +15,6 @@ import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -1798,14 +1797,6 @@ public class Logic {
      */
     public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
         return feedbackSessionLogsLogic.deleteFeedbackSessionLogsOlderThan(cutoffTime);
-    }
-
-    /**
-     * Gets the latest feedback session log for the given student, feedback session, and log type.
-     */
-    public FeedbackSessionLog getLatestFeedbackSessionLog(UUID studentId, UUID feedbackSessionId,
-            FeedbackSessionLogType feedbackSessionLogType) {
-        return feedbackSessionLogsLogic.getLatestFeedbackSessionLog(studentId, feedbackSessionId, feedbackSessionLogType);
     }
 
     /**
