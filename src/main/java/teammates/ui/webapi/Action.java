@@ -132,7 +132,7 @@ public abstract class Action {
 
         String accountId = userInfo == null ? null : userInfo.getId();
 
-        user.getAccountId(accountId);
+        user.setAccountId(accountId);
         if (unregisteredSqlStudent == null && unregisteredSqlInstructor == null) {
             user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
         } else if (unregisteredSqlStudent != null) {
