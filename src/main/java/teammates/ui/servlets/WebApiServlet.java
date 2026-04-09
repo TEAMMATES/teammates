@@ -90,9 +90,8 @@ public class WebApiServlet extends HttpServlet {
         } catch (HibernateException | UnexpectedServerException e) {
             statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
             String message = StringHelper.isEmpty(e.getMessage())
-                ? "An unexpected server error occurred"
-                : e.getMessage();
-            
+                    ? "An unexpected server error occurred"
+                    : e.getMessage();                    
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + message, e);
             throwError(resp, statusCode, message);
         } catch (Throwable t) {
