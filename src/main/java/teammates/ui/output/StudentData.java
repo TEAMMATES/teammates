@@ -17,7 +17,7 @@ public class StudentData extends ApiOutput {
 
     private final String name;
     @Nullable
-    private String accountId;
+    private String googleId;
     @Nullable
     private String comments;
     @Nullable
@@ -57,8 +57,8 @@ public class StudentData extends ApiOutput {
         return name;
     }
 
-    public String getAccountId() {
-        return accountId;
+    public String getGoogleId() {
+        return googleId;
     }
 
     public String getComments() {
@@ -85,8 +85,8 @@ public class StudentData extends ApiOutput {
         return institute;
     }
 
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 
     public void setComments(String comments) {
@@ -117,11 +117,11 @@ public class StudentData extends ApiOutput {
      * Adds additional information only for search result for admin.
      * @param key The registration key
      * @param institute The institute of the student
-     * @param accountId The accountId of the student
+     * @param googleId The googleId of the student
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute, String accountId) {
+    public void addAdditionalInformationForAdminSearch(String key, String institute, String googleId) {
         this.setKey(key);
         this.setInstitute(institute);
-        this.setAccountId(accountId);
+        this.setGoogleId(googleId);
     }
 }
