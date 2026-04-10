@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { InstructorCommentService } from '../../../services/instructor-comment.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -29,7 +30,6 @@ import {
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorCommentService } from '../../../services/instructor-comment.service';
 
 interface SessionTab {
   isCollapsed: boolean;
@@ -77,7 +77,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
               private tableComparatorService: TableComparatorService,
               private statusMessageService: StatusMessageService,
               public commentService: InstructorCommentService) {
-    
+
   }
 
   ngOnInit(): void {

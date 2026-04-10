@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { FeedbackResponseCommentService } from './feedback-response-comment.service';
 import { StatusMessageService } from './status-message.service';
 import { TableComparatorService } from './table-comparator.service';
-import { FeedbackResponseComment } from '../types/api-output';
-import { Intent } from '../types/api-request';
-import { SortBy, SortOrder } from '../types/sort-properties';
 import { CommentRowModel } from '../app/components/comment-box/comment-row/comment-row.component';
 import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
 import { CommentToCommentRowModelPipe } from '../app/components/comment-box/comment-to-comment-row-model.pipe';
 import { ErrorMessageOutput } from '../app/error-message-output';
+import { FeedbackResponseComment } from '../types/api-output';
+import { Intent } from '../types/api-request';
+import { SortBy, SortOrder } from '../types/sort-properties';
 
 @Injectable()
 export class InstructorCommentService {

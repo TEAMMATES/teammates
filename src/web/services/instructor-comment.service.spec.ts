@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { InstructorCommentService } from './instructor-comment.service';
 import { FeedbackResponseCommentService } from './feedback-response-comment.service';
+import { HttpRequestService } from './http-request.service';
+import { InstructorCommentService } from './instructor-comment.service';
 import { StatusMessageService } from './status-message.service';
 import { TableComparatorService } from './table-comparator.service';
 import { CommentToCommentRowModelPipe } from '../app/components/comment-box/comment-to-comment-row-model.pipe';
-import { HttpRequestService } from './http-request.service';
 
 describe('InstructorCommentService', () => {
   let service: InstructorCommentService;
