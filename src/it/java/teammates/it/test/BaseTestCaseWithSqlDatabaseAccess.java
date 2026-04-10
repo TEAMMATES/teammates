@@ -1,7 +1,5 @@
 package teammates.it.test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.UUID;
 
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -36,13 +34,7 @@ import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.test.BaseTestCase;
 
-import liquibase.Contexts;
-import liquibase.LabelExpression;
-import liquibase.Liquibase;
-import liquibase.database.Database;
-import liquibase.database.DatabaseFactory;
-import liquibase.database.jvm.JdbcConnection;
-import liquibase.resource.ClassLoaderResourceAccessor;
+import liquibase.command.CommandScope;
 
 /**
  * Base test case for tests that access the database.
@@ -64,16 +56,13 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         LogicStarter.initializeDependencies();
     }
 
-    @SuppressWarnings("deprecation")
     private static void runLiquibaseMigrations(String jdbcUrl, String username, String password) throws Exception {
-        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
-            Database database = DatabaseFactory.getInstance()
-                    .findCorrectDatabaseImplementation(new JdbcConnection(connection));
-            try (Liquibase liquibase = new Liquibase("db/changelog/db.changelog-root.xml",
-                    new ClassLoaderResourceAccessor(), database)) {
-                liquibase.update(new Contexts(), new LabelExpression());
-            }
-        }
+        new CommandScope("update")
+                .addArgumentValue("changelogFile", "db/changelog/db.changelog-root.xml")
+                .addArgumentValue("url", jdbcUrl)
+                .addArgumentValue("username", username)
+                .addArgumentValue("password", password)
+                .execute();
     }
 
     @AfterSuite
