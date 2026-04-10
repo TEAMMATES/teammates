@@ -72,7 +72,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenReturn(newInstructor);
-        when(mockLogic.getAccountForId(typicalInstructor.getAccountId())).thenReturn(inviterAccount);
+        when(mockLogic.getAccount(typicalInstructor.getAccountId())).thenReturn(inviterAccount);
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
         when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, newInstructor, typicalCourse))
@@ -168,7 +168,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenReturn(newInstructor);
-        when(mockLogic.getAccountForId(Mockito.anyString())).thenReturn(inviterAccount);
+        when(mockLogic.getAccount(Mockito.anyString())).thenReturn(inviterAccount);
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
         when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(

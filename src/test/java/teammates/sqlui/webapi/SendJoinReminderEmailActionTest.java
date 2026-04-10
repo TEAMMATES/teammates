@@ -85,7 +85,7 @@ public class SendJoinReminderEmailActionTest
         Account inviterAccount = mock(Account.class);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
-        when(mockLogic.getAccountForId(instructorGoogleId)).thenReturn(inviterAccount);
+        when(mockLogic.getAccount(instructorGoogleId)).thenReturn(inviterAccount);
         when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, instructor, course))
                 .thenReturn(mock(EmailWrapper.class));
 
