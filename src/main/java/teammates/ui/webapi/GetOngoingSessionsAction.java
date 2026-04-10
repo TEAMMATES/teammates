@@ -1,7 +1,10 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.util.Const;
