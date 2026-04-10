@@ -242,9 +242,7 @@
             <column name="is_visibility_following_feedback_question" type="BOOLEAN">
                 <constraints nullable="false" />
             </column>
-            <column name="last_editor_email" type="VARCHAR(255)">
-                <constraints nullable="false" />
-            </column>
+            <column name="last_editor_email" type="VARCHAR(255)" />
             <column name="show_comment_to" type="VARCHAR(255)">
                 <constraints nullable="false" />
             </column>
