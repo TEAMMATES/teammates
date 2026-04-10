@@ -4,14 +4,12 @@ import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 
-import java.util.UUID;
-
 /**
  * The create request for an instructor to be created.
  */
 public class InstructorCreateRequest extends BasicRequest {
     @Nullable
-    private UUID id;
+    private String id;
 
     private String name;
     private String email;
@@ -23,9 +21,7 @@ public class InstructorCreateRequest extends BasicRequest {
 
     public InstructorCreateRequest(String id, String name, String email, String roleName, String displayName,
                                    Boolean isDisplayedToStudent) {
-        if (id != null) {
-            this.id = UUID.fromString(id);
-        }
+        this.id = id;
         this.name = name;
         this.email = email;
         this.role = InstructorPermissionRole.getEnum(roleName);
@@ -41,7 +37,7 @@ public class InstructorCreateRequest extends BasicRequest {
         assertTrue(isDisplayedToStudent != null, "displayed to student boolean cannot be null");
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
