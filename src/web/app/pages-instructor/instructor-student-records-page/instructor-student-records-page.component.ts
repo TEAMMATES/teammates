@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
-import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -30,7 +29,7 @@ import {
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorCommentsComponent } from '../instructor-comments.component';
+import { InstructorCommentService } from '../../../services/instructor-comment.service';
 
 interface SessionTab {
   isCollapsed: boolean;
@@ -56,9 +55,10 @@ interface SessionTab {
   providers: [
     CommentsToCommentTableModelPipe,
     CommentToCommentRowModelPipe,
+    InstructorCommentService,
   ],
 })
-export class InstructorStudentRecordsPageComponent extends InstructorCommentsComponent implements OnInit {
+export class InstructorStudentRecordsPageComponent implements OnInit {
 
   courseId: string = '';
   studentName: string = '';
@@ -74,11 +74,10 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
               private studentService: StudentService,
               private instructorService: InstructorService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-              tableComparatorService: TableComparatorService,
-              statusMessageService: StatusMessageService,
-              commentService: FeedbackResponseCommentService,
-              commentToCommentRowModel: CommentToCommentRowModelPipe) {
-    super(commentToCommentRowModel, commentService, statusMessageService, tableComparatorService);
+              private tableComparatorService: TableComparatorService,
+              private statusMessageService: StatusMessageService,
+              public commentService: InstructorCommentService) {
+    
   }
 
   ngOnInit(): void {
@@ -104,7 +103,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       courseId,
       intent: Intent.FULL_DETAIL,
     }).subscribe((instructor: Instructor) => {
-      this.currInstructorName = instructor.name;
+      this.commentService.currInstructorName = instructor.name;
     });
   }
 
@@ -224,9 +223,9 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    */
   preprocessComments(responses: ResponseOutput[], timezone: string): void {
     responses.forEach((response: ResponseOutput) => {
-      this.instructorCommentTableModel[response.responseId] =
+      this.commentService.instructorCommentTableModel[response.responseId] =
           this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);
-      this.sortComments(this.instructorCommentTableModel[response.responseId]);
+      this.commentService.sortComments(this.commentService.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
     });
