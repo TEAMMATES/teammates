@@ -112,9 +112,7 @@ public final class AccountsLogic {
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
         Student student = validateStudentJoinRequest(registrationKey, accountId);
         Account account = accountsDb.getAccount(accountId);
-        if (student.getAccount() == null) {
-            student.setAccount(account);
-        }
+        student.setAccount(account);
 
         return student;
     }
