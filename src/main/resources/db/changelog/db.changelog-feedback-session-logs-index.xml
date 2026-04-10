@@ -6,17 +6,20 @@
                                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="v9.0.0-beta.8-feedback-session-logs-student-session-type-timestamp" author="copilot">
-        <sql>
-            CREATE INDEX IF NOT EXISTS idx_feedback_session_logs_student_session_type_timestamp
-            ON feedback_session_logs (student_id, session_id, feedback_session_log_type, timestamp DESC);
-        </sql>
+        <createIndex indexName="idx_feedback_session_logs_student_session_type_timestamp"
+                     tableName="feedback_session_logs">
+            <column name="student_id"/>
+            <column name="session_id"/>
+            <column name="feedback_session_log_type"/>
+            <column name="timestamp" descending="true"/>
+        </createIndex>
     </changeSet>
 
     <changeSet id="v9.0.0-beta.8-feedback-session-logs-timestamp" author="copilot">
-        <sql>
-            CREATE INDEX IF NOT EXISTS idx_feedback_session_logs_timestamp
-            ON feedback_session_logs (timestamp);
-        </sql>
+        <createIndex indexName="idx_feedback_session_logs_timestamp"
+                     tableName="feedback_session_logs">
+            <column name="timestamp"/>
+        </createIndex>
     </changeSet>
 
 </databaseChangeLog>

@@ -6,25 +6,30 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 
 /**
  * Represents a feedback session log.
  */
 @Entity
-@Table(name = "FeedbackSessionLogs")
+@Table(name = "FeedbackSessionLogs",
+        indexes = {
+                @Index(name = "idx_feedback_session_logs_student_session_type_timestamp",
+                        columnList = "student_id, session_id, feedback_session_log_type, timestamp desc"),
+                @Index(name = "idx_feedback_session_logs_timestamp", columnList = "timestamp")
+        })
 public class FeedbackSessionLog extends BaseEntity {
     @Id
     private UUID id;
