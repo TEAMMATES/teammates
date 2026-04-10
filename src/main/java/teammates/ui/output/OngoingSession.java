@@ -24,7 +24,7 @@ public class OngoingSession {
     private final String courseId;
     private final String feedbackSessionName;
 
-    public OngoingSession(FeedbackSession fs, String accountId) {
+    public OngoingSession(FeedbackSession fs, UUID accountId) {
         this.feedbackSessionId = fs.getId();
         this.sessionStatus = getSessionStatusForShow(fs);
         String instructorHomePageLink;
@@ -32,7 +32,7 @@ public class OngoingSession {
             instructorHomePageLink = null;
         } else {
             instructorHomePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                    .withUserId(accountId)
+                    .withUserId(accountId.toString())
                     .toString();
         }
         this.instructorHomePageLink = instructorHomePageLink;
