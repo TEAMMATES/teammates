@@ -109,8 +109,14 @@ public final class UsersLogic {
      */
     public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
             InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
+        Instructor instructor;
         UUID instructorId = instructorRequest.getId();
-        Instructor instructor = getInstructorByAccountId(courseId, instructorId);
+
+        if (instructorId == null) {
+            instructor = getInstructorForEmail(courseId, instructorRequest.getEmail());
+        } else {
+            instructor = getInstructorByAccountId(courseId, instructorId);
+        }
 
         if (instructor == null) {
             throw new EntityDoesNotExistException("Trying to update an instructor that does not exist.");
