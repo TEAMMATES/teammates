@@ -100,12 +100,11 @@ dependencies {
     // For using Gmail API
     testImplementation("com.google.apis:google-api-services-gmail:v1-rev20260112-2.0.0")
 
-    testImplementation("org.liquibase.ext:liquibase-hibernate6:5.0.2")
+    compileOnly("org.liquibase.ext:liquibase-hibernate6:5.0.2")
 
     liquibaseRuntime("info.picocli:picocli:4.7.7")
     liquibaseRuntime("org.liquibase.ext:liquibase-hibernate6:5.0.2")
     liquibaseRuntime(sourceSets.main.output)
-    liquibaseRuntime(sourceSets.test.output)
 }
 
 sourceSets {

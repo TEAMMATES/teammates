@@ -1,14 +1,15 @@
 package teammates.liquibase;
 
+import liquibase.ext.hibernate.customfactory.CustomMetadataFactory;
+import liquibase.ext.hibernate.database.HibernateDatabase;
+import liquibase.ext.hibernate.database.connection.HibernateConnection;
+
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataBuilder;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import liquibase.ext.hibernate.customfactory.CustomMetadataFactory;
-import liquibase.ext.hibernate.database.HibernateDatabase;
-import liquibase.ext.hibernate.database.connection.HibernateConnection;
 
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.BaseEntity;

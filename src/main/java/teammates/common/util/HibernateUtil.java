@@ -56,8 +56,6 @@ import teammates.storage.sqlentity.responses.FeedbackTextResponse;
  * Utility class for Hibernate related methods.
  */
 public final class HibernateUtil {
-    private static SessionFactory sessionFactory;
-
     public static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(
             AccountRequest.class,
             Course.class,
@@ -95,6 +93,8 @@ public final class HibernateUtil {
             FeedbackResponseComment.class,
             FeedbackSessionLog.class);
 
+    private static SessionFactory sessionFactory;
+
     private HibernateUtil() {
         // Utility class
         // Intentional private constructor to prevent instantiation.
@@ -126,7 +126,6 @@ public final class HibernateUtil {
                 .setProperty("hibernate.hikari.idleTimeout", "300000")
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
                 .addPackage("teammates.storage.sqlentity");
-
 
         for (Class<? extends BaseEntity> cls : ANNOTATED_CLASSES) {
             config = config.addAnnotatedClass(cls);
