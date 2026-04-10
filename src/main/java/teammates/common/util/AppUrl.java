@@ -30,6 +30,10 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
     }
 
+    public AppUrl withFeedbackSessionId(String feedbackSessionId) {
+        return withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId);
+    }
+
     public AppUrl withStudentEmail(String email) {
         return withParam(Const.ParamsNames.STUDENT_EMAIL, email);
     }
