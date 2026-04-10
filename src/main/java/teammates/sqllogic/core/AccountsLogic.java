@@ -174,7 +174,7 @@ public final class AccountsLogic {
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
         Account account = accountsDb.getAccount(accountId);
         if (account == null) {
-            throw new EntityDoesNotExistException("No student with given account ID: " + accountId);
+            throw new EntityDoesNotExistException("Account with id " + accountId + " does not exist");
         }
 
         Student studentRole = usersLogic.getStudentByRegistrationKey(registrationKey);
