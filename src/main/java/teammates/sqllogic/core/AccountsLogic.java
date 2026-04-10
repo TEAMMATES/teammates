@@ -84,7 +84,7 @@ public final class AccountsLogic {
     public void deleteAccount(UUID accountId) {
         assert accountId != null;
 
-        Account account = HibernateUtil.getReference(Account.class, accountId);
+        Account account = getAccount(accountId);
         accountsDb.deleteAccount(account);
     }
 
