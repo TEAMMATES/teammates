@@ -127,15 +127,6 @@ public final class AccountsLogic {
         Instructor instructor = validateInstructorJoinRequest(key, accountId);
         Account account = accountsDb.getAccount(accountId);
         instructor.setAccount(account);
-
-        // TODO: verify what is this
-        // Update the accountId of the student entity for the instructor which was created from sample data.
-        Student student = usersLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
-        if (student != null) {
-            student.setAccount(account);
-            usersLogic.updateStudentCascade(student);
-        }
-
         return instructor;
     }
 
