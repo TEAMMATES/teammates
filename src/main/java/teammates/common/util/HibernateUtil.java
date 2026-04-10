@@ -58,7 +58,7 @@ import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 public final class HibernateUtil {
     private static SessionFactory sessionFactory;
 
-    private static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(
+    public static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(
             AccountRequest.class,
             Course.class,
             FeedbackSession.class,

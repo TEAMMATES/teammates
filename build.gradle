@@ -100,9 +100,12 @@ dependencies {
     // For using Gmail API
     testImplementation("com.google.apis:google-api-services-gmail:v1-rev20260112-2.0.0")
 
+    testImplementation("org.liquibase.ext:liquibase-hibernate6:5.0.2")
+
     liquibaseRuntime("info.picocli:picocli:4.7.7")
-    liquibaseRuntime("org.liquibase.ext:liquibase-hibernate6:4.27.0")
+    liquibaseRuntime("org.liquibase.ext:liquibase-hibernate6:5.0.2")
     liquibaseRuntime(sourceSets.main.output)
+    liquibaseRuntime(sourceSets.test.output)
 }
 
 sourceSets {
@@ -139,7 +142,8 @@ if (!project.hasProperty("runList")) {
 }
 
 def liquibaseDiffTimestamp = new Date().format("yyyyMMddHHmmss")
-def liquibaseDiffChangelogFile = "src/main/resources/db/changelog/migrations/${liquibaseDiffTimestamp}-new-migration.xml"
+def migrationName = project.hasProperty("migrationName") ? project.property("migrationName") : "new-migration"
+def liquibaseDiffChangelogFile = "src/main/resources/db/changelog/migrations/${liquibaseDiffTimestamp}-${migrationName}.xml"
 
 liquibase {
     activities {
@@ -153,7 +157,7 @@ liquibase {
         diffMain {
             searchPath "${projectDir}"
             changelogFile liquibaseDiffChangelogFile
-            referenceUrl "hibernate:classic:hibernate.cfg.xml"
+            referenceUrl "hibernate:classic:teammates.liquibase.LiquibaseHibernateConfigFactory"
             url project.properties['liquibaseDbUrl']
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
