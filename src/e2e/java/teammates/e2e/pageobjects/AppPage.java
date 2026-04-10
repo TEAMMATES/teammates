@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -502,7 +503,19 @@ public abstract class AppPage {
         List<WebElement> cells = row.findElements(By.tagName("td"));
         assertTrue(expectedRowValues.length <= cells.size());
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
-            assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
+            String cellText = cells.get(cellIndex).getText();
+            if (cellText.isEmpty()) {
+                List<WebElement> listItems = cells.get(cellIndex).findElements(By.tagName("li"));
+                if (!listItems.isEmpty()) {
+                    cellText = listItems.stream()
+                            .map(WebElement::getText)
+                            .collect(Collectors.joining("\n"));
+                } else {
+                    cellText = cells.get(cellIndex).getAttribute("textContent")
+                            .replaceAll("[ \t]+", " ").trim();
+                }
+            }
+            assertEquals(expectedRowValues[cellIndex], cellText);
         }
     }
 

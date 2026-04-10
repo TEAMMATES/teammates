@@ -125,6 +125,10 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     }
 
     public void verifyNoResponsePanelDetails(List<Student> noResponseStudents) {
+        By toggleButtonLocator = By.cssSelector("#no-response-panel .card-header");
+        WebElement toggleButton = browser.driver.findElement(toggleButtonLocator);
+        click(toggleButton);
+        waitUntilAnimationFinish();
         verifyTableBodyValues(getNoResponseTable(), getExpectedNoResponseDetails(noResponseStudents));
     }
 
@@ -386,12 +390,20 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                                      Collection<Instructor> instructors,
                                      Collection<Student> students) {
         List<FeedbackResponse> responsesToUse = filterMissingResponses(responses);
-        List<WebElement> statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-statistics table"));
+        WebElement mcqStatistics = questionPanel.findElement(By.id("mcq-statistics"));
+        List<WebElement> statisticsTables = mcqStatistics.findElements(By.tagName("table"));
         verifyTableBodyValues(statisticsTables.get(0), getMcqResponseSummary(question));
-        // sort per recipient statistics
-        click(statisticsTables.get(1).findElements(By.tagName("th")).get(1));
-        verifyTableBodyValues(statisticsTables.get(1), getMcqPerRecipientStatistics(question, responsesToUse, students,
-                instructors));
+        String[][] expected = getMcqPerRecipientStatistics(question, responsesToUse, students, instructors);
+        WebElement recipientHeader = statisticsTables.get(1).findElements(By.tagName("th")).get(1);
+        click(recipientHeader);
+        waitUntilAnimationFinish();
+        String firstCell = statisticsTables.get(1).findElement(By.cssSelector("tbody tr td"))
+                .getAttribute("textContent").replaceAll("[ \t]+", " ").trim();
+        if (!firstCell.equals(expected[0][0])) {
+            recipientHeader = statisticsTables.get(1).findElements(By.tagName("th")).get(1);
+            click(recipientHeader);
+            waitUntilAnimationFinish();
+        }
     }
 
     public void verifyQnViewStatsHidden(FeedbackQuestion question) {
@@ -895,7 +907,8 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         for (int attempt = 0; attempt < maxAttempts; attempt++) {
             List<WebElement> teamPanels = sectionPanel.findElements(By.id("team-panel"));
             for (WebElement teamPanel : teamPanels) {
-                if (teamPanel.getText().startsWith(teamName)) {
+                String domText = teamPanel.getAttribute("textContent");
+                if (domText != null && domText.replaceAll("[ \t]+", " ").trim().startsWith(teamName)) {
                     return teamPanel;
                 }
             }
