@@ -170,10 +170,6 @@ public final class AccountsLogic {
 
     private Student validateStudentJoinRequest(String registrationKey, UUID accountId)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        Account account = accountsDb.getAccount(accountId);
-        if (account == null) {
-            throw new EntityDoesNotExistException("Account with id " + accountId + " does not exist");
-        }
 
         Student studentRole = usersLogic.getStudentByRegistrationKey(registrationKey);
 
