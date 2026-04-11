@@ -16,10 +16,10 @@ Please review our [Contributing Guidelines](https://teammates.github.io/teammate
 
     const ASSIGNMENT_REQUEST_PATTERNS = [
         // Patterns like: "please assign me", "can I be assigned", "could you assign"
-        /\b(please|pls|can|could|may|would|want|like|love|be)\b.*\bass?i?gn(ed)?\b/i,
+        /(please|pls|can|could|may|would|want|like|love|be).*ass?i?gn(ed)?/i,
 
         // Patterns like: "assign me", "assign this to me", "assgn to me"
-        /\bass?i?gn(ed)?\b.*\b(me)\b/i,
+        /ass?i?gn(ed)?.*(me)/i,
     ];
 
     function isAssignmentRequest(commentBody) {
