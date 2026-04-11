@@ -1,18 +1,17 @@
-import { FeedbackResponseCommentService } from '../../services/feedback-response-comment.service';
-import { StatusMessageService } from '../../services/status-message.service';
-import { TableComparatorService } from '../../services/table-comparator.service';
-import { FeedbackResponseComment } from '../../types/api-output';
-import { Intent } from '../../types/api-request';
-import { SortBy, SortOrder } from '../../types/sort-properties';
-import { CommentRowModel } from '../components/comment-box/comment-row/comment-row.component';
-import { CommentTableModel } from '../components/comment-box/comment-table/comment-table.model';
-import { CommentToCommentRowModelPipe } from '../components/comment-box/comment-to-comment-row-model.pipe';
-import { ErrorMessageOutput } from '../error-message-output';
+import { Injectable } from '@angular/core';
+import { FeedbackResponseCommentService } from './feedback-response-comment.service';
+import { StatusMessageService } from './status-message.service';
+import { TableComparatorService } from './table-comparator.service';
+import { CommentRowModel } from '../app/components/comment-box/comment-row/comment-row.component';
+import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
+import { CommentToCommentRowModelPipe } from '../app/components/comment-box/comment-to-comment-row-model.pipe';
+import { ErrorMessageOutput } from '../app/error-message-output';
+import { FeedbackResponseComment } from '../types/api-output';
+import { Intent } from '../types/api-request';
+import { SortBy, SortOrder } from '../types/sort-properties';
 
-/**
- * Base class for instructor comment CRUD operations.
- */
-export abstract class InstructorCommentsComponent {
+@Injectable()
+export class InstructorCommentService {
 
   currInstructorName?: string;
 
@@ -20,11 +19,11 @@ export abstract class InstructorCommentsComponent {
   // from responseID to comment table model
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
-  protected constructor(
-        protected commentToCommentRowModel: CommentToCommentRowModelPipe,
-        protected commentService: FeedbackResponseCommentService,
-        protected statusMessageService: StatusMessageService,
-        protected tableComparatorService: TableComparatorService) { }
+  constructor(
+        private commentToCommentRowModel: CommentToCommentRowModelPipe,
+        private commentService: FeedbackResponseCommentService,
+        private statusMessageService: StatusMessageService,
+        private tableComparatorService: TableComparatorService) { }
 
   /**
    * Deletes an instructor comment.
