@@ -43,15 +43,6 @@ public final class AccountsDb {
     }
 
     /**
-     * Returns an Account with the {@code googleId} or null if it does not exist.
-     */
-    public Account getAccountByGoogleId(String googleId) {
-        assert googleId != null;
-
-        return HibernateUtil.getBySimpleNaturalId(Account.class, googleId);
-    }
-
-    /**
      * Gets accounts based on email.
      */
     public List<Account> getAccountsByEmail(String email) {
@@ -76,7 +67,7 @@ public final class AccountsDb {
             throw new InvalidParametersException(account.getInvalidityInfo());
         }
 
-        if (getAccountByGoogleId(account.getGoogleId()) != null) {
+        if (getAccount(account.getId()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
         }
 

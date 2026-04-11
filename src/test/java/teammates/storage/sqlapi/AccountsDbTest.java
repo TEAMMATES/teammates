@@ -22,7 +22,7 @@ import teammates.test.BaseTestCase;
  */
 public class AccountsDbTest extends BaseTestCase {
 
-    private AccountsDb accountsDb = AccountsDb.inst();
+    private final AccountsDb accountsDb = AccountsDb.inst();
 
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
@@ -46,31 +46,14 @@ public class AccountsDbTest extends BaseTestCase {
         Account actualAccount = accountsDb.getAccount(id);
 
         mockHibernateUtil.verify(() -> HibernateUtil.get(Account.class, id));
-
-        assertEquals(account, actualAccount);
-    }
-
-    @Test
-    public void testGetAccountByGoogleId_accountExists_success() {
-        Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
-
-        mockHibernateUtil
-                .when(() -> HibernateUtil.getBySimpleNaturalId(Account.class, googleId))
-                .thenReturn(account);
-
-        Account actualAccount = accountsDb.getAccountByGoogleId(googleId);
-
-        mockHibernateUtil.verify(() ->
-                HibernateUtil.getBySimpleNaturalId(Account.class, googleId));
-
         assertEquals(account, actualAccount);
     }
 
     @Test
     public void testCreateAccount_accountDoesNotExist_success()
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Account account = new Account("google-id", "name", "email@teammates.com");
+        Account account = new Account(getTypicalLoginIssuer(), "oidc-subject", "login-id",
+                "name", "email@teammates.com");
 
         accountsDb.createAccount(account);
 
@@ -79,10 +62,8 @@ public class AccountsDbTest extends BaseTestCase {
 
     @Test
     public void testCreateAccount_accountAlreadyExists_throwsEntityAlreadyExistsException() {
-        Account existingAccount = getTypicalAccount();
-        mockHibernateUtil.when(() -> HibernateUtil.getBySimpleNaturalId(Account.class, "google-id"))
-                .thenReturn(existingAccount);
-        Account account = new Account("google-id", "different name", "email@teammates.com");
+        Account account = getTypicalAccount();
+        mockHibernateUtil.when(() -> HibernateUtil.get(Account.class, account.getId())).thenReturn(account);
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsDb.createAccount(account));
@@ -93,7 +74,7 @@ public class AccountsDbTest extends BaseTestCase {
 
     @Test
     public void testCreateAccount_invalidEmail_throwsInvalidParametersException() {
-        Account account = new Account("google-id", "name", "invalid");
+        Account account = new Account(getTypicalLoginIssuer(), "oidc-subject", "login-id", "name", "invalid");
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> accountsDb.createAccount(account));
@@ -109,11 +90,10 @@ public class AccountsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateAccount_accountAlreadyExists_success()
+    public void testUpdateAccount_accountExists_success()
             throws InvalidParametersException, EntityDoesNotExistException {
         Account account = getTypicalAccount();
-        mockHibernateUtil.when(() -> HibernateUtil.get(Account.class, account.getId()))
-                .thenReturn(account);
+        mockHibernateUtil.when(() -> HibernateUtil.get(Account.class, account.getId())).thenReturn(account);
         mockHibernateUtil.when(() -> HibernateUtil.merge(account)).thenReturn(account);
         account.setName("new name");
 
@@ -123,15 +103,14 @@ public class AccountsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateAccount_accountDoesNotExist_throwsEntityDoesNotExistException()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testUpdateAccount_accountDoesNotExist_throwsEntityDoesNotExistException() {
         Account account = getTypicalAccount();
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> accountsDb.updateAccount(account));
 
         assertEquals("Trying to update non-existent Entity: " + account.toString(), ex.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(account), never());
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(account), never());
     }
 
     @Test
@@ -149,15 +128,22 @@ public class AccountsDbTest extends BaseTestCase {
                         + "It cannot be longer than 254 characters, "
                         + "cannot be empty and cannot contain spaces.",
                 ex.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(account), never());
+        mockHibernateUtil.verify(() -> HibernateUtil.merge(account), never());
     }
 
     @Test
     public void testDeleteAccount_success() {
-        Account account = new Account("google-id", "name", "email@teammates.com");
+        Account account = getTypicalAccount();
 
         accountsDb.deleteAccount(account);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(account));
+    }
+
+    @Test
+    public void testDeleteAccount_null_success() {
+        accountsDb.deleteAccount(null);
+
+        mockHibernateUtil.verifyNoInteractions();
     }
 }

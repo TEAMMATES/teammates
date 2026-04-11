@@ -20,6 +20,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.OidcProviderNameType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -36,6 +37,7 @@ import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.LoginIssuer;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
@@ -104,7 +106,12 @@ public class BaseTestCase {
      * student.setName("New Student Name");
      */
     protected Account getTypicalAccount() {
-        return new Account("google-id", "name", "email@teammates.com");
+        return new Account(getTypicalLoginIssuer(), "oidc-subject", "google-id",
+                "name", "email@teammates.com");
+    }
+
+    protected LoginIssuer getTypicalLoginIssuer() {
+        return new LoginIssuer("https://accounts.google.com", OidcProviderNameType.GOOGLE);
     }
 
     protected Notification getTypicalNotificationWithId() {
