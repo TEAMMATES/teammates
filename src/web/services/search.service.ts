@@ -265,19 +265,19 @@ export class SearchService {
         feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
-              entity, feedbackSession.feedbackSessionName, isInstructor),
+              entity, feedbackSession.feedbackSessionName, isInstructor, feedbackSession.feedbackSessionId),
         };
       } else if (this.feedbackSessionService.isFeedbackSessionAwaiting(feedbackSession)) {
         feedbackSessionLinks.awaitingSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
-              entity, feedbackSession.feedbackSessionName, isInstructor),
+              entity, feedbackSession.feedbackSessionName, isInstructor, feedbackSession.feedbackSessionId),
         };
       } else {
         feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
-              entity, feedbackSession.feedbackSessionName, isInstructor),
+              entity, feedbackSession.feedbackSessionName, isInstructor, feedbackSession.feedbackSessionId),
         };
       }
 
@@ -285,7 +285,7 @@ export class SearchService {
         feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateResultUrl(
-              entity, feedbackSession.feedbackSessionName, isInstructor),
+              entity, feedbackSession.feedbackSessionName, isInstructor, feedbackSession.feedbackSessionId),
         };
       }
     }
