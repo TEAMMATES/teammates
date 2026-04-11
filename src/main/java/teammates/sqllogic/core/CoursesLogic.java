@@ -79,7 +79,9 @@ public final class CoursesLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         Account courseCreator = accountsLogic.getAccount(instructorAccountId);
-        assert courseCreator != null : "Trying to create a course for a non-existent instructor account:" + instructorAccountId;
+        assert courseCreator != null
+                : "Trying to create a course for a non-existent instructor account:"
+                + instructorAccountId;
 
         Course createdCourse = createCourse(courseToCreate);
 

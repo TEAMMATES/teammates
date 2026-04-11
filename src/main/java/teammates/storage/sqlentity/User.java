@@ -177,7 +177,7 @@ public abstract class User extends BaseEntity {
     }
 
     /**
-     * Returns the account UUID as string if the user is linked to an account.
+     * Returns the account UUID if the user is linked to an account.
      */
     public UUID getAccountId() {
         if (getAccount() != null) {

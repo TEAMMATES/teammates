@@ -74,7 +74,8 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, FeedbackResponsesLogic feedbackResponsesLogic,
+    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic,
+                               FeedbackResponsesLogic feedbackResponsesLogic,
                                FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
                                DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
@@ -179,7 +180,7 @@ public final class UsersLogic {
     }
 
     /**
-     * Verifies that at least one instructor is displayed to studens.
+     * Verifies that at least one instructor is displayed to students.
      *
      * @throws InstructorUpdateException if there is no instructor displayed to students.
      */
@@ -327,7 +328,7 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets all instructors associated with a accountId.
+     * Gets all instructors associated with an accountId.
      */
     public List<Instructor> getInstructorsForAccountId(UUID accountId) {
         assert accountId != null;
@@ -369,8 +370,9 @@ public final class UsersLogic {
 
         usersDb.updateUser(instructor);
 
-        // If this instructor already has a student record in the same course without an existing account
-        // (e.g. from sample/imported data), link that student to the same account.
+        // If this instructor already has a student record in the same course
+        // without an existing account (e.g. from sample/imported data),
+        // link that student to the same account.
         Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null && student.getAccount() == null) {
             student.setAccount(instructor.getAccount());
@@ -392,7 +394,8 @@ public final class UsersLogic {
         Instructor instructor = getInstructorForEmail(courseId, email);
         if (instructor == null) {
             String errorMessage = String.format(
-                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+                    "The instructor with the email %s could not be found for the course with ID [%s].",
+                    email, courseId);
             throw new EntityDoesNotExistException(errorMessage);
         }
 
@@ -499,7 +502,7 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets all students associated with a accountId.
+     * Gets all students associated with an accountId.
      */
     public List<Student> getAllStudentsByAccountId(UUID accountId) {
         return usersDb.getAllStudentsByAccountId(accountId);
@@ -589,7 +592,7 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets all students associated with a accountId.
+     * Gets all students associated with an accountId.
      */
     public List<Student> getStudentsByAccountId(UUID accountId) {
         assert accountId != null;
@@ -762,8 +765,10 @@ public final class UsersLogic {
 
         // cascade email changes to responses and comments
         if (changedEmail) {
-            feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, student.getEmail());
-            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, student.getEmail());
+            feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(
+                    courseId, originalEmail, student.getEmail());
+            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(
+                    courseId, originalEmail, student.getEmail());
         }
 
         // adjust submissions if moving to a different team

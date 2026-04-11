@@ -100,8 +100,8 @@ public class Logic {
      *                                      invalid.
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
-            String comments) throws InvalidParametersException {
+    public AccountRequest createAccountRequest(String name, String email, String institute,
+            AccountRequestStatus status, String comments) throws InvalidParametersException {
 
         return accountRequestLogic.createAccountRequest(name, email, institute, status, comments);
     }
@@ -893,7 +893,8 @@ public class Logic {
     }
 
     /**
-     * Creates a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
+     * Creates a read notification for the account with {@code accountId}
+     * and the notification with {@code notificationId}.
      */
     public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
         return notificationsLogic.createReadNotification(accountId, notificationId);
@@ -1707,8 +1708,8 @@ public class Logic {
     /**
      * Gets all feedback responses from a specific giver and recipient for a course.
      */
-    public List<FeedbackResponse> getFeedbackResponsesFromGiverAndRecipientForCourse(String courseId, String giverEmail,
-            String recipientEmail) {
+    public List<FeedbackResponse> getFeedbackResponsesFromGiverAndRecipientForCourse(
+            String courseId, String giverEmail, String recipientEmail) {
 
         return feedbackResponsesLogic.getFeedbackResponsesFromGiverAndRecipientForCourse(courseId, giverEmail,
                 recipientEmail);
@@ -1826,7 +1827,7 @@ public class Logic {
      */
     public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
             UUID feedbackSessionId, Instant startTime, Instant endTime) {
-        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(courseId, studentId, feedbackSessionId, startTime,
-                endTime);
+        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(
+                courseId, studentId, feedbackSessionId, startTime, endTime);
     }
 }

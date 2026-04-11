@@ -34,7 +34,7 @@ public final class AccountsLogic {
     }
 
     void initLogicDependencies(AccountsDb accountsDb,
-            UsersLogic usersLogic, CoursesLogic coursesLogic) {
+                               UsersLogic usersLogic, CoursesLogic coursesLogic) {
         this.accountsDb = accountsDb;
         this.usersLogic = usersLogic;
         this.coursesLogic = coursesLogic;
@@ -144,11 +144,13 @@ public final class AccountsLogic {
         Course course = coursesLogic.getCourse(instructorForKey.getCourseId());
 
         if (course == null) {
-            throw new EntityDoesNotExistException("Course with id " + instructorForKey.getCourseId() + " does not exist");
+            throw new EntityDoesNotExistException("Course with id "
+                    + instructorForKey.getCourseId() + " does not exist");
         }
 
         if (course.isCourseDeleted()) {
-            throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
+            throw new EntityDoesNotExistException(
+                    "The course you are trying to join has been deleted by an instructor");
         }
 
         if (instructorForKey.isRegistered()) {
@@ -185,11 +187,13 @@ public final class AccountsLogic {
         Course course = coursesLogic.getCourse(studentRole.getCourseId());
 
         if (course == null) {
-            throw new EntityDoesNotExistException("Course with id " + studentRole.getCourseId() + " does not exist");
+            throw new EntityDoesNotExistException("Course with id "
+                    + studentRole.getCourseId() + " does not exist");
         }
 
         if (course.isCourseDeleted()) {
-            throw new EntityDoesNotExistException("The course you are trying to join has been deleted by an instructor");
+            throw new EntityDoesNotExistException(
+                    "The course you are trying to join has been deleted by an instructor");
         }
 
         if (studentRole.isRegistered()) {
