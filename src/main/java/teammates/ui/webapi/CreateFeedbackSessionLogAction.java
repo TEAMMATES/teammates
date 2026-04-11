@@ -24,19 +24,22 @@ public class CreateFeedbackSessionLogAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (userInfo == null) {
-            return;
-        }
-
-        if (!userInfo.isStudent) {
+        if (userInfo != null && !userInfo.isStudent) {
             throw new UnauthorizedAccessException("Only students can create feedback session logs.");
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
         Student requestedStudent = sqlLogic.getStudent(studentId);
-        Student currentStudent = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
-        if (requestedStudent == null || currentStudent == null || !requestedStudent.getId().equals(currentStudent.getId())) {
+        Student authenticatedStudent = getPossiblyUnregisteredSqlStudent(courseId);
+
+        // Student has account but isn't loggeed in
+        if (authenticatedStudent != null && userInfo == null && authenticatedStudent.getAccount() != null) {
+            throw new UnauthorizedAccessException("Login is required to access this feedback session");
+        }
+
+        if (requestedStudent == null || authenticatedStudent == null
+                || !requestedStudent.getId().equals(authenticatedStudent.getId())) {
             throw new UnauthorizedAccessException("You are not allowed to create logs for this student.");
         }
     }

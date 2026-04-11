@@ -48,6 +48,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     String student1Id;
     String student2Id;
     String student3Id;
+    String student1RegKey;
 
     String accessLabel;
     String submissionLabel;
@@ -90,6 +91,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         student1Id = student1InCourse1.getId().toString();
         student2Id = student2InCourse2.getId().toString();
         student3Id = student3InCourse2.getId().toString();
+        student1RegKey = student1InCourse1.getRegKey();
 
         accessLabel = FeedbackSessionLogType.ACCESS.getLabel();
         submissionLabel = FeedbackSessionLogType.SUBMISSION.getLabel();
@@ -101,6 +103,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         when(mockLogic.getStudent(student1InCourse1.getId())).thenReturn(student1InCourse1);
         when(mockLogic.getStudent(student2InCourse2.getId())).thenReturn(student2InCourse2);
         when(mockLogic.getStudent(student3InCourse2.getId())).thenReturn(student3InCourse2);
+        when(mockLogic.getStudentByRegistrationKey(student1RegKey)).thenReturn(student1InCourse1);
         when(mockLogic.getStudentByGoogleId(courseId1, MATCHING_STUDENT_USER_ID)).thenReturn(student1InCourse1);
         when(mockLogic.getStudentByGoogleId(courseId1, NON_MATCHING_STUDENT_USER_ID)).thenReturn(student2InCourse2);
         when(mockLogic.getFeedbackSession(fsaCourse1.getId())).thenReturn(fsaCourse1);
@@ -134,7 +137,18 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         verifyCannotAccess(params);
 
         logoutUser();
-        verifyCanAccess(params);
+        verifyCannotAccess(params);
+
+        String[] paramsWithRegKey = {
+                Const.ParamsNames.COURSE_ID, courseId1,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, accessLabel,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
+                Const.ParamsNames.REGKEY, student1RegKey,
+        };
+        verifyCanAccess(paramsWithRegKey);
     }
 
     @Test
