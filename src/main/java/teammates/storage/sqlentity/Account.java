@@ -6,18 +6,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
@@ -25,13 +26,24 @@ import teammates.common.util.SanitizationHelper;
  * Represents a unique account in the system.
  */
 @Entity
-@Table(name = "Accounts")
+@Table(name = "Accounts", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_accounts_issuer_subject", columnNames = { "issuer", "subject" })
+})
 public class Account extends BaseEntity {
+    private static final String DEFAULT_GOOGLE_ISSUER = "https://accounts.google.com";
+
     @Id
     private UUID id;
 
-    @NaturalId
-    private String googleId;
+    @ManyToOne
+    @JoinColumn(name = "issuer", nullable = false)
+    private LoginIssuer loginIssuer;
+
+    @Column(nullable = false, length = FieldValidator.OIDC_SUBJECT_MAX_LENGTH)
+    private String subject;
+
+    @Column(nullable = false)
+    private String loginIdentifier;
 
     @Column(nullable = false)
     private String name;
@@ -50,9 +62,11 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(String googleId, String name, String email) {
+    public Account(LoginIssuer issuer, String subject, String loginIdentifier, String name, String email) {
         this.setId(UUID.randomUUID());
-        this.setGoogleId(googleId);
+        this.setIssuer(issuer);
+        this.setSubject(subject);
+        this.setLoginIdentifier(loginIdentifier);
         this.setName(name);
         this.setEmail(email);
     }
@@ -72,12 +86,35 @@ public class Account extends BaseEntity {
         this.id = id;
     }
 
-    public String getGoogleId() {
-        return googleId;
+    /**
+     * Returns the internal account id as a string (same value as used in sessions and APIs).
+     */
+    public String getAccountId() {
+        return getId().toString();
     }
 
-    public void setGoogleId(String googleId) {
-        this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
+    public LoginIssuer getLoginIssuer() {
+        return loginIssuer;
+    }
+
+    public void setIssuer(LoginIssuer issuer) {
+        this.loginIssuer = issuer;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getLoginIdentifier() {
+        return loginIdentifier;
+    }
+
+    public void setLoginIdentifier(String loginIdentifier) {
+        this.loginIdentifier = SanitizationHelper.sanitizeLoginIdentifier(loginIdentifier);
     }
 
     public String getName() {
@@ -115,8 +152,7 @@ public class Account extends BaseEntity {
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForOidcSubject(subject), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
@@ -144,7 +180,8 @@ public class Account extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Account [id=" + id + ", googleId=" + googleId + ", name=" + name + ", email=" + email
+        return "Account [id=" + id + ", issuer=" + loginIssuer + ", subject=" + subject
+                + ", loginIdentifier=" + loginIdentifier + ", name=" + name + ", email=" + email
                 + ", readNotifications=" + readNotifications + ", createdAt=" + getCreatedAt()
                 + ",updatedAt=" + updatedAt + "]";
     }

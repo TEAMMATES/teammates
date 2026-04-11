@@ -26,6 +26,7 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.LoginIssuer;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.Section;
@@ -63,6 +64,7 @@ public final class HibernateUtil {
             Course.class,
             FeedbackSession.class,
             Account.class,
+            LoginIssuer.class,
             Notification.class,
             ReadNotification.class,
             User.class,

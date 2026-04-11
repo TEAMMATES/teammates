@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.OidcProviderNameType;
 import teammates.storage.sqlentity.DeadlineExtension;
 
 /**
@@ -109,8 +112,12 @@ public final class FieldValidator {
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
     public static final String TIME_ZONE_FIELD_NAME = "time zone";
 
-    public static final String GOOGLE_ID_FIELD_NAME = "Google ID";
-    public static final int GOOGLE_ID_MAX_LENGTH = 254;
+    public static final String OIDC_ISSUER_FIELD_NAME = "OIDC issuer";
+    public static final int OIDC_ISSUER_MAX_LENGTH = 2048;
+
+    public static final String OIDC_SUBJECT_FIELD_NAME = "OIDC subject";
+    public static final int OIDC_SUBJECT_MAX_LENGTH = 255;
+    public static final String OIDC_PROVIDER_NAME_FIELD_NAME = "OIDC provider name";
 
     public static final String ROLE_FIELD_NAME = "access-level";
     public static final List<String> ROLE_ACCEPTED_VALUES =
@@ -196,13 +203,20 @@ public final class FieldValidator {
     public static final String COURSE_ID_ERROR_MESSAGE_EMPTY_STRING =
             EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_COURSE_ID;
 
-    public static final String HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID =
-            "A Google ID must be a valid id already registered with Google. "
-            + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
-    public static final String GOOGLE_ID_ERROR_MESSAGE =
-            ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
-    public static final String GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING =
-            EMPTY_STRING_ERROR_INFO + " " + HINT_FOR_CORRECT_FORMAT_OF_GOOGLE_ID;
+    public static final String HINT_FOR_CORRECT_OIDC_ISSUER =
+            "An OIDC issuer must be a case-sensitive https URL with a host, may include a port and path, "
+            + "and cannot contain query parameters or fragments.";
+    public static final String OIDC_ISSUER_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_OIDC_ISSUER;
+
+    public static final String HINT_FOR_CORRECT_OIDC_SUBJECT =
+            "An OIDC subject must be a case-sensitive ASCII string. The value of a/an ${fieldName} should be "
+            + "no longer than ${maxLength} characters.";
+    public static final String OIDC_SUBJECT_ERROR_MESSAGE =
+            ERROR_INFO + " " + HINT_FOR_CORRECT_OIDC_SUBJECT;
+
+    public static final String OIDC_PROVIDER_NAME_ERROR_MESSAGE =
+            ERROR_INFO + " The value must be one of the supported OIDC provider names.";
 
     public static final String HINT_FOR_CORRECT_TIME_ZONE =
             "The value must be one of the values from the time zone dropdown selector.";
@@ -263,11 +277,6 @@ public final class FieldValidator {
     public static final String REGEX_EMAIL = "^[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+"
                                             + "@([A-Za-z0-9-]+\\.)+[A-Za-z]+$";
 
-    /**
-     * Allows English alphabet, numbers, underscore,  dot and hyphen.
-     */
-    public static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
-
     private FieldValidator() {
         // utility class
         // Intentional private constructor to prevent instantiation.
@@ -315,30 +324,59 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if {@code googleId} is not null, not empty, not longer than {@code GOOGLE_ID_MAX_LENGTH}, does
-     * not contain any invalid characters (| or %), AND is either a Google username (without the "@gmail.com")
-     * or a valid email address.
-     * @return An explanation of why the {@code googleId} is not acceptable.
-     *         Returns an empty string if the {@code googleId} is acceptable.
+     * Checks if {@code issuer} is not null, not longer than {@code OIDC_ISSUER_MAX_LENGTH}, and is a
+     * valid OpenID Connect issuer identifier.
+     *
+     * <p>According to OpenID Connect Core 1.0, the issuer must be a case-sensitive URL using the https scheme that
+     * contains scheme, host, and optionally, port number and path components and no query or fragment components.
+     *
+     * @return An explanation of why the {@code issuer} is not acceptable.
+     *         Returns an empty string if the {@code issuer} is acceptable.
      */
-    public static String getInvalidityInfoForGoogleId(String googleId) {
+    public static String getInvalidityInfoForOidcIssuer(String issuer) {
 
-        assert googleId != null;
+        assert issuer != null;
 
-        boolean isValidFullEmail = isValidEmailAddress(googleId);
-        boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
+        try {
+            URI issuerUri = new URI(issuer);
+            boolean isValid = Const.OIDC.ISSUER_SCHEME.equals(issuerUri.getScheme())
+                    && issuerUri.getHost() != null
+                    && issuerUri.getUserInfo() == null
+                    && issuerUri.getQuery() == null
+                    && issuerUri.getFragment() == null
+                    && issuerUri.isAbsolute()
+                    && !issuerUri.isOpaque();
 
-        if (googleId.isEmpty()) {
-            return getPopulatedEmptyStringErrorMessage(GOOGLE_ID_ERROR_MESSAGE_EMPTY_STRING,
-                                            GOOGLE_ID_FIELD_NAME, GOOGLE_ID_MAX_LENGTH);
-        } else if (isUntrimmed(googleId)) {
-            return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
-        } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
-            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
-                                            REASON_TOO_LONG, GOOGLE_ID_MAX_LENGTH);
-        } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
-            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
-                                            REASON_INCORRECT_FORMAT, GOOGLE_ID_MAX_LENGTH);
+            if (!isValid) {
+                return getPopulatedErrorMessage(OIDC_ISSUER_ERROR_MESSAGE, issuer, OIDC_ISSUER_FIELD_NAME,
+                    REASON_INCORRECT_FORMAT);
+            }
+
+        } catch (URISyntaxException e) {
+            return getPopulatedErrorMessage(OIDC_ISSUER_ERROR_MESSAGE, issuer, OIDC_ISSUER_FIELD_NAME,
+                    REASON_INCORRECT_FORMAT);
+        }
+
+        return "";
+    }
+
+    /**
+     * Checks if {@code subject} is not null, not longer than {@code OIDC_SUBJECT_MAX_LENGTH}, and
+     * contains only ASCII characters as required by OpenID Connect Core 1.0.
+     *
+     * @return An explanation of why the {@code subject} is not acceptable.
+     *         Returns an empty string if the {@code subject} is acceptable.
+     */
+    public static String getInvalidityInfoForOidcSubject(String subject) {
+
+        assert subject != null;
+
+        if (subject.length() > OIDC_SUBJECT_MAX_LENGTH) {
+            return getPopulatedErrorMessage(OIDC_SUBJECT_ERROR_MESSAGE, subject, OIDC_SUBJECT_FIELD_NAME,
+                    REASON_TOO_LONG, OIDC_SUBJECT_MAX_LENGTH);
+        } else if (!isAsciiString(subject)) {
+            return getPopulatedErrorMessage(OIDC_SUBJECT_ERROR_MESSAGE, subject, OIDC_SUBJECT_FIELD_NAME,
+                    REASON_INCORRECT_FORMAT, OIDC_SUBJECT_MAX_LENGTH);
         }
         return "";
     }
@@ -996,6 +1034,10 @@ public final class FieldValidator {
 
     private static boolean isUntrimmed(String value) {
         return value.length() != value.trim().length();
+    }
+
+    private static boolean isAsciiString(String value) {
+        return value.chars().allMatch(character -> character <= 0x7F);
     }
 
     /**
