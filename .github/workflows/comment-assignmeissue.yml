@@ -6,10 +6,11 @@ on:
 
 jobs:
   auto-reply:
-    # Only run on issue comments on open issues, not PR comments
+    # Only run when a user creates a comment on an open issue (not a PR)
     if: |
       github.event.issue.pull_request == null &&
-      github.event.issue.state == 'open'
+      github.event.issue.state == 'open' &&
+      github.event.comment.user.type == 'User'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
