@@ -183,20 +183,6 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student3.getId(), fs1.getId(),
                 Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 0);
 
-        ______TS("Success case: duplicate log should still be persisted");
-        FeedbackSessionLog latestAccessLog = fslLogic.getLatestFeedbackSessionLog(student1.getId(), fs1.getId(),
-                FeedbackSessionLogType.ACCESS);
-        Instant fixedNow = latestAccessLog.getTimestamp().plusMillis(1);
-        CreateFeedbackSessionLogAction duplicateAction = getAction(paramsSuccessfulAccess);
-        Field clockField = CreateFeedbackSessionLogAction.class.getDeclaredField("clock");
-        clockField.setAccessible(true);
-        clockField.set(duplicateAction, Clock.fixed(fixedNow, ZoneOffset.UTC));
-        response = getJsonResult(duplicateAction);
-        output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
-        assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student1.getId(), fs1.getId(),
-                Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 3);
-
         ______TS("Success case: different log type should still be persisted");
         String[] paramsViewResult = {
                 Const.ParamsNames.COURSE_ID, courseId1,

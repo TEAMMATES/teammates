@@ -68,14 +68,6 @@ public final class FeedbackSessionLogsLogic {
     }
 
     /**
-     * Gets the latest feedback session log for the given student, feedback session, and log type.
-     */
-    public FeedbackSessionLog getLatestFeedbackSessionLog(UUID studentId, UUID feedbackSessionId,
-            FeedbackSessionLogType feedbackSessionLogType) {
-        return fslDb.getLatestFeedbackSessionLog(studentId, feedbackSessionId, feedbackSessionLogType);
-    }
-
-    /**
      * Validates that feedback session log entities belong to the same course.
      */
     private void validateFeedbackSessionLogContext(Student student, FeedbackSession feedbackSession)
