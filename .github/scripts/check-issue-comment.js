@@ -1,7 +1,5 @@
 /**
- * Assignment Request Detector
- *
- * This script detects comments requesting issue assignment and posts an auto-reply
+ * Detects comments requesting issue assignment and posts an auto-reply
  * for such comments.
  */
 module.exports = async ({ github, context, core }) => {
