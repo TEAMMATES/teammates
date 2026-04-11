@@ -3,6 +3,17 @@
  * for such comments.
  */
 module.exports = async ({ github, context, core }) => {
+    const REPLY_TEMPLATE =
+`Hi @{username}, it looks like you are asking to be assigned to this issue. Thank you for your interest in contributing to TEAMMATES!
+
+Please note that we do not generally assign issues to external contributors, but **feel free to open a PR**!
+Please review our [Contributing Guidelines](https://teammates.github.io/teammates/contributing/guidelines.html) and [Development Workflow](https://teammates.github.io/teammates/contributing/development-workflow.html) before getting started. A few things to note:
+
+- **You do not need to be assigned to an issue to work on it**. We only assign issues to core team members.
+- Indicate your interest by commenting on the issue thread to avoid duplicated effort.
+- Avoid working on issues that are already assigned, labelled on hold or core team only, or have open PRs.
+- You may discuss alternative solutions on the issue thread before starting work — this reduces the chance of a rejected fix. But please note that we do not have the resources to offer detailed individual guidance.`;
+
     const ASSIGNMENT_REQUEST_PATTERNS = [
         // Patterns like: "please assign me", "can I be assigned", "could you assign"
         /\b(please|pls|can|could|may|would|want|like|love|be)\b.*\bass?i?gn(ed)?\b/i,
@@ -10,16 +21,6 @@ module.exports = async ({ github, context, core }) => {
         // Patterns like: "assign me", "assign this to me", "assgn to me"
         /\bass?i?gn(ed)?\b.*\b(me)\b/i,
     ];
-    const REPLY_TEMPLATE =
-        `Hi @{username}, it looks like you are asking to be assigned to this issue. Thank you for your interest in contributing to TEAMMATES!
-        
-        Please note that we do not generally assign issues to external contributors, but **feel free to open a PR**!
-        Please review our [Contributing Guidelines](https://teammates.github.io/teammates/contributing/guidelines.html) and [Development Workflow](https://teammates.github.io/teammates/contributing/development-workflow.html) before getting started. A few things to note:
-        
-        - **You do not need to be assigned to an issue to work on it**. We only assign issues to core team members.
-        - Indicate your interest by commenting on the issue thread to avoid duplicated effort.
-        - Avoid working on issues that are already assigned, labelled on hold or core team only, or have open PRs.
-        - You may discuss alternative solutions on the issue thread before starting work — this reduces the chance of a rejected fix. But please note that we do not have the resources to offer detailed individual guidance.`;
 
     function isAssignmentRequest(commentBody) {
         const normalizedComment = commentBody.toLowerCase();
