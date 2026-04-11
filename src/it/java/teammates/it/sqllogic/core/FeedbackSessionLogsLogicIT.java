@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.FeedbackSessionLogsLogic;
@@ -42,7 +43,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
     }
 
     @Test
-    public void test_createFeedbackSessionLog_success() {
+        public void test_createFeedbackSessionLog_success() throws InvalidParametersException {
         Course course = typicalDataBundle.courses.get("course1");
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student1InCourse1");

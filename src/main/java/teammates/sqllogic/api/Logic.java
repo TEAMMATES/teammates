@@ -1781,7 +1781,8 @@ public class Logic {
     /**
      * Create feedback session logs.
      */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs) {
+    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs)
+            throws InvalidParametersException {
         feedbackSessionLogsLogic.createFeedbackSessionLogs(feedbackSessionLogs);
     }
 
