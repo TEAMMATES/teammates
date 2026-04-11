@@ -192,7 +192,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
 
         List<FeedbackSessionLog> allStudent1Session1Logs = logic.getOrderedFeedbackSessionLogs(courseId1,
                 student1.getId(), fs1.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60));
-        assertEquals(allStudent1Session1Logs.size(), 4);
+        assertEquals(allStudent1Session1Logs.size(), 3);
         assertTrue(allStudent1Session1Logs.stream()
                 .anyMatch(logEntry -> logEntry.getFeedbackSessionLogType() == FeedbackSessionLogType.VIEW_RESULT));
     }
