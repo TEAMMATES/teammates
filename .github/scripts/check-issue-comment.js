@@ -19,7 +19,7 @@ Please review our [Contributing Guidelines](https://teammates.github.io/teammate
         /(please|pls|can|could|may|would|want|like|love|be).*ass?i?gn(ed)?/i,
 
         // Patterns like: "assign me", "assign this to me", "assgn to me"
-        /ass?i?gn(ed)?.*(me)/i,
+        /ass?i?gn(ed)?.*(me|myself)/i,
     ];
 
     function isAssignmentRequest(commentBody) {
