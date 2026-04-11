@@ -12,9 +12,9 @@ jobs:
       github.event.issue.state == 'open'
     runs-on: ubuntu-latest
     steps:
-      - name: Check and respond to assignment requests
       - uses: actions/checkout@v4
-      - uses: actions/github-script@v7
+      - name: Check and respond to assignment requests
+        uses: actions/github-script@v7
         with:
           script: |
             const script = require('./.github/scripts/check-issue-comment.js');
