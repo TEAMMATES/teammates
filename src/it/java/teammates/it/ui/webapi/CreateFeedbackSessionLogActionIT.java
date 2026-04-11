@@ -1,9 +1,6 @@
 package teammates.it.ui.webapi;
 
-import java.lang.reflect.Field;
-import java.time.Clock;
 import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,7 +10,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.sqllogic.core.FeedbackSessionLogsLogic;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
@@ -26,8 +22,6 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link CreateFeedbackSessionLogAction}.
  */
 public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbackSessionLogAction> {
-
-    private final FeedbackSessionLogsLogic fslLogic = FeedbackSessionLogsLogic.inst();
 
     @Override
     @BeforeMethod

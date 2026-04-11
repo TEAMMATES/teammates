@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
 import teammates.storage.sqlentity.FeedbackSession;
