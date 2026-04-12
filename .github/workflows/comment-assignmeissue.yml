@@ -6,14 +6,19 @@ on:
 
 jobs:
   auto-reply:
-    # Only run when a user creates a comment on an open issue (not a PR)
     if: |
       github.event.issue.pull_request == null &&
       github.event.issue.state == 'open' &&
-      github.event.comment.user.type == 'User'
+      github.event.comment.user.type == 'User' &&
+      github.event.comment.author_association != 'OWNER' &&
+      github.event.comment.author_association != 'MEMBER' &&
+      github.event.comment.author_association != 'COLLABORATOR'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts/check-issue-comment.js
+          sparse-checkout-cone-mode: false
       - name: Check and respond to assignment requests
         uses: actions/github-script@v7
         with:
