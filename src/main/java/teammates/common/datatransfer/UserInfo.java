@@ -12,7 +12,7 @@ public class UserInfo {
     /**
      * The user's Account ID.
      */
-    public UUID id;
+    public UUID accountId;
 
     /**
      * Indicates whether the user has admin privilege.
@@ -35,11 +35,11 @@ public class UserInfo {
     public boolean isMaintainer;
 
     public UserInfo(UUID accountId) {
-        this.id = accountId;
+        this.accountId = accountId;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getAccountId() {
+        return accountId;
     }
 
     public boolean getIsAdmin() {
