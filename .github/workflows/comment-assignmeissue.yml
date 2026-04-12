@@ -10,9 +10,7 @@ jobs:
       github.event.issue.pull_request == null &&
       github.event.issue.state == 'open' &&
       github.event.comment.user.type == 'User' &&
-      github.event.comment.author_association != 'OWNER' &&
-      github.event.comment.author_association != 'MEMBER' &&
-      github.event.comment.author_association != 'COLLABORATOR'
+      !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
