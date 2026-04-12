@@ -7,7 +7,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -16,8 +15,6 @@ import teammates.storage.sqlentity.Student;
  * Action: joins a course for a student/instructor.
  */
 public class JoinCourseAction extends Action {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
