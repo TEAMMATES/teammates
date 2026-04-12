@@ -4,13 +4,13 @@ import java.util.UUID;
 
 /**
  * Represents a user type.
- * <br> Contains user's Account ID and flags to indicate whether the user
+ * <br> Contains user's account ID and flags to indicate whether the user
  *  is an admin, instructor, student.
  */
 public class UserInfo {
 
     /**
-     * The user's Account ID.
+     * The user's account ID.
      */
     public UUID accountId;
 
