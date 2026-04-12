@@ -3,10 +3,10 @@
  * for such comments.
  */
 module.exports = async ({ github, context, core }) => {
-  const REPLY_TEMPLATE =
-`Hi @{username}, it looks like you are asking to be assigned to this issue. Thank you for your interest in contributing to TEAMMATES!
+  const REPLY_TEMPLATE = `\
+Hi @{username}, it looks like you are asking to be assigned to this issue. Thank you for your interest in contributing to TEAMMATES!
 
-Please note that we do not generally assign issues to external contributors, but **feel free to open a PR**!
+Please note that **we do not generally assign issues to external contributors**, but **feel free to open a PR**!
 Please review our [Contributing Guidelines](https://teammates.github.io/teammates/contributing/guidelines.html) and [Development Workflow](https://teammates.github.io/teammates/contributing/development-workflow.html) before getting started. A few things to note:
 
 - **You do not need to be assigned to an issue to work on it**. We only assign issues to core team members.
@@ -17,10 +17,10 @@ Please review our [Contributing Guidelines](https://teammates.github.io/teammate
   // No word boundaries are used so that run-together typos (e.g. "assignme",
   // "pleasassign") are still matched.
   //
-  // ass?i?g[nm] is a fuzzy match for "assign":
-  //   ss? — covers "asign" (one s)
-  //   i?  — covers "assgn" (no i)
-  //   [nm] — covers "assigm" (potential typo)
+  // ass?i?g[nm] fuzzy-matches "assign"
+  //   ss?  -> "asign"
+  //   i?   -> "assgn"
+  //   [nm] -> "assigm" (typo)
   const ASSIGNMENT_REQUEST_PATTERNS = [
       // Intent marker before "assign": "pls assgn", "can I be assigned", "kindly assign"
       /(please|pl[sz]|can|could|may|would|want|like|love|be|get|kindly|wish).*ass?i?g[nm]/,
@@ -47,19 +47,20 @@ Please review our [Contributing Guidelines](https://teammates.github.io/teammate
     });
   }
 
+  const comment = context.payload.comment;
+  const commentBody = comment.body;
+  const commentUsername = comment.user.login;
+
+  core.info(`Analyzing comment from @${commentUsername}`);
+  core.debug(`Comment text: ${commentBody.substring(0, 100)}...`);
+
+  if (!isAssignmentRequest(commentBody)) {
+    return;
+  }
+
+  const replyMessage = createReplyMessage(commentUsername);
+
   try {
-    const comment = context.payload.comment;
-    const commentBody = comment.body;
-    const commentUsername = comment.user.login;
-
-    core.info(`Analyzing comment from @${commentUsername}`);
-    core.debug(`Comment text: ${commentBody.substring(0, 100)}...`);
-
-    if (!isAssignmentRequest(commentBody)) {
-      return;
-    }
-
-    const replyMessage = createReplyMessage(commentUsername);
     await postReply(replyMessage);
   } catch (error) {
     core.setFailed(`Action failed: ${error.message}`);
