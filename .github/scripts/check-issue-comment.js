@@ -14,12 +14,19 @@ Please review our [Contributing Guidelines](https://teammates.github.io/teammate
 - Avoid working on issues that are already assigned, labelled on hold or core team only, or have open PRs.
 - You may discuss alternative solutions on the issue thread before starting work — this reduces the chance of a rejected fix. But please note that we do not have the resources to offer detailed individual guidance.`;
 
+  // No word boundaries are used so that run-together typos (e.g. "assignme",
+  // "pleasassign") are still matched.
+  //
+  // ass?i?g[nm] is a fuzzy match for "assign":
+  //   ss? — covers "asign" (one s)
+  //   i?  — covers "assgn" (no i)
+  //   [nm] — covers "assigm" (potential typo)
   const ASSIGNMENT_REQUEST_PATTERNS = [
-      // Patterns like: "pls assgn me", "can I be assigned", "could you assign"
-      /(please|pls|can|could|may|would|want|like|love|be).*ass?i?gn(ed)?/i,
+      // Intent marker before "assign": "pls assgn", "can I be assigned", "kindly assign"
+      /(please|pl[sz]|can|could|may|would|want|like|love|be|get|kindly|wish).*ass?i?g[nm]/,
 
-      // Patterns like: "assign me", "assign this to me pls", "assign to myself"
-      /ass?i?gn(ed)?.*(me|myself)/i,
+      // "assign" before pronoun: "assign me", "assign to myself", "assignme"
+      /ass?i?g[nm].*(me|myself)/,
   ];
 
   function isAssignmentRequest(commentBody) {
