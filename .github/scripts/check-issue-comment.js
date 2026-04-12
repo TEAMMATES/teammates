@@ -58,7 +58,7 @@ Please review our [Contributing Guidelines](https://teammates.github.io/teammate
   try {
     await postReply(replyMessage);
   } catch (error) {
-    core.setFailed(`Action failed: ${error.message}`);
+    core.setFailed(error.message);
     if (error.stack) {
       core.debug(error.stack);
     }
