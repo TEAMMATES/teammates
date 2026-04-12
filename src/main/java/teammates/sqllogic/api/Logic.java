@@ -207,7 +207,7 @@ public class Logic {
     }
 
     /**
-     * Deletes account by id.
+     * Deletes account by {@code accountId}.
      *
      * <ul>
      * <li>Fails silently if no such account.</li>
@@ -218,12 +218,12 @@ public class Logic {
      * </p>
      * All parameters are non-null.
      */
-    public void deleteAccount(UUID id) {
-        accountsLogic.deleteAccount(id);
+    public void deleteAccount(UUID accountId) {
+        accountsLogic.deleteAccount(accountId);
     }
 
     /**
-     * Deletes account and all users by id.
+     * Deletes account and all users by {@code accountId}.
      *
      * <ul>
      * <li>Fails silently if no such account.</li>
@@ -234,8 +234,8 @@ public class Logic {
      * </p>
      * All parameters are non-null.
      */
-    public void deleteAccountCascade(UUID id) {
-        accountsLogic.deleteAccountCascade(id);
+    public void deleteAccountCascade(UUID accountId) {
+        accountsLogic.deleteAccountCascade(accountId);
     }
 
     /**
