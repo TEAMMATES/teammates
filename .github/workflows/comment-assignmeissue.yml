@@ -11,6 +11,9 @@ jobs:
       github.event.issue.state == 'open' &&
       github.event.comment.user.type == 'User' &&
       !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+    permissions:
+      contents: read
+      issues: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
