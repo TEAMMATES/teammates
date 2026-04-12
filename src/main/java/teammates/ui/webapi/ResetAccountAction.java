@@ -43,7 +43,7 @@ public class ResetAccountAction extends AdminOnlyAction {
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = sqlEmailGenerator
-                        .generateStudentCourseRejoinEmailAfterGoogleIdReset(course, existingStudent);
+                        .generateStudentCourseRejoinEmailAfterAccountIdReset(course, existingStudent);
                 List<EmailWrapper> emails = new ArrayList<>();
                 emails.add(email);
                 taskQueuer.scheduleEmailsForPrioritySending(emails);
@@ -63,7 +63,7 @@ public class ResetAccountAction extends AdminOnlyAction {
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = sqlEmailGenerator
-                        .generateInstructorCourseRejoinEmailAfterGoogleIdReset(existingInstructor, course);
+                        .generateInstructorCourseRejoinEmailAfterAccountIdReset(existingInstructor, course);
                 List<EmailWrapper> emails = new ArrayList<>();
                 emails.add(email);
                 taskQueuer.scheduleEmailsForPrioritySending(emails);
