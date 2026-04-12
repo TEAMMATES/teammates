@@ -69,6 +69,9 @@ public class UserInfoCookie {
      * Returns true if the object represents a valid user info and the object has not expired.
      */
     public boolean isValid() {
+        if (accountId == null || StringHelper.isEmpty(verificationCode)) {
+            return false;
+        }
         return StringHelper.isCorrectSignature(accountId.toString(), verificationCode)
                 && Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
     }
