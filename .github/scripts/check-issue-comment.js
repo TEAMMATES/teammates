@@ -15,12 +15,7 @@ Please review our [Contributing Guidelines](https://teammates.github.io/teammate
 - You may discuss alternative solutions on the issue thread before starting work — this reduces the chance of a rejected fix. But please note that we do not have the resources to offer detailed individual guidance.`;
 
   // No word boundaries are used so that run-together typos (e.g. "assignme",
-  // "pleasassign") are still matched.
-  //
-  // ass?i?g[nm] fuzzy-matches "assign"
-  //   ss?  -> "asign"
-  //   i?   -> "assgn"
-  //   [nm] -> "assigm" (typo)
+  // "pleasassign") are still matched. ass?i?g[nm] fuzzy-matches "assign"
   const ASSIGNMENT_REQUEST_PATTERNS = [
       // Intent marker before "assign": "pls assgn", "can I be assigned", "kindly assign"
       /(please|pl[sz]|can|could|may|would|want|like|love|be|get|kindly|wish).*ass?i?g[nm]/,
