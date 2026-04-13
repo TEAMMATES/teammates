@@ -77,36 +77,6 @@ public final class FeedbackSessionLogsDb {
     }
 
     /**
-     * Gets the latest feedback session log for the given student, feedback session, and log type.
-     */
-    public FeedbackSessionLog getLatestFeedbackSessionLog(UUID studentId, UUID feedbackSessionId,
-            FeedbackSessionLogType feedbackSessionLogType) {
-        assert studentId != null;
-        assert feedbackSessionId != null;
-        assert feedbackSessionLogType != null;
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackSessionLog> cr = cb.createQuery(FeedbackSessionLog.class);
-        Root<FeedbackSessionLog> root = cr.from(FeedbackSessionLog.class);
-        Join<FeedbackSessionLog, FeedbackSession> feedbackSessionJoin = root.join("feedbackSession");
-        Join<FeedbackSessionLog, Student> studentJoin = root.join("student");
-
-        cr.select(root)
-                .where(
-                        cb.equal(studentJoin.get("id"), studentId),
-                        cb.equal(feedbackSessionJoin.get("id"), feedbackSessionId),
-                        cb.equal(root.get("feedbackSessionLogType"), feedbackSessionLogType)
-                )
-                .orderBy(cb.desc(root.get("timestamp")));
-
-        try {
-            return HibernateUtil.createQuery(cr).setMaxResults(1).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-
-    /**
      * Creates feedback session logs.
      */
     public FeedbackSessionLog createFeedbackSessionLog(FeedbackSessionLog log) {
