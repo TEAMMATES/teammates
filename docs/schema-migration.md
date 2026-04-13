@@ -27,8 +27,7 @@ Here is a brief description of the activities defined for Liquibase
 1. Run `./gradlew liquibaseUpdate -PrunList=main` to apply all existing migrations to your local database.
 2. Run `./gradlew serverRun` to verify the current schema passes Hibernate validation.
 3. Make your entity/model changes.
-4. Run `./gradlew liquibaseDiffChangelog -PrunList=diffMain` to generate a changelog. This compares the Hibernate entity model (the desired schema) against the live database (the current state) and produces changesets that bring the database up to match the model. Review the generated changelog manually before committing — auto-diff output can be noisy or incorrect depending on type mappings.
-5. Rename the generated file by replacing only the `new-migration` suffix with a descriptive name, keeping the `<timestamp>-` prefix unchanged (e.g. `<timestamp>-new-migration.xml` → `<timestamp>-add-feedback-indexes.xml`). The timestamp determines execution order, so do not modify it.
+4. Run `./gradlew liquibaseDiffChangelog -PrunList=diffMain -PmigrationName=<descriptive-name>` to generate a changelog (e.g. `-PmigrationName=add-feedback-indexes`). This compares the Hibernate entity model (the desired schema) against the live database (the current state) and produces changesets that bring the database up to match the model. Review the generated changelog manually before committing — auto-diff output can be noisy or incorrect depending on type mappings.
 6. Add rollback blocks to every new changeset.
 7. New files in `src/main/resources/db/changelog/migrations` are auto-included by the root changelog via `includeAll`, so no manual root changelog edits are needed.
 
