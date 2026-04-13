@@ -515,6 +515,7 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
  * Structure for example of feedback session
  */
 export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
+  feedbackSessionId: '00000000-0000-4000-8000-000000000001',
   courseId: 'CS2103T',
   timeZone: 'UTC',
   feedbackSessionName: 'Project Feedback 1',
@@ -529,8 +530,6 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
-  studentDeadlines: {},
-  instructorDeadlines: {},
 };
 /**
  * Structure for example of distrution point option question detail

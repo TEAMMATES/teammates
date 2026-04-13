@@ -4,8 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 
-import java.util.UUID;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -58,9 +56,9 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         CreateNotificationAction action = getAction(req);
         NotificationData res = (NotificationData) action.execute().getOutput();
 
-        when(mockLogic.getNotification(UUID.fromString(res.getNotificationId()))).thenReturn(testNotification);
+        when(mockLogic.getNotification(res.getNotificationId())).thenReturn(testNotification);
 
-        Notification createdNotification = mockLogic.getNotification(UUID.fromString(res.getNotificationId()));
+        Notification createdNotification = mockLogic.getNotification(res.getNotificationId());
 
         // check that notification returned has same properties as notification created
         assertEquals(createdNotification.getStartTime().toEpochMilli(), res.getStartTimestamp());

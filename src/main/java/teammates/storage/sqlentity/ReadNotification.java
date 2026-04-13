@@ -7,23 +7,31 @@ import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 /**
  * Represents an association class between Accounts and Notifications.
  * Keeps track of which Notifications have been read by an Account.
  */
 @Entity
-@Table(name = "ReadNotifications")
+@Table(
+        name = "ReadNotifications",
+        uniqueConstraints = @UniqueConstraint(
+                name = "Unique account_id and notification_id",
+                columnNames = {"account_id", "notification_id"}))
 public class ReadNotification extends BaseEntity {
     @Id
     private UUID id;
 
     @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @ManyToOne
+    @JoinColumn(name = "notification_id", nullable = false)
     private Notification notification;
 
     protected ReadNotification() {

@@ -44,6 +44,7 @@ import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
 import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
@@ -525,6 +526,23 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId.toString());
         executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
+    /**
+     * Gets feedback session deadline extensions data from the database.
+     */
+    public FeedbackSessionDeadlineExtensionsData getFeedbackSessionDeadlineExtensionsData(
+            String courseId, String feedbackSessionName) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSION_DEADLINE_EXTENSIONS, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        return JsonUtils.fromJson(response.responseBody, FeedbackSessionDeadlineExtensionsData.class);
     }
 
     /**

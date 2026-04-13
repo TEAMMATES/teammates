@@ -71,7 +71,7 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
             AccountRequest accountRequest = accountRequests.get(i);
             AccountRequestData accountRequestData = output.getAccountRequests().get(i);
 
-            assertEquals(accountRequest.getId().toString(), accountRequestData.getId());
+            assertEquals(accountRequest.getId(), accountRequestData.getId());
             assertEquals(accountRequest.getEmail(), accountRequestData.getEmail());
             assertEquals(accountRequest.getName(), accountRequestData.getName());
             assertEquals(accountRequest.getInstitute(), accountRequestData.getInstitute());
