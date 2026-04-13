@@ -30,7 +30,6 @@ import teammates.common.util.SanitizationHelper;
         @UniqueConstraint(name = "uk_accounts_issuer_subject", columnNames = { "issuer", "subject" })
 })
 public class Account extends BaseEntity {
-    private static final String DEFAULT_GOOGLE_ISSUER = "https://accounts.google.com";
 
     @Id
     private UUID id;
@@ -40,7 +39,7 @@ public class Account extends BaseEntity {
     private LoginIssuer loginIssuer;
 
     @Column(nullable = false, length = FieldValidator.OIDC_SUBJECT_MAX_LENGTH)
-    private String subject;
+    private String oidcSubject;
 
     @Column(nullable = false)
     private String loginIdentifier;
@@ -62,10 +61,10 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(LoginIssuer issuer, String subject, String loginIdentifier, String name, String email) {
+    public Account(LoginIssuer issuer, String oidcSubject, String loginIdentifier, String name, String email) {
         this.setId(UUID.randomUUID());
         this.setIssuer(issuer);
-        this.setSubject(subject);
+        this.setOidcSubject(oidcSubject);
         this.setLoginIdentifier(loginIdentifier);
         this.setName(name);
         this.setEmail(email);
@@ -101,12 +100,12 @@ public class Account extends BaseEntity {
         this.loginIssuer = issuer;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getOidcSubject() {
+        return oidcSubject;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setOidcSubject(String oidcSubject) {
+        this.oidcSubject = oidcSubject;
     }
 
     public String getLoginIdentifier() {
@@ -152,7 +151,7 @@ public class Account extends BaseEntity {
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
-        addNonEmptyError(FieldValidator.getInvalidityInfoForOidcSubject(subject), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForOidcSubject(oidcSubject), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
 
@@ -180,7 +179,7 @@ public class Account extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Account [id=" + id + ", issuer=" + loginIssuer + ", subject=" + subject
+        return "Account [id=" + id + ", issuer=" + loginIssuer + ", subject=" + oidcSubject
                 + ", loginIdentifier=" + loginIdentifier + ", name=" + name + ", email=" + email
                 + ", readNotifications=" + readNotifications + ", createdAt=" + getCreatedAt()
                 + ",updatedAt=" + updatedAt + "]";

@@ -305,18 +305,6 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid OIDC issuer with port and path should return empty string", "",
                 FieldValidator.getInvalidityInfoForOidcIssuer(issuerWithPortAndPath));
 
-        String issuerWithWhitespace = " https://accounts.google.com ";
-        assertEquals("OIDC issuer with surrounding whitespace should fail based on URL format, not trim rules",
-                "\" https://accounts.google.com \" is not acceptable to TEAMMATES as a/an OIDC issuer because it "
-                        + "is not in the correct format. An OIDC issuer must be a case-sensitive https URL with a "
-                        + "host, may include a port and path, and cannot contain query parameters or fragments. "
-                        + "The value of a/an OIDC issuer should be no longer than 2048 characters.",
-                FieldValidator.getInvalidityInfoForOidcIssuer(issuerWithWhitespace));
-
-        String maxLengthIssuer = "https://" + StringHelperExtension.generateStringOfLength(
-                FieldValidator.OIDC_ISSUER_MAX_LENGTH - "https://".length());
-        assertEquals("Valid OIDC issuer (max length) should return empty string", "",
-                FieldValidator.getInvalidityInfoForOidcIssuer(maxLengthIssuer));
     }
 
     @Test
@@ -325,16 +313,21 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid OIDC issuer (empty) should return appropriate error message",
                 "\"\" is not acceptable to TEAMMATES as a/an OIDC issuer because it is not in the correct "
                         + "format. An OIDC issuer must be a case-sensitive https URL with a host, may include "
-                        + "a port and path, and cannot contain query parameters or fragments. The value of "
-                        + "a/an OIDC issuer should be no longer than 2048 characters.",
+                        + "a port and path, and cannot contain query parameters or fragments.",
                 FieldValidator.getInvalidityInfoForOidcIssuer(emptyIssuer));
+
+        String issuerWithWhitespace = " https://accounts.google.com ";
+        assertEquals("OIDC issuer with surrounding whitespace should fail based on URL format, not trim rules",
+                "\" https://accounts.google.com \" is not acceptable to TEAMMATES as a/an OIDC issuer because it "
+                        + "is not in the correct format. An OIDC issuer must be a case-sensitive https URL with a "
+                        + "host, may include a port and path, and cannot contain query parameters or fragments.",
+                FieldValidator.getInvalidityInfoForOidcIssuer(issuerWithWhitespace));
 
         String whitespaceIssuer = "     ";
         assertEquals("Invalid OIDC issuer (contains whitespaces only) should return appropriate error message",
                 "\"     \" is not acceptable to TEAMMATES as a/an OIDC issuer because it is not in the correct "
                         + "format. An OIDC issuer must be a case-sensitive https URL with a host, may include "
-                        + "a port and path, and cannot contain query parameters or fragments. The value of "
-                        + "a/an OIDC issuer should be no longer than 2048 characters.",
+                        + "a port and path, and cannot contain query parameters or fragments.",
                 FieldValidator.getInvalidityInfoForOidcIssuer(whitespaceIssuer));
 
         String untrimmedIssuer = "  https://accounts.google.com  ";
@@ -342,26 +335,15 @@ public class FieldValidatorTest extends BaseTestCase {
                 "\"  https://accounts.google.com  \" is not acceptable to TEAMMATES as a/an OIDC issuer because "
                         + "it is not in the correct format. An OIDC issuer must be a case-sensitive https URL "
                         + "with a host, may include a port and path, and cannot contain query parameters or "
-                        + "fragments. The value of a/an OIDC issuer should be no longer than 2048 characters.",
+                        + "fragments.",
                 FieldValidator.getInvalidityInfoForOidcIssuer(untrimmedIssuer));
-
-        String tooLongIssuer = "https://" + StringHelperExtension.generateStringOfLength(
-                FieldValidator.OIDC_ISSUER_MAX_LENGTH - "https://".length() + 1);
-        String expectedTooLongIssuerMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an "
-                        + "OIDC issuer because it is too long. An OIDC issuer must be a case-sensitive https URL "
-                        + "with a host, may include a port and path, and cannot contain query parameters or "
-                        + "fragments. The value of a/an OIDC issuer should be no longer than 2048 characters.",
-                tooLongIssuer);
-        assertEquals("Invalid OIDC issuer (too long) should return appropriate error message",
-                expectedTooLongIssuerMessage,
-                FieldValidator.getInvalidityInfoForOidcIssuer(tooLongIssuer));
 
         String insecureIssuer = "http://accounts.google.com";
         assertEquals("Invalid OIDC issuer (non-https) should return appropriate error message",
                 "\"http://accounts.google.com\" is not acceptable to TEAMMATES as a/an OIDC issuer because it "
                         + "is not in the correct format. An OIDC issuer must be a case-sensitive https URL "
                         + "with a host, may include a port and path, and cannot contain query parameters or "
-                        + "fragments. The value of a/an OIDC issuer should be no longer than 2048 characters.",
+                        + "fragments.",
                 FieldValidator.getInvalidityInfoForOidcIssuer(insecureIssuer));
 
         String issuerWithQuery = "https://accounts.google.com?foo=bar";
@@ -369,8 +351,7 @@ public class FieldValidatorTest extends BaseTestCase {
                 "\"https://accounts.google.com?foo=bar\" is not acceptable to TEAMMATES as a/an OIDC issuer "
                         + "because it is not in the correct format. An OIDC issuer must be a case-sensitive "
                         + "https URL with a host, may include a port and path, and cannot contain query "
-                        + "parameters or fragments. The value of a/an OIDC issuer should be no longer than "
-                        + "2048 characters.",
+                        + "parameters or fragments.",
                 FieldValidator.getInvalidityInfoForOidcIssuer(issuerWithQuery));
     }
 

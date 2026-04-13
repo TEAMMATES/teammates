@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.OidcProviderNameType;
 import teammates.storage.sqlentity.DeadlineExtension;
 
 /**
@@ -113,11 +112,9 @@ public final class FieldValidator {
     public static final String TIME_ZONE_FIELD_NAME = "time zone";
 
     public static final String OIDC_ISSUER_FIELD_NAME = "OIDC issuer";
-    public static final int OIDC_ISSUER_MAX_LENGTH = 2048;
 
     public static final String OIDC_SUBJECT_FIELD_NAME = "OIDC subject";
     public static final int OIDC_SUBJECT_MAX_LENGTH = 255;
-    public static final String OIDC_PROVIDER_NAME_FIELD_NAME = "OIDC provider name";
 
     public static final String ROLE_FIELD_NAME = "access-level";
     public static final List<String> ROLE_ACCEPTED_VALUES =
@@ -214,9 +211,6 @@ public final class FieldValidator {
             + "no longer than ${maxLength} characters.";
     public static final String OIDC_SUBJECT_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_OIDC_SUBJECT;
-
-    public static final String OIDC_PROVIDER_NAME_ERROR_MESSAGE =
-            ERROR_INFO + " The value must be one of the supported OIDC provider names.";
 
     public static final String HINT_FOR_CORRECT_TIME_ZONE =
             "The value must be one of the values from the time zone dropdown selector.";

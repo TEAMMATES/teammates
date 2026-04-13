@@ -18,7 +18,7 @@ import teammates.common.util.FieldValidator;
  * Maps an OIDC issuer URL to a human-readable provider name.
  */
 @Entity
-@Table(name = "LoginIssuer")
+@Table(name = "LoginIssuers")
 public class LoginIssuer extends BaseEntity {
 
     @Id
@@ -57,7 +57,10 @@ public class LoginIssuer extends BaseEntity {
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
+
         addNonEmptyError(FieldValidator.getInvalidityInfoForOidcIssuer(issuer), errors);
+        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
+                "provider name", providerName), errors);
 
         return errors;
     }
@@ -79,11 +82,11 @@ public class LoginIssuer extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(issuer);
+        return Objects.hash(issuer, providerName);
     }
 
     @Override
     public String toString() {
-        return "LoginProvider [issuer=" + issuer + ", providerName=" + providerName + "]";
+        return "LoginIssuer [issuer=" + issuer + ", providerName=" + providerName + "]";
     }
 }

@@ -15,6 +15,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.LoginIssuer;
 
 /**
  * Handles CRUD operations for accounts.
@@ -42,6 +43,23 @@ public final class AccountsDb {
         return HibernateUtil.get(Account.class, id);
     }
 
+    public Account getAccountByLoginIssuerAndSub(LoginIssuer loginIssuer, String oidcSubject) {
+        assert loginIssuer != null;
+        assert oidcSubject != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Account> cr = cb.createQuery(Account.class);
+        Root<Account> accountRoot = cr.from(Account.class);
+
+        cr.select(accountRoot).where(
+                cb.equal(accountRoot.get("loginIssuer"), loginIssuer),
+                cb.equal(accountRoot.get("oidcSubject"), oidcSubject)
+        );
+
+        return HibernateUtil.createQuery(cr)
+                .getResultStream().findFirst().orElse(null);
+    }
+
     /**
      * Gets accounts based on email.
      */
@@ -67,7 +85,8 @@ public final class AccountsDb {
             throw new InvalidParametersException(account.getInvalidityInfo());
         }
 
-        if (getAccount(account.getId()) != null) {
+        if (getAccount(account.getId()) != null ||
+                getAccountByLoginIssuerAndSub(account.getLoginIssuer(), account.getOidcSubject())!= null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
         }
 
