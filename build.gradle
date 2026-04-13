@@ -144,7 +144,7 @@ if (project.ext.runList == "diffMain" && !project.hasProperty("migrationName")) 
     throw new GradleException("Pass -PmigrationName=foo when running diffMain")
 }
 def liquibaseDiffTimestamp = new Date().format("yyyyMMdd")
-def migrationName = project.hasProperty("migrationName") ? project.property("migrationName") : "unused"
+def migrationName = findProperty("migrationName")
 def liquibaseDiffChangelogFile = "src/main/resources/db/changelog/migrations/${liquibaseDiffTimestamp}-${migrationName}.xml"
 
 liquibase {
