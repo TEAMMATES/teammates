@@ -140,9 +140,11 @@ if (!project.hasProperty("runList")) {
     project.ext.set("runList", "main")
 }
 
-def liquibaseDiffTimestamp = new Date().format("yyyyMMddHHmmss")
-def migrationName = project.hasProperty("migrationName") ? project.property("migrationName") : "new-migration"
-def liquibaseDiffChangelogFile = "src/main/resources/db/changelog/migrations/${liquibaseDiffTimestamp}-${migrationName}.xml"
+if (project.ext.runList == "diffMain" && !project.hasProperty("migrationName")) {
+    throw new GradleException("Pass -PmigrationName=foo when running diffMain")
+}
+def migrationName = project.hasProperty("migrationName") ? project.property("migrationName") : "unused"
+def liquibaseDiffChangelogFile = "src/main/resources/db/changelog/migrations/${migrationName}.xml"
 
 liquibase {
     activities {
