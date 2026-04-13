@@ -16,7 +16,6 @@ import jakarta.persistence.criteria.Root;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
@@ -174,8 +173,7 @@ public final class AccountRequestsDb {
      *
      * <p>This is used by admin to search account requests in the whole system.
      */
-    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
 
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();

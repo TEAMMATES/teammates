@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.test.BaseTestCase;
@@ -116,7 +115,7 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testSearchAccountRequestsInWholeSystem_emptyString_returnsEmptyList() throws SearchServiceException {
+    public void testSearchAccountRequestsInWholeSystem_emptyString_returnsEmptyList() {
         List<AccountRequest> searchResult = accountRequestDb.searchAccountRequestsInWholeSystem("");
         assertTrue(searchResult.isEmpty());
     }
