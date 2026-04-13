@@ -403,19 +403,19 @@
         </createTable>
     </changeSet>
     <changeSet author="aaron (generated)" id="1776100163799-18">
-        <addUniqueConstraint columnNames="account_id, notification_id" constraintName="&quot;Unique account_id and notification_id&quot;" tableName="read_notifications"/>
+        <addUniqueConstraint columnNames="account_id, notification_id" constraintName="Unique account_id and notification_id" tableName="read_notifications"/>
     </changeSet>
     <changeSet author="aaron (generated)" id="1776100163799-19">
-        <addUniqueConstraint columnNames="email, course_id" constraintName="&quot;Unique email and courseId&quot;" tableName="users"/>
+        <addUniqueConstraint columnNames="email, course_id" constraintName="Unique email and courseId" tableName="users"/>
     </changeSet>
     <changeSet author="aaron (generated)" id="1776100163799-20">
-        <addUniqueConstraint columnNames="course_id, name" constraintName="&quot;Unique name and courseId&quot;" tableName="sections"/>
+        <addUniqueConstraint columnNames="course_id, name" constraintName="Unique name and courseId" tableName="sections"/>
     </changeSet>
     <changeSet author="aaron (generated)" id="1776100163799-21">
-        <addUniqueConstraint columnNames="section_id, name" constraintName="&quot;Unique name and sectionId&quot;" tableName="teams"/>
+        <addUniqueConstraint columnNames="section_id, name" constraintName="Unique name and sectionId" tableName="teams"/>
     </changeSet>
     <changeSet author="aaron (generated)" id="1776100163799-22">
-        <addUniqueConstraint columnNames="registration_key" constraintName="&quot;Unique registration key&quot;" tableName="account_requests"/>
+        <addUniqueConstraint columnNames="registration_key" constraintName="Unique registration key" tableName="account_requests"/>
     </changeSet>
     <changeSet author="aaron (generated)" id="1776100163799-23">
         <addUniqueConstraint columnNames="google_id" constraintName="UKlg8pv7boban5si30003yoaru0" tableName="accounts"/>
