@@ -123,4 +123,21 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertEquals(expectedLogs, actualLogs);
     }
+
+    @Test
+    public void test_deleteFeedbackSessionLogsOlderThan_success() {
+        Course course = typicalDataBundle.courses.get("course1");
+        Instant cutoffTime = Instant.parse("2012-01-01T14:30:00Z");
+
+        int deletedCount = fslDb.deleteFeedbackSessionLogsOlderThan(cutoffTime);
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
+
+        List<FeedbackSessionLog> remainingLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), null, null,
+                Instant.parse("2012-01-01T00:00:00Z"), Instant.parse("2012-01-02T00:00:00Z"));
+
+        assertEquals(deletedCount, 7);
+        assertEquals(remainingLogs.size(), 0);
+        assertTrue(remainingLogs.stream().allMatch(log -> !log.getTimestamp().isBefore(cutoffTime)));
+    }
 }
