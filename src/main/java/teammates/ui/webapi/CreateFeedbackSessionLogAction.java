@@ -33,7 +33,7 @@ public class CreateFeedbackSessionLogAction extends Action {
         Student requestedStudent = sqlLogic.getStudent(studentId);
         Student authenticatedStudent = getPossiblyUnregisteredSqlStudent(courseId);
 
-        // Student has account but isn't loggeed in
+        // Student has account but isn't logged in
         if (authenticatedStudent != null && userInfo == null && authenticatedStudent.getAccount() != null) {
             throw new UnauthorizedAccessException("Login is required to access this feedback session");
         }
