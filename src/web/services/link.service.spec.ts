@@ -71,25 +71,31 @@ describe('Link Service', () => {
   });
 
   it('should generate the submit url', () => {
-    expect(service.generateSubmitUrl(mockStudent, 'did you ever hear the tragedy of darth plagueis the wise', false))
+    expect(service.generateSubmitUrl(mockStudent, 'another happy landing', false,
+        '00000000-0000-4000-8000-000000000001'))
       .toBe(`${window.location.origin}/web/sessions/submission?key=keyheehee`
-            + '&fsname=did%20you%20ever%20hear%20the%20tragedy%20of%20darth%20plagueis%20the%20wise'
-            + '&courseid=dog.gma-demo');
+            + '&fsname=another%20happy%20landing&courseid=dog.gma-demo'
+            + '&fsid=00000000-0000-4000-8000-000000000001');
 
-    expect(service.generateSubmitUrl(mockInstructor, 'did you ever hear the tragedy of darth plagueis the wise', true))
+    expect(service.generateSubmitUrl(mockInstructor, 'another happy landing', true,
+        '00000000-0000-4000-8000-000000000002'))
       .toBe(`${window.location.origin}/web/sessions/submission?key=impicklerick`
-            + '&fsname=did%20you%20ever%20hear%20the%20tragedy%20of%20darth%20plagueis%20the%20wise'
-            + '&courseid=dog.gma-demo&entitytype=instructor');
+            + '&fsname=another%20happy%20landing&courseid=dog.gma-demo'
+            + '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor');
   });
 
   it('should generate the result url', () => {
-    expect(service.generateResultUrl(mockStudent, 'another happy landing', false))
+    expect(service.generateResultUrl(mockStudent, 'another happy landing', false,
+        '00000000-0000-4000-8000-000000000001'))
       .toBe(`${window.location.origin}/web/sessions/result?`
-            + 'key=keyheehee&fsname=another%20happy%20landing&courseid=dog.gma-demo');
+            + 'key=keyheehee&fsname=another%20happy%20landing&courseid=dog.gma-demo'
+            + '&fsid=00000000-0000-4000-8000-000000000001');
 
-    expect(service.generateResultUrl(mockInstructor, 'another happy landing', true))
+    expect(service.generateResultUrl(mockInstructor, 'another happy landing', true,
+        '00000000-0000-4000-8000-000000000002'))
       .toBe(`${window.location.origin}/web/sessions/result?`
-            + 'key=impicklerick&fsname=another%20happy%20landing&courseid=dog.gma-demo&entitytype=instructor');
+            + 'key=impicklerick&fsname=another%20happy%20landing&courseid=dog.gma-demo'
+            + '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor');
   });
 
   it('filterEmptyParams should filter empty params', () => {
