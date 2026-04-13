@@ -15,6 +15,7 @@ import teammates.ui.webapi.ApproveAccountRequestAction;
 import teammates.ui.webapi.BinCourseAction;
 import teammates.ui.webapi.BinFeedbackSessionAction;
 import teammates.ui.webapi.CalculateUsageStatisticsAction;
+import teammates.ui.webapi.CleanupFeedbackSessionLogsAction;
 import teammates.ui.webapi.CompileLogsAction;
 import teammates.ui.webapi.CreateAccountAction;
 import teammates.ui.webapi.CreateAccountRequestAction;
@@ -109,7 +110,6 @@ import teammates.ui.webapi.UpdateFeedbackQuestionAction;
 import teammates.ui.webapi.UpdateFeedbackResponseCommentAction;
 import teammates.ui.webapi.UpdateFeedbackSessionAction;
 import teammates.ui.webapi.UpdateFeedbackSessionDeadlineExtensionsAction;
-import teammates.ui.webapi.UpdateFeedbackSessionLogsAction;
 import teammates.ui.webapi.UpdateInstructorAction;
 import teammates.ui.webapi.UpdateInstructorPrivilegeAction;
 import teammates.ui.webapi.UpdateNotificationAction;
@@ -222,6 +222,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 SearchAccountRequestsAction.class,
                 ResetAccountRequestAction.class,
                 CalculateUsageStatisticsAction.class,
+                CleanupFeedbackSessionLogsAction.class,
                 GetUsageStatisticsAction.class,
                 GetNotificationAction.class,
                 CreateNotificationAction.class,
@@ -234,7 +235,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 SendLoginEmailAction.class,
                 PutDataBundleAction.class,
                 DeleteDataBundleAction.class,
-                UpdateFeedbackSessionLogsAction.class,
                 GetFeedbackSessionDeadlineExtensionsAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()

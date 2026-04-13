@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
@@ -18,12 +17,7 @@ public class SearchInstructorsAction extends AdminOnlyAction {
     public JsonResult execute() {
         // Search for sql db
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
-        List<Instructor> instructors;
-        try {
-            instructors = sqlLogic.searchInstructorsInWholeSystem(searchKey);
-        } catch (SearchServiceException e) {
-            return new JsonResult(e.getMessage(), e.getStatusCode());
-        }
+        List<Instructor> instructors = sqlLogic.searchInstructorsInWholeSystem(searchKey);
 
         List<InstructorData> instructorDataList = new ArrayList<>();
 
