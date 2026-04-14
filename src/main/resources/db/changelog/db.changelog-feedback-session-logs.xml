@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                                       http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="PhoebeY05" id="1760000000000-1">
+        <sql>
+            DELETE FROM feedback_session_logs
+            WHERE (student_id IS NOT NULL
+                   AND NOT EXISTS (SELECT 1 FROM students s WHERE s.id = feedback_session_logs.student_id))
+               OR (session_id IS NOT NULL
+                   AND NOT EXISTS (SELECT 1 FROM feedback_sessions fs WHERE fs.id = feedback_session_logs.session_id));
+        </sql>
+    </changeSet>
+
+    <changeSet author="PhoebeY05" id="1760000000000-2">
+        <addForeignKeyConstraint baseColumnNames="student_id"
+                                 baseTableName="feedback_session_logs"
+                                 constraintName="fk_feedback_session_logs_student_id"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="CASCADE"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="students"
+                                 validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="session_id"
+                                 baseTableName="feedback_session_logs"
+                                 constraintName="fk_feedback_session_logs_session_id"
+                                 deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="CASCADE"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id"
+                                 referencedTableName="feedback_sessions"
+                                 validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>

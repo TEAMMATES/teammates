@@ -3,9 +3,7 @@ package teammates.logic.api;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
-import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
@@ -18,26 +16,7 @@ import teammates.common.datatransfer.logs.SourceLocation;
  */
 public class MockLogsProcessor extends LogsProcessor {
 
-    private List<FeedbackSessionLogEntry> feedbackSessionLogs = new ArrayList<>();
     private List<GeneralLogEntry> generalLogs = new ArrayList<>();
-
-    /**
-     * Simulates insertion of feedback session logs.
-     */
-    public void insertFeedbackSessionLog(String courseId, String studentEmail, String feedbackSessionName,
-            String fslType, long timestamp) {
-        feedbackSessionLogs
-                .add(new FeedbackSessionLogEntry(courseId, studentEmail, feedbackSessionName, fslType, timestamp));
-    }
-
-    /**
-     * Simulates insertion of feedback session logs.
-     */
-    public void insertFeedbackSessionLog(String courseId, UUID studentId, UUID feedbackSessionId,
-            String fslType, long timestamp) {
-        feedbackSessionLogs
-                .add(new FeedbackSessionLogEntry(courseId, studentId, feedbackSessionId, fslType, timestamp));
-    }
 
     /**
      * Simulates insertion of general INFO logs.
@@ -105,18 +84,6 @@ public class MockLogsProcessor extends LogsProcessor {
             });
         }
         return new QueryLogsResults(queryResults, false);
-    }
-
-    @Override
-    public void createFeedbackSessionLog(String courseId, UUID studentId, UUID fsId, String fslType) {
-        // No-op
-    }
-
-    @Override
-    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
-            long startTime, long endTime, String fsName) {
-        feedbackSessionLogs.sort((x, y) -> x.compareTo(y));
-        return feedbackSessionLogs;
     }
 
 }
