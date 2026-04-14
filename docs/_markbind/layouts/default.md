@@ -23,6 +23,7 @@
   * [CAPTCHA]({{ baseUrl }}/how-to/captcha.html)
   * [Documentation]({{ baseUrl }}/how-to/documentation.html)
   * [Emails]({{ baseUrl }}/how-to/emails.html)
+  * [Schema Migration]({{ baseUrl }}/how-to/schema-migration.html)
   * [Static Analysis]({{ baseUrl }}/how-to/static-analysis.html)
   * [Testing]({{ baseUrl }}/how-to/testing.html)
 * [Troubleshooting Guide]({{ baseUrl }}/troubleshooting-guide.html)

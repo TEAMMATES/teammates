@@ -34,6 +34,8 @@ import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
 import teammates.test.BaseTestCase;
 
+import liquibase.command.CommandScope;
+
 /**
  * Base test case for tests that access the database.
  */
@@ -47,9 +49,20 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     protected static void setUpSuite() throws Exception {
         PGSQL.start();
 
+        runLiquibaseMigrations(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
+
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
 
         LogicStarter.initializeDependencies();
+    }
+
+    private static void runLiquibaseMigrations(String jdbcUrl, String username, String password) throws Exception {
+        new CommandScope("update")
+                .addArgumentValue("changelogFile", "db/changelog/db.changelog-root.xml")
+                .addArgumentValue("url", jdbcUrl)
+                .addArgumentValue("username", username)
+                .addArgumentValue("password", password)
+                .execute();
     }
 
     @AfterSuite
