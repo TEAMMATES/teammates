@@ -3,7 +3,7 @@ package teammates.it.sqllogic.api;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
