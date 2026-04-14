@@ -297,7 +297,7 @@
             "questionType": "TEXT"
           },
           "participantComment": {
-            "feedbackResponseCommentId": 177,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-0000000000b1",
             "commentText": "Student 5 comment",
             "createdAt": 1237497658010,
             "lastEditedAt": 2245905638000,
@@ -577,7 +577,7 @@
             "questionType": "RANK_OPTIONS"
           },
           "participantComment": {
-            "feedbackResponseCommentId": 177,
+            "feedbackResponseCommentId": "00000000-0000-0000-0000-0000000000b1",
             "commentText": "Student 1 comment",
             "createdAt": 1237497658010,
             "lastEditedAt": 2245905638000,

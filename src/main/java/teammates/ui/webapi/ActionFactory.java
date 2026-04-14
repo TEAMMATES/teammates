@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
+import teammates.common.util.Config;
 import teammates.common.util.Const.CronJobURIs;
 import teammates.common.util.Const.ResourceURIs;
 import teammates.common.util.Const.TaskQueue;
@@ -28,10 +29,15 @@ public final class ActionFactory {
     private static final String DELETE = HttpDelete.METHOD_NAME;
 
     static {
-        map(ResourceURIs.SQL_DATABUNDLE, POST, PutSqlDataBundleAction.class);
+        map(ResourceURIs.DATABUNDLE, POST, PutDataBundleAction.class);
         // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
-        map(ResourceURIs.SQL_DATABUNDLE, PUT, DeleteSqlDataBundleAction.class);
-        map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
+        map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
+        // Exception-test action is dev-only; omit routes in production to shrink internal surface area.
+        if (Config.IS_DEV_SERVER) {
+            map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
+            map(CronJobURIs.URI_PREFIX + ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
+            map(TaskQueue.URI_PREFIX + ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
+        }
         // Even though this is a GET action, POST is used in order to get extra protection from CSRF
         map(ResourceURIs.USER_COOKIE, POST, GetUserCookieAction.class);
 
@@ -111,6 +117,7 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION, PUT, UpdateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, POST, CreateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);
+        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, GET, GetFeedbackSessionDeadlineExtensionsAction.class);
         map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, PUT, UpdateFeedbackSessionDeadlineExtensionsAction.class);
         map(ResourceURIs.SESSION_PUBLISH, POST, PublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, DELETE, UnpublishFeedbackSessionAction.class);
@@ -140,7 +147,6 @@ public final class ActionFactory {
         // Logging and tracking
         map(ResourceURIs.SESSION_LOGS, POST, CreateFeedbackSessionLogAction.class);
         map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
-        map(ResourceURIs.LOGS, GET, QueryLogsAction.class);
         map(ResourceURIs.USAGE_STATISTICS, GET, GetUsageStatisticsAction.class);
         map(ResourceURIs.ACTION_CLASS, GET, GetActionClassesAction.class);
 
@@ -155,7 +161,7 @@ public final class ActionFactory {
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS, GET,
                 FeedbackSessionOpeningSoonRemindersAction.class);
         map(CronJobURIs.AUTOMATED_USAGE_STATISTICS_COLLECTION, GET, CalculateUsageStatisticsAction.class);
-        map(CronJobURIs.AUTOMATED_FEEDBACK_SESSION_LOGS_PROCESSING, GET, UpdateFeedbackSessionLogsAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_SESSION_LOGS_CLEANUP, GET, CleanupFeedbackSessionLogsAction.class);
 
         // Task queue workers; use POST request
         // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks

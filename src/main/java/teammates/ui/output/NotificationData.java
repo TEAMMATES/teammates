@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import org.threeten.bp.Instant;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -11,7 +13,7 @@ import teammates.storage.sqlentity.Notification;
  */
 public class NotificationData extends ApiOutput {
 
-    private String notificationId;
+    private UUID notificationId;
     private long startTimestamp;
     private long endTimestamp;
     private long createdAt;
@@ -22,7 +24,7 @@ public class NotificationData extends ApiOutput {
     private boolean shown;
 
     public NotificationData(Notification notification) {
-        this.notificationId = notification.getId().toString();
+        this.notificationId = notification.getId();
         this.startTimestamp = notification.getStartTime().toEpochMilli();
         this.endTimestamp = notification.getEndTime().toEpochMilli();
         this.createdAt = notification.getCreatedAt() == null
@@ -34,7 +36,7 @@ public class NotificationData extends ApiOutput {
         this.shown = notification.isShown();
     }
 
-    public String getNotificationId() {
+    public UUID getNotificationId() {
         return this.notificationId;
     }
 

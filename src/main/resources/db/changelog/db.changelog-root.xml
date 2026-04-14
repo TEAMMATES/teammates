@@ -8,5 +8,7 @@
     <include file="src/main/resources/db/changelog/db.changelog-v9.0.0-beta.5.xml" />
     <include file="src/main/resources/db/changelog/db.changelog-v9.0.0-beta.7.xml" />
     <include file="src/main/resources/db/changelog/db.changelog-add-gin.xml"/>
+    <include file="src/main/resources/db/changelog/db.changelog-enforce-unique-read-notification.xml"/>
+    <include file="src/main/resources/db/changelog/db.changelog-feedback-session-logs.xml"/>
     <include file="src/main/resources/db/changelog/db.changelog-email-templates.xml"/>
 </databaseChangeLog>

@@ -30,8 +30,6 @@ describe('ExtensionConfirmModalComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const studentModel1: StudentExtensionTableColumnModel = {

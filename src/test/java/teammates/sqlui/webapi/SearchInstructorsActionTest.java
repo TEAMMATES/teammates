@@ -12,14 +12,12 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.output.JoinState;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.SearchInstructorsAction;
 
 /**
@@ -57,7 +55,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     }
 
     @Test
-    void testExecute_searchInstructors_success() throws SearchServiceException {
+    void testExecute_searchInstructors_success() {
         when(mockLogic.searchInstructorsInWholeSystem(searchKey)).thenReturn(instructors);
         for (Instructor instructor : instructors) {
             when(mockLogic.getCourseInstitute(instructor.getCourseId())).thenReturn(instructor.getCourse().getInstitute());
@@ -99,7 +97,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     }
 
     @Test
-    void testExecute_searchInstructorsNoMatch_success() throws SearchServiceException {
+    void testExecute_searchInstructorsNoMatch_success() {
         when(mockLogic.searchInstructorsInWholeSystem(searchKey)).thenReturn(List.of());
 
         String[] params = {
@@ -113,24 +111,6 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         verifyNoMoreInteractions(mockLogic);
 
         assertEquals(0, instructorsData.getInstructors().size());
-    }
-
-    @Test
-    void testExecute_searchServiceException_failure() throws SearchServiceException {
-        when(mockLogic.searchInstructorsInWholeSystem(searchKey))
-                .thenThrow(new SearchServiceException("Search service error", 500));
-
-        String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-        };
-
-        SearchInstructorsAction action = getAction(params);
-        MessageOutput actionOutput = (MessageOutput) getJsonResult(action, 500).getOutput();
-
-        verify(mockLogic, times(1)).searchInstructorsInWholeSystem(searchKey);
-        verifyNoMoreInteractions(mockLogic);
-
-        assertEquals("Search service error", actionOutput.getMessage());
     }
 
     @Test

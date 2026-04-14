@@ -9,18 +9,17 @@ import java.util.UUID;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.sqllogic.core.AccountRequestsLogic;
@@ -49,6 +48,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -861,24 +861,17 @@ public class Logic {
     }
 
     /**
-     * Get a list of IDs of the read notifications of the account.
+     * Creates a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
      */
-    public List<UUID> getReadNotificationsId(String id) {
-        return accountsLogic.getReadNotificationsId(id);
+    public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
+        return notificationsLogic.createReadNotification(accountId, notificationId);
     }
 
     /**
-     * Updates user read status for notification with ID {@code notificationId} and
-     * expiry time {@code endTime}.
-     *
-     * <p>
-     * Preconditions:
-     * </p>
-     * * All parameters are non-null. {@code endTime} must be after current moment.
+     * Gets a list of notifications that have been read by the account with {@code accountId}.
      */
-    public List<UUID> updateReadNotifications(String id, UUID notificationId, Instant endTime)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return accountsLogic.updateReadNotifications(id, notificationId, endTime);
+    public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
+        return notificationsLogic.getReadNotificationsByAccountId(accountId);
     }
 
     /**
@@ -1016,11 +1009,10 @@ public class Logic {
     /**
      * Searches instructors in the whole system. Used by admin only.
      *
-     * @return List of found instructors in the whole system. Null if no result
-     *         found.
+     * @return List of found instructors in the whole system. Returns an empty list
+     *         if no results are found.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
         assert queryString != null;
 
         return usersLogic.searchInstructorsInWholeSystem(queryString);
@@ -1173,10 +1165,9 @@ public class Logic {
      *
      * @param instructors a list of Instructors associated to a googleId,
      *                    used for filtering of search result
-     * @return Null if no match found
+     * @return an empty list if no match is found
      */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
-            throws SearchServiceException {
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
         assert queryString != null;
         assert instructors != null;
         return usersLogic.searchStudents(queryString, instructors);
@@ -1189,10 +1180,9 @@ public class Logic {
      * to
      * search students in the whole system.
      *
-     * @return Null if no match found.
+     * @return an empty list if no match is found.
      */
-    public List<Student> searchStudentsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Student> searchStudentsInWholeSystem(String queryString) {
         assert queryString != null;
 
         return usersLogic.searchStudentsInWholeSystem(queryString);
@@ -1453,7 +1443,7 @@ public class Logic {
      *      FeedbackSession, String, String, String, Section,
      *      FeedbackResultFetchType)
      */
-    public SqlSessionResultsBundle getSessionResultsForCourse(
+    public SessionResultsBundle getSessionResultsForCourse(
             FeedbackSession feedbackSession, String courseId, String userEmail,
             @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
         assert feedbackSession != null;
@@ -1470,7 +1460,7 @@ public class Logic {
      * @see FeedbackResponsesLogic#getSessionResultsForUser(FeedbackSession, String,
      *      String, boolean, String)
      */
-    public SqlSessionResultsBundle getSessionResultsForUser(
+    public SessionResultsBundle getSessionResultsForUser(
             FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
             @Nullable UUID questionId, boolean isPreviewResults) {
         assert feedbackSession != null;
@@ -1484,7 +1474,7 @@ public class Logic {
     /**
      * Persists the given data bundle to the database.
      */
-    public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
+    public DataBundle persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         return dataBundleLogic.persistDataBundle(dataBundle);
     }
@@ -1492,7 +1482,7 @@ public class Logic {
     /**
      * Removes the given data bundle from the database.
      */
-    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+    public void removeDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         dataBundleLogic.removeDataBundle(dataBundle);
     }
 
@@ -1625,7 +1615,7 @@ public class Logic {
      * @param id of feedback response comment.
      * @return the specified feedback response comment.
      */
-    public FeedbackResponseComment getFeedbackResponseComment(Long id) {
+    public FeedbackResponseComment getFeedbackResponseComment(UUID id) {
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(id);
     }
 
@@ -1634,7 +1624,7 @@ public class Logic {
      *
      * @throws EntityDoesNotExistException if the comment does not exist
      */
-    public FeedbackResponseComment updateFeedbackResponseComment(Long frcId,
+    public FeedbackResponseComment updateFeedbackResponseComment(UUID frcId,
             FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
             throws EntityDoesNotExistException {
         return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updaterEmail);
@@ -1697,7 +1687,7 @@ public class Logic {
     /**
      * Deletes a feedbackResponseComment.
      */
-    public void deleteFeedbackResponseComment(Long frcId) {
+    public void deleteFeedbackResponseComment(UUID frcId) {
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);
     }
 
@@ -1790,10 +1780,9 @@ public class Logic {
     /**
      * This is used by admin to search account requests in the whole system.
      *
-     * @return A list of {@link AccountRequest} or {@code null} if no match found.
+     * @return A list of matching {@link AccountRequest}s, or an empty list if no match is found.
      */
-    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
         assert queryString != null;
 
         return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);
@@ -1816,15 +1805,23 @@ public class Logic {
     /**
      * Create feedback session logs.
      */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs) {
+    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs)
+            throws InvalidParametersException {
         feedbackSessionLogsLogic.createFeedbackSessionLogs(feedbackSessionLogs);
     }
 
     /**
      * Create feedback session log.
      */
-    public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) {
+    public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) throws InvalidParametersException {
         feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSessionLog);
+    }
+
+    /**
+     * Deletes feedback session logs older than the given cutoff time.
+     */
+    public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
+        return feedbackSessionLogsLogic.deleteFeedbackSessionLogsOlderThan(cutoffTime);
     }
 
     /**
