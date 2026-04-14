@@ -122,7 +122,6 @@ export class UserNotificationsListComponent implements OnInit {
     const notification: Notification = notificationTab.notification;
     this.notificationService.markNotificationAsRead({
       notificationId: notification.notificationId,
-      endTimestamp: notification.endTimestamp,
     })
       .subscribe({
         next: () => {

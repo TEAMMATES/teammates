@@ -12,6 +12,7 @@ import {
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -33,6 +34,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   // data
   student: Student = {
+    userId: '',
     email: '',
     courseId: '',
     name: '',
@@ -138,12 +140,12 @@ export class StudentCourseDetailsPageComponent implements OnInit {
       .subscribe({
         next: (students: Students) => {
           // No teammates
-          if (students.students.length === 1 && students.students[0].email === this.student.email) {
+          if (students.students.length === 1 && areEmailsEqual(students.students[0].email, this.student.email)) {
             this.isLoadingTeammates = false;
           }
           students.students.forEach((student: Student) => {
             // filter away current user
-            if (student.email === this.student.email) {
+            if (areEmailsEqual(student.email, this.student.email)) {
               return;
             }
             this.teammateProfiles.push(student);

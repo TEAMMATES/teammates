@@ -14,12 +14,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -77,11 +77,11 @@ public class BaseTestCase {
         return TestProperties.TEST_DATA_FOLDER;
     }
 
-    protected SqlDataBundle getTypicalDataBundle() {
+    protected DataBundle getTypicalDataBundle() {
         return loadDataBundle("/typicalDataBundle.json");
     }
 
-    protected SqlDataBundle loadDataBundle(String jsonFileName) {
+    protected DataBundle loadDataBundle(String jsonFileName) {
         try {
             String pathToJsonFile = getTestDataFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);
@@ -153,7 +153,7 @@ public class BaseTestCase {
                 "typical-giver", FeedbackParticipantType.RECEIVER, getTypicalSection(), getTypicalSection(),
                 "typical-comment", true, true, List.of(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
                 List.of(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.INSTRUCTORS), "email");
-        feedbackResponseComment.setId(10L);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
         feedbackResponseComment.setCreatedAt(Instant.now());
         feedbackResponseComment.setUpdatedAt(Instant.now());
         return feedbackResponseComment;
@@ -192,7 +192,7 @@ public class BaseTestCase {
         return new FeedbackTextResponseDetails();
     }
 
-    protected FeedbackResponseComment getTypicalResponseComment(Long id) {
+    protected FeedbackResponseComment getTypicalResponseComment(UUID id) {
         FeedbackResponseComment comment = new FeedbackResponseComment(null, "",
                 FeedbackParticipantType.STUDENTS, null, null, "",
                 false, false,

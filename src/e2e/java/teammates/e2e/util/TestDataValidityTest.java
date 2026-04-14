@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.BaseTestCase;
@@ -74,7 +74,7 @@ public class TestDataValidityTest extends BaseTestCase {
                 }
 
                 String testPage = extractTestPage(path.getFileName().toString());
-                SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
+                DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
 
                 dataBundle.accounts.forEach((id, account) -> {
                     if (!isValidTestGoogleId(account.getGoogleId(), testPage)) {

@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackResultFetchType;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -99,7 +99,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         Instructor instructor;
         Student student;
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        SqlSessionResultsBundle bundle;
+        SessionResultsBundle bundle;
         switch (intent) {
         case FULL_DETAIL:
             instructor = getSqlInstructorOfCourseFromRequest(courseId);

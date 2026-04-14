@@ -57,7 +57,6 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
   markNotificationAsRead(notification: Notification): void {
     this.notificationService.markNotificationAsRead({
       notificationId: notification.notificationId,
-      endTimestamp: notification.endTimestamp,
     })
       .subscribe({
         next: () => {

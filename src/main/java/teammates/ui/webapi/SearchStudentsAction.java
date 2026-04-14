@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -35,17 +34,13 @@ public class SearchStudentsAction extends Action {
 
         List<Student> students;
 
-        try {
-            if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entity)) {
-                List<Instructor> instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
-                students = sqlLogic.searchStudents(searchKey, instructors);
-            } else if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
-                students = sqlLogic.searchStudentsInWholeSystem(searchKey);
-            } else {
-                throw new InvalidHttpParameterException("Invalid entity type for search");
-            }
-        } catch (SearchServiceException e) {
-            return new JsonResult(e.getMessage(), e.getStatusCode());
+        if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entity)) {
+            List<Instructor> instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
+            students = sqlLogic.searchStudents(searchKey, instructors);
+        } else if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
+            students = sqlLogic.searchStudentsInWholeSystem(searchKey);
+        } else {
+            throw new InvalidHttpParameterException("Invalid entity type for search");
         }
 
         List<StudentData> studentDataList = new ArrayList<>();

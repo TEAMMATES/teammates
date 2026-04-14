@@ -44,6 +44,7 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
   @Input() isLastGroupedResponses: boolean = false;
   @Input() isGrq: boolean = true;
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -58,8 +59,6 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   hasRealResponses: boolean = false;

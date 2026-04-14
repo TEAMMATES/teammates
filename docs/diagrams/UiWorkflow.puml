@@ -3,7 +3,7 @@
 
 box Ui UI_COLOR_T1
 participant ":Browser" as Browser UI_COLOR
-participant GoogleAppEngine UI_COLOR
+participant Server UI_COLOR
 participant ":WebPage\nServlet" as WebPage UI_COLOR
 participant ":*Filter" as Filter UI_COLOR
 participant ":WebApi\nServlet" as WebApi UI_COLOR
@@ -16,29 +16,29 @@ box Logic LOGIC_COLOR_T1
 participant Logic LOGIC_COLOR
 end box
 
-Browser -> GoogleAppEngine
-activate GoogleAppEngine
+Browser -> Server
+activate Server
 note right of Browser : Web\nPage
 
-GoogleAppEngine -> WebPage
+Server -> WebPage
 activate WebPage
 
-WebPage --> GoogleAppEngine
+WebPage --> Server
 deactivate WebPage
 
-GoogleAppEngine --> Browser
-deactivate GoogleAppEngine
+Server --> Browser
+deactivate Server
 
-Browser -> GoogleAppEngine
-activate GoogleAppEngine
+Browser -> Server
+activate Server
 
-GoogleAppEngine -> Filter : apply
+Server -> Filter : apply
 activate Filter
 
-Filter --> GoogleAppEngine
+Filter --> Server
 deactivate Filter
 
-GoogleAppEngine -> WebApi : forward
+Server -> WebApi : forward
 activate WebApi
 
 WebApi -> ActionFactory : getAction()
@@ -73,9 +73,9 @@ activate Result
 Result --> WebApi
 deactivate Result
 
-WebApi --> GoogleAppEngine
+WebApi --> Server
 deactivate WebApi
 
-GoogleAppEngine --> Browser
-deactivate GoogleAppEngine
+Server --> Browser
+deactivate Server
 @enduml

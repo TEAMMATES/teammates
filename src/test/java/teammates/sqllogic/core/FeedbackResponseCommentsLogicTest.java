@@ -27,8 +27,8 @@ import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
  */
 public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
-    private static final Long TYPICAL_ID = 100L;
-    private static final Long NOT_TYPICAL_ID = 101L;
+    private static final UUID TYPICAL_ID = UUID.fromString("00000000-0000-4000-8000-000000000064");
+    private static final UUID NOT_TYPICAL_ID = UUID.fromString("00000000-0000-4000-8000-000000000065");
     private static final UUID TYPICAL_UUID = UUID.randomUUID();
     private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private FeedbackResponseCommentsDb frcDb;
@@ -165,7 +165,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
         when(frcDb.getFeedbackResponseComment(comment.getId())).thenReturn(comment);
 
-        long nonExistentId = 101L;
+        UUID nonExistentId = UUID.fromString("00000000-0000-4000-8000-000000009999");
         String updatedCommentText = "Update";
         String lastEditorEmail = "me@gmail.com";
         List<CommentVisibilityType> showCommentTo = new ArrayList<>();
