@@ -151,10 +151,8 @@ export class SessionEditFormComponent {
     if (field === 'submissionStartDate' || field === 'submissionStartTime') {
       this.adjustSessionVisibilityTime(data, field);
     }
-    this.modelChange.emit({
-      ...this.model,
-      [field]: data,
-    });
+    this.model = { ...this.model, [field]: data };
+    this.modelChange.emit(this.model);
   }
 
   /**

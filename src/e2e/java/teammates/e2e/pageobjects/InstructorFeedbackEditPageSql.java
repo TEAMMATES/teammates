@@ -10,11 +10,16 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.JavascriptExecutor;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
@@ -497,7 +502,11 @@ public class InstructorFeedbackEditPageSql extends AppPage {
             WebElement cardHeader = card.findElement(By.className("card-header"));
             if (cardHeader.getText().startsWith("[" + courseId + "]")) {
                 click(cardHeader);
-                WebElement cardBody = waitForElementPresence(By.className("card-body"));
+                waitFor(driver -> {
+                    List<WebElement> bodies = card.findElements(By.className("card-body"));
+                    return !bodies.isEmpty() && bodies.get(0).isDisplayed();
+                });
+                WebElement cardBody = card.findElement(By.className("card-body"));
                 // Reload questions
                 WebElement reloadBtn = cardBody.findElement(By.tagName("button"));
                 click(reloadBtn);
@@ -515,35 +524,34 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     }
 
     public void editQuestionNumber(int questionNum, int newQuestionNumber) {
-        WebElement form = getQuestionForm(questionNum);
         clickEditQuestionButton(questionNum);
+
         selectDropdownOptionByText(
-                form.findElement(By.id("question-number-dropdown")),
-                Integer.toString(newQuestionNumber)
-        );
-        waitFor(driver -> isElementPresent(
-            By.id("question-submission-form-qn-" + newQuestionNumber)
-        ));
-        form = getQuestionForm(newQuestionNumber);
-        clickSaveQuestionButton(newQuestionNumber);
+                getQuestionForm(questionNum).findElement(By.id("question-number-dropdown")),
+                Integer.toString(newQuestionNumber));
+        waitFor(ExpectedConditions.elementToBeClickable(By.id("btn-save-question")));
+        browser.driver.findElement(By.id("btn-save-question")).click();
+        waitForElementPresence(By.className("toast-body"));
     }
 
     public void addTemplateQuestion(int optionNum) {
+        int currentNum = getNumQuestions();
         addNewQuestion(1);
         WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
-
         click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
-        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-template")));
+        click(browser.driver.findElement(By.id("btn-confirm-template")));
+        waitFor(ExpectedConditions.numberOfElementsToBeMoreThan(
+            By.tagName("tm-question-edit-form"), currentNum));
     }
 
     private void inputQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
         setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetailsCopy().getQuestionText());
-        setQuestionDescription(questionNum, feedbackQuestion.getDescription());
         FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
         if (questionType != FeedbackQuestionType.CONTRIB) {
             setFeedbackPath(questionNum, feedbackQuestion);
             setQuestionVisibility(questionNum, feedbackQuestion);
         }
+        setQuestionDescription(questionNum, feedbackQuestion.getDescription());
     }
 
     public void duplicateQuestion(int questionNum) {
@@ -1054,7 +1062,8 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     }
 
     private void setQuestionDescription(int questionNum, String newDescription) {
-        WebElement editor = waitForElementPresence(By.cssSelector("#question-form-" + questionNum + " editor"));
+        WebElement editor = waitForElementPresence(
+            By.cssSelector("#question-form-" + questionNum + " editor"));
         writeToRichTextEditor(editor, newDescription);
     }
 
@@ -1099,7 +1108,13 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     }
 
     private void clickEditQuestionButton(int questionNum) {
-        click(getQuestionForm(questionNum).findElement(By.id("btn-edit-question")));
+        WebElement form = getQuestionForm(questionNum);
+        click(form.findElement(By.id("btn-edit-question")));
+        waitFor(ExpectedConditions.presenceOfNestedElementLocatedBy(
+            form,
+            By.id("btn-save-question")
+        ));
+        waitUntilAnimationFinish();
     }
 
     public void editQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
@@ -1111,7 +1126,14 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     private void clickSaveQuestionButton(int questionNum) {
         WebElement saveButton = getQuestionForm(questionNum).findElement(By.id("btn-save-question"));
         click(saveButton);
-        ThreadHelper.waitFor(1000);
+        try {
+            new WebDriverWait(browser.driver, Duration.ofSeconds(3))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.className("modal-backdrop")));
+            waitForConfirmationModalAndClickOk();
+        } catch (TimeoutException e) {
+            // modal didnt appear
+        }
+        waitForElementPresence(By.className("toast-body"));
     }
 
     private void setQuestionVisibility(int questionNum, FeedbackQuestion feedbackQuestion) {
@@ -1171,10 +1193,11 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     }
 
     private void clickAndWaitForNewQuestion(WebElement button) {
-        int before = getNumQuestions();
+        int currentNum = getNumQuestions();
         click(button);
-
-        waitFor(driver -> getNumQuestions() > before);
+        waitFor(ExpectedConditions.numberOfElementsToBeMoreThan(
+            By.tagName("tm-question-edit-form"), currentNum
+        ));
     }
 
     private void addNewQuestion(int optionNumber) {

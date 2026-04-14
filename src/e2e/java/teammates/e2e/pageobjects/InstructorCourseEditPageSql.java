@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -265,11 +266,18 @@ public class InstructorCourseEditPageSql extends AppPage {
         for (WebElement card : cards) {
             WebElement cardHeader = card.findElement(By.className("card-header"));
             String cardHeaderText = cardHeader.getText();
+            if (cardHeaderText.isEmpty() || !cardHeaderText.contains("]")) {
+                click(cardHeader);
+                cardHeaderText = cardHeader.getText();
+            }
             String courseId = cardHeaderText.substring(1, cardHeaderText.indexOf(']'));
             if (courseInstructorEmailsMap.containsKey(courseId)) {
                 click(cardHeader);
-                WebElement cardBody = waitForElementPresence(By.className("card-body"));
-                // reload instructors
+                waitFor(driver -> {
+                    List<WebElement> bodies = card.findElements(By.className("card-body"));
+                    return !bodies.isEmpty() && bodies.get(0).isDisplayed();
+                });
+                WebElement cardBody = card.findElement(By.className("card-body"));
                 WebElement reloadBtn = cardBody.findElement(By.tagName("button"));
                 click(reloadBtn);
                 WebElement table = waitForElementPresence(By.id("copy-instructor-table"));

@@ -350,7 +350,7 @@ public class AdminSearchPageSql extends AppPage {
         rejectButton.click();
         waitForElementVisibility(By.cssSelector(".dropdown-menu.show [id^='reject-request-']"));
         WebElement rejectWithoutReasonButton = browser.driver.findElement(
-            By.cssSelector(".dropdown-menu.show [id^='reject-request-']"));
+                By.cssSelector(".dropdown-menu.show [id^='reject-request-']"));
         click(rejectWithoutReasonButton);
         waitForPageToLoad();
     }
@@ -363,7 +363,7 @@ public class AdminSearchPageSql extends AppPage {
         rejectButton.click();
         waitForElementVisibility(By.cssSelector(".dropdown-menu.show [id^='reject-request-with-reason']"));
         WebElement rejectWithReasonButton = browser.driver.findElement(
-            By.cssSelector(".dropdown-menu.show [id^='reject-request-with-reason']"));
+                By.cssSelector(".dropdown-menu.show [id^='reject-request-with-reason']"));
         click(rejectWithReasonButton);
         waitForPageToLoad();
         waitForElementPresence(By.cssSelector("tm-reject-with-reason-modal"));

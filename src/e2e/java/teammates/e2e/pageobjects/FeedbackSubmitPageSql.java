@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -12,6 +13,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
@@ -100,20 +102,27 @@ public class FeedbackSubmitPageSql extends AppPage {
 
     public void verifyWarningMessageForPartialResponse(int[] unansweredQuestions) {
         click(getSubmitAllQuestionsButton());
+        waitUntilAnimationFinish();
         StringBuilder expectedSb = new StringBuilder();
         for (int unansweredQuestion : unansweredQuestions) {
             expectedSb.append(unansweredQuestion).append(", ");
         }
         String expectedString = expectedSb.toString().substring(0, expectedSb.length() - 2) + ".";
-        String warningString = waitForElementPresence(By.id("not-answered-questions")).getText();
+        WebElement warningElement = waitForElementPresence(By.id("not-answered-questions"));
+        waitFor(ExpectedConditions.visibilityOf(warningElement));
+        String warningString = warningElement.getText();
         assertEquals(warningString.split(": ")[1], expectedString);
         waitForConfirmationModalAndClickOk();
     }
 
     public void verifyCannotSubmit() {
-        WebElement submitButton = waitForElementPresence(By.cssSelector("[id^='btn-submit-qn-']"));
-        if (submitButton != null) {
-            assertFalse(submitButton.isEnabled());
+        List<WebElement> submitButtons = browser.driver.findElements(
+        By.cssSelector("[id^='btn-submit-qn-']"));
+        
+        if (!submitButtons.isEmpty()) {
+            for (WebElement btn : submitButtons) {
+                assertNotNull(btn.getAttribute("disabled"));
+            }
         }
     }
 

@@ -2,7 +2,7 @@
   @if (render) {
     <editor class="editor" [ngClass]="{ 'editor-disabled': isDisabled }"
       [init]="init" [disabled]="isDisabled"
-      [ngModel]="richText" (ngModelChange)="richTextChange.emit($event)" [attr.placeholder]="placeholderText">
+      [ngModel]="richText" [attr.placeholder]="placeholderText">
     </editor>
   }
   @if (hasCharacterLimit) {

@@ -77,8 +77,8 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
     ConstsumRecipientsQuestionEditDetailsFormComponent,
     FeedbackPathPanelComponent,
     VisibilityPanelComponent,
-    QuestionTypeNamePipe,
     NgbCollapse,
+    QuestionTypeNamePipe,
 ],
 })
 export class QuestionEditFormComponent {
@@ -241,36 +241,38 @@ export class QuestionEditFormComponent {
    * Triggers the change of the model for the form.
    */
   triggerModelChange(field: keyof QuestionEditFormModel,
-                     data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
-    this.formModelChange.emit({
-      ...this.model,
-      [field]: data,
-      ...(!this.model.isVisibilityChanged && VISIBILITY_PROPERTIES.has(field)
-        && { isVisibilityChanged: true }),
-      ...(!this.model.isFeedbackPathChanged && FEEDBACK_PATH_PROPERTIES.has(field)
-        && { isFeedbackPathChanged: true }),
-      ...(!this.model.isQuestionDetailsChanged && QUESTION_DETAIL_PROPERTIES.has(field)
-        && { isQuestionDetailsChanged: true }),
-    });
+                   data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
+    this.model = {
+        ...this.model,
+        [field]: data,
+        ...(!this.model.isVisibilityChanged && VISIBILITY_PROPERTIES.has(field)
+            && { isVisibilityChanged: true }),
+        ...(!this.model.isFeedbackPathChanged && FEEDBACK_PATH_PROPERTIES.has(field)
+            && { isFeedbackPathChanged: true }),
+        ...(!this.model.isQuestionDetailsChanged && QUESTION_DETAIL_PROPERTIES.has(field)
+            && { isQuestionDetailsChanged: true }),
+    };
+    this.formModelChange.emit(this.model);
   }
 
   /**
    * Triggers the change of the model for the form.
    */
   triggerModelChangeBatch(obj: Partial<QuestionEditFormModel>): void {
-    this.formModelChange.emit({
-      ...this.model,
-      ...obj,
-      ...(!this.model.isVisibilityChanged
-          && Object.keys(obj).some((key: string) => VISIBILITY_PROPERTIES.has(key))
-          && { isVisibilityChanged: true }),
-      ...(!this.model.isFeedbackPathChanged
-          && Object.keys(obj).some((key: string) => FEEDBACK_PATH_PROPERTIES.has(key))
-          && { isFeedbackPathChanged: true }),
-      ...(!this.model.isQuestionDetailsChanged
-          && Object.keys(obj).some((key: string) => QUESTION_DETAIL_PROPERTIES.has(key))
-          && { isQuestionDetailsChanged: true }),
-    });
+    this.model = {
+        ...this.model,
+        ...obj,
+        ...(!this.model.isVisibilityChanged
+            && Object.keys(obj).some((key: string) => VISIBILITY_PROPERTIES.has(key))
+            && { isVisibilityChanged: true }),
+        ...(!this.model.isFeedbackPathChanged
+            && Object.keys(obj).some((key: string) => FEEDBACK_PATH_PROPERTIES.has(key))
+            && { isFeedbackPathChanged: true }),
+        ...(!this.model.isQuestionDetailsChanged
+            && Object.keys(obj).some((key: string) => QUESTION_DETAIL_PROPERTIES.has(key))
+            && { isQuestionDetailsChanged: true }),
+    };
+    this.formModelChange.emit(this.model);
   }
 
   /**

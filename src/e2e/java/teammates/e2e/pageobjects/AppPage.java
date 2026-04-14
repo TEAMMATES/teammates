@@ -190,7 +190,7 @@ public abstract class AppPage {
     public static void waitUntilAnimationFinish(Browser browser) {
         WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
-        ThreadHelper.waitFor(1000);
+        ThreadHelper.waitFor(500);
     }
 
     public void waitUntilAnimationFinish() {
@@ -392,9 +392,15 @@ public abstract class AppPage {
      * Write rich text to editor.
      */
     protected void writeToRichTextEditor(WebElement editor, String text) {
-        waitForElementPresence(By.tagName("iframe"));
-        String id = editor.findElement(By.tagName("textarea")).getAttribute("id");
-        ((JavascriptExecutor) browser.driver).executeAsyncScript(WRITE_TO_TINYMCE_SCRIPT, id, text);
+        ((JavascriptExecutor) browser.driver).executeScript(
+                "arguments[0].scrollIntoView({block: 'center'});", editor);
+
+        String editorId = editor.findElement(By.tagName("textarea")).getAttribute("id");
+        ((JavascriptExecutor) browser.driver).executeAsyncScript(WRITE_TO_TINYMCE_SCRIPT, editorId, text);
+
+        ((JavascriptExecutor) browser.driver).executeAsyncScript(
+                "var callback = arguments[arguments.length - 1];" +
+                        "window.getAllAngularTestabilities()[0].whenStable(function() { callback('stable'); });");
     }
 
     /**
@@ -508,11 +514,9 @@ public abstract class AppPage {
                 List<WebElement> listItems = cells.get(cellIndex).findElements(By.tagName("li"));
                 if (!listItems.isEmpty()) {
                     cellText = listItems.stream()
+                            .filter(WebElement::isDisplayed)
                             .map(WebElement::getText)
                             .collect(Collectors.joining("\n"));
-                } else {
-                    cellText = cells.get(cellIndex).getAttribute("textContent")
-                            .replaceAll("[ \t]+", " ").trim();
                 }
             }
             assertEquals(expectedRowValues[cellIndex], cellText);

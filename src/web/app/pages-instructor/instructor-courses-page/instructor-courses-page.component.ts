@@ -184,6 +184,11 @@ export class InstructorCoursesPageComponent implements OnInit {
         });
         this.activeCoursesDefaultSort();
         this.isLoadingActiveCourses = false;
+        this.courseFormModel = {
+          ...this.courseFormModel,
+          activeCourses: [...this.activeCoursesList],
+          allCourses: [...this.allCoursesList],
+        };
       },
       error: (resp: ErrorMessageOutput) => {
         this.isLoadingActiveCourses = false;
@@ -214,6 +219,10 @@ export class InstructorCoursesPageComponent implements OnInit {
           }
         }
         this.isLoadingSoftDeletedCourses = false;
+        this.courseFormModel = {
+          ...this.courseFormModel,
+          allCourses: [...this.allCoursesList],
+        };
       },
       error: (resp: ErrorMessageOutput) => {
         this.isLoadingSoftDeletedCourses = false;
@@ -222,8 +231,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       },
     });
 
-    this.courseFormModel.activeCourses = this.activeCoursesList;
-    this.courseFormModel.allCourses = this.allCoursesList;
   }
 
   /**

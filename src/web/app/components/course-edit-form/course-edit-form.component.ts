@@ -56,7 +56,13 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   formMode: CourseEditFormMode = CourseEditFormMode.EDIT;
 
   @Input()
-  set formModel(model: CourseFormModel) { this.model = model; }
+  set formModel(model: CourseFormModel) {
+    this.model = model;
+    if (this.isInAddMode) {
+      this.addModel = model as CourseAddFormModel;
+      this.updateInstitutes();
+    }
+  }
 
   @Input()
   resetFormEvent: EventEmitter<void> = new EventEmitter();
@@ -116,7 +122,10 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   }
 
   get institutes(): string[] {
-    return this.addModel ? this.addModel.institutes : [];
+    if (!this.addModel || !this.addModel.allCourses) return [];
+    return Array.from(new Set(
+      this.addModel.allCourses.map((course: Course) => course.institute)
+    ));
   }
 
   get isInputDisabled(): boolean {
@@ -128,6 +137,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
       this.editModel.isEditing = value;
     }
   }
+
 
   ngOnInit(): void {
     if (this.isDisplayOnly) {
@@ -265,4 +275,5 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
     Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
     Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
   }
+
 }

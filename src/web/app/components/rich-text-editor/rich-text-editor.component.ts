@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
@@ -27,6 +27,8 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
 })
 export class RichTextEditorComponent implements OnInit {
 
+  constructor(private ngZone: NgZone) {}
+
   // const
   RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
 
@@ -53,12 +55,13 @@ export class RichTextEditorComponent implements OnInit {
   // the argument passed to tinymce.init() in native JavaScript
   init: any = {};
 
-  render: boolean = false;
+  render: boolean = true;
 
   defaultToolbar: string = 'styles | forecolor backcolor '
       + '| bold italic underline strikethrough subscript superscript '
       + '| alignleft aligncenter alignright alignjustify '
       + '| bullist numlist | link image charmap emoticons';
+
 
   ngOnInit(): void {
     this.init = this.getEditorSettings();
@@ -88,8 +91,14 @@ export class RichTextEditorComponent implements OnInit {
       autoresize_bottom_margin: 50,
 
       toolbar1: this.defaultToolbar,
-      setup: (editor:any) => {
-        if (this.hasCharacterLimit) {
+        setup: (editor:any) => {
+          editor.on('change input', () => {
+            const content = editor.getContent();
+            if (content !== this.richText) {
+              this.ngZone.run(() => this.richTextChange.emit(content));
+            }
+          });
+          if (this.hasCharacterLimit) {
           editor.on('GetContent', () => {
             setTimeout(() => {
               this.characterCount = this.getCurrentCharacterCount(editor);

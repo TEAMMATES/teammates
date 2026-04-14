@@ -10,6 +10,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
@@ -209,6 +210,9 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
 
     public void restoreSession(FeedbackSession sessionToRestore) {
         showDeleteTable();
+        waitUntilAnimationFinish();
+        waitFor(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector("[id^='btn-restore-']")));
         int rowId = getSoftDeletedFeedbackSessionRowId(sessionToRestore.getCourseId(),
                 sessionToRestore.getName());
         click(browser.driver.findElement(By.id("btn-restore-" + rowId)));

@@ -12,6 +12,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import teammates.storage.sqlentity.Course;
 
@@ -32,8 +33,6 @@ public class InstructorCoursesPageSql extends AppPage {
     @FindBy(id = "course-name")
     private WebElement courseNameTextBox;
 
-    @FindBy(id = "course-institute")
-    private WebElement courseInstituteDropdown;
 
     @FindBy(id = "time-zone")
     private WebElement timeZoneDropdown;
@@ -115,7 +114,6 @@ public class InstructorCoursesPageSql extends AppPage {
 
     public void addCourse(Course newCourse) {
         click(addCourseButton);
-
         fillTextBox(courseIdTextBox, newCourse.getId());
         fillTextBox(courseNameTextBox, newCourse.getName());
         selectCourseInstitute(newCourse.getInstitute());
@@ -240,9 +238,18 @@ public class InstructorCoursesPageSql extends AppPage {
     }
 
     private void selectCourseInstitute(String institute) {
-        scrollElementToCenter(courseInstituteDropdown);
-        Select dropdown = new Select(courseInstituteDropdown);
-        dropdown.selectByVisibleText(institute);
+        waitFor(driver -> {
+            try {
+                return new Select(browser.driver.findElement(By.id("course-institute")))
+                    .getOptions()
+                    .stream()
+                    .anyMatch(opt -> opt.getText().equals(institute));
+            } catch (Exception e) {
+                return false;
+            }
+        });
+        new Select(browser.driver.findElement(By.id("course-institute")))
+            .selectByVisibleText(institute);
     }
 
     private void selectNewTimeZone(String timeZone) {

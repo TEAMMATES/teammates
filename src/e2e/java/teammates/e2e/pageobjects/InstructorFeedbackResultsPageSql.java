@@ -971,8 +971,15 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     }
 
     private boolean isQuestionPanelExpanded(WebElement questionPanel) {
-        return questionPanel.findElements(By.id("response-table")).size()
-                + questionPanel.findElements(By.id("no-responses")).size() > 0;
+        List<WebElement> responseTables = questionPanel.findElements(By.id("response-table"));
+        if (!responseTables.isEmpty()) {
+            return responseTables.get(0).isDisplayed();
+        }
+        List<WebElement> noResponses = questionPanel.findElements(By.id("no-responses"));
+        if (!noResponses.isEmpty()) {
+            return noResponses.get(0).isDisplayed();
+        }
+        return false;
     }
 
     private String getQuestionText(WebElement questionPanel) {
