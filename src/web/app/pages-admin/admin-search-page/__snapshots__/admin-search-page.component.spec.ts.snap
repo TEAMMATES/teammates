@@ -25,11 +25,6 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
     <div
       class="card-body"
     >
-      <p
-        class="text-muted"
-      >
-         Tips: Surround key word to search a whole string or string contains punctuation like "-" "." 
-      </p>
       <div
         class="input-group"
       >
@@ -358,11 +353,6 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
     <div
       class="card-body"
     >
-      <p
-        class="text-muted"
-      >
-         Tips: Surround key word to search a whole string or string contains punctuation like "-" "." 
-      </p>
       <div
         class="input-group"
       >
@@ -413,11 +403,6 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
     <div
       class="card-body"
     >
-      <p
-        class="text-muted"
-      >
-         Tips: Surround key word to search a whole string or string contains punctuation like "-" "." 
-      </p>
       <div
         class="input-group"
       >
@@ -672,11 +657,6 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
     <div
       class="card-body"
     >
-      <p
-        class="text-muted"
-      >
-         Tips: Surround key word to search a whole string or string contains punctuation like "-" "." 
-      </p>
       <div
         class="input-group"
       >
@@ -980,11 +960,6 @@ exports[`AdminSearchPageComponent should snap with default fields 1`] = `
     <div
       class="card-body"
     >
-      <p
-        class="text-muted"
-      >
-         Tips: Surround key word to search a whole string or string contains punctuation like "-" "." 
-      </p>
       <div
         class="input-group"
       >

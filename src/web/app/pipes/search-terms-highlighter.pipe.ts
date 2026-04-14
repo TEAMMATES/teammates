@@ -17,7 +17,8 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
             return value;
         }
         const exactPhrases: string = this.findAllExactPhrases(searchStr).map((str) => {
-            return isPartialMatch ? `${str}` : `\\b${str}\\b`;
+            const escapedPhrase: string = this.escapeRegExp(str);
+            return isPartialMatch ? escapedPhrase : `\\b${escapedPhrase}\\b`;
         })
         .filter((str) => str !== '\\b\\b').join('|');
         const searchTerms: string = this.removeAllExactPhrases(searchStr);
@@ -26,7 +27,8 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
 
         if (searchTerms.trim() !== '') {
             const combinedSearchTerms = searchTerms.split(' ').map((str) => {
-                return isPartialMatch ? `${str}` : `\\b${str}\\b`;
+                const escapedTerm: string = this.escapeRegExp(str);
+                return isPartialMatch ? escapedTerm : `\\b${escapedTerm}\\b`;
             })
             .filter((str) => str !== '\\b\\b').join('|');
             const partialMatchRe = new RegExp(combinedSearchTerms, 'igm');
@@ -59,6 +61,10 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
     removeAllExactPhrases(searchValue: string): string {
         const cleanedString = searchValue.replace(/"(.*?)"/igm, '').trim();
         return cleanedString;
+    }
+
+    private escapeRegExp(value: string): string {
+        return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
 }
