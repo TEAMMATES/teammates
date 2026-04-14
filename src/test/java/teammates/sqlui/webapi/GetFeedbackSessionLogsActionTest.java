@@ -54,7 +54,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
     void setUp() {
         FeedbackSession fs2;
         endTime = Instant.now().toEpochMilli();
-        startTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
+        startTime = endTime - (Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
 
         course = getTypicalCourse();
 

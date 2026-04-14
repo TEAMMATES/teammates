@@ -153,6 +153,7 @@ public final class SqlEmailGenerator {
             String editUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                     .withCourseId(course.getId())
                     .withSessionName(session.getName())
+                    .withFeedbackSessionId(session.getId().toString())
                     .toAbsoluteString();
             // If instructor has not joined the course, populate additional notes with information to join course.
             if (coOwner.isRegistered()) {
@@ -166,6 +167,7 @@ public final class SqlEmailGenerator {
             String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                     .withCourseId(course.getId())
                     .withSessionName(session.getName())
+                    .withFeedbackSessionId(session.getId().toString())
                     .toAbsoluteString();
             additionalNotes = fillUpViewResponsesDetailsFragment(reportUrl);
             status = FEEDBACK_STATUS_SESSION_CLOSED;
@@ -299,6 +301,7 @@ public final class SqlEmailGenerator {
                 String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(fs.getName())
+                        .withFeedbackSessionId(fs.getId().toString())
                         .withRegistrationKey(userKey)
                         .withEntityType(isInstructor ? Const.EntityType.INSTRUCTOR : "")
                         .toAbsoluteString();
@@ -309,6 +312,7 @@ public final class SqlEmailGenerator {
                 String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(fs.getName())
+                        .withFeedbackSessionId(fs.getId().toString())
                         .withRegistrationKey(userKey)
                         .withEntityType(isInstructor ? Const.EntityType.INSTRUCTOR : "")
                         .toAbsoluteString();
@@ -453,6 +457,7 @@ public final class SqlEmailGenerator {
                     var submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                             .withCourseId(course.getId())
                             .withSessionName(session.getName())
+                            .withFeedbackSessionId(session.getId().toString())
                             .withRegistrationKey(student.getRegKey())
                             .toAbsoluteString();
                     submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
@@ -462,6 +467,7 @@ public final class SqlEmailGenerator {
                     var reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                             .withCourseId(course.getId())
                             .withSessionName(session.getName())
+                            .withFeedbackSessionId(session.getId().toString())
                             .withRegistrationKey(student.getRegKey())
                             .toAbsoluteString();
                     reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
@@ -733,12 +739,14 @@ public final class SqlEmailGenerator {
         String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getName())
+                .withFeedbackSessionId(session.getId().toString())
                 .withRegistrationKey(student.getRegKey())
                 .toAbsoluteString();
 
         String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getName())
+                .withFeedbackSessionId(session.getId().toString())
                 .withRegistrationKey(student.getRegKey())
                 .toAbsoluteString();
 
@@ -774,6 +782,7 @@ public final class SqlEmailGenerator {
         String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getName())
+                .withFeedbackSessionId(session.getId().toString())
                 .withRegistrationKey(instructor.getRegKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
@@ -781,6 +790,7 @@ public final class SqlEmailGenerator {
         String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getName())
+                .withFeedbackSessionId(session.getId().toString())
                 .withRegistrationKey(instructor.getRegKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();

@@ -31,6 +31,7 @@ public final class Const {
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
+    public static final Duration STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD = Duration.ofDays(90);
     public static final Duration COOKIE_VALIDITY_PERIOD = Duration.ofDays(7);
 
     public static final int SEARCH_QUERY_SIZE_LIMIT = 50;
@@ -39,9 +40,6 @@ public final class Const {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
 
     public static final String MISSING_RESPONSE_TEXT = "No Response";
-
-    public static final Duration STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = Duration.ofMinutes(15);
-    public static final Duration STUDENT_ACTIVITY_LOGS_FILTER_WINDOW = Duration.ofSeconds(2);
 
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
@@ -387,8 +385,8 @@ public final class Const {
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
         public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =
                 URI_PREFIX + "/calculateUsageStatistics";
-        public static final String AUTOMATED_FEEDBACK_SESSION_LOGS_PROCESSING =
-                URI_PREFIX + "/updateFeedbackSessionLogs";
+        public static final String AUTOMATED_FEEDBACK_SESSION_LOGS_CLEANUP =
+                URI_PREFIX + "/cleanupFeedbackSessionLogs";
     }
 
     /**
