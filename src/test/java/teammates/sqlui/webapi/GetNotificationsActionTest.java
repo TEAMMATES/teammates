@@ -5,8 +5,10 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -21,7 +23,7 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetNotificationsAction}.
  */
 public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsAction> {
-    private static final String GOOGLE_ID = "user-googleId";
+    private static final String GOOGLE_ID = "google-id";
     private static final int READ_NOTIFICATION_COUNT = 5;
     private static final int UNREAD_NOTIFICATION_COUNT = 10;
 
@@ -33,6 +35,11 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     @Override
     String getRequestMethod() {
         return GET;
+    }
+
+    @BeforeMethod
+    public void setUpMethod() {
+        when(mockLogic.getAccountForGoogleId(GOOGLE_ID)).thenReturn(getTypicalAccount());
     }
 
     @Test
@@ -200,7 +207,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
         List<Notification> testAllNotifications = new ArrayList<>();
         List<Notification> testUnreadNotifications = new ArrayList<>();
-        Set<String> readNotificationsId;
+        Set<UUID> readNotificationsId;
 
         for (int i = 0; i < UNREAD_NOTIFICATION_COUNT; i++) {
             testUnreadNotifications.add(getTypicalNotificationWithId());
@@ -213,7 +220,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         }
 
         readNotificationsId = testAllNotifications.stream()
-                .map(n -> n.getId().toString())
+                .map(Notification::getId)
                 .collect(Collectors.toSet());
 
         testAllNotifications.addAll(testUnreadNotifications);
@@ -238,8 +245,8 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         List<Notification> activeNotifications =
                 mockLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR);
         activeNotifications = activeNotifications.stream()
-                .filter(n -> !readNotificationsId.contains(n.getId().toString()))
-                .collect(Collectors.toList());
+                .filter(n -> !readNotificationsId.contains(n.getId()))
+                .toList();
         activeNotifications.forEach(n -> assertTrue(n.isShown()));
     }
 
@@ -247,7 +254,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     public void testExecute_withoutIsFetchingAll_shouldUpdateShownAndReturnUnreadNotifications() {
         List<Notification> testAllNotifications = new ArrayList<>();
         List<Notification> testUnreadNotifications = new ArrayList<>();
-        Set<String> readNotificationsId;
+        Set<UUID> readNotificationsId;
 
         loginAsInstructor(GOOGLE_ID);
 
@@ -258,7 +265,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         }
 
         readNotificationsId = testAllNotifications.stream()
-                .map(n -> n.getId().toString())
+                .map(Notification::getId)
                 .collect(Collectors.toSet());
 
         when(mockLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR))
@@ -298,7 +305,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         assertEquals(expected.getEndTimestamp(), actual.getEndTimestamp());
     }
 
-    private void verifyDoesNotContainNotifications(List<NotificationData> notifications, Set<String> readIds) {
+    private void verifyDoesNotContainNotifications(List<NotificationData> notifications, Set<UUID> readIds) {
         for (NotificationData n : notifications) {
             assertFalse(readIds.contains(n.getNotificationId()));
         }

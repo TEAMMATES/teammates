@@ -3,20 +3,12 @@ import { PageNotFoundComponent } from '../page-not-found/page-not-found.componen
 
 const routes: Routes = [
   {
-    path: 'home',
-    data: {
-      isAdmin: false,
-    },
-    loadComponent: () => import('../pages-monitoring/logs-page/logs-page.component')
-        .then((m) => m.LogsPageComponent),
-  },
-  {
     path: 'timezone',
     loadComponent: () => import('../pages-monitoring/timezone-page/timezone-page.component')
         .then((m) => m.TimezonePageComponent),
   },
   {
-    path: 'stats',
+    path: 'home',
     loadComponent: () => import('../pages-monitoring/usage-stats-page/usage-statistics-page.component')
         .then((m) => m.UsageStatisticsPageComponent),
     data: {

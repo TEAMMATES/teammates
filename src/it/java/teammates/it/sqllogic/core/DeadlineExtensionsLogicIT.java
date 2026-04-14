@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
@@ -19,7 +19,7 @@ import teammates.storage.sqlentity.Student;
 public class DeadlineExtensionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
-    private SqlDataBundle typicalDataBundle;
+    private DataBundle typicalDataBundle;
 
     @BeforeClass
     public void setupClass() {

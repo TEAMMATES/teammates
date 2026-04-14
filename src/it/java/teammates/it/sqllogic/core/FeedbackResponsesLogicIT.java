@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.FeedbackResponseCommentsLogic;
@@ -22,7 +22,7 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
     private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
-    private SqlDataBundle typicalDataBundle;
+    private DataBundle typicalDataBundle;
 
     @BeforeClass
     public void setupClass() {

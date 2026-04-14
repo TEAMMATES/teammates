@@ -46,8 +46,6 @@ describe('SessionResultPageComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const testInfo: AuthInfo = {
@@ -213,8 +211,6 @@ describe('SessionResultPageComponent', () => {
       isClosingSoonEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 1555231400,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     };
     component.questions = [];
     fixture.detectChanges();

@@ -1,19 +1,20 @@
 package teammates.ui.output;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Output format of read notifications.
  */
 public class ReadNotificationsData extends ApiOutput {
 
-    private final List<String> readNotifications;
+    private final List<UUID> readNotifications;
 
-    public ReadNotificationsData(List<String> notificationIds) {
+    public ReadNotificationsData(List<UUID> notificationIds) {
         this.readNotifications = notificationIds;
     }
 
-    public List<String> getReadNotifications() {
+    public List<UUID> getReadNotifications() {
         return this.readNotifications;
     }
 

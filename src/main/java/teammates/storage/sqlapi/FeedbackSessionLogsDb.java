@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
@@ -82,5 +83,19 @@ public final class FeedbackSessionLogsDb {
         HibernateUtil.persist(log);
 
         return log;
+    }
+
+    /**
+     * Deletes feedback session logs older than the given cutoff time.
+     */
+    public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
+        assert cutoffTime != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaDelete<FeedbackSessionLog> cd = cb.createCriteriaDelete(FeedbackSessionLog.class);
+        Root<FeedbackSessionLog> root = cd.from(FeedbackSessionLog.class);
+        cd.where(cb.lessThan(root.get("timestamp"), cutoffTime));
+
+        return HibernateUtil.createMutationQuery(cd).executeUpdate();
     }
 }

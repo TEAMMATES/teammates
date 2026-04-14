@@ -8,7 +8,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -62,7 +62,14 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         HibernateUtil.beginTransaction();
     }
 
-    @AfterMethod
+    /**
+     * Rolls back the per-test transaction so each method runs against a clean DB state.
+     *
+     * <p>
+     * {@code alwaysRun} ensures this runs even when configuration ({@code BeforeMethod}) or the
+     * test method fails, so an open transaction is never left on the thread-bound session.
+     */
+    @AfterMethod(alwaysRun = true)
     protected void tearDown() {
         HibernateUtil.rollbackTransaction();
     }
@@ -75,7 +82,7 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     /**
      * Persist data bundle into the db.
      */
-    protected void persistDataBundle(SqlDataBundle dataBundle)
+    protected void persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         logic.persistDataBundle(dataBundle);
     }

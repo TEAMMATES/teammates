@@ -51,6 +51,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   @Input() noResponseStudents: Student[] = [];
   @Input() section: string = '';
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -65,8 +66,6 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
   isTabExpanded: boolean = false;
 

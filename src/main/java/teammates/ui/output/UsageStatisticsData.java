@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import teammates.storage.sqlentity.UsageStatistics;
 
 /**
@@ -7,6 +9,7 @@ import teammates.storage.sqlentity.UsageStatistics;
  */
 public class UsageStatisticsData extends ApiOutput {
 
+    private final UUID usageStatisticsId;
     private final long startTime;
     private final int timePeriod;
     private final int numResponses;
@@ -18,6 +21,7 @@ public class UsageStatisticsData extends ApiOutput {
     private final int numSubmissions;
 
     public UsageStatisticsData(UsageStatistics usageStatistics) {
+        this.usageStatisticsId = usageStatistics.getId();
         this.startTime = usageStatistics.getStartTime().toEpochMilli();
         this.timePeriod = usageStatistics.getTimePeriod();
         this.numResponses = usageStatistics.getNumResponses();
@@ -27,6 +31,10 @@ public class UsageStatisticsData extends ApiOutput {
         this.numAccountRequests = usageStatistics.getNumAccountRequests();
         this.numEmails = usageStatistics.getNumEmails();
         this.numSubmissions = usageStatistics.getNumSubmissions();
+    }
+
+    public UUID getUsageStatisticsId() {
+        return usageStatisticsId;
     }
 
     public long getStartTime() {

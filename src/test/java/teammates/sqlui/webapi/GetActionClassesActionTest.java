@@ -15,6 +15,7 @@ import teammates.ui.webapi.ApproveAccountRequestAction;
 import teammates.ui.webapi.BinCourseAction;
 import teammates.ui.webapi.BinFeedbackSessionAction;
 import teammates.ui.webapi.CalculateUsageStatisticsAction;
+import teammates.ui.webapi.CleanupFeedbackSessionLogsAction;
 import teammates.ui.webapi.CompileLogsAction;
 import teammates.ui.webapi.CreateAccountAction;
 import teammates.ui.webapi.CreateAccountRequestAction;
@@ -28,12 +29,12 @@ import teammates.ui.webapi.CreateNotificationAction;
 import teammates.ui.webapi.DeleteAccountAction;
 import teammates.ui.webapi.DeleteAccountRequestAction;
 import teammates.ui.webapi.DeleteCourseAction;
+import teammates.ui.webapi.DeleteDataBundleAction;
 import teammates.ui.webapi.DeleteFeedbackQuestionAction;
 import teammates.ui.webapi.DeleteFeedbackResponseCommentAction;
 import teammates.ui.webapi.DeleteFeedbackSessionAction;
 import teammates.ui.webapi.DeleteInstructorAction;
 import teammates.ui.webapi.DeleteNotificationAction;
-import teammates.ui.webapi.DeleteSqlDataBundleAction;
 import teammates.ui.webapi.DeleteStudentAction;
 import teammates.ui.webapi.DeleteStudentsAction;
 import teammates.ui.webapi.EnrollStudentsAction;
@@ -61,6 +62,7 @@ import teammates.ui.webapi.GetFeedbackQuestionsAction;
 import teammates.ui.webapi.GetFeedbackResponseCommentAction;
 import teammates.ui.webapi.GetFeedbackResponsesAction;
 import teammates.ui.webapi.GetFeedbackSessionAction;
+import teammates.ui.webapi.GetFeedbackSessionDeadlineExtensionsAction;
 import teammates.ui.webapi.GetFeedbackSessionLogsAction;
 import teammates.ui.webapi.GetFeedbackSessionSubmittedGiverSetAction;
 import teammates.ui.webapi.GetFeedbackSessionsAction;
@@ -84,8 +86,7 @@ import teammates.ui.webapi.JoinCourseAction;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.MarkNotificationAsReadAction;
 import teammates.ui.webapi.PublishFeedbackSessionAction;
-import teammates.ui.webapi.PutSqlDataBundleAction;
-import teammates.ui.webapi.QueryLogsAction;
+import teammates.ui.webapi.PutDataBundleAction;
 import teammates.ui.webapi.RegenerateInstructorKeyAction;
 import teammates.ui.webapi.RegenerateStudentKeyAction;
 import teammates.ui.webapi.RejectAccountRequestAction;
@@ -112,7 +113,6 @@ import teammates.ui.webapi.UpdateFeedbackQuestionAction;
 import teammates.ui.webapi.UpdateFeedbackResponseCommentAction;
 import teammates.ui.webapi.UpdateFeedbackSessionAction;
 import teammates.ui.webapi.UpdateFeedbackSessionDeadlineExtensionsAction;
-import teammates.ui.webapi.UpdateFeedbackSessionLogsAction;
 import teammates.ui.webapi.UpdateInstructorAction;
 import teammates.ui.webapi.UpdateInstructorPrivilegeAction;
 import teammates.ui.webapi.UpdateNotificationAction;
@@ -193,7 +193,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetAccountAction.class,
                 GetAccountsAction.class,
                 FeedbackSessionPublishedRemindersAction.class,
-                QueryLogsAction.class,
                 SessionLinksRecoveryAction.class,
                 SendJoinReminderEmailAction.class,
                 RegenerateInstructorKeyAction.class,
@@ -226,6 +225,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 SearchAccountRequestsAction.class,
                 ResetAccountRequestAction.class,
                 CalculateUsageStatisticsAction.class,
+                CleanupFeedbackSessionLogsAction.class,
                 GetUsageStatisticsAction.class,
                 GetNotificationAction.class,
                 CreateNotificationAction.class,
@@ -236,12 +236,13 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetReadNotificationsAction.class,
                 GetDeadlineExtensionAction.class,
                 SendLoginEmailAction.class,
-                PutSqlDataBundleAction.class,
-                DeleteSqlDataBundleAction.class,
                 UpdateFeedbackSessionLogsAction.class,
                 GetEmailTemplateAction.class,
                 GetEmailTemplatesAction.class,
                 UpdateEmailTemplateAction.class
+                PutDataBundleAction.class,
+                DeleteDataBundleAction.class,
+                GetFeedbackSessionDeadlineExtensionsAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)

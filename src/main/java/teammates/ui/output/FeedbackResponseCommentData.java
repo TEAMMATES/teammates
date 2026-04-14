@@ -1,6 +1,7 @@
 package teammates.ui.output;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -14,7 +15,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
     String commentGiver;
     String lastEditorEmail;
 
-    private long feedbackResponseCommentId;
+    private UUID feedbackResponseCommentId;
     private String commentText;
     private long createdAt;
     private long lastEditedAt;
@@ -66,12 +67,8 @@ public class FeedbackResponseCommentData extends ApiOutput {
         return commentText;
     }
 
-    public long getFeedbackResponseCommentId() {
+    public UUID getFeedbackResponseCommentId() {
         return feedbackResponseCommentId;
-    }
-
-    public String getFeedbackCommentText() {
-        return commentText;
     }
 
     public String getCommentGiver() {

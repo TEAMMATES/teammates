@@ -1,7 +1,10 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -22,7 +25,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
+        UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
         FeedbackResponseComment comment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
 
         String courseId;
@@ -69,7 +72,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
-            if (comment.getGiver().equals(instructor.getEmail())) { // giver, allowed by default
+            if (SanitizationHelper.areEmailsEqual(comment.getGiver(), instructor.getEmail())) {
                 return;
             }
 
@@ -87,7 +90,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     public JsonResult execute() {
-        long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
+        UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         FeedbackResponseComment comment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
 
