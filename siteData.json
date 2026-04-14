@@ -194,6 +194,20 @@
       "headingKeywords": {}
     },
     {
+      "src": "how-to/schema-migration.md",
+      "title": "Schema Migration",
+      "headings": {
+        "sql-schema-migration": "SQL Schema Migration",
+        "liquibase-in-teammates": "Liquibase in Teammates",
+        "liquibase-connection": "Liquibase connection",
+        "change-logs-change-sets-and-change-types": "Change logs, change sets and change types",
+        "gradle-activities-for-liquibase": "Gradle Activities for Liquibase",
+        "generating-updating-liquibase-changelogs": "Generating/Updating Liquibase Changelogs",
+        "handling-schema-validation-failures": "Handling Schema-Validation Failures"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "how-to/static-analysis.md",
       "title": "Static Analysis",
       "headings": {
@@ -230,19 +244,6 @@
         "get-involved": "Get Involved",
         "tech-stack": "Tech Stack",
         "community-and-amp-support": "Community &amp; Support"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "schema-migration.md",
-      "title": "Schema Migration",
-      "headings": {
-        "sql-schema-migration": "SQL Schema Migration",
-        "liquibase-in-teammates": "Liquibase in Teammates",
-        "liquibase-connection": "Liquibase connection",
-        "change-logs-change-sets-and-change-types": "Change logs, change sets and change types",
-        "gradle-activities-for-liquibase": "Gradle Activities for Liquibase",
-        "generating-updating-liquibase-change-logs": "Generating/ Updating liquibase change logs"
       },
       "headingKeywords": {}
     },
