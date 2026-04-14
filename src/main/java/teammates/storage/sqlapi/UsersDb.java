@@ -5,6 +5,7 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,6 @@ import jakarta.persistence.criteria.Root;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
@@ -279,8 +279,7 @@ public final class UsersDb {
      * restrict the visibility according to the logged-in user's google ID. This
      * is used by admin to search instructors in the whole system.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
@@ -322,8 +321,7 @@ public final class UsersDb {
      *
      * @param instructors the constraint that restricts the search result
      */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
-            throws SearchServiceException {
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
@@ -387,8 +385,7 @@ public final class UsersDb {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
      */
-    public List<Student> searchStudentsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Student> searchStudentsInWholeSystem(String queryString) {
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
@@ -487,6 +484,7 @@ public final class UsersDb {
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
         assert courseId != null;
         assert userEmail != null;
+        String normalizedUserEmail = normalizeEmail(userEmail);
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
@@ -495,7 +493,7 @@ public final class UsersDb {
         cr.select(instructorRoot)
                 .where(cb.and(
                         cb.equal(instructorRoot.get("courseId"), courseId),
-                        cb.equal(instructorRoot.get("email"), userEmail)));
+                cb.equal(cb.lower(instructorRoot.get("email")), normalizedUserEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
@@ -513,7 +511,7 @@ public final class UsersDb {
 
         List<Predicate> predicates = new ArrayList<>();
         for (String userEmail : userEmails) {
-            predicates.add(cb.equal(instructorRoot.get("email"), userEmail));
+            predicates.add(cb.equal(cb.lower(instructorRoot.get("email")), normalizeEmail(userEmail)));
         }
 
         cr.select(instructorRoot)
@@ -530,6 +528,7 @@ public final class UsersDb {
     public Instructor getInstructorByEmailAndInstitute(String email, String institute) {
         assert email != null;
         assert institute != null;
+        String normalizedEmail = normalizeEmail(email);
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
@@ -538,7 +537,7 @@ public final class UsersDb {
 
         cr.select(instructorRoot)
                 .where(cb.and(
-                        cb.equal(instructorRoot.get("email"), email),
+                cb.equal(cb.lower(instructorRoot.get("email")), normalizedEmail),
                         cb.equal(courseJoin.get("institute"), institute),
                         cb.isNull(courseJoin.get("deletedAt"))));
 
@@ -551,6 +550,7 @@ public final class UsersDb {
     public Student getStudentForEmail(String courseId, String userEmail) {
         assert courseId != null;
         assert userEmail != null;
+        String normalizedUserEmail = normalizeEmail(userEmail);
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
@@ -559,7 +559,7 @@ public final class UsersDb {
         cr.select(studentRoot)
                 .where(cb.and(
                         cb.equal(studentRoot.get("courseId"), courseId),
-                        cb.equal(studentRoot.get("email"), userEmail)));
+                cb.equal(cb.lower(studentRoot.get("email")), normalizedUserEmail)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
@@ -577,7 +577,7 @@ public final class UsersDb {
 
         List<Predicate> predicates = new ArrayList<>();
         for (String userEmail : userEmails) {
-            predicates.add(cb.equal(studentRoot.get("email"), userEmail));
+            predicates.add(cb.equal(cb.lower(studentRoot.get("email")), normalizeEmail(userEmail)));
         }
 
         cr.select(studentRoot)
@@ -593,15 +593,20 @@ public final class UsersDb {
      */
     public List<Student> getAllStudentsForEmail(String email) {
         assert email != null;
+        String normalizedEmail = normalizeEmail(email);
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
 
         cr.select(studentRoot)
-                .where(cb.equal(studentRoot.get("email"), email));
+                .where(cb.equal(cb.lower(studentRoot.get("email")), normalizedEmail));
 
         return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    private static String normalizeEmail(String email) {
+        return email.toLowerCase(Locale.ROOT);
     }
 
     /**

@@ -15,7 +15,7 @@ import teammates.e2e.cases.BaseE2ETestCase;
  * Base class for SQL E2E accessibility tests using Axe.
  *
  * <p>Extends {@link teammates.e2e.cases.BaseE2ETestCase} so tests run against the SQL-backed
- * application and use {@link teammates.common.datatransfer.SqlDataBundle} test data.
+ * application and use {@link teammates.common.datatransfer.DataBundle} test data.
  */
 abstract class BaseAxeTestCase extends BaseE2ETestCase {
 

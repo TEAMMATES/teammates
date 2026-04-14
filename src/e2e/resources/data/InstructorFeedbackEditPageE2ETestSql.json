@@ -4,13 +4,13 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.InstFEP.instr",
       "name": "Teammates Test",
-      "email": "InstFEP.instr@gmail.tmt"
+      "email": "instfep.instr@gmail.tmt"
     },
     "José Gómez": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tm.e2e.InstFEP.jose.tmms",
       "name": "José Gómez",
-      "email": "InstFEP.jose.tmms@gmail.tmt"
+      "email": "instfep.jose.tmms@gmail.tmt"
     }
   },
   "accountRequests": {},
@@ -85,7 +85,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Teammates Test",
-      "email": "InstFEP.instr@gmail.tmt",
+      "email": "instfep.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
@@ -147,7 +147,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "InstFEP.jose.tmms@gmail.tmt",
+      "email": "instfep.jose.tmms@gmail.tmt",
       "name": "José Gómez",
       "comments": "This student's name is José Gómez"
     },
@@ -159,7 +159,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "InstFEP.benny.c.tmms@gmail.tmt",
+      "email": "instfep.benny.c.tmms@gmail.tmt",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles"
     }
