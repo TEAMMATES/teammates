@@ -1,6 +1,6 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -11,7 +11,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Persists a data bundle into the DB.
  */
-public class PutSqlDataBundleAction extends Action {
+public class PutDataBundleAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -27,7 +27,7 @@ public class PutSqlDataBundleAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        SqlDataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), SqlDataBundle.class);
+        DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
 
         try {
             dataBundle = sqlLogic.persistDataBundle(dataBundle);

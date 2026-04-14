@@ -27,10 +27,10 @@ export class AdminAccountsPageComponent implements OnInit {
   instructorCourses: Course[] = [];
   studentCourses: Course[] = [];
   accountInfo: Account = {
+    accountId: '',
     googleId: '',
     name: '',
     email: '',
-    readNotifications: {},
   };
 
   isLoadingAccountInfo: boolean = false;

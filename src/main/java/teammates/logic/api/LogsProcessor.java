@@ -2,9 +2,7 @@ package teammates.logic.api;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
-import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogEvent;
@@ -42,29 +40,6 @@ public class LogsProcessor {
      */
     public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
         return service.queryLogs(queryLogsParams);
-    }
-
-    /**
-     * Creates a feedback session log.
-     */
-    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
-        service.createFeedbackSessionLog(courseId, email, fsName, fslType);
-    }
-
-    /**
-     * Creates a feedback session log.
-     */
-    public void createFeedbackSessionLog(String courseId, UUID studentId, UUID fsId, String fslType) {
-        service.createFeedbackSessionLog(courseId, studentId, fsId, fslType);
-    }
-
-    /**
-     * Gets the feedback session logs as filtered by the given parameters ordered by ascending timestamp.
-     * @param email Can be null
-     */
-    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
-            long startTime, long endTime, String fsName) {
-        return service.getOrderedFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 
     /**

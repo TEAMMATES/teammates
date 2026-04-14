@@ -2,6 +2,7 @@ package teammates.ui.output;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -14,6 +15,7 @@ import teammates.storage.sqlentity.FeedbackSession;
  */
 public class OngoingSession {
 
+    private final UUID feedbackSessionId;
     private final String sessionStatus;
     private final String instructorHomePageLink;
     private final long startTime;
@@ -23,6 +25,7 @@ public class OngoingSession {
     private final String feedbackSessionName;
 
     public OngoingSession(FeedbackSession fs, String googleId) {
+        this.feedbackSessionId = fs.getId();
         this.sessionStatus = getSessionStatusForShow(fs);
         String instructorHomePageLink;
         if (googleId == null) {
@@ -65,6 +68,10 @@ public class OngoingSession {
             status.add("[Grace Period]");
         }
         return status.isEmpty() ? "No Status" : String.join(" ", status);
+    }
+
+    public UUID getFeedbackSessionId() {
+        return feedbackSessionId;
     }
 
     public String getSessionStatus() {

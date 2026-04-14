@@ -17,20 +17,20 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@link SqlSessionResultsBundle}.
+ * SUT: {@link SessionResultsBundle}.
  */
-public class SqlSessionResultsBundleTest extends BaseTestCase {
+public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionResponseMap() {
-        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         List<String> allExpectedResponses = new ArrayList<>();
         allExpectedResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
         allExpectedResponses.add(responseBundle.feedbackResponses.get("response2ForQ1").toString());
 
-        SqlSessionResultsBundle bundle =
-                new SqlSessionResultsBundle(
+        SessionResultsBundle bundle =
+                new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
                         new HashSet<>(),
@@ -40,7 +40,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
                         new HashMap<>(),
                         new HashMap<>(),
                         new HashMap<>(),
-                        new SqlCourseRoster(new ArrayList<>(responseBundle.students.values()),
+                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values()))
                 );
 
@@ -61,14 +61,14 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionMissingResponseMap() {
-        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         List<String> expectedMissingResponses = new ArrayList<>();
         expectedMissingResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
         expectedMissingResponses.add(responseBundle.feedbackResponses.get("response2ForQ1").toString());
 
-        SqlSessionResultsBundle bundle =
-                new SqlSessionResultsBundle(
+        SessionResultsBundle bundle =
+                new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
                         new HashSet<>(),
@@ -78,7 +78,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
                         new HashMap<>(),
                         new HashMap<>(),
                         new HashMap<>(),
-                        new SqlCourseRoster(new ArrayList<>(responseBundle.students.values()),
+                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values()))
                 );
 
@@ -100,7 +100,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
     @Test
     public void testIsResponseGiverRecipientVisible_typicalCase_shouldReturnCorrectValues() {
 
-        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         FeedbackSession session1Course1 = getTypicalFeedbackSessionForCourse(getTypicalCourse());
 
@@ -124,8 +124,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         responseRecipientVisibilityTable.put(response1ForQ2S1C1, true);
         responseRecipientVisibilityTable.put(response2ForQ2S1C1, false);
 
-        SqlSessionResultsBundle bundle =
-                new SqlSessionResultsBundle(
+        SessionResultsBundle bundle =
+                new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
                         new HashSet<>(),
@@ -135,7 +135,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
                         responseRecipientVisibilityTable,
                         new HashMap<>(),
                         new HashMap<>(),
-                        new SqlCourseRoster(new ArrayList<>(responseBundle.students.values()),
+                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values()))
                 );
 
@@ -152,7 +152,7 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testIsCommentGiverVisible_typicalCase_shouldReturnCorrectValues() {
-        SqlDataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
         UUID commentId1 = UUID.fromString("00000000-0000-4000-8000-000000000001");
         UUID commentId2 = UUID.fromString("00000000-0000-4000-8000-000000000002");
@@ -160,8 +160,8 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
         commentGiverVisibilityTable.put(commentId1, true);
         commentGiverVisibilityTable.put(commentId2, false);
 
-        SqlSessionResultsBundle bundle =
-                new SqlSessionResultsBundle(
+        SessionResultsBundle bundle =
+                new SessionResultsBundle(
                         new ArrayList<>(responseBundle.feedbackQuestions.values()),
                         new HashSet<>(),
                         new HashSet<>(),
@@ -171,11 +171,11 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
                         new HashMap<>(),
                         new HashMap<>(),
                         commentGiverVisibilityTable,
-                        new SqlCourseRoster(new ArrayList<>(responseBundle.students.values()),
+                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values()))
                 );
 
-        // Manually add comment IDs as loadSqlDataBundle does not add comment IDs
+        // Manually add comment IDs as loadDataBundle does not add comment IDs
         FeedbackResponseComment comment1 = responseBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
         FeedbackResponseComment comment2 = responseBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
         comment1.setId(commentId1);
@@ -187,12 +187,12 @@ public class SqlSessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetAnonName_typicalCase_shouldGenerateCorrectly() {
-        String anonName = SqlSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "");
+        String anonName = SessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "");
         assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
 
-        String anonName1 = SqlSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
-        String anonName2 = SqlSessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
-        String anotherAnonName = SqlSessionResultsBundle.getAnonName(
+        String anonName1 = SessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
+        String anonName2 = SessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
+        String anotherAnonName = SessionResultsBundle.getAnonName(
                         FeedbackParticipantType.STUDENTS, "different@gmail.com");
 
         assertTrue(anonName1.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));

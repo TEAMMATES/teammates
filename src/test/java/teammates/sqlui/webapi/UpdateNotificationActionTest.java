@@ -4,7 +4,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -123,7 +122,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
 
         when(mockLogic.getNotification(testNotification.getId())).thenReturn(newNotification);
 
-        Notification updatedNotification = mockLogic.getNotification(UUID.fromString(res.getNotificationId()));
+        Notification updatedNotification = mockLogic.getNotification(res.getNotificationId());
 
         // Verify that correctly updated in the DB
         assertEquals(notificationRequest.getStartTimestamp(), updatedNotification.getStartTime().toEpochMilli());

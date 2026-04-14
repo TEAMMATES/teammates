@@ -20,7 +20,6 @@ import jakarta.persistence.criteria.Root;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
@@ -280,8 +279,7 @@ public final class UsersDb {
      * restrict the visibility according to the logged-in user's google ID. This
      * is used by admin to search instructors in the whole system.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
@@ -323,8 +321,7 @@ public final class UsersDb {
      *
      * @param instructors the constraint that restricts the search result
      */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
-            throws SearchServiceException {
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
@@ -388,8 +385,7 @@ public final class UsersDb {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
      */
-    public List<Student> searchStudentsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Student> searchStudentsInWholeSystem(String queryString) {
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
