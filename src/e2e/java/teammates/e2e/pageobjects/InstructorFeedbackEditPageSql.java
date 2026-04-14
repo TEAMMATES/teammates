@@ -515,10 +515,17 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     }
 
     public void editQuestionNumber(int questionNum, int newQuestionNumber) {
+        WebElement form = getQuestionForm(questionNum);
         clickEditQuestionButton(questionNum);
-        selectDropdownOptionByText(getQuestionForm(questionNum).findElement(By.id("question-number-dropdown")),
-                Integer.toString(newQuestionNumber));
-        clickSaveQuestionButton(questionNum);
+        selectDropdownOptionByText(
+                form.findElement(By.id("question-number-dropdown")),
+                Integer.toString(newQuestionNumber)
+        );
+        waitFor(driver -> isElementPresent(
+            By.id("question-submission-form-qn-" + newQuestionNumber)
+        ));
+        form = getQuestionForm(newQuestionNumber);
+        clickSaveQuestionButton(newQuestionNumber);
     }
 
     public void addTemplateQuestion(int optionNum) {
@@ -1164,9 +1171,10 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     }
 
     private void clickAndWaitForNewQuestion(WebElement button) {
-        int newQuestionNum = getNumQuestions() + 1;
+        int before = getNumQuestions();
         click(button);
-        waitForElementPresence(By.id("question-form-" + newQuestionNum));
+
+        waitFor(driver -> getNumQuestions() > before);
     }
 
     private void addNewQuestion(int optionNumber) {
