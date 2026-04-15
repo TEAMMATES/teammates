@@ -57,7 +57,10 @@ public final class FeedbackSessionsLogic {
         return instance;
     }
 
-    void initLogicDependencies(FeedbackSessionsDb fsDb, CoursesLogic coursesLogic,
+    /**
+     * Initializes the logic dependencies for this logic class.
+     */
+    public void initLogicDependencies(FeedbackSessionsDb fsDb, CoursesLogic coursesLogic,
             FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic, UsersLogic usersLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;

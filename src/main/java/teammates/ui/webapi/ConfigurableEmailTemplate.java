@@ -1,8 +1,10 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 
 /**
@@ -22,7 +24,125 @@ public enum ConfigurableEmailTemplate {
     NEW_INSTRUCTOR_ACCOUNT_WELCOME(
             "TEAMMATES: Welcome to TEAMMATES! ${userName}",
             EmailTemplates.NEW_INSTRUCTOR_ACCOUNT_WELCOME,
-            List.of("${joinUrl}"));
+            List.of("${joinUrl}")),
+
+    NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT(
+            "TEAMMATES: Acknowledgement of Instructor Account Request",
+            EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
+            List.of()),
+
+    STUDENT_COURSE_JOIN(
+            "TEAMMATES: Invitation to join course [${courseName}][Course ID: ${courseId}]",
+            Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
+                    "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN),
+            List.of("${joinUrl}")),
+
+    INSTRUCTOR_COURSE_JOIN(
+            "TEAMMATES: Invitation to join course as an instructor [${courseName}][Course ID: ${courseId}]",
+            Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
+                    "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN),
+            List.of("${joinUrl}")),
+
+    LOGIN(
+            "TEAMMATES: Log in to TEAMMATES",
+            EmailTemplates.LOGIN_EMAIL,
+            List.of("${loginLink}")),
+
+    FEEDBACK_PUBLISHED(
+            "TEAMMATES: Feedback session results published"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED,
+            List.of("${instructorPreamble}", "${additionalContactInformation}")),
+
+    FEEDBACK_UNPUBLISHED(
+            "TEAMMATES: Feedback session results unpublished"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED,
+            List.of("${instructorPreamble}", "${additionalContactInformation}")),
+
+    FEEDBACK_OPENED(
+            "TEAMMATES: Feedback session now open [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_OPENED, "${status}", "is now open"),
+            List.of("${instructorPreamble}", "${additionalContactInformation}")),
+
+    USER_COURSE_REGISTER(
+            "TEAMMATES: Registered for Course [${courseName}][Course ID: ${courseId}]",
+            EmailTemplates.USER_COURSE_REGISTER,
+            List.of()),
+
+    STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET(
+            "TEAMMATES: Your account has been reset for course [${courseName}][Course ID: ${courseId}]",
+            Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
+                    "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET),
+            List.of("${joinUrl}")),
+
+    INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET(
+            "TEAMMATES: Your account has been reset for course [${courseName}][Course ID: ${courseId}]",
+            Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
+                    "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET),
+            List.of("${joinUrl}")),
+
+    NEW_ACCOUNT_REQUEST_ADMIN_ALERT(
+            "TEAMMATES (Action Needed): New Account Request Received",
+            EmailTemplates.ADMIN_NEW_ACCOUNT_REQUEST_ALERT,
+            List.of("${adminAccountRequestsPageUrl}")),
+
+    FEEDBACK_SESSION_REMINDER(
+            "TEAMMATES: Feedback session reminder"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_FEEDBACK_SESSION_REMINDER,
+            List.of("${submitUrl}", "${instructorPreamble}", "${additionalContactInformation}")),
+
+    FEEDBACK_CLOSING_SOON(
+            "TEAMMATES: Feedback session closing soon"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_FEEDBACK_SESSION_CLOSING_SOON,
+            List.of("${submitUrl}", "${instructorPreamble}", "${additionalContactInformation}")),
+
+    FEEDBACK_OPENING_SOON(
+            "TEAMMATES: Feedback session opening soon"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON,
+            List.of("${additionalNotes}")),
+
+    FEEDBACK_CLOSED(
+            "TEAMMATES: Feedback session closed"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.OWNER_FEEDBACK_SESSION_CLOSED,
+            List.of("${additionalNotes}")),
+
+    DEADLINE_EXTENSION_GRANTED(
+            "TEAMMATES: Deadline extension granted"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_DEADLINE_EXTENSION_GRANTED,
+            List.of("${submitUrl}", "${oldEndTime}", "${newEndTime}", "${additionalContactInformation}")),
+
+    DEADLINE_EXTENSION_UPDATED(
+            "TEAMMATES: Deadline extension updated"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_DEADLINE_EXTENSION_UPDATED,
+            List.of("${submitUrl}", "${oldEndTime}", "${newEndTime}", "${additionalContactInformation}")),
+
+    DEADLINE_EXTENSION_REVOKED(
+            "TEAMMATES: Deadline extension revoked"
+                    + " [Course: ${courseName}][Feedback Session: ${feedbackSessionName}]",
+            EmailTemplates.USER_DEADLINE_EXTENSION_REVOKED,
+            List.of("${submitUrl}", "${oldEndTime}", "${newEndTime}", "${additionalContactInformation}")),
+
+    STUDENT_COURSE_LINKS_REGENERATED(
+            "TEAMMATES: Your updated links for course [${courseName}][Course ID: ${courseId}]",
+            EmailTemplates.USER_STUDENT_COURSE_LINKS_REGENERATED,
+            List.of("${linksFragment}", "${joinFragment}", "${additionalContactInformation}")),
+
+    INSTRUCTOR_COURSE_LINKS_REGENERATED(
+            "TEAMMATES: Your updated links for course [${courseName}][Course ID: ${courseId}]",
+            EmailTemplates.USER_INSTRUCTOR_COURSE_LINKS_REGENERATED,
+            List.of("${linksFragment}", "${joinFragment}", "${additionalContactInformation}")),
+
+    STUDENT_EMAIL_CHANGED(
+            "TEAMMATES: Summary of course [${courseName}][Course ID: ${courseId}]",
+            EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
+            List.of("${linksFragment}", "${joinFragment}", "${additionalContactInformation}"));
 
     // CHECKSTYLE.ON:JavadocVariable
 
@@ -54,10 +174,21 @@ public enum ConfigurableEmailTemplate {
     /**
      * Returns the required body placeholders that are absent from {@code body},
      * or an empty list if all required placeholders are present.
+     *
+     * <p>A placeholder is considered present only when it appears as a complete,
+     * well-formed token — i.e. not immediately followed by an extra {@code }}
+     * that would produce malformed output after substitution (e.g. {@code ${joinUrl}}}
+     * would survive a plain {@code contains} check but generate a stray {@code }}
+     * in the sent email).
      */
     public List<String> getMissingPlaceholders(String body) {
         return requiredBodyPlaceholders.stream()
-                .filter(placeholder -> !body.contains(placeholder))
+                .filter(placeholder -> {
+                    // Match the placeholder literal, but reject occurrences immediately
+                    // followed by an extra '}' (e.g. ${joinUrl}}).
+                    String pattern = Pattern.quote(placeholder) + "(?!\\})";
+                    return !Pattern.compile(pattern).matcher(body).find();
+                })
                 .collect(Collectors.toList());
     }
 

@@ -12,6 +12,7 @@ import { EmailTemplate, EmailTemplates } from '../../../types/api-output';
 const testCustomTemplate: EmailTemplate = {
   templateKey: 'NEW_INSTRUCTOR_ACCOUNT_WELCOME',
   subject: 'Custom Welcome Subject',
+  // eslint-disable-next-line no-template-curly-in-string
   body: '<p>Please visit <a href="${joinUrl}">${joinUrl}</a> to join.</p>',
   isCustomized: true,
   updatedAt: new Date('2026-01-01T00:00:00Z').getTime(),
@@ -19,7 +20,9 @@ const testCustomTemplate: EmailTemplate = {
 
 const testDefaultTemplate: EmailTemplate = {
   templateKey: 'NEW_INSTRUCTOR_ACCOUNT_WELCOME',
+  // eslint-disable-next-line no-template-curly-in-string
   subject: 'TEAMMATES: Welcome to TEAMMATES! ${userName}',
+  // eslint-disable-next-line no-template-curly-in-string
   body: '<p>Hello ${userName}, please join via <a href="${joinUrl}">${joinUrl}</a></p>',
   isCustomized: false,
 };
@@ -173,6 +176,7 @@ describe('AdminEmailTemplatesPageComponent', () => {
   });
 
   it('should show error toast with exact backend message when save fails due to missing placeholder (400)', () => {
+    // eslint-disable-next-line no-template-curly-in-string
     const placeholderErrorMessage = 'Email body is missing required placeholder(s): ${joinUrl}';
     jest.spyOn(emailTemplateService, 'updateEmailTemplate').mockReturnValue(throwError(() => ({
       error: { message: placeholderErrorMessage },

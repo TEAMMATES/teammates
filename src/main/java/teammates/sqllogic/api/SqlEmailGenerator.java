@@ -46,19 +46,6 @@ public final class SqlEmailGenerator {
     // feedback action strings
     private static final String FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW = "submit, edit or view";
     private static final String FEEDBACK_ACTION_VIEW = "view";
-    private static final String FEEDBACK_ACTION_SUBMIT_OR_UPDATE =
-                            ", in case you have not submitted yet or wish to update your submission. ";
-    private static final String HTML_NO_ACTION_REQUIRED = "<mark>No action is required if you have already submitted</mark>";
-
-    // status-related strings
-    private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions"
-                                            + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
-    private static final String FEEDBACK_STATUS_SESSION_OPENED = "is now open";
-    private static final String FEEDBACK_STATUS_SESSION_CLOSING_SOON = "is closing soon"
-                                            + FEEDBACK_ACTION_SUBMIT_OR_UPDATE + HTML_NO_ACTION_REQUIRED;
-    private static final String FEEDBACK_STATUS_SESSION_CLOSED = "is now closed for submission";
-    private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is due to open soon";
-
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
     private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 90;
@@ -83,6 +70,41 @@ public final class SqlEmailGenerator {
      */
     public List<EmailWrapper> generateFeedbackSessionOpenedEmails(FeedbackSession session) {
         return generateFeedbackSessionOpenedOrClosingSoonEmails(session, EmailType.FEEDBACK_OPENED);
+    }
+
+    /**
+     * Generates the feedback session opened emails for the given {@code students} and
+     * {@code instructors} in {@code session}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#FEEDBACK_OPENED}.
+     */
+    public List<EmailWrapper> generateFeedbackSessionOpenedEmails(FeedbackSession session,
+            List<Student> students, List<Instructor> instructors,
+            List<Instructor> instructorsToNotify) {
+        Course course = session.getCourse();
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedSessionName = SanitizationHelper.sanitizeForHtml(session.getName());
+
+        EmailTemplate dbTemplate = EmailTemplatesLogic.inst().getEmailTemplate("FEEDBACK_OPENED");
+        String template;
+        String emailSubject;
+        if (dbTemplate != null) {
+            template = dbTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.FEEDBACK_OPENED;
+            template = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        }
+        return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify,
+                template, EmailType.FEEDBACK_OPENED, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, emailSubject);
     }
 
     private List<EmailWrapper> generateFeedbackSessionOpenedOrClosingSoonEmails(
@@ -117,16 +139,27 @@ public final class SqlEmailGenerator {
                     .collect(Collectors.toList());
         }
 
-        String status = emailType == EmailType.FEEDBACK_OPENED
-                ? FEEDBACK_STATUS_SESSION_OPENED
-                : FEEDBACK_STATUS_SESSION_CLOSING_SOON;
+        if (emailType == EmailType.FEEDBACK_OPENED) {
+            return generateFeedbackSessionOpenedEmails(session, students, instructors, instructorsToNotify);
+        }
 
-        String template = emailType == EmailType.FEEDBACK_OPENED
-                ? EmailTemplates.USER_FEEDBACK_SESSION_OPENED.replace("${status}", status)
-                : EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", status);
-
+        EmailTemplate dbClosingTemplate = EmailTemplatesLogic.inst().getEmailTemplate("FEEDBACK_CLOSING_SOON");
+        String template;
+        String emailSubject;
+        if (dbClosingTemplate != null) {
+            template = dbClosingTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbClosingTemplate.getSubject(),
+                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                    "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()));
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.FEEDBACK_CLOSING_SOON;
+            template = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                    "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()));
+        }
         return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
-                emailType, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
+                emailType, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, emailSubject);
     }
 
     /**
@@ -138,20 +171,80 @@ public final class SqlEmailGenerator {
         return generateFeedbackSessionOpeningSoonOrClosedEmails(session, EmailType.FEEDBACK_OPENING_SOON);
     }
 
+    /**
+     * Generates the feedback session opening soon emails for the given {@code coOwners} in {@code session}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#FEEDBACK_OPENING_SOON}.
+     */
+    public List<EmailWrapper> generateFeedbackSessionOpeningSoonEmails(FeedbackSession session,
+            List<Instructor> coOwners) {
+        Course course = session.getCourse();
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedSessionName = SanitizationHelper.sanitizeForHtml(session.getName());
+
+        EmailTemplate dbOpeningTemplate = EmailTemplatesLogic.inst().getEmailTemplate("FEEDBACK_OPENING_SOON");
+        String bodySource;
+        String emailSubject;
+        if (dbOpeningTemplate != null) {
+            bodySource = dbOpeningTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbOpeningTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        } else {
+            ConfigurableEmailTemplate openingRegistry = ConfigurableEmailTemplate.FEEDBACK_OPENING_SOON;
+            bodySource = openingRegistry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(openingRegistry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        }
+        return coOwners.stream()
+                .map(coOwner -> generateFeedbackSessionEmailBaseForCoowner(
+                        course, session, coOwner, EmailType.FEEDBACK_OPENING_SOON, bodySource, emailSubject))
+                .collect(Collectors.toList());
+    }
+
     private List<EmailWrapper> generateFeedbackSessionOpeningSoonOrClosedEmails(
             FeedbackSession session, EmailType emailType) {
         Course course = session.getCourse();
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedSessionName = SanitizationHelper.sanitizeForHtml(session.getName());
+
+        String configurableKey = emailType == EmailType.FEEDBACK_OPENING_SOON
+                ? "FEEDBACK_OPENING_SOON" : "FEEDBACK_CLOSED";
+        ConfigurableEmailTemplate registry = emailType == EmailType.FEEDBACK_OPENING_SOON
+                ? ConfigurableEmailTemplate.FEEDBACK_OPENING_SOON
+                : ConfigurableEmailTemplate.FEEDBACK_CLOSED;
+
+        EmailTemplate dbTemplate = EmailTemplatesLogic.inst().getEmailTemplate(configurableKey);
+        String bodySource;
+        String emailSubject;
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        } else {
+            bodySource = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        }
+
         // Notify only course co-owners
         List<Instructor> coOwners = usersLogic.getCoOwnersForCourse(course.getId());
         return coOwners.stream()
-                .map(coOwner -> generateFeedbackSessionEmailBaseForCoowner(course, session, coOwner, emailType))
+                .map(coOwner -> generateFeedbackSessionEmailBaseForCoowner(
+                        course, session, coOwner, emailType, bodySource, emailSubject))
                 .collect(Collectors.toList());
     }
 
     private EmailWrapper generateFeedbackSessionEmailBaseForCoowner(
-            Course course, FeedbackSession session, Instructor coOwner, EmailType emailType) {
+            Course course, FeedbackSession session, Instructor coOwner, EmailType emailType,
+            String bodySource, String emailSubject) {
         String additionalNotes;
-        String status;
         if (emailType == EmailType.FEEDBACK_OPENING_SOON) {
             String editUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                     .withCourseId(course.getId())
@@ -165,7 +258,6 @@ public final class SqlEmailGenerator {
                 additionalNotes = fillUpJoinCourseBeforeEditFeedbackSessionDetailsFragment(editUrl,
                         getInstructorCourseJoinUrl(coOwner));
             }
-            status = FEEDBACK_STATUS_SESSION_OPENING_SOON;
         } else {
             String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                     .withCourseId(course.getId())
@@ -173,15 +265,13 @@ public final class SqlEmailGenerator {
                     .withFeedbackSessionId(session.getId().toString())
                     .toAbsoluteString();
             additionalNotes = fillUpViewResponsesDetailsFragment(reportUrl);
-            status = FEEDBACK_STATUS_SESSION_CLOSED;
         }
 
         Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 session.getStartTime(), session.getCourse().getTimeZone(), false);
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 session.getEndTime(), session.getCourse().getTimeZone(), false);
-        String emailBody = Templates.populateTemplate(EmailTemplates.OWNER_FEEDBACK_SESSION,
-                "${status}", status,
+        String emailBody = Templates.populateTemplate(bodySource,
                 "${userName}", SanitizationHelper.sanitizeForHtml(coOwner.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
@@ -195,7 +285,7 @@ public final class SqlEmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(coOwner.getEmail());
         email.setType(emailType);
-        email.setSubjectFromType(course.getName(), session.getName());
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
@@ -236,14 +326,29 @@ public final class SqlEmailGenerator {
             List<Instructor> instructorsToRemind, Instructor instructorToNotify) {
 
         Course course = session.getCourse();
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedSessionName = SanitizationHelper.sanitizeForHtml(session.getName());
+        EmailTemplate dbReminderTemplate = EmailTemplatesLogic.inst().getEmailTemplate("FEEDBACK_SESSION_REMINDER");
+        String template;
+        String emailSubject;
+        if (dbReminderTemplate != null) {
+            template = dbReminderTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbReminderTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.FEEDBACK_SESSION_REMINDER;
+            template = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        }
         List<Instructor> instructorToNotifyAsList = new ArrayList<>();
         if (instructorToNotify != null) {
             instructorToNotifyAsList.add(instructorToNotify);
         }
-
         return generateFeedbackSessionEmailBases(course, session, students, instructorsToRemind, instructorToNotifyAsList,
-                template, EmailType.FEEDBACK_SESSION_REMINDER, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW);
+                template, EmailType.FEEDBACK_SESSION_REMINDER, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, emailSubject);
     }
 
     /**
@@ -338,15 +443,41 @@ public final class SqlEmailGenerator {
         }
 
         String additionalContactInformation = getAdditionalContactInformationFragment(course, isInstructor);
-        String resendLinksTemplate = emailType == EmailType.STUDENT_EMAIL_CHANGED
-                ? Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS
-                : Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS;
+
+        String configurableKey;
+        ConfigurableEmailTemplate summaryRegistry;
+        if (emailType == EmailType.STUDENT_EMAIL_CHANGED) {
+            configurableKey = "STUDENT_EMAIL_CHANGED";
+            summaryRegistry = ConfigurableEmailTemplate.STUDENT_EMAIL_CHANGED;
+        } else if (emailType == EmailType.STUDENT_COURSE_LINKS_REGENERATED) {
+            configurableKey = "STUDENT_COURSE_LINKS_REGENERATED";
+            summaryRegistry = ConfigurableEmailTemplate.STUDENT_COURSE_LINKS_REGENERATED;
+        } else {
+            configurableKey = "INSTRUCTOR_COURSE_LINKS_REGENERATED";
+            summaryRegistry = ConfigurableEmailTemplate.INSTRUCTOR_COURSE_LINKS_REGENERATED;
+        }
+
+        EmailTemplate dbSummaryTemplate = EmailTemplatesLogic.inst().getEmailTemplate(configurableKey);
+        String resendLinksTemplate;
+        String emailSubject;
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        if (dbSummaryTemplate != null) {
+            resendLinksTemplate = dbSummaryTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbSummaryTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", course.getId());
+        } else {
+            resendLinksTemplate = summaryRegistry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(summaryRegistry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", course.getId());
+        }
 
         String userName = isInstructor ? instructor.getName() : student.getName();
         String emailBody = Templates.populateTemplate(resendLinksTemplate,
                 "${userName}", SanitizationHelper.sanitizeForHtml(userName),
                 "${userEmail}", userEmail,
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseName}", sanitizedCourseName,
                 "${courseId}", course.getId(),
                 "${joinFragment}", joinFragmentValue,
                 "${linksFragment}", linksFragmentValue.toString(),
@@ -355,7 +486,7 @@ public final class SqlEmailGenerator {
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setContent(emailBody);
         email.setType(emailType);
-        email.setSubjectFromType(course.getName(), course.getId());
+        email.setSubject(emailSubject);
         return email;
     }
 
@@ -503,10 +634,80 @@ public final class SqlEmailGenerator {
     }
 
     /**
+     * Generates the feedback session closing soon emails for the given {@code students} and
+     * {@code instructors} in {@code session}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#FEEDBACK_CLOSING_SOON}.
+     */
+    public List<EmailWrapper> generateFeedbackSessionClosingSoonEmails(FeedbackSession session,
+            List<Student> students, List<Instructor> instructors,
+            List<Instructor> instructorsToNotify) {
+        Course course = session.getCourse();
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedSessionName = SanitizationHelper.sanitizeForHtml(session.getName());
+
+        EmailTemplate dbClosingSoonTemplate = EmailTemplatesLogic.inst().getEmailTemplate("FEEDBACK_CLOSING_SOON");
+        String template;
+        String emailSubject;
+        if (dbClosingSoonTemplate != null) {
+            template = dbClosingSoonTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbClosingSoonTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.FEEDBACK_CLOSING_SOON;
+            template = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        }
+        return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify,
+                template, EmailType.FEEDBACK_CLOSING_SOON, FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, emailSubject);
+    }
+
+    /**
      * Generates the feedback session closed emails for the given {@code session}.
      */
     public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSession session) {
         return generateFeedbackSessionOpeningSoonOrClosedEmails(session, EmailType.FEEDBACK_CLOSED);
+    }
+
+    /**
+     * Generates the feedback session closed emails for the given {@code coOwners} in {@code session}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#FEEDBACK_CLOSED}.
+     */
+    public List<EmailWrapper> generateFeedbackSessionClosedEmails(FeedbackSession session,
+            List<Instructor> coOwners) {
+        Course course = session.getCourse();
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedSessionName = SanitizationHelper.sanitizeForHtml(session.getName());
+
+        EmailTemplate dbClosedTemplate = EmailTemplatesLogic.inst().getEmailTemplate("FEEDBACK_CLOSED");
+        String bodySource;
+        String emailSubject;
+        if (dbClosedTemplate != null) {
+            bodySource = dbClosedTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbClosedTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        } else {
+            ConfigurableEmailTemplate closedRegistry = ConfigurableEmailTemplate.FEEDBACK_CLOSED;
+            bodySource = closedRegistry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(closedRegistry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        }
+        return coOwners.stream()
+                .map(coOwner -> generateFeedbackSessionEmailBaseForCoowner(
+                        course, session, coOwner, EmailType.FEEDBACK_CLOSED, bodySource, emailSubject))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -542,17 +743,32 @@ public final class SqlEmailGenerator {
             }
         }
 
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING_SOON);
+        EmailTemplate dbExtTemplate = EmailTemplatesLogic.inst().getEmailTemplate("FEEDBACK_CLOSING_SOON");
+        String template;
         EmailType type = EmailType.FEEDBACK_CLOSING_SOON;
+        String emailSubject;
+        if (dbExtTemplate != null) {
+            template = dbExtTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbExtTemplate.getSubject(),
+                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                    "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()));
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.FEEDBACK_CLOSING_SOON;
+            template = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                    "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()));
+        }
         String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
         List<EmailWrapper> emails = new ArrayList<>();
         for (Student student : students) {
             emails.addAll(generateFeedbackSessionEmailBases(course, session, Collections.singletonList(student),
-                    Collections.emptyList(), Collections.emptyList(), template, type, feedbackAction));
+                    Collections.emptyList(), Collections.emptyList(), template, type, feedbackAction, emailSubject));
         }
         for (Instructor instructor : instructors) {
             emails.addAll(generateFeedbackSessionEmailBases(course, session, Collections.emptyList(),
-                    Collections.singletonList(instructor), Collections.emptyList(), template, type, feedbackAction));
+                    Collections.singletonList(instructor), Collections.emptyList(), template, type, feedbackAction,
+                    emailSubject));
         }
         return emails;
     }
@@ -582,6 +798,22 @@ public final class SqlEmailGenerator {
         return generateFeedbackSessionPublishedOrUnpublishedEmails(session, EmailType.FEEDBACK_UNPUBLISHED);
     }
 
+    /**
+     * Generates the feedback session unpublished emails for the given {@code students} and
+     * {@code instructors} in {@code session}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#FEEDBACK_UNPUBLISHED}.
+     */
+    public List<EmailWrapper> generateFeedbackSessionUnpublishedEmails(FeedbackSession session,
+            List<Student> students, List<Instructor> instructors,
+            List<Instructor> instructorsToNotify) {
+        return generateFeedbackSessionPublishedOrUnpublishedEmails(
+                session, students, instructors, instructorsToNotify, EmailType.FEEDBACK_UNPUBLISHED);
+    }
+
     private List<EmailWrapper> generateFeedbackSessionPublishedOrUnpublishedEmails(
             FeedbackSession session, EmailType emailType) {
         boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionViewableToUserType(session, false);
@@ -604,18 +836,46 @@ public final class SqlEmailGenerator {
             FeedbackSession session, List<Student> students,
             List<Instructor> instructors, List<Instructor> instructorsToNotify, EmailType emailType) {
         Course course = session.getCourse();
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedSessionName = SanitizationHelper.sanitizeForHtml(session.getName());
+
         String template;
         String action;
+        String emailSubject;
         if (emailType == EmailType.FEEDBACK_PUBLISHED) {
-            template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
+            EmailTemplate dbTemplate = EmailTemplatesLogic.inst().getEmailTemplate("FEEDBACK_PUBLISHED");
+            if (dbTemplate != null) {
+                template = dbTemplate.getBody();
+                emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                        "${courseName}", sanitizedCourseName,
+                        "${feedbackSessionName}", sanitizedSessionName);
+            } else {
+                ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.FEEDBACK_PUBLISHED;
+                template = registry.getDefaultBody();
+                emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                        "${courseName}", sanitizedCourseName,
+                        "${feedbackSessionName}", sanitizedSessionName);
+            }
             action = FEEDBACK_ACTION_VIEW;
         } else {
-            template = EmailTemplates.USER_FEEDBACK_SESSION_UNPUBLISHED;
+            EmailTemplate dbTemplate = EmailTemplatesLogic.inst().getEmailTemplate("FEEDBACK_UNPUBLISHED");
+            if (dbTemplate != null) {
+                template = dbTemplate.getBody();
+                emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                        "${courseName}", sanitizedCourseName,
+                        "${feedbackSessionName}", sanitizedSessionName);
+            } else {
+                ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.FEEDBACK_UNPUBLISHED;
+                template = registry.getDefaultBody();
+                emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                        "${courseName}", sanitizedCourseName,
+                        "${feedbackSessionName}", sanitizedSessionName);
+            }
             action = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
         }
 
         return generateFeedbackSessionEmailBases(course, session, students, instructors, instructorsToNotify, template,
-                emailType, action);
+                emailType, action, emailSubject);
     }
 
     /**
@@ -663,20 +923,41 @@ public final class SqlEmailGenerator {
     private EmailWrapper generateDeadlineExtensionEmail(
             Course course, FeedbackSession session, Instant oldEndTime, Instant endTime,
             EmailType emailType, String userEmail, boolean isInstructor) {
-        String status;
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedSessionName = SanitizationHelper.sanitizeForHtml(session.getName());
 
+        String configurableKey;
+        ConfigurableEmailTemplate registry;
         switch (emailType) {
         case DEADLINE_EXTENSION_GRANTED:
-            status = "You have been granted a deadline extension for the following feedback session.";
+            configurableKey = "DEADLINE_EXTENSION_GRANTED";
+            registry = ConfigurableEmailTemplate.DEADLINE_EXTENSION_GRANTED;
             break;
         case DEADLINE_EXTENSION_UPDATED:
-            status = "Your deadline for the following feedback session has been updated.";
+            configurableKey = "DEADLINE_EXTENSION_UPDATED";
+            registry = ConfigurableEmailTemplate.DEADLINE_EXTENSION_UPDATED;
             break;
         case DEADLINE_EXTENSION_REVOKED:
-            status = "Your deadline extension for the following feedback session has been revoked.";
+            configurableKey = "DEADLINE_EXTENSION_REVOKED";
+            registry = ConfigurableEmailTemplate.DEADLINE_EXTENSION_REVOKED;
             break;
         default:
             throw new AssertionError("Invalid email type: " + emailType);
+        }
+
+        EmailTemplate dbDeadlineTemplate = EmailTemplatesLogic.inst().getEmailTemplate(configurableKey);
+        String baseTemplate;
+        String emailSubject;
+        if (dbDeadlineTemplate != null) {
+            baseTemplate = dbDeadlineTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbDeadlineTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
+        } else {
+            baseTemplate = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${feedbackSessionName}", sanitizedSessionName);
         }
 
         String additionalContactInformation = getAdditionalContactInformationFragment(course, isInstructor);
@@ -684,12 +965,11 @@ public final class SqlEmailGenerator {
                 TimeHelper.getMidnightAdjustedInstantBasedOnZone(oldEndTime, session.getCourse().getTimeZone(), false);
         Instant newEndTimeFormatted =
                 TimeHelper.getMidnightAdjustedInstantBasedOnZone(endTime, session.getCourse().getTimeZone(), false);
-        String template = EmailTemplates.USER_DEADLINE_EXTENSION
-                .replace("${status}", status)
-                .replace("${oldEndTime}", SanitizationHelper.sanitizeForHtml(
+        String template = Templates.populateTemplate(baseTemplate,
+                "${oldEndTime}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(oldEndTimeFormatted,
-                                session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)))
-                .replace("${newEndTime}", SanitizationHelper.sanitizeForHtml(
+                                session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                "${newEndTime}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(newEndTimeFormatted,
                                 session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)));
         String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
@@ -700,21 +980,23 @@ public final class SqlEmailGenerator {
                 return null;
             }
             return generateFeedbackSessionEmailBaseForInstructors(
-                    course, session, instructor, template, emailType, feedbackAction, additionalContactInformation);
+                    course, session, instructor, template, emailType, feedbackAction, additionalContactInformation,
+                    emailSubject);
         } else {
             Student student = usersLogic.getStudentForEmail(course.getId(), userEmail);
             if (student == null) {
                 return null;
             }
             return generateFeedbackSessionEmailBaseForStudents(
-                    course, session, student, template, emailType, feedbackAction, additionalContactInformation);
+                    course, session, student, template, emailType, feedbackAction, additionalContactInformation,
+                    emailSubject);
         }
     }
 
     private List<EmailWrapper> generateFeedbackSessionEmailBases(
             Course course, FeedbackSession session, List<Student> students,
             List<Instructor> instructors, List<Instructor> instructorsToNotify, String template,
-            EmailType type, String feedbackAction) {
+            EmailType type, String feedbackAction, String emailSubject) {
         StringBuilder studentAdditionalContactBuilder = new StringBuilder();
         StringBuilder instructorAdditionalContactBuilder = new StringBuilder();
         studentAdditionalContactBuilder.append(getAdditionalContactInformationFragment(course, false));
@@ -723,22 +1005,22 @@ public final class SqlEmailGenerator {
         List<EmailWrapper> emails = new ArrayList<>();
         for (Student student : students) {
             emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student,
-                    template, type, feedbackAction, studentAdditionalContactBuilder.toString()));
+                    template, type, feedbackAction, studentAdditionalContactBuilder.toString(), emailSubject));
         }
         for (Instructor instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructors(course, session, instructor,
-                    template, type, feedbackAction, instructorAdditionalContactBuilder.toString()));
+                    template, type, feedbackAction, instructorAdditionalContactBuilder.toString(), emailSubject));
         }
         for (Instructor instructor : instructorsToNotify) {
             emails.add(generateFeedbackSessionEmailBaseForNotifiedInstructors(course, session, instructor,
-                    template, type, feedbackAction, studentAdditionalContactBuilder.toString()));
+                    template, type, feedbackAction, studentAdditionalContactBuilder.toString(), emailSubject));
         }
         return emails;
     }
 
     private EmailWrapper generateFeedbackSessionEmailBaseForStudents(
             Course course, FeedbackSession session, Student student, String template,
-            EmailType type, String feedbackAction, String additionalContactInformation) {
+            EmailType type, String feedbackAction, String additionalContactInformation, String emailSubject) {
         String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getName())
@@ -774,14 +1056,15 @@ public final class SqlEmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.getEmail());
         email.setType(type);
-        email.setSubjectFromType(course.getName(), session.getName());
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
 
     private EmailWrapper generateFeedbackSessionEmailBaseForInstructors(
             Course course, FeedbackSession session, Instructor instructor,
-            String template, EmailType type, String feedbackAction, String additionalContactInformation) {
+            String template, EmailType type, String feedbackAction, String additionalContactInformation,
+            String emailSubject) {
         String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getName())
@@ -819,14 +1102,15 @@ public final class SqlEmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(type);
-        email.setSubjectFromType(course.getName(), session.getName());
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
 
     private EmailWrapper generateFeedbackSessionEmailBaseForNotifiedInstructors(
             Course course, FeedbackSession session, Instructor instructor,
-            String template, EmailType type, String feedbackAction, String additionalContactInformation) {
+            String template, EmailType type, String feedbackAction, String additionalContactInformation,
+            String emailSubject) {
 
         Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
                 session.getEndTime(), session.getCourse().getTimeZone(), false);
@@ -847,7 +1131,7 @@ public final class SqlEmailGenerator {
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(type);
         email.setIsCopy(true);
-        email.setSubjectFromType(course.getName(), session.getName());
+        email.setSubject(EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX + emailSubject);
         email.setContent(emailBody);
         return email;
     }
@@ -862,17 +1146,34 @@ public final class SqlEmailGenerator {
 
     /**
      * Generates the login email for the given user.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#LOGIN}.
      */
     public EmailWrapper generateLoginEmail(String userEmail, String loginLink) {
 
-        String emailBody = Templates.populateTemplate(EmailTemplates.LOGIN_EMAIL,
+        EmailTemplate dbTemplate = EmailTemplatesLogic.inst().getEmailTemplate("LOGIN");
+        String bodySource;
+        String emailSubject;
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = dbTemplate.getSubject();
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.LOGIN;
+            bodySource = registry.getDefaultBody();
+            emailSubject = registry.getDefaultSubject();
+        }
+
+        String emailBody = Templates.populateTemplate(bodySource,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(userEmail),
                 "${loginLink}", loginLink);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
         email.setBcc(Config.SUPPORT_EMAIL);
         email.setType(EmailType.LOGIN);
-        email.setSubjectFromType();
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
@@ -923,39 +1224,94 @@ public final class SqlEmailGenerator {
 
     /**
      * Generates the course join email for the given {@code student} in {@code course}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#STUDENT_COURSE_JOIN}.
      */
     public EmailWrapper generateStudentCourseJoinEmail(Course course, Student student) {
 
-        String emailBody = Templates.populateTemplate(
-                fillUpStudentJoinFragment(student),
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedCourseId = SanitizationHelper.sanitizeForHtml(course.getId());
+        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+
+        EmailTemplate dbTemplate =
+                EmailTemplatesLogic.inst().getEmailTemplate("STUDENT_COURSE_JOIN");
+
+        String bodySource;
+        String emailSubject;
+
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.STUDENT_COURSE_JOIN;
+            bodySource = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        }
+
+        String emailBody = Templates.populateTemplate(bodySource,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseName}", sanitizedCourseName,
+                "${joinUrl}", joinUrl,
                 "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.getEmail());
         email.setType(EmailType.STUDENT_COURSE_JOIN);
-        email.setSubjectFromType(course.getName(), course.getId());
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
 
     /**
      * Generates the course re-join email for the given {@code student} in {@code course}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET}.
      */
     public EmailWrapper generateStudentCourseRejoinEmailAfterGoogleIdReset(
             Course course, Student student) {
 
-        String emailBody = Templates.populateTemplate(
-                fillUpStudentRejoinAfterGoogleIdResetFragment(student),
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedCourseId = SanitizationHelper.sanitizeForHtml(course.getId());
+        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
+
+        EmailTemplate dbTemplate =
+                EmailTemplatesLogic.inst().getEmailTemplate("STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET");
+        String bodySource;
+        String emailSubject;
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        } else {
+            ConfigurableEmailTemplate registry =
+                    ConfigurableEmailTemplate.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET;
+            bodySource = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        }
+
+        String emailBody = Templates.populateTemplate(bodySource,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseName}", sanitizedCourseName,
+                "${joinUrl}", joinUrl,
                 "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.getEmail());
         email.setType(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
-        email.setSubjectFromType(course.getName(), course.getId());
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
@@ -963,46 +1319,105 @@ public final class SqlEmailGenerator {
     /**
      * Generates the course join email for the given {@code instructor} in {@code course}.
      * Also specifies contact information of {@code inviter}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#INSTRUCTOR_COURSE_JOIN}.
      */
     public EmailWrapper generateInstructorCourseJoinEmail(Account inviter,
             Instructor instructor, Course course) {
 
-        String emailBody = Templates.populateTemplate(
-                fillUpInstructorJoinFragment(instructor),
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedCourseId = SanitizationHelper.sanitizeForHtml(course.getId());
+
+        EmailTemplate dbTemplate =
+                EmailTemplatesLogic.inst().getEmailTemplate("INSTRUCTOR_COURSE_JOIN");
+
+        String bodySource;
+        String emailSubject;
+
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.INSTRUCTOR_COURSE_JOIN;
+            bodySource = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        }
+
+        String emailBody = Templates.populateTemplate(bodySource,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseName}", sanitizedCourseName,
                 "${inviterName}", SanitizationHelper.sanitizeForHtml(inviter.getName()),
                 "${inviterEmail}", SanitizationHelper.sanitizeForHtml(inviter.getEmail()),
+                "${joinUrl}", getInstructorCourseJoinUrl(instructor),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(EmailType.INSTRUCTOR_COURSE_JOIN);
-        email.setSubjectFromType(course.getName(), course.getId());
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
 
     /**
      * Generates the course re-join email for the given {@code instructor} in {@code course}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET}.
      */
     public EmailWrapper generateInstructorCourseRejoinEmailAfterGoogleIdReset(
             Instructor instructor, Course course) {
 
-        String emailBody = Templates.populateTemplate(
-                fillUpInstructorRejoinAfterGoogleIdResetFragment(instructor),
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedCourseId = SanitizationHelper.sanitizeForHtml(course.getId());
+        String joinUrl = Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
+
+        EmailTemplate dbTemplate =
+                EmailTemplatesLogic.inst().getEmailTemplate("INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET");
+        String bodySource;
+        String emailSubject;
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        } else {
+            ConfigurableEmailTemplate registry =
+                    ConfigurableEmailTemplate.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET;
+            bodySource = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        }
+
+        String emailBody = Templates.populateTemplate(bodySource,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseName}", sanitizedCourseName,
+                "${joinUrl}", joinUrl,
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
-        email.setSubjectFromType(course.getName(), course.getId());
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
 
     /**
      * Generates the email to alert the admin of the new {@code accountRequest}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#NEW_ACCOUNT_REQUEST_ADMIN_ALERT}.
      */
     public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
         String name = accountRequest.getName();
@@ -1013,6 +1428,20 @@ public final class SqlEmailGenerator {
             comments = "";
         }
         String adminAccountRequestsPageUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.ADMIN_HOME_PAGE).toAbsoluteString();
+
+        EmailTemplate dbTemplate =
+                EmailTemplatesLogic.inst().getEmailTemplate("NEW_ACCOUNT_REQUEST_ADMIN_ALERT");
+        String bodySource;
+        String emailSubject;
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = dbTemplate.getSubject();
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.NEW_ACCOUNT_REQUEST_ADMIN_ALERT;
+            bodySource = registry.getDefaultBody();
+            emailSubject = registry.getDefaultSubject();
+        }
+
         String[] templateKeyValuePairs = new String[] {
                 "${name}", name,
                 "${institute}", institute,
@@ -1020,16 +1449,21 @@ public final class SqlEmailGenerator {
                 "${comments}", comments,
                 "${adminAccountRequestsPageUrl}", adminAccountRequestsPageUrl,
         };
-        String content = Templates.populateTemplate(EmailTemplates.ADMIN_NEW_ACCOUNT_REQUEST_ALERT, templateKeyValuePairs);
+        String content = Templates.populateTemplate(bodySource, templateKeyValuePairs);
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         email.setType(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT);
-        email.setSubjectFromType();
+        email.setSubject(emailSubject);
         email.setContent(content);
         return email;
     }
 
     /**
      * Generates the acknowledgement email to be sent to the person who submitted {@code accountRequest}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT}.
      */
     public EmailWrapper generateNewAccountRequestAcknowledgementEmail(AccountRequest accountRequest) {
         String name = SanitizationHelper.sanitizeForHtml(accountRequest.getName());
@@ -1039,18 +1473,32 @@ public final class SqlEmailGenerator {
         if (comments == null) {
             comments = "";
         }
-        String[] templateKeyValuePairs = new String[] {
+
+        EmailTemplate dbTemplate =
+                EmailTemplatesLogic.inst().getEmailTemplate("NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT");
+
+        String bodySource;
+        String emailSubject;
+
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = dbTemplate.getSubject();
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT;
+            bodySource = registry.getDefaultBody();
+            emailSubject = registry.getDefaultSubject();
+        }
+
+        String content = Templates.populateTemplate(bodySource,
                 "${name}", name,
                 "${institute}", institute,
                 "${emailAddress}", emailAddress,
                 "${comments}", comments,
-                "${supportEmail}", Config.SUPPORT_EMAIL,
-        };
-        String content = Templates.populateTemplate(
-                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
+                "${supportEmail}", Config.SUPPORT_EMAIL);
+
         EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
         email.setType(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT);
-        email.setSubjectFromType();
+        email.setSubject(emailSubject);
         email.setContent(content);
         return email;
     }
@@ -1070,14 +1518,38 @@ public final class SqlEmailGenerator {
 
     /**
      * Generates the course registered email for the user with the given details in {@code course}.
+     *
+     * <p>The email body and subject are sourced from the admin-configured template in the
+     * database if one exists. If no custom template has been saved (or it has been reverted),
+     * the method falls back to the defaults defined in
+     * {@link teammates.ui.webapi.ConfigurableEmailTemplate#USER_COURSE_REGISTER}.
      */
     public EmailWrapper generateUserCourseRegisteredEmail(
             String name, String emailAddress, String googleId, boolean isInstructor, Course course) {
-        String emailBody = Templates.populateTemplate(EmailTemplates.USER_COURSE_REGISTER,
+        String sanitizedCourseName = SanitizationHelper.sanitizeForHtml(course.getName());
+        String sanitizedCourseId = SanitizationHelper.sanitizeForHtml(course.getId());
+
+        EmailTemplate dbTemplate = EmailTemplatesLogic.inst().getEmailTemplate("USER_COURSE_REGISTER");
+        String bodySource;
+        String emailSubject;
+        if (dbTemplate != null) {
+            bodySource = dbTemplate.getBody();
+            emailSubject = Templates.populateTemplate(dbTemplate.getSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        } else {
+            ConfigurableEmailTemplate registry = ConfigurableEmailTemplate.USER_COURSE_REGISTER;
+            bodySource = registry.getDefaultBody();
+            emailSubject = Templates.populateTemplate(registry.getDefaultSubject(),
+                    "${courseName}", sanitizedCourseName,
+                    "${courseId}", sanitizedCourseId);
+        }
+
+        String emailBody = Templates.populateTemplate(bodySource,
                 "${userName}", SanitizationHelper.sanitizeForHtml(name),
                 "${userType}", isInstructor ? "an instructor" : "a student",
-                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseId}", sanitizedCourseId,
+                "${courseName}", sanitizedCourseName,
                 "${googleId}", SanitizationHelper.sanitizeForHtml(googleId),
                 "${appUrl}", isInstructor
                         ? Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).toAbsoluteString()
@@ -1086,45 +1558,13 @@ public final class SqlEmailGenerator {
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
         email.setType(EmailType.USER_COURSE_REGISTER);
-        email.setSubjectFromType(course.getName(), course.getId());
+        email.setSubject(emailSubject);
         email.setContent(emailBody);
         return email;
     }
 
-    private String fillUpStudentJoinFragment(Student student) {
-        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
-
-        return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
-            "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN,
-            "${joinUrl}", joinUrl);
-    }
-
-    private String fillUpStudentRejoinAfterGoogleIdResetFragment(Student student) {
-        String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
-
-        return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
-            "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
-            "${joinUrl}", joinUrl,
-            "${supportEmail}", Config.SUPPORT_EMAIL);
-    }
-
     private String getInstructorCourseJoinUrl(Instructor instructor) {
         return Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
-    }
-
-    private String fillUpInstructorJoinFragment(Instructor instructor) {
-        return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
-            "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN,
-            "${joinUrl}", getInstructorCourseJoinUrl(instructor));
-    }
-
-    private String fillUpInstructorRejoinAfterGoogleIdResetFragment(Instructor instructor) {
-        String joinUrl = Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
-
-        return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
-            "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
-            "${joinUrl}", joinUrl,
-            "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
     private String fillUpInstructorPreamble(Course course, FeedbackSession session) {

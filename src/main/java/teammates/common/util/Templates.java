@@ -96,6 +96,24 @@ public final class Templates {
                 FileHelper.readResourceFile("ownerEmailFragment-viewResponses.html");
         public static final String USER_DEADLINE_EXTENSION =
                 FileHelper.readResourceFile("userEmailTemplate-deadlineExtension.html");
+        public static final String USER_FEEDBACK_SESSION_REMINDER =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionReminder.html");
+        public static final String USER_FEEDBACK_SESSION_CLOSING_SOON =
+                FileHelper.readResourceFile("userEmailTemplate-feedbackSessionClosingSoon.html");
+        public static final String OWNER_FEEDBACK_SESSION_OPENING_SOON =
+                FileHelper.readResourceFile("ownerEmailTemplate-feedbackSessionOpeningSoon.html");
+        public static final String OWNER_FEEDBACK_SESSION_CLOSED =
+                FileHelper.readResourceFile("ownerEmailTemplate-feedbackSessionClosed.html");
+        public static final String USER_DEADLINE_EXTENSION_GRANTED =
+                FileHelper.readResourceFile("userEmailTemplate-deadlineExtensionGranted.html");
+        public static final String USER_DEADLINE_EXTENSION_UPDATED =
+                FileHelper.readResourceFile("userEmailTemplate-deadlineExtensionUpdated.html");
+        public static final String USER_DEADLINE_EXTENSION_REVOKED =
+                FileHelper.readResourceFile("userEmailTemplate-deadlineExtensionRevoked.html");
+        public static final String USER_STUDENT_COURSE_LINKS_REGENERATED =
+                FileHelper.readResourceFile("userEmailTemplate-studentCourseLinksRegenerated.html");
+        public static final String USER_INSTRUCTOR_COURSE_LINKS_REGENERATED =
+                FileHelper.readResourceFile("userEmailTemplate-instructorCourseLinksRegenerated.html");
     }
 
 }

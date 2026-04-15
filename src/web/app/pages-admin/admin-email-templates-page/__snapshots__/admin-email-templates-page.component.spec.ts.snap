@@ -1,0 +1,316 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdminEmailTemplatesPageComponent should snap when template body is loading 1`] = `
+<tm-admin-email-templates-page
+  emailTemplateService={[Function EmailTemplateService]}
+  hasKeysLoadingFailed="false"
+  isKeysLoading="false"
+  isReverting="false"
+  isSaving="false"
+  isTemplateLoading={[Function Boolean]}
+  model={[Function Object]}
+  originalBody={[Function String]}
+  originalSubject={[Function String]}
+  sanitizer={[Function _DomSanitizerImpl]}
+  selectedKey={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  templateKeys={[Function Array]}
+>
+  <p>
+     Customize the emails that TEAMMATES sends to users. Changes take effect immediately for all future emails. If no custom template is saved, the system uses the built-in default.
+  </p><tm-loading-retry>
+    <div>
+      <div
+        class="card margin-top-20px"
+      >
+        <div
+          class="card-body"
+        >
+          <div
+            class="form-group"
+          >
+            <label
+              for="template-selector"
+            >
+              <strong>
+                Select Template to Edit
+              </strong>
+            </label>
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="template-selector"
+            >
+              <option
+                value="NEW_INSTRUCTOR_ACCOUNT_WELCOME"
+              >
+                NEW_INSTRUCTOR_ACCOUNT_WELCOME
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div
+        class="card margin-top-20px"
+      >
+        <div
+          class="card-body"
+        >
+          <tm-loading-spinner>
+            <div
+              class="loading-container"
+            >
+              <div
+                class="row spinner-border text-primary"
+                role="status"
+              />
+              <div
+                class="row text-secondary"
+              >
+                Loading...
+              </div>
+            </div>
+          </tm-loading-spinner>
+        </div>
+      </div>
+    </div>
+  </tm-loading-retry>
+</tm-admin-email-templates-page>
+`;
+
+exports[`AdminEmailTemplatesPageComponent should snap when template keys are loading 1`] = `
+<tm-admin-email-templates-page
+  emailTemplateService={[Function EmailTemplateService]}
+  hasKeysLoadingFailed="false"
+  isKeysLoading={[Function Boolean]}
+  isReverting="false"
+  isSaving="false"
+  isTemplateLoading="false"
+  model={[Function Object]}
+  originalBody={[Function String]}
+  originalSubject={[Function String]}
+  sanitizer={[Function _DomSanitizerImpl]}
+  selectedKey={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  templateKeys={[Function Array]}
+>
+  <p>
+     Customize the emails that TEAMMATES sends to users. Changes take effect immediately for all future emails. If no custom template is saved, the system uses the built-in default.
+  </p><tm-loading-retry>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </tm-loading-retry>
+</tm-admin-email-templates-page>
+`;
+
+exports[`AdminEmailTemplatesPageComponent should snap when template keys failed to load 1`] = `
+<tm-admin-email-templates-page
+  emailTemplateService={[Function EmailTemplateService]}
+  hasKeysLoadingFailed={[Function Boolean]}
+  isKeysLoading="false"
+  isReverting="false"
+  isSaving="false"
+  isTemplateLoading="false"
+  model={[Function Object]}
+  originalBody={[Function String]}
+  originalSubject={[Function String]}
+  sanitizer={[Function _DomSanitizerImpl]}
+  selectedKey={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  templateKeys={[Function Array]}
+>
+  <p>
+     Customize the emails that TEAMMATES sends to users. Changes take effect immediately for all future emails. If no custom template is saved, the system uses the built-in default.
+  </p><tm-loading-retry>
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load template list
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+  </tm-loading-retry>
+</tm-admin-email-templates-page>
+`;
+
+exports[`AdminEmailTemplatesPageComponent should snap with default view 1`] = `
+<tm-admin-email-templates-page
+  emailTemplateService={[Function EmailTemplateService]}
+  hasKeysLoadingFailed="false"
+  isKeysLoading="false"
+  isReverting="false"
+  isSaving="false"
+  isTemplateLoading="false"
+  model={[Function Object]}
+  originalBody={[Function String]}
+  originalSubject={[Function String]}
+  sanitizer={[Function _DomSanitizerImpl]}
+  selectedKey={[Function String]}
+  statusMessageService={[Function StatusMessageService]}
+  templateKeys={[Function Array]}
+>
+  <p>
+     Customize the emails that TEAMMATES sends to users. Changes take effect immediately for all future emails. If no custom template is saved, the system uses the built-in default.
+  </p><tm-loading-retry>
+    <div>
+      <div
+        class="card margin-top-20px"
+      >
+        <div
+          class="card-body"
+        >
+          <div
+            class="form-group"
+          >
+            <label
+              for="template-selector"
+            >
+              <strong>
+                Select Template to Edit
+              </strong>
+            </label>
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="template-selector"
+            >
+              <option
+                value="NEW_INSTRUCTOR_ACCOUNT_WELCOME"
+              >
+                NEW_INSTRUCTOR_ACCOUNT_WELCOME
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div
+        class="card margin-top-20px"
+      >
+        <div
+          class="card-body"
+        >
+          <div>
+            <div
+              class="alert alert-info"
+              role="alert"
+            >
+              <strong>
+                💡 Available Variables:
+              </strong>
+               You can use 
+              <code>
+                \${userName}
+              </code>
+               and 
+              <code>
+                \${joinUrl}
+              </code>
+               in your message. The system will automatically replace these when sending the email. 
+            </div>
+            <div
+              class="form-group"
+            >
+              <label
+                for="template-subject"
+              >
+                <strong>
+                  Subject
+                </strong>
+              </label>
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="template-subject"
+                placeholder="Email subject line"
+                type="text"
+              />
+            </div>
+            <div
+              class="row margin-top-20px"
+            >
+              <div
+                class="col-md-6"
+              >
+                <label>
+                  <strong>
+                    HTML Body
+                  </strong>
+                </label>
+                <textarea
+                  class="form-control template-body-editor ng-untouched ng-pristine ng-valid"
+                  id="template-body"
+                  placeholder="Enter the HTML body for the email..."
+                >
+                </textarea>
+              </div>
+              <div
+                class="col-md-6"
+              >
+                <label>
+                  <strong>
+                    Live Preview
+                  </strong>
+                </label>
+                <div
+                  class="template-preview-panel"
+                >
+                  <p>
+                    Hello \${userName}, please join via 
+                    <a
+                      href="\${joinUrl}"
+                    >
+                      \${joinUrl}
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="margin-top-10px"
+            >
+              <span
+                class="badge badge-secondary"
+              >
+                Using Default Template
+              </span>
+            </div>
+            <div
+              class="d-flex justify-content-end gap-2 margin-top-20px"
+            >
+              <button
+                class="btn btn-primary"
+              >
+                <i
+                  class="fas fa-save"
+                />
+                 Save Template 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-loading-retry>
+</tm-admin-email-templates-page>
+`;

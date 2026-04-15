@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - master
+      - feature/custom-email-templates
 
   pull_request:
     branches:
       - master
+      - feature/custom-email-templates
 
 jobs:
   build:
