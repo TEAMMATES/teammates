@@ -10,6 +10,7 @@ import jakarta.servlet.http.Cookie;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.AuthInfo;
@@ -111,8 +112,8 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     }
 
     @Test
-    public void testExecute_addCsrfTokenCookies_shouldAddToResponseAccordingToExistingCsrfToken() {
-        String expectedCsrfToken = StringHelper.encrypt("1234");
+    public void testExecute_addCsrfTokenCookies_shouldAddToResponseAccordingToExistingCsrfToken()
+            throws InvalidParametersException {
         String[] emptyParams = new String[] {};
 
         ______TS("No logged in user");
@@ -122,7 +123,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         GetAuthInfoAction a = getAction(emptyParams);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(expectedCsrfToken, r.getCookies().get(0).getValue());
+        assertEquals("1234", StringHelper.decrypt(r.getCookies().get(0).getValue()));
 
         ______TS("User logged in with fake csrf token");
 
@@ -131,7 +132,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
         r = getJsonResult(a);
 
-        assertEquals(expectedCsrfToken, r.getCookies().get(0).getValue());
+        assertEquals("1234", StringHelper.decrypt(r.getCookies().get(0).getValue()));
 
         ______TS("User logged in with non existing csrf token");
 
@@ -140,7 +141,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getAction(emptyParams);
         r = getJsonResult(a);
 
-        assertEquals(expectedCsrfToken, r.getCookies().get(0).getValue());
+        assertEquals("1234", StringHelper.decrypt(r.getCookies().get(0).getValue()));
 
         ______TS("User logged in with matched CSRF token cookies");
 

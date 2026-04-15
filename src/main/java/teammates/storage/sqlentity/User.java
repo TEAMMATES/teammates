@@ -53,7 +53,7 @@ public abstract class User extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 512)
     private String regKey;
 
     @UpdateTimestamp

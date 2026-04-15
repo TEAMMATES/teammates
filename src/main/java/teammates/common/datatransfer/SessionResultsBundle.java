@@ -117,10 +117,10 @@ public class SessionResultsBundle {
      * <p>The anonymous name will be deterministic based on {@code name}.
      */
     public static String getAnonName(FeedbackParticipantType type, String name) {
-        String hashedEncryptedName = getHashOfName(getEncryptedName(name));
+        String hashedSignedName = getHashOfName(StringHelper.generateSha256Hmac("anon-name:" + name));
         String participantType = type.toSingularFormString();
         return String.format(
-                Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " %s %s", participantType, hashedEncryptedName);
+            "%s %s %s", Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT, participantType, hashedSignedName);
     }
 
     public Map<FeedbackQuestion, List<FeedbackResponse>> getQuestionResponseMap() {
@@ -129,10 +129,6 @@ public class SessionResultsBundle {
 
     public Map<FeedbackQuestion, List<FeedbackResponse>> getQuestionMissingResponseMap() {
         return questionMissingResponseMap;
-    }
-
-    private static String getEncryptedName(String name) {
-        return StringHelper.encrypt(name);
     }
 
     private static String getHashOfName(String name) {
