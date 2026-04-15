@@ -21,6 +21,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.sqllogic.core.AccountRequestsLogic;
@@ -1026,10 +1027,11 @@ public class Logic {
     /**
      * Searches instructors in the whole system. Used by admin only.
      *
-     * @return List of found instructors in the whole system. Returns an empty list
-     *         if no results are found.
+     * @return List of found instructors in the whole system. Null if no result
+     *         found.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
+            throws SearchServiceException {
         assert queryString != null;
 
         return usersLogic.searchInstructorsInWholeSystem(queryString);
@@ -1182,9 +1184,10 @@ public class Logic {
      *
      * @param instructors a list of Instructors associated to a AccountId,
      *                    used for filtering of search result
-     * @return an empty list if no match is found
+     * @return Null if no match found
      */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
+            throws SearchServiceException {
         assert queryString != null;
         assert instructors != null;
         return usersLogic.searchStudents(queryString, instructors);
@@ -1197,9 +1200,10 @@ public class Logic {
      * to
      * search students in the whole system.
      *
-     * @return an empty list if no match is found.
+     * @return Null if no match found.
      */
-    public List<Student> searchStudentsInWholeSystem(String queryString) {
+    public List<Student> searchStudentsInWholeSystem(String queryString)
+            throws SearchServiceException {
         assert queryString != null;
 
         return usersLogic.searchStudentsInWholeSystem(queryString);
@@ -1768,9 +1772,10 @@ public class Logic {
     /**
      * This is used by admin to search account requests in the whole system.
      *
-     * @return A list of matching {@link AccountRequest}s, or an empty list if no match is found.
+     * @return A list of {@link AccountRequest} or {@code null} if no match found.
      */
-    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
+    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString)
+            throws SearchServiceException {
         assert queryString != null;
 
         return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);
@@ -1793,15 +1798,14 @@ public class Logic {
     /**
      * Create feedback session logs.
      */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs)
-            throws InvalidParametersException {
+    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs) {
         feedbackSessionLogsLogic.createFeedbackSessionLogs(feedbackSessionLogs);
     }
 
     /**
      * Create feedback session log.
      */
-    public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) throws InvalidParametersException {
+    public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) {
         feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSessionLog);
     }
 
