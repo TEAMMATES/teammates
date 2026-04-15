@@ -40,12 +40,12 @@ public class GetInstructorsAction extends Action {
         if (intentStr == null) {
             // get partial details of instructors with information hiding
             // student should belong to the course
-            Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+            Student student = sqlLogic.getStudentByAccountId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(student, course);
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // this need instructor privileges
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, course);
         } else {
             throw new InvalidHttpParameterException("unknown intent");
@@ -69,21 +69,21 @@ public class GetInstructorsAction extends Action {
 
             // hide information
             data.getInstructors().forEach(i -> {
-                i.setGoogleId(null);
+                i.setAccountId(null);
                 i.setJoinState(null);
                 i.setIsDisplayedToStudents(null);
                 i.setRole(null);
             });
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
-            // adds googleId if caller is admin or has the appropriate privilege to modify instructor
-            if (userInfo.isAdmin || sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()).getPrivileges()
+            // adds accountId if caller is admin or has the appropriate privilege to modify instructor
+            if (userInfo.isAdmin || sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()).getPrivileges()
                     .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 data = new InstructorsData();
 
                 for (Instructor instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);
-                    instructorData.setGoogleId(instructor.getGoogleId());
+                    instructorData.setAccountId(instructor.getAccountId());
                     if (userInfo.isAdmin) {
                         instructorData.setKey(instructor.getRegKey());
                     }

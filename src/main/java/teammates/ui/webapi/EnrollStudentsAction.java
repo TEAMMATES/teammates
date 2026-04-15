@@ -46,7 +46,7 @@ public class EnrollStudentsAction extends Action {
         }
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
                     instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }

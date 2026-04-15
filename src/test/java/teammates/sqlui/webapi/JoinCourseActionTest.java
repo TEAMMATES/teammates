@@ -1,3 +1,4 @@
+
 package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.reset;

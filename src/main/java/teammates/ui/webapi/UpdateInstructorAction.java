@@ -27,7 +27,7 @@ public class UpdateInstructorAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(
                 instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
@@ -51,7 +51,7 @@ public class UpdateInstructorAction extends Action {
         sqlLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
 
         InstructorData newInstructorData = new InstructorData(updatedInstructor);
-        newInstructorData.setGoogleId(updatedInstructor.getGoogleId());
+        newInstructorData.setAccountId(updatedInstructor.getAccountId());
 
         return new JsonResult(newInstructorData);
     }

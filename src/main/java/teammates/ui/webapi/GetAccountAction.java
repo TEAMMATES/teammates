@@ -4,6 +4,8 @@ import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.ui.output.AccountData;
 
+import java.util.UUID;
+
 /**
  * Gets account's information.
  */
@@ -11,9 +13,9 @@ public class GetAccountAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        UUID accountId = getUuidRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
-        Account account = sqlLogic.getAccountForGoogleId(googleId);
+        Account account = sqlLogic.getAccount(accountId);
 
         if (account == null) {
             throw new EntityNotFoundException("Account does not exist.");

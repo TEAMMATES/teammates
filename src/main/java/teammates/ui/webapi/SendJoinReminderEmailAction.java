@@ -30,7 +30,7 @@ public class SendJoinReminderEmailAction extends Action {
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
 
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
@@ -78,7 +78,7 @@ public class SendJoinReminderEmailAction extends Action {
                 throw new EntityNotFoundException(
                         "Instructor with email " + instructorEmail + " does not exist in course " + courseId + "!");
             }
-            Account inviter = sqlLogic.getAccountForGoogleId(userInfo.id);
+            Account inviter = sqlLogic.getAccount(userInfo.id);
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter account does not exist.");
             }

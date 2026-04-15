@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.util.Const;
@@ -87,10 +88,10 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
             String courseId = courseIdFeedbackSessionList.getKey();
             List<FeedbackSession> feedbackSessions = courseIdFeedbackSessionList.getValue();
             List<Instructor> instructors = sqlLogic.getInstructorsByCourse(courseId);
-            String googleId = getRegisteredInstructorGoogleIdFromInstructors(instructors);
+            UUID accountId = getRegisteredInstructorAccountIdFromInstructors(instructors);
             String institute = sqlLogic.getCourse(courseId).getInstitute();
             List<OngoingSession> sessions = feedbackSessions.stream()
-                    .map(session -> new OngoingSession(session, googleId))
+                    .map(session -> new OngoingSession(session, accountId))
                     .collect(Collectors.toList());
             instituteToFeedbackSessionsMap.computeIfAbsent(institute, k -> new ArrayList<>()).addAll(sessions);
         }
@@ -130,10 +131,10 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
         return output;
     }
 
-    private String getRegisteredInstructorGoogleIdFromInstructors(List<Instructor> instructors) {
+    private UUID getRegisteredInstructorAccountIdFromInstructors(List<Instructor> instructors) {
         for (Instructor instructor : instructors) {
             if (instructor.isRegistered()) {
-                return instructor.getGoogleId();
+                return instructor.getAccountId();
             }
         }
         return null;

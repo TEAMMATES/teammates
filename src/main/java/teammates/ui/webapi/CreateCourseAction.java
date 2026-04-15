@@ -30,7 +30,7 @@ public class CreateCourseAction extends Action {
         }
 
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-        List<Instructor> existingInstructors = sqlLogic.getInstructorsForGoogleId(userInfo.getId());
+        List<Instructor> existingInstructors = sqlLogic.getInstructorsForAccountId(userInfo.getId());
         boolean canCreateCourse = existingInstructors.stream()
                 .filter(Instructor::hasCoownerPrivileges)
                 .map(instructor -> sqlLogic.getCourse(instructor.getCourseId()))

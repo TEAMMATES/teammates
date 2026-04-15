@@ -43,7 +43,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
