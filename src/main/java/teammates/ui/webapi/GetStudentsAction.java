@@ -27,12 +27,12 @@ public class GetStudentsAction extends Action {
 
         if (teamName == null) {
             // request to get all students of a course by instructor
-            Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
+            Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.accountId);
             gateKeeper.verifyAccessible(instructor, sqlLogic.getCourse(courseId),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
             // request to get team member by current student
-            Student student = sqlLogic.getStudentByAccountId(courseId, userInfo.id);
+            Student student = sqlLogic.getStudentByAccountId(courseId, userInfo.accountId);
             if (student == null || !teamName.equals(student.getTeamName())) {
                 throw new UnauthorizedAccessException("You are not part of the team");
             }
@@ -44,7 +44,7 @@ public class GetStudentsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String teamName = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
 
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.accountId);
         String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS;
         boolean hasCoursePrivilege = instructor != null
                 && instructor.isAllowedForPrivilege(privilegeName);

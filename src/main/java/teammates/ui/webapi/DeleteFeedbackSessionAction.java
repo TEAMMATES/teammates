@@ -19,7 +19,7 @@ public class DeleteFeedbackSessionAction extends Action {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-        gateKeeper.verifyAccessible(sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()), feedbackSession,
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

@@ -22,7 +22,7 @@ public class GetCourseSectionNamesAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Course course = sqlLogic.getCourse(courseId);
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.accountId);
 
         gateKeeper.verifyAccessible(instructor, course);
     }

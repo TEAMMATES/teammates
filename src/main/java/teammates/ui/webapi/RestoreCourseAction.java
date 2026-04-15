@@ -22,7 +22,7 @@ public class RestoreCourseAction extends Action {
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Course course = sqlLogic.getCourse(idOfCourseToRestore);
 
-        gateKeeper.verifyAccessible(sqlLogic.getInstructorByAccountId(idOfCourseToRestore, userInfo.id),
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByAccountId(idOfCourseToRestore, userInfo.accountId),
                 course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 

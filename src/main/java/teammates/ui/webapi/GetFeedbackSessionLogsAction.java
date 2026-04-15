@@ -41,7 +41,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             throw new EntityNotFoundException("Course is not found");
         }
 
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId());
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);

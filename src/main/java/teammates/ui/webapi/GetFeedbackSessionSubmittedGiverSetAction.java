@@ -21,7 +21,7 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId());
 
         gateKeeper.verifyAccessible(instructor, feedbackSession);
     }

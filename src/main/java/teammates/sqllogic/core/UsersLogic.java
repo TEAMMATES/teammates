@@ -111,17 +111,10 @@ public final class UsersLogic {
     public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
             InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
         Instructor instructor;
-        String accountIdString = instructorRequest.getId();
-        if (accountIdString == null) {
+        UUID accountId = instructorRequest.getId();
+        if (accountId == null) {
             instructor = getInstructorForEmail(courseId, instructorRequest.getEmail());
         } else {
-            UUID accountId;
-            try {
-                accountId  = UUID.fromString(accountIdString);
-            } catch (IllegalArgumentException e) {
-                throw new InvalidParametersException("Instructor id must be a valid UUID.");
-            }
-
             instructor = getInstructorByAccountId(courseId, accountId);
         }
 

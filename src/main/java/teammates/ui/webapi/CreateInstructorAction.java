@@ -39,7 +39,7 @@ public class CreateInstructorAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.accountId);
         gateKeeper.verifyAccessible(
                 instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
@@ -84,7 +84,7 @@ public class CreateInstructorAction extends Action {
         Instructor createdInstructor = sqlLogic.createInstructor(instructorToAdd);
 
         // Generate and queue invitation email to priority queue (user-triggered)
-        Account inviter = sqlLogic.getAccount(userInfo.id);
+        Account inviter = sqlLogic.getAccount(userInfo.accountId);
         if (inviter == null) {
             throw new EntityNotFoundException("Inviter account does not exist.");
         }

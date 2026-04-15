@@ -4,6 +4,8 @@ import teammates.common.util.Const;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 
+import java.util.UUID;
+
 /**
  * Action: deletes a student from a course.
  */
@@ -26,7 +28,7 @@ public class DeleteStudentAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.accountId);
         gateKeeper.verifyAccessible(
                 instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
@@ -34,7 +36,7 @@ public class DeleteStudentAction extends Action {
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ACCOUNT_ID);
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_ACCOUNT_ID);
 
         String studentEmail = null;
 

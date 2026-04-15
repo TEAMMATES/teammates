@@ -36,7 +36,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             break;
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()),
+            gateKeeper.verifyAccessible(sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId()),
                     feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:

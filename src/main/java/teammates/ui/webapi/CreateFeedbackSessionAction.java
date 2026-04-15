@@ -35,7 +35,7 @@ public class CreateFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId());
         Course course = sqlLogic.getCourse(courseId);
 
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
@@ -52,7 +52,7 @@ public class CreateFeedbackSessionAction extends Action {
         if (course == null) {
             throw new InvalidHttpParameterException("Failed to find course with the given course id.");
         }
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId());
         if (instructor == null) {
             throw new InvalidHttpParameterException("Failed to find instructor with the given courseId and accountId.");
         }

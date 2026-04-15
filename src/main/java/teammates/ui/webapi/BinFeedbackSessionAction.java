@@ -22,7 +22,7 @@ public class BinFeedbackSessionAction extends Action {
 
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()),
+                sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }

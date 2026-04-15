@@ -25,7 +25,7 @@ public class RestoreFeedbackSessionAction extends Action {
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
 
         gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()),
+                sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
@@ -49,7 +49,7 @@ public class RestoreFeedbackSessionAction extends Action {
 
         FeedbackSession restoredFs = getNonNullFeedbackSession(feedbackSessionName, courseId);
         FeedbackSessionData output = new FeedbackSessionData(restoredFs);
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId());
         InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
         output.setPrivileges(privilege);
 

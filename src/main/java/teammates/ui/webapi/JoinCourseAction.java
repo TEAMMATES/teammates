@@ -5,7 +5,6 @@ import org.apache.http.HttpStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -49,14 +48,15 @@ public class JoinCourseAction extends Action {
         Student student;
 
         try {
-            student = sqlLogic.joinCourseForStudent(regkey, userInfo.id);
+            student = sqlLogic.joinCourseForStudent(regkey, userInfo.accountId);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
-            throw new UnexpectedServerException(ipe);
+            log.severe("Unexpected error", ipe);
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         sendJoinEmail(student.getCourseId(), student.getName(), student.getEmail(), false);
@@ -68,14 +68,15 @@ public class JoinCourseAction extends Action {
         Instructor instructor;
 
         try {
-            instructor = sqlLogic.joinCourseForInstructor(regkey, userInfo.id);
+            instructor = sqlLogic.joinCourseForInstructor(regkey, userInfo.accountId);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
-            throw new UnexpectedServerException(ipe);
+            log.severe("Unexpected error", ipe);
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         sendJoinEmail(instructor.getCourseId(), instructor.getName(), instructor.getEmail(), true);
@@ -86,7 +87,7 @@ public class JoinCourseAction extends Action {
     private void sendJoinEmail(String courseId, String userName, String userEmail, boolean isInstructor) {
         Course course = sqlLogic.getCourse(courseId);
         EmailWrapper email = sqlEmailGenerator.generateUserCourseRegisteredEmail(
-                userName, userEmail, userInfo.id, isInstructor, course);
+                userName, userEmail, userInfo.accountId, isInstructor, course);
         emailSender.sendEmail(email);
     }
 }

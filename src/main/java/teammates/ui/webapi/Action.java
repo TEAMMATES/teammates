@@ -105,8 +105,8 @@ public abstract class Action {
      */
     public void checkAccessControl() throws UnauthorizedAccessException {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null && !userInfo.isAdmin && !userParam.equals(userInfo.id)) {
-            throw new UnauthorizedAccessException("User " + userInfo.id
+        if (userInfo != null && userParam != null && !userInfo.isAdmin && !userParam.equals(userInfo.accountId)) {
+            throw new UnauthorizedAccessException("User " + userInfo.accountId
                     + " is trying to masquerade as " + userParam + " without admin permission.");
         }
 
@@ -130,7 +130,7 @@ public abstract class Action {
     public RequestLogUser getUserInfoForLogging() {
         RequestLogUser user = new RequestLogUser();
 
-        String accountId = userInfo == null ? null : userInfo.getId();
+        UUID accountId = userInfo == null ? null : userInfo.getAccountId();
 
         user.setAccountId(accountId);
         if (unregisteredSqlStudent == null && unregisteredSqlInstructor == null) {
@@ -148,7 +148,7 @@ public abstract class Action {
     private void initAuthInfo() {
         if (Config.BACKDOOR_KEY.equals(req.getHeader(Const.HeaderNames.BACKDOOR_KEY))) {
             authType = AuthType.ALL_ACCESS;
-            userInfo = userProvision.getAdminOnlyUser(getRequestParamValue(Const.ParamsNames.USER_ID));
+            userInfo = userProvision.getAdminOnlyUser(getUuidRequestParamValue(Const.ParamsNames.USER_ID));
             userInfo.isStudent = true;
             userInfo.isInstructor = true;
             return;
@@ -166,7 +166,7 @@ public abstract class Action {
 
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
 
-        String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
+        UUID userParam = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
         if (userInfo != null && userParam != null && userInfo.isAdmin && !trustedInternalCronOrWorker) {
             userInfo = userProvision.getMasqueradeUser(userParam);
             authType = AuthType.MASQUERADE;
@@ -324,7 +324,7 @@ public abstract class Action {
             if (userInfo == null) {
                 return null;
             }
-            return sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
+            return sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId());
         });
     }
 
@@ -333,7 +333,7 @@ public abstract class Action {
             if (userInfo == null) {
                 return null;
             }
-            return sqlLogic.getStudentByAccountId(courseId, userInfo.getId());
+            return sqlLogic.getStudentByAccountId(courseId, userInfo.getAccountId());
         });
     }
 

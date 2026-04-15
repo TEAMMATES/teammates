@@ -40,12 +40,12 @@ public class GetInstructorsAction extends Action {
         if (intentStr == null) {
             // get partial details of instructors with information hiding
             // student should belong to the course
-            Student student = sqlLogic.getStudentByAccountId(courseId, userInfo.getId());
+            Student student = sqlLogic.getStudentByAccountId(courseId, userInfo.getAccountId());
             gateKeeper.verifyAccessible(student, course);
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // this need instructor privileges
-            Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
+            Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId());
             gateKeeper.verifyAccessible(instructor, course);
         } else {
             throw new InvalidHttpParameterException("unknown intent");
@@ -77,7 +77,7 @@ public class GetInstructorsAction extends Action {
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // adds accountId if caller is admin or has the appropriate privilege to modify instructor
-            if (userInfo.isAdmin || sqlLogic.getInstructorByAccountId(courseId, userInfo.getId()).getPrivileges()
+            if (userInfo.isAdmin || sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId()).getPrivileges()
                     .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 data = new InstructorsData();
 

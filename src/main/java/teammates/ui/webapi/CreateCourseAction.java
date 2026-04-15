@@ -30,7 +30,7 @@ public class CreateCourseAction extends Action {
         }
 
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-        List<Instructor> existingInstructors = sqlLogic.getInstructorsForAccountId(userInfo.getId());
+        List<Instructor> existingInstructors = sqlLogic.getInstructorsForAccountId(userInfo.getAccountId());
         boolean canCreateCourse = existingInstructors.stream()
                 .filter(Instructor::hasCoownerPrivileges)
                 .map(instructor -> sqlLogic.getCourse(instructor.getCourseId()))
@@ -60,7 +60,7 @@ public class CreateCourseAction extends Action {
         Course course = new Course(newCourseId, newCourseName, newCourseTimeZone, institute);
 
         try {
-            sqlLogic.createCourseAndInstructor(userInfo.getId(), course);
+            sqlLogic.createCourseAndInstructor(userInfo.getAccountId(), course);
 
             Course createdCourse = sqlLogic.getCourse(newCourseId);
             return new JsonResult(new CourseData(createdCourse));

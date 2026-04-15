@@ -30,7 +30,7 @@ public class PublishFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId());
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         gateKeeper.verifyAccessible(instructor, feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);

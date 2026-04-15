@@ -28,7 +28,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
 
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getId());
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId());
         gateKeeper.verifyAccessible(
                 instructor,
                 feedbackSession,
@@ -56,7 +56,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         List<Student> studentsToRemindList = new ArrayList<>();
         List<Instructor> instructorsToRemindList = new ArrayList<>();
         Instructor instructorToNotify = isSendingCopyToInstructor
-                ? sqlLogic.getInstructorByAccountId(courseId, userInfo.getId())
+                ? sqlLogic.getInstructorByAccountId(courseId, userInfo.getAccountId())
                 : null;
 
         for (String userEmail : usersToRemind) {

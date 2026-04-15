@@ -48,7 +48,7 @@ public class GetCoursesAction extends Action {
     }
 
     private JsonResult getStudentCourses() {
-        List<Course> courses = sqlLogic.getCoursesForStudentAccount(userInfo.id);
+        List<Course> courses = sqlLogic.getCoursesForStudentAccount(userInfo.accountId);
         CoursesData coursesData = new CoursesData(courses);
         List<CourseData> courseDataList = coursesData.getCourses();
 
@@ -60,7 +60,7 @@ public class GetCoursesAction extends Action {
     private JsonResult getInstructorCourses() {
         String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
 
-        List<Instructor> instructors = sqlLogic.getInstructorsForAccountId(userInfo.id);
+        List<Instructor> instructors = sqlLogic.getInstructorsForAccountId(userInfo.accountId);
         List<Course> courses;
 
         switch (courseStatus) {

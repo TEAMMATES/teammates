@@ -2,14 +2,13 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
-import teammates.common.exception.InvalidParametersException;
+import org.hibernate.ObjectNotFoundException;
+
+import teammates.common.util.Logger;
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
-import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
-import teammates.storage.sqlentity.Student;
 
 /**
  * Handles operations related to feedback sessions.
@@ -19,7 +18,11 @@ import teammates.storage.sqlentity.Student;
  */
 public final class FeedbackSessionLogsLogic {
 
+    private static final Logger log = Logger.getLogger();
+
     private static final FeedbackSessionLogsLogic instance = new FeedbackSessionLogsLogic();
+
+    private static final String ERROR_FAILED_TO_CREATE_LOG = "Failed to create session activity log";
 
     private FeedbackSessionLogsDb fslDb;
 
@@ -38,50 +41,24 @@ public final class FeedbackSessionLogsLogic {
     /**
      * Creates feedback session logs.
      */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> fsLogs) throws InvalidParametersException {
-        if (fsLogs == null) {
-            throw new InvalidParametersException("Feedback session logs list does not exist");
-        }
-
+    public void createFeedbackSessionLogs(List<FeedbackSessionLog> fsLogs) {
         for (FeedbackSessionLog fsLog : fsLogs) {
-            createFeedbackSessionLog(fsLog);
+            try {
+                fslDb.createFeedbackSessionLog(fsLog);
+            } catch (ObjectNotFoundException e) {
+                log.severe(String.format(ERROR_FAILED_TO_CREATE_LOG), e);
+            }
         }
     }
 
     /**
      * Creates feedback session log.
      */
-    public void createFeedbackSessionLog(FeedbackSessionLog fsLog) throws InvalidParametersException {
-        if (fsLog == null) {
-            throw new InvalidParametersException("Feedback session log does not exist");
-        }
-        validateFeedbackSessionLogContext(fsLog.getStudent(), fsLog.getFeedbackSession());
-        fslDb.createFeedbackSessionLog(fsLog);
-    }
-
-    /**
-     * Deletes feedback session logs older than the given cutoff time.
-     */
-    public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
-        return fslDb.deleteFeedbackSessionLogsOlderThan(cutoffTime);
-    }
-
-    /**
-     * Validates that feedback session log entities belong to the same course.
-     */
-    private void validateFeedbackSessionLogContext(Student student, FeedbackSession feedbackSession)
-            throws InvalidParametersException {
-        if (student == null) {
-            throw new InvalidParametersException("Student for feedback session log does not exist");
-        }
-        if (feedbackSession == null) {
-            throw new InvalidParametersException("Feedback session for feedback session log does not exist");
-        }
-
-        String studentCourseId = student.getCourse().getId();
-        String feedbackSessionCourseId = feedbackSession.getCourse().getId();
-        if (!Objects.equals(studentCourseId, feedbackSessionCourseId)) {
-            throw new InvalidParametersException("Student and feedback session belong to different courses");
+    public void createFeedbackSessionLog(FeedbackSessionLog fsLog) {
+        try {
+            fslDb.createFeedbackSessionLog(fsLog);
+        } catch (ObjectNotFoundException e) {
+            log.severe(String.format(ERROR_FAILED_TO_CREATE_LOG), e);
         }
     }
 

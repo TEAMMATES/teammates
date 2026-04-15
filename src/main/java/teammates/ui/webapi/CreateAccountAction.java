@@ -81,7 +81,7 @@ public class CreateAccountAction extends Action {
         assert !instructorList.isEmpty();
 
         try {
-            sqlLogic.joinCourseForInstructor(instructorList.get(0).getRegKey(), userInfo.id);
+            sqlLogic.joinCourseForInstructor(instructorList.get(0).getRegKey(), userInfo.accountId);
         } catch (EntityDoesNotExistException | EntityAlreadyExistsException | InvalidParametersException e) {
             // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
             // EntityAlreadyExistsException should not be thrown as updated entities should not have

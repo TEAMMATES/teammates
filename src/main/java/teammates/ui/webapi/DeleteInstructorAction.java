@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -28,20 +29,20 @@ public class DeleteInstructorAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.id);
+        Instructor instructor = sqlLogic.getInstructorByAccountId(courseId, userInfo.accountId);
         gateKeeper.verifyAccessible(
                 instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
     public JsonResult execute() throws InvalidOperationException {
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        UUID instructorAccountId = getUuidRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Instructor instructor;
-        if (instructorId != null) {
-            instructor = sqlLogic.getInstructorByAccountId(courseId, instructorId);
+        if (instructorAccountId != null) {
+            instructor = sqlLogic.getInstructorByAccountId(courseId, instructorAccountId);
         } else if (instructorEmail != null) {
             instructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
         } else {

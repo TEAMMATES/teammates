@@ -5,6 +5,8 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.sqllogic.core.UsersLogic;
 
+import java.util.UUID;
+
 /**
  * Handles logic related to username and user role provisioning.
  */
@@ -32,7 +34,7 @@ public class UserProvision {
             return null;
         }
 
-        String userId = user.id;
+        UUID userId = user.accountId;
         user.isAdmin = Config.getAppAdmins().contains(userId);
         user.isInstructor = usersLogic.isInstructorInAnyCourse(userId);
         user.isStudent = usersLogic.isStudentInAnyCourse(userId);
@@ -48,25 +50,25 @@ public class UserProvision {
             return null;
         }
 
-        return new UserInfo(uic.getUserId());
+        return new UserInfo(uic.getAccountId());
     }
 
     /**
      * Gets the information of the current masqueraded user.
      */
-    public UserInfo getMasqueradeUser(String googleId) {
-        UserInfo userInfo = new UserInfo(googleId);
+    public UserInfo getMasqueradeUser(UUID accountId) {
+        UserInfo userInfo = new UserInfo(accountId);
         userInfo.isAdmin = false;
-        userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(googleId);
-        userInfo.isStudent = usersLogic.isStudentInAnyCourse(googleId);
-        userInfo.isMaintainer = Config.getAppMaintainers().contains(googleId);
+        userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(accountId);
+        userInfo.isStudent = usersLogic.isStudentInAnyCourse(accountId);
+        userInfo.isMaintainer = Config.getAppMaintainers().contains(accountId);
         return userInfo;
     }
 
     /**
      * Gets the information of a user who has administrator role only.
      */
-    public UserInfo getAdminOnlyUser(String userId) {
+    public UserInfo getAdminOnlyUser(UUID userId) {
         UserInfo userInfo = new UserInfo(userId);
         userInfo.isAdmin = true;
         return userInfo;

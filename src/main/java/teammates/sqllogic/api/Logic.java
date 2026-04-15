@@ -1806,13 +1806,6 @@ public class Logic {
     }
 
     /**
-     * Deletes feedback session logs older than the given cutoff time.
-     */
-    public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
-        return feedbackSessionLogsLogic.deleteFeedbackSessionLogsOlderThan(cutoffTime);
-    }
-
-    /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp. Logs with the same timestamp will be ordered by the
      * student's email.

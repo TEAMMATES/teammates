@@ -24,7 +24,7 @@ public class GetReadNotificationsAction extends Action {
 
     @Override
     public ActionResult execute() {
-        Account account = sqlLogic.getAccount(userInfo.getId());
+        Account account = sqlLogic.getAccount(userInfo.getAccountId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);

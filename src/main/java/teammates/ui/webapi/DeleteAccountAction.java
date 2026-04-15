@@ -2,6 +2,8 @@ package teammates.ui.webapi;
 
 import teammates.common.util.Const;
 
+import java.util.UUID;
+
 /**
  * Action: deletes an existing account (either student or instructor).
  */
@@ -9,7 +11,7 @@ public class DeleteAccountAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String accountId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        UUID accountId = getUuidRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
         sqlLogic.deleteAccountCascade(accountId);
 

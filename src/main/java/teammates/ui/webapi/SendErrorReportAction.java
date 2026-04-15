@@ -35,7 +35,7 @@ public class SendErrorReportAction extends Action {
      * Gets the user error report that will be sent to the system admin.
      */
     public String getUserErrorReportLogMessage(ErrorReportRequest report) {
-        String user = userInfo == null ? "Non-logged in user" : userInfo.id;
+        String user = userInfo == null ? "Non-logged in user" : userInfo.accountId.toString();
         return "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
                 + "USER: " + user + System.lineSeparator()
                 + "REQUEST ID: " + report.getRequestId() + System.lineSeparator()
