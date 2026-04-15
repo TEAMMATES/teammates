@@ -28,8 +28,8 @@ export class AdminAccountsPageComponent implements OnInit {
   studentCourses: Course[] = [];
   accountInfo: Account = {
     accountId: '',
-    googleId: '',
-    name: '',
+    subject: '',
+    issuer: '',
     email: '',
   };
 
@@ -106,7 +106,7 @@ export class AdminAccountsPageComponent implements OnInit {
    * Deletes the entire account.
    */
   deleteAccount(): void {
-    const id: string = this.accountInfo.googleId;
+    const id: string = this.accountInfo.accountId;
     this.accountService.deleteAccount(id).subscribe({
       next: () => {
         this.navigationService.navigateWithSuccessMessage('/web/admin/search',
@@ -124,7 +124,7 @@ export class AdminAccountsPageComponent implements OnInit {
   removeStudentFromCourse(courseId: string): void {
     this.studentService.deleteStudent({
       courseId,
-      googleId: this.accountInfo.googleId,
+      accountId: this.accountInfo.accountId,
     }).subscribe({
       next: () => {
         this.studentCourses = this.studentCourses.filter((course: Course) => course.courseId !== courseId);
@@ -142,7 +142,7 @@ export class AdminAccountsPageComponent implements OnInit {
   removeInstructorFromCourse(courseId: string): void {
     this.instructorService.deleteInstructor({
       courseId,
-      instructorId: this.accountInfo.googleId,
+      instructorId: this.accountInfo.accountId,
     }).subscribe({
       next: () => {
         this.instructorCourses = this.instructorCourses.filter((course: Course) => course.courseId !== courseId);

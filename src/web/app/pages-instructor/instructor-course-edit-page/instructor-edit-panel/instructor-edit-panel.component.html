@@ -43,12 +43,12 @@
   <div class="card-body text-center" [ngClass]="{'fill-plain': editMode === EditMode.ADD}">
     @if (editMode === EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor) {
       <div class="row form-group">
-        <label for="google-id-instructor-{{ instructorIndex + 1 }}" class="col-sm-2 control-label">
-          Google ID:
+        <label for="account-id-instructor-{{ instructorIndex + 1 }}" class="col-sm-2 control-label">
+          Account ID:
         </label>
         @if (instructor.joinState === JoinState.JOINED) {
           <div class="col-sm-9">
-            <input id="google-id-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" [ngModel]="instructor.googleId" disabled>
+            <input id="account-id-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" [ngModel]="instructor.accountId" disabled>
           </div>
         }
         @if (instructor.joinState === JoinState.NOT_JOINED) {

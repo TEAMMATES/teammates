@@ -142,7 +142,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         };
         when(mockLogic.getInstructorForEmail(stubInstructor.getCourseId(), stubInstructor.getEmail()))
                 .thenReturn(stubInstructor);
-        when(mockSqlEmailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(
+        when(mockSqlEmailGenerator.generateInstructorCourseRejoinEmailAfterAccountIdReset(
                 stubInstructor, stubInstructor.getCourse())).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
         JsonResult jsonResult = action.execute();
@@ -164,7 +164,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         };
         when(mockLogic.getStudentForEmail(stubStudent.getCourseId(), stubStudent.getEmail()))
                 .thenReturn(stubStudent);
-        when(mockSqlEmailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(
+        when(mockSqlEmailGenerator.generateStudentCourseRejoinEmailAfterAccountIdReset(
                 stubStudent.getCourse(), stubStudent)).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
         JsonResult jsonResult = action.execute();
@@ -186,7 +186,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         };
         when(mockLogic.getStudentForEmail(stubStudent.getCourseId(), stubStudent.getEmail()))
                 .thenReturn(stubStudentAfterReset);
-        when(mockSqlEmailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(
+        when(mockSqlEmailGenerator.generateStudentCourseRejoinEmailAfterAccountIdReset(
                 stubStudent.getCourse(), stubStudentAfterReset)).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
         JsonResult jsonResult = action.execute();
@@ -208,7 +208,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         };
         when(mockLogic.getInstructorForEmail(stubInstructor.getCourseId(), stubInstructor.getEmail()))
                 .thenReturn(stubInstructorAfterReset);
-        when(mockSqlEmailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(
+        when(mockSqlEmailGenerator.generateInstructorCourseRejoinEmailAfterAccountIdReset(
                 stubInstructorAfterReset, stubInstructor.getCourse())).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
         JsonResult jsonResult = action.execute();

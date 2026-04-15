@@ -56,7 +56,7 @@
                   </div>
                 </td>
                 <td [innerHtml]="instructor.name | highlighter:searchString:true"></td>
-                <td><a href="{{ instructor.homePageLink }}" (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="instructor.googleId | highlighter:searchString:true">
+                <td><a href="{{ instructor.homePageLink }}" (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="instructor.accountId | highlighter:searchString:true">
                 </a>
               </td>
               <td [innerHtml]="instructor.institute | highlighter:searchString:true"></td>
@@ -68,9 +68,9 @@
                   </a>
                 }
                 <br>
-                  @if (instructor.googleId) {
-                    <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)">
-                      <i class="fas fa-sync"></i> Reset Google ID
+                  @if (instructor.accountId) {
+                    <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorAccountId(instructor, $event)">
+                      <i class="fas fa-sync"></i> Reset Account ID
                     </a>
                   }
                   <br>
@@ -173,24 +173,24 @@
                     <td><a href="{{ student.profilePageLink }}"
                       (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.name | highlighter:searchString:true">
                     </a></td>
-                    <td>@if (student.googleId) {
+                    <td>@if (student.accountId) {
                       <a href="{{ student.homePageLink }}"
-                        (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.googleId | highlighter:searchString:true">
+                        (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer" [innerHtml]="student.accountId | highlighter:searchString:true">
                       </a>
                     }</td>
                     <td [innerHtml]="student.institute | highlighter:searchString:true"></td>
                     <td [innerHtml]="student.comments | highlighter:searchString:true"></td>
                     <td>
-                      @if (student.googleId && student.manageAccountLink) {
+                      @if (student.accountId && student.manageAccountLink) {
                         <a href="{{ student.manageAccountLink }}"
                           (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
                           <i class="fas fa-info-circle"></i> Manage this account
                         </a>
                       }
                       <br>
-                        @if (student.googleId) {
-                          <a id="reset-student-id-{{i}}" href="javascript:;" (click)="resetStudentGoogleId(student, $event)">
-                            <i class="fas fa-sync"></i> Reset Google ID
+                        @if (student.accountId) {
+                          <a id="reset-student-id-{{i}}" href="javascript:;" (click)="resetStudentAccountId(student, $event)">
+                            <i class="fas fa-sync"></i> Reset Account ID
                           </a>
                         }
                         <br>
