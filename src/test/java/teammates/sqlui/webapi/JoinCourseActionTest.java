@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnexpectedServerException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.Course;
@@ -131,8 +132,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
         JoinCourseAction action = getAction(params);
-        JsonResult jsonResult = getJsonResult(action, 500);
-        assertEquals(500, jsonResult.getStatusCode());
+        assertThrows(UnexpectedServerException.class, action::execute);
         verifyNoEmailsSent();
     }
 
@@ -203,8 +203,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         JoinCourseAction action = getAction(params);
-        JsonResult jsonResult = getJsonResult(action, 500);
-        assertEquals(500, jsonResult.getStatusCode());
+        assertThrows(UnexpectedServerException.class, action::execute);
         verifyNoEmailsSent();
     }
 
