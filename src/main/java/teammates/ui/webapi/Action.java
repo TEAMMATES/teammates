@@ -274,6 +274,20 @@ public abstract class Action {
     }
 
     /**
+     * Returns the first value for the specified parameter expected to be present
+     * and non-blank in the HTTP request.
+     * @throws InvalidHttpParameterException if the parameter is null or blank.
+     */
+    String getNonBlankRequestParamValue(String paramName) {
+        String value = req.getParameter(paramName);
+        if (StringHelper.isEmpty(value)) {
+            throw new InvalidHttpParameterException(
+                    String.format("The [%s] HTTP parameter is empty or null.", paramName));
+        }
+        return value;
+    }
+
+    /**
      * Deserializes and validates the request body payload.
      */
     <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) throws InvalidHttpRequestBodyException {
