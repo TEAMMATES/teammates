@@ -24,15 +24,15 @@ public class OngoingSession {
     private final String courseId;
     private final String feedbackSessionName;
 
-    public OngoingSession(FeedbackSession fs, String googleId) {
+    public OngoingSession(FeedbackSession fs, UUID accountId) {
         this.feedbackSessionId = fs.getId();
         this.sessionStatus = getSessionStatusForShow(fs);
         String instructorHomePageLink;
-        if (googleId == null) {
+        if (accountId == null) {
             instructorHomePageLink = null;
         } else {
             instructorHomePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                    .withUserId(googleId)
+                    .withUserId(accountId.toString())
                     .toString();
         }
         this.instructorHomePageLink = instructorHomePageLink;
