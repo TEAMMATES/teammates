@@ -28,7 +28,7 @@ public class CreateFeedbackSessionLogAction extends Action {
             throw new UnauthorizedAccessException("Only students can create feedback session logs.");
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
         UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
         Student requestedStudent = sqlLogic.getStudent(studentId);
         Student authenticatedStudent = getPossiblyUnregisteredSqlStudent(courseId);
@@ -46,15 +46,15 @@ public class CreateFeedbackSessionLogAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
+        String fslType = getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
         if (convertedFslType == null) {
             throw new InvalidHttpParameterException("Invalid log type");
         }
 
-        getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
+        getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        getNonBlankRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
         UUID fsId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
