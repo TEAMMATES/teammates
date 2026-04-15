@@ -291,79 +291,115 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForGoogleId_null_throwException() {
-        assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForGoogleId(null));
+    public void testGetInvalidityInfoForOidcIssuer_null_throwException() {
+        assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForOidcIssuer(null));
     }
 
     @Test
-    public void testGetInvalidityInfoForGoogleId_valid_returnEmptyString() {
-        String typicalId = "valid9.Goo-gle.id_";
-        assertEquals("Valid Google ID (typical) should return empty string", "",
-                     FieldValidator.getInvalidityInfoForGoogleId(typicalId));
+    public void testGetInvalidityInfoForOidcIssuer_valid_returnEmptyString() {
+        String typicalIssuer = "https://accounts.google.com";
+        assertEquals("Valid OIDC issuer (typical) should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcIssuer(typicalIssuer));
 
-        String shortId = "e";
-        assertEquals("Valid Google ID (short) should return empty string", "",
-                     FieldValidator.getInvalidityInfoForGoogleId(shortId));
+        String issuerWithPortAndPath = "https://example.com:8443/oidc/provider";
+        assertEquals("Valid OIDC issuer with port and path should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcIssuer(issuerWithPortAndPath));
 
-        String emailAsId = "someone@yahoo.com";
-        assertEquals("Valid Google ID (typical email) should return empty string", "",
-                     FieldValidator.getInvalidityInfoForGoogleId(emailAsId));
-
-        String shortEmailAsId = "e@y.c";
-        assertEquals("Valid Google ID (short email) should return empty string", "",
-                     FieldValidator.getInvalidityInfoForGoogleId(shortEmailAsId));
-
-        String maxLengthId = StringHelperExtension.generateStringOfLength(FieldValidator.GOOGLE_ID_MAX_LENGTH);
-        assertEquals("Valid Google ID (max length) should return empty string", "",
-                     FieldValidator.getInvalidityInfoForGoogleId(maxLengthId));
     }
 
     @Test
-    public void testGetInvalidityInfoForGoogleId_invalid_returnErrorString() {
-        String emptyId = "";
-        assertEquals("Invalid Google ID (empty) should return appropriate error message",
-                     "The field 'Google ID' is empty. A Google ID must be a valid id "
-                         + "already registered with Google. It cannot be longer than "
-                         + "254 characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(emptyId));
+    public void testGetInvalidityInfoForOidcIssuer_invalid_returnErrorString() {
+        String emptyIssuer = "";
+        assertEquals("Invalid OIDC issuer (empty) should return appropriate error message",
+                "\"\" is not acceptable to TEAMMATES as a/an OIDC issuer because it is not in the correct "
+                        + "format. An OIDC issuer must be a case-sensitive https URL with a host, may include "
+                        + "a port and path, and cannot contain query parameters or fragments.",
+                FieldValidator.getInvalidityInfoForOidcIssuer(emptyIssuer));
 
-        String whitespaceId = "     ";
-        assertEquals("Invalid Google ID (contains whitespaces only) should return appropriate error message",
-                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
-                        "${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME),
-                     FieldValidator.getInvalidityInfoForGoogleId(whitespaceId));
+        String issuerWithWhitespace = " https://accounts.google.com ";
+        assertEquals("OIDC issuer with surrounding whitespace should fail based on URL format, not trim rules",
+                "\" https://accounts.google.com \" is not acceptable to TEAMMATES as a/an OIDC issuer because it "
+                        + "is not in the correct format. An OIDC issuer must be a case-sensitive https URL with a "
+                        + "host, may include a port and path, and cannot contain query parameters or fragments.",
+                FieldValidator.getInvalidityInfoForOidcIssuer(issuerWithWhitespace));
 
-        String untrimmedId = "  googleIdWithSpacesAround    ";
-        assertEquals("Invalid Google ID (leading/trailing whitespaces) should return appropriate error message",
-                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
-                        "${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME),
-                     FieldValidator.getInvalidityInfoForGoogleId(untrimmedId));
+        String whitespaceIssuer = "     ";
+        assertEquals("Invalid OIDC issuer (contains whitespaces only) should return appropriate error message",
+                "\"     \" is not acceptable to TEAMMATES as a/an OIDC issuer because it is not in the correct "
+                        + "format. An OIDC issuer must be a case-sensitive https URL with a host, may include "
+                        + "a port and path, and cannot contain query parameters or fragments.",
+                FieldValidator.getInvalidityInfoForOidcIssuer(whitespaceIssuer));
 
-        String tooLongId = StringHelperExtension.generateStringOfLength(FieldValidator.GOOGLE_ID_MAX_LENGTH + 1);
-        assertEquals("Invalid Google ID (too long) should return appropriate error message",
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaa\" is not acceptable to TEAMMATES as a/an Google ID because it is too "
-                         + "long. A Google ID must be a valid id already registered with Google. It cannot "
-                         + "be longer than 254 characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(tooLongId));
+        String untrimmedIssuer = "  https://accounts.google.com  ";
+        assertEquals("Invalid OIDC issuer (leading/trailing whitespaces) should return appropriate error message",
+                "\"  https://accounts.google.com  \" is not acceptable to TEAMMATES as a/an OIDC issuer because "
+                        + "it is not in the correct format. An OIDC issuer must be a case-sensitive https URL "
+                        + "with a host, may include a port and path, and cannot contain query parameters or "
+                        + "fragments.",
+                FieldValidator.getInvalidityInfoForOidcIssuer(untrimmedIssuer));
 
-        String idWithSpaces = "invalid google id with spaces";
-        assertEquals("Invalid Google ID (with spaces) should return appropriate error message",
-                     "\"invalid google id with spaces\" is not acceptable to TEAMMATES as a/an Google ID "
-                         + "because it is not in the correct format. A Google ID must be a valid id already "
-                         + "registered with Google. It cannot be longer than 254 characters, cannot be empty "
-                         + "and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(idWithSpaces));
+        String insecureIssuer = "http://accounts.google.com";
+        assertEquals("Invalid OIDC issuer (non-https) should return appropriate error message",
+                "\"http://accounts.google.com\" is not acceptable to TEAMMATES as a/an OIDC issuer because it "
+                        + "is not in the correct format. An OIDC issuer must be a case-sensitive https URL "
+                        + "with a host, may include a port and path, and cannot contain query parameters or "
+                        + "fragments.",
+                FieldValidator.getInvalidityInfoForOidcIssuer(insecureIssuer));
 
-        String idWithInvalidHtmlChar = "invalid google id with HTML/< special characters";
-        assertEquals("Invalid Google ID (contains HTML characters) should return appropriate error message",
-                     "\"invalid google id with HTML/< special characters\" is not acceptable to "
-                         + "TEAMMATES as a/an Google ID because it is not in the correct format. A Google ID "
-                         + "must be a valid id already registered with Google. It cannot be longer than 254 "
-                         + "characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar));
+        String issuerWithQuery = "https://accounts.google.com?foo=bar";
+        assertEquals("Invalid OIDC issuer (query) should return appropriate error message",
+                "\"https://accounts.google.com?foo=bar\" is not acceptable to TEAMMATES as a/an OIDC issuer "
+                        + "because it is not in the correct format. An OIDC issuer must be a case-sensitive "
+                        + "https URL with a host, may include a port and path, and cannot contain query "
+                        + "parameters or fragments.",
+                FieldValidator.getInvalidityInfoForOidcIssuer(issuerWithQuery));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForOidcSubject_null_throwException() {
+        assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForOidcSubject(null));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForOidcSubject_valid_returnEmptyString() {
+        String typicalSubject = "AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4";
+        assertEquals("Valid OIDC subject (typical) should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcSubject(typicalSubject));
+
+        String emptySubject = "";
+        assertEquals("Empty OIDC subject should return empty string because the spec only mandates ASCII and length", "",
+                FieldValidator.getInvalidityInfoForOidcSubject(emptySubject));
+
+        String shortSubject = "1";
+        assertEquals("Valid OIDC subject (short) should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcSubject(shortSubject));
+
+        String subjectWithSpaces = "  oidc-subject  ";
+        assertEquals("OIDC subject with surrounding spaces should return empty string because spaces are valid ASCII",
+                "", FieldValidator.getInvalidityInfoForOidcSubject(subjectWithSpaces));
+
+        String maxLengthSubject = StringHelperExtension.generateStringOfLength(FieldValidator.OIDC_SUBJECT_MAX_LENGTH);
+        assertEquals("Valid OIDC subject (max length) should return empty string", "",
+                FieldValidator.getInvalidityInfoForOidcSubject(maxLengthSubject));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForOidcSubject_invalid_returnErrorString() {
+        String tooLongSubject = StringHelperExtension.generateStringOfLength(FieldValidator.OIDC_SUBJECT_MAX_LENGTH + 1);
+        String expectedTooLongSubjectMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an "
+                        + "OIDC subject because it is too long. An OIDC subject must be a case-sensitive ASCII "
+                        + "string. The value of a/an OIDC subject should be no longer than 255 characters.",
+                tooLongSubject);
+        assertEquals("Invalid OIDC subject (too long) should return appropriate error message",
+                expectedTooLongSubjectMessage,
+                FieldValidator.getInvalidityInfoForOidcSubject(tooLongSubject));
+
+        String nonAsciiSubject = "sub-ümlaut";
+        assertEquals("Invalid OIDC subject (non-ASCII) should return appropriate error message",
+                "\"sub-ümlaut\" is not acceptable to TEAMMATES as a/an OIDC subject because it is not in the "
+                + "correct format. An OIDC subject must be a case-sensitive ASCII string. The value "
+                        + "of a/an OIDC subject should be no longer than 255 characters.",
+                FieldValidator.getInvalidityInfoForOidcSubject(nonAsciiSubject));
     }
 
     @Test
@@ -832,25 +868,6 @@ public class FieldValidatorTest extends BaseTestCase {
         ______TS("failure: contains invalid character");
         courseId = "CS101+B";
         assertFalse(StringHelper.isMatching(courseId, FieldValidator.REGEX_COURSE_ID));
-    }
-
-    @Test
-    public void testRegexGoogleIdNonEmail() {
-        ______TS("success: typical google id");
-        String googleId = "teammates.instr";
-        assertTrue(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
-
-        ______TS("success: google id with all accepted characters");
-        googleId = "teammates.new_instr-3";
-        assertTrue(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
-
-        ______TS("failure: is email");
-        googleId = "teammates.instr@email.com";
-        assertFalse(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
-
-        ______TS("failure: contains invalid character");
-        googleId = "teammates.$instr";
-        assertFalse(StringHelper.isMatching(googleId, FieldValidator.REGEX_GOOGLE_ID_NON_EMAIL));
     }
 
 }

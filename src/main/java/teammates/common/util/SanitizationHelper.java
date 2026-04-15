@@ -41,16 +41,16 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Sanitizes a google ID by removing leading/trailing whitespace.
+     * Sanitizes a Login Identifier by removing leading/trailing whitespace.
      *
-     * @return the sanitized google ID or null (if the parameter was null).
+     * @return the sanitized Login Identifier ID or null (if the parameter was null).
      */
-    public static String sanitizeGoogleId(String rawGoogleId) {
-        if (rawGoogleId == null) {
+    public static String sanitizeLoginIdentifier(String rawLoginIdentifier) {
+        if (rawLoginIdentifier == null) {
             return null;
         }
 
-        return rawGoogleId.trim();
+        return rawLoginIdentifier.trim();
     }
 
     /**

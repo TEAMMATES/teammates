@@ -402,4 +402,11 @@ public final class Const {
         public static final String SEND_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
     }
 
+    /**
+     * Constants related to OIDC
+     */
+    public static class OIDC {
+        public static final String ISSUER_SCHEME = "https";
+    }
+
 }

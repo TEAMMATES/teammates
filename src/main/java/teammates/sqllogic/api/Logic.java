@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.OidcProviderNameType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -33,6 +34,7 @@ import teammates.sqllogic.core.FeedbackResponseCommentsLogic;
 import teammates.sqllogic.core.FeedbackResponsesLogic;
 import teammates.sqllogic.core.FeedbackSessionLogsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
+import teammates.sqllogic.core.LoginIssuerLogic;
 import teammates.sqllogic.core.NotificationsLogic;
 import teammates.sqllogic.core.UsageStatisticsLogic;
 import teammates.sqllogic.core.UsersLogic;
@@ -46,6 +48,7 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.LoginIssuer;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
 import teammates.storage.sqlentity.Section;
@@ -75,6 +78,7 @@ public class Logic {
     final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
     final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final FeedbackSessionLogsLogic feedbackSessionLogsLogic = FeedbackSessionLogsLogic.inst();
+    final LoginIssuerLogic loginIssuerLogic = LoginIssuerLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
     final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
@@ -96,8 +100,8 @@ public class Logic {
      *                                      invalid.
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
-            String comments) throws InvalidParametersException {
+    public AccountRequest createAccountRequest(String name, String email, String institute,
+            AccountRequestStatus status, String comments) throws InvalidParametersException {
 
         return accountRequestLogic.createAccountRequest(name, email, institute, status, comments);
     }
@@ -187,17 +191,39 @@ public class Logic {
     }
 
     /**
-     * Gets an account by googleId.
-     */
-    public Account getAccountForGoogleId(String googleId) {
-        return accountsLogic.getAccountForGoogleId(googleId);
-    }
-
-    /**
      * Get a list of accounts associated with email provided.
      */
     public List<Account> getAccountsForEmail(String email) {
         return accountsLogic.getAccountsForEmail(email);
+    }
+
+    /**
+     * Gets the issuer to provider name mapping for the specified issuer.
+     */
+    public LoginIssuer getLoginIssuer(String issuerString) {
+        return loginIssuerLogic.getLoginIssuer(issuerString);
+    }
+
+    /**
+     * Gets the provider name for the specified issuer.
+     */
+    public OidcProviderNameType getProviderNameForIssuer(String issuerString) {
+        return loginIssuerLogic.getProviderNameForIssuer(issuerString);
+    }
+
+    /**
+     * Creates an issuer to provider name mapping.
+     */
+    public LoginIssuer createLoginIssuer(LoginIssuer loginIssuer)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return loginIssuerLogic.createLoginIssuer(loginIssuer);
+    }
+
+    /**
+     * Deletes an issuer to provider name mapping.
+     */
+    public void deleteLoginIssuer(String issuerString) {
+        loginIssuerLogic.deleteLoginIssuer(issuerString);
     }
 
     /**
@@ -214,7 +240,7 @@ public class Logic {
     }
 
     /**
-     * Deletes account by googleId.
+     * Deletes account by account Id.
      *
      * <ul>
      * <li>Fails silently if no such account.</li>
@@ -225,12 +251,12 @@ public class Logic {
      * </p>
      * All parameters are non-null.
      */
-    public void deleteAccount(String googleId) {
-        accountsLogic.deleteAccount(googleId);
+    public void deleteAccount(UUID accountId) {
+        accountsLogic.deleteAccount(accountId);
     }
 
     /**
-     * Deletes account and all users by googleId.
+     * Deletes account and all users by accountId.
      *
      * <ul>
      * <li>Fails silently if no such account.</li>
@@ -241,15 +267,15 @@ public class Logic {
      * </p>
      * All parameters are non-null.
      */
-    public void deleteAccountCascade(String googleId) {
-        accountsLogic.deleteAccountCascade(googleId);
+    public void deleteAccountCascade(UUID accountId) {
+        accountsLogic.deleteAccountCascade(accountId);
     }
 
     /**
-     * Gets all students associated with a googleId.
+     * Gets all students associated with an account Id.
      */
-    public List<Student> getStudentsByGoogleId(String googleId) {
-        return usersLogic.getStudentsByGoogleId(googleId);
+    public List<Student> getStudentsByAccountId(UUID accountId) {
+        return usersLogic.getStudentsByAccountId(accountId);
     }
 
     /**
@@ -274,10 +300,10 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<Course> getCoursesForStudentAccount(String googleId) {
-        assert googleId != null;
+    public List<Course> getCoursesForStudentAccount(UUID accountId) {
+        assert accountId != null;
 
-        return coursesLogic.getCoursesForStudentAccount(googleId);
+        return coursesLogic.getCoursesForStudentAccount(accountId);
     }
 
     /**
@@ -331,18 +357,18 @@ public class Logic {
      *
      * <br/>
      * Preconditions: <br/>
-     * * {@code instructorGoogleId} already has an account and instructor
+     * * {@code instructorAccountId} already has an account and instructor
      * privileges.
      *
-     * @param instructorGoogleId the Google ID of the instructor creating the
+     * @param instructorAccountId the account Id of the instructor creating the
      *                           course.
      * @param course             the course to create.
      * @throws InvalidParametersException   if the course is not valid.
      * @throws EntityAlreadyExistsException if the course already exists.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, Course course)
+    public void createCourseAndInstructor(UUID instructorAccountId, Course course)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        coursesLogic.createCourseAndInstructor(instructorGoogleId, course);
+        coursesLogic.createCourseAndInstructor(instructorAccountId, course);
     }
 
     /**
@@ -859,7 +885,8 @@ public class Logic {
     }
 
     /**
-     * Creates a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
+     * Creates a read notification for the account with {@code accountId}
+     * and the notification with {@code notificationId}.
      */
     public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
         return notificationsLogic.createReadNotification(accountId, notificationId);
@@ -897,17 +924,17 @@ public class Logic {
     }
 
     /**
-     * Gets an instructor by associated {@code googleId}.
+     * Gets an instructor by associated {@code accountId}.
      */
-    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
-        return usersLogic.getInstructorByGoogleId(courseId, googleId);
+    public Instructor getInstructorByAccountId(String courseId, UUID accountId) {
+        return usersLogic.getInstructorByAccountId(courseId, accountId);
     }
 
     /**
-     * Gets list of instructors by {@code googleId}.
+     * Gets list of instructors by {@code accountId}.
      */
-    public List<Instructor> getInstructorsForGoogleId(String googleId) {
-        return usersLogic.getInstructorsForGoogleId(googleId);
+    public List<Instructor> getInstructorsForAccountId(UUID accountId) {
+        return usersLogic.getInstructorsForAccountId(accountId);
     }
 
     /**
@@ -933,49 +960,43 @@ public class Logic {
     }
 
     /**
-     * Make the instructor join the course, i.e. associate the Google ID to the
+     * Make the instructor join the course, i.e. associate the Account to the
      * instructor.<br>
-     * Creates an account for the instructor if no existing account is found.
-     * Preconditions: <br>
-     * * Parameters regkey and googleId are non-null.
+     * * Parameters regkey and accountId are non-null.
      */
-    public Instructor joinCourseForInstructor(String regkey, String googleId)
+    public Instructor joinCourseForInstructor(String regkey, UUID accountId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        assert googleId != null;
+        assert accountId != null;
         assert regkey != null;
 
-        return accountsLogic.joinCourseForInstructor(regkey, googleId);
+        return accountsLogic.joinCourseForInstructor(regkey, accountId);
     }
 
     /**
-     * Validates that the join course request is valid, then
-     * makes the instructor join the course, i.e. associate an account to the
-     * instructor with the given googleId.
-     * Creates an account for the instructor if no existing account is found.
-     * Preconditions:
-     * Parameters regkey and googleId are non-null.
+     * Validates that an existing instructor can be linked to an existing account, then performs the link.
+     *
+     * <p>This is a lower-level helper flow than the registration-key-based join path.</p>
      */
-    public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
+    public Instructor joinCourseForInstructor(UUID accountId, Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        if (googleId == null) {
-            throw new InvalidParametersException("Instructor's googleId cannot be null");
+        if (accountId == null) {
+            throw new InvalidParametersException("Instructor's accountId cannot be null");
         }
         if (instructor == null) {
             throw new InvalidParametersException("Instructor cannot be null");
         }
 
-        validateJoinCourseRequest(googleId, instructor);
-        return usersLogic.joinCourseForInstructor(googleId, instructor);
+        validateInstructorAccountLinkRequest(accountId, instructor);
+        return usersLogic.attachAccountToInstructor(accountId, instructor);
     }
 
     /**
-     * Validates that the instructor can join the course it has as courseId field.
+     * Validates that the instructor can be linked to the given account for its course.
      *
-     * @return true if the instructor can join the course.
      * @throws Exception if the instructor cannot join the course.
      */
-    private boolean validateJoinCourseRequest(String googleId, Instructor instructor)
+    private void validateInstructorAccountLinkRequest(UUID accountId, Instructor instructor)
             throws EntityAlreadyExistsException, EntityDoesNotExistException {
         if (instructor == null) {
             throw new EntityDoesNotExistException("Instructor not found");
@@ -995,13 +1016,12 @@ public class Logic {
         if (instructor.isRegistered()) {
             throw new EntityAlreadyExistsException("Instructor has already joined course");
         } else {
-            // Check if this Google ID has already joined this course with courseId
-            Instructor existingInstructor = usersLogic.getInstructorByGoogleId(instructor.getCourseId(), googleId);
+            // Check if this Account has already joined this course with courseId
+            Instructor existingInstructor = usersLogic.getInstructorByAccountId(instructor.getCourseId(), accountId);
             if (existingInstructor != null) {
                 throw new EntityAlreadyExistsException("Instructor has already joined course");
             }
         }
-        return true;
     }
 
     /**
@@ -1034,11 +1054,11 @@ public class Logic {
     }
 
     /**
-     * Checks if an instructor with {@code googleId} can create a course with
+     * Checks if an instructor with {@code accountId} can create a course with
      * {@code institute}.
      */
-    public boolean canInstructorCreateCourse(String googleId, String institute) {
-        return usersLogic.canInstructorCreateCourse(googleId, institute);
+    public boolean canInstructorCreateCourse(UUID accountId, String institute) {
+        return usersLogic.canInstructorCreateCourse(accountId, institute);
     }
 
     /**
@@ -1112,10 +1132,10 @@ public class Logic {
     }
 
     /**
-     * Gets a student by associated {@code googleId}.
+     * Gets a student by associated {@code accountId}.
      */
-    public Student getStudentByGoogleId(String courseId, String googleId) {
-        return usersLogic.getStudentByGoogleId(courseId, googleId);
+    public Student getStudentByAccountId(String courseId, UUID accountId) {
+        return usersLogic.getStudentByAccountId(courseId, accountId);
     }
 
     /**
@@ -1162,7 +1182,7 @@ public class Logic {
     /**
      * Search for students. Preconditions: all parameters are non-null.
      *
-     * @param instructors a list of Instructors associated to a googleId,
+     * @param instructors a list of Instructors associated to a AccountId,
      *                    used for filtering of search result
      * @return Null if no match found
      */
@@ -1176,7 +1196,7 @@ public class Logic {
     /**
      * This method should be used by admin only since the searching does not
      * restrict the
-     * visibility according to the logged-in user's google ID. This is used by admin
+     * visibility according to the logged-in user's account ID. This is used by admin
      * to
      * search students in the whole system.
      *
@@ -1222,29 +1242,27 @@ public class Logic {
     }
 
     /**
-     * Make the student join the course, i.e. associate the Google ID to the
+     * Make the student join the course, i.e. associate the Account to the
      * student.<br>
-     * Create an account for the student if no existing account is found.
-     * Preconditions: <br>
      * * All parameters are non-null.
      *
      * @param key the registration key
      */
-    public Student joinCourseForStudent(String key, String googleId)
+    public Student joinCourseForStudent(String key, UUID accountId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        assert googleId != null;
+        assert accountId != null;
         assert key != null;
 
-        return accountsLogic.joinCourseForStudent(key, googleId);
+        return accountsLogic.joinCourseForStudent(key, accountId);
 
     }
 
     /**
-     * Gets all instructors and students by associated {@code googleId}.
+     * Gets all instructors and students by associated {@code accountId}.
      */
-    public List<User> getAllUsersByGoogleId(String googleId) {
-        return usersLogic.getAllUsersByGoogleId(googleId);
+    public List<User> getAllUsersByAccountId(UUID accountId) {
+        return usersLogic.getAllUsersByAccountId(accountId);
     }
 
     /**
@@ -1281,7 +1299,7 @@ public class Logic {
     }
 
     /**
-     * Resets the googleId associated with the instructor.
+     * Resets the account associated with the instructor.
      *
      * <br/>
      * Preconditions: <br/>
@@ -1290,13 +1308,13 @@ public class Logic {
      * @throws EntityDoesNotExistException If instructor cannot be found with given
      *                                     email and courseId.
      */
-    public void resetInstructorGoogleId(String email, String courseId, String googleId)
+    public void resetInstructorAccountId(String email, String courseId, UUID accountId)
             throws EntityDoesNotExistException {
-        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
+        usersLogic.resetInstructorAccountId(email, courseId, accountId);
     }
 
     /**
-     * Resets the googleId associated with the student.
+     * Resets the Account associated with the student.
      *
      * <br/>
      * Preconditions: <br/>
@@ -1305,9 +1323,9 @@ public class Logic {
      * @throws EntityDoesNotExistException If student cannot be found with given
      *                                     email and courseId.
      */
-    public void resetStudentGoogleId(String email, String courseId, String googleId)
+    public void resetStudentAccountId(String email, String courseId, UUID accountId)
             throws EntityDoesNotExistException {
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+        usersLogic.resetStudentAccountId(email, courseId, accountId);
     }
 
     /**
@@ -1415,8 +1433,7 @@ public class Logic {
      * Gets the session result for a feedback session.
      *
      * @see FeedbackResponsesLogic#getSessionResultsForCourse(
-     *      FeedbackSession, String, String, String, Section,
-     *      FeedbackResultFetchType)
+     *     FeedbackSession, String, String, UUID, String, FeedbackResultFetchType)
      */
     public SessionResultsBundle getSessionResultsForCourse(
             FeedbackSession feedbackSession, String courseId, String userEmail,
@@ -1432,8 +1449,8 @@ public class Logic {
     /**
      * Gets the session result for a feedback session for the given user.
      *
-     * @see FeedbackResponsesLogic#getSessionResultsForUser(FeedbackSession, String,
-     *      String, boolean, String)
+     * @see FeedbackResponsesLogic#getSessionResultsForUser(
+     *     FeedbackSession, String, String, boolean, UUID, boolean)
      */
     public SessionResultsBundle getSessionResultsForUser(
             FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
@@ -1683,8 +1700,8 @@ public class Logic {
     /**
      * Gets all feedback responses from a specific giver and recipient for a course.
      */
-    public List<FeedbackResponse> getFeedbackResponsesFromGiverAndRecipientForCourse(String courseId, String giverEmail,
-            String recipientEmail) {
+    public List<FeedbackResponse> getFeedbackResponsesFromGiverAndRecipientForCourse(
+            String courseId, String giverEmail, String recipientEmail) {
 
         return feedbackResponsesLogic.getFeedbackResponsesFromGiverAndRecipientForCourse(courseId, giverEmail,
                 recipientEmail);
@@ -1705,7 +1722,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @see StudentsLogic#validateSectionsAndTeams(List, String)
+     * @see UsersLogic#validateSectionsAndTeams(List, String)
      */
     public void validateSectionsAndTeams(
             List<Student> studentList, String courseId) throws EnrollException {
@@ -1802,7 +1819,7 @@ public class Logic {
      */
     public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
             UUID feedbackSessionId, Instant startTime, Instant endTime) {
-        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(courseId, studentId, feedbackSessionId, startTime,
-                endTime);
+        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(
+                courseId, studentId, feedbackSessionId, startTime, endTime);
     }
 }
