@@ -88,31 +88,6 @@ public class LoginIssuerDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateLoginIssuer_loginIssuerExists_success()
-            throws InvalidParametersException, EntityDoesNotExistException {
-        LoginIssuer loginIssuer = getTypicalLoginIssuer();
-        mockHibernateUtil.when(() -> HibernateUtil.get(LoginIssuer.class, loginIssuer.getIssuer()))
-                .thenReturn(loginIssuer);
-        mockHibernateUtil.when(() -> HibernateUtil.merge(loginIssuer)).thenReturn(loginIssuer);
-        loginIssuer.setProviderName(OidcProviderNameType.MS_ENTRA);
-
-        loginIssuerDb.updateLoginIssuer(loginIssuer);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(loginIssuer));
-    }
-
-    @Test
-    public void testUpdateLoginIssuer_loginIssuerDoesNotExist_throwsEntityDoesNotExistException() {
-        LoginIssuer loginIssuer = getTypicalLoginIssuer();
-
-        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
-                () -> loginIssuerDb.updateLoginIssuer(loginIssuer));
-
-        assertEquals("Trying to update non-existent Entity: " + loginIssuer.toString(), ex.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(loginIssuer), never());
-    }
-
-    @Test
     public void testDeleteLoginIssuer_loginIssuerExists_success() {
         LoginIssuer loginIssuer = getTypicalLoginIssuer();
         mockHibernateUtil.when(() -> HibernateUtil.get(LoginIssuer.class, loginIssuer.getIssuer()))

@@ -163,7 +163,7 @@ public final class AccountsLogic {
                 throw new EntityAlreadyExistsException("Instructor has already joined course");
             }
         } else {
-            // Check if this Account ID has already joined this course
+            // Check if this account ID has already joined this course
             Instructor existingInstructor =
                     usersLogic.getInstructorByAccountId(instructorForKey.getCourseId(), accountId);
 

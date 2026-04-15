@@ -377,15 +377,6 @@ public final class UsersLogic {
 
         usersDb.updateUser(instructor);
 
-        // If this instructor already has a student record in the same course
-        // without an existing account (e.g. from sample/imported data),
-        // link that student to the same account.
-        Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
-        if (student != null && student.getAccount() == null) {
-            student.setAccount(instructor.getAccount());
-            usersDb.updateUser(student);
-        }
-
         return instructor;
     }
 

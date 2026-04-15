@@ -120,7 +120,7 @@ public final class CoursesLogic {
     /**
      * Returns a list of {@link Course} for all courses a given student is enrolled in.
      *
-     * @param accountId The Account ID of the student
+     * @param accountId The account ID of the student
      */
     public List<Course> getCoursesForStudentAccount(UUID accountId) {
         List<Student> students = usersLogic.getAllStudentsByAccountId(accountId);

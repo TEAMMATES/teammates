@@ -86,7 +86,7 @@ public final class AccountsDb {
         }
 
         if (getAccount(account.getId()) != null ||
-                getAccountByLoginIssuerAndSub(account.getLoginIssuer(), account.getOidcSubject())!= null) {
+                getAccountByLoginIssuerAndSub(account.getLoginIssuer(), account.getOidcSubject()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
         }
 

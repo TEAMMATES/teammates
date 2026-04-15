@@ -44,12 +44,6 @@ public final class LoginIssuerLogic {
         return issuerProviderMappingsDb.createLoginIssuer(loginIssuer);
     }
 
-    public LoginIssuer updateLoginIssuer(LoginIssuer loginIssuer)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert loginIssuer != null;
-        return issuerProviderMappingsDb.updateLoginIssuer(loginIssuer);
-    }
-
     public void deleteLoginIssuer(String issuerString) {
         assert issuerString != null;
         issuerProviderMappingsDb.deleteLoginIssuer(issuerString);

@@ -220,14 +220,6 @@ public class Logic {
     }
 
     /**
-     * Updates an issuer to provider name mapping.
-     */
-    public LoginIssuer updateLoginIssuer(LoginIssuer loginIssuer)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return loginIssuerLogic.updateLoginIssuer(loginIssuer);
-    }
-
-    /**
      * Deletes an issuer to provider name mapping.
      */
     public void deleteLoginIssuer(String issuerString) {
@@ -248,7 +240,7 @@ public class Logic {
     }
 
     /**
-     * Deletes account.
+     * Deletes account by account Id.
      *
      * <ul>
      * <li>Fails silently if no such account.</li>
@@ -368,7 +360,7 @@ public class Logic {
      * * {@code instructorAccountId} already has an account and instructor
      * privileges.
      *
-     * @param instructorAccountId the Account ID of the instructor creating the
+     * @param instructorAccountId the account Id of the instructor creating the
      *                           course.
      * @param course             the course to create.
      * @throws InvalidParametersException   if the course is not valid.
@@ -989,7 +981,7 @@ public class Logic {
     public Instructor joinCourseForInstructor(UUID accountId, Instructor instructor)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         if (accountId == null) {
-            throw new InvalidParametersException("Instructor's account Id cannot be null");
+            throw new InvalidParametersException("Instructor's accountId cannot be null");
         }
         if (instructor == null) {
             throw new InvalidParametersException("Instructor cannot be null");

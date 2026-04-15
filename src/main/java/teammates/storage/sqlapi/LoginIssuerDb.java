@@ -45,21 +45,6 @@ public final class LoginIssuerDb {
         return loginIssuer;
     }
 
-    public LoginIssuer updateLoginIssuer(LoginIssuer loginIssuer)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert loginIssuer != null;
-
-        if (!loginIssuer.isValid()) {
-            throw new InvalidParametersException(loginIssuer.getInvalidityInfo());
-        }
-
-        if (getLoginIssuer(loginIssuer.getIssuer()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + loginIssuer);
-        }
-
-        return HibernateUtil.merge(loginIssuer);
-    }
-
     public void deleteLoginIssuer(String issuerString) {
         LoginIssuer loginIssuer = getLoginIssuer(issuerString);
         if (loginIssuer != null) {

@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.StringHelper;
+
 public enum OidcProviderNameType {
     GOOGLE("Google"),
     MS_ENTRA("MSEntra");
@@ -19,7 +21,7 @@ public enum OidcProviderNameType {
     }
 
     public static OidcProviderNameType fromProviderName(String providerName) {
-        if (providerName == null) {
+        if (StringHelper.isEmpty(providerName)) {
             return null;
         }
 
