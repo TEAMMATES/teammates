@@ -116,11 +116,11 @@ public class LocalLoggingService implements LogService {
         RequestLogUser userInfoFilter = queryLogsParams.getUserInfoParams();
         String regkeyFilter = userInfoFilter.getRegkey();
         String emailFilter = userInfoFilter.getEmail();
-        UUID accoutIdFilter = userInfoFilter.getAccountId();
+        UUID accountIdFilter = userInfoFilter.getAccountId();
 
         if (actionClassFilter == null && exceptionClassFilter == null && logEventFilter == null
                 && latencyFilter == null && statusFilter == null && regkeyFilter == null
-                && emailFilter == null && accoutIdFilter == null) {
+                && emailFilter == null && accountIdFilter == null) {
             return true;
         }
         LogDetails details = log.getDetails();
@@ -134,7 +134,7 @@ public class LocalLoggingService implements LogService {
             return false;
         }
         return isRequestFilterSatisfied(details, actionClassFilter, latencyFilter, statusFilter,
-                regkeyFilter, emailFilter, accoutIdFilter);
+                regkeyFilter, emailFilter, accountIdFilter);
     }
 
     private boolean isExceptionFilterSatisfied(LogDetails details, String exceptionClassFilter) {
