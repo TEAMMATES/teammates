@@ -167,9 +167,13 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               INSTRUCTOR
             </td>
             <td
-              class="text-break alert alert-success"
+              class="text-break p-0"
             >
-              Success (green)
+              <div
+                class="mb-0 h-100 d-flex align-items-center alert alert-success"
+              >
+                Success (green)
+              </div>
             </td>
             <td
               class="text-break"
@@ -233,9 +237,13 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               GENERAL
             </td>
             <td
-              class="text-break alert alert-danger"
+              class="text-break p-0"
             >
-              Danger (red)
+              <div
+                class="mb-0 h-100 d-flex align-items-center alert alert-danger"
+              >
+                Danger (red)
+              </div>
             </td>
             <td
               class="text-break"
@@ -441,9 +449,13 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               INSTRUCTOR
             </td>
             <td
-              class="text-break alert alert-success"
+              class="text-break p-0"
             >
-              Success (green)
+              <div
+                class="mb-0 h-100 d-flex align-items-center alert alert-success"
+              >
+                Success (green)
+              </div>
             </td>
             <td
               class="text-break"
@@ -507,9 +519,13 @@ exports[`NotificationsTableComponent should snap like in notification page with 
               GENERAL
             </td>
             <td
-              class="text-break alert alert-danger"
+              class="text-break p-0"
             >
-              Danger (red)
+              <div
+                class="mb-0 h-100 d-flex align-items-center alert alert-danger"
+              >
+                Danger (red)
+              </div>
             </td>
             <td
               class="text-break"

@@ -97,7 +97,7 @@
             <td class="text-break"><span class="ngb-tooltip-class" ngbTooltip="{{ notificationsTableRowModel.notification.startTimestamp | formatDateDetail: guessTimezone }}">{{ notificationsTableRowModel.notification.startTimestamp | formatDateBrief: guessTimezone }}</span></td>
             <td class="text-break"><span class="ngb-tooltip-class" ngbTooltip="{{ notificationsTableRowModel.notification.endTimestamp | formatDateDetail: guessTimezone }}">{{ notificationsTableRowModel.notification.endTimestamp | formatDateBrief: guessTimezone }}</span></td>
             <td class="text-break">{{ notificationsTableRowModel.notification.targetUser }}</td>
-            <td class="text-break" [ngClass]="notificationsTableRowModel.notification.style | notificationStyleClass">{{ notificationsTableRowModel.notification.style | notificationStyleDescription }}</td>
+            <td class="text-break p-0"><div class="mb-0 h-100 d-flex align-items-center" [ngClass]="notificationsTableRowModel.notification.style | notificationStyleClass">{{ notificationsTableRowModel.notification.style | notificationStyleDescription }}</div></td>
             <td class="text-break"><span class="ngb-tooltip-class" ngbTooltip="{{ notificationsTableRowModel.notification.createdAt | formatDateDetail: guessTimezone }}">{{ notificationsTableRowModel.notification.createdAt | formatDateBrief: guessTimezone }}</span></td>
             <td class="actions-cell">
               <div class="d-flex">
