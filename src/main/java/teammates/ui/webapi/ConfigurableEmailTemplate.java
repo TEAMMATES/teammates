@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import teammates.common.util.Templates;
@@ -173,10 +174,21 @@ public enum ConfigurableEmailTemplate {
     /**
      * Returns the required body placeholders that are absent from {@code body},
      * or an empty list if all required placeholders are present.
+     *
+     * <p>A placeholder is considered present only when it appears as a complete,
+     * well-formed token — i.e. not immediately followed by an extra {@code }}
+     * that would produce malformed output after substitution (e.g. {@code ${joinUrl}}}
+     * would survive a plain {@code contains} check but generate a stray {@code }}
+     * in the sent email).
      */
     public List<String> getMissingPlaceholders(String body) {
         return requiredBodyPlaceholders.stream()
-                .filter(placeholder -> !body.contains(placeholder))
+                .filter(placeholder -> {
+                    // Match the placeholder literal, but reject occurrences immediately
+                    // followed by an extra '}' (e.g. ${joinUrl}}).
+                    String pattern = Pattern.quote(placeholder) + "(?!\\})";
+                    return !Pattern.compile(pattern).matcher(body).find();
+                })
                 .collect(Collectors.toList());
     }
 

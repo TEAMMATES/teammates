@@ -95,6 +95,20 @@ public class UpdateEmailTemplateActionTest extends BaseActionTest<UpdateEmailTem
     }
 
     @Test
+    void testExecute_malformedPlaceholderWithExtraBrace_throwsInvalidHttpRequestBodyException()
+            throws InvalidParametersException {
+        // Body contains ${joinUrl}} — the extra closing brace makes it a malformed token.
+        // A simple substring check (contains) would incorrectly pass this; the regex guard must reject it.
+        String malformedBody = "<p>Please visit <a href=\"${joinUrl}}\">${joinUrl}}</a> to join.</p>";
+        EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
+                VALID_TEMPLATE_KEY, "Subject", malformedBody, false);
+
+        InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(requestBody);
+        assertEquals("Email body is missing required placeholder(s): [${joinUrl}]", ex.getMessage());
+        verify(mockLogic, never()).upsertEmailTemplate(any(EmailTemplate.class));
+    }
+
+    @Test
     void testExecute_unknownTemplateKey_throwsEntityNotFoundException() {
         EmailTemplateUpdateRequest requestBody = new EmailTemplateUpdateRequest(
                 "UNKNOWN_KEY", "Subject", "<p>Body</p>", false);
