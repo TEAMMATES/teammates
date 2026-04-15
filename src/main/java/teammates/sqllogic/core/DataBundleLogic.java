@@ -369,7 +369,7 @@ public final class DataBundleLogic {
             notificationsLogic.deleteNotification(notification.getId());
         });
         dataBundle.accounts.values().forEach(account -> {
-            accountsLogic.deleteAccount(account.getId());
+            accountsLogic.deleteAccount(account.getGoogleId());
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
             accountRequestsLogic.deleteAccountRequest(accountRequest.getId());

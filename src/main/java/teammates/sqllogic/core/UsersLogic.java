@@ -19,12 +19,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Instructor;
@@ -110,12 +110,11 @@ public final class UsersLogic {
     public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
             InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
         Instructor instructor;
-        UUID instructorId = instructorRequest.getId();
-
+        String instructorId = instructorRequest.getId();
         if (instructorId == null) {
             instructor = getInstructorForEmail(courseId, instructorRequest.getEmail());
         } else {
-            instructor = getInstructorByAccountId(courseId, instructorId);
+            instructor = getInstructorByGoogleId(courseId, instructorId);
         }
 
         if (instructor == null) {
@@ -243,22 +242,21 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets an instructor by associated {@code accountId}.
+     * Gets an instructor by associated {@code googleId}.
      */
-    public Instructor getInstructorByAccountId(String courseId, UUID accountId) {
+    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
         assert courseId != null;
-        assert accountId != null;
+        assert googleId != null;
 
-        return usersDb.getInstructorByAccountId(courseId, accountId);
+        return usersDb.getInstructorByGoogleId(courseId, googleId);
     }
 
     /**
      * Searches instructors in the whole system. Used by admin only.
      *
-     * @return List of found instructors in the whole system. Null if no result found.
+     * @return List of found instructors in the whole system. Returns an empty list if no results are found.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
         return usersDb.searchInstructorsInWholeSystem(queryString);
     }
 
@@ -327,11 +325,11 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets all instructors associated with a accountId.
+     * Gets all instructors associated with a googleId.
      */
-    public List<Instructor> getInstructorsForAccountId(UUID accountId) {
-        assert accountId != null;
-        return usersDb.getInstructorsForAccountId(accountId);
+    public List<Instructor> getInstructorsForGoogleId(String googleId) {
+        assert googleId != null;
+        return usersDb.getInstructorsForGoogleId(googleId);
     }
 
     /**
@@ -342,6 +340,53 @@ public final class UsersLogic {
         assert institute != null;
 
         return usersDb.getInstructorByEmailAndInstitute(email, institute);
+    }
+
+    /**
+     * Make the instructor join the course, i.e. associate an account to the instructor with the given googleId.
+     * Creates an account for the instructor if no existing account is found.
+     * Preconditions:
+     * Parameters regkey and googleId are non-null.
+     * @throws EntityAlreadyExistsException if the instructor already exists in the database.
+     * @throws InvalidParametersException if the instructor parameters are not valid
+     */
+    public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        if (googleId == null) {
+            throw new InvalidParametersException("Instructor's googleId cannot be null");
+        }
+        if (instructor == null) {
+            throw new InvalidParametersException("Instructor cannot be null");
+        }
+
+        // setting account for instructor sets it as registered
+        if (instructor.getAccount() == null) {
+            Account dbAccount = accountsLogic.getAccountForGoogleId(googleId);
+            if (dbAccount != null) {
+                instructor.setAccount(dbAccount);
+            } else {
+                Account account = new Account(googleId, instructor.getName(), instructor.getEmail());
+                instructor.setAccount(account);
+                accountsLogic.createAccount(account);
+            }
+        } else {
+            instructor.setGoogleId(googleId);
+        }
+        usersDb.updateUser(instructor);
+
+        // Update the googleId of the student entity for the instructor which was created from sample data.
+        Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
+        if (student != null) {
+            if (student.getAccount() == null) {
+                Account account = new Account(googleId, student.getName(), student.getEmail());
+                student.setAccount(account);
+            } else {
+                student.getAccount().setGoogleId(googleId);
+            }
+            usersDb.updateUser(student);
+        }
+
+        return instructor;
     }
 
     /**
@@ -403,10 +448,10 @@ public final class UsersLogic {
     }
 
     /**
-     * Returns true if the user associated with the accountId is an instructor in any course in the system.
+     * Returns true if the user associated with the googleId is an instructor in any course in the system.
      */
-    public boolean isInstructorInAnyCourse(UUID accountId) {
-        return !usersDb.getAllInstructorsByAccountId(accountId).isEmpty();
+    public boolean isInstructorInAnyCourse(String googleId) {
+        return !usersDb.getAllInstructorsByGoogleId(googleId).isEmpty();
     }
 
     /**
@@ -463,10 +508,10 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets all students associated with a accountId.
+     * Gets all students associated with a googleId.
      */
-    public List<Student> getAllStudentsByAccountId(UUID accountId) {
-        return usersDb.getAllStudentsByAccountId(accountId);
+    public List<Student> getAllStudentsByGoogleId(String googleId) {
+        return usersDb.getAllStudentsByGoogleId(googleId);
     }
 
     /**
@@ -500,19 +545,17 @@ public final class UsersLogic {
      *
      * @param instructors the constraint that restricts the search result
      */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
-            throws SearchServiceException {
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
         return usersDb.searchStudents(queryString, instructors);
     }
 
     /**
      * This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's account ID. This is used by admin to
+     * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
-     * @return null if no result found
+     * @return an empty list if no result is found
      */
-    public List<Student> searchStudentsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Student> searchStudentsInWholeSystem(String queryString) {
         return usersDb.searchStudentsInWholeSystem(queryString);
     }
 
@@ -543,39 +586,39 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets a student by associated {@code accountId}.
+     * Gets a student by associated {@code googleId}.
      */
-    public Student getStudentByAccountId(String courseId, UUID accountId) {
+    public Student getStudentByGoogleId(String courseId, String googleId) {
         assert courseId != null;
-        assert accountId != null;
+        assert googleId != null;
 
-        return usersDb.getStudentByAccountId(courseId, accountId);
+        return usersDb.getStudentByGoogleId(courseId, googleId);
     }
 
     /**
-     * Gets all students associated with a accountId.
+     * Gets all students associated with a googleId.
      */
-    public List<Student> getStudentsByAccountId(UUID accountId) {
-        assert accountId != null;
+    public List<Student> getStudentsByGoogleId(String googleId) {
+        assert googleId != null;
 
-        return usersDb.getStudentsByAccountId(accountId);
+        return usersDb.getStudentsByGoogleId(googleId);
     }
 
     /**
-     * Returns true if the user associated with the accountId is a student in any
+     * Returns true if the user associated with the googleId is a student in any
      * course in the system.
      */
-    public boolean isStudentInAnyCourse(UUID accountId) {
-        return !usersDb.getAllStudentsByAccountId(accountId).isEmpty();
+    public boolean isStudentInAnyCourse(String googleId) {
+        return !usersDb.getAllStudentsByGoogleId(googleId).isEmpty();
     }
 
     /**
-     * Gets all instructors and students by {@code accountId}.
+     * Gets all instructors and students by {@code googleId}.
      */
-    public List<User> getAllUsersByAccountId(UUID accountId) {
-        assert accountId != null;
+    public List<User> getAllUsersByGoogleId(String googleId) {
+        assert googleId != null;
 
-        return usersDb.getAllUsersByAccountId(accountId);
+        return usersDb.getAllUsersByGoogleId(googleId);
     }
 
     /**
@@ -621,8 +664,8 @@ public final class UsersLogic {
         boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
                 && instrWithModifyInstructorPrivilege != null
                 && (!instrWithModifyInstructorPrivilege.isRegistered()
-                || instrWithModifyInstructorPrivilege.getAccountId()
-                .equals(instructorToEdit.getAccountId()));
+                || instrWithModifyInstructorPrivilege.getGoogleId()
+                .equals(instructorToEdit.getGoogleId()));
         if (isLastRegInstructorWithPrivilege) {
             instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         }
@@ -746,13 +789,13 @@ public final class UsersLogic {
     }
 
     /**
-     * Resets the accountId associated with the instructor.
+     * Resets the googleId associated with the instructor.
      */
-    public void resetInstructorAccountId(String email, String courseId, UUID accountId)
+    public void resetInstructorGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
         assert email != null;
         assert courseId != null;
-        assert accountId != null;
+        assert googleId != null;
 
         Instructor instructor = getInstructorForEmail(courseId, email);
 
@@ -763,8 +806,8 @@ public final class UsersLogic {
 
         instructor.setAccount(null);
 
-        if (usersDb.getAllUsersByAccountId(accountId).isEmpty()) {
-            accountsLogic.deleteAccountCascade(accountId);
+        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
+            accountsLogic.deleteAccountCascade(googleId);
         }
     }
 
@@ -885,13 +928,13 @@ public final class UsersLogic {
     }
 
     /**
-     * Resets the accountId associated with the student.
+     * Resets the googleId associated with the student.
      */
-    public void resetStudentAccountId(String email, String courseId, UUID accountId)
+    public void resetStudentGoogleId(String email, String courseId, String googleId)
             throws EntityDoesNotExistException {
         assert email != null;
         assert courseId != null;
-        assert accountId != null;
+        assert googleId != null;
 
         Student student = getStudentForEmail(courseId, email);
 
@@ -902,8 +945,8 @@ public final class UsersLogic {
 
         student.setAccount(null);
 
-        if (usersDb.getAllUsersByAccountId(accountId).isEmpty()) {
-            accountsLogic.deleteAccountCascade(accountId);
+        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
+            accountsLogic.deleteAccountCascade(googleId);
         }
     }
 
@@ -915,15 +958,15 @@ public final class UsersLogic {
     }
 
     /**
-     * Checks if an instructor with {@code accountId} can create a course with
+     * Checks if an instructor with {@code googleId} can create a course with
      * {@code institute}
      * (ie. has an existing course(s) with the same {@code institute}).
      */
-    public boolean canInstructorCreateCourse(UUID accountId, String institute) {
-        assert accountId != null;
+    public boolean canInstructorCreateCourse(String googleId, String institute) {
+        assert googleId != null;
         assert institute != null;
 
-        List<Instructor> existingInstructors = getInstructorsForAccountId(accountId);
+        List<Instructor> existingInstructors = getInstructorsForGoogleId(googleId);
         return existingInstructors
                 .stream()
                 .filter(Instructor::hasCoownerPrivileges)
