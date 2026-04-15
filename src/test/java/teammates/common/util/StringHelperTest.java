@@ -3,10 +3,6 @@ package teammates.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.crypto.Cipher;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
 import org.testng.annotations.Test;
 
 import teammates.common.exception.InvalidParametersException;
@@ -71,53 +67,25 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testDefaultAesCipherParams() throws Exception {
-        //plaintext is less than 1 block long
-        String plaintextLength124 = StringHelper.generateStringOfLength(31, 'A');
-        assertEncryptionUsesExpectedDefaultParams(plaintextLength124);
+    public void testAesGcmEncryptionUsesRandomIv() throws Exception {
+        String plaintext = StringHelper.generateStringOfLength(64, 'A');
+        String ciphertext1 = StringHelper.encrypt(plaintext);
+        String ciphertext2 = StringHelper.encrypt(plaintext);
 
-        //plaintext is equal to 1 block
-        String plaintextLength128 = StringHelper.generateStringOfLength(32, 'A');
-        assertEncryptionUsesExpectedDefaultParams(plaintextLength128);
-
-        //plaintext is more than 1 block long
-        String plaintextLength132 = StringHelper.generateStringOfLength(33, 'A');
-        assertEncryptionUsesExpectedDefaultParams(plaintextLength132);
+        assertNotEquals(ciphertext1, ciphertext2);
+        assertEquals(plaintext, StringHelper.decrypt(ciphertext1));
+        assertEquals(plaintext, StringHelper.decrypt(ciphertext2));
     }
 
-    /**
-    * Verifies that encrypting with and without specifying algorithm parameters produce the same ciphertext.
-    * This ensures parameters being specified for encryption are the same as the defaults.
-    *
-    * @param plaintext the plaintext to encrypt, as a hexadecimal string.
-    */
-    private static void assertEncryptionUsesExpectedDefaultParams(String plaintext) throws Exception {
-        String actualCiphertext = encryptWithoutSpecifyingAlgorithmParams(plaintext);
-        String expectedCiphertext = StringHelper.encrypt(plaintext);
-        assertEquals(expectedCiphertext, actualCiphertext);
-    }
+    @Test
+    public void testGenerateSha256Hmac_isDeterministic() {
+        String data = "sample-data";
+        String hmac1 = StringHelper.generateSha256Hmac(data);
+        String hmac2 = StringHelper.generateSha256Hmac(data);
+        String hmac3 = StringHelper.generateSha256Hmac("another-data");
 
-    /**
-     * Encrypts plaintext without specifying mode and padding scheme during  {@link Cipher} initialization.
-     *
-     * @param plaintext the plaintext to encrypt as a hexadecimal string
-     * @return ciphertext the ciphertext as a hexadecimal string.
-     */
-    private static String encryptWithoutSpecifyingAlgorithmParams(String plaintext) throws Exception {
-        SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
-        byte[] encrypted = cipher.doFinal(plaintext.getBytes(Const.ENCODING));
-        return StringHelper.byteArrayToHexString(encrypted);
-    }
-
-    private static String generateSignature(String data) throws Exception {
-        SecretKeySpec signingKey =
-                new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
-        Mac mac = Mac.getInstance("HmacSHA1");
-        mac.init(signingKey);
-        byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
-        return StringHelper.byteArrayToHexString(value);
+        assertEquals(hmac1, hmac2);
+        assertNotEquals(hmac1, hmac3);
     }
 
     @Test
@@ -127,12 +95,12 @@ public class StringHelperTest extends BaseTestCase {
         // Hence, non-hex strings should fail to decrypt.
         String invalidHexString = "GHI";
 
-        // AES requires the length of data to be multiples of 128 bits.
-        // Hence, decryption should fail  for inputs of 120 and 136 bits.
-        String ciphertextLength120 = "AAAAAAAAAABBBBBBBBBBCCCCCCCCCC";
-        String ciphertextLength136 = ciphertextLength120 + "1234";
+        String tooShortCiphertext = "00112233445566778899AA";
+        String validCiphertext = StringHelper.encrypt("valid plaintext");
+        String tamperedCiphertext = validCiphertext.substring(0, validCiphertext.length() - 1)
+                + (validCiphertext.endsWith("0") ? "1" : "0");
 
-        String[] invalidCiphertexts = {invalidHexString, ciphertextLength120, ciphertextLength136};
+        String[] invalidCiphertexts = {invalidHexString, tooShortCiphertext, tamperedCiphertext};
         for (String invalidCiphertext : invalidCiphertexts) {
             assertThrows(InvalidParametersException.class, () -> StringHelper.decrypt(invalidCiphertext));
         }
@@ -195,27 +163,4 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals("567890", StringHelper.truncateHead("1234567890", 6));
     }
 
-    @Test
-    public void testSignatureGeneration() throws Exception {
-        String data1 = "National University of Singapore";
-        String data2 = "Nanyang Technological University";
-
-        assertEquals(generateSignature(data1), StringHelper.generateSignature(data1));
-
-        assertNotEquals(StringHelper.generateSignature(data1), StringHelper.generateSignature(data2));
-    }
-
-    @Test
-    public void testSignatureVerification() {
-        String valid = "National University of Singapore";
-        String invalid = "Nanyang Technological University";
-        String signature = StringHelper.generateSignature(valid);
-
-        assertTrue(StringHelper.isCorrectSignature(valid, signature));
-
-        assertFalse(StringHelper.isCorrectSignature(valid, invalid));
-        assertFalse(StringHelper.isCorrectSignature(valid, null));
-        assertFalse(StringHelper.isCorrectSignature(null, signature));
-        assertFalse(StringHelper.isCorrectSignature(invalid, signature));
-    }
 }
