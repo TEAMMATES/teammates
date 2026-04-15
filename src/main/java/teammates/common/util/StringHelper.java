@@ -27,7 +27,6 @@ import teammates.common.exception.InvalidParametersException;
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
-    private static final int MASTER_KEY_LENGTH_BYTES = 32;
     private static final int AES_GCM_IV_LENGTH_BYTES = 12;
     private static final int AES_GCM_TAG_LENGTH_BITS = 128;
 
@@ -93,7 +92,7 @@ public final class StringHelper {
      */
     public static String encrypt(String value) {
         try {
-            SecretKeySpec sks = new SecretKeySpec(getEncryptionKey(), "AES");
+            SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             byte[] iv = new byte[AES_GCM_IV_LENGTH_BYTES];
             SECURE_RANDOM.nextBytes(iv);
@@ -134,7 +133,7 @@ public final class StringHelper {
         }
 
         try {
-            SecretKeySpec sks = new SecretKeySpec(getEncryptionKey(), "AES");
+            SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
             cipher.init(Cipher.DECRYPT_MODE, sks,
                     new GCMParameterSpec(AES_GCM_TAG_LENGTH_BITS, encryptedWithIv, 0, AES_GCM_IV_LENGTH_BYTES));
@@ -158,7 +157,7 @@ public final class StringHelper {
      */
     public static String generateSha256Hmac(String data) {
         try {
-            SecretKeySpec signingKey = new SecretKeySpec(getHmacKey(), "HmacSHA256");
+            SecretKeySpec signingKey = new SecretKeySpec(hexStringToByteArray(Config.HMAC_KEY), "HmacSHA256");
             Mac mac = Mac.getInstance("HmacSHA256");
             mac.init(signingKey);
             byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
@@ -256,22 +255,6 @@ public final class StringHelper {
         IntStream.range(0, b.length)
                 .forEach(i -> b[i] = (byte) Integer.parseInt(s.substring(i * 2, i * 2 + 2), 16));
         return b;
-    }
-
-    private static byte[] getEncryptionKey() {
-        byte[] masterKey = hexStringToByteArray(Config.ENCRYPTION_KEY);
-        if (masterKey.length != MASTER_KEY_LENGTH_BYTES) {
-            throw new IllegalStateException("Encryption key must be 32 bytes (64 hex chars)");
-        }
-        return masterKey;
-    }
-
-    private static byte[] getHmacKey() {
-        byte[] hmacKey = hexStringToByteArray(Config.HMAC_KEY);
-        if (hmacKey.length != MASTER_KEY_LENGTH_BYTES) {
-            throw new IllegalStateException("HMAC key must be 32 bytes (64 hex chars)");
-        }
-        return hmacKey;
     }
 
     /**
