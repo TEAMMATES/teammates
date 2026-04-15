@@ -29,7 +29,7 @@ public class CreateCourseAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        String institute = getNonBlankRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         List<Instructor> existingInstructors = sqlLogic.getInstructorsForGoogleId(userInfo.getId());
         boolean canCreateCourse = existingInstructors.stream()
                 .filter(Instructor::hasCoownerPrivileges)
@@ -56,7 +56,7 @@ public class CreateCourseAction extends Action {
 
         String newCourseId = courseCreateRequest.getCourseId();
         String newCourseName = courseCreateRequest.getCourseName();
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+        String institute = getNonBlankRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         Course course = new Course(newCourseId, newCourseName, newCourseTimeZone, institute);
 
         try {

@@ -18,30 +18,27 @@ public class GenerateEmailAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
         Course course = sqlLogic.getCourse(courseId);
 
         if (course == null) {
             throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
         }
 
-        String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String studentEmail = getNonBlankRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         Student student = sqlLogic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
             throw new EntityNotFoundException("Student does not exist.");
         }
 
-        String emailType = getNonNullRequestParamValue(Const.ParamsNames.EMAIL_TYPE);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String emailType = getNonBlankRequestParamValue(Const.ParamsNames.EMAIL_TYPE);
+        String feedbackSessionName = getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         EmailWrapper email;
 
         if (emailType.equals(EmailType.STUDENT_COURSE_JOIN.name())) {
             email = sqlEmailGenerator.generateStudentCourseJoinEmail(course, student);
         } else if (emailType.equals(EmailType.FEEDBACK_SESSION_REMINDER.name())) {
-            if (feedbackSessionName == null) {
-                throw new InvalidHttpParameterException("Feedback session name not specified");
-            }
             FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
             email = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
                     feedbackSession, Collections.singletonList(student), new ArrayList<>(), null).get(0);

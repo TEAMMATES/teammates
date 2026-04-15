@@ -37,7 +37,7 @@ public class CreateInstructorAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
@@ -46,7 +46,7 @@ public class CreateInstructorAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
 
         try {
