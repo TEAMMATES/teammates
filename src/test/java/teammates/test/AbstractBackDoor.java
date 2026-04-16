@@ -38,6 +38,7 @@ import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.DeadlineExtensionData;
+import teammates.ui.output.EmailTemplateData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -49,7 +50,6 @@ import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.output.EmailTemplateData;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.StudentData;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
@@ -521,6 +521,15 @@ public abstract class AbstractBackDoor {
     }
 
     /**
+     * Deletes a notification from the database.
+     */
+    public void deleteNotification(UUID notificationId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId.toString());
+        executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
+    /**
      * Gets email template data from the database.
      * Returns the default (isCustomized=false) when no custom record exists.
      */
@@ -543,15 +552,6 @@ public abstract class AbstractBackDoor {
                 "{\"templateKey\":\"%s\",\"subject\":null,\"body\":null,\"resetToDefault\":true}",
                 templateKey);
         executePutRequest(Const.ResourceURIs.EMAIL_TEMPLATE, null, body);
-    }
-
-    /**
-     * Deletes a notification from the database.
-     */
-    public void deleteNotification(UUID notificationId) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId.toString());
-        executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
     }
 
     /**
