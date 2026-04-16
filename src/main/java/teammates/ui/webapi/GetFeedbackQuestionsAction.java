@@ -24,9 +24,9 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
 
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         switch (intent) {
@@ -58,9 +58,9 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
 
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
 

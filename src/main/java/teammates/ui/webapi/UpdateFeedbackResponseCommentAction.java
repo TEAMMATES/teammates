@@ -44,7 +44,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         FeedbackResponse response = feedbackResponseComment.getFeedbackResponse();
         FeedbackQuestion question = response.getFeedbackQuestion();
         FeedbackSession session = question.getFeedbackSession();
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
 
         switch (intent) {
         case STUDENT_SUBMISSION:
@@ -113,7 +113,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             throw new EntityNotFoundException("Feedback response comment is not found");
         }
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
         String email;
 
         switch (intent) {

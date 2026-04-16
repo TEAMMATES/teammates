@@ -33,7 +33,7 @@ public class GetFeedbackSessionsAction extends Action {
             return;
         }
 
-        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+        String entityType = getNonBlankRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (!(Const.EntityType.STUDENT.equals(entityType) || Const.EntityType.INSTRUCTOR.equals(entityType))) {
             throw new UnauthorizedAccessException("entity type not supported.");
@@ -67,7 +67,7 @@ public class GetFeedbackSessionsAction extends Action {
     @Override
     public JsonResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+        String entityType = getNonBlankRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         List<FeedbackSession> feedbackSessions = new ArrayList<>();
         List<Instructor> instructors = new ArrayList<>();

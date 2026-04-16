@@ -56,7 +56,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
         verifyNotPreview();
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
@@ -103,7 +103,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
         String giverIdentifier;
         Section giverSection;
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
