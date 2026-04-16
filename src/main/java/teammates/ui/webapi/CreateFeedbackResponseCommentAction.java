@@ -98,7 +98,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 
         FeedbackResponse feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
-        
+
         feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponse == null) {

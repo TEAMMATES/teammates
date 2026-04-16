@@ -25,7 +25,7 @@ public class GetHasResponsesAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
 
-        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+        String entityType = getNonBlankRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (!(Const.EntityType.STUDENT.equals(entityType) || Const.EntityType.INSTRUCTOR.equals(entityType))) {
             throw new UnauthorizedAccessException("entity type not supported.");
@@ -40,7 +40,7 @@ public class GetHasResponsesAction extends Action {
                 return;
             }
 
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+            String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
 
             gateKeeper.verifyAccessible(
                     sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
@@ -50,7 +50,7 @@ public class GetHasResponsesAction extends Action {
         }
 
         // A student can check whether he has submitted responses for a feedback session in his course.
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         if (feedbackSessionName != null) {
@@ -80,14 +80,14 @@ public class GetHasResponsesAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+        String entityType = getNonBlankRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             return handleInstructorReq();
         }
 
         // Default path for student and admin
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         if (feedbackSessionName == null) {
@@ -134,7 +134,7 @@ public class GetHasResponsesAction extends Action {
             return new JsonResult(new HasResponsesData(hasResponses));
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         if (sqlLogic.getCourse(courseId) == null) {
             throw new EntityNotFoundException("No course with id: " + courseId);

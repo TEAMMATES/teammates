@@ -41,7 +41,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
 
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackSession feedbackSession =
                 getNonNullFeedbackSession(feedbackQuestion.getFeedbackSession().getName(),
                                                 feedbackQuestion.getCourseId());
@@ -78,7 +78,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
             throw new EntityNotFoundException("Feedback Question not found");
         }
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
 
         Map<String, FeedbackQuestionRecipient> recipient;
         switch (intent) {

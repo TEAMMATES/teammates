@@ -20,7 +20,7 @@ public class DeleteCourseAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
-        String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String idOfCourseToDelete = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
         Course course = sqlLogic.getCourse(idOfCourseToDelete);
 
         gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToDelete, userInfo.id),
@@ -29,7 +29,7 @@ public class DeleteCourseAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String idOfCourseToDelete = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
         sqlLogic.deleteCourseCascade(idOfCourseToDelete);
 
         return new JsonResult(new MessageOutput("OK"));

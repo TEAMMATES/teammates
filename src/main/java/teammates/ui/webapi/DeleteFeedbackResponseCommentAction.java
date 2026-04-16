@@ -37,7 +37,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         FeedbackQuestion question = comment.getFeedbackResponse().getFeedbackQuestion();
         FeedbackSession session = question.getFeedbackSession();
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
 
         switch (intent) {
         case STUDENT_SUBMISSION:
