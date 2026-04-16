@@ -4,6 +4,7 @@
     <test name="axe-tests" parallel="classes">
         <classes>
             <class name="teammates.e2e.cases.axe.AdminAccountsPageAxeTest" />
+            <class name="teammates.e2e.cases.axe.AdminEmailTemplatesPageAxeTest" />
             <class name="teammates.e2e.cases.axe.AdminHomePageAxeTest" />
             <class name="teammates.e2e.cases.axe.AdminNotificationsPageAxeTest" />
             <class name="teammates.e2e.cases.axe.AdminSearchPageAxeTest" />
