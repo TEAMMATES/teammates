@@ -33,7 +33,7 @@ public class CreateFeedbackSessionAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
         Course course = sqlLogic.getCourse(courseId);
@@ -43,7 +43,7 @@ public class CreateFeedbackSessionAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
         FeedbackSessionCreateRequest createRequest =
                     getAndValidateRequestBody(FeedbackSessionCreateRequest.class);
         String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());

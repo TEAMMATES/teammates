@@ -32,9 +32,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 
-        FeedbackResponse feedbackResponse = null;
-
-        feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
+        FeedbackResponse feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
@@ -44,7 +42,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         FeedbackQuestion feedbackQuestion = feedbackResponse.getFeedbackQuestion();
         FeedbackSession session = feedbackQuestion.getFeedbackSession();
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
 
         switch (intent) {
         case STUDENT_SUBMISSION:
@@ -99,8 +97,8 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 
-        FeedbackResponse feedbackResponse = null;
-
+        FeedbackResponse feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
+        
         feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponse == null) {
@@ -117,7 +115,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         }
 
         FeedbackQuestion feedbackQuestion = feedbackResponse.getFeedbackQuestion();
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
 
         String email;
         boolean isFromParticipant;

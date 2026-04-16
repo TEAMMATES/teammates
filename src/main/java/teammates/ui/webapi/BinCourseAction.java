@@ -21,7 +21,7 @@ public class BinCourseAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
-        String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String idOfCourseToBin = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Course course = sqlLogic.getCourse(idOfCourseToBin);
         gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToBin, userInfo.id),
@@ -30,7 +30,7 @@ public class BinCourseAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String idOfCourseToBin = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
             Course binnedCourse = sqlLogic.moveCourseToRecycleBin(idOfCourseToBin);
             return new JsonResult(new CourseData(binnedCourse));

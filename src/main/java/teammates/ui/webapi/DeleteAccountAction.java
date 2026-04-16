@@ -9,7 +9,7 @@ public class DeleteAccountAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        String googleId = getNonBlankRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
         sqlLogic.deleteAccountCascade(googleId);
 
