@@ -24,8 +24,8 @@ public class GetFeedbackSessionDeadlineExtensionsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
@@ -37,8 +37,8 @@ public class GetFeedbackSessionDeadlineExtensionsAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 

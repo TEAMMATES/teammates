@@ -33,7 +33,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Course course = sqlLogic.getCourse(courseId);
 
@@ -64,8 +64,8 @@ public class GetFeedbackSessionLogsAction extends Action {
             }
         }
 
-        String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
-        String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
+        String startTimeStr = getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
+        String endTimeStr = getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
         long startTime;
         long endTime;
         try {
@@ -80,7 +80,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
         UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
         UUID feedbackSessionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 

@@ -46,7 +46,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
         verifyNotPreview();
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
@@ -76,7 +76,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             throw new EntityNotFoundException("Feedback Question not found");
         }
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
 
         List<FeedbackResponse> responses;
         switch (intent) {

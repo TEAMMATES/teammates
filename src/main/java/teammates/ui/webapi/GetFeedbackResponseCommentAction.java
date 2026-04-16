@@ -45,7 +45,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
         verifyNotPreview();
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
@@ -74,7 +74,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
             throw new EntityNotFoundException("The feedback response does not exist.");
         }
 
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        Intent intent = Intent.valueOf(getNonBlankRequestParamValue(Const.ParamsNames.INTENT));
 
         switch (intent) {
         case STUDENT_SUBMISSION:
