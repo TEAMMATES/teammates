@@ -49,6 +49,7 @@ import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.output.MessageOutput;
+import teammates.ui.output.EmailTemplateData;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.StudentData;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
@@ -517,6 +518,31 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.NOTIFICATION_ID, notificationId);
         executeDeleteRequest(Const.ResourceURIs.NOTIFICATION, params);
+    }
+
+    /**
+     * Gets email template data from the database.
+     * Returns the default (isCustomized=false) when no custom record exists.
+     */
+    public EmailTemplateData getEmailTemplateData(String templateKey) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.TEMPLATE_KEY, templateKey);
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.EMAIL_TEMPLATE, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+        return JsonUtils.fromJson(response.responseBody, EmailTemplateData.class);
+    }
+
+    /**
+     * Resets an email template to its built-in default by deleting any custom DB record.
+     * Safe to call even when no custom record exists.
+     */
+    public void resetEmailTemplate(String templateKey) {
+        String body = String.format(
+                "{\"templateKey\":\"%s\",\"subject\":null,\"body\":null,\"resetToDefault\":true}",
+                templateKey);
+        executePutRequest(Const.ResourceURIs.EMAIL_TEMPLATE, null, body);
     }
 
     /**
