@@ -224,13 +224,24 @@ public abstract class Action {
      */
     UUID getUuidRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
-        return getUuidFromString(paramName, value);
+        return getUuidFromParam(paramName, value);
+    }
+
+    /**
+     * Returns the first value or null for the specified parameter expected to be present in the HTTP request as UUID.
+     */
+    UUID getNullableUuidRequestParamValue(String paramName) {
+        String value = getRequestParamValue(paramName);
+        if (value == null) {
+            return null;
+        }
+        return getUuidFromParam(paramName, value);
     }
 
     /**
      * Converts a uuid to a string.
      */
-    UUID getUuidFromString(String paramName, String uuid) {
+    private UUID getUuidFromParam(String paramName, String uuid) {
         try {
             return UUID.fromString(uuid);
         } catch (IllegalArgumentException e) {

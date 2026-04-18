@@ -75,9 +75,11 @@ postgres-data/
 
 !.gitkeep
 
-
 # Docs
 docs/_site/*
 docs/_markbind/logs/*
 .stylelintcache
 .eslintcache
+
+# DB dumps (JSON databundle)
+/db-dumps/

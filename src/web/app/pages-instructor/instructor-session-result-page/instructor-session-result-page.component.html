@@ -86,40 +86,40 @@
       <tm-instructor-session-result-question-view [questions]="questionsModel"
         [section]="section" [sectionType]="sectionType" [session] = "session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-        [(instructorCommentTableModel)]="instructorCommentTableModel"
-        (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
+        [(instructorCommentTableModel)]="commentService.instructorCommentTableModel"
+        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)" (deleteCommentEvent)="commentService.deleteComment($event)" (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
       (toggleAndLoadTab)="toggleQuestionTab($event)" (loadTab)="loadQuestionTab($event)" (downloadQuestionResult)="downloadQuestionResultHandler($event)"></tm-instructor-session-result-question-view>
     }
     @if (viewType === InstructorSessionResultViewType.GRQ) {
       <tm-instructor-session-result-grq-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-        [(instructorCommentTableModel)]="instructorCommentTableModel"
-        (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
+        [(instructorCommentTableModel)]="commentService.instructorCommentTableModel"
+        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)" (deleteCommentEvent)="commentService.deleteComment($event)" (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
       (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-grq-view>
     }
     @if (viewType === InstructorSessionResultViewType.RGQ) {
       <tm-instructor-session-result-rgq-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-        [(instructorCommentTableModel)]="instructorCommentTableModel"
-        (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
+        [(instructorCommentTableModel)]="commentService.instructorCommentTableModel"
+        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)" (deleteCommentEvent)="commentService.deleteComment($event)" (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
       (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-rgq-view>
     }
     @if (viewType === InstructorSessionResultViewType.GQR) {
       <tm-instructor-session-result-gqr-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-        [(instructorCommentTableModel)]="instructorCommentTableModel"
-        (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
+        [(instructorCommentTableModel)]="commentService.instructorCommentTableModel"
+        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)" (deleteCommentEvent)="commentService.deleteComment($event)" (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
       (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-gqr-view>
     }
     @if (viewType === InstructorSessionResultViewType.RQG) {
       <tm-instructor-session-result-rqg-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
         [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
         [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
-        [(instructorCommentTableModel)]="instructorCommentTableModel"
-        (saveNewCommentEvent)="saveNewComment($event, session.timeZone)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event, session.timeZone)"
+        [(instructorCommentTableModel)]="commentService.instructorCommentTableModel"
+        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)" (deleteCommentEvent)="commentService.deleteComment($event)" (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
       (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-rqg-view>
     }
   </div>

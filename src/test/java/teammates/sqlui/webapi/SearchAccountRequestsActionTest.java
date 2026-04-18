@@ -11,12 +11,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.AccountRequestsData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.SearchAccountRequestsAction;
 
 /**
@@ -54,7 +52,7 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
     }
 
     @Test
-    void testExecute_searchAccountRequests_success() throws SearchServiceException {
+    void testExecute_searchAccountRequests_success() {
         when(mockLogic.searchAccountRequestsInWholeSystem(searchKey)).thenReturn(accountRequests);
 
         String[] params = {
@@ -73,7 +71,7 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
             AccountRequest accountRequest = accountRequests.get(i);
             AccountRequestData accountRequestData = output.getAccountRequests().get(i);
 
-            assertEquals(accountRequest.getId().toString(), accountRequestData.getId());
+            assertEquals(accountRequest.getId(), accountRequestData.getId());
             assertEquals(accountRequest.getEmail(), accountRequestData.getEmail());
             assertEquals(accountRequest.getName(), accountRequestData.getName());
             assertEquals(accountRequest.getInstitute(), accountRequestData.getInstitute());
@@ -88,7 +86,7 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
     }
 
     @Test
-    void testExecute_searchAccountRequestsNoMatch_success() throws SearchServiceException {
+    void testExecute_searchAccountRequestsNoMatch_success() {
         when(mockLogic.searchAccountRequestsInWholeSystem(searchKey)).thenReturn(List.of());
 
         String[] params = {
@@ -102,24 +100,6 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
         verifyNoMoreInteractions(mockLogic);
 
         assertEquals(0, output.getAccountRequests().size());
-    }
-
-    @Test
-    void testExecute_searchServiceException_failure() throws SearchServiceException {
-        when(mockLogic.searchAccountRequestsInWholeSystem(searchKey)).thenThrow(
-                new SearchServiceException("Search service error", 500));
-
-        String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-        };
-
-        SearchAccountRequestsAction action = getAction(params);
-        MessageOutput output = (MessageOutput) getJsonResult(action, 500).getOutput();
-
-        verify(mockLogic).searchAccountRequestsInWholeSystem(searchKey);
-        verifyNoMoreInteractions(mockLogic);
-
-        assertEquals("Search service error", output.getMessage());
     }
 
     @Test

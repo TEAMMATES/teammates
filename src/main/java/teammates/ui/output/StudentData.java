@@ -10,9 +10,7 @@ import teammates.storage.sqlentity.Student;
  * The API output format of {@link Student}.
  */
 public class StudentData extends ApiOutput {
-
-    @Nullable
-    private final UUID studentId;
+    private final UUID userId;
 
     private final String email;
     private final String courseId;
@@ -33,7 +31,7 @@ public class StudentData extends ApiOutput {
     private final String sectionName;
 
     public StudentData(Student student) {
-        this.studentId = student.getId();
+        this.userId = student.getId();
         this.email = student.getEmail();
         this.courseId = student.getCourseId();
         this.name = student.getName();
@@ -43,8 +41,8 @@ public class StudentData extends ApiOutput {
         this.sectionName = student.getSectionName();
     }
 
-    public UUID getStudentId() {
-        return studentId;
+    public UUID getUserId() {
+        return userId;
     }
 
     public String getEmail() {

@@ -10,12 +10,12 @@ import jakarta.mail.internet.MimeMultipart;
 
 import org.apache.http.HttpStatus;
 import org.eclipse.angus.mail.smtp.SMTPSendFailedException;
-import org.jsoup.Jsoup;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EmailSendingException;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.HtmlHelper;
 import teammates.test.BaseTestCase;
 
 /**
@@ -154,7 +154,7 @@ public class SmtpServiceTest extends BaseTestCase {
         MimeMultipart multipart = (MimeMultipart) email.getContent();
         assertEquals(2, multipart.getCount());
         MimeBodyPart textPart = (MimeBodyPart) multipart.getBodyPart(0);
-        assertEquals(Jsoup.parse(wrapper.getContent()).text(), textPart.getContent().toString());
+        assertEquals(HtmlHelper.htmlToPlainText(wrapper.getContent()), textPart.getContent().toString());
         MimeBodyPart htmlPart = (MimeBodyPart) multipart.getBodyPart(1);
         assertEquals(wrapper.getContent(), htmlPart.getContent().toString());
     }

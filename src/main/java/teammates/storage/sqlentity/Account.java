@@ -39,7 +39,7 @@ public class Account extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<ReadNotification> readNotifications = new ArrayList<>();
 

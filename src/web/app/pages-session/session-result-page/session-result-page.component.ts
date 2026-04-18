@@ -55,6 +55,7 @@ export class SessionResultPageComponent implements OnInit {
   Intent: typeof Intent = Intent;
 
   session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -69,8 +70,6 @@ export class SessionResultPageComponent implements OnInit {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
   questions: FeedbackQuestionModel[] = [];
   courseName: string = '';
@@ -97,7 +96,7 @@ export class SessionResultPageComponent implements OnInit {
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
-  feedbackSessionId: string | undefined = '';
+  feedbackSessionId: string = '';
   studentId: string | undefined = '';
 
   private backendUrl: string = environment.backendUrl;
@@ -126,6 +125,7 @@ export class SessionResultPageComponent implements OnInit {
     ).subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.feedbackSessionId = queryParams.fsid;
       this.regKey = queryParams.key || '';
       this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
       if (queryParams.entitytype === 'instructor') {
@@ -155,7 +155,11 @@ export class SessionResultPageComponent implements OnInit {
 
                     this.navigationService.navigateByURLWithParamEncoding(
                         `/web/${this.entityType}/sessions/result`,
-                        { courseid: this.courseId, fsname: this.feedbackSessionName });
+                        {
+                          courseid: this.courseId,
+                          fsname: this.feedbackSessionName,
+                          fsid: this.feedbackSessionId,
+                        });
                   } else {
                     // Valid, unused registration key; load information based on the key
                     this.loadCourseInfo();
@@ -249,7 +253,7 @@ export class SessionResultPageComponent implements OnInit {
           this.previewAsPerson,
           this.regKey,
         ).subscribe((student: Student) => {
-          this.studentId = student.studentId;
+          this.studentId = student.userId;
           this.personName = student.name;
           this.personEmail = student.email;
           this.logStudentView();
@@ -347,7 +351,11 @@ export class SessionResultPageComponent implements OnInit {
 
   navigateToSessionReportPage(): void {
     this.navigationService.navigateByURL('/web/instructor/sessions/report',
-        { courseid: this.courseId, fsname: this.feedbackSessionName });
+        {
+          courseid: this.courseId,
+          fsname: this.feedbackSessionName,
+          fsid: this.feedbackSessionId,
+        });
   }
 
   retryLoadingFeedbackSessionResults(): void {

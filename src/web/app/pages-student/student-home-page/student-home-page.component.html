@@ -92,7 +92,7 @@
                                 </td>
                                 <td class="text-center">
                                   <a [ngClass]="{'disabled' : !session.isPublished}"
-                                    tmRouterLink="/web/student/sessions/result" [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                                    tmRouterLink="/web/student/sessions/result" [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName, fsid: session.session.feedbackSessionId}"
                                     id="view-responses-btn-{{i}}" class="btn btn-light btn-sm btn-margin-right custom-button">
                                     View Responses
                                   </a>
@@ -104,7 +104,7 @@
                                   @if (session.isOpened && !session.isSubmitted) {
                                     <a
                                       tmRouterLink="/web/student/sessions/submission"
-                                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName, fsid: session.session.feedbackSessionId}"
                                       id="start-submit-btn-{{i}}"
                                       class="btn btn-light btn-sm custom-button">
                                       Start Submission
@@ -113,7 +113,7 @@
                                   @if (session.isOpened && session.isSubmitted) {
                                     <a
                                       tmRouterLink="/web/student/sessions/submission"
-                                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName, fsid: session.session.feedbackSessionId}"
                                       id="edit-submit-btn-{{i}}"
                                       class="btn btn-light btn-sm custom-button">
                                       Edit Submission
@@ -122,7 +122,7 @@
                                   @if (!session.isOpened && !session.isWaitingToOpen) {
                                     <a
                                       tmRouterLink="/web/student/sessions/submission"
-                                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName, fsid: session.session.feedbackSessionId}"
                                       id="view-submit-btn-{{i}}" class="btn btn-light btn-sm custom-button">
                                       View Submission
                                     </a>
