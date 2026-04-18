@@ -207,12 +207,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     /**
-     * Models a verified cron/worker principal ({@link UserInfo#isInternalService}), for actions that allow
-     * internal services as well as human admins.
+     * Models a verified cron/worker principal ({@link UserInfo#isAutomatedService}), for actions that allow
+     * automated services as well as human admins.
      */
-    protected void loginAsInternalService() {
-        UserInfo user = mockUserProvision.loginAsInternalService(Const.InternalService.CRON_SERVICE_USER_ID);
-        assertTrue(user.isInternalService);
+    protected void loginAsAutomatedService() {
+        UserInfo user = mockUserProvision.loginAsAutomatedService(Const.AutomatedService.CRON_SERVICE_USER_ID);
+        assertTrue(user.isAutomatedService);
         assertFalse(user.isAdmin);
     }
 
@@ -426,7 +426,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Admin → Maintainer → Instructor → Student → Unregistered → No login
      *  - An 'Only' can access test means all other types to the right cannot access except maintainers,
      *  which should be tested separately as they are a separate unrelated entity.
-     *  - For cron/worker endpoints (InternalServiceAction), use verifyOnlyAdminsOrInternalServicesCanAccess
+     *  - For cron/worker endpoints (AutomatedServiceAction), use verifyOnlyAdminsOrAutomatedServicesCanAccess
      *  instead of verifyOnlyAdminsCanAccess.
      */
 
@@ -440,20 +440,20 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     /**
-     * Like {@link #verifyOnlyAdminsCanAccess(String...)} but also asserts that an internal-service principal
-     * passes {@code checkAccessControl} (for {@code InternalServiceAction} and similar).
+     * Like {@link #verifyOnlyAdminsCanAccess(String...)} but also asserts that an automated-service principal
+     * passes {@code checkAccessControl} (for {@code AutomatedServiceAction} and similar).
      */
-    void verifyOnlyAdminsOrInternalServicesCanAccess(String... params) {
+    void verifyOnlyAdminsOrAutomatedServicesCanAccess(String... params) {
         verifyAdminsCanAccess(params);
-        verifyInternalServiceCanAccess(params);
+        verifyAutomatedServiceCanAccess(params);
         verifyInstructorsCannotAccess(params);
         verifyStudentsCannotAccess(params);
         verifyUnregisteredCannotAccess(params);
         verifyWithoutLoginCannotAccess(params);
     }
 
-    void verifyInternalServiceCanAccess(String... params) {
-        loginAsInternalService();
+    void verifyAutomatedServiceCanAccess(String... params) {
+        loginAsAutomatedService();
         verifyCanAccess(params);
         logoutUser();
     }

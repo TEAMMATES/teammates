@@ -1,13 +1,13 @@
 package teammates.ui.webapi;
 
 /**
- * Actions callable by verified internal jobs (cron/worker) and by human application administrators.
+ * Actions callable by verified automated jobs (cron/worker) and by human application administrators.
  *
  * <p>Application administrators using {@code /webapi} routes are included: authorization is
  * {@link teammates.common.datatransfer.UserInfo#isAdmin} or
- * {@link teammates.common.datatransfer.UserInfo#isInternalService}.
+ * {@link teammates.common.datatransfer.UserInfo#isAutomatedService}.
  */
-abstract class InternalServiceAction extends Action {
+abstract class AutomatedServiceAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -16,9 +16,13 @@ abstract class InternalServiceAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!userInfo.canAccessAsAdminOrInternalService()) {
+        if (!canAccessAsAdminOrAutomatedService()) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
+    }
+
+    boolean canAccessAsAdminOrAutomatedService() {
+        return userInfo.isAdmin || userInfo.isAutomatedService;
     }
 
 }

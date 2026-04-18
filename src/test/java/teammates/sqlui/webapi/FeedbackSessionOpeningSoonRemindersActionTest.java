@@ -113,6 +113,6 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
 
     @Test
     void testAccessControl() {
-        verifyOnlyAdminsOrInternalServicesCanAccess();
+        verifyOnlyAdminsOrAutomatedServicesCanAccess();
     }
 }

@@ -18,14 +18,14 @@ public class MockUserProvision extends UserProvision {
     private boolean isStudent;
 
     private UserInfo loginUser(String userId, boolean isAdmin, boolean isInstructor, boolean isStudent,
-            boolean isMaintainer, boolean isInternalService) {
+            boolean isMaintainer, boolean isAutomatedService) {
         isLoggedIn = true;
         mockUser.id = userId;
         mockUser.isAdmin = isAdmin;
         mockUser.isInstructor = isInstructor;
         mockUser.isStudent = isStudent;
         mockUser.isMaintainer = isMaintainer;
-        mockUser.isInternalService = isInternalService;
+        mockUser.isAutomatedService = isAutomatedService;
         return mockUser;
     }
 
@@ -84,9 +84,9 @@ public class MockUserProvision extends UserProvision {
     }
 
     /**
-     * Models a verified cron/worker principal ({@link UserInfo#isInternalService}), not a human app admin.
+     * Models a verified cron/worker principal ({@link UserInfo#isAutomatedService}), not a human app admin.
      */
-    public UserInfo loginAsInternalService(String userId) {
+    public UserInfo loginAsAutomatedService(String userId) {
         return loginUser(userId, false, false, false, false, true);
     }
 
@@ -114,7 +114,7 @@ public class MockUserProvision extends UserProvision {
         userInfo.isInstructor = isInstructor;
         userInfo.isStudent = isStudent;
         userInfo.isMaintainer = isMaintainer;
-        userInfo.isInternalService = mockUser.isInternalService;
+        userInfo.isAutomatedService = mockUser.isAutomatedService;
 
         return userInfo;
     }

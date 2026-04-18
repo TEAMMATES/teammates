@@ -85,9 +85,9 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
     }
 
     @Test
-    void testAccessControl_internalServiceCannotAccess() {
+    void testAccessControl_automatedServiceCannotAccess() {
         logoutUser();
-        loginAsInternalService();
+        loginAsAutomatedService();
         verifyCannotAccess();
     }
 

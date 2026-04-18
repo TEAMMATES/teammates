@@ -290,30 +290,14 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInternalServiceUser_returnsUserInfoWithOnlyIsInternalServiceTrue() {
-        String serviceId = Const.InternalService.CRON_SERVICE_USER_ID;
+    public void testGetAutomatedServiceUser_returnsUserInfoWithOnlyIsAutomatedServiceTrue() {
+        String serviceId = Const.AutomatedService.CRON_SERVICE_USER_ID;
 
-        UserInfo user = userProvision.getInternalServiceUser(serviceId);
+        UserInfo user = userProvision.getAutomatedServiceUser(serviceId);
 
         assertEquals(serviceId, user.id);
-        assertHasRoles(user, Role.INTERNAL_SERVICE);
+        assertHasRoles(user, Role.AUTOMATED_SERVICE);
         verifyNoInteractions(mockUsersLogic);
-    }
-
-    @Test
-    public void testCanAccessAsAdminOrInternalService() {
-        UserInfo user = new UserInfo("u");
-        assertFalse(user.canAccessAsAdminOrInternalService());
-
-        user.isAdmin = true;
-        assertTrue(user.canAccessAsAdminOrInternalService());
-
-        user.isAdmin = false;
-        user.isInternalService = true;
-        assertTrue(user.canAccessAsAdminOrInternalService());
-
-        user.isInternalService = false;
-        assertFalse(user.canAccessAsAdminOrInternalService());
     }
 
     private static UserInfoCookie createMockValidCookie(String userId) {
@@ -341,11 +325,11 @@ public class UserProvisionTest extends BaseTestCase {
         assertEquals(expected.contains(Role.INSTRUCTOR), user.isInstructor);
         assertEquals(expected.contains(Role.STUDENT), user.isStudent);
         assertEquals(expected.contains(Role.MAINTAINER), user.isMaintainer);
-        assertEquals(expected.contains(Role.INTERNAL_SERVICE), user.isInternalService);
+        assertEquals(expected.contains(Role.AUTOMATED_SERVICE), user.isAutomatedService);
     }
 
     private enum Role {
-        ADMIN, INSTRUCTOR, STUDENT, MAINTAINER, INTERNAL_SERVICE
+        ADMIN, INSTRUCTOR, STUDENT, MAINTAINER, AUTOMATED_SERVICE
     }
 
 }

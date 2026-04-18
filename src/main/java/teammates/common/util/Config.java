@@ -72,7 +72,7 @@ public final class Config {
 
     /**
      * UTF-8 bytes of {@link #CRON_AND_WORKER_SECRET} when that value is well-formed per
-     * {@link InternalRequestAuth#isCronAndWorkerSecretWellFormed(String)}; otherwise an empty array.
+     * {@link AutomatedRequestAuth#isCronAndWorkerSecretWellFormed(String)}; otherwise an empty array.
      * Pre-computed for constant-time comparison without re-encoding on each request.
      */
     public static final byte[] CRON_AND_WORKER_SECRET_BYTES;
@@ -190,7 +190,7 @@ public final class Config {
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
         CRON_AND_WORKER_SECRET = getProperty(properties, devProperties, "app.cron.and.worker.secret");
-        CRON_AND_WORKER_SECRET_BYTES = InternalRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)
+        CRON_AND_WORKER_SECRET_BYTES = AutomatedRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)
                 ? CRON_AND_WORKER_SECRET.getBytes(StandardCharsets.UTF_8)
                 : new byte[0];
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
@@ -393,7 +393,7 @@ public final class Config {
      * @throws IllegalStateException if the secret is missing or blank
      */
     public static void requireCronAndWorkerSecret() {
-        if (!InternalRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)) {
+        if (!AutomatedRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)) {
             throw new IllegalStateException(
                     "app.cron.and.worker.secret must be set in build.properties without leading or trailing "
                             + "whitespace for worker/cron requests.");

@@ -73,11 +73,11 @@ public class UserProvision {
     }
 
     /**
-     * User principal for verified cron/worker requests: not a human app admin; {@link UserInfo#isInternalService} only.
+     * User principal for verified cron/worker requests: not a human app admin; {@link UserInfo#isAutomatedService} only.
      */
-    public UserInfo getInternalServiceUser(String serviceId) {
+    public UserInfo getAutomatedServiceUser(String serviceId) {
         UserInfo userInfo = new UserInfo(serviceId);
-        userInfo.isInternalService = true;
+        userInfo.isAutomatedService = true;
         return userInfo;
     }
 

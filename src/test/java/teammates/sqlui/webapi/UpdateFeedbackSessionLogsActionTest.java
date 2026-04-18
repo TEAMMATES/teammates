@@ -194,8 +194,8 @@ public class UpdateFeedbackSessionLogsActionTest
     }
 
     @Test
-    public void testSpecificAccessControl_isInternalService_canAccess() {
-        loginAsInternalService();
+    public void testSpecificAccessControl_isAutomatedService_canAccess() {
+        loginAsAutomatedService();
         verifyCanAccess();
     }
 

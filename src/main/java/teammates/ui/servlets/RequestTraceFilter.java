@@ -14,8 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpStatus;
 
+import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
-import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.ui.webapi.JsonResult;
@@ -57,8 +57,8 @@ public class RequestTraceFilter implements Filter {
         // Worker / Cron requests (from Cloud Tasks with bearer token) may run longer.
         // For these requests, we set the limit to 10 minutes minus a small grace period.
         // For other requests, we keep the time limit at 1 minute.
-        boolean isWorkerRequest = InternalRequestAuth.isTrustedCronOrWorkerRequest(request);
-        int timeoutInSeconds = isWorkerRequest ? 10 * 60 - 5 : 60;
+        boolean isAutomatedWorkerOrCronRequest = AutomatedRequestAuth.isTrustedCronOrWorkerRequest(request);
+        int timeoutInSeconds = isAutomatedWorkerOrCronRequest ? 10 * 60 - 5 : 60;
 
         RequestTracer.init(traceId, spanId, timeoutInSeconds);
 

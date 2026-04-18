@@ -6,11 +6,11 @@ import java.security.MessageDigest;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * Helper for authenticating internal requests (cron and worker) via bearer token.
+ * Helper for authenticating automated requests (cron and worker) via bearer token.
  */
-public final class InternalRequestAuth {
+public final class AutomatedRequestAuth {
 
-    private InternalRequestAuth() {
+    private AutomatedRequestAuth() {
         // utility class
     }
 
