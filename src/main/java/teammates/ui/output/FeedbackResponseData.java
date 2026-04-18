@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -10,7 +12,7 @@ import teammates.storage.sqlentity.FeedbackResponse;
  */
 public class FeedbackResponseData extends ApiOutput {
 
-    private final String feedbackResponseId;
+    private final UUID feedbackResponseId;
 
     private final String giverIdentifier;
 
@@ -22,13 +24,13 @@ public class FeedbackResponseData extends ApiOutput {
     private FeedbackResponseCommentData giverComment;
 
     public FeedbackResponseData(FeedbackResponse feedbackResponse) {
-        this.feedbackResponseId = feedbackResponse.getId().toString();
+        this.feedbackResponseId = feedbackResponse.getId();
         this.giverIdentifier = feedbackResponse.getGiver();
         this.recipientIdentifier = feedbackResponse.getRecipient();
         this.responseDetails = feedbackResponse.getFeedbackResponseDetailsCopy();
     }
 
-    public String getFeedbackResponseId() {
+    public UUID getFeedbackResponseId() {
         return feedbackResponseId;
     }
 

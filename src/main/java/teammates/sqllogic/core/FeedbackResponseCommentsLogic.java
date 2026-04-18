@@ -6,11 +6,12 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SqlCourseRoster;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -241,13 +242,15 @@ public final class FeedbackResponseCommentsLogic {
                                                                FeedbackParticipantType.INSTRUCTORS);
 
         boolean isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients =
-                response.getRecipient().equals(userEmail) && checkIsResponseCommentVisibleTo(relatedQuestion,
+                SanitizationHelper.areEmailsEqual(response.getRecipient(), userEmail)
+                        && checkIsResponseCommentVisibleTo(relatedQuestion,
                         relatedComment, FeedbackParticipantType.RECEIVER);
 
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
-                response.getGiver().equals(userEmail) && isVisibleToGiver;
+                SanitizationHelper.areEmailsEqual(response.getGiver(), userEmail) && isVisibleToGiver;
 
-        boolean isUserRelatedResponseCommentGiver = relatedComment.getGiver().equals(userEmail);
+        boolean isUserRelatedResponseCommentGiver = SanitizationHelper.areEmailsEqual(relatedComment.getGiver(),
+                userEmail);
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
                 isUserStudent && checkIsResponseCommentVisibleTo(relatedQuestion,
@@ -273,7 +276,7 @@ public final class FeedbackResponseCommentsLogic {
      * Returns true if the comment's giver name is visible to certain user.
      */
     public boolean checkIsNameVisibleToUser(FeedbackResponseComment comment, FeedbackResponse response,
-                                   String userEmail, SqlCourseRoster roster) {
+                                   String userEmail, CourseRoster roster) {
         List<FeedbackParticipantType> showNameTo = comment.getShowGiverNameTo();
         //in the old ver, name is always visible
         if (showNameTo == null || comment.getIsVisibilityFollowingFeedbackQuestion()) {
@@ -281,7 +284,7 @@ public final class FeedbackResponseCommentsLogic {
         }
 
         //comment giver can always see
-        if (userEmail.equals(comment.getGiver())) {
+        if (SanitizationHelper.areEmailsEqual(userEmail, comment.getGiver())) {
             return true;
         }
 
@@ -289,7 +292,7 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     private boolean checkIsFeedbackParticipantNameVisibleToUser(FeedbackResponse response,
-            String userEmail, SqlCourseRoster roster, List<FeedbackParticipantType> showNameTo) {
+            String userEmail, CourseRoster roster, List<FeedbackParticipantType> showNameTo) {
         String responseGiverTeam = "giverTeam";
         if (roster.getStudentForEmail(response.getGiver()) != null) {
             responseGiverTeam = roster.getStudentForEmail(response.getGiver()).getTeamName();
@@ -315,7 +318,7 @@ public final class FeedbackResponseCommentsLogic {
                 }
                 break;
             case RECEIVER:
-                if (userEmail.equals(response.getRecipient())) {
+                if (SanitizationHelper.areEmailsEqual(userEmail, response.getRecipient())) {
                     return true;
                 }
                 break;
@@ -330,7 +333,7 @@ public final class FeedbackResponseCommentsLogic {
                 }
                 break;
             case GIVER:
-                if (userEmail.equals(response.getGiver())) {
+                if (SanitizationHelper.areEmailsEqual(userEmail, response.getGiver())) {
                     return true;
                 }
                 break;

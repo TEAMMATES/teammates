@@ -45,14 +45,6 @@ const routes: Routes = [
       .then((m) => m.AdminNotificationsPageComponent),
   },
   {
-    path: 'logs',
-    data: {
-      isAdmin: true,
-    },
-    loadComponent: () => import('../pages-monitoring/logs-page/logs-page.component')
-      .then((m) => m.LogsPageComponent),
-  },
-  {
     path: 'stats',
     loadComponent: () => import('../pages-monitoring/usage-stats-page/usage-statistics-page.component')
       .then((m) => m.UsageStatisticsPageComponent),

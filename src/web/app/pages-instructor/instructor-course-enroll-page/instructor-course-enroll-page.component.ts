@@ -24,6 +24,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { StatusMessage } from '../../components/status-message/status-message';
 import { StatusMessageComponent } from '../../components/status-message/status-message.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { areEmailsEqual, normalizeEmail } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface EnrollResultPanel {
@@ -204,10 +205,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
         if (resp.unsuccessfulEnrolls != null) {
           for (const unsuccessfulEnroll of resp.unsuccessfulEnrolls) {
-            this.unsuccessfulEnrolls[unsuccessfulEnroll.studentEmail] = unsuccessfulEnroll.errorMessage;
+            const normalizedEmail: string = normalizeEmail(unsuccessfulEnroll.studentEmail);
+            this.unsuccessfulEnrolls[normalizedEmail] = unsuccessfulEnroll.errorMessage;
 
             for (const index of studentEnrollRequests.keys()) {
-              if (studentEnrollRequests.get(index)?.email === unsuccessfulEnroll.studentEmail) {
+              if (normalizeEmail(studentEnrollRequests.get(index)?.email) === normalizedEmail) {
                 this.invalidRowsIndex.add(index);
                 break;
               }
@@ -363,13 +365,14 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return;
       }
 
-      if (!emailMap.has(request.email)) {
-        emailMap.set(request.email, key);
+      const normalizedEmail: string = normalizeEmail(request.email);
+      if (!emailMap.has(normalizedEmail)) {
+        emailMap.set(normalizedEmail, key);
         return;
       }
 
       this.invalidRowsIndex.add(key);
-      const firstIndex: number | undefined = emailMap.get(request.email);
+      const firstIndex: number | undefined = emailMap.get(normalizedEmail);
       if (firstIndex !== undefined) {
         this.invalidRowsIndex.add(firstIndex);
       }
@@ -411,13 +414,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     const emailToIndexMap: Map<string, number> = new Map();
     enrollRequests.forEach((enrollRequest: StudentEnrollRequest, index: number) => {
-      emailToIndexMap.set(enrollRequest.email, index);
+      emailToIndexMap.set(normalizeEmail(enrollRequest.email), index);
     });
 
     // Identify students not in the enroll list.
     for (const existingStudent of existingStudents) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
-        return student.email === existingStudent.email;
+        return areEmailsEqual(student.email, existingStudent.email);
       });
       if (enrolledStudent === undefined) {
         studentLists[EnrollStatus.UNMODIFIED].push(existingStudent);
@@ -430,7 +433,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return this.isSameEnrollInformation(student, enrolledStudent);
       });
       const modifiedStudent: Student | undefined = existingStudents.find((student: Student) => {
-        return student.email === enrolledStudent.email;
+        return areEmailsEqual(student.email, enrolledStudent.email);
       });
 
       if (unchangedStudent !== undefined) {
@@ -448,11 +451,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     // Identify students that failed to enroll.
     for (const request of enrollRequests.values()) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
-        return student.email === request.email;
+        return areEmailsEqual(student.email, request.email);
       });
 
       if (enrolledStudent === undefined) {
         studentLists[EnrollStatus.ERROR].push({
+          userId: '',
           email: request.email,
           courseId: this.courseId,
           name: request.name,
@@ -461,7 +465,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           comments: request.comments,
           joinState: JoinState.NOT_JOINED,
         });
-
       }
     }
 
@@ -489,18 +492,22 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   private addToRowsIndexSet(email: string, emailToIndexMap: Map<string, number>, rowsIndex: Set<number>): void {
-    const index: number | undefined = emailToIndexMap.get(email);
+    const index: number | undefined = emailToIndexMap.get(normalizeEmail(email));
     if (index !== undefined) {
       rowsIndex.add(index);
     }
   }
 
   private isSameEnrollInformation(enrolledStudent: Student, existingStudent: Student): boolean {
-    return enrolledStudent.email === existingStudent.email
+    return areEmailsEqual(enrolledStudent.email, existingStudent.email)
         && enrolledStudent.name === existingStudent.name
         && enrolledStudent.teamName === existingStudent.teamName
         && enrolledStudent.sectionName === existingStudent.sectionName
         && enrolledStudent.comments === existingStudent.comments;
+  }
+
+  getUnsuccessfulEnrollError(email: string): string | undefined {
+    return this.unsuccessfulEnrolls[normalizeEmail(email)];
   }
 
   /**

@@ -70,6 +70,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   ngOnInit(): void {
     if (!this.isEnabled) {
       this.student = {
+        userId: '00000000-0000-4000-9000-000000000001',
         email: 'alice@email.com',
         courseId: '',
         name: 'Alice Betsy',

@@ -54,6 +54,7 @@ export class ViewResultsPanelComponent {
 
   @Input()
   session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -68,8 +69,6 @@ export class ViewResultsPanelComponent {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   @Input()

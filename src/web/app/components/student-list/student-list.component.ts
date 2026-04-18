@@ -49,6 +49,7 @@ export class StudentListComponent implements OnInit {
   @Input() tableSortBy: SortBy = SortBy.NONE;
   @Input() tableSortOrder: SortOrder = SortOrder.ASC;
   @Input() searchString: string = '';
+  @Input() isPartialMatchHighlightingEnabled: boolean = false;
   @Input() headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.OTHERS;
   @Input() customHeaderStyle: string = 'bg-light';
 
@@ -142,22 +143,26 @@ export class StudentListComponent implements OnInit {
       const rowData: SortableTableCellData[] = [
         {
           value: sectionDisplay,
-          displayValue: this.searchTermsHighlighterPipe.transform(sectionDisplay, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+            sectionDisplay, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: teamDisplay,
-          displayValue: this.searchTermsHighlighterPipe.transform(teamDisplay, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+            teamDisplay, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.name,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.name, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+            studentModel.student.name, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         {
           value: studentModel.student.joinState === JoinState.JOINED ? 'Joined' : 'Yet to Join',
         },
         {
           value: studentModel.student.email,
-          displayValue: this.searchTermsHighlighterPipe.transform(studentModel.student.email, this.searchString),
+          displayValue: this.searchTermsHighlighterPipe.transform(
+            studentModel.student.email, this.searchString, this.isPartialMatchHighlightingEnabled),
         },
         this.createActionsCell(studentModel),
       ];

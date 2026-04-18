@@ -14,16 +14,15 @@ import { InstructorSessionResultViewType } from './instructor-session-result-vie
 import { SectionTabModel, QuestionTabModel } from './instructor-session-tab.model';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
-import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { FileSaveService } from '../../../services/file-save.service';
+import { InstructorCommentService } from '../../../services/instructor-comment.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { ApiStringConst } from '../../../types/api-const';
 import {
@@ -57,7 +56,6 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ViewResultsPanelComponent } from '../../components/view-results-panel/view-results-panel.component';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { InstructorCommentsComponent } from '../instructor-comments.component';
 
 const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
 
@@ -86,9 +84,10 @@ const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
   providers: [
     CommentsToCommentTableModelPipe,
     CommentToCommentRowModelPipe,
+    InstructorCommentService,
   ],
 })
-export class InstructorSessionResultPageComponent extends InstructorCommentsComponent implements OnInit {
+export class InstructorSessionResultPageComponent implements OnInit {
 
   // enum
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
@@ -100,6 +99,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   courseId: string = '';
   fsName: string = '';
+  feedbackSessionId: string = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
   section: string = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
@@ -134,6 +134,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   isExpandAll: boolean = false;
 
   session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -148,8 +149,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?:
@@ -167,11 +166,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private simpleModalService: SimpleModalService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
               private navigationService: NavigationService,
-              statusMessageService: StatusMessageService,
-              commentService: FeedbackResponseCommentService,
-              commentToCommentRowModel: CommentToCommentRowModelPipe,
-              tableComparatorService: TableComparatorService) {
-    super(commentToCommentRowModel, commentService, statusMessageService, tableComparatorService);
+              private statusMessageService: StatusMessageService,
+              public commentService: InstructorCommentService) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -179,6 +175,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.fsName = queryParams.fsname;
+      this.feedbackSessionId = queryParams.fsid;
       this.loadFeedbackSessionResults(this.courseId, this.fsName);
     });
   }
@@ -195,6 +192,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     }).subscribe({
       next: (feedbackSession: FeedbackSession) => {
         this.session = feedbackSession;
+        this.feedbackSessionId = feedbackSession.feedbackSessionId!;
         this.formattedSessionOpeningTime = this.timezoneService
             .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
         this.formattedSessionClosingTime = this.timezoneService
@@ -319,7 +317,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           courseId,
           intent: Intent.FULL_DETAIL,
         }).subscribe((instructor: Instructor) => {
-          this.currInstructorName = instructor.name;
+          this.commentService.currInstructorName = instructor.name;
         });
       },
       error: (resp: ErrorMessageOutput) => {
@@ -477,9 +475,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    */
   preprocessComments(responses: ResponseOutput[]): void {
     responses.forEach((response: ResponseOutput) => {
-      this.instructorCommentTableModel[response.responseId] =
+      this.commentService.instructorCommentTableModel[response.responseId] =
          this.commentsToCommentTableModel.transform(response.instructorComments, false, this.session.timeZone);
-      this.sortComments(this.instructorCommentTableModel[response.responseId]);
+      this.commentService.sortComments(this.commentService.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
     });
@@ -665,7 +663,11 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   navigateToIndividualSessionResultPage(): void {
     this.navigationService.navigateByURL('/web/instructor/sessions/result',
-        { courseid: this.courseId, fsname: this.fsName });
+        {
+          courseid: this.courseId,
+          fsname: this.fsName,
+          fsid: this.feedbackSessionId,
+        });
   }
 
 }

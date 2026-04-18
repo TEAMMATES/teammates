@@ -24,6 +24,7 @@ export abstract class InstructorSessionResultView {
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -38,8 +39,6 @@ export abstract class InstructorSessionResultView {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
   @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};
 

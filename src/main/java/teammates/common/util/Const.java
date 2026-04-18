@@ -37,6 +37,7 @@ public final class Const {
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
+    public static final Duration STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD = Duration.ofDays(90);
     public static final Duration COOKIE_VALIDITY_PERIOD = Duration.ofDays(7);
 
     public static final int SEARCH_QUERY_SIZE_LIMIT = 50;
@@ -45,9 +46,6 @@ public final class Const {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
 
     public static final String MISSING_RESPONSE_TEXT = "No Response";
-
-    public static final Duration STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = Duration.ofMinutes(15);
-    public static final Duration STUDENT_ACTIVITY_LOGS_FILTER_WINDOW = Duration.ofSeconds(2);
 
     // These constants are used as variable values to mean that the variable is in a 'special' state.
 
@@ -315,7 +313,6 @@ public final class Const {
         private static final String URI_PREFIX = "/webapi";
 
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
-        public static final String SQL_DATABUNDLE = URI_PREFIX + "/databundle/sql";
         public static final String DEADLINE_EXTENSION = URI_PREFIX + "/deadlineextension";
         public static final String EXCEPTION = URI_PREFIX + "/exception";
         public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
@@ -371,7 +368,6 @@ public final class Const {
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String LOGIN_EMAIL = URI_PREFIX + "/email/login";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
-        public static final String LOGS = URI_PREFIX + "/logs/query";
         public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
         public static final String USER_COOKIE = URI_PREFIX + "/cookie";
     }
@@ -395,8 +391,8 @@ public final class Const {
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
         public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =
                 URI_PREFIX + "/calculateUsageStatistics";
-        public static final String AUTOMATED_FEEDBACK_SESSION_LOGS_PROCESSING =
-                URI_PREFIX + "/updateFeedbackSessionLogs";
+        public static final String AUTOMATED_FEEDBACK_SESSION_LOGS_CLEANUP =
+                URI_PREFIX + "/cleanupFeedbackSessionLogs";
     }
 
     /**

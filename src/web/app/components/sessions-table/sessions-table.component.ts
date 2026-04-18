@@ -234,8 +234,6 @@ export class SessionsTableComponent implements OnInit {
       const { submissionStatus, submissionStartTimestamp, submissionEndTimestamp, timeZone, publishStatus } =
         feedbackSession;
 
-      const deadlines = this.getDeadlines(sessionTableRowModel);
-
       return [
         ...this.createRowData({
           columnType: SessionsTableColumn.COURSE_ID,
@@ -254,8 +252,8 @@ export class SessionsTableComponent implements OnInit {
         }),
         ...this.createRowData(
           this.createCellWithToolTip(
-            this.submissionStatusTooltip.transform(submissionStatus, deadlines),
-            this.submissionStatusName.transform(submissionStatus, deadlines),
+            this.submissionStatusTooltip.transform(submissionStatus),
+            this.submissionStatusName.transform(submissionStatus),
           ),
         ),
         ...this.createRowData(
@@ -463,17 +461,5 @@ export class SessionsTableComponent implements OnInit {
    */
   setRowClicked(rowIndex: number): void {
     this.rowClicked = rowIndex;
-  }
-
-  /**
-   * Get the deadlines for student and instructors.
-   */
-  getDeadlines(model: SessionsTableRowModel): {
-    studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number>,
-  } {
-    return {
-      studentDeadlines: model.feedbackSession.studentDeadlines,
-      instructorDeadlines: model.feedbackSession.instructorDeadlines,
-    };
   }
 }

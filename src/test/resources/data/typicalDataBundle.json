@@ -62,7 +62,7 @@
     "instructor5": {
       "googleId": "idOfInstructor5",
       "name": "Instructor 5 of CourseNoRegister",
-      "email": "instructor5@courseNoRegister.tmt",
+      "email": "instructor5@coursenoregister.tmt",
       "readNotifications": {}
     },
     "instructorWithoutCourses": {
@@ -80,7 +80,7 @@
     "instructorOfSingleInstructorCourse": {
       "googleId": "idOfInstructorOfSingleInstructorCourse",
       "name": "Instructor of Single Instructor Course",
-      "email": "instructorOfSingleInstructorCourse@singleInstructorCourse.tmt",
+      "email": "instructorofsingleinstructorcourse@singleinstructorcourse.tmt",
       "readNotifications": {}
     },
     "instructor1OfTestingSanitizationCourse": {
@@ -92,13 +92,13 @@
     "student1InCourse1": {
       "googleId": "student1InCourse1",
       "name": "Student 1 in course 1",
-      "email": "student1InCourse1@gmail.tmt",
+      "email": "student1incourse1@gmail.tmt",
       "readNotifications": {}
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
       "name": "Student in two courses",
-      "email": "student2InCourse1@gmail.tmt",
+      "email": "student2incourse1@gmail.tmt",
       "readNotifications": {}
     },
     "student1InTestingSanitizationCourse": {
@@ -250,7 +250,7 @@
     "instructorNotYetJoinCourse1": {
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor Not Yet Joined Course 1",
-      "email": "instructorNotYetJoinedCourse1@email.tmt",
+      "email": "instructornotyetjoinedcourse1@email.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -434,7 +434,7 @@
       "googleId": "idOfInstructor4",
       "courseId": "idOfCourseNoEvals",
       "name": "Instructor4 name",
-      "email": "instructor4@courseNoEvals.tmt",
+      "email": "instructor4@coursenoevals.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -457,7 +457,7 @@
       "googleId": "idOfInstructor5",
       "courseId": "idOfUnregisteredCourse",
       "name": "Instructor 5 of CourseNoRegister",
-      "email": "instructor5@courseNoRegister.tmt",
+      "email": "instructor5@coursenoregister.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -503,7 +503,7 @@
       "googleId": "idOfInstructorOfSingleInstructorCourse",
       "courseId": "idOfSingleInstructorCourse",
       "name": "Instructor of Single Instructor Course",
-      "email": "instructorOfSingleInstructorCourse@singleInstructorCourse.tmt",
+      "email": "instructorofsingleinstructorcourse@singleinstructorcourse.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -526,7 +526,7 @@
       "googleId": "idOfInstructorNotDisplayed1",
       "courseId": "idOfTestingInstructorsDisplayedCourse",
       "name": "name1",
-      "email": "instructorNotDisplayed@NotDisplayed.tmt",
+      "email": "instructornotdisplayed@notdisplayed.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -549,7 +549,7 @@
       "googleId": "idOfInstructorNotDisplayed2",
       "courseId": "idOfTestingInstructorsDisplayedCourse",
       "name": "name2",
-      "email": "secondInstructorNotDisplayed@NotDisplayed.tmt",
+      "email": "secondinstructornotdisplayed@notdisplayed.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Instructor",
@@ -571,7 +571,7 @@
     "instructorNotYetJoinCourse": {
       "courseId": "idOfSampleCourse-demo",
       "name": "Instructor Not Yet Joined Course",
-      "email": "instructorNotYetJoined@email.tmt",
+      "email": "instructornotyetjoined@email.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -617,7 +617,7 @@
   "students": {
     "student1InCourse1": {
       "googleId": "student1InCourse1",
-      "email": "student1InCourse1@gmail.tmt",
+      "email": "student1incourse1@gmail.tmt",
       "course": "idOfTypicalCourse1",
       "name": "student1 In Course1</td></div>'\"",
       "comments": "comment for student1InCourse1</td></div>'\"",
@@ -626,7 +626,7 @@
     },
     "student2InCourse1": {
       "googleId": "student2InCourse1",
-      "email": "student2InCourse1@gmail.tmt",
+      "email": "student2incourse1@gmail.tmt",
       "course": "idOfTypicalCourse1",
       "name": "student2 In Course1",
       "comments": "",
@@ -635,7 +635,7 @@
     },
     "student3InCourse1": {
       "googleId": "student3InCourse1",
-      "email": "student3InCourse1@gmail.tmt",
+      "email": "student3incourse1@gmail.tmt",
       "course": "idOfTypicalCourse1",
       "name": "student3 In Course1",
       "comments": "",
@@ -644,7 +644,7 @@
     },
     "student4InCourse1": {
       "googleId": "student4InCourse1",
-      "email": "student4InCourse1@gmail.tmt",
+      "email": "student4incourse1@gmail.tmt",
       "course": "idOfTypicalCourse1",
       "name": "student4 In Course1",
       "comments": "",
@@ -653,7 +653,7 @@
     },
     "student5InCourse1": {
       "googleId": "student5InCourse1",
-      "email": "student5InCourse1@gmail.tmt",
+      "email": "student5incourse1@gmail.tmt",
       "course": "idOfTypicalCourse1",
       "name": "student5 In Course1",
       "comments": "",
@@ -662,7 +662,7 @@
     },
     "student1InCourse2": {
       "googleId": "student1InCourse2",
-      "email": "student1InCourse2@gmail.tmt",
+      "email": "student1incourse2@gmail.tmt",
       "course": "idOfTypicalCourse2",
       "name": "student1 In Course2",
       "comments": "",
@@ -671,7 +671,7 @@
     },
     "student2InCourse2": {
       "googleId": "student2InCourse1",
-      "email": "student2InCourse2@gmail.tmt",
+      "email": "student2incourse2@gmail.tmt",
       "course": "idOfTypicalCourse2",
       "name": "student2 In Course2",
       "comments": "#####This is the same student as student2InCourse1 but using different name and email #####",
@@ -680,7 +680,7 @@
     },
     "student1InCourse3": {
       "googleId": "student1InCourse3",
-      "email": "student1InCourse3@gmail.tmt",
+      "email": "student1incourse3@gmail.tmt",
       "course": "idOfTypicalCourse3",
       "name": "student1 In Course3</td></div>'\"",
       "comments": "comment for student1InCourse3</td></div>'\"",
@@ -689,7 +689,7 @@
     },
     "student1InUnregisteredCourse": {
       "googleId": "",
-      "email": "student1InUnregisteredCourse@gmail.tmt",
+      "email": "student1inunregisteredcourse@gmail.tmt",
       "course": "idOfUnregisteredCourse",
       "name": "student1 In unregisteredCourse",
       "comments": "",
@@ -698,7 +698,7 @@
     },
     "student2InUnregisteredCourse": {
       "googleId": "",
-      "email": "student2InUnregisteredCourse@gmail.tmt",
+      "email": "student2inunregisteredcourse@gmail.tmt",
       "course": "idOfUnregisteredCourse",
       "name": "student2 In unregisteredCourse",
       "comments": "",
@@ -1474,8 +1474,8 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "1",
-      "giver": "student1InCourse1@gmail.tmt",
-      "recipient": "student1InCourse1@gmail.tmt",
+      "giver": "student1incourse1@gmail.tmt",
+      "recipient": "student1incourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1487,8 +1487,8 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "1",
-      "giver": "student2InCourse1@gmail.tmt",
-      "recipient": "student2InCourse1@gmail.tmt",
+      "giver": "student2incourse1@gmail.tmt",
+      "recipient": "student2incourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1500,8 +1500,8 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "giver": "student2InCourse1@gmail.tmt",
-      "recipient": "student5InCourse1@gmail.tmt",
+      "giver": "student2incourse1@gmail.tmt",
+      "recipient": "student5incourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 2",
       "responseDetails": {
@@ -1513,8 +1513,8 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "giver": "student5InCourse1@gmail.tmt",
-      "recipient": "student2InCourse1@gmail.tmt",
+      "giver": "student5incourse1@gmail.tmt",
+      "recipient": "student2incourse1@gmail.tmt",
       "giverSection": "Section 2",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1526,8 +1526,8 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "giver": "student3InCourse1@gmail.tmt",
-      "recipient": "student2InCourse1@gmail.tmt",
+      "giver": "student3incourse1@gmail.tmt",
+      "recipient": "student2incourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1604,8 +1604,8 @@
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "giver": "student4InCourse1@gmail.tmt",
-      "recipient": "student2InCourse1@gmail.tmt",
+      "giver": "student4incourse1@gmail.tmt",
+      "recipient": "student2incourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1617,8 +1617,8 @@
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "2",
-      "giver": "student1InCourse1@gmail.tmt",
-      "recipient": "student4InCourse1@gmail.tmt",
+      "giver": "student1incourse1@gmail.tmt",
+      "recipient": "student4incourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
       "responseDetails": {
@@ -1644,7 +1644,7 @@
       "courseId": "idOfTypicalCourse2",
       "feedbackQuestionId": "1",
       "giver": "instructor1@course2.tmt",
-      "recipient": "student1InCourse2@gmail.tmt",
+      "recipient": "student1incourse2@gmail.tmt",
       "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "recipientSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "responseDetails": {
@@ -1661,7 +1661,7 @@
       "commentGiver": "instructor1@course1.tmt",
       "giverSection": "Section 1",
       "receiverSection": "Section 1",
-      "feedbackResponseId": "1%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+      "feedbackResponseId": "1%student1incourse1@gmail.tmt%student1incourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",
@@ -1680,7 +1680,7 @@
       "giverSection": "Section 1",
       "receiverSection": "Section 2",
       "commentGiverType": "INSTRUCTORS",
-      "feedbackResponseId": "2%student2InCourse1@gmail.tmt%student5InCourse1@gmail.tmt",
+      "feedbackResponseId": "2%student2incourse1@gmail.tmt%student5incourse1@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -1711,7 +1711,7 @@
       "commentGiver": "instructor3@course.tmt",
       "giverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
       "receiverSection": "__TEAMMATES_RESERVED_DEFAULT_SECTION__",
-      "feedbackResponseId": "1%instructor1@course2.tmt%student1InCourse2@gmail.tmt",
+      "feedbackResponseId": "1%instructor1@course2.tmt%student1incourse2@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "INSTRUCTORS",
@@ -1725,7 +1725,7 @@
     "student3InCourse1Session1": {
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "First feedback session",
-      "userEmail": "student3InCourse1@gmail.tmt",
+      "userEmail": "student3incourse1@gmail.tmt",
       "isInstructor": false,
       "endTime": "2027-04-30T23:00:00Z",
       "sentClosingSoonEmail": false,
@@ -1735,7 +1735,7 @@
     "student4InCourse1Session1": {
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "First feedback session",
-      "userEmail": "student4InCourse1@gmail.tmt",
+      "userEmail": "student4incourse1@gmail.tmt",
       "isInstructor": false,
       "endTime": "2027-04-30T23:00:00Z",
       "sentClosingSoonEmail": false,
@@ -1745,7 +1745,7 @@
     "student5InCourse1Session1": {
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "First feedback session",
-      "userEmail": "student5InCourse1@gmail.tmt",
+      "userEmail": "student5incourse1@gmail.tmt",
       "isInstructor": false,
       "endTime": "2027-04-30T23:00:00Z",
       "sentClosingSoonEmail": false,
@@ -1755,7 +1755,7 @@
     "student1InCourse1Session2": {
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "Second feedback session",
-      "userEmail": "student1InCourse1@gmail.tmt",
+      "userEmail": "student1incourse1@gmail.tmt",
       "isInstructor": false,
       "endTime": "2026-04-28T23:00:00Z",
       "sentClosingSoonEmail": false,
@@ -1765,7 +1765,7 @@
     "student4InCourse1Session2": {
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "Second feedback session",
-      "userEmail": "student4InCourse1@gmail.tmt",
+      "userEmail": "student4incourse1@gmail.tmt",
       "isInstructor": false,
       "endTime": "2026-04-28T23:00:00Z",
       "sentClosingSoonEmail": false,
@@ -1775,7 +1775,7 @@
     "student1InCourse1GracePeriodSession": {
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "Grace Period Session",
-      "userEmail": "student1InCourse1@gmail.tmt",
+      "userEmail": "student1incourse1@gmail.tmt",
       "isInstructor": false,
       "endTime": "2026-04-28T23:00:00Z",
       "sentClosingSoonEmail": false,
@@ -1889,7 +1889,7 @@
     },
     "instructor5": {
       "name": "Instructor 5 of CourseNoRegister",
-      "email": "instructor5@courseNoRegister.tmt",
+      "email": "instructor5@coursenoregister.tmt",
       "institute": "TEAMMATES Test Institute 5",
       "createdAt": "2011-01-01T00:00:00Z",
       "registeredAt": "1970-02-14T00:00:00Z"

@@ -100,7 +100,10 @@ dependencies {
     // For using Gmail API
     testImplementation("com.google.apis:google-api-services-gmail:v1-rev20260112-2.0.0")
 
+    compileOnly("org.liquibase.ext:liquibase-hibernate6:5.0.2")
+
     liquibaseRuntime("info.picocli:picocli:4.7.7")
+    liquibaseRuntime("org.liquibase.ext:liquibase-hibernate6:5.0.2")
     liquibaseRuntime(sourceSets.main.output)
 }
 
@@ -137,6 +140,13 @@ if (!project.hasProperty("runList")) {
     project.ext.set("runList", "main")
 }
 
+if (project.ext.runList == "diffMain" && !project.hasProperty("migrationName")) {
+    throw new GradleException("Pass -PmigrationName=foo when running diffMain")
+}
+def liquibaseDiffTimestamp = new Date().format("yyyyMMdd")
+def migrationName = findProperty("migrationName")
+def liquibaseDiffChangelogFile = "src/main/resources/db/changelog/migrations/${liquibaseDiffTimestamp}-${migrationName}.xml"
+
 liquibase {
     activities {
         main {
@@ -146,20 +156,13 @@ liquibase {
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
         }
-        snapshot {
+        diffMain {
+            searchPath "${projectDir}"
+            changelogFile liquibaseDiffChangelogFile
+            referenceUrl "hibernate:classic:teammates.liquibase.LiquibaseHibernateConfigFactory"
             url project.properties['liquibaseDbUrl']
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
-            snapshotFormat "json"
-            outputFile "liquibase-snapshot.json"
-        }
-        diffMain {
-            searchPath "${projectDir}"
-            changelogFile "src/main/resources/db/changelog/db.changelog-new.xml"
-            referenceUrl  project.properties['liquibaseDbUrl']
-            referenceUsername project.properties['liquibaseUsername']
-            referencePassword project.properties['liquibasePassword']
-            url "offline:postgresql?snapshot=liquibase-snapshot.json"
         }
     }
     runList = project.ext.runList
@@ -240,21 +243,25 @@ task execScript(type: JavaExec) {
 }
 
 // SETUP TASKS
+apply from: 'gradle/seeddb.gradle'
 
 task createConfigs {
-    description = "Sets up the project by obtaining necessary files and configurations points."
+    description = "Sets up the project by obtaining necessary files and configurations points. " +
+            "Use -PproductionConfigs to skip creating build-dev.properties."
     group = "Setup"
     doLast {
         def templatesToCopy = [
             "gradle.template.properties",
             "src/main/resources/build.template.properties",
-            "src/main/resources/build-dev.template.properties",
             "src/web/environments/config.template.ts",
             "src/test/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
             "src/client/resources/client.template.properties",
             "src/main/appengine/app.template.yaml"
         ]
+        if (!project.hasProperty("productionConfigs")) {
+            templatesToCopy.add(2, "src/main/resources/build-dev.template.properties")
+        }
         templatesToCopy.findAll {
             !(new File(it.replace(".template", ""))).exists()
         }.each {

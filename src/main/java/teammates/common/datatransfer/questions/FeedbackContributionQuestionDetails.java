@@ -13,11 +13,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SqlSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.Student;
@@ -72,7 +73,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, String studentEmail, SqlSessionResultsBundle bundle) {
+            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle) {
         List<FeedbackResponse> responses = bundle.getQuestionResponseMap().get(question);
 
         boolean isStudent = studentEmail != null;
@@ -104,7 +105,16 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
             if (currentUserTeamResults != null) {
                 List<String> teamEmails = teamMembersEmail.get(currentUserTeam);
-                int currentUserIndex = teamEmails.indexOf(studentEmail);
+                int currentUserIndex = -1;
+                for (int i = 0; i < teamEmails.size(); i++) {
+                    if (SanitizationHelper.areEmailsEqual(teamEmails.get(i), studentEmail)) {
+                        currentUserIndex = i;
+                        break;
+                    }
+                }
+                if (currentUserIndex < 0) {
+                    return JsonUtils.toJson(output);
+                }
                 int[] claimedNumbers = currentUserTeamResults.claimed[currentUserIndex];
                 int[] perceivedNumbers = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex];
 
@@ -221,7 +231,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     private Map<String, List<FeedbackResponse>> getTeamResponses(
-            List<FeedbackResponse> responses, SqlSessionResultsBundle bundle, List<String> teamNames) {
+            List<FeedbackResponse> responses, SessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<FeedbackResponse>> teamResponses = new LinkedHashMap<>();
         for (String teamName : teamNames) {
             teamResponses.put(teamName, new ArrayList<>());
@@ -236,7 +246,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     private Map<String, List<String>> getTeamMembersEmail(
-            SqlSessionResultsBundle bundle, List<String> teamNames) {
+            SessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<>();
         for (String teamName : teamNames) {
             List<Student> members = bundle.getRoster().getTeamToMembersTable().get(teamName);
@@ -248,7 +258,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     private List<String> getTeamsWithAtLeastOneResponse(
-            List<FeedbackResponse> responses, SqlSessionResultsBundle bundle) {
+            List<FeedbackResponse> responses, SessionResultsBundle bundle) {
         Set<String> teamNames = new HashSet<>();
         for (FeedbackResponse response : responses) {
             String teamNameOfResponseGiver = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();

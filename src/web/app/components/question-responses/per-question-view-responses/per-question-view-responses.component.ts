@@ -46,6 +46,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -60,8 +61,6 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
   @Input() isDisplayOnly: boolean = false;
   @Input() statistics: string = '';

@@ -1,6 +1,8 @@
 package teammates.ui.output;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.storage.sqlentity.FeedbackSession;
@@ -16,12 +18,18 @@ public class FeedbackSessionsData extends ApiOutput {
                 feedbackSessionList.stream().map(FeedbackSessionData::new).collect(Collectors.toList());
     }
 
+    public FeedbackSessionsData(Map<FeedbackSession, Instant> feedbackSessionToDeadline) {
+        this.feedbackSessions = feedbackSessionToDeadline.entrySet().stream()
+                .map(e -> new FeedbackSessionData(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
+    }
+
     /**
      * Hide information for given student email.
      */
     public void hideInformationForStudent(String email) {
         for (FeedbackSessionData fs : feedbackSessions) {
-            fs.hideInformationForStudent(email);
+            fs.hideInformation();
         }
     }
 

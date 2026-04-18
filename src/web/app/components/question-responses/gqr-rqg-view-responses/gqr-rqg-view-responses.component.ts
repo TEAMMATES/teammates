@@ -54,6 +54,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -68,8 +69,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   @Input() isGqr: boolean = true;

@@ -3,13 +3,13 @@
     "instructorOfCourse1": {
       "googleId": "tm.e2e.ISList.instr1",
       "name": "Instructor of Course 1",
-      "email": "ISList.instr1@gmail.tmt",
+      "email": "islist.instr1@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001"
     },
     "Student3Course3": {
       "googleId": "tm.e2e.ISList.charlie.tmms",
       "name": "Charlie D",
-      "email": "ISList.charlie.tmms@gmail.tmt",
+      "email": "islist.charlie.tmms@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002"
     }
   },
@@ -116,7 +116,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Instructor1 Course1",
-      "email": "ISList.instr1@gmail.tmt"
+      "email": "islist.instr1@gmail.tmt"
     },
     "instructorOfCourse2": {
       "isDisplayedToStudents": true,
@@ -145,7 +145,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Instructor1 Course2",
-      "email": "ISList.instr1@gmail.tmt"
+      "email": "islist.instr1@gmail.tmt"
     },
     "instructorOfCourse3": {
       "isDisplayedToStudents": true,
@@ -174,7 +174,7 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "name": "Instructor1 Course3",
-      "email": "ISList.instr1@gmail.tmt"
+      "email": "islist.instr1@gmail.tmt"
     }
   },
   "students": {
@@ -189,7 +189,7 @@
         "id": "00000000-0000-4000-8000-000000000301"
       },
       "name": "Alice",
-      "email": "ISList.alice.tmms@gmail.tmt"
+      "email": "islist.alice.tmms@gmail.tmt"
     },
     "Student2Course2": {
       "comments": "This student's name is Benny Charles",
@@ -228,7 +228,7 @@
         "id": "00000000-0000-4000-8000-000000000303"
       },
       "name": "Alice Betsy",
-      "email": "ISList.alice.tmms@gmail.tmt"
+      "email": "islist.alice.tmms@gmail.tmt"
     },
     "Student2Course3": {
       "comments": "This student's name is Benny Charles",
@@ -257,7 +257,7 @@
         "id": "00000000-0000-4000-8000-000000000304"
       },
       "name": "Charlie D",
-      "email": "ISList.charlie.tmms@gmail.tmt"
+      "email": "islist.charlie.tmms@gmail.tmt"
     },
     "Student4Course3": {
       "comments": "This student's name is Denny Charlés",

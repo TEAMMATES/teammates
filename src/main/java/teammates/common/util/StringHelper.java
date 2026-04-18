@@ -1,10 +1,10 @@
 package teammates.common.util;
 
+import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,6 +13,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.Mac;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.google.common.base.CharMatcher;
@@ -25,6 +26,9 @@ import teammates.common.exception.InvalidParametersException;
 
 public final class StringHelper {
     private static final Logger log = Logger.getLogger();
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final int AES_GCM_IV_LENGTH_BYTES = 12;
+    private static final int AES_GCM_TAG_LENGTH_BITS = 128;
 
     private StringHelper() {
         // utility class
@@ -79,56 +83,28 @@ public final class StringHelper {
     }
 
     /**
-     * Generates the HMAC SHA-1 signature for a supplied string.
-     *
-     * @param data The string to be signed
-     * @return The signature value as a hex-string
-     */
-    public static String generateSignature(String data) {
-        try {
-            SecretKeySpec signingKey =
-                    new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
-            Mac mac = Mac.getInstance("HmacSHA1");
-            mac.init(signingKey);
-            byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
-            return byteArrayToHexString(value);
-        } catch (Exception e) {
-            assert false;
-            return null;
-        }
-    }
-
-    /**
-     * Verifies the HMAC SHA-1 signature against a given value.
-     *
-     * @param value The value to be checked
-     * @param signature The signature in hex-string format
-     * @return True if signature matches value
-     */
-    public static boolean isCorrectSignature(String value, String signature) {
-        if (value == null || signature == null) {
-            return false;
-        }
-        return Objects.equals(generateSignature(value), signature);
-    }
-
-    /**
      * Encrypts the supplied string.
      *
      * @param value the plaintext as a string
      * @return the ciphertext
-     * @throws RuntimeException if the encryption fails for some reason, such as {@code Cipher} initialization failure.
+    * @throws IllegalStateException if the encryption fails for some reason,
+    *         such as {@code Cipher} initialization failure.
      */
     public static String encrypt(String value) {
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
+            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            byte[] iv = new byte[AES_GCM_IV_LENGTH_BYTES];
+            SECURE_RANDOM.nextBytes(iv);
+            cipher.init(Cipher.ENCRYPT_MODE, sks, new GCMParameterSpec(AES_GCM_TAG_LENGTH_BITS, iv));
             byte[] encrypted = cipher.doFinal(value.getBytes(Const.ENCODING));
-            return byteArrayToHexString(encrypted);
+
+            byte[] encryptedWithIv = new byte[iv.length + encrypted.length];
+            System.arraycopy(iv, 0, encryptedWithIv, 0, iv.length);
+            System.arraycopy(encrypted, 0, encryptedWithIv, iv.length, encrypted.length);
+            return byteArrayToHexString(encryptedWithIv);
         } catch (Exception e) {
-            assert false;
-            return null;
+            throw new IllegalStateException("Failed to encrypt value", e);
         }
     }
 
@@ -138,21 +114,56 @@ public final class StringHelper {
      * @param message the ciphertext as a hexadecimal string
      * @return the plaintext
      * @throws InvalidParametersException if the ciphertext is invalid.
-     * @throws RuntimeException if the decryption fails for any other reason, such as {@code Cipher} initialization failure.
+    * @throws IllegalStateException if the decryption fails for any other reason,
+    *         such as {@code Cipher} initialization failure.
      */
     public static String decrypt(String message) throws InvalidParametersException {
+        byte[] encryptedWithIv;
+        try {
+            encryptedWithIv = hexStringToByteArray(message);
+        } catch (NumberFormatException e) {
+            log.warning("Attempted to decrypt invalid ciphertext, input length: "
+                    + (message == null ? -1 : message.length()));
+            throw new InvalidParametersException(e);
+        }
+
+        if (encryptedWithIv.length <= AES_GCM_IV_LENGTH_BYTES) {
+            log.warning("Attempted to decrypt invalid ciphertext, byte length: " + encryptedWithIv.length);
+            throw new InvalidParametersException("Ciphertext does not contain IV and payload");
+        }
+
         try {
             SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, sks);
-            byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
+            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            cipher.init(Cipher.DECRYPT_MODE, sks,
+                    new GCMParameterSpec(AES_GCM_TAG_LENGTH_BITS, encryptedWithIv, 0, AES_GCM_IV_LENGTH_BYTES));
+            byte[] decrypted = cipher.doFinal(encryptedWithIv, AES_GCM_IV_LENGTH_BYTES,
+                    encryptedWithIv.length - AES_GCM_IV_LENGTH_BYTES);
             return new String(decrypted, Const.ENCODING);
-        } catch (NumberFormatException | IllegalBlockSizeException | BadPaddingException e) {
-            log.warning("Attempted to decrypt invalid ciphertext: " + message);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            log.warning("Attempted to decrypt invalid ciphertext, byte length: " + encryptedWithIv.length);
             throw new InvalidParametersException(e);
         } catch (Exception e) {
-            assert false;
-            return null;
+            throw new IllegalStateException("Failed to decrypt message", e);
+        }
+    }
+
+    /**
+     * Generates a deterministic HMAC SHA-256 signature for the supplied string.
+     *
+     * @param data the plaintext as a string
+     * @return the HMAC SHA-256 signature as a hex-string
+     * @throws IllegalStateException if signature generation fails.
+     */
+    public static String generateSha256Hmac(String data) {
+        try {
+            SecretKeySpec signingKey = new SecretKeySpec(hexStringToByteArray(Config.HMAC_KEY), "HmacSHA256");
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(signingKey);
+            byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
+            return byteArrayToHexString(value);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to generate HMAC-SHA256 signature", e);
         }
     }
 

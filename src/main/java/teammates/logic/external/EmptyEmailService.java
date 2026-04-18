@@ -10,8 +10,7 @@ import teammates.common.util.EmailWrapper;
  */
 public class EmptyEmailService implements EmailSenderService {
 
-    @Override
-    public EmailWrapper parseToEmail(EmailWrapper wrapper) {
+    EmailWrapper parseToEmail(EmailWrapper wrapper) {
         return wrapper;
     }
 
