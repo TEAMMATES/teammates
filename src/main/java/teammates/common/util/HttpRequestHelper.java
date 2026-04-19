@@ -22,6 +22,39 @@ public final class HttpRequestHelper {
     }
 
     /**
+     * Returns the bearer credential from an {@code Authorization} header field-value, or {@code null} if the value
+     * is not a Bearer access token per OAuth 2.0 Bearer Token Usage (RFC 6750) and HTTP Authentication (RFC 7235):
+     * {@code Bearer} scheme name (case-insensitive), then {@code 1*SP} (ASCII space only, not HTAB), then the token.
+     */
+    public static String parseBearerTokenFromAuthorizationHeader(String authorizationHeaderValue) {
+        if (authorizationHeaderValue == null) {
+            return null;
+        }
+        int schemeLen = Const.HttpAuthScheme.BEARER_SCHEME.length();
+        if (authorizationHeaderValue.length() <= schemeLen) {
+            return null;
+        }
+        if (!authorizationHeaderValue.regionMatches(true, 0, Const.HttpAuthScheme.BEARER_SCHEME, 0, schemeLen)) {
+            return null;
+        }
+        if (authorizationHeaderValue.charAt(schemeLen) != ' ') {
+            return null;
+        }
+        int i = schemeLen;
+        while (i < authorizationHeaderValue.length() && authorizationHeaderValue.charAt(i) == ' ') {
+            i++;
+        }
+        if (i >= authorizationHeaderValue.length()) {
+            return null;
+        }
+        char c = authorizationHeaderValue.charAt(i);
+        if (c != ' ' && Character.isWhitespace(c)) {
+            return null;
+        }
+        return authorizationHeaderValue.substring(i).trim();
+    }
+
+    /**
      * Gets the parameters of the given HTTP request as key-value (possibly multi-values) mapping.
      */
     static Map<String, Object> getRequestParameters(HttpServletRequest req) {
@@ -43,10 +76,11 @@ public final class HttpRequestHelper {
         Map<String, Object> headers = new HashMap<>();
         Collections.list(req.getHeaderNames()).stream()
                 // Do not include cookie header/secret keys in production for privacy reasons
-                .filter(headerName -> Config.IS_DEV_SERVER || !"cookie".equalsIgnoreCase(headerName))
+                .filter(headerName -> Config.IS_DEV_SERVER || !Const.HeaderNames.COOKIE_KEY.equalsIgnoreCase(headerName))
                 .filter(headerName -> Config.IS_DEV_SERVER || !Const.HeaderNames.BACKDOOR_KEY.equalsIgnoreCase(headerName))
                 .filter(headerName -> Config.IS_DEV_SERVER || !Const.HeaderNames.CSRF_KEY.equalsIgnoreCase(headerName))
-                .filter(headerName -> Config.IS_DEV_SERVER || !"Authorization".equalsIgnoreCase(headerName))
+                .filter(headerName -> Config.IS_DEV_SERVER
+                        || !Const.HeaderNames.AUTHORIZATION_KEY.equalsIgnoreCase(headerName))
                 .forEach(headerName -> {
                     List<String> headerValues = Collections.list(req.getHeaders(headerName));
                     if (headerValues.size() == 1) {

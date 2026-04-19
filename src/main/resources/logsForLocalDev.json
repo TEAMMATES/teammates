@@ -257,7 +257,7 @@
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "141",
-        "function": "throwErrorBasedOnRequester"
+        "function": "handleException"
       }
     },
     "severity": "WARNING",
@@ -302,7 +302,7 @@
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "141",
-        "function": "throwErrorBasedOnRequester"
+        "function": "handleException"
       }
     },
     "severity": "WARNING",
