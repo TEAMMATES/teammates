@@ -27,9 +27,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
@@ -53,6 +50,8 @@ import teammates.ui.output.NotificationData;
 import teammates.ui.output.StudentData;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
+
+import tools.jackson.databind.JsonNode;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
@@ -225,9 +224,9 @@ public abstract class AbstractBackDoor {
                     + putRequestOutput.responseBody);
         }
 
-        JsonObject jsonObject = JsonParser.parseString(putRequestOutput.responseBody).getAsJsonObject();
+        JsonNode jsonObject = JsonUtils.parse(putRequestOutput.responseBody);
         // data bundle is nested under message key
-        String message = jsonObject.get("message").getAsString();
+        String message = jsonObject.get("message").asText();
         return JsonUtils.fromJson(message, DataBundle.class);
     }
 
@@ -419,7 +418,8 @@ public abstract class AbstractBackDoor {
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
         params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSE_COMMENT, params);
-        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND
+                || response.responseCode == HttpStatus.SC_NO_CONTENT) {
             return null;
         }
 
