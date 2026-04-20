@@ -196,7 +196,7 @@ public abstract class Action {
      * and non-blank in the HTTP request.
      * @throws InvalidHttpParameterException if the parameter is null or blank.
      */
-    String getNonBlankRequestParamValue(String paramName) {
+    protected String getNonBlankRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
         if (value == null || value.isBlank()) {
             throw new InvalidHttpParameterException(

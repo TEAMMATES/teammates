@@ -26,19 +26,27 @@ public final class EmailChecker {
      */
     public static void verifyEmailContent(String emailContent, String fileName) throws IOException {
         String filePath = TestProperties.TEST_EMAILS_FOLDER + fileName;
-        String actual = processEmailForComparison(emailContent);
+
+        String actual = normalize(processEmailForComparison(emailContent));
+
         try {
             String expected = FileHelper.readFile(filePath);
-            expected = injectTestProperties(expected);
+            expected = normalize(injectTestProperties(expected));
+
             if (!expected.equals(actual)) {
-                assertEquals("<expected>" + System.lineSeparator() + expected + "</expected>",
-                        "<actual>" + System.lineSeparator() + actual + "</actual>");
+                assertEquals(expected, actual);
             }
         } catch (IOException | AssertionError e) {
             if (!updateSnapshot(filePath, actual)) {
                 throw e;
             }
         }
+    }
+
+    private static String normalize(String input) {
+        return input
+                .replace("\r\n", "\n")  // fix Windows vs Unix
+                .trim();                // remove trailing whitespace
     }
 
     private static boolean updateSnapshot(String filePath, String emailContent) throws IOException {

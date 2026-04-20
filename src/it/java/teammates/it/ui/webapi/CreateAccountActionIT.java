@@ -66,7 +66,7 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         String[] nullParams = new String[] { Const.ParamsNames.REGKEY, null, };
         InvalidHttpParameterException ex = verifyHttpParameterFailure(nullParams);
-        assertEquals("The [key] HTTP parameter is null.", ex.getMessage());
+        assertEquals("The [key] HTTP parameter is empty or null.", ex.getMessage());
 
         verifyNoTasksAdded();
 
