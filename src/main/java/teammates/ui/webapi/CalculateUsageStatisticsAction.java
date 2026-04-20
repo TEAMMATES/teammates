@@ -13,7 +13,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 /**
  * Gathers usage-related statistics (e.g. new created entities) in the past defined time period and store in the database.'
  */
-public class CalculateUsageStatisticsAction extends AdminOnlyAction {
+public class CalculateUsageStatisticsAction extends AutomatedServiceAction {
 
     static final int COLLECTION_TIME_PERIOD = 60; // represents one hour
     private static final Logger log = Logger.getLogger();

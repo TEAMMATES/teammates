@@ -112,6 +112,6 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
     @Test
     void testAccessControl() {
-        verifyOnlyAdminsCanAccess();
+        verifyOnlyAdminsOrAutomatedServicesCanAccess();
     }
 }

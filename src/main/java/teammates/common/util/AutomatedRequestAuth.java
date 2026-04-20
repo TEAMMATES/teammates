@@ -6,13 +6,11 @@ import java.security.MessageDigest;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * Helper for authenticating internal requests (cron and worker) via bearer token.
+ * Helper for authenticating automated requests (cron and worker) via bearer token.
  */
-public final class InternalRequestAuth {
+public final class AutomatedRequestAuth {
 
-    private static final String BEARER_PREFIX = "Bearer ";
-
-    private InternalRequestAuth() {
+    private AutomatedRequestAuth() {
         // utility class
     }
 
@@ -30,30 +28,37 @@ public final class InternalRequestAuth {
      * (including the application context path prefix when present).
      */
     public static boolean isTrustedCronOrWorkerRequest(HttpServletRequest req) {
-        return isTrustedCronOrWorkerRequest(req, Config.CRON_AND_WORKER_SECRET);
+        return isTrustedCronOrWorkerRequest(req, Config.CRON_AND_WORKER_SECRET_BYTES);
     }
 
     /**
      * Same as {@link #isTrustedCronOrWorkerRequest(HttpServletRequest)} but with an explicit expected secret
-     * (production uses {@link Config#CRON_AND_WORKER_SECRET}). Package-private for deterministic unit tests.
+     * (production uses {@link Config#CRON_AND_WORKER_SECRET_BYTES}). Package-private for deterministic unit tests.
      */
     static boolean isTrustedCronOrWorkerRequest(HttpServletRequest req, String secret) {
-        if (req.getContextPath() == null) {
-            return false;
-        }
         if (!isCronAndWorkerSecretWellFormed(secret)) {
             return false;
         }
-        String auth = req.getHeader("Authorization");
-        if (auth == null || !auth.startsWith(BEARER_PREFIX)) {
+        return isTrustedCronOrWorkerRequest(req, secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Package-private for deterministic unit tests and for sharing logic with {@link #isTrustedCronOrWorkerRequest(
+     * HttpServletRequest, String)}.
+     */
+    static boolean isTrustedCronOrWorkerRequest(HttpServletRequest req, byte[] secretBytes) {
+        if (req.getContextPath() == null) {
             return false;
         }
-        String token = auth.substring(BEARER_PREFIX.length()).trim();
-        if (token.isEmpty()) {
+        if (secretBytes == null || secretBytes.length == 0) {
             return false;
         }
-        if (!MessageDigest.isEqual(token.getBytes(StandardCharsets.UTF_8),
-                secret.getBytes(StandardCharsets.UTF_8))) {
+        String token = HttpRequestHelper.parseBearerTokenFromAuthorizationHeader(
+                req.getHeader(Const.HeaderNames.AUTHORIZATION_KEY));
+        if (token == null || token.isEmpty()) {
+            return false;
+        }
+        if (!MessageDigest.isEqual(token.getBytes(StandardCharsets.UTF_8), secretBytes)) {
             return false;
         }
         return isCronOrWorkerPath(req);

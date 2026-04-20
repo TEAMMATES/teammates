@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.ui.output.ActionClasses;
 import teammates.ui.webapi.Action;
-import teammates.ui.webapi.AdminExceptionTestAction;
 import teammates.ui.webapi.ApproveAccountRequestAction;
 import teammates.ui.webapi.BinCourseAction;
 import teammates.ui.webapi.BinFeedbackSessionAction;
@@ -149,7 +148,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GenerateEmailAction.class,
                 GetFeedbackQuestionsAction.class,
                 GetOngoingSessionsAction.class,
-                AdminExceptionTestAction.class,
                 GetUserCookieAction.class,
                 RemindFeedbackSessionResultAction.class,
                 DeleteInstructorAction.class,

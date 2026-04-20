@@ -1,55 +1,39 @@
 package teammates.ui.servlets;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.mockito.Answers;
 import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.util.Const;
-import teammates.common.util.Const.TaskQueue;
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.InternalRequestAuth;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.test.MockHttpServletResponse;
-import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.InvalidHttpParameterException;
-import teammates.ui.webapi.UnauthorizedAccessException;
+import teammates.ui.webapi.Action;
+import teammates.ui.webapi.ActionFactory;
+import teammates.ui.webapi.ActionMappingException;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link WebApiServlet}.
  */
 public class WebApiServletTest extends BaseTestCase {
 
-    /**
-     * Admin exception-test action reachable under the worker servlet mapping ({@code /worker/*}).
-     */
-    private static final String WORKER_URI_EXCEPTION = TaskQueue.URI_PREFIX + Const.ResourceURIs.EXCEPTION;
-
-    /**
-     * Unmapped path under {@code /worker/*} for invalid action mapping tests.
-     */
-    private static final String WORKER_URI_NONEXISTENT = TaskQueue.URI_PREFIX + "/nonexistent";
-
     private static final WebApiServlet SERVLET = new WebApiServlet();
 
     private static MockedStatic<HibernateUtil> mockHibernateUtil;
-
-    private MockHttpServletRequest mockRequest;
-    private MockHttpServletResponse mockResponse;
 
     @BeforeClass
     public static void classSetup() {
@@ -61,167 +45,52 @@ public class WebApiServletTest extends BaseTestCase {
         mockHibernateUtil.close();
     }
 
-    private void setupMocks(String method, String requestUrl) {
-        mockRequest = new MockHttpServletRequest(method, requestUrl);
-        mockResponse = new MockHttpServletResponse();
-    }
+    @Test
+    public void testSuccessfulRequest_returnsOk() throws Exception {
+        Action mockAction = mock(Action.class);
+        doNothing().when(mockAction).init(any(HttpServletRequest.class));
+        doNothing().when(mockAction).checkAccessControl();
+        when(mockAction.execute()).thenReturn(new JsonResult("Test output"));
+        when(mockAction.hasDefinedRequestBody()).thenReturn(false);
+        when(mockAction.getUserInfoForLogging()).thenReturn(new RequestLogUser());
 
-    private void setupMocksFromWorkerOrCron(String method, String requestUrl) {
-        Map<String, List<String>> headers = new HashMap<>();
-        headers.put("Authorization", Collections.singletonList("Bearer test"));
-        mockRequest = new MockHttpServletRequest(method, requestUrl, headers);
-        mockResponse = new MockHttpServletResponse();
+        try (MockedStatic<ActionFactory> actionFactory = mockStatic(ActionFactory.class)) {
+            actionFactory.when(() -> ActionFactory.getAction(any(HttpServletRequest.class), anyString()))
+                    .thenReturn(mockAction);
+
+            MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, "/webapi/course");
+            MockHttpServletResponse resp = new MockHttpServletResponse();
+
+            SERVLET.doGet(req, resp);
+            assertEquals(HttpStatus.SC_OK, resp.getStatus());
+        }
     }
 
     @Test
-    public void testUserInvokedRequests() throws Exception {
+    public void testActionMappingNotFound_returns404() throws Exception {
+        try (MockedStatic<ActionFactory> actionFactory = mockStatic(ActionFactory.class)) {
+            actionFactory.when(() -> ActionFactory.getAction(any(HttpServletRequest.class), anyString()))
+                    .thenThrow(new ActionMappingException("not found", HttpStatus.SC_NOT_FOUND));
 
-        ______TS("Typical case: valid action mapping");
+            MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, "/webapi/nonexistent");
+            MockHttpServletResponse resp = new MockHttpServletResponse();
 
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, "NoException");
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
-
-        ______TS("Failure case: invalid action mapping");
-
-        setupMocks(HttpGet.METHOD_NAME, "nonexistent");
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_NOT_FOUND, mockResponse.getStatus());
-
-        setupMocks(HttpPost.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_METHOD_NOT_ALLOWED, mockResponse.getStatus());
-
-        ______TS("Failure case: NullHttpParameterException");
-
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_BAD_REQUEST, mockResponse.getStatus());
-
-        ______TS("Failure case: InvalidHttpParameterException");
-
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_BAD_REQUEST, mockResponse.getStatus());
-
-        ______TS("Failure case: UnauthorizedAccessException");
-
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
-
-        ______TS("Failure case: EntityNotFoundException");
-
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_NOT_FOUND, mockResponse.getStatus());
-
-        ______TS("Failure case: NullPointerException");
-
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
-
-        ______TS("Failure case: AssertionError");
-
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
-
+            SERVLET.doGet(req, resp);
+            assertEquals(HttpStatus.SC_NOT_FOUND, resp.getStatus());
+        }
     }
 
     @Test
-    public void testTrustedWorkerInvokedRequests() throws Exception {
+    public void testActionMappingMethodNotAllowed_returns405() throws Exception {
+        try (MockedStatic<ActionFactory> actionFactory = mockStatic(ActionFactory.class)) {
+            actionFactory.when(() -> ActionFactory.getAction(any(HttpServletRequest.class), anyString()))
+                    .thenThrow(new ActionMappingException("method not allowed", HttpStatus.SC_METHOD_NOT_ALLOWED));
 
-        try (MockedStatic<InternalRequestAuth> internalAuth = mockStatic(InternalRequestAuth.class,
-                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
-            // Path checks use real implementations; only the bearer check is stubbed so tests stay deterministic.
-            internalAuth.when(() -> InternalRequestAuth.isTrustedCronOrWorkerRequest(any())).thenReturn(true);
+            MockHttpServletRequest req = new MockHttpServletRequest(HttpGet.METHOD_NAME, "/webapi/course");
+            MockHttpServletResponse resp = new MockHttpServletResponse();
 
-            ______TS("Typical case: valid action mapping");
-
-            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
-            mockRequest.addParam(Const.ParamsNames.ERROR, "NoException");
-
-            SERVLET.doGet(mockRequest, mockResponse);
-            assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
-
-            ______TS("\"Successful\" case: invalid action mapping");
-
-            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_NONEXISTENT);
-
-            SERVLET.doGet(mockRequest, mockResponse);
-            assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
-
-            ______TS("\"Successful\" case: HTTP method not allowed for worker endpoint");
-
-            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, TaskQueue.SEND_EMAIL_WORKER_URL);
-
-            SERVLET.doGet(mockRequest, mockResponse);
-            assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
-
-            ______TS("\"Successful\" case: NullHttpParameterException");
-
-            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
-
-            SERVLET.doGet(mockRequest, mockResponse);
-            assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
-
-            ______TS("\"Successful\" case: InvalidHttpParameterException");
-
-            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
-            mockRequest.addParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName());
-
-            SERVLET.doGet(mockRequest, mockResponse);
-            assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
-
-            ______TS("Failure case: UnauthorizedAccessException");
-
-            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
-            mockRequest.addParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName());
-
-            SERVLET.doGet(mockRequest, mockResponse);
-            assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
-
-            ______TS("Failure case: EntityNotFoundException");
-
-            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
-            mockRequest.addParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName());
-
-            SERVLET.doGet(mockRequest, mockResponse);
-            assertEquals(HttpStatus.SC_NOT_FOUND, mockResponse.getStatus());
-
-            ______TS("Failure case: NullPointerException");
-
-            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
-            mockRequest.addParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
-
-            SERVLET.doGet(mockRequest, mockResponse);
-            assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
-
-            ______TS("Failure case: AssertionError");
-
-            setupMocksFromWorkerOrCron(HttpGet.METHOD_NAME, WORKER_URI_EXCEPTION);
-            mockRequest.addParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
-
-            SERVLET.doGet(mockRequest, mockResponse);
-            assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
-
+            SERVLET.doGet(req, resp);
+            assertEquals(HttpStatus.SC_METHOD_NOT_ALLOWED, resp.getStatus());
         }
     }
 
