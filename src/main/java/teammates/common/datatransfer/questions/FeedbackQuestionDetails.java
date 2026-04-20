@@ -2,6 +2,9 @@ package teammates.common.datatransfer.questions;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.JsonUtils;
@@ -14,6 +17,24 @@ import teammates.storage.sqlentity.FeedbackQuestion;
  * such that pages can render the correct information/forms depending on the
  * question type
  */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "questionType",
+        visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = FeedbackTextQuestionDetails.class, name = "TEXT"),
+        @JsonSubTypes.Type(value = FeedbackMcqQuestionDetails.class, name = "MCQ"),
+        @JsonSubTypes.Type(value = FeedbackMsqQuestionDetails.class, name = "MSQ"),
+        @JsonSubTypes.Type(value = FeedbackNumericalScaleQuestionDetails.class, name = "NUMSCALE"),
+        @JsonSubTypes.Type(
+                value = FeedbackConstantSumQuestionDetails.class,
+                names = {"CONSTSUM", "CONSTSUM_OPTIONS", "CONSTSUM_RECIPIENTS"}),
+        @JsonSubTypes.Type(value = FeedbackContributionQuestionDetails.class, name = "CONTRIB"),
+        @JsonSubTypes.Type(value = FeedbackRubricQuestionDetails.class, name = "RUBRIC"),
+        @JsonSubTypes.Type(value = FeedbackRankOptionsQuestionDetails.class, name = "RANK_OPTIONS"),
+        @JsonSubTypes.Type(value = FeedbackRankRecipientsQuestionDetails.class, name = "RANK_RECIPIENTS")
+})
 public abstract class FeedbackQuestionDetails {
     private FeedbackQuestionType questionType;
     private String questionText;

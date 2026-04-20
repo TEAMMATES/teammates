@@ -23,7 +23,7 @@ buildscript {
     dependencies {
         classpath "com.google.cloud.tools:appengine-gradle-plugin:2.8.6"
         classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:6.4.8"
-        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:3.2.1263") {
+        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:4.0.0") {
             exclude group: "org.gradle"
         }
         classpath "com.google.guava:guava:33.5.0-jre"
@@ -61,7 +61,7 @@ dependencies {
     implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
-    implementation("com.google.code.gson:gson:2.13.2")
+    implementation("tools.jackson.core:jackson-databind:3.1.1")
     implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("com.google.guava:guava:33.5.0-jre")
     implementation("commons-lang:commons-lang:2.6")
@@ -168,22 +168,37 @@ liquibase {
     runList = project.ext.runList
 }
 
+// TODO: remove this workaround after cz.habarta.typescript.generator is patched to fix this issue
+// Jackson3Configuration is not Serializable, but GenerateTask (in the ts-generator code) annotates the property with
+// @Input, which requires Gradle to serialize the value for caching.
+// Wrapping it in a Serializable subclass is the minimal fix until the plugin is patched.
+class SerializableJackson3Configuration extends cz.habarta.typescript.generator.Jackson3Configuration
+        implements java.io.Serializable {}
+
 tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
-    jsonLibrary = "jackson2"
+    projectName = project.name
+    classpath.from(sourceSets.main.output.classesDirs, sourceSets.main.compileClasspath)
+    outputFileProperty.fileProvider(getOutputFile().map { project.file(it) })
+
+    jsonLibrary = "jackson3"
     optionalAnnotations = [
         "jakarta.annotation.Nullable"
     ]
     outputFileType = "implementationFile"
     outputKind = "module"
     indentString = "  "
-    jackson2Configuration = [
+    jackson3Configuration = [
         fieldVisibility: "ANY",
         getterVisibility: "NONE",
         isGetterVisibility: "NONE",
         setterVisibility: "NONE",
         creatorVisibility: "NONE",
-    ]
+    ] as SerializableJackson3Configuration
     mapEnum = "asEnum"
+    disableTaggedUnionAnnotations = [
+            "com.fasterxml.jackson.annotation.JsonTypeInfo",
+            "com.fasterxml.jackson.annotation.JsonSubTypes"
+    ]
     nonConstEnums = true
     noFileComment = true
     sortTypeDeclarations = true
@@ -220,7 +235,7 @@ task generateApiConstants(type: cz.habarta.typescript.generator.gradle.GenerateT
     classPatterns = [
         "teammates.ui.constants.**"
     ]
-    jsonLibrary = 'jackson2'
+    jsonLibrary = 'jackson3'
     outputFile = "src/web/types/api-const.ts"
 }
 
@@ -312,6 +327,7 @@ task downloadLinters {
 // RUN SERVER TASKS
 
 compileJava.options.encoding = "UTF-8"
+compileJava.options.compilerArgs += ["-parameters"]
 compileTestJava.options.encoding = "UTF-8"
 
 processResources {

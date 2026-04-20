@@ -24,6 +24,10 @@ public class FeedbackResponseCommentData extends ApiOutput {
     private List<CommentVisibilityType> showGiverNameTo;
     private List<CommentVisibilityType> showCommentTo;
 
+    private FeedbackResponseCommentData() {
+        // for Jackson deserialization
+    }
+
     public FeedbackResponseCommentData(FeedbackResponseComment frc) {
         this.feedbackResponseCommentId = frc.getId();
         this.commentText = frc.getCommentText();

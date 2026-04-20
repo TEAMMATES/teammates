@@ -16,6 +16,10 @@ public class AccountRequestRejectionRequest extends BasicRequest {
     @Nullable
     private String reasonBody;
 
+    private AccountRequestRejectionRequest() {
+        // for Jackson deserialization
+    }
+
     public AccountRequestRejectionRequest(String reasonTitle, String reasonBody) {
         this.reasonTitle = SanitizationHelper.sanitizeTitle(reasonTitle);
         this.reasonBody = SanitizationHelper.sanitizeForRichText(reasonBody);

@@ -14,6 +14,10 @@ public class StudentUpdateRequest extends BasicRequest {
     private String comments;
     private Boolean isSessionSummarySendEmail;
 
+    private StudentUpdateRequest() {
+        // for Jackson deserialization
+    }
+
     public StudentUpdateRequest(String name, String email, String team, String section, String comments,
                                 Boolean isSessionSummarySendEmail) {
         this.name = SanitizationHelper.sanitizeName(name);

@@ -19,8 +19,12 @@ public class InstructorCreateRequest extends BasicRequest {
     private String displayName;
     private Boolean isDisplayedToStudent;
 
-    public InstructorCreateRequest(String id, String name, String email, String roleName, String displayName,
-                                   Boolean isDisplayedToStudent) {
+    private InstructorCreateRequest() {
+        // for Jackson deserialization
+    }
+
+    public InstructorCreateRequest(String id, String name, String email, String roleName,
+                                   String displayName, Boolean isDisplayedToStudent) {
         this.id = id;
         this.name = name;
         this.email = email;

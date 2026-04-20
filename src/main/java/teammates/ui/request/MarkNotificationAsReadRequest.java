@@ -1,11 +1,14 @@
 package teammates.ui.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * The request of marking a notification as read in account.
  */
 public class MarkNotificationAsReadRequest extends BasicRequest {
     private String notificationId;
 
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public MarkNotificationAsReadRequest(String notificationId) {
         this.notificationId = notificationId;
     }

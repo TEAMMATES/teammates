@@ -17,6 +17,10 @@ public class FeedbackSessionDeadlineExtensionsData extends ApiOutput {
     private Map<String, Long> studentDeadlines;
     private Map<String, Long> instructorDeadlines;
 
+    private FeedbackSessionDeadlineExtensionsData() {
+        // for Jackson deserialization
+    }
+
     public FeedbackSessionDeadlineExtensionsData(String timeZone, List<DeadlineExtension> deadlineExtensions,
             Map<UUID, Student> studentsByUserId, Map<UUID, Instructor> instructorsByUserId) {
         this.studentDeadlines = new HashMap<>();

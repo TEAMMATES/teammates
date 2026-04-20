@@ -17,6 +17,10 @@ public class AccountRequestUpdateRequest extends BasicRequest {
     @Nullable
     private String comments;
 
+    private AccountRequestUpdateRequest() {
+        // for Jackson deserialization
+    }
+
     public AccountRequestUpdateRequest(String name, String email, String institute, AccountRequestStatus status,
                                        String comments) {
         this.name = SanitizationHelper.sanitizeName(name);

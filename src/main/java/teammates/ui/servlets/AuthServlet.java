@@ -8,13 +8,14 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.MemoryDataStoreFactory;
 
 import teammates.common.datatransfer.UserInfoCookie;
@@ -30,7 +31,7 @@ abstract class AuthServlet extends HttpServlet {
 
     private static final MemoryDataStoreFactory DATA_STORE_FACTORY = MemoryDataStoreFactory.getDefaultInstance();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final List<String> SCOPES = Arrays.asList("https://www.googleapis.com/auth/userinfo.email");
 
     /**
@@ -80,6 +81,7 @@ abstract class AuthServlet extends HttpServlet {
         private final String nextUrl;
         private final String sessionId;
 
+        @JsonCreator
         AuthState(String nextUrl, String sessionId) {
             this.nextUrl = nextUrl;
             this.sessionId = sessionId;
