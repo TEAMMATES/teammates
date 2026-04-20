@@ -23,7 +23,6 @@ public final class DeadlineExtensionsLogic {
 
     private DeadlineExtensionsDb deadlineExtensionsDb;
 
-    private FeedbackSessionsLogic feedbackSessionsLogic;
 
     private DeadlineExtensionsLogic() {
         // prevent initialization
@@ -35,7 +34,6 @@ public final class DeadlineExtensionsLogic {
 
     void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb, FeedbackSessionsLogic feedbackSessionsLogic) {
         this.deadlineExtensionsDb = deadlineExtensionsDb;
-        this.feedbackSessionsLogic = feedbackSessionsLogic;
     }
 
     /**
