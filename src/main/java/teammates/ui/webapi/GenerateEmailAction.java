@@ -32,13 +32,13 @@ public class GenerateEmailAction extends AdminOnlyAction {
         }
 
         String emailType = getNonBlankRequestParamValue(Const.ParamsNames.EMAIL_TYPE);
-        String feedbackSessionName = getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         EmailWrapper email;
 
         if (emailType.equals(EmailType.STUDENT_COURSE_JOIN.name())) {
             email = sqlEmailGenerator.generateStudentCourseJoinEmail(course, student);
         } else if (emailType.equals(EmailType.FEEDBACK_SESSION_REMINDER.name())) {
+            String feedbackSessionName = getNonBlankRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
             FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
             email = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
                     feedbackSession, Collections.singletonList(student), new ArrayList<>(), null).get(0);
