@@ -57,6 +57,10 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
     const isDigit = /[0-9]/.test(key);
     if (!isBackspace && !isDigit && !isDecimal) {
       event.preventDefault();
+      return;
+    }
+    if (isDecimal && (event.target as HTMLInputElement)?.value?.includes('.')) {
+      event.preventDefault();
     }
   }
 
@@ -66,8 +70,20 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
       return;
     }
     const pastedText = clipboardData.getData('text');
-    const isDigit = /^\d+$/.test(pastedText);
-    if (!isDigit) {
+    const isInteger = /^\d+$/.test(pastedText);
+    if (!isInteger) {
+      event.preventDefault();
+    }
+  }
+
+  onPasteDecimal(event: ClipboardEvent): void {
+    const { clipboardData } = event;
+    if (clipboardData == null) {
+      return;
+    }
+    const pastedText = clipboardData.getData('text');
+    const isDecimalNumber = /^\d+(\.\d+)?$/.test(pastedText);
+    if (!isDecimalNumber) {
       event.preventDefault();
     }
   }

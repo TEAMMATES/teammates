@@ -10,8 +10,6 @@ import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.directive';
-
 /**
  * The constsum question options submission form for a recipient.
  */
@@ -19,10 +17,7 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   selector: 'tm-constsum-options-question-edit-answer-form',
   templateUrl: './constsum-options-question-edit-answer-form.component.html',
   styleUrls: ['./constsum-options-question-edit-answer-form.component.scss'],
-  imports: [
-    FormsModule,
-    WheelDisablerDirective,
-],
+  imports: [FormsModule],
 })
 export class ConstsumOptionsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {
@@ -43,7 +38,7 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
   /**
    * Assigns a point to the option specified by index.
    */
-  triggerResponse(index: number, event: number): void {
+  triggerResponse(index: number, event: string | number): void {
     let newAnswers: number[] = this.responseDetails.answers.slice();
 
     if (newAnswers.length !== this.questionDetails.constSumOptions.length) {
@@ -51,7 +46,8 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
       newAnswers = Array(this.questionDetails.constSumOptions.length).fill(0);
     }
 
-    newAnswers[index] = event ? Math.ceil(event) : 0;
+    const numericValue = typeof event === 'string' ? parseInt(event, 10) : event;
+    newAnswers[index] = (numericValue != null && !Number.isNaN(numericValue)) ? Math.ceil(numericValue) : 0;
     this.triggerResponseDetailsChange('answers', newAnswers);
   }
 

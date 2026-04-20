@@ -56,14 +56,26 @@ describe('NumScaleQuestionEditDetailsFormComponent', () => {
     expect(eventSpy).toHaveBeenCalled();
   });
 
-  it('should allow decimal point inputs in onFloatInput', () => {
-    const event = new KeyboardEvent('keypress', {
-      key: '.',
-    });
+  it('should allow decimal point inputs in onFloatInput when no decimal exists', () => {
+    const inputElement = fixture.debugElement.query(By.css('#increment-value')).nativeElement as HTMLInputElement;
+    inputElement.value = '3';
+    const event = new KeyboardEvent('keypress', { key: '.' });
+    Object.defineProperty(event, 'target', { value: inputElement });
 
     const eventSpy = jest.spyOn(event, 'preventDefault');
     component.onFloatInput(event);
     expect(eventSpy).not.toHaveBeenCalled();
+  });
+
+  it('should prevent second decimal point input in onFloatInput when decimal already exists', () => {
+    const inputElement = fixture.debugElement.query(By.css('#increment-value')).nativeElement as HTMLInputElement;
+    inputElement.value = '3.14';
+    const event = new KeyboardEvent('keypress', { key: '.' });
+    Object.defineProperty(event, 'target', { value: inputElement });
+
+    const eventSpy = jest.spyOn(event, 'preventDefault');
+    component.onFloatInput(event);
+    expect(eventSpy).toHaveBeenCalled();
   });
 
   it('should allow digit inputs in onFloatInput', () => {

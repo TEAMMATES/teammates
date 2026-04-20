@@ -6,8 +6,6 @@ import {
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.directive';
-
 /**
  * The constsum question recipients submission form for a recipient.
  */
@@ -15,7 +13,7 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   selector: 'tm-constsum-recipients-question-edit-answer-form',
   templateUrl: './constsum-recipients-question-edit-answer-form.component.html',
   styleUrls: ['./constsum-recipients-question-edit-answer-form.component.scss'],
-  imports: [FormsModule, WheelDisablerDirective],
+  imports: [FormsModule],
 })
 export class ConstsumRecipientsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {
@@ -29,7 +27,7 @@ export class ConstsumRecipientsQuestionEditAnswerFormComponent
   /**
    * Assigns a point to the recipient.
    */
-  triggerResponse(event: number): void {
+  triggerResponse(event: string | number): void {
 
     let newAnswers: number[] = this.responseDetails.answers.slice();
     // index 0 will the answer
@@ -37,10 +35,11 @@ export class ConstsumRecipientsQuestionEditAnswerFormComponent
       // initialize answers array on the fly
       newAnswers = [0];
     }
-    if (event == null) {
+    if (event == null || event === '') {
       newAnswers = [];
     } else {
-      newAnswers[0] = Math.ceil(event);
+      const numericValue = typeof event === 'string' ? parseInt(event, 10) : event;
+      newAnswers[0] = Number.isNaN(numericValue) ? 0 : Math.ceil(numericValue);
     }
 
     this.triggerResponseDetailsChange('answers', newAnswers);

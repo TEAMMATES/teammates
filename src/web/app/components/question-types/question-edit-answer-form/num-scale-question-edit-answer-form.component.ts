@@ -11,8 +11,6 @@ import {
   DEFAULT_NUMSCALE_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
-import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.directive';
-
 /**
  * The numerical scale question submission form for a recipient.
  */
@@ -20,10 +18,7 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   selector: 'tm-num-scale-question-edit-answer-form',
   templateUrl: './num-scale-question-edit-answer-form.component.html',
   styleUrls: ['./num-scale-question-edit-answer-form.component.scss'],
-  imports: [
-    FormsModule,
-    WheelDisablerDirective,
-],
+  imports: [FormsModule],
 })
 export class NumScaleQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackNumericalScaleQuestionDetails,
@@ -33,6 +28,14 @@ export class NumScaleQuestionEditAnswerFormComponent
 
   constructor() {
     super(DEFAULT_NUMSCALE_QUESTION_DETAILS(), DEFAULT_NUMSCALE_RESPONSE_DETAILS());
+  }
+
+  onAnswerChange(value: string): void {
+    const parsed = parseFloat(value);
+    this.triggerResponseDetailsChange(
+      'answer',
+      Number.isNaN(parsed) ? NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED : parsed,
+    );
   }
 
   get numberOfPossibleValues(): number {

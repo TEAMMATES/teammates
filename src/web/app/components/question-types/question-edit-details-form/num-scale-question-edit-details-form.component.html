@@ -6,7 +6,7 @@
   </div>
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Value to be increased/decreased each step">Increment:</span>
-    <input id="increment-value" type="number" (keypress)="onFloatInput($event)" class="form-control" [ngModel]="model.step" (ngModelChange)="triggerModelChange('step', $event)" [disabled]="!isEditable" (input) = "restrictFloatInputLength($event, 'step')"
+    <input id="increment-value" type="number" (keypress)="onFloatInput($event)" (paste)="onPasteDecimal($event)" class="form-control" [ngModel]="model.step" (ngModelChange)="triggerModelChange('step', $event)" [disabled]="!isEditable" (input) = "restrictFloatInputLength($event, 'step')"
       step="any" min="0" max="999999999" aria-label="Increment Value Input">
   </div>
   <div class="col-sm-4">

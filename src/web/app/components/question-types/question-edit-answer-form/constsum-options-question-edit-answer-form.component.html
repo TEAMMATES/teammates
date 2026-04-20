@@ -5,13 +5,12 @@
         <strong>{{ option }}</strong>
       </div>
       <div class="col-md-7 col-xs-12 text-md-start">
-        <input type="number" class="form-control"
+        <input type="text" inputmode="numeric" class="form-control"
           [ngModel]="i < responseDetails.answers.length ? responseDetails.answers[i] : ''"
           (ngModelChange)="triggerResponse(i, $event)"
+          (keypress)="onIntegerInput($event)"
           [disabled]="isDisabled"
-          [attr.aria-label]="getAriaLabelForOption(option)"
-          min="0" step="1"
-          tmDisableWheel>
+          [attr.aria-label]="getAriaLabelForOption(option)">
       </div>
     </div>
   }

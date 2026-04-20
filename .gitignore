@@ -7,7 +7,7 @@
 *.bak
 *.db
 *.exe
-
+.claude
 # Node.js
 node_modules/
 npm-debug.log

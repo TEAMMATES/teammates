@@ -29,6 +29,27 @@ export abstract class QuestionEditAnswerFormComponent<
     this.responseDetails = responseDetails;
   }
 
+  onIntegerInput(event: KeyboardEvent): void {
+    const { key } = event;
+    if (key !== 'Backspace' && !/[0-9]/.test(key)) {
+      event.preventDefault();
+    }
+  }
+
+  onFloatInput(event: KeyboardEvent): void {
+    const { key } = event;
+    const isBackspace = key === 'Backspace';
+    const isDecimal = key === '.';
+    const isDigit = /[0-9]/.test(key);
+    if (!isBackspace && !isDigit && !isDecimal) {
+      event.preventDefault();
+      return;
+    }
+    if (isDecimal && (event.target as HTMLInputElement)?.value?.includes('.')) {
+      event.preventDefault();
+    }
+  }
+
   getAriaLabel(): string {
     if (this.recipient === '' || this.recipient === '%GENERAL%' || this.recipient === 'Myself') {
       return 'Response';
