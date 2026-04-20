@@ -2,10 +2,10 @@
 /* eslint-disable */
 
 export interface Account extends ApiOutput {
+  accountId: string;
   googleId: string;
   name: string;
   email: string;
-  readNotifications: { [index: string]: number };
 }
 
 export interface AccountRequest extends ApiOutput {
@@ -70,15 +70,9 @@ export interface Course extends ApiOutput {
   courseName: string;
   timeZone: string;
   institute: string;
-  isMigrated?: boolean;
   creationTimestamp: number;
   deletionTimestamp: number;
   privileges?: InstructorPermissionSet;
-}
-
-export interface CourseArchive extends ApiOutput {
-  courseId: string;
-  isArchived: boolean;
 }
 
 export interface CourseSectionNames extends ApiOutput {
@@ -90,6 +84,7 @@ export interface Courses extends ApiOutput {
 }
 
 export interface DeadlineExtension extends ApiOutput {
+  deadlineExtensionId: string;
   courseId: string;
   feedbackSessionName: string;
   userEmail: string;
@@ -269,7 +264,7 @@ export interface FeedbackResponse extends ApiOutput {
 export interface FeedbackResponseComment extends ApiOutput {
   commentGiver: string;
   lastEditorEmail: string;
-  feedbackResponseCommentId: number;
+  feedbackResponseCommentId: string;
   commentText: string;
   createdAt: number;
   lastEditedAt: number;
@@ -299,7 +294,7 @@ export interface FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 }
 
 export interface FeedbackSession extends ApiOutput {
-  feedbackSessionId?: string;
+  feedbackSessionId: string;
   courseId: string;
   timeZone: string;
   feedbackSessionName: string;
@@ -321,8 +316,6 @@ export interface FeedbackSession extends ApiOutput {
   createdAtTimestamp: number;
   deletedAtTimestamp?: number;
   privileges?: InstructorPermissionSet;
-  studentDeadlines: { [index: string]: number };
-  instructorDeadlines: { [index: string]: number };
 }
 
 export interface FeedbackSessionAuditLogDetails extends LogDetails {
@@ -334,12 +327,18 @@ export interface FeedbackSessionAuditLogDetails extends LogDetails {
   accessType: string;
 }
 
+export interface FeedbackSessionDeadlineExtensions extends ApiOutput {
+  studentDeadlines: { [index: string]: number };
+  instructorDeadlines: { [index: string]: number };
+}
+
 export interface FeedbackSessionLog {
   feedbackSessionData: FeedbackSession;
   feedbackSessionLogEntries: FeedbackSessionLogEntry[];
 }
 
 export interface FeedbackSessionLogEntry {
+  feedbackSessionLogEntryId: string;
   studentData: Student;
   feedbackSessionLogType: FeedbackSessionLogType;
   timestamp: number;
@@ -398,6 +397,7 @@ export interface InstanceLogDetails extends LogDetails {
 }
 
 export interface Instructor extends ApiOutput {
+  userId: string;
   googleId?: string;
   courseId: string;
   email: string;
@@ -469,6 +469,7 @@ export interface Notifications extends ApiOutput {
 }
 
 export interface OngoingSession {
+  feedbackSessionId: string;
   sessionStatus: string;
   instructorHomePageLink: string;
   startTime: number;
@@ -515,6 +516,12 @@ export interface QuestionOutput {
   responsesToSelf: ResponseOutput[];
   responsesFromSelf: ResponseOutput[];
   otherResponses: ResponseOutput[][];
+}
+
+export interface ReadNotification extends ApiOutput {
+  readNotificationId: string;
+  accountId: string;
+  notificationId: string;
 }
 
 export interface ReadNotifications extends ApiOutput {
@@ -592,7 +599,7 @@ export interface SourceLocation {
 }
 
 export interface Student extends ApiOutput {
-  studentId?: string;
+  userId: string;
   email: string;
   courseId: string;
   name: string;
@@ -615,6 +622,7 @@ export interface TimeZones extends ApiOutput {
 }
 
 export interface UsageStatistics extends ApiOutput {
+  usageStatisticsId: string;
   startTime: number;
   timePeriod: number;
   numResponses: number;
@@ -636,6 +644,7 @@ export interface UserInfo {
   isInstructor: boolean;
   isStudent: boolean;
   isMaintainer: boolean;
+  isAutomatedService: boolean;
 }
 
 export enum AccountRequestStatus {

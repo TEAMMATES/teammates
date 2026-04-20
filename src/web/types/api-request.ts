@@ -25,10 +25,6 @@ export interface AccountRequestUpdateRequest extends BasicRequest {
 export interface BasicRequest {
 }
 
-export interface CourseArchiveRequest extends BasicRequest {
-  archiveStatus: boolean;
-}
-
 export interface CourseBasicRequest extends BasicRequest {
   courseName: string;
   timeZone: string;
@@ -124,6 +120,11 @@ export interface FeedbackSessionCreateRequest extends FeedbackSessionBasicReques
   toCopySessionName?: string;
 }
 
+export interface FeedbackSessionDeadlineExtensionsUpdateRequest extends BasicRequest {
+  studentDeadlines: { [index: string]: number };
+  instructorDeadlines: { [index: string]: number };
+}
+
 export interface FeedbackSessionRemindRequest extends BasicRequest {
   courseId: string;
   feedbackSessionName: string;
@@ -138,8 +139,6 @@ export interface FeedbackSessionRespondentRemindRequest extends BasicRequest {
 }
 
 export interface FeedbackSessionUpdateRequest extends FeedbackSessionBasicRequest {
-  studentDeadlines: { [index: string]: number };
-  instructorDeadlines: { [index: string]: number };
 }
 
 export interface InstructorCreateRequest extends BasicRequest {
@@ -174,7 +173,6 @@ export interface InstructorPrivileges {
 
 export interface MarkNotificationAsReadRequest extends BasicRequest {
   notificationId: string;
-  endTimestamp: number;
 }
 
 export interface NotificationBasicRequest extends BasicRequest {

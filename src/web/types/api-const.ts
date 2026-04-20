@@ -19,8 +19,8 @@ export enum ApiConst {
   RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED = -999,
   NO_VALUE = -2147483648,
   LOGS_RETENTION_PERIOD = 30,
+  STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD = 90,
   SEARCH_QUERY_SIZE_LIMIT = 50,
-  STUDENT_ACTIVITY_LOGS_UPDATE_INTERVAL = 15,
 }
 
 export enum ApiStringConst {
@@ -67,10 +67,10 @@ export enum ResourceEndpoints {
   ACCOUNT_REQUESTS = "/webapi/account/requests",
   ACCOUNT_REQUEST_RESET = "/webapi/account/request/reset",
   ACCOUNT_REQUEST_REJECT = "/webapi/account/request/rejection",
+  ACCOUNT_REQUEST_APPROVE = "/webapi/account/request/approval",
   ACCOUNTS = "/webapi/accounts",
   RESPONSE_COMMENT = "/webapi/responsecomment",
   COURSE = "/webapi/course",
-  COURSE_ARCHIVE = "/webapi/course/archive",
   BIN_COURSE = "/webapi/bin/course",
   COURSE_SECTIONS = "/webapi/course/sections",
   COURSES = "/webapi/courses",
@@ -84,6 +84,7 @@ export enum ResourceEndpoints {
   STUDENT_KEY = "/webapi/student/key",
   SESSIONS_ONGOING = "/webapi/sessions/ongoing",
   SESSION = "/webapi/session",
+  SESSION_DEADLINE_EXTENSIONS = "/webapi/session/deadlineextensions",
   SESSION_LOGS = "/webapi/logs/session",
   SESSION_PUBLISH = "/webapi/session/publish",
   SESSION_REMIND_SUBMISSION = "/webapi/session/remind/submission",
@@ -108,7 +109,6 @@ export enum ResourceEndpoints {
   SEARCH_ACCOUNT_REQUESTS = "/webapi/search/accountrequests",
   SEARCH_INSTRUCTORS = "/webapi/search/instructors",
   SEARCH_STUDENTS = "/webapi/search/students",
-  LOGS = "/webapi/logs/query",
   USAGE_STATISTICS = "/webapi/usagestats",
   ACTION_CLASS = "/webapi/actionclass",
   LOGIN_EMAIL = "/webapi/email/login",
