@@ -63,8 +63,6 @@ public final class UsersLogic {
 
     private FeedbackResponseCommentsLogic feedbackResponseCommentsLogic;
 
-    private DeadlineExtensionsLogic deadlineExtensionsLogic;
-
     private UsersLogic() {
         // prevent initialization
     }
@@ -80,7 +78,6 @@ public final class UsersLogic {
         this.accountsLogic = accountsLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
-        this.deadlineExtensionsLogic = deadlineExtensionsLogic;
     }
 
     /**
