@@ -24,16 +24,27 @@ public class BinCourseAction extends Action {
         String idOfCourseToBin = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Course course = sqlLogic.getCourse(idOfCourseToBin);
-        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToBin, userInfo.id),
-                course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+
+        gateKeeper.verifyAccessible(
+                sqlLogic.getInstructorByGoogleId(idOfCourseToBin, userInfo.id),
+                course,
+                Const.InstructorPermissions.CAN_MODIFY_COURSE
+        );
     }
 
     @Override
     public JsonResult execute() {
         String idOfCourseToBin = getNonBlankRequestParamValue(Const.ParamsNames.COURSE_ID);
+
         try {
             Course binnedCourse = sqlLogic.moveCourseToRecycleBin(idOfCourseToBin);
+
+            if (binnedCourse == null) {
+                throw new EntityNotFoundException("Course not found: " + idOfCourseToBin);
+            }
+
             return new JsonResult(new CourseData(binnedCourse));
+
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

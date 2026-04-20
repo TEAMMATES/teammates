@@ -45,8 +45,8 @@ public final class EmailChecker {
 
     private static String normalize(String input) {
         return input
-                .replace("\r\n", "\n")  // fix Windows vs Unix
-                .trim();                // remove trailing whitespace
+                .replace("\r\n", "\n")
+                .trim();
     }
 
     private static boolean updateSnapshot(String filePath, String emailContent) throws IOException {
