@@ -193,6 +193,7 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     mapEnum = "asEnum"
     nonConstEnums = true
     noFileComment = true
+    sortTypeDeclarations = true
 }
 
 task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
@@ -233,6 +234,22 @@ task generateApiConstants(type: cz.habarta.typescript.generator.gradle.GenerateT
 generateApiOutputFormat.dependsOn classes
 generateApiRequestFormat.dependsOn classes
 generateApiConstants.dependsOn classes
+
+// Normalize line endings so generated type files are byte-identical across OSes (Windows vs *nix).
+def normalizeGeneratedTypeFile = { String path ->
+    def f = file(path)
+    if (f.exists()) {
+        def content = f.getText('UTF-8')
+        def normalized = content.replace('\r\n', '\n').replace('\r', '\n')
+        if (content != normalized) {
+            f.write(normalized, 'UTF-8')
+        }
+    }
+}
+
+generateApiOutputFormat.doLast { normalizeGeneratedTypeFile('src/web/types/api-output.ts') }
+generateApiRequestFormat.doLast { normalizeGeneratedTypeFile('src/web/types/api-request.ts') }
+generateApiConstants.doLast { normalizeGeneratedTypeFile('src/web/types/api-const.ts') }
 
 task generateTypes {
     dependsOn generateApiOutputFormat
