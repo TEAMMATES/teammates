@@ -23,7 +23,6 @@ public final class DeadlineExtensionsLogic {
 
     private DeadlineExtensionsDb deadlineExtensionsDb;
 
-
     private DeadlineExtensionsLogic() {
         // prevent initialization
     }
