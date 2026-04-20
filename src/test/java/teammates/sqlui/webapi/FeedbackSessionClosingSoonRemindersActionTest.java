@@ -335,6 +335,6 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
     @Test
     void testAccessControl() {
-        verifyOnlyAdminsCanAccess();
+        verifyOnlyAdminsOrAutomatedServicesCanAccess();
     }
 }
