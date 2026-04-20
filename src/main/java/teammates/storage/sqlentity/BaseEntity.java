@@ -11,14 +11,14 @@ import jakarta.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.google.common.reflect.TypeToken;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.JsonUtils;
+
+import tools.jackson.core.type.TypeReference;
 
 /**
  * Base class for all entities.
@@ -102,8 +102,7 @@ public abstract class BaseEntity {
 
         @Override
         public FeedbackQuestionDetails convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackQuestionDetails>() {
-            }.getType());
+            return JsonUtils.fromJson(dbData, FeedbackQuestionDetails.class);
         }
     }
 
@@ -120,8 +119,7 @@ public abstract class BaseEntity {
 
         @Override
         public FeedbackResponseDetails convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackResponseDetails>() {
-            }.getType());
+            return JsonUtils.fromJson(dbData, FeedbackResponseDetails.class);
         }
     }
 
@@ -138,8 +136,7 @@ public abstract class BaseEntity {
 
         @Override
         public FeedbackQuestionType convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackQuestionType>() {
-            }.getType());
+            return JsonUtils.fromJson(dbData, FeedbackQuestionType.class);
         }
     }
 
@@ -156,8 +153,7 @@ public abstract class BaseEntity {
 
         @Override
         public FeedbackParticipantType convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<FeedbackParticipantType>() {
-            }.getType());
+            return JsonUtils.fromJson(dbData, FeedbackParticipantType.class);
         }
     }
 
@@ -175,8 +171,7 @@ public abstract class BaseEntity {
 
         @Override
         public List<FeedbackParticipantType> convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, new TypeToken<List<FeedbackParticipantType>>() {
-            }.getType());
+            return JsonUtils.fromJson(dbData, new TypeReference<>(){});
         }
     }
 

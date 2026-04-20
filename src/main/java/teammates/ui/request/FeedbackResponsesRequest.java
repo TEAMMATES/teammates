@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 
 /**
@@ -38,6 +40,7 @@ public class FeedbackResponsesRequest extends BasicRequest {
         private String recipient;
         private FeedbackResponseDetails responseDetails;
 
+        @JsonCreator
         public FeedbackResponseRequest(String recipient, FeedbackResponseDetails responseDetails) {
             this.recipient = recipient;
             this.responseDetails = responseDetails;

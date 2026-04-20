@@ -17,15 +17,15 @@ public class JsonUtilsTest extends BaseTestCase {
         FeedbackTextQuestionDetails qd = new FeedbackTextQuestionDetails("Question text.");
 
         String expectedQuestionDetailsJson = "{\n"
-                + "  \"shouldAllowRichText\": true,\n"
                 + "  \"questionType\": \"TEXT\",\n"
-                + "  \"questionText\": \"Question text.\"\n"
+                + "  \"questionText\": \"Question text.\",\n"
+                + "  \"shouldAllowRichText\": true\n"
                 + "}";
 
         assertEquals(expectedQuestionDetailsJson, JsonUtils.toJson(qd));
 
-        expectedQuestionDetailsJson = "{\"shouldAllowRichText\":true,\"questionType\":\"TEXT\","
-                + "\"questionText\":\"Question text.\"}";
+        expectedQuestionDetailsJson = "{\"questionType\":\"TEXT\",\"questionText\":\"Question text.\","
+                + "\"shouldAllowRichText\":true}";
 
         assertEquals(expectedQuestionDetailsJson, JsonUtils.toCompactJson(qd));
     }
@@ -35,13 +35,13 @@ public class JsonUtilsTest extends BaseTestCase {
         FeedbackResponseDetails frd = new FeedbackTextResponseDetails("My answer");
 
         String expectedFeedbackResponseDetailsJson = "{\n"
-                + "  \"answer\": \"My answer\",\n"
-                + "  \"questionType\": \"TEXT\"\n"
+                + "  \"questionType\": \"TEXT\",\n"
+                + "  \"answer\": \"My answer\"\n"
                 + "}";
 
         assertEquals(expectedFeedbackResponseDetailsJson, JsonUtils.toJson(frd));
 
-        expectedFeedbackResponseDetailsJson = "{\"answer\":\"My answer\",\"questionType\":\"TEXT\"}";
+        expectedFeedbackResponseDetailsJson = "{\"questionType\":\"TEXT\",\"answer\":\"My answer\"}";
 
         assertEquals(expectedFeedbackResponseDetailsJson, JsonUtils.toCompactJson(frd));
     }

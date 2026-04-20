@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.storage.sqlentity.Student;
 
 /**
@@ -29,6 +31,17 @@ public class StudentData extends ApiOutput {
 
     private final String teamName;
     private final String sectionName;
+
+    @JsonCreator
+    private StudentData(UUID userId, String email, String courseId, String name,
+            String teamName, String sectionName) {
+        this.userId = userId;
+        this.email = email;
+        this.courseId = courseId;
+        this.name = name;
+        this.teamName = teamName;
+        this.sectionName = sectionName;
+    }
 
     public StudentData(Student student) {
         this.userId = student.getId();

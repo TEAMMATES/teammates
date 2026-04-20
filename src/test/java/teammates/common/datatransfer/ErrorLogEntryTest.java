@@ -40,9 +40,9 @@ public class ErrorLogEntryTest extends BaseTestCase {
 
         ErrorLogEntry errorLogEntry = ErrorLogEntry.fromLogEntry(logEntry);
         assertEquals("{\n"
+                + "  \"event\": \"INSTANCE_LOG\",\n"
                 + "  \"instanceId\": \"instanceid123\",\n"
-                + "  \"instanceEvent\": \"STARTUP\",\n"
-                + "  \"event\": \"INSTANCE_LOG\"\n"
+                + "  \"instanceEvent\": \"STARTUP\"\n"
                 + "}", errorLogEntry.getMessage());
         assertEquals("ERROR", errorLogEntry.getSeverity());
         assertEquals("traceid", errorLogEntry.getTraceId());
