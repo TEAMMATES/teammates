@@ -34,12 +34,11 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
     private final DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
 
     private DeadlineExtensionsDb deDb;
-    private FeedbackSessionsLogic fsLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         deDb = mock(DeadlineExtensionsDb.class);
-        fsLogic = mock(FeedbackSessionsLogic.class);
+        FeedbackSessionsLogic fsLogic = mock(FeedbackSessionsLogic.class);
         deLogic.initLogicDependencies(deDb, fsLogic);
     }
 
