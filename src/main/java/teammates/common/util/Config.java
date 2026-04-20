@@ -28,7 +28,7 @@ public final class Config {
     /** Value of {@code app.region}. */
     public static final String APP_REGION;
 
-    /** Hardcoded application version, used as the single source of truth across the codebase. */
+    /** Backend application version. */
     public static final String APP_VERSION = "9.0.0-beta.6";
 
     /** Effective deployment environment name (e.g. {@code development}, {@code production}); see class Javadoc. */
