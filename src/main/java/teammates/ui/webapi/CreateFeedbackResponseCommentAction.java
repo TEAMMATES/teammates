@@ -99,8 +99,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         FeedbackResponse feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
 
-        feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
-
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
         }
