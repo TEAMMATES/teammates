@@ -1,11 +1,10 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { saveAs } from 'file-saver';
 import { generate } from 'rxjs';
 import { concatMap, finalize, takeWhile } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
+import { FileSaveService } from '../../../services/file-save.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -53,13 +52,11 @@ interface StudentIndexedData {
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgFor,
-    NgIf,
     AjaxLoadingComponent,
     TeammatesRouterDirective,
     StudentListComponent,
     InstructorRoleNamePipe,
-  ],
+],
 })
 export class InstructorCourseDetailsPageComponent implements OnInit {
 
@@ -94,6 +91,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private progressBarService: ProgressBarService,
               private courseService: CourseService,
+              private fileSaveService: FileSaveService,
               private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService,
               private studentService: StudentService,
@@ -327,7 +325,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       .subscribe({
         next: (resp: string) => {
           blob = new Blob([resp], { type: 'text/csv' });
-          saveAs(blob, filename);
+          this.fileSaveService.saveFile(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);

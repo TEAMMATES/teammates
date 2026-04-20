@@ -13,7 +13,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.NotificationsDb;
+import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 
 /**
  * Handles the logic related to notifications.
@@ -84,9 +86,6 @@ public final class NotificationsLogic {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Notification.class);
         }
 
-        // evict managed entity to avoid auto-persist
-        HibernateUtil.flushAndEvict(notification);
-
         notification.setStartTime(startTime);
         notification.setEndTime(endTime);
         notification.setStyle(style);
@@ -130,5 +129,38 @@ public final class NotificationsLogic {
     public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
         assert targetUser != null;
         return notificationsDb.getActiveNotificationsByTargetUser(targetUser);
+    }
+
+    /**
+     * Gets a list of notifications that have been read by the account with {@code accountId}.
+     */
+    public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
+        assert accountId != null;
+        return notificationsDb.getReadNotificationsByAccountId(accountId);
+    }
+
+    /**
+     * Creates a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
+     */
+    public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
+        assert accountId != null;
+        assert notificationId != null;
+
+        Account account = HibernateUtil.getReference(Account.class, accountId);
+        Notification notification = HibernateUtil.getReference(Notification.class, notificationId);
+
+        ReadNotification readNotification = new ReadNotification(account, notification);
+
+        return notificationsDb.createReadNotification(readNotification);
+    }
+
+    /**
+     * Deletes a read notification associated with the {@code readNotificationId}.
+     */
+    public void deleteReadNotification(UUID readNotificationId) {
+        assert readNotificationId != null;
+
+        ReadNotification readNotification = HibernateUtil.getReference(ReadNotification.class, readNotificationId);
+        notificationsDb.deleteReadNotification(readNotification);
     }
 }

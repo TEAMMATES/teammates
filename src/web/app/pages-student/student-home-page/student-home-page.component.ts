@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -57,14 +57,12 @@ interface StudentSession {
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgIf,
     TeammatesRouterDirective,
-    NgFor,
     PanelChevronComponent,
     NgbTooltip,
     NgClass,
     ResponseStatusPipe,
-  ],
+],
 })
 export class StudentHomePageComponent implements OnInit {
   private readonly timezoneService = inject(TimezoneService);
@@ -234,7 +232,7 @@ export class StudentHomePageComponent implements OnInit {
   getSubmissionStatusTooltip(session: StudentSession): string {
     let msg: string = '';
     const hasStudentExtension = DeadlineExtensionHelper.hasUserExtension(session.session);
-    const hasOngoingStudentExtension = DeadlineExtensionHelper.hasOngoingExtension(session.session);
+    const hasOngoingStudentExtension = DeadlineExtensionHelper.hasUserOngoingExtension(session.session);
 
     if (session.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusAwaiting;

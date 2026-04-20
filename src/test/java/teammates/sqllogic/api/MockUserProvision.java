@@ -2,7 +2,6 @@ package teammates.sqllogic.api;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
-import teammates.logic.api.UserProvision;
 
 /**
  * Allows mocking of the {@link UserProvision} API used in production.
@@ -19,13 +18,14 @@ public class MockUserProvision extends UserProvision {
     private boolean isStudent;
 
     private UserInfo loginUser(String userId, boolean isAdmin, boolean isInstructor, boolean isStudent,
-            boolean isMaintainer) {
+            boolean isMaintainer, boolean isAutomatedService) {
         isLoggedIn = true;
         mockUser.id = userId;
         mockUser.isAdmin = isAdmin;
         mockUser.isInstructor = isInstructor;
         mockUser.isStudent = isStudent;
         mockUser.isMaintainer = isMaintainer;
+        mockUser.isAutomatedService = isAutomatedService;
         return mockUser;
     }
 
@@ -35,7 +35,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginUser(String userId) {
-        return loginUser(userId, false, false, false, false);
+        return loginUser(userId, false, false, false, false, false);
     }
 
     /**
@@ -44,7 +44,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsAdmin(String userId) {
-        return loginUser(userId, true, false, false, false);
+        return loginUser(userId, true, false, false, false, false);
     }
 
     /**
@@ -53,7 +53,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsInstructor(String userId) {
-        return loginUser(userId, false, true, false, false);
+        return loginUser(userId, false, true, false, false, false);
     }
 
     /**
@@ -62,7 +62,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsStudent(String userId) {
-        return loginUser(userId, false, false, true, false);
+        return loginUser(userId, false, false, true, false, false);
     }
 
     /**
@@ -71,7 +71,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsStudentInstructor(String userId) {
-        return loginUser(userId, false, true, true, false);
+        return loginUser(userId, false, true, true, false, false);
     }
 
     /**
@@ -80,7 +80,14 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsMaintainer(String userId) {
-        return loginUser(userId, false, false, false, true);
+        return loginUser(userId, false, false, false, true, false);
+    }
+
+    /**
+     * Models a verified cron/worker principal ({@link UserInfo#isAutomatedService}), not a human app admin.
+     */
+    public UserInfo loginAsAutomatedService(String userId) {
+        return loginUser(userId, false, false, false, false, true);
     }
 
     /**
@@ -101,17 +108,13 @@ public class MockUserProvision extends UserProvision {
     }
 
     @Override
-    public UserInfo getCurrentUserWithTransaction(UserInfoCookie uic) {
-        return getCurrentUser(uic);
-    }
-
-    @Override
     public UserInfo getMasqueradeUser(String googleId) {
         UserInfo userInfo = new UserInfo(googleId);
         userInfo.isAdmin = isAdmin;
         userInfo.isInstructor = isInstructor;
         userInfo.isStudent = isStudent;
         userInfo.isMaintainer = isMaintainer;
+        userInfo.isAutomatedService = mockUser.isAutomatedService;
 
         return userInfo;
     }

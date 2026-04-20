@@ -12,23 +12,17 @@
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt"
     },
-    "instructorOfArchivedCourse": {
-      "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "instructorOfArchivedCourse",
-      "name": "Instructor Of Archived Course",
-      "email": "instructorOfArchivedCourse@archiveCourse.tmt"
-    },
     "instructorOfUnregisteredCourse": {
       "id": "00000000-0000-4000-8000-000000000004",
       "googleId": "InstructorOfUnregisteredCourse",
       "name": "Instructor Of Unregistered Course",
-      "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt"
+      "email": "instructorofunregisteredcourse@unregisteredcourse.tmt"
     },
     "instructorOfCourse2WithUniqueDisplayName": {
       "id": "00000000-0000-4000-8000-000000000005",
       "googleId": "instructorOfCourse2WithUniqueDisplayName",
       "name": "Instructor Of Course 2 With Unique Display Name",
-      "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt"
+      "email": "instructorofcourse2withuniquedisplayname@teammates.tmt"
     },
     "unregisteredInstructor1": {
       "id": "00000000-0000-4000-8000-000000000006",
@@ -166,12 +160,6 @@
       "name": "Typical Course 4",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Asia/Singapore"
-    },
-    "archivedCourse": {
-      "id": "archived-course",
-      "name": "Archived Course",
-      "institute": "TEAMMATES Test Institute 2",
-      "timeZone": "UTC"
     },
     "unregisteredCourse": {
       "id": "unregistered-course",
@@ -323,35 +311,6 @@
         "sessionLevel": {}
       }
     },
-    "instructorOfArchivedCourse": {
-      "id": "00000000-0000-4000-8000-000000000503",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
-      "course": {
-        "id": "archived-course"
-      },
-      "name": "Instructor Of Archived Course",
-      "email": "instructorOfArchivedCourse@archiveCourse.tmt",
-      "isArchived": true,
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
-      "isDisplayedToStudents": true,
-      "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canModifyCourse": true,
-          "canModifyInstructor": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canViewStudentInSections": true,
-          "canViewSessionInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
     "instructorOfUnregisteredCourse": {
       "id": "00000000-0000-4000-8000-000000000504",
       "account": {
@@ -361,8 +320,7 @@
         "id": "unregistered-course"
       },
       "name": "Instructor Of Unregistered Course",
-      "email": "instructorOfUnregisteredCourse@UnregisteredCourse.tmt",
-      "isArchived": false,
+      "email": "instructorofunregisteredcourse@unregisteredcourse.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -390,7 +348,7 @@
         "id": "course-2"
       },
       "name": "Instructor Of Course 2 With Unique Display Name",
-      "email": "instructorOfCourse2WithUniqueDisplayName@teammates.tmt",
+      "email": "instructorofcourse2withuniquedisplayname@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Wilson Kurniawan",
@@ -443,7 +401,7 @@
         "id": "course-1"
       },
       "name": "Unregistered Instructor",
-      "email": "unregisteredInstructor@teammates.tmt",
+      "email": "unregisteredinstructor@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "Unregistered Instructor",
@@ -521,7 +479,7 @@
         "id": "course-4"
       },
       "name": "Instructor 3",
-      "email": "instructor3YetToJoinCourse4@teammates.tmt",
+      "email": "instructor3yettojoincourse4@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
@@ -619,7 +577,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
-      "email": "unregisteredStudentInCourse1@teammates.tmt",
+      "email": "unregisteredstudentincourse1@teammates.tmt",
       "name": "Unregistered Student In Course1",
       "comments": ""
     },
@@ -646,7 +604,7 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
-      "email": "student2YetToJoinCourse4@teammates.tmt",
+      "email": "student2yettojoincourse4@teammates.tmt",
       "name": "student2YetToJoinCourse In Course4",
       "comments": ""
     },
@@ -658,20 +616,8 @@
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
-      "email": "student3YetToJoinCourse4@teammates.tmt",
+      "email": "student3yettojoincourse4@teammates.tmt",
       "name": "student3YetToJoinCourse In Course4",
-      "comments": ""
-    },
-    "studentOfArchivedCourse": {
-      "id": "00000000-0000-4000-8000-000000000610",
-      "course": {
-        "id": "archived-course"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
-      "email": "studentOfArchivedCourse@teammates.tmt",
-      "name": "Student In Archived Course",
       "comments": ""
     }
   },
@@ -1228,8 +1174,8 @@
         "id": "00000000-0000-4000-8000-000000000201"
       },
       "commentText": "Student 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "student1@teammates.tmt"

@@ -1,4 +1,4 @@
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -17,12 +17,10 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
   styleUrls: ['./preview-session-result-panel.component.scss'],
   imports: [
     FormsModule,
-    NgFor,
-    NgIf,
     TeammatesRouterDirective,
     NgbTooltip,
     NgTemplateOutlet,
-  ],
+],
 })
 export class PreviewSessionResultPanelComponent {
 

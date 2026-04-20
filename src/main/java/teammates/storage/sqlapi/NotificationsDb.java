@@ -17,13 +17,14 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.ReadNotification;
 
 /**
  * Handles CRUD operations for notifications.
  *
  * @see Notification
  */
-public final class NotificationsDb extends EntitiesDb {
+public final class NotificationsDb {
 
     private static final NotificationsDb instance = new NotificationsDb();
 
@@ -49,7 +50,7 @@ public final class NotificationsDb extends EntitiesDb {
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, notification.toString()));
         }
 
-        persist(notification);
+        HibernateUtil.persist(notification);
         return notification;
     }
 
@@ -69,7 +70,7 @@ public final class NotificationsDb extends EntitiesDb {
      */
     public void deleteNotification(Notification notification) {
         if (notification != null) {
-            delete(notification);
+            HibernateUtil.remove(notification);
         }
     }
 
@@ -118,7 +119,35 @@ public final class NotificationsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Notification.class);
         }
 
-        return merge(notification);
+        return HibernateUtil.merge(notification);
     }
 
+    /**
+     * Creates a read notification.
+     */
+    public ReadNotification createReadNotification(ReadNotification readNotification) {
+        HibernateUtil.persist(readNotification);
+        return readNotification;
+    }
+
+    /**
+     * Gets read notifications by account ID.
+     *
+     * @return a list of read notifications for the specified account ID.
+     */
+    public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<ReadNotification> cq = cb.createQuery(ReadNotification.class);
+        Root<ReadNotification> root = cq.from(ReadNotification.class);
+        cq.select(root).where(cb.equal(root.get("account").get("id"), accountId));
+        TypedQuery<ReadNotification> query = HibernateUtil.createQuery(cq);
+        return query.getResultList();
+    }
+
+    /**
+     * Deletes a read notification.
+     */
+    public void deleteReadNotification(ReadNotification readNotification) {
+        HibernateUtil.remove(readNotification);
+    }
 }

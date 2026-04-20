@@ -12,8 +12,8 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
 import teammates.test.BaseTestCase;
 
 /**
@@ -97,369 +97,6 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackContributionQuestionDetails.setZeroSum(false);
         feedbackContributionQuestionDetails.setNotSureAllowed(false);
         assertTrue(feedbackContributionQuestionDetails.validateQuestionDetails().isEmpty());
-    }
-
-    @Test
-    public void testGetQuestionResultStatisticsJson() {
-        FeedbackContributionQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
-
-        DataBundle responseBundle = loadDataBundle("/FeedbackContributionQuestionTest.json");
-        populateQuestionAndResponseIds(responseBundle);
-
-        SessionResultsBundle bundle =
-                new SessionResultsBundle(
-                        responseBundle.feedbackQuestions, new HashMap<>(), new HashSet<>(),
-                        new ArrayList<>(responseBundle.feedbackResponses.values()), new ArrayList<>(),
-                        new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
-                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
-                                new ArrayList<>(responseBundle.instructors.values())));
-
-        FeedbackQuestionAttributes fqa;
-
-        ______TS("(student email specified): all students have response");
-        fqa = responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {\n"
-                + "    \"student1InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 10,\n"
-                + "      \"perceived\": 17,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2InCourse1@gmail.tmt\": 20,\n"
-                + "        \"student3InCourse1@gmail.tmt\": 30\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        24,\n"
-                + "        19\n"
-                + "      ]\n"
-                + "    }\n"
-                + "  }\n"
-                + "}", feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
-                        "student1InCourse1@gmail.tmt", bundle));
-
-        ______TS("(student email specified): mix of students with responses and students without responses");
-        fqa = responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {\n"
-                + "    \"student5InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 10,\n"
-                + "      \"perceived\": 15,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student6InCourse1@gmail.tmt\": 20,\n"
-                + "        \"student4InCourse1@gmail.tmt\": -999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        15,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    }\n"
-                + "  }\n"
-                + "}", feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
-                "student5InCourse1@gmail.tmt", bundle));
-
-        ______TS("(student email specified): all students do not have responses");
-        fqa = responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {}\n"
-                + "}", feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
-                "student8InCourse1@gmail.tmt", bundle));
-
-        ______TS("(student email not specified): qn1");
-        fqa = responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {\n"
-                + "    \"student6InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student5InCourse1@gmail.tmt\": -9999,\n"
-                + "        \"student4InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student7InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student8InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student8InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student7InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student2InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 100,\n"
-                + "      \"perceived\": 93,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student1InCourse1@gmail.tmt\": 80,\n"
-                + "        \"student3InCourse1@gmail.tmt\": 120\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        107,\n"
-                + "        80\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student5InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student6InCourse1@gmail.tmt\": -9999,\n"
-                + "        \"student4InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student1InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 50,\n"
-                + "      \"perceived\": 87,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2InCourse1@gmail.tmt\": 80,\n"
-                + "        \"student3InCourse1@gmail.tmt\": 120\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        93,\n"
-                + "        80\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student4InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student6InCourse1@gmail.tmt\": -9999,\n"
-                + "        \"student5InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student3InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 113,\n"
-                + "      \"perceived\": 120,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2InCourse1@gmail.tmt\": 107,\n"
-                + "        \"student1InCourse1@gmail.tmt\": 93\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        120,\n"
-                + "        120\n"
-                + "      ]\n"
-                + "    }\n"
-                + "  }\n"
-                + "}", feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null, bundle));
-
-        ______TS("(student email not specified): qn2");
-        fqa = responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
-        assertEquals("{\n"
-                        + "  \"results\": {\n"
-                        + "    \"student6InCourse1@gmail.tmt\": {\n"
-                        + "      \"claimed\": 114,\n"
-                        + "      \"perceived\": 100,\n"
-                        + "      \"claimedOthers\": {\n"
-                        + "        \"student5InCourse1@gmail.tmt\": 100,\n"
-                        + "        \"student4InCourse1@gmail.tmt\": -9999\n"
-                        + "      },\n"
-                        + "      \"perceivedOthers\": [\n"
-                        + "        100,\n"
-                        + "        -9999\n"
-                        + "      ]\n"
-                        + "    },\n"
-                        + "    \"student7InCourse1@gmail.tmt\": {\n"
-                        + "      \"claimed\": -999,\n"
-                        + "      \"perceived\": -9999,\n"
-                        + "      \"claimedOthers\": {\n"
-                        + "        \"student8InCourse1@gmail.tmt\": -9999\n"
-                        + "      },\n"
-                        + "      \"perceivedOthers\": [\n"
-                        + "        -9999\n"
-                        + "      ]\n"
-                        + "    },\n"
-                        + "    \"student8InCourse1@gmail.tmt\": {\n"
-                        + "      \"claimed\": -999,\n"
-                        + "      \"perceived\": -9999,\n"
-                        + "      \"claimedOthers\": {\n"
-                        + "        \"student7InCourse1@gmail.tmt\": -9999\n"
-                        + "      },\n"
-                        + "      \"perceivedOthers\": [\n"
-                        + "        -9999\n"
-                        + "      ]\n"
-                        + "    },\n"
-                        + "    \"student2InCourse1@gmail.tmt\": {\n"
-                        + "      \"claimed\": -999,\n"
-                        + "      \"perceived\": -9999,\n"
-                        + "      \"claimedOthers\": {\n"
-                        + "        \"student1InCourse1@gmail.tmt\": -9999,\n"
-                        + "        \"student3InCourse1@gmail.tmt\": -9999\n"
-                        + "      },\n"
-                        + "      \"perceivedOthers\": [\n"
-                        + "        -9999,\n"
-                        + "        -9999\n"
-                        + "      ]\n"
-                        + "    },\n"
-                        + "    \"student5InCourse1@gmail.tmt\": {\n"
-                        + "      \"claimed\": 67,\n"
-                        + "      \"perceived\": 100,\n"
-                        + "      \"claimedOthers\": {\n"
-                        + "        \"student6InCourse1@gmail.tmt\": 100,\n"
-                        + "        \"student4InCourse1@gmail.tmt\": -9999\n"
-                        + "      },\n"
-                        + "      \"perceivedOthers\": [\n"
-                        + "        100,\n"
-                        + "        -9999\n"
-                        + "      ]\n"
-                        + "    },\n"
-                        + "    \"student1InCourse1@gmail.tmt\": {\n"
-                        + "      \"claimed\": -999,\n"
-                        + "      \"perceived\": -9999,\n"
-                        + "      \"claimedOthers\": {\n"
-                        + "        \"student2InCourse1@gmail.tmt\": -9999,\n"
-                        + "        \"student3InCourse1@gmail.tmt\": -9999\n"
-                        + "      },\n"
-                        + "      \"perceivedOthers\": [\n"
-                        + "        -9999,\n"
-                        + "        -9999\n"
-                        + "      ]\n"
-                        + "    },\n"
-                        + "    \"student4InCourse1@gmail.tmt\": {\n"
-                        + "      \"claimed\": -999,\n"
-                        + "      \"perceived\": -9999,\n"
-                        + "      \"claimedOthers\": {\n"
-                        + "        \"student6InCourse1@gmail.tmt\": -9999,\n"
-                        + "        \"student5InCourse1@gmail.tmt\": -9999\n"
-                        + "      },\n"
-                        + "      \"perceivedOthers\": [\n"
-                        + "        -9999,\n"
-                        + "        -9999\n"
-                        + "      ]\n"
-                        + "    },\n"
-                        + "    \"student3InCourse1@gmail.tmt\": {\n"
-                        + "      \"claimed\": -999,\n"
-                        + "      \"perceived\": -9999,\n"
-                        + "      \"claimedOthers\": {\n"
-                        + "        \"student2InCourse1@gmail.tmt\": -9999,\n"
-                        + "        \"student1InCourse1@gmail.tmt\": -9999\n"
-                        + "      },\n"
-                        + "      \"perceivedOthers\": [\n"
-                        + "        -9999,\n"
-                        + "        -9999\n"
-                        + "      ]\n"
-                        + "    }\n"
-                        + "  }\n"
-                        + "}", feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null, bundle));
-
-        ______TS("(student email not specified): qn3");
-        fqa = responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {\n"
-                + "    \"student6InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student5InCourse1@gmail.tmt\": -9999,\n"
-                + "        \"student4InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student7InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student8InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student8InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student7InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student2InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student1InCourse1@gmail.tmt\": -9999,\n"
-                + "        \"student3InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student5InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student6InCourse1@gmail.tmt\": -9999,\n"
-                + "        \"student4InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student1InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2InCourse1@gmail.tmt\": -9999,\n"
-                + "        \"student3InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student4InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student6InCourse1@gmail.tmt\": -9999,\n"
-                + "        \"student5InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student3InCourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2InCourse1@gmail.tmt\": -9999,\n"
-                + "        \"student1InCourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    }\n"
-                + "  }\n"
-                + "}", feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null, bundle));
-
     }
 
     @Test
@@ -633,91 +270,460 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateGiverRecipientVisibility() {
         FeedbackContributionQuestionDetails details = new FeedbackContributionQuestionDetails();
-        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
-                .withCourseId("course")
-                .withFeedbackSessionName("session")
-                .withGiverType(FeedbackParticipantType.STUDENTS)
-                .withRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
-                .withQuestionNumber(1)
-                .withNumberOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
-                .withShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER,
+        FeedbackContributionQuestion feedbackQuestion = new FeedbackContributionQuestion(
+                null, 1, "description",
+                FeedbackParticipantType.STUDENTS,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+                Const.MAX_POSSIBLE_RECIPIENTS,
+                Arrays.asList(FeedbackParticipantType.RECEIVER,
                         FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                         FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                        FeedbackParticipantType.INSTRUCTORS))
-                .withShowGiverNameTo(new ArrayList<>())
-                .withShowRecipientNameTo(new ArrayList<>())
-                .withQuestionDescription("description")
-                .build();
+                        FeedbackParticipantType.INSTRUCTORS),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new FeedbackContributionQuestionDetails());
 
         ______TS("success: valid giver recipient visibility");
-        assertEquals("", details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
+        assertEquals("", details.validateGiverRecipientVisibility(feedbackQuestion));
 
         ______TS("failure: giver type is not STUDENT");
-        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.SELF);
+        feedbackQuestion.setGiverType(FeedbackParticipantType.SELF);
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
-                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.getGiverType());
+                details.validateGiverRecipientVisibility(feedbackQuestion));
+        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestion.getGiverType());
 
         ______TS("failure: recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF");
-        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.STUDENTS);
-        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.SELF);
+        feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestion.setRecipientType(FeedbackParticipantType.SELF);
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
-                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.getRecipientType());
+                details.validateGiverRecipientVisibility(feedbackQuestion));
+        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
 
         ______TS("failure: giver type is not STUDENT and recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF");
-        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.SELF);
-        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.SELF);
+        feedbackQuestion.setGiverType(FeedbackParticipantType.SELF);
+        feedbackQuestion.setRecipientType(FeedbackParticipantType.SELF);
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
-                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.getGiverType());
-        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.getRecipientType());
+                details.validateGiverRecipientVisibility(feedbackQuestion));
+        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestion.getGiverType());
+        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
 
         ______TS("failure: invalid restrictions on visibility options");
-        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.STUDENTS);
-        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-        feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
+        feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestion.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
-                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
+                details.validateGiverRecipientVisibility(feedbackQuestion));
         assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.INSTRUCTORS),
-                feedbackQuestionAttributes.getShowResponsesTo());
+                feedbackQuestion.getShowResponsesTo());
 
         ______TS("failure: giver type is not STUDENT and invalid restrictions on visibility options");
-        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.SELF);
-        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-        feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
+        feedbackQuestion.setGiverType(FeedbackParticipantType.SELF);
+        feedbackQuestion.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
-                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.getGiverType());
+                details.validateGiverRecipientVisibility(feedbackQuestion));
+        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestion.getGiverType());
         assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.INSTRUCTORS),
-                feedbackQuestionAttributes.getShowResponsesTo());
+                feedbackQuestion.getShowResponsesTo());
 
         ______TS("failure: recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF and invalid restrictions on "
                 + "visibility options");
-        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.STUDENTS);
-        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.SELF);
-        feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
+        feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestion.setRecipientType(FeedbackParticipantType.SELF);
+        feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
-                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.getRecipientType());
+                details.validateGiverRecipientVisibility(feedbackQuestion));
+        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
         assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.INSTRUCTORS),
-                feedbackQuestionAttributes.getShowResponsesTo());
+                feedbackQuestion.getShowResponsesTo());
 
         ______TS("failure: giver type is not STUDENT and recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF"
                 + " and invalid restrictions on visibility options");
-        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.SELF);
-        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.SELF);
-        feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
+        feedbackQuestion.setGiverType(FeedbackParticipantType.SELF);
+        feedbackQuestion.setRecipientType(FeedbackParticipantType.SELF);
+        feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
-                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.getGiverType());
-        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.getRecipientType());
+                details.validateGiverRecipientVisibility(feedbackQuestion));
+        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestion.getGiverType());
+        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
         assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.INSTRUCTORS),
-                feedbackQuestionAttributes.getShowResponsesTo());
+                feedbackQuestion.getShowResponsesTo());
+
+    }
+
+    @Test
+    public void testGetQuestionResultStatisticsJson() {
+        FeedbackContributionQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
+
+        DataBundle responseBundle = loadDataBundle("/FeedbackContributionQuestionTestSql.json");
+
+        SessionResultsBundle resultsBundle = new SessionResultsBundle(
+                new ArrayList<>(responseBundle.feedbackQuestions.values()),
+                new HashSet<>(), new HashSet<>(),
+                new ArrayList<>(responseBundle.feedbackResponses.values()),
+                new ArrayList<>(),
+                new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                new CourseRoster(new ArrayList<>(responseBundle.students.values()),
+                        new ArrayList<>(responseBundle.instructors.values())));
+
+        FeedbackContributionQuestion fqa;
+
+        ______TS("(student email specified): all students have response");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        assertEquals("{\n"
+                + "  \"results\": {\n"
+                + "    \"student1incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": 10,\n"
+                + "      \"perceived\": 17,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student2incourse1@gmail.tmt\": 20,\n"
+                + "        \"student3incourse1@gmail.tmt\": 30\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        24,\n"
+                + "        19\n"
+                + "      ]\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
+                        "student1incourse1@gmail.tmt", resultsBundle));
+
+        ______TS("(student email specified): mix of students with responses and students without responses");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+        assertEquals("{\n"
+                + "  \"results\": {\n"
+                + "    \"student5incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": 10,\n"
+                + "      \"perceived\": 15,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student4incourse1@gmail.tmt\": -999,\n"
+                + "        \"student6incourse1@gmail.tmt\": 20\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        15,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
+                        "student5incourse1@gmail.tmt", resultsBundle));
+
+        ______TS("(student email specified): all students do not have responses");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
+        assertEquals("{\n"
+                + "  \"results\": {}\n"
+                + "}",
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
+                        "student8incourse1@gmail.tmt", resultsBundle));
+
+        ______TS("(student email not specified): qn1");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        assertEquals("{\n"
+                + "  \"results\": {\n"
+                + "    \"student8incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student7incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student2incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": 100,\n"
+                + "      \"perceived\": 93,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student1incourse1@gmail.tmt\": 80,\n"
+                + "        \"student3incourse1@gmail.tmt\": 120\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        107,\n"
+                + "        80\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student5incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student4incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student6incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student1incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": 50,\n"
+                + "      \"perceived\": 87,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student2incourse1@gmail.tmt\": 80,\n"
+                + "        \"student3incourse1@gmail.tmt\": 120\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        93,\n"
+                + "        80\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student4incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student5incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student6incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student3incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": 113,\n"
+                + "      \"perceived\": 120,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student2incourse1@gmail.tmt\": 107,\n"
+                + "        \"student1incourse1@gmail.tmt\": 93\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        120,\n"
+                + "        120\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student6incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student5incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student4incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student7incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student8incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
+                        resultsBundle));
+
+        ______TS("(student email not specified): qn2");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+        assertEquals("{\n"
+                + "  \"results\": {\n"
+                + "    \"student8incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student7incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student2incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student1incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student3incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student5incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": 67,\n"
+                + "      \"perceived\": 100,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student4incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student6incourse1@gmail.tmt\": 100\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        100,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student1incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student2incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student3incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student4incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student5incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student6incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student3incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student2incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student1incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student6incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": 114,\n"
+                + "      \"perceived\": 100,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student5incourse1@gmail.tmt\": 100,\n"
+                + "        \"student4incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        100,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student7incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student8incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
+                        resultsBundle));
+
+        ______TS("(student email not specified): qn3");
+        fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
+        assertEquals("{\n"
+                + "  \"results\": {\n"
+                + "    \"student8incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student7incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student2incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student1incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student3incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student5incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student4incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student6incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student1incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student2incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student3incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student4incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student5incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student6incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student3incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student2incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student1incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student6incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student5incourse1@gmail.tmt\": -9999,\n"
+                + "        \"student4incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999,\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    },\n"
+                + "    \"student7incourse1@gmail.tmt\": {\n"
+                + "      \"claimed\": -999,\n"
+                + "      \"perceived\": -9999,\n"
+                + "      \"claimedOthers\": {\n"
+                + "        \"student8incourse1@gmail.tmt\": -9999\n"
+                + "      },\n"
+                + "      \"perceivedOthers\": [\n"
+                + "        -9999\n"
+                + "      ]\n"
+                + "    }\n"
+                + "  }\n"
+                + "}",
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
+                        resultsBundle));
 
     }
 

@@ -48,13 +48,6 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 
-# JMeter
-jmeter.log
-src/lnp/resources/data/*
-src/lnp/resources/results/*
-src/lnp/resources/tests/*
-!src/lnp/resources/jmeter/bin
-
 # Angular
 .angular/cache
 
@@ -75,15 +68,15 @@ src/e2e/resources/gmail-api/
 src/e2e/resources/downloads/
 src/web/dist/*
 src/web/webtools/*
-filestorage-dev/*
-datastore-dev/datastore/*
 postgres-data/
 
 !.gitkeep
-
 
 # Docs
 docs/_site/*
 docs/_markbind/logs/*
 .stylelintcache
 .eslintcache
+
+# DB dumps (JSON databundle)
+/db-dumps/

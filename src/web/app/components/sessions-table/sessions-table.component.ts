@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { GroupButtonsComponent } from './cell-with-group-buttons.component';
@@ -46,7 +45,7 @@ export type Index = number;
     selector: 'tm-sessions-table',
     templateUrl: './sessions-table.component.html',
     styleUrls: ['./sessions-table.component.scss'],
-    imports: [NgIf, SortableTableComponent],
+    imports: [SortableTableComponent],
     providers: [
       FormatDateDetailPipe,
       FormatDateBriefPipe,
@@ -235,8 +234,6 @@ export class SessionsTableComponent implements OnInit {
       const { submissionStatus, submissionStartTimestamp, submissionEndTimestamp, timeZone, publishStatus } =
         feedbackSession;
 
-      const deadlines = this.getDeadlines(sessionTableRowModel);
-
       return [
         ...this.createRowData({
           columnType: SessionsTableColumn.COURSE_ID,
@@ -255,8 +252,8 @@ export class SessionsTableComponent implements OnInit {
         }),
         ...this.createRowData(
           this.createCellWithToolTip(
-            this.submissionStatusTooltip.transform(submissionStatus, deadlines),
-            this.submissionStatusName.transform(submissionStatus, deadlines),
+            this.submissionStatusTooltip.transform(submissionStatus),
+            this.submissionStatusName.transform(submissionStatus),
           ),
         ),
         ...this.createRowData(
@@ -464,17 +461,5 @@ export class SessionsTableComponent implements OnInit {
    */
   setRowClicked(rowIndex: number): void {
     this.rowClicked = rowIndex;
-  }
-
-  /**
-   * Get the deadlines for student and instructors.
-   */
-  getDeadlines(model: SessionsTableRowModel): {
-    studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number>,
-  } {
-    return {
-      studentDeadlines: model.feedbackSession.studentDeadlines,
-      instructorDeadlines: model.feedbackSession.instructorDeadlines,
-    };
   }
 }

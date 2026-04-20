@@ -1,4 +1,4 @@
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -35,11 +35,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     NgClass,
-  ],
+],
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 
@@ -70,6 +69,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   ngOnInit(): void {
     if (!this.isEnabled) {
       this.student = {
+        userId: '00000000-0000-4000-9000-000000000001',
         email: 'alice@email.com',
         courseId: '',
         name: 'Alice Betsy',

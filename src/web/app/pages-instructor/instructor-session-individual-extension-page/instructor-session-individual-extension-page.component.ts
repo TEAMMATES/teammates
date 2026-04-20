@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -19,13 +19,14 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   Course,
   FeedbackSession,
+  FeedbackSessionDeadlineExtensions,
   FeedbackSessionSubmittedGiverSet,
   Instructors,
   Students,
 } from '../../../types/api-output';
 import {
   FeedbackSessionBasicRequest,
-  FeedbackSessionUpdateRequest,
+  FeedbackSessionDeadlineExtensionsUpdateRequest,
   Intent,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -51,13 +52,11 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
-    NgIf,
     FormsModule,
-    NgFor,
     NgClass,
     FormatDateDetailPipe,
     InstructorRoleNamePipe,
-  ],
+],
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {
   feedbackSessionDetails: FeedbackSessionBasicRequest = {
@@ -78,6 +77,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   courseId: string = '';
   courseName: string = '';
   feedbackSessionName: string = '';
+  feedbackSessionId: string = '';
 
   studentsOfCourse: StudentExtensionTableColumnModel[] = [];
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
@@ -109,6 +109,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.feedbackSessionId = queryParams.fsid;
       this.isAllYetToSubmitInstructorsSelected = queryParams.preselectnonsubmitters === 'true';
       this.isAllYetToSubmitStudentsSelected = queryParams.preselectnonsubmitters === 'true';
       this.loadFeedbackSessionAndIndividuals();
@@ -136,7 +137,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.isLoadingFeedbackSession = true;
     this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingAllInstructors = true;
-    this.hasLoadedAllStudentsFailed = false;
+    this.hasLoadedAllInstructorsFailed = false;
     forkJoin([
       this.courseService.getCourseAsInstructor(this.courseId),
       this.feedbackSessionsService.getFeedbackSession({
@@ -144,6 +145,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.FULL_DETAIL,
       }),
+      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
+        this.courseId, this.feedbackSessionName),
     ])
       .pipe(finalize(() => {
         this.isLoadingFeedbackSession = false;
@@ -151,9 +154,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         this.isLoadingAllInstructors = false;
       }))
       .subscribe({
-        next: ([course, feedbackSession]: [Course, FeedbackSession]) => {
+        next: ([course, feedbackSession, deadlineExtensions]:
+            [Course, FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
           this.courseName = course.courseName;
           this.setFeedbackSessionDetails(feedbackSession);
+          this.studentDeadlines = deadlineExtensions.studentDeadlines;
+          this.instructorDeadlines = deadlineExtensions.instructorDeadlines;
           this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
           this.getAllInstructorsOfCourse();
         },
@@ -205,8 +211,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     };
     this.feedbackSessionEndingTimestamp = feedbackSession.submissionEndTimestamp;
     this.feedbackSessionTimeZone = feedbackSession.timeZone;
-    this.studentDeadlines = feedbackSession.studentDeadlines ?? {};
-    this.instructorDeadlines = feedbackSession.instructorDeadlines ?? {};
   }
 
   private initialSortOfStudents(): void {
@@ -372,12 +376,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     isNotifyDeadlines: boolean,
     extensionTimestamp: number,
   ): void {
-    const updatedDeadlinesForCreation = this.getUpdatedDeadlinesForCreation(
+    const request = this.getUpdatedDeadlinesForCreation(
       selectedStudents, selectedInstructors, extensionTimestamp);
-    const request: FeedbackSessionUpdateRequest = {
-      ...updatedDeadlinesForCreation,
-      ...this.feedbackSessionDetails,
-    };
 
     this.handleUpdateDeadlines(request, selectedStudents.length,
       selectedInstructors.length, isNotifyDeadlines, 'created');
@@ -388,18 +388,14 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     selectedInstructors: InstructorExtensionTableColumnModel[],
     isNotifyDeadlines: boolean,
   ): void {
-    const updatedDeadlinesForDeletion = this.getUpdatedDeadlinesForDeletion(
+    const request = this.getUpdatedDeadlinesForDeletion(
       selectedStudents, selectedInstructors);
-    const request: FeedbackSessionUpdateRequest = {
-      ...updatedDeadlinesForDeletion,
-      ...this.feedbackSessionDetails,
-    };
     this.handleUpdateDeadlines(request, selectedStudents.length,
       selectedInstructors.length, isNotifyDeadlines, 'deleted');
   }
 
   private handleUpdateDeadlines(
-    request: FeedbackSessionUpdateRequest,
+    request: FeedbackSessionDeadlineExtensionsUpdateRequest,
     numStudentsUpdated: number,
     numInstructorsUpdated: number,
     isNotifyDeadlines: boolean,
@@ -407,7 +403,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   ): void {
     this.isSubmittingDeadlines = true;
     this.feedbackSessionsService
-      .updateFeedbackSession(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
+      .updateFeedbackSessionDeadlineExtensions(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
       .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
       .subscribe({
         next: () => {

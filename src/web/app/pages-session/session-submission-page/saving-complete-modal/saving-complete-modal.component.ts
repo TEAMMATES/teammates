@@ -1,7 +1,7 @@
-import { NgClass, NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { saveAs } from 'file-saver';
+import { FileSaveService } from '../../../../services/file-save.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { FeedbackResponse } from '../../../../types/api-output';
 import {
@@ -20,10 +20,8 @@ import {
   styleUrls: ['./saving-complete-modal.component.scss'],
   imports: [
     NgClass,
-    NgIf,
-    NgFor,
     KeyValuePipe,
-  ],
+],
 })
 export class SavingCompleteModalComponent {
 
@@ -66,6 +64,7 @@ export class SavingCompleteModalComponent {
   }
 
   constructor(public activeModal: NgbActiveModal,
+              private fileSaveService: FileSaveService,
               private timezoneService: TimezoneService) {}
 
   downloadProofOfSubmission(): void {
@@ -111,7 +110,7 @@ export class SavingCompleteModalComponent {
     }
 
     const blob: Blob = new Blob([fileContent.join('\r\n')], { type: 'text/plain' });
-    saveAs(blob, `TEAMMATES Proof of Submission - ${time}`);
+    this.fileSaveService.saveFile(blob, `TEAMMATES Proof of Submission - ${time}`);
   }
 
 }

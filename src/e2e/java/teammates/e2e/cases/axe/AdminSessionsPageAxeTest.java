@@ -6,53 +6,51 @@ import org.testng.annotations.Test;
 
 import com.deque.html.axecore.results.Results;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.pageobjects.AdminSessionsPage;
+import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SESSIONS_PAGE}.
  */
 public class AdminSessionsPageAxeTest extends BaseAxeTestCase {
-    private Instant instant3DaysAgo = TimeHelper.getInstantDaysOffsetFromNow(-3);
-    private Instant instantTomorrow = TimeHelper.getInstantDaysOffsetFromNow(1);
-    private Instant instant3DaysLater = TimeHelper.getInstantDaysOffsetFromNow(3);
-    private Instant instant10DaysLater = TimeHelper.getInstantDaysOffsetFromNow(10);
-    private Instant instant24DaysLater = TimeHelper.getInstantDaysOffsetFromNow(24);
+
+    private static final Instant INSTANT_3_DAYS_AGO = TimeHelper.getInstantDaysOffsetFromNow(-3);
+    private static final Instant INSTANT_TOMORROW = TimeHelper.getInstantDaysOffsetFromNow(1);
+    private static final Instant INSTANT_3_DAYS_LATER = TimeHelper.getInstantDaysOffsetFromNow(3);
+    private static final Instant INSTANT_10_DAYS_LATER = TimeHelper.getInstantDaysOffsetFromNow(10);
+    private static final Instant INSTANT_24_DAYS_LATER = TimeHelper.getInstantDaysOffsetFromNow(24);
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/AdminSessionsPageE2ETest.json");
+        testData = loadDataBundle("/AdminSessionsPageE2ETestSql.json");
 
         // To guarantee that there will always be some "ongoing sessions" listed,
-        // the test data is injected with date/time values relative to the time where the test takes place
+        // the test data is injected with date/time values relative to the time where the test runs.
+        FeedbackSession openFeedbackSession = testData.feedbackSessions.get("session1InCourse1");
+        openFeedbackSession.setStartTime(INSTANT_3_DAYS_AGO);
+        openFeedbackSession.setCreatedAt(INSTANT_3_DAYS_AGO);
+        openFeedbackSession.setSessionVisibleFromTime(INSTANT_3_DAYS_AGO);
+        openFeedbackSession.setEndTime(INSTANT_3_DAYS_LATER);
+        openFeedbackSession.setResultsVisibleFromTime(INSTANT_3_DAYS_LATER);
 
-        FeedbackSessionAttributes openFeedbackSession = testData.feedbackSessions.get("session1InCourse1");
-        openFeedbackSession.setStartTime(instant3DaysAgo);
-        openFeedbackSession.setCreatedTime(instant3DaysAgo);
-        openFeedbackSession.setSessionVisibleFromTime(instant3DaysAgo);
-        openFeedbackSession.setEndTime(instant3DaysLater);
-        openFeedbackSession.setResultsVisibleFromTime(instant3DaysLater);
+        FeedbackSession awaitingFeedbackSession = testData.feedbackSessions.get("session2InCourse1");
+        awaitingFeedbackSession.setStartTime(INSTANT_TOMORROW);
+        awaitingFeedbackSession.setCreatedAt(INSTANT_3_DAYS_AGO);
+        awaitingFeedbackSession.setSessionVisibleFromTime(INSTANT_TOMORROW);
+        awaitingFeedbackSession.setEndTime(INSTANT_3_DAYS_LATER);
+        awaitingFeedbackSession.setResultsVisibleFromTime(INSTANT_3_DAYS_LATER);
 
-        FeedbackSessionAttributes awaitingFeedbackSession = testData.feedbackSessions.get("session2InCourse1");
-        awaitingFeedbackSession.setStartTime(instantTomorrow);
-        awaitingFeedbackSession.setCreatedTime(instant3DaysAgo);
-        awaitingFeedbackSession.setSessionVisibleFromTime(instantTomorrow);
-        awaitingFeedbackSession.setEndTime(instant3DaysLater);
-        awaitingFeedbackSession.setResultsVisibleFromTime(instant3DaysLater);
-
-        FeedbackSessionAttributes futureFeedbackSession = testData.feedbackSessions.get("session3InCourse1");
-        futureFeedbackSession.setStartTime(instant10DaysLater);
-        futureFeedbackSession.setCreatedTime(instant3DaysAgo);
-        futureFeedbackSession.setSessionVisibleFromTime(instant10DaysLater);
-        futureFeedbackSession.setEndTime(instant24DaysLater);
-        futureFeedbackSession.setResultsVisibleFromTime(instant24DaysLater);
+        FeedbackSession futureFeedbackSession = testData.feedbackSessions.get("session3InCourse1");
+        futureFeedbackSession.setStartTime(INSTANT_10_DAYS_LATER);
+        futureFeedbackSession.setCreatedAt(INSTANT_3_DAYS_AGO);
+        futureFeedbackSession.setSessionVisibleFromTime(INSTANT_10_DAYS_LATER);
+        futureFeedbackSession.setEndTime(INSTANT_24_DAYS_LATER);
+        futureFeedbackSession.setResultsVisibleFromTime(INSTANT_24_DAYS_LATER);
 
         removeAndRestoreDataBundle(testData);
-
-        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/AdminSessionsPageE2ETest_SqlEntities.json"));
     }
 
     @Test
@@ -61,8 +59,15 @@ public class AdminSessionsPageAxeTest extends BaseAxeTestCase {
         AppUrl sessionsUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_SESSIONS_PAGE);
         AdminSessionsPage sessionsPage = loginAdminToPage(sessionsUrl, AdminSessionsPage.class);
 
+        // Run axe on initial view (ongoing sessions table).
         Results results = getAxeBuilder().analyze(sessionsPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
+
+        // Run axe again with filter section expanded to cover that UI state.
+        sessionsPage.toggleSessionFilter();
+        sessionsPage.waitForSessionFilterVisibility();
+        Results resultsWithFilter = getAxeBuilder().analyze(sessionsPage.getBrowser().getDriver());
+        assertViolationFree(resultsWithFilter);
     }
 
 }

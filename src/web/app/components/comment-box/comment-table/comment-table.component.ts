@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentTableModel } from './comment-table.model';
 import {
@@ -19,10 +18,8 @@ import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-mo
   styleUrls: ['./comment-table.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
-    NgFor,
     CommentRowComponent,
-  ],
+],
   providers: [
     CommentToCommentRowModelPipe,
     CommentsToCommentTableModelPipe,
@@ -108,13 +105,6 @@ export class CommentTableComponent {
    */
   triggerModelChange(field: string, data: any): void {
     this.modelChange.emit({ ...this.model, [field]: data });
-  }
-
-  /**
-   * Tracks by index.
-   */
-  trackByIndex(index: number): string {
-    return index.toString();
   }
 
   /**

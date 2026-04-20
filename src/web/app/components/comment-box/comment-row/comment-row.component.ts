@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentRowMode } from './comment-row.mode';
@@ -48,14 +47,13 @@ export interface CommentRowModel {
   templateUrl: './comment-row.component.html',
   styleUrls: ['./comment-row.component.scss'],
   imports: [
-    NgIf,
     CommentEditFormComponent,
     NgbTooltip,
     FormatDateDetailPipe,
     SafeHtmlPipe,
     FormatDateBriefPipe,
     CommentVisibilityTypesJointNamePipe,
-  ],
+],
 })
 export class CommentRowComponent implements OnChanges {
 

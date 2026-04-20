@@ -10,7 +10,7 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
-  Course, CourseArchive, Courses,
+  Course, Courses,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
@@ -75,8 +75,6 @@ const testFeedbackSession1: FeedbackSession = {
   isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
-  studentDeadlines: {},
-  instructorDeadlines: {},
 };
 
 const testFeedbackSession2: FeedbackSession = {
@@ -94,8 +92,6 @@ const testFeedbackSession2: FeedbackSession = {
   isClosingSoonEmailEnabled: true,
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
-  studentDeadlines: {},
-  instructorDeadlines: {},
 };
 
 const activeCourseTabModels: CourseTabModel[] = [
@@ -180,37 +176,6 @@ describe('InstructorHomePageComponent', () => {
     expect(component.courseTabModels[0].isTabExpanded).toBeFalsy();
     button.click();
     expect(component.courseTabModels[0].isTabExpanded).toBeTruthy();
-  });
-
-  it('should archive the entire course from the instructor', () => {
-    const courseArchive: CourseArchive = {
-      courseId: 'CS1231',
-      isArchived: true,
-    };
-
-    component.courseTabModels = activeCourseTabModels;
-    component.hasCoursesLoaded = true;
-    fixture.detectChanges();
-
-    expect(component.courseTabModels.length).toEqual(2);
-    expect(component.courseTabModels[0].course.courseId).toEqual('CS1231');
-    expect(component.courseTabModels[0].course.courseName).toEqual('Discrete Structures');
-
-    jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(
-        () => createMockNgbModalRef({
-          header: 'mock header', content: 'mock content', type: SimpleModalType.INFO,
-        }),
-    );
-    jest.spyOn(courseService, 'changeArchiveStatus').mockReturnValue(of(courseArchive));
-
-    const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
-    courseButton.click();
-    const archiveButton: any = document.querySelector('body > div > div > .btn-archive-course');
-    archiveButton.click();
-
-    expect(component.courseTabModels.length).toEqual(1);
-    expect(component.courseTabModels[0].course.courseId).toEqual('CS3281');
-    expect(component.courseTabModels[0].course.courseName).toEqual('Thematic Systems I');
   });
 
   it('should delete the entire course from the instructor', () => {

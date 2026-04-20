@@ -1,15 +1,17 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.storage.sqlentity.Instructor;
 
 /**
  * The API output format of an instructor.
  */
 public class InstructorData extends ApiOutput {
+    private final UUID userId;
     @Nullable
     private String googleId;
     private final String courseId;
@@ -27,19 +29,8 @@ public class InstructorData extends ApiOutput {
     @Nullable
     private String institute;
 
-    public InstructorData(InstructorAttributes instructorAttributes) {
-        this.courseId = instructorAttributes.getCourseId();
-        this.email = instructorAttributes.getEmail();
-        this.role = instructorAttributes.getRole() == null ? null
-                : InstructorPermissionRole.getEnum(instructorAttributes.getRole());
-        this.isDisplayedToStudents = instructorAttributes.isDisplayedToStudents();
-        this.displayedToStudentsAs = instructorAttributes.getDisplayedName();
-        this.name = instructorAttributes.getName();
-
-        this.joinState = instructorAttributes.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
-    }
-
     public InstructorData(Instructor instructor) {
+        this.userId = instructor.getId();
         this.courseId = instructor.getCourseId();
         this.email = instructor.getEmail();
         this.role = instructor.getRole();
@@ -48,6 +39,10 @@ public class InstructorData extends ApiOutput {
         this.name = instructor.getName();
         this.joinState = instructor.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED;
         this.institute = instructor.getCourse().getInstitute();
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 
     public String getGoogleId() {

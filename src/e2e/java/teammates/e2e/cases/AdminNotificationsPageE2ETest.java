@@ -24,18 +24,14 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/AdminNotificationsPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
-        sqlTestData = removeAndRestoreSqlDataBundle(
-            loadSqlDataBundle("/AdminNotificationsPageE2ETest_SqlEntities.json"));
-        notifications[0] = sqlTestData.notifications.get("notification1");
-        notifications[1] = sqlTestData.notifications.get("notification2");
+        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminNotificationsPageE2ETestSql.json"));
+        notifications[0] = testData.notifications.get("notification1");
+        notifications[1] = testData.notifications.get("notification2");
     }
 
     @Test
     @Override
     public void testAll() {
-
         ______TS("verify loaded data");
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_NOTIFICATIONS_PAGE);
         AdminNotificationsPage notificationsPage = loginAdminToPage(url, AdminNotificationsPage.class);
@@ -43,12 +39,12 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         // This is because the page will display all notifications in the database, which is not predictable
         notificationsPage.verifyNotificationsTableRow(notifications[0]);
         notificationsPage.verifyNotificationsTableRow(notifications[1]);
-        NotificationData notif = BACKDOOR.getNotificationData(notifications[0].getId().toString());
-        assertEquals(notif.getNotificationId(), notifications[0].getId().toString());
+        NotificationData notif = getNotification(notifications[0].getId().toString());
+        assertEquals(notif.getNotificationId(), notifications[0].getId());
         assertEquals(notif.getMessage(), notifications[0].getMessage());
         assertEquals(notif.getTitle(), notifications[0].getTitle());
-        notif = BACKDOOR.getNotificationData(notifications[1].getId().toString());
-        assertEquals(notif.getNotificationId(), notifications[1].getId().toString());
+        notif = getNotification(notifications[1].getId().toString());
+        assertEquals(notif.getNotificationId(), notifications[1].getId());
         assertEquals(notif.getMessage(), notifications[1].getMessage());
         assertEquals(notif.getTitle(), notifications[1].getTitle());
 
@@ -73,8 +69,8 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
 
         // Checks that notification is in the database first
         // so that newNotification is updated with the created time before checking table row
-        notif = BACKDOOR.getNotificationData(newestNotificationId);
-        assertEquals(notif.getNotificationId(), newestNotificationId);
+        notif = getNotification(newestNotificationId);
+        assertEquals(notif.getNotificationId().toString(), newestNotificationId);
         assertEquals(notif.getMessage(), newNotification.getMessage());
         assertEquals(notif.getTitle(), newNotification.getTitle());
         notificationsPage.verifyNotificationsTableRow(newNotification);
@@ -98,15 +94,14 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         ______TS("delete notification");
         notificationsPage.deleteNotification(newNotification);
         notificationsPage.verifyStatusMessage("Notification has been deleted.");
-        notif = BACKDOOR.getNotificationData(newestNotificationId);
+        notif = getNotification(newestNotificationId);
         assertNull(notif);
     }
 
     @AfterClass
     public void classTeardown() {
-        for (Notification notification : sqlTestData.notifications.values()) {
-            BACKDOOR.deleteNotification(notification.getId().toString());
+        for (Notification notification : testData.notifications.values()) {
+            deleteNotification(notification.getId().toString());
         }
     }
-
 }

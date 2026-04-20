@@ -19,7 +19,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        this.typicalBundle = loadSqlDataBundle("/typicalDataBundle.json");
+        this.typicalBundle = loadDataBundle("/typicalDataBundle.json");
         persistDataBundle(typicalBundle);
         HibernateUtil.flushSession();
     }
@@ -67,7 +67,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         ______TS("Normal case: student is not registered");
         String unregisteredStudentKey =
-                logic.getStudentForEmail("course-1", "unregisteredStudentInCourse1@teammates.tmt").getRegKey();
+                logic.getStudentForEmail("course-1", "unregisteredstudentincourse1@teammates.tmt").getRegKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredStudentKey,
@@ -108,7 +108,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         ______TS("Normal case: instructor is not registered");
 
         String unregisteredInstructorKey =
-                logic.getInstructorForEmail("course-1", "unregisteredInstructor@teammates.tmt").getRegKey();
+                logic.getInstructorForEmail("course-1", "unregisteredinstructor@teammates.tmt").getRegKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredInstructorKey,

@@ -3,7 +3,6 @@ package teammates.ui.output;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.storage.sqlentity.Course;
 
 /**
@@ -15,24 +14,10 @@ public class CourseData extends ApiOutput {
     private final String courseName;
     private final String timeZone;
     private final String institute;
-    @Nullable
-    private final Boolean isMigrated;
     private long creationTimestamp;
     private long deletionTimestamp;
     @Nullable
     private InstructorPermissionSet privileges;
-
-    public CourseData(CourseAttributes courseAttributes) {
-        this.courseId = courseAttributes.getId();
-        this.courseName = courseAttributes.getName();
-        this.timeZone = courseAttributes.getTimeZone();
-        this.institute = courseAttributes.getInstitute();
-        this.creationTimestamp = courseAttributes.getCreatedAt().toEpochMilli();
-        if (courseAttributes.getDeletedAt() != null) {
-            this.deletionTimestamp = courseAttributes.getDeletedAt().toEpochMilli();
-        }
-        this.isMigrated = false;
-    }
 
     public CourseData(Course course) {
         this.courseId = course.getId();
@@ -43,7 +28,6 @@ public class CourseData extends ApiOutput {
         if (course.getDeletedAt() != null) {
             this.deletionTimestamp = course.getDeletedAt().toEpochMilli();
         }
-        this.isMigrated = true;
     }
 
     public String getCourseId() {
@@ -68,10 +52,6 @@ public class CourseData extends ApiOutput {
 
     public long getDeletionTimestamp() {
         return deletionTimestamp;
-    }
-
-    public Boolean getIsMigrated() {
-        return isMigrated;
     }
 
     public InstructorPermissionSet getPrivileges() {

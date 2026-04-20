@@ -54,7 +54,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         String student1Email = student1.getEmail();
         String student2Email = student2.getEmail();
         long endTime = Instant.parse("2012-01-02T12:00:00Z").toEpochMilli();
-        long startTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
+        long startTime = endTime - (Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
 
         ______TS("Failure case: not enough parameters");
         verifyHttpParameterFailure(

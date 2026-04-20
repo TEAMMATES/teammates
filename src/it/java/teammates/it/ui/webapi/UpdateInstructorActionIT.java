@@ -55,7 +55,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         };
 
         String newInstructorName = "newName";
-        String newInstructorEmail = "newEmail@email.com";
+        String newInstructorEmail = "newemail@email.com";
         String newInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
 
         InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
@@ -78,11 +78,9 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
 
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
-
         ______TS("Failure case: edit failed due to invalid parameters");
 
-        String invalidEmail = "wrongEmail.com";
+        String invalidEmail = "wrongemail.com";
         reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.getName(),
                 invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 instructorDisplayName, true);
@@ -115,7 +113,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         loginAsAdmin();
 
         newInstructorName = "newName2";
-        newInstructorEmail = "newEmail2@email.com";
+        newInstructorEmail = "newemail2@email.com";
 
         reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -134,8 +132,6 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         //remove the new instructor entity that was created
         logic.deleteCourseCascade("icieat.courseId");
-
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         ______TS("Unsuccessful case: test null course id parameter");
 

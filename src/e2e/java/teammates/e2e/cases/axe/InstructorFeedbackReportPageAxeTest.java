@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorFeedbackResultsPage;
+import teammates.e2e.pageobjects.InstructorFeedbackResultsPageSql;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_REPORT_PAGE}.
@@ -15,11 +15,8 @@ public class InstructorFeedbackReportPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorFeedbackReportPageE2ETest.json");
+        testData = loadDataBundle("/InstructorFeedbackReportPageE2ETestSql.json");
         removeAndRestoreDataBundle(testData);
-
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                loadSqlDataBundle("/InstructorFeedbackReportPageE2ETest_SqlEntities.json"));
     }
 
     @Test
@@ -27,9 +24,9 @@ public class InstructorFeedbackReportPageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl resultsUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(testData.courses.get("tm.e2e.IFRep.CS2104").getId())
-                .withSessionName(testData.feedbackSessions.get("Open Session").getFeedbackSessionName());
-        InstructorFeedbackResultsPage resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class,
-                testData.instructors.get("tm.e2e.IFRep.instr").getGoogleId());
+                .withSessionName(testData.feedbackSessions.get("Open Session").getName());
+        InstructorFeedbackResultsPageSql resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class,
+                testData.instructors.get("IFRep.instr.CS2104").getGoogleId());
 
         Results results = getAxeBuilder().analyze(resultsPage.getBrowser().getDriver());
         assertTrue(formatViolations(results), results.violationFree());

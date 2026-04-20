@@ -11,6 +11,12 @@ on:
       - release
   schedule:
     - cron: "0 0 * * *" #end of every day
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     strategy:
@@ -19,7 +25,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: '0'
       - uses: actions/setup-node@v6
@@ -31,7 +37,7 @@ jobs:
           distribution: temurin
           java-version: 21
       - name: Cache Gradle packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -40,7 +46,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Cache eslint
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ./.eslintcache
@@ -48,7 +54,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-eslint-
       - name: Cache stylelint
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ./.stylelintcache
@@ -68,7 +74,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -78,7 +84,7 @@ jobs:
           distribution: temurin
           java-version: 21
       - name: Cache Gradle packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.gradle/caches
@@ -88,9 +94,6 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Update Property File
         run: mv src/test/resources/test.ci-${{ matrix.os }}.properties src/test/resources/test.properties
-      - name: Run Solr search service
-        if: matrix.os == 'ubuntu-latest' # Docker does not work well on Windows env
-        run: docker compose run -d -p 8983:8983 solr
       - name: Run Backend Tests
         run: |
           ./gradlew createConfigs componentTests --continue

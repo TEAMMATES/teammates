@@ -15,6 +15,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -27,7 +28,7 @@ import teammates.storage.sqlentity.Section;
  *
  * @see FeedbackResponseComment
  */
-public final class FeedbackResponseCommentsDb extends EntitiesDb {
+public final class FeedbackResponseCommentsDb {
 
     private static final FeedbackResponseCommentsDb instance = new FeedbackResponseCommentsDb();
 
@@ -42,7 +43,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
     /**
      * Gets a feedbackResponseComment or null if it does not exist.
      */
-    public FeedbackResponseComment getFeedbackResponseComment(Long frId) {
+    public FeedbackResponseComment getFeedbackResponseComment(UUID frId) {
         assert frId != null;
 
         return HibernateUtil.get(FeedbackResponseComment.class, frId);
@@ -59,26 +60,24 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
             throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
         }
 
-        if (feedbackResponseComment.getId() != null
-                && getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
+        if (getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
             throw new EntityAlreadyExistsException(
                     String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponseComment.toString()));
         }
 
-        feedbackResponseComment.setId(null);
-        persist(feedbackResponseComment);
+        HibernateUtil.persist(feedbackResponseComment);
         return feedbackResponseComment;
     }
 
     /**
      * Deletes a feedbackResponseComment.
      */
-    public void deleteFeedbackResponseComment(Long frcId) {
+    public void deleteFeedbackResponseComment(UUID frcId) {
         assert frcId != null;
 
         FeedbackResponseComment frc = getFeedbackResponseComment(frcId);
         if (frc != null) {
-            delete(frc);
+            HibernateUtil.remove(frc);
         }
     }
 
@@ -110,7 +109,8 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
         cq.select(root)
                 .where(cb.and(
-                        cb.equal(frJoin.get("id"), feedbackResponseId)));
+                        cb.equal(frJoin.get("id"), feedbackResponseId),
+                        cb.equal(root.get("isCommentFromFeedbackParticipant"), true)));
         return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
     }
 
@@ -122,7 +122,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         assert oldEmail != null;
         assert updatedEmail != null;
 
-        if (oldEmail.equals(updatedEmail)) {
+        if (SanitizationHelper.areEmailsEqual(oldEmail, updatedEmail)) {
             return;
         }
 
@@ -131,7 +131,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
 
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setGiver(updatedEmail);
-            merge(responseComment);
+            HibernateUtil.merge(responseComment);
         }
     }
 
@@ -143,7 +143,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
         assert oldEmail != null;
         assert updatedEmail != null;
 
-        if (oldEmail.equals(updatedEmail)) {
+        if (SanitizationHelper.areEmailsEqual(oldEmail, updatedEmail)) {
             return;
         }
 
@@ -206,7 +206,7 @@ public final class FeedbackResponseCommentsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
         }
 
-        return merge(feedbackResponseComment);
+        return HibernateUtil.merge(feedbackResponseComment);
     }
 
     /**

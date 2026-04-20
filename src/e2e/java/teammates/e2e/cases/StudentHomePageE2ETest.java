@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentHomePage;
+import teammates.storage.sqlentity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_HOME_PAGE}.
@@ -18,10 +18,8 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/StudentHomePageE2ETest.json");
+        testData = loadDataBundle("/StudentHomePageE2ESqlTest.json");
         removeAndRestoreDataBundle(testData);
-        sqlTestData =
-                removeAndRestoreSqlDataBundle(loadSqlDataBundle("/StudentHomePageE2ETest_SqlEntities.json"));
     }
 
     @Test
@@ -38,23 +36,20 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
             int panelIndex = homePage.getStudentHomeCoursePanelIndex(courseId);
 
             String feedbackSessionName = testData.feedbackSessions.entrySet().stream()
-                    .filter(feedbackSession -> courseId.equals(feedbackSession.getValue().getCourseId()))
-                    .map(x -> x.getValue().getFeedbackSessionName())
+                    .filter(feedbackSession -> courseId.equals(feedbackSession.getValue().getCourse().getId()))
+                    .map(x -> x.getValue().getName())
                     .collect(Collectors.joining());
 
             homePage.verifyVisibleFeedbackSessionToStudents(feedbackSessionName, panelIndex);
         });
-
-        ______TS("notification banner is visible");
-        assertTrue(homePage.isBannerVisible());
     }
 
     private List<String> getAllVisibleCourseIds() {
         List<String> courseIds = new ArrayList<>();
 
-        for (StudentAttributes student : testData.students.values()) {
+        for (Student student : testData.students.values()) {
             if ("tm.e2e.SHome.student".equals(student.getGoogleId())) {
-                courseIds.add(student.getCourse());
+                courseIds.add(student.getCourse().getId());
             }
         }
         return courseIds;

@@ -55,8 +55,6 @@ describe('CopySessionModalComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 1554967204,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const courseSessionIn: Course = {
@@ -114,6 +112,12 @@ describe('CopySessionModalComponent', () => {
       sessionToCopyCourseId: 'TestCourseID',
       copyToCourseList: ['Course1', 'Course2'],
     });
+  });
+
+  it('should treat whitespace-only copied session name as invalid', () => {
+    component.newFeedbackSessionName = '   ';
+
+    expect(component.isNewFeedbackSessionNameValid).toBe(false);
   });
 
   it('should add a courseId to copyToCourseSet when it is not already present', () => {

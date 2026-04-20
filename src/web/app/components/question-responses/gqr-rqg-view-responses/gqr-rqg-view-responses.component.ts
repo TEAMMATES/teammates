@@ -1,4 +1,4 @@
-import { NgIf, NgFor, NgTemplateOutlet, KeyValuePipe } from '@angular/common';
+import { NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
@@ -34,8 +34,6 @@ interface QuestionTab {
   styleUrls: ['./gqr-rqg-view-responses.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
-    NgFor,
     PanelChevronComponent,
     QuestionTextWithInfoComponent,
     SingleStatisticsComponent,
@@ -43,7 +41,7 @@ interface QuestionTab {
     ResponseModerationButtonComponent,
     PerQuestionViewResponsesComponent,
     KeyValuePipe,
-  ],
+],
 })
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
@@ -55,6 +53,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
   @Input() showStatistics: boolean = true;
   @Input() indicateMissingResponses: boolean = true;
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -69,8 +68,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   @Input() isGqr: boolean = true;

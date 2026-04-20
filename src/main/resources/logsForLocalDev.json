@@ -1,260 +1,5 @@
 [
   {
-    "insertId": "60d295c40000209229cb51e8",
-    "details": {
-      "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course2, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%course2, courseId=CS2222, email=john@gmail.com])] into Solr.",
-      "event": "EXCEPTION_LOG",
-      "exceptionMessages": [
-        "Server refused connection at: http://localhost:8983/solr",
-        "Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)",
-        "Connection refused (Connection refused)"
-      ],
-      "exceptionStackTraces": [
-        [
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)",
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)",
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)",
-          "org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)",
-          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)",
-          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)",
-          "teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)",
-          "teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)",
-          "teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)",
-          "teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)",
-          "teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)",
-          "teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)",
-          "teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)",
-          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)",
-          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)",
-          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
-          "teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)",
-          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:707)",
-          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790)",
-          "..."
-        ],
-        [
-          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)",
-          "org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)",
-          "org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)",
-          "org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)",
-          "org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)",
-          "org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)",
-          "org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)",
-          "org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)",
-          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)",
-          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)",
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)",
-          "... 32 more"
-        ],
-        [
-          "java.base/java.net.PlainSocketImpl.socketConnect(Native Method)",
-          "java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)",
-          "java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)",
-          "java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)",
-          "java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)",
-          "java.base/java.net.Socket.connect(Socket.java:609)",
-          "org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)",
-          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)",
-          "... 42 more"
-        ]
-      ],
-      "exceptionClass": "SolrServerException",
-      "exceptionClasses": [
-        "org.apache.solr.client.solrj.SolrServerException",
-        "org.apache.http.conn.HttpHostConnectException",
-        "java.net.ConnectException"
-      ],
-      "loggerSourceLocation": {
-        "file": "teammates.storage.search.SearchManager",
-        "line": "121",
-        "function": "putDocuments"
-      }
-    },
-    "resourceIdentifier": {
-      "module_id": "default",
-      "version_id": "8-0-0",
-      "project_id": "teammates-john",
-      "zone": "asia-east2-3"
-    },
-    "severity": "ERROR",
-    "logName": "projects/teammates-john/logs/stderr",
-    "trace": "2c9634f520c5c5555d145dc8ca2fd530",
-    "sourceLocation": {
-      "file": "org.apache.solr.client.solrj.impl.HttpSolrClient",
-      "line": "688",
-      "function": "executeMethod"
-    }
-  },
-  {
-    "insertId": "60d2f041000c0a0af5595190",
-    "details": {
-      "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course1, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%CS1111, courseId=CS1111, email=john@gmail.com])] into Solr.",
-      "event": "EXCEPTION_LOG",
-      "exceptionMessages": [
-        "Server refused connection at: http://localhost:8983/solr",
-        "Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)",
-        "Connection refused (Connection refused)"
-      ],
-      "exceptionStackTraces": [
-        [
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)",
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)",
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)",
-          "org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)",
-          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)",
-          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)",
-          "teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)",
-          "teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)",
-          "teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)",
-          "teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)",
-          "teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)",
-          "teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)",
-          "teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)",
-          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)",
-          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)",
-          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
-          "teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)",
-          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:707)",
-          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790)",
-          "..."
-        ],
-        [
-          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)",
-          "org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)",
-          "org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)",
-          "org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)",
-          "org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)",
-          "org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)",
-          "org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)",
-          "org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)",
-          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)",
-          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)",
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)",
-          "... 32 more"
-        ],
-        [
-          "java.base/java.net.PlainSocketImpl.socketConnect(Native Method)",
-          "java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)",
-          "java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)",
-          "java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)",
-          "java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)",
-          "java.base/java.net.Socket.connect(Socket.java:609)",
-          "org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)",
-          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)",
-          "... 42 more"
-        ]
-      ],
-      "exceptionClass": "SolrServerException",
-      "exceptionClasses": [
-        "org.apache.solr.client.solrj.SolrServerException",
-        "org.apache.http.conn.HttpHostConnectException",
-        "java.net.ConnectException"
-      ],
-      "loggerSourceLocation": {
-        "file": "teammates.storage.search.SearchManager",
-        "line": "121",
-        "function": "putDocuments"
-      }
-    },
-    "resourceIdentifier": {
-      "module_id": "default",
-      "version_id": "8-0-0",
-      "project_id": "teammates-john",
-      "zone": "asia-east2-3"
-    },
-    "severity": "ERROR",
-    "logName": "projects/teammates-john/logs/stderr",
-    "trace": "7646fa1144abdc2c0e49ed44473db83d",
-    "sourceLocation": {
-      "file": "org.apache.solr.client.solrj.impl.HttpSolrClient",
-      "line": "688",
-      "function": "executeMethod"
-    }
-  },
-  {
-    "insertId": "60dace46000b929ccc84c427",
-    "details": {
-      "message": "Failed to search for document(s) course from Solr.",
-      "event": "EXCEPTION_LOG",
-      "exceptionMessages": [
-        "Server refused connection at: http://localhost:8983/solr",
-        "Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)",
-        "Connection refused (Connection refused)"
-      ],
-      "exceptionStackTraces": [
-        [
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)",
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)",
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)",
-          "org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)",
-          "org.apache.solr.client.solrj.SolrClient.query(SolrClient.java:1003)",
-          "teammates.storage.search.SearchManager.performQuery(SearchManager.java:80)",
-          "teammates.storage.search.InstructorSearchManager.searchInstructors(InstructorSearchManager.java:60)",
-          "teammates.storage.api.InstructorsDb.searchInstructorsInWholeSystem(InstructorsDb.java:81)",
-          "teammates.logic.core.InstructorsLogic.searchInstructorsInWholeSystem(InstructorsLogic.java:65)",
-          "teammates.logic.api.Logic.searchInstructorsInWholeSystem(Logic.java:134)",
-          "teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:36)",
-          "teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:19)",
-          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
-          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
-          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
-          "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:790),",
-          "..."
-        ],
-        [
-          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)",
-          "org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)",
-          "org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)",
-          "org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)",
-          "org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)",
-          "org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)",
-          "org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)",
-          "org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)",
-          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)",
-          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)",
-          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)",
-          "... 29 more"
-        ],
-        [
-          "java.base/java.net.PlainSocketImpl.socketConnect(Native Method)",
-          "java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)",
-          "java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)",
-          "java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)",
-          "java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)",
-          "java.base/java.net.Socket.connect(Socket.java:609)",
-          "org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)",
-          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)",
-          "... 39 more"
-        ]
-      ],
-      "exceptionClass": "SolrServerException",
-      "exceptionClasses": [
-        "org.apache.solr.client.solrj.SolrServerException",
-        "org.apache.http.conn.HttpHostConnectException",
-        "java.net.ConnectException"
-      ],
-      "loggerSourceLocation": {
-        "file": "teammates.storage.search.SearchManager",
-        "line": "82",
-        "function": "performQuery"
-      }
-    },
-    "resourceIdentifier": {
-      "module_id": "default",
-      "version_id": "8-0-0",
-      "project_id": "teammates-john",
-      "zone": "asia-east2-3"
-    },
-    "severity": "ERROR",
-    "logName": "projects/teammates-john/logs/stderr",
-    "trace": "28b2e71f6637a81ca80b4ff6e298b76f",
-    "sourceLocation": {
-      "file": "org.apache.solr.client.solrj.impl.HttpSolrClient",
-      "line": "688",
-      "function": "executeMethod"
-    }
-  },
-  {
     "insertId": "60dc12a80000eafd09219e25",
     "details": {
       "message": "UnsupportedOperationException caught by WebApiServlet",
@@ -266,8 +11,7 @@
         [
           "java.base/java.util.Iterator.remove(Iterator.java:102)",
           "java.base/java.util.Collection.removeIf(Collection.java:545)",
-          "teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)",
-          "teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)",
+          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:51)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
           "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
@@ -312,8 +56,7 @@
         [
           "java.base/java.util.Iterator.remove(Iterator.java:102)",
           "java.base/java.util.Collection.removeIf(Collection.java:545)",
-          "teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)",
-          "teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)",
+          "teammates.ui.webapi.GetFeedbackSessionLogsAction.execute(GetFeedbackSessionLogsAction.java:51)",
           "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
           "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
           "jakarta.servlet.http.HttpServlet.service(HttpServlet.java:687)",
@@ -514,7 +257,7 @@
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "141",
-        "function": "throwErrorBasedOnRequester"
+        "function": "handleException"
       }
     },
     "severity": "WARNING",
@@ -559,7 +302,7 @@
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "141",
-        "function": "throwErrorBasedOnRequester"
+        "function": "handleException"
       }
     },
     "severity": "WARNING",
@@ -581,13 +324,14 @@
     "insertId": "12345479000406a02fdc8b15",
     "details": {
       "event": "REQUEST_LOG",
-      "requestUrl": "/webapi/logs/query",
+      "requestUrl": "/webapi/logs/session",
       "requestParams": {
-        "endtime": "1627315140000",
-        "minseverity": "INFO",
-        "starttime": "1627228740000"
+        "courseid": "john.gma-demo",
+        "fslendtime": "1627315140000",
+        "fslstarttime": "1627228740000",
+        "fsltype": "access,submission"
       },
-      "message": "[200] [4798ms] [GET /webapi/logs/query] QueryLogsAction",
+      "message": "[200] [4798ms] [GET /webapi/logs/session] GetFeedbackSessionLogsAction",
       "responseTime": 4798,
       "requestHeaders": {
         "X-Cloud-Trace-Context": "b5e8ad59e0bc03e1691197b9654acd47/5531960319092037144",
@@ -609,7 +353,7 @@
         "Accept-Language": "en;q=0.8,en-US;q=0.7",
         "ngsw-bypass": "true",
         "X-AppEngine-Country": "SG",
-        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/courses/student-activity-logs?courseid=john.gma-demo",
         "X-Client-Data": "CgSM6ZsV",
         "X-AppEngine-Timeout-Ms": "599999",
         "X-AppEngine-Region": "?",
@@ -628,7 +372,7 @@
       "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseStatus": 200,
       "requestMethod": "GET",
-      "actionClass": "QueryLogsAction"
+      "actionClass": "GetFeedbackSessionLogsAction"
     },
     "resourceIdentifier": {
       "project_id": "teammates-john",
@@ -663,7 +407,7 @@
         "X-Client-Data": "CgSM6ZsV",
         "traceparent": "00-90c752d425907fa195d43ea4d69dec53-0e2d1327bdcebf2e-00",
         "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
-        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/courses/student-activity-logs?courseid=john.gma-demo",
         "X-AppEngine-City": "singapore",
         "X-Cloud-Trace-Context": "90c752d425907fa195d43ea4d69dec53/1021493751892066094",
         "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
@@ -776,7 +520,7 @@
   {
     "insertId": "123454840002d64b962e3c43",
     "details": {
-      "message": "[200] [2111ms] [GET /webapi/logs/query] QueryLogsAction",
+      "message": "[200] [2111ms] [GET /webapi/logs/session] GetFeedbackSessionLogsAction",
       "requestHeaders": {
         "Accept": "application/json, text/plain, */*",
         "sec-fetch-mode": "cors",
@@ -785,7 +529,7 @@
         "traceparent": "00-d61fb3f22fc3bd21c5ccd958ff31a5e8-c492dafc7cf32710-00",
         "X-AppEngine-Request-Log-Id": "1234548200ff00fffd6ddbdd315200016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
         "X-AppEngine-Country": "SG",
-        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/courses/student-activity-logs?courseid=john.gma-demo",
         "Accept-Language": "en;q=0.8,en-US;q=0.7",
         "X-Forwarded-Proto": "https",
         "sec-fetch-site": "same-origin",
@@ -817,14 +561,15 @@
       "webVersion": "8.0.0",
       "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseTime": 2111,
-      "requestUrl": "/webapi/logs/query",
+      "requestUrl": "/webapi/logs/session",
       "requestMethod": "GET",
       "requestParams": {
-        "endtime": "1627280460000",
-        "starttime": "1627276860000",
-        "logevent": "REQUEST_LOG"
+        "courseid": "john.gma-demo",
+        "fslendtime": "1627280460000",
+        "fslstarttime": "1627276860000",
+        "fsltype": "access"
       },
-      "actionClass": "QueryLogsAction"
+      "actionClass": "GetFeedbackSessionLogsAction"
     },
     "resourceIdentifier": {
       "module_id": "default",
@@ -845,7 +590,7 @@
     "insertId": "1234549100025ad320b623cc",
     "details": {
       "event": "REQUEST_LOG",
-      "requestUrl": "/webapi/logs/query",
+      "requestUrl": "/webapi/logs/session",
       "responseStatus": 200,
       "requestHeaders": {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
@@ -853,7 +598,7 @@
         "X-Cloud-Trace-Context": "f8873a234ed8ea3d59c7a2a9d42be2d8/1447767642330079431;o=1",
         "X-AppEngine-Region": "?",
         "sec-fetch-dest": "empty",
-        "Referer": "https://teammates-john.appspot.com/web/admin/logs",
+        "Referer": "https://teammates-john.appspot.com/web/instructor/courses/student-activity-logs?courseid=john.gma-demo",
         "X-AppEngine-CityLatLong": "1.234567,100.123456",
         "Accept-Language": "en;q=0.8,en-US;q=0.7",
         "X-Client-Data": "CgSM6ZsV",
@@ -881,18 +626,19 @@
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
       "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
-      "message": "[200] [2525ms] [GET /webapi/logs/query] QueryLogsAction",
+      "message": "[200] [2525ms] [GET /webapi/logs/session] GetFeedbackSessionLogsAction",
       "requestMethod": "GET",
       "userInfo": {
         "googleId": "john"
       },
       "requestParams": {
-        "endtime": "1627280460000",
-        "starttime": "1627276860000",
-        "minseverity": "INFO"
+        "courseid": "john.gma-demo",
+        "fslendtime": "1627280460000",
+        "fslstarttime": "1627276860000",
+        "fsltype": "view result"
       },
       "responseTime": 2525,
-      "actionClass": "QueryLogsAction"
+      "actionClass": "GetFeedbackSessionLogsAction"
     },
     "resourceIdentifier": {
       "project_id": "teammates-john",

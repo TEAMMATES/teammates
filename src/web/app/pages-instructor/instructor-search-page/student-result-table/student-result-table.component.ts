@@ -1,9 +1,9 @@
-import { NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { JoinStatePipe } from '../../../components/student-list/join-state.pipe';
 import { StudentListRowModel, StudentListComponent } from '../../../components/student-list/student-list.component';
+import { areEmailsEqual } from '../../../components/teammates-common/email-utils';
 import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highlighter.pipe';
 
 /**
@@ -22,16 +22,15 @@ export interface SearchStudentsListRowTable {
   templateUrl: './student-result-table.component.html',
   styleUrls: ['./student-result-table.component.scss'],
   imports: [
-    NgFor,
     StudentListComponent,
     SearchTermsHighlighterPipe,
-  ],
+],
 })
 export class StudentResultTableComponent {
 
   @Input() studentTables: SearchStudentsListRowTable[] = [];
   @Input() isActionButtonsEnabled: boolean = true;
-  @Input() isSearchTermsHighlighted: boolean = false;
+  @Input() isPartialMatchHighlightingEnabled: boolean = false;
   @Input() searchString: string = '';
 
   @Output() removeStudentFromCourseEvent: EventEmitter<StudentListRowModel> = new EventEmitter<StudentListRowModel>();
@@ -101,7 +100,7 @@ export class StudentResultTableComponent {
 
   removeStudent(students: StudentListRowModel[], studentEmail: string): void {
     const studentToRemove: StudentListRowModel | undefined =
-        students.find((student: StudentListRowModel) => student.student.email === studentEmail);
+        students.find((student: StudentListRowModel) => areEmailsEqual(student.student.email, studentEmail));
     if (studentToRemove) {
       this.removeStudentFromCourseEvent.emit(studentToRemove);
     }

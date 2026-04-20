@@ -5,43 +5,44 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
 
 /**
  * Represents detailed results for a feedback session.
  */
 public class SessionResultsBundle {
 
-    private final Map<String, FeedbackQuestionAttributes> questionsMap;
-    private final Map<String, FeedbackQuestionAttributes> questionsNotVisibleForPreviewMap;
-    private final Set<String> questionsWithCommentNotVisibleForPreview;
-    private final Map<String, List<FeedbackResponseAttributes>> questionResponseMap;
-    private final Map<String, List<FeedbackResponseAttributes>> questionMissingResponseMap;
-    private final Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap;
-    private final Map<String, Boolean> responseGiverVisibilityTable;
-    private final Map<String, Boolean> responseRecipientVisibilityTable;
-    private final Map<Long, Boolean> commentGiverVisibilityTable;
+    private final List<FeedbackQuestion> questions;
+    private final Set<FeedbackQuestion> questionsNotVisibleForPreviewSet;
+    private final Set<FeedbackQuestion> questionsWithCommentNotVisibleForPreviewSet;
+    private final Map<FeedbackQuestion, List<FeedbackResponse>> questionResponseMap;
+    private final Map<FeedbackQuestion, List<FeedbackResponse>> questionMissingResponseMap;
+    private final Map<FeedbackResponse, List<FeedbackResponseComment>> responseCommentsMap;
+    private final Map<FeedbackResponse, Boolean> responseGiverVisibilityTable;
+    private final Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable;
+    private final Map<UUID, Boolean> commentGiverVisibilityTable;
     private final CourseRoster roster;
 
-    public SessionResultsBundle(Map<String, FeedbackQuestionAttributes> questionsMap,
-                                Map<String, FeedbackQuestionAttributes> questionsNotVisibleForPreviewMap,
-                                Set<String> questionsWithCommentNotVisibleForPreview,
-                                List<FeedbackResponseAttributes> responses,
-                                List<FeedbackResponseAttributes> missingResponses,
-                                Map<String, Boolean> responseGiverVisibilityTable,
-                                Map<String, Boolean> responseRecipientVisibilityTable,
-                                Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap,
-                                Map<Long, Boolean> commentGiverVisibilityTable,
+    public SessionResultsBundle(List<FeedbackQuestion> questions,
+                                Set<FeedbackQuestion> questionsNotVisibleForPreviewSet,
+                                Set<FeedbackQuestion> questionsWithCommentNotVisibleForPreviewSet,
+                                List<FeedbackResponse> responses,
+                                List<FeedbackResponse> missingResponses,
+                                Map<FeedbackResponse, Boolean> responseGiverVisibilityTable,
+                                Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable,
+                                Map<FeedbackResponse, List<FeedbackResponseComment>> responseCommentsMap,
+                                Map<UUID, Boolean> commentGiverVisibilityTable,
                                 CourseRoster roster) {
 
-        this.questionsMap = questionsMap;
-        this.questionsNotVisibleForPreviewMap = questionsNotVisibleForPreviewMap;
-        this.questionsWithCommentNotVisibleForPreview = questionsWithCommentNotVisibleForPreview;
+        this.questions = questions;
+        this.questionsNotVisibleForPreviewSet = questionsNotVisibleForPreviewSet;
+        this.questionsWithCommentNotVisibleForPreviewSet = questionsWithCommentNotVisibleForPreviewSet;
         this.responseCommentsMap = responseCommentsMap;
         this.responseGiverVisibilityTable = responseGiverVisibilityTable;
         this.responseRecipientVisibilityTable = responseRecipientVisibilityTable;
@@ -51,17 +52,16 @@ public class SessionResultsBundle {
         this.questionMissingResponseMap = buildQuestionToResponseMap(missingResponses);
     }
 
-    private Map<String, List<FeedbackResponseAttributes>> buildQuestionToResponseMap(
-            List<FeedbackResponseAttributes> responses) {
+    private Map<FeedbackQuestion, List<FeedbackResponse>> buildQuestionToResponseMap(
+            List<FeedbackResponse> responses) {
         // build question to response map
-        Map<String, List<FeedbackResponseAttributes>> questionToResponseMap = new LinkedHashMap<>();
-        List<FeedbackQuestionAttributes> questions = new ArrayList<>(questionsMap.values());
-        for (FeedbackQuestionAttributes question : questions) {
-            questionToResponseMap.put(question.getId(), new ArrayList<>());
+        Map<FeedbackQuestion, List<FeedbackResponse>> questionToResponseMap = new LinkedHashMap<>();
+        for (FeedbackQuestion question : questions) {
+            questionToResponseMap.put(question, new ArrayList<>());
         }
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackQuestionAttributes question = questionsMap.get(response.getFeedbackQuestionId());
-            List<FeedbackResponseAttributes> responsesForQuestion = questionToResponseMap.get(question.getId());
+        for (FeedbackResponse response : responses) {
+            FeedbackQuestion question = response.getFeedbackQuestion();
+            List<FeedbackResponse> responsesForQuestion = questionToResponseMap.get(question);
             responsesForQuestion.add(response);
         }
         return questionToResponseMap;
@@ -71,7 +71,7 @@ public class SessionResultsBundle {
      * Returns true if the giver of a response is visible to the current user.
      * Returns false otherwise.
      */
-    public boolean isResponseGiverVisible(FeedbackResponseAttributes response) {
+    public boolean isResponseGiverVisible(FeedbackResponse response) {
         return isResponseParticipantVisible(true, response);
     }
 
@@ -79,24 +79,23 @@ public class SessionResultsBundle {
      * Returns true if the recipient of a response is visible to the current user.
      * Returns false otherwise.
      */
-    public boolean isResponseRecipientVisible(FeedbackResponseAttributes response) {
+    public boolean isResponseRecipientVisible(FeedbackResponse response) {
         return isResponseParticipantVisible(false, response);
     }
 
     /**
      * Checks if the giver/recipient for a response is visible/hidden from the current user.
      */
-    private boolean isResponseParticipantVisible(boolean isGiver, FeedbackResponseAttributes response) {
-        FeedbackQuestionAttributes question = questionsMap.get(response.getFeedbackQuestionId());
+    private boolean isResponseParticipantVisible(boolean isGiver, FeedbackResponse response) {
+        FeedbackQuestion question = response.getFeedbackQuestion();
         FeedbackParticipantType participantType;
-        String responseId = response.getId();
 
         boolean isVisible;
         if (isGiver) {
-            isVisible = responseGiverVisibilityTable.get(responseId);
+            isVisible = responseGiverVisibilityTable.get(response);
             participantType = question.getGiverType();
         } else {
-            isVisible = responseRecipientVisibilityTable.get(responseId);
+            isVisible = responseRecipientVisibilityTable.get(response);
             participantType = question.getRecipientType();
         }
         boolean isTypeNone = participantType == FeedbackParticipantType.NONE;
@@ -108,7 +107,7 @@ public class SessionResultsBundle {
      * Returns true if the giver of a comment is visible to the current user.
      * Returns false otherwise.
      */
-    public boolean isCommentGiverVisible(FeedbackResponseCommentAttributes comment) {
+    public boolean isCommentGiverVisible(FeedbackResponseComment comment) {
         return commentGiverVisibilityTable.get(comment.getId());
     }
 
@@ -118,41 +117,29 @@ public class SessionResultsBundle {
      * <p>The anonymous name will be deterministic based on {@code name}.
      */
     public static String getAnonName(FeedbackParticipantType type, String name) {
-        String hashedEncryptedName = getHashOfName(getEncryptedName(name));
+        String hashedSignedName = getHashOfName(StringHelper.generateSha256Hmac("anon-name:" + name));
         String participantType = type.toSingularFormString();
         return String.format(
-                Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " %s %s", participantType, hashedEncryptedName);
+            "%s %s %s", Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT, participantType, hashedSignedName);
     }
 
-    public Map<String, List<FeedbackResponseAttributes>> getQuestionResponseMap() {
+    public Map<FeedbackQuestion, List<FeedbackResponse>> getQuestionResponseMap() {
         return questionResponseMap;
     }
 
-    public Map<String, List<FeedbackResponseAttributes>> getQuestionMissingResponseMap() {
+    public Map<FeedbackQuestion, List<FeedbackResponse>> getQuestionMissingResponseMap() {
         return questionMissingResponseMap;
-    }
-
-    private static String getEncryptedName(String name) {
-        return StringHelper.encrypt(name);
     }
 
     private static String getHashOfName(String name) {
         return Long.toString(Math.abs((long) name.hashCode()));
     }
 
-    public Map<String, FeedbackQuestionAttributes> getQuestionsMap() {
-        return questionsMap;
+    public List<FeedbackQuestion> getQuestions() {
+        return questions;
     }
 
-    public Map<String, FeedbackQuestionAttributes> getQuestionsNotVisibleForPreviewMap() {
-        return questionsNotVisibleForPreviewMap;
-    }
-
-    public Set<String> getQuestionsWithCommentNotVisibleForPreview() {
-        return questionsWithCommentNotVisibleForPreview;
-    }
-
-    public Map<String, List<FeedbackResponseCommentAttributes>> getResponseCommentsMap() {
+    public Map<FeedbackResponse, List<FeedbackResponseComment>> getResponseCommentsMap() {
         return responseCommentsMap;
     }
 
@@ -160,15 +147,23 @@ public class SessionResultsBundle {
         return roster;
     }
 
-    public Map<String, Boolean> getResponseGiverVisibilityTable() {
+    public Map<FeedbackResponse, Boolean> getResponseGiverVisibilityTable() {
         return responseGiverVisibilityTable;
     }
 
-    public Map<String, Boolean> getResponseRecipientVisibilityTable() {
+    public Map<FeedbackResponse, Boolean> getResponseRecipientVisibilityTable() {
         return responseRecipientVisibilityTable;
     }
 
-    public Map<Long, Boolean> getCommentGiverVisibilityTable() {
+    public Map<UUID, Boolean> getCommentGiverVisibilityTable() {
         return commentGiverVisibilityTable;
+    }
+
+    public Set<FeedbackQuestion> getQuestionsNotVisibleForPreviewSet() {
+        return questionsNotVisibleForPreviewSet;
+    }
+
+    public Set<FeedbackQuestion> getQuestionsWithCommentNotVisibleForPreviewSet() {
+        return questionsWithCommentNotVisibleForPreviewSet;
     }
 }

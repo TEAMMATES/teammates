@@ -7,22 +7,19 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.exception.SearchServiceException;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.test.AssertHelper;
-import teammates.test.TestProperties;
 
 /**
- * SUT: {@link AccountRequestsDb},
- *      {@link teammates.storage.search.AccountRequestSearchDocument}.
+ * SUT: {@link AccountRequestsDb}.
  */
 public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final SqlDataBundle typicalBundle = getTypicalSqlDataBundle();
+    private final DataBundle typicalBundle = getTypicalDataBundle();
     private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
 
     @Override
@@ -30,16 +27,11 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
     protected void setUp() throws Exception {
         super.setUp();
         persistDataBundle(typicalBundle);
-        putDocuments(typicalBundle);
         HibernateUtil.flushSession();
     }
 
     @Test
-    public void allTests() throws Exception {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
+    public void testSearchAccountRequestsInWholeSystem_typicalCase_success() throws Exception {
         AccountRequest ins1General = typicalBundle.accountRequests.get("instructor1");
         AccountRequest ins2General = typicalBundle.accountRequests.get("instructor2");
         AccountRequest ins1InCourse1 = typicalBundle.accountRequests.get("instructor1OfCourse1");
@@ -49,15 +41,12 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         AccountRequest ins1InCourse3 = typicalBundle.accountRequests.get("instructor1OfCourse3");
         AccountRequest ins2InCourse3 = typicalBundle.accountRequests.get("instructor2OfCourse3");
         AccountRequest insInUnregCourse = typicalBundle.accountRequests.get("instructor3");
-        AccountRequest unregisteredInstructor1 =
-                typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest unregisteredInstructor2 =
-                typicalBundle.accountRequests.get("unregisteredInstructor2");
+        AccountRequest unregisteredInstructor1 = typicalBundle.accountRequests.get("unregisteredInstructor1");
+        AccountRequest unregisteredInstructor2 = typicalBundle.accountRequests.get("unregisteredInstructor2");
 
         ______TS("success: search for account requests; query string does not match anyone");
 
-        List<AccountRequest> results =
-                accountRequestsDb.searchAccountRequestsInWholeSystem("non-existent");
+        List<AccountRequest> results = accountRequestsDb.searchAccountRequestsInWholeSystem("non-existent");
         verifySearchResults(results);
 
         ______TS("success: search for account requests; empty query string does not match anyone");
@@ -65,19 +54,14 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("");
         verifySearchResults(results);
 
-        ______TS("success: search for account requests; query string matches some account requests");
-
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"Instructor 1\"");
-        verifySearchResults(results, ins1InCourse1, ins1InCourse2, ins1InCourse3, unregisteredInstructor1, ins1General);
-
         ______TS("success: search for account requests; query string should be case-insensitive");
 
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"InStRuCtOr 2\"");
-        verifySearchResults(results, ins2InCourse1, ins2InCourse2, ins2InCourse3, unregisteredInstructor2, ins2General);
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("InStRuCtOr 2");
+        verifySearchResults(results, ins2General, ins2InCourse1, ins2InCourse2, ins2InCourse3, unregisteredInstructor2);
 
         ______TS("success: search for account requests; account requests should be searchable by their name");
 
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"Instructor 3 of CourseNoRegister\"");
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 3 of CourseNoRegister");
         verifySearchResults(results, insInUnregCourse);
 
         ______TS("success: search for account requests; account requests should be searchable by their email");
@@ -87,7 +71,7 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         ______TS("success: search for account requests; account requests should be searchable by their institute");
 
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"TEAMMATES Test Institute 2\"");
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("TEAMMATES Test Institute 2");
         verifySearchResults(results, unregisteredInstructor2);
 
         ______TS("success: search for account requests; account requests should be searchable by their comments");
@@ -98,101 +82,59 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: search for account requests; account requests should be searchable by their status");
 
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("registered");
-        verifySearchResults(results, ins2General);
+        verifySearchResults(results, ins2General, unregisteredInstructor1, unregisteredInstructor2);
 
         ______TS("success: search for account requests; unregistered account requests should be searchable");
 
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"unregisteredinstructor1@gmail.tmt\"");
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("unregisteredinstructor1@gmail.tmt");
         verifySearchResults(results, unregisteredInstructor1);
 
         ______TS("success: search for account requests; deleted account requests no longer searchable");
 
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1");
+        verifySearchResults(results, ins1General, ins1InCourse1, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
+
         accountRequestsDb.deleteAccountRequest(ins1InCourse1);
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 1\"");
-        verifySearchResults(results, ins1InCourse2, ins1InCourse3, unregisteredInstructor1, ins1General);
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1");
+        verifySearchResults(results, ins1General, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
-        ______TS("success: search for account requests; account requests created without searchability unsearchable");
+        accountRequestsDb.deleteAccountRequest(ins1InCourse2);
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1");
+        verifySearchResults(results, ins1General, ins1InCourse3, unregisteredInstructor1);
 
-        accountRequestsDb.createAccountRequest(ins1InCourse1);
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 1\"");
-        verifySearchResults(results, ins1InCourse2, ins1InCourse3, unregisteredInstructor1, ins1General);
-
-        ______TS("success: search for account requests; deleting account request without deleting document:"
-                + "document deleted during search, account request unsearchable");
-
-        accountRequestsDb.deleteAccountRequest(ins2InCourse1);
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"instructor 2\"");
-        verifySearchResults(results, ins2InCourse2, ins2InCourse3, unregisteredInstructor2, ins2General);
+        accountRequestsDb.deleteAccountRequest(ins1InCourse3);
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1");
+        verifySearchResults(results, ins1General, unregisteredInstructor1);
     }
 
     @Test
-    public void testSearchAccountRequest_deleteAfterSearch_shouldNotBeSearchable() throws Exception {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
+    public void testSearchAccountRequestsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() throws Exception {
+        List<AccountRequest> results = accountRequestsDb.searchAccountRequestsInWholeSystem("_");
+        verifySearchResults(results);
 
-        AccountRequest ins1InCourse2 = typicalBundle.accountRequests.get("instructor1OfCourse2");
-        AccountRequest ins2InCourse2 = typicalBundle.accountRequests.get("instructor2OfCourse2");
-
-        // there is search result before deletion
-        List<AccountRequest> results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"of Course 2\"");
-        verifySearchResults(results, ins1InCourse2, ins2InCourse2);
-
-        // delete an account request
-        accountRequestsDb.deleteAccountRequest(ins1InCourse2);
-
-        // the search result will change
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"of Course 2\"");
-        verifySearchResults(results, ins2InCourse2);
-
-        // delete all account requests
-        accountRequestsDb.deleteAccountRequest(ins2InCourse2);
-
-        // there should be no search result
-        results = accountRequestsDb.searchAccountRequestsInWholeSystem("\"of Course 2\"");
+        results = accountRequestsDb.searchAccountRequestsInWholeSystem("%");
         verifySearchResults(results);
     }
 
     @Test
-    public void testSearchAccountRequest_noSearchService_shouldThrowException() {
-        if (TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
-        assertThrows(SearchServiceException.class,
-                () -> accountRequestsDb.searchAccountRequestsInWholeSystem("anything"));
-    }
-
-    @Test
-    public void testSqlInjectionSearchAccountRequestsInWholeSystem() throws Exception {
-        ______TS("SQL Injection test in searchAccountRequestsInWholeSystem");
-
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
-        AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+    public void testSearchAccountRequestsInWholeSystem_sqlInjectionInput_shouldNotAffectData() throws Exception {
+        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute",
+                AccountRequestStatus.PENDING, "comments");
         accountRequestsDb.createAccountRequest(accountRequest);
 
         String searchInjection = "institute'; DROP TABLE account_requests; --";
-        List<AccountRequest> actualInjection = accountRequestsDb.searchAccountRequestsInWholeSystem(searchInjection);
-        assertEquals(typicalBundle.accountRequests.size(), actualInjection.size());
+        List<AccountRequest> results = accountRequestsDb.searchAccountRequestsInWholeSystem(searchInjection);
+        verifySearchResults(results);
 
         AccountRequest actual = accountRequestsDb.getAccountRequest(accountRequest.getId());
         assertEquals(accountRequest, actual);
     }
 
     /**
-     * Verifies that search results match with expected output.
-     *
-     * @param actual the results from the search query.
-     * @param expected the expected results for the search query.
+     * Verifies that search results match expected output.
      */
-    private static void verifySearchResults(List<AccountRequest> actual,
-            AccountRequest... expected) {
+    private static void verifySearchResults(List<AccountRequest> actual, AccountRequest... expected) {
         assertEquals(expected.length, actual.size());
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual);
     }
-
 }

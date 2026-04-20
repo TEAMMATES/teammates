@@ -6,11 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
@@ -88,8 +87,8 @@ public final class DataBundleLogic {
      *         For other entities, replaces the given ids with randomly generated UUIDs.
      * @return newly created DataBundle
      */
-    public static SqlDataBundle deserializeDataBundle(String jsonString) {
-        SqlDataBundle dataBundle = JsonUtils.fromJson(jsonString, SqlDataBundle.class);
+    public static DataBundle deserializeDataBundle(String jsonString) {
+        DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
 
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
@@ -176,6 +175,10 @@ public final class DataBundleLogic {
         }
 
         for (FeedbackResponseComment responseComment : responseComments) {
+            responseComment.setId(UUID.randomUUID());
+        }
+
+        for (FeedbackResponseComment responseComment : responseComments) {
             FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
             Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
             Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
@@ -220,9 +223,11 @@ public final class DataBundleLogic {
 
         for (FeedbackSessionLog log : sessionLogs) {
             log.setId(UUID.randomUUID());
-            FeedbackSession fs = sessionsMap.get(log.getFeedbackSession().getId());
+            FeedbackSession fs = log.getFeedbackSession() == null
+                    ? null : sessionsMap.get(log.getFeedbackSession().getId());
             log.setFeedbackSession(fs);
-            Student student = (Student) usersMap.get(log.getStudent().getId());
+            Student student = log.getStudent() == null
+                    ? null : (Student) usersMap.get(log.getStudent().getId());
             log.setStudent(student);
         }
 
@@ -256,11 +261,9 @@ public final class DataBundleLogic {
      * Persists data in the given {@link DataBundle} to the database.
      *
      * @throws InvalidParametersException if invalid data is encountered.
-     * @throws EntityDoesNotExistException if an entity was not found.
-     *         (ReadNotification requires Account and Notification to be created)
      */
-    public SqlDataBundle persistDataBundle(SqlDataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    public DataBundle persistDataBundle(DataBundle dataBundle)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Null data bundle");
         }
@@ -316,7 +319,6 @@ public final class DataBundleLogic {
         }
 
         for (FeedbackResponseComment responseComment : responseComments) {
-            responseComment.setId(null);
             frcLogic.createFeedbackResponseComment(responseComment);
         }
 
@@ -335,8 +337,10 @@ public final class DataBundleLogic {
         fslLogic.createFeedbackSessionLogs(new ArrayList<>(sessionLogs));
 
         for (ReadNotification readNotification : readNotifications) {
-            accountsLogic.updateReadNotifications(readNotification.getAccount().getGoogleId(),
-                    readNotification.getNotification().getId(), readNotification.getNotification().getEndTime());
+            if (!readNotification.isValid()) {
+                throw new InvalidParametersException(readNotification.getInvalidityInfo());
+            }
+            HibernateUtil.persist(readNotification);
         }
 
         for (DeadlineExtension deadlineExtension : deadlineExtensions) {
@@ -349,7 +353,7 @@ public final class DataBundleLogic {
     /**
      * Removes the items in the data bundle from the database.
      */
-    public void removeDataBundle(SqlDataBundle dataBundle) throws InvalidParametersException {
+    public void removeDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Data bundle is null");
         }
@@ -357,6 +361,9 @@ public final class DataBundleLogic {
         linkEntities(dataBundle);
         dataBundle.courses.values().forEach(course -> {
             coursesLogic.deleteCourseCascade(course.getId());
+        });
+        dataBundle.readNotifications.values().forEach(readNotification -> {
+            notificationsLogic.deleteReadNotification(readNotification.getId());
         });
         dataBundle.notifications.values().forEach(notification -> {
             notificationsLogic.deleteNotification(notification.getId());
@@ -369,27 +376,7 @@ public final class DataBundleLogic {
         });
     }
 
-    /**
-     * Creates document for entities that have document, i.e. searchable.
-     */
-    public void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
-        Map<String, Student> students = dataBundle.students;
-        for (Student student : students.values()) {
-            usersLogic.putStudentDocument(student);
-        }
-
-        Map<String, Instructor> instructors = dataBundle.instructors;
-        for (Instructor instructor : instructors.values()) {
-            usersLogic.putInstructorDocument(instructor);
-        }
-
-        Map<String, AccountRequest> accountRequests = dataBundle.accountRequests;
-        for (AccountRequest accountRequest : accountRequests.values()) {
-            accountRequestsLogic.putDocument(accountRequest);
-        }
-    }
-
-    private static void linkEntities(SqlDataBundle dataBundle) {
+    private static void linkEntities(DataBundle dataBundle) {
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<Course> courses = dataBundle.courses.values();
         Collection<Section> sections = dataBundle.sections.values();
@@ -397,6 +384,7 @@ public final class DataBundleLogic {
         Collection<Instructor> instructors = dataBundle.instructors.values();
         Collection<Student> students = dataBundle.students.values();
         Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
+        Collection<FeedbackSessionLog> sessionLogs = dataBundle.feedbackSessionLogs.values();
         Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
         Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
@@ -490,6 +478,15 @@ public final class DataBundleLogic {
                 student.setAccount(account);
             }
             student.generateNewRegistrationKey();
+        }
+
+        for (FeedbackSessionLog log : sessionLogs) {
+            FeedbackSession fs = log.getFeedbackSession() == null
+                    ? null : sessionsMap.get(log.getFeedbackSession().getId());
+            log.setFeedbackSession(fs);
+            Student student = log.getStudent() == null
+                    ? null : (Student) usersMap.get(log.getStudent().getId());
+            log.setStudent(student);
         }
 
         for (Notification notification : notifications) {

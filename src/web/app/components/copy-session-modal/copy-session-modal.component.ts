@@ -1,4 +1,4 @@
-import { NgFor, NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,10 +14,8 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator
   styleUrls: ['./copy-session-modal.component.scss'],
   imports: [
     FormsModule,
-    NgFor,
     NgClass,
-    NgIf,
-  ],
+],
 })
 export class CopySessionModalComponent {
 
@@ -36,11 +34,18 @@ export class CopySessionModalComponent {
   constructor(public activeModal: NgbActiveModal) {}
 
   /**
+   * Whether copied session name is non-empty after trimming whitespace.
+   */
+  get isNewFeedbackSessionNameValid(): boolean {
+    return this.newFeedbackSessionName.trim().length > 0;
+  }
+
+  /**
    * Fires the copy event.
    */
   copy(): void {
     this.activeModal.close({
-      newFeedbackSessionName: this.newFeedbackSessionName,
+      newFeedbackSessionName: this.newFeedbackSessionName.trim(),
       sessionToCopyCourseId: this.sessionToCopyCourseId,
       copyToCourseList: Array.from(this.copyToCourseSet),
     });

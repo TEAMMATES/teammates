@@ -56,9 +56,7 @@ import teammates.storage.sqlentity.responses.FeedbackTextResponse;
  * Utility class for Hibernate related methods.
  */
 public final class HibernateUtil {
-    private static SessionFactory sessionFactory;
-
-    private static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(
+    public static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(
             AccountRequest.class,
             Course.class,
             FeedbackSession.class,
@@ -95,6 +93,8 @@ public final class HibernateUtil {
             FeedbackResponseComment.class,
             FeedbackSessionLog.class);
 
+    private static SessionFactory sessionFactory;
+
     private HibernateUtil() {
         // Utility class
         // Intentional private constructor to prevent instantiation.
@@ -122,19 +122,10 @@ public final class HibernateUtil {
                 .setProperty("show_sql", "true")
                 .setProperty("hibernate.current_session_context_class", "thread")
                 .setProperty("hibernate.hikari.minimumIdle", "10")
-                .setProperty("hibernate.hikari.maximumPoolSize", "30")
+                .setProperty("hibernate.hikari.maximumPoolSize", "10")
                 .setProperty("hibernate.hikari.idleTimeout", "300000")
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
-                // Uncomment only during migration for optimized batch-insertion, batch-update, and batch-fetch.
-                // .setProperty("hibernate.jdbc.batch_size", "50")
-                // .setProperty("hibernate.order_updates", "true")
-                // .setProperty("hibernate.batch_versioned_data", "true")
-                // .setProperty("hibernate.jdbc.fetch_size", "50")
                 .addPackage("teammates.storage.sqlentity");
-
-        if (Config.IS_DEV_SERVER) {
-            config.setProperty("hibernate.hbm2ddl.auto", "update");
-        }
 
         for (Class<? extends BaseEntity> cls : ANNOTATED_CLASSES) {
             config = config.addAnnotatedClass(cls);
@@ -183,6 +174,14 @@ public final class HibernateUtil {
      */
     public static <T> MutationQuery createMutationQuery(CriteriaDelete<T> cd) {
         return getCurrentSession().createMutationQuery(cd);
+    }
+
+    /**
+     * Returns a MutationQuery for the given SQL statement string.
+     * @see Session#createNativeMutationQuery(String)
+     */
+    public static MutationQuery createNativeMutationQuery(String sqlStatement) {
+        return getCurrentSession().createNativeMutationQuery(sqlStatement);
     }
 
     public static void setSessionFactory(SessionFactory sessionFactory) {
@@ -293,14 +292,4 @@ public final class HibernateUtil {
     public static <T> T getReference(Class<T> entityType, Object id) {
         return getCurrentSession().getReference(entityType, id);
     }
-
-    /**
-     * Flush the current session and evict the given entity from the session.
-     * @see Session#evict(Object)
-     */
-    public static <T> void flushAndEvict(T entity) {
-        flushSession();
-        getCurrentSession().evict(entity);
-    }
-
 }

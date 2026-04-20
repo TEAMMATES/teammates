@@ -9,6 +9,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -129,7 +130,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -471,7 +472,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -487,6 +488,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -607,7 +609,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -1015,7 +1017,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -1031,6 +1033,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -1151,7 +1154,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -1559,7 +1562,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -1575,6 +1578,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -1695,7 +1699,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -2103,7 +2107,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -2119,6 +2123,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -2403,7 +2408,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -2419,6 +2424,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -2539,7 +2545,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -2883,7 +2889,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -2899,6 +2905,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -3019,7 +3026,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -3329,7 +3336,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -3345,6 +3352,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -3465,7 +3473,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -3875,7 +3883,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -3891,6 +3899,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -4010,7 +4019,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -4184,7 +4193,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -4200,6 +4209,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -4319,7 +4329,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -4478,7 +4488,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -4494,6 +4504,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -4781,7 +4792,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -4797,6 +4808,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -4917,7 +4929,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -5018,7 +5030,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -5034,6 +5046,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -5321,7 +5334,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -5337,6 +5350,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -5457,7 +5471,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -5737,7 +5751,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -5753,6 +5767,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -5873,7 +5888,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -6104,7 +6119,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -6120,6 +6135,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -6240,7 +6256,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -6549,7 +6565,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>
@@ -6565,6 +6581,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
+  feedbackSessionId="undefined"
   feedbackSessionName="undefined"
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -6685,7 +6702,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
         </b>
          or 
         <b>
-          Delete
+          Delete Extensions
         </b>
          buttons at the bottom of the page to update their feedback session deadline. 
       </p>
@@ -7028,7 +7045,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
         id="delete-btn"
         type="button"
       >
-        Delete
+        Delete Extensions
       </button>
     </div>
   </div>

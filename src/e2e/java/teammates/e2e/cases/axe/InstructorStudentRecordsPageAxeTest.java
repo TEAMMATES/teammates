@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
+import teammates.e2e.pageobjects.InstructorStudentRecordsPageSql;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_RECORDS_PAGE}.
@@ -15,11 +15,8 @@ public class InstructorStudentRecordsPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorStudentRecordsPageE2ETest.json");
+        testData = loadDataBundle("/InstructorStudentRecordsPageE2ETestSql.json");
         removeAndRestoreDataBundle(testData);
-
-        sqlTestData = loadSqlDataBundle("/InstructorStudentRecordsPageE2ETest_SqlEntities.json");
-        removeAndRestoreSqlDataBundle(sqlTestData);
     }
 
     @Test
@@ -29,8 +26,8 @@ public class InstructorStudentRecordsPageAxeTest extends BaseAxeTestCase {
                 .withCourseId(testData.courses.get("CS2104").getId())
                 .withStudentEmail(testData.students.get("benny.c.tmms@ISR.CS2104").getEmail());
 
-        InstructorStudentRecordsPage recordsPage =
-                loginToPage(recordsPageUrl, InstructorStudentRecordsPage.class,
+        InstructorStudentRecordsPageSql recordsPage =
+                loginToPage(recordsPageUrl, InstructorStudentRecordsPageSql.class,
                 testData.instructors.get("teammates.test.CS2104").getGoogleId());
 
         Results results = getAxeBuilder().analyze(recordsPage.getBrowser().getDriver());

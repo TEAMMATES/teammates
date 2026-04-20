@@ -1,12 +1,9 @@
 package teammates.storage.sqlapi;
 
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,10 +16,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlsearch.AccountRequestSearchManager;
 import teammates.test.BaseTestCase;
 
 /**
@@ -34,12 +29,9 @@ public class AccountRequestsDbTest extends BaseTestCase {
 
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
-    private AccountRequestSearchManager mockSearchManager;
-
     @BeforeMethod
     public void setUpMethod() {
         mockHibernateUtil = mockStatic(HibernateUtil.class);
-        mockSearchManager = mock(AccountRequestSearchManager.class);
         accountRequestDb = spy(AccountRequestsDb.class);
     }
 
@@ -123,23 +115,8 @@ public class AccountRequestsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testSearchAccountRequestsInWholeSystem_emptyString_returnsEmptyList() throws SearchServiceException {
-        String testQuery = "";
-        doReturn(mockSearchManager).when(accountRequestDb).getSearchManager();
-
-        List<AccountRequest> searchResult = accountRequestDb.searchAccountRequestsInWholeSystem(testQuery);
+    public void testSearchAccountRequestsInWholeSystem_emptyString_returnsEmptyList() {
+        List<AccountRequest> searchResult = accountRequestDb.searchAccountRequestsInWholeSystem("");
         assertTrue(searchResult.isEmpty());
-
-        verify(mockSearchManager, never()).searchAccountRequests(testQuery);
-    }
-
-    @Test
-    public void testSearchAccountRequestsInWholeSystem_success() throws SearchServiceException {
-        String testQuery = "TEST";
-        doReturn(mockSearchManager).when(accountRequestDb).getSearchManager();
-
-        accountRequestDb.searchAccountRequestsInWholeSystem(testQuery);
-
-        verify(mockSearchManager, times(1)).searchAccountRequests(testQuery);
     }
 }

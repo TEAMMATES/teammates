@@ -1,16 +1,18 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.storage.sqlentity.AccountRequest;
 
 /**
  * Output format of account request data.
  */
 public class AccountRequestData extends ApiOutput {
-    private final String id;
+    // TODO: rename to accountRequestId for consistency.
+    private final UUID id;
     private final String email;
     private final String name;
     private final String institute;
@@ -22,26 +24,8 @@ public class AccountRequestData extends ApiOutput {
     private final Long registeredAt;
     private final long createdAt;
 
-    public AccountRequestData(AccountRequestAttributes accountRequestInfo) {
-        this.id = accountRequestInfo.getId();
-        this.name = accountRequestInfo.getName();
-        this.email = accountRequestInfo.getEmail();
-        this.institute = accountRequestInfo.getInstitute();
-        this.registrationKey = accountRequestInfo.getRegistrationKey();
-        this.comments = null;
-        this.createdAt = accountRequestInfo.getCreatedAt().toEpochMilli();
-
-        if (accountRequestInfo.getRegisteredAt() == null) {
-            this.status = AccountRequestStatus.APPROVED;
-            this.registeredAt = null;
-        } else {
-            this.status = AccountRequestStatus.REGISTERED;
-            this.registeredAt = accountRequestInfo.getRegisteredAt().toEpochMilli();
-        }
-    }
-
     public AccountRequestData(AccountRequest accountRequest) {
-        this.id = accountRequest.getId().toString();
+        this.id = accountRequest.getId();
         this.name = accountRequest.getName();
         this.email = accountRequest.getEmail();
         this.institute = accountRequest.getInstitute();
@@ -57,7 +41,7 @@ public class AccountRequestData extends ApiOutput {
         }
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 

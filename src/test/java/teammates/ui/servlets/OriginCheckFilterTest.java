@@ -1,12 +1,20 @@
 package teammates.ui.servlets;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mockStatic;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.mockito.Answers;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
+import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.StringHelper;
 import teammates.test.BaseTestCase;
 import teammates.test.MockFilterChain;
@@ -111,6 +119,22 @@ public class OriginCheckFilterTest extends BaseTestCase {
         mockRequest.addHeader(Const.HeaderNames.CSRF_TOKEN, StringHelper.encrypt("requestedsessionid"));
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
         assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
+
+        ______TS("POST request with bearer token on /worker/* will bypass CSRF check");
+
+        try (MockedStatic<AutomatedRequestAuth> automatedAuth = mockStatic(AutomatedRequestAuth.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
+            automatedAuth.when(() -> AutomatedRequestAuth.isTrustedCronOrWorkerRequest(any())).thenReturn(true);
+            mockRequest = new MockHttpServletRequest(HttpPost.METHOD_NAME,
+                    "http://localhost:8080" + TaskQueue.SEND_EMAIL_WORKER_URL);
+            mockRequest.setRequestedSessionId("requestedsessionid.node0");
+            mockRequest.addHeader("referer", "http://localhost:9090");
+            mockRequest.addHeader("Authorization", "Bearer test");
+            mockResponse = new MockHttpServletResponse();
+            mockFilterChain = new MockFilterChain();
+            FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
+            assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
+        }
 
         if (Config.IS_DEV_SERVER) {
 

@@ -1,9 +1,13 @@
 <div inViewport (inViewportAction)="renderEditor($event)">
-  <editor class="editor" [ngClass]="{ 'editor-disabled': isDisabled }" *ngIf="render"
-          [init]="init" [disabled]="isDisabled"
-          [ngModel]="richText" (ngModelChange)="richTextChange.emit($event)" [attr.placeholder]="placeholderText">
-  </editor>
-  <div *ngIf="hasCharacterLimit">
-    {{ RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH > characterCount ? RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH - characterCount : 0}} characters left
-  </div>
+  @if (render) {
+    <editor class="editor" [ngClass]="{ 'editor-disabled': isDisabled }"
+      [init]="init" [disabled]="isDisabled"
+      [ngModel]="richText" (ngModelChange)="richTextChange.emit($event)" [attr.placeholder]="placeholderText">
+    </editor>
+  }
+  @if (hasCharacterLimit) {
+    <div>
+      {{ RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH > characterCount ? RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH - characterCount : 0}} characters left
+    </div>
+  }
 </div>

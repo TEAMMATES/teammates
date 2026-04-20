@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -78,7 +77,6 @@ interface RecycleBinFeedbackSessionRowModel {
   styleUrls: ['./instructor-sessions-page.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     TeammatesRouterDirective,
     SessionEditFormComponent,
     LoadingRetryComponent,
@@ -86,7 +84,7 @@ interface RecycleBinFeedbackSessionRowModel {
     SessionsTableComponent,
     SessionsRecycleBinTableComponent,
     ModifiedTimestampModalComponent,
-  ],
+],
 })
 export class InstructorSessionsPageComponent extends InstructorSessionModalPageComponent implements OnInit {
 
@@ -196,12 +194,17 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                           {
                             courseid: createdFeedbackSession.courseId,
                             fsname: createdFeedbackSession.feedbackSessionName,
+                            fsid: createdFeedbackSession.feedbackSessionId,
                           }),
                     });
               } else {
                 this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions/edit',
                     'The feedback session has been copied. Please modify settings/questions as necessary.',
-                    { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
+                    {
+                      courseid: createdFeedbackSession.courseId,
+                      fsname: createdFeedbackSession.feedbackSessionName,
+                      fsid: createdFeedbackSession.feedbackSessionId,
+                    });
               }
             },
             error: (resp: ErrorMessageOutput) => {
@@ -371,6 +374,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                   .navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
                     courseid: feedbackSession.courseId,
                     fsname: feedbackSession.feedbackSessionName,
+                    fsid: feedbackSession.feedbackSessionId,
                   })
                   .then(() => {
                     this.statusMessageService.showSuccessToast(

@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
 import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -14,7 +13,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 /**
  * Gathers usage-related statistics (e.g. new created entities) in the past defined time period and store in the database.'
  */
-public class CalculateUsageStatisticsAction extends AdminOnlyAction {
+public class CalculateUsageStatisticsAction extends AutomatedServiceAction {
 
     static final int COLLECTION_TIME_PERIOD = 60; // represents one hour
     private static final Logger log = Logger.getLogger();
@@ -24,7 +23,6 @@ public class CalculateUsageStatisticsAction extends AdminOnlyAction {
         Instant endTime = TimeHelper.getInstantNearestHourBefore(Instant.now());
         Instant startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);
 
-        UsageStatisticsAttributes entitiesStats = logic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
         UsageStatistics sqlEntitiesStats = sqlLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
 
         int numEmailsSent = logsProcessor.getNumberOfLogsForEvent(startTime, endTime, LogEvent.EMAIL_SENT, "");
@@ -33,11 +31,11 @@ public class CalculateUsageStatisticsAction extends AdminOnlyAction {
 
         UsageStatistics overallUsageStats = new UsageStatistics(
                 startTime, COLLECTION_TIME_PERIOD,
-                entitiesStats.getNumResponses() + sqlEntitiesStats.getNumResponses(),
-                entitiesStats.getNumCourses() + sqlEntitiesStats.getNumCourses(),
-                entitiesStats.getNumStudents() + sqlEntitiesStats.getNumStudents(),
-                entitiesStats.getNumInstructors() + sqlEntitiesStats.getNumInstructors(),
-                entitiesStats.getNumAccountRequests() + sqlEntitiesStats.getNumAccountRequests(),
+                sqlEntitiesStats.getNumResponses(),
+                sqlEntitiesStats.getNumCourses(),
+                sqlEntitiesStats.getNumStudents(),
+                sqlEntitiesStats.getNumInstructors(),
+                sqlEntitiesStats.getNumAccountRequests(),
                 numEmailsSent, numSubmissions);
 
         try {

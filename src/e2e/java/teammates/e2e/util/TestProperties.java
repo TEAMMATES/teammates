@@ -69,9 +69,6 @@ public final class TestProperties {
     /** The flag to indicate whether emails sent should be verified. */
     public static final boolean INCLUDE_EMAIL_VERIFICATION;
 
-    /** The flag to indicate whether search-related functions should be tested. */
-    public static final boolean INCLUDE_SEARCH_TESTS;
-
     /**
      * Line separator to be used when performing text comparison.
      *
@@ -110,8 +107,6 @@ public final class TestProperties {
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
 
             INCLUDE_EMAIL_VERIFICATION = Boolean.parseBoolean(prop.getProperty("test.verify.emails"));
-            INCLUDE_SEARCH_TESTS = Boolean.parseBoolean(prop.getProperty("test.search.active"));
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

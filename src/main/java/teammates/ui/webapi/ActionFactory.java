@@ -31,11 +31,6 @@ public final class ActionFactory {
         map(ResourceURIs.DATABUNDLE, POST, PutDataBundleAction.class);
         // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
         map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
-        map(ResourceURIs.SQL_DATABUNDLE, POST, PutSqlDataBundleAction.class);
-        // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
-        map(ResourceURIs.SQL_DATABUNDLE, PUT, DeleteSqlDataBundleAction.class);
-        map(ResourceURIs.DATABUNDLE_DOCUMENTS, PUT, PutDataBundleDocumentsAction.class);
-        map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
         // Even though this is a GET action, POST is used in order to get extra protection from CSRF
         map(ResourceURIs.USER_COOKIE, POST, GetUserCookieAction.class);
 
@@ -54,12 +49,12 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT_REQUESTS, GET, GetAccountRequestsAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST_RESET, PUT, ResetAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST_REJECTION, POST, RejectAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_REQUEST_APPROVAL, POST, ApproveAccountRequestAction.class);
         map(ResourceURIs.ACCOUNTS, GET, GetAccountsAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
         map(ResourceURIs.COURSE, PUT, UpdateCourseAction.class);
-        map(ResourceURIs.COURSE_ARCHIVE, PUT, ArchiveCourseAction.class);
         map(ResourceURIs.DEADLINE_EXTENSION, GET, GetDeadlineExtensionAction.class);
         map(ResourceURIs.BIN_COURSE, PUT, BinCourseAction.class);
         map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
@@ -110,6 +105,8 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION, PUT, UpdateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, POST, CreateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);
+        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, GET, GetFeedbackSessionDeadlineExtensionsAction.class);
+        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, PUT, UpdateFeedbackSessionDeadlineExtensionsAction.class);
         map(ResourceURIs.SESSION_PUBLISH, POST, PublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, DELETE, UnpublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_SUBMITTED_GIVER_SET, GET, GetFeedbackSessionSubmittedGiverSetAction.class);
@@ -138,7 +135,6 @@ public final class ActionFactory {
         // Logging and tracking
         map(ResourceURIs.SESSION_LOGS, POST, CreateFeedbackSessionLogAction.class);
         map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
-        map(ResourceURIs.LOGS, GET, QueryLogsAction.class);
         map(ResourceURIs.USAGE_STATISTICS, GET, GetUsageStatisticsAction.class);
         map(ResourceURIs.ACTION_CLASS, GET, GetActionClassesAction.class);
 
@@ -146,7 +142,6 @@ public final class ActionFactory {
         // Reference: https://cloud.google.com/appengine/docs/standard/scheduling-jobs-with-cron-yaml
 
         map(CronJobURIs.AUTOMATED_LOG_COMPILATION, GET, CompileLogsAction.class);
-        map(CronJobURIs.AUTOMATED_DATASTORE_BACKUP, GET, DatastoreBackupAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENED_REMINDERS, GET, FeedbackSessionOpenedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, GET, FeedbackSessionClosedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_SOON_REMINDERS, GET, FeedbackSessionClosingSoonRemindersAction.class);
@@ -154,25 +149,12 @@ public final class ActionFactory {
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS, GET,
                 FeedbackSessionOpeningSoonRemindersAction.class);
         map(CronJobURIs.AUTOMATED_USAGE_STATISTICS_COLLECTION, GET, CalculateUsageStatisticsAction.class);
-        map(CronJobURIs.AUTOMATED_FEEDBACK_SESSION_LOGS_PROCESSING, GET, UpdateFeedbackSessionLogsAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_SESSION_LOGS_CLEANUP, GET, CleanupFeedbackSessionLogsAction.class);
 
         // Task queue workers; use POST request
         // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks
 
-        map(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, POST, FeedbackSessionPublishedEmailWorkerAction.class);
-        map(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, POST,
-                FeedbackSessionResendPublishedEmailWorkerAction.class);
-        map(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, POST, FeedbackSessionRemindEmailWorkerAction.class);
-        map(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, POST,
-                FeedbackSessionRemindParticularUsersEmailWorkerAction.class);
-        map(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, POST,
-                FeedbackSessionUnpublishedEmailWorkerAction.class);
-        map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, POST, InstructorCourseJoinEmailWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, POST, SendEmailWorkerAction.class);
-        map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, POST, StudentCourseJoinEmailWorkerAction.class);
-        map(TaskQueue.ACCOUNT_REQUEST_SEARCH_INDEXING_WORKER_URL, POST, AccountRequestSearchIndexingWorkerAction.class);
-        map(TaskQueue.INSTRUCTOR_SEARCH_INDEXING_WORKER_URL, POST, InstructorSearchIndexingWorkerAction.class);
-        map(TaskQueue.STUDENT_SEARCH_INDEXING_WORKER_URL, POST, StudentSearchIndexingWorkerAction.class);
 
     }
 

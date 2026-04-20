@@ -14,13 +14,11 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.JoinState;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 import teammates.ui.webapi.SearchStudentsAction;
@@ -74,7 +72,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
             Student student = expectedStudents.get(i);
             StudentData studentData = actualStudentsData.getStudents().get(i);
 
-            assertEquals(student.getId(), studentData.getStudentId());
+            assertEquals(student.getId(), studentData.getUserId());
             assertEquals(student.getEmail(), studentData.getEmail());
             assertEquals(student.getCourseId(), studentData.getCourseId());
             assertEquals(student.getName(), studentData.getName());
@@ -99,7 +97,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     @Test
-    void testExecute_instructorSearchStudentsWithValidEntity_success() throws SearchServiceException {
+    void testExecute_instructorSearchStudentsWithValidEntity_success() {
         loginAsInstructor(instructorId);
         List<Instructor> instructors = setupInstructors();
 
@@ -124,7 +122,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     @Test
-    void testExecute_instructorSearchStudentsWithValidEntityNoMatch_success() throws SearchServiceException {
+    void testExecute_instructorSearchStudentsWithValidEntityNoMatch_success() {
         loginAsInstructor(instructorId);
         List<Instructor> instructors = setupInstructors();
 
@@ -149,7 +147,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     @Test
-    void testExecute_adminSearchStudentsWithValidEntity_success() throws SearchServiceException {
+    void testExecute_adminSearchStudentsWithValidEntity_success() {
         loginAsAdmin();
 
         when(mockLogic.searchStudentsInWholeSystem(searchKey)).thenReturn(students);
@@ -177,7 +175,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     @Test
-    void testExecute_adminSearchStudentsWithValidEntityNoMatch_success() throws SearchServiceException {
+    void testExecute_adminSearchStudentsWithValidEntityNoMatch_success() {
         loginAsAdmin();
 
         when(mockLogic.searchStudentsInWholeSystem(searchKey)).thenReturn(List.of());
@@ -221,30 +219,6 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         };
 
         verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testExecute_searchServiceException_failure() throws SearchServiceException {
-        loginAsAdmin();
-
-        when(mockLogic.searchStudentsInWholeSystem(searchKey))
-                .thenThrow(new SearchServiceException("Search service error", 500));
-
-        String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
-        };
-
-        SearchStudentsAction action = getAction(params);
-        MessageOutput actionOutput = (MessageOutput) getJsonResult(action, 500).getOutput();
-
-        verify(mockLogic, never()).getInstructorsForGoogleId(any());
-        verify(mockLogic, never()).searchStudents(any(), any());
-        verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
-        verify(mockLogic, never()).getCourseInstitute(any());
-        verifyNoMoreInteractions(mockLogic);
-
-        assertEquals("Search service error", actionOutput.getMessage());
     }
 
     @Test

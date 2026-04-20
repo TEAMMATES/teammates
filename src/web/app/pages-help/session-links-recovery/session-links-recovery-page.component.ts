@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReCaptcha2Component, NgxCaptchaModule } from 'ngx-captcha';
@@ -20,10 +19,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     NgxCaptchaModule,
     AjaxLoadingComponent,
-  ],
+],
 })
 export class SessionLinksRecoveryPageComponent implements OnInit {
 
@@ -32,6 +30,8 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   captchaResponse?: string;
   size: 'compact' | 'normal' = 'normal';
   lang: string = 'en';
+  captchaLoaded: boolean = false;
+  captchaError: boolean = false;
 
   formSessionLinksRecovery!: UntypedFormGroup;
   isFormSubmitting: boolean = false;
@@ -58,9 +58,13 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
       this.captchaResponse = '';
     }
 
-    if (!this.formSessionLinksRecovery.valid || this.captchaResponse === undefined) {
-      this.statusMessageService.showErrorToast(
-          'Please enter a valid email address and click the reCAPTCHA before submitting.');
+    if (!this.formSessionLinksRecovery.valid) {
+      this.statusMessageService.showErrorToast('Please enter a valid email address.');
+      return;
+    }
+
+    if (this.captchaResponse === undefined) {
+      this.statusMessageService.showErrorToast('Please complete the "I\'m not a robot" checkbox before submitting.');
       return;
     }
 
@@ -115,5 +119,19 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   handleSuccess(captchaResponse: string): void {
     this.captchaSuccess = true;
     this.captchaResponse = captchaResponse;
+  }
+
+  handleLoad(): void {
+    this.captchaLoaded = true;
+    this.captchaError = false;
+  }
+
+  handleError(): void {
+    this.captchaError = true;
+  }
+
+  isCaptchaReady(): boolean {
+    if (!this.captchaSiteKey) return true; // dev mode
+    return this.captchaLoaded && !this.captchaError;
   }
 }

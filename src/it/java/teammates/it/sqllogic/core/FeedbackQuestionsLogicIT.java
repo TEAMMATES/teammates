@@ -2,14 +2,13 @@ package teammates.it.sqllogic.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SqlDataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -32,13 +31,11 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
 
     private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
-    private SqlDataBundle typicalDataBundle;
+    private DataBundle typicalDataBundle;
 
-    @Override
     @BeforeClass
     public void setupClass() {
-        super.setupClass();
-        typicalDataBundle = getTypicalSqlDataBundle();
+        typicalDataBundle = getTypicalDataBundle();
     }
 
     @Override
@@ -159,6 +156,6 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
                 break;
             }
             return null;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 }
