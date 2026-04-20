@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
@@ -36,6 +38,22 @@ public class FeedbackQuestionData extends ApiOutput {
     private List<FeedbackVisibilityType> showResponsesTo;
     private List<FeedbackVisibilityType> showGiverNameTo;
     private List<FeedbackVisibilityType> showRecipientNameTo;
+
+    @JsonCreator
+    private FeedbackQuestionData(UUID feedbackQuestionId, String questionBrief,
+            String questionDescription, FeedbackQuestionDetails questionDetails,
+            FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            NumberOfEntitiesToGiveFeedbackToSetting numberOfEntitiesToGiveFeedbackToSetting,
+            Integer customNumberOfEntitiesToGiveFeedbackTo) {
+        this.feedbackQuestionId = feedbackQuestionId;
+        this.questionBrief = questionBrief;
+        this.questionDescription = questionDescription;
+        this.questionDetails = questionDetails;
+        this.giverType = giverType;
+        this.recipientType = recipientType;
+        this.numberOfEntitiesToGiveFeedbackToSetting = numberOfEntitiesToGiveFeedbackToSetting;
+        this.customNumberOfEntitiesToGiveFeedbackTo = customNumberOfEntitiesToGiveFeedbackTo;
+    }
 
     public FeedbackQuestionData(FeedbackQuestion feedbackQuestion) {
         FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestion.getQuestionDetailsCopy();

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.util.Const;
 
 /**
@@ -94,6 +96,16 @@ public final class InstructorPrivileges {
     private final InstructorPermissionSet courseLevel;
     private final Map<String, InstructorPermissionSet> sectionLevel;
     private final Map<String, Map<String, InstructorPermissionSet>> sessionLevel;
+
+    @JsonCreator
+    private InstructorPrivileges(
+            InstructorPermissionSet courseLevel,
+            Map<String, InstructorPermissionSet> sectionLevel,
+            Map<String, Map<String, InstructorPermissionSet>> sessionLevel) {
+        this.courseLevel = courseLevel;
+        this.sectionLevel = sectionLevel;
+        this.sessionLevel = sessionLevel;
+    }
 
     public InstructorPrivileges() {
         this.courseLevel = new InstructorPermissionSet();

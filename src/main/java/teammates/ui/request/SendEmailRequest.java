@@ -1,5 +1,7 @@
 package teammates.ui.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.util.EmailWrapper;
 
 /**
@@ -8,6 +10,7 @@ import teammates.common.util.EmailWrapper;
 public class SendEmailRequest extends BasicRequest {
     private final EmailWrapper email;
 
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public SendEmailRequest(EmailWrapper email) {
         this.email = email;
     }

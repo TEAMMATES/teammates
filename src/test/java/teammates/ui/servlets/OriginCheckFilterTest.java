@@ -11,10 +11,10 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
+import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
-import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.StringHelper;
 import teammates.test.BaseTestCase;
 import teammates.test.MockFilterChain;
@@ -122,9 +122,9 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
         ______TS("POST request with bearer token on /worker/* will bypass CSRF check");
 
-        try (MockedStatic<InternalRequestAuth> internalAuth = mockStatic(InternalRequestAuth.class,
+        try (MockedStatic<AutomatedRequestAuth> automatedAuth = mockStatic(AutomatedRequestAuth.class,
                 Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
-            internalAuth.when(() -> InternalRequestAuth.isTrustedCronOrWorkerRequest(any())).thenReturn(true);
+            automatedAuth.when(() -> AutomatedRequestAuth.isTrustedCronOrWorkerRequest(any())).thenReturn(true);
             mockRequest = new MockHttpServletRequest(HttpPost.METHOD_NAME,
                     "http://localhost:8080" + TaskQueue.SEND_EMAIL_WORKER_URL);
             mockRequest.setRequestedSessionId("requestedsessionid.node0");

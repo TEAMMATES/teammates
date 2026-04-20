@@ -113,6 +113,6 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
 
     @Test
     void testAccessControl() {
-        verifyOnlyAdminsCanAccess();
+        verifyOnlyAdminsOrAutomatedServicesCanAccess();
     }
 }

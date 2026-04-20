@@ -10,10 +10,10 @@ import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.logs.RequestLogUser;
+import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.AuthProxy;
@@ -154,10 +154,12 @@ public abstract class Action {
             return;
         }
 
-        boolean trustedInternalCronOrWorker = InternalRequestAuth.isTrustedCronOrWorkerRequest(req);
-        if (trustedInternalCronOrWorker) {
-            userInfo = userProvision.getAdminOnlyUser(
-                    InternalRequestAuth.isCronRequestPath(req) ? "Cron-Service" : "Worker-Service");
+        boolean trustedAutomatedCronOrWorker = AutomatedRequestAuth.isTrustedCronOrWorkerRequest(req);
+        if (trustedAutomatedCronOrWorker) {
+            userInfo = userProvision.getAutomatedServiceUser(
+                    AutomatedRequestAuth.isCronRequestPath(req)
+                            ? Const.AutomatedService.CRON_SERVICE_USER_ID
+                            : Const.AutomatedService.WORKER_SERVICE_USER_ID);
         } else {
             String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
             UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
@@ -167,7 +169,7 @@ public abstract class Action {
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
 
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null && userInfo.isAdmin && !trustedInternalCronOrWorker) {
+        if (userInfo != null && userParam != null && userInfo.isAdmin) {
             userInfo = userProvision.getMasqueradeUser(userParam);
             authType = AuthType.MASQUERADE;
         }
