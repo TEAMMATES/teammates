@@ -350,7 +350,8 @@ appengine {
             }
         }
         projectId = propsExists ? props['app.id'] : null
-        version = propsExists ? props['app.version'] : null
+        // GAE version IDs disallow dots, so map Config.APP_VERSION to the dashed form.
+        version = "9-0-0-beta-6"
         stopPreviousVersion = false
         promote = false
     }

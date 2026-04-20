@@ -6,6 +6,7 @@ import { NgbModal, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-b
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
+import { APPLICATION_VERSION } from '../environments/application-version';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
@@ -88,7 +89,7 @@ export class PageComponent {
   isCookieDisabled: boolean = false;
   browser: string = '';
   isNetworkOnline$: Observable<boolean>;
-  version: string = environment.version;
+  version: string = APPLICATION_VERSION;
   logoutUrl: string = `${environment.backendUrl}/logout`;
   toast: Toast | null = null;
 
