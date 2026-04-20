@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.sqllogic.core.UsersLogic;
 import teammates.test.BaseTestCase;
 
@@ -288,6 +289,17 @@ public class UserProvisionTest extends BaseTestCase {
         verifyNoInteractions(mockUsersLogic);
     }
 
+    @Test
+    public void testGetAutomatedServiceUser_returnsUserInfoWithOnlyIsAutomatedServiceTrue() {
+        String serviceId = Const.AutomatedService.CRON_SERVICE_USER_ID;
+
+        UserInfo user = userProvision.getAutomatedServiceUser(serviceId);
+
+        assertEquals(serviceId, user.id);
+        assertHasRoles(user, Role.AUTOMATED_SERVICE);
+        verifyNoInteractions(mockUsersLogic);
+    }
+
     private static UserInfoCookie createMockValidCookie(String userId) {
         UserInfoCookie cookie = mock(UserInfoCookie.class);
         when(cookie.isValid()).thenReturn(true);
@@ -313,10 +325,11 @@ public class UserProvisionTest extends BaseTestCase {
         assertEquals(expected.contains(Role.INSTRUCTOR), user.isInstructor);
         assertEquals(expected.contains(Role.STUDENT), user.isStudent);
         assertEquals(expected.contains(Role.MAINTAINER), user.isMaintainer);
+        assertEquals(expected.contains(Role.AUTOMATED_SERVICE), user.isAutomatedService);
     }
 
     private enum Role {
-        ADMIN, INSTRUCTOR, STUDENT, MAINTAINER
+        ADMIN, INSTRUCTOR, STUDENT, MAINTAINER, AUTOMATED_SERVICE
     }
 
 }

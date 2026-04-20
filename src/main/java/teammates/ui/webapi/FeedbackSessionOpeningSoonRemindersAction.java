@@ -10,7 +10,7 @@ import teammates.storage.sqlentity.FeedbackSession;
 /**
  * Cron job: schedules feedback session opening soon emails to be sent.
  */
-public class FeedbackSessionOpeningSoonRemindersAction extends AdminOnlyAction {
+public class FeedbackSessionOpeningSoonRemindersAction extends AutomatedServiceAction {
     private static final Logger log = Logger.getLogger();
 
     @Override

@@ -19,9 +19,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.InternalRequestAuth;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
@@ -68,7 +68,7 @@ public class OriginCheckFilter implements Filter {
             return;
         }
 
-        if (InternalRequestAuth.isTrustedCronOrWorkerRequest(request)) {
+        if (AutomatedRequestAuth.isTrustedCronOrWorkerRequest(request)) {
             // Requests from cron or worker (with valid bearer token) are allowed to bypass CSRF check
             chain.doFilter(req, res);
             return;

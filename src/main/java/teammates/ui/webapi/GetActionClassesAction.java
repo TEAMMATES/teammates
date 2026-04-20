@@ -25,8 +25,6 @@ public class GetActionClassesAction extends Action {
     public JsonResult execute() {
         List<String> actionClasses = ActionFactory.ACTION_MAPPINGS.values().stream()
                 .flatMap(map -> map.values().stream().map(Class::getSimpleName))
-                .distinct()
-                .sorted()
                 .collect(Collectors.toList());
         return new JsonResult(new ActionClasses(actionClasses));
     }

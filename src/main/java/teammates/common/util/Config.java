@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -69,8 +70,18 @@ public final class Config {
      */
     public static final String CRON_AND_WORKER_SECRET;
 
+    /**
+     * UTF-8 bytes of {@link #CRON_AND_WORKER_SECRET} when that value is well-formed per
+     * {@link AutomatedRequestAuth#isCronAndWorkerSecretWellFormed(String)}; otherwise an empty array.
+     * Pre-computed for constant-time comparison without re-encoding on each request.
+     */
+    public static final byte[] CRON_AND_WORKER_SECRET_BYTES;
+
     /** Value of {@code app.encryption.key}. */
     public static final String ENCRYPTION_KEY;
+
+    /** The value {@code app.hmac.key}. */
+    public static final String HMAC_KEY;
 
     /** Value of {@code app.auth.type}. */
     public static final String AUTH_TYPE;
@@ -152,6 +163,9 @@ public final class Config {
     /** {@code true} when {@link #APP_ENV} is {@code development} (case-insensitive). */
     public static final boolean IS_DEV_SERVER;
 
+    private static final int LEGACY_ENCRYPTION_KEY_HEX_LENGTH = 32;
+    private static final int ENCRYPTION_KEY_HEX_LENGTH = 64;
+
     private static final Logger log = Logger.getLogger();
 
     static {
@@ -182,6 +196,9 @@ public final class Config {
         CSRF_KEY = getProperty(properties, devProperties, "app.csrf.key");
         BACKDOOR_KEY = getProperty(properties, devProperties, "app.backdoor.key");
         CRON_AND_WORKER_SECRET = getProperty(properties, devProperties, "app.cron.and.worker.secret");
+        CRON_AND_WORKER_SECRET_BYTES = AutomatedRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)
+                ? CRON_AND_WORKER_SECRET.getBytes(StandardCharsets.UTF_8)
+                : new byte[0];
         PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
         POSTGRES_HOST = getProperty(properties, devProperties, "app.postgres.host");
         POSTGRES_PORT = getProperty(properties, devProperties, "app.postgres.port");
@@ -189,7 +206,8 @@ public final class Config {
         POSTGRES_USERNAME = getProperty(properties, devProperties, "app.postgres.username");
         POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
         BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
-        ENCRYPTION_KEY = getProperty(properties, devProperties, "app.encryption.key");
+        ENCRYPTION_KEY = validateHexKey(getProperty(properties, devProperties, "app.encryption.key"), "app.encryption.key");
+        HMAC_KEY = validateHexKey(getProperty(properties, devProperties, "app.hmac.key"), "app.hmac.key");
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
         OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
         OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
@@ -224,6 +242,29 @@ public final class Config {
 
     private Config() {
         // access static fields directly
+    }
+
+    private static String validateHexKey(String key, String propertyName) {
+        if (key == null) {
+            throw new IllegalStateException("Missing " + propertyName + " in build.properties/build-dev.properties");
+        }
+
+        if (!key.matches("[0-9A-Fa-f]+") || key.length() % 2 != 0) {
+            throw new IllegalStateException(propertyName + " must be a valid hexadecimal string with 64 chars "
+                    + "(32 bytes)");
+        }
+
+        if (key.length() == LEGACY_ENCRYPTION_KEY_HEX_LENGTH && "app.encryption.key".equals(propertyName)) {
+            // TODO: Remove this migration guard after all active environments have switched to 32-byte keys.
+            throw new IllegalStateException("Detected legacy 16-byte app.encryption.key (32 hex chars). "
+                    + "Update app.encryption.key to 32 bytes (64 hex chars) and reset the DB.");
+        }
+
+        if (key.length() != ENCRYPTION_KEY_HEX_LENGTH) {
+            throw new IllegalStateException(propertyName + " must be exactly 64 hex chars (32 bytes)");
+        }
+
+        return key;
     }
 
     /**
@@ -382,7 +423,7 @@ public final class Config {
      * @throws IllegalStateException if the secret is missing or blank
      */
     public static void requireCronAndWorkerSecret() {
-        if (!InternalRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)) {
+        if (!AutomatedRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)) {
             throw new IllegalStateException(
                     "app.cron.and.worker.secret must be set in build.properties without leading or trailing "
                             + "whitespace for worker/cron requests.");
