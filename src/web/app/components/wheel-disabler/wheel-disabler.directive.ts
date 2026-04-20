@@ -7,8 +7,8 @@ import { Directive, HostListener } from '@angular/core';
 export class WheelDisablerDirective {
 
   @HostListener('wheel', ['$event'])
-  onWheel(e: Event): void {
-    e.preventDefault();
+  onWheel(e: WheelEvent): void {
+    (e.target as HTMLElement).blur();
   }
 
 }
