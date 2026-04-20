@@ -1,8 +1,5 @@
 package teammates.sqllogic.core;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -21,6 +18,8 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
+import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.UsersDb;
@@ -280,7 +279,6 @@ public final class UsersLogic {
         }
 
         feedbackResponsesLogic.deleteFeedbackResponsesForCourseCascade(courseId, email);
-        deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(instructor);
         deleteUser(instructor);
     }
 
@@ -693,7 +691,6 @@ public final class UsersLogic {
                             student.getCourse().getId(), student.getTeamName());
         }
 
-        deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
         deleteUser(student);
         feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
     }

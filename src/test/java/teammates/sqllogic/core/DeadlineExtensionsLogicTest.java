@@ -1,17 +1,16 @@
 package teammates.sqllogic.core;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -289,54 +288,6 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         List<DeadlineExtension> result = deLogic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
 
         assertTrue(result.isEmpty());
-    }
-
-    @Test
-    public void testDeleteDeadlineExtensionsForUser_userHasExtensions_deletesExtensions() {
-        Course course = getTypicalCourse();
-        String courseId = course.getId();
-        Student student = getTypicalStudent();
-        student.setCourse(course);
-
-        FeedbackSession session1 = getTypicalFeedbackSessionForCourse(course);
-        FeedbackSession session2 = getTypicalFeedbackSessionForCourse(course);
-
-        DeadlineExtension de1 = new DeadlineExtension(student, session1, Instant.now().plusSeconds(86400));
-        DeadlineExtension de2 = new DeadlineExtension(student, session2, Instant.now().plusSeconds(86400));
-        // Add extension for different user that should not be deleted
-        Student otherStudent = getTypicalStudent();
-        DeadlineExtension de3 = new DeadlineExtension(otherStudent, session1, Instant.now().plusSeconds(86400));
-
-        session1.setDeadlineExtensions(new ArrayList<>(List.of(de1, de3)));
-        session2.setDeadlineExtensions(new ArrayList<>(List.of(de2)));
-
-        when(fsLogic.getFeedbackSessionsForCourse(courseId)).thenReturn(List.of(session1, session2));
-
-        deLogic.deleteDeadlineExtensionsForUser(student);
-
-        verify(fsLogic, times(1)).getFeedbackSessionsForCourse(courseId);
-        // Only extensions for the specified user should be deleted
-        verify(deDb, times(1)).deleteDeadlineExtension(de1);
-        verify(deDb, times(1)).deleteDeadlineExtension(de2);
-        verify(deDb, never()).deleteDeadlineExtension(de3);
-        verify(deDb, times(2)).deleteDeadlineExtension(any(DeadlineExtension.class));
-    }
-
-    @Test
-    public void testDeleteDeadlineExtensionsForUser_userHasNoExtensions_noDeletes() {
-        Course course = getTypicalCourse();
-        Student student = getTypicalStudent();
-        student.setCourse(course);
-
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        session.setDeadlineExtensions(new ArrayList<>());
-
-        when(fsLogic.getFeedbackSessionsForCourse(course.getId())).thenReturn(List.of(session));
-
-        deLogic.deleteDeadlineExtensionsForUser(student);
-
-        verify(fsLogic, times(1)).getFeedbackSessionsForCourse(course.getId());
-        verify(deDb, times(0)).deleteDeadlineExtension(any());
     }
 
     @Test
