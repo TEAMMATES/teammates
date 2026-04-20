@@ -2,6 +2,7 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
