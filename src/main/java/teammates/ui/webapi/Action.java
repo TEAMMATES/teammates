@@ -198,7 +198,7 @@ public abstract class Action {
      */
     String getNonBlankRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
-        if (StringHelper.isEmpty(value)) {
+        if (value == null || value.isBlank()) {
             throw new InvalidHttpParameterException(
                     String.format("The [%s] HTTP parameter is empty or null.", paramName));
         }
