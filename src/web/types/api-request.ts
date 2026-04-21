@@ -50,9 +50,33 @@ export interface EmailWrapper {
 }
 
 export interface ErrorReportRequest extends BasicRequest {
-  content: string;
-  subject: string;
   requestId: string;
+  subject: string;
+  content: string;
+}
+
+export interface FeedbackConstantSumResponseDetails extends FeedbackResponseDetails {
+  answers: number[];
+}
+
+export interface FeedbackContributionResponseDetails extends FeedbackResponseDetails {
+  answer: number;
+}
+
+export interface FeedbackMcqResponseDetails extends FeedbackResponseDetails {
+  answer: string;
+  isOther: boolean;
+  otherFieldContent: string;
+}
+
+export interface FeedbackMsqResponseDetails extends FeedbackResponseDetails {
+  answers: string[];
+  isOther: boolean;
+  otherFieldContent: string;
+}
+
+export interface FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetails {
+  answer: number;
 }
 
 export interface FeedbackQuestionBasicRequest extends BasicRequest {
@@ -74,6 +98,14 @@ export interface FeedbackQuestionCreateRequest extends FeedbackQuestionBasicRequ
 }
 
 export interface FeedbackQuestionUpdateRequest extends FeedbackQuestionBasicRequest {
+}
+
+export interface FeedbackRankOptionsResponseDetails extends FeedbackResponseDetails {
+  answers: number[];
+}
+
+export interface FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetails {
+  answer: number;
 }
 
 export interface FeedbackResponseCommentBasicRequest extends BasicRequest {
@@ -99,6 +131,10 @@ export interface FeedbackResponseRequest extends BasicRequest {
 
 export interface FeedbackResponsesRequest extends BasicRequest {
   responses: FeedbackResponseRequest[];
+}
+
+export interface FeedbackRubricResponseDetails extends FeedbackResponseDetails {
+  answer: number[];
 }
 
 export interface FeedbackSessionBasicRequest extends BasicRequest {
@@ -141,6 +177,10 @@ export interface FeedbackSessionRespondentRemindRequest extends BasicRequest {
 export interface FeedbackSessionUpdateRequest extends FeedbackSessionBasicRequest {
 }
 
+export interface FeedbackTextResponseDetails extends FeedbackResponseDetails {
+  answer: string;
+}
+
 export interface InstructorCreateRequest extends BasicRequest {
   id?: string;
   name: string;
@@ -161,14 +201,14 @@ export interface InstructorPermissionSet {
   canModifySessionCommentsInSections: boolean;
 }
 
-export interface InstructorPrivilegeUpdateRequest extends BasicRequest {
-  privileges: InstructorPrivileges;
-}
-
 export interface InstructorPrivileges {
   courseLevel: InstructorPermissionSet;
   sectionLevel: { [index: string]: InstructorPermissionSet };
   sessionLevel: { [index: string]: { [index: string]: InstructorPermissionSet } };
+}
+
+export interface InstructorPrivilegeUpdateRequest extends BasicRequest {
+  privileges: InstructorPrivileges;
 }
 
 export interface MarkNotificationAsReadRequest extends BasicRequest {
@@ -202,6 +242,10 @@ export interface StudentEnrollRequest extends BasicRequest {
   comments: string;
 }
 
+export interface StudentsEnrollRequest extends BasicRequest {
+  studentEnrollRequests: StudentEnrollRequest[];
+}
+
 export interface StudentUpdateRequest extends BasicRequest {
   name: string;
   email: string;
@@ -209,10 +253,6 @@ export interface StudentUpdateRequest extends BasicRequest {
   section: string;
   comments: string;
   isSessionSummarySendEmail: boolean;
-}
-
-export interface StudentsEnrollRequest extends BasicRequest {
-  studentEnrollRequests: StudentEnrollRequest[];
 }
 
 export enum AccountRequestStatus {

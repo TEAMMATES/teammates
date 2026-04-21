@@ -75,12 +75,12 @@ export interface Course extends ApiOutput {
   privileges?: InstructorPermissionSet;
 }
 
-export interface CourseSectionNames extends ApiOutput {
-  sectionNames: string[];
-}
-
 export interface Courses extends ApiOutput {
   courses: Course[];
+}
+
+export interface CourseSectionNames extends ApiOutput {
+  sectionNames: string[];
 }
 
 export interface DeadlineExtension extends ApiOutput {
@@ -198,15 +198,15 @@ export interface FeedbackNumericalScaleResponseDetails extends FeedbackResponseD
 
 export interface FeedbackQuestion extends ApiOutput {
   feedbackQuestionId: string;
-  questionNumber: number;
   questionBrief: string;
   questionDescription: string;
   questionDetails: FeedbackQuestionDetails;
-  questionType: FeedbackQuestionType;
   giverType: FeedbackParticipantType;
   recipientType: FeedbackParticipantType;
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting;
   customNumberOfEntitiesToGiveFeedbackTo: number;
+  questionNumber: number;
+  questionType: FeedbackQuestionType;
   showResponsesTo: FeedbackVisibilityType[];
   showGiverNameTo: FeedbackVisibilityType[];
   showRecipientNameTo: FeedbackVisibilityType[];
@@ -301,6 +301,7 @@ export interface FeedbackSession extends ApiOutput {
   instructions: string;
   submissionStartTimestamp: number;
   submissionEndTimestamp: number;
+  deletedAtTimestamp?: number;
   submissionEndWithExtensionTimestamp?: number;
   sessionVisibleFromTimestamp?: number;
   resultVisibleFromTimestamp?: number;
@@ -314,7 +315,6 @@ export interface FeedbackSession extends ApiOutput {
   isClosingSoonEmailEnabled: boolean;
   isPublishedEmailEnabled: boolean;
   createdAtTimestamp: number;
-  deletedAtTimestamp?: number;
   privileges?: InstructorPermissionSet;
 }
 
@@ -348,6 +348,10 @@ export interface FeedbackSessionLogs extends ApiOutput {
   feedbackSessionLogs: FeedbackSessionLog[];
 }
 
+export interface FeedbackSessions extends ApiOutput {
+  feedbackSessions: FeedbackSession[];
+}
+
 export interface FeedbackSessionStats extends ApiOutput {
   submittedTotal: number;
   expectedTotal: number;
@@ -355,10 +359,6 @@ export interface FeedbackSessionStats extends ApiOutput {
 
 export interface FeedbackSessionSubmittedGiverSet extends ApiOutput {
   giverIdentifiers: string[];
-}
-
-export interface FeedbackSessions extends ApiOutput {
-  feedbackSessions: FeedbackSession[];
 }
 
 export interface FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
@@ -398,12 +398,12 @@ export interface InstanceLogDetails extends LogDetails {
 
 export interface Instructor extends ApiOutput {
   userId: string;
-  googleId?: string;
   courseId: string;
   email: string;
+  name: string;
+  googleId?: string;
   isDisplayedToStudents?: boolean;
   displayedToStudentsAs?: string;
-  name: string;
   role?: InstructorPermissionRole;
   joinState: JoinState;
   key?: string;
@@ -603,13 +603,13 @@ export interface Student extends ApiOutput {
   email: string;
   courseId: string;
   name: string;
+  teamName: string;
+  sectionName: string;
   googleId?: string;
   comments?: string;
   key?: string;
   institute?: string;
   joinState?: JoinState;
-  teamName: string;
-  sectionName: string;
 }
 
 export interface Students extends ApiOutput {
@@ -730,9 +730,9 @@ export enum FeedbackQuestionType {
 }
 
 export enum FeedbackSessionLogType {
-  ACCESS = "access",
-  SUBMISSION = "submission",
-  VIEW_RESULT = "view result",
+  ACCESS = "ACCESS",
+  SUBMISSION = "SUBMISSION",
+  VIEW_RESULT = "VIEW_RESULT",
 }
 
 export enum FeedbackSessionPublishStatus {
