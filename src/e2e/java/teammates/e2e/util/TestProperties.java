@@ -51,6 +51,15 @@ public final class TestProperties {
     /** The value of "test.browser.closeonfailure" in test.properties file. */
     public static final boolean CLOSE_BROWSER_ON_FAILURE;
 
+    /**
+     * Whether browsers should run in headless mode.
+     *
+     * <p>Resolved from the {@code test.browser.headless} system property first (set via
+     * {@code ./gradlew e2eTests --headless} or {@code ./gradlew axeTests --headless}), falling back to the
+     * {@code test.browser.headless} entry in {@code test.properties}, and defaulting to {@code false}.
+     */
+    public static final boolean BROWSER_HEADLESS;
+
     /** The value of "test.firefox.path" in test.properties file. */
     public static final String FIREFOX_PATH;
 
@@ -99,6 +108,9 @@ public final class TestProperties {
 
             BROWSER = prop.getProperty("test.selenium.browser").toLowerCase();
             CLOSE_BROWSER_ON_FAILURE = Boolean.parseBoolean(prop.getProperty("test.browser.closeonfailure"));
+            BROWSER_HEADLESS = Boolean.parseBoolean(
+                    System.getProperty("test.browser.headless",
+                            prop.getProperty("test.browser.headless", "false")));
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
             CHROMEDRIVER_PATH = prop.getProperty("test.chromedriver.path");
             GECKODRIVER_PATH = prop.getProperty("test.geckodriver.path");
