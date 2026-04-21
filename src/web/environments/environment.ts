@@ -1,3 +1,4 @@
+import { APPLICATION_VERSION } from './application-version';
 import { config } from './config';
 
 // This file can be replaced during build by using the `fileReplacements` array.
@@ -9,6 +10,7 @@ import { config } from './config';
  */
 export const environment: any = {
   ...config,
+  version: APPLICATION_VERSION,
   production: false,
   backendUrl: 'http://localhost:8080',
   frontendUrl: 'http://localhost:4200',

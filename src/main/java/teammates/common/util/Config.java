@@ -28,8 +28,8 @@ public final class Config {
     /** Value of {@code app.region}. */
     public static final String APP_REGION;
 
-    /** Value of {@code app.version}. */
-    public static final String APP_VERSION;
+    /** Backend application version. */
+    public static final String APP_VERSION = "9.0.0-beta.6";
 
     /** Effective deployment environment name (e.g. {@code development}, {@code production}); see class Javadoc. */
     public static final String APP_ENV;
@@ -189,7 +189,6 @@ public final class Config {
         IS_DEV_SERVER = "development".equalsIgnoreCase(APP_ENV);
 
         APP_ID = getProperty(properties, devProperties, "app.id");
-        APP_VERSION = getProperty(properties, devProperties, "app.version");
 
         APP_REGION = getProperty(properties, devProperties, "app.region");
         APP_FRONTEND_URL = getProperty(properties, devProperties, "app.frontend.url", getDefaultFrontEndUrl());
