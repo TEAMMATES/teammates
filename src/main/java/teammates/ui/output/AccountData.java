@@ -2,6 +2,8 @@ package teammates.ui.output;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.storage.sqlentity.Account;
 
 /**
@@ -13,6 +15,15 @@ public class AccountData extends ApiOutput {
     private final String googleId;
     private final String name;
     private final String email;
+
+    @JsonCreator
+    private AccountData(
+            UUID accountId, String googleId, String name, String email) {
+        this.accountId = accountId;
+        this.googleId = googleId;
+        this.name = name;
+        this.email = email;
+    }
 
     public AccountData(Account account) {
         this.accountId = account.getId();

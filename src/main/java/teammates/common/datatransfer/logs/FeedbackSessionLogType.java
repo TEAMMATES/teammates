@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.logs;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 /**
  * Constant values for the different feedback session-related log types.
  */
@@ -12,7 +10,6 @@ public enum FeedbackSessionLogType {
     VIEW_RESULT("view result");
     // CHECKSTYLE.ON:JavadocVariable
 
-    @JsonValue
     private final String label;
 
     FeedbackSessionLogType(String label) {
