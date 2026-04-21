@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders, HttpParams, HttpUrlEncodingCodec } from '@angu
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MasqueradeModeService } from './masquerade-mode.service';
-import { APPLICATION_VERSION } from '../environments/application-version';
 import { environment } from '../environments/environment';
 
 /**
@@ -42,7 +41,7 @@ export class HttpRequestService {
 
   private backendUrl: string = environment.backendUrl;
   private withCredentials: boolean = environment.withCredentials;
-  private version: string = APPLICATION_VERSION;
+  private version: string = environment.version;
 
   constructor(private httpClient: HttpClient, private masqueradeModeService: MasqueradeModeService) {}
 
