@@ -8,6 +8,17 @@ import { InstructorRequestFormComponent } from './instructor-request-form.compon
 import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest, AccountRequestStatus } from '../../../../types/api-request';
 
+// Mock the environment module to provide consistent test values
+jest.mock('../../../../environments/environment', () => ({
+  environment: {
+    production: false,
+    backendUrl: 'http://localhost:8080',
+    frontendUrl: 'http://localhost:4200',
+    captchaSiteKey: '',
+    withCredentials: true,
+  },
+}));
+
 describe('InstructorRequestFormComponent', () => {
   let component: InstructorRequestFormComponent;
   let fixture: ComponentFixture<InstructorRequestFormComponent>;
@@ -67,7 +78,6 @@ describe('InstructorRequestFormComponent', () => {
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
-    component.captchaSiteKey = ''; // Test ignores captcha
     fixture.detectChanges();
     jest.clearAllMocks();
   });
