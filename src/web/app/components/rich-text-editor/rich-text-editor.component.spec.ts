@@ -68,4 +68,105 @@ describe('RichTextEditorComponent', () => {
     component.ngOnInit();
     expect(component.init.setup).toBeDefined();
   });
+
+  it('should update character count on GetContent when character limit is enabled', () => {
+    jest.useFakeTimers();
+
+    component.hasCharacterLimit = true;
+    component.ngOnInit();
+
+    let handler: any;
+
+    const mockEditor = {
+      on: (event: string, cb: any) => {
+        if (event === 'GetContent') handler = cb;
+      },
+      plugins: {
+        wordcount: {
+          body: {
+            getCharacterCount: () => 50,
+          },
+        },
+      },
+    };
+
+    component.init.setup(mockEditor);
+    handler();
+
+    jest.runAllTimers();
+
+    expect(component.characterCount).toBe(50);
+  });
+
+  it('should prevent keypress when character limit is reached', () => {
+    component.hasCharacterLimit = true;
+    component.ngOnInit();
+
+    let keypressHandler:
+      | ((event: { preventDefault: () => void }) => void)
+      | undefined;
+
+    const mockEditor = {
+      on: (
+        eventName: string,
+        handler: (event: { preventDefault: () => void }) => void,
+      ) => {
+        if (eventName === 'keypress') {
+          keypressHandler = handler;
+        }
+      },
+      plugins: {
+        wordcount: {
+          body: {
+            getCharacterCount: () => 2000,
+          },
+        },
+      },
+    };
+
+    const mockEvent = {
+      preventDefault: jest.fn(),
+    };
+
+    component.init.setup(mockEditor);
+    keypressHandler!(mockEvent);
+
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+  });
+
+  it('should not prevent keypress when character limit is not reached', () => {
+    component.hasCharacterLimit = true;
+    component.ngOnInit();
+
+    let keypressHandler:
+      | ((event: { preventDefault: () => void }) => void)
+      | undefined;
+
+    const mockEditor = {
+      on: (
+        eventName: string,
+        handler: (event: { preventDefault: () => void }) => void,
+      ) => {
+        if (eventName === 'keypress') {
+          keypressHandler = handler;
+        }
+      },
+      plugins: {
+        wordcount: {
+          body: {
+            getCharacterCount: () => 1999,
+          },
+        },
+      },
+    };
+
+    const mockEvent = {
+      preventDefault: jest.fn(),
+    };
+
+    component.init.setup(mockEditor);
+    keypressHandler!(mockEvent);
+
+    expect(mockEvent.preventDefault).not.toHaveBeenCalled();
+  });
 });
