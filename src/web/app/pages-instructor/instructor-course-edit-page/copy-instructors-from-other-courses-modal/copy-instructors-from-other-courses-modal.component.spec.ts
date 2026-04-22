@@ -167,7 +167,7 @@ describe("CopyInstructorsFromOtherCoursesModalComponent", () => {
       );
 
     expect(modalBody.textContent).toContain(
-      "You do not have any other courses to copy instructors from.",
+      "There are no other courses available to copy instructors from.",
     );
     expect(
       fixture.debugElement.nativeElement.querySelector("#sort-course-id"),
