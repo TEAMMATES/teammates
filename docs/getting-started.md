@@ -98,7 +98,25 @@ gradlew.bat generateTypes
 ```sh
 docker compose up -d
 ```
-2. Start the backend server:
+
+2. Apply database migrations:
+
+<tabs>
+<tab header="Mac / Linux">
+
+```sh
+./gradlew liquibaseUpdate
+```
+</tab>
+<tab header="Windows">
+
+```sh
+gradlew.bat liquibaseUpdate
+```
+</tab>
+</tabs>
+
+3. Start the backend server:
 
 <tabs>
 <tab header="Mac / Linux">
@@ -117,7 +135,7 @@ gradlew.bat serverRun
 
 The backend will be available at `http://localhost:8080`.
 
-3. Start the frontend server:
+4. Start the frontend server:
 ```sh
 npm run start
 ```

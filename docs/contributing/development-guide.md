@@ -50,6 +50,23 @@ Start the database if it is not already running:
 docker compose up -d
 ```
 
+Apply database migrations if necessary:
+
+<tabs>
+<tab header="Mac / Linux">
+
+```sh
+./gradlew liquibaseUpdate
+```
+</tab>
+<tab header="Windows">
+
+```sh
+gradlew.bat liquibaseUpdate
+```
+</tab>
+</tabs>
+
 Then start the backend server:
 
 <tabs>
