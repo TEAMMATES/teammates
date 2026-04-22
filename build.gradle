@@ -142,7 +142,7 @@ if (project.gradle.startParameter.taskNames.any { it.contains("liquibaseDiffChan
     if (!project.hasProperty("migrationName")) {
         throw new GradleException("Pass -PmigrationName=foo when running liquibaseDiffChangelog")
     }
-    
+
     project.ext.set("runList", "diffMain")
 }
 
