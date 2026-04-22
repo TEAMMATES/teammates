@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
-import { collapseAnim } from './collapse-anim';
 import { NavigationService } from '../../../../services/navigation.service';
 import { PanelChevronComponent } from '../../../components/panel-chevron/panel-chevron.component';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * A standalone panel for instructor help page content.
@@ -10,8 +10,7 @@ import { PanelChevronComponent } from '../../../components/panel-chevron/panel-c
   selector: 'tm-instructor-help-panel',
   templateUrl: './instructor-help-panel.component.html',
   styleUrls: ['./instructor-help-panel.component.scss'],
-  animations: [collapseAnim],
-  imports: [PanelChevronComponent],
+  imports: [PanelChevronComponent, NgbCollapse],
 })
 export class InstructorHelpPanelComponent {
 
