@@ -21,12 +21,12 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 
 /**
- * Account requests table component.
+ * Account requests table component for admin search.
  */
 @Component({
-  selector: 'tm-account-request-table',
-  templateUrl: './account-request-table.component.html',
-  styleUrls: ['./account-request-table.component.scss'],
+  selector: 'tm-admin-account-search-table',
+  templateUrl: './admin-account-search-table.component.html',
+  styleUrls: ['./admin-account-search-table.component.scss'],
   animations: [collapseAnim],
   imports: [
     NgbTooltip,
@@ -35,10 +35,9 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
     NgbDropdownToggle,
     NgbDropdownMenu,
     SearchTermsHighlighterPipe,
-],
+  ],
 })
-
-export class AccountRequestTableComponent {
+export class AdminAccountSearchTableComponent {
 
   @Input()
   accountRequests: AccountRequestTableRowModel[] = [];
@@ -57,22 +56,20 @@ export class AccountRequestTableComponent {
     private ngbModal: NgbModal,
   ) {}
 
-  /**
-   * Shows all account requests' links in the page.
-   */
   showAllAccountRequestsLinks(): void {
     for (const accountRequest of this.accountRequests) {
       accountRequest.showLinks = true;
     }
   }
 
-  /**
-   * Hides all account requests' links in the page.
-   */
   hideAllAccountRequestsLinks(): void {
     for (const accountRequest of this.accountRequests) {
       accountRequest.showLinks = false;
     }
+  }
+
+  toggleAccountRequestLinks(accountRequest: AccountRequestTableRowModel): void {
+    accountRequest.showLinks = !accountRequest.showLinks;
   }
 
   editAccountRequest(accountRequest: AccountRequestTableRowModel): void {

@@ -1,0 +1,86 @@
+@if (accountRequests.length) {
+  <div class="card bg-light top-padded">
+    <div class="card-header bg-primary text-white">
+      <strong>Pending Account Requests</strong>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped data-table" id="search-table-account-request">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Institute, Country</th>
+            <th>Created At</th>
+            <th>Comments</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (accountRequest of accountRequests; track trackAccountRequest(i, accountRequest); let i = $index) {
+            <tr>
+              <td>{{ accountRequest.name }}</td>
+              <td>{{ accountRequest.email }}</td>
+              <td>{{ accountRequest.status }}</td>
+              <td>{{ accountRequest.instituteAndCountry }}</td>
+              <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
+              <td>
+                <div id="comment-box">
+                  {{ accountRequest.comments }}
+                </div>
+              </td>
+              <td class="align-middle">
+                <div class="d-flex flex-row align-items-center justify-content-center gap-2">
+                  <div>
+                    <button id="edit-account-request-{{i}}" type="button" class="btn btn-link p-0"
+                      (click)="$event.stopPropagation(); editAccountRequest(accountRequest);"
+                      aria-label="Edit account request">
+                      <i class="fa-solid fa-pen"></i>
+                    </button>
+                  </div>
+                  <div class="ngb-tooltip-class"
+                    [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'"
+                    placement="top">
+                    <button id="delete-account-request-{{i}}" type="button" class="btn btn-link p-0"
+                      (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)"
+                      aria-label="Delete account request">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                  <div>
+                    <button id="view-account-request-{{i}}" type="button" class="btn btn-link p-0"
+                      (click)="$event.stopPropagation(); viewAccountRequest(accountRequest)"
+                      aria-label="View account request">
+                      <i class="fa-solid fa-eye"></i>
+                    </button>
+                  </div>
+                  <button id="approve-account-request-{{i}}" class="btn btn-success"
+                    [disabled]="!accountRequest.status || accountRequest.status === 'APPROVED' || accountRequest.status === 'REGISTERED' || isApprovingAccount[i]"
+                    (click)="$event.stopPropagation(); approveAccountRequest(accountRequest, i)"> @if (isApprovingAccount[i]) {
+                    <tm-ajax-loading
+                    ></tm-ajax-loading>
+                  }Approve</button>
+                  <span ngbDropdown container="body">
+                    <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning"
+                      [disabled]="!accountRequest.status || accountRequest.status === 'REGISTERED' || accountRequest.status === 'APPROVED' || accountRequest.status === 'REJECTED' || isRejectingAccount[i]"
+                      ngbDropdownToggle> @if (isRejectingAccount[i]) {
+                      <tm-ajax-loading></tm-ajax-loading>
+                      } Reject
+                    </button>
+                    <div ngbDropdownMenu (click)="$event.stopPropagation()">
+                      <button id="reject-request-{{i}}" class="btn btn-light btn-sm dropdown-item"
+                      (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest, i)"> Reject </button>
+                      <button id="reject-request-with-reason-{{i}}" class="btn btn-light btn-sm dropdown-item"
+                        (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest, i)"> Reject With
+                      Reason </button>
+                    </div>
+                  </span>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
