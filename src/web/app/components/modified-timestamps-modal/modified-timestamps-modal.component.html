@@ -1,12 +1,16 @@
-<p *ngIf="coursesOfModifiedSession.length !== 0">
-  The feedback session has been copied to all courses. However, changes are made to some session timings as the
-  existing timings are no longer valid in these courses: {{ coursesOfModifiedSession.join(', ') }}.
-  The changes are as follows:
-</p>
-<p *ngIf="coursesOfModifiedSession.length === 0">
-  The course has been added. However, changes are made to some session timings as the existing timings are
-  no longer valid. The changes are as follows:
-</p>
+@if (coursesOfModifiedSession.length !== 0) {
+  <p>
+    The feedback session has been copied to all courses. However, changes are made to some session timings as the
+    existing timings are no longer valid in these courses: {{ coursesOfModifiedSession.join(', ') }}.
+    The changes are as follows:
+  </p>
+}
+@if (coursesOfModifiedSession.length === 0) {
+  <p>
+    The course has been added. However, changes are made to some session timings as the existing timings are
+    no longer valid. The changes are as follows:
+  </p>
+}
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -17,7 +21,7 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let session of this.modifiedSessions | keyvalue">
+    @for (session of this.modifiedSessions | keyvalue; track session) {
       <tr
         [ngClass]="{'text-color-lightgray' : session.value.oldTimestamp.submissionStartTimestamp === session.value.newTimestamp.submissionStartTimestamp}">
         <td rowspan="4">{{ session.key }}</td>
@@ -43,10 +47,10 @@
         <td>{{ session.value.oldTimestamp.responseVisibleTimestamp }}</td>
         <td>{{ session.value.newTimestamp.responseVisibleTimestamp }}</td>
       </tr>
-    </ng-container>
+    }
   </tbody>
 </table>
 <br>
-<p>
-  Please modify the timings as necessary.
-</p>
+  <p>
+    Please modify the timings as necessary.
+  </p>

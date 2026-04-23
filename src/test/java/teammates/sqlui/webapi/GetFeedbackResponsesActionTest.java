@@ -349,7 +349,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     @Test
-    void testExecute_idCannotBeConvertedToUuid_throwsEntityNotFoundException() {
+    void testExecute_idCannotBeConvertedToUuid_throwsInvalidHttpParameterException() {
         loginAsStudent(stubStudent.getGoogleId());
         String[] params1 = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "random-invalid-id",
@@ -357,8 +357,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         GetFeedbackResponsesAction action = getAction(params1);
-        EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
-        assertEquals("Feedback Question not found", enfe.getMessage());
+        InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action::execute);
+        assertEquals("Expected UUID value for questionid parameter, but found: [random-invalid-id]", ihpe.getMessage());
 
         logoutUser();
         loginAsInstructor(stubInstructor.getGoogleId());
@@ -368,8 +368,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
-        EntityNotFoundException enfe2 = assertThrows(EntityNotFoundException.class, action2::execute);
-        assertEquals("Feedback Question not found", enfe2.getMessage());
+        InvalidHttpParameterException ihpe2 = assertThrows(InvalidHttpParameterException.class, action2::execute);
+        assertEquals("Expected UUID value for questionid parameter, but found: [random-invalid-id]", ihpe2.getMessage());
     }
 
     private void verifyFeedbackResponsesEquals(FeedbackResponsesData expected, FeedbackResponsesData actual) {
@@ -790,7 +790,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     @Test
-    void testSpecificAccessControl_idCannotBeConvertedToUuid_throwsEntityNotFoundException() {
+    void testSpecificAccessControl_idCannotBeConvertedToUuid_throwsInvalidHttpParameterException() {
         loginAsInstructor(stubInstructor.getGoogleId());
 
         String[] params = {
@@ -798,8 +798,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action = getAction(params);
-        EntityNotFoundException e = assertThrows(EntityNotFoundException.class, action::checkAccessControl);
-        assertEquals("Feedback Question not found", e.getMessage());
+        InvalidHttpParameterException e = assertThrows(InvalidHttpParameterException.class, action::checkAccessControl);
+        assertEquals("Expected UUID value for questionid parameter, but found: [random-invalid-id]", e.getMessage());
     }
 
     @Test

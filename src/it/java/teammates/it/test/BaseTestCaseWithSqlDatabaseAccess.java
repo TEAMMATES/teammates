@@ -3,30 +3,19 @@ package teammates.it.test;
 import java.util.UUID;
 
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
 
-import com.google.cloud.datastore.DatastoreOptions;
-import com.google.cloud.datastore.testing.LocalDatastoreHelper;
-import com.googlecode.objectify.ObjectifyFactory;
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.util.Closeable;
-
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.core.LogicStarter;
-import teammates.storage.api.OfyHelper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.BaseEntity;
@@ -43,83 +32,42 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.UsageStatistics;
-import teammates.storage.sqlsearch.AccountRequestSearchManager;
-import teammates.storage.sqlsearch.InstructorSearchManager;
-import teammates.storage.sqlsearch.SearchManagerFactory;
-import teammates.storage.sqlsearch.StudentSearchManager;
 import teammates.test.BaseTestCase;
+
+import liquibase.command.CommandScope;
 
 /**
  * Base test case for tests that access the database.
  */
-@Test(singleThreaded = true)
-public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
+public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
 
     private static final PostgreSQLContainer<?> PGSQL = new PostgreSQLContainer<>("postgres:15.1-alpine");
 
-    private static final LocalDatastoreHelper LOCAL_DATASTORE_HELPER = LocalDatastoreHelper.newBuilder()
-            .setConsistency(1.0)
-            .setPort(TestProperties.TEST_LOCALDATASTORE_PORT)
-            .setStoreOnDisk(false)
-            .build();
-
     private final Logic logic = Logic.inst();
-
-    private Closeable closeable;
 
     @BeforeSuite
     protected static void setUpSuite() throws Exception {
         PGSQL.start();
-        // Temporarily disable migration utility
-        // DbMigrationUtil.resetDb(PGSQL.getJdbcUrl(), PGSQL.getUsername(),
-        // PGSQL.getPassword());
+
+        runLiquibaseMigrations(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
+
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
 
         LogicStarter.initializeDependencies();
-
-        SearchManagerFactory.registerAccountRequestSearchManager(
-            new AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        SearchManagerFactory.registerInstructorSearchManager(
-            new InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        SearchManagerFactory.registerStudentSearchManager(
-            new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-
-        // TODO: remove after migration, needed for dual db support
-
-        teammates.storage.search.SearchManagerFactory.registerAccountRequestSearchManager(
-            new teammates.storage.search.AccountRequestSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        teammates.storage.search.SearchManagerFactory.registerInstructorSearchManager(
-            new teammates.storage.search.InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-        teammates.storage.search.SearchManagerFactory.registerStudentSearchManager(
-            new teammates.storage.search.StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
-
-        teammates.logic.core.LogicStarter.initializeDependencies();
-        LOCAL_DATASTORE_HELPER.start();
-        DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
-        ObjectifyService.init(new ObjectifyFactory(
-                options.getService()));
-        OfyHelper.registerEntityClasses();
-
     }
 
-    @BeforeClass
-    public void setupClass() {
-        closeable = ObjectifyService.begin();
-    }
-
-    @AfterClass
-    public void tearDownClass() {
-        closeable.close();
-
-        SearchManagerFactory.getAccountRequestSearchManager().resetCollections();
-        SearchManagerFactory.getInstructorSearchManager().resetCollections();
-        SearchManagerFactory.getStudentSearchManager().resetCollections();
+    private static void runLiquibaseMigrations(String jdbcUrl, String username, String password) throws Exception {
+        new CommandScope("update")
+                .addArgumentValue("changelogFile", "db/changelog/db.changelog-root.xml")
+                .addArgumentValue("url", jdbcUrl)
+                .addArgumentValue("username", username)
+                .addArgumentValue("password", password)
+                .execute();
     }
 
     @AfterSuite
     protected static void tearDownSuite() throws Exception {
         PGSQL.close();
-        LOCAL_DATASTORE_HELPER.stop();
     }
 
     @BeforeMethod
@@ -127,7 +75,14 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
         HibernateUtil.beginTransaction();
     }
 
-    @AfterMethod
+    /**
+     * Rolls back the per-test transaction so each method runs against a clean DB state.
+     *
+     * <p>
+     * {@code alwaysRun} ensures this runs even when configuration ({@code BeforeMethod}) or the
+     * test method fails, so an open transaction is never left on the thread-bound session.
+     */
+    @AfterMethod(alwaysRun = true)
     protected void tearDown() {
         HibernateUtil.rollbackTransaction();
     }
@@ -140,16 +95,9 @@ public class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     /**
      * Persist data bundle into the db.
      */
-    protected void persistDataBundle(SqlDataBundle dataBundle)
+    protected void persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         logic.persistDataBundle(dataBundle);
-    }
-
-    /**
-     * Puts searchable documents from the data bundle to the solr database.
-     */
-    protected void putDocuments(SqlDataBundle dataBundle) throws SearchServiceException {
-        logic.putDocuments(dataBundle);
     }
 
     /**

@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -35,7 +36,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.util.MaximumRetriesExceededException;
 import teammates.e2e.util.RetryManager;
@@ -517,14 +517,6 @@ public abstract class AppPage {
         }
     }
 
-    public void verifyBannerContent(NotificationAttributes expected) {
-        WebElement banner = browser.driver.findElement(By.className("banner"));
-        String title = banner.findElement(By.tagName("h5")).getText();
-        String message = banner.findElement(By.className("banner-text")).getAttribute("innerHTML");
-        assertEquals(expected.getTitle(), title);
-        assertEquals(expected.getMessage(), message);
-    }
-
     public boolean isBannerVisible() {
         return isElementVisible(By.className("banner"));
     }
@@ -632,7 +624,30 @@ public abstract class AppPage {
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
         scrollElementToCenter(element);
-        element.click();
+        try {
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            // Firefox can still report a header overlap after scrolling even when the element is visible.
+            executeScript(
+                    "const element = arguments[0];"
+                    + "const rect = element.getBoundingClientRect();"
+                    + "const eventInit = {"
+                    + "  bubbles: true,"
+                    + "  cancelable: true,"
+                    + "  composed: true,"
+                    + "  clientX: rect.left + rect.width / 2,"
+                    + "  clientY: rect.top + rect.height / 2,"
+                    + "  button: 0,"
+                    + "  buttons: 1"
+                    + "};"
+                    + "if (typeof element.focus === 'function') {"
+                    + "  element.focus();"
+                    + "}"
+                    + "['mousedown', 'mouseup', 'click'].forEach("
+                    + "  type => element.dispatchEvent(new MouseEvent(type, eventInit))"
+                    + ");",
+                    element);
+        }
     }
 
     /**

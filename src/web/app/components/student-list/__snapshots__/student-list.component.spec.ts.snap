@@ -14,6 +14,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   headerColorScheme={[Function Number]}
   isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
+  isPartialMatchHighlightingEnabled="false"
   listOfStudentsToHide={[Function Array]}
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
@@ -185,6 +186,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   headerColorScheme={[Function Number]}
   isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
+  isPartialMatchHighlightingEnabled="false"
   listOfStudentsToHide={[Function Array]}
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
@@ -352,7 +354,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               </span>
             </td>
             <td>
-              Yet to Join
+               Yet to Join 
             </td>
             <td>
               <span>
@@ -425,7 +427,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               </span>
             </td>
             <td>
-              Yet to Join
+               Yet to Join 
             </td>
             <td>
               <span>
@@ -498,7 +500,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -565,7 +567,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -636,6 +638,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   headerColorScheme={[Function Number]}
   isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
+  isPartialMatchHighlightingEnabled="false"
   listOfStudentsToHide={[Function Array]}
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
@@ -803,7 +806,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               </span>
             </td>
             <td>
-              Yet to Join
+               Yet to Join 
             </td>
             <td>
               <span>
@@ -876,7 +879,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -943,7 +946,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1010,7 +1013,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1081,6 +1084,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   headerColorScheme={[Function Number]}
   isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
+  isPartialMatchHighlightingEnabled="false"
   listOfStudentsToHide={[Function Array]}
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
@@ -1248,7 +1252,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1315,7 +1319,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1382,7 +1386,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1449,7 +1453,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1520,6 +1524,7 @@ exports[`StudentListComponent should snap with some student list data and some s
   headerColorScheme={[Function Number]}
   isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
+  isPartialMatchHighlightingEnabled="false"
   listOfStudentsToHide={[Function Array]}
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
@@ -1687,7 +1692,7 @@ exports[`StudentListComponent should snap with some student list data and some s
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1754,7 +1759,7 @@ exports[`StudentListComponent should snap with some student list data and some s
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -1825,6 +1830,7 @@ exports[`StudentListComponent should snap with some student list data when not a
   headerColorScheme={[Function Number]}
   isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
+  isPartialMatchHighlightingEnabled="false"
   listOfStudentsToHide={[Function Array]}
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
@@ -1992,7 +1998,7 @@ exports[`StudentListComponent should snap with some student list data when not a
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -2059,7 +2065,7 @@ exports[`StudentListComponent should snap with some student list data when not a
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -2126,7 +2132,7 @@ exports[`StudentListComponent should snap with some student list data when not a
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -2193,7 +2199,7 @@ exports[`StudentListComponent should snap with some student list data when not a
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -2264,6 +2270,7 @@ exports[`StudentListComponent should snap with some student list data with no se
   headerColorScheme={[Function Number]}
   isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
+  isPartialMatchHighlightingEnabled="false"
   listOfStudentsToHide={[Function Array]}
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
@@ -2431,7 +2438,7 @@ exports[`StudentListComponent should snap with some student list data with no se
               </span>
             </td>
             <td>
-              Joined
+               Joined 
             </td>
             <td>
               <span>
@@ -2502,6 +2509,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   headerColorScheme={[Function Number]}
   isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead={[Function Boolean]}
+  isPartialMatchHighlightingEnabled="false"
   listOfStudentsToHide={[Function Array]}
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}

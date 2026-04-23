@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { NgIf, NgFor } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -22,17 +22,15 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
   templateUrl: './msq-question-edit-details-form.component.html',
   styleUrls: ['./msq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
   imports: [
-    NgIf,
     NgbTooltip,
     FormsModule,
     CdkDropList,
-    NgFor,
     CdkDrag,
     CdkDragHandle,
     MsqFieldComponent,
     WeightFieldComponent,
     GeneratedChoicePipe,
-  ],
+],
 })
 export class MsqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMsqQuestionDetails> {
@@ -209,20 +207,6 @@ export class MsqQuestionEditDetailsFormComponent
   triggerMinSelectableOptionsChange(checked: boolean): void {
     const minSelectableChoices: number = checked ? 2 : NO_VALUE;
     this.triggerModelChange('minSelectableChoices', minSelectableChoices);
-  }
-
-  /**
-   * Tracks the Msq option by index.
-   */
-  trackMsqOption(index: number): string {
-    return index.toString();
-  }
-
-  /**
-   * Tracks the Msq weight by index.
-   */
-  trackMsqWeight(index: number): string {
-    return index.toString();
   }
 
   /**

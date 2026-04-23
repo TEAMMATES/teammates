@@ -12,6 +12,7 @@ import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackQuestion,
   FeedbackSession,
+  FeedbackSessionDeadlineExtensions,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionStats,
@@ -26,6 +27,7 @@ import {
 } from '../types/api-output';
 import {
   FeedbackSessionCreateRequest,
+  FeedbackSessionDeadlineExtensionsUpdateRequest,
   FeedbackSessionRespondentRemindRequest,
   FeedbackSessionUpdateRequest,
   Intent,
@@ -103,15 +105,39 @@ export class FeedbackSessionsService {
   /**
    * Updates a feedback session by calling API.
    */
-  updateFeedbackSession(courseId: string, feedbackSessionName: string, request: FeedbackSessionUpdateRequest,
-    isNotifyDeadlines: boolean = false):
+  updateFeedbackSession(courseId: string, feedbackSessionName: string, request: FeedbackSessionUpdateRequest):
       Observable<FeedbackSession> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+    return this.httpRequestService.put(ResourceEndpoints.SESSION, paramMap, request);
+  }
+
+  /**
+   * Gets the deadline extensions for a feedback session by calling API.
+   */
+  getFeedbackSessionDeadlineExtensions(
+    courseId: string, feedbackSessionName: string): Observable<FeedbackSessionDeadlineExtensions> {
+    const paramMap: Record<string, string> = {
+      courseid: courseId,
+      fsname: feedbackSessionName,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_DEADLINE_EXTENSIONS, paramMap);
+  }
+
+  /**
+   * Updates the deadline extensions for a feedback session by calling API.
+   */
+  updateFeedbackSessionDeadlineExtensions(courseId: string, feedbackSessionName: string,
+    request: FeedbackSessionDeadlineExtensionsUpdateRequest,
+    isNotifyDeadlines: boolean): Observable<FeedbackSessionDeadlineExtensions> {
     const paramMap: Record<string, string> = {
       courseid: courseId,
       fsname: feedbackSessionName,
       notifydeadlines: String(isNotifyDeadlines),
     };
-    return this.httpRequestService.put(ResourceEndpoints.SESSION, paramMap, request);
+    return this.httpRequestService.put(ResourceEndpoints.SESSION_DEADLINE_EXTENSIONS, paramMap, request);
   }
 
   /**

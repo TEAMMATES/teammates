@@ -3,11 +3,12 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching
@@ -16,25 +17,25 @@ import teammates.common.util.Const;
  */
 public class CourseRoster {
 
-    private final Map<String, StudentAttributes> studentListByEmail = new HashMap<>();
-    private final Map<String, InstructorAttributes> instructorListByEmail = new HashMap<>();
-    private final Map<String, List<StudentAttributes>> teamToMembersTable;
+    private final Map<String, Student> studentListByEmail = new HashMap<>();
+    private final Map<String, Instructor> instructorListByEmail = new HashMap<>();
+    private final Map<String, List<Student>> teamToMembersTable;
 
-    public CourseRoster(List<StudentAttributes> students, List<InstructorAttributes> instructors) {
+    public CourseRoster(List<Student> students, List<Instructor> instructors) {
         populateStudentListByEmail(students);
         populateInstructorListByEmail(instructors);
         teamToMembersTable = buildTeamToMembersTable(getStudents());
     }
 
-    public List<StudentAttributes> getStudents() {
+    public List<Student> getStudents() {
         return new ArrayList<>(studentListByEmail.values());
     }
 
-    public List<InstructorAttributes> getInstructors() {
+    public List<Instructor> getInstructors() {
         return new ArrayList<>(instructorListByEmail.values());
     }
 
-    public Map<String, List<StudentAttributes>> getTeamToMembersTable() {
+    public Map<String, List<Student>> getTeamToMembersTable() {
         return teamToMembersTable;
     }
 
@@ -42,7 +43,7 @@ public class CourseRoster {
      * Checks whether a student is in course.
      */
     public boolean isStudentInCourse(String studentEmail) {
-        return studentListByEmail.containsKey(studentEmail);
+        return studentListByEmail.containsKey(normalizeEmail(studentEmail));
     }
 
     /**
@@ -56,16 +57,16 @@ public class CourseRoster {
      * Checks whether a student is in team.
      */
     public boolean isStudentInTeam(String studentEmail, String targetTeamName) {
-        StudentAttributes student = studentListByEmail.get(studentEmail);
-        return student != null && student.getTeam().equals(targetTeamName);
+        Student student = studentListByEmail.get(normalizeEmail(studentEmail));
+        return student != null && student.getTeamName().equals(targetTeamName);
     }
 
     /**
      * Checks whether two students are in the same team.
      */
     public boolean isStudentsInSameTeam(String studentEmail1, String studentEmail2) {
-        StudentAttributes student1 = studentListByEmail.get(studentEmail1);
-        StudentAttributes student2 = studentListByEmail.get(studentEmail2);
+        Student student1 = studentListByEmail.get(normalizeEmail(studentEmail1));
+        Student student2 = studentListByEmail.get(normalizeEmail(studentEmail2));
         return student1 != null && student2 != null
                 && student1.getTeam() != null && student1.getTeam().equals(student2.getTeam());
     }
@@ -73,48 +74,52 @@ public class CourseRoster {
     /**
      * Returns the student object for the given email.
      */
-    public StudentAttributes getStudentForEmail(String email) {
-        return studentListByEmail.get(email);
+    public Student getStudentForEmail(String email) {
+        return studentListByEmail.get(normalizeEmail(email));
     }
 
     /**
      * Returns the instructor object for the given email.
      */
-    public InstructorAttributes getInstructorForEmail(String email) {
-        return instructorListByEmail.get(email);
+    public Instructor getInstructorForEmail(String email) {
+        return instructorListByEmail.get(normalizeEmail(email));
     }
 
-    private void populateStudentListByEmail(List<StudentAttributes> students) {
+    private void populateStudentListByEmail(List<Student> students) {
 
         if (students == null) {
             return;
         }
 
-        for (StudentAttributes s : students) {
-            studentListByEmail.put(s.getEmail(), s);
+        for (Student s : students) {
+            studentListByEmail.put(normalizeEmail(s.getEmail()), s);
         }
     }
 
-    private void populateInstructorListByEmail(List<InstructorAttributes> instructors) {
+    private void populateInstructorListByEmail(List<Instructor> instructors) {
 
         if (instructors == null) {
             return;
         }
 
-        for (InstructorAttributes i : instructors) {
-            instructorListByEmail.put(i.getEmail(), i);
+        for (Instructor i : instructors) {
+            instructorListByEmail.put(normalizeEmail(i.getEmail()), i);
         }
+    }
+
+    private static String normalizeEmail(String email) {
+        return email == null ? null : email.toLowerCase(Locale.ROOT);
     }
 
     /**
      * Builds a Map from team name to team members.
      */
-    public static Map<String, List<StudentAttributes>> buildTeamToMembersTable(List<StudentAttributes> students) {
-        Map<String, List<StudentAttributes>> teamToMembersTable = new HashMap<>();
+    public static Map<String, List<Student>> buildTeamToMembersTable(List<Student> students) {
+        Map<String, List<Student>> teamToMembersTable = new HashMap<>();
         // group students by team
-        for (StudentAttributes studentAttributes : students) {
-            teamToMembersTable.computeIfAbsent(studentAttributes.getTeam(), key -> new ArrayList<>())
-                    .add(studentAttributes);
+        for (Student student : students) {
+            teamToMembersTable.computeIfAbsent(student.getTeamName(), key -> new ArrayList<>())
+                    .add(student);
         }
         return teamToMembersTable;
     }
@@ -133,23 +138,23 @@ public class CourseRoster {
         boolean isInstructor = getInstructorForEmail(identifier) != null;
         boolean isTeam = getTeamToMembersTable().containsKey(identifier);
         if (isStudent) {
-            StudentAttributes student = getStudentForEmail(identifier);
+            Student student = getStudentForEmail(identifier);
 
             name = student.getName();
-            teamName = student.getTeam();
-            sectionName = student.getSection();
+            teamName = student.getTeamName();
+            sectionName = student.getSectionName();
         } else if (isInstructor) {
-            InstructorAttributes instructor = getInstructorForEmail(identifier);
+            Instructor instructor = getInstructorForEmail(identifier);
 
             name = instructor.getName();
             teamName = Const.USER_TEAM_FOR_INSTRUCTOR;
             sectionName = Const.DEFAULT_SECTION;
         } else if (isTeam) {
-            StudentAttributes teamMember = getTeamToMembersTable().get(identifier).iterator().next();
+            Student teamMember = getTeamToMembersTable().get(identifier).iterator().next();
 
             name = identifier;
             teamName = identifier;
-            sectionName = teamMember.getSection();
+            sectionName = teamMember.getSectionName();
         }
 
         return new ParticipantInfo(name, teamName, sectionName);

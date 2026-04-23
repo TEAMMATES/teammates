@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpStatus;
 
+import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
@@ -53,17 +54,11 @@ public class RequestTraceFilter implements Filter {
             }
         }
 
-        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_task_request_headers
-        boolean isRequestFromAppEngineQueue = request.getHeader("X-AppEngine-QueueName") != null;
-
-        // GAE will terminate an instance if any request exceeds 10 minutes.
-        // For GAE-invoked requests, we set the limit here minus a small grace period of 5 seconds
-        // to ensure that the 10 minutes limit will not be exceeded.
-        // For user-invoked requests, we keep the time limit at 1 minute (as how it was
-        // in the previous GAE runtime environment) in order to not let user wait for excessively long,
-        // as well as a reminder for us to keep optimizing our API response time.
-        int timeoutInSeconds = isRequestFromAppEngineQueue ? 10 * 60 - 5 : 60;
+        // Worker / Cron requests (from Cloud Tasks with bearer token) may run longer.
+        // For these requests, we set the limit to 10 minutes minus a small grace period.
+        // For other requests, we keep the time limit at 1 minute.
+        boolean isAutomatedWorkerOrCronRequest = AutomatedRequestAuth.isTrustedCronOrWorkerRequest(request);
+        int timeoutInSeconds = isAutomatedWorkerOrCronRequest ? 10 * 60 - 5 : 60;
 
         RequestTracer.init(traceId, spanId, timeoutInSeconds);
 

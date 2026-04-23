@@ -1,4 +1,4 @@
-import { NgClass, NgFor, NgStyle, NgIf, NgComponentOutlet } from '@angular/common';
+import { NgClass, NgStyle, NgComponentOutlet } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, Type, EventEmitter, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { DynamicComponent, ComponentOutletInjectorDirective, DynamicIoDirective } from 'ng-dynamic-component';
@@ -70,15 +70,13 @@ export interface SortableTableCellData {
   styleUrls: ['./sortable-table.component.scss'],
   imports: [
     NgClass,
-    NgFor,
     NgStyle,
-    NgIf,
     NgbTooltip,
     DynamicComponent,
     NgComponentOutlet,
     ComponentOutletInjectorDirective,
     DynamicIoDirective,
-  ],
+],
 })
 export class SortableTableComponent implements OnInit, OnChanges {
 

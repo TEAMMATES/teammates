@@ -121,7 +121,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
         Student studentToUpdate = studentCaptor.getValue();
         verifyStudentToUpdate(updatedStudent, studentToUpdate);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
                 course.getId(),
@@ -170,7 +169,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
         Student studentToUpdate = studentCaptor.getValue();
         verifyStudentToUpdate(updatedStudent, studentToUpdate);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
                 course.getId(),
@@ -211,7 +209,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
         Student studentToUpdate = studentCaptor.getValue();
         verifyStudentToUpdate(updatedStudent, studentToUpdate);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         verifyNoEmailsSent();
 
@@ -247,7 +244,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
         Student studentToUpdate = studentCaptor.getValue();
         verifyStudentToUpdate(updatedStudent, studentToUpdate);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         verifyNoEmailsSent();
 
@@ -283,7 +279,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).updateStudentCascade(studentCaptor.capture());
         Student studentToUpdate = studentCaptor.getValue();
         verifyStudentToUpdate(updatedStudent, studentToUpdate);
-        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         verifyNoEmailsSent();
 

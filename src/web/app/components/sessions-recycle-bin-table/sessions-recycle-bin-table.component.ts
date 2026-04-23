@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { RecycleBinTableFormatDatePipe } from './recycle-bin-table-format-date.pipe';
@@ -25,14 +24,12 @@ export interface RecycleBinFeedbackSessionRowModel {
   styleUrls: ['./sessions-recycle-bin-table.component.scss'],
   animations: [collapseAnim],
   imports: [
-    NgIf,
     NgbTooltip,
     PanelChevronComponent,
-    NgFor,
     AjaxLoadingComponent,
     FormatDateDetailPipe,
     RecycleBinTableFormatDatePipe,
-  ],
+],
 })
 export class SessionsRecycleBinTableComponent {
 

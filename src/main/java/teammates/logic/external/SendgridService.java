@@ -3,7 +3,6 @@ package teammates.logic.external;
 import java.io.IOException;
 
 import org.apache.http.HttpStatus;
-import org.jsoup.Jsoup;
 
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -18,6 +17,7 @@ import teammates.common.exception.EmailSendingException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.HtmlHelper;
 
 /**
  * Email sender service provided by SendGrid.
@@ -27,11 +27,7 @@ import teammates.common.util.EmailWrapper;
  */
 public class SendgridService implements EmailSenderService {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Mail parseToEmail(EmailWrapper wrapper) {
+    Mail parseToEmail(EmailWrapper wrapper) {
         Mail email = new Mail();
         Email sender;
         if (wrapper.getSenderName() == null || wrapper.getSenderName().isEmpty()) {
@@ -48,7 +44,7 @@ public class SendgridService implements EmailSenderService {
         }
         email.addPersonalization(personalization);
         email.setSubject(wrapper.getSubject());
-        email.addContent(new Content("text/plain", Jsoup.parse(wrapper.getContent()).text()));
+        email.addContent(new Content("text/plain", HtmlHelper.htmlToPlainText(wrapper.getContent())));
         email.addContent(new Content("text/html", wrapper.getContent()));
         return email;
     }

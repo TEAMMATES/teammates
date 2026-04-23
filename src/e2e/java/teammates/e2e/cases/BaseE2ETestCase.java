@@ -11,18 +11,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -32,9 +22,36 @@ import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
-import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.BaseEntity;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.sqlentity.FeedbackResponseComment;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Notification;
+import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.UsageStatistics;
+import teammates.test.BaseTestCase;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
+import teammates.ui.output.AccountData;
+import teammates.ui.output.ApiOutput;
+import teammates.ui.output.CourseData;
+import teammates.ui.output.DeadlineExtensionData;
+import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackResponseCommentData;
+import teammates.ui.output.FeedbackResponseData;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
+import teammates.ui.output.FeedbackSessionPublishStatus;
+import teammates.ui.output.InstructorData;
+import teammates.ui.output.NotificationData;
+import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.output.StudentData;
+import teammates.ui.output.UsageStatisticsData;
 
 /**
  * Base class for all browser tests.
@@ -42,22 +59,16 @@ import teammates.test.ThreadHelper;
  * <p>This type of test has no knowledge of the workings of the application,
  * and can only communicate via the UI or via {@link BackDoor} to obtain/transmit data.
  */
-public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
-
+public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Backdoor used to call APIs.
      */
     protected static final BackDoor BACKDOOR = BackDoor.getInstance();
 
     /**
-     * Data to be used in the test.
+     * DataBundle used in tests.
      */
     protected DataBundle testData;
-
-    /**
-     * Sql Data to be used in the test.
-     */
-    protected SqlDataBundle sqlTestData;
 
     private Browser browser;
 
@@ -72,6 +83,20 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      */
     protected void prepareBrowser() {
         browser = new Browser();
+    }
+
+    /**
+     * Removes and restores the databundle.
+     */
+    protected DataBundle removeAndRestoreDataBundle(DataBundle testData) {
+        DataBundle dataBundle = null;
+        try {
+            dataBundle = BACKDOOR.removeAndRestoreDataBundle(testData);
+        } catch (HttpRequestFailedException e) {
+            throw new RuntimeException(e);
+        }
+        assertNotNull(dataBundle);
+        return dataBundle;
     }
 
     /**
@@ -131,8 +156,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         // In order for the cookie injection to work, we need to be in the domain.
         // Use the home page to minimize the page load time.
         browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
+
         String cookieValue = BACKDOOR.getUserCookie(userId);
         browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
+
         return getNewPageInstance(url, typeOfPage);
     }
 
@@ -223,74 +250,290 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         }
     }
 
-    AccountAttributes getAccount(String googleId) {
-        return BACKDOOR.getAccount(googleId);
+    /**
+     * Verifies that two entities are equal.
+     */
+    protected void verifyEquals(BaseEntity expected, ApiOutput actual) {
+        if (expected instanceof FeedbackQuestion) {
+            FeedbackQuestion expectedQuestion = (FeedbackQuestion) expected;
+            FeedbackQuestionDetails expectedQuestionDetails = expectedQuestion.getQuestionDetailsCopy();
+            FeedbackQuestionData actualQuestion = (FeedbackQuestionData) actual;
+            FeedbackQuestionDetails actualQuestionDetails = actualQuestion.getQuestionDetails();
+            assertEquals(expectedQuestion.getQuestionNumber(), (Integer) actualQuestion.getQuestionNumber());
+            assertEquals(expectedQuestion.getDescription(), actualQuestion.getQuestionDescription());
+            assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
+            assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
+            if (expectedQuestion.getNumOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
+                assertEquals(actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting(),
+                        NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
+                assertNull(actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
+            } else {
+                assertEquals(actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting(),
+                        NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
+                assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
+                        actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
+            }
+            assertEquals(expectedQuestionDetails.getJsonString(), actualQuestionDetails.getJsonString());
+        } else if (expected instanceof FeedbackResponse) {
+            FeedbackResponse expectedFeedbackResponse = (FeedbackResponse) expected;
+            FeedbackResponseDetails expectedResponseDetails =
+                    expectedFeedbackResponse.getFeedbackResponseDetailsCopy();
+            FeedbackResponseData actualResponse = (FeedbackResponseData) actual;
+            FeedbackResponseDetails actualResponseDetails = actualResponse.getResponseDetails();
+            assertEquals(expectedFeedbackResponse.getGiver(), actualResponse.getGiverIdentifier());
+            assertEquals(expectedFeedbackResponse.getRecipient(), actualResponse.getRecipientIdentifier());
+            assertEquals(expectedResponseDetails.getAnswerString(),
+                    actualResponse.getResponseDetails().getAnswerString());
+            assertEquals(expectedResponseDetails.getQuestionType(),
+                    actualResponse.getResponseDetails().getQuestionType());
+            assertEquals(expectedResponseDetails.getJsonString(), actualResponseDetails.getJsonString());
+        } else if (expected instanceof Account) {
+            Account expectedAccount = (Account) expected;
+            AccountData actualAccount = (AccountData) actual;
+            assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
+            assertEquals(expectedAccount.getName(), actualAccount.getName());
+            assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
+        } else if (expected instanceof Course) {
+            Course expectedCourse = (Course) expected;
+            CourseData actualCourse = (CourseData) actual;
+            assertEquals(expectedCourse.getName(), actualCourse.getCourseName());
+            assertEquals(expectedCourse.getTimeZone(), actualCourse.getTimeZone());
+            assertEquals(expectedCourse.getInstitute(), actualCourse.getInstitute());
+        } else if (expected instanceof DeadlineExtension) {
+            DeadlineExtension expectedDeadlineExtension = (DeadlineExtension) expected;
+            DeadlineExtensionData actualDeadlineExtension = (DeadlineExtensionData) actual;
+            assertEquals(expectedDeadlineExtension.getEndTime().toEpochMilli(), actualDeadlineExtension.getEndTime());
+            assertEquals(expectedDeadlineExtension.isClosingSoonEmailSent(),
+                    actualDeadlineExtension.getSentClosingSoonEmail());
+        } else if (expected instanceof FeedbackResponseComment) {
+            FeedbackResponseComment expectedFeedbackResponseComment = (FeedbackResponseComment) expected;
+            FeedbackResponseCommentData actualComment = (FeedbackResponseCommentData) actual;
+            assertEquals(expectedFeedbackResponseComment.getGiver(), actualComment.getCommentGiver());
+            assertEquals(expectedFeedbackResponseComment.getCommentText(), actualComment.getCommentText());
+            assertEquals(expectedFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion(),
+                    actualComment.isVisibilityFollowingFeedbackQuestion());
+            assertEquals(expectedFeedbackResponseComment.getLastEditorEmail(), actualComment.getLastEditorEmail());
+        } else if (expected instanceof FeedbackSession) {
+            FeedbackSession expectedFeedbackSession = (FeedbackSession) expected;
+            FeedbackSessionData actualFeedbackSession = (FeedbackSessionData) actual;
+            assertEquals(expectedFeedbackSession.getName(), actualFeedbackSession.getFeedbackSessionName());
+            assertEquals(expectedFeedbackSession.getInstructions(), actualFeedbackSession.getInstructions());
+            assertEquals(expectedFeedbackSession.getStartTime().toEpochMilli(),
+                    actualFeedbackSession.getSubmissionStartTimestamp());
+            assertEquals(expectedFeedbackSession.getEndTime().toEpochMilli(),
+                    actualFeedbackSession.getSubmissionEndTimestamp());
+            assertEquals(expectedFeedbackSession.getSessionVisibleFromTime().toEpochMilli(),
+                    actualFeedbackSession.getSessionVisibleFromTimestamp().longValue());
+            assertEquals(expectedFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
+                    actualFeedbackSession.getResultVisibleFromTimestamp().longValue());
+            assertEquals(expectedFeedbackSession.getGracePeriod().toMinutes(),
+                    actualFeedbackSession.getGracePeriod().longValue());
+            assertEquals(expectedFeedbackSession.isClosingSoonEmailEnabled(),
+                    actualFeedbackSession.getIsClosingSoonEmailEnabled());
+            assertEquals(expectedFeedbackSession.isPublishedEmailEnabled(),
+                    actualFeedbackSession.getIsPublishedEmailEnabled());
+        } else if (expected instanceof Instructor) {
+            Instructor expectedInstructor = (Instructor) expected;
+            InstructorData actualInstructor = (InstructorData) actual;
+            assertEquals(expectedInstructor.getCourseId(), actualInstructor.getCourseId());
+            assertEquals(expectedInstructor.getName(), actualInstructor.getName());
+            assertEquals(expectedInstructor.getEmail(), actualInstructor.getEmail());
+            // Cannot compare keys as actualInstructor's key is only generated before storing into the database.
+            assertNotNull(actualInstructor.getKey());
+            assertEquals(expectedInstructor.isDisplayedToStudents(), actualInstructor.getIsDisplayedToStudents());
+            assertEquals(expectedInstructor.getDisplayName(), actualInstructor.getDisplayedToStudentsAs());
+            assertEquals(expectedInstructor.getRole(), actualInstructor.getRole());
+        } else if (expected instanceof Notification) {
+            Notification expectedNotification = (Notification) expected;
+            NotificationData actualNotification = (NotificationData) actual;
+            assertEquals(expectedNotification.getStartTime().toEpochMilli(), actualNotification.getStartTimestamp());
+            assertEquals(expectedNotification.getEndTime().toEpochMilli(), actualNotification.getEndTimestamp());
+            assertEquals(expectedNotification.getStyle(), actualNotification.getStyle());
+            assertEquals(expectedNotification.getTargetUser(), actualNotification.getTargetUser());
+            assertEquals(expectedNotification.getTitle(), actualNotification.getTitle());
+            assertEquals(expectedNotification.getMessage(), actualNotification.getMessage());
+            assertEquals(expectedNotification.isShown(), actualNotification.isShown());
+        } else if (expected instanceof Student) {
+            Student expectedStudent = (Student) expected;
+            StudentData actualStudent = (StudentData) actual;
+            assertEquals(expectedStudent.getCourseId(), actualStudent.getCourseId());
+            assertEquals(expectedStudent.getName(), actualStudent.getName());
+            assertEquals(expectedStudent.getEmail(), actualStudent.getEmail());
+            assertEquals(expectedStudent.getRegKey(), actualStudent.getKey());
+            assertEquals(expectedStudent.getComments(), actualStudent.getComments());
+            // TODO: A student might not have a team or section.
+            // assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
+            // assertEquals(expectedStudent.getSectionName(), actualStudent.getSectionName());
+        } else if (expected instanceof UsageStatistics) {
+            UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
+            UsageStatisticsData actualUsageStatistics = (UsageStatisticsData) actual;
+            assertEquals(expectedUsageStatistics.getStartTime().toEpochMilli(), actualUsageStatistics.getStartTime());
+            assertEquals(expectedUsageStatistics.getTimePeriod(), actualUsageStatistics.getTimePeriod());
+            assertEquals(expectedUsageStatistics.getNumResponses(), actualUsageStatistics.getNumResponses());
+            assertEquals(expectedUsageStatistics.getNumCourses(), actualUsageStatistics.getNumCourses());
+            assertEquals(expectedUsageStatistics.getNumStudents(), actualUsageStatistics.getNumStudents());
+            assertEquals(expectedUsageStatistics.getNumInstructors(), actualUsageStatistics.getNumInstructors());
+            assertEquals(expectedUsageStatistics.getNumAccountRequests(),
+                    actualUsageStatistics.getNumAccountRequests());
+            assertEquals(expectedUsageStatistics.getNumEmails(), actualUsageStatistics.getNumEmails());
+            assertEquals(expectedUsageStatistics.getNumSubmissions(), actualUsageStatistics.getNumSubmissions());
+        } else {
+            fail("Unknown entity");
+        }
     }
 
-    @Override
-    protected AccountAttributes getAccount(AccountAttributes account) {
+    /**
+     * Verifies that the given entity is present in the database.
+     */
+    protected void verifyPresentInDatabase(BaseEntity expected) {
+        assertNotNull(expected);
+        ApiOutput actual = getEntity(expected);
+        assertNotNull(actual);
+        verifyEquals(expected, actual);
+    }
+
+    /**
+     * Verifies that the given entity is absent in the database.
+     */
+    protected void verifyAbsentInDatabase(BaseEntity expected) {
+        assertNotNull(expected);
+        ApiOutput actual = getEntity(expected);
+        assertNull(actual);
+    }
+
+    private ApiOutput getEntity(BaseEntity entity) {
+        if (entity instanceof Account) {
+            return getAccount((Account) entity);
+        } else if (entity instanceof Course) {
+            return getCourse((Course) entity);
+        } else if (entity instanceof FeedbackQuestion) {
+            return getFeedbackQuestion((FeedbackQuestion) entity);
+        } else if (entity instanceof FeedbackResponse) {
+            return getFeedbackResponse((FeedbackResponse) entity);
+        } else if (entity instanceof FeedbackResponseComment) {
+            return getFeedbackResponseComment((FeedbackResponseComment) entity);
+        } else if (entity instanceof FeedbackSession) {
+            return getFeedbackSession((FeedbackSession) entity);
+        } else if (entity instanceof Instructor) {
+            return getInstructor((Instructor) entity);
+        } else if (entity instanceof Notification) {
+            return getNotification((Notification) entity);
+        } else if (entity instanceof Student) {
+            return getStudent((Student) entity);
+        } else {
+            throw new RuntimeException("Unknown entity type");
+        }
+    }
+
+    /**
+     * Gets the account data for the given Google ID.
+     */
+    protected AccountData getAccount(String googleId) {
+        return BACKDOOR.getAccountData(googleId);
+    }
+
+    /**
+     * Gets the account data for the given account.
+     */
+    protected AccountData getAccount(Account account) {
         return getAccount(account.getGoogleId());
     }
 
-    CourseAttributes getCourse(String courseId) {
-        return BACKDOOR.getCourse(courseId);
+    /**
+     * Gets the course data for the given course ID.
+     */
+    protected CourseData getCourse(String courseId) {
+        return BACKDOOR.getCourseData(courseId);
     }
 
-    @Override
-    protected CourseAttributes getCourse(CourseAttributes course) {
+    /**
+     * Gets the course data for the given course.
+     */
+    protected CourseData getCourse(Course course) {
         return getCourse(course.getId());
     }
 
-    CourseAttributes getArchivedCourse(String instructorId, String courseId) {
-        return BACKDOOR.getArchivedCourse(instructorId, courseId);
+    /**
+     * Gets the feedback question data for the given course ID, feedback session name and question number.
+     */
+    protected FeedbackQuestionData getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
+        return BACKDOOR.getFeedbackQuestionData(courseId, feedbackSessionName, qnNumber);
     }
 
-    FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
-        return BACKDOOR.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
+    /**
+     * Gets the feedback question data for the given feedback question.
+     */
+    protected FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq) {
+        return getFeedbackQuestion(fq.getCourseId(), fq.getFeedbackSession().getName(), fq.getQuestionNumber());
     }
 
-    @Override
-    protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return getFeedbackQuestion(fq.getCourseId(), fq.getFeedbackSessionName(), fq.getQuestionNumber());
+    /**
+     * Gets the feedback response data for the given question ID, giver, and recipient.
+     */
+    protected FeedbackResponseData getFeedbackResponse(String questionId, String giver, String recipient) {
+        return BACKDOOR.getFeedbackResponseData(questionId, giver, recipient);
     }
 
-    FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
-        return BACKDOOR.getFeedbackResponseComment(feedbackResponseId);
+    /**
+     * Gets the feedback response data for the given feedback response.
+     */
+    protected FeedbackResponseData getFeedbackResponse(FeedbackResponse fr) {
+        return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
     }
 
-    @Override
-    protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        return getFeedbackResponseComment(frc.getFeedbackResponseId());
+    /**
+     * Gets the feedback response comment data for the given feedback response ID.
+     */
+    protected FeedbackResponseCommentData getFeedbackResponseComment(UUID feedbackResponseId) {
+        return BACKDOOR.getFeedbackResponseCommentData(feedbackResponseId.toString());
     }
 
-    FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver, String recipient) {
-        return BACKDOOR.getFeedbackResponse(feedbackQuestionId, giver, recipient);
+    /**
+     * Gets the feedback response comment data for the given feedback response comment.
+     */
+    protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
+        return getFeedbackResponseComment(frc.getFeedbackResponse().getId());
     }
 
-    @Override
-    protected FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr) {
-        return getFeedbackResponse(fr.getFeedbackQuestionId(), fr.getGiver(), fr.getRecipient());
+    /**
+     * Gets the feedback session data for the given course ID and feedback session name.
+     */
+    protected FeedbackSessionData getFeedbackSession(String courseId, String feedbackSessionName) {
+        return BACKDOOR.getFeedbackSessionData(courseId, feedbackSessionName);
     }
 
-    FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
-        return BACKDOOR.getFeedbackSession(courseId, feedbackSessionName);
+    /**
+     * Gets the feedback session data for the given feedback session.
+     */
+    protected FeedbackSessionData getFeedbackSession(FeedbackSession feedbackSession) {
+        return getFeedbackSession(feedbackSession.getCourse().getId(), feedbackSession.getName());
     }
 
-    @Override
-    protected FeedbackSessionAttributes getFeedbackSession(FeedbackSessionAttributes fs) {
-        return getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
+    /**
+     * Checks if the feedback session is published.
+     */
+    protected boolean isFeedbackSessionPublished(FeedbackSessionPublishStatus status) {
+        return status == FeedbackSessionPublishStatus.PUBLISHED;
     }
 
-    FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
-        return BACKDOOR.getSoftDeletedSession(feedbackSessionName, instructorId);
+    /**
+     * Gets the soft-deleted feedback session data for the given feedback session name and instructor ID.
+     */
+    protected FeedbackSessionData getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+        return BACKDOOR.getSoftDeletedSessionData(feedbackSessionName, instructorId);
     }
 
-    InstructorAttributes getInstructor(String courseId, String instructorEmail) {
-        return BACKDOOR.getInstructor(courseId, instructorEmail);
+    /**
+     * Gets the instructor data for the given course ID and instructor email.
+     */
+    protected InstructorData getInstructor(String courseId, String instructorEmail) {
+        return BACKDOOR.getInstructorData(courseId, instructorEmail);
     }
 
-    @Override
-    protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
+    /**
+     * Gets the instructor data for the given instructor.
+     */
+    protected InstructorData getInstructor(Instructor instructor) {
         return getInstructor(instructor.getCourseId(), instructor.getEmail());
     }
 
@@ -301,79 +544,83 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getInstructor(courseId, instructorEmail).getKey();
     }
 
-    @Override
-    protected StudentAttributes getStudent(StudentAttributes student) {
-        return BACKDOOR.getStudent(student.getCourse(), student.getEmail());
+    /**
+     * Gets a notification by given notification ID.
+     */
+    protected NotificationData getNotification(String notificationId) {
+        return BACKDOOR.getNotificationData(notificationId);
+    }
+
+    /**
+     * Gets a notification by given notification.
+     */
+    protected NotificationData getNotification(Notification notification) {
+        return getNotification(notification.getId().toString());
+    }
+
+    /**
+     * Deletes the notification with the given ID.
+     *
+     * @param notificationId the ID of the notification to delete
+     */
+    protected void deleteNotification(UUID notificationId) {
+        BACKDOOR.deleteNotification(notificationId);
+    }
+
+    /**
+     * Deletes the notification with the given ID.
+     *
+     * @param notificationId the ID of the notification to delete
+     */
+    protected void deleteNotification(String notificationId) {
+        BACKDOOR.deleteNotification(notificationId);
+    }
+
+    /**
+     * Gets the student data for the given course ID and student email.
+     */
+    protected StudentData getStudent(String courseId, String studentEmailAddress) {
+        return BACKDOOR.getStudentData(courseId, studentEmailAddress);
+    }
+
+    /**
+     * Gets the student data for the given student.
+     */
+    protected StudentData getStudent(Student student) {
+        return getStudent(student.getCourseId(), student.getEmail());
     }
 
     /**
      * Gets registration key for a given student.
      */
-    protected String getKeyForStudent(StudentAttributes student) {
+    protected String getKeyForStudent(Student student) {
         return getStudent(student).getKey();
     }
 
-    @Override
-    protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
-        return BACKDOOR.getAccountRequest(UUID.fromString(accountRequest.getId()));
+    /**
+     * Gets feedback session deadline extensions data from the database.
+     */
+    protected FeedbackSessionDeadlineExtensionsData getFeedbackSessionDeadlineExtensions(
+            String courseId, String feedbackSessionName) {
+        return BACKDOOR.getFeedbackSessionDeadlineExtensionsData(courseId, feedbackSessionName);
     }
 
-    NotificationAttributes getNotification(String notificationId) {
-        return BACKDOOR.getNotification(notificationId);
+    /**
+     * Gets deadline extension data from the database.
+     */
+    protected DeadlineExtensionData getDeadlineExtension(
+            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
+        return BACKDOOR.getDeadlineExtensionData(courseId, feedbackSessionName, userEmail, isInstructor);
     }
 
-    @Override
-    protected NotificationAttributes getNotification(NotificationAttributes notification) {
-        return getNotification(notification.getNotificationId());
-    }
-
-    @Override
-    protected DeadlineExtensionAttributes getDeadlineExtension(DeadlineExtensionAttributes deadlineExtension) {
-        return BACKDOOR.getDeadlineExtension(
-                deadlineExtension.getCourseId(), deadlineExtension.getFeedbackSessionName(),
-                deadlineExtension.getUserEmail(), deadlineExtension.getIsInstructor());
-    }
-
-    @Override
-    protected boolean doRemoveAndRestoreDataBundle(DataBundle testData) {
-        try {
-            BACKDOOR.removeAndRestoreDataBundle(testData);
-            return true;
-        } catch (HttpRequestFailedException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    protected SqlDataBundle doRemoveAndRestoreSqlDataBundle(SqlDataBundle testData) {
-        try {
-            return BACKDOOR.removeAndRestoreSqlDataBundle(testData);
-        } catch (HttpRequestFailedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
-    protected boolean doPutDocuments(DataBundle testData) {
-        try {
-            BACKDOOR.putDocuments(testData);
-            return true;
-        } catch (HttpRequestFailedException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    protected boolean doPutDocumentsSql(SqlDataBundle testData) {
-        try {
-            BACKDOOR.putSqlDocuments(testData);
-            return true;
-        } catch (HttpRequestFailedException e) {
-            e.printStackTrace();
-            return false;
-        }
+    /**
+     * Updates the feedback response comment in the database.
+     *
+     * @param commentId the ID of the comment to update
+     * @param commentText the new comment text
+     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     */
+    protected void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorGoogleId) {
+        BACKDOOR.updateFeedbackResponseComment(commentId, commentText, instructorGoogleId);
     }
 }

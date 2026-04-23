@@ -63,14 +63,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     static final String DELETE = HttpDelete.METHOD_NAME;
 
     Logic mockLogic = mock(Logic.class);
-    teammates.logic.api.Logic mockDatastoreLogic = mock(teammates.logic.api.Logic.class);
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     teammates.logic.api.RecaptchaVerifier mockRecaptchaVerifier = mock(teammates.logic.api.RecaptchaVerifier.class);
     SqlEmailGenerator mockSqlEmailGenerator = mock(SqlEmailGenerator.class);
-    teammates.logic.api.EmailGenerator mockEmailGenerator = mock(teammates.logic.api.EmailGenerator.class);
     AuthProxy mockAuthProxy = mock(AuthProxy.class);
 
     abstract String getActionUri();
@@ -113,14 +111,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             @SuppressWarnings("unchecked")
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setLogic(mockLogic);
-            action.setLogic(mockDatastoreLogic);
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
             action.setLogsProcessor(mockLogsProcessor);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setSqlEmailGenerator(mockSqlEmailGenerator);
-            action.setEmailGenerator(mockEmailGenerator);
             action.setAuthProxy(mockAuthProxy);
             action.init(req);
             return action;
@@ -208,6 +204,16 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     protected void loginAsMaintainer() {
         UserInfo user = mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
         assertTrue(user.isMaintainer);
+    }
+
+    /**
+     * Models a verified cron/worker principal ({@link UserInfo#isAutomatedService}), for actions that allow
+     * automated services as well as human admins.
+     */
+    protected void loginAsAutomatedService() {
+        UserInfo user = mockUserProvision.loginAsAutomatedService(Const.AutomatedService.CRON_SERVICE_USER_ID);
+        assertTrue(user.isAutomatedService);
+        assertFalse(user.isAdmin);
     }
 
     /**
@@ -420,6 +426,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Admin → Maintainer → Instructor → Student → Unregistered → No login
      *  - An 'Only' can access test means all other types to the right cannot access except maintainers,
      *  which should be tested separately as they are a separate unrelated entity.
+     *  - For cron/worker endpoints (AutomatedServiceAction), use verifyOnlyAdminsOrAutomatedServicesCanAccess
+     *  instead of verifyOnlyAdminsCanAccess.
      */
 
     // Admins
@@ -429,6 +437,25 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyStudentsCannotAccess(params);
         verifyUnregisteredCannotAccess(params);
         verifyWithoutLoginCannotAccess(params);
+    }
+
+    /**
+     * Like {@link #verifyOnlyAdminsCanAccess(String...)} but also asserts that an automated-service principal
+     * passes {@code checkAccessControl} (for {@code AutomatedServiceAction} and similar).
+     */
+    void verifyOnlyAdminsOrAutomatedServicesCanAccess(String... params) {
+        verifyAdminsCanAccess(params);
+        verifyAutomatedServiceCanAccess(params);
+        verifyInstructorsCannotAccess(params);
+        verifyStudentsCannotAccess(params);
+        verifyUnregisteredCannotAccess(params);
+        verifyWithoutLoginCannotAccess(params);
+    }
+
+    void verifyAutomatedServiceCanAccess(String... params) {
+        loginAsAutomatedService();
+        verifyCanAccess(params);
+        logoutUser();
     }
 
     // Instructors

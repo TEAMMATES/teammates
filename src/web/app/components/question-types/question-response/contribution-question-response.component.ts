@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
 import {
@@ -16,6 +15,7 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
+import { areEmailsEqual } from '../../teammates-common/email-utils';
 
 /**
  * Contribution question response.
@@ -24,7 +24,7 @@ import {
   selector: 'tm-contribution-question-response',
   templateUrl: './contribution-question-response.component.html',
   styleUrls: ['./contribution-question-response.component.scss'],
-  imports: [NgIf],
+  imports: [],
 })
 export class ContributionQuestionResponseComponent
     extends QuestionResponse<FeedbackContributionResponseDetails, FeedbackContributionQuestionDetails>
@@ -49,7 +49,7 @@ export class ContributionQuestionResponseComponent
     this.answer = this.responseDetails.answer;
     if (this.statistics) {
       const statisticsObject: ContributionStatistics = JSON.parse(this.statistics);
-      if (this.giverEmail === this.recipientEmail) {
+      if (areEmailsEqual(this.giverEmail, this.recipientEmail)) {
         this.answer = statisticsObject.results[this.giverEmail].claimed;
       } else {
         this.answer = statisticsObject.results[this.giverEmail].claimedOthers[this.recipientEmail];

@@ -1,18 +1,20 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.FeedbackResponse;
 
 /**
- * The API output format of {@link FeedbackResponseAttributes}.
+ * The API output format of {@link FeedbackResponse}.
  */
 public class FeedbackResponseData extends ApiOutput {
 
-    private final String feedbackResponseId;
+    private final UUID feedbackResponseId;
 
     private final String giverIdentifier;
 
@@ -23,21 +25,23 @@ public class FeedbackResponseData extends ApiOutput {
     @Nullable
     private FeedbackResponseCommentData giverComment;
 
-    public FeedbackResponseData(FeedbackResponseAttributes feedbackResponseAttributes) {
-        this.feedbackResponseId = StringHelper.encrypt(feedbackResponseAttributes.getId());
-        this.giverIdentifier = feedbackResponseAttributes.getGiver();
-        this.recipientIdentifier = feedbackResponseAttributes.getRecipient();
-        this.responseDetails = feedbackResponseAttributes.getResponseDetailsCopy();
+    @JsonCreator
+    private FeedbackResponseData(UUID feedbackResponseId, String giverIdentifier,
+            String recipientIdentifier, FeedbackResponseDetails responseDetails) {
+        this.feedbackResponseId = feedbackResponseId;
+        this.giverIdentifier = giverIdentifier;
+        this.recipientIdentifier = recipientIdentifier;
+        this.responseDetails = responseDetails;
     }
 
     public FeedbackResponseData(FeedbackResponse feedbackResponse) {
-        this.feedbackResponseId = feedbackResponse.getId().toString();
+        this.feedbackResponseId = feedbackResponse.getId();
         this.giverIdentifier = feedbackResponse.getGiver();
         this.recipientIdentifier = feedbackResponse.getRecipient();
         this.responseDetails = feedbackResponse.getFeedbackResponseDetailsCopy();
     }
 
-    public String getFeedbackResponseId() {
+    public UUID getFeedbackResponseId() {
         return feedbackResponseId;
     }
 

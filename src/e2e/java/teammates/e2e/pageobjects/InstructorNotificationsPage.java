@@ -3,7 +3,7 @@ package teammates.e2e.pageobjects;
 /**
  * Page Object Model for instructor notifications page.
  */
-public class InstructorNotificationsPage extends UserNotificationsPage {
+public class InstructorNotificationsPage extends UserNotificationsPageSql {
 
     public InstructorNotificationsPage(Browser browser) {
         super(browser);

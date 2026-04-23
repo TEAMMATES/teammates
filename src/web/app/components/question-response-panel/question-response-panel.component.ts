@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -30,16 +29,14 @@ import { QuestionTextWithInfoComponent } from '../question-text-with-info/questi
   templateUrl: './question-response-panel.component.html',
   styleUrls: ['./question-response-panel.component.scss'],
   imports: [
-    NgFor,
     DestroyableDirective,
     InViewportDirective,
     LoadingSpinnerDirective,
     LoadingRetryComponent,
-    NgIf,
     QuestionTextWithInfoComponent,
     SingleStatisticsComponent,
     StudentViewResponsesComponent,
-  ],
+],
 })
 export class QuestionResponsePanelComponent {
 
@@ -55,6 +52,7 @@ export class QuestionResponsePanelComponent {
 
   @Input()
   session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -69,8 +67,6 @@ export class QuestionResponsePanelComponent {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   @Input()

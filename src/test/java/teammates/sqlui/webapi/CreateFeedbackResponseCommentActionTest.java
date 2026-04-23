@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 import org.mockito.Answers;
 import org.mockito.MockedStatic;
@@ -186,7 +187,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment to first response", commentData.getFeedbackCommentText());
+        assertEquals("Comment to first response", commentData.getCommentText());
         assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
     }
 
@@ -218,7 +219,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Empty giver permissions", commentData.getFeedbackCommentText());
+        assertEquals("Empty giver permissions", commentData.getCommentText());
     }
 
     @Test
@@ -249,7 +250,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment shown to giver", commentData.getFeedbackCommentText());
+        assertEquals("Comment shown to giver", commentData.getCommentText());
     }
 
     @Test
@@ -280,7 +281,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment shown to recipient", commentData.getFeedbackCommentText());
+        assertEquals("Comment shown to recipient", commentData.getCommentText());
     }
 
     @Test
@@ -311,7 +312,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment shown to giver team", commentData.getFeedbackCommentText());
+        assertEquals("Comment shown to giver team", commentData.getCommentText());
     }
 
     @Test
@@ -342,7 +343,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment shown to recipient team", commentData.getFeedbackCommentText());
+        assertEquals("Comment shown to recipient team", commentData.getCommentText());
     }
 
     @Test
@@ -373,7 +374,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment shown to students", commentData.getFeedbackCommentText());
+        assertEquals("Comment shown to students", commentData.getCommentText());
     }
 
     @Test
@@ -405,7 +406,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment to first response, published session", commentData.getFeedbackCommentText());
+        assertEquals("Comment to first response, published session", commentData.getCommentText());
         assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
     }
 
@@ -436,7 +437,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Instructor submission comment", commentData.getFeedbackCommentText());
+        assertEquals("Instructor submission comment", commentData.getCommentText());
         assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
     }
 
@@ -466,7 +467,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Student submission comment", commentData.getFeedbackCommentText());
+        assertEquals("Student submission comment", commentData.getCommentText());
         assertEquals(typicalStudent.getEmail(), commentData.getCommentGiver());
     }
 
@@ -786,7 +787,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
                 typicalInstructor.getEmail());
-        feedbackResponseComment.setId((long) 1);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -805,7 +806,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
                 typicalInstructor.getEmail());
-        feedbackResponseComment.setId((long) 2);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -824,7 +825,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
                 typicalStudent.getEmail());
-        feedbackResponseComment.setId((long) 3);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;

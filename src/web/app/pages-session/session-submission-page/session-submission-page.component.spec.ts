@@ -82,14 +82,12 @@ describe('SessionSubmissionPageComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
 
   const testComment: FeedbackResponseComment = {
     commentGiver: 'comment giver',
     lastEditorEmail: 'last-editor@email.com',
-    feedbackResponseCommentId: 1,
+    feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
     commentText: 'comment text',
     createdAt: 10000000,
     lastEditedAt: 20000000,

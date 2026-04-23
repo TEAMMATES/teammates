@@ -24,12 +24,6 @@ component Common {
     package common::datatransfer {
         collections "*Type" as Type
         collections "*Bundle" as Bundle
-        rectangle ::attributes MODEL_COLOR_T1 {
-            rectangle EntityAttributes
-            rectangle StudentAttributes
-            rectangle InstructorAttributes
-            rectangle "*Attributes" as Attributes
-        }
         rectangle ::questions MODEL_COLOR_T1 {
             rectangle "Feedback*QuestionDetails" as FQD
             rectangle "Feedback*ResponseDetails" as FRD
@@ -37,15 +31,5 @@ component Common {
         }
     }
 }
-
-StudentAttributes -> EntityAttributes
-InstructorAttributes -> EntityAttributes
-Attributes -> EntityAttributes
-
-' The hidden associations are for positioning purposes only
-StudentAttributes -[hidden]up- EntityAttributes
-EntityAttributes -[hidden]down- StudentAttributes
-InstructorAttributes -[hidden]up- EntityAttributes
-Attributes -[hidden]up- EntityAttributes
 
 @enduml

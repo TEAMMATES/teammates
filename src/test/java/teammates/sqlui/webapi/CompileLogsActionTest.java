@@ -44,7 +44,8 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
 
     @Test
     void testAccessControl() {
-        verifyOnlyAdminsCanAccess();
+        // AutomatedServiceAction: human admins and automated cron/worker principals
+        verifyOnlyAdminsOrAutomatedServicesCanAccess();
     }
 
     @Test
@@ -90,7 +91,7 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
         stubEmailWrapper.setSubject(String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.APP_VERSION));
 
         // use any() since the expected argument is a response from logs query
-        when(mockEmailGenerator.generateCompiledLogsEmail(any())).thenReturn(stubEmailWrapper);
+        when(mockSqlEmailGenerator.generateCompiledLogsEmail(any())).thenReturn(stubEmailWrapper);
         CompileLogsAction action = getAction();
         action.execute();
 

@@ -4,36 +4,30 @@
 
 # Developer Troubleshooting Guide
 
-This document can help you to fix the common problems encountered while contributing to TEAMMATES.
+This guide covers common problems encountered while setting up and contributing to TEAMMATES.
 
 ## Common setup errors and solutions
 
-<panel header="The back-end server fails with `java.io.FileNotFoundException`" no-close>
+<panel header="The backend server fails with `java.io.FileNotFoundException`" no-close>
 
 Due to framework limitation, this is an expected behavior if the working directory contains a space character in it.
 This can be resolved by moving the repository to another directory.
 </panel>
 
-<panel header="The back-end server is &quot;stuck&quot; at `85% EXECUTING` or alike" no-close>
+<panel header="The backend server is &quot;stuck&quot; at `85% EXECUTING` or alike" no-close>
 
 This is the expected behaviour if you are running the server in the foreground.
 </panel>
 
-<panel header="The front-end dev server fails with `Cannot find module '../api-output'` or similar" no-close>
-
-[The front-end type definitions need to be built](development.md#managing-the-dev-server-front-end) before running the dev server.
-</panel>
-
-<panel header="After pulling changes from the `master` branch, the previously working front-end dev server fails to start" no-close>
-
-This is possible if a part of API input/output definition changes.
-Simply rerun the command to build the type definitions to resolve the problem.
-</panel>
-
-<panel header="When running ./gradlew serverRun, the authentication fails with 'org.postgresql.util.PSQLException: FATAL: password authentication failed for user &quot;teammates&quot;'" no-close>
+<panel header="`PSQLException: FATAL: password authentication failed for user 'teammates'` when connecting to database" no-close>
 
 This is possible if a local PostgreSQL instance is already running on port 5432. 
 This can be fixed by manually killing the local PostgreSQL server process before running ./gradlew serverRun again.
+</panel>
+
+<panel header="Backend fails to start with `org.hibernate.tool.schema.spi.SchemaManagementException`" no-close>
+
+Refer to troubleshooting steps for [Schema Validation Failures](./how-to/schema-migration.html#schema-validation-failures).
 </panel>
 
 <br>
@@ -45,11 +39,6 @@ This can be fixed by manually killing the local PostgreSQL server process before
 Re-run the failed tests with TestNG, all test cases should pass eventually (it may take a few runs). If there are tests that persistently fail and not addressed in other parts of this guide, you may [request for help in the discussion forum](https://github.com/TEAMMATES/teammates/discussions/new?category=help-requests).
 </panel>
 
-<panel header="Tests fail due to accented characters" no-close>
-
-Ensure that the text file encoding for your workspace has been set to `UTF-8` as specified under [Setting up guide](setting-up.md).
-</panel>
-
 <panel header="`java.net.ConnectException: Connection refused` when running E2E tests" no-close>
 
 Ensure that your dev server is started prior to running those tests.
@@ -57,7 +46,7 @@ Ensure that your dev server is started prior to running those tests.
 
 <panel header="`org.openqa.selenium.WebDriverException: Unable to bind to locking port 7054 within 45000 ms` when running tests with Browser" no-close>
 
-Ensure compatible version of Firefox is installed as specified under [Development process document](development.md#testing).
+Ensure compatible version of Firefox is installed as specified in the [E2E Testing Instructions](./how-to/testing.md#e2e-tests).
 </panel>
 
 <panel header="When running E2E tests: `Selenium cannot find Firefox binary in PATH`" no-close>
@@ -82,4 +71,4 @@ Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations.
 
 ## Submitting help request
 
-If none of the items in this guide helps with the problem you face, you can [post in the discussion forum](https://github.com/TEAMMATES/teammates/discussions/new?category=help-requests) to request for help. Remember to supply as much relevant information as possible when requesting for help.
+If none of the above helps, [post in GitHub Discussions](https://github.com/TEAMMATES/teammates/discussions/new?category=help-requests) with as much relevant information as possible.

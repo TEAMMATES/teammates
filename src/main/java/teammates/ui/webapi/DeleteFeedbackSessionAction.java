@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -19,17 +18,9 @@ public class DeleteFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId)) {
-            FeedbackSession feedbackSession = sqlLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-            gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()), feedbackSession,
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        } else {
-            FeedbackSessionAttributes feedbackSession =
-                    logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                    feedbackSession,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        }
     }
 
     @Override
@@ -37,11 +28,7 @@ public class DeleteFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId)) {
-            sqlLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
-        } else {
-            logic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
-        }
+        sqlLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
 
         return new JsonResult("The feedback session is deleted.");
     }

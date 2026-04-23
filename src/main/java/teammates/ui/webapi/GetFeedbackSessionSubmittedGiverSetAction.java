@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -22,17 +20,10 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId)) {
-            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
 
-            gateKeeper.verifyAccessible(instructor, feedbackSession);
-        } else {
-            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-
-            gateKeeper.verifyAccessible(instructor, feedbackSession);
-        }
+        gateKeeper.verifyAccessible(instructor, feedbackSession);
     }
 
     @Override
@@ -41,19 +32,10 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId)) {
-            FeedbackSessionSubmittedGiverSet output = new FeedbackSessionSubmittedGiverSet(
-                    sqlLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId)
-            );
+        FeedbackSessionSubmittedGiverSet output = new FeedbackSessionSubmittedGiverSet(
+                sqlLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId)
+        );
 
-            return new JsonResult(output);
-        } else {
-            FeedbackSessionSubmittedGiverSet output =
-                    new FeedbackSessionSubmittedGiverSet(
-                    logic.getGiverSetThatAnswerFeedbackSession(courseId, feedbackSessionName));
-
-            return new JsonResult(output);
-        }
+        return new JsonResult(output);
     }
-
 }

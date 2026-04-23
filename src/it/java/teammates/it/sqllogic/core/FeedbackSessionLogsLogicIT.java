@@ -8,8 +8,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.SqlDataBundle;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.FeedbackSessionLogsLogic;
@@ -25,13 +26,11 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
 
     private FeedbackSessionLogsLogic fslLogic = FeedbackSessionLogsLogic.inst();
 
-    private SqlDataBundle typicalDataBundle;
+    private DataBundle typicalDataBundle;
 
-    @Override
     @BeforeClass
     public void setupClass() {
-        super.setupClass();
-        typicalDataBundle = getTypicalSqlDataBundle();
+        typicalDataBundle = getTypicalDataBundle();
     }
 
     @Override
@@ -44,7 +43,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
     }
 
     @Test
-    public void test_createFeedbackSessionLog_success() {
+        public void test_createFeedbackSessionLog_success() throws InvalidParametersException {
         Course course = typicalDataBundle.courses.get("course1");
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student1InCourse1");
@@ -126,6 +125,23 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
                 endTime.plusSeconds(7200));
 
         assertEquals(expectedLogs, actualLogs);
+    }
+
+    @Test
+    public void test_deleteFeedbackSessionLogsOlderThan_success() {
+        Course course = typicalDataBundle.courses.get("course1");
+        Instant cutoffTime = Instant.parse("2012-01-01T14:30:00Z");
+
+        int deletedCount = fslLogic.deleteFeedbackSessionLogsOlderThan(cutoffTime);
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
+
+        List<FeedbackSessionLog> remainingLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
+                Instant.parse("2012-01-01T00:00:00Z"), Instant.parse("2012-01-02T00:00:00Z"));
+
+        assertEquals(deletedCount, 7);
+        assertEquals(remainingLogs.size(), 0);
+        assertTrue(remainingLogs.stream().allMatch(log -> !log.getTimestamp().isBefore(cutoffTime)));
     }
 
 }

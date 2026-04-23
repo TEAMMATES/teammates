@@ -1,5 +1,5 @@
 <!-- Before opening a PR, please ensure you have read our contributor guidelines -->
-<!-- at https://teammates.github.io/teammates/process.html#step-4-submit-a-pr. -->
+<!-- at https://teammates.github.io/teammates/contributing/guidelines.html. -->
 
 <!-- PR title: Copy-and-paste the name of the issue this PR is fixing, -->
 <!-- and include the issue number in front in square brackets. -->

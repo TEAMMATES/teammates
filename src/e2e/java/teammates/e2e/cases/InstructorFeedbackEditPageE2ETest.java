@@ -9,107 +9,97 @@ import java.util.Arrays;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPage;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
-import teammates.test.ThreadHelper;
+import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
+import teammates.storage.sqlentity.Course;
+import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}.
  */
 public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
-    private InstructorAttributes instructor;
-    private FeedbackSessionAttributes feedbackSession;
-    private CourseAttributes course;
-    private CourseAttributes copiedCourse;
+    private Course course;
+    private Course copiedCourse;
+    private Instructor instructor;
+    private FeedbackSession feedbackSession;
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorFeedbackEditPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
-
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                        loadSqlDataBundle("/InstructorFeedbackEditPageE2ETest_SqlEntities.json"));
-
-        instructor = testData.instructors.get("instructor");
+        testData = removeAndRestoreDataBundle(loadDataBundle("/InstructorFeedbackEditPageE2ETestSql.json"));
+        course = testData.courses.get("InstFEP.CS2104");
+        instructor = testData.instructors.get("InstFEP.instr");
         feedbackSession = testData.feedbackSessions.get("openSession");
-        course = testData.courses.get("course");
-        copiedCourse = testData.courses.get("course2");
+        copiedCourse = testData.courses.get("InstFEP.CS1101");
     }
 
     @Test
     @Override
-    public void testAll() {
+    protected void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withCourseId(course.getId())
-                .withSessionName(feedbackSession.getFeedbackSessionName());
-        InstructorFeedbackEditPage feedbackEditPage =
-                loginToPage(url, InstructorFeedbackEditPage.class, instructor.getGoogleId());
+                .withSessionName(feedbackSession.getName());
+        InstructorFeedbackEditPageSql feedbackEditPage =
+                loginToPage(url, InstructorFeedbackEditPageSql.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
         feedbackEditPage.verifySessionDetails(course, feedbackSession);
 
         ______TS("edit session details");
-        feedbackSession.setInstructions("<p><strong>new instructions</strong></p>");
-        feedbackSession.setStartTime(ZonedDateTime.now(ZoneId.of(feedbackSession.getTimeZone())).plus(Duration.ofDays(2))
+        feedbackSession.setStartTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(2))
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
-        feedbackSession.setEndTime(ZonedDateTime.now(ZoneId.of(feedbackSession.getTimeZone())).plus(Duration.ofDays(7))
+        feedbackSession.setEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(7))
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
-        feedbackSession.setGracePeriodMinutes(30);
+        feedbackSession.setGracePeriod(Duration.ofMinutes(20));
         feedbackSession.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
         feedbackSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
         feedbackSession.setClosingSoonEmailEnabled(false);
 
-        feedbackEditPage.editSessionDetails(feedbackSession);
+        feedbackEditPage.editSessionDetails(feedbackSession, course);
         feedbackEditPage.verifyStatusMessage("The feedback session has been updated.");
         feedbackEditPage.verifySessionDetails(course, feedbackSession);
         verifyPresentInDatabase(feedbackSession);
 
         ______TS("add template question");
-        FeedbackQuestionAttributes templateQuestion = getTemplateQuestion();
+        FeedbackQuestion templateQuestion = getTemplateQuestion();
+        FeedbackQuestion feedbackQuestion = testData.feedbackQuestions.get("qn1ForFirstCourseFirstSession");
         feedbackEditPage.addTemplateQuestion(1);
 
         feedbackEditPage.verifyStatusMessage("The question has been added to this feedback session.");
-        feedbackEditPage.verifyNumQuestions(1);
-        feedbackEditPage.verifyQuestionDetails(1, templateQuestion);
-        verifyPresentInDatabase(templateQuestion);
+        feedbackEditPage.verifyNumQuestions(2);
+        feedbackEditPage.verifyQuestionDetails(2, templateQuestion);
+        feedbackEditPage.verifyQuestionDetails(1, feedbackQuestion);
+        verifyPresentInDatabase(feedbackQuestion);
 
         ______TS("copy question from other session");
-        FeedbackQuestionAttributes questionToCopy = testData.feedbackQuestions.get("qn1");
-        questionToCopy.setCourseId(course.getId());
-        questionToCopy.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
-        questionToCopy.setQuestionNumber(2);
+        FeedbackQuestion questionToCopy = testData.feedbackQuestions.get("qn1ForSecondCourseFirstSession");
+        questionToCopy.setFeedbackSession(feedbackSession);
+        questionToCopy.setQuestionNumber(3);
         feedbackEditPage.copyQuestion(copiedCourse.getId(), questionToCopy.getQuestionDetailsCopy().getQuestionText());
 
         feedbackEditPage.verifyStatusMessage("The selected question(s) have been added to this feedback session.");
-        feedbackEditPage.verifyNumQuestions(2);
-        feedbackEditPage.verifyQuestionDetails(2, questionToCopy);
+        feedbackEditPage.verifyNumQuestions(3);
+        feedbackEditPage.verifyQuestionDetails(3, questionToCopy);
         verifyPresentInDatabase(questionToCopy);
 
         ______TS("reorder questions");
-        questionToCopy.setQuestionNumber(1);
-        templateQuestion.setQuestionNumber(2);
+        feedbackQuestion.setQuestionNumber(2);
+        templateQuestion.setQuestionNumber(1);
         feedbackEditPage.editQuestionNumber(2, 1);
-
         feedbackEditPage.verifyStatusMessage("The changes to the question have been updated.");
-        verifyReorder(questionToCopy);
-        verifyReorder(templateQuestion);
-        feedbackEditPage.verifyQuestionDetails(1, questionToCopy);
-        feedbackEditPage.verifyQuestionDetails(2, templateQuestion);
+
+        feedbackEditPage.verifyQuestionDetails(1, templateQuestion);
+        feedbackEditPage.verifyQuestionDetails(2, feedbackQuestion);
+        feedbackEditPage.verifyQuestionDetails(3, questionToCopy);
 
         ______TS("edit question");
-        FeedbackQuestionAttributes editedQuestion = getTemplateQuestion();
+        FeedbackQuestion editedQuestion = getTemplateQuestion();
         editedQuestion.setQuestionNumber(1);
-        String questionBrief = editedQuestion.getQuestionDetailsCopy().getQuestionText();
-        editedQuestion.setQuestionDetails(new FeedbackTextQuestionDetails(questionBrief));
-        editedQuestion.setQuestionDescription("<p><em>New Description</em></p>");
+        editedQuestion.setDescription("<p><em>New Description</em></p>");
         feedbackEditPage.editQuestionDetails(1, editedQuestion);
 
         feedbackEditPage.verifyStatusMessage("The changes to the question have been updated.");
@@ -117,27 +107,29 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(editedQuestion);
 
         ______TS("duplicate question");
-        editedQuestion.setQuestionNumber(3);
+        editedQuestion.setQuestionNumber(4);
         feedbackEditPage.duplicateQuestion(1);
 
         feedbackEditPage.verifyStatusMessage("The question has been duplicated below.");
-        feedbackEditPage.verifyNumQuestions(3);
-        feedbackEditPage.verifyQuestionDetails(3, editedQuestion);
+        feedbackEditPage.verifyNumQuestions(4);
+        feedbackEditPage.verifyQuestionDetails(4, editedQuestion);
         verifyPresentInDatabase(editedQuestion);
 
         ______TS("delete question");
-        templateQuestion.setQuestionNumber(1);
         feedbackEditPage.deleteQuestion(1);
 
         feedbackEditPage.verifyStatusMessage("The question has been deleted.");
-        feedbackEditPage.verifyNumQuestions(2);
-        feedbackEditPage.verifyQuestionDetails(1, templateQuestion);
-        // verify qn 1 has been replaced in database by qn 2
-        verifyReorder(templateQuestion);
+        feedbackEditPage.verifyNumQuestions(3);
+
+        feedbackQuestion.setQuestionNumber(feedbackQuestion.getQuestionNumber() - 1);
+        editedQuestion.setQuestionNumber(editedQuestion.getQuestionNumber() - 1);
+        questionToCopy.setQuestionNumber(questionToCopy.getQuestionNumber() - 1);
+        feedbackEditPage.verifyQuestionDetails(1, feedbackQuestion);
+        feedbackEditPage.verifyQuestionDetails(2, questionToCopy);
+        feedbackEditPage.verifyQuestionDetails(3, editedQuestion);
 
         ______TS("preview session as student");
-        FeedbackSubmitPage previewPage = feedbackEditPage.previewAsStudent(
-                testData.students.get("benny.tmms@IFEdit.CS2104"));
+        FeedbackSubmitPageSql previewPage = feedbackEditPage.previewAsStudent(testData.students.get("InstFEP.jose.tmms"));
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("preview session as instructor");
@@ -145,9 +137,9 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("copy session to other course");
-        feedbackSession.setCourseId(copiedCourse.getId());
+        feedbackSession.setCourse(copiedCourse);
         String copiedSessionName = "Copied Session";
-        feedbackSession.setFeedbackSessionName(copiedSessionName);
+        feedbackSession.setName(copiedSessionName);
         feedbackEditPage.copySessionToOtherCourse(copiedCourse, copiedSessionName);
 
         feedbackEditPage.verifyStatusMessage("The feedback session has been copied. "
@@ -155,44 +147,32 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(feedbackSession);
 
         ______TS("delete session");
-        feedbackEditPage.deleteSession();
 
+        feedbackEditPage.deleteSession();
         feedbackEditPage.verifyStatusMessage("The feedback session has been deleted. "
                 + "You can restore it from the deleted sessions table below.");
         assertNotNull(getSoftDeletedSession(copiedSessionName,
                 instructor.getGoogleId()));
+
     }
 
-    private void verifyReorder(FeedbackQuestionAttributes question) {
-        int retryLimit = 5;
-        FeedbackQuestionAttributes actual = getFeedbackQuestion(question);
-        while (!actual.equals(question) && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(1000);
-            actual = getFeedbackQuestion(question);
-        }
-        assertEquals(question, actual);
-    }
-
-    private FeedbackQuestionAttributes getTemplateQuestion() {
+    private FeedbackQuestion getTemplateQuestion() {
         FeedbackContributionQuestionDetails detail = new FeedbackContributionQuestionDetails();
         detail.setQuestionText("How much work did each team member contribute?"
                 + " (response will be shown anonymously to each team member).");
 
-        return FeedbackQuestionAttributes.builder()
-                .withCourseId(course.getId())
-                .withFeedbackSessionName(feedbackSession.getFeedbackSessionName())
-                .withQuestionDetails(detail)
-                .withQuestionDescription("")
-                .withQuestionNumber(1)
-                .withGiverType(FeedbackParticipantType.STUDENTS)
-                .withRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
-                .withNumberOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
-                .withShowResponsesTo(Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
-                        FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER))
-                .withShowGiverNameTo(Arrays.asList(FeedbackParticipantType.INSTRUCTORS))
-                .withShowRecipientNameTo(Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
-                        FeedbackParticipantType.RECEIVER))
-                .build();
+        return FeedbackQuestion.makeQuestion(
+                feedbackSession,
+                2,
+                "",
+                FeedbackParticipantType.STUDENTS,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+                Const.MAX_POSSIBLE_RECIPIENTS,
+                Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
+                        FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER),
+                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
+                        FeedbackParticipantType.RECEIVER), detail);
+
     }
 }

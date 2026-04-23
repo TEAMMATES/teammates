@@ -2,27 +2,24 @@ package teammates.e2e.cases;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
-import teammates.e2e.pageobjects.InstructorHomePage;
+import teammates.e2e.pageobjects.InstructorHomePageSql;
+import teammates.storage.sqlentity.Instructor;
 
 /**
  * SUT: {@link Const.WebPageURIs#JOIN_PAGE}.
  */
 public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
-    InstructorAttributes newInstructor;
+    private Instructor newInstructor;
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorCourseJoinConfirmationPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                        loadSqlDataBundle("/InstructorCourseJoinConfirmationPageE2ETest_SqlEntities.json"));
+        testData = removeAndRestoreDataBundle(
+                loadDataBundle("/InstructorCourseJoinConfirmationPageE2ETestSql.json"));
 
         newInstructor = testData.instructors.get("ICJoinConf.instr.CS1101");
-        newInstructor.setGoogleId("tm.e2e.ICJoinConf.instr2");
     }
 
     @Test
@@ -33,8 +30,9 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         AppUrl joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidKey)
                 .withEntityType(Const.EntityType.INSTRUCTOR);
+        String newInstructorId = "tm.e2e.ICJoinConf.instr2";
         CourseJoinConfirmationPage confirmationPage = loginToPage(
-                joinLink, CourseJoinConfirmationPage.class, newInstructor.getGoogleId());
+                joinLink, CourseJoinConfirmationPage.class, newInstructorId);
 
         confirmationPage.verifyDisplayedMessage("The course join link is invalid. You may have "
                 + "entered the URL incorrectly or the URL may correspond to a/an instructor that does not exist.");
@@ -47,12 +45,12 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
-        confirmationPage.verifyJoiningUser(newInstructor.getGoogleId());
-        confirmationPage.confirmJoinCourse(InstructorHomePage.class);
+        confirmationPage.verifyJoiningUser(newInstructorId);
+        confirmationPage.confirmJoinCourse(InstructorHomePageSql.class);
 
         ______TS("Already joined, no confirmation page");
 
-        getNewPageInstance(joinLink, InstructorHomePage.class);
+        getNewPageInstance(joinLink, InstructorHomePageSql.class);
 
         logout();
 
@@ -68,7 +66,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         ______TS("Click join link: valid account request key");
 
         String regKey = BACKDOOR
-                .getRegKeyForAccountRequest(sqlTestData.accountRequests.get("ICJoinConf.newinstr").getId());
+                .getRegKeyForAccountRequest(testData.accountRequests.get("ICJoinConf.newinstr").getId());
 
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withIsCreatingAccount("true")
@@ -76,10 +74,10 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
 
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
         confirmationPage.verifyJoiningUser("ICJoinConf.newinstr");
-        confirmationPage.confirmJoinCourse(InstructorHomePage.class);
+        confirmationPage.confirmJoinCourse(InstructorHomePageSql.class);
 
         ______TS("Regkey for account request used, no confirmation page");
 
-        getNewPageInstance(joinLink, InstructorHomePage.class);
+        getNewPageInstance(joinLink, InstructorHomePageSql.class);
     }
 }

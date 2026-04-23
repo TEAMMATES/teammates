@@ -14,6 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -153,7 +154,7 @@ public final class FeedbackSessionsLogic {
     /**
      * Returns a {@code List} of feedback sessions in the Recycle Bin for the instructors.
      * <br>
-     * Omits sessions if the corresponding courses are archived or in Recycle Bin
+     * Omits sessions if the corresponding courses are in Recycle Bin
      */
     public List<FeedbackSession> getSoftDeletedFeedbackSessionsForInstructors(
             List<Instructor> instructorList) {
@@ -557,7 +558,7 @@ public final class FeedbackSessionsLogic {
         } else {
             // No questions for instructors. There must be questions for creator.
             List<Instructor> creators = instructors.stream()
-                    .filter(instructor -> fs.getCreatorEmail().equals(instructor.getEmail()))
+                    .filter(instructor -> SanitizationHelper.areEmailsEqual(fs.getCreatorEmail(), instructor.getEmail()))
                     .collect(Collectors.toList());
             expectedTotal += creators.size();
         }

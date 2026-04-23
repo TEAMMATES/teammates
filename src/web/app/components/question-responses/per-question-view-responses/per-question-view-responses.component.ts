@@ -1,4 +1,4 @@
-import { NgIf, NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
@@ -25,14 +25,12 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
   templateUrl: './per-question-view-responses.component.html',
   styleUrls: ['./per-question-view-responses.component.scss'],
   imports: [
-    NgIf,
     NgClass,
-    NgFor,
     SingleResponseComponent,
     ResponseModerationButtonComponent,
     CommentTableModalComponent,
     SafeHtmlPipe,
-  ],
+],
 })
 export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
@@ -47,6 +45,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   @Input() showGiver: boolean = true;
   @Input() showRecipient: boolean = true;
   @Input() session: FeedbackSession = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: '',
     feedbackSessionName: '',
@@ -61,8 +60,6 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-    studentDeadlines: {},
-    instructorDeadlines: {},
   };
   @Input() isDisplayOnly: boolean = false;
   @Input() statistics: string = '';

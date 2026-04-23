@@ -1,4 +1,4 @@
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
@@ -17,11 +17,10 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
   imports: [
     DestroyableDirective,
     InViewportDirective,
-    NgIf,
     EditorComponent,
     NgClass,
     FormsModule,
-  ],
+],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: `${TINYMCE_BASE_URL}/tinymce.min.js` },
   ],
@@ -77,6 +76,7 @@ export class RichTextEditorComponent implements OnInit {
       relative_urls: false,
       convert_urls: false,
       remove_linebreaks: false,
+      entity_encoding: 'raw',
       placeholder: this.placeholderText,
       plugins: [
         'advlist', 'autolink', 'autoresize', 'lists', 'link', 'image', 'charmap', 'anchor',

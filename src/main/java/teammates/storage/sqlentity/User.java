@@ -17,12 +17,20 @@ import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 /**
  * Represents a User.
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Instructor.class, name = "instructor"),
+        @JsonSubTypes.Type(value = Student.class, name = "student")
+})
 @Entity
 @Table(name = "Users", uniqueConstraints = {
         @UniqueConstraint(name = "Unique email and courseId", columnNames = { "email", "courseId" })
@@ -53,7 +61,7 @@ public abstract class User extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 512)
     private String regKey;
 
     @UpdateTimestamp

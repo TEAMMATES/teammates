@@ -1,13 +1,15 @@
 package teammates.ui.output;
 
-import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
+import java.util.UUID;
+
 import teammates.storage.sqlentity.UsageStatistics;
 
 /**
- * The API output format of {@link UsageStatisticsAttributes}.
+ * The API output format of {@link UsageStatistics}.
  */
 public class UsageStatisticsData extends ApiOutput {
 
+    private final UUID usageStatisticsId;
     private final long startTime;
     private final int timePeriod;
     private final int numResponses;
@@ -18,19 +20,8 @@ public class UsageStatisticsData extends ApiOutput {
     private final int numEmails;
     private final int numSubmissions;
 
-    public UsageStatisticsData(UsageStatisticsAttributes attributes) {
-        this.startTime = attributes.getStartTime().toEpochMilli();
-        this.timePeriod = attributes.getTimePeriod();
-        this.numResponses = attributes.getNumResponses();
-        this.numCourses = attributes.getNumCourses();
-        this.numStudents = attributes.getNumStudents();
-        this.numInstructors = attributes.getNumInstructors();
-        this.numAccountRequests = attributes.getNumAccountRequests();
-        this.numEmails = attributes.getNumEmails();
-        this.numSubmissions = attributes.getNumSubmissions();
-    }
-
     public UsageStatisticsData(UsageStatistics usageStatistics) {
+        this.usageStatisticsId = usageStatistics.getId();
         this.startTime = usageStatistics.getStartTime().toEpochMilli();
         this.timePeriod = usageStatistics.getTimePeriod();
         this.numResponses = usageStatistics.getNumResponses();
@@ -40,6 +31,10 @@ public class UsageStatisticsData extends ApiOutput {
         this.numAccountRequests = usageStatistics.getNumAccountRequests();
         this.numEmails = usageStatistics.getNumEmails();
         this.numSubmissions = usageStatistics.getNumSubmissions();
+    }
+
+    public UUID getUsageStatisticsId() {
+        return usageStatisticsId;
     }
 
     public long getStartTime() {

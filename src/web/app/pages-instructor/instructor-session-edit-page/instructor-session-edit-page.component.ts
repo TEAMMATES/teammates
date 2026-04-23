@@ -1,4 +1,3 @@
-import { NgIf, NgFor } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -38,6 +37,7 @@ import {
   FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackSession,
+  FeedbackSessionDeadlineExtensions,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackTextQuestionDetails, FeedbackVisibilityType,
@@ -96,13 +96,11 @@ import {
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     SessionEditFormComponent,
-    NgIf,
-    NgFor,
     QuestionEditFormComponent,
     AddingQuestionPanelComponent,
     PreviewSessionPanelComponent,
     ModifiedTimestampModalComponent,
-  ],
+],
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
 
@@ -115,6 +113,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // url param
   courseId: string = '';
   feedbackSessionName: string = '';
+  feedbackSessionId: string = '';
   isEditingMode: boolean = false;
 
   courseName: string = '';
@@ -211,6 +210,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.feedbackSessionId = queryParams.fsid;
       this.isEditingMode = queryParams.editingMode === 'true';
 
       this.loadFeedbackSession();
@@ -231,17 +231,23 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       next: (course: Course) => {
         this.courseName = course.courseName;
 
-        this.feedbackSessionsService.getFeedbackSession({
-          courseId: this.courseId,
-          feedbackSessionName: this.feedbackSessionName,
-          intent: Intent.FULL_DETAIL,
-        }).pipe(finalize(() => {
+        forkJoin([
+          this.feedbackSessionsService.getFeedbackSession({
+            courseId: this.courseId,
+            feedbackSessionName: this.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+          }),
+          this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
+            this.courseId, this.feedbackSessionName),
+        ]).pipe(finalize(() => {
           this.isLoadingFeedbackSession = false;
         }))
             .subscribe({
-              next: (feedbackSession: FeedbackSession) => {
+              next: ([feedbackSession, deadlineExtensions]: [FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
                 this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
                 this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
+                this.studentDeadlines = deadlineExtensions.studentDeadlines;
+                this.instructorDeadlines = deadlineExtensions.instructorDeadlines;
               },
               error: (resp: ErrorMessageOutput) => {
                 this.hasLoadingFeedbackSessionFailed = true;
@@ -356,9 +362,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           || !feedbackSession.isPublishedEmailEnabled,
     };
 
-    this.studentDeadlines = feedbackSession.studentDeadlines;
-    this.instructorDeadlines = feedbackSession.instructorDeadlines;
-
     if (feedbackSession.customSessionVisibleTimestamp) {
       const customSessionVisible: { date: DateFormat, time: TimeFormat } =
           this.datetimeService.getDateTimeAtTimezone(feedbackSession.customSessionVisibleTimestamp,
@@ -429,9 +432,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       isClosingSoonEmailEnabled: this.sessionEditFormModel.isClosingSoonEmailEnabled,
       isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-
-      studentDeadlines: this.studentDeadlines,
-      instructorDeadlines: this.instructorDeadlines,
     }).pipe(finalize(() => {
       this.sessionEditFormModel.isSaving = false;
     })).subscribe({
@@ -472,11 +472,28 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     modalRef.componentInstance.feedbackSessionTimeZone = this.sessionEditFormModel.timeZone;
 
     return new Observable((subscribeIsUserAccept) => {
-      modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe(() => {
-        this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
-        modalRef.componentInstance.isSubmitting = false;
-        modalRef.close();
-        subscribeIsUserAccept.next(true);
+      modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe((isNotifyDeadlines: boolean) => {
+        const updatedStudentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+          affectedStudentModels, this.studentDeadlines);
+        const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+          affectedInstructorModels, this.instructorDeadlines);
+        this.feedbackSessionsService.updateFeedbackSessionDeadlineExtensions(
+          this.courseId, this.feedbackSessionName,
+          { studentDeadlines: updatedStudentDeadlines, instructorDeadlines: updatedInstructorDeadlines },
+          isNotifyDeadlines,
+        ).subscribe({
+          next: () => {
+            this.removeDeadlines(affectedStudentModels, affectedInstructorModels);
+            modalRef.componentInstance.isSubmitting = false;
+            modalRef.close();
+            subscribeIsUserAccept.next(true);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+            modalRef.componentInstance.isSubmitting = false;
+            subscribeIsUserAccept.next(false);
+          },
+        });
       }, () => {
         subscribeIsUserAccept.next(false);
       });

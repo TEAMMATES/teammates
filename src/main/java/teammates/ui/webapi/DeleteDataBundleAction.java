@@ -1,8 +1,10 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Deletes a data bundle from the DB.
@@ -22,9 +24,14 @@ public class DeleteDataBundleAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
-        logic.removeDataBundle(dataBundle);
+
+        try {
+            sqlLogic.removeDataBundle(dataBundle);
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpRequestBodyException(e);
+        }
         return new JsonResult("Data bundle successfully persisted.");
     }
 

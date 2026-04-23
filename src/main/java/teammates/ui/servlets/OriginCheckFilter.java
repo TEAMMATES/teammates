@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -60,18 +61,15 @@ public class OriginCheckFilter implements Filter {
             response.setHeader("Access-Control-Allow-Credentials", "true");
         }
 
-        if (Config.CSRF_KEY.equals(request.getHeader(Const.HeaderNames.CSRF_KEY))) {
+        if (Config.CSRF_KEY != null
+                && Config.CSRF_KEY.equals(request.getHeader(Const.HeaderNames.CSRF_KEY))) {
             // Can bypass CSRF check with the correct key
             chain.doFilter(req, res);
             return;
         }
 
-        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_task_request_headers
-        boolean isRequestFromAppEngineQueue = request.getHeader("X-AppEngine-QueueName") != null;
-
-        if (isRequestFromAppEngineQueue) {
-            // Requests from App Engine are allowed to bypass CSRF check
+        if (AutomatedRequestAuth.isTrustedCronOrWorkerRequest(request)) {
+            // Requests from cron or worker (with valid bearer token) are allowed to bypass CSRF check
             chain.doFilter(req, res);
             return;
         }

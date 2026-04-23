@@ -15,10 +15,7 @@ public class AdminAccountsPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/AdminAccountsPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                loadSqlDataBundle("/AdminAccountsPageE2ETest_SqlEntities.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminAccountsPageE2ETestSql.json"));
     }
 
     @Test
@@ -29,7 +26,7 @@ public class AdminAccountsPageAxeTest extends BaseAxeTestCase {
         AdminAccountsPage accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountsPage.class);
 
         Results results = getAxeBuilder().analyze(accountsPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

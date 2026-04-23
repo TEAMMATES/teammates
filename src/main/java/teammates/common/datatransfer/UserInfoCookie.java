@@ -2,12 +2,12 @@ package teammates.common.datatransfer;
 
 import java.time.Instant;
 
-import com.google.gson.JsonSyntaxException;
-
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+
+import tools.jackson.core.JacksonException;
 
 /**
  * Represents user credential info to be persisted within cookies.
@@ -15,13 +15,15 @@ import teammates.common.util.StringHelper;
 public class UserInfoCookie {
 
     private String userId;
-    private String verificationCode;
 
     private long expiryTime;
 
+    private UserInfoCookie() {
+        // for Jackson deserialization
+    }
+
     public UserInfoCookie(String userId) {
         this.userId = userId;
-        this.verificationCode = StringHelper.generateSignature(userId);
         this.expiryTime = Instant.now().plus(Const.COOKIE_VALIDITY_PERIOD).toEpochMilli();
     }
 
@@ -35,7 +37,7 @@ public class UserInfoCookie {
         try {
             String decryptedCookie = StringHelper.decrypt(cookie);
             return JsonUtils.fromJson(decryptedCookie, UserInfoCookie.class);
-        } catch (InvalidParametersException | JsonSyntaxException e) {
+        } catch (InvalidParametersException | JacksonException e) {
             return null;
         }
     }
@@ -46,14 +48,6 @@ public class UserInfoCookie {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getVerificationCode() {
-        return verificationCode;
-    }
-
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
     }
 
     public long getExpiryTime() {
@@ -68,7 +62,8 @@ public class UserInfoCookie {
      * Returns true if the object represents a valid user info and the object has not expired.
      */
     public boolean isValid() {
-        return StringHelper.isCorrectSignature(userId, verificationCode)
+        return userId != null
+                && !userId.trim().isEmpty()
                 && Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
     }
 

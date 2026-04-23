@@ -1,21 +1,21 @@
 package teammates.ui.output;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 
 /**
- * The API output format of {@link teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes}.
+ * The API output format of {@link FeedbackResponseComment}.
  */
 public class FeedbackResponseCommentData extends ApiOutput {
 
     String commentGiver;
     String lastEditorEmail;
 
-    private long feedbackResponseCommentId;
+    private UUID feedbackResponseCommentId;
     private String commentText;
     private long createdAt;
     private long lastEditedAt;
@@ -24,16 +24,8 @@ public class FeedbackResponseCommentData extends ApiOutput {
     private List<CommentVisibilityType> showGiverNameTo;
     private List<CommentVisibilityType> showCommentTo;
 
-    public FeedbackResponseCommentData(FeedbackResponseCommentAttributes frc) {
-        this.feedbackResponseCommentId = frc.getId();
-        this.commentText = frc.getCommentText();
-        this.commentGiver = frc.getCommentGiver();
-        this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
-        this.showCommentTo = convertToFeedbackVisibilityType(frc.getShowCommentTo());
-        this.createdAt = frc.getCreatedAt().toEpochMilli();
-        this.lastEditedAt = frc.getLastEditedAt().toEpochMilli();
-        this.lastEditorEmail = frc.getLastEditorEmail();
-        this.isVisibilityFollowingFeedbackQuestion = frc.isVisibilityFollowingFeedbackQuestion();
+    private FeedbackResponseCommentData() {
+        // for Jackson deserialization
     }
 
     public FeedbackResponseCommentData(FeedbackResponseComment frc) {
@@ -79,12 +71,8 @@ public class FeedbackResponseCommentData extends ApiOutput {
         return commentText;
     }
 
-    public long getFeedbackResponseCommentId() {
+    public UUID getFeedbackResponseCommentId() {
         return feedbackResponseCommentId;
-    }
-
-    public String getFeedbackCommentText() {
-        return commentText;
     }
 
     public String getCommentGiver() {

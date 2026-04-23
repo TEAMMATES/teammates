@@ -1,10 +1,11 @@
 package teammates.ui.output;
 
+import java.util.UUID;
+
 import org.threeten.bp.Instant;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.attributes.NotificationAttributes;
 import teammates.storage.sqlentity.Notification;
 
 /**
@@ -12,7 +13,7 @@ import teammates.storage.sqlentity.Notification;
  */
 public class NotificationData extends ApiOutput {
 
-    private String notificationId;
+    private UUID notificationId;
     private long startTimestamp;
     private long endTimestamp;
     private long createdAt;
@@ -22,20 +23,12 @@ public class NotificationData extends ApiOutput {
     private String message;
     private boolean shown;
 
-    public NotificationData(NotificationAttributes notificationAttributes) {
-        this.notificationId = notificationAttributes.getNotificationId();
-        this.startTimestamp = notificationAttributes.getStartTime().toEpochMilli();
-        this.endTimestamp = notificationAttributes.getEndTime().toEpochMilli();
-        this.createdAt = notificationAttributes.getCreatedAt().toEpochMilli();
-        this.style = notificationAttributes.getStyle();
-        this.targetUser = notificationAttributes.getTargetUser();
-        this.title = notificationAttributes.getTitle();
-        this.message = notificationAttributes.getMessage();
-        this.shown = notificationAttributes.isShown();
+    private NotificationData() {
+        // for Jackson deserialization
     }
 
     public NotificationData(Notification notification) {
-        this.notificationId = notification.getId().toString();
+        this.notificationId = notification.getId();
         this.startTimestamp = notification.getStartTime().toEpochMilli();
         this.endTimestamp = notification.getEndTime().toEpochMilli();
         this.createdAt = notification.getCreatedAt() == null
@@ -47,7 +40,7 @@ public class NotificationData extends ApiOutput {
         this.shown = notification.isShown();
     }
 
-    public String getNotificationId() {
+    public UUID getNotificationId() {
         return this.notificationId;
     }
 

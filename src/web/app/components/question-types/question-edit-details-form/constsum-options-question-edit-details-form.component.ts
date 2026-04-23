@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { NgFor } from '@angular/common';
+
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -21,13 +21,12 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
   styleUrls: ['./constsum-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
   imports: [
     CdkDropList,
-    NgFor,
     CdkDrag,
     CdkDragHandle,
     ConstsumOptionsFieldComponent,
     FormsModule,
     NgbTooltip,
-  ],
+],
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>
@@ -79,13 +78,6 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
 
     this.triggerModelChange('constSumOptions', newOptions);
-  }
-
-  /**
-   * Tracks the Constsum option by index.
-   */
-  trackConstsumOption(index: number): string {
-    return index.toString();
   }
 
   /**

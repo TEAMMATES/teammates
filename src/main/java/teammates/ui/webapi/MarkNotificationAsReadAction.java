@@ -1,13 +1,12 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.ui.output.ReadNotificationsData;
+import org.apache.http.HttpStatus;
+
+import teammates.storage.sqlentity.Account;
+import teammates.storage.sqlentity.ReadNotification;
+import teammates.ui.output.ReadNotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.MarkNotificationAsReadRequest;
 
@@ -31,18 +30,15 @@ public class MarkNotificationAsReadAction extends Action {
         MarkNotificationAsReadRequest readNotificationCreateRequest =
                 getAndValidateRequestBody(MarkNotificationAsReadRequest.class);
         UUID notificationId = UUID.fromString(readNotificationCreateRequest.getNotificationId());
-        Instant endTime = Instant.ofEpochMilli(readNotificationCreateRequest.getEndTimestamp());
 
-        try {
-            List<UUID> readNotifications =
-                    sqlLogic.updateReadNotifications(userInfo.getId(), notificationId, endTime);
-            ReadNotificationsData output = new ReadNotificationsData(
-                    readNotifications.stream().map(UUID::toString).collect(Collectors.toList()));
-            return new JsonResult(output);
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
-        } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e);
+        Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
+        if (account == null) {
+            // This should not happen as the user is authenticated
+            return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
+        ReadNotification readNotification = sqlLogic.createReadNotification(account.getId(), notificationId);
+        ReadNotificationData output = new ReadNotificationData(readNotification);
+
+        return new JsonResult(output);
     }
 }

@@ -5,9 +5,7 @@ import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Assertions;
@@ -22,15 +20,11 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.datatransfer.SqlDataBundle;
-import teammates.common.datatransfer.attributes.DeadlineExtensionAttributes;
-import teammates.common.datatransfer.attributes.UsageStatisticsAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelperExtension;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
@@ -63,54 +57,32 @@ public class BaseTestCase {
      */
     // CHECKSTYLE.OFF:AbbreviationAsWordInName|MethodName the weird name is for easy spotting.
     public static void ______TS(String description) {
-        print(" * " + description);
+        System.out.println(" * " + description);
     }
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
     @BeforeClass
     public void printTestClassHeader() {
-        print("[============================="
+        System.out.println("[============================="
                 + getClass().getCanonicalName()
                 + "=============================]");
     }
 
     @AfterClass
     public void printTestClassFooter() {
-        print(getClass().getCanonicalName() + " completed");
-    }
-
-    protected static void print(String message) {
-        System.out.println(message);
+        System.out.println(getClass().getCanonicalName() + " completed");
     }
 
     protected String getTestDataFolder() {
         return TestProperties.TEST_DATA_FOLDER;
     }
 
-    /**
-     * Creates a DataBundle as specified in typicalDataBundle.json.
-     */
     protected DataBundle getTypicalDataBundle() {
         return loadDataBundle("/typicalDataBundle.json");
     }
 
     protected DataBundle loadDataBundle(String jsonFileName) {
         try {
-            String pathToJsonFile = getTestDataFolder() + jsonFileName;
-            String jsonString = FileHelper.readFile(pathToJsonFile);
-            return JsonUtils.fromJson(jsonString, DataBundle.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    protected SqlDataBundle getTypicalSqlDataBundle() {
-        return loadSqlDataBundle("/typicalDataBundle.json");
-    }
-
-    protected SqlDataBundle loadSqlDataBundle(String jsonFileName) {
-        try {
-            // TODO: rename to loadDataBundle after migration
             String pathToJsonFile = getTestDataFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);
             return DataBundleLogic.deserializeDataBundle(jsonString);
@@ -181,7 +153,7 @@ public class BaseTestCase {
                 "typical-giver", FeedbackParticipantType.RECEIVER, getTypicalSection(), getTypicalSection(),
                 "typical-comment", true, true, List.of(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
                 List.of(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.INSTRUCTORS), "email");
-        feedbackResponseComment.setId(10L);
+        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
         feedbackResponseComment.setCreatedAt(Instant.now());
         feedbackResponseComment.setUpdatedAt(Instant.now());
         return feedbackResponseComment;
@@ -220,7 +192,7 @@ public class BaseTestCase {
         return new FeedbackTextResponseDetails();
     }
 
-    protected FeedbackResponseComment getTypicalResponseComment(Long id) {
+    protected FeedbackResponseComment getTypicalResponseComment(UUID id) {
         FeedbackResponseComment comment = new FeedbackResponseComment(null, "",
                 FeedbackParticipantType.STUDENTS, null, null, "",
                 false, false,
@@ -234,26 +206,12 @@ public class BaseTestCase {
                 AccountRequestStatus.PENDING, "");
     }
 
-    protected UsageStatisticsAttributes getTypicalUsageStatisticsAttributes() {
-        return getTypicalUsageStatisticsAttributes(Instant.parse("2011-01-01T00:00:00Z"));
-    }
-
-    protected UsageStatisticsAttributes getTypicalUsageStatisticsAttributes(Instant startTime) {
-        return UsageStatisticsAttributes.builder(startTime, 60)
-                .withNumResponses(2)
-                .withNumCourses(2)
-                .withNumStudents(2)
-                .withNumInstructors(2)
-                .withNumAccountRequests(2)
-                .build();
-    }
-
     protected UsageStatistics getTypicalUsageStatistics() {
-        return UsageStatistics.valueOf(getTypicalUsageStatisticsAttributes());
+        return getTypicalUsageStatistics(Instant.parse("2011-01-01T00:00:00Z"));
     }
 
     protected UsageStatistics getTypicalUsageStatistics(Instant startTime) {
-        return UsageStatistics.valueOf(getTypicalUsageStatisticsAttributes(startTime));
+        return new UsageStatistics(startTime, 60, 2, 2, 2, 2, 2, 0, 0);
     }
 
     protected DeadlineExtension getTypicalDeadlineExtensionStudent() {
@@ -268,42 +226,6 @@ public class BaseTestCase {
                 getTypicalInstructor(),
                 getTypicalFeedbackSessionForCourse(getTypicalCourse()),
                 Instant.now());
-    }
-
-    protected DeadlineExtensionAttributes getTypicalDeadlineExtensionAttributesStudent() {
-        return DeadlineExtensionAttributes.valueOf(getTypicalDeadlineExtensionStudent());
-    }
-
-    protected DeadlineExtensionAttributes getTypicalDeadlineExtensionAttributesInstructor() {
-        return DeadlineExtensionAttributes.valueOf(getTypicalDeadlineExtensionInstructor());
-    }
-
-    /**
-     * Populates the feedback question and response IDs within the data bundle.
-     *
-     * <p>For tests where simulated database is used, the backend will assign the question and response IDs
-     * when the entities are persisted into the database, and modify the relation IDs accordingly.
-     * However, for tests that do not use simulated database (e.g. pure data structure tests),
-     * the assignment of IDs have to be simulated.
-     */
-    protected void populateQuestionAndResponseIds(DataBundle dataBundle) {
-        Map<String, Map<Integer, String>> sessionToQuestionNumberToId = new HashMap<>();
-
-        dataBundle.feedbackQuestions.forEach((key, question) -> {
-            // Assign the same ID as the key as a later function requires a match between the key and the question ID
-            question.setId(key);
-            Map<Integer, String> questionNumberToId = sessionToQuestionNumberToId.computeIfAbsent(
-                    question.getCourseId() + "%" + question.getFeedbackSessionName(), k -> new HashMap<>());
-            questionNumberToId.put(question.getQuestionNumber(), key);
-        });
-
-        dataBundle.feedbackResponses.forEach((key, response) -> {
-            response.setId(key);
-            String feedbackQuestionId = sessionToQuestionNumberToId
-                    .get(response.getCourseId() + "%" + response.getFeedbackSessionName())
-                    .get(Integer.valueOf(response.getFeedbackQuestionId()));
-            response.setFeedbackQuestionId(feedbackQuestionId);
-        });
     }
 
     /**

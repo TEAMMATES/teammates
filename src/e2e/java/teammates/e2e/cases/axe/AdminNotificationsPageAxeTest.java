@@ -15,10 +15,7 @@ public class AdminNotificationsPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/AdminNotificationsPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
-        sqlTestData = removeAndRestoreSqlDataBundle(
-                loadSqlDataBundle("/AdminNotificationsPageE2ETest_SqlEntities.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminNotificationsPageE2ETestSql.json"));
     }
 
     @Test
@@ -28,7 +25,7 @@ public class AdminNotificationsPageAxeTest extends BaseAxeTestCase {
         AdminNotificationsPage notificationsPage = loginAdminToPage(url, AdminNotificationsPage.class);
 
         Results results = getAxeBuilder().analyze(notificationsPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }

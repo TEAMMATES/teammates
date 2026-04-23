@@ -6,24 +6,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpStatus;
-import org.hibernate.HibernateException;
-
-import com.google.cloud.datastore.DatastoreException;
-
 import teammates.common.datatransfer.logs.RequestLogUser;
-import teammates.common.exception.DeadlineExceededException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
-import teammates.ui.webapi.ActionMappingException;
 import teammates.ui.webapi.ActionResult;
-import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.InvalidOperationException;
-import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UnauthorizedAccessException;
 
 /**
@@ -59,48 +49,12 @@ public class WebApiServlet extends HttpServlet {
 
         try {
             action = ActionFactory.getAction(req, req.getMethod());
-            ActionResult result;
-
-            if (action.isTransactionNeeded()) {
-                result = executeWithTransaction(action, req);
-            } else {
-                result = executeWithoutTransaction(action, req);
-            }
+            ActionResult result = executeWithTransaction(action, req);
 
             statusCode = result.getStatusCode();
             result.send(resp);
-        } catch (ActionMappingException e) {
-            statusCode = e.getStatusCode();
-            throwErrorBasedOnRequester(req, resp, e, statusCode);
-        } catch (InvalidHttpRequestBodyException | InvalidHttpParameterException e) {
-            statusCode = HttpStatus.SC_BAD_REQUEST;
-            throwErrorBasedOnRequester(req, resp, e, statusCode);
-        } catch (UnauthorizedAccessException uae) {
-            statusCode = HttpStatus.SC_FORBIDDEN;
-            log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet: " + uae.getMessage(), uae);
-            throwError(resp, statusCode,
-                    uae.isShowErrorMessage() ? uae.getMessage() : "You are not authorized to access this resource.");
-        } catch (EntityNotFoundException enfe) {
-            statusCode = HttpStatus.SC_NOT_FOUND;
-            log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: " + enfe.getMessage(), enfe);
-            throwError(resp, statusCode, enfe.getMessage());
-        } catch (InvalidOperationException ioe) {
-            statusCode = HttpStatus.SC_CONFLICT;
-            log.warning(ioe.getClass().getSimpleName() + " caught by WebApiServlet: " + ioe.getMessage(), ioe);
-            throwError(resp, statusCode, ioe.getMessage());
-        } catch (DeadlineExceededException dee) {
-            statusCode = HttpStatus.SC_GATEWAY_TIMEOUT;
-            log.severe(dee.getClass().getSimpleName() + " caught by WebApiServlet", dee);
-            throwError(resp, statusCode, "The request exceeded the server timeout limit. Please try again later.");
-        } catch (DatastoreException | HibernateException e) {
-            statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
-            throwError(resp, statusCode, e.getMessage());
         } catch (Throwable t) {
-            statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
-            log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet: " + t.getMessage(), t);
-            throwError(resp, statusCode,
-                    "The server encountered an error when processing your request.");
+            statusCode = WebApiServletExceptionHandler.handleException(resp, t);
         } finally {
             RequestLogUser userInfo = new RequestLogUser();
             String requestBody = null;
@@ -131,39 +85,6 @@ public class WebApiServlet extends HttpServlet {
             HibernateUtil.rollbackTransaction();
             throw e;
         }
-    }
-
-    private ActionResult executeWithoutTransaction(Action action, HttpServletRequest req)
-            throws InvalidOperationException, InvalidHttpRequestBodyException, UnauthorizedAccessException {
-        action.init(req);
-        action.checkAccessControl();
-
-        return action.execute();
-    }
-
-    private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)
-            throws IOException {
-        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
-        boolean isRequestFromAppEngineQueue = req.getHeader("X-AppEngine-QueueName") != null;
-
-        if (isRequestFromAppEngineQueue) {
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
-
-            // Response status is not set to 4XX to 5XX to prevent Cloud Tasks retry mechanism because
-            // if the cause of the exception is improper request URL, no amount of retry is going to help.
-            // The action will be inaccurately marked as "success", but the severe log can be used
-            // to trace the origin of the problem.
-            throwError(resp, HttpStatus.SC_ACCEPTED, e.getMessage());
-        } else {
-            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage(), e);
-            throwError(resp, statusCode, e.getMessage());
-        }
-    }
-
-    private void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {
-        JsonResult result = new JsonResult(message, statusCode);
-        result.send(resp);
     }
 
 }

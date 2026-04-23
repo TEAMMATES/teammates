@@ -2,8 +2,9 @@ package teammates.ui.output;
 
 import jakarta.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.storage.sqlentity.Course;
 
 /**
@@ -15,23 +16,17 @@ public class CourseData extends ApiOutput {
     private final String courseName;
     private final String timeZone;
     private final String institute;
-    @Nullable
-    private final Boolean isMigrated;
     private long creationTimestamp;
     private long deletionTimestamp;
     @Nullable
     private InstructorPermissionSet privileges;
 
-    public CourseData(CourseAttributes courseAttributes) {
-        this.courseId = courseAttributes.getId();
-        this.courseName = courseAttributes.getName();
-        this.timeZone = courseAttributes.getTimeZone();
-        this.institute = courseAttributes.getInstitute();
-        this.creationTimestamp = courseAttributes.getCreatedAt().toEpochMilli();
-        if (courseAttributes.getDeletedAt() != null) {
-            this.deletionTimestamp = courseAttributes.getDeletedAt().toEpochMilli();
-        }
-        this.isMigrated = false;
+    @JsonCreator
+    private CourseData(String courseId, String courseName, String timeZone, String institute) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.timeZone = timeZone;
+        this.institute = institute;
     }
 
     public CourseData(Course course) {
@@ -43,7 +38,6 @@ public class CourseData extends ApiOutput {
         if (course.getDeletedAt() != null) {
             this.deletionTimestamp = course.getDeletedAt().toEpochMilli();
         }
-        this.isMigrated = true;
     }
 
     public String getCourseId() {
@@ -68,10 +62,6 @@ public class CourseData extends ApiOutput {
 
     public long getDeletionTimestamp() {
         return deletionTimestamp;
-    }
-
-    public Boolean getIsMigrated() {
-        return isMigrated;
     }
 
     public InstructorPermissionSet getPrivileges() {

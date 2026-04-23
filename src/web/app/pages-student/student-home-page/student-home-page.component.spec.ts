@@ -42,8 +42,6 @@ const studentCourseA: any = {
         isClosingSoonEmailEnabled: true,
         isPublishedEmailEnabled: true,
         createdAtTimestamp: 0,
-        studentDeadlines: {},
-        instructorDeadlines: {},
       },
       isOpened: true,
       isWaitingToOpen: false,
@@ -66,8 +64,6 @@ const studentCourseA: any = {
         isClosingSoonEmailEnabled: true,
         isPublishedEmailEnabled: true,
         createdAtTimestamp: 0,
-        studentDeadlines: {},
-        instructorDeadlines: {},
       },
       isOpened: false,
       isWaitingToOpen: false,
@@ -106,8 +102,6 @@ const studentCourseB: any = {
         isClosingSoonEmailEnabled: true,
         isPublishedEmailEnabled: true,
         createdAtTimestamp: 0,
-        studentDeadlines: {},
-        instructorDeadlines: {},
       },
       isOpened: true,
       isWaitingToOpen: false,
@@ -130,8 +124,6 @@ const studentCourseB: any = {
         isClosingSoonEmailEnabled: true,
         isPublishedEmailEnabled: true,
         createdAtTimestamp: 0,
-        studentDeadlines: {},
-        instructorDeadlines: {},
       },
       isOpened: false,
       isWaitingToOpen: false,
@@ -170,8 +162,6 @@ const studentCourseC: any = {
         isClosingSoonEmailEnabled: true,
         isPublishedEmailEnabled: true,
         createdAtTimestamp: 0,
-        studentDeadlines: {},
-        instructorDeadlines: {},
       },
       isOpened: true,
       isWaitingToOpen: false,
@@ -194,8 +184,6 @@ const studentCourseC: any = {
         isClosingSoonEmailEnabled: true,
         isPublishedEmailEnabled: true,
         createdAtTimestamp: 0,
-        studentDeadlines: {},
-        instructorDeadlines: {},
       },
       isOpened: false,
       isWaitingToOpen: false,
@@ -239,8 +227,6 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingSoonEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     },
     {
       feedbackSessionName: 'Orientation Session',
@@ -257,8 +243,6 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingSoonEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     },
     {
       feedbackSessionName: 'Welcome Tea Session',
@@ -275,8 +259,6 @@ const studentFeedbackSessions: FeedbackSessions = {
       isClosingSoonEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
-      studentDeadlines: {},
-      instructorDeadlines: {},
     },
   ],
 };
@@ -330,8 +312,6 @@ describe('StudentHomePageComponent', () => {
           isClosingSoonEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
-          studentDeadlines: {},
-          instructorDeadlines: {},
         },
         {
           feedbackSessionName: 'Second Session',
@@ -348,8 +328,6 @@ describe('StudentHomePageComponent', () => {
           isClosingSoonEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
-          studentDeadlines: {},
-          instructorDeadlines: {},
         },
       ],
     };
@@ -390,8 +368,6 @@ describe('StudentHomePageComponent', () => {
           isClosingSoonEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
-          studentDeadlines: {},
-          instructorDeadlines: {},
         },
         {
           feedbackSessionName: 'Second Session',
@@ -408,8 +384,6 @@ describe('StudentHomePageComponent', () => {
           isClosingSoonEmailEnabled: true,
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
-          studentDeadlines: {},
-          instructorDeadlines: {},
         },
       ],
     };
@@ -500,8 +474,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: true,
           isWaitingToOpen: false,
@@ -550,8 +522,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: false,
           isWaitingToOpen: true,
@@ -600,8 +570,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: true,
           isWaitingToOpen: false,
@@ -649,8 +617,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: true,
           isWaitingToOpen: false,
@@ -698,8 +664,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: false,
           isWaitingToOpen: false,
@@ -766,6 +730,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [
         {
           session: {
+            feedbackSessionId: '00000000-0000-4000-8000-000000000001',
             feedbackSessionName: 'First Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -780,8 +745,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: true,
           isWaitingToOpen: false,
@@ -790,6 +753,7 @@ describe('StudentHomePageComponent', () => {
         },
         {
           session: {
+            feedbackSessionId: '00000000-0000-4000-8000-000000000002',
             feedbackSessionName: 'Second Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -804,8 +768,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: false,
           isWaitingToOpen: false,
@@ -825,8 +787,8 @@ describe('StudentHomePageComponent', () => {
 
     const href1: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-0').getAttribute('href');
     const href2: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-1').getAttribute('href');
-    expect(href1).toEqual('/web/student/sessions/result?courseid=CS1231&fsname=First%20Session');
-    expect(href2).toEqual('/web/student/sessions/result?courseid=CS1231&fsname=Second%20Session');
+    expect(href1).toEqual('/web/student/sessions/result?courseid=CS1231&fsname=First%20Session&fsid=00000000-0000-4000-8000-000000000001');
+    expect(href2).toEqual('/web/student/sessions/result?courseid=CS1231&fsname=Second%20Session&fsid=00000000-0000-4000-8000-000000000002');
   });
 
   // start/edit/view submission button share the same router link and query params
@@ -843,6 +805,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [
         {
           session: {
+            feedbackSessionId: '00000000-0000-4000-8000-000000000001',
             feedbackSessionName: 'First Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -857,8 +820,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: false,
           isWaitingToOpen: false,
@@ -867,6 +828,7 @@ describe('StudentHomePageComponent', () => {
         },
         {
           session: {
+            feedbackSessionId: '00000000-0000-4000-8000-000000000002',
             feedbackSessionName: 'Second Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -881,8 +843,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: false,
           isWaitingToOpen: false,
@@ -902,8 +862,8 @@ describe('StudentHomePageComponent', () => {
 
     const href1: any = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-0').getAttribute('href');
     const href2: any = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-1').getAttribute('href');
-    expect(href1).toEqual('/web/student/sessions/submission?courseid=CS1231&fsname=First%20Session');
-    expect(href2).toEqual('/web/student/sessions/submission?courseid=CS1231&fsname=Second%20Session');
+    expect(href1).toEqual('/web/student/sessions/submission?courseid=CS1231&fsname=First%20Session&fsid=00000000-0000-4000-8000-000000000001');
+    expect(href2).toEqual('/web/student/sessions/submission?courseid=CS1231&fsname=Second%20Session&fsid=00000000-0000-4000-8000-000000000002');
   });
 
   it('should sort courses by their IDs', () => {
@@ -1015,8 +975,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: true,
           isWaitingToOpen: false,
@@ -1039,8 +997,6 @@ describe('StudentHomePageComponent', () => {
             isClosingSoonEmailEnabled: true,
             isPublishedEmailEnabled: true,
             createdAtTimestamp: 0,
-            studentDeadlines: {},
-            instructorDeadlines: {},
           },
           isOpened: true,
           isWaitingToOpen: false,

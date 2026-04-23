@@ -1,29 +1,35 @@
 package teammates.ui.output;
 
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.storage.sqlentity.FeedbackSession;
 
 /**
- * The API output format of a list of {@link FeedbackSessionAttributes}.
+ * The API output format of a list of {@link FeedbackSession}.
  */
 public class FeedbackSessionsData extends ApiOutput {
     private final List<FeedbackSessionData> feedbackSessions;
 
-    public FeedbackSessionsData(List<FeedbackSessionAttributes> feedbackSessionAttributesList) {
-        this.feedbackSessions =
-                feedbackSessionAttributesList.stream().map(FeedbackSessionData::new).collect(Collectors.toList());
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    private FeedbackSessionsData(FeedbackSessionData[] feedbackSessions) {
+        this.feedbackSessions = Arrays.asList(feedbackSessions);
     }
 
-    public FeedbackSessionsData(
-            List<FeedbackSession> feedbackSessionList, List<FeedbackSessionAttributes> feedbackSessionAttributesList) {
-
+    public FeedbackSessionsData(List<FeedbackSession> feedbackSessionList) {
         this.feedbackSessions =
                 feedbackSessionList.stream().map(FeedbackSessionData::new).collect(Collectors.toList());
-        this.feedbackSessions.addAll(
-                feedbackSessionAttributesList.stream().map(FeedbackSessionData::new).collect(Collectors.toList()));
+    }
+
+    public FeedbackSessionsData(Map<FeedbackSession, Instant> feedbackSessionToDeadline) {
+        this.feedbackSessions = feedbackSessionToDeadline.entrySet().stream()
+                .map(e -> new FeedbackSessionData(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -31,7 +37,7 @@ public class FeedbackSessionsData extends ApiOutput {
      */
     public void hideInformationForStudent(String email) {
         for (FeedbackSessionData fs : feedbackSessions) {
-            fs.hideInformationForStudent(email);
+            fs.hideInformation();
         }
     }
 

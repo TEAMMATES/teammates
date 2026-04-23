@@ -68,12 +68,6 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
     expect(triggerModelChangeSpy).toHaveBeenCalledWith('rubricWeightsForEachCell', [[4], [2], [3]]);
   });
 
-  it('trackByIndex: returns string representation of a number', () => {
-    expect(component.trackByIndex(1)).toBe('1');
-    expect(component.trackByIndex(-1)).toBe('-1');
-    expect(component.trackByIndex(1.5)).toBe('1.5');
-  });
-
   it('addNewSubQuestion: calls triggerModelChangeBatch with the correct'
     + 'parameters when hasAssignedWeights is false', () => {
     component.model = feedbackRubricQuestionDetailsBuilder

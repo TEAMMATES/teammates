@@ -19,7 +19,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
@@ -33,8 +32,6 @@ import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
 import teammates.storage.sqlentity.User;
-import teammates.storage.sqlsearch.InstructorSearchManager;
-import teammates.storage.sqlsearch.StudentSearchManager;
 import teammates.ui.request.InstructorCreateRequest;
 
 /**
@@ -84,28 +81,6 @@ public final class UsersLogic {
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
-    }
-
-    private InstructorSearchManager getInstructorSearchManager() {
-        return usersDb.getInstructorSearchManager();
-    }
-
-    private StudentSearchManager getStudentSearchManager() {
-        return usersDb.getStudentSearchManager();
-    }
-
-    /**
-     * Creates or updates search document for the given instructor.
-     */
-    public void putInstructorDocument(Instructor instructor) throws SearchServiceException {
-        getInstructorSearchManager().putDocument(instructor);
-    }
-
-    /**
-     * Creates or updates search document for the given student.
-     */
-    public void putStudentDocument(Student student) throws SearchServiceException {
-        getStudentSearchManager().putDocument(student);
     }
 
     /**
@@ -279,10 +254,9 @@ public final class UsersLogic {
     /**
      * Searches instructors in the whole system. Used by admin only.
      *
-     * @return List of found instructors in the whole system. Null if no result found.
+     * @return List of found instructors in the whole system. Returns an empty list if no results are found.
      */
-    public List<Instructor> searchInstructorsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Instructor> searchInstructorsInWholeSystem(String queryString) {
         return usersDb.searchInstructorsInWholeSystem(queryString);
     }
 
@@ -356,6 +330,16 @@ public final class UsersLogic {
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         assert googleId != null;
         return usersDb.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Gets a non-soft-deleted instructor with the specified email and institute.
+     */
+    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
+        assert email != null;
+        assert institute != null;
+
+        return usersDb.getInstructorByEmailAndInstitute(email, institute);
     }
 
     /**
@@ -561,8 +545,7 @@ public final class UsersLogic {
      *
      * @param instructors the constraint that restricts the search result
      */
-    public List<Student> searchStudents(String queryString, List<Instructor> instructors)
-            throws SearchServiceException {
+    public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
         return usersDb.searchStudents(queryString, instructors);
     }
 
@@ -570,10 +553,9 @@ public final class UsersLogic {
      * This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search students in the whole system.
-     * @return null if no result found
+     * @return an empty list if no result is found
      */
-    public List<Student> searchStudentsInWholeSystem(String queryString)
-            throws SearchServiceException {
+    public List<Student> searchStudentsInWholeSystem(String queryString) {
         return usersDb.searchStudentsInWholeSystem(queryString);
     }
 

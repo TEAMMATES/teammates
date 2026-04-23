@@ -23,9 +23,17 @@ public class UserInfoCookieTest extends BaseTestCase {
         uc.setExpiryTime(Instant.now().minus(1, ChronoUnit.DAYS).toEpochMilli());
         assertFalse(uc.isValid());
 
-        ______TS("Invalid Signature");
+        ______TS("Cookie with null user ID");
+        uc.setUserId(null);
         uc.setExpiryTime(Instant.now().plus(1, ChronoUnit.DAYS).toEpochMilli());
-        uc.setVerificationCode("WrongCode");
+        assertFalse(uc.isValid());
+
+        ______TS("Cookie with empty user ID");
+        uc.setUserId("");
+        assertFalse(uc.isValid());
+
+        ______TS("Cookie with blank user ID");
+        uc.setUserId("   ");
         assertFalse(uc.isValid());
     }
 }

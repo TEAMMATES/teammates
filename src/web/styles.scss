@@ -225,6 +225,10 @@ h6,
 
 :root {
   --btn-margin: 5px;
+  --color-enroll-invalid: #f19491;
+  --color-enroll-new: #aeeba6;
+  --color-enroll-modified: #fcf4b3;
+  --color-enroll-unchanged: #ddd;
 }
 
 .btn-margin-left {
@@ -265,30 +269,6 @@ h6,
 .ngb-dp-today > .btn-light {
   font-weight: bold;
   color: blue;
-}
-
-.handsontable .invalid-row,
-.red-box {
-  background: #f19491;
-}
-
-.handsontable .new-row,
-.green-box {
-  background: #aeeba6;
-}
-
-.handsontable .modified-row,
-.yellow-box {
-  background: #fcf4b3;
-}
-
-.handsontable .unchanged-row,
-.grey-box {
-  background: #ddd;
-}
-
-.handsontable .valid-row {
-  background: white;
 }
 
 .alert.alert-no-bottom {

@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,11 +25,10 @@ export enum ExtensionModalType {
   styleUrls: ['./extension-confirm-modal.component.scss'],
   imports: [
     NgClass,
-    NgIf,
     SortableTableComponent,
     FormsModule,
     FormatDateDetailPipe,
-  ],
+],
 })
 export class ExtensionConfirmModalComponent implements OnInit {
   private readonly timeZoneService = inject(TimezoneService);

@@ -1,23 +1,15 @@
 package teammates.logic.external;
 
-import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.JsonParseException;
-
-import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
@@ -28,17 +20,18 @@ import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.SanitizationHelper;
+
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
 
 /**
  * Holds functions for operations related to logs reading/writing in local dev environment.
  *
- * <p>The current implementation uses an in-memory storage of logs to simulate the logs
- * retention locally for feedback session logs only. It is not meant as a replacement but
- * merely for testing purposes.
+ * <p>The current implementation uses an in-memory storage of logs for local query testing.
  */
 public class LocalLoggingService implements LogService {
 
-    private static final Map<String, List<FeedbackSessionLogEntry>> FEEDBACK_SESSION_LOG_ENTRIES = new ConcurrentHashMap<>();
     private static final List<GeneralLogEntry> LOCAL_LOG_ENTRIES = loadLocalLogEntries();
     private static final String ASCENDING_ORDER = "asc";
 
@@ -48,8 +41,7 @@ public class LocalLoggingService implements LogService {
         long earliestTimestamp = currentTimestamp - 60 * 60 * 1000;
         try {
             String jsonString = FileHelper.readResourceFile("logsForLocalDev.json");
-            Type type = new TypeToken<Collection<GeneralLogEntry>>(){}.getType();
-            Collection<GeneralLogEntry> logEntriesCollection = JsonUtils.fromJson(jsonString, type);
+            Collection<GeneralLogEntry> logEntriesCollection = JsonUtils.fromJson(jsonString, new TypeReference<>(){});
             return logEntriesCollection.stream()
                     .map(log -> {
                         long timestamp = new RandomDataGenerator().nextLong(earliestTimestamp, currentTimestamp);
@@ -61,7 +53,7 @@ public class LocalLoggingService implements LogService {
                         return logEntryWithUpdatedTimestamp;
                     })
                     .collect(Collectors.toList());
-        } catch (JsonParseException e) {
+        } catch (JacksonException e) {
             return new ArrayList<>();
         }
     }
@@ -196,38 +188,11 @@ public class LocalLoggingService implements LogService {
         if (regkeyFilter != null && (userInfo == null || !regkeyFilter.equals(userInfo.getRegkey()))) {
             return false;
         }
-        if (emailFilter != null && (userInfo == null || !emailFilter.equals(userInfo.getEmail()))) {
+        if (emailFilter != null && (userInfo == null
+                || !SanitizationHelper.areEmailsEqual(emailFilter, userInfo.getEmail()))) {
             return false;
         }
         return googleIdFilter == null || userInfo != null && googleIdFilter.equals(userInfo.getGoogleId());
-    }
-
-    @Override
-    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
-        FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(courseId, email,
-                fsName, fslType, Instant.now().toEpochMilli());
-        FEEDBACK_SESSION_LOG_ENTRIES.computeIfAbsent(courseId, k -> new ArrayList<>()).add(logEntry);
-    }
-
-    @Override
-    public void createFeedbackSessionLog(String courseId, UUID studentId, UUID fsId, String fslType) {
-        FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(courseId, studentId, fsId,
-                fslType, Instant.now().toEpochMilli());
-        FEEDBACK_SESSION_LOG_ENTRIES.computeIfAbsent(courseId, k -> new ArrayList<>()).add(logEntry);
-    }
-
-    @Override
-    public List<FeedbackSessionLogEntry> getOrderedFeedbackSessionLogs(String courseId, String email,
-            long startTime, long endTime, String fsName) {
-        return FEEDBACK_SESSION_LOG_ENTRIES
-                .getOrDefault(courseId, new ArrayList<>())
-                .stream()
-                .filter(log -> email == null || log.getStudentEmail().equals(email))
-                .filter(log -> fsName == null || log.getFeedbackSessionName().equals(fsName))
-                .filter(log -> log.getTimestamp() >= startTime)
-                .filter(log -> log.getTimestamp() <= endTime)
-                .sorted()
-                .collect(Collectors.toList());
     }
 
     private List<GeneralLogEntry> deepCopyLogEntries(List<GeneralLogEntry> logEntries) {

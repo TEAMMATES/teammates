@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { ConstsumOptionsQuestionStatisticsCalculation } from './question-statistics-calculation/constsum-options-question-statistics-calculation';
 import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
@@ -12,7 +11,7 @@ import { ColumnData, SortableTableCellData, SortableTableComponent } from '../..
     selector: 'tm-constsum-options-question-statistics',
     templateUrl: './constsum-options-question-statistics.component.html',
     styleUrls: ['./constsum-options-question-statistics.component.scss'],
-    imports: [NgIf, SortableTableComponent],
+    imports: [SortableTableComponent],
 })
 export class ConstsumOptionsQuestionStatisticsComponent
     extends ConstsumOptionsQuestionStatisticsCalculation

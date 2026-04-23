@@ -1,9 +1,13 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.util.Const;
+import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Student;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -22,22 +26,13 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId)) {
-            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
-            gateKeeper.verifyAccessible(
-                    instructor,
-                    feedbackSession,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        } else {
-            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                    feedbackSession,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        }
+        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        gateKeeper.verifyAccessible(
+                instructor,
+                feedbackSession,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override
@@ -45,40 +40,44 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (isCourseMigrated(courseId)) {
-            FeedbackSession feedbackSession = getNonNullSqlFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
-            if (!feedbackSession.isOpened()) {
-                throw new InvalidOperationException("Reminder email could not be sent out "
-                        + "as the feedback session is not open for submissions.");
-            }
-
-            FeedbackSessionRespondentRemindRequest remindRequest =
-                    getAndValidateRequestBody(FeedbackSessionRespondentRemindRequest.class);
-            String[] usersToRemind = remindRequest.getUsersToRemind();
-            boolean isSendingCopyToInstructor = remindRequest.getIsSendingCopyToInstructor();
-
-            taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName,
-                    usersToRemind, userInfo.getId(), isSendingCopyToInstructor);
-
-            return new JsonResult("Reminders sent");
-        } else {
-            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-            if (!feedbackSession.isOpened()) {
-                throw new InvalidOperationException("Reminder email could not be sent out "
-                        + "as the feedback session is not open for submissions.");
-            }
-
-            FeedbackSessionRespondentRemindRequest remindRequest =
-                    getAndValidateRequestBody(FeedbackSessionRespondentRemindRequest.class);
-            String[] usersToRemind = remindRequest.getUsersToRemind();
-            boolean isSendingCopyToInstructor = remindRequest.getIsSendingCopyToInstructor();
-
-            taskQueuer.scheduleFeedbackSessionRemindersForParticularUsers(courseId, feedbackSessionName,
-                    usersToRemind, userInfo.getId(), isSendingCopyToInstructor);
-
-            return new JsonResult("Reminders sent");
+        if (!feedbackSession.isOpened()) {
+            throw new InvalidOperationException("Reminder email could not be sent out "
+                    + "as the feedback session is not open for submissions.");
         }
+
+        FeedbackSessionRespondentRemindRequest remindRequest =
+                getAndValidateRequestBody(FeedbackSessionRespondentRemindRequest.class);
+        String[] usersToRemind = remindRequest.getUsersToRemind();
+        boolean isSendingCopyToInstructor = remindRequest.getIsSendingCopyToInstructor();
+
+        // Generate reminder emails for specified users
+        List<Student> studentsToRemindList = new ArrayList<>();
+        List<Instructor> instructorsToRemindList = new ArrayList<>();
+        Instructor instructorToNotify = isSendingCopyToInstructor
+                ? sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId())
+                : null;
+
+        for (String userEmail : usersToRemind) {
+            Student student = sqlLogic.getStudentForEmail(courseId, userEmail);
+            if (student != null) {
+                studentsToRemindList.add(student);
+            }
+
+            Instructor instructor = sqlLogic.getInstructorForEmail(courseId, userEmail);
+            if (instructor != null) {
+                instructorsToRemindList.add(instructor);
+            }
+        }
+
+        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
+                feedbackSession, studentsToRemindList, instructorsToRemindList, instructorToNotify);
+
+        // Queue to priority queue for immediate sending (user-triggered)
+        taskQueuer.scheduleEmailsForPrioritySending(emails);
+
+        return new JsonResult("Reminders sent");
     }
 
 }

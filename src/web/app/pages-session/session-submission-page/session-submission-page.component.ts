@@ -1,4 +1,4 @@
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { AfterViewInit, Component, Inject, OnInit, DOCUMENT } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -77,9 +77,7 @@ interface FeedbackQuestionsResponse {
   templateUrl: './session-submission-page.component.html',
   styleUrls: ['./session-submission-page.component.scss'],
   imports: [
-    NgIf,
     LoadingSpinnerDirective,
-    NgFor,
     FormsModule,
     LoadingRetryComponent,
     QuestionSubmissionFormComponent,
@@ -89,7 +87,7 @@ interface FeedbackQuestionsResponse {
     AjaxLoadingComponent,
     SafeHtmlPipe,
     KeyValuePipe,
-  ],
+],
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   readonly castAsSelectElement = castAsSelectElement;
@@ -146,7 +144,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   ungroupableQuestions: Set<number> = new Set();
   ungroupableQuestionsSorted: number[] = [];
 
-  feedbackSessionId: string | undefined = '';
+  feedbackSessionId: string = '';
   studentId: string | undefined = '';
 
   private backendUrl: string = environment.backendUrl;
@@ -181,6 +179,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     ).subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.feedbackSessionId = queryParams.fsid;
       this.regKey = queryParams.key ? queryParams.key : '';
       this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
       this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
@@ -210,7 +209,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     // The logged in user matches the registration key; redirect to the logged in URL
                     this.navigationService.navigateByURLWithParamEncoding(
                         `/web/${this.entityType}/sessions/submission`,
-                        { courseid: this.courseId, fsname: this.feedbackSessionName });
+                        {
+                          courseid: this.courseId,
+                          fsname: this.feedbackSessionName,
+                          fsid: this.feedbackSessionId,
+                        });
                   } else {
                     // Valid, unused registration key; load information based on the key
                     this.loadCourseInfo();
@@ -344,7 +347,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.moderatedPerson || this.previewAsPerson,
             this.regKey,
         ).subscribe((student: Student) => {
-          this.studentId = student.studentId;
+          this.studentId = student.userId;
           this.personName = student.name;
           this.personEmail = student.email;
           this.logStudentAccess();

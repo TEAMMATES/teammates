@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCourseEditPage;
+import teammates.e2e.pageobjects.InstructorCourseEditPageSql;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
@@ -15,9 +15,7 @@ public class InstructorCourseEditPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorCourseEditPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
-        sqlTestData = removeAndRestoreSqlDataBundle(loadSqlDataBundle("/InstructorCourseEditPageE2ETest_SqlEntities.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/InstructorCourseEditPageE2ETestSql.json"));
     }
 
     @Test
@@ -25,11 +23,11 @@ public class InstructorCourseEditPageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(testData.courses.get("ICEdit.CS2104").getId());
-        InstructorCourseEditPage editPage = loginToPage(url, InstructorCourseEditPage.class,
+        InstructorCourseEditPageSql editPage = loginToPage(url, InstructorCourseEditPageSql.class,
                 testData.instructors.get("ICEdit.coowner.CS2104").getGoogleId());
 
         Results results = getAxeBuilder().analyze(editPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertViolationFree(results);
     }
 
 }
