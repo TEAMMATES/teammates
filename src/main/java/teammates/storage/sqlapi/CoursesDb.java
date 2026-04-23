@@ -166,23 +166,6 @@ public final class CoursesDb {
     }
 
     /**
-     * Get teams by {@code section}.
-     */
-    public List<Team> getTeamsForSection(Section section) {
-        assert section != null;
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
-        Root<Team> teamRoot = cr.from(Team.class);
-        Join<Team, Section> teamJoin = teamRoot.join("section");
-
-        cr.select(teamRoot).where(
-                cb.equal(teamJoin.get("id"), section.getId()));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
      * Get teams by {@code course}.
      */
     public List<Team> getTeamsForCourse(String courseId) {
