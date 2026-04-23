@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import {
   EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,
   EXAMPLE_SINGLE_STUDENT_RESULT_TABLES,
@@ -22,7 +23,6 @@ import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Students Section of the Instructor Help Page.

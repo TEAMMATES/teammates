@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
 import {
@@ -21,7 +22,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { NotificationEditFormComponent } from './notification-edit-form/notification-edit-form.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'tm-admin-notifications-page',

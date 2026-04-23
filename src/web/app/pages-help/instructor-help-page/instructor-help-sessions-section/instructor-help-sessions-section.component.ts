@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import {
   EXAMPLE_COMMENT_EDIT_FORM_MODEL,
   EXAMPLE_COURSE_CANDIDATES,
@@ -67,7 +68,6 @@ import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Sessions Section of the Instructor Help Page.

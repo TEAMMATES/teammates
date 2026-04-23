@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationService } from '../../../../services/navigation.service';
 import { PanelChevronComponent } from '../../../components/panel-chevron/panel-chevron.component';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * A standalone panel for instructor help page content.
