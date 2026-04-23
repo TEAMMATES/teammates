@@ -310,21 +310,19 @@ public final class FeedbackQuestionsLogic {
         FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
         String courseId = feedbackQuestion.getCourseId();
 
-        switch (questionType) {
-        case FeedbackQuestionType.MCQ -> {
+        return switch (questionType) {
+        case MCQ -> {
             FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
                     (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
-            return generateMcqMsqOptions(feedbackMcqQuestionDetails.getGenerateOptionsFor(), student, courseId);
+            yield generateMcqMsqOptions(feedbackMcqQuestionDetails.getGenerateOptionsFor(), student, courseId);
         }
-        case FeedbackQuestionType.MSQ -> {
+        case MSQ -> {
             FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
                     (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
-            return generateMcqMsqOptions(feedbackMsqQuestionDetails.getGenerateOptionsFor(), student, courseId);
+            yield generateMcqMsqOptions(feedbackMsqQuestionDetails.getGenerateOptionsFor(), student, courseId);
         }
-        default -> {
-            return Collections.emptyList();
-        }
-        }
+        default -> Collections.emptyList();
+        };
     }
 
     /**
@@ -340,100 +338,75 @@ public final class FeedbackQuestionsLogic {
             Student student,
             String courseId
     ) {
-        List<String> optionList;
-
-        switch (generateOptionsFor) {
-        case NONE:
-            optionList = new ArrayList<>();
-            break;
-        case STUDENTS:
-            optionList = usersLogic.getStudentsForCourse(courseId)
-                    .stream()
-                    .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
-                    .sorted()
-                    .toList();
-            break;
-        case STUDENTS_IN_SAME_SECTION:
-            optionList = usersLogic.getStudentsForSection(student.getSectionName(), courseId)
-                    .stream()
-                    .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
-                    .sorted()
-                    .toList();
-            break;
-        case STUDENTS_EXCLUDING_SELF:
-            optionList = usersLogic.getStudentsForCourse(courseId)
-                    .stream()
-                    .filter(s -> !s.getId().equals(student.getId()))
-                    .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
-                    .sorted()
-                    .toList();
-            break;
-        case TEAMS:
-            optionList = coursesLogic.getTeamsForCourse(courseId)
-                    .stream()
-                    .map(Team::getName)
-                    .sorted()
-                    .toList();
-            break;
-        case TEAMS_IN_SAME_SECTION:
-            optionList = student.getSection().getTeams()
-                    .stream()
-                    .map(Team::getName)
-                    .sorted()
-                    .toList();
-            break;
-        case TEAMS_EXCLUDING_SELF:
-            optionList = coursesLogic.getTeamsForCourse(courseId)
-                    .stream()
-                    .filter(team -> !team.getId().equals(student.getTeam().getId()))
-                    .map(Team::getName)
-                    .sorted()
-                    .toList();
-            break;
-        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            if (student == null) {
-                // TODO: This block is here for backwards compatability, to check if this is required.
-                optionList = new ArrayList<>();
-                break;
-            }
-
-            optionList = student.getTeam()
-                .getUsers()
+        return switch (generateOptionsFor) {
+        case NONE -> new ArrayList<>();
+        case STUDENTS -> usersLogic.getStudentsForCourse(courseId)
                 .stream()
-                .filter(teamMember -> !teamMember.getId().equals(student.getId()))
-                .map(User::getName)
+                .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
                 .sorted()
                 .toList();
-
-            break;
-        case OWN_TEAM_MEMBERS:
-            if (student == null) {
-                // TODO: This block is here for backwards compatability, to check if this is required.
-                optionList = new ArrayList<>();
-                break;
-            }
-
-            optionList = student.getTeam()
-                .getUsers()
+        case STUDENTS_IN_SAME_SECTION -> usersLogic.getStudentsForSection(student.getSectionName(), courseId)
                 .stream()
-                .map(User::getName)
+                .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
                 .sorted()
                 .toList();
-            break;
-        case INSTRUCTORS:
-            optionList = usersLogic.getInstructorsForCourse(courseId)
+        case STUDENTS_EXCLUDING_SELF -> usersLogic.getStudentsForCourse(courseId)
+                .stream()
+                .filter(s -> !s.getId().equals(student.getId()))
+                .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                .sorted()
+                .toList();
+        case TEAMS -> coursesLogic.getTeamsForCourse(courseId)
+                .stream()
+                .map(Team::getName)
+                .sorted()
+                .toList();
+        case TEAMS_IN_SAME_SECTION -> student.getSection().getTeams()
+                .stream()
+                .map(Team::getName)
+                .sorted()
+                .toList();
+        case TEAMS_EXCLUDING_SELF -> coursesLogic.getTeamsForCourse(courseId)
+                .stream()
+                .filter(team -> !team.getId().equals(student.getTeam().getId()))
+                .map(Team::getName)
+                .sorted()
+                .toList();
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF -> {
+            if (student == null) {
+                // TODO: This block is here for backwards compatability, to check if this is required.
+                yield new ArrayList<>();
+            }
+            yield student.getTeam()
+                    .getUsers()
                     .stream()
-                    .map(Instructor::getName)
+                    .map(User::getName)
                     .sorted()
                     .toList();
-            break;
-        default:
-            assert false : "Invalid generateOptionsFor type: " + generateOptionsFor;
-            optionList = new ArrayList<>();
-            break;
         }
-
-        return optionList;
+        case OWN_TEAM_MEMBERS -> {
+            if (student == null) {
+                // TODO: This block is here for backwards compatability, to check if this is required.
+                yield new ArrayList<>();
+            }
+            yield student.getTeam()
+                    .getUsers()
+                    .stream()
+                    .filter(teamMember -> !teamMember.getId().equals(student.getId()))
+                    .map(User::getName)
+                    .sorted()
+                    .toList();
+        }
+        case INSTRUCTORS -> usersLogic.getInstructorsForCourse(courseId)
+                .stream()
+                .map(Instructor::getName)
+                .sorted()
+                .toList();
+        default -> {
+            assert false : "Invalid generateOptionsFor type: " + generateOptionsFor;
+            yield new ArrayList<>();
+        }
+        };
     }
 
     /**
