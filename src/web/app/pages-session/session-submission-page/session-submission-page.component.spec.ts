@@ -26,7 +26,9 @@ import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
+  FeedbackMcqResponseDetails,
   FeedbackMsqQuestionDetails,
+  FeedbackMsqResponseDetails,
   FeedbackNumericalScaleQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestionRecipients,
@@ -118,7 +120,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as unknown as FeedbackMcqQuestionDetails,
+    } as FeedbackMcqResponseDetails,
     isValid: true,
     isModified: false,
     commentByGiver: {
@@ -140,7 +142,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
-    } as unknown as FeedbackMcqQuestionDetails,
+    } as FeedbackMcqResponseDetails,
     isValid: true,
     isModified: false,
     commentByGiver: {
@@ -206,7 +208,7 @@ describe('SessionSubmissionPageComponent', () => {
       isOther: false,
       otherFieldContent: 'other field content',
       questionType: FeedbackQuestionType.MSQ,
-    } as unknown as FeedbackMsqQuestionDetails,
+    } as FeedbackMsqResponseDetails,
     isValid: true,
     isModified: false,
     commentByGiver: {
