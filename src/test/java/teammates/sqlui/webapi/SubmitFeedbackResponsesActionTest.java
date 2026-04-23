@@ -3,9 +3,7 @@ package teammates.sqlui.webapi;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
@@ -97,9 +95,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         recipientInstructor1.setCourse(stubCourse);
 
         reset(mockLogic);
-
-        doNothing().when(mockLogic).populateFieldsToGenerateInQuestion(
-                any(FeedbackQuestion.class), anyString(), anyString(), anyString());
 
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
@@ -280,8 +275,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         verify(mockLogic).getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent);
         verify(mockLogic).getRecipientsOfQuestion(spyFeedbackQuestion, null, stubStudent);
-        verify(mockLogic).populateFieldsToGenerateInQuestion(
-                spyFeedbackQuestion, stubCourse.getId(), stubStudent.getEmail(), stubStudent.getTeamName());
         verify(mockLogic).createFeedbackResponse(argThat(response ->
                 response.getGiver().equals(stubStudent.getEmail())
                         && response.getRecipient().equals(recipientStudent1.getEmail())));
@@ -332,8 +325,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         verify(mockLogic).getFeedbackResponsesFromInstructorForQuestion(spyFeedbackQuestion, stubInstructor);
         verify(mockLogic).getRecipientsOfQuestion(spyFeedbackQuestion, stubInstructor, null);
-        verify(mockLogic).populateFieldsToGenerateInQuestion(
-                spyFeedbackQuestion, stubCourse.getId(), stubInstructor.getEmail(), null);
         verify(mockLogic).createFeedbackResponse(argThat(response ->
                 response.getGiver().equals(stubInstructor.getEmail())
                         && response.getRecipient().equals(recipientInstructor1.getEmail())));

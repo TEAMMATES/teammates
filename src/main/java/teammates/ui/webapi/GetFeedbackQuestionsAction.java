@@ -1,6 +1,9 @@
 package teammates.ui.webapi;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -65,22 +68,29 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
 
         List<FeedbackQuestion> questions;
+        Map<UUID, List<String>> dynamicallyGeneratedOptions = new HashMap<>();
         switch (intent) {
         case STUDENT_SUBMISSION:
             questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
             Student student = getSqlStudentOfCourseFromRequest(courseId);
-            questions.forEach(question -> sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
-                    student.getEmail(), student.getTeamName()));
+            for (FeedbackQuestion question : questions) {
+                List<String> options = sqlLogic.getDynamicallyGeneratedOptions(question, student);
+                if (!options.isEmpty()) {
+                    dynamicallyGeneratedOptions.put(question.getId(), options);
+                }
+            }
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
             questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
-            questions.forEach(question -> sqlLogic.populateFieldsToGenerateInQuestion(question, courseId,
-                    instructor.getEmail(), null));
+            for (FeedbackQuestion question : questions) {
+                List<String> options = sqlLogic.getDynamicallyGeneratedOptions(question, null);
+                if (!options.isEmpty()) {
+                    dynamicallyGeneratedOptions.put(question.getId(), options);
+                }
+            }
             break;
-        case FULL_DETAIL:
-        case INSTRUCTOR_RESULT:
-        case STUDENT_RESULT:
+        case FULL_DETAIL, INSTRUCTOR_RESULT, STUDENT_RESULT:
             questions = sqlLogic.getFeedbackQuestionsForSession(feedbackSession);
             break;
         default:
@@ -89,17 +99,26 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         if (!StringHelper.isEmpty(moderatedPerson)) {
-            // filter out unmodifiable questions
+            // filter out questions that the instructor cannot see
             questions.removeIf(question -> !canInstructorSeeQuestion(question));
         }
 
-        FeedbackQuestionsData response = FeedbackQuestionsData.makeFeedbackQuestionsData(questions);
-        response.normalizeQuestionNumber();
+        List<FeedbackQuestionData> questionDatas = questions.stream()
+                .map(question -> {
+                    List<String> options = dynamicallyGeneratedOptions.getOrDefault(question.getId(), List.of());
+                    return new FeedbackQuestionData(question, options);
+                })
+                .toList();
+
         if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
-            for (FeedbackQuestionData questionData : response.getQuestions()) {
+            for (FeedbackQuestionData questionData : questionDatas) {
                 questionData.hideInformationForStudent();
             }
         }
+
+        FeedbackQuestionsData response = new FeedbackQuestionsData(questionDatas);
+        response.normalizeQuestionNumber();
+
         return new JsonResult(response);
     }
 }
