@@ -54,13 +54,12 @@ public class GetFeedbackSessionLogsAction extends Action {
         if (fslTypes != null) {
             // Multiple log types are separated by a comma e.g access,submission
             for (String fslType : fslTypes.split(",")) {
-                FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
-
-                if (convertedFslType == null) {
-                    throw new InvalidHttpParameterException("Invalid log type");
+                try {
+                    FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOf(fslType.trim().toUpperCase());
+                    convertedFslTypes.add(convertedFslType);
+                } catch (IllegalArgumentException e) {
+                    throw new InvalidHttpParameterException("Invalid log type: " + fslType, e);
                 }
-
-                convertedFslTypes.add(convertedFslType);
             }
         }
 
