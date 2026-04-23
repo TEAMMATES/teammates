@@ -393,7 +393,14 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       return;
     }
 
-    const recipientIdentifier: string = this.model.recipientSubmissionForms[index].recipientIdentifier;
+    let recipientIdentifier: string;
+    if (field === 'recipientIdentifier') {
+      recipientIdentifier = data;
+      const previousRecipientIdentifier = this.model.recipientSubmissionForms[index].recipientIdentifier;
+      this.model.hasResponseChangedForRecipients.delete(previousRecipientIdentifier);
+    } else {
+      recipientIdentifier = this.model.recipientSubmissionForms[index].recipientIdentifier;
+    }
     this.model.hasResponseChangedForRecipients.set(recipientIdentifier, true);
 
     this.model.recipientSubmissionForms[index] =
