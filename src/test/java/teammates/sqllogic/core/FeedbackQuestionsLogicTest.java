@@ -348,9 +348,9 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetDynamicallyGeneratedOptions_mcqOwnTeamMembers_returnsAllTeamMemberNames() {
+    public void testGetDynamicallyGeneratedOptions_mcqOwnTeamMembersIncludingSelf_returnsAllTeamMemberNames() {
         FeedbackMcqQuestionDetails mcqDetails =
-                getMockMcqQuestionDetails(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                getMockMcqQuestionDetails(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
 
         Student currentStudent = mock(Student.class);
@@ -367,9 +367,9 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetDynamicallyGeneratedOptions_mcqOwnTeamMembersIncludingSelf_excludesCurrentStudent() {
+    public void testGetDynamicallyGeneratedOptions_mcqOwnTeamMembers_excludesCurrentStudent() {
         FeedbackMcqQuestionDetails mcqDetails =
-                getMockMcqQuestionDetails(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+                getMockMcqQuestionDetails(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
 
         Student currentStudent = mock(Student.class);
