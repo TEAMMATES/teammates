@@ -46,9 +46,11 @@ public class CreateFeedbackSessionLogAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
-        FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
-        if (convertedFslType == null) {
+        FeedbackSessionLogType convertedFslType;
+        try {
+            String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
+            convertedFslType = FeedbackSessionLogType.valueOf(fslType);
+        } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException("Invalid log type");
         }
 
