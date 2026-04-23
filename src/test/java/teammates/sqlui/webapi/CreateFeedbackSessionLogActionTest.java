@@ -93,8 +93,8 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         student3Id = student3InCourse2.getId().toString();
         student1RegKey = student1InCourse1.getRegKey();
 
-        accessLabel = FeedbackSessionLogType.ACCESS.getLabel();
-        submissionLabel = FeedbackSessionLogType.SUBMISSION.getLabel();
+        accessLabel = "ACCESS";
+        submissionLabel = "SUBMISSION";
     }
 
     @BeforeMethod
