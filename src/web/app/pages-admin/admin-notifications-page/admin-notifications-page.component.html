@@ -15,7 +15,7 @@
   </button>
 </div>
 
-<div class="margin-top-30px" [ngbCollapse]="!(isNotificationEditFormExpanded && !isNotificationLoading)">
+<div class="margin-top-30px" [ngbCollapse]="!isNotificationEditFormExpanded || isNotificationLoading">
   <tm-notification-edit-form [formMode]="currentNotificationEditFormMode"
     [(model)]="notificationEditFormModel"
     [guessTimezone]="guessTimezone"
