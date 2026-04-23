@@ -8,6 +8,10 @@ import java.util.List;
 public final class FeedbackQuestionsData extends ApiOutput {
     private List<FeedbackQuestionData> questions;
 
+    private FeedbackQuestionsData() {
+        // Default constructor is required for JSON deserialization
+    }
+
     public FeedbackQuestionsData(List<FeedbackQuestionData> feedbackQuestionsData) {
         this.questions = feedbackQuestionsData;
     }
