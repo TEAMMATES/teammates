@@ -3729,7 +3729,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       >
                         <button
                           class="btn-add-comment btn btn-light btn-sm"
-                          disabled=""
                         >
                           <i
                             class="fas fa-comment"
@@ -4349,7 +4348,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0"
+            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
@@ -4368,6 +4367,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </button>
               </tm-panel-chevron>
             </div>
+            <i
+              aria-hidden="true"
+              class="fas fa-check me-2"
+            />
             <h2
               class="question-details"
             >

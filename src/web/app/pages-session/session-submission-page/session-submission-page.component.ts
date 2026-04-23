@@ -533,7 +533,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
                 showResponsesTo: feedbackQuestion.showResponsesTo,
 
-                hasResponseChangedForRecipients: new Map<string, boolean>(),
                 isTabExpandedForRecipients: new Map<string, boolean>(),
               };
               this.questionSubmissionForms.push(model);
@@ -612,6 +611,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
               responseId: '',
               isValid: true,
+              isModified: false,
             });
           });
           model.isLoading = false;
@@ -679,6 +679,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     : this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
                 responseId: matchedExistingResponse ? matchedExistingResponse.feedbackResponseId : '',
                 isValid: true,
+                isModified: false,
               };
               if (matchedExistingResponse && matchedExistingResponse.giverComment) {
                 submissionForm.commentByGiver = this.getCommentModel(
@@ -700,6 +701,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 responseDetails: response.responseDetails,
                 responseId: response.feedbackResponseId,
                 isValid: true,
+                isModified: false,
               };
               if (response.giverComment) {
                 submissionForm.commentByGiver = this.getCommentModel(
@@ -715,6 +717,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
                 responseId: '',
                 isValid: true,
+                isModified: false,
               });
               numberOfRecipientSubmissionFormsNeeded -= 1;
             }
@@ -843,11 +846,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 ),
                 tap(() => {
                   if (recipientId) {
-                    questionSubmissionFormModel.hasResponseChangedForRecipients.set(recipientId, false);
-                  } else {
-                    questionSubmissionFormModel.hasResponseChangedForRecipients.forEach((_, key) => {
-                      questionSubmissionFormModel.hasResponseChangedForRecipients.set(key, false);
+                    questionSubmissionFormModel.recipientSubmissionForms.forEach((form) => {
+                      if (form.recipientIdentifier === recipientId) {
+                        form.isModified = false;
+                      }
                     });
+                  } else {
+                    questionSubmissionFormModel
+                      .recipientSubmissionForms.forEach((form) => { form.isModified = false; });
                   }
                 }),
                 catchError((error: ErrorMessageOutput) => {

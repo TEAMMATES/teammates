@@ -49,6 +49,7 @@ const formResponse1: FeedbackResponseRecipientSubmissionFormModel = {
     answer: 5,
   } as FeedbackNumericalScaleResponseDetails,
   isValid: true,
+  isModified: false,
 };
 
 const formResponse2: FeedbackResponseRecipientSubmissionFormModel = {
@@ -58,6 +59,7 @@ const formResponse2: FeedbackResponseRecipientSubmissionFormModel = {
     answer: 4,
   } as FeedbackNumericalScaleResponseDetails,
   isValid: true,
+  isModified: false,
 };
 
 const formResponse3: FeedbackResponseRecipientSubmissionFormModel = {
@@ -67,6 +69,7 @@ const formResponse3: FeedbackResponseRecipientSubmissionFormModel = {
     answer: 3,
   } as FeedbackNumericalScaleResponseDetails,
   isValid: true,
+  isModified: false,
 };
 
 const formResponse4: FeedbackResponseRecipientSubmissionFormModel = {
@@ -76,6 +79,7 @@ const formResponse4: FeedbackResponseRecipientSubmissionFormModel = {
     answer: 2,
   } as FeedbackNumericalScaleResponseDetails,
   isValid: true,
+  isModified: false,
 };
 
 const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -106,13 +110,6 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   isLoading: false,
   isLoaded: true,
 
-  hasResponseChangedForRecipients: new Map<string, boolean>([
-    ['rogers-alan-id', false],
-    ['buck-arthur-id', false],
-    ['harris-barry-id', false],
-    ['hans-charlie-id', false],
-  ]),
-
   isTabExpanded: true,
   isTabExpandedForRecipients: new Map<string, boolean>([
     ['rogers-alan-id', true],
@@ -139,9 +136,11 @@ describe('QuestionSubmissionFormComponent', () => {
     responseId: 'test-id',
     responseDetails: {
       questionType: FeedbackQuestionType.TEXT,
-    },
+      answer: 'answer',
+    } as FeedbackTextResponseDetails,
     recipientIdentifier: 'testIdentifier',
     isValid: true,
+    isModified: false,
   });
 
   const commentRowModelBuilder = createBuilder<CommentRowModel>({
@@ -327,8 +326,10 @@ describe('QuestionSubmissionFormComponent', () => {
     });
 
   it('sets hasResponseChanged to true if any response has changed', () => {
-    component.model.hasResponseChangedForRecipients.set('rogers-alan-id', true);
-    component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
+    component.model.recipientSubmissionForms.push(
+      recipientSubmissionFormBuilder.isModified(true).build(),
+      recipientSubmissionFormBuilder.isModified(false).build(),
+    );
 
     fixture.detectChanges();
 
@@ -336,8 +337,10 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('sets hasResponseChanged to false if no response has changed', () => {
-    component.model.hasResponseChangedForRecipients.set('rogers-alan-id', false);
-    component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
+    component.model.recipientSubmissionForms.push(
+      recipientSubmissionFormBuilder.isModified(false).build(),
+      recipientSubmissionFormBuilder.isModified(false).build(),
+    );
 
     fixture.detectChanges();
 
@@ -345,8 +348,10 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('sets isSaved to false if some response has changed', () => {
-    component.model.hasResponseChangedForRecipients.set('rogers-alan-id', true);
-    component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
+    component.model.recipientSubmissionForms.push(
+      recipientSubmissionFormBuilder.isModified(false).build(),
+      recipientSubmissionFormBuilder.isModified(true).build(),
+    );
 
     fixture.detectChanges();
 
@@ -354,17 +359,18 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('sets isSaved to false if no response has changed and all responses are empty', () => {
-    component.model.hasResponseChangedForRecipients.set('rogers-alan-id', false);
     component.model.recipientSubmissionForms.push({
       recipientIdentifier: '',
       responseDetails: DEFAULT_TEXT_RESPONSE_DETAILS(),
       responseId: '',
       isValid: true,
+      isModified: false,
     }, {
       recipientIdentifier: '',
       responseDetails: DEFAULT_TEXT_RESPONSE_DETAILS(),
       responseId: '',
       isValid: true,
+      isModified: false,
     });
 
     fixture.detectChanges();
@@ -373,8 +379,6 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('sets isSaved to true if no response has changed and at least one response is not empty', () => {
-    component.model.hasResponseChangedForRecipients.set('hans-charlie-id', false);
-    component.model.hasResponseChangedForRecipients.set('harris-barry-id', false);
     component.model.recipientSubmissionForms = [formResponse1, formResponse2];
 
     fixture.detectChanges();
@@ -436,8 +440,6 @@ describe('QuestionSubmissionFormComponent', () => {
     component.model.isTabExpanded = true;
     component.recipientId = 'test-id';
     const otherRecipientId = 'test-other-id';
-    component.model.hasResponseChangedForRecipients.set(component.recipientId, false);
-    component.model.hasResponseChangedForRecipients.set(otherRecipientId, false);
 
     let emittedModel: QuestionSubmissionFormModel | undefined;
     testEventEmission(component.formModelChange, (value) => { emittedModel = value; });
@@ -594,14 +596,9 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('saveFeedbackResponses: should emit responsesSave event', () => {
-    component.isSaved = false;
-    component.model.hasResponseChangedForRecipients = new Map<string, boolean>([
-      ['harris-barry-id', true],
-      ['hans-charlie-id', false],
-      ['random-recipient-id', false],
-    ]);
-
-    component.model.recipientSubmissionForms = [formResponse1, formResponse2];
+    const form1 = recipientSubmissionFormBuilder.isModified(true).build();
+    const form2 = recipientSubmissionFormBuilder.build();
+    component.model.recipientSubmissionForms = [form1, form2];
 
     let emittedModel: QuestionSubmissionFormModel | undefined;
     testEventEmission(component.responsesSave, (value) => { emittedModel = value; });
@@ -774,10 +771,10 @@ describe('QuestionSubmissionFormComponent', () => {
 
     const recipientId = 'recipient-id';
     component.model.recipientSubmissionForms = [
-      recipientSubmissionFormBuilder.recipientIdentifier(recipientId).responseDetails(
+      recipientSubmissionFormBuilder.recipientIdentifier(recipientId).isModified(false).responseDetails(
         feedbackResponseTextDetailsBuilder.answer('some answer').build(),
       ).build(),
-      recipientSubmissionFormBuilder.recipientIdentifier('someid').responseDetails(
+      recipientSubmissionFormBuilder.recipientIdentifier('someid').isModified(false).responseDetails(
         feedbackResponseTextDetailsBuilder.answer('').build(),
       ).build(),
     ];
@@ -796,7 +793,6 @@ describe('QuestionSubmissionFormComponent', () => {
         feedbackResponseTextDetailsBuilder.answer('').build(),
       ).build(),
     ];
-    component.model.hasResponseChangedForRecipients.set(recipientId, false);
 
     fixture.detectChanges();
     expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
@@ -851,7 +847,6 @@ describe('QuestionSubmissionFormComponent', () => {
         feedbackResponseMcqDetailsBuilder.answer('').build(),
       ).build(),
     ];
-    component.model.hasResponseChangedForRecipients.set(recipientId, false);
 
     fixture.detectChanges();
     expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
@@ -906,7 +901,6 @@ describe('QuestionSubmissionFormComponent', () => {
         feedbackMsqResponseDetailsBuilder.answers([]).build(),
       ).build(),
     ];
-    component.model.hasResponseChangedForRecipients.set(recipientId, false);
 
     fixture.detectChanges();
     expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
@@ -961,7 +955,6 @@ describe('QuestionSubmissionFormComponent', () => {
         feedbackNumericalScaleResponseDetailsBuilder.answer(NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED).build(),
       ).build(),
     ];
-    component.model.hasResponseChangedForRecipients.set(recipientId, false);
 
     fixture.detectChanges();
     expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
@@ -1016,7 +1009,6 @@ describe('QuestionSubmissionFormComponent', () => {
         feedbackConstantSumResponseDetailsBuilder.answers([]).build(),
       ).build(),
     ];
-    component.model.hasResponseChangedForRecipients.set(recipientId, false);
 
     fixture.detectChanges();
     expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
@@ -1071,7 +1063,6 @@ describe('QuestionSubmissionFormComponent', () => {
         feedbackRankOptionsResponseDetailsBuilder.answers([]).build(),
       ).build(),
     ];
-    component.model.hasResponseChangedForRecipients.set(recipientId, false);
 
     fixture.detectChanges();
     expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
@@ -1107,7 +1098,6 @@ describe('QuestionSubmissionFormComponent', () => {
         feedbackRankOptionsResponseDetailsBuilder.answers([]).build(),
       ).build(),
     ];
-    component.model.hasResponseChangedForRecipients.set(recipientId, false);
 
     fixture.detectChanges();
     expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
@@ -1138,13 +1128,14 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('isSavedForRecipient: returns true if isSaved is true for FeedbackQuestionType.CONSTSUM_RECIPIENTS', () => {
-    const form = {
+    const form: FeedbackResponseRecipientSubmissionFormModel = {
       responseId: 'response-id',
       recipientIdentifier: 'harris-barry-id',
       responseDetails: {
         answers: [1],
       } as FeedbackConstantSumResponseDetails,
       isValid: true,
+      isModified: false,
     };
     component.model.questionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
     component.model.recipientSubmissionForms = [form];
@@ -1155,11 +1146,12 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('isSavedForRecipient: returns true if isSaved is true for FeedbackQuestionType.CONTRIB', () => {
-    const form = {
+    const form: FeedbackResponseRecipientSubmissionFormModel = {
       responseId: 'response-id',
       recipientIdentifier: 'harris-barry-id',
       responseDetails: {} as FeedbackContributionResponseDetails,
       isValid: true,
+      isModified: false,
     };
 
     component.model.questionType = FeedbackQuestionType.CONTRIB;
@@ -1171,11 +1163,12 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('isSavedForRecipient: returns true if isSaved is true for FeedbackQuestionType.RANK_RECIPIENTS', () => {
-    const form = {
+    const form: FeedbackResponseRecipientSubmissionFormModel = {
       responseId: 'response-id',
       recipientIdentifier: 'harris-barry-id',
       responseDetails: {} as FeedbackRankRecipientsResponseDetails,
       isValid: true,
+      isModified: false,
     };
 
     component.model.questionType = FeedbackQuestionType.RANK_RECIPIENTS;
