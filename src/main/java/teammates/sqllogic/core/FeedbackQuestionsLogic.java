@@ -30,8 +30,8 @@ import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
-import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
+import teammates.storage.sqlentity.Team;
+import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 
 /**
@@ -296,134 +296,144 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Populates fields that need dynamic generation in a question.
+     * Gets the dynamically generated options for a question if applicable.
      *
-     * <p>Currently, only MCQ/MSQ needs to generate choices dynamically.</p>
+     * <p>
+     * This only applies to MCQ and MSQ questions with "generate options for" field.
      *
-     * @param feedbackQuestion the question to populate
-     * @param courseId the ID of the course
-     * @param emailOfEntityDoingQuestion the email of the entity doing the question
-     * @param teamOfEntityDoingQuestion the team of the entity doing the question. If the entity is an instructor,
-     *                                  it can be {@code null}.
+     * @param feedbackQuestion the question to get the dynamically generated options for
+     * @param student the student who is doing the question, or null if the entity doing the question is an instructor
+     *
+     * @return a list of dynamically generated options, or an empty list if not applicable
      */
-    public void populateFieldsToGenerateInQuestion(FeedbackQuestion feedbackQuestion,
-            String courseId, String emailOfEntityDoingQuestion, String teamOfEntityDoingQuestion) {
-        List<String> optionList;
-
-        FeedbackParticipantType generateOptionsFor;
+    public List<String> getDynamicallyGeneratedOptions(FeedbackQuestion feedbackQuestion, Student student) {
         FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
+        String courseId = feedbackQuestion.getCourseId();
 
-        if (questionType == FeedbackQuestionType.MCQ) {
+        switch (questionType) {
+        case FeedbackQuestionType.MCQ -> {
             FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
                     (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
-            optionList = feedbackMcqQuestionDetails.getMcqChoices();
-            generateOptionsFor = feedbackMcqQuestionDetails.getGenerateOptionsFor();
-        } else if (questionType == FeedbackQuestionType.MSQ) {
+            return generateMcqMsqOptions(feedbackMcqQuestionDetails.getGenerateOptionsFor(), student, courseId);
+        }
+        case FeedbackQuestionType.MSQ -> {
             FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
                     (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
-            optionList = feedbackMsqQuestionDetails.getMsqChoices();
-            generateOptionsFor = feedbackMsqQuestionDetails.getGenerateOptionsFor();
-        } else {
-            // other question types
-            return;
+            return generateMcqMsqOptions(feedbackMsqQuestionDetails.getGenerateOptionsFor(), student, courseId);
         }
+        default -> {
+            return Collections.emptyList();
+        }
+        }
+    }
+
+    /**
+     * Generates the options for MCQ/MSQ questions based on the generateOptionsFor field.
+     *
+     * @param generateOptionsFor the type of participants to generate options for
+     * @param student the student who is doing the question, or null if the entity doing the question is an instructor
+     * @param courseId the ID of the course
+     * @return a list of generated options, or an empty list if the generateOptionsFor type is NONE or invalid
+     */
+    private List<String> generateMcqMsqOptions(
+            FeedbackParticipantType generateOptionsFor,
+            Student student,
+            String courseId
+    ) {
+        List<String> optionList;
 
         switch (generateOptionsFor) {
         case NONE:
+            optionList = new ArrayList<>();
             break;
         case STUDENTS:
+            optionList = usersLogic.getStudentsForCourse(courseId)
+                    .stream()
+                    .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                    .sorted()
+                    .toList();
+            break;
         case STUDENTS_IN_SAME_SECTION:
+            optionList = usersLogic.getStudentsForSection(student.getSectionName(), courseId)
+                    .stream()
+                    .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                    .sorted()
+                    .toList();
+            break;
         case STUDENTS_EXCLUDING_SELF:
-            List<Student> studentList;
-            if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
-                Student student =
-                        usersLogic.getStudentForEmail(courseId, emailOfEntityDoingQuestion);
-                studentList = usersLogic.getStudentsForSection(student.getSectionName(), courseId);
-            } else {
-                studentList = usersLogic.getStudentsForCourse(courseId);
-            }
-
-            if (generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
-                studentList.removeIf(studentInList ->
-                        SanitizationHelper.areEmailsEqual(studentInList.getEmail(), emailOfEntityDoingQuestion));
-            }
-
-            for (Student student : studentList) {
-                optionList.add(student.getName() + " (" + student.getTeam().getName() + ")");
-            }
-
-            optionList.sort(null);
+            optionList = usersLogic.getStudentsForCourse(courseId)
+                    .stream()
+                    .filter(s -> !s.getId().equals(student.getId()))
+                    .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                    .sorted()
+                    .toList();
             break;
         case TEAMS:
+            optionList = coursesLogic.getTeamsForCourse(courseId)
+                    .stream()
+                    .map(Team::getName)
+                    .sorted()
+                    .toList();
+            break;
         case TEAMS_IN_SAME_SECTION:
+            optionList = student.getSection().getTeams()
+                    .stream()
+                    .map(Team::getName)
+                    .sorted()
+                    .toList();
+            break;
         case TEAMS_EXCLUDING_SELF:
-            List<String> teams;
-            if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
-                Student student =
-                        usersLogic.getStudentForEmail(courseId, emailOfEntityDoingQuestion);
-                teams = coursesLogic.getTeamsForSection(student.getSection())
-                                    .stream()
-                                    .map(team -> { return team.getName(); })
-                                    .collect(Collectors.toList());
-            } else {
-                teams = coursesLogic.getTeamsForCourse(courseId)
-                                    .stream()
-                                    .map(team -> { return team.getName(); })
-                                    .collect(Collectors.toList());
-            }
-
-            if (generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
-                teams.removeIf(team -> team.equals(teamOfEntityDoingQuestion));
-            }
-
-            for (String team : teams) {
-                optionList.add(team);
-            }
-
-            optionList.sort(null);
+            optionList = coursesLogic.getTeamsForCourse(courseId)
+                    .stream()
+                    .filter(team -> !team.getId().equals(student.getTeam().getId()))
+                    .map(Team::getName)
+                    .sorted()
+                    .toList();
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-        case OWN_TEAM_MEMBERS:
-            if (teamOfEntityDoingQuestion != null) {
-                List<Student> teamMembers = usersLogic.getStudentsForTeam(teamOfEntityDoingQuestion,
-                        courseId);
-
-                if (generateOptionsFor == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
-                    teamMembers.removeIf(teamMember ->
-                            SanitizationHelper.areEmailsEqual(teamMember.getEmail(), emailOfEntityDoingQuestion));
-                }
-
-                teamMembers.forEach(teamMember -> optionList.add(teamMember.getName()));
-
-                optionList.sort(null);
+            if (student == null) {
+                // TODO: This block is here for backwards compatability, to check if this is required.
+                optionList = new ArrayList<>();
+                break;
             }
+
+            optionList = student.getTeam()
+                .getUsers()
+                .stream()
+                .filter(teamMember -> !teamMember.getId().equals(student.getId()))
+                .map(User::getName)
+                .sorted()
+                .toList();
+
+            break;
+        case OWN_TEAM_MEMBERS:
+            if (student == null) {
+                // TODO: This block is here for backwards compatability, to check if this is required.
+                optionList = new ArrayList<>();
+                break;
+            }
+
+            optionList = student.getTeam()
+                .getUsers()
+                .stream()
+                .map(User::getName)
+                .sorted()
+                .toList();
             break;
         case INSTRUCTORS:
-            List<Instructor> instructorList =
-                    usersLogic.getInstructorsForCourse(courseId);
-
-            for (Instructor instructor : instructorList) {
-                optionList.add(instructor.getName());
-            }
-
-            optionList.sort(null);
+            optionList = usersLogic.getInstructorsForCourse(courseId)
+                    .stream()
+                    .map(Instructor::getName)
+                    .sorted()
+                    .toList();
             break;
         default:
-            assert false : "Trying to generate options for neither students, teams nor instructors";
+            assert false : "Invalid generateOptionsFor type: " + generateOptionsFor;
+            optionList = new ArrayList<>();
             break;
         }
 
-        if (questionType == FeedbackQuestionType.MCQ) {
-            FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
-                    (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
-            feedbackMcqQuestionDetails.setMcqChoices(optionList);
-            ((FeedbackMcqQuestion) feedbackQuestion).setFeedBackQuestionDetails(feedbackMcqQuestionDetails);
-        } else if (questionType == FeedbackQuestionType.MSQ) {
-            FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
-                    (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
-            feedbackMsqQuestionDetails.setMsqChoices(optionList);
-            ((FeedbackMsqQuestion) feedbackQuestion).setFeedBackQuestionDetails(feedbackMsqQuestionDetails);
-        }
+        return optionList;
     }
 
     /**
