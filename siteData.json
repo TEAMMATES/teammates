@@ -144,9 +144,9 @@
         "step-1-fork-and-clone-the-repository": "Step 1: Fork and Clone the Repository",
         "step-2-install-tools": "Step 2: Install Tools",
         "step-3-configure-the-project": "Step 3: Configure the Project",
-        "step-4-run-the-application": "Step 4: Run the Application",
-        "step-5-set-up-test-accounts": "Step 5: Set up test accounts",
-        "step-6-next-steps": "Step 6: Next Steps"
+        "step-3-run-the-application": "Step 3: Run the Application",
+        "step-4-set-up-test-accounts": "Step 4: Set up test accounts",
+        "step-5-next-steps": "Step 5: Next Steps"
       },
       "headingKeywords": {}
     },
@@ -197,13 +197,12 @@
       "src": "how-to/schema-migration.md",
       "title": "Schema Migration",
       "headings": {
-        "sql-schema-migration": "SQL Schema Migration",
-        "liquibase-in-teammates": "Liquibase in Teammates",
-        "liquibase-connection": "Liquibase connection",
-        "change-logs-change-sets-and-change-types": "Change logs, change sets and change types",
-        "gradle-activities-for-liquibase": "Gradle Activities for Liquibase",
-        "generating-updating-liquibase-changelogs": "Generating/Updating Liquibase Changelogs",
-        "handling-schema-validation-failures": "Handling Schema-Validation Failures"
+        "schema-migration": "Schema Migration",
+        "configuration": "Configuration",
+        "applying-migrations": "Applying Migrations",
+        "generating-a-migration": "Generating a Migration",
+        "rolling-back": "Rolling Back",
+        "schema-validation-failures": "Schema Validation Failures"
       },
       "headingKeywords": {}
     },
