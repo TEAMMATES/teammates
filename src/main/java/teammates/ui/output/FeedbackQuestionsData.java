@@ -1,29 +1,15 @@
 package teammates.ui.output;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import teammates.storage.sqlentity.FeedbackQuestion;
 
 /**
- * The API output format of a list of {@link FeedbackQuestion}.
+ * The API output format of a list of feedback questions.
  */
 public final class FeedbackQuestionsData extends ApiOutput {
     private List<FeedbackQuestionData> questions;
 
-    private FeedbackQuestionsData() {
-
-    }
-
-    /**
-     * Generates FeedbackQuestionsData for a list of FeedbackQuestions.
-     */
-    public static FeedbackQuestionsData makeFeedbackQuestionsData(List<FeedbackQuestion> feedbackQuestions) {
-        FeedbackQuestionsData feedbackQuestionsData = new FeedbackQuestionsData();
-        List<FeedbackQuestionData> questions =
-                feedbackQuestions.stream().map(FeedbackQuestionData::new).collect(Collectors.toList());
-        feedbackQuestionsData.setQuestions(questions);
-        return feedbackQuestionsData;
+    public FeedbackQuestionsData(List<FeedbackQuestionData> feedbackQuestionsData) {
+        this.questions = feedbackQuestionsData;
     }
 
     public List<FeedbackQuestionData> getQuestions() {

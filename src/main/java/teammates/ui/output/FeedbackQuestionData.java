@@ -105,6 +105,17 @@ public class FeedbackQuestionData extends ApiOutput {
         }
     }
 
+    public FeedbackQuestionData(FeedbackQuestion feedbackQuestion, List<String> dynamicallyGeneratedOptions) {
+        this(feedbackQuestion);
+        if (!dynamicallyGeneratedOptions.isEmpty()) {
+            if (this.questionDetails instanceof FeedbackMcqQuestionDetails feedbackMcqQuestionDetails) {
+                feedbackMcqQuestionDetails.setMcqChoices(dynamicallyGeneratedOptions);
+            } else if (this.questionDetails instanceof FeedbackMsqQuestionDetails feedbackMsqQuestionDetails) {
+                feedbackMsqQuestionDetails.setMsqChoices(dynamicallyGeneratedOptions);
+            }
+        }
+    }
+
     /**
      * Converts a list of feedback participant type to a list of visibility type.
      */
