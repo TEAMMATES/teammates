@@ -61,7 +61,7 @@ public class GetFeedbackSessionLogsAction extends Action {
 
         for (String fslType : fslTypes) {
             try {
-                FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOf(fslType.trim().toUpperCase());
+                FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOf(fslType);
                 convertedFslTypes.add(convertedFslType);
             } catch (IllegalArgumentException e) {
                 throw new InvalidHttpParameterException("Invalid log type: " + fslType, e);
