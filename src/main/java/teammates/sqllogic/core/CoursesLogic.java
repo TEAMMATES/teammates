@@ -287,13 +287,6 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns teams for a particular section.
-     */
-    public List<Team> getTeamsForSection(Section section) {
-        return coursesDb.getTeamsForSection(section);
-    }
-
-    /**
      * Returns teams for a course.
      */
     public List<Team> getTeamsForCourse(String courseId) {

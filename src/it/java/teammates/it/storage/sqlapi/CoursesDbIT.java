@@ -163,29 +163,6 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetTeamsForSection() throws InvalidParametersException, EntityAlreadyExistsException {
-        Course course = getTypicalCourse();
-        Section section = new Section(course, "section-name");
-        course.addSection(section);
-        Team team1 = new Team(section, "team-name1");
-        section.addTeam(team1);
-        Team team2 = new Team(section, "team-name2");
-        section.addTeam(team2);
-
-        List<Team> expectedTeams = List.of(team1, team2);
-
-        coursesDb.createCourse(course);
-
-        ______TS("failure: null section assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.getTeamsForSection(null));
-
-        ______TS("success: typical case");
-        List<Team> actualTeams = coursesDb.getTeamsForSection(section);
-        assertEquals(expectedTeams.size(), actualTeams.size());
-        assertTrue(expectedTeams.containsAll(actualTeams));
-    }
-
-    @Test
     public void testDeleteSectionsByCourseId() throws Exception {
         Course course = getTypicalCourse();
         coursesDb.createCourse(course);

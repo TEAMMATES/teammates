@@ -3,6 +3,7 @@ package teammates.sqllogic.api;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -1458,28 +1459,18 @@ public class Logic {
     }
 
     /**
-     * Populates fields that need dynamic generation in a question.
+     * Gets the dynamically generated options for a question if applicable.
      *
      * <p>
-     * Currently, only MCQ/MSQ needs to generate choices dynamically.
-     * </p>
+     * This only applies to MCQ and MSQ questions with "generate options for" field.
      *
-     * @param feedbackQuestion           the question to populate
-     * @param courseId                   the ID of the course
-     * @param emailOfEntityDoingQuestion the email of the entity doing the question
-     * @param teamOfEntityDoingQuestion  the team of the entity doing the question.
-     *                                   If the entity is an instructor,
-     *                                   it can be {@code null}.
+     * @param feedbackQuestion the question to get the dynamically generated options for
+     * @param student the student who is doing the question, or null if the entity doing the question is an instructor
+     *
+     * @return an Optional containing a list of dynamically generated options, or an empty Optional if not applicable
      */
-    public void populateFieldsToGenerateInQuestion(FeedbackQuestion feedbackQuestion,
-            String courseId, String emailOfEntityDoingQuestion,
-            String teamOfEntityDoingQuestion) {
-        assert feedbackQuestion != null;
-        assert courseId != null;
-        assert emailOfEntityDoingQuestion != null;
-
-        feedbackQuestionsLogic.populateFieldsToGenerateInQuestion(
-                feedbackQuestion, courseId, emailOfEntityDoingQuestion, teamOfEntityDoingQuestion);
+    public Optional<List<String>> getDynamicallyGeneratedOptions(FeedbackQuestion feedbackQuestion, Student student) {
+        return feedbackQuestionsLogic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
     }
 
     /**
