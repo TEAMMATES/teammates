@@ -328,7 +328,16 @@
     </div>
   }
 </div>
-<div class="modal-footer">
+<div class="modal-footer"> 
+  <button
+    id="btn-cancel-copy-instructor"
+    type="button"
+    class="btn btn-light"
+    (click)="activeModal.dismiss()"
+    [disabled]="isCopyingSelectedInstructors"
+  >
+    Cancel
+  </button>
   <button
     id="btn-confirm-copy-instructor"
     type="button"
@@ -343,13 +352,5 @@
     }
     Copy
   </button>
-  <button
-    id="btn-cancel-copy-instructor"
-    type="button"
-    class="btn btn-light"
-    (click)="activeModal.dismiss()"
-    [disabled]="isCopyingSelectedInstructors"
-  >
-    Cancel
-  </button>
+ 
 </div>
