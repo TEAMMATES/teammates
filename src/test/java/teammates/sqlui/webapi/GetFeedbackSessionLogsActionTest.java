@@ -327,4 +327,16 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         logoutUser();
         verifyCannotAccess(params);
     }
+
+    @Test
+    void testSpecificAccessControl_feedbackSessionNotInCourse_cannotAccess() {
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, "00000000-0000-0000-0000-000000000000",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+        };
+        loginAsInstructor(googleId);
+        verifyEntityNotFound(params);
+    }
 }

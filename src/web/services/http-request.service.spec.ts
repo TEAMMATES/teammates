@@ -37,11 +37,13 @@ describe('HttpRequestService', () => {
       key1: 'value1',
       key2: 'value2',
       key3: 'value3',
+      key4: ['value4a', 'value4b'],
     });
     expect(httpParams.keys().length).toBe(3);
     expect(httpParams.get('key1')).toBe('value1');
     expect(httpParams.get('key2')).toBe('value2');
     expect(httpParams.get('key3')).toBe('value3');
+    expect(httpParams.getAll('key4')).toEqual(['value4a', 'value4b']);
   });
 
   it('should execute GET', () => {

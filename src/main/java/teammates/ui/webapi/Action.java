@@ -193,6 +193,14 @@ public abstract class Action {
         return value;
     }
 
+    String[] getNonNullRequestParamValues(String paramName) {
+        String[] values = req.getParameterValues(paramName);
+        if (values == null) {
+            throw new InvalidHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
+        }
+        return values;
+    }
+
     /**
      * Returns the first value for the specified parameter expected to be present in the HTTP request as boolean.
      */

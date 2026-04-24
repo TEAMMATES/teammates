@@ -56,25 +56,34 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         long endTime = Instant.parse("2012-01-02T12:00:00Z").toEpochMilli();
         long startTime = endTime - (Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
 
-        ______TS("Failure case: not enough parameters");
+        ______TS("Failure case: missing required parameters");
         verifyHttpParameterFailure(
-                Const.ParamsNames.COURSE_ID, courseId
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString()
         );
         verifyHttpParameterFailure(
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime)
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString()
         );
         verifyHttpParameterFailure(
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString()
+        );
+        verifyHttpParameterFailure(
+                Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime)
         );
 
         ______TS("Failure case: invalid course id");
         String[] paramsInvalid1 = {
-                Const.ParamsNames.COURSE_ID, "fake-course-id",
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
+                Const.ParamsNames.COURSE_ID, "invalid-course-id",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         verifyEntityNotFound(paramsInvalid1);
 
@@ -84,6 +93,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
                 Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         verifyEntityNotFound(paramsInvalid2);
 
@@ -92,6 +102,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, "abc",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         verifyHttpParameterFailure(paramsInvalid3);
 
@@ -99,6 +110,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, " ",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         verifyHttpParameterFailure(paramsInvalid4);
 
@@ -107,6 +119,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessful1));
 

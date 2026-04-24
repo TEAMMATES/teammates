@@ -34,9 +34,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
         Course course = sqlLogic.getCourse(courseId);
-
         if (course == null) {
             throw new EntityNotFoundException("Course is not found");
         }
@@ -58,11 +56,11 @@ public class GetFeedbackSessionLogsAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String fslTypes = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
+        String[] fslTypes = getNonNullRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         List<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
         
         // Multiple log types are separated by a comma e.g access,submission
-        for (String fslType : fslTypes.split(",")) {
+        for (String fslType : fslTypes) {
             try {
                 FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOf(fslType.trim().toUpperCase());
                 convertedFslTypes.add(convertedFslType);
