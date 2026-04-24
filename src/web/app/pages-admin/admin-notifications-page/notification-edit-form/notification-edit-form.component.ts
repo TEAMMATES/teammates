@@ -12,7 +12,6 @@ import { DatePickerFormatter } from '../../../components/datepicker/datepicker-f
 import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
 import { RichTextEditorComponent } from '../../../components/rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { NotificationStyleClassPipe } from '../../../components/teammates-common/notification-style-class.pipe';
 import {
   NotificationStyleDescriptionPipe,
@@ -24,7 +23,6 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
   templateUrl: './notification-edit-form.component.html',
   styleUrls: ['./notification-edit-form.component.scss'],
   providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
-  animations: [collapseAnim],
   imports: [
     NgbTooltip,
     FormsModule,
