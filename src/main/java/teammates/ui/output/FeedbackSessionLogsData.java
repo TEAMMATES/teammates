@@ -2,7 +2,6 @@ package teammates.ui.output;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.FeedbackSessionLog;
@@ -23,7 +22,7 @@ public class FeedbackSessionLogsData extends ApiOutput {
                     List<FeedbackSessionLog> logEntries = entry.getValue();
                     return new FeedbackSessionLogData(feedbackSession, logEntries, studentsMap);
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<FeedbackSessionLogData> getFeedbackSessionLogs() {

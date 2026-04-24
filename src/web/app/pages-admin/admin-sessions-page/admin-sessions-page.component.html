@@ -120,8 +120,8 @@
                     <tm-panel-chevron [isExpanded]="institutionPanelsStatus[mapping.key]"></tm-panel-chevron>
                   </div>
                 </div>
-                @if (institutionPanelsStatus[mapping.key]) {
-                  <div class="card-body session-table-body" @collapseAnim>
+                <div [ngbCollapse]="!institutionPanelsStatus[mapping.key]">
+                  <div class="card-body session-table-body">
                     <div class="table-responsive">
                       <table class="table table-striped data-table session-table" id="ongoing-sessions-table">
                         <thead>
@@ -159,7 +159,7 @@
                       </table>
                     </div>
                   </div>
-                }
+                </div>
               </div>
             }
           </div>

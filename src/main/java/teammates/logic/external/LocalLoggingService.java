@@ -1,6 +1,5 @@
 package teammates.logic.external;
 
-import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,9 +9,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
-
-import com.google.common.reflect.TypeToken;
-import com.google.gson.JsonParseException;
 
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
@@ -25,6 +21,9 @@ import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
+
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
 
 /**
  * Holds functions for operations related to logs reading/writing in local dev environment.
@@ -42,8 +41,7 @@ public class LocalLoggingService implements LogService {
         long earliestTimestamp = currentTimestamp - 60 * 60 * 1000;
         try {
             String jsonString = FileHelper.readResourceFile("logsForLocalDev.json");
-            Type type = new TypeToken<Collection<GeneralLogEntry>>(){}.getType();
-            Collection<GeneralLogEntry> logEntriesCollection = JsonUtils.fromJson(jsonString, type);
+            Collection<GeneralLogEntry> logEntriesCollection = JsonUtils.fromJson(jsonString, new TypeReference<>(){});
             return logEntriesCollection.stream()
                     .map(log -> {
                         long timestamp = new RandomDataGenerator().nextLong(earliestTimestamp, currentTimestamp);
@@ -55,7 +53,7 @@ public class LocalLoggingService implements LogService {
                         return logEntryWithUpdatedTimestamp;
                     })
                     .collect(Collectors.toList());
-        } catch (JsonParseException e) {
+        } catch (JacksonException e) {
             return new ArrayList<>();
         }
     }

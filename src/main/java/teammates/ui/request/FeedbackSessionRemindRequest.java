@@ -1,5 +1,7 @@
 package teammates.ui.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * The request of specifying reminder emails to be sent.
  */
@@ -11,6 +13,7 @@ public class FeedbackSessionRemindRequest extends BasicRequest {
     private final String[] usersToRemind;
     private final boolean isSendingCopyToInstructor;
 
+    @JsonCreator
     public FeedbackSessionRemindRequest(String courseId, String feedbackSessionName, String requestingInstructorId,
                                         String[] usersToRemind, boolean isSendingCopyToInstructor) {
         this.courseId = courseId;

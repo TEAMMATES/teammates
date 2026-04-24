@@ -14,7 +14,19 @@ If you encounter any issues, refer to the [Troubleshooting Guide](../troubleshoo
 
 ## Running the Frontend Server
 
-First, generate type definitions from the backend:
+Start the frontend server:
+```sh
+npm run start
+```
+
+The server will be available at `http://localhost:4200`. It runs in watch and live reload mode by default — any saved changes will be reflected immediately.
+
+To disable live reload:
+```sh
+npm run start -- --no-live-reload
+```
+
+Type definitions for the frontend are generated from backend API types and must be kept in sync. Run the following after making changes to any backend API types:
 
 <tabs>
 <tab header="Mac / Linux">
@@ -31,24 +43,29 @@ gradlew.bat generateTypes
 </tab>
 </tabs>
 
-Then start the frontend server:
-```sh
-npm run start
-```
-
-The server will be available at `http://localhost:4200`. It runs in watch and live reload mode by default — any saved changes will be reflected immediately.
-
-To disable live reload:
-```sh
-npm run start -- --no-live-reload
-```
-
 ## Running the Backend Server
 
 Start the database if it is not already running:
 ```sh
 docker compose up -d
 ```
+
+Apply database migrations if necessary:
+
+<tabs>
+<tab header="Mac / Linux">
+
+```sh
+./gradlew liquibaseUpdate
+```
+</tab>
+<tab header="Windows">
+
+```sh
+gradlew.bat liquibaseUpdate
+```
+</tab>
+</tabs>
 
 Then start the backend server:
 

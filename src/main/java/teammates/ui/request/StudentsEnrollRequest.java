@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import teammates.common.util.Const;
 
 /**
@@ -20,6 +22,7 @@ public class StudentsEnrollRequest extends BasicRequest {
     // Initialize to handle users make a http request with empty body.
     private List<StudentEnrollRequest> studentEnrollRequests;
 
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public StudentsEnrollRequest(List<StudentEnrollRequest> studentEnrollRequests) {
         this.studentEnrollRequests = studentEnrollRequests;
     }
@@ -59,6 +62,7 @@ public class StudentsEnrollRequest extends BasicRequest {
         private String section;
         private String comments;
 
+        @JsonCreator
         public StudentEnrollRequest(String name, String email, String team, String section, String comments) {
             this.name = name;
             this.email = email;

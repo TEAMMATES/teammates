@@ -1,3 +1,4 @@
+import { APPLICATION_VERSION } from './application-version';
 import { config } from './config';
 
 /**
@@ -5,6 +6,7 @@ import { config } from './config';
  */
 export const environment: any = {
   ...config,
+  version: APPLICATION_VERSION,
   production: true,
   backendUrl: '',
   frontendUrl: '',
