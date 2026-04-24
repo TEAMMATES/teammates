@@ -208,8 +208,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.course.courseId,
-      searchFrom: searchFrom.toString(),
-      searchUntil: searchUntil.toString(),
+      searchFrom: searchFrom,
+      searchUntil: searchUntil,
       logType: this.formModel.logType,
       studentEmail: this.formModel.selectedStudent.studentEmail,
       sessionName: this.formModel.selectedSession.feedbackSessionName,

@@ -51,8 +51,8 @@ export class LogService {
    */
   searchFeedbackSessionLog(queryParams: {
     courseId: string,
-    searchFrom: string,
-    searchUntil: string,
+    searchFrom: number,
+    searchUntil: number,
     logType: string,
     studentEmail?: string,
     sessionName?: string,
@@ -61,8 +61,8 @@ export class LogService {
   }): Observable<FeedbackSessionLogs> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
-      fslstarttime: queryParams.searchFrom,
-      fslendtime: queryParams.searchUntil,
+      fslstarttime: queryParams.searchFrom.toString(),
+      fslendtime: queryParams.searchUntil.toString(),
     };
 
     if (queryParams.studentEmail) {
