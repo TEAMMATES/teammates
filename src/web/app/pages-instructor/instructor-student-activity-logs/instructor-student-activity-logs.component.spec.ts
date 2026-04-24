@@ -60,6 +60,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     courseId: '', email: '', name: '', sectionName: '', teamName: '', userId: '',
   };
   const testStudent: Student = {
+    userId: '00000000-0000-4000-8000-000000000001',
     email: 'doejohn@email.com',
     courseId: 'CS9999',
     name: 'Doe John',
@@ -147,7 +148,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsDateTo: { year: 1998, month: 9, day: 11 },
       logsTimeTo: { hour: 15, minute: 0 },
       selectedStudent: { studentEmail: 'doejohn@email.com', studentId: undefined },
-      logType: 'session access',
+      logTypes: [FeedbackSessionLogType.SUBMISSION, FeedbackSessionLogType.ACCESS],
       selectedSession: { feedbackSessionName: undefined, sessionId: undefined },
       showActions: false,
       showInactions: false,
@@ -234,7 +235,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
       selectedStudent: { studentEmail: testStudent.email, studentId: '' },
-      logType: 'submission',
+      logTypes: [FeedbackSessionLogType.SUBMISSION],
       selectedSession: { feedbackSessionName: '', sessionId: '' },
       showActions: true,
       showInactions: false,
@@ -256,12 +257,10 @@ describe('InstructorStudentActivityLogsComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       courseId: testCourse1.courseId,
       searchFrom: (new Date('2020-12-31T00:00+00:00').getTime()
-        - tzOffset * Milliseconds.IN_ONE_MINUTE).toString(),
+        - tzOffset * Milliseconds.IN_ONE_MINUTE),
       searchUntil: (new Date('2021-01-01T00:00+00:00').getTime()
-        - tzOffset * Milliseconds.IN_ONE_MINUTE).toString(),
-      studentEmail: testStudent.email,
-      sessionName: '',
-      logType: 'submission',
+        - tzOffset * Milliseconds.IN_ONE_MINUTE),
+      logTypes: [FeedbackSessionLogType.SUBMISSION],
       studentId: '',
       sessionId: '',
     });

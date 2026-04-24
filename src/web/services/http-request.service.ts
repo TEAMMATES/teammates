@@ -50,11 +50,18 @@ export class HttpRequestService {
    *
    * <p>Add the current masquerading user info to the params also.
    */
-  buildParams(paramsMap: Record<string, string>): HttpParams {
+  buildParams(paramsMap: Record<string, string | string[]>): HttpParams {
     let params: HttpParams = new HttpParams({ encoder: new CustomEncoder() });
     for (const key of Object.keys(paramsMap)) {
-      if (paramsMap[key]) {
-        params = params.append(key, paramsMap[key]);
+      const value = paramsMap[key];
+      if (value) {
+        if (Array.isArray(value)) {
+          for (const v of value) {
+            params = params.append(key, v);
+          }
+        } else {
+          params = params.append(key, value);
+        }
       }
     }
 
@@ -67,7 +74,7 @@ export class HttpRequestService {
   /**
    * Executes GET request.
    */
-  get(endpoint: string, paramsMap: Record<string, string> = {},
+  get(endpoint: string, paramsMap: Record<string, string | string[]> = {},
       responseType: any = 'json' as 'text'): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;

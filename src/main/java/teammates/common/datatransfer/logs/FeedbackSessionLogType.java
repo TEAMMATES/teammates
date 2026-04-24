@@ -20,16 +20,4 @@ public enum FeedbackSessionLogType {
         return label;
     }
 
-    /**
-     * Returns the enum value of a log type given its label.
-     */
-    public static FeedbackSessionLogType valueOfLabel(String label) {
-        for (FeedbackSessionLogType logType : values()) {
-            if (logType.label.equals(label)) {
-                return logType;
-            }
-        }
-        return null;
-    }
-
 }

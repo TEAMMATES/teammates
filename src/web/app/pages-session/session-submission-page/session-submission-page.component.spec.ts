@@ -21,13 +21,28 @@ import { StudentService } from '../../../services/student.service';
 import {
   AuthInfo,
   CommentVisibilityType,
+  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumResponseDetails,
+  FeedbackContributionQuestionDetails,
+  FeedbackContributionResponseDetails,
+  FeedbackMcqQuestionDetails,
+  FeedbackMcqResponseDetails,
+  FeedbackMsqQuestionDetails,
+  FeedbackMsqResponseDetails,
+  FeedbackNumericalScaleQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestionRecipients,
   FeedbackQuestions,
   FeedbackQuestionType,
+  FeedbackRankOptionsQuestionDetails,
+  FeedbackRankOptionsResponseDetails,
+  FeedbackRankRecipientsQuestionDetails,
+  FeedbackRankRecipientsResponseDetails,
   FeedbackResponse,
   FeedbackResponseComment,
   FeedbackResponses,
+  FeedbackRubricQuestionDetails,
+  FeedbackRubricResponseDetails,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -53,6 +68,7 @@ describe('SessionSubmissionPageComponent', () => {
   const deepCopy: <T>(obj: T) => T = <T>(obj: T) => JSON.parse(JSON.stringify(obj));
 
   const testStudent: Student = {
+    userId: '00000000-0000-4000-8000-000000000003',
     email: 'alice@tmms.com',
     courseId: 'course-id',
     name: 'Alice Betsy',
@@ -61,6 +77,7 @@ describe('SessionSubmissionPageComponent', () => {
   };
 
   const testInstructor: Instructor = {
+    userId: '00000000-0000-4000-8000-000000000002',
     courseId: 'course-id',
     email: 'test@example.com',
     name: 'Instructor Ho',
@@ -68,6 +85,7 @@ describe('SessionSubmissionPageComponent', () => {
   };
 
   const testOpenFeedbackSession: FeedbackSession = {
+    feedbackSessionId: '00000000-0000-4000-8000-000000000001',
     feedbackSessionName: 'First Session',
     courseId: 'CS1231',
     timeZone: 'Asia/Singapore',
@@ -102,8 +120,9 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
-    },
+    } as FeedbackMcqResponseDetails,
     isValid: true,
+    isModified: false,
     commentByGiver: {
       originalComment: testComment,
       originalRecipientIdentifier: 'barry-harris-id',
@@ -123,8 +142,9 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
-    },
+    } as FeedbackMcqResponseDetails,
     isValid: true,
+    isModified: false,
     commentByGiver: {
       originalComment: testComment,
       originalRecipientIdentifier: 'recipient-identifier',
@@ -144,12 +164,13 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.TEXT,
-    },
+    } as FeedbackTextResponseDetails,
     isValid: true,
+    isModified: false,
     commentByGiver: {
       commentEditFormModel: {
         commentText: 'comment text here',
-        isUsingCustomVisibilities: false,
+        isUsingCustomVisibilities: true,
         showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
         showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
       },
@@ -162,9 +183,10 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answer: 'barry-harris-answer',
-      questionType: FeedbackQuestionType.MCQ,
-    },
+      questionType: FeedbackQuestionType.TEXT,
+    } as FeedbackTextResponseDetails,
     isValid: true,
+    isModified: false,
   };
 
   const testMcqRecipientSubmissionForm4: FeedbackResponseRecipientSubmissionFormModel = {
@@ -172,9 +194,10 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'gene-harris-id',
     responseDetails: {
       answer: 'gene-harris-answer',
-      questionType: FeedbackQuestionType.MCQ,
-    },
+      questionType: FeedbackQuestionType.TEXT,
+    } as FeedbackTextResponseDetails,
     isValid: true,
+    isModified: false,
   };
 
   const testMsqRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -185,8 +208,9 @@ describe('SessionSubmissionPageComponent', () => {
       isOther: false,
       otherFieldContent: 'other field content',
       questionType: FeedbackQuestionType.MSQ,
-    },
+    } as FeedbackMsqResponseDetails,
     isValid: true,
+    isModified: false,
     commentByGiver: {
       originalComment: testComment,
       originalRecipientIdentifier: 'barry-harris-id',
@@ -205,9 +229,14 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answer: 5,
+      minScale: 1,
+      maxScale: 10,
+      step: 1,
+      questionText: 'question text',
       questionType: FeedbackQuestionType.NUMSCALE,
-    },
+    } as FeedbackNumericalScaleQuestionDetails,
     isValid: true,
+    isModified: false,
   };
 
   const testConstsumRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -216,8 +245,9 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answers: [7, 13],
       questionType: FeedbackQuestionType.CONSTSUM,
-    },
+    } as FeedbackConstantSumResponseDetails,
     isValid: true,
+    isModified: false,
   };
 
   const testContribRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -226,8 +256,9 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: 20,
       questionType: FeedbackQuestionType.CONTRIB,
-    },
+    } as FeedbackContributionResponseDetails,
     isValid: true,
+    isModified: false,
   };
 
   const testRubricRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -236,8 +267,9 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answer: [3, 4],
       questionType: FeedbackQuestionType.RUBRIC,
-    },
+    } as FeedbackRubricResponseDetails,
     isValid: true,
+    isModified: false,
   };
 
   const testRankOptionsRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -246,8 +278,9 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answers: [2, 1],
       questionType: FeedbackQuestionType.RANK_OPTIONS,
-    },
+    } as FeedbackRankOptionsResponseDetails,
     isValid: true,
+    isModified: false,
   };
 
   const testRankRecipientsRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -258,8 +291,10 @@ describe('SessionSubmissionPageComponent', () => {
       maxOptionsToBeRanked: 2,
       areDuplicatesAllowed: false,
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
-    },
+      answer: 1,
+    } as FeedbackRankRecipientsResponseDetails,
     isValid: true,
+    isModified: false,
   };
 
   const testResponse1: FeedbackResponse = {
@@ -268,8 +303,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answer: 'barry-harris-answer',
-      questionType: FeedbackQuestionType.MCQ,
-    },
+      questionType: FeedbackQuestionType.TEXT,
+    } as FeedbackTextResponseDetails,
   };
 
   const testResponse2: FeedbackResponse = {
@@ -278,8 +313,8 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'gene-harris-id',
     responseDetails: {
       answer: 'gene-harris-answer',
-      questionType: FeedbackQuestionType.MCQ,
-    },
+      questionType: FeedbackQuestionType.TEXT,
+    } as FeedbackTextResponseDetails,
   };
 
   const testMcqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -292,7 +327,7 @@ describe('SessionSubmissionPageComponent', () => {
       questionType: FeedbackQuestionType.MCQ,
       questionText: 'question text',
       mcqChoices: ['choice 1', 'choice 2', 'choice 3'],
-    },
+    } as FeedbackMcqQuestionDetails,
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM,
     recipientList: [{ recipientName: 'Gene Harris', recipientIdentifier: 'gene-harris-id' }],
@@ -304,7 +339,6 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
     isLoading: false,
     isLoaded: true,
-    hasResponseChangedForRecipients: new Map<string, boolean>(),
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>(),
   };
@@ -319,7 +353,7 @@ describe('SessionSubmissionPageComponent', () => {
       questionType: FeedbackQuestionType.MCQ,
       questionText: 'question text',
       mcqChoices: ['choice 1', 'choice 2', 'choice 3'],
-    },
+    } as FeedbackMcqQuestionDetails,
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.TEAMS,
     recipientList: [],
@@ -331,7 +365,6 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: false,
-    hasResponseChangedForRecipients: new Map<string, boolean>(),
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>(),
   };
@@ -357,7 +390,6 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
     isLoading: false,
     isLoaded: true,
-    hasResponseChangedForRecipients: new Map<string, boolean>(),
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>(),
   };
@@ -376,7 +408,7 @@ describe('SessionSubmissionPageComponent', () => {
       msqWeights: [1, 2, 3],
       maxSelectableChoices: 2,
       minSelectableChoices: 1,
-    },
+    } as FeedbackMsqQuestionDetails,
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -388,7 +420,6 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
-    hasResponseChangedForRecipients: new Map<string, boolean>(),
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>(),
   };
@@ -404,7 +435,7 @@ describe('SessionSubmissionPageComponent', () => {
       minScale: 1,
       maxScale: 10,
       step: 1,
-    },
+    } as FeedbackNumericalScaleQuestionDetails,
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -416,9 +447,6 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
-    hasResponseChangedForRecipients: new Map<string, boolean>([
-      ['barry-harris-id', false],
-    ]),
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', true],
@@ -439,7 +467,7 @@ describe('SessionSubmissionPageComponent', () => {
       forceUnevenDistribution: false,
       distributePointsFor: 'distribute points for',
       points: 20,
-    },
+    } as FeedbackConstantSumQuestionDetails,
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -451,9 +479,6 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
-    hasResponseChangedForRecipients: new Map<string, boolean>([
-      ['barry-harris-id', false],
-    ]),
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', true],
@@ -469,7 +494,7 @@ describe('SessionSubmissionPageComponent', () => {
     questionDetails: {
       questionType: FeedbackQuestionType.CONTRIB,
       isNotSureAllowed: false,
-    },
+    } as FeedbackContributionQuestionDetails,
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -481,9 +506,6 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
-    hasResponseChangedForRecipients: new Map<string, boolean>([
-      ['barry-harris-id', false],
-    ]),
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', true],
@@ -503,7 +525,7 @@ describe('SessionSubmissionPageComponent', () => {
       rubricChoices: ['choice 1', 'choice 2'],
       rubricSubQuestions: ['subquestion 1', 'subquestion 2'],
       rubricDescriptions: [['description 1', 'description 2'], ['description 3', 'description 4']],
-    },
+    } as FeedbackRubricQuestionDetails,
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -515,9 +537,6 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
-    hasResponseChangedForRecipients: new Map<string, boolean>([
-      ['barry-harris-id', false],
-    ]),
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', true],
@@ -533,7 +552,7 @@ describe('SessionSubmissionPageComponent', () => {
     questionDetails: {
       questionType: FeedbackQuestionType.RANK_OPTIONS,
       options: ['option 1', 'option 2'],
-    },
+    } as FeedbackRankOptionsQuestionDetails,
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -545,9 +564,6 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
-    hasResponseChangedForRecipients: new Map<string, boolean>([
-      ['barry-harris-id', false],
-    ]),
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', true],
@@ -565,7 +581,7 @@ describe('SessionSubmissionPageComponent', () => {
       minOptionsToBeRanked: 1,
       maxOptionsToBeRanked: 2,
       areDuplicatesAllowed: false,
-    },
+    } as FeedbackRankRecipientsQuestionDetails,
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
@@ -577,9 +593,6 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     isLoading: false,
     isLoaded: true,
-    hasResponseChangedForRecipients: new Map<string, boolean>([
-      ['barry-harris-id', false],
-    ]),
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([
       ['barry-harris-id', true],
@@ -594,6 +607,7 @@ describe('SessionSubmissionPageComponent', () => {
       isInstructor: false,
       isStudent: true,
       isMaintainer: false,
+      isAutomatedService: false,
     },
   };
 
@@ -724,7 +738,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with feedback session question submission forms', () => {
+  it('should snap with feedback session question submission forms', async () => {
     component.questionSubmissionForms = [
       testMcqQuestionSubmissionForm,
       testTextQuestionSubmissionForm,
@@ -1068,6 +1082,7 @@ describe('SessionSubmissionPageComponent', () => {
     const testResponseDetails2: FeedbackTextResponseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
+    testQuestionSubmissionForm1.recipientSubmissionForms[0].isModified = true;
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
@@ -1083,7 +1098,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses(component.questionSubmissionForms, true, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms, null);
 
     expect(responseSpy).toHaveBeenCalledTimes(2);
     expect(responseSpy).toHaveBeenNthCalledWith(1, 'feedback-question-id-mcq', {
@@ -1129,6 +1144,7 @@ describe('SessionSubmissionPageComponent', () => {
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testConstsumQuestionSubmissionForm);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
+    testQuestionSubmissionForm2.recipientSubmissionForms[0].isModified = true;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     // invalid response
     testQuestionSubmissionForm2.recipientSubmissionForms[0].isValid = false;
@@ -1142,7 +1158,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses(component.questionSubmissionForms, true, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms, null);
 
     expect(responseSpy).toHaveBeenCalledTimes(1);
     expect(responseSpy).toHaveBeenNthCalledWith(1, testQuestionSubmissionForm1.feedbackQuestionId, {
@@ -1171,6 +1187,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({
       [testQuestionSubmissionForm2.questionNumber]: 'Invalid responses provided. Please check question constraints.',
     });
+    expect(component.questionSubmissionForms[1].recipientSubmissionForms[0].isModified).toBe(true);
   });
 
   it('should create comment request to create new comment when submission form has no original comment', () => {
