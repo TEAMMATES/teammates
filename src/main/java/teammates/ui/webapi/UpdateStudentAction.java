@@ -76,10 +76,13 @@ public class UpdateStudentAction extends Action {
 
         Course course = sqlLogic.getCourse(courseId);
         Section section = sqlLogic.getSectionOrCreate(courseId, updateRequest.getSection());
-        Team team = sqlLogic.getTeamOrCreate(section, updateRequest.getTeam());
+        String teamName = updateRequest.getTeam();
+        if (teamName == null || teamName.trim().isEmpty()) {
+            throw new InvalidHttpRequestBodyException("Team name should not be empty");
+        }
+        Team team = sqlLogic.getTeamOrCreate(section, teamName);
         Student studentToUpdate = new Student(course, updateRequest.getName(), updateRequest.getEmail(),
                 updateRequest.getComments(), team);
-
         try {
             //we swap out email before we validate
             //TODO: this is duct tape at the moment, need to refactor how we do the validation
