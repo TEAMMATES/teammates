@@ -234,6 +234,9 @@ public class FeedbackSession extends BaseEntity {
         return course;
     }
 
+    /**
+     * Sets a course as well as the courseId.
+     */
     public void setCourse(Course course) {
         this.course = course;
         this.courseId = course.getId();
