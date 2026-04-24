@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
 import {
@@ -17,7 +18,6 @@ import { NotificationStyle, NotificationTargetUser } from '../../../types/api-re
 import { getDefaultDateFormat, getDefaultTimeFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { NotificationEditFormComponent } from './notification-edit-form/notification-edit-form.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -27,12 +27,12 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
   selector: 'tm-admin-notifications-page',
   templateUrl: './admin-notifications-page.component.html',
   styleUrls: ['./admin-notifications-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NotificationEditFormComponent,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     NotificationsTableComponent,
+    NgbCollapse,
 ],
 })
 export class AdminNotificationsPageComponent implements OnInit {

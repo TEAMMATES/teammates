@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import {
   EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,
   EXAMPLE_SINGLE_STUDENT_RESULT_TABLES,
@@ -8,7 +9,6 @@ import { StudentsSectionQuestions } from './students-section-questions';
 import { environment } from '../../../../environments/environment';
 import { Student } from '../../../../types/api-output';
 import { CourseRelatedInfoComponent } from '../../../components/course-related-info/course-related-info.component';
-import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import {
   InstructorCourseStudentEditPageComponent,
 } from '../../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.component';
@@ -31,7 +31,6 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-students-section',
   templateUrl: './instructor-help-students-section.component.html',
   styleUrls: ['./instructor-help-students-section.component.scss'],
-  animations: [collapseAnim],
   imports: [
     InstructorHelpPanelComponent,
     ExampleBoxComponent,
@@ -39,6 +38,7 @@ import { Sections } from '../sections';
     InstructorCourseStudentEditPageComponent,
     InstructorSearchBarComponent,
     StudentResultTableComponent,
+    NgbCollapse,
 ],
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
