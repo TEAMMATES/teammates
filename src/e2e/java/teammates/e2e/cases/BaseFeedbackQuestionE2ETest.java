@@ -44,7 +44,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
     FeedbackSubmitPageSql loginToFeedbackSubmitPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(feedbackSession.getId().toString())
-                .withCourseId(student.getCourse().getId())
+                .withCourseId(student.getCourseId())
                 .withSessionName(feedbackSession.getName());
 
         return loginToPage(url, FeedbackSubmitPageSql.class, student.getGoogleId());
@@ -53,7 +53,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
     FeedbackSubmitPageSql getFeedbackSubmitPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(feedbackSession.getId().toString())
-                .withCourseId(student.getCourse().getId())
+                .withCourseId(student.getCourseId())
                 .withSessionName(feedbackSession.getName());
 
         return getNewPageInstance(url, FeedbackSubmitPageSql.class);

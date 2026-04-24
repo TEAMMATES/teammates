@@ -197,7 +197,7 @@ public final class DataBundleLogic {
             UUID placeholderId = instructor.getId();
             instructor.setId(UUID.randomUUID());
             usersMap.put(placeholderId, instructor);
-            Course course = coursesMap.get(instructor.getCourse().getId());
+            Course course = coursesMap.get(instructor.getCourseId());
             instructor.setCourse(course);
             if (instructor.getAccount() != null) {
                 Account account = accountsMap.get(instructor.getAccount().getId());
@@ -210,7 +210,7 @@ public final class DataBundleLogic {
             UUID placeholderId = student.getId();
             student.setId(UUID.randomUUID());
             usersMap.put(placeholderId, student);
-            Course course = coursesMap.get(student.getCourse().getId());
+            Course course = coursesMap.get(student.getCourseId());
             student.setCourse(course);
             Team team = teamsMap.get(student.getTeam().getId());
             student.setTeam(team);
@@ -458,7 +458,7 @@ public final class DataBundleLogic {
 
         for (Instructor instructor : instructors) {
             usersMap.put(instructor.getId(), instructor);
-            Course course = coursesMap.get(instructor.getCourse().getId());
+            Course course = coursesMap.get(instructor.getCourseId());
             instructor.setCourse(course);
             if (instructor.getAccount() != null) {
                 Account account = accountsMap.get(instructor.getAccount().getId());
@@ -469,7 +469,7 @@ public final class DataBundleLogic {
 
         for (Student student : students) {
             usersMap.put(student.getId(), student);
-            Course course = coursesMap.get(student.getCourse().getId());
+            Course course = coursesMap.get(student.getCourseId());
             student.setCourse(course);
             Team team = teamsMap.get(student.getTeam().getId());
             student.setTeam(team);

@@ -40,7 +40,7 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         fsDb.createFeedbackSession(fs1);
         fsDb.createFeedbackSession(fs2);
 
-        FeedbackSession actualFs = fsDb.getFeedbackSession(fs2.getName(), fs2.getCourse().getId());
+        FeedbackSession actualFs = fsDb.getFeedbackSession(fs2.getName(), fs2.getCourseId());
 
         verifyEquals(fs2, actualFs);
     }

@@ -34,7 +34,7 @@ public class DeadlineExtensionData extends ApiOutput {
 
     public DeadlineExtensionData(DeadlineExtension deadlineExtension) {
         this.deadlineExtensionId = deadlineExtension.getId();
-        this.courseId = deadlineExtension.getFeedbackSession().getCourse().getId();
+        this.courseId = deadlineExtension.getFeedbackSession().getCourseId();
         this.feedbackSessionName = deadlineExtension.getFeedbackSession().getName();
         this.userEmail = deadlineExtension.getUser().getEmail();
         this.isInstructor = deadlineExtension.getUser() instanceof Instructor;

@@ -93,7 +93,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
             Mockito.verify(mockLogic, times(1)).createFeedbackSession(isA(FeedbackSession.class));
             mockedHibernate.verify(HibernateUtil::flushSession, times(1));
 
-            assertEquals(createdFeedbackSession.getCourse().getId(), response.getCourseId());
+            assertEquals(createdFeedbackSession.getCourseId(), response.getCourseId());
             assertEquals(createdFeedbackSession.getCourse().getTimeZone(), response.getTimeZone());
             assertEquals(createdFeedbackSession.getName(), response.getFeedbackSessionName());
 
