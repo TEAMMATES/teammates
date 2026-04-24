@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -138,7 +139,7 @@ public class FeedbackQuestionData extends ApiOutput {
                 break;
             }
             return null;
-        }).toList();
+        }).collect(Collectors.toList());
     }
 
     public UUID getFeedbackQuestionId() {
