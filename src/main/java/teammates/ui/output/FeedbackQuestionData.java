@@ -2,8 +2,8 @@ package teammates.ui.output;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -105,13 +105,13 @@ public class FeedbackQuestionData extends ApiOutput {
         }
     }
 
-    public FeedbackQuestionData(FeedbackQuestion feedbackQuestion, List<String> dynamicallyGeneratedOptions) {
+    public FeedbackQuestionData(FeedbackQuestion feedbackQuestion, Optional<List<String>> dynamicallyGeneratedOptions) {
         this(feedbackQuestion);
-        if (!dynamicallyGeneratedOptions.isEmpty()) {
+        if (dynamicallyGeneratedOptions.isPresent()) {
             if (this.questionDetails instanceof FeedbackMcqQuestionDetails feedbackMcqQuestionDetails) {
-                feedbackMcqQuestionDetails.setMcqChoices(dynamicallyGeneratedOptions);
+                feedbackMcqQuestionDetails.setMcqChoices(dynamicallyGeneratedOptions.get());
             } else if (this.questionDetails instanceof FeedbackMsqQuestionDetails feedbackMsqQuestionDetails) {
-                feedbackMsqQuestionDetails.setMsqChoices(dynamicallyGeneratedOptions);
+                feedbackMsqQuestionDetails.setMsqChoices(dynamicallyGeneratedOptions.get());
             }
         }
     }
@@ -138,7 +138,7 @@ public class FeedbackQuestionData extends ApiOutput {
                 break;
             }
             return null;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
     public UUID getFeedbackQuestionId() {

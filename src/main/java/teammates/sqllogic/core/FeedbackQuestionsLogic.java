@@ -315,12 +315,14 @@ public final class FeedbackQuestionsLogic {
         case MCQ -> {
             FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
                     (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
-            yield Optional.ofNullable(generateMcqMsqOptions(feedbackMcqQuestionDetails.getGenerateOptionsFor(), student, courseId));
+            yield Optional.ofNullable(
+                generateMcqMsqOptions(feedbackMcqQuestionDetails.getGenerateOptionsFor(), student, courseId));
         }
         case MSQ -> {
             FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
                     (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
-            yield Optional.ofNullable(generateMcqMsqOptions(feedbackMsqQuestionDetails.getGenerateOptionsFor(), student, courseId));
+            yield Optional.ofNullable(
+                generateMcqMsqOptions(feedbackMsqQuestionDetails.getGenerateOptionsFor(), student, courseId));
         }
         default -> Optional.empty();
         };

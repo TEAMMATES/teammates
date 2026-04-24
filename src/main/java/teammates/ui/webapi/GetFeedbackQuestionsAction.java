@@ -69,16 +69,14 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
 
         List<FeedbackQuestion> questions;
-        Map<UUID, List<String>> dynamicallyGeneratedOptions = new HashMap<>();
+        Map<UUID, Optional<List<String>>> dynamicallyGeneratedOptions = new HashMap<>();
         switch (intent) {
         case STUDENT_SUBMISSION:
             questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
             Student student = getSqlStudentOfCourseFromRequest(courseId);
             for (FeedbackQuestion question : questions) {
                 Optional<List<String>> options = sqlLogic.getDynamicallyGeneratedOptions(question, student);
-                if (options.isPresent()) {
-                    dynamicallyGeneratedOptions.put(question.getId(), options.get());
-                }
+                dynamicallyGeneratedOptions.put(question.getId(), options);
             }
             break;
         case INSTRUCTOR_SUBMISSION:
@@ -86,9 +84,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
             for (FeedbackQuestion question : questions) {
                 Optional<List<String>> options = sqlLogic.getDynamicallyGeneratedOptions(question, null);
-                if (options.isPresent()) {
-                    dynamicallyGeneratedOptions.put(question.getId(), options.get());
-                }
+                dynamicallyGeneratedOptions.put(question.getId(), options);
             }
             break;
         case FULL_DETAIL, INSTRUCTOR_RESULT, STUDENT_RESULT:
@@ -106,7 +102,8 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         List<FeedbackQuestionData> questionDatas = questions.stream()
                 .map(question -> {
-                    List<String> options = dynamicallyGeneratedOptions.getOrDefault(question.getId(), List.of());
+                    Optional<List<String>> options =
+                            dynamicallyGeneratedOptions.getOrDefault(question.getId(), Optional.empty());
                     return new FeedbackQuestionData(question, options);
                 })
                 .toList();
