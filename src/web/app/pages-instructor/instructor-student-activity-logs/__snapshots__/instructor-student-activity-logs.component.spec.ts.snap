@@ -109,14 +109,13 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
         <div
           class="col-12"
         >
-          <label
+          <span
             class="fw-bold"
-            for="activity-type-dropdown"
           >
             Activity Type
-          </label>
+          </span>
           <div
-            class="d-flex gap-2"
+            class="d-flex gap-2 mt-2"
           >
             <div
               class="form-check"
@@ -712,14 +711,13 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
         <div
           class="col-12"
         >
-          <label
+          <span
             class="fw-bold"
-            for="activity-type-dropdown"
           >
             Activity Type
-          </label>
+          </span>
           <div
-            class="d-flex gap-2"
+            class="d-flex gap-2 mt-2"
           >
             <div
               class="form-check"
