@@ -628,7 +628,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   const getFeedbackQuestionsArgs: any = {
     courseId: testQueryParams.courseid,
-    feedbackSessionName: testQueryParams.fsname,    
+    feedbackSessionName: testQueryParams.fsname,
     intent: Intent.STUDENT_SUBMISSION,
     key: testQueryParams.key,
     moderatedPerson: '',

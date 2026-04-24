@@ -185,7 +185,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.hasFeedbackSessionLoadingFailed = false;
     this.isFeedbackSessionLoading = true;
     this.feedbackSessionsService.getFeedbackSession({
-      feedbackSessionId: feedbackSessionId,
+      feedbackSessionId,
       intent: Intent.INSTRUCTOR_RESULT,
     }).subscribe({
       next: (feedbackSession: FeedbackSession) => {
