@@ -54,7 +54,7 @@
   <br />
   @if (!isLoadingFeedbackQuestions) {
     <div class="card">
-      <tm-preview-session-panel [courseId]="courseId" [feedbackSessionName]="feedbackSessionName"
+      <tm-preview-session-panel [courseId]="courseId" [feedbackSessionName]="feedbackSessionName" [feedbackSessionId]="feedbackSessionId"
         [emailOfStudentToPreview]="emailOfStudentToPreview" [studentsOfCourse]="studentsOfCourse"
         [instructorsCanBePreviewedAs]="instructorsOfCourse"
       [emailOfInstructorToPreview]="emailOfInstructorToPreview"></tm-preview-session-panel>
