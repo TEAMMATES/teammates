@@ -24,7 +24,7 @@ import { LoadingRetryComponent } from '../../components/loading-retry/loading-re
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
-
+import { noWhitespaceValidator } from '../../validators/no-whitespace.validator';
 /**
  * Instructor course student edit page.
  */
@@ -121,17 +121,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   }
 
   /**
-   * Custom validator to identify whitespace
-   */
-  private static noWhitespaceValidator(control: AbstractControl): { [key: string]: boolean } | null {
-  const value = control.value;
-  if (typeof value === 'string' && value.trim().length === 0) {
-    return { required: true };
-  }
-  return null;
-}
-
-  /**
    * Initializes the student details edit form with the fields fetched from the backend.
    * Subscriptions are set up to listen to changes in the 'teamname' fields and 'newstudentemail' fields.
    */
@@ -142,7 +131,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       'section-name': new UntypedFormControl(this.student.sectionName,
           [Validators.required, Validators.maxLength(FormValidator.SECTION_NAME_MAX_LENGTH)]),
       'team-name': new UntypedFormControl(this.student.teamName,
-          [Validators.required, InstructorCourseStudentEditPageComponent.noWhitespaceValidator, Validators.maxLength(FormValidator.TEAM_NAME_MAX_LENGTH)]),
+          [Validators.required, noWhitespaceValidator, Validators.maxLength(FormValidator.TEAM_NAME_MAX_LENGTH)]),
       'new-student-email': new UntypedFormControl(this.student.email, // original student email initialized
           [Validators.required, Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)]),
       comments: new UntypedFormControl(this.student.comments),

@@ -76,11 +76,7 @@ public class UpdateStudentAction extends Action {
 
         Course course = sqlLogic.getCourse(courseId);
         Section section = sqlLogic.getSectionOrCreate(courseId, updateRequest.getSection());
-        String teamName = updateRequest.getTeam();
-        if (teamName == null || teamName.trim().isEmpty()) {
-            throw new InvalidHttpRequestBodyException("Team name should not be empty");
-        }
-        Team team = sqlLogic.getTeamOrCreate(section, teamName);
+        Team team = sqlLogic.getTeamOrCreate(section, updateRequest.getTeam());
         Student studentToUpdate = new Student(course, updateRequest.getName(), updateRequest.getEmail(),
                 updateRequest.getComments(), team);
         try {

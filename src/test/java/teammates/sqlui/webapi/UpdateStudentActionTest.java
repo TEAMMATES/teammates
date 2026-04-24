@@ -2,7 +2,6 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -10,7 +9,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.never;
 import static teammates.ui.webapi.UpdateStudentAction.ERROR_EMAIL_ALREADY_EXISTS;
 import static teammates.ui.webapi.UpdateStudentAction.SUCCESSFUL_UPDATE;
 import static teammates.ui.webapi.UpdateStudentAction.SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;
@@ -366,7 +364,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
     @Test
     void testExecute_whitespaceOnlyTeamName_throwsInvalidHttpRequestBodyException()
-        throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, newEmail, "   ",
                 section.getName(), student.getComments(), true);
 
@@ -376,17 +374,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         verifyHttpRequestBodyFailure(studentUpdateRequest, params);
-
-        verify(mockLogic, times(1)).getStudentForEmail(course.getId(), student.getEmail());
-        verify(mockLogic, times(1)).getCourse(course.getId());
-        verify(mockLogic, times(1)).getSectionOrCreate(course.getId(), studentUpdateRequest.getSection());
-
-        verify(mockLogic, never()).getTeamOrCreate(any(), anyString());
-        verify(mockLogic, never()).updateStudentCascade(any(Student.class));
-        verifyNoTasksAdded();
-        verifyNoEmailsSent();
-
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
     }
 
     @Test
