@@ -413,19 +413,18 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetDynamicallyGeneratedOptions_mcqNone_returnsEmptyList() {
+    public void testGetDynamicallyGeneratedOptions_mcqNone_returnsEmptyOptional() {
         FeedbackMcqQuestionDetails mcqDetails =
                 getMockMcqQuestionDetails(FeedbackParticipantType.NONE);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
 
-        assertTrue(actualOptions.isPresent());
-        assertTrue(actualOptions.get().isEmpty());
+        assertTrue(actualOptions.isEmpty());
     }
 
     @Test
-    public void testGetDynamicallyGeneratedOptions_nonMcqMsqQuestionType_returnsEmptyList() {
+    public void testGetDynamicallyGeneratedOptions_nonMcqMsqQuestionType_returnsEmptyOptional() {
         FeedbackQuestionDetails questionDetails =
                 mock(FeedbackQuestionDetails.class);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(questionDetails, "course-1");
