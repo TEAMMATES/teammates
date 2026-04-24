@@ -38,7 +38,6 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -197,7 +196,6 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -353,7 +351,6 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -509,7 +506,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -798,7 +794,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -3734,7 +3729,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                       >
                         <button
                           class="btn-add-comment btn btn-light btn-sm"
-                          disabled=""
                         >
                           <i
                             class="fas fa-comment"
@@ -3835,7 +3829,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled={[Function Boolean]}
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -4355,7 +4348,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0"
+            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
           >
             <div
               class="collapse-caret"
@@ -4374,6 +4367,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 </button>
               </tm-panel-chevron>
             </div>
+            <i
+              aria-hidden="true"
+              class="fas fa-check me-2"
+            />
             <h2
               class="question-details"
             >
@@ -6903,7 +6900,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -7060,7 +7056,6 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
-  isSubmitAllClicked="false"
   logService={[Function LogService]}
   loggedInUser=""
   moderatedPerson=""

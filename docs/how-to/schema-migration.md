@@ -2,46 +2,157 @@
   title: "Schema Migration"
 </frontmatter>
 
-# SQL Schema Migration
+# Schema Migration
 
-Teammates uses _[Liquibase]_(https://docs.liquibase.com/start/home.html), a database schema change management tool. Whenever a schema change is needed, contributors should add or generate a new changelog so the application code and database schema remain in sync.
+TEAMMATES uses [Liquibase](https://docs.liquibase.com/start/home.html) to manage database schema changes. Changelogs are written in XML and live in `src/main/resources/db/changelog/migrations/`.
 
-## Liquibase in Teammates
-_Liquibase_ is made available using the [gradle plugin](https://github.com/liquibase/liquibase-gradle-plugin), providing _liquibase_ functions as tasks. Try `gradle tasks | grep "liquibase"` to see all the tasks available. In teammates, change logs (more in the next section) are written in _XML_.
+## Configuration
 
-### Liquibase connection
-Amend the `liquibaseDbUrl`, `liquibaseUsername` and `liquibasePassword` in `gradle.properties` to allow the _Liquibase_ plugin to connect your database.
+The following variables can be configured in `gradle.properties`. Defaults are pre-configured for local development.
 
-## Change logs, change sets and change types
-A _change log_ is a file that contains a series of _change sets_ (analagous to a transaction) which applies _change types_ (actions). You can refer to this page on liquibase on the types of [change types](https://docs.liquibase.com/change-types/home.html) that can be used.
+- `liquibaseDbUrl`
+- `liquibaseUsername`
+- `liquibasePassword`
 
-## Gradle Activities for Liquibase
-Activities in Gradle are a way of specifying different variables provided by gradle to the Liquibase plugin. The argument `runList` provided by `-pRunList=<activity_name>` e.g `./gradlew liquibaseDiffChangelog -PrunList=diffMain` is used to specify which activity to be used for the Liquibase command. In this case the `liquibaseDiffChangelog` command is run using the `diffMain` activity.
+## Applying Migrations
 
-Here is a brief description of the activities defined for Liquibase
-1. Main: The default activity used by Liquibase commands and is used for running changelogs against a database. This is used by default if a `runList` is not defined.
-2. diffMain: Compares the Hibernate entity model (`hibernate.cfg.xml`) as the reference against the live database to generate a diff changelog. No snapshot file or `schemaMode=migrate` server run is needed.
+<tabs>
+<tab header="Mac / Linux">
 
-## Generating/Updating Liquibase Changelogs
+```sh
+./gradlew liquibaseUpdate
+```
+</tab>
+<tab header="Windows">
 
-1. Run `./gradlew liquibaseUpdate -PrunList=main` to apply all existing migrations to your local database.
-2. Run `./gradlew serverRun` to verify the current schema passes Hibernate validation.
-3. Make your entity/model changes.
-4. Run `./gradlew liquibaseDiffChangelog -PrunList=diffMain -PmigrationName=<descriptive-name>` to generate a changelog (e.g. `-PmigrationName=add-feedback-indexes`). This compares the Hibernate entity model (the desired schema) against the live database (the current state) and produces changesets that bring the database up to match the model. Review the generated changelog manually before committing — auto-diff output can be noisy or incorrect depending on type mappings.
-6. Add rollback blocks to every new changeset.
-7. New files in `src/main/resources/db/changelog/migrations` are auto-included by the root changelog via `includeAll`, so no manual root changelog edits are needed.
+```sh
+gradlew.bat liquibaseUpdate
+```
+</tab>
+</tabs>
 
-## Handling Schema-Validation Failures
+Run this after pulling changes that include new migration files, or after a fresh database setup.
 
-Hibernate validates the database schema against your entity model on every startup. If they do not match, the server will fail to start with a schema-validation error. This usually means you pulled changes that include new or updated migrations but have not applied them yet.
+## Generating a Migration
+
+1. Apply all existing migrations and verify the server starts cleanly:
+
+<tabs>
+<tab header="Mac / Linux">
+
+```sh
+./gradlew liquibaseUpdate
+./gradlew serverRun
+```
+</tab>
+<tab header="Windows">
+
+```sh
+gradlew.bat liquibaseUpdate
+gradlew.bat serverRun
+```
+</tab>
+</tabs>
+
+2. Make your entity/model changes.
+
+3. Generate a diff changelog:
+
+<tabs>
+<tab header="Mac / Linux">
+
+```sh
+./gradlew liquibaseDiffChangelog -PmigrationName=<descriptive-name>
+```
+
+This compares your Hibernate entity model against the live database and produces the necessary changesets. Review and edit the output before committing.
+
+</tab>
+<tab header="Windows">
+
+```sh
+gradlew.bat liquibaseDiffChangelog -PmigrationName=<descriptive-name>
+```
+
+This compares your Hibernate entity model against the live database and produces the necessary changesets. Review and edit the output before committing.
+
+</tab>
+</tabs>
+
+<box type="info">
+  <md>
+Liquibase auto-generates rollback for most change types. If you use a `<sql>` tag, add a `<rollback>` block manually.
+  </md>
+</box>
+
+## Rolling Back
+
+To roll back the last N changesets:
+
+<tabs>
+<tab header="Mac / Linux">
+
+```sh
+./gradlew liquibaseRollbackCount -Pcount=<N>
+```
+</tab>
+<tab header="Windows">
+
+```sh
+gradlew.bat liquibaseRollbackCount -Pcount=<N>
+```
+</tab>
+</tabs>
+
+Note that a single migration file may contain multiple changesets — check the file to determine the correct count.
+
+## Schema Validation Failures
+
+Hibernate validates the database schema on every startup. If the schema does not match the entity model, the server will fail to start. This usually means new migrations have not been applied yet.
 
 **Recovery steps:**
-1. Run `./gradlew liquibaseUpdate -PrunList=main` to apply missing migrations.
-2. Run `./gradlew serverRun` to confirm validation passes.
 
-**If that does not resolve it:**
-1. Stop local services: `docker compose down`.
-2. Remove the database data directory (e.g. `rm -rf postgres-data`).
-3. Restart services: `docker compose up -d`.
-4. Run `./gradlew liquibaseUpdate -PrunList=main` to rebuild the schema from changelogs.
-5. Run `./gradlew serverRun` to confirm validation passes.
+1. Apply missing migrations and restart:
+
+<tabs>
+<tab header="Mac / Linux">
+
+```sh
+./gradlew liquibaseUpdate
+./gradlew serverRun
+```
+</tab>
+<tab header="Windows">
+
+```sh
+gradlew.bat liquibaseUpdate
+gradlew.bat serverRun
+```
+</tab>
+</tabs>
+
+2. If that does not resolve it, you may have to reset the database as a last resort:
+
+<tabs>
+<tab header="Mac / Linux">
+
+```sh
+docker compose down
+rm -rf postgres-data
+docker compose up -d
+./gradlew liquibaseUpdate
+./gradlew serverRun
+```
+</tab>
+<tab header="Windows">
+
+```sh
+docker compose down
+rm -rf postgres-data
+docker compose up -d
+gradlew.bat liquibaseUpdate
+gradlew.bat serverRun
+```
+</tab>
+</tabs>
+

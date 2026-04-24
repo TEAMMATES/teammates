@@ -16,6 +16,7 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.request.Intent;
 import teammates.ui.webapi.GetFeedbackQuestionsAction;
@@ -83,9 +84,12 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
 
         GetFeedbackQuestionsAction getFeedbackQuestionsAction = getAction(params);
         FeedbackQuestionsData actionOutput = (FeedbackQuestionsData) getJsonResult(getFeedbackQuestionsAction).getOutput();
-        assertEquals(JsonUtils.toJson(
-                                    FeedbackQuestionsData.makeFeedbackQuestionsData(feedbackQuestions)),
-                                    JsonUtils.toJson(actionOutput));
+
+        assertEquals(feedbackQuestions.size(), actionOutput.getQuestions().size());
+        for (int i = 0; i < feedbackQuestions.size(); i++) {
+            assertEquals(JsonUtils.toJson(new FeedbackQuestionData(feedbackQuestions.get(i))),
+                    JsonUtils.toJson(actionOutput.getQuestions().get(i)));
+        }
     }
 
     private FeedbackSession generateSession1InCourse(Course course) {

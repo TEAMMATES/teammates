@@ -2,6 +2,7 @@ package teammates.ui.output;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -102,6 +103,17 @@ public class FeedbackQuestionData extends ApiOutput {
             this.questionType = constantSumQuestionDetails.isDistributeToRecipients()
                     ? FeedbackQuestionType.CONSTSUM_RECIPIENTS : FeedbackQuestionType.CONSTSUM_OPTIONS;
             this.questionDetails.setQuestionType(this.questionType);
+        }
+    }
+
+    public FeedbackQuestionData(FeedbackQuestion feedbackQuestion, Optional<List<String>> dynamicallyGeneratedOptions) {
+        this(feedbackQuestion);
+        if (dynamicallyGeneratedOptions.isPresent()) {
+            if (this.questionDetails instanceof FeedbackMcqQuestionDetails feedbackMcqQuestionDetails) {
+                feedbackMcqQuestionDetails.setMcqChoices(dynamicallyGeneratedOptions.get());
+            } else if (this.questionDetails instanceof FeedbackMsqQuestionDetails feedbackMsqQuestionDetails) {
+                feedbackMsqQuestionDetails.setMsqChoices(dynamicallyGeneratedOptions.get());
+            }
         }
     }
 

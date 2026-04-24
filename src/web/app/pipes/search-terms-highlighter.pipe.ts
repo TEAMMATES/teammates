@@ -13,7 +13,7 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
      * @returns transformed text with styling added if search terms were found
      */
     transform(value: string, searchStr: string, isPartialMatch?: boolean): string {
-        if (!searchStr) {
+        if (!value || !searchStr) {
             return value;
         }
         const exactPhrases: string = this.findAllExactPhrases(searchStr).map((str) => {

@@ -75,30 +75,31 @@ npm ci
 
 **Verification:** A `node_modules` folder should appear in the project root.
 
-3. Generate frontend type definitions
-
-<tabs>
-<tab header="Mac / Linux">
-
-```sh
-./gradlew generateTypes
-```
-</tab>
-<tab header="Windows">
-
-```sh
-gradlew.bat generateTypes
-```
-</tab>
-</tabs>
-
-## Step 4: Run the Application
+## Step 3: Run the Application
 
 1. Start the database:
 ```sh
 docker compose up -d
 ```
-2. Start the backend server:
+
+2. Apply database migrations:
+
+<tabs>
+<tab header="Mac / Linux">
+
+```sh
+./gradlew liquibaseUpdate
+```
+</tab>
+<tab header="Windows">
+
+```sh
+gradlew.bat liquibaseUpdate
+```
+</tab>
+</tabs>
+
+3. Start the backend server:
 
 <tabs>
 <tab header="Mac / Linux">
@@ -117,14 +118,14 @@ gradlew.bat serverRun
 
 The backend will be available at `http://localhost:8080`.
 
-3. Start the frontend server:
+4. Start the frontend server:
 ```sh
 npm run start
 ```
 
 The frontend will be available at `http://localhost:4200`.
 
-## Step 5: Set up test accounts
+## Step 4: Set up test accounts
 
 To test TEAMMATES locally, you will need an instructor and a student account.
 
@@ -135,7 +136,7 @@ To test TEAMMATES locally, you will need an instructor and a student account.
 5. Use the admin search feature to find the student, expand the row, and retrieve the course join link to activate the student account.
 6. You now have access to all TEAMMATES features.
 
-## Step 6: Next Steps
+## Step 5: Next Steps
 
 Your environment is now ready. Here's what to do next:
 
