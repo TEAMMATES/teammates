@@ -36,8 +36,11 @@ public class FeedbackSession extends BaseEntity {
     @Id
     private UUID id;
 
+    @Column(nullable = false, insertable = false, updatable = false)
+    private String courseId;
+    
     @ManyToOne
-    @JoinColumn(name = "courseId")
+    @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
     @Column(nullable = false)
@@ -236,7 +239,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public String getCourseId() {
-        return course.getId();
+        return this.courseId;
     }
 
     public String getName() {
