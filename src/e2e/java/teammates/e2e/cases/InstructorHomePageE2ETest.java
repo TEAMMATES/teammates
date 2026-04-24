@@ -97,6 +97,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         int sessionIndex = 1;
         String newName = "Copied Name";
         FeedbackSession copiedSession = feedbackSessionAwaiting.getCopy();
+        copiedSession.setId(null);
         copiedSession.setCourse(otherCourse);
         copiedSession.setName(newName);
         copiedSession.setCreatedAt(Instant.now());
@@ -127,6 +128,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         sessionIndex = 0;
         newName = "Copied Name 2";
         FeedbackSession copiedSession2 = copiedSession.getCopy();
+        copiedSession2.setId(null);
         copiedSession2.setName(newName);
         copiedSession2.setCreatedAt(Instant.now());
         homePage.copySession(otherCourseIndex, sessionIndex, otherCourse, newName);

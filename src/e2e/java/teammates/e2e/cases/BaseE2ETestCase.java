@@ -426,6 +426,13 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
+     * Gets the feedback sessions of a course from the database.
+     */
+    protected List<FeedbackSessionData> getFeedbackSessionsForCourse(String courseId) {
+        return BACKDOOR.getFeedbackSessionsForCourse(courseId);
+    }
+
+    /**
      * Gets the account data for the given Google ID.
      */
     protected AccountData getAccount(String googleId) {
@@ -506,7 +513,18 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      * Gets the feedback session data for the given feedback session.
      */
     protected FeedbackSessionData getFeedbackSession(FeedbackSession feedbackSession) {
-        return getFeedbackSession(feedbackSession.getId());
+        if (feedbackSession.getId() != null) {
+            return getFeedbackSession(feedbackSession.getId());
+        }
+
+        // Feedback session may not have ID in some tests (where session is manually created).
+        // As a workaround, we fetch all feedback sessions for the course and filter by fs name.
+        // This is not ideal but should be sufficient for the tests that require this method.
+        List<FeedbackSessionData> feedbackSessions = getFeedbackSessionsForCourse(feedbackSession.getCourseId());
+        return feedbackSessions.stream()
+                .filter(session -> session.getFeedbackSessionName().equals(feedbackSession.getName()))
+                .findFirst()
+                .orElse(null);
     }
 
     /**

@@ -32,15 +32,6 @@ public class FeedbackSessionsData extends ApiOutput {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Hide information for given student email.
-     */
-    public void hideInformationForStudent(String email) {
-        for (FeedbackSessionData fs : feedbackSessions) {
-            fs.hideInformation();
-        }
-    }
-
     public List<FeedbackSessionData> getFeedbackSessions() {
         return feedbackSessions;
     }

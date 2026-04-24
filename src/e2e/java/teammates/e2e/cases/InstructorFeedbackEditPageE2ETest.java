@@ -138,14 +138,16 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("copy session to other course");
-        feedbackSession.setCourse(copiedCourse);
+        FeedbackSession copiedSession = feedbackSession.getCopy();
+        copiedSession.setId(null);
+        copiedSession.setCourse(copiedCourse);
         String copiedSessionName = "Copied Session";
-        feedbackSession.setName(copiedSessionName);
+        copiedSession.setName(copiedSessionName);
         feedbackEditPage.copySessionToOtherCourse(copiedCourse, copiedSessionName);
 
         feedbackEditPage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
-        verifyPresentInDatabase(feedbackSession);
+        verifyPresentInDatabase(copiedSession);
 
         ______TS("delete session");
 
