@@ -115,7 +115,6 @@ public class FeedbackSession extends BaseEntity {
         this.setId(UUID.randomUUID());
         this.setName(name);
         this.setCourse(course);
-        this.setCourseId(course.getId());
         this.setCreatorEmail(creatorEmail);
         this.setInstructions(StringUtils.defaultString(instructions));
         this.setStartTime(startTime);
@@ -237,14 +236,11 @@ public class FeedbackSession extends BaseEntity {
 
     public void setCourse(Course course) {
         this.course = course;
+        this.courseId = course.getId();
     }
 
     public String getCourseId() {
         return this.courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
     }
 
     public String getName() {
