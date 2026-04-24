@@ -42,6 +42,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
     protected void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withCourseId(course.getId())
+                .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
         InstructorFeedbackEditPageSql feedbackEditPage =
                 loginToPage(url, InstructorFeedbackEditPageSql.class, instructor.getGoogleId());
@@ -137,14 +138,16 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("copy session to other course");
-        feedbackSession.setCourse(copiedCourse);
+        FeedbackSession copiedSession = feedbackSession.getCopy();
+        copiedSession.setId(null);
+        copiedSession.setCourse(copiedCourse);
         String copiedSessionName = "Copied Session";
-        feedbackSession.setName(copiedSessionName);
+        copiedSession.setName(copiedSessionName);
         feedbackEditPage.copySessionToOtherCourse(copiedCourse, copiedSessionName);
 
         feedbackEditPage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
-        verifyPresentInDatabase(feedbackSession);
+        verifyPresentInDatabase(copiedSession);
 
         ______TS("delete session");
 

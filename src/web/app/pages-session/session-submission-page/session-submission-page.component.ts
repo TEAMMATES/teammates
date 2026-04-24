@@ -99,6 +99,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   courseId: string = '';
   feedbackSessionName: string = '';
+  feedbackSessionId: string = '';
   regKey: string = '';
   entityType: string = 'student';
   loggedInUser: string = '';
@@ -144,7 +145,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   ungroupableQuestions: Set<number> = new Set();
   ungroupableQuestionsSorted: number[] = [];
 
-  feedbackSessionId: string = '';
   studentId: string | undefined = '';
 
   private backendUrl: string = environment.backendUrl;
@@ -384,8 +384,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     this.isFeedbackSessionLoading = true;
     const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     this.feedbackSessionsService.getFeedbackSession({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
+      feedbackSessionId: this.feedbackSessionId,
       intent: this.intent,
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,

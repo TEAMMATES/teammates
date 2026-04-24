@@ -24,6 +24,7 @@ public class InstructorSessionIndividualExtensionPageAxeTest extends BaseAxeTest
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE)
                 .withCourseId(testData.courses.get("course").getId())
+                .withFeedbackSessionId(testData.feedbackSessions.get("firstSession").getId().toString())
                 .withSessionName(testData.feedbackSessions.get("firstSession").getName());
 
         InstructorSessionIndividualExtensionPageSql individualExtensionPage =

@@ -8,7 +8,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -32,6 +31,10 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
+        BACKDOOR.deleteCourse("tm.e2e.ICs.CS4100");
+        BACKDOOR.deleteCourse("tm.e2e.ICs.CS5000");
+        BACKDOOR.deleteCourse("tm.e2e.ICs.CS6000");
+
         testData = loadDataBundle("/InstructorCoursesPageE2ETestSql.json");
         testData = removeAndRestoreDataBundle(testData);
 
@@ -89,6 +92,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 session.isClosingSoonEmailEnabled(),
                 session.isPublishedEmailEnabled()
         );
+        copySession.setId(null);
 
         copySession2 = new FeedbackSession(
                 "Second Session",
@@ -104,13 +108,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 copySession.isClosingSoonEmailEnabled(),
                 copySession.isPublishedEmailEnabled()
         );
-    }
-
-    @BeforeClass
-    public void classSetup() {
-        BACKDOOR.deleteCourse(newCourse.getId());
-        BACKDOOR.deleteCourse(copyCourse.getId());
-        BACKDOOR.deleteCourse(copyCourse2.getId());
+        copySession2.setId(null);
     }
 
     @Test

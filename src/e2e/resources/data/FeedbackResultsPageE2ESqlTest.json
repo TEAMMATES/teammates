@@ -244,9 +244,7 @@
     "feedbackSessions": {
       "Open Session": {
         "id": "00000000-0000-4000-8000-000000000701",
-        "course": {
-          "id": "tm.e2e.FRes.CS2104"
-        },
+        "courseId": "tm.e2e.FRes.CS2104",
         "name": "First Session",
         "creatorEmail": "fres.instr@gmail.tmt",
         "instructions": "Instructions for first session",

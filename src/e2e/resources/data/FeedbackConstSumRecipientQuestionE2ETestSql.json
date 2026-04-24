@@ -207,9 +207,7 @@
   "feedbackSessions": {
     "openSession": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.FCSumRcptQn.CS2104"
-      },
+      "courseId": "tm.e2e.FCSumRcptQn.CS2104",
       "name": "First Session",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
@@ -232,9 +230,7 @@
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.FCSumRcptQn.CS1101"
-      },
+      "courseId": "tm.e2e.FCSumRcptQn.CS1101",
       "name": "Second Session",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",

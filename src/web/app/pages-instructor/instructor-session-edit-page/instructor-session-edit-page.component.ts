@@ -233,8 +233,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
         forkJoin([
           this.feedbackSessionsService.getFeedbackSession({
-            courseId: this.courseId,
-            feedbackSessionName: this.feedbackSessionName,
+            feedbackSessionId: this.feedbackSessionId,
             intent: Intent.FULL_DETAIL,
           }),
           this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
@@ -284,7 +283,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
         modalRef.result.then((result: CopySessionModalResult) => {
           const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
-              result, this.courseId, this.feedbackSessionName);
+              result, this.feedbackSessionId);
           this.sessionEditFormModel.isCopying = true;
           if (requestList.length === 1) {
             this.copySingleSession(requestList[0].pipe(finalize(() => {

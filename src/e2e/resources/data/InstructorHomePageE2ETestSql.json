@@ -240,9 +240,7 @@
   "feedbackSessions": {
     "First Feedback Session": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.IHome.CS2104"
-      },
+      "courseId": "tm.e2e.IHome.CS2104",
       "name": "First Feedback Session",
       "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -263,9 +261,7 @@
     },
     "Second Feedback Session": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.IHome.CS2104"
-      },
+      "courseId": "tm.e2e.IHome.CS2104",
       "name": "Second Feedback Session",
       "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -286,9 +282,7 @@
     },
     "Third Feedback Session": {
       "id": "00000000-0000-4000-8000-000000000703",
-      "course": {
-        "id": "tm.e2e.IHome.CS2104"
-      },
+      "courseId": "tm.e2e.IHome.CS2104",
       "name": "Third Feedback Session",
       "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -309,9 +303,7 @@
     },
     "Fourth Feedback Session": {
       "id": "00000000-0000-4000-8000-000000000704",
-      "course": {
-        "id": "tm.e2e.IHome.CS2104"
-      },
+      "courseId": "tm.e2e.IHome.CS2104",
       "name": "Fourth Feedback Session",
       "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -332,9 +324,7 @@
     },
     "CS1101 Session": {
       "id": "00000000-0000-4000-8000-000000000705",
-      "course": {
-        "id": "tm.e2e.IHome.CS1101"
-      },
+      "courseId": "tm.e2e.IHome.CS1101",
       "name": "CS1101 Session",
       "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",

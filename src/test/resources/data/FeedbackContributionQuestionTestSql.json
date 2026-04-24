@@ -909,9 +909,7 @@
   "feedbackSessions": {
     "session1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
+      "courseId": "idOfTypicalCourse1",
       "name": "First feedback session",
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -932,9 +930,7 @@
     },
     "session2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
+      "courseId": "idOfTypicalCourse1",
       "name": "Second feedback session",
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -955,9 +951,7 @@
     },
     "gracePeriodSession": {
       "id": "00000000-0000-4000-8000-000000000703",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
+      "courseId": "idOfTypicalCourse1",
       "name": "Grace Period Session",
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -978,9 +972,7 @@
     },
     "closedSession": {
       "id": "00000000-0000-4000-8000-000000000704",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
+      "courseId": "idOfTypicalCourse1",
       "name": "Closed Session",
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -1001,9 +993,7 @@
     },
     "empty.session": {
       "id": "00000000-0000-4000-8000-000000000705",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
+      "courseId": "idOfTypicalCourse1",
       "name": "Empty session",
       "creatorEmail": "instructor2@course1.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -1024,9 +1014,7 @@
     },
     "awaiting.session": {
       "id": "00000000-0000-4000-8000-000000000706",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
+      "courseId": "idOfTypicalCourse1",
       "name": "non visible session",
       "creatorEmail": "instructor2@course1.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -1047,9 +1035,7 @@
     },
     "archiveCourse.session1": {
       "id": "00000000-0000-4000-8000-000000000707",
-      "course": {
-        "id": "idOfArchivedCourse"
-      },
+      "courseId": "idOfArchivedCourse",
       "name": "session without student questions",
       "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -1070,9 +1056,7 @@
     },
     "session1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000708",
-      "course": {
-        "id": "idOfTypicalCourse2"
-      },
+      "courseId": "idOfTypicalCourse2",
       "name": "Instructor feedback session",
       "creatorEmail": "instructor1@course2.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -1093,9 +1077,7 @@
     },
     "session2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000709",
-      "course": {
-        "id": "idOfTypicalCourse2"
-      },
+      "courseId": "idOfTypicalCourse2",
       "name": "Not answerable feedback session",
       "creatorEmail": "instructor1@course2.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -1116,9 +1098,7 @@
     },
     "session1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000710",
-      "course": {
-        "id": "idOfTypicalCourse3"
-      },
+      "courseId": "idOfTypicalCourse3",
       "name": "First feedback session",
       "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -1139,9 +1119,7 @@
     },
     "session2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000711",
-      "course": {
-        "id": "idOfTypicalCourse3"
-      },
+      "courseId": "idOfTypicalCourse3",
       "name": "Second feedback session",
       "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -1163,9 +1141,7 @@
     },
     "session1InCourse4": {
       "id": "00000000-0000-4000-8000-000000000712",
-      "course": {
-        "id": "idOfTypicalCourse4"
-      },
+      "courseId": "idOfTypicalCourse4",
       "name": "First feedback session",
       "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -1187,9 +1163,7 @@
     },
     "session1InTestingSanitizationCourse": {
       "id": "00000000-0000-4000-8000-000000000713",
-      "course": {
-        "id": "idOfTestingSanitizationCourse"
-      },
+      "courseId": "idOfTestingSanitizationCourse",
       "name": "Normal feedback session name",
       "creatorEmail": "instructor1@sanitization.tmt",
       "instructions": "unclosed tags  Attempted script injection &#39;&#34; ",

@@ -83,9 +83,7 @@
   "feedbackSessions": {
     "openedSession": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.AutSesRem.course"
-      },
+      "courseId": "tm.e2e.AutSesRem.course",
       "name": "AutSesRem Opening Session",
       "creatorEmail": "autsesrem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -108,9 +106,7 @@
     },
     "closingSoonSession": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.AutSesRem.course"
-      },
+      "courseId": "tm.e2e.AutSesRem.course",
       "name": "AutSesRem Closing Session",
       "creatorEmail": "autsesrem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -133,9 +129,7 @@
     },
     "closedSession": {
       "id": "00000000-0000-4000-8000-000000000703",
-      "course": {
-        "id": "tm.e2e.AutSesRem.course"
-      },
+      "courseId": "tm.e2e.AutSesRem.course",
       "name": "AutSesRem Closed Session",
       "creatorEmail": "autsesrem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -158,9 +152,7 @@
     },
     "publishedSession": {
       "id": "00000000-0000-4000-8000-000000000704",
-      "course": {
-        "id": "tm.e2e.AutSesRem.course"
-      },
+      "courseId": "tm.e2e.AutSesRem.course",
       "name": "AutSesRem Published Session",
       "creatorEmail": "autsesrem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",

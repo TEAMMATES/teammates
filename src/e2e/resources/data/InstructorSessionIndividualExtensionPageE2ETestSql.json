@@ -220,9 +220,7 @@
     "firstSession": {
       "id": "00000000-0000-4000-8000-000000000701",
       "name": "First Session",
-      "course": {
-        "id": "tm.e2e.ISesIe.CS2104"
-      },
+      "courseId": "tm.e2e.ISesIe.CS2104",
       "creatorEmail": "instructor1.tmms@gmail.tmt",
       "instructions": "<p>Instructions for First Session</p>",
       "startTime": "2012-04-01T22:00:00Z",

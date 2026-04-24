@@ -246,9 +246,7 @@
   "feedbackSessions": {
     "ICs.session": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "course": {
-        "id": "tm.e2e.ICs.CS1231"
-      },
+      "courseId": "tm.e2e.ICs.CS1231",
       "name": "Second Session",
       "creatorEmail": "backdoor@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",

@@ -50,6 +50,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(unregistered.getCourse().getId())
                 .withStudentEmail(unregistered.getEmail())
+                .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withRegistrationKey(unregistered.getRegKey());
         resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
@@ -63,6 +64,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Student student = testData.students.get("Alice");
         url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourse().getId())
+                .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName());
         resultsPage = loginToPage(url, FeedbackResultsPageSql.class, student.getGoogleId());
 
@@ -106,6 +108,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Instructor instructor = testData.instructors.get("FRes.instr");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourse().getId())
+                .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName());
         resultsPage = loginToPage(url, FeedbackResultsPageSql.class, instructor.getGoogleId());
 
@@ -120,6 +123,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("preview results as student: can access results");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourse().getId())
+                .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", student.getEmail());
         resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
@@ -147,6 +151,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("preview results as instructor: can access results");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourse().getId())
+                .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", instructor.getEmail());
         resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);

@@ -241,7 +241,7 @@
   "feedbackSessions": {
     "Open Session": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": { "id": "tm.e2e.IFRep.CS2104" },
+      "courseId": "tm.e2e.IFRep.CS2104",
       "name": "First Session",
       "creatorEmail": "ifrep.instr1@gmail.tmt",
       "instructions": "Instructions for first session",
@@ -265,7 +265,7 @@
     },
     "Open Session 2": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": { "id": "tm.e2e.IFRep.CS2103" },
+      "courseId": "tm.e2e.IFRep.CS2103",
       "name": "First Session",
       "creatorEmail": "ifrep.instr1@gmail.tmt",
       "instructions": "Instructions for first session",

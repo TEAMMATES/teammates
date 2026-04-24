@@ -1,7 +1,7 @@
 <h1>
   Feedback Session Results
 </h1>
-<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSessionResults(courseId, fsName)">
+<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSessionResults(courseId, fsName, feedbackSessionId)">
   <div *tmIsLoading="isFeedbackSessionLoading">
     @if (session) {
       <div class="card bg-light top-padded text-center text-sm-start">
@@ -139,7 +139,7 @@
 
 @if (!(hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed || isFeedbackSessionLoading)) {
   <div class="card top-padded">
-    <tm-preview-session-result-panel [courseId]="courseId" [feedbackSessionName]="session.feedbackSessionName"
+    <tm-preview-session-result-panel [courseId]="courseId" [feedbackSessionName]="session.feedbackSessionName" [feedbackSessionId]="session.feedbackSessionId"
       [studentsOfCourse]="allStudentsInCourse" [emailOfStudentToPreview]="emailOfStudentToPreview"
       [instructorsOfCourse]="allInstructorsInCourse" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
     ></tm-preview-session-result-panel>

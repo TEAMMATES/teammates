@@ -215,9 +215,7 @@
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
       "instructorDeadlines": {},
-      "course": {
-        "id": "tm.e2e.FRankOptQn.CS2104"
-      }
+      "courseId": "tm.e2e.FRankOptQn.CS2104"
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
@@ -240,9 +238,7 @@
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
       "instructorDeadlines": {},
-      "course": {
-        "id": "tm.e2e.FRankOptQn.CS1101"
-      }
+      "courseId": "tm.e2e.FRankOptQn.CS1101"
     }
 
   },

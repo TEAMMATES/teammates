@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -333,16 +334,30 @@ public abstract class AbstractBackDoor {
     /**
      * Get feedback session data from database.
      */
-    public FeedbackSessionData getFeedbackSessionData(String courseId, String feedbackSessionName) {
+    public FeedbackSessionData getFeedbackSessionData(UUID feedbackSessionId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSION, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
         return JsonUtils.fromJson(response.responseBody, FeedbackSessionData.class);
+    }
+
+    /**
+     * Get feedback sessions of a course from database.
+     */
+    public List<FeedbackSessionData> getFeedbackSessionsForCourse(String courseId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN);
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSIONS, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return Collections.emptyList();
+        }
+        FeedbackSessionsData sessionsData = JsonUtils.fromJson(response.responseBody, FeedbackSessionsData.class);
+        return sessionsData.getFeedbackSessions();
     }
 
     /**
