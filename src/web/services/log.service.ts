@@ -25,6 +25,7 @@ export class LogService {
     feedbackSessionName: string,
     studentEmail: string,
     logType: FeedbackSessionLogType,
+    key?: string,
     feedbackSessionId?: string,
     studentId?: string,
   }): Observable<string> {
@@ -34,6 +35,10 @@ export class LogService {
       studentemail: queryParams.studentEmail,
       fsltype: queryParams.logType.toString(),
     };
+
+    if (queryParams.key) {
+      paramMap['key'] = queryParams.key;
+    }
 
     if (queryParams.feedbackSessionId) {
       paramMap['fsid'] = queryParams.feedbackSessionId;
