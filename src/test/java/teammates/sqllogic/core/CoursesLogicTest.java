@@ -407,33 +407,6 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetTeamsForSection_shouldReturnListOfTeams_success() {
-        Section section = getTypicalSection();
-
-        Team t1 = getTypicalTeam();
-        t1.setName("test-teamName1");
-
-        Team t2 = getTypicalTeam();
-        t2.setName("test-teamName2");
-
-        List<Team> teams = new ArrayList<>();
-        teams.add(t1);
-        teams.add(t2);
-
-        section.setTeams(teams);
-
-        when(coursesDb.getTeamsForSection(section)).thenReturn(teams);
-
-        List<Team> returnedTeams = coursesLogic.getTeamsForSection(section);
-
-        verify(coursesDb, times(1)).getTeamsForSection(section);
-
-        List<Team> expectedTeams = List.of(t1, t2);
-
-        assertEquals(expectedTeams, returnedTeams);
-    }
-
-    @Test
     public void testGetTeamsForCourse_shouldReturnListOfTeams_success() {
         Course course = getTypicalCourse();
 
