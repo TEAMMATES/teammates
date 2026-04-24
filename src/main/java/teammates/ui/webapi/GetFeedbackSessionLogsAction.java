@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
@@ -41,6 +41,15 @@ public class GetFeedbackSessionLogsAction extends Action {
             throw new EntityNotFoundException("Course is not found");
         }
 
+        UUID feedbackSessionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        if (feedbackSessionId != null) {
+            // feedback session must be in the course specified by courseId
+            FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+            if (feedbackSession == null || !Objects.equals(feedbackSession.getCourseId(), courseId)) {
+                throw new EntityNotFoundException("Feedback session is not found in the specified course");
+            }
+        }
+
         Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
@@ -49,17 +58,16 @@ public class GetFeedbackSessionLogsAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String fslTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
+        String fslTypes = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         List<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
-        if (fslTypes != null) {
-            // Multiple log types are separated by a comma e.g access,submission
-            for (String fslType : fslTypes.split(",")) {
-                try {
-                    FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOf(fslType.trim().toUpperCase());
-                    convertedFslTypes.add(convertedFslType);
-                } catch (IllegalArgumentException e) {
-                    throw new InvalidHttpParameterException("Invalid log type: " + fslType, e);
-                }
+        
+        // Multiple log types are separated by a comma e.g access,submission
+        for (String fslType : fslTypes.split(",")) {
+            try {
+                FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOf(fslType.trim().toUpperCase());
+                convertedFslTypes.add(convertedFslType);
+            } catch (IllegalArgumentException e) {
+                throw new InvalidHttpParameterException("Invalid log type: " + fslType, e);
             }
         }
 
@@ -73,7 +81,6 @@ public class GetFeedbackSessionLogsAction extends Action {
         } catch (NumberFormatException e) {
             throw new InvalidHttpParameterException("Invalid start or end time", e);
         }
-        // TODO: we might want to impose limits on the time range from startTime to endTime
 
         if (endTime < startTime) {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
@@ -98,29 +105,17 @@ public class GetFeedbackSessionLogsAction extends Action {
         List<FeedbackSessionLog> fsLogEntries = sqlLogic.getOrderedFeedbackSessionLogs(courseId, studentId,
                 feedbackSessionId, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
         Map<String, Student> studentsMap = new HashMap<>();
+        List<Student> students = sqlLogic.getStudentsForCourse(courseId);
+        students.forEach(student -> studentsMap.put(student.getEmail(), student));
+        
         Map<String, FeedbackSession> sessionsMap = new HashMap<>();
         List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
         feedbackSessions.forEach(fs -> sessionsMap.put(fs.getName(), fs));
 
         fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
             FeedbackSessionLogType logType = logEntry.getFeedbackSessionLogType();
-            if (logType == null || fslTypes != null && !convertedFslTypes.contains(logType)) {
-                // If the feedback session log type retrieved from the log is invalid
-                // or not the type being queried, ignore the log
-                return false;
-            }
-
-            if (!studentsMap.containsKey(logEntry.getStudent().getEmail())) {
-                Student student = sqlLogic.getStudent(logEntry.getStudent().getId());
-                if (student == null) {
-                    // If the student email retrieved from the log is invalid, ignore the log
-                    return false;
-                }
-                studentsMap.put(student.getEmail(), student);
-            }
-            // If the feedback session retrieved from the log is invalid, ignore the log
-            return sessionsMap.containsKey(logEntry.getFeedbackSession().getName());
-        }).collect(Collectors.toList());
+            return convertedFslTypes.contains(logType);
+        }).toList();
 
         Map<String, List<FeedbackSessionLog>> groupedEntries = groupFeedbackSessionLogs(fsLogEntries);
         feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getName(), new ArrayList<>()));

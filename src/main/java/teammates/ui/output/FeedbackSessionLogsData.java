@@ -23,7 +23,7 @@ public class FeedbackSessionLogsData extends ApiOutput {
                     List<FeedbackSessionLog> logEntries = entry.getValue();
                     return new FeedbackSessionLogData(feedbackSession, logEntries, studentsMap);
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<FeedbackSessionLogData> getFeedbackSessionLogs() {
