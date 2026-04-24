@@ -346,7 +346,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         ______TS("verify loaded session details");
         // Sync resultsVisibleFromTime from database as it may differ from JSON test data
-        FeedbackSessionData actualSession = getFeedbackSession(course.getId(), feedbackSession.getName());
+        FeedbackSessionData actualSession = getFeedbackSession(feedbackSession);
         if (actualSession.getResultVisibleFromTimestamp() != null) {
             feedbackSession.setResultsVisibleFromTime(
                     Instant.ofEpochMilli(actualSession.getResultVisibleFromTimestamp()));
@@ -401,11 +401,11 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
     private void verifySessionPublishedState(FeedbackSession feedbackSession, boolean state) {
         int retryLimit = 5;
-        var actual = getFeedbackSession(feedbackSession.getCourse().getId(), feedbackSession.getName());
+        var actual = getFeedbackSession(feedbackSession);
         while (isFeedbackSessionPublished(actual.getPublishStatus()) != state && retryLimit > 0) {
             retryLimit--;
             ThreadHelper.waitFor(1000);
-            actual = getFeedbackSession(feedbackSession.getCourse().getId(), feedbackSession.getName());
+            actual = getFeedbackSession(feedbackSession);
         }
         assertEquals(isFeedbackSessionPublished(actual.getPublishStatus()), state);
     }

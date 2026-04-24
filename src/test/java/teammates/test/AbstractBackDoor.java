@@ -333,10 +333,9 @@ public abstract class AbstractBackDoor {
     /**
      * Get feedback session data from database.
      */
-    public FeedbackSessionData getFeedbackSessionData(String courseId, String feedbackSessionName) {
+    public FeedbackSessionData getFeedbackSessionData(UUID feedbackSessionId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSION, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {

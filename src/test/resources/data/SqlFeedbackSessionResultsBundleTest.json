@@ -624,9 +624,7 @@
   "feedbackSessions": {
     "session1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "First feedback session",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -668,9 +666,7 @@
     },
     "unpublishedSession1InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000703",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Unpublished feedback session",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -690,9 +686,7 @@
     },
     "ongoingSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000704",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Ongoing session 1 in course 1",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -712,9 +706,7 @@
     },
     "ongoingSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000705",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Ongoing session 2 in course 1",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -734,9 +726,7 @@
     },
     "ongoingSession3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000706",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Ongoing session 3 in course 1",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -756,9 +746,7 @@
     },
     "ongoingSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000707",
-      "course": {
-        "id": "course-3"
-      },
+      "courseId": "course-3",
       "name": "Ongoing session 1 in course 3",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -778,9 +766,7 @@
     },
     "ongoingSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000707",
-      "course": {
-        "id": "course-3"
-      },
+      "courseId": "course-3",
       "name": "Ongoing session 2 in course 3",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",

@@ -99,6 +99,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   courseId: string = '';
   feedbackSessionName: string = '';
+  feedbackSessionId: string = '';
   regKey: string = '';
   entityType: string = 'student';
   loggedInUser: string = '';
@@ -144,7 +145,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   ungroupableQuestions: Set<number> = new Set();
   ungroupableQuestionsSorted: number[] = [];
 
-  feedbackSessionId: string = '';
   studentId: string | undefined = '';
 
   private backendUrl: string = environment.backendUrl;

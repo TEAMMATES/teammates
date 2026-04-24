@@ -247,13 +247,11 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
     private void verifySessionPublishedState(FeedbackSession feedbackSession, boolean state) {
         int retryLimit = 5;
-        FeedbackSessionData actual = getFeedbackSession(feedbackSession.getCourse().getId(),
-                feedbackSession.getName());
+        FeedbackSessionData actual = getFeedbackSession(feedbackSession);
         while (isFeedbackSessionPublished(actual.getPublishStatus()) != state && retryLimit > 0) {
             retryLimit--;
             ThreadHelper.waitFor(1000);
-            actual = getFeedbackSession(feedbackSession.getCourse().getId(),
-                    feedbackSession.getName());
+            actual = getFeedbackSession(feedbackSession);
         }
         assertEquals(isFeedbackSessionPublished(actual.getPublishStatus()), state);
     }
