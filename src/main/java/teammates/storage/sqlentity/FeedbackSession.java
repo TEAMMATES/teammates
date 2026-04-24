@@ -38,7 +38,7 @@ public class FeedbackSession extends BaseEntity {
 
     @Column(nullable = false, insertable = false, updatable = false)
     private String courseId;
-    
+
     @ManyToOne
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
@@ -115,6 +115,7 @@ public class FeedbackSession extends BaseEntity {
         this.setId(UUID.randomUUID());
         this.setName(name);
         this.setCourse(course);
+        this.setCourseId(course.getId());
         this.setCreatorEmail(creatorEmail);
         this.setInstructions(StringUtils.defaultString(instructions));
         this.setStartTime(startTime);
@@ -240,6 +241,10 @@ public class FeedbackSession extends BaseEntity {
 
     public String getCourseId() {
         return this.courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getName() {

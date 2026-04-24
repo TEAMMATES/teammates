@@ -54,13 +54,13 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
     public JsonResult execute() {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        FeedbackSessionData response;
 
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
         String courseId = feedbackSession.getCourseId();
+        FeedbackSessionData response;
 
         switch (intent) {
         case STUDENT_SUBMISSION, STUDENT_RESULT:

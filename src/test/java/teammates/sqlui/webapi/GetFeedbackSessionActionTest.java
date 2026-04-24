@@ -45,14 +45,14 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         student1 = generateStudent1InCourse(course1);
         feedbackSession1 = generateSession1InCourse(course1);
 
-        when(mockLogic.getFeedbackSession(feedbackSession1.getName(), course1.getId())).thenReturn(feedbackSession1);
+        when(mockLogic.getFeedbackSession(feedbackSession1.getId())).thenReturn(feedbackSession1);
         when(mockLogic.getStudentByGoogleId(course1.getId(), student1.getAccount().getGoogleId())).thenReturn(student1);
     }
 
     @Test
     protected void textExecute_studentSubmissionNoExtensionAndBeforeEndTime_statusOpen() {
         loginAsStudent(student1.getAccount().getGoogleId());
-        
+
         String feedbackSessionId = feedbackSession1.getId().toString();
         String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
@@ -78,7 +78,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        assertEquals(feedbackSessionId, response.getFeedbackSessionId());
+        assertEquals(feedbackSessionId, response.getFeedbackSessionId().toString());
         assertEquals(feedbackSession1.getName(), response.getFeedbackSessionName());
         assertEquals(timeZone, response.getTimeZone());
         assertEquals(feedbackSession1.getInstructions(), response.getInstructions());
