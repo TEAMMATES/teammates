@@ -221,9 +221,7 @@
   "feedbackSessions": {
     "Open Session": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "course": {
-        "id": "tm.e2e.FSubmit.CS2104"
-      },
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "name": "First Session",
       "creatorEmail": "fsubmit.instr@gmail.tmt",
       "instructions": "Instructions for first session",
@@ -247,9 +245,7 @@
     },
     "Grace Period Session": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "course": {
-        "id": "tm.e2e.FSubmit.CS2104"
-      },
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "name": "Grace Period Session",
       "creatorEmail": "fsubmit.instr@gmail.tmt",
       "instructions": "This is going to be a grace period session",
@@ -273,9 +269,7 @@
     },
     "Closed Session": {
       "id": "00000000-0000-4000-8000-000000000503",
-      "course": {
-        "id": "tm.e2e.FSubmit.CS2104"
-      },
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "name": "Closed Session",
       "creatorEmail": "fsubmit.instr@gmail.tmt",
       "instructions": "This is going to be a closed session",

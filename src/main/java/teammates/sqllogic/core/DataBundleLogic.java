@@ -149,7 +149,7 @@ public final class DataBundleLogic {
             UUID placeholderId = session.getId();
             session.setId(UUID.randomUUID());
             sessionsMap.put(placeholderId, session);
-            Course course = coursesMap.get(session.getCourse().getId());
+            Course course = coursesMap.get(session.getCourseId());
             session.setCourse(course);
         }
 
@@ -421,7 +421,7 @@ public final class DataBundleLogic {
 
         for (FeedbackSession session : sessions) {
             sessionsMap.put(session.getId(), session);
-            Course course = coursesMap.get(session.getCourse().getId());
+            Course course = coursesMap.get(session.getCourseId());
             session.setCourse(course);
         }
 

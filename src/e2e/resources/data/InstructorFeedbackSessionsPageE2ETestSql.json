@@ -248,9 +248,7 @@
       "studentDeadlines": {},
       "instructorDeadlines": {},
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.sql.CS2104"
-      },
+      "courseId": "tm.e2e.sql.CS2104",
       "name": "First Session"
     },
     "closedSession": {
@@ -273,9 +271,7 @@
       "studentDeadlines": {},
       "instructorDeadlines": {},
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.sql.CS1101"
-      },
+      "courseId": "tm.e2e.sql.CS1101",
       "name": "Second Session"
     }
   },

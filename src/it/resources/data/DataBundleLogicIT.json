@@ -163,9 +163,7 @@
   "feedbackSessions": {
     "session1InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "typical-course-id"
-      },
+      "courseId": "typical-course-id",
       "name": "First feedback session",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -185,9 +183,7 @@
     },
     "session2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "typical-course-id"
-      },
+      "courseId": "typical-course-id",
       "name": "Second feedback session",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",

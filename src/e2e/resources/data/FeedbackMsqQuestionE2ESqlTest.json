@@ -171,9 +171,7 @@
       "studentDeadlines": {},
       "instructorDeadlines": {},
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS2104"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS2104",
       "name": "First Session"
     },
     "openSession2": {
@@ -196,9 +194,7 @@
       "studentDeadlines": {},
       "instructorDeadlines": {},
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS1101"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS1101",
       "name": "Second Session"
     }
   },

@@ -210,9 +210,7 @@
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.FRubricQn.CS1101"
-      },
+      "courseId": "tm.e2e.FRubricQn.CS1101",
       "name": "Second Session",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",

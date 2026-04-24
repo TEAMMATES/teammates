@@ -294,9 +294,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000701",
-            "course": {
-                "id": "tm.e2e.SHome.CS2104"
-            },
+            "courseId": "tm.e2e.SHome.CS2104",
             "name": "First Feedback Session"
         },
         "SHome.CS2104:Graced Feedback Session": {
@@ -318,9 +316,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000702",
-            "course": {
-                "id": "tm.e2e.SHome.CS2104"
-            },
+            "courseId": "tm.e2e.SHome.CS2104",
             "name": "Graced Feedback Session"
         },
         "SHome.CS2104:No Question Feedback Session": {
@@ -342,9 +338,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000703",
-            "course": {
-                "id": "tm.e2e.SHome.CS2104"
-            },
+            "courseId": "tm.e2e.SHome.CS2104",
             "name": "No Question Feedback Session"
         },
         "SHome.CS2104:Future Feedback Session": {
@@ -366,9 +360,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000704",
-            "course": {
-                "id": "tm.e2e.SHome.CS2104"
-            },
+            "courseId": "tm.e2e.SHome.CS2104",
             "name": "Future Feedback Session"
         },
         "SHome.CS2104:Closed Feedback Session": {
@@ -390,9 +382,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000705",
-            "course": {
-                "id": "tm.e2e.SHome.CS2104"
-            },
+            "courseId": "tm.e2e.SHome.CS2104",
             "name": "Closed Feedback Session"
         },
         "SHome.CS4221:Session with no Student Questions": {
@@ -414,9 +404,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000706",
-            "course": {
-                "id": "tm.e2e.SHome.CS4221"
-            },
+            "courseId": "tm.e2e.SHome.CS4221",
             "name": "Session without Student Questions"
         }
     },

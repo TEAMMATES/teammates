@@ -1048,9 +1048,7 @@
   "feedbackSessions": {
     "session1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "name": "Midterm Peer Review",
       "creatorEmail": "alice@teammates.tmt",
       "instructions": "Please provide thoughtful and constructive feedback for each question below. Your responses will help your peers improve.",
@@ -1070,9 +1068,7 @@
     },
     "session2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "name": "Team Project Milestone 1",
       "creatorEmail": "alice@teammates.tmt",
       "instructions": "Evaluate your team members' contributions to Milestone 1. Be honest but respectful in your assessments.",
@@ -1092,9 +1088,7 @@
     },
     "session3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000703",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "name": "Final Peer Evaluation",
       "creatorEmail": "alice@teammates.tmt",
       "instructions": "This is the final evaluation of the semester. Please rank and rate your teammates comprehensively.",
@@ -1114,9 +1108,7 @@
     },
     "session4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000704",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "name": "Instructor Feedback",
       "creatorEmail": "alice@teammates.tmt",
       "instructions": "Please share your honest feedback about the instruction quality and course content.",
@@ -1136,9 +1128,7 @@
     },
     "session1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000705",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "name": "Sprint 1 Review",
       "creatorEmail": "elena@teammates.tmt",
       "instructions": "Reflect on Sprint 1 and evaluate your teammates. Focus on concrete examples of contribution.",
@@ -1158,9 +1148,7 @@
     },
     "session2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000706",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "name": "Sprint 2 Review",
       "creatorEmail": "elena@teammates.tmt",
       "instructions": "Evaluate your team's performance during Sprint 2. Consider code quality, collaboration, and process adherence.",
@@ -1180,9 +1168,7 @@
     },
     "session3InCourse2": {
       "id": "00000000-0000-4000-8000-000000000707",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "name": "Final Team Assessment",
       "creatorEmail": "elena@teammates.tmt",
       "instructions": "Provide your final assessment of all team members. This evaluation covers the entire project duration.",
@@ -1202,9 +1188,7 @@
     },
     "session1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000708",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "name": "Lab Partner Evaluation",
       "creatorEmail": "priya.sharma@teammates.tmt",
       "instructions": "Evaluate your lab partner's problem-solving skills and collaboration during the laboratory sessions.",
@@ -1224,9 +1208,7 @@
     },
     "session2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000709",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "name": "Algorithm Design Review",
       "creatorEmail": "priya.sharma@teammates.tmt",
       "instructions": "Evaluate your peer's algorithm design quality, correctness analysis, and presentation clarity.",
@@ -1246,9 +1228,7 @@
     },
     "session3InCourse3": {
       "id": "00000000-0000-4000-8000-000000000710",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "name": "End-of-Term Feedback",
       "creatorEmail": "priya.sharma@teammates.tmt",
       "instructions": "Share your thoughts on the course, your team's work on the final project, and any suggestions for improvement.",

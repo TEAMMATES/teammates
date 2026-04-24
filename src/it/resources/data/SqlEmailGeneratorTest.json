@@ -451,9 +451,7 @@
                 "instructor3@course1.tmt": "2027-05-01T22:00:00Z"
             },
             "id": "00000000-0000-4000-8000-000000000701",
-            "course": {
-                "id": "idOfTypicalCourse1"
-            },
+            "courseId": "idOfTypicalCourse1",
             "name": "First feedback session"
         },
         "session2InCourse1": {
@@ -475,9 +473,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000702",
-            "course": {
-                "id": "idOfTypicalCourse1"
-            },
+            "courseId": "idOfTypicalCourse1",
             "name": "Second feedback session"
         },
         "gracePeriodSession": {
@@ -499,9 +495,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000703",
-            "course": {
-                "id": "idOfTypicalCourse1"
-            },
+            "courseId": "idOfTypicalCourse1",
             "name": "Grace Period Session"
         },
         "closedSession": {
@@ -523,9 +517,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000704",
-            "course": {
-                "id": "idOfTypicalCourse1"
-            },
+            "courseId": "idOfTypicalCourse1",
             "name": "Closed Session"
         },
         "empty.session": {
@@ -549,9 +541,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000705",
-            "course": {
-                "id": "idOfTypicalCourse1"
-            },
+            "courseId": "idOfTypicalCourse1",
             "name": "Empty session"
         },
         "awaiting.session": {
@@ -575,9 +565,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000706",
-            "course": {
-                "id": "idOfTypicalCourse1"
-            },
+            "courseId": "idOfTypicalCourse1",
             "name": "non visible session"
         },
         "session2InCourse2": {
@@ -599,9 +587,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000707",
-            "course": {
-                "id": "idOfTypicalCourse2"
-            },
+            "courseId": "idOfTypicalCourse2",
             "name": "Not answerable feedback session"
         },
         "session1InCourse3": {
@@ -623,9 +609,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000708",
-            "course": {
-                "id": "idOfTypicalCourse3"
-            },
+            "courseId": "idOfTypicalCourse3",
             "name": "First feedback session"
         },
         "session2InCourse3": {
@@ -648,9 +632,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000709",
-            "course": {
-                "id": "idOfTypicalCourse3"
-            },
+            "courseId": "idOfTypicalCourse3",
             "name": "Second feedback session"
         },
         "session1InCourse4": {
@@ -672,9 +654,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000710",
-            "course": {
-                "id": "idOfTypicalCourse4"
-            },
+            "courseId": "idOfTypicalCourse4",
             "name": "First feedback session"
         },
         "session2InCourse4": {
@@ -696,9 +676,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000711",
-            "course": {
-                "id": "idOfTypicalCourse4"
-            },
+            "courseId": "idOfTypicalCourse4",
             "name": "Second feedback session"
         },
         "session1InTestingNoEmailsSentCourse": {
@@ -722,9 +700,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000712",
-            "course": {
-                "id": "idOfTestingNoEmailsSentCourse"
-            },
+            "courseId": "idOfTestingNoEmailsSentCourse",
             "name": "Feedback session with no emails sent"
         },
         "session1InTestingSanitizationCourse": {
@@ -746,9 +722,7 @@
             "studentDeadlines": {},
             "instructorDeadlines": {},
             "id": "00000000-0000-4000-8000-000000000713",
-            "course": {
-                "id": "idOfTestingSanitizationCourse"
-            },
+            "courseId": "idOfTestingSanitizationCourse",
             "name": "Normal feedback session name"
         }
     },
