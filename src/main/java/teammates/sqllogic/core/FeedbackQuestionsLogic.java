@@ -345,14 +345,20 @@ public final class FeedbackQuestionsLogic {
                 .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
                 .sorted()
                 .toList();
-        case STUDENTS_IN_SAME_SECTION -> usersLogic.getStudentsForSection(student.getSectionName(), courseId)
-                .stream()
-                .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
-                .sorted()
-                .toList();
+        case STUDENTS_IN_SAME_SECTION -> {
+            if (student == null) {
+                // Instructors have no section.
+                yield new ArrayList<>();
+            }
+            yield usersLogic.getStudentsForSection(student.getSectionName(), courseId)
+                    .stream()
+                    .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                    .sorted()
+                    .toList();
+        }
         case STUDENTS_EXCLUDING_SELF -> usersLogic.getStudentsForCourse(courseId)
                 .stream()
-                .filter(s -> !s.getId().equals(student.getId()))
+                .filter(s -> student == null || !s.getId().equals(student.getId()))
                 .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
                 .sorted()
                 .toList();
@@ -361,20 +367,26 @@ public final class FeedbackQuestionsLogic {
                 .map(Team::getName)
                 .sorted()
                 .toList();
-        case TEAMS_IN_SAME_SECTION -> student.getSection().getTeams()
-                .stream()
-                .map(Team::getName)
-                .sorted()
-                .toList();
+        case TEAMS_IN_SAME_SECTION -> {
+            if (student == null) {
+                // Instructors have no section.
+                yield new ArrayList<>();
+            }
+            yield student.getSection().getTeams()
+                    .stream()
+                    .map(Team::getName)
+                    .sorted()
+                    .toList();
+        }
         case TEAMS_EXCLUDING_SELF -> coursesLogic.getTeamsForCourse(courseId)
                 .stream()
-                .filter(team -> !team.getId().equals(student.getTeam().getId()))
+                .filter(team -> student == null || !team.getId().equals(student.getTeam().getId()))
                 .map(Team::getName)
                 .sorted()
                 .toList();
         case OWN_TEAM_MEMBERS_INCLUDING_SELF -> {
             if (student == null) {
-                // TODO: This block is here for backwards compatability, to check if this is required.
+                // Instructors have no team.
                 yield new ArrayList<>();
             }
             yield student.getTeam()
@@ -386,7 +398,7 @@ public final class FeedbackQuestionsLogic {
         }
         case OWN_TEAM_MEMBERS -> {
             if (student == null) {
-                // TODO: This block is here for backwards compatability, to check if this is required.
+                // Instructors have no team.
                 yield new ArrayList<>();
             }
             yield student.getTeam()

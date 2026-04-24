@@ -133,7 +133,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         }
 
         if (!dynamicallyGeneratedOptions.isEmpty()) {
-            // Dynamically generate options are only supported for MCQ and MSQ questions
+            // Dynamically generated options are only supported for MCQ and MSQ questions
             if (questionDetails instanceof FeedbackMcqQuestionDetails feedbackMcqQuestionDetails) {
                 feedbackMcqQuestionDetails.setMcqChoices(dynamicallyGeneratedOptions);
             } else if (questionDetails instanceof FeedbackMsqQuestionDetails feedbackMsqQuestionDetails) {
