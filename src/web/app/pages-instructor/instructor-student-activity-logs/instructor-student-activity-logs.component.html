@@ -7,6 +7,7 @@
     <div class="row form-group">
       <div class="col-12">
         <label for="activity-type-dropdown" class="fw-bold">Activity Type</label>
+        <div class="d-flex gap-2">
           @for (logType of LOG_TYPES; track logType.value) {
             <div class="form-check">
               <input
@@ -21,6 +22,7 @@
               </label>
             </div>
           }
+        </div>
       </div>
     </div>
     <div class="row form-group">

@@ -104,9 +104,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD: number = ApiConst.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD;
   LOG_TYPES: LogType[] = [
-    { label: 'session access', value: FeedbackSessionLogType.ACCESS },
-    { label: 'session submission', value: FeedbackSessionLogType.SUBMISSION },
-    { label: 'view session results', value: FeedbackSessionLogType.VIEW_RESULT },
+    { label: 'Session Access', value: FeedbackSessionLogType.ACCESS },
+    { label: 'Session Submission', value: FeedbackSessionLogType.SUBMISSION },
+    { label: 'View Session Results', value: FeedbackSessionLogType.VIEW_RESULT },
   ];
 
   // enum

@@ -116,49 +116,53 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
             Activity Type
           </label>
           <div
-            class="form-check"
+            class="d-flex gap-2"
           >
-            <input
-              class="form-check-input"
-              id="activity-type-ACCESS"
-              type="checkbox"
-            />
-            <label
-              class="form-check-label"
-              for="activity-type-ACCESS"
+            <div
+              class="form-check"
             >
-               session access 
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <input
-              class="form-check-input"
-              id="activity-type-SUBMISSION"
-              type="checkbox"
-            />
-            <label
-              class="form-check-label"
-              for="activity-type-SUBMISSION"
+              <input
+                class="form-check-input"
+                id="activity-type-ACCESS"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="activity-type-ACCESS"
+              >
+                 Session Access 
+              </label>
+            </div>
+            <div
+              class="form-check"
             >
-               session submission 
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <input
-              class="form-check-input"
-              id="activity-type-VIEW_RESULT"
-              type="checkbox"
-            />
-            <label
-              class="form-check-label"
-              for="activity-type-VIEW_RESULT"
+              <input
+                class="form-check-input"
+                id="activity-type-SUBMISSION"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="activity-type-SUBMISSION"
+              >
+                 Session Submission 
+              </label>
+            </div>
+            <div
+              class="form-check"
             >
-               view session results 
-            </label>
+              <input
+                class="form-check-input"
+                id="activity-type-VIEW_RESULT"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="activity-type-VIEW_RESULT"
+              >
+                 View Session Results 
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -715,49 +719,53 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
             Activity Type
           </label>
           <div
-            class="form-check"
+            class="d-flex gap-2"
           >
-            <input
-              class="form-check-input"
-              id="activity-type-ACCESS"
-              type="checkbox"
-            />
-            <label
-              class="form-check-label"
-              for="activity-type-ACCESS"
+            <div
+              class="form-check"
             >
-               session access 
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <input
-              class="form-check-input"
-              id="activity-type-SUBMISSION"
-              type="checkbox"
-            />
-            <label
-              class="form-check-label"
-              for="activity-type-SUBMISSION"
+              <input
+                class="form-check-input"
+                id="activity-type-ACCESS"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="activity-type-ACCESS"
+              >
+                 Session Access 
+              </label>
+            </div>
+            <div
+              class="form-check"
             >
-               session submission 
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <input
-              class="form-check-input"
-              id="activity-type-VIEW_RESULT"
-              type="checkbox"
-            />
-            <label
-              class="form-check-label"
-              for="activity-type-VIEW_RESULT"
+              <input
+                class="form-check-input"
+                id="activity-type-SUBMISSION"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="activity-type-SUBMISSION"
+              >
+                 Session Submission 
+              </label>
+            </div>
+            <div
+              class="form-check"
             >
-               view session results 
-            </label>
+              <input
+                class="form-check-input"
+                id="activity-type-VIEW_RESULT"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="activity-type-VIEW_RESULT"
+              >
+                 View Session Results 
+              </label>
+            </div>
           </div>
         </div>
       </div>
