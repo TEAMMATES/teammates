@@ -91,6 +91,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         resultsUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(course.getId())
+                .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
 
         organiseResponses(course.getId());
@@ -341,6 +342,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(course.getId())
+                .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
         resultsPage = loginToPage(url, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 

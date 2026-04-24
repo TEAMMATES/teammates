@@ -49,9 +49,7 @@
   "feedbackSessions": {
     "session1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.ASess.idOfTypicalCourse1"
-      },
+      "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Open feedback session",
       "creatorEmail": "asess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
@@ -75,9 +73,7 @@
     },
     "session2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.ASess.idOfTypicalCourse1"
-      },
+      "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Awaiting feedback session",
       "creatorEmail": "asess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
@@ -101,9 +97,7 @@
     },
     "session3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000703",
-      "course": {
-        "id": "tm.e2e.ASess.idOfTypicalCourse1"
-      },
+      "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Future feedback session",
       "creatorEmail": "asess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
