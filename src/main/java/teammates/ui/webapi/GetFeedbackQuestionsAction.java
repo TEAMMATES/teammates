@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import teammates.common.util.Const;
@@ -74,9 +75,9 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
             Student student = getSqlStudentOfCourseFromRequest(courseId);
             for (FeedbackQuestion question : questions) {
-                List<String> options = sqlLogic.getDynamicallyGeneratedOptions(question, student);
-                if (!options.isEmpty()) {
-                    dynamicallyGeneratedOptions.put(question.getId(), options);
+                Optional<List<String>> options = sqlLogic.getDynamicallyGeneratedOptions(question, student);
+                if (options.isPresent()) {
+                    dynamicallyGeneratedOptions.put(question.getId(), options.get());
                 }
             }
             break;
@@ -84,9 +85,9 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
             questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
             for (FeedbackQuestion question : questions) {
-                List<String> options = sqlLogic.getDynamicallyGeneratedOptions(question, null);
-                if (!options.isEmpty()) {
-                    dynamicallyGeneratedOptions.put(question.getId(), options);
+                Optional<List<String>> options = sqlLogic.getDynamicallyGeneratedOptions(question, null);
+                if (options.isPresent()) {
+                    dynamicallyGeneratedOptions.put(question.getId(), options.get());
                 }
             }
             break;

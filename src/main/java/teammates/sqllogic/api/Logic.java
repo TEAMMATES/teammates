@@ -3,6 +3,7 @@ package teammates.sqllogic.api;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -1466,9 +1467,9 @@ public class Logic {
      * @param feedbackQuestion the question to get the dynamically generated options for
      * @param student the student who is doing the question, or null if the entity doing the question is an instructor
      *
-     * @return a list of dynamically generated options, or an empty list if not applicable
+     * @return an Optional containing a list of dynamically generated options, or an empty Optional if not applicable
      */
-    public List<String> getDynamicallyGeneratedOptions(FeedbackQuestion feedbackQuestion, Student student) {
+    public Optional<List<String>> getDynamicallyGeneratedOptions(FeedbackQuestion feedbackQuestion, Student student) {
         return feedbackQuestionsLogic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
     }
 

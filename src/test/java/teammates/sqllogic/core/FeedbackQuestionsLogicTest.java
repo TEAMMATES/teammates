@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -304,9 +305,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         when(usersLogic.getStudentsForCourse("course-1")).thenReturn(List.of(student1, student2));
 
-        List<String> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, student1);
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, student1);
 
-        assertEquals(List.of("Alice (Team 1)", "Charlie (Team 2)"), actualOptions);
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Alice (Team 1)", "Charlie (Team 2)"), actualOptions.get());
     }
 
     @Test
@@ -322,9 +324,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         when(usersLogic.getStudentsForCourse("course-1")).thenReturn(List.of(currentStudent, otherStudent));
 
-        List<String> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
 
-        assertEquals(List.of("Bob (Team 2)"), actualOptions);
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Bob (Team 2)"), actualOptions.get());
     }
 
     @Test
@@ -342,9 +345,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         when(usersLogic.getStudentsForSection("Section A", "course-1")).thenReturn(List.of(student1, student2));
 
-        List<String> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
 
-        assertEquals(List.of("Alice (Team 1)", "Charlie (Team 2)"), actualOptions);
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Alice (Team 1)", "Charlie (Team 2)"), actualOptions.get());
     }
 
     @Test
@@ -361,9 +365,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         when(currentStudent.getTeam()).thenReturn(team);
         when(team.getUsers()).thenReturn(List.of(user1, user2));
 
-        List<String> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
 
-        assertEquals(List.of("Alice", "Bob"), actualOptions);
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Alice", "Bob"), actualOptions.get());
     }
 
     @Test
@@ -382,9 +387,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         when(currentStudent.getTeam()).thenReturn(team);
         when(team.getUsers()).thenReturn(List.of(currentUser, otherUser));
 
-        List<String> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
 
-        assertEquals(List.of("Bob"), actualOptions);
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Bob"), actualOptions.get());
     }
 
     @Test
@@ -400,9 +406,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         when(usersLogic.getInstructorsForCourse("course-1")).thenReturn(List.of(instructor1, instructor2));
 
-        List<String> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
 
-        assertEquals(List.of("Alice", "Charlie"), actualOptions);
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Alice", "Charlie"), actualOptions.get());
     }
 
     @Test
@@ -411,9 +418,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
                 getMockMcqQuestionDetails(FeedbackParticipantType.NONE);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
 
-        List<String> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
 
-        assertTrue(actualOptions.isEmpty());
+        assertTrue(actualOptions.isPresent());
+        assertTrue(actualOptions.get().isEmpty());
     }
 
     @Test
@@ -425,7 +433,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         when(questionDetails.getQuestionType()).thenReturn(
                 FeedbackQuestionType.TEXT);
 
-        List<String> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
 
         assertTrue(actualOptions.isEmpty());
     }

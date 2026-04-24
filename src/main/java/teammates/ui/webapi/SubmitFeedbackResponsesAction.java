@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -104,7 +105,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         List<FeedbackResponse> existingResponses;
         Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
         FeedbackQuestionDetails questionDetails = feedbackQuestion.getQuestionDetailsCopy();
-        List<String> dynamicallyGeneratedOptions;
+        Optional<List<String>> dynamicallyGeneratedOptions;
 
         String giverIdentifier;
         Section giverSection;
@@ -132,12 +133,12 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        if (!dynamicallyGeneratedOptions.isEmpty()) {
+        if (dynamicallyGeneratedOptions.isPresent()) {
             // Dynamically generated options are only supported for MCQ and MSQ questions
             if (questionDetails instanceof FeedbackMcqQuestionDetails feedbackMcqQuestionDetails) {
-                feedbackMcqQuestionDetails.setMcqChoices(dynamicallyGeneratedOptions);
+                feedbackMcqQuestionDetails.setMcqChoices(dynamicallyGeneratedOptions.get());
             } else if (questionDetails instanceof FeedbackMsqQuestionDetails feedbackMsqQuestionDetails) {
-                feedbackMsqQuestionDetails.setMsqChoices(dynamicallyGeneratedOptions);
+                feedbackMsqQuestionDetails.setMsqChoices(dynamicallyGeneratedOptions.get());
             }
         }
 

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -304,9 +305,9 @@ public final class FeedbackQuestionsLogic {
      * @param feedbackQuestion the question to get the dynamically generated options for
      * @param student the student who is doing the question, or null if the entity doing the question is an instructor
      *
-     * @return a list of dynamically generated options, or an empty list if not applicable
+     * @return an Optional containing a list of dynamically generated options, or an empty Optional if not applicable
      */
-    public List<String> getDynamicallyGeneratedOptions(FeedbackQuestion feedbackQuestion, Student student) {
+    public Optional<List<String>> getDynamicallyGeneratedOptions(FeedbackQuestion feedbackQuestion, Student student) {
         FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
         String courseId = feedbackQuestion.getCourseId();
 
@@ -314,14 +315,14 @@ public final class FeedbackQuestionsLogic {
         case MCQ -> {
             FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
                     (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
-            yield generateMcqMsqOptions(feedbackMcqQuestionDetails.getGenerateOptionsFor(), student, courseId);
+            yield Optional.of(generateMcqMsqOptions(feedbackMcqQuestionDetails.getGenerateOptionsFor(), student, courseId));
         }
         case MSQ -> {
             FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
                     (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
-            yield generateMcqMsqOptions(feedbackMsqQuestionDetails.getGenerateOptionsFor(), student, courseId);
+            yield Optional.of(generateMcqMsqOptions(feedbackMsqQuestionDetails.getGenerateOptionsFor(), student, courseId));
         }
-        default -> Collections.emptyList();
+        default -> Optional.empty();
         };
     }
 
