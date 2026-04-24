@@ -111,7 +111,10 @@ public class GetFeedbackSessionLogsAction extends Action {
 
         fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
             FeedbackSessionLogType logType = logEntry.getFeedbackSessionLogType();
-            return convertedFslTypes.contains(logType);
+            // log entry may reference a soft-deleted feedback session which is not in sessionsMap
+            String sessionName = logEntry.getFeedbackSession().getName();
+
+            return convertedFslTypes.contains(logType) && sessionsMap.containsKey(sessionName);
         }).toList();
 
         Map<String, List<FeedbackSessionLog>> groupedEntries = groupFeedbackSessionLogs(fsLogEntries);
