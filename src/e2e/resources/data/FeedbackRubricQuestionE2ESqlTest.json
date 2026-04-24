@@ -187,9 +187,7 @@
   "feedbackSessions": {
     "openSession": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.FRubricQn.CS2104"
-      },
+      "courseId": "tm.e2e.FRubricQn.CS2104",
       "name": "First Session",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
