@@ -72,18 +72,18 @@
       },
     "courses": {
         "typicalCourse1": {
-        "createdAt": "2012-04-01T23:59:00Z",
-        "id": "00000000-0000-4000-8000-000000000303",
-        "name": "ASearch Course 1",
-        "institute": "TEAMMATES Test Institute 0",
-        "timeZone": "Africa/Johannesburg"
+          "createdAt": "2012-04-01T23:59:00Z",
+          "id": "typical-course-1",
+          "name": "ASearch Course 1",
+          "institute": "TEAMMATES Test Institute 0",
+          "timeZone": "Africa/Johannesburg"
         }
     },
     "sections": {
         "section1InCourse1": {
         "id": "00000000-0000-4000-8000-000000000201",
         "course": {
-            "id": "00000000-0000-4000-8000-000000000303"
+            "id": "typical-course-1"
         },
         "name": "Section 1"
         }
@@ -103,9 +103,7 @@
         "account": {
             "id": "00000000-0000-4000-8000-000000000001"
         },
-        "course": {
-            "id": "00000000-0000-4000-8000-000000000303"
-        },
+        "courseId": "typical-course-1",
         "name": "Instructor1 of ASearch Course1",
         "email": "asearch.instructor@gmail.tmt",
         "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -133,9 +131,7 @@
         "account": {
             "id": "00000000-0000-4000-8000-000000000003"
         },
-        "course": {
-            "id": "00000000-0000-4000-8000-000000000303"
-        },
+        "courseId": "typical-course-1",
         "team": {
             "id": "00000000-0000-4000-8000-000000000301"
         },

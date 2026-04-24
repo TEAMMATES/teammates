@@ -62,9 +62,6 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.ISRecords.CS2104",
-      "course": {
-        "id": "tm.e2e.ISRecords.CS2104"
-      },
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -77,9 +74,6 @@
       "comments": "This student's name is Benny Charlés",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.ISRecords.CS2104",
-      "course": {
-        "id": "tm.e2e.ISRecords.CS2104"
-      },
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
