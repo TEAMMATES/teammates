@@ -50,9 +50,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     String student3Id;
     String student1RegKey;
 
-    String accessLabel;
-    String submissionLabel;
-
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.SESSION_LOGS;
@@ -92,9 +89,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         student2Id = student2InCourse2.getId().toString();
         student3Id = student3InCourse2.getId().toString();
         student1RegKey = student1InCourse1.getRegKey();
-
-        accessLabel = "ACCESS";
-        submissionLabel = "SUBMISSION";
     }
 
     @BeforeMethod
@@ -116,7 +110,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, accessLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
@@ -143,7 +137,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, accessLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
                 Const.ParamsNames.REGKEY, student1RegKey,
@@ -157,7 +151,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, accessLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
@@ -177,7 +171,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, accessLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
@@ -197,7 +191,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
@@ -217,7 +211,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseNoStudent.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourseNoStudentName,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourseNoStudentId,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student2Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student2Id,
 
@@ -238,7 +232,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, nonExistentSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
@@ -258,7 +252,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, nonExistentEmail,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
@@ -282,7 +276,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student3Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student3Id,
         };
@@ -301,7 +295,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, "00000000-0000-0000-0000-000000000000",
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
@@ -320,7 +314,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
                 Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
         };
@@ -337,7 +331,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         );
         verifyHttpParameterFailure(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, submissionLabel,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1Email
         );
     }
