@@ -53,9 +53,9 @@ export class LogService {
     courseId: string,
     searchFrom: string,
     searchUntil: string,
+    logType: string,
     studentEmail?: string,
     sessionName?: string,
-    logType?: string,
     studentId?: string,
     sessionId?: string,
   }): Observable<FeedbackSessionLogs> {
