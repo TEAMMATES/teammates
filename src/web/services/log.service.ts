@@ -61,7 +61,7 @@ export class LogService {
       courseid: queryParams.courseId,
       fslstarttime: queryParams.searchFrom.toString(),
       fslendtime: queryParams.searchUntil.toString(),
-      fsltype: queryParams.logTypes.map(type => type.toString()),
+      fsltype: queryParams.logTypes.map((type) => type.toString()),
     };
 
     if (queryParams.studentId) {

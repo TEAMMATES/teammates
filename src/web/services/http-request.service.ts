@@ -56,9 +56,9 @@ export class HttpRequestService {
       const value = paramsMap[key];
       if (value) {
         if (Array.isArray(value)) {
-          value.forEach(v => {
+          for (const v of value) {
             params = params.append(key, v);
-          });
+          }
         } else {
           params = params.append(key, value);
         }

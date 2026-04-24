@@ -207,8 +207,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.course.courseId,
-      searchFrom: searchFrom,
-      searchUntil: searchUntil,
+      searchFrom,
+      searchUntil,
       logTypes: this.formModel.logTypes,
       studentId: this.formModel.selectedStudent.studentId,
       sessionId: this.formModel.selectedSession.sessionId,
@@ -370,7 +370,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
                 { value: student.teamName }]);
               });
             } else {
-              status = `No results within the query range`;
+              status = 'No results within the query range';
               dataStyle += 'color:red;';
               rows.push([
                 {
@@ -414,6 +414,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         return 'submitted responses';
       case FeedbackSessionLogType.VIEW_RESULT:
         return 'viewed the session results';
+      default:
+        return '';
     }
   }
 
