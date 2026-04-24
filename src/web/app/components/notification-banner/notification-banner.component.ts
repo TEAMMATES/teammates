@@ -4,8 +4,9 @@ import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, Notifications, NotificationTargetUser } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { NotificationStyleClassPipe } from '../teammates-common/notification-style-class.pipe';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeDetectorRef } from '@angular/core';
 
 /**
  * Banner used to display notifications to the user.
@@ -14,10 +15,10 @@ import { NotificationStyleClassPipe } from '../teammates-common/notification-sty
   selector: 'tm-notification-banner',
   templateUrl: './notification-banner.component.html',
   styleUrls: ['./notification-banner.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgClass,
     NotificationStyleClassPipe,
+    NgbCollapse,
 ],
 })
 export class NotificationBannerComponent implements OnInit, OnChanges {
@@ -28,11 +29,12 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
   @Input()
   notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
 
-  isShown: boolean = true;
+  isShown: boolean = false;
   notifications: Notification[] = [];
 
   constructor(private notificationService: NotificationService,
-              private statusMessageService: StatusMessageService) { }
+              private statusMessageService: StatusMessageService,
+              private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     if (this.notificationTargetUser !== NotificationTargetUser.GENERAL) {
@@ -51,6 +53,10 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
     this.notificationService.getUnreadNotificationsForTargetUser(this.notificationTargetUser)
       .subscribe((response: Notifications) => {
         this.notifications = response.notifications;
+        if (this.notifications.length > 0) {
+          this.cdr.detectChanges();
+          this.isShown = true;
+        }
       });
   }
 
