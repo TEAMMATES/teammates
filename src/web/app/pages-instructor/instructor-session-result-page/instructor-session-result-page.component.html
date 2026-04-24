@@ -1,7 +1,7 @@
 <h1>
   Feedback Session Results
 </h1>
-<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSessionResults(courseId, fsName)">
+<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSessionResults(courseId, fsName, feedbackSessionId)">
   <div *tmIsLoading="isFeedbackSessionLoading">
     @if (session) {
       <div class="card bg-light top-padded text-center text-sm-start">

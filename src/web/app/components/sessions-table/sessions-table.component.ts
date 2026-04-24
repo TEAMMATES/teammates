@@ -270,7 +270,7 @@ export class SessionsTableComponent implements OnInit {
 
   private createCellWithGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
     const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
-    const { courseId, feedbackSessionName, submissionStatus, publishStatus } = feedbackSession;
+    const { courseId, feedbackSessionId, feedbackSessionName, submissionStatus, publishStatus } = feedbackSession;
 
     return {
       customComponent: {
@@ -280,6 +280,7 @@ export class SessionsTableComponent implements OnInit {
             idx,
             courseId,
             fsName: feedbackSessionName,
+            fsId: feedbackSessionId,
             rowClicked: this.rowClicked,
             publishStatus,
             submissionStatus,

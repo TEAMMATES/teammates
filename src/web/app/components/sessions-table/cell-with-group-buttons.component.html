@@ -5,6 +5,7 @@
     [queryParams]="{
       courseid: courseId,
       fsname: fsName,
+      fsid: fsId,
       editingMode: true
     }"
       >
@@ -53,6 +54,7 @@
     [queryParams]="{
       courseid: courseId,
       fsname: fsName,
+      fsid: fsId,
       editingMode: true
     }"
       >
@@ -102,7 +104,8 @@
         tmRouterLink="/web/instructor/sessions/result"
         [queryParams]="{
           courseid: courseId,
-          fsname: fsName
+          fsname: fsName,
+          fsid: fsId
         }"
         >View Results (from/to me)</a
         >
@@ -114,7 +117,8 @@
           tmRouterLink="/web/instructor/sessions/report"
         [queryParams]="{
           courseid: courseId,
-          fsname: fsName
+          fsname: fsName,
+          fsid: fsId
         }"
           >View Results (course-wide)</a
           >

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -21,20 +22,21 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
+        String courseId = feedbackSession.getCourseId();
 
         switch (intent) {
-        case STUDENT_SUBMISSION:
-        case STUDENT_RESULT:
+        case STUDENT_SUBMISSION, STUDENT_RESULT:
             Student student = getSqlStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
-        case INSTRUCTOR_SUBMISSION:
-        case INSTRUCTOR_RESULT:
+        case INSTRUCTOR_SUBMISSION, INSTRUCTOR_RESULT:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
@@ -50,16 +52,18 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackSessionData response;
 
-        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
+        String courseId = feedbackSession.getCourseId();
 
         switch (intent) {
-        case STUDENT_SUBMISSION:
-        case STUDENT_RESULT:
+        case STUDENT_SUBMISSION, STUDENT_RESULT:
             Student student = getSqlStudentOfCourseFromRequest(courseId);
             Instant studentDeadline = sqlLogic.getDeadlineForUser(feedbackSession, student);
             response = new FeedbackSessionData(feedbackSession, studentDeadline);

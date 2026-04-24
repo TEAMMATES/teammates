@@ -279,8 +279,7 @@ export class SessionResultPageComponent implements OnInit {
     this.isFeedbackSessionDetailsLoading = true;
     this.isFeedbackSessionResultsLoading = true;
     this.feedbackSessionsService.getFeedbackSession({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
+      feedbackSessionId: this.feedbackSessionId,
       intent: this.intent,
       key: this.regKey,
       previewAs: this.previewAsPerson,
