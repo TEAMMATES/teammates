@@ -644,9 +644,7 @@
     },
     "session2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Second feedback session",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",

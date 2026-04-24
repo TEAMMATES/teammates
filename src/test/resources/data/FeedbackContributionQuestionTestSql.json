@@ -1119,9 +1119,7 @@
     },
     "session2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000711",
-      "course": {
-        "id": "idOfTypicalCourse3"
-      },
+      "courseId": "idOfTypicalCourse3",
       "name": "Second feedback session",
       "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
