@@ -72,6 +72,7 @@ describe('AccountRequestTableComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(AccountRequestTableComponent);
         component = fixture.componentInstance;
+        component.isSearchMode = true;
         accountService = TestBed.inject(AccountService);
         statusMessageService = TestBed.inject(StatusMessageService);
         simpleModalService = TestBed.inject(SimpleModalService);

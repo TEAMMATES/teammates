@@ -35,7 +35,9 @@
         </thead>
         <tbody>
           @for (accountRequest of accountRequests; track trackAccountRequest(i, accountRequest); let i = $index) {
-<tr [class.clickable]="isSearchMode" 
+<tr [class.clickable]="isSearchMode"
+    [attr.role]="isSearchMode ? 'button' : null"
+    [attr.aria-expanded]="isSearchMode ? accountRequest.showLinks : null"
     (click)="isSearchMode ? (accountRequest.showLinks = !accountRequest.showLinks) : null">
               <td [innerHtml]="accountRequest.name | highlighter:searchString:true">
                 <br>
