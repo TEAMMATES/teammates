@@ -3,18 +3,21 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
-import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
+import {
+  CourseTabModel,
+  InstructorToCopyCandidateModel,
+} from './copy-instructors-from-other-courses-modal-model';
 import { CopyInstructorsFromOtherCoursesModalComponent } from './copy-instructors-from-other-courses-modal.component';
 import { InstructorService } from '../../../../services/instructor.service';
 import {
   Instructor,
-  InstructorPermissionRole, Instructors,
+  InstructorPermissionRole,
+  Instructors,
   JoinState,
 } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 
 describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
-
   const testInstructor1: Instructor = {
     googleId: 'googleIdOfIns1',
     courseId: 'FAN0001',
@@ -134,12 +137,13 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CopyInstructorsFromOtherCoursesModalComponent);
+    fixture = TestBed.createComponent(
+      CopyInstructorsFromOtherCoursesModalComponent,
+    );
     instructorService = TestBed.inject(InstructorService);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -151,6 +155,23 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
 
   it('should snap with default fields', () => {
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show a warning when there are no courses to copy from', () => {
+    component.courses = [];
+    fixture.detectChanges();
+
+    const modalBody: HTMLElement =
+      fixture.debugElement.nativeElement.querySelector(
+        '#copy-instructor-modal',
+      );
+
+    expect(modalBody.textContent).toContain(
+      'There are no other courses available to copy instructors from.',
+    );
+    expect(
+      fixture.debugElement.nativeElement.querySelector('#sort-course-id'),
+    ).toBeNull();
   });
 
   it('should snap with courses', () => {
@@ -173,7 +194,10 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     testCourseTab1.isTabExpanded = true;
     testCourseTab1.hasLoadingFailed = false;
     testCourseTab1.hasInstructorsLoaded = true;
-    testCourseTab1.instructorCandidates = [testInstructorCandidate3, testInstructorCandidate4];
+    testCourseTab1.instructorCandidates = [
+      testInstructorCandidate3,
+      testInstructorCandidate4,
+    ];
     component.courses = [testCourseTab1];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -193,7 +217,9 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     const instructors: Instructors = {
       instructors: [testInstructor1, testInstructor2],
     };
-    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    jest
+      .spyOn(instructorService, 'loadInstructors')
+      .mockReturnValue(of(instructors));
     component.courses = [testCourseTab2];
 
     component.loadInstructors(testCourseTab2);
@@ -201,20 +227,30 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     expect(component.courses[0].hasInstructorsLoaded).toBeTruthy();
     expect(component.courses[0].hasLoadingFailed).toBeFalsy();
     expect(component.courses[0].instructorCandidates.length).toBe(2);
-    expect(component.courses[0].instructorCandidates[0].instructor.googleId)
-      .toBe(testInstructor1.googleId);
-    expect(component.courses[0].instructorCandidates[1].instructor.googleId)
-      .toBe(testInstructor2.googleId);
+    expect(
+      component.courses[0].instructorCandidates[0].instructor.googleId,
+    ).toBe(testInstructor1.googleId);
+    expect(
+      component.courses[0].instructorCandidates[1].instructor.googleId,
+    ).toBe(testInstructor2.googleId);
   });
 
   it('should not allow copying when no instructors are selected', () => {
-    testCourseTab2.instructorCandidates = [testInstructorCandidate1, testInstructorCandidate2];
-    testCourseTab1.instructorCandidates = [testInstructorCandidate3, testInstructorCandidate4];
+    testCourseTab2.instructorCandidates = [
+      testInstructorCandidate1,
+      testInstructorCandidate2,
+    ];
+    testCourseTab1.instructorCandidates = [
+      testInstructorCandidate3,
+      testInstructorCandidate4,
+    ];
     component.courses = [testCourseTab2, testCourseTab1];
     fixture.detectChanges();
 
     const instructors: Instructor[] = component.getSelectedInstructors();
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
+    const button: any = fixture.debugElement.nativeElement.querySelector(
+      '#btn-confirm-copy-instructor',
+    );
 
     expect(component.isAnyInstructorCandidatesSelected).toBeFalsy();
     expect(instructors.length).toBe(0);
@@ -225,13 +261,26 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     testInstructorCandidate1.isSelected = true;
     testInstructorCandidate3.isSelected = true;
     testInstructorCandidate4.isSelected = true;
-    testCourseTab2.instructorCandidates = [testInstructorCandidate1, testInstructorCandidate2];
-    testCourseTab1.instructorCandidates = [testInstructorCandidate3, testInstructorCandidate4];
+    testCourseTab2.instructorCandidates = [
+      testInstructorCandidate1,
+      testInstructorCandidate2,
+    ];
+    testCourseTab1.instructorCandidates = [
+      testInstructorCandidate3,
+      testInstructorCandidate4,
+    ];
     component.courses = [testCourseTab2, testCourseTab1];
     fixture.detectChanges();
 
-    const instructors: Instructor[] = [testInstructor1, testInstructor3, testInstructor4];
-    const buttonConfirmCopy: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
+    const instructors: Instructor[] = [
+      testInstructor1,
+      testInstructor3,
+      testInstructor4,
+    ];
+    const buttonConfirmCopy: any =
+      fixture.debugElement.nativeElement.querySelector(
+        '#btn-confirm-copy-instructor',
+      );
     jest.spyOn(component.copyClickedEvent, 'emit');
 
     expect(component.isAnyInstructorCandidatesSelected).toBeTruthy();
@@ -248,9 +297,16 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     component.courses = [testCourseTab2];
     fixture.detectChanges();
 
-    const buttonConfirmCopy: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
-    const buttonCancelCopy: any = fixture.debugElement.nativeElement.querySelector('#btn-cancel-copy-instructor');
-    const buttonCloseModal: any = fixture.debugElement.nativeElement.querySelector('#btn-close-modal');
+    const buttonConfirmCopy: any =
+      fixture.debugElement.nativeElement.querySelector(
+        '#btn-confirm-copy-instructor',
+      );
+    const buttonCancelCopy: any =
+      fixture.debugElement.nativeElement.querySelector(
+        '#btn-cancel-copy-instructor',
+      );
+    const buttonCloseModal: any =
+      fixture.debugElement.nativeElement.querySelector('#btn-close-modal');
 
     buttonConfirmCopy.click();
     fixture.detectChanges();
@@ -264,7 +320,8 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     component.courses = [testCourseTab2, testCourseTab3, testCourseTab1];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-id');
+    const button: any =
+      fixture.debugElement.nativeElement.querySelector('#sort-course-id');
     button.click();
     expect(component.courses[0].courseId).toEqual('CS2103T');
     expect(component.courses[1].courseId).toEqual('FAN0001');
@@ -275,7 +332,8 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     component.courses = [testCourseTab2, testCourseTab3, testCourseTab1];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-name');
+    const button: any =
+      fixture.debugElement.nativeElement.querySelector('#sort-course-name');
     button.click();
     expect(component.courses[0].courseId).toEqual('FAN0002');
     expect(component.courses[1].courseId).toEqual('FAN0001');
@@ -286,7 +344,9 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     component.courses = [testCourseTab2, testCourseTab3, testCourseTab1];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-creation-date');
+    const button: any = fixture.debugElement.nativeElement.querySelector(
+      '#sort-course-creation-date',
+    );
     button.click();
     expect(component.courses[0].courseId).toEqual('FAN0002');
     expect(component.courses[1].courseId).toEqual('CS2103T');
