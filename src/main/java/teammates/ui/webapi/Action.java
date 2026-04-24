@@ -195,7 +195,7 @@ public abstract class Action {
 
     String[] getNonNullRequestParamValues(String paramName) {
         String[] values = req.getParameterValues(paramName);
-        if (values == null) {
+        if (values == null || values.length == 0) {
             throw new InvalidHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
         }
         return values;

@@ -120,11 +120,11 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.toString(),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessful1));
 
-        // The filtering by the logs processor cannot be tested directly, assume that it filters correctly
-        // Here, it simply returns all log entries
         FeedbackSessionLogsData fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
         List<FeedbackSessionLogData> fsLogs = fslData.getFeedbackSessionLogs();
 
@@ -158,6 +158,9 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.toString(),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessful2));
         fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
@@ -188,6 +191,9 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsa1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.toString(),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessful3));
         fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
@@ -209,8 +215,6 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
         assertEquals(fsLogEntries1.get(2).getStudentData().getEmail(), student2Email);
         assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
-
-        // TODO: if we restrict the range from start to end time, it should be tested here as well
     }
 
     @Test

@@ -58,8 +58,7 @@ public class GetFeedbackSessionLogsAction extends Action {
     public JsonResult execute() {
         String[] fslTypes = getNonNullRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         List<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
-        
-        // Multiple log types are separated by a comma e.g access,submission
+
         for (String fslType : fslTypes) {
             try {
                 FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOf(fslType.trim().toUpperCase());
@@ -105,7 +104,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         Map<String, Student> studentsMap = new HashMap<>();
         List<Student> students = sqlLogic.getStudentsForCourse(courseId);
         students.forEach(student -> studentsMap.put(student.getEmail(), student));
-        
+
         Map<String, FeedbackSession> sessionsMap = new HashMap<>();
         List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
         feedbackSessions.forEach(fs -> sessionsMap.put(fs.getName(), fs));

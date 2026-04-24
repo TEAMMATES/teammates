@@ -122,6 +122,11 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         student1Fs1Logs.add(student1Session1Log1);
         when(mockLogic.getOrderedFeedbackSessionLogs(course.getId(), student1.getId(), fs1.getId(),
                 Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime))).thenReturn(student1Fs1Logs);
+
+        when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(List.of(
+                student1,
+                student2
+        ));
     }
 
     @Test
@@ -145,6 +150,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         verifyEntityNotFound(paramsInvalid1);
 
@@ -154,6 +160,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         verifyEntityNotFound(paramsInvalid2);
 
@@ -162,6 +169,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, "abc",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         verifyHttpParameterFailure(paramsInvalid3);
 
@@ -169,6 +177,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, " ",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         verifyHttpParameterFailure(paramsInvalid4);
 
@@ -177,6 +186,9 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.toString(),
         };
 
         actionOutput = getJsonResult(getAction(paramsSuccessful1));
@@ -210,6 +222,9 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.toString(),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessful2));
         fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
@@ -236,6 +251,9 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.toString(),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessful3));
         fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
@@ -261,6 +279,9 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.toString(),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessful4));
         fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
@@ -274,9 +295,6 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         assertEquals(fsLogEntries1.size(), 1);
         assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1.getEmail());
         assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-
-        // TODO: if we restrict the range from start to end time, it should be tested
-        // here as well
     }
 
     @Test
@@ -335,6 +353,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_ID, "00000000-0000-0000-0000-000000000000",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
         };
         loginAsInstructor(googleId);
         verifyEntityNotFound(params);
