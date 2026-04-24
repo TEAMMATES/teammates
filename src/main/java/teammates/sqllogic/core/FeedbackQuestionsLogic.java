@@ -334,7 +334,7 @@ public final class FeedbackQuestionsLogic {
      * @param generateOptionsFor the type of participants to generate options for
      * @param student the student who is doing the question, or null if the entity doing the question is an instructor
      * @param courseId the ID of the course
-     * @return a list of generated options, or an empty list if the generateOptionsFor type is NONE or invalid
+     * @return a list of generated options, or null if the generateOptionsFor type is NONE or invalid
      */
     private List<String> generateMcqMsqOptions(
             FeedbackParticipantType generateOptionsFor,
