@@ -42,6 +42,7 @@ export class AccountRequestTableComponent {
 
   @Input()
   accountRequests: AccountRequestTableRowModel[] = [];
+  @Input() isSearchMode: boolean = false;
 
   @Input()
   searchString = '';
