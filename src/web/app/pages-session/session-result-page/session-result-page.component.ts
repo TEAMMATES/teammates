@@ -397,6 +397,7 @@ export class SessionResultPageComponent implements OnInit {
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
       studentEmail: this.personEmail,
+      key: this.regKey,
       logType: FeedbackSessionLogType.VIEW_RESULT,
       feedbackSessionId: this.feedbackSessionId,
       studentId: this.studentId,

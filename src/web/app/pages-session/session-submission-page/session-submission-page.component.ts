@@ -770,15 +770,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
 
-    this.logService.createFeedbackSessionLog({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
-      studentEmail: this.personEmail,
-      logType: FeedbackSessionLogType.SUBMISSION,
-      feedbackSessionId: this.feedbackSessionId,
-      studentId: this.studentId,
-    }).subscribe();
-
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       let isQuestionFullyAnswered: boolean = true;
 
@@ -1172,6 +1163,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       feedbackSessionName: this.feedbackSessionName,
       studentEmail: this.personEmail,
       logType: FeedbackSessionLogType.ACCESS,
+      key: this.regKey,
       feedbackSessionId: this.feedbackSessionId,
       studentId: this.studentId,
     }).subscribe();
