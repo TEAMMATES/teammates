@@ -54,8 +54,6 @@ export class LogService {
     searchFrom: number,
     searchUntil: number,
     logType: string,
-    studentEmail?: string,
-    sessionName?: string,
     studentId?: string,
     sessionId?: string,
   }): Observable<FeedbackSessionLogs> {
@@ -64,14 +62,6 @@ export class LogService {
       fslstarttime: queryParams.searchFrom.toString(),
       fslendtime: queryParams.searchUntil.toString(),
     };
-
-    if (queryParams.studentEmail) {
-      paramMap['studentemail'] = queryParams.studentEmail;
-    }
-
-    if (queryParams.sessionName) {
-      paramMap['fsname'] = queryParams.sessionName;
-    }
 
     if (queryParams.logType) {
       paramMap['fsltype'] = queryParams.logType;

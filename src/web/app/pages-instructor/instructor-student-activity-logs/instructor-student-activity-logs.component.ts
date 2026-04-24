@@ -211,8 +211,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       searchFrom: searchFrom,
       searchUntil: searchUntil,
       logType: this.formModel.logType,
-      studentEmail: this.formModel.selectedStudent.studentEmail,
-      sessionName: this.formModel.selectedSession.feedbackSessionName,
       studentId: this.formModel.selectedStudent.studentId,
       sessionId: this.formModel.selectedSession.sessionId,
     }).pipe(
