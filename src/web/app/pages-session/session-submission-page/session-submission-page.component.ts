@@ -135,7 +135,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   isQuestionCountOne: boolean = false;
-  isSubmitAllClicked: boolean = false;
 
   allSessionViews = SessionView;
   currentSelectedSessionView: SessionView = SessionView.DEFAULT;
@@ -401,7 +400,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.formattedSessionOpeningTime = this.timezoneService
               .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, TIME_FORMAT);
 
-          this.formattedSessionClosingTime = this.getformattedSessionClosingTime(feedbackSession, TIME_FORMAT);
+          this.formattedSessionClosingTime = this.getFormattedSessionClosingTime(feedbackSession, TIME_FORMAT);
 
           this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
           this.feedbackSessionTimezone = feedbackSession.timeZone;
@@ -534,7 +533,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
                 showResponsesTo: feedbackQuestion.showResponsesTo,
 
-                hasResponseChangedForRecipients: new Map<string, boolean>(),
                 isTabExpandedForRecipients: new Map<string, boolean>(),
               };
               this.questionSubmissionForms.push(model);
@@ -613,6 +611,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
               responseId: '',
               isValid: true,
+              isModified: false,
             });
           });
           model.isLoading = false;
@@ -680,6 +679,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     : this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
                 responseId: matchedExistingResponse ? matchedExistingResponse.feedbackResponseId : '',
                 isValid: true,
+                isModified: false,
               };
               if (matchedExistingResponse && matchedExistingResponse.giverComment) {
                 submissionForm.commentByGiver = this.getCommentModel(
@@ -701,6 +701,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 responseDetails: response.responseDetails,
                 responseId: response.feedbackResponseId,
                 isValid: true,
+                isModified: false,
               };
               if (response.giverComment) {
                 submissionForm.commentByGiver = this.getCommentModel(
@@ -716,6 +717,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
                 responseId: '',
                 isValid: true,
+                isModified: false,
               });
               numberOfRecipientSubmissionFormsNeeded -= 1;
             }
@@ -758,16 +760,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * <p>All empty feedback response will be deleted; For non-empty responses, update/create them if necessary.
    *
    * @param questionSubmissionForms An array of question submission forms to be saved
-   * @param isSubmitAll Is the 'Submit Responses for All Questions' button clicked when saving responses
    * @param recipientId The recipient identifier of the selected recipient when saving responses for this recipient
    * only. This parameter will be null when saving responses for all questions or saving responses for one question.
    */
-  saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[],
-                        isSubmitAll: boolean, recipientId: string | null): void {
-    if (isSubmitAll) {
-      this.isSubmitAllClicked = true;
-    }
-
+  saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[], recipientId: string | null): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
     const requestIds: Record<string, string> = {};
     const answers: Record<string, FeedbackResponse[]> = {};
@@ -848,6 +844,18 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                         .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
                             this.createCommentRequest(recipientSubmissionFormModel))),
                 ),
+                tap(() => {
+                  if (recipientId) {
+                    questionSubmissionFormModel.recipientSubmissionForms.forEach((form) => {
+                      if (form.recipientIdentifier === recipientId) {
+                        form.isModified = false;
+                      }
+                    });
+                  } else {
+                    questionSubmissionFormModel
+                      .recipientSubmissionForms.forEach((form) => { form.isModified = false; });
+                  }
+                }),
                 catchError((error: ErrorMessageOutput) => {
                   failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
                   return of(error);
@@ -877,14 +885,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           modalRef.componentInstance.answers = answers;
           modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
           modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
-
-          if (recipientId) {
-            this.questionSubmissionForms.forEach((model: QuestionSubmissionFormModel) => {
-              if (this.recipientQuestionMap.get(recipientId)!.has(model.questionNumber)) {
-                model.hasResponseChangedForRecipients.set(recipientId, false);
-              }
-            });
-          }
         }),
     ).subscribe();
   }
@@ -1018,7 +1018,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private getformattedSessionClosingTime(feedbackSession: FeedbackSession, TIME_FORMAT: string): string {
+  private getFormattedSessionClosingTime(feedbackSession: FeedbackSession, TIME_FORMAT: string): string {
     const userSessionEndingTime = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(feedbackSession);
     let formattedString = this.timezoneService.formatToString(
       userSessionEndingTime, feedbackSession.timeZone, TIME_FORMAT);
@@ -1039,16 +1039,16 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    */
   saveResponsesForSelectedRecipientQuestions(recipientId: string,
     questionSubmissionForms: QuestionSubmissionFormModel[]): void {
-    const questionsToRecipient: Set<number> | undefined = this.recipientQuestionMap.get(recipientId);
+    const questionsToRecipient = this.recipientQuestionMap.get(recipientId);
     if (!questionsToRecipient) {
-      this.statusMessageService.showErrorToast('Failed to save response for this recipient. '
-          + 'Please switch back to "Group by Question" view to save responses.');
+      this.statusMessageService.showErrorToast('There was an issue saving your responses.');
+      return;
     }
     const recipientQSForms = questionSubmissionForms
       .filter((questionSubmissionFormModel: QuestionSubmissionFormModel) =>
-          questionsToRecipient!.has(questionSubmissionFormModel.questionNumber));
+          questionsToRecipient.has(questionSubmissionFormModel.questionNumber));
 
-    this.saveFeedbackResponses(recipientQSForms, false, recipientId);
+    this.saveFeedbackResponses(recipientQSForms, recipientId);
   }
 
   private addQuestionForRecipient(recipientId: string, questionId: any): void {
