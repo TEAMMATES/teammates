@@ -56,12 +56,18 @@ export class AdminAccountSearchTableComponent {
     private ngbModal: NgbModal,
   ) {}
 
+  /**
+   * Shows all account requests' links in the page.
+   */
   showAllAccountRequestsLinks(): void {
     for (const accountRequest of this.accountRequests) {
       accountRequest.showLinks = true;
     }
   }
 
+  /**
+   * Hides all account requests' links in the page.
+   */
   hideAllAccountRequestsLinks(): void {
     for (const accountRequest of this.accountRequests) {
       accountRequest.showLinks = false;
