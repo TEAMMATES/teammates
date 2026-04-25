@@ -45,10 +45,11 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         coursesDb.createCourse(course);
 
         Section section = new Section(course, "test-section");
+        coursesDb.createSection(section);
         course.addSection(section);
         Team team = new Team(section, "test-team");
+        coursesDb.createTeam(team);
         section.addTeam(team);
-        coursesDb.updateCourse(course);
 
         Account instructorAccount = new Account("instructor-account", "instructor-name", "valid-instructor@email.tmt");
         accountsDb.createAccount(instructorAccount);
@@ -190,16 +191,18 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         ______TS("success: typical case");
         Section firstSection = new Section(course, "section-name1");
+        coursesDb.createSection(firstSection);
         course.addSection(firstSection);
         Team firstTeam = new Team(firstSection, "team-name1");
+        coursesDb.createTeam(firstTeam);
         firstSection.addTeam(firstTeam);
 
         Section secondSection = new Section(course, "section-name2");
+        coursesDb.createSection(secondSection);
         course.addSection(secondSection);
         Team secondTeam = new Team(secondSection, "team-name2");
+        coursesDb.createTeam(secondTeam);
         secondSection.addTeam(secondTeam);
-
-        coursesDb.updateCourse(course);
 
         Student firstStudent = getTypicalStudent();
         firstStudent.setEmail("valid-student-1@email.tmt");
@@ -229,16 +232,18 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         ______TS("success: typical case");
         Section firstSection = new Section(course, "section-name1");
+        coursesDb.createSection(firstSection);
         course.addSection(firstSection);
         Team firstTeam = new Team(firstSection, "team-name1");
+        coursesDb.createTeam(firstTeam);
         firstSection.addTeam(firstTeam);
 
         Section secondSection = new Section(course, "section-name2");
+        coursesDb.createSection(secondSection);
         course.addSection(secondSection);
         Team secondTeam = new Team(secondSection, "team-name2");
+        coursesDb.createTeam(secondTeam);
         secondSection.addTeam(secondTeam);
-
-        coursesDb.updateCourse(course);
 
         Student firstStudent = getTypicalStudent();
         firstStudent.setEmail("valid-student-1@email.tmt");

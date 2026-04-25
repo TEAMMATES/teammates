@@ -1,8 +1,6 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
@@ -33,10 +31,6 @@ public class PutDataBundleAction extends Action {
             dataBundle = sqlLogic.persistDataBundle(dataBundle);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
-        } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException("Some entities in the databundle already exist", e);
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
         }
 
         return new JsonResult(JsonUtils.toJson(dataBundle));

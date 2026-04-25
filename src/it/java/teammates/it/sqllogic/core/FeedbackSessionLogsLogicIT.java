@@ -53,7 +53,9 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
         FeedbackSessionLog newLog3 = new FeedbackSessionLog(student, fs, FeedbackSessionLogType.VIEW_RESULT, timestamp);
         List<FeedbackSessionLog> expected = List.of(newLog1, newLog2, newLog3);
 
-        fslLogic.createFeedbackSessionLogs(expected);
+        for (FeedbackSessionLog log : expected) {
+            fslLogic.createFeedbackSessionLog(log);
+        }
 
         List<FeedbackSessionLog> actual = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student.getId(),
                 fs.getId(), timestamp, timestamp.plusSeconds(1));

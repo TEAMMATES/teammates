@@ -227,6 +227,13 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         return this.getQuestionDetailsCopy().shouldChangesRequireResponseDeletion(questionDetails);
     }
 
+    /**
+     * Adds a feedback response to the question.
+     */
+    public void addFeedbackResponse(FeedbackResponse feedbackResponse) {
+        this.feedbackResponses.add(feedbackResponse);
+    }
+
     public UUID getId() {
         return id;
     }
