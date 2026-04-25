@@ -36,25 +36,14 @@ public final class FeedbackSessionLogsLogic {
     }
 
     /**
-     * Creates feedback session logs.
-     */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> fsLogs) throws InvalidParametersException {
-        if (fsLogs == null) {
-            throw new InvalidParametersException("Feedback session logs list does not exist");
-        }
-
-        for (FeedbackSessionLog fsLog : fsLogs) {
-            createFeedbackSessionLog(fsLog);
-        }
-    }
-
-    /**
      * Creates feedback session log.
      */
     public void createFeedbackSessionLog(FeedbackSessionLog fsLog) throws InvalidParametersException {
         if (fsLog == null) {
             throw new InvalidParametersException("Feedback session log does not exist");
         }
+
+        // TODO: move validation to getInvalidityInfo
         validateFeedbackSessionLogContext(fsLog.getStudent(), fsLog.getFeedbackSession());
         fslDb.createFeedbackSessionLog(fsLog);
     }

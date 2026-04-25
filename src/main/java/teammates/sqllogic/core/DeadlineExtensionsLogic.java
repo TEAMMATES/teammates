@@ -2,6 +2,7 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -37,6 +38,13 @@ public final class DeadlineExtensionsLogic {
     void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb, FeedbackSessionsLogic feedbackSessionsLogic) {
         this.deadlineExtensionsDb = deadlineExtensionsDb;
         this.feedbackSessionsLogic = feedbackSessionsLogic;
+    }
+
+    /**
+     * Gets a deadline extension by its id.
+     */
+    public DeadlineExtension getDeadlineExtension(UUID id) {
+        return deadlineExtensionsDb.getDeadlineExtension(id);
     }
 
     /**
@@ -90,6 +98,11 @@ public final class DeadlineExtensionsLogic {
      * Deletes a deadline extension.
      */
     public void deleteDeadlineExtension(DeadlineExtension de) {
+        FeedbackSession feedbackSession = de.getFeedbackSession();
+        if (feedbackSession != null) {
+            feedbackSession.getDeadlineExtensions().remove(de);
+        }
+
         deadlineExtensionsDb.deleteDeadlineExtension(de);
     }
 

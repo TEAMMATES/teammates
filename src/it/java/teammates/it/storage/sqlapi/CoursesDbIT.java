@@ -145,11 +145,13 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testGetSectionByCourseIdAndTeam() throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = getTypicalCourse();
+        coursesDb.createCourse(course);
         Section section = new Section(course, "section-name");
+        coursesDb.createSection(section);
         course.addSection(section);
         Team team = new Team(section, "team-name");
+        coursesDb.createTeam(team);
         section.addTeam(team);
-        coursesDb.createCourse(course);
 
         ______TS("failure: null courseId assertion exception thrown");
         assertThrows(AssertionError.class, () -> coursesDb.getSectionByCourseIdAndTeam(null, team.getName()));
@@ -170,6 +172,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         for (int i = 0; i < 5; i++) {
             Section newSection = new Section(course, "section-name" + i);
             expectedSections.add(newSection);
+            coursesDb.createSection(newSection);
             course.addSection(newSection);
             assertNotNull(coursesDb.getSectionByName(course.getId(), newSection.getName()));
         }
@@ -185,24 +188,29 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testGetTeamsForCourse() throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = getTypicalCourse();
+        coursesDb.createCourse(course);
 
         Section section1 = new Section(course, "section-name1");
+        coursesDb.createSection(section1);
         course.addSection(section1);
         Team team1 = new Team(section1, "team-name1");
+        coursesDb.createTeam(team1);
         section1.addTeam(team1);
         Team team2 = new Team(section1, "team-name2");
+        coursesDb.createTeam(team2);
         section1.addTeam(team2);
 
         Section section2 = new Section(course, "section-name2");
+        coursesDb.createSection(section2);
         course.addSection(section2);
         Team team3 = new Team(section2, "team-name3");
+        coursesDb.createTeam(team3);
         section2.addTeam(team3);
         Team team4 = new Team(section2, "team-name4");
+        coursesDb.createTeam(team4);
         section2.addTeam(team4);
 
         List<Team> expectedTeams = List.of(team1, team2, team3, team4);
-
-        coursesDb.createCourse(course);
 
         ______TS("failure: null courseId assertion exception thrown");
         assertThrows(AssertionError.class, () -> coursesDb.getTeamsForCourse(null));

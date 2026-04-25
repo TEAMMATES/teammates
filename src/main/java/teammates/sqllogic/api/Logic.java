@@ -433,6 +433,13 @@ public class Logic {
     }
 
     /**
+     * Gets a deadline extension by its id.
+     */
+    public DeadlineExtension getDeadlineExtension(UUID id) {
+        return deadlineExtensionsLogic.getDeadlineExtension(id);
+    }
+
+    /**
      * Creates a deadline extension.
      *
      * @return created deadline extension
@@ -1762,14 +1769,6 @@ public class Logic {
      */
     public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
         return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
-    }
-
-    /**
-     * Create feedback session logs.
-     */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> feedbackSessionLogs)
-            throws InvalidParametersException {
-        feedbackSessionLogsLogic.createFeedbackSessionLogs(feedbackSessionLogs);
     }
 
     /**

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -134,12 +135,16 @@ public class FeedbackSession extends BaseEntity {
      * @return The copy of this object for the given user.
      */
     public FeedbackSession getCopyForUser(String userEmail) {
+        // TODO: DANGEROUS, remove this and replace with a safer way.
+        // In most cases a copy is not necessary or appropriate.
+        // If a copy is necessary, it should be created by copying the entity into a DTO instead.
+        // Copying this way risks accidentally modifying the entity which is persisted in the database.
         FeedbackSession copy = getCopy();
-        for (DeadlineExtension de : copy.getDeadlineExtensions()) {
-            if (!SanitizationHelper.areEmailsEqual(de.getUser().getEmail(), userEmail)) {
-                de.setEndTime(copy.getEndTime());
-            }
-        }
+        copy.setDeadlineExtensions(copy.getDeadlineExtensions()
+                .stream().filter(
+                    de -> SanitizationHelper.areEmailsEqual(de.getUser().getEmail(), userEmail)
+                ).collect(Collectors.toList()));
+
         return copy;
     }
 
@@ -216,10 +221,21 @@ public class FeedbackSession extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
                 actualSessionVisibleFromTime, resultsVisibleFromTime), errors);
 
-        addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-                endTime, deadlineExtensions), errors);
-
         return errors;
+    }
+
+    /**
+     * Adds a feedback question to the feedback session.
+     */
+    public void addFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
+        this.feedbackQuestions.add(feedbackQuestion);
+    }
+
+    /**
+     * Adds a deadline extension to the feedback session.
+     */
+    public void addDeadlineExtension(DeadlineExtension deadlineExtension) {
+        this.deadlineExtensions.add(deadlineExtension);
     }
 
     public UUID getId() {
