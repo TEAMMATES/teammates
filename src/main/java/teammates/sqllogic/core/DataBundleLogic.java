@@ -1,9 +1,7 @@
 package teammates.sqllogic.core;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -273,30 +271,21 @@ public final class DataBundleLogic {
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
-        // Orders of persistence are determined by the dependencies between entities.
-        List<BaseEntity> allEntities = new ArrayList<>();
-        allEntities.addAll(accountRequests);
-        allEntities.addAll(notifications);
-        allEntities.addAll(accounts);
-        allEntities.addAll(courses);
-        allEntities.addAll(sections);
-        allEntities.addAll(teams);
-        allEntities.addAll(sessions);
-        allEntities.addAll(questions);
-        allEntities.addAll(responses);
-        allEntities.addAll(responseComments);
-        allEntities.addAll(instructors);
-        allEntities.addAll(students);
-        allEntities.addAll(sessionLogs);
-        allEntities.addAll(deadlineExtensions);
-        allEntities.addAll(readNotifications);
-
-        for (BaseEntity entity : allEntities) {
-            if (!entity.isValid()) {
-                throw new InvalidParametersException(entity.getInvalidityInfo());
-            }
-            HibernateUtil.persist(entity);
-        }
+        persistEntities(accountRequests);
+        persistEntities(notifications);
+        persistEntities(accounts);
+        persistEntities(courses);
+        persistEntities(sections);
+        persistEntities(teams);
+        persistEntities(sessions);
+        persistEntities(questions);
+        persistEntities(responses);
+        persistEntities(responseComments);
+        persistEntities(instructors);
+        persistEntities(students);
+        persistEntities(sessionLogs);
+        persistEntities(deadlineExtensions);
+        persistEntities(readNotifications);
 
         return dataBundle;
     }
@@ -324,5 +313,15 @@ public final class DataBundleLogic {
         dataBundle.accountRequests.values().forEach(accountRequest -> {
             accountRequestsLogic.deleteAccountRequest(accountRequest.getId());
         });
+    }
+
+    private void persistEntities(Collection<? extends BaseEntity> entities) throws InvalidParametersException {
+        for (BaseEntity entity : entities) {
+            if (!entity.isValid()) {
+                throw new InvalidParametersException(entity.getInvalidityInfo());
+            }
+            HibernateUtil.persist(entity);
+        }
+        HibernateUtil.flushSession();
     }
 }

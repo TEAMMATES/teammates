@@ -98,11 +98,6 @@ public final class DeadlineExtensionsLogic {
      * Deletes a deadline extension.
      */
     public void deleteDeadlineExtension(DeadlineExtension de) {
-        FeedbackSession feedbackSession = de.getFeedbackSession();
-        if (feedbackSession != null) {
-            feedbackSession.getDeadlineExtensions().remove(de);
-        }
-
         deadlineExtensionsDb.deleteDeadlineExtension(de);
     }
 

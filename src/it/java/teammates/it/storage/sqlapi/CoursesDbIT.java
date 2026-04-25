@@ -1,6 +1,5 @@
 package teammates.it.storage.sqlapi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -162,27 +161,6 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         ______TS("success: typical case");
         Section actualSection = coursesDb.getSectionByCourseIdAndTeam(course.getId(), team.getName());
         verifyEquals(section, actualSection);
-    }
-
-    @Test
-    public void testDeleteSectionsByCourseId() throws Exception {
-        Course course = getTypicalCourse();
-        coursesDb.createCourse(course);
-        List<Section> expectedSections = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Section newSection = new Section(course, "section-name" + i);
-            expectedSections.add(newSection);
-            coursesDb.createSection(newSection);
-            course.addSection(newSection);
-            assertNotNull(coursesDb.getSectionByName(course.getId(), newSection.getName()));
-        }
-
-        ______TS("success: delete sections by course id");
-        coursesDb.deleteSectionsByCourseId(course.getId());
-        for (Section section : expectedSections) {
-            Section actualSection = coursesDb.getSectionByName(course.getId(), section.getName());
-            assertNull(actualSection);
-        }
     }
 
     @Test

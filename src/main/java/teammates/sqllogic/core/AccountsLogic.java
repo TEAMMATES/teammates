@@ -93,6 +93,14 @@ public final class AccountsLogic {
         assert googleId != null;
 
         Account account = getAccountForGoogleId(googleId);
+        if (account == null) {
+            return;
+        }
+
+        List<User> users = usersLogic.getAllUsersByGoogleId(googleId);
+        for (User user : users) {
+            user.setAccount(null);
+        }
         accountsDb.deleteAccount(account);
     }
 
