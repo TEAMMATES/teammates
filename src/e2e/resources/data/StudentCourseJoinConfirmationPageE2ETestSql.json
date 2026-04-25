@@ -81,9 +81,7 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000501",
-      "course": {
-        "id": "tm.e2e.SCJoinConf.CS2104"
-      },
+      "courseId": "tm.e2e.SCJoinConf.CS2104",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -109,9 +107,6 @@
         "sessionLevel": {}
       },
       "courseId": "tm.e2e.SCJoinConf.CS1101",
-      "course": {
-        "id": "tm.e2e.SCJoinConf.CS1101"
-      },
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -124,9 +119,6 @@
       "comments": "This student's name is Amy Betsy",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.SCJoinConf.CS2104",
-      "course": {
-        "id": "tm.e2e.SCJoinConf.CS2104"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -137,9 +129,6 @@
       "comments": "This student's name is Amy Betsy",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.SCJoinConf.CS1101",
-      "course": {
-        "id": "tm.e2e.SCJoinConf.CS1101"
-      },
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },

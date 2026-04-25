@@ -276,9 +276,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -304,9 +302,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
@@ -332,9 +328,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000004"
       },
-      "course": {
-        "id": "unregistered-course"
-      },
+      "courseId": "unregistered-course",
       "name": "Instructor Of Unregistered Course",
       "email": "instructorofunregisteredcourse@unregisteredcourse.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -360,9 +354,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000005"
       },
-      "course": {
-        "id": "course-2"
-      },
+      "courseId": "course-2",
       "name": "Instructor Of Course 2 With Unique Display Name",
       "email": "instructorofcourse2withuniquedisplayname@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -388,9 +380,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "course-3"
-      },
+      "courseId": "course-3",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -413,9 +403,7 @@
     },
     "unregisteredInstructorOfCourse1": {
       "id": "00000000-0000-4000-8000-000000000507",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Unregistered Instructor",
       "email": "unregisteredinstructor@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
@@ -441,9 +429,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "course-4"
-      },
+      "courseId": "course-4",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -466,9 +452,7 @@
     },
     "instructor2YetToJoinCourse4": {
       "id": "00000000-0000-4000-8000-000000000509",
-      "course": {
-        "id": "course-4"
-      },
+      "courseId": "course-4",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -491,9 +475,7 @@
     },
     "instructor3YetToJoinCourse4": {
       "id": "00000000-0000-4000-8000-000000000510",
-      "course": {
-        "id": "course-4"
-      },
+      "courseId": "course-4",
       "name": "Instructor 3",
       "email": "instructor3yettojoincourse4@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -521,9 +503,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000101"
       },
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -536,9 +516,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000102"
       },
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -551,9 +529,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000103"
       },
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -566,9 +542,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000104"
       },
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "team": {
         "id": "00000000-0000-4000-8000-000000000305"
       },
@@ -578,9 +552,7 @@
     },
     "student1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000604",
-      "course": {
-        "id": "course-2"
-      },
+      "courseId": "course-2",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -591,9 +563,7 @@
     "student1InCourse3": {
         "id": "00000000-0000-4000-8000-000000000605",
         "email": "student1@teammates.tmt",
-        "course": {
-            "id": "course-3"
-        },
+        "courseId": "course-3",
         "team": {
             "id": "00000000-0000-4000-8000-000000000304"
         },
@@ -602,9 +572,7 @@
     },
     "unregisteredStudentInCourse1": {
       "id": "00000000-0000-4000-8000-000000000606",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -617,9 +585,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000101"
       },
-      "course": {
-        "id": "course-4"
-      },
+      "courseId": "course-4",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -629,9 +595,7 @@
     },
     "student2YetToJoinCourse4": {
       "id": "00000000-0000-4000-8000-000000000608",
-      "course": {
-        "id": "course-4"
-      },
+      "courseId": "course-4",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -641,9 +605,7 @@
     },
     "student3YetToJoinCourse4": {
       "id": "00000000-0000-4000-8000-000000000609",
-      "course": {
-        "id": "course-4"
-      },
+      "courseId": "course-4",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -655,9 +617,7 @@
   "feedbackSessions": {
     "session1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "First feedback session",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -677,9 +637,7 @@
     },
     "session2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Second feedback session",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -699,9 +657,7 @@
     },
     "unpublishedSession1InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000703",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Unpublished feedback session",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -721,9 +677,7 @@
     },
     "ongoingSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000704",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Ongoing session 1 in course 1",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -743,9 +697,7 @@
     },
     "ongoingSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000705",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Ongoing session 2 in course 1",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -765,9 +717,7 @@
     },
     "ongoingSession3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000706",
-      "course": {
-        "id": "course-1"
-      },
+      "courseId": "course-1",
       "name": "Ongoing session 3 in course 1",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -787,9 +737,7 @@
     },
     "ongoingSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000707",
-      "course": {
-        "id": "course-3"
-      },
+      "courseId": "course-3",
       "name": "Ongoing session 1 in course 3",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
@@ -809,9 +757,7 @@
     },
     "ongoingSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000707",
-      "course": {
-        "id": "course-3"
-      },
+      "courseId": "course-3",
       "name": "Ongoing session 2 in course 3",
       "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",

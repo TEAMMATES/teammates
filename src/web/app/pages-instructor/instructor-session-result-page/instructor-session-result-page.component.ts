@@ -175,18 +175,17 @@ export class InstructorSessionResultPageComponent implements OnInit {
       this.courseId = queryParams.courseid;
       this.fsName = queryParams.fsname;
       this.feedbackSessionId = queryParams.fsid;
-      this.loadFeedbackSessionResults(this.courseId, this.fsName);
+      this.loadFeedbackSessionResults(this.courseId, this.fsName, this.feedbackSessionId);
     });
   }
 
-  loadFeedbackSessionResults(courseId: string, feedbackSessionName: string): void {
+  loadFeedbackSessionResults(courseId: string, feedbackSessionName: string, feedbackSessionId: string): void {
     this.hasQuestionsLoadingFailed = false;
     this.hasSectionsLoadingFailed = false;
     this.hasFeedbackSessionLoadingFailed = false;
     this.isFeedbackSessionLoading = true;
     this.feedbackSessionsService.getFeedbackSession({
-      courseId,
-      feedbackSessionName,
+      feedbackSessionId,
       intent: Intent.INSTRUCTOR_RESULT,
     }).subscribe({
       next: (feedbackSession: FeedbackSession) => {

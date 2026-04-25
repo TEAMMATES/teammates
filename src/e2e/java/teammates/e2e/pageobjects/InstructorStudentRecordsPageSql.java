@@ -30,7 +30,7 @@ public class InstructorStudentRecordsPageSql extends AppPage {
     }
 
     public void verifyStudentDetails(Student student) {
-        verifyIsCorrectPage(student.getCourse().getId(), student.getName());
+        verifyIsCorrectPage(student.getCourseId(), student.getName());
     }
 
 }

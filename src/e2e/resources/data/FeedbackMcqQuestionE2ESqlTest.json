@@ -59,18 +59,14 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "course": {
-        "id": "tm.e2e.FMcqQn.CS2104"
-      }
+      "courseId": "tm.e2e.FMcqQn.CS2104"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000502",
       "account": {
           "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-          "id": "tm.e2e.FMcqQn.CS1101"
-      },
+      "courseId": "tm.e2e.FMcqQn.CS1101",
       "displayName": "Co-owner",
       "email": "tmms.test@gmail.tmt",
       "isDisplayedToStudents": true,
@@ -118,9 +114,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "tm.e2e.FMcqQn.CS2104"
-      },
+      "courseId": "tm.e2e.FMcqQn.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -133,9 +127,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
       },
-      "course": {
-        "id": "tm.e2e.FMcqQn.CS2104"
-      },
+      "courseId": "tm.e2e.FMcqQn.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -166,9 +158,7 @@
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
       "instructorDeadlines": {},
-      "course": {
-        "id": "tm.e2e.FMcqQn.CS2104"
-      }
+      "courseId": "tm.e2e.FMcqQn.CS2104"
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
@@ -191,9 +181,7 @@
       "isPublishedEmailEnabled": true,
       "studentDeadlines": {},
       "instructorDeadlines": {},
-      "course": {
-        "id": "tm.e2e.FMcqQn.CS1101"
-      }
+      "courseId": "tm.e2e.FMcqQn.CS1101"
     }
   },
   "feedbackQuestions": {

@@ -68,6 +68,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         logout();
         AppUrl studentSubmissionPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
+                .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
         FeedbackSubmitPageSql studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
                 FeedbackSubmitPageSql.class, student.getGoogleId());

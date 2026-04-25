@@ -69,7 +69,7 @@ public class FeedbackResultsPageSql extends AppPage {
     }
 
     public void verifyFeedbackSessionDetails(FeedbackSession feedbackSession, Course course) {
-        assertEquals(getCourseId(), feedbackSession.getCourse().getId());
+        assertEquals(getCourseId(), feedbackSession.getCourseId());
         assertEquals(getCourseName(), course.getName());
         assertEquals(getCourseInstitute(), course.getInstitute());
         assertEquals(getFeedbackSessionName(), feedbackSession.getName());

@@ -169,7 +169,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     public void testGetSoftDeletedFeedbackSession_isSoftDeleted_success() {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourse().getId();
+        String courseId = feedbackSession.getCourseId();
         feedbackSession.setDeletedAt(TimeHelperExtension.getInstantDaysOffsetFromNow(2));
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
 
@@ -182,7 +182,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     public void testGetSoftDeletedFeedbackSession_notSoftDeleted_returnNull() {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourse().getId();
+        String courseId = feedbackSession.getCourseId();
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
 
         FeedbackSession sessionFetched = feedbackSessionsDb.getSoftDeletedFeedbackSession(sessionName, courseId);
@@ -194,7 +194,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     public void testGetSoftDeletedFeedbackSession_sessionDoesNotExist_returnNull() {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourse().getId();
+        String courseId = feedbackSession.getCourseId();
         doReturn(null).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
 
         FeedbackSession sessionFetched = feedbackSessionsDb.getSoftDeletedFeedbackSession(sessionName, courseId);
@@ -206,7 +206,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     public void testRestoreDeletedFeedbackSession_success() throws EntityDoesNotExistException {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourse().getId();
+        String courseId = feedbackSession.getCourseId();
         feedbackSession.setDeletedAt(TimeHelperExtension.getInstantDaysOffsetFromNow(2));
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
         mockHibernateUtil.when(() -> HibernateUtil.merge(feedbackSession)).thenReturn(feedbackSession);
@@ -222,7 +222,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
             throws EntityDoesNotExistException {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourse().getId();
+        String courseId = feedbackSession.getCourseId();
         doReturn(null).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
 
         assertThrows(EntityDoesNotExistException.class,
@@ -234,7 +234,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     public void testSoftDeleteFeedbackSession_success() throws EntityDoesNotExistException {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourse().getId();
+        String courseId = feedbackSession.getCourseId();
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
         mockHibernateUtil.when(() -> HibernateUtil.merge(feedbackSession)).thenReturn(feedbackSession);
 
@@ -249,7 +249,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
             throws EntityDoesNotExistException {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourse().getId();
+        String courseId = feedbackSession.getCourseId();
         doReturn(null).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
 
         assertThrows(EntityDoesNotExistException.class,

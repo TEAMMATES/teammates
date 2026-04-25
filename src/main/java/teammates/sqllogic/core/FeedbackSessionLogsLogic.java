@@ -78,8 +78,8 @@ public final class FeedbackSessionLogsLogic {
             throw new InvalidParametersException("Feedback session for feedback session log does not exist");
         }
 
-        String studentCourseId = student.getCourse().getId();
-        String feedbackSessionCourseId = feedbackSession.getCourse().getId();
+        String studentCourseId = student.getCourseId();
+        String feedbackSessionCourseId = feedbackSession.getCourseId();
         if (!Objects.equals(studentCourseId, feedbackSessionCourseId)) {
             throw new InvalidParametersException("Student and feedback session belong to different courses");
         }
