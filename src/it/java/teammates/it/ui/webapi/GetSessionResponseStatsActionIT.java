@@ -46,7 +46,7 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
         FeedbackSession accessibleFs = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFs.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFs.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, accessibleFs.getCourseId(),
         };
 
         GetSessionResponseStatsAction a = getAction(submissionParams);
@@ -61,7 +61,7 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
         String nonexistentFeedbackSession = "nonexistentFeedbackSession";
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, nonexistentFeedbackSession,
-                Const.ParamsNames.COURSE_ID, accessibleFs.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, accessibleFs.getCourseId(),
         };
 
         verifyEntityNotFound(submissionParams);
@@ -79,7 +79,7 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
         FeedbackSession accessibleFs = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFs.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFs.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, accessibleFs.getCourseId(),
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(course1, submissionParams);
     }

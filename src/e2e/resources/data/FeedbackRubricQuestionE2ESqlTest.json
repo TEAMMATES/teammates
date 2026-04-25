@@ -76,9 +76,6 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.FRubricQn.CS2104",
-      "course": {
-        "id": "tm.e2e.FRubricQn.CS2104"
-      },
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -106,9 +103,6 @@
       },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.FRubricQn.CS1101",
-      "course": {
-        "id": "tm.e2e.FRubricQn.CS1101"
-      },
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -122,9 +116,6 @@
       "comments": "This student's name is Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.FRubricQn.CS2104",
-      "course": {
-        "id": "tm.e2e.FRubricQn.CS2104"
-      },
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
       "regKey": "EBE50B16D49CF8511F63AC64F55EEE9A9BBF979EDD08808B815CB748176E61CBBD7364C6F112325851C21A8237FE3F2B9D157BBE8E0A82BFC8695990DDDB8DDB",
@@ -139,9 +130,6 @@
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.FRubricQn.CS2104",
-      "course": {
-        "id": "tm.e2e.FRubricQn.CS2104"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -156,9 +144,6 @@
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.FRubricQn.CS2104",
-      "course": {
-        "id": "tm.e2e.FRubricQn.CS2104"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -173,9 +158,6 @@
       "comments": "This student's name is Danny Engrid",
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "tm.e2e.FRubricQn.CS1101",
-      "course": {
-        "id": "tm.e2e.FRubricQn.CS1101"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },

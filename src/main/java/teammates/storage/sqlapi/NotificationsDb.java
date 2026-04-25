@@ -131,6 +131,13 @@ public final class NotificationsDb {
     }
 
     /**
+     * Gets a read notification by its unique ID.
+     */
+    public ReadNotification getReadNotification(UUID readNotificationId) {
+        return HibernateUtil.get(ReadNotification.class, readNotificationId);
+    }
+
+    /**
      * Gets read notifications by account ID.
      *
      * @return a list of read notifications for the specified account ID.

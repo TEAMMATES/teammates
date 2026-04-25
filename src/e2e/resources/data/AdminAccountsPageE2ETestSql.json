@@ -39,9 +39,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.AAccounts.CS2104"
-      },
+      "courseId": "tm.e2e.AAccounts.CS2104",
       "name": "Teammates Instr2",
       "email": "aaccounts.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -67,9 +65,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.AAccounts.CS2103"
-      },
+      "courseId": "tm.e2e.AAccounts.CS2103",
       "name": "Teammates Instr2",
       "email": "aaccounts.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -95,9 +91,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.AAccounts.CS1101"
-      },
+      "courseId": "tm.e2e.AAccounts.CS1101",
       "name": "Teammates Instr2",
       "email": "aaccounts.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -123,9 +117,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "tm.e2e.AAccounts.CS2103"
-      },
+      "courseId": "tm.e2e.AAccounts.CS2103",
       "name": "Teammates Instr3",
       "email": "aaccounts.instr3@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -153,9 +145,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.AAccounts.CS2104"
-      },
+      "courseId": "tm.e2e.AAccounts.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -168,9 +158,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.AAccounts.CS2103"
-      },
+      "courseId": "tm.e2e.AAccounts.CS2103",
       "team": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
@@ -183,9 +171,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.AAccounts.CS1101"
-      },
+      "courseId": "tm.e2e.AAccounts.CS1101",
       "team": {
         "id": "00000000-0000-4000-8000-000000000203"
       },

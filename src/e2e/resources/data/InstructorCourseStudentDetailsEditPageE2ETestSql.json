@@ -58,9 +58,7 @@
   "instructors": {
     "ICSDetEdit.instr": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "course": {
-        "id": "tm.e2e.ICSDetEdit.CS2104"
-      },
+      "courseId": "tm.e2e.ICSDetEdit.CS2104",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -91,9 +89,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "tm.e2e.ICSDetEdit.CS2104"
-      },
+      "courseId": "tm.e2e.ICSDetEdit.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -103,9 +99,7 @@
     },
     "ICSDetEdit.benny.c": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "course": {
-        "id": "tm.e2e.ICSDetEdit.CS2104"
-      },
+      "courseId": "tm.e2e.ICSDetEdit.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },

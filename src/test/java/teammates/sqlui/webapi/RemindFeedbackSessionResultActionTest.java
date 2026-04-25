@@ -71,7 +71,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
                 .thenReturn(unpublishedFeedbackSession);
 
         String[] paramsFeedbackSessionNotPublished = new String[] {
-                Const.ParamsNames.COURSE_ID, unpublishedFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, unpublishedFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, unpublishedFeedbackSession.getName(),
         };
 
@@ -101,7 +101,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
                 .thenReturn(List.of(mockEmail));
 
         String[] paramsTypical = new String[] {
-                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
         };
 

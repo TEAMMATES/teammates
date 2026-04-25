@@ -187,12 +187,9 @@ public class TestDataValidityTest extends BaseTestCase {
         if (courseId == null) {
             return false;
         }
-        // Some legacy SQL fixtures still use UUID course IDs.
-        boolean isUuidCourseId = courseId.matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-"
-                + "[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
+
         return (courseId.matches(constructIdRegex(testPage))
-                || courseId.startsWith("tm.e2e.")
-                || isUuidCourseId) && courseId.length() < 64;
+                || courseId.startsWith("tm.e2e.")) && courseId.length() < 64;
     }
 
     private boolean isValidTestGoogleId(String googleId, String testPage) {

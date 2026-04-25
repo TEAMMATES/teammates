@@ -61,9 +61,7 @@
                 "sessionLevel": {}
             },
             "id": "00000000-0000-4000-8000-000000000501",
-            "course": {
-                "id": "tm.e2e.SHome.CS2104"
-            },
+            "courseId": "tm.e2e.SHome.CS2104",
             "account": {
                 "id": "00000000-0000-4000-8000-000000000001"
             },
@@ -89,9 +87,7 @@
                 "sessionLevel": {}
             },
             "id": "00000000-0000-4000-8000-000000000502",
-            "course": {
-                "id": "tm.e2e.SHome.CS1101"
-            },
+            "courseId": "tm.e2e.SHome.CS1101",
             "account": {
                 "id": "00000000-0000-4000-8000-000000000001"
             },
@@ -117,9 +113,7 @@
                 "sessionLevel": {}
             },
             "id": "00000000-0000-4000-8000-000000000503",
-            "course": {
-                "id": "tm.e2e.SHome.CS4215"
-            },
+            "courseId": "tm.e2e.SHome.CS4215",
             "account": {
                 "id": "00000000-0000-4000-8000-000000000001"
             },
@@ -145,9 +139,7 @@
                 "sessionLevel": {}
             },
             "id": "00000000-0000-4000-8000-000000000504",
-            "course": {
-                "id": "tm.e2e.SHome.CS4221"
-            },
+            "courseId": "tm.e2e.SHome.CS4221",
             "account": {
                 "id": "00000000-0000-4000-8000-000000000001"
             },
@@ -159,9 +151,7 @@
           "id": "00000000-0000-4000-8000-000000000801",
           "account": {},
           "email": "shome.student@gmail.tmt",
-          "course": {
-            "id": "tm.e2e.SHome.CS2104"
-          },
+          "courseId": "tm.e2e.SHome.CS2104",
           "name": "Amy Betsy</option></td></div>'\"",
           "comments": "This student's name is Amy Betsy</option></td></div>'\"",
           "team": {
@@ -174,9 +164,7 @@
             "id": "00000000-0000-4000-8000-000000000002"
           },
           "email": "shome.student@gmail.tmt",
-          "course": {
-            "id": "tm.e2e.SHome.CS1101"
-          },
+          "courseId": "tm.e2e.SHome.CS1101",
           "name": "Amy Betsy</option></td></div>'\"",
           "comments": "This student's name is Amy Betsy</option></td></div>'\"",
           "team": {
@@ -189,9 +177,7 @@
             "id": "00000000-0000-4000-8000-000000000002"
           },
           "email": "shome.student@gmail.tmt",
-          "course": {
-            "id": "tm.e2e.SHome.CS4215"
-          },
+          "courseId": "tm.e2e.SHome.CS4215",
           "name": "Amy Betsy</option></td></div>'\"",
           "comments": "This student's name is Amy Betsy</option></td></div>'\"",
           "team": {
@@ -204,9 +190,7 @@
             "id": "00000000-0000-4000-8000-000000000002"
           },
           "email": "shome.student@gmail.tmt",
-          "course": {
-            "id": "tm.e2e.SHome.CS4221"
-          },
+          "courseId": "tm.e2e.SHome.CS4221",
           "name": "Amy Betsy",
           "comments": "This student's name is Amy Betsy",
           "team": {

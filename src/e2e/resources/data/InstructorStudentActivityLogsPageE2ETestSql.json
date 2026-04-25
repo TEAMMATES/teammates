@@ -51,9 +51,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.ISActLogs.CS2104"
-      },
+      "courseId": "tm.e2e.ISActLogs.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -81,9 +79,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "tm.e2e.ISActLogs.CS2104"
-      },
+      "courseId": "tm.e2e.ISActLogs.CS2104",
       "section": {
         "id": "00000000-0000-4000-8000-000000000101"
       },
@@ -99,9 +95,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
       },
-      "course": {
-        "id": "tm.e2e.ISActLogs.CS2104"
-      },
+      "courseId": "tm.e2e.ISActLogs.CS2104",
       "section": {
         "id": "00000000-0000-4000-8000-000000000101"
       },

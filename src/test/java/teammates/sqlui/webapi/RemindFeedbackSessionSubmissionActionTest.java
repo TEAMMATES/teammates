@@ -71,7 +71,7 @@ public class RemindFeedbackSessionSubmissionActionTest
                 .thenReturn(closedFeedbackSession);
 
         String[] paramsFeedbackSessionNotOpen = new String[] {
-                Const.ParamsNames.COURSE_ID, closedFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, closedFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, closedFeedbackSession.getName(),
         };
 
@@ -104,7 +104,7 @@ public class RemindFeedbackSessionSubmissionActionTest
         remindRequest.setUsersToRemind(usersToRemind);
 
         String[] paramsTypical = new String[] {
-                Const.ParamsNames.COURSE_ID, openedFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, openedFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, openedFeedbackSession.getName(),
         };
 

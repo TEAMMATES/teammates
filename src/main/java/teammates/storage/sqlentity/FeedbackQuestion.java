@@ -337,7 +337,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     }
 
     public String getCourseId() {
-        return this.feedbackSession.getCourse().getId();
+        return this.feedbackSession.getCourseId();
     }
 
     @Override

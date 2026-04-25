@@ -79,7 +79,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
         FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
 
         String[] param = new String[] {
-                Const.ParamsNames.COURSE_ID, originalFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, originalFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, originalFeedbackSession.getName(),
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
@@ -106,7 +106,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
         FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
 
         String[] param = new String[] {
-                Const.ParamsNames.COURSE_ID, originalFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, originalFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, originalFeedbackSession.getName(),
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
@@ -114,7 +114,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
         originalFeedbackSession.setDeadlineExtensions(new ArrayList<>());
 
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(originalFeedbackSession);
-        when(mockLogic.getInstructorForEmail(originalFeedbackSession.getCourse().getId(), instructor.getEmail()))
+        when(mockLogic.getInstructorForEmail(originalFeedbackSession.getCourseId(), instructor.getEmail()))
                 .thenReturn(instructor);
 
         FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =

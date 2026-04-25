@@ -216,7 +216,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedStudentDetails(Student student) {
-        return String.format("%s [%s] (%s)", student.getCourse().getId(),
+        return String.format("%s [%s] (%s)", student.getCourseId(),
                 student.getSection() == null
                         ? Const.DEFAULT_SECTION
                         : student.getSection().getName(),

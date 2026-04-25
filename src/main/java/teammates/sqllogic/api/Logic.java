@@ -612,7 +612,7 @@ public class Logic {
     public FeedbackSession createFeedbackSession(FeedbackSession feedbackSession)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert feedbackSession != null;
-        assert feedbackSession.getCourse() != null && feedbackSession.getCourse().getId() != null;
+        assert feedbackSession.getCourse() != null && feedbackSession.getCourseId() != null;
 
         return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
     }

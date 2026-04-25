@@ -436,7 +436,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(session, result.get(0));
-        assertEquals(course.getId(), result.get(0).getCourse().getId());
+        assertEquals(course.getId(), result.get(0).getCourseId());
     }
 
     @Test

@@ -151,7 +151,7 @@ public class AdminSearchPageSql extends AppPage {
     }
 
     public WebElement getStudentRow(Student student) {
-        String details = String.format("%s [%s] (%s)", student.getCourse().getId(),
+        String details = String.format("%s [%s] (%s)", student.getCourseId(),
                 student.getSection() == null
                         ? Const.DEFAULT_SECTION
                         : student.getSection().getName(), student.getTeam().getName());
