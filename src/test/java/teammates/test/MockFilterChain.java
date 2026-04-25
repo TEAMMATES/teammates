@@ -18,6 +18,9 @@ public class MockFilterChain implements FilterChain {
         invoked = true;
     }
 
+    /**
+     * Returns whether the filter chain was invoked.
+     */
     public boolean wasInvoked() {
         return invoked;
     }
