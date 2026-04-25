@@ -1,12 +1,11 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ChangeDetectorRef } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { Notification, Notifications, NotificationTargetUser } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { NotificationStyleClassPipe } from '../teammates-common/notification-style-class.pipe';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { ChangeDetectorRef } from '@angular/core';
 
 /**
  * Banner used to display notifications to the user.
