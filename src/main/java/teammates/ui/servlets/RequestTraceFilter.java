@@ -31,7 +31,7 @@ public class RequestTraceFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) resp;
 
-        response.setHeader("Strict-Transport-Security", "max-age=31536000");
+        SecurityHeaders.addCommonHeaders(response);
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("Pragma", "no-cache");
 

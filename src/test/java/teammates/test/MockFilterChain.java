@@ -11,9 +11,15 @@ import jakarta.servlet.ServletResponse;
  */
 public class MockFilterChain implements FilterChain {
 
+    private boolean invoked;
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response) {
-        // not used
+        invoked = true;
+    }
+
+    public boolean wasInvoked() {
+        return invoked;
     }
 
 }

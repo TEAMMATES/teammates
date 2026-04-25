@@ -4,8 +4,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.Cookie;
@@ -25,6 +27,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
     private int statusCode = HttpStatus.SC_OK;
     private String redirectUrl;
     private List<Cookie> cookies = new ArrayList<>();
+    private Map<String, List<String>> headers = new LinkedHashMap<>();
 
     @Override
     public void addCookie(Cookie cookie) {
@@ -33,7 +36,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public boolean containsHeader(String name) {
-        return false;
+        return headers.containsKey(name);
     }
 
     @Override
@@ -87,12 +90,12 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public void setHeader(String name, String value) {
-        // not used
+        headers.put(name, new ArrayList<>(Collections.singletonList(value)));
     }
 
     @Override
     public void addHeader(String name, String value) {
-        // not used
+        headers.computeIfAbsent(name, key -> new ArrayList<>()).add(value);
     }
 
     @Override
@@ -122,17 +125,18 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     @Override
     public String getHeader(String s) {
-        return null;
+        List<String> values = headers.get(s);
+        return values == null || values.isEmpty() ? null : values.get(0);
     }
 
     @Override
     public Collection<String> getHeaders(String s) {
-        return Collections.emptyList();
+        return headers.getOrDefault(s, Collections.emptyList());
     }
 
     @Override
     public Collection<String> getHeaderNames() {
-        return Collections.emptyList();
+        return headers.keySet();
     }
 
     @Override
