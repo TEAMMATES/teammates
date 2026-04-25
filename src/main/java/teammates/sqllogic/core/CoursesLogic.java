@@ -166,7 +166,6 @@ public final class CoursesLogic {
             return;
         }
 
-        usersLogic.deleteStudentsInCourseCascade(courseId);
         List<FeedbackSession> feedbackSessions = course.getFeedbackSessions();
         feedbackSessions.forEach(feedbackSession ->
                 fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId)
