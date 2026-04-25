@@ -158,9 +158,11 @@ public final class NotificationsLogic {
      * Deletes a read notification associated with the {@code readNotificationId}.
      */
     public void deleteReadNotification(UUID readNotificationId) {
-        assert readNotificationId != null;
+        ReadNotification readNotification = notificationsDb.getReadNotification(readNotificationId);
+        if (readNotification == null) {
+            return;
+        }
 
-        ReadNotification readNotification = HibernateUtil.getReference(ReadNotification.class, readNotificationId);
         notificationsDb.deleteReadNotification(readNotification);
     }
 }

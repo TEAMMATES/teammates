@@ -31,10 +31,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        BACKDOOR.deleteCourse("tm.e2e.ICs.CS4100");
-        BACKDOOR.deleteCourse("tm.e2e.ICs.CS5000");
-        BACKDOOR.deleteCourse("tm.e2e.ICs.CS6000");
-
         testData = loadDataBundle("/InstructorCoursesPageE2ETestSql.json");
         testData = removeAndRestoreDataBundle(testData);
 
