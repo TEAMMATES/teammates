@@ -1,0 +1,741 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PendingAccountRequestTableComponent should display account requests with no reset or expand links button 1`] = `
+<tm-pending-account-request-table
+  accountRequests={[Function Array]}
+  accountService={[Function AccountService]}
+  isApprovingAccount={[Function Array]}
+  isRejectingAccount={[Function Array]}
+  ngbModal={[Function _NgbModal]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <strong>
+        Pending Account Requests
+      </strong>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-account-request"
+      >
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+              Institute, Country
+            </th>
+            <th>
+              Created At
+            </th>
+            <th>
+              Comments
+            </th>
+            <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              name
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              PENDING
+            </td>
+            <td>
+              institute
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td>
+              <div
+                id="comment-box"
+              >
+                 comment 
+              </div>
+            </td>
+            <td
+              class="align-middle"
+            >
+              <div
+                class="d-flex flex-row align-items-center justify-content-center gap-2"
+              >
+                <div>
+                  <button
+                    aria-label="Edit account request"
+                    class="btn btn-link p-0"
+                    id="edit-account-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    aria-label="Delete account request"
+                    class="btn btn-link p-0"
+                    id="delete-account-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-trash"
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    aria-label="View account request"
+                    class="btn btn-link p-0"
+                    id="view-account-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-eye"
+                    />
+                  </button>
+                </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-request-0"
+                >
+                  Approve
+                </button>
+                <span
+                  class="dropdown"
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    id="reject-account-request-0"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-0"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-0"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              name
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              PENDING
+            </td>
+            <td>
+              institute
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td>
+              <div
+                id="comment-box"
+              >
+                 comment 
+              </div>
+            </td>
+            <td
+              class="align-middle"
+            >
+              <div
+                class="d-flex flex-row align-items-center justify-content-center gap-2"
+              >
+                <div>
+                  <button
+                    aria-label="Edit account request"
+                    class="btn btn-link p-0"
+                    id="edit-account-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    aria-label="Delete account request"
+                    class="btn btn-link p-0"
+                    id="delete-account-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-trash"
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    aria-label="View account request"
+                    class="btn btn-link p-0"
+                    id="view-account-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-eye"
+                    />
+                  </button>
+                </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-request-1"
+                >
+                  Approve
+                </button>
+                <span
+                  class="dropdown"
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    id="reject-account-request-1"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-1"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-1"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-pending-account-request-table>
+`;
+
+exports[`PendingAccountRequestTableComponent should display account requests with reset button and expandable links buttons 1`] = `
+<tm-pending-account-request-table
+  accountRequests={[Function Array]}
+  accountService={[Function AccountService]}
+  isApprovingAccount={[Function Array]}
+  isRejectingAccount={[Function Array]}
+  ngbModal={[Function _NgbModal]}
+  searchString={[Function String]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <strong>
+        Pending Account Requests
+      </strong>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-account-request"
+      >
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+              Institute, Country
+            </th>
+            <th>
+              Created At
+            </th>
+            <th>
+              Comments
+            </th>
+            <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              name
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              APPROVED
+            </td>
+            <td>
+              institute
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td>
+              <div
+                id="comment-box"
+              >
+                 comment 
+              </div>
+            </td>
+            <td
+              class="align-middle"
+            >
+              <div
+                class="d-flex flex-row align-items-center justify-content-center gap-2"
+              >
+                <div>
+                  <button
+                    aria-label="Edit account request"
+                    class="btn btn-link p-0"
+                    id="edit-account-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    aria-label="Delete account request"
+                    class="btn btn-link p-0"
+                    id="delete-account-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-trash"
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    aria-label="View account request"
+                    class="btn btn-link p-0"
+                    id="view-account-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-eye"
+                    />
+                  </button>
+                </div>
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="approve-account-request-0"
+                >
+                  Approve
+                </button>
+                <span
+                  class="dropdown"
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    disabled=""
+                    id="reject-account-request-0"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-0"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-0"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              name
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              REGISTERED
+            </td>
+            <td>
+              institute
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td>
+              <div
+                id="comment-box"
+              >
+                 comment 
+              </div>
+            </td>
+            <td
+              class="align-middle"
+            >
+              <div
+                class="d-flex flex-row align-items-center justify-content-center gap-2"
+              >
+                <div>
+                  <button
+                    aria-label="Edit account request"
+                    class="btn btn-link p-0"
+                    id="edit-account-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    aria-label="Delete account request"
+                    class="btn btn-link p-0"
+                    id="delete-account-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-trash"
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    aria-label="View account request"
+                    class="btn btn-link p-0"
+                    id="view-account-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-eye"
+                    />
+                  </button>
+                </div>
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="approve-account-request-1"
+                >
+                  Approve
+                </button>
+                <span
+                  class="dropdown"
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    disabled=""
+                    id="reject-account-request-1"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-1"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-1"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-pending-account-request-table>
+`;
+
+exports[`PendingAccountRequestTableComponent should snap with an expanded account requests table 1`] = `
+<tm-pending-account-request-table
+  accountRequests={[Function Array]}
+  accountService={[Function AccountService]}
+  isApprovingAccount={[Function Array]}
+  isRejectingAccount={[Function Array]}
+  ngbModal={[Function _NgbModal]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <strong>
+        Pending Account Requests
+      </strong>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-account-request"
+      >
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+              Institute, Country
+            </th>
+            <th>
+              Created At
+            </th>
+            <th>
+              Comments
+            </th>
+            <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              name
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              PENDING
+            </td>
+            <td>
+              institute
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td>
+              <div
+                id="comment-box"
+              >
+                 comment 
+              </div>
+            </td>
+            <td
+              class="align-middle"
+            >
+              <div
+                class="d-flex flex-row align-items-center justify-content-center gap-2"
+              >
+                <div>
+                  <button
+                    aria-label="Edit account request"
+                    class="btn btn-link p-0"
+                    id="edit-account-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    aria-label="Delete account request"
+                    class="btn btn-link p-0"
+                    id="delete-account-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-trash"
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    aria-label="View account request"
+                    class="btn btn-link p-0"
+                    id="view-account-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-eye"
+                    />
+                  </button>
+                </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-request-0"
+                >
+                  Approve
+                </button>
+                <span
+                  class="dropdown"
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    id="reject-account-request-0"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-0"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-0"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-pending-account-request-table>
+`;

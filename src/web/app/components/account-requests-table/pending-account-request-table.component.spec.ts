@@ -5,11 +5,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountRequestTableRowModel } from './account-request-table-model';
-import { PendingAccountRequestTableComponent } from './pending-account-request-table.component';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 import {
   RejectWithReasonModalComponent,
 } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
+import { PendingAccountRequestTableComponent } from './pending-account-request-table.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -47,11 +47,6 @@ describe('PendingAccountRequestTableComponent', () => {
         .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
         .comments('comment');
 
-    const resetModalContent = `Are you sure you want to reset the account request for
-        <strong>name</strong> with email <strong>email</strong> from
-        <strong>institute</strong>?
-        An email with the account registration link will also be sent to the instructor.`;
-    const resetModalTitle = 'Reset account request for <strong>name</strong>?';
     const deleteModalContent = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>name</strong> with email <strong>email</strong> from
         <strong>institute</strong>?`;
