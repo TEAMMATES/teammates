@@ -307,10 +307,16 @@ public final class FeedbackSessionsLogic {
      * Soft-deletes a specific feedback session to Recycle Bin.
      * @return the feedback session
      */
-    public FeedbackSession moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession moveFeedbackSessionToRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
+        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(String.format("Feedback Session with id %s does not exist.", feedbackSessionId));
+        }
 
-        return fsDb.softDeleteFeedbackSession(feedbackSessionName, courseId);
+        feedbackSession.setDeletedAt(Instant.now());
+
+        return feedbackSession;
     }
 
     /**

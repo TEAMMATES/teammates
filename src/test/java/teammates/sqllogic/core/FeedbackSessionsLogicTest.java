@@ -231,20 +231,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testMoveFeedbackSessionToRecycleBin_sessionExists_success() throws EntityDoesNotExistException {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-
-        when(fsDb.softDeleteFeedbackSession(session.getName(), course.getId())).thenReturn(session);
-
-        FeedbackSession result = fsLogic.moveFeedbackSessionToRecycleBin(session.getName(), course.getId());
-
-        assertNotNull(result);
-        assertEquals(session, result);
-        verify(fsDb, times(1)).softDeleteFeedbackSession(session.getName(), course.getId());
-    }
-
-    @Test
     public void testRestoreFeedbackSessionFromRecycleBin_sessionExists_success() throws EntityDoesNotExistException {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);

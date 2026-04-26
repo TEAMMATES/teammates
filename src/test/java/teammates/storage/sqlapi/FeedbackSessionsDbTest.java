@@ -229,31 +229,4 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
                 () -> feedbackSessionsDb.restoreDeletedFeedbackSession(sessionName, courseId));
         mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), never());
     }
-
-    @Test
-    public void testSoftDeleteFeedbackSession_success() throws EntityDoesNotExistException {
-        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourseId();
-        doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
-        mockHibernateUtil.when(() -> HibernateUtil.merge(feedbackSession)).thenReturn(feedbackSession);
-
-        feedbackSessionsDb.softDeleteFeedbackSession(sessionName, courseId);
-
-        assertNotNull(feedbackSession.getDeletedAt());
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), times(1));
-    }
-
-    @Test
-    public void testSoftDeleteFeedbackSession_sessionDoesNotExist_throwsEntityDoesNotExistException()
-            throws EntityDoesNotExistException {
-        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourseId();
-        doReturn(null).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
-
-        assertThrows(EntityDoesNotExistException.class,
-                () -> feedbackSessionsDb.restoreDeletedFeedbackSession(sessionName, courseId));
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), never());
-    }
 }

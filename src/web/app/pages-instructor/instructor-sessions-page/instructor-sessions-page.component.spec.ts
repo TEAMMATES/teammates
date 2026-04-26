@@ -236,7 +236,7 @@ describe('InstructorSessionsPageComponent', () => {
     component.moveSessionToRecycleBinEventHandler(0);
 
     expect(courseSpy).toHaveBeenCalledTimes(1);
-    expect(courseSpy).toHaveBeenLastCalledWith('CS1231', 'First Session');
+    expect(courseSpy).toHaveBeenLastCalledWith(testFeedbackSession1.feedbackSessionId);
 
     expect(component.sessionsTableRowModels.length).toEqual(1);
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(1);
