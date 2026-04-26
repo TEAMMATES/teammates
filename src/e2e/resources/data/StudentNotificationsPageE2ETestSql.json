@@ -44,9 +44,6 @@
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.SNotifs.course1",
-      "course": {
-        "id": "tm.e2e.SNotifs.course1"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },

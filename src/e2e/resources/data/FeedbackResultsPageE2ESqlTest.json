@@ -109,9 +109,6 @@
         },
         "id": "00000000-0000-4000-8000-000000000501",
         "courseId": "tm.e2e.FRes.CS2104",
-        "course": {
-          "id": "tm.e2e.FRes.CS2104"
-        },
         "name": "Teammates Test",
         "email": "fres.instr@gmail.tmt"
       },
@@ -138,9 +135,6 @@
         },
         "id": "00000000-0000-4000-8000-000000000502",
         "courseId": "tm.e2e.FRes.CS2104",
-        "course": {
-          "id": "tm.e2e.FRes.CS2104"
-        },
         "name": "Teammates Test 2",
         "email": "fres.instr2@gmail.tmt"
       }
@@ -150,9 +144,6 @@
         "comments": "This student's name is Alice Betsy",
         "id": "00000000-0000-4000-8000-000000000601",
         "courseId": "tm.e2e.FRes.CS2104",
-        "course": {
-          "id": "tm.e2e.FRes.CS2104"
-        },
         "account": {
           "id": "00000000-0000-4000-8000-000000000003"
         },
@@ -167,9 +158,6 @@
         "comments": "This student's name is Benny Charles",
         "id": "00000000-0000-4000-8000-000000000602",
         "courseId": "tm.e2e.FRes.CS2104",
-        "course": {
-          "id": "tm.e2e.FRes.CS2104"
-        },
         "team": {
           "id": "00000000-0000-4000-8000-000000000301"
         },
@@ -183,9 +171,6 @@
         "comments": "This student's name is Charlie Davis",
         "id": "00000000-0000-4000-8000-000000000603",
         "courseId": "tm.e2e.FRes.CS2104",
-        "course": {
-          "id": "tm.e2e.FRes.CS2104"
-        },
         "team": {
           "id": "00000000-0000-4000-8000-000000000301"
         },
@@ -199,9 +184,6 @@
         "comments": "This student has not registered",
         "id": "00000000-0000-4000-8000-000000000604",
         "courseId": "tm.e2e.FRes.CS2104",
-        "course": {
-          "id": "tm.e2e.FRes.CS2104"
-        },
         "team": {
           "id": "00000000-0000-4000-8000-000000000302"
         },
@@ -212,9 +194,6 @@
         "comments": "This student's name is Danny Engrid",
         "id": "00000000-0000-4000-8000-000000000605",
         "courseId": "tm.e2e.FRes.CS2104",
-        "course": {
-          "id": "tm.e2e.FRes.CS2104"
-        },
         "team": {
           "id": "00000000-0000-4000-8000-000000000302"
         },
@@ -228,9 +207,6 @@
         "comments": "This student's name is Emily",
         "id": "00000000-0000-4000-8000-000000000606",
         "courseId": "tm.e2e.FRes.CS2104",
-        "course": {
-          "id": "tm.e2e.FRes.CS2104"
-        },
         "team": {
           "id": "00000000-0000-4000-8000-000000000303"
         },
@@ -244,9 +220,7 @@
     "feedbackSessions": {
       "Open Session": {
         "id": "00000000-0000-4000-8000-000000000701",
-        "course": {
-          "id": "tm.e2e.FRes.CS2104"
-        },
+        "courseId": "tm.e2e.FRes.CS2104",
         "name": "First Session",
         "creatorEmail": "fres.instr@gmail.tmt",
         "instructions": "Instructions for first session",

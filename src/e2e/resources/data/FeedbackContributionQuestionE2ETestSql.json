@@ -50,9 +50,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.FContrQn.CS2104"
-      },
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -77,9 +75,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.FContrQn.CS1101"
-      },
+      "courseId": "tm.e2e.FContrQn.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -107,9 +103,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "tm.e2e.FContrQn.CS2104"
-      },
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -122,9 +116,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
       },
-      "course": {
-        "id": "tm.e2e.FContrQn.CS2104"
-      },
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -137,9 +129,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000004"
       },
-      "course": {
-        "id": "tm.e2e.FContrQn.CS2104"
-      },
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -152,9 +142,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000005"
       },
-      "course": {
-        "id": "tm.e2e.FContrQn.CS1101"
-      },
+      "courseId": "tm.e2e.FContrQn.CS1101",
       "team": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
@@ -199,9 +187,7 @@
     "openSession": {
       "id": "00000000-0000-4000-8000-000000000701",
       "name": "First Session",
-      "course": {
-        "id": "tm.e2e.FContrQn.CS2104"
-      },
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
@@ -224,9 +210,7 @@
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
       "name": "Second Session",
-      "course": {
-        "id": "tm.e2e.FContrQn.CS1101"
-      },
+      "courseId": "tm.e2e.FContrQn.CS1101",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdAt": "2012-04-01T23:59:00Z",

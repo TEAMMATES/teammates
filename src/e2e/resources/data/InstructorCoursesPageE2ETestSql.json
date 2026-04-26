@@ -91,9 +91,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.ICs.CS1101"
-      },
+      "courseId": "tm.e2e.ICs.CS1101",
       "name": "Teammates Demo Instr",
       "email": "ics.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
@@ -119,9 +117,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.ICs.CS1231"
-      },
+      "courseId": "tm.e2e.ICs.CS1231",
       "name": "Teammates Demo Instr",
       "email": "ics.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
@@ -147,9 +143,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.ICs.CS2104"
-      },
+      "courseId": "tm.e2e.ICs.CS2104",
       "name": "Teammates Demo Instr",
       "email": "ics.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -175,9 +169,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.ICs.CS2105"
-      },
+      "courseId": "tm.e2e.ICs.CS2105",
       "name": "Teammates Demo Inst",
       "email": "ics.instructor@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -205,9 +197,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "tm.e2e.ICs.CS1101"
-      },
+      "courseId": "tm.e2e.ICs.CS1101",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -220,9 +210,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
       },
-      "course": {
-        "id": "tm.e2e.ICs.CS1101"
-      },
+      "courseId": "tm.e2e.ICs.CS1101",
       "team": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
@@ -232,9 +220,7 @@
     },
     "student3@ICs.CS1101": {
       "id": "00000000-0000-4000-8000-000000000403",
-      "course": {
-        "id": "tm.e2e.ICs.CS1101"
-      },
+      "courseId": "tm.e2e.ICs.CS1101",
       "team": {
         "id": "00000000-0000-4000-8000-000000000203"
       },
@@ -246,9 +232,7 @@
   "feedbackSessions": {
     "ICs.session": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "course": {
-        "id": "tm.e2e.ICs.CS1231"
-      },
+      "courseId": "tm.e2e.ICs.CS1231",
       "name": "Second Session",
       "creatorEmail": "backdoor@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",

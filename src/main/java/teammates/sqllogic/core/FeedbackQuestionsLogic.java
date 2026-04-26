@@ -108,7 +108,7 @@ public final class FeedbackQuestionsLogic {
 
         // check whether the question numbers are consistent
         if (questions.size() > 1 && !areQuestionNumbersConsistent(questions)) {
-            log.severe(feedbackSession.getCourse().getId() + ": " + feedbackSession.getName()
+            log.severe(feedbackSession.getCourseId() + ": " + feedbackSession.getName()
                     + " has invalid question numbers");
         }
 

@@ -54,6 +54,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
                 .withCourseId(openSession.getCourseId())
+                .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName());
         FeedbackSubmitPageSql submitPage = loginToPage(url, FeedbackSubmitPageSql.class, instructor.getGoogleId());
 
@@ -154,6 +155,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         logout();
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
                 .withCourseId(openSession.getCourseId())
+                .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", instructor.getEmail());
         submitPage = loginToPage(url, FeedbackSubmitPageSql.class, instructor.getGoogleId());
@@ -166,6 +168,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("preview as student");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withCourseId(openSession.getCourseId())
+                .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", student.getEmail());
         submitPage = getNewPageInstance(url, FeedbackSubmitPageSql.class);
@@ -181,6 +184,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("moderating instructor cannot see questions without instructor visibility");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withCourseId(gracePeriodSession.getCourseId())
+                .withFeedbackSessionId(gracePeriodSession.getId().toString())
                 .withSessionName(gracePeriodSession.getName())
                 .withParam("moderatedperson", student.getEmail())
                 .withParam("moderatedquestionId", questionId.toString());
@@ -201,7 +205,8 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
     private AppUrl getStudentSubmitPageUrl(Student student, FeedbackSession session) {
         return createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
-                .withCourseId(student.getCourse().getId())
+                .withCourseId(student.getCourseId())
+                .withFeedbackSessionId(session.getId().toString())
                 .withSessionName(session.getName());
     }
 

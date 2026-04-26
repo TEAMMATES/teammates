@@ -614,10 +614,19 @@ describe('SessionSubmissionPageComponent', () => {
   const testQueryParams: any = {
     courseid: 'CS3281',
     fsname: 'Feedback Session Name',
+    fsid: '00000000-0000-4000-8000-000000000001',
     key: 'reg-key',
   };
 
   const getFeedbackSessionArgs: any = {
+    feedbackSessionId: '00000000-0000-4000-8000-000000000001',
+    intent: Intent.STUDENT_SUBMISSION,
+    key: testQueryParams.key,
+    moderatedPerson: '',
+    previewAs: '',
+  };
+
+  const getFeedbackQuestionsArgs: any = {
     courseId: testQueryParams.courseid,
     feedbackSessionName: testQueryParams.fsname,
     intent: Intent.STUDENT_SUBMISSION,
@@ -803,7 +812,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/submission',
-        { courseid: 'CS3281', fsname: 'Feedback Session Name' });
+        { courseid: 'CS3281', fsname: 'Feedback Session Name', fsid: '00000000-0000-4000-8000-000000000001' });
   });
 
   it('should deny unallowed access with valid reg key for logged in user', () => {
@@ -980,7 +989,7 @@ describe('SessionSubmissionPageComponent', () => {
 
     component.loadFeedbackQuestions();
 
-    expect(getQuestionsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
+    expect(getQuestionsSpy).toHaveBeenLastCalledWith(getFeedbackQuestionsArgs);
     expect(component.questionSubmissionForms.length).toEqual(1);
     expect(component.questionSubmissionForms[0]).toEqual(testMcqQuestionSubmissionForm2);
     expect(component.questionsNeedingSubmission.length).toEqual(0);

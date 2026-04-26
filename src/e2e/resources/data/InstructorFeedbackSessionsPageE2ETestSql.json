@@ -95,9 +95,7 @@
   "instructors": {
     "IFSessionPage.instr1": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "course": {
-        "id": "tm.e2e.sql.CS2104"
-      },
+      "courseId": "tm.e2e.sql.CS2104",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -123,9 +121,7 @@
     },
     "IFSessionPage.instr2": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "course": {
-        "id": "tm.e2e.sql.CS1101"
-      },
+      "courseId": "tm.e2e.sql.CS1101",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -156,9 +152,7 @@
       "account": {
         "id": "00000001-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.sql.CS2104"
-      },
+      "courseId": "tm.e2e.sql.CS2104",
       "team": {
         "id": "00000000-0111-4000-8000-000000000001"
       },
@@ -171,9 +165,7 @@
       "account": {
         "id": "00000001-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "tm.e2e.sql.CS2104"
-      },
+      "courseId": "tm.e2e.sql.CS2104",
       "team": {
         "id": "00000000-0111-4000-8000-000000000001"
       },
@@ -186,9 +178,7 @@
       "account": {
         "id": "00000001-0000-4000-8000-000000000003"
       },
-      "course": {
-        "id": "tm.e2e.sql.CS2104"
-      },
+      "courseId": "tm.e2e.sql.CS2104",
       "team": {
         "id": "00000000-0111-4000-8000-000000000003"
       },
@@ -201,9 +191,7 @@
       "account": {
         "id": "00000001-0000-4000-8000-000000000004"
       },
-      "course": {
-        "id": "tm.e2e.sql.CS1101"
-      },
+      "courseId": "tm.e2e.sql.CS1101",
       "team": {
         "id": "00000000-0111-4000-8000-000000000002"
       },
@@ -216,9 +204,7 @@
       "account": {
         "id": "00000001-0000-4000-8000-000000000005"
       },
-      "course": {
-        "id": "tm.e2e.sql.CS1101"
-      },
+      "courseId": "tm.e2e.sql.CS1101",
       "team": {
         "id": "00000000-0111-4000-8000-000000000002"
       },
@@ -248,9 +234,7 @@
       "studentDeadlines": {},
       "instructorDeadlines": {},
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.sql.CS2104"
-      },
+      "courseId": "tm.e2e.sql.CS2104",
       "name": "First Session"
     },
     "closedSession": {
@@ -273,9 +257,7 @@
       "studentDeadlines": {},
       "instructorDeadlines": {},
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.sql.CS1101"
-      },
+      "courseId": "tm.e2e.sql.CS1101",
       "name": "Second Session"
     }
   },

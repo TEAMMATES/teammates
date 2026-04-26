@@ -57,6 +57,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
         closedSession = testData.feedbackSessions.get("closedSession");
         newSession = getTypicalFeedbackSessionForCourse(course);
+        newSession.setId(null);
         newSession.setStartTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(2))
                 .truncatedTo(ChronoUnit.DAYS).toInstant());
         newSession.setEndTime(ZonedDateTime.now(ZoneId.of(course.getTimeZone())).plus(Duration.ofDays(7))
@@ -103,6 +104,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         ______TS("add new copied session");
         String newName = "Copied Name";
         FeedbackSession copiedSession = openSession.getCopy();
+        copiedSession.setId(null);
         copiedSession.setCourse(course);
         copiedSession.setName(newName);
         feedbackSessionsPage.addCopyOfSession(openSession, course, newName);
@@ -110,7 +112,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPageSql.class);
         // Fetch actual session from database to get deterministic timestamps
-        FeedbackSessionData actualSessionData = getFeedbackSession(course.getId(), newName);
+        FeedbackSessionData actualSessionData = getFeedbackSession(copiedSession);
         // Update copiedSession with actual timestamps from database
         copiedSession.setCreatedAt(Instant.ofEpochMilli(actualSessionData.getCreatedAtTimestamp()));
         copiedSession.setStartTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
@@ -132,6 +134,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         ______TS("copy session");
         newName = "Copied Name 2";
         FeedbackSession copiedSession2 = copiedSession.getCopy();
+        copiedSession2.setId(null);
         copiedSession2.setName(newName);
         feedbackSessionsPage.copySession(copiedSession, course, newName);
 
@@ -140,7 +143,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPageSql.class);
         // Fetch actual session from database to get deterministic timestamps
-        FeedbackSessionData actualSessionData2 = getFeedbackSession(course.getId(), newName);
+        FeedbackSessionData actualSessionData2 = getFeedbackSession(copiedSession2);
         // Update copiedSession2 with actual timestamps from database
         copiedSession2.setCreatedAt(Instant.ofEpochMilli(actualSessionData2.getCreatedAtTimestamp()));
         copiedSession2.setStartTime(TimeHelper.getMidnightAdjustedInstantBasedOnZone(
@@ -310,13 +313,11 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
     private void verifySessionPublishedState(FeedbackSession feedbackSession, FeedbackSessionPublishStatus publishStatus) {
         int retryLimit = 5;
-        FeedbackSessionData actual = getFeedbackSession(feedbackSession.getCourseId(),
-                feedbackSession.getName());
+        FeedbackSessionData actual = getFeedbackSession(feedbackSession);
         while (actual.getPublishStatus() == publishStatus && retryLimit > 0) {
             retryLimit--;
             ThreadHelper.waitFor(1000);
-            actual = getFeedbackSession(feedbackSession.getCourseId(),
-                    feedbackSession.getName());
+            actual = getFeedbackSession(feedbackSession);
         }
         assertEquals(actual.getPublishStatus(), publishStatus);
     }

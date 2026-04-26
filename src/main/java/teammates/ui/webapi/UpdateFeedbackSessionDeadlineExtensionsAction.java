@@ -150,6 +150,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsAction extends Action {
 
         deadlinesToRevoke.values().forEach(de ->
                 sqlLogic.deleteDeadlineExtension(de));
+        session.getDeadlineExtensions().removeAll(deadlinesToRevoke.values());
 
         // Create deadline extensions
         Map<String, Instant> deadlinesToCreate = new HashMap<>(newDeadlines);

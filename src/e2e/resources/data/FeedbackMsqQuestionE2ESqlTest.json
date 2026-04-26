@@ -52,9 +52,7 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS2104"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS2104",
       "displayName": "Co-owner"
     },
     "instructor2": {
@@ -77,9 +75,7 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS2104"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS2104",
       "displayName": "Co-owner"
     },
     "instructor3": {
@@ -105,9 +101,7 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000503",
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS1101"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS1101",
       "displayName": "Co-owner"
     }
   },
@@ -171,9 +165,7 @@
       "studentDeadlines": {},
       "instructorDeadlines": {},
       "id": "00000000-0000-4000-8000-000000000701",
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS2104"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS2104",
       "name": "First Session"
     },
     "openSession2": {
@@ -196,9 +188,7 @@
       "studentDeadlines": {},
       "instructorDeadlines": {},
       "id": "00000000-0000-4000-8000-000000000702",
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS1101"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS1101",
       "name": "Second Session"
     }
   },
@@ -283,9 +273,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS2104"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -295,9 +283,7 @@
     },
     "benny.tmms@FMsqQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS2104"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -307,9 +293,7 @@
     },
     "charlie.tmms@FMsqQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS2104"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000202"
       },
@@ -319,9 +303,7 @@
     },
     "danny.tmms@FMsqQn.CS1101": {
       "id": "00000000-0000-4000-8000-000000000603",
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS1101"
-      },
+      "courseId": "tm.e2e.FMsqQn.CS1101",
       "team": {
         "id": "00000000-0000-4000-8000-000000000203"
       },

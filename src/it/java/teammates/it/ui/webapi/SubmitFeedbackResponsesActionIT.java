@@ -140,6 +140,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
             return;
         }
 
+        session.getDeadlineExtensions().remove(existingDeadlineEndTime);
         logic.deleteDeadlineExtension(existingDeadlineEndTime);
     }
 

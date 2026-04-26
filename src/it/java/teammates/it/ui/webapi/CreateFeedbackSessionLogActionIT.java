@@ -204,7 +204,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         Student student2 = typicalBundle.students.get("student2InCourse1");
         FeedbackSession fs1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] params = {
-                Const.ParamsNames.COURSE_ID, student1.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),

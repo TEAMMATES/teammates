@@ -168,6 +168,13 @@ public abstract class FeedbackResponse extends BaseEntity {
      */
     public abstract FeedbackResponseDetails getFeedbackResponseDetailsCopy();
 
+    /**
+     * Add a comment to the feedback response.
+     */
+    public void addFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
+        this.feedbackResponseComments.add(feedbackResponseComment);
+    }
+
     public UUID getId() {
         return id;
     }

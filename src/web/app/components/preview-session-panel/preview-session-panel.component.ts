@@ -32,6 +32,9 @@ export class PreviewSessionPanelComponent {
   feedbackSessionName: string = '';
 
   @Input()
+  feedbackSessionId: string = '';
+
+  @Input()
   emailOfStudentToPreview: string = '';
 
   @Input()

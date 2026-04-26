@@ -8,7 +8,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -89,6 +88,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 session.isClosingSoonEmailEnabled(),
                 session.isPublishedEmailEnabled()
         );
+        copySession.setId(null);
 
         copySession2 = new FeedbackSession(
                 "Second Session",
@@ -104,13 +104,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 copySession.isClosingSoonEmailEnabled(),
                 copySession.isPublishedEmailEnabled()
         );
-    }
-
-    @BeforeClass
-    public void classSetup() {
-        BACKDOOR.deleteCourse(newCourse.getId());
-        BACKDOOR.deleteCourse(copyCourse.getId());
-        BACKDOOR.deleteCourse(copyCourse2.getId());
+        copySession2.setId(null);
     }
 
     @Test
@@ -227,7 +221,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         Set<String> teams = new HashSet<>();
 
         for (Student student : testData.students.values()) {
-            if (!student.getCourse().getId().equals(course.getId())) {
+            if (!student.getCourseId().equals(course.getId())) {
                 continue;
             }
             if (!sections.contains(student.getSectionName())) {

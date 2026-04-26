@@ -33,6 +33,7 @@ public class StudentUpdateRequest extends BasicRequest {
         assertTrue(name != null, "name cannot be null");
         assertTrue(email != null, "email cannot be null");
         assertTrue(team != null, "team cannot be null");
+        assertTrue(!team.trim().isEmpty(), "team cannot be blank");
         assertTrue(section != null, "section cannot be null");
         assertTrue(comments != null, "comments cannot be null");
         assertTrue(isSessionSummarySendEmail != null, "session summary boolean cannot be null");

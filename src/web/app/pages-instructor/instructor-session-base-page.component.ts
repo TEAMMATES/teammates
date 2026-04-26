@@ -368,17 +368,15 @@ export abstract class InstructorSessionBasePageComponent {
    * Creates list of copy session requests from params.
    *
    * @param result the result of the copy session modal
-   * @param courseId the source courseId
-   * @param feedbackSessionName the source feedback session name
+   * @param feedbackSessionId the source feedback session id
    * @returns the list of copy session requests
    */
-  createSessionCopyRequestsFromModal(result: CopySessionModalResult, courseId: string, feedbackSessionName: string)
+  createSessionCopyRequestsFromModal(result: CopySessionModalResult, feedbackSessionId: string)
       : Observable<FeedbackSession>[] {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(this.feedbackSessionsService.getFeedbackSession({
-        courseId,
-        feedbackSessionName,
+        feedbackSessionId,
         intent: Intent.FULL_DETAIL,
       }).pipe(
           switchMap((feedbackSession: FeedbackSession) =>
