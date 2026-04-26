@@ -195,7 +195,6 @@
       "questionDetails": {
         "questionType": "MSQ",
         "questionText": "Which area did this student work well in?",
-        "numOfMsqChoices": 3,
         "msqChoices": [
           "Teamwork",
           "Leadership",
@@ -234,7 +233,6 @@
         "id": "00000000-0000-4000-8000-000000000702"
       },
       "questionDetails": {
-        "numOfMsqChoices": 0,
         "msqChoices": [],
         "questionText": "Which teams did well in your opinion?",
         "questionType": "MSQ",

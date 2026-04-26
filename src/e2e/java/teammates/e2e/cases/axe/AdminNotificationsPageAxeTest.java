@@ -15,7 +15,7 @@ public class AdminNotificationsPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminNotificationsPageE2ETestSql.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminNotificationsPageE2ETest.json"));
     }
 
     @Test

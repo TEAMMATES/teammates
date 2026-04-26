@@ -18,7 +18,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/StudentHomePageE2ESqlTest.json");
+        testData = loadDataBundle("/StudentHomePageE2ETest.json");
         removeAndRestoreDataBundle(testData);
     }
 
