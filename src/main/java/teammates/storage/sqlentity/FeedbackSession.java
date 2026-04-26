@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -126,26 +125,6 @@ public class FeedbackSession extends BaseEntity {
         this.setOpenedEmailEnabled(isOpenedEmailEnabled);
         this.setClosingSoonEmailEnabled(isClosingSoonEmailEnabled);
         this.setPublishedEmailEnabled(isPublishedEmailEnabled);
-    }
-
-    /**
-     * Creates a copy of the feedback session.
-     *
-     * @return The copy of this object.
-     */
-    public FeedbackSession getCopy() {
-        FeedbackSession fs = new FeedbackSession(
-                name, course, creatorEmail, instructions, startTime,
-                endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                gracePeriod, isOpenedEmailEnabled, isClosingSoonEmailEnabled, isPublishedEmailEnabled
-        );
-        fs.setId(getId());
-        fs.setCreatedAt(getCreatedAt());
-        fs.setUpdatedAt(getUpdatedAt());
-        fs.setDeletedAt(getDeletedAt());
-        fs.setDeadlineExtensions(getDeadlineExtensions());
-
-        return fs;
     }
 
     @Override
