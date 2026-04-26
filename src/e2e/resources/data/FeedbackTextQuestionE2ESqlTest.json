@@ -56,7 +56,6 @@
         "displayName": "Co-owner"
       },
     "instructor2": {
-        "googleId": "tm.e2e.FTextQn.instructor2",
         "name": "Teammates Test 2",
         "email": "tmms.test2@gmail.tmt",
         "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
