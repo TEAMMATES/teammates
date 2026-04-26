@@ -8,8 +8,8 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { AccountRequests } from '../../../types/api-output';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import {
-  PendingAccountRequestTableComponent,
-} from '../../components/account-requests-table/pending-account-request-table.component';
+  AccountRequestTableComponent,
+} from '../../components/account-requests-table/account-request-table.component';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -22,7 +22,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   styleUrls: ['./admin-home-page.component.scss'],
   imports: [
     FormsModule,
-    PendingAccountRequestTableComponent,
+    AccountRequestTableComponent,
 ],
   providers: [FormatDateDetailPipe],
 })

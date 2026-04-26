@@ -9,7 +9,7 @@ import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit
 import {
   RejectWithReasonModalComponent,
 } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
-import { PendingAccountRequestTableComponent } from './pending-account-request-table.component';
+import { AccountRequestTableComponent } from './account-request-table.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -18,9 +18,9 @@ import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref'
 import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
-describe('PendingAccountRequestTableComponent', () => {
-    let component: PendingAccountRequestTableComponent;
-    let fixture: ComponentFixture<PendingAccountRequestTableComponent>;
+describe('AccountRequestTableComponent', () => {
+    let component: AccountRequestTableComponent;
+    let fixture: ComponentFixture<AccountRequestTableComponent>;
     let accountService: AccountService;
     let statusMessageService: StatusMessageService;
     let simpleModalService: SimpleModalService;
@@ -65,7 +65,7 @@ describe('PendingAccountRequestTableComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(PendingAccountRequestTableComponent);
+        fixture = TestBed.createComponent(AccountRequestTableComponent);
         component = fixture.componentInstance;
         accountService = TestBed.inject(AccountService);
         statusMessageService = TestBed.inject(StatusMessageService);

@@ -25,7 +25,7 @@ import {
 } from '../../components/account-requests-table/account-request-table-model';
 import {
   AdminAccountSearchTableComponent,
-} from '../../components/account-requests-table/admin-account-search-table.component';
+} from '../../components/admin-search-tables/admin-account-search-table.component';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';

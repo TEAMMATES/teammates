@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PendingAccountRequestTableComponent should display account requests with no reset or expand links button 1`] = `
-<tm-pending-account-request-table
+exports[`AccountRequestTableComponent should display account requests with no reset or expand links button 1`] = `
+<tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   isApprovingAccount={[Function Array]}
@@ -279,11 +279,11 @@ exports[`PendingAccountRequestTableComponent should display account requests wit
       </table>
     </div>
   </div>
-</tm-pending-account-request-table>
+</tm-account-request-table>
 `;
 
-exports[`PendingAccountRequestTableComponent should display account requests with reset button and expandable links buttons 1`] = `
-<tm-pending-account-request-table
+exports[`AccountRequestTableComponent should display account requests with reset button and expandable links buttons 1`] = `
+<tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   isApprovingAccount={[Function Array]}
@@ -566,11 +566,11 @@ exports[`PendingAccountRequestTableComponent should display account requests wit
       </table>
     </div>
   </div>
-</tm-pending-account-request-table>
+</tm-account-request-table>
 `;
 
-exports[`PendingAccountRequestTableComponent should snap with an expanded account requests table 1`] = `
-<tm-pending-account-request-table
+exports[`AccountRequestTableComponent should snap with an expanded account requests table 1`] = `
+<tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   isApprovingAccount={[Function Array]}
@@ -737,5 +737,5 @@ exports[`PendingAccountRequestTableComponent should snap with an expanded accoun
       </table>
     </div>
   </div>
-</tm-pending-account-request-table>
+</tm-account-request-table>
 `;

@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
-import { AccountRequestTableRowModel } from './account-request-table-model';
+import { AccountRequestTableRowModel } from './account-search-table-model';
 import { AdminAccountSearchTableComponent } from './admin-account-search-table.component';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 import {
