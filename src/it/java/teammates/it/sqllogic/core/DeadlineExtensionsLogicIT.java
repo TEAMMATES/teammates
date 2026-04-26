@@ -36,7 +36,7 @@ public class DeadlineExtensionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess
     }
 
     @Test
-    public void testGetExtendedDeadline_extensionExists_success() {
+    public void testGetDeadlineForUser_extensionExists_success() {
         FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student1InCourse1");
 
@@ -47,7 +47,7 @@ public class DeadlineExtensionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess
     }
 
     @Test
-    public void testGetExtendedDeadline_extensionDoesNotExist_success() {
+    public void testGetDeadlineForUser_extensionDoesNotExist_success() {
         FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student2InCourse1");
         Instant extendedDeadlineForStudent = deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, student);
