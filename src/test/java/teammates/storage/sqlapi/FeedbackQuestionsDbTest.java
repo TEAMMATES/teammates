@@ -102,9 +102,6 @@ public class FeedbackQuestionsDbTest extends BaseTestCase {
     @Test
     public void testDeleteFeedbackQuestion_success() {
         FeedbackQuestion feedbackQuestion = getFeedbackQuestion();
-        UUID fqid = feedbackQuestion.getId();
-
-        mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackQuestion.class, fqid)).thenReturn(feedbackQuestion);
 
         feedbackQuestionsDb.deleteFeedbackQuestion(feedbackQuestion);
 
