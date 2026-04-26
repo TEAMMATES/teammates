@@ -312,7 +312,7 @@ public final class JsonUtils {
                 case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsQuestion.class);
                 case RANK_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackRankRecipientsQuestion.class);
                 };
-            } catch (IllegalArgumentException _) {
+            } catch (IllegalArgumentException e) {
                 return null;
             }
         }
@@ -340,7 +340,7 @@ public final class JsonUtils {
                 case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsResponse.class);
                 case RANK_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackRankRecipientsResponse.class);
                 };
-            } catch (IllegalArgumentException _) {
+            } catch (IllegalArgumentException e) {
                 return null;
             }
         }
