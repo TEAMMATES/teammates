@@ -90,7 +90,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         // required by Hibernate
     }
 
-    public FeedbackQuestion(
+    protected FeedbackQuestion(
             FeedbackSession feedbackSession, Integer questionNumber,
             String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
@@ -163,9 +163,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
                     feedbackQuestionDetails
             );
             break;
-        case CONSTSUM:
-        case CONSTSUM_OPTIONS:
-        case CONSTSUM_RECIPIENTS:
+        case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
             feedbackQuestion = new FeedbackConstantSumQuestion(
                     feedbackSession, questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
@@ -371,11 +369,9 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         if (!this.questionNumber.equals(o.questionNumber)) {
             return Integer.compare(this.questionNumber, o.questionNumber);
         }
-        // Although question numbers ought to be unique in a feedback session,
-        // eventual consistency can result in duplicate questions numbers.
-        // Therefore, to ensure that the question order is always consistent to the user,
-        // compare feedbackQuestionId, which is guaranteed to be unique,
-        // when the questionNumbers are the same.
+
+        // In the event that two questions have the same question number, we order them by their Ids
+        // to ensure that the question order is always consistent to the user.
         return this.id.compareTo(o.id);
     }
 
