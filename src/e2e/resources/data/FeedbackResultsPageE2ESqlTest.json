@@ -232,7 +232,7 @@
         "isClosingSoonEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "isOpeningSoonEmailSent": false,
-        "isOpenEmailSent": false,
+        "isOpenedEmailSent": false,
         "isClosingSoonEmailSent": false,
         "isClosedEmailSent": false,
         "isPublishedEmailSent": false,
