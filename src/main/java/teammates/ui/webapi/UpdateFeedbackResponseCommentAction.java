@@ -52,7 +52,6 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
-            session = session.getCopyForUser(student.getEmail());
 
             gateKeeper.verifyAnswerableForStudent(question);
             verifySessionOpenExceptForModeration(session, student);
@@ -69,7 +68,6 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
-            session = session.getCopyForUser(instructorAsFeedbackParticipant.getEmail());
 
             gateKeeper.verifyAnswerableForInstructor(question);
             verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);

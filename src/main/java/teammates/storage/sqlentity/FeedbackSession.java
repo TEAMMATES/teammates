@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -126,46 +125,6 @@ public class FeedbackSession extends BaseEntity {
         this.setOpenedEmailEnabled(isOpenedEmailEnabled);
         this.setClosingSoonEmailEnabled(isClosingSoonEmailEnabled);
         this.setPublishedEmailEnabled(isPublishedEmailEnabled);
-    }
-
-    /**
-     * Creates a copy that uses the specific deadline for the given user.
-     *
-     * @param userEmail The email address of the given user.
-     * @return The copy of this object for the given user.
-     */
-    public FeedbackSession getCopyForUser(String userEmail) {
-        // TODO: DANGEROUS, remove this and replace with a safer way.
-        // In most cases a copy is not necessary or appropriate.
-        // If a copy is necessary, it should be created by copying the entity into a DTO instead.
-        // Copying this way risks accidentally modifying the entity which is persisted in the database.
-        FeedbackSession copy = getCopy();
-        copy.setDeadlineExtensions(copy.getDeadlineExtensions()
-                .stream().filter(
-                    de -> SanitizationHelper.areEmailsEqual(de.getUser().getEmail(), userEmail)
-                ).collect(Collectors.toList()));
-
-        return copy;
-    }
-
-    /**
-     * Creates a copy of the feedback session.
-     *
-     * @return The copy of this object.
-     */
-    public FeedbackSession getCopy() {
-        FeedbackSession fs = new FeedbackSession(
-                name, course, creatorEmail, instructions, startTime,
-                endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                gracePeriod, isOpenedEmailEnabled, isClosingSoonEmailEnabled, isPublishedEmailEnabled
-        );
-        fs.setId(getId());
-        fs.setCreatedAt(getCreatedAt());
-        fs.setUpdatedAt(getUpdatedAt());
-        fs.setDeletedAt(getDeletedAt());
-        fs.setDeadlineExtensions(getDeadlineExtensions());
-
-        return fs;
     }
 
     @Override
