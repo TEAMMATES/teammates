@@ -311,7 +311,8 @@ public final class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
         FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
-            throw new EntityDoesNotExistException(String.format("Feedback Session with id %s does not exist.", feedbackSessionId));
+            throw new EntityDoesNotExistException(
+                String.format("Feedback Session with id %s does not exist.", feedbackSessionId));
         }
 
         feedbackSession.setDeletedAt(Instant.now());
