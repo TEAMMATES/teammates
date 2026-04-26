@@ -44,6 +44,7 @@ import tools.jackson.core.type.TypeReference;
 import tools.jackson.core.util.DefaultIndenter;
 import tools.jackson.core.util.DefaultPrettyPrinter;
 import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.MapperFeature;
 import tools.jackson.databind.ObjectMapper;
@@ -84,11 +85,7 @@ public final class JsonUtils {
                 .addModule(new CustomSerializerAndDeserializer())
                 .addModule(new CustomPolymorphicSubtypeModule());
 
-        // TODO: remove unknown properties in databundles, then uncomment the following line.
-        // Many databundles e.g. typicalDataBundle contain unknown properties like "timeZone"
-        // in FeedbackSession entity. These should be cleaned up and the following feature
-        // enabled for security.
-        // builder.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        builder.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
         if (prettyPrint) {
             builder.defaultPrettyPrinter(new CustomPrettyPrinter());
