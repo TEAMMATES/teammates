@@ -298,7 +298,7 @@ public final class JsonUtils {
         @Override
         public FeedbackQuestion deserialize(JsonParser p, DeserializationContext ctx) {
             ObjectNode node = p.readValueAsTree();
-            String qt = node.path("questionDetails").path("questionType").asText();
+            String qt = node.path("questionDetails").path("questionType").asString();
             try {
                 return switch (FeedbackQuestionType.valueOf(qt)) {
                 case MCQ -> MAPPER.treeToValue(node, FeedbackMcqQuestion.class);
@@ -312,7 +312,7 @@ public final class JsonUtils {
                 case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsQuestion.class);
                 case RANK_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackRankRecipientsQuestion.class);
                 };
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException _) {
                 return null;
             }
         }
@@ -326,7 +326,7 @@ public final class JsonUtils {
         @Override
         public FeedbackResponse deserialize(JsonParser p, DeserializationContext ctx) {
             ObjectNode node = p.readValueAsTree();
-            String qt = node.path("answer").path("questionType").asText();
+            String qt = node.path("answer").path("questionType").asString();
             try {
                 return switch (FeedbackQuestionType.valueOf(qt)) {
                 case MCQ -> MAPPER.treeToValue(node, FeedbackMcqResponse.class);
@@ -340,7 +340,7 @@ public final class JsonUtils {
                 case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsResponse.class);
                 case RANK_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackRankRecipientsResponse.class);
                 };
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException _) {
                 return null;
             }
         }
