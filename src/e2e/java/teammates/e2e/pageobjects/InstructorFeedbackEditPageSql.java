@@ -321,7 +321,7 @@ public class InstructorFeedbackEditPageSql extends AppPage {
 
     public void verifyQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
         scrollElementToCenter(getQuestionForm(questionNum));
-        assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionType(), getQuestionType(questionNum));
+        assertEquals(feedbackQuestion.getQuestionType(), getQuestionType(questionNum));
         assertEquals(feedbackQuestion.getQuestionNumber(), getQuestionNumber(questionNum));
         assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionText(), getQuestionBrief(questionNum));
         assertEquals(getQuestionDescription(questionNum), feedbackQuestion.getDescription());
@@ -532,7 +532,7 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     private void inputQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
         setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetailsCopy().getQuestionText());
         setQuestionDescription(questionNum, feedbackQuestion.getDescription());
-        FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
+        FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
         if (questionType != FeedbackQuestionType.CONTRIB) {
             setFeedbackPath(questionNum, feedbackQuestion);
             setQuestionVisibility(questionNum, feedbackQuestion);
