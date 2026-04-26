@@ -141,13 +141,12 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.BIN_SESSION, paramMap);
   });
 
-  it('should call delete when removing session from recycle bin', () => {
+  it('should call delete when restoring session from recycle bin', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-      fsname: 'test feedback session',
+      fsid: '213bccdb-1c83-45b6-8643-2c9ab7b03837',
     };
 
-    service.deleteSessionFromRecycleBin(paramMap['courseid'], paramMap['fsname']);
+    service.restoreSessionFromRecycleBin(paramMap['fsid']);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.BIN_SESSION, paramMap);
   });
 

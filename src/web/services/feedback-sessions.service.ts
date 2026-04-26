@@ -439,12 +439,11 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Removes a session from the recycle bin.
+   * Restores a session from the recycle bin.
    */
-  deleteSessionFromRecycleBin(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
+  restoreSessionFromRecycleBin(feedbackSessionId: string): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.delete(ResourceEndpoints.BIN_SESSION, paramMap);

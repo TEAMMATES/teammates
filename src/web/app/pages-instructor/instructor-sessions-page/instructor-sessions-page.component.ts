@@ -464,9 +464,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {
     this.isRestoreFeedbackSessionLoading = true;
-    this.feedbackSessionsService.deleteSessionFromRecycleBin(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
+    this.feedbackSessionsService.restoreSessionFromRecycleBin(
+        model.feedbackSession.feedbackSessionId,
     )
         .pipe(finalize(() => {
           this.isRestoreFeedbackSessionLoading = false;
@@ -615,9 +614,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const restoreRequests: Observable<FeedbackSession>[] = [];
     this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
       restoreRequests.push(
-          this.feedbackSessionsService.deleteSessionFromRecycleBin(
-              model.feedbackSession.courseId,
-              model.feedbackSession.feedbackSessionName,
+          this.feedbackSessionsService.restoreSessionFromRecycleBin(
+              model.feedbackSession.feedbackSessionId,
           ));
     });
 

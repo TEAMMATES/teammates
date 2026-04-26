@@ -648,13 +648,9 @@ public class Logic {
     /**
      * Restores a specific session from Recycle Bin to feedback sessions table.
      */
-    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession restoreFeedbackSessionFromRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
-
-        assert feedbackSessionName != null;
-        assert courseId != null;
-
-        feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        return feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionId);
     }
 
     /**

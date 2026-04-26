@@ -115,24 +115,6 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Restores a specific soft deleted feedback session.
-     */
-    public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
-        assert courseId != null;
-        assert feedbackSessionName != null;
-
-        FeedbackSession sessionEntity = getFeedbackSession(feedbackSessionName, courseId);
-
-        if (sessionEntity == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        sessionEntity.setDeletedAt(null);
-        HibernateUtil.merge(sessionEntity);
-    }
-
-    /**
      * Creates a feedback session.
      */
     public FeedbackSession createFeedbackSession(FeedbackSession session)

@@ -253,12 +253,12 @@ describe('InstructorSessionsPageComponent', () => {
     };
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
     component.sessionsTableRowModels = [];
-    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'deleteSessionFromRecycleBin')
+    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'restoreSessionFromRecycleBin')
       .mockReturnValue(of(testFeedbackSession3));
 
     component.restoreRecycleBinFeedbackSession(recycleBinFeedbackSessionRowModel1);
     expect(sessionSpy).toHaveBeenCalledTimes(1);
-    expect(sessionSpy).toHaveBeenLastCalledWith('CS1231', 'Third Session');
+    expect(sessionSpy).toHaveBeenLastCalledWith(testFeedbackSession3.feedbackSessionId);
     expect(component.sessionsTableRowModels.length).toEqual(1);
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(0);
   });
@@ -273,9 +273,9 @@ describe('InstructorSessionsPageComponent', () => {
     component.recycleBinFeedbackSessionRowModels =
       [recycleBinFeedbackSessionRowModel1, recycleBinFeedbackSessionRowModel2];
     component.sessionsTableRowModels = [];
-    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'deleteSessionFromRecycleBin')
-    .mockImplementation((_courseId: string, feedbackSessionName: string) => {
-      if (feedbackSessionName === testFeedbackSession3.feedbackSessionName) {
+    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'restoreSessionFromRecycleBin')
+    .mockImplementation((feedbackSessionId: string) => {
+      if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {
         return of(testFeedbackSession3);
       }
       return of(testFeedbackSession4);
