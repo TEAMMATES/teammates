@@ -147,7 +147,6 @@
       "endTime": "2026-04-30T22:00:00Z",
       "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
       "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
-      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
@@ -156,8 +155,6 @@
       "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {},
       "courseId": "tm.e2e.FMcqQn.CS2104"
     },
     "openSession2": {
@@ -170,7 +167,6 @@
       "endTime": "2026-04-30T22:00:00Z",
       "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
       "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
-      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
@@ -179,8 +175,6 @@
       "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {},
       "courseId": "tm.e2e.FMcqQn.CS1101"
     }
   },

@@ -88,7 +88,6 @@
       "endTime": "2037-05-01T00:00:00Z",
       "sessionVisibleFromTime": "2012-03-29T00:00:00Z",
       "resultsVisibleFromTime": "2037-05-02T00:00:00Z",
-      "timeZone": "UTC",
       "gracePeriod": 0,
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
@@ -96,9 +95,7 @@
       "isPublishedEmailSent": false,
       "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     },
     "closingSoonSession": {
       "id": "00000000-0000-4000-8000-000000000702",
@@ -111,7 +108,6 @@
       "endTime": "2037-05-01T00:00:00Z",
       "sessionVisibleFromTime": "2012-03-29T00:00:00Z",
       "resultsVisibleFromTime": "2037-05-02T00:00:00Z",
-      "timeZone": "UTC",
       "gracePeriod": 15,
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
@@ -119,9 +115,7 @@
       "isPublishedEmailSent": false,
       "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     },
     "closedSession": {
       "id": "00000000-0000-4000-8000-000000000703",
@@ -134,7 +128,6 @@
       "endTime": "2037-05-01T00:00:00Z",
       "sessionVisibleFromTime": "2012-03-29T00:00:00Z",
       "resultsVisibleFromTime": "2037-05-02T00:00:00Z",
-      "timeZone": "UTC",
       "gracePeriod": 15,
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
@@ -142,9 +135,7 @@
       "isPublishedEmailSent": false,
       "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     },
     "publishedSession": {
       "id": "00000000-0000-4000-8000-000000000704",
@@ -157,7 +148,6 @@
       "endTime": "2013-05-01T00:00:00Z",
       "sessionVisibleFromTime": "2012-03-29T00:00:00Z",
       "resultsVisibleFromTime": "2012-05-02T00:00:00Z",
-      "timeZone": "UTC",
       "gracePeriod": 0,
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
@@ -165,9 +155,7 @@
       "isPublishedEmailSent": false,
       "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     }
   },
   "feedbackQuestions": {
