@@ -39,9 +39,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.ICDet.CS2104"
-      },
+      "courseId": "tm.e2e.ICDet.CS2104",
       "name": "ICDet Instructor 1",
       "email": "icdet.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -67,9 +65,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "tm.e2e.ICDet.CS2104"
-      },
+      "courseId": "tm.e2e.ICDet.CS2104",
       "name": "ICDet Instructor 2",
       "email": "icdet.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
@@ -97,9 +93,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
       },
-      "course": {
-        "id": "tm.e2e.ICDet.CS2104"
-      },
+      "courseId": "tm.e2e.ICDet.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -109,9 +103,7 @@
     },
     "benny.tmms@ICDet.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "course": {
-        "id": "tm.e2e.ICDet.CS2104"
-      },
+      "courseId": "tm.e2e.ICDet.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -121,9 +113,7 @@
     },
     "charlie.tmms@ICDet.CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
-      "course": {
-        "id": "tm.e2e.ICDet.CS2104"
-      },
+      "courseId": "tm.e2e.ICDet.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -136,9 +126,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000004"
       },
-      "course": {
-        "id": "tm.e2e.ICDet.CS2104"
-      },
+      "courseId": "tm.e2e.ICDet.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000304"
       },

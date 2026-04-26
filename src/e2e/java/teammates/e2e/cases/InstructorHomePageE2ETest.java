@@ -58,7 +58,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         feedbackSessionPublished = testData.feedbackSessions.get("Fourth Feedback Session");
         otherCourseSession = testData.feedbackSessions.get("CS1101 Session");
 
-        fileName = "/" + feedbackSessionOpen.getCourse().getId() + "_" + feedbackSessionOpen.getName()
+        fileName = "/" + feedbackSessionOpen.getCourseId() + "_" + feedbackSessionOpen.getName()
                 + "_result.csv";
     }
 
@@ -234,7 +234,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         long numStudents = testData.students.values()
                 .stream()
-                .filter(s -> s.getCourse().getId().equals(session.getCourse().getId()))
+                .filter(s -> s.getCourseId().equals(session.getCourseId()))
                 .count();
 
         Set<String> uniqueGivers = new HashSet<>();

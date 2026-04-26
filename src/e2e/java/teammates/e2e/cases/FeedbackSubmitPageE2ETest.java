@@ -205,7 +205,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
     private AppUrl getStudentSubmitPageUrl(Student student, FeedbackSession session) {
         return createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
-                .withCourseId(student.getCourse().getId())
+                .withCourseId(student.getCourseId())
                 .withFeedbackSessionId(session.getId().toString())
                 .withSessionName(session.getName());
     }

@@ -31,10 +31,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        BACKDOOR.deleteCourse("tm.e2e.ICs.CS4100");
-        BACKDOOR.deleteCourse("tm.e2e.ICs.CS5000");
-        BACKDOOR.deleteCourse("tm.e2e.ICs.CS6000");
-
         testData = loadDataBundle("/InstructorCoursesPageE2ETestSql.json");
         testData = removeAndRestoreDataBundle(testData);
 
@@ -225,7 +221,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         Set<String> teams = new HashSet<>();
 
         for (Student student : testData.students.values()) {
-            if (!student.getCourse().getId().equals(course.getId())) {
+            if (!student.getCourseId().equals(course.getId())) {
                 continue;
             }
             if (!sections.contains(student.getSectionName())) {

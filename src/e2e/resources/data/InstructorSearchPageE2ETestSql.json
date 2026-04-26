@@ -99,9 +99,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.ISearch.course1"
-      },
+      "courseId": "tm.e2e.ISearch.course1",
       "name": "Instructor1 Course1",
       "email": "isearch.instructor1@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -127,9 +125,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "tm.e2e.ISearch.course2"
-      },
+      "courseId": "tm.e2e.ISearch.course2",
       "name": "Instructor1 Course2",
       "email": "isearch.instructor1@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -157,9 +153,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "tm.e2e.ISearch.course1"
-      },
+      "courseId": "tm.e2e.ISearch.course1",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -172,9 +166,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
       },
-      "course": {
-        "id": "tm.e2e.ISearch.course1"
-      },
+      "courseId": "tm.e2e.ISearch.course1",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -187,9 +179,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000004"
       },
-      "course": {
-        "id": "tm.e2e.ISearch.course1"
-      },
+      "courseId": "tm.e2e.ISearch.course1",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -202,9 +192,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000005"
       },
-      "course": {
-        "id": "tm.e2e.ISearch.course1"
-      },
+      "courseId": "tm.e2e.ISearch.course1",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -214,9 +202,7 @@
     },
     "student1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000605",
-      "course": {
-        "id": "tm.e2e.ISearch.course2"
-      },
+      "courseId": "tm.e2e.ISearch.course2",
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -226,9 +212,7 @@
     },
     "student2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000606",
-      "course": {
-        "id": "tm.e2e.ISearch.course2"
-      },
+      "courseId": "tm.e2e.ISearch.course2",
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -238,9 +222,7 @@
     },
     "student2.2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000607",
-      "course": {
-        "id": "tm.e2e.ISearch.course2"
-      },
+      "courseId": "tm.e2e.ISearch.course2",
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -250,9 +232,7 @@
     },
     "student3InCourse2": {
       "id": "00000000-0000-4000-8000-000000000608",
-      "course": {
-        "id": "tm.e2e.ISearch.course2"
-      },
+      "courseId": "tm.e2e.ISearch.course2",
       "team": {
         "id": "00000000-0000-4000-8000-000000000304"
       },

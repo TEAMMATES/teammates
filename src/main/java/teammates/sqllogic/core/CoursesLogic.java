@@ -166,21 +166,20 @@ public final class CoursesLogic {
             return;
         }
 
-        usersLogic.deleteStudentsInCourseCascade(courseId);
-        List<FeedbackSession> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
-        feedbackSessions.forEach(feedbackSession -> {
-            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
-        });
+        List<FeedbackSession> feedbackSessions = course.getFeedbackSessions();
+        feedbackSessions.forEach(feedbackSession ->
+                fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId)
+        );
 
-        List<FeedbackSession> softDeletedFeedbackSessions = fsLogic.getSoftDeletedFeedbackSessionsForCourse(courseId);
-        softDeletedFeedbackSessions.forEach(feedbackSession -> {
-            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
-        });
-        coursesDb.deleteSectionsByCourseId(courseId);
         List<Instructor> instructors = usersLogic.getInstructorsForCourse(courseId);
-        instructors.forEach(instructor -> {
-            usersLogic.deleteInstructorCascade(courseId, instructor.getEmail());
-        });
+        instructors.forEach(instructor ->
+                usersLogic.deleteInstructorCascade(courseId, instructor.getEmail())
+        );
+
+        List<Student> students = usersLogic.getStudentsForCourse(courseId);
+        students.forEach(student ->
+                usersLogic.deleteStudentCascade(courseId, student.getEmail())
+        );
 
         coursesDb.deleteCourse(course);
     }

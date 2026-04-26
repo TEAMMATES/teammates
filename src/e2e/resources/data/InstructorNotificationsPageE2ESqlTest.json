@@ -37,9 +37,7 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "course": {
-        "id": "tm.e2e.INotifs.course1"
-      },
+      "courseId": "tm.e2e.INotifs.course1",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       }

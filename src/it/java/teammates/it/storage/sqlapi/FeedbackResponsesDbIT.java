@@ -167,7 +167,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testGetFeedbackResponsesForSessionInSection_matchNotFound_shouldReturnEmptyList() {
         String section3 = testDataBundle.sections.get("section3InCourse1").getName();
         FeedbackSession session = testDataBundle.feedbackSessions.get("session1InCourse1");
-        String courseId = session.getCourse().getId();
+        String courseId = session.getCourseId();
 
         ______TS("No matching responses exist for giver section");
         FeedbackResultFetchType fetchType = FeedbackResultFetchType.GIVER;
@@ -311,13 +311,13 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
                 testDataBundle.feedbackResponses.get("response4ForQ1")
         );
         List<FeedbackResponse> actual = frDb.getFeedbackResponsesForSession(sessionWithResponses,
-                sessionWithResponses.getCourse().getId());
+                sessionWithResponses.getCourseId());
         assertListResponsesEqual(expected, actual);
 
         ______TS("Session has no responses");
         FeedbackSession sessionWithoutResponses = testDataBundle.feedbackSessions.get(
                 "unpublishedSession1InTypicalCourse");
-        actual = frDb.getFeedbackResponsesForSession(sessionWithoutResponses, sessionWithResponses.getCourse().getId());
+        actual = frDb.getFeedbackResponsesForSession(sessionWithoutResponses, sessionWithResponses.getCourseId());
         assertEquals(0, actual.size());
     }
 

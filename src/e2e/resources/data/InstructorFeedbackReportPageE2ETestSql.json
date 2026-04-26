@@ -112,7 +112,7 @@
     "IFRep.instr.CS2104": {
       "id": "00000000-0000-4000-8000-000000000501",
       "account": { "id": "00000000-0000-4000-8000-000000000001" },
-      "course": { "id": "tm.e2e.IFRep.CS2104" },
+      "courseId": "tm.e2e.IFRep.CS2104",
       "name": "Teammates Test 1",
       "email": "ifrep.instr1@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -136,7 +136,7 @@
     "IFRep.instr2.CS2104": {
       "id": "00000000-0000-4000-8000-000000000502",
       "account": { "id": "00000000-0000-4000-8000-000000000002" },
-      "course": { "id": "tm.e2e.IFRep.CS2104" },
+      "courseId": "tm.e2e.IFRep.CS2104",
       "name": "Teammates Test 2",
       "email": "ifrep.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -160,7 +160,7 @@
     "IFRep.instr.CS2103": {
       "id": "00000000-0000-4000-8000-000000000503",
       "account": { "id": "00000000-0000-4000-8000-000000000001" },
-      "course": { "id": "tm.e2e.IFRep.CS2103" },
+      "courseId": "tm.e2e.IFRep.CS2103",
       "name": "Teammates Test 1",
       "email": "ifrep.instr1@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -186,7 +186,7 @@
     "IFRep.alice@CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": { "id": "00000000-0000-4000-8000-000000000003" },
-      "course": { "id": "tm.e2e.IFRep.CS2104" },
+      "courseId": "tm.e2e.IFRep.CS2104",
       "team": { "id": "00000000-0000-4000-8000-000000000201" },
       "email": "ifrep.alice.b@gmail.tmt",
       "name": "Alice Betsy",
@@ -195,7 +195,7 @@
     "IFRep.benny@CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "account": { "id": "00000000-0000-4000-8000-000000000004" },
-      "course": { "id": "tm.e2e.IFRep.CS2104" },
+      "courseId": "tm.e2e.IFRep.CS2104",
       "team": { "id": "00000000-0000-4000-8000-000000000201" },
       "email": "ifrep.benny.c@gmail.tmt",
       "name": "Benny Charles",
@@ -204,7 +204,7 @@
     "IFRep.charlie@CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
       "account": { "id": "00000000-0000-4000-8000-000000000005" },
-      "course": { "id": "tm.e2e.IFRep.CS2104" },
+      "courseId": "tm.e2e.IFRep.CS2104",
       "team": { "id": "00000000-0000-4000-8000-000000000202" },
       "email": "ifrep.charlie.d@gmail.tmt",
       "name": "Charlie Davis",
@@ -213,7 +213,7 @@
     "IFRep.danny@CS2104": {
       "id": "00000000-0000-4000-8000-000000000604",
       "account": { "id": "00000000-0000-4000-8000-000000000006" },
-      "course": { "id": "tm.e2e.IFRep.CS2104" },
+      "courseId": "tm.e2e.IFRep.CS2104",
       "team": { "id": "00000000-0000-4000-8000-000000000203" },
       "email": "ifrep.danny.e@gmail.tmt",
       "name": "Danny Engrid",
@@ -222,7 +222,7 @@
     "IFRep.emily@CS2103": {
       "id": "00000000-0000-4000-8000-000000000605",
       "account": { "id": "00000000-0000-4000-8000-000000000007" },
-      "course": { "id": "tm.e2e.IFRep.CS2103" },
+      "courseId": "tm.e2e.IFRep.CS2103",
       "team": { "id": "00000000-0000-4000-8000-000000000204" },
       "email": "ifrep.emily.f@gmail.tmt",
       "name": "Emily F.",
@@ -231,7 +231,7 @@
     "IFRep.fred@CS2103": {
       "id": "00000000-0000-4000-8000-000000000606",
       "account": { "id": "00000000-0000-4000-8000-000000000008" },
-      "course": { "id": "tm.e2e.IFRep.CS2103" },
+      "courseId": "tm.e2e.IFRep.CS2103",
       "team": { "id": "00000000-0000-4000-8000-000000000204" },
       "email": "ifrep.fred.g@gmail.tmt",
       "name": "Fred G.",

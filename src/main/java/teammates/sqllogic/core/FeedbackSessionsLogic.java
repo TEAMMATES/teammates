@@ -539,7 +539,7 @@ public final class FeedbackSessionsLogic {
         int expectedTotal = 0;
         List<FeedbackQuestion> questions = fqLogic.getFeedbackQuestionsForSession(fs);
         if (fqLogic.hasFeedbackQuestionsForStudents(questions)) {
-            expectedTotal += usersLogic.getStudentsForCourse(fs.getCourse().getId()).size();
+            expectedTotal += usersLogic.getStudentsForCourse(fs.getCourseId()).size();
         }
 
         // Pre-flight check to ensure there are questions for instructors.
@@ -547,7 +547,7 @@ public final class FeedbackSessionsLogic {
             return expectedTotal;
         }
 
-        List<Instructor> instructors = usersLogic.getInstructorsForCourse(fs.getCourse().getId());
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(fs.getCourseId());
         if (instructors.isEmpty()) {
             return expectedTotal;
         }

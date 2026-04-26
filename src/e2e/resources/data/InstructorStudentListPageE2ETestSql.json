@@ -109,9 +109,6 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.ISList.course1",
-      "course": {
-        "id": "tm.e2e.ISList.course1"
-      },
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -138,9 +135,6 @@
       },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.ISList.course2",
-      "course": {
-        "id": "tm.e2e.ISList.course2"
-      },
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -167,9 +161,6 @@
       },
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "tm.e2e.ISList.course3",
-      "course": {
-        "id": "tm.e2e.ISList.course3"
-      },
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
@@ -182,9 +173,6 @@
       "comments": "This student's name is Alice",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.ISList.course2",
-      "course": {
-        "id": "tm.e2e.ISList.course2"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -195,9 +183,6 @@
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.ISList.course2",
-      "course": {
-        "id": "tm.e2e.ISList.course2"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -208,9 +193,6 @@
       "comments": "This student's name is Hugh Ivanov",
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.ISList.course2",
-      "course": {
-        "id": "tm.e2e.ISList.course2"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -221,9 +203,6 @@
       "comments": "This student's name is Alice",
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "tm.e2e.ISList.course3",
-      "course": {
-        "id": "tm.e2e.ISList.course3"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -234,9 +213,6 @@
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000605",
       "courseId": "tm.e2e.ISList.course3",
-      "course": {
-        "id": "tm.e2e.ISList.course3"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -247,9 +223,6 @@
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000606",
       "courseId": "tm.e2e.ISList.course3",
-      "course": {
-        "id": "tm.e2e.ISList.course3"
-      },
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
@@ -263,9 +236,6 @@
       "comments": "This student's name is Denny Charlés",
       "id": "00000000-0000-4000-8000-000000000607",
       "courseId": "tm.e2e.ISList.course3",
-      "course": {
-        "id": "tm.e2e.ISList.course3"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000304"
       },

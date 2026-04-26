@@ -36,25 +36,14 @@ public final class FeedbackSessionLogsLogic {
     }
 
     /**
-     * Creates feedback session logs.
-     */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> fsLogs) throws InvalidParametersException {
-        if (fsLogs == null) {
-            throw new InvalidParametersException("Feedback session logs list does not exist");
-        }
-
-        for (FeedbackSessionLog fsLog : fsLogs) {
-            createFeedbackSessionLog(fsLog);
-        }
-    }
-
-    /**
      * Creates feedback session log.
      */
     public void createFeedbackSessionLog(FeedbackSessionLog fsLog) throws InvalidParametersException {
         if (fsLog == null) {
             throw new InvalidParametersException("Feedback session log does not exist");
         }
+
+        // TODO: move validation to getInvalidityInfo
         validateFeedbackSessionLogContext(fsLog.getStudent(), fsLog.getFeedbackSession());
         fslDb.createFeedbackSessionLog(fsLog);
     }
@@ -78,8 +67,8 @@ public final class FeedbackSessionLogsLogic {
             throw new InvalidParametersException("Feedback session for feedback session log does not exist");
         }
 
-        String studentCourseId = student.getCourse().getId();
-        String feedbackSessionCourseId = feedbackSession.getCourse().getId();
+        String studentCourseId = student.getCourseId();
+        String feedbackSessionCourseId = feedbackSession.getCourseId();
         if (!Objects.equals(studentCourseId, feedbackSessionCourseId)) {
             throw new InvalidParametersException("Student and feedback session belong to different courses");
         }

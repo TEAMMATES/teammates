@@ -77,7 +77,7 @@ public class GetFeedbackSessionsAction extends Action {
             if (Const.EntityType.STUDENT.equals(entityType)) {
                 List<Student> students = sqlLogic.getStudentsByGoogleId(userInfo.getId());
                 for (Student student : students) {
-                    String studentCourseId = student.getCourse().getId();
+                    String studentCourseId = student.getCourseId();
                     List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsForCourse(studentCourseId);
                     for (FeedbackSession session : sessions) {
                         sessionToDeadline.put(session, sqlLogic.getDeadlineForUser(session, student));
@@ -114,7 +114,7 @@ public class GetFeedbackSessionsAction extends Action {
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             for (FeedbackSession session : feedbackSessions) {
-                Instructor instructor = courseIdToInstructor.get(session.getCourse().getId());
+                Instructor instructor = courseIdToInstructor.get(session.getCourseId());
                 sessionToDeadline.put(session, sqlLogic.getDeadlineForUser(session, instructor));
             }
             responseData = new FeedbackSessionsData(sessionToDeadline);

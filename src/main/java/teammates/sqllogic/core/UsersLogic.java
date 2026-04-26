@@ -690,7 +690,7 @@ public final class UsersLogic {
             // the student is the only student in the team, delete responses related to the team
             feedbackResponsesLogic
                     .deleteFeedbackResponsesForCourseCascade(
-                            student.getCourse().getId(), student.getTeamName());
+                            student.getCourseId(), student.getTeamName());
         }
 
         deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
