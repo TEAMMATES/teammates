@@ -72,13 +72,8 @@ public final class FeedbackResponseCommentsDb {
     /**
      * Deletes a feedbackResponseComment.
      */
-    public void deleteFeedbackResponseComment(UUID frcId) {
-        assert frcId != null;
-
-        FeedbackResponseComment frc = getFeedbackResponseComment(frcId);
-        if (frc != null) {
-            HibernateUtil.remove(frc);
-        }
+    public void deleteFeedbackResponseComment(FeedbackResponseComment frc) {
+        HibernateUtil.remove(frc);
     }
 
     /**

@@ -291,9 +291,15 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
+     *
+     * <p>Fails silently if the feedback session doesn't exist.</p>
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
         FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
+        if (feedbackSession == null) {
+            return;
+        }
+
         fsDb.deleteFeedbackSession(feedbackSession);
     }
 

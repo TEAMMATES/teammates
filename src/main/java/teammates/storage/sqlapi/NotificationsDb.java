@@ -65,13 +65,9 @@ public final class NotificationsDb {
 
     /**
      * Deletes a notification.
-     *
-     * <p>Fails silently if notification is null.
      */
     public void deleteNotification(Notification notification) {
-        if (notification != null) {
-            HibernateUtil.remove(notification);
-        }
+        HibernateUtil.remove(notification);
     }
 
     /**

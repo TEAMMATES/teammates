@@ -88,7 +88,6 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testDeleteCourse() throws Exception {
-        ______TS("success: delete course that already exists");
         Course course = getTypicalCourse();
         coursesDb.createCourse(course);
 

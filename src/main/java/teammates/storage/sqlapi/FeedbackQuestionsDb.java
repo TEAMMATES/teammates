@@ -122,13 +122,8 @@ public final class FeedbackQuestionsDb {
     /**
      * Deletes a feedback question.
      */
-    public void deleteFeedbackQuestion(UUID fqId) {
-        assert fqId != null;
-
-        FeedbackQuestion fq = getFeedbackQuestion(fqId);
-        if (fq != null) {
-            HibernateUtil.remove(fq);
-        }
+    public void deleteFeedbackQuestion(FeedbackQuestion fq) {
+        HibernateUtil.remove(fq);
     }
 
     /**

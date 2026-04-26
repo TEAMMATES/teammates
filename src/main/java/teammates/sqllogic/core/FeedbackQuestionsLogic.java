@@ -229,7 +229,7 @@ public final class FeedbackQuestionsLogic {
         // adjust responses
         if (question.areResponseDeletionsRequiredForChanges(updateRequest.getGiverType(),
                 updateRequest.getRecipientType(), updateRequest.getQuestionDetails())) {
-            frLogic.deleteFeedbackResponsesForQuestionCascade(question.getId());
+            frLogic.deleteFeedbackResponsesForQuestionCascade(question);
         }
 
         return question;
@@ -638,7 +638,7 @@ public final class FeedbackQuestionsLogic {
         List<FeedbackQuestion> questionsToShiftQnNumber =
                 getFeedbackQuestionsForSession(questionToDelete.getFeedbackSession());
 
-        fqDb.deleteFeedbackQuestion(feedbackQuestionId);
+        fqDb.deleteFeedbackQuestion(questionToDelete);
 
         // Shift question numbers down for all questions after the deleted one
         shiftQuestionNumbersDown(questionNumberToDelete, questionsToShiftQnNumber);
