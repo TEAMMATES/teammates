@@ -68,7 +68,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             if (student == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
             }
-            feedbackSession = feedbackSession.getCopyForUser(student.getEmail());
             verifySessionOpenExceptForModeration(feedbackSession, student);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
@@ -78,7 +77,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
-            feedbackSession = feedbackSession.getCopyForUser(instructor.getEmail());
             verifySessionOpenExceptForModeration(feedbackSession, instructor);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
