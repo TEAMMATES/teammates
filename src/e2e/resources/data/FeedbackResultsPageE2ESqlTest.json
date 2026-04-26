@@ -229,7 +229,7 @@
         "resultsVisibleFromTime": "2012-05-01T16:00:00Z",
         "gracePeriod": 10,
         "isOpenedEmailEnabled": true,
-        "isClosingEmailEnabled": true,
+        "isClosingSoonEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "isOpeningSoonEmailSent": false,
         "isOpenEmailSent": false,
