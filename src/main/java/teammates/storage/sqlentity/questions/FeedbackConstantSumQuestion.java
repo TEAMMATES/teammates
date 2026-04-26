@@ -43,7 +43,7 @@ public class FeedbackConstantSumQuestion extends FeedbackQuestion {
 
     @Override
     public FeedbackQuestionType getQuestionType() {
-        return FeedbackQuestionType.CONSTSUM;
+        return questionDetails.getQuestionType();
     }
 
     @Override
