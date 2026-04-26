@@ -24,6 +24,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.FieldValidator;
 import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
 import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
@@ -106,6 +107,11 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         this.setShowGiverNameTo(showGiverNameTo);
         this.setShowRecipientNameTo(showRecipientNameTo);
     }
+
+    /**
+     * Gets the type of the feedback question.
+     */
+    public abstract FeedbackQuestionType getQuestionType();
 
     /**
      * Gets a copy of the question details of the feedback question.
