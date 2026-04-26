@@ -55,22 +55,6 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Gets all feedback response comments for a response.
-     */
-    public List<FeedbackResponseComment> getFeedbackResponseCommentForResponse(UUID feedbackResponseId) {
-        return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
-    }
-
-    /**
-     * Gets all response comments for a response.
-     */
-    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponseId) {
-        assert feedbackResponseId != null;
-
-        return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
-    }
-
-    /**
      * Gets the comment associated with the response.
      */
     public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
@@ -147,7 +131,7 @@ public final class FeedbackResponseCommentsLogic {
      */
     public void updateFeedbackResponseCommentsForResponse(FeedbackResponse response)
             throws InvalidParametersException, EntityDoesNotExistException {
-        List<FeedbackResponseComment> comments = getFeedbackResponseCommentForResponse(response.getId());
+        List<FeedbackResponseComment> comments = response.getFeedbackResponseComments();
         for (FeedbackResponseComment comment : comments) {
             comment.setGiverSection(response.getGiverSection());
             comment.setRecipientSection(response.getRecipientSection());

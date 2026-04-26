@@ -90,8 +90,6 @@ public final class AccountsLogic {
      * <p>Fails silently if the account doesn't exist.</p>
      */
     public void deleteAccount(String googleId) {
-        assert googleId != null;
-
         Account account = getAccountForGoogleId(googleId);
         if (account == null) {
             return;
@@ -110,7 +108,10 @@ public final class AccountsLogic {
      * <p>Fails silently if the account doesn't exist.</p>
      */
     public void deleteAccountCascade(String googleId) {
-        assert googleId != null;
+        Account account = getAccountForGoogleId(googleId);
+        if (account == null) {
+            return;
+        }
 
         List<User> usersToDelete = usersLogic.getAllUsersByGoogleId(googleId);
 
@@ -118,7 +119,7 @@ public final class AccountsLogic {
             usersLogic.deleteUser(user);
         }
 
-        deleteAccount(googleId);
+        accountsDb.deleteAccount(account);
     }
 
     /**

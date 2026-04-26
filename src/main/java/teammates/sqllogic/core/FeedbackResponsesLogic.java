@@ -189,13 +189,9 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Updates a non-null feedback response by {@link FeedbackResponse}.
+     * Updates a feedback response.
      *
-     * <p>Cascade updates its associated feedback response comment
-     * (e.g. associated response ID, giverSection and recipientSection).
-     *
-     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
-     * as question-giver-recipient is the primary key.
+     * <p>Cascade updates to its associated feedback response comment
      *
      * @return updated feedback response
      * @throws InvalidParametersException if attributes to update are not valid
@@ -203,12 +199,11 @@ public final class FeedbackResponsesLogic {
      */
     public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityDoesNotExistException {
-
+        // TODO: investigate for bugs, oldResponse and newResponse are the same object.
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
         FeedbackResponse newResponse = frDb.updateFeedbackResponse(feedbackResponse);
 
-        List<FeedbackResponseComment> oldResponseComments =
-                frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
+        List<FeedbackResponseComment> oldResponseComments = oldResponse.getFeedbackResponseComments();
 
         for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
             oldResponseComment.setGiverSection(newResponse.getGiverSection());
@@ -299,18 +294,6 @@ public final class FeedbackResponsesLogic {
         assert recipient != null;
 
         return frDb.getFeedbackResponsesForRecipientForCourse(courseId, recipient);
-    }
-
-    /**
-     * Gets all responses from a specific giver and recipient for a course.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesFromGiverAndRecipientForCourse(
-            String courseId, String giverEmail, String recipientEmail) {
-        assert courseId != null;
-        assert giverEmail != null;
-        assert recipientEmail != null;
-
-        return frDb.getFeedbackResponsesForGiverAndRecipientForCourse(courseId, giverEmail, recipientEmail);
     }
 
     /**

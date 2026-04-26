@@ -84,19 +84,6 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Get all Account Requests.
-     */
-    public List<AccountRequest> getAllAccountRequests() {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
-        Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root);
-
-        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
-        return query.getResultList();
-    }
-
-    /**
      * Get all Account Requests for a given {@code email} and {@code institute}.
      */
     public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {

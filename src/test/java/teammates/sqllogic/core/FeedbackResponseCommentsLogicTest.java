@@ -51,18 +51,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCommentForResponse_commentAlreadyExists_success() {
-        List<FeedbackResponseComment> expectedReturn = new ArrayList<>();
-        expectedReturn.add(getTypicalResponseComment(TYPICAL_ID));
-
-        when(frcDb.getFeedbackResponseCommentsForResponse(TYPICAL_UUID)).thenReturn(expectedReturn);
-
-        List<FeedbackResponseComment> fetchedReturn = frcLogic.getFeedbackResponseCommentsForResponse(TYPICAL_UUID);
-
-        assertEquals(expectedReturn, fetchedReturn);
-    }
-
-    @Test
     public void testGetCommentForResponseFromParticipant_commentAlreadyExists_success() {
         FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
 

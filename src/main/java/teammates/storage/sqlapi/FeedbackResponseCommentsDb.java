@@ -77,23 +77,6 @@ public final class FeedbackResponseCommentsDb {
     }
 
     /**
-     * Gets all feedback response comments for a response.
-     */
-    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponseId) {
-        assert feedbackResponseId != null;
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
-        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
-        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
-        cq.select(root)
-                .where(cb.and(
-                        cb.equal(frJoin.get("id"), feedbackResponseId)));
-
-        return HibernateUtil.createQuery(cq).getResultList();
-    }
-
-    /**
      * Gets the comment associated with the feedback response.
      */
     public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(

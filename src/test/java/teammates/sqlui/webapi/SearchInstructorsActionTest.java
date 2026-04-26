@@ -1,6 +1,5 @@
 package teammates.sqlui.webapi;
 
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -57,9 +56,6 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     @Test
     void testExecute_searchInstructors_success() {
         when(mockLogic.searchInstructorsInWholeSystem(searchKey)).thenReturn(instructors);
-        for (Instructor instructor : instructors) {
-            when(mockLogic.getCourseInstitute(instructor.getCourseId())).thenReturn(instructor.getCourse().getInstitute());
-        }
 
         String[] params = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
@@ -69,9 +65,6 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         InstructorsData instructorsData = (InstructorsData) getJsonResult(action).getOutput();
 
         verify(mockLogic, times(1)).searchInstructorsInWholeSystem(searchKey);
-        verify(mockLogic, times(instructors.size())).getCourseInstitute(argThat(courseId ->
-                instructors.stream().map(Instructor::getCourseId).anyMatch(id -> id.equals(courseId))
-        ));
         verifyNoMoreInteractions(mockLogic);
 
         assertEquals(instructors.size(), instructorsData.getInstructors().size());
