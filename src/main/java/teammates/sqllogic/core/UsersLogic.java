@@ -473,18 +473,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets student reference associated with {@code id}.
-     *
-     * @param id Id of Student.
-     * @return Returns a proxy for the Student.
-     */
-    public Student getStudentReference(UUID id) {
-        assert id != null;
-
-        return usersDb.getStudentReference(id);
-    }
-
-    /**
      * Gets the student with the specified email.
      */
     public Student getStudentForEmail(String courseId, String userEmail) {
@@ -813,7 +801,7 @@ public final class UsersLogic {
         instructor.setAccount(null);
 
         if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
-            accountsLogic.deleteAccountCascade(googleId);
+            accountsLogic.deleteAccount(googleId);
         }
     }
 
@@ -952,7 +940,7 @@ public final class UsersLogic {
         student.setAccount(null);
 
         if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
-            accountsLogic.deleteAccountCascade(googleId);
+            accountsLogic.deleteAccount(googleId);
         }
     }
 
@@ -961,23 +949,6 @@ public final class UsersLogic {
      */
     public static <T extends User> void sortByName(List<T> users) {
         users.sort(Comparator.comparing(user -> user.getName().toLowerCase()));
-    }
-
-    /**
-     * Checks if an instructor with {@code googleId} can create a course with
-     * {@code institute}
-     * (ie. has an existing course(s) with the same {@code institute}).
-     */
-    public boolean canInstructorCreateCourse(String googleId, String institute) {
-        assert googleId != null;
-        assert institute != null;
-
-        List<Instructor> existingInstructors = getInstructorsForGoogleId(googleId);
-        return existingInstructors
-                .stream()
-                .filter(Instructor::hasCoownerPrivileges)
-                .map(instructor -> instructor.getCourse())
-                .anyMatch(course -> institute.equals(course.getInstitute()));
     }
 
     /**

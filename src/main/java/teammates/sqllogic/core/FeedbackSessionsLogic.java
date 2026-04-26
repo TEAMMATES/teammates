@@ -89,16 +89,6 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets a feedback session reference.
-     *
-     * @return Returns a proxy for the feedback session.
-     */
-    public FeedbackSession getFeedbackSessionReference(UUID id) {
-        assert id != null;
-        return fsDb.getFeedbackSessionReference(id);
-    }
-
-    /**
      * Gets all feedback sessions of a course, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
@@ -382,23 +372,6 @@ public final class FeedbackSessionsLogic {
             // case where all are team questions
             return frLogic.hasGiverRespondedForSession(userTeam, session.getFeedbackQuestions());
         }
-    }
-
-    /**
-     * Checks whether an instructor has attempted a feedback session.
-     *
-     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
-     */
-    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
-        assert session != null;
-        assert userEmail != null;
-
-        if (frLogic.hasGiverRespondedForSession(userEmail, session.getFeedbackQuestions())) {
-            return true;
-        }
-
-        // if there is no question for instructor, session is attempted
-        return !fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), session.isCreator(userEmail));
     }
 
     /**

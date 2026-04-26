@@ -36,23 +36,22 @@ public class DeadlineExtensionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess
     }
 
     @Test
-    public void testGetExtendedDeadline_extensionExists_success() {
+    public void testGetDeadlineForUser_extensionExists_success() {
         FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student1InCourse1");
 
         assert student != null;
-        Instant extendedDeadlineForStudent = deadlineExtensionsLogic.getExtendedDeadlineForUser(feedbackSession, student);
+        Instant extendedDeadlineForStudent = deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, student);
 
-        assertNotNull(extendedDeadlineForStudent);
         assertEquals(Instant.parse("2027-04-30T23:00:00Z"), extendedDeadlineForStudent);
     }
 
     @Test
-    public void testGetExtendedDeadline_extensionDoesNotExist_null() {
+    public void testGetDeadlineForUser_extensionDoesNotExist_success() {
         FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student2InCourse1");
-        Instant extendedDeadlineForStudent = deadlineExtensionsLogic.getExtendedDeadlineForUser(feedbackSession, student);
+        Instant extendedDeadlineForStudent = deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, student);
 
-        assertNull(extendedDeadlineForStudent);
+        assertEquals(feedbackSession.getEndTime(), extendedDeadlineForStudent);
     }
 }
