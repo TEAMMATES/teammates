@@ -128,14 +128,14 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
       id="btn-confirm-copy-instructor"
       type="button"
     >
-       Copy 
+       Cancel 
     </button>
     <button
       class="btn btn-light"
       id="btn-cancel-copy-instructor"
       type="button"
     >
-       Cancel 
+       Copy
     </button>
   </div>
 </tm-copy-instructors-from-other-courses-modal>
@@ -392,14 +392,14 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
       id="btn-confirm-copy-instructor"
       type="button"
     >
-       Copy 
+       Cancel 
     </button>
     <button
       class="btn btn-light"
       id="btn-cancel-copy-instructor"
       type="button"
     >
-       Cancel 
+       Copy
     </button>
   </div>
 </tm-copy-instructors-from-other-courses-modal>
@@ -530,14 +530,14 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
       id="btn-confirm-copy-instructor"
       type="button"
     >
-       Copy 
+       Cancel 
     </button>
     <button
       class="btn btn-light"
       id="btn-cancel-copy-instructor"
       type="button"
     >
-       Cancel 
+       Copy 
     </button>
   </div>
 </tm-copy-instructors-from-other-courses-modal>
@@ -681,14 +681,14 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
       id="btn-confirm-copy-instructor"
       type="button"
     >
-       Copy 
+       Cancel 
     </button>
     <button
       class="btn btn-light"
       id="btn-cancel-copy-instructor"
       type="button"
     >
-       Cancel 
+       Copy 
     </button>
   </div>
 </tm-copy-instructors-from-other-courses-modal>
@@ -742,14 +742,14 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
       id="btn-confirm-copy-instructor"
       type="button"
     >
-       Copy 
+       Cancel 
     </button>
     <button
       class="btn btn-light"
       id="btn-cancel-copy-instructor"
       type="button"
     >
-       Cancel 
+       Copy 
     </button>
   </div>
 </tm-copy-instructors-from-other-courses-modal>
