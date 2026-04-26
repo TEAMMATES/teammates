@@ -111,7 +111,6 @@ public final class HibernateUtil {
         }
 
         Configuration config = new Configuration()
-                .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
                 .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
                 .setProperty("hibernate.connection.provider_class",
                         "org.hibernate.hikaricp.internal.HikariCPConnectionProvider")
@@ -123,7 +122,6 @@ public final class HibernateUtil {
                 .setProperty("hibernate.current_session_context_class", "thread")
                 .setProperty("hibernate.hikari.minimumIdle", "10")
                 .setProperty("hibernate.hikari.maximumPoolSize", "10")
-                .setProperty("hibernate.hikari.idleTimeout", "300000")
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
                 .addPackage("teammates.storage.sqlentity");
 

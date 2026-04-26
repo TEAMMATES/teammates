@@ -301,7 +301,7 @@ public final class FeedbackQuestionsLogic {
      * @return an Optional containing a list of dynamically generated options, or an empty Optional if not applicable
      */
     public Optional<List<String>> getDynamicallyGeneratedOptions(FeedbackQuestion feedbackQuestion, Student student) {
-        FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
+        FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
         String courseId = feedbackQuestion.getCourseId();
 
         return switch (questionType) {
@@ -663,7 +663,7 @@ public final class FeedbackQuestionsLogic {
 
         return feedbackQuestions
                 .stream()
-                .filter(q -> q.getQuestionDetailsCopy().getQuestionType() == questionType)
+                .filter(q -> q.getQuestionType() == questionType)
                 .collect(Collectors.toList());
     }
 

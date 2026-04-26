@@ -82,8 +82,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         assertEquals(updatedQuestion.getQuestionDetailsCopy().getQuestionText(), response.getQuestionBrief());
         assertEquals("this is the brief", updatedQuestion.getQuestionDetailsCopy().getQuestionText());
 
-        assertEquals(updatedQuestion.getQuestionDetailsCopy().getQuestionType(), response.getQuestionType());
-        assertEquals(FeedbackQuestionType.TEXT, updatedQuestion.getQuestionDetailsCopy().getQuestionType());
+        assertEquals(updatedQuestion.getQuestionType(), response.getQuestionType());
+        assertEquals(FeedbackQuestionType.TEXT, updatedQuestion.getQuestionType());
 
         assertEquals(JsonUtils.toJson(updatedQuestion.getQuestionDetailsCopy()),
                 JsonUtils.toJson(response.getQuestionDetails()));

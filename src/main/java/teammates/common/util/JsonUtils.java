@@ -298,7 +298,7 @@ public final class JsonUtils {
         @Override
         public FeedbackQuestion deserialize(JsonParser p, DeserializationContext ctx) {
             ObjectNode node = p.readValueAsTree();
-            String qt = node.path("questionDetails").path("questionType").asText();
+            String qt = node.path("questionDetails").path("questionType").asString();
             try {
                 return switch (FeedbackQuestionType.valueOf(qt)) {
                 case MCQ -> MAPPER.treeToValue(node, FeedbackMcqQuestion.class);
@@ -326,7 +326,7 @@ public final class JsonUtils {
         @Override
         public FeedbackResponse deserialize(JsonParser p, DeserializationContext ctx) {
             ObjectNode node = p.readValueAsTree();
-            String qt = node.path("answer").path("questionType").asText();
+            String qt = node.path("answer").path("questionType").asString();
             try {
                 return switch (FeedbackQuestionType.valueOf(qt)) {
                 case MCQ -> MAPPER.treeToValue(node, FeedbackMcqResponse.class);

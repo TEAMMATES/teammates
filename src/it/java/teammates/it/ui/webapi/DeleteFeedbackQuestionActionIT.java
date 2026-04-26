@@ -47,7 +47,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
         FeedbackResponseComment frc1 = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
         FeedbackQuestion typicalQuestion =
                 logic.getFeedbackQuestion(fq1.getId());
-        assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionDetailsCopy().getQuestionType());
+        assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
