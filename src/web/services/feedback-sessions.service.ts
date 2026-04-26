@@ -140,8 +140,8 @@ export class FeedbackSessionsService {
   /**
    * Deletes a feedback session by calling API.
    */
-  deleteFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
-    const paramMap: Record<string, string> = { courseid: courseId, fsname: feedbackSessionName };
+  deleteFeedbackSession(feedbackSessionId: string): Observable<FeedbackSession> {
+    const paramMap: Record<string, string> = { fsid: feedbackSessionId };
     return this.httpRequestService.delete(ResourceEndpoints.SESSION, paramMap);
   }
 

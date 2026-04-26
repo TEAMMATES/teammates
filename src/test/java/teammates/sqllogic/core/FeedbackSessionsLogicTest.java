@@ -245,11 +245,11 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
 
-        when(fsDb.getFeedbackSession(session.getName(), course.getId())).thenReturn(session);
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        fsLogic.deleteFeedbackSessionCascade(session.getName(), course.getId());
+        fsLogic.deleteFeedbackSessionCascade(session.getId());
 
-        verify(fsDb, times(1)).getFeedbackSession(session.getName(), course.getId());
+        verify(fsDb, times(1)).getFeedbackSession(session.getId());
         verify(fsDb, times(1)).deleteFeedbackSession(session);
     }
 

@@ -46,8 +46,6 @@ public final class FeedbackSessionsDb {
      * @return null if not found
      */
     public FeedbackSession getFeedbackSession(UUID fsId) {
-        assert fsId != null;
-
         return HibernateUtil.get(FeedbackSession.class, fsId);
     }
 

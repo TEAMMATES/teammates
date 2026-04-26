@@ -207,8 +207,8 @@ public class CoursesLogicTest extends BaseTestCase {
 
         verify(usersLogic, times(1)).getInstructorsForCourse(course.getId());
         verify(usersLogic, times(1)).deleteInstructorCascade(course.getId(), instructors.get(0).getEmail());
-        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(fs.getName(), course.getId());
-        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(softDeletedFs.getName(), course.getId());
+        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(fs.getId());
+        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(softDeletedFs.getId());
         verify(coursesDb, times(1)).deleteCourse(course);
     }
 

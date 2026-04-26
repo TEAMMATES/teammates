@@ -306,7 +306,7 @@ describe('InstructorSessionsPageComponent', () => {
 
     expect(ngbModal.open).toHaveBeenCalledWith(SessionPermanentDeletionConfirmModalComponent);
     expect(sessionSpy).toHaveBeenCalledTimes(1);
-    expect(sessionSpy).toHaveBeenLastCalledWith('CS1231', 'Third Session');
+    expect(sessionSpy).toHaveBeenLastCalledWith(testFeedbackSession3.feedbackSessionId);
 
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(0);
   });
@@ -338,7 +338,7 @@ describe('InstructorSessionsPageComponent', () => {
 
     expect(ngbModal.open).toHaveBeenCalledWith(SessionsPermanentDeletionConfirmModalComponent);
     expect(sessionSpy).toHaveBeenCalledTimes(2);
-    expect(sessionSpy).toHaveBeenLastCalledWith('CS3281', 'Fourth Session');
+    expect(sessionSpy).toHaveBeenLastCalledWith(testFeedbackSession4.feedbackSessionId);
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(0);
   });
 

@@ -655,8 +655,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
     modalRef.result.then(() => {
       this.feedbackSessionsService.deleteFeedbackSession(
-          model.feedbackSession.courseId,
-          model.feedbackSession.feedbackSessionName,
+          model.feedbackSession.feedbackSessionId,
       )
         .pipe(finalize(() => {
           this.isPermanentDeleteLoading = false;
@@ -691,8 +690,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
       this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
         deleteRequests.push(this.feedbackSessionsService.deleteFeedbackSession(
-            model.feedbackSession.courseId,
-            model.feedbackSession.feedbackSessionName,
+            model.feedbackSession.feedbackSessionId,
         ));
       });
 

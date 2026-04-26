@@ -284,8 +284,8 @@ public final class FeedbackSessionsLogic {
      *
      * <p>Fails silently if the feedback session doesn't exist.</p>
      */
-    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
-        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
+    public void deleteFeedbackSessionCascade(UUID feedbackSessionId) {
+        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             return;
         }

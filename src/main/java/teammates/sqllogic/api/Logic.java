@@ -633,8 +633,8 @@ public class Logic {
      *
      * <p>Fails silently if the feedback session doesn't exist.</p>
      */
-    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
-        feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
+    public void deleteFeedbackSessionCascade(UUID feedbackSessionId) {
+        feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionId);
     }
 
     /**
