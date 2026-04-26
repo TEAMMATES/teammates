@@ -128,7 +128,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
 
         for (FeedbackResponse response : responsesToUser) {
             assertEquals(logic.getSection(courseId, "Section 3"), response.getRecipientSection());
-            List<FeedbackResponseComment> commentsFromUser = logic.getFeedbackResponseCommentsForResponse(response.getId());
+            List<FeedbackResponseComment> commentsFromUser = response.getFeedbackResponseComments();
             for (FeedbackResponseComment comment : commentsFromUser) {
                 if (comment.getGiver().equals(giverEmail)) {
                     assertEquals(logic.getSection(courseId, "Section 3"), comment.getGiverSection());

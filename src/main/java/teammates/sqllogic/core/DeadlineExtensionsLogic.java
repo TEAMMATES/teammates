@@ -51,24 +51,11 @@ public final class DeadlineExtensionsLogic {
      * Get extended deadline end time for this session and user if it exists, otherwise get the deadline of the session.
      */
     public Instant getDeadlineForUser(FeedbackSession session, User user) {
-        Instant extendedDeadline =
-                getExtendedDeadlineForUser(session, user);
-
-        if (extendedDeadline == null) {
-            return session.getEndTime();
-        }
-
-        return extendedDeadline;
-    }
-
-    /**
-     * Get extended deadline end time for this session and user if it exists, otherwise return null.
-     */
-    public Instant getExtendedDeadlineForUser(FeedbackSession feedbackSession, User user) {
         DeadlineExtension deadlineExtension =
-                deadlineExtensionsDb.getDeadlineExtension(user.getId(), feedbackSession.getId());
+                deadlineExtensionsDb.getDeadlineExtension(user.getId(), session.getId());
+
         if (deadlineExtension == null) {
-            return null;
+            return session.getEndTime();
         }
 
         return deadlineExtension.getEndTime();

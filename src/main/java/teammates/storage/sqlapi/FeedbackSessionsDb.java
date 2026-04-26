@@ -68,17 +68,6 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Gets a feedback session reference.
-     *
-     * @return Returns a proxy for the feedback session.
-     */
-    public FeedbackSession getFeedbackSessionReference(UUID id) {
-        assert id != null;
-
-        return HibernateUtil.getReference(FeedbackSession.class, id);
-    }
-
-    /**
      * Gets a soft-deleted feedback session.
      *
      * @return null if not found or not soft-deleted.

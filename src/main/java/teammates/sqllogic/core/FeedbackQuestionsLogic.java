@@ -116,13 +116,6 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Gets the unique feedback question based on sessionId and questionNumber.
-     */
-    public FeedbackQuestion getFeedbackQuestionForSessionQuestionNumber(UUID sessionId, int questionNumber) {
-        return fqDb.getFeedbackQuestionForSessionQuestionNumber(sessionId, questionNumber);
-    }
-
-    /**
      * Checks if there are any questions for the given session that instructors can view/submit.
      */
     public boolean hasFeedbackQuestionsForInstructors(List<FeedbackQuestion> fqs, boolean isCreator) {

@@ -166,13 +166,6 @@ public class Logic {
     }
 
     /**
-     * Gets all pending account requests.
-     */
-    public List<AccountRequest> getAllAccountRequests() {
-        return accountRequestLogic.getAllAccountRequests();
-    }
-
-    /**
      * Get a list of approved account requests associated with email and institute provided.
      */
     public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
@@ -211,22 +204,6 @@ public class Logic {
     public Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return accountsLogic.createAccount(account);
-    }
-
-    /**
-     * Deletes account by googleId.
-     *
-     * <ul>
-     * <li>Fails silently if no such account.</li>
-     * </ul>
-     *
-     * <p>
-     * Preconditions:
-     * </p>
-     * All parameters are non-null.
-     */
-    public void deleteAccount(String googleId) {
-        accountsLogic.deleteAccount(googleId);
     }
 
     /**
@@ -305,13 +282,6 @@ public class Logic {
         assert instructorsList != null;
 
         return coursesLogic.getSoftDeletedCoursesForInstructors(instructorsList);
-    }
-
-    /**
-     * Gets the institute of the course.
-     */
-    public String getCourseInstitute(String courseId) {
-        return coursesLogic.getCourseInstitute(courseId);
     }
 
     /**
@@ -485,16 +455,6 @@ public class Logic {
     }
 
     /**
-     * Fetch the deadline extension end time for a given user and session feedback.
-     *
-     * @return deadline extension instant if exists, else return null since no
-     *         deadline extensions.
-     */
-    public Instant getExtendedDeadlineForUser(FeedbackSession session, User user) {
-        return deadlineExtensionsLogic.getExtendedDeadlineForUser(session, user);
-    }
-
-    /**
      * Fetch the deadline extension entity for a given user and session feedback.
      *
      * @return deadline extension entity if exists, else return null.
@@ -527,15 +487,6 @@ public class Logic {
      */
     public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
         return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
-    }
-
-    /**
-     * Gets a feedback session reference.
-     *
-     * @return Returns a proxy for the feedback session.
-     */
-    public FeedbackSession getFeedbackSessionReference(UUID id) {
-        return feedbackSessionsLogic.getFeedbackSessionReference(id);
     }
 
     /**
@@ -674,18 +625,6 @@ public class Logic {
      */
     public boolean isFeedbackSessionAttemptedByStudent(FeedbackSession session, String userEmail, String userTeam) {
         return feedbackSessionsLogic.isFeedbackSessionAttemptedByStudent(session, userEmail, userTeam);
-    }
-
-    /**
-     * Checks whether an instructor has attempted a feedback session.
-     *
-     * <p>
-     * If there is no question for instructors, the feedback session is considered
-     * as attempted.
-     * </p>
-     */
-    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
-        return feedbackSessionsLogic.isFeedbackSessionAttemptedByInstructor(session, userEmail);
     }
 
     /**
@@ -945,62 +884,6 @@ public class Logic {
     }
 
     /**
-     * Validates that the join course request is valid, then
-     * makes the instructor join the course, i.e. associate an account to the
-     * instructor with the given googleId.
-     * Creates an account for the instructor if no existing account is found.
-     * Preconditions:
-     * Parameters regkey and googleId are non-null.
-     */
-    public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        if (googleId == null) {
-            throw new InvalidParametersException("Instructor's googleId cannot be null");
-        }
-        if (instructor == null) {
-            throw new InvalidParametersException("Instructor cannot be null");
-        }
-
-        validateJoinCourseRequest(googleId, instructor);
-        return usersLogic.joinCourseForInstructor(googleId, instructor);
-    }
-
-    /**
-     * Validates that the instructor can join the course it has as courseId field.
-     *
-     * @return true if the instructor can join the course.
-     * @throws Exception if the instructor cannot join the course.
-     */
-    private boolean validateJoinCourseRequest(String googleId, Instructor instructor)
-            throws EntityAlreadyExistsException, EntityDoesNotExistException {
-        if (instructor == null) {
-            throw new EntityDoesNotExistException("Instructor not found");
-        }
-
-        // check course exists and has not been deleted
-        Course course = getCourse(instructor.getCourseId());
-
-        if (course == null) {
-            throw new EntityDoesNotExistException("Course with id " + instructor.getCourseId() + " does not exist");
-        }
-        if (course.isCourseDeleted()) {
-            throw new EntityDoesNotExistException(
-                    "The course you are trying to join has been deleted by an instructor");
-        }
-
-        if (instructor.isRegistered()) {
-            throw new EntityAlreadyExistsException("Instructor has already joined course");
-        } else {
-            // Check if this Google ID has already joined this course with courseId
-            Instructor existingInstructor = usersLogic.getInstructorByGoogleId(instructor.getCourseId(), googleId);
-            if (existingInstructor != null) {
-                throw new EntityAlreadyExistsException("Instructor has already joined course");
-            }
-        }
-        return true;
-    }
-
-    /**
      * Searches instructors in the whole system. Used by admin only.
      *
      * @return List of found instructors in the whole system. Returns an empty list
@@ -1029,14 +912,6 @@ public class Logic {
     }
 
     /**
-     * Checks if an instructor with {@code googleId} can create a course with
-     * {@code institute}.
-     */
-    public boolean canInstructorCreateCourse(String googleId, String institute) {
-        return usersLogic.canInstructorCreateCourse(googleId, institute);
-    }
-
-    /**
      * Gets student associated with {@code id}.
      *
      * @param id Id of Student.
@@ -1044,16 +919,6 @@ public class Logic {
      */
     public Student getStudent(UUID id) {
         return usersLogic.getStudent(id);
-    }
-
-    /**
-     * Gets student reference associated with {@code id}.
-     *
-     * @param id Id of Student.
-     * @return Returns a proxy for the Student.
-     */
-    public Student getStudentReference(UUID id) {
-        return usersLogic.getStudentReference(id);
     }
 
     /**
@@ -1234,24 +1099,6 @@ public class Logic {
     }
 
     /**
-     * Gets all instructors and students by associated {@code googleId}.
-     */
-    public List<User> getAllUsersByGoogleId(String googleId) {
-        return usersLogic.getAllUsersByGoogleId(googleId);
-    }
-
-    /**
-     * Deletes a user.
-     *
-     * <p>
-     * Fails silently if the user does not exist.
-     * </p>
-     */
-    public <T extends User> void deleteUser(T user) {
-        usersLogic.deleteUser(user);
-    }
-
-    /**
      * Deletes an instructor and cascades deletion to
      * associated feedback responses, deadline extensions and comments.
      *
@@ -1374,13 +1221,6 @@ public class Logic {
         assert feedbackSession != null;
 
         return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSession);
-    }
-
-    /**
-     * Gets the unique feedback question based on sessionId and questionNumber.
-     */
-    public FeedbackQuestion getFeedbackQuestionForSessionQuestionNumber(UUID sessionId, int questionNumber) {
-        return feedbackQuestionsLogic.getFeedbackQuestionForSessionQuestionNumber(sessionId, questionNumber);
     }
 
     /**
@@ -1664,23 +1504,6 @@ public class Logic {
      */
     public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String recipientEmail) {
         return feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, recipientEmail);
-    }
-
-    /**
-     * Gets all feedback responses from a specific giver and recipient for a course.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesFromGiverAndRecipientForCourse(String courseId, String giverEmail,
-            String recipientEmail) {
-
-        return feedbackResponsesLogic.getFeedbackResponsesFromGiverAndRecipientForCourse(courseId, giverEmail,
-                recipientEmail);
-    }
-
-    /**
-     * Gets all feedback response comments for a feedback response.
-     */
-    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponse(UUID feedbackResponse) {
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForResponse(feedbackResponse);
     }
 
     /**

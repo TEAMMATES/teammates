@@ -123,32 +123,6 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
     }
 
     @Test (enabled = false)
-    void testSpecificAccessControl_asInstructorAndCanCreateCourse_canAccess() {
-        String institute = "institute";
-        loginAsInstructor(googleId);
-        when(mockLogic.canInstructorCreateCourse(googleId, institute)).thenReturn(true);
-
-        String[] params = {
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute,
-        };
-
-        verifyCanAccess(params);
-    }
-
-    @Test (enabled = false)
-    void testSpecificAccessControl_asInstructorAndCannotCreateCourse_cannotAccess() {
-        String institute = "institute";
-        loginAsInstructor(googleId);
-        when(mockLogic.canInstructorCreateCourse(googleId, institute)).thenReturn(false);
-
-        String[] params = {
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute,
-        };
-
-        verifyCannotAccess(params);
-    }
-
-    @Test (enabled = false)
     void testSpecificAccessControl_notInstructor_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, "institute",

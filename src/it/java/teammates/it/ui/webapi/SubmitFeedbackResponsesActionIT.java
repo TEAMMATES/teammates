@@ -94,7 +94,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private FeedbackQuestion getQuestion(
             FeedbackSession session, int questionNumber) {
-        return logic.getFeedbackQuestionForSessionQuestionNumber(session.getId(), questionNumber);
+        List<FeedbackQuestion> questions = session.getFeedbackQuestions();
+        return questions.stream()
+                .filter(question -> question.getQuestionNumber() == questionNumber)
+                .findFirst()
+                .orElse(null);
     }
 
     private void setStartTime(FeedbackSession session, int days)
@@ -297,8 +301,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         for (String recipientEmail : recipientEmails) {
             List<FeedbackResponse> feedbackResponses =
-                    logic.getFeedbackResponsesFromGiverAndRecipientForCourse(
-                            session.getCourseId(), giverEmail, recipientEmail);
+                    logic.getFeedbackResponsesFromGiverForCourse(session.getCourseId(), giverEmail)
+                            .stream()
+                            .filter(response -> response.getRecipient().equals(recipientEmail))
+                            .toList();
 
             for (FeedbackResponse feedbackResponse : feedbackResponses) {
                 FeedbackQuestion frFeedbackQuestion = feedbackResponse.getFeedbackQuestion();

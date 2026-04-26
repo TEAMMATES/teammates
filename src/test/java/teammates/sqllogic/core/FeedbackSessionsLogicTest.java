@@ -269,21 +269,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testIsFeedbackSessionAttemptedByInstructor_noQuestions_returnsTrue() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        session.setFeedbackQuestions(new ArrayList<>());
-        Instructor instructor = getTypicalInstructor();
-
-        when(frLogic.hasGiverRespondedForSession(instructor.getEmail(), session.getFeedbackQuestions())).thenReturn(false);
-        when(fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), false)).thenReturn(false);
-
-        boolean result = fsLogic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail());
-
-        assertTrue(result);
-    }
-
-    @Test
     public void testIsFeedbackSessionViewableToUserType_hasQuestionsForUser_returnsTrue() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);

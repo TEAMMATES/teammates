@@ -140,15 +140,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets a student reference by its {@code id}.
-     */
-    public Student getStudentReference(UUID id) {
-        assert id != null;
-
-        return HibernateUtil.getReference(Student.class, id);
-    }
-
-    /**
      * Gets a student by {@code regKey}.
      */
     public Student getStudentByRegKey(String regKey) {

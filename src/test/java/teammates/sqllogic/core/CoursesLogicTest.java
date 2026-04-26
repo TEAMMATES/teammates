@@ -330,32 +330,6 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCourseInstitute_shouldReturnInstitute_success() {
-        Course course = getTypicalCourse();
-        String courseId = course.getId();
-
-        when(coursesDb.getCourse(courseId)).thenReturn(course);
-
-        String institute = coursesLogic.getCourseInstitute(courseId);
-
-        verify(coursesDb, times(1)).getCourse(courseId);
-        assertNotNull(institute);
-    }
-
-    @Test
-    public void testGetCourseInstituteNonExistentCourse_throwAssertionError() {
-        Course course = getTypicalCourse();
-        String courseId = course.getId();
-
-        when(coursesDb.getCourse(courseId)).thenReturn(null);
-
-        AssertionError ex = assertThrows(AssertionError.class,
-                () -> coursesLogic.getCourseInstitute(courseId));
-
-        assertEquals("Trying to getCourseInstitute for inexistent course with id " + courseId, ex.getMessage());
-    }
-
-    @Test
     public void testCreateTeam_shouldReturnCreatedTeam_success()
             throws EntityAlreadyExistsException, InvalidParametersException {
         Team team = getTypicalTeam();
