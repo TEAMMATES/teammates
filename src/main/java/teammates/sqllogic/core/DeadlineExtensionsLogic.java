@@ -96,8 +96,14 @@ public final class DeadlineExtensionsLogic {
 
     /**
      * Deletes a deadline extension.
+     *
+     * <p>Fails silently if the deadline extension does not exist</p>
      */
     public void deleteDeadlineExtension(DeadlineExtension de) {
+        if (de == null) {
+            return;
+        }
+
         deadlineExtensionsDb.deleteDeadlineExtension(de);
     }
 

@@ -262,8 +262,14 @@ public final class UsersLogic {
 
     /**
      * Deletes an instructor or student.
+     *
+     * <p>Fails silently if the user doesn't exist.</p>
      */
     public <T extends User> void deleteUser(T user) {
+        if (user == null) {
+            return;
+        }
+
         usersDb.deleteUser(user);
     }
 

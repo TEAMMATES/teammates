@@ -90,9 +90,15 @@ public final class FeedbackResponseCommentsLogic {
 
     /**
      * Deletes a feedbackResponseComment.
+     *
+     * <p>Fails silently if the comment does not exist.</p>
      */
     public void deleteFeedbackResponseComment(UUID frcId) {
-        frcDb.deleteFeedbackResponseComment(frcId);
+        FeedbackResponseComment frc = getFeedbackResponseComment(frcId);
+        if (frc == null) {
+            return;
+        }
+        frcDb.deleteFeedbackResponseComment(frc);
     }
 
     /**

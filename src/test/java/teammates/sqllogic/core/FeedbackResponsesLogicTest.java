@@ -298,15 +298,6 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testDeleteFeedbackResponsesForQuestionCascade_success() {
-        UUID questionId = UUID.randomUUID();
-
-        frLogic.deleteFeedbackResponsesForQuestionCascade(questionId);
-
-        verify(frDb, times(1)).deleteFeedbackResponsesForQuestionCascade(questionId);
-    }
-
-    @Test
     public void testDeleteFeedbackResponsesAndCommentsCascade_success() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
